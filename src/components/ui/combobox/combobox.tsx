@@ -122,7 +122,7 @@ export function Combobox<T extends Coded>({
   );
 
   useEffect(() => {
-    if (activeIndex == null && filteredItems.length === 1) {
+    if (activeIndex == null || activeIndex > filteredItems.length) {
       setActiveIndex(0);
     }
   }, [activeIndex, filteredItems]);

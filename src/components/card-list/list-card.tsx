@@ -12,7 +12,6 @@ import clsx from "clsx";
 import { useState } from "react";
 import { Link } from "wouter";
 
-import SvgParallel from "@/assets/icons/parallel.svg?react";
 import type { Card } from "@/store/services/types";
 import { getCardColor, hasSkillIcons } from "@/utils/card-utils";
 
@@ -76,7 +75,7 @@ export function ListCard({ card }: Props) {
         </h4>
 
         <div className={css["listcard-meta"]}>
-          {card.parallel && <SvgParallel />}
+          {card.parallel && <i className="encounters-parallel" />}
           <MulticlassIcons className={css["listcard-multiclass"]} card={card} />
           {hasSkillIcons(card) && <SkillIcons card={card} />}
 

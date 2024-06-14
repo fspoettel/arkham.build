@@ -1,6 +1,5 @@
+import clsx from "clsx";
 import { Link } from "wouter";
-
-import SvgParallel from "@/assets/icons/parallel.svg?react";
 
 import css from "./card-names.module.css";
 
@@ -23,7 +22,9 @@ export function CardNames({
 }: Props) {
   const cardName = (
     <>
-      {parallel && <SvgParallel className={css["parallel"]} />}
+      {parallel && (
+        <i className={clsx(css["parallel"], "encounters-parallel")} />
+      )}
       {name} <span>{isUnique && <>&#10040;</>}</span>
     </>
   );
