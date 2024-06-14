@@ -20,7 +20,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@floating-ui/react": "0.26.12",
+    "@floating-ui/react": "0.26.16",
     "@leeoniya/ufuzzy": "1.0.14",
     "@radix-ui/react-checkbox": "1.0.4",
     "@radix-ui/react-collapsible": "1.0.3",
