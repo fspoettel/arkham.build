@@ -26,6 +26,7 @@ export type Props = {
   canOpenModal?: boolean;
   canShowQuantity?: boolean;
   canShowInvestigatorIcons?: boolean;
+  canShowParallel?: boolean;
   canShowSubname?: boolean;
   className?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -48,6 +49,7 @@ export function ListCardInner({
   canOpenModal,
   canShowQuantity,
   canShowSubname = true,
+  canShowParallel = true,
   className,
   figureRef,
   forbidden,
@@ -147,7 +149,7 @@ export function ListCardInner({
           </h4>
 
           <div className={css["listcard-meta"]}>
-            {card.type_code !== "investigator" && card.parallel && (
+            {canShowParallel && card.parallel && (
               <i className="icon-parallel" />
             )}
 

@@ -28,8 +28,15 @@ export function DeckEditSidebar({ deck }: Props) {
       <ListCard
         canShowSubname={false}
         canShowInvestigatorIcons
+        canShowParallel={false}
         card={deck.investigatorFront.card}
-        tooltip={<DeckInvestigator deck={deck} canToggleBack={false} />}
+        tooltip={
+          <DeckInvestigator
+            forceShowHeader={!!deck.cards.investigator.relations?.parallel}
+            deck={deck}
+            canToggleBack={false}
+          />
+        }
       />
       <Scroller className={css["deck-edit-sidebar-cards"]}>
         <Tabs

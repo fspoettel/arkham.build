@@ -1,10 +1,10 @@
 .text {
-  padding-left: calc(var(--card-spacing) / 1.5);
+  padding-left: calc(var(--card-spacing, 1rem) / 1.5);
   border-left-width: 2px;
   border-left-style: solid;
   border-color: var(--nord-4);
   font-family: var(--font-family-content);
-  font-size: var(--card-text-size);
+  font-size: var(--card-text-size, var(--text-sm));
 
   & > * + * {
     margin-top: var(--card-spacing);

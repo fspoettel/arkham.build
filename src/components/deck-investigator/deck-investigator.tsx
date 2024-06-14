@@ -13,10 +13,15 @@ import { Button } from "../ui/button";
 
 type Props = {
   canToggleBack?: boolean;
+  forceShowHeader?: boolean;
   deck: DisplayDeck;
 };
 
-export function DeckInvestigator({ canToggleBack = true, deck }: Props) {
+export function DeckInvestigator({
+  canToggleBack = true,
+  forceShowHeader,
+  deck,
+}: Props) {
   const [backToggled, toggleBack] = useState(false);
 
   const children = canToggleBack ? (
@@ -40,7 +45,11 @@ export function DeckInvestigator({ canToggleBack = true, deck }: Props) {
   ) : (
     <>
       <CardFront resolvedCard={deck.investigatorFront} size="tooltip" linked />
-      <CardBack card={deck.investigatorBack.card} size="tooltip" />
+      <CardBack
+        forceShowHeader={forceShowHeader}
+        card={deck.investigatorBack.card}
+        size="tooltip"
+      />
     </>
   );
 

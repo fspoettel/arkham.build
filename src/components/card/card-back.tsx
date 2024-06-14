@@ -14,6 +14,7 @@ import { CardThumbnail } from "./card-thumbnail";
 
 export type Props = {
   className?: string;
+  forceShowHeader?: boolean;
   card: ResolvedCard["card"];
   size: "compact" | "tooltip" | "full";
 };
@@ -21,7 +22,7 @@ export type Props = {
 /**
  * Card back for cards with a non-unique back.
  */
-export function CardBack({ card, size }: Props) {
+export function CardBack({ card, forceShowHeader, size }: Props) {
   const showBackImage =
     size === "full" ||
     (card.backimageurl &&
@@ -41,18 +42,20 @@ export function CardBack({ card, size }: Props) {
 
   const isSideways = sideways(card);
 
+  const hasHeader = forceShowHeader || card.type_code !== "investigator";
+
   return (
     <article
       className={clsx(
         css["card"],
         sideways(backCard) && css["sideways"],
         css["back"],
-        card.type_code !== "investigator" && css["back-has-header"],
+        hasHeader && css["back-has-header"],
         showBackImage && css["has-image"],
         css[size],
       )}
     >
-      {card.type_code !== "investigator" && <CardHeader card={backCard} />}
+      {hasHeader && <CardHeader card={backCard} />}
       <div className={css["container"]}>
         <CardText
           flavor={card.real_back_flavor}
