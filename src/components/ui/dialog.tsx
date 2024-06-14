@@ -90,6 +90,9 @@ export const DialogContent = forwardRef<
   );
 });
 
+/**
+ * This exists to allow modals that persist their scroll position when closed. (i.e. deck notes).
+ */
 export const DialogContentInert = forwardRef<
   HTMLDivElement,
   React.HTMLProps<HTMLDivElement>
@@ -103,7 +106,7 @@ export const DialogContentInert = forwardRef<
     <FloatingPortal id={FLOATING_PORTAL_ID}>
       <FloatingOverlay
         lockScroll={isMounted}
-        style={{ display: isMounted ? "block" : "none" }}
+        style={{ display: floatingContext.open ? "block" : "none" }}
       >
         <div
           aria-describedby={context.descriptionId}

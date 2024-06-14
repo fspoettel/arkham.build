@@ -1,31 +1,27 @@
 import clsx from "clsx";
 
 import { useStore } from "@/store";
-import type { ResolvedCard } from "@/store/lib/types";
 import { selectCardOwnedCount } from "@/store/selectors/deck-create";
+import type { CardSet as CardSetType } from "@/utils/cardsets";
 
 import css from "./cardset.module.css";
 
 import { ListCard } from "./list-card/list-card";
 import { Checkbox } from "./ui/checkbox";
 
-export type CardSetType = {
-  canSetQuantity?: boolean;
-  canSelect?: boolean;
-  cards: ResolvedCard[];
-  id: string;
-  quantities: Record<string, number>;
-  selected: boolean;
-  title: string;
-};
-
 type Props = {
+  canOpenModal?: boolean;
   onChangeCardQuantity?: (code: string, quantity: number) => void;
   onSelect?: (id: string) => void;
   set: CardSetType;
 };
 
-export function CardSet({ onChangeCardQuantity, onSelect, set }: Props) {
+export function CardSet({
+  canOpenModal,
+  onChangeCardQuantity,
+  onSelect,
+  set,
+}: Props) {
   const cardOwnedCount = useStore(selectCardOwnedCount);
 
   return (
@@ -48,6 +44,7 @@ export function CardSet({ onChangeCardQuantity, onSelect, set }: Props) {
         {set.cards.map(({ card }) => (
           <ListCard
             as="li"
+            canOpenModal={canOpenModal}
             card={card}
             key={card.code}
             omitBorders
@@ -55,7 +52,11 @@ export function CardSet({ onChangeCardQuantity, onSelect, set }: Props) {
               set.canSetQuantity ? onChangeCardQuantity : undefined
             }
             owned={cardOwnedCount(card)}
-            quantities={{ [card.code]: set.quantities[card.code] }}
+            quantities={
+              set.quantities
+                ? { [card.code]: set.quantities[card.code] }
+                : undefined
+            }
           />
         ))}
       </ul>

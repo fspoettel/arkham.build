@@ -65,6 +65,7 @@ function InvestigatorListcardInner({ deck }: Props) {
             canToggleBack={false}
             deck={deck}
             forceShowHeader={isParallelBack}
+            showRelated
             size="full"
           />
         </Modal>

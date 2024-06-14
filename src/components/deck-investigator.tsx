@@ -3,18 +3,21 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
+import { getCardSetTitle, pickRelatedCardSets } from "@/utils/cardsets";
 
 import css from "./deck-investigator.module.css";
 
 import { CardBack } from "./card/card-back";
 import { CardContainer } from "./card/card-container";
 import { CardFront } from "./card/card-front";
+import { CardSet } from "./cardset";
 import { Button } from "./ui/button";
 
 type Props = {
   canToggleBack?: boolean;
   forceShowHeader?: boolean;
   deck: DisplayDeck;
+  showRelated?: boolean;
   size: "tooltip" | "full";
 };
 
@@ -22,9 +25,14 @@ export function DeckInvestigator({
   canToggleBack = true,
   forceShowHeader,
   deck,
+  showRelated,
   size,
 }: Props) {
   const [backToggled, toggleBack] = useState(false);
+
+  const related = pickRelatedCardSets(deck.cards.investigator).filter(
+    (c) => c[0] !== "parallel",
+  );
 
   const children = canToggleBack ? (
     <>
@@ -56,11 +64,32 @@ export function DeckInvestigator({
   );
 
   return (
-    <CardContainer
-      className={clsx(css["deck-investigator"], css[size])}
-      size={size}
-    >
-      {children}
-    </CardContainer>
+    <>
+      <CardContainer
+        className={clsx(css["deck-investigator"], css[size])}
+        size={size}
+      >
+        {children}
+      </CardContainer>
+      {showRelated && !!related.length && (
+        <div className={css["deck-investigator-related"]}>
+          {related.map(([key, value]) => {
+            const cards = Array.isArray(value) ? value : [value];
+            return (
+              <CardSet
+                canOpenModal={false}
+                key={key}
+                set={{
+                  title: getCardSetTitle(key),
+                  cards,
+                  id: key,
+                  selected: false,
+                }}
+              />
+            );
+          })}
+        </div>
+      )}
+    </>
   );
 }

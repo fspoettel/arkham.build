@@ -140,18 +140,20 @@ export function ListCardInner({
 
             {owned != null &&
               card.code !== "01000" &&
-              ownedCount < quantity && (
+              (!ownedCount || ownedCount < quantity) && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <span className={css["ownership"]}>
                       <FileWarning />
                     </span>
                   </TooltipTrigger>
-                  <TooltipContent>
-                    <p>
-                      Unavailable: {quantity - ownedCount} of {quantity}
-                    </p>
-                  </TooltipContent>
+                  {!!quantity && (
+                    <TooltipContent>
+                      <p>
+                        Unavailable: {quantity - ownedCount} of {quantity}
+                      </p>
+                    </TooltipContent>
+                  )}
                 </Tooltip>
               )}
             {ignoredCount > 0 && (

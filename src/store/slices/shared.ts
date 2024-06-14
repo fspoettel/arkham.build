@@ -214,7 +214,7 @@ export const createSharedSlice: StateCreator<
       for (const { card } of set.cards) {
         const quantity =
           state.deckCreate.extraCardQuantities?.[card.code] ??
-          set.quantities[card.code];
+          set.quantities?.[card.code];
 
         if (!quantity) continue;
 

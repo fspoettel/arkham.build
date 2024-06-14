@@ -1,4 +1,4 @@
-export type CardSet = "required" | "advanced" | "replacement";
+export type CardSet = "requiredCards" | "advanced" | "replacement";
 
 export type DeckCreateState = {
   title: string;

@@ -30,7 +30,7 @@ export const createdeckCreateSlice: StateCreator<
         investigatorCode: code,
         investigatorFrontCode: code,
         selections: {},
-        sets: ["required"],
+        sets: ["requiredCards"],
         tabooSetId: state.settings.tabooSetId ?? undefined,
         title: getDefaultDeckName(card.real_name, card.faction_code),
       },
@@ -136,6 +136,6 @@ export const createdeckCreateSlice: StateCreator<
 
 export function isCardSet(value: string): value is CardSet {
   return (
-    value === "required" || value === "advanced" || value === "replacement"
+    value === "requiredCards" || value === "advanced" || value === "replacement"
   );
 }

@@ -1,5 +1,6 @@
-import type { CardSetType } from "@/components/cardset";
 import { assert } from "@/utils/assert";
+import type { CardSet } from "@/utils/cardsets";
+import { getCardSetTitle } from "@/utils/cardsets";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 
 import { ownedCardCount } from "../lib/card-ownership";
@@ -76,7 +77,7 @@ export const selectCardOwnedCount = (state: StoreState) => {
 export const selectDeckCreateCardSets = (state: StoreState) => {
   const deckCreate = selectDeckCreateChecked(state);
 
-  const groupings: CardSetType[] = [
+  const groupings: CardSet[] = [
     {
       id: "random_basic_weakness",
       title: "Random basic weakness",
@@ -107,11 +108,11 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
 
   if (relations?.requiredCards) {
     groupings.push({
-      id: "required",
+      id: "requiredCards",
       canSelect: true,
       cards: relations.requiredCards,
-      title: "Required cards",
-      selected: deckCreate.sets.includes("required"),
+      title: getCardSetTitle("requiredCards"),
+      selected: deckCreate.sets.includes("requiredCards"),
       quantities: relations.requiredCards.reduce(
         (acc, { card }) => {
           let quantity = card.quantity;
@@ -139,7 +140,7 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
   if (relations?.advanced) {
     groupings.push({
       id: "advanced",
-      title: "Advanced cards",
+      title: getCardSetTitle("advanced"),
       canSelect: true,
       cards: relations.advanced,
       selected: deckCreate.sets.includes("advanced"),
@@ -156,7 +157,7 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
   if (relations?.replacement) {
     groupings.push({
       id: "replacement",
-      title: "Replacements",
+      title: getCardSetTitle("replacement"),
       canSelect: true,
       cards: relations.replacement,
       selected: deckCreate.sets.includes("replacement"),
@@ -198,7 +199,7 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
   if (relations?.bound) {
     groupings.push({
       id: "bound",
-      title: "Bound",
+      title: getCardSetTitle("bound"),
       canSelect: false,
       selected: false,
       cards: relations.bound,

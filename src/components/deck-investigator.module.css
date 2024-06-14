@@ -14,3 +14,11 @@
 .back-toggle button {
   border-radius: var(--rounded-lg);
 }
+
+.deck-investigator-related {
+  margin-top: 0.5rem;
+
+  & > * + * {
+    margin-top: 0.5rem;
+  }
+}

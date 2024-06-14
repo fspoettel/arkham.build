@@ -3,11 +3,13 @@ import { useCallback } from "react";
 import { useStore } from "@/store";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
 import { selectActiveDeck, selectCanEditDeck } from "@/store/selectors/decks";
+import { getCardSetTitle, sortCardSets } from "@/utils/cardsets";
 import { useMedia } from "@/utils/use-media";
 
 import css from "./card-modal.module.css";
 
 import { Card } from "../card/card";
+import { CardSet } from "../cardset";
 import { Customizations } from "../customizations/customizations";
 import { CustomizationsEditor } from "../customizations/customizations-editor";
 import { Button } from "../ui/button";
@@ -41,24 +43,53 @@ export function CardModal({ code }: Props) {
 
   if (!cardWithRelations) return null;
 
+  const related = Object.entries(cardWithRelations.relations ?? {})
+    .filter(
+      ([key, value]) =>
+        key !== "duplicates" &&
+        (Array.isArray(value) ? value.length > 0 : value),
+    )
+    .toSorted((a, b) => sortCardSets(a[0], b[0]));
+
   const cardNode = (
-    <Card
-      canToggleBackside
-      resolvedCard={cardWithRelations}
-      size={canRenderFull ? "full" : "compact"}
-    >
-      {cardWithRelations.card.customization_options ? (
-        activeDeck ? (
-          <CustomizationsEditor
-            activeDeck={activeDeck}
-            canEdit={canEdit}
-            card={cardWithRelations.card}
-          />
-        ) : (
-          <Customizations card={cardWithRelations.card} />
-        )
-      ) : undefined}
-    </Card>
+    <>
+      <Card
+        canToggleBackside
+        resolvedCard={cardWithRelations}
+        size={canRenderFull ? "full" : "compact"}
+      >
+        {cardWithRelations.card.customization_options ? (
+          activeDeck ? (
+            <CustomizationsEditor
+              activeDeck={activeDeck}
+              canEdit={canEdit}
+              card={cardWithRelations.card}
+            />
+          ) : (
+            <Customizations card={cardWithRelations.card} />
+          )
+        ) : undefined}
+      </Card>
+      {!!related.length && (
+        <div className={css["related"]}>
+          {related.map(([key, value]) => {
+            const cards = Array.isArray(value) ? value : [value];
+            return (
+              <CardSet
+                canOpenModal={false}
+                key={key}
+                set={{
+                  title: getCardSetTitle(key),
+                  cards,
+                  id: key,
+                  selected: false,
+                }}
+              />
+            );
+          })}
+        </div>
+      )}
+    </>
   );
 
   return (
