@@ -81,9 +81,9 @@ export function CardModal({ code }: Props) {
           {showQuantities && (
             <CardModalQuantities
               canEdit={canEdit}
-              showExtraQuantities={showExtraQuantities}
               card={cardWithRelations.card}
               onClickBackground={onCloseModal}
+              showExtraQuantities={showExtraQuantities}
             />
           )}
         </div>
