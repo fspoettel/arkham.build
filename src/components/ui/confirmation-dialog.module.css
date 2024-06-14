@@ -1,0 +1,14 @@
+.confirmation {
+  background: var(--nord-point-five);
+  padding: 1.5rem;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1.5rem;
+  border-radius: var(--rounded);
+  font-size: var(--text-lg);
+}
+
+.confirmation-nav {
+  display: flex;
+  gap: 0.5rem;
+}

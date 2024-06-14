@@ -36,7 +36,8 @@ function DeckEdit() {
 
   const handleSave = useCallback(() => {
     const id = saveDeck();
-    navigate(`~/deck/${id}/edit`, { replace: true });
+    navigate(`/deck/${id}/edit`, { replace: true });
+
     showToast({
       children: "Deck saved successfully.",
       variant: "success",
@@ -67,7 +68,7 @@ function DeckEdit() {
             Save
           </Button>
           <Link asChild to={`/deck/view/${deck.id}`}>
-            <Button variant="bare">Close</Button>
+            <Button variant="bare">Cancel</Button>
           </Link>
         </div>
       }

@@ -9,10 +9,13 @@ export function useSyncActiveDeckId() {
   const setActiveDeck = useStore((state) => state.setActiveDeck);
 
   useEffect(() => {
-    if (pathname.startsWith("/deck/")) {
-      const id = pathname.split("/deck/")[1].split("/").at(-1);
-      const mode = pathname.includes("edit") ? "edit" : "view";
-      setActiveDeck(id, mode);
+    //
+    if (pathname.startsWith("/deck/view/")) {
+      const id = pathname.split("/").at(-1);
+      setActiveDeck(id, "view");
+    } else if (pathname.startsWith("/deck/edit/")) {
+      const id = pathname.split("/").at(-1);
+      setActiveDeck(id, "edit");
     } else {
       setActiveDeck(undefined);
     }
