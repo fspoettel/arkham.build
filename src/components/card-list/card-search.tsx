@@ -62,13 +62,13 @@ export function CardSearch({ slotLeft, slotRight }: Props) {
         {slotLeft}
         <div className={css["search-input"]}>
           <SearchInput
+            className={css["search-field"]}
+            id="search-card-input"
+            inputClassName={css["search-input-field"]}
+            onChangeValue={onChangeValue}
+            placeholder="Search for cards..."
             ref={inputRef}
             tabIndex={0}
-            className={css["search-field"]}
-            inputClassName={css["search-input-field"]}
-            placeholder="Search for cards..."
-            onChangeValue={onChangeValue}
-            id="search-card-input"
             value={inputValue}
           />
         </div>
@@ -76,25 +76,25 @@ export function CardSearch({ slotLeft, slotRight }: Props) {
       </div>
       <div className={css["search-toggles"]}>
         <Checkbox
-          tabIndex={0}
           checked={search.includeGameText}
           id="search-game-text"
           label="Game text"
           onCheckedChange={onToggleGameText}
+          tabIndex={0}
         />
         <Checkbox
-          tabIndex={0}
           checked={search.includeFlavor}
           id="search-game-flavor"
           label="Flavor"
           onCheckedChange={onToggleFlavor}
+          tabIndex={0}
         />
         <Checkbox
-          tabIndex={0}
           checked={search.includeBacks}
           id="search-back"
           label="Backs"
           onCheckedChange={onToggleBacks}
+          tabIndex={0}
         />
       </div>
     </search>

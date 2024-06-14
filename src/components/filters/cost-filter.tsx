@@ -77,38 +77,38 @@ export function CostFilter() {
 
   return (
     <FilterContainer
-      title="Cost"
       filterString={changes}
+      onOpenChange={onOpenChange}
       onReset={resetActiveCost}
       open={open}
-      onOpenChange={onOpenChange}
+      title="Cost"
     >
       <RangeSelect
-        label="Cost"
         id="cost-select"
-        min={min}
+        label="Cost"
         max={max}
+        min={min}
         onValueCommit={onValueCommit}
         value={value.range ?? [min, max]}
       />
       <CheckboxGroup>
         <Checkbox
-          label="Even"
-          id="cost-even"
-          onCheckedChange={onSetEven}
           checked={value.even}
+          id="cost-even"
+          label="Even"
+          onCheckedChange={onSetEven}
         />
         <Checkbox
-          label="Odd"
-          id="cost-odd"
-          onCheckedChange={onSetOdd}
           checked={value.odd}
+          id="cost-odd"
+          label="Odd"
+          onCheckedChange={onSetOdd}
         />
         <Checkbox
-          label={<i className="icon-x" />}
-          id="cost-x"
-          onCheckedChange={onSetX}
           checked={value.x}
+          id="cost-x"
+          label={<i className="icon-x" />}
+          onCheckedChange={onSetX}
         />
       </CheckboxGroup>
     </FilterContainer>

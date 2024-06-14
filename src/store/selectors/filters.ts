@@ -68,18 +68,13 @@ export const selectActionOptions = createSelector(
   },
 );
 
-export const selectActionValue = makeMultiselectValueSelector(
-  (state: StoreState) => state.filters[state.filters.cardType].action.value,
-);
+export const selectActionValue = (state: StoreState) =>
+  state.filters[state.filters.cardType].action.value;
 
 export const selectActionChanges = createSelector(
   selectActionValue,
   (value) => {
-    return Object.values(value).reduce((acc, curr) => {
-      return !acc
-        ? capitalize(curr.code)
-        : `${acc} or ${capitalize(curr.code)}`;
-    }, "");
+    return value.map(capitalize).join(" or ");
   },
 );
 
@@ -109,14 +104,11 @@ export const selectAssetOptions = createSelector(
   },
 );
 
-export const selectAssetUsesValue = makeMultiselectValueSelector(
-  (state: StoreState) => state.filters[state.filters.cardType].asset.value.uses,
-);
+export const selectAssetUsesValue = (state: StoreState) =>
+  state.filters[state.filters.cardType].asset.value.uses;
 
-export const selectAssetSlotValue = makeMultiselectValueSelector(
-  (state: StoreState) =>
-    state.filters[state.filters.cardType].asset.value.slots,
-);
+export const selectAssetSlotValue = (state: StoreState) =>
+  state.filters[state.filters.cardType].asset.value.slots;
 
 export const selectAssetHealthValue = (state: StoreState) =>
   state.filters[state.filters.cardType].asset.value.health;
@@ -133,25 +125,19 @@ export const selectAssetSkillBoostsValue = (state: StoreState) =>
 export const selectAssetChanges = createSelector(
   (state: StoreState) => state.filters[state.filters.cardType].asset.value,
   (filterState) => {
-    const slot = Object.entries(filterState.slots).reduce((acc, [key, val]) => {
-      if (!val) return acc;
+    const slot = filterState.slots.reduce((acc, key) => {
       return !acc ? `Slot: ${capitalize(key)}` : `${acc} or ${key}`;
     }, "");
 
-    const uses = Object.entries(filterState.uses).reduce((acc, [key, val]) => {
-      if (!val) return acc;
+    const uses = filterState.uses.reduce((acc, key) => {
       return !acc ? `Uses: ${capitalize(key)}` : `${acc} or ${key}`;
     }, "");
 
-    const skillBoosts = Object.entries(filterState.skillBoosts).reduce(
-      (acc, [key, val]) => {
-        if (!val) return acc;
-        return !acc
-          ? `Skill boost: ${capitalize(key)}`
-          : `${acc} or ${capitalize(key)}`;
-      },
-      "",
-    );
+    const skillBoosts = filterState.skillBoosts.reduce((acc, key) => {
+      return !acc
+        ? `Skill boost: ${capitalize(key)}`
+        : `${acc} or ${capitalize(key)}`;
+    }, "");
 
     let healthFilter = "";
 
@@ -224,17 +210,14 @@ export const selectEncounterSetOptions = createSelector(
   (metadata) => sortedEncounterSets(metadata),
 );
 
-export const selectEncounterSetValue = makeMultiselectValueSelector(
-  (state: StoreState) => state.filters.encounter.encounterSet.value,
-  (key, metadata) => metadata.encounterSets[key],
-);
+export const selectEncounterSetValue = (state: StoreState) =>
+  state.filters.encounter.encounterSet.value;
 
 export const selectEncounterSetChanges = createSelector(
   selectEncounterSetValue,
-  (value) => {
-    return Object.values(value).reduce((acc, curr, i) => {
-      return i === 0 ? curr.name : `${acc} or ${curr.name}`;
-    }, "");
+  (state: StoreState) => state.metadata,
+  (value, metadata) => {
+    return value.map((id) => metadata.encounterSets[id].name).join(" or ");
   },
 );
 
@@ -414,16 +397,16 @@ export const selectPackOptions = createSelector(
   },
 );
 
-export const selectPackValue = makeMultiselectValueSelector(
-  (state: StoreState) => state.filters[state.filters.cardType].packCode.value,
-  (key, metadata) => metadata.packs[key],
-);
+export const selectPackValue = (state: StoreState) =>
+  state.filters[state.filters.cardType].packCode.value;
 
-export const selectPackChanges = createSelector(selectPackValue, (value) => {
-  return Object.values(value).reduce((acc, curr, i) => {
-    return i === 0 ? curr.real_name : `${acc} or ${curr.real_name}`;
-  }, "");
-});
+export const selectPackChanges = createSelector(
+  selectPackValue,
+  (state: StoreState) => state.metadata,
+  (value, metadata) => {
+    return value.map((id) => metadata.packs[id].real_name).join(" or ");
+  },
+);
 
 /**
  * Properties
@@ -472,17 +455,14 @@ export const selectSubtypeOptions = createSelector(
   },
 );
 
-export const selectSubtypeValue = makeMultiselectValueSelector(
-  (state: StoreState) => state.filters[state.filters.cardType].subtype.value,
-  (key, metadata) => metadata.subtypes[key],
-);
+export const selectSubtypeValue = (state: StoreState) =>
+  state.filters[state.filters.cardType].subtype.value;
 
 export const selectSubtypeChanges = createSelector(
   selectSubtypeValue,
-  (value) => {
-    return Object.values(value).reduce((acc, curr, i) => {
-      return i === 0 ? curr.name : `${acc} or ${curr.name}`;
-    }, "");
+  (state: StoreState) => state.metadata,
+  (value, metadata) => {
+    return value.map((id) => metadata.subtypes[id].name).join(" or ");
   },
 );
 
@@ -531,7 +511,7 @@ export const selectTabooSetChanges = createSelector(
 
 export const selectTraitOptions = createSelector(
   (state: StoreState) => state.filters.cardType,
-  (state: StoreState) => state.lookupTables.traitsByCardTypeSeletion,
+  (state: StoreState) => state.lookupTables.traitsByCardTypeSelection,
   (cardType, traitTable) => {
     const types = Object.keys(traitTable[cardType]).map((code) => ({ code }));
     types.sort((a, b) => a.code.localeCompare(b.code));
@@ -539,14 +519,11 @@ export const selectTraitOptions = createSelector(
   },
 );
 
-export const selectTraitValue = makeMultiselectValueSelector(
-  (state: StoreState) => state.filters[state.filters.cardType].trait.value,
-);
+export const selectTraitValue = (state: StoreState) =>
+  state.filters[state.filters.cardType].trait.value;
 
 export const selectTraitChanges = createSelector(selectTraitValue, (value) => {
-  return Object.values(value).reduce((acc, curr, i) => {
-    return i === 0 ? curr.code : `${acc} or ${curr.code}`;
-  }, "");
+  return value.map(capitalize).join(" or ");
 });
 
 /**
@@ -566,13 +543,9 @@ export const selectTypeOptions = createSelector(
   },
 );
 
-export const selectTypeValue = makeMultiselectValueSelector(
-  (state: StoreState) => state.filters[state.filters.cardType].type.value,
-  (key, metadata) => metadata.types[key],
-);
+export const selectTypeValue = (state: StoreState) =>
+  state.filters[state.filters.cardType].type.value;
 
 export const selectTypeChanges = createSelector(selectTypeValue, (value) => {
-  return Object.values(value).reduce((acc, curr, i) => {
-    return i === 0 ? curr.name : `${acc}, ${curr.name}`;
-  }, "");
+  return value.map(capitalize).join(" or ");
 });

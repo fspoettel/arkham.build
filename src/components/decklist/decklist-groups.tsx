@@ -102,8 +102,8 @@ export function DecklistGroup({
           <ListCard
             as="li"
             canEdit={canEdit}
-            canShowQuantity
             canIndicateRemoval
+            canShowQuantity
             card={card}
             forbidden={forbiddenCards.includes(card.code)}
             key={card.code}

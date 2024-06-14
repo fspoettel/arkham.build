@@ -128,8 +128,8 @@ export const DialogTrigger = React.forwardRef<
 
   return (
     <div
-      ref={ref}
       data-state={context.open ? "open" : "closed"}
+      ref={ref}
       {...context.getReferenceProps(props)}
     >
       {children}
@@ -151,9 +151,9 @@ export const DialogContent = React.forwardRef<
       <FloatingOverlay lockScroll>
         <FloatingFocusManager context={floatingContext}>
           <div
-            ref={ref}
-            aria-labelledby={context.labelId}
             aria-describedby={context.descriptionId}
+            aria-labelledby={context.labelId}
+            ref={ref}
             {...context.getFloatingProps(props)}
           >
             {props.children}
@@ -170,6 +170,6 @@ export const DialogClose = React.forwardRef<
 >(function DialogClose(props, ref) {
   const { setOpen } = useDialogContext();
   return (
-    <button type="button" {...props} ref={ref} onClick={() => setOpen(false)} />
+    <button type="button" {...props} onClick={() => setOpen(false)} ref={ref} />
   );
 });

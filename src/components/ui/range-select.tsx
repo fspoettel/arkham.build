@@ -53,35 +53,35 @@ export function RangeSelect({
         {...rest}
         className={clsx(css["field-input"], sliderClassName)}
         id={id}
-        min={min}
         max={max}
-        step={1}
-        onValueCommit={onValueCommit}
-        onValueChange={onValueChange}
+        min={min}
         onLostPointerCapture={() => {
           if (liveValue[0] !== value[0] || liveValue[1] !== value[1]) {
             onValueCommit?.(liveValue);
           }
         }}
+        onValueChange={onValueChange}
+        onValueCommit={onValueCommit}
+        step={1}
         thumbCount={2}
         value={liveValue}
       />
       <div className={css["field-limits"]}>
         <input
-          min={min}
           max={value[1]}
-          type="text"
+          min={min}
           readOnly
-          value={liveValue[0]}
           tabIndex={-1}
+          type="text"
+          value={liveValue[0]}
         />
         <input
-          min={value[0]}
           max={max}
-          type="text"
+          min={value[0]}
           readOnly
-          value={liveValue[1]}
           tabIndex={-1}
+          type="text"
+          value={liveValue[1]}
         />
       </div>
     </div>

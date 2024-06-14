@@ -1,7 +1,10 @@
 import clsx from "clsx";
+import { useCallback } from "react";
 
+import { useStore } from "@/store";
 import type { ResolvedCard, ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/types";
+import type { CustomizationEdit } from "@/store/slices/deck-view/types";
 import { getCardColor } from "@/utils/card-utils";
 
 import css from "./card-customizations.module.css";
@@ -11,16 +14,24 @@ import { CustomizationOption } from "./customization-option";
 type Props = {
   activeDeck: ResolvedDeck<ResolvedCard>;
   card: Card;
-  disabled?: boolean;
+  canEdit?: boolean;
 };
 
-export function CardCustomizationsEdit({ activeDeck, card }: Props) {
+export function CardCustomizationsEdit({ activeDeck, card, canEdit }: Props) {
+  const updateCustomization = useStore((state) => state.updateCustomization);
   const backgroundCls = getCardColor(card, "background");
 
   const choices = activeDeck.customizations?.[card.code];
 
   const options = card.customization_options;
   const text = card.real_customization_text?.split("\n");
+
+  const onChangeCustomization = useCallback(
+    (index: number, edit: CustomizationEdit) => {
+      updateCustomization(card.code, index, edit);
+    },
+    [card.code, updateCustomization],
+  );
 
   if (!options || !text) return null;
 
@@ -38,10 +49,12 @@ export function CardCustomizationsEdit({ activeDeck, card }: Props) {
         {options.map((option, index) => (
           <CustomizationOption
             card={card}
-            key={index}
-            option={option}
-            index={index}
             choices={choices}
+            disabled={!canEdit}
+            index={index}
+            key={index}
+            onChange={onChangeCustomization}
+            option={option}
             text={text}
             xpMax={xpMax}
           />

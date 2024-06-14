@@ -20,6 +20,7 @@
     "es2022": true
   },
   "rules": {
+    "react/jsx-sort-props": "warn",
     "@typescript-eslint/consistent-type-imports": [
       "error",
       {

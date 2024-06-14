@@ -2,7 +2,13 @@ import { createSelector } from "reselect";
 
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import { groupDeckCardsByType } from "@/store/lib/deck-grouping";
-import { parseDeckMeta, resolveDeck } from "@/store/lib/deck-resolver";
+import {
+  decodeCustomizations,
+  decodeDeckMeta,
+  encodeCustomizations,
+  resolveDeck,
+} from "@/store/lib/deck-resolver";
+import { isEmpty } from "@/utils/is-empty";
 
 import type { ForbiddenCardError } from "../lib/deck-validation";
 import { validateDeck } from "../lib/deck-validation";
@@ -11,6 +17,7 @@ import type { StoreState } from "../slices";
 import type { Deck } from "../slices/data/types";
 import { getSlotForTab } from "../slices/deck-view";
 import type { DeckViewState, EditState, Slot } from "../slices/deck-view/types";
+import type { Metadata } from "../slices/metadata/types";
 
 export const selectLocalDecks = createSelector(
   (state: StoreState) => state.data,
@@ -47,7 +54,11 @@ function applyInvestigatorSide(
   return current === deck.investigator_code ? null : current;
 }
 
-function applyDeckEdits(originalDeck: Deck, deckView: DeckViewState) {
+function applyDeckEdits(
+  originalDeck: Deck,
+  deckView: DeckViewState,
+  metadata: Metadata,
+) {
   if (deckView.mode !== "edit") return originalDeck;
 
   const deck = structuredClone(originalDeck);
@@ -58,8 +69,40 @@ function applyDeckEdits(originalDeck: Deck, deckView: DeckViewState) {
   }
 
   // adjust meta based on deck edits.
-  // TODO: get rid of the JSON.parse/JSON.stringify here.
-  const deckMeta = parseDeckMeta(deck);
+  const deckMeta = decodeDeckMeta(deck);
+
+  // adjust customizations based on deck edits.
+  if (!isEmpty(deckView.edits.customizations)) {
+    const customizations = decodeCustomizations(deckMeta, metadata) ?? {};
+
+    for (const [code, changes] of Object.entries(
+      deckView.edits.customizations,
+    )) {
+      customizations[code] ??= {};
+
+      for (const [id, change] of Object.entries(changes)) {
+        if (customizations[code][id]) {
+          if (change.xp_spent != null)
+            customizations[code][id].xp_spent = change.xp_spent;
+          if (change.selections != null) {
+            customizations[code][id].selections = isEmpty(change.selections)
+              ? undefined
+              : change.selections.join("^");
+          }
+        } else {
+          customizations[code][id] ??= {
+            index: +id,
+            xp_spent: change.xp_spent ?? 0,
+            selections: change.selections?.join("^") || undefined,
+          };
+        }
+      }
+    }
+
+    const encoded = encodeCustomizations(customizations);
+    Object.assign(deckMeta, encoded);
+  }
+
   deck.meta = JSON.stringify({
     ...deckMeta,
     ...deckView.edits.meta,
@@ -117,7 +160,7 @@ export const selectResolvedDeck = createSelector(
   (metadata, lookupTables, decks, deckView) => {
     if (!deckView || !decks[deckView.id]) return undefined;
     console.time("[perf] select_resolved_deck");
-    const deck = applyDeckEdits(decks[deckView.id], deckView);
+    const deck = applyDeckEdits(decks[deckView.id], deckView, metadata);
     const resolvedDeck = resolveDeck(metadata, lookupTables, deck, true);
     console.timeEnd("[perf] select_resolved_deck");
     return resolvedDeck;

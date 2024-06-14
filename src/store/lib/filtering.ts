@@ -58,8 +58,8 @@ export function filterActions(
 ) {
   const filters: Filter[] = [];
 
-  for (const [key, value] of Object.entries(filterState)) {
-    if (value) filters.push((c: Card) => !!actionTable[key][c.code]);
+  for (const key of filterState) {
+    filters.push((c: Card) => !!actionTable[key][c.code]);
   }
 
   const filter = or(filters);
@@ -120,17 +120,16 @@ export function filterAssets(
   const skillBoostFilters: Filter[] = [];
   const slotsFilter: Filter[] = [];
 
-  for (const [key, val] of Object.entries(filterValue.skillBoosts)) {
-    if (val)
-      skillBoostFilters.push(filterSkillBoost(key, lookupTables.skillBoosts));
+  for (const key of filterValue.skillBoosts) {
+    skillBoostFilters.push(filterSkillBoost(key, lookupTables.skillBoosts));
   }
 
-  for (const [key, val] of Object.entries(filterValue.uses)) {
-    if (val) usesFilters.push(filterUses(key, lookupTables.uses));
+  for (const key of filterValue.uses) {
+    usesFilters.push(filterUses(key, lookupTables.uses));
   }
 
-  for (const [key, val] of Object.entries(filterValue.slots)) {
-    if (val) slotsFilter.push(filterSlots(key, lookupTables.slots));
+  for (const key of filterValue.slots) {
+    slotsFilter.push(filterSlots(key, lookupTables.slots));
   }
 
   if (skillBoostFilters.length) filters.push(or(skillBoostFilters));
@@ -187,8 +186,8 @@ export function filterCost(filterState: CostFilter["value"]) {
 export function filterEncounterCode(filterState: MultiselectFilter["value"]) {
   const filters: Filter[] = [];
 
-  for (const [key, value] of Object.entries(filterState)) {
-    if (value) filters.push((c: Card) => c.encounter_code === key);
+  for (const key of filterState) {
+    filters.push((c: Card) => c.encounter_code === key);
   }
 
   const filter = or(filters);
@@ -472,15 +471,11 @@ export function filterSkillIcons(filterState: SkillIconsFilter["value"]) {
  * Subtype
  */
 
-export function filterSubtypes(filterState: MultiselectFilter["value"]) {
-  const enabledTypeCodes = Object.entries(filterState)
-    .filter(([, v]) => !!v)
-    .map(([k]) => k);
-
+export function filterSubtypes(enabledTypeCodes: MultiselectFilter["value"]) {
   if (!enabledTypeCodes.length) return pass;
 
   return (card: Card) => {
-    return !!card.subtype_code && filterState[card.subtype_code];
+    return !!card.subtype_code && enabledTypeCodes.includes(card.subtype_code);
   };
 }
 
@@ -504,24 +499,22 @@ export function filterTraits(
 ) {
   const filters: Filter[] = [];
 
-  for (const [key, value] of Object.entries(filterState)) {
-    if (value) {
-      filters.push((card: Card) => {
-        const hasTrait = !!traitTable[key][card.code];
+  for (const key of filterState) {
+    filters.push((card: Card) => {
+      const hasTrait = !!traitTable[key][card.code];
 
-        if (
-          hasTrait ||
-          !card.customization_options ||
-          !checkCustomizableOptions
-        ) {
-          return hasTrait;
-        }
+      if (
+        hasTrait ||
+        !card.customization_options ||
+        !checkCustomizableOptions
+      ) {
+        return hasTrait;
+      }
 
-        return !!card.customization_options?.some((o) =>
-          o.real_traits?.includes(key),
-        );
-      });
-    }
+      return !!card.customization_options?.some((o) =>
+        o.real_traits?.includes(key),
+      );
+    });
   }
 
   const filter = or(filters);
@@ -532,13 +525,9 @@ export function filterTraits(
  * Type
  */
 
-export function filterType(filterState: MultiselectFilter["value"]) {
-  const enabledTypeCodes = Object.entries(filterState)
-    .filter(([, v]) => !!v)
-    .map(([k]) => k);
-
+export function filterType(enabledTypeCodes: MultiselectFilter["value"]) {
   if (!enabledTypeCodes.length) return pass;
-  return (card: Card) => filterState[card.type_code];
+  return (card: Card) => enabledTypeCodes.includes(card.type_code);
 }
 
 /**
@@ -629,18 +618,10 @@ export function makeOptionFilter(
   if (option.trait) {
     filterCount += 1;
 
-    // traits are stored lowercased for whatever reason.
-    const traits = option.trait.reduce(
-      (acc, curr) => ({
-        ...acc,
-        [`${capitalize(curr)}`]: true,
-      }),
-      {},
-    );
-
     optionFilter.push(
       filterTraits(
-        traits,
+        // traits are stored lowercased for whatever reason.
+        option.trait.map(capitalize),
         lookupTables.traits,
         !config?.ignoreUnselectedCustomizableOptions,
       ),
@@ -661,16 +642,7 @@ export function makeOptionFilter(
 
   if (option.type) {
     filterCount += 1;
-
-    const types = option.type.reduce(
-      (acc, curr) => ({
-        ...acc,
-        [curr]: true,
-      }),
-      {},
-    );
-
-    optionFilter.push(filterType(types));
+    optionFilter.push(filterType(option.type));
   }
 
   // parallel wendy
@@ -694,15 +666,9 @@ export function makeOptionFilter(
       }
 
       if (select.trait) {
-        const traits = select.trait.reduce(
-          (acc, curr) => ({
-            ...acc,
-            [`${capitalize(curr)}`]: true,
-          }),
-          {},
+        optionSelectFilters.push(
+          filterTraits(select.trait.map(capitalize), lookupTables.traits),
         );
-
-        optionSelectFilters.push(filterTraits(traits, lookupTables.traits));
       }
 
       selectFilters.push(and(optionSelectFilters));
@@ -799,7 +765,7 @@ export function filterInvestigatorWeaknessAccess(
 
   const ors: Filter[] = [
     filterRequired(code, lookupTables.relations),
-    filterSubtypes({ basicweakness: true }),
+    filterSubtypes(["basicweakness"]),
   ];
 
   return or(ors);

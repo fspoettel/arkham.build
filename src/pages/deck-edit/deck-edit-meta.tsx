@@ -71,19 +71,19 @@ export function DeckEditMeta({ deck }: Props) {
             <label>Investigator Front</label>
             <Select
               data-side="front"
-              required
               onChange={onInvestigatorSideChange}
               options={getInvestigatorOptions(deck, "Front")}
+              required
               value={deck.investigatorFront.card.code}
             />
           </Field>
           <Field>
             <label>Investigator Back</label>
             <Select
-              required
               data-side="back"
               onChange={onInvestigatorSideChange}
               options={getInvestigatorOptions(deck, "Back")}
+              required
               value={deck.investigatorBack.card.code}
             />
           </Field>
@@ -95,28 +95,28 @@ export function DeckEditMeta({ deck }: Props) {
             <label>{formatSelectionId(key)}</label>
             {(value.type === "deckSize" || value.type === "faction") && (
               <Select
-                onChange={onFieldChange}
                 data-field={value.accessor}
                 data-type={value.type}
                 emptyLabel="None"
-                value={value.value ?? ""}
+                onChange={onFieldChange}
                 options={value.options.map((v) => ({
                   value: v,
                   label: capitalize(v),
                 }))}
+                value={value.value ?? ""}
               />
             )}
             {value.type === "option" && (
               <Select
-                onChange={onFieldChange}
                 data-field={value.accessor}
                 data-type={value.type}
                 emptyLabel="None"
-                value={value.value?.id ?? ""}
+                onChange={onFieldChange}
                 options={value.options.map((v) => ({
                   value: v.id,
                   label: v.name,
                 }))}
+                value={value.value?.id ?? ""}
               />
             )}
           </Field>

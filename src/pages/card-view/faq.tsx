@@ -40,7 +40,7 @@ export function Faq({ card }: Props) {
 
   return (
     <details className={css["faq"]}>
-      <Button size="full" as="summary" onClick={() => setOpen((p) => !p)}>
+      <Button as="summary" onClick={() => setOpen((p) => !p)} size="full">
         {open ? <ChevronDownIcon /> : <span>?</span>} View FAQs
       </Button>
 
@@ -53,7 +53,7 @@ export function Faq({ card }: Props) {
 
         {!!response.data?.length &&
           response.data.map((faq, i) => (
-            <p key={i} dangerouslySetInnerHTML={{ __html: faq.html }} />
+            <p dangerouslySetInnerHTML={{ __html: faq.html }} key={i} />
           ))}
       </div>
     </details>

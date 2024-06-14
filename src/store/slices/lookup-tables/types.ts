@@ -30,7 +30,7 @@ export type LookupTables = {
     duplicates: LookupTable<string, 1>;
   };
   typesByCardTypeSelection: LookupTable<string, 1>;
-  traitsByCardTypeSeletion: LookupTable<string, 1>;
+  traitsByCardTypeSelection: LookupTable<string, 1>;
   packsByCycle: LookupTable<string, 1>;
   encounterCode: LookupTable<string>;
   typeCode: LookupTable<string>;

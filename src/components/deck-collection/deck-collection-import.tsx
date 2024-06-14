@@ -24,12 +24,12 @@ export function DeckCollectionImport() {
         <UploadIcon />
       </Button>
       <input
-        id="deck-collection-import"
-        type="file"
         accept="application/json"
         className={css["deck-collection-import-input"]}
-        onChange={onAddFiles}
+        id="deck-collection-import"
         multiple
+        onChange={onAddFiles}
+        type="file"
       />
     </div>
   );

@@ -67,10 +67,10 @@ export function Collection({ settings }: Props) {
     <div className={css["collection-container"]}>
       <Field helpText="When this is checked, the collection settings below will be ignored by default.">
         <Checkbox
+          checked={showAllCards}
+          id="show-all-cards"
           label="Show all cards"
           name="show-all-cards"
-          id="show-all-cards"
-          checked={showAllCards}
           onCheckedChange={onCheckShowAll}
         />
       </Field>
@@ -102,11 +102,11 @@ export function Collection({ settings }: Props) {
                       <ol className={css["collection-packs"]}>
                         {cycle.reprintPacks.map((pack) => (
                           <CollectionPack
-                            pack={pack}
-                            key={pack.code}
-                            hasQuantity={pack.code === "core"}
-                            onChange={onCheckPack}
                             cycle={cycle}
+                            hasQuantity={pack.code === "core"}
+                            key={pack.code}
+                            onChange={onCheckPack}
+                            pack={pack}
                             value={collectionState[pack.code] ?? 0}
                           />
                         ))}
@@ -129,11 +129,11 @@ export function Collection({ settings }: Props) {
                     <ol className={css["collection-packs"]}>
                       {cycle.packs.map((pack) => (
                         <CollectionPack
-                          pack={pack}
-                          key={pack.code}
-                          hasQuantity={pack.code === "core"}
-                          onChange={onCheckPack}
                           cycle={cycle}
+                          hasQuantity={pack.code === "core"}
+                          key={pack.code}
+                          onChange={onCheckPack}
+                          pack={pack}
                           value={collectionState[pack.code] ?? 0}
                         />
                       ))}

@@ -1,10 +1,12 @@
 import { useId, useMemo } from "react";
 
+import { getCustomizationUnlocked } from "@/store/lib/card-changes";
 import type { Customization } from "@/store/lib/types";
 import type {
   Card,
   CustomizationOption as CustomizationOptionType,
 } from "@/store/services/types";
+import type { CustomizationEdit } from "@/store/slices/deck-view/types";
 import { parseCustomizationTextHtml } from "@/utils/card-utils";
 import { range } from "@/utils/range";
 
@@ -19,7 +21,9 @@ import { CustomizationRemoveSlot } from "./customization-remove-slot";
 type Props = {
   card: Card;
   choices?: Record<number, Customization>;
+  disabled?: boolean;
   index: number;
+  onChange: (index: number, edit: CustomizationEdit) => void;
   option: CustomizationOptionType;
   text: string[];
   xpMax: number;
@@ -28,14 +32,18 @@ type Props = {
 export function CustomizationOption({
   card,
   choices,
-  option,
+  disabled,
   index,
+  onChange,
+  option,
   text,
   xpMax,
 }: Props) {
   const id = useId();
   const choice = choices?.[index];
-  const checkedCount = choice?.xpSpent ?? 0;
+  const checkedCount = choice?.xp_spent ?? 0;
+
+  const selections = choice?.selections?.split("^").filter((x) => x) ?? [];
 
   const cssVariables = useMemo(
     () => ({
@@ -44,21 +52,30 @@ export function CustomizationOption({
     [xpMax],
   );
 
+  const unlocked = getCustomizationUnlocked(option, checkedCount);
+
   return (
     <div
       className={css["customization"]}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      style={cssVariables as any}
+      style={cssVariables as Record<string, string | number>}
     >
       <div className={css["customization-checks"]}>
         {!!option.xp &&
           range(0, option.xp).map((i) => (
             <Checkbox
-              id={id}
-              hideLabel
-              label
-              key={i}
               checked={i < checkedCount}
+              disabled={disabled}
+              hideLabel
+              id={id}
+              key={i}
+              label
+              onCheckedChange={(val) => {
+                if (val) {
+                  onChange(index, { xp_spent: i + 1 });
+                } else {
+                  onChange(index, { xp_spent: i });
+                }
+              }}
             />
           ))}
       </div>
@@ -69,32 +86,43 @@ export function CustomizationOption({
           }}
         />
 
-        {choice?.unlocked && option.choice === "choose_skill" && (
-          <CustomizationChooseSkill id={id} choice={choice?.choices ?? ""} />
+        {unlocked && option.choice === "choose_skill" && (
+          <CustomizationChooseSkill
+            disabled={disabled}
+            id={id}
+            onChange={(selections) => onChange(index, { selections })}
+            selections={selections}
+          />
         )}
 
-        {choice?.unlocked && option.choice === "remove_slot" && (
+        {unlocked && option.choice === "remove_slot" && (
           <CustomizationRemoveSlot
-            id={id}
             card={card}
-            choice={choice?.choices ?? ""}
+            disabled={disabled}
+            id={id}
+            onChange={(selections) => onChange(index, { selections })}
+            selections={selections}
           />
         )}
 
-        {choice?.unlocked && option.choice === "choose_trait" && (
+        {unlocked && option.choice === "choose_trait" && (
           <CustomizationChooseTraits
+            disabled={disabled}
             id={id}
             limit={option.quantity ?? 1}
-            choices={choice?.choices?.split("^") ?? []}
+            onChange={(selections) => onChange(index, { selections })}
+            selections={selections}
           />
         )}
 
-        {choice?.unlocked && option.choice === "choose_card" && option.card && (
+        {unlocked && option.choice === "choose_card" && option.card && (
           <CustomizationChooseCards
+            config={option.card}
+            disabled={disabled}
             id={id}
             limit={option.quantity ?? 1}
-            choices={choice?.choices?.split("^") ?? []}
-            config={option.card}
+            onChange={(selections) => onChange(index, { selections })}
+            selections={selections}
           />
         )}
       </div>

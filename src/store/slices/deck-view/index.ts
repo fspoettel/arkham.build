@@ -38,6 +38,7 @@ export const createDeckViewSlice: StateCreator<
         edits: {
           meta: {},
           quantities: {},
+          customizations: {},
         },
         mode,
       },
@@ -48,12 +49,14 @@ export const createDeckViewSlice: StateCreator<
     const state = get();
 
     if (!state.deckView) {
-      console.warn(`try edit deck, but state does not have an active deck.`);
+      console.warn(
+        `trying to edit deck, but state does not have an active deck.`,
+      );
       return;
     }
 
     if (state.deckView.mode !== "edit") {
-      console.warn(`try edit deck, but not in edit mode.`);
+      console.warn(`trying to edit deck, but not in edit mode.`);
       return;
     }
 
@@ -136,6 +139,30 @@ export const createDeckViewSlice: StateCreator<
               side === "back" ? code : state.deckView.edits.investigatorBack,
             investigatorFront:
               side === "front" ? code : state.deckView.edits.investigatorFront,
+          },
+        },
+      });
+    }
+  },
+
+  updateCustomization(code, index, edit) {
+    const state = get();
+    if (state.deckView && state.deckView.mode === "edit") {
+      set({
+        deckView: {
+          ...state.deckView,
+          edits: {
+            ...state.deckView.edits,
+            customizations: {
+              ...state.deckView.edits.customizations,
+              [code]: {
+                ...state.deckView.edits.customizations[code],
+                [index]: {
+                  ...state.deckView.edits.customizations[code]?.[index],
+                  ...edit,
+                },
+              },
+            },
           },
         },
       });

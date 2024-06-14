@@ -39,11 +39,11 @@ function Settings() {
   return (
     <div className={css["container"]}>
       <Masthead />
-      <form ref={formRef} className={css["settings"]} onSubmit={onSubmit}>
+      <form className={css["settings"]} onSubmit={onSubmit} ref={formRef}>
         <header className={css["settings-header"]}>
           <h1 className={css["settings-title"]}>Settings</h1>
           <div className={css["settings-header-actions"]}>
-            <Link href="/" asChild>
+            <Link asChild href="/">
               <Button as="a" type="button" variant="bare">
                 Back
               </Button>

@@ -16,14 +16,14 @@ export function Masthead({ className, slotNav }: Props) {
   const [location] = useLocation();
   return (
     <header className={clsx(className, css["masthead"])}>
-      <Link href="~/" className={css["masthead-logo"]}>
-        <img src="/logo.svg" alt="Arkham.build logo" />
+      <Link className={css["masthead-logo"]} href="~/">
+        <img alt="Arkham.build logo" src="/logo.svg" />
       </Link>
       <nav className={css["masthead-nav"]}>
         {slotNav}
         {location !== "/settings" && (
-          <Link href="~/settings" asChild>
-            <Button className={css["masthead-settings"]} variant="bare" as="a">
+          <Link asChild href="~/settings">
+            <Button as="a" className={css["masthead-settings"]} variant="bare">
               <GearIcon />
             </Button>
           </Link>

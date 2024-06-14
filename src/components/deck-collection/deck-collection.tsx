@@ -21,7 +21,7 @@ export function DeckCollection() {
         <h2 className={css["deck-collection-title"]}>Decks</h2>
         <div className={css["deck-collection-actions"]}>
           <DeckCollectionImport />
-          <Link href="/deck/new" asChild>
+          <Link asChild href="/deck/new">
             <Button as="a" disabled>
               <PlusIcon />
             </Button>
@@ -32,8 +32,8 @@ export function DeckCollection() {
         <Scroller>
           <ol className={css["deck-collection-decks"]}>
             {decks.map((deck) => (
-              <li key={deck.id} className={css["deck-collection-deck"]}>
-                <Link href={`/deck/${deck.id}/view`} asChild>
+              <li className={css["deck-collection-deck"]} key={deck.id}>
+                <Link asChild href={`/deck/${deck.id}/view`}>
                   <a>
                     <DeckCard deck={deck} interactive>
                       {deck.tags

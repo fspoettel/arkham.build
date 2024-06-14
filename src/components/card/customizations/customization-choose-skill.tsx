@@ -4,8 +4,10 @@ import { SKILL_KEYS } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
 
 type Props = {
-  choice: string;
+  disabled?: boolean;
   id: string;
+  onChange: (value: string[]) => void;
+  selections: string[];
 };
 
 const itemRenderer = (item: Coded) => (
@@ -14,27 +16,28 @@ const itemRenderer = (item: Coded) => (
   </>
 );
 
-export function CustomizationChooseSkill({ choice, id }: Props) {
-  const options = SKILL_KEYS.map((key) => ({
+export function CustomizationChooseSkill({
+  disabled,
+  id,
+  onChange,
+  selections,
+}: Props) {
+  const options = SKILL_KEYS.filter((x) => x !== "wild").map((key) => ({
     code: key,
   }));
 
-  const selectedItems = choice
-    ? {
-        [choice]: { code: choice },
-      }
-    : {};
-
   return (
     <Combobox
+      disabled={disabled}
       id={`${id}-choose-skill`}
-      label="Skill"
-      disabled={!!choice}
-      placeholder="Choose a skill..."
       items={options}
+      label="Skill"
+      limit={1}
+      onValueChange={onChange}
+      placeholder="Choose a skill..."
       renderItem={itemRenderer}
       renderResult={itemRenderer}
-      selectedItems={selectedItems}
+      selectedItems={selections}
     />
   );
 }

@@ -9,7 +9,7 @@ export type FilterObject<T> = {
   value: T;
 };
 
-export type MultiselectFilter = FilterObject<Record<string, boolean>>;
+export type MultiselectFilter = FilterObject<string[]>;
 
 export type SelectFilter<T = string> = FilterObject<T | undefined>;
 
@@ -125,14 +125,6 @@ export type FiltersSlice = {
     path: P,
     item: string,
     value: T,
-  ): void;
-
-  setDeepNestedFilter<C extends CardTypeFilter, P extends keyof Filters[C], T>(
-    type: C,
-    path: P,
-    item: string,
-    value: T,
-    valueKey: string,
   ): void;
 
   applyLevelShortcut(value: string): void;

@@ -36,7 +36,7 @@ export function DeckSidebar({ className, deck }: Props) {
           </Button>
         </Link>
 
-        <Button size="full" onClick={onDelete}>
+        <Button onClick={onDelete} size="full">
           <TrashIcon /> Delete
         </Button>
       </div>
@@ -76,7 +76,7 @@ export function DeckSidebar({ className, deck }: Props) {
 
           {!!deck.selections &&
             Object.entries(deck.selections).map(([key, selection]) => (
-              <li key={key} className={css["detail"]}>
+              <li className={css["detail"]} key={key}>
                 <div className={css["detail-label"]}>{capitalize(key)}</div>
                 {selection.type === "deckSize" && (
                   <p className={css["detail-value"]}>{selection.value}</p>

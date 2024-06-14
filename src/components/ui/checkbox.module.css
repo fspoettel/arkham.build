@@ -16,6 +16,10 @@
   height: var(--checkbox-size);
   background: var(--nord-2);
   border-radius: var(--rounded);
+
+  &[disabled] {
+    opacity: 1;
+  }
 }
 
 .checkbox-root svg {

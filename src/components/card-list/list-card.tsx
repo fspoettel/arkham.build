@@ -80,8 +80,8 @@ export function ListCard({ card, tooltip, canShowQuantity, ...rest }: Props) {
           canOpenModal
           canShowQuantity={canShowQuantity}
           card={card}
-          referenceProps={referenceProps}
           figureRef={refs.setReference}
+          referenceProps={referenceProps}
         />
         <DialogContent>
           <CardModal

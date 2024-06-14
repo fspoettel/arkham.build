@@ -14,9 +14,9 @@ export function CardImage({ className, code, sideways }: Props) {
   return (
     <div className={clsx(css["image"], className)}>
       <img
+        height={sideways ? 300 : 420}
         src={imageUrl(code)}
         width={sideways ? 420 : 300}
-        height={sideways ? 300 : 420}
       />
     </div>
   );

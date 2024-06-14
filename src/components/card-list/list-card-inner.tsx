@@ -107,7 +107,7 @@ export function ListCardInner({
 
       <figure className={css["listcard-inner"]} ref={figureRef}>
         {card.imageurl && (
-          <button tabIndex={-1} onClick={openModal}>
+          <button onClick={openModal} tabIndex={-1}>
             <div className={css["listcard-thumbnail"]} {...referenceProps}>
               <CardThumbnail card={card} />
             </div>
@@ -125,7 +125,7 @@ export function ListCardInner({
             className={clsx(css["listcard-name"], colorCls)}
             {...referenceProps}
           >
-            <button tabIndex={-1} onClick={openModal}>
+            <button onClick={openModal} tabIndex={-1}>
               {card.real_name}
             </button>
           </h4>
@@ -136,8 +136,8 @@ export function ListCardInner({
             )}
 
             <MulticlassIcons
-              className={css["listcard-multiclass"]}
               card={card}
+              className={css["listcard-multiclass"]}
             />
 
             {hasSkillIcons(card) && <SkillIcons card={card} />}
@@ -160,9 +160,9 @@ export function ListCardInner({
                   sanity={card.sanity}
                 />
                 <SkillIconsInvestigator
+                  card={card}
                   className={css["listcard-investigator-skills"]}
                   iconClassName={css["listcard-investigator-skill"]}
-                  card={card}
                 />
               </>
             )}

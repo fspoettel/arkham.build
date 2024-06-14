@@ -36,8 +36,8 @@ export function Collapsible({
     <Root
       {...rest}
       className={clsx(css["collapsible-root"], className)}
-      open={open}
       onOpenChange={onOpenChange}
+      open={open}
     >
       <Trigger asChild>
         <div className={css["collapsible-header"]}>

@@ -25,8 +25,8 @@ export const Scroller = forwardRef(
         type="scroll"
       >
         <Viewport
-          ref={ref}
           className={clsx(css["scroll-area-viewport"], viewportClassName)}
+          ref={ref}
           tabIndex={-1}
         >
           {children}

@@ -26,7 +26,7 @@ export function DeckInvestigator({
 
   const children = canToggleBack ? (
     <>
-      <CardFront resolvedCard={deck.investigatorFront} size="tooltip" linked />
+      <CardFront linked resolvedCard={deck.investigatorFront} size="tooltip" />
       <div className={clsx(css["back-toggle"], backToggled && css["open"])}>
         <Button onClick={() => toggleBack((p) => !p)}>
           {backToggled ? <ChevronUpIcon /> : <ChevronDownIcon />}
@@ -44,10 +44,10 @@ export function DeckInvestigator({
     </>
   ) : (
     <>
-      <CardFront resolvedCard={deck.investigatorFront} size="tooltip" linked />
+      <CardFront linked resolvedCard={deck.investigatorFront} size="tooltip" />
       <CardBack
-        forceShowHeader={forceShowHeader}
         card={deck.investigatorBack.card}
+        forceShowHeader={forceShowHeader}
         size="tooltip"
       />
     </>

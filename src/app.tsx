@@ -22,9 +22,9 @@ const DeckView = React.lazy(() => import("./pages/deck-view/deck-view"));
 const Settings = React.lazy(() => import("./pages/settings/settings"));
 const CardView = React.lazy(() => import("./pages/card-view/card-view"));
 
-function Fallback() {
+function Fallback({ show }: { show?: boolean }) {
   return (
-    <div className={clsx(css["app-loader"])}>
+    <div className={clsx(css["app-loader"], show && css["show"])}>
       <div className={css["app-loader-inner"]}>
         <div className={css["app-loader-icon"]}>
           <i className="icon-auto_fail" />
@@ -50,17 +50,18 @@ function App() {
 
   return (
     <ToastProvider>
-      <Suspense fallback={<Fallback />}>
+      <Fallback show={storeHydrated && !storeInitialized} />
+      <Suspense fallback={null}>
         {storeInitialized && (
           <Router hook={useBrowserLocation}>
-            <Route path="/" component={Browse} />
-            <Route path="/card/:code" component={CardView} />
-            <Route path="/deck" nest>
-              <Route path="/new" component={DeckNew} />
-              <Route path="/:id/view" component={DeckView} />
-              <Route path="/:id/edit" component={DeckEdit} />
+            <Route component={Browse} path="/" />
+            <Route component={CardView} path="/card/:code" />
+            <Route nest path="/deck">
+              <Route component={DeckNew} path="/new" />
+              <Route component={DeckView} path="/:id/view" />
+              <Route component={DeckEdit} path="/:id/edit" />
             </Route>
-            <Route path="/settings" component={Settings} />
+            <Route component={Settings} path="/settings" />
             <RouteReset />
           </Router>
         )}

@@ -20,16 +20,16 @@ export function CardIcons({ card, className }: Props) {
     <div className={clsx(css["icons"], className)}>
       {card.type_code === "investigator" ? (
         <SkillIconsInvestigator
+          card={card}
           className={css["icons-skills"]}
           iconClassName={css["icons-skill"]}
-          card={card}
         />
       ) : (
         <SkillIcons
-          className={css["icons-skills"]}
-          iconClassName={css["icons-skill"]}
           card={card}
+          className={css["icons-skills"]}
           fancy
+          iconClassName={css["icons-skill"]}
         />
       )}
 
@@ -40,9 +40,9 @@ export function CardIcons({ card, className }: Props) {
       {card.type_code === "enemy" && (
         <>
           <SkillIconsEnemy
+            card={card}
             className={css["icons-skills"]}
             iconClassName={css["icons-skill"]}
-            card={card}
           />
           <CardDamage damage={card.enemy_damage} horror={card.enemy_horror} />
         </>

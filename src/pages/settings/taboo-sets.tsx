@@ -23,14 +23,14 @@ export function TabooSets({ settings }: Props) {
     <Field>
       <label htmlFor="taboo-set">Default taboo list</label>
       <select
-        name="taboo-set"
         id="taboo-set"
+        name="taboo-set"
         onChange={(evt) => setValue(+evt.target.value || null)}
         value={value ?? ""}
       >
         <option value="">None</option>
         {tabooSets.map((set) => (
-          <option value={set.id} key={set.id}>
+          <option key={set.id} value={set.id}>
             {formatTabooSet(set)}
           </option>
         ))}

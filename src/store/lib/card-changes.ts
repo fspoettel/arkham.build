@@ -1,20 +1,7 @@
-import type { Card } from "@/store/services/types";
+import type { Card, CustomizationOption } from "@/store/services/types";
 import type { Metadata } from "@/store/slices/metadata/types";
 
 import type { Customizations } from "./types";
-
-export function applyCardChanges(
-  card: Card,
-  metadata: Metadata,
-  tabooSetId: number | null,
-  customizations: Customizations | undefined,
-) {
-  return applyCustomizations(
-    applyTaboo(card, metadata, tabooSetId),
-    metadata,
-    customizations,
-  );
-}
 
 export function applyTaboo(
   card: Card,
@@ -24,13 +11,20 @@ export function applyTaboo(
   if (!tabooSetId) return card;
 
   const taboo = metadata.taboos[`${card.code}-${tabooSetId}`];
-  if (!taboo) return card;
+  return taboo
+    ? // taboos duplicate the card structure, so a simple merge is safe to apply them.
+      {
+        ...card,
+        ...taboo,
+      }
+    : card;
+}
 
-  // taboos duplicate the card structure, so a simple merge is safe to apply them.
-  return {
-    ...card,
-    ...taboo,
-  };
+export function getCustomizationUnlocked(
+  option: CustomizationOption,
+  xpSpent: number,
+) {
+  return xpSpent >= option.xp;
 }
 
 function applyCustomizations(
@@ -61,25 +55,28 @@ function applyCustomizations(
     const customization = cardCustomizations[i];
     if (!customization) return;
 
-    const xpSpent = customization.xpSpent ?? 0;
-    nextCard.customization_xp += xpSpent ?? 0;
+    const xpSpent = customization.xp_spent ?? 0;
+    nextCard.customization_xp += xpSpent;
 
-    if (customization.unlocked) {
+    if (getCustomizationUnlocked(option, xpSpent)) {
       if (option.health) nextCard.health = (card.health ?? 0) + option.health;
       if (option.sanity) nextCard.sanity = (card.sanity ?? 0) + option.sanity;
       if (option.deck_limit) nextCard.deck_limit = option.deck_limit;
       if (option.real_slot) nextCard.real_slot = option.real_slot;
       if (option.real_traits) nextCard.real_traits = option.real_traits;
       if (option.cost) nextCard.cost = (nextCard.cost ?? 0) + option.cost;
-      if (option.tags)
+      if (option.tags) {
         nextCard.tags = [...(nextCard.tags ?? []), ...option.tags];
+      }
 
-      const choices = customization.choices;
+      const selections = customization.selections;
       let edit = customizationChanges[i];
 
       switch (option.choice) {
         case "choose_trait": {
-          const traits = choices?.split("^")?.reduce<string>((acc, t) => {
+          const traits = selections?.split("^")?.reduce<string>((acc, t) => {
+            if (!t) return acc;
+
             const trait = `[[${t}]]`;
             return acc ? `${acc}, ${trait}` : trait;
           }, "");
@@ -89,22 +86,25 @@ function applyCustomizations(
         }
 
         case "choose_skill": {
-          const skill = choices ?? "";
+          const skill = selections ?? "";
           edit = skill ? edit.replace("_____", `[${skill}]`) : edit;
           break;
         }
 
         case "choose_card": {
-          const cards = choices?.split("^").map((c) => metadata.cards[c]);
-          edit = cards?.length
-            ? `${edit} ${cards.map((c) => `<u>${c.real_name}</u>`).join(", ")}`
-            : edit;
+          const cards = selections?.split("^").reduce((acc, code) => {
+            if (!code) return acc;
+            const card = `<u>${metadata.cards[code].real_name}</u>`;
+            return acc ? `${acc}, ${card}` : card;
+          }, "");
+
+          edit = `${edit} ${cards}`;
           break;
         }
 
         case "remove_slot": {
           // slot choice stores the index of a slot to remove.
-          const choice = Number.parseInt(choices ?? "", 10);
+          const choice = Number.parseInt(selections ?? "", 10);
 
           if (!Number.isNaN(choice) && card.real_slot) {
             nextCard.real_slot = card.real_slot
@@ -137,4 +137,17 @@ function applyCustomizations(
 
   nextCard.real_text = lines.join("\n");
   return nextCard;
+}
+
+export function applyCardChanges(
+  card: Card,
+  metadata: Metadata,
+  tabooSetId: number | null,
+  customizations: Customizations | undefined,
+) {
+  return applyCustomizations(
+    applyTaboo(card, metadata, tabooSetId),
+    metadata,
+    customizations,
+  );
 }

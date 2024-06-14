@@ -18,7 +18,7 @@ export function Grouphead({ grouping }: Props) {
       {grouping.grouping_type === "slot" &&
         grouping.code !== "Other" &&
         grouping.code !== "Permanent" && (
-          <CardSlots slot={grouping.code} size="small" />
+          <CardSlots size="small" slot={grouping.code} />
         )}
       <h3>{grouping.name}</h3>
     </div>

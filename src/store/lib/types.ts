@@ -46,12 +46,14 @@ export function isCardWithRelations(
 
 export type Customization = {
   index: number;
-  xpSpent: number;
-  choices?: string;
-  unlocked: boolean;
+  xp_spent: number;
+  selections?: string;
 };
 
-export type Customizations = Record<string, Record<number, Customization>>;
+export type Customizations = Record<
+  string,
+  Record<number | string, Customization>
+>;
 
 export type DeckMeta = {
   [key in `cus_${string}`]?: string | null;

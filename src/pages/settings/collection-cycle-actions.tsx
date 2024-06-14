@@ -15,22 +15,22 @@ export function CollectionCycleActions({ cycleCode, onToggleCycle }: Props) {
     <div className={css["collection-cycle-actions"]}>
       <Button
         className={css["collection-cycle-toggle"]}
-        type="button"
-        size="sm"
         data-cycle={cycleCode}
         data-val={1}
         onClick={onToggleCycle}
+        size="sm"
+        type="button"
         variant="bare"
       >
         <PlusIcon />
       </Button>
       <Button
         className={css["collection-cycle-toggle"]}
-        type="button"
-        size="sm"
         data-cycle={cycleCode}
         data-val={0}
         onClick={onToggleCycle}
+        size="sm"
+        type="button"
         variant="bare"
       >
         <MinusIcon />

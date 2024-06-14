@@ -64,9 +64,9 @@ export function CardDataSync() {
     <>
       <Field className={clsx(css["sync"], upToDate && css["uptodate"])}>
         <Button
-          onClick={syncData}
-          disabled={loading || !!error}
           className={css["sync-action"]}
+          disabled={loading || !!error}
+          onClick={syncData}
           type="button"
         >
           Sync card data

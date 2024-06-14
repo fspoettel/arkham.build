@@ -16,17 +16,17 @@ export function TabooSetFilter() {
   return (
     <SelectFilter
       cardType="player"
-      path="tabooSet"
       changes={changes}
-      title="Taboo Set"
-      value={value}
-      options={tabooSets}
       mapValue={(val) => (val ? +val : undefined)}
+      options={tabooSets}
+      path="tabooSet"
       renderOption={(set) => (
         <option key={set.id} value={set.id}>
           {formatTabooSet(set)}
         </option>
       )}
+      title="Taboo Set"
+      value={value}
     />
   );
 }

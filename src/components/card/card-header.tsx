@@ -21,19 +21,19 @@ export function CardHeader({ card, className, linked }: Props) {
   return (
     <header className={clsx(css["header"], colorCls, className)}>
       <div className={css["header-row"]}>
-        <CardIcon className={css["header-icon"]} card={card} inverted />
+        <CardIcon card={card} className={css["header-icon"]} inverted />
         <CardNames
           code={card.code}
           isUnique={card.is_unique}
-          name={card.real_name}
           linked={linked}
+          name={card.real_name}
           parallel={card.parallel}
           subname={card.real_subname}
         />
       </div>
       <MulticlassIcons
-        className={clsx(css["header-icon"], css["faction-icons"])}
         card={card}
+        className={clsx(css["header-icon"], css["faction-icons"])}
         inverted
       />
     </header>

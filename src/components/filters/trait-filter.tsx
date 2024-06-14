@@ -17,12 +17,12 @@ export function TraitFilter() {
   return (
     <MultiselectFilter
       cardType={cardType}
-      path="trait"
-      title="Trait"
-      options={traits}
       changes={changes}
-      value={value}
+      options={traits}
+      path="trait"
       placeholder="Select trait(s)..."
+      title="Trait"
+      value={value}
     />
   );
 }

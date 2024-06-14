@@ -49,9 +49,9 @@ export function CardFront({ className, resolvedCard, linked, size }: Props) {
         <CardText
           flavor={card.real_flavor}
           size={size}
-          text={card.real_text}
-          tabooXp={card.taboo_xp}
           tabooText={card.real_taboo_text_change}
+          tabooXp={card.taboo_xp}
+          text={card.real_text}
           typeCode={card.type_code}
           victory={card.victory}
         />

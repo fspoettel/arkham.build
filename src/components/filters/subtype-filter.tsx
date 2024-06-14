@@ -21,14 +21,14 @@ export function SubtypeFilter() {
   return (
     <MultiselectFilter
       cardType={cardType}
+      changes={changes}
+      itemToString={itemToString}
+      nameRenderer={nameRenderer}
+      options={subtypes}
       path="subtype"
       placeholder="Select subtype(s)..."
       title="Subtype"
-      changes={changes}
-      options={subtypes}
       value={value}
-      itemToString={itemToString}
-      nameRenderer={nameRenderer}
     />
   );
 }

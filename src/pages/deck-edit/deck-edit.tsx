@@ -22,8 +22,8 @@ function DeckEdit() {
 
   return (
     <ListLayout
-      sidebar={<DeckEditSidebar deck={deck} />}
       filters={<Filters hiddenFilters={["investigator", "taboo_set"]} />}
+      sidebar={<DeckEditSidebar deck={deck} />}
       sidebarWidthMax="42rem"
     >
       <CardList canEdit canShowQuantity quantities={quantities} />

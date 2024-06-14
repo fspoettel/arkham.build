@@ -6,14 +6,6 @@ import type { Card } from "@/store/services/types";
 import type { CustomizationOption as CustomizationOptionType } from "@/store/services/types";
 import type { StoreState } from "@/store/slices";
 
-function selectCardsByIds(state: StoreState, ids: string[]) {
-  return ids.reduce<Record<string, Card>>((acc, curr) => {
-    const card = state.metadata.cards[curr];
-    if (card) acc[curr] = card;
-    return acc;
-  }, {});
-}
-
 function selectPlayerCardsForCustomizationOptions(
   state: StoreState,
   config: CustomizationOptionType["card"],
@@ -63,34 +55,39 @@ const resultRenderer = (item: Card) => item.real_name;
 const itemToString = (item: Card) => item.real_name.toLowerCase();
 
 type Props = {
-  choices: string[];
-  limit: number;
-  id: string;
+  selections: string[];
   config: CustomizationOptionType["card"];
+  disabled?: boolean;
+  id: string;
+  limit: number;
+  onChange: (selections: string[]) => void;
 };
 
 export function CustomizationChooseCards({
-  choices,
-  limit,
-  id,
   config,
+  disabled,
+  id,
+  limit,
+  onChange,
+  selections,
 }: Props) {
   const cards = useStore((state) =>
     selectPlayerCardsForCustomizationOptions(state, config),
   );
-  const selectedCards = useStore((state) => selectCardsByIds(state, choices));
 
   return (
     <Combobox
-      label="Cards"
+      disabled={disabled}
       id={`${id}-choose-cards`}
-      items={cards}
-      disabled={Object.keys(selectedCards).length === limit}
       itemToString={itemToString}
+      items={cards}
+      label="Cards"
+      limit={limit}
+      onValueChange={onChange}
+      placeholder="Select cards..."
       renderItem={cardRenderer}
       renderResult={resultRenderer}
-      selectedItems={selectedCards}
-      placeholder="Select cards..."
+      selectedItems={selections}
     />
   );
 }

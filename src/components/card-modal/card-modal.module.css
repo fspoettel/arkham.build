@@ -57,7 +57,7 @@
   border-radius: var(--rounded);
   box-shadow: var(--shadow);
   text-align: center;
-  min-width: 6rem;
+  min-width: 7rem;
 }
 
 .cardmodal-quantity > * + * {

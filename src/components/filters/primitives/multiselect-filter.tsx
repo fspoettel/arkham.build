@@ -18,7 +18,7 @@ type Props<T extends Coded, K extends CardTypeFilter> = {
   title: string;
   options: T[];
   placeholder?: string;
-  value: Record<string, T>;
+  value: string[];
 };
 
 export function MultiselectFilter<T extends Coded, K extends CardTypeFilter>({
@@ -34,7 +34,7 @@ export function MultiselectFilter<T extends Coded, K extends CardTypeFilter>({
 }: Props<T, K>) {
   const open = useStore(selectFilterOpen(cardType, path));
 
-  const setNestedFilter = useStore((state) => state.setNestedFilter);
+  const setFilter = useStore((state) => state.setFilter);
   const setFilterOpen = useStore((state) => state.setFilterOpen);
   const resetFilter = useStore((state) => state.resetFilterKey);
 
@@ -50,31 +50,31 @@ export function MultiselectFilter<T extends Coded, K extends CardTypeFilter>({
   }, [resetFilter, cardType, path]);
 
   const onChange = useCallback(
-    (code: string, value: boolean) => {
-      setNestedFilter(cardType, path, code, value);
+    (value: string[]) => {
+      setFilter(cardType, path, "value", value);
     },
-    [setNestedFilter, cardType, path],
+    [setFilter, cardType, path],
   );
 
   return (
     <FilterContainer
-      title={title}
       filterString={changes}
-      onReset={onReset}
       onOpenChange={onOpenChange}
+      onReset={onReset}
       open={open}
+      title={title}
     >
       <Combobox
         autoFocus
         id={`filter-${cardType}-${path as string}`}
-        items={options}
-        onSelectItem={onChange}
-        selectedItems={value}
-        placeholder={placeholder}
-        label={title}
         itemToString={itemToString}
+        items={options}
+        label={title}
+        onValueChange={onChange}
+        placeholder={placeholder}
         renderItem={nameRenderer}
         renderResult={nameRenderer}
+        selectedItems={value}
       />
     </FilterContainer>
   );

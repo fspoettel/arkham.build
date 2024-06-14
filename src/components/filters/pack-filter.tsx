@@ -45,11 +45,11 @@ export function PackFilter() {
       changes={changes}
       itemToString={itemToString}
       nameRenderer={nameRenderer}
-      path="packCode"
       options={options}
+      path="packCode"
       placeholder="Select pack..."
-      value={value}
       title="Pack"
+      value={value}
     />
   );
 }

@@ -71,9 +71,9 @@ export function CardIcon({ card, className, inverted }: Props) {
       >
         <FactionIcon className={css["icon-child"]} code={card.faction_code} />
         <LevelIcon
+          className={css["icon-level"]}
           inverted={inverted}
           level={level}
-          className={css["icon-level"]}
         />
       </div>
     );
@@ -99,8 +99,8 @@ export function CardIcon({ card, className, inverted }: Props) {
         <CostIcon className={css["icon-child"]} cost={card.cost} />
       )}
       <LevelIcon
-        inverted={inverted}
         className={css["icon-level"]}
+        inverted={inverted}
         level={level}
       />
     </div>

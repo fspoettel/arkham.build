@@ -18,7 +18,7 @@ export function Slider({ className, thumbCount = 1, ...rest }: Props) {
         <Range className={clsx(css["slider-range"])} />
       </Track>
       {range(0, thumbCount).map((i) => (
-        <Thumb key={i} className={css["slider-thumb"]} />
+        <Thumb className={css["slider-thumb"]} key={i} />
       ))}
     </Root>
   );

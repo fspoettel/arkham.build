@@ -65,6 +65,7 @@ export function CardModal({ canEdit, canShowQuantity, code }: Props) {
         activeDeck ? (
           <CardCustomizationsEdit
             activeDeck={activeDeck}
+            canEdit={canEdit}
             card={cardWithRelations.card}
           />
         ) : (
@@ -87,14 +88,14 @@ export function CardModal({ canEdit, canShowQuantity, code }: Props) {
           ref={actionRef}
         >
           <Button
-            tabIndex={2}
             as="a"
-            target="_blank"
             href={`/card/${cardWithRelations.card.code}`}
+            tabIndex={2}
+            target="_blank"
           >
             Open card page
           </Button>
-          <Button variant="bare" onClick={onCloseModal} tabIndex={1}>
+          <Button onClick={onCloseModal} tabIndex={1} variant="bare">
             <Cross2Icon />
           </Button>
         </div>

@@ -64,11 +64,11 @@ export function SelectFilter<
 
   return (
     <FilterContainer
-      title={title}
       filterString={changes}
+      onOpenChange={onOpenChange}
       onReset={onReset}
       open={open}
-      onOpenChange={onOpenChange}
+      title={title}
     >
       <select onChange={onChange} value={value ?? ""}>
         <option value="">All cards</option>

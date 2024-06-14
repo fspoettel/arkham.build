@@ -43,13 +43,13 @@ export function EncounterSetFilter() {
     <MultiselectFilter
       cardType="encounter"
       changes={changes}
-      path="encounterSet"
-      options={encounterSets}
-      nameRenderer={nameRenderer}
       itemToString={itemToString}
+      nameRenderer={nameRenderer}
+      options={encounterSets}
+      path="encounterSet"
       placeholder="Select encounter set..."
-      value={value}
       title="Encounter Set"
+      value={value}
     />
   );
 }

@@ -26,7 +26,7 @@ export function resolveDeck<
   deck: Deck,
   withRelations: T,
 ): ResolvedDeck<S> {
-  const deckMeta = parseDeckMeta(deck);
+  const deckMeta = decodeDeckMeta(deck);
 
   // some decks on arkhamdb are created for the replacement investigator, normalize.
   // this only seems to be the case for carolyn fern?
@@ -66,8 +66,8 @@ export function resolveDeck<
     throw new Error(`Investigator not found: ${deck.investigator_code}`);
   }
 
-  const extraSlots = getExtraSlots(deckMeta);
-  const customizations = getCustomizations(deckMeta, metadata);
+  const extraSlots = decodeExtraSlots(deckMeta);
+  const customizations = decodeCustomizations(deckMeta, metadata);
 
   const { cards, deckSize, deckSizeTotal, xpRequired } = getDeckCards<T, S>(
     deck,
@@ -101,7 +101,7 @@ export function resolveDeck<
   };
 }
 
-export function parseDeckMeta(deck: Deck): DeckMeta {
+export function decodeDeckMeta(deck: Deck): DeckMeta {
   try {
     const metaJson = JSON.parse(deck.meta);
     return typeof metaJson === "object" && metaJson != null ? metaJson : {};
@@ -297,7 +297,7 @@ function getSelections(
   return selections;
 }
 
-function getExtraSlots(deckMeta: DeckMeta) {
+function decodeExtraSlots(deckMeta: DeckMeta) {
   if (deckMeta.extra_deck) {
     const extraSlots: Record<string, number> = {};
 
@@ -311,7 +311,7 @@ function getExtraSlots(deckMeta: DeckMeta) {
   return {};
 }
 
-function getCustomizations(deckMeta: DeckMeta, metadata: Metadata) {
+export function decodeCustomizations(deckMeta: DeckMeta, metadata: Metadata) {
   let hasCustomizations = false;
   const customizations: Customizations = {};
 
@@ -328,17 +328,16 @@ function getCustomizations(deckMeta: DeckMeta, metadata: Metadata) {
           const index = Number.parseInt(entries[0], 10);
 
           if (entries.length > 1) {
-            const xpSpent = Number.parseInt(entries[1], 10);
-            const choices = entries[2] ?? "";
+            const xp_spent = Number.parseInt(entries[1], 10);
+            const selections = entries[2] ?? "";
 
             const option = metadata.cards[code]?.customization_options?.[index];
             if (!option) return acc;
 
             acc[index] = {
-              choices,
+              selections,
               index,
-              unlocked: (xpSpent ?? 0) >= option.xp,
-              xpSpent,
+              xp_spent,
             };
           }
 
@@ -348,4 +347,27 @@ function getCustomizations(deckMeta: DeckMeta, metadata: Metadata) {
   }
 
   return hasCustomizations ? customizations : undefined;
+}
+
+export function encodeCustomizations(customizations: Customizations) {
+  return Object.entries(customizations).reduce<Record<string, string>>(
+    (acc, [code, changes]) => {
+      const key = `cus_${code}`;
+
+      const value = Object.values(changes)
+        .sort((a, b) => a.index - b.index)
+        .map((curr) => {
+          let s = `${curr.index}`;
+          if (curr.selections || curr.xp_spent != null)
+            s += `|${curr.xp_spent}`;
+          if (curr.selections) s += `|${curr.selections}`;
+          return s;
+        })
+        .join(",");
+
+      acc[key] = value;
+      return acc;
+    },
+    {},
+  );
 }

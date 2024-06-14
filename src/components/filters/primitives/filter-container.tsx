@@ -38,13 +38,13 @@ export function FilterContainer({
     <Collapsible
       actions={
         filterString && onReset ? (
-          <Button size="sm" variant="bare" onClick={onFilterReset}>
+          <Button onClick={onFilterReset} size="sm" variant="bare">
             <ResetIcon />
           </Button>
         ) : undefined
       }
-      open={open}
       onOpenChange={onOpenChange}
+      open={open}
       sub={alwaysShowFilterString || !open ? filterString || "All" : undefined}
       title={title}
     >

@@ -15,7 +15,6 @@ export type Props = {
   children?: ReactNode;
   className?: string;
   resolvedCard: ResolvedCard | CardWithRelations;
-  canEditCustomizations?: boolean;
   canToggleBackside?: boolean;
   linked?: boolean;
   size?: "compact" | "tooltip" | "full";
@@ -43,15 +42,15 @@ export function Card({
 
   const front = (
     <CardFront
+      className={className}
+      linked={linked}
       resolvedCard={resolvedCard}
       size={size}
-      linked={linked}
-      className={className}
     />
   );
 
   const backNode = back ? (
-    <Card resolvedCard={back} size={size} linked={false} />
+    <Card linked={false} resolvedCard={back} size={size} />
   ) : card.double_sided && !card.back_link_id ? (
     <CardBack card={card} size={size} />
   ) : undefined;

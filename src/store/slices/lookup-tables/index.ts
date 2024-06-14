@@ -55,7 +55,7 @@ export function getInitialLookupTables(): LookupTables {
     uses: {},
     level: {},
     typesByCardTypeSelection: {},
-    traitsByCardTypeSeletion: {},
+    traitsByCardTypeSelection: {},
     packsByCycle: {},
     tabooSet: {},
   };
@@ -191,9 +191,9 @@ function indexByTraits(tables: LookupTables, card: Card) {
     setInLookupTable(card.code, tables.traits, trait);
 
     if (card.encounter_code || card.faction_code === "mythos") {
-      setInLookupTable(trait, tables.traitsByCardTypeSeletion, "encounter");
+      setInLookupTable(trait, tables.traitsByCardTypeSelection, "encounter");
     } else {
-      setInLookupTable(trait, tables.traitsByCardTypeSeletion, "player");
+      setInLookupTable(trait, tables.traitsByCardTypeSelection, "player");
     }
   }
 }

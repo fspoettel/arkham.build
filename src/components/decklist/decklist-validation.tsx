@@ -16,8 +16,8 @@ export function DecklistValidation({ defaultOpen }: { defaultOpen?: boolean }) {
 
   return (
     <Collapsible
-      defaultOpen={defaultOpen}
       className={css["decklist-validation"]}
+      defaultOpen={defaultOpen}
       title={
         <p className={css["decklist-validation-text"]}>
           <i className="icon-auto_fail" /> Deck is invalid.
@@ -27,7 +27,7 @@ export function DecklistValidation({ defaultOpen }: { defaultOpen?: boolean }) {
       <CollapsibleContent>
         <ul className={css["decklist-validation-results"]}>
           {validation.errors.map((error, i) => (
-            <li key={i} className={css["decklist-validation-result"]}>
+            <li className={css["decklist-validation-result"]} key={i}>
               {error.type === "TOO_MANY_CARDS" && "Contains too many cards."}
               {error.type === "TOO_FEW_CARDS" && "Contains too few cards."}
               {error.type === "INVALID_INVESTIGATOR" &&

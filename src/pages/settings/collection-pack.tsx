@@ -30,16 +30,16 @@ export function CollectionPack({
         <div className={css["collection-pack-label"]}>
           <input
             className={css["collection-quantity-input"]}
-            min={0}
+            id={`collection-${cycle.code}-${pack.code}`}
             max={2}
+            min={0}
+            name={pack.code}
             onChange={(evt) => {
               const val = Number.parseInt(evt.target.value, 10);
               if (!Number.isNaN(val)) onChange(pack.code, val);
             }}
-            name={pack.code}
             type="number"
             value={value}
-            id={`collection-${cycle.code}-${pack.code}`}
           />
           <PackIcon code={pack.code} />
           <label htmlFor={`collection-${cycle.code}-${pack.code}`}>
@@ -48,17 +48,17 @@ export function CollectionPack({
         </div>
       ) : (
         <Checkbox
+          checked={!!value}
+          data-pack={pack.code}
+          id={`collection-${cycle.code}-${pack.code}`}
           label={
             <div className={css["collection-pack-label"]}>
               <PackIcon code={pack.code} />
               {pack.real_name}
             </div>
           }
-          data-pack={pack.code}
-          onCheckedChange={(checked) => onChange(pack.code, checked ? 1 : 0)}
-          checked={!!value}
           name={pack.code}
-          id={`collection-${cycle.code}-${pack.code}`}
+          onCheckedChange={(checked) => onChange(pack.code, checked ? 1 : 0)}
         />
       )}
     </li>

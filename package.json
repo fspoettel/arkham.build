@@ -11,7 +11,7 @@
     "build": "tsc && vite build",
     "check": "tsc --noEmit",
     "dev": "vite",
-    "fmt": "prettier --write .",
+    "fmt": "prettier --write . && eslint src --fix",
     "lint": "eslint src",
     "prepare": "husky",
     "preview": "vite preview",

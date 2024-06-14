@@ -1,38 +1,42 @@
 import { Combobox } from "@/components/ui/combobox/combobox";
 import { useStore } from "@/store";
-import type { Coded } from "@/store/services/types";
 import type { StoreState } from "@/store/slices";
 
 type Props = {
+  disabled?: boolean;
   id: string;
-  choices: string[];
   limit: number;
+  onChange: (selections: string[]) => void;
+  selections: string[];
 };
 
-const selectPlayerTraitOptions = (state: StoreState) => {
-  const types = Object.keys(
-    state.lookupTables.traitsByCardTypeSeletion["player"],
-  ).map((code) => ({ code }));
+const selectTraitOptions = (state: StoreState) => {
+  const types = Object.keys(state.lookupTables.traits).map((code) => ({
+    code,
+  }));
   types.sort((a, b) => a.code.localeCompare(b.code));
   return types;
 };
 
-export function CustomizationChooseTraits({ choices, id, limit }: Props) {
-  const traits = useStore(selectPlayerTraitOptions);
-
-  const selectedItems = choices.reduce<Record<string, Coded>>((acc, curr) => {
-    if (curr) acc[curr] = { code: curr };
-    return acc;
-  }, {});
+export function CustomizationChooseTraits({
+  disabled,
+  id,
+  limit,
+  onChange,
+  selections,
+}: Props) {
+  const traits = useStore(selectTraitOptions);
 
   return (
     <Combobox
-      label="Traits"
+      disabled={disabled}
       id={`${id}-choose-trait`}
-      disabled={Object.values(selectedItems).length === limit}
       items={traits}
-      selectedItems={selectedItems}
+      label="Traits"
+      limit={limit}
+      onValueChange={onChange}
       placeholder="Select traits..."
+      selectedItems={selections}
     />
   );
 }

@@ -31,19 +31,19 @@ export function QuantityInput({
     <div className={css["quantity-input-row"]}>
       <div className={css["quantity-input"]}>
         <Button
-          onClick={decrementCardQuantity}
           disabled={disabled || value <= 0}
-          variant="bare"
+          onClick={decrementCardQuantity}
           size="sm"
+          variant="bare"
         >
           <MinusIcon />
         </Button>
         <strong className={css["quantity-input-value"]}>{value}</strong>
         <Button
-          onClick={incrementCardQuantity}
           disabled={disabled || value >= limit}
-          variant="bare"
+          onClick={incrementCardQuantity}
           size="sm"
+          variant="bare"
         >
           <PlusIcon />
         </Button>

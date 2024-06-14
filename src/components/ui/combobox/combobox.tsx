@@ -15,6 +15,7 @@ import type { ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import type { Coded } from "@/store/services/types";
+import { isEmpty } from "@/utils/is-empty";
 
 import css from "./combobox.module.css";
 
@@ -58,12 +59,13 @@ type Props<T extends Coded> = {
   items: T[];
   itemToString?: (item: T) => string;
   label: ReactNode;
-  onSelectItem?: (code: string, val: boolean) => void;
+  limit?: number;
+  onValueChange?: (value: string[]) => void;
   placeholder?: string;
   renderItem?: (item: T) => ReactNode;
   renderResult?: (item: T) => ReactNode;
   showLabel?: boolean;
-  selectedItems: Record<string, T>;
+  selectedItems: string[];
 };
 
 // TODO: the logic here is very messy, extract to a reducer when adding group support.
@@ -75,8 +77,9 @@ export function Combobox<T extends Coded>({
   items,
   itemToString = defaultItemToString,
   label,
+  limit,
   placeholder,
-  onSelectItem,
+  onValueChange,
   renderItem = defaultRenderer,
   renderResult = defaultRenderer,
   selectedItems,
@@ -118,9 +121,22 @@ export function Combobox<T extends Coded>({
 
   const setSelectedItem = useCallback(
     (item: T) => {
-      if (onSelectItem) onSelectItem(item.code, !selectedItems[item.code]);
+      const next = [...selectedItems];
+      const idx = selectedItems.indexOf(item.code);
+
+      if (idx === -1) {
+        next.push(item.code);
+      } else {
+        next.splice(idx, 1);
+      }
+
+      onValueChange?.(next);
 
       const ref = refs.reference.current;
+
+      if (limit && next.length >= limit) {
+        setOpen(false);
+      }
 
       if (ref instanceof HTMLInputElement) {
         setInputValue("");
@@ -129,14 +145,14 @@ export function Combobox<T extends Coded>({
         }
       }
     },
-    [refs.reference, onSelectItem, selectedItems],
+    [refs.reference, onValueChange, selectedItems, limit, setOpen],
   );
 
   const removeSelectedItem = useCallback(
     (item: T) => {
-      if (onSelectItem) onSelectItem(item.code, false);
+      setSelectedItem(item);
     },
-    [onSelectItem],
+    [setSelectedItem],
   );
 
   useEffect(() => {
@@ -167,7 +183,7 @@ export function Combobox<T extends Coded>({
             {...getReferenceProps({
               id,
               className: css["combobox-input"],
-              disabled,
+              disabled: disabled || (!!limit && selectedItems.length >= limit),
               type: "text",
               value: inputValue,
               placeholder: placeholder,
@@ -230,19 +246,19 @@ export function Combobox<T extends Coded>({
               <ComboboxMenu
                 activeIndex={activeIndex}
                 items={filteredItems}
-                setSelectedItem={setSelectedItem}
-                setActiveIndex={setActiveIndex}
                 listRef={listRef}
-                selectedItems={selectedItems}
                 renderItem={renderItem}
+                selectedItems={selectedItems}
+                setActiveIndex={setActiveIndex}
+                setSelectedItem={setSelectedItem}
               />
             </div>
           </FloatingFocusManager>
         </FloatingPortal>
       )}
-      {!!Object.values(selectedItems).length && (
+      {!isEmpty(selectedItems) && (
         <ComboboxResults
-          items={Object.values(selectedItems)}
+          items={items.filter((x) => selectedItems.includes(x.code))}
           onRemove={removeSelectedItem}
           renderResult={renderResult}
         />

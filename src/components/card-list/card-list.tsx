@@ -105,37 +105,37 @@ export function CardList({ canEdit, canShowQuantity, quantities }: Props) {
           <Select
             emptyLabel="Jump to..."
             onChange={onSelectGroup}
-            value=""
             options={jumpToOptions}
+            value=""
           />
         )}
       </nav>
 
       <Scroller
-        ref={setScrollParent as unknown as React.RefObject<HTMLDivElement>}
         className={css["list-scroller"]}
+        ref={setScrollParent as unknown as React.RefObject<HTMLDivElement>}
       >
         {data && scrollParent && (
           <GroupedVirtuoso
-            key={data.key}
-            groupCounts={data.groupCounts}
             customScrollParent={scrollParent}
             groupContent={(index) => (
               <Grouphead grouping={data.groups[index]} />
             )}
+            groupCounts={data.groupCounts}
+            isScrolling={onScrollStop}
             itemContent={(index) => (
               <ListCard
+                canEdit={canEdit}
+                canShowQuantity={canShowQuantity}
+                card={data.cards[index]}
                 className={css["list-listcard"]}
                 key={data.cards[index].code}
-                card={data.cards[index]}
-                canShowQuantity={canShowQuantity}
-                canEdit={canEdit}
                 quantities={quantities}
               />
             )}
+            key={data.key}
             rangeChanged={rangeChanged}
             ref={virtuosoRef}
-            isScrolling={onScrollStop}
             restoreStateFrom={scrollRestore}
           />
         )}

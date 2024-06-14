@@ -52,7 +52,6 @@ export function AssetFilter() {
   const skillBoostsValue = useStore(selectAssetSkillBoostsValue);
 
   const setNestedFilter = useStore((state) => state.setNestedFilter);
-  const setDeepNestedFilter = useStore((state) => state.setDeepNestedFilter);
   const setFilterOpen = useStore((state) => state.setFilterOpen);
   const resetFilter = useStore((state) => state.resetFilterKey);
 
@@ -65,17 +64,17 @@ export function AssetFilter() {
   }, [resetFilter, cardType]);
 
   const onChangeUses = useCallback(
-    (code: string, value: boolean) => {
-      setDeepNestedFilter(cardType, "asset", code, value, "uses");
+    (value: string[]) => {
+      setNestedFilter(cardType, "asset", "uses", value);
     },
-    [setDeepNestedFilter, cardType],
+    [setNestedFilter, cardType],
   );
 
   const onChangeSlot = useCallback(
-    (code: string, value: boolean) => {
-      setDeepNestedFilter(cardType, "asset", code, value, "slots");
+    (value: string[]) => {
+      setNestedFilter(cardType, "asset", "slots", value);
     },
-    [setDeepNestedFilter, cardType],
+    [setNestedFilter, cardType],
   );
 
   const onChangeRange = useCallback(
@@ -89,85 +88,97 @@ export function AssetFilter() {
   );
 
   const onSkillBoostChange = useCallback(
-    (code: string, value: boolean | string) => {
-      setDeepNestedFilter(cardType, "asset", code, !!value, "skillBoosts");
+    (code: string, value: string | boolean) => {
+      if (typeof value === "boolean") {
+        const next = [...skillBoostsValue];
+        if (value) {
+          next.push(code);
+        } else {
+          const idx = next.indexOf(code);
+          if (idx !== -1) {
+            next.splice(idx, 1);
+          }
+        }
+
+        setNestedFilter(cardType, "asset", "skillBoosts", next);
+      }
     },
-    [setDeepNestedFilter, cardType],
+    [setNestedFilter, cardType, skillBoostsValue],
   );
 
   return (
     <FilterContainer
       filterString={changes}
-      title="Asset"
-      open={open}
       onOpenChange={onOpenChange}
       onReset={onReset}
+      open={open}
+      title="Asset"
     >
       <Combobox
-        label="Slots"
-        items={options.slots}
         id="asset-slots"
-        showLabel
+        items={options.slots}
+        label="Slots"
+        onValueChange={onChangeSlot}
+        placeholder="Select slot(s)..."
         renderItem={renderSlot}
         renderResult={renderSlot}
-        onSelectItem={onChangeSlot}
-        placeholder="Select slot(s)..."
         selectedItems={slotValue}
+        showLabel
       />
 
       <fieldset className={css["skill-boosts"]}>
         <legend className={css["skill-boosts-label"]}>Skill Boosts</legend>
         {options.skillBoosts.map((skill) => (
           <Checkbox
-            checked={skillBoostsValue[skill]}
-            onCheckedChange={(val) => onSkillBoostChange(skill, val)}
+            checked={skillBoostsValue.includes(skill)}
             id={`asset-skillboost-${skill}`}
-            label={<SkillIcon skill={skill} />}
             key={skill}
+            label={<SkillIcon skill={skill} />}
+            onCheckedChange={(val) => onSkillBoostChange(skill, val)}
           />
         ))}
       </fieldset>
 
       <Combobox
-        label="Uses"
-        items={options.uses}
         id="asset-uses"
-        showLabel
+        items={options.uses}
+        label="Uses"
+        onValueChange={onChangeUses}
+        placeholder="Select Uses attribute(s)..."
         renderItem={capitalizeCode}
         renderResult={capitalizeCode}
-        onSelectItem={onChangeUses}
-        placeholder="Select Uses attribute(s)..."
         selectedItems={usesValue}
+        showLabel
       />
 
       <RangeSelect
         id="asset-health"
         label="Health"
-        showLabel
-        min={options.health.min}
         max={options.health.max}
+        min={options.health.min}
         onValueCommit={(val) => {
           onChangeRange("health", [val[0], val[1]]);
         }}
+        showLabel
         value={healthValue ?? [options.health.min, options.health.max]}
       />
 
       <RangeSelect
         id="asset-sanity"
         label="Sanity"
-        showLabel
-        min={options.sanity.min}
         max={options.sanity.max}
+        min={options.sanity.min}
         onValueCommit={(val) => {
           onChangeRange("sanity", [val[0], val[1]]);
         }}
+        showLabel
         value={sanityValue ?? [options.sanity.min, options.sanity.max]}
       />
 
       <Checkbox
+        checked={healthX}
         id="asset-health-x"
         label="X"
-        checked={healthX}
         onCheckedChange={(val) => {
           setNestedFilter(cardType, "asset", "healthX", !!val);
         }}

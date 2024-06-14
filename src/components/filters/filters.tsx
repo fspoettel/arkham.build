@@ -41,7 +41,7 @@ export function Filters({ slotActions, className, hiddenFilters }: Props) {
       <div className={css["filters-header"]}>
         <h3 className={css["filters-title"]}>Filters</h3>
         <div className={css["filters-actions"]}>
-          <Button onClick={resetFilters} variant="bare" disabled={!touched}>
+          <Button disabled={!touched} onClick={resetFilters} variant="bare">
             <i className="icon-filter-clear" />
           </Button>
           {slotActions}

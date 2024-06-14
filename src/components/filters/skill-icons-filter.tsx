@@ -48,20 +48,20 @@ export function SkillIconsFilter() {
 
   return (
     <FilterContainer
-      title="Skill Icons"
-      open={open}
       filterString={changes}
       onOpenChange={onOpenChange}
       onReset={onReset}
+      open={open}
+      title="Skill Icons"
     >
-      <CheckboxGroup className={css["skill-filter-icons"]} as="div">
+      <CheckboxGroup as="div" className={css["skill-filter-icons"]}>
         {Object.entries(value).map(([key, value]) => (
           <div className={css["skill-filter-icon"]} key={key}>
             <ToggleGroup
               className={css["skill-filter-icon-toggle"]}
               key={key}
-              type="single"
               onValueChange={(val) => onToggleChange(key as keyof Value, val)}
+              type="single"
               value={value ? value.toString() : ""}
             >
               <ToggleGroupItem size="small-type" value="1">

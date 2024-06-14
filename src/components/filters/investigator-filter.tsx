@@ -15,17 +15,17 @@ export function InvestigatorFilter() {
   return (
     <SelectFilter
       cardType="player"
-      path="investigator"
-      options={investigators}
-      title="Investigator"
       changes={changes}
-      value={value}
+      options={investigators}
+      path="investigator"
       renderOption={(card) => (
         <option key={card.code} value={card.code}>
           {card.real_name}
           {card.parallel && ` (Parallel)`}
         </option>
       )}
+      title="Investigator"
+      value={value}
     />
   );
 }

@@ -60,23 +60,23 @@ export function PropertiesFilter() {
 
   return (
     <FilterContainer
-      title="Properties"
-      open={open}
       filterString={changes}
       onOpenChange={onOpenChange}
       onReset={onReset}
+      open={open}
+      title="Properties"
     >
       <CheckboxGroup>
         {properties.map(({ key, label }) => (
           <Checkbox
+            checked={value[key as keyof Value]}
             data-key={key}
+            id={`property-${key}`}
             key={key}
             label={label}
-            id={`property-${key}`}
             onCheckedChange={(val) =>
               onPropertyChange(key as keyof Value, !!val)
             }
-            checked={value[key as keyof Value]}
           />
         ))}
       </CheckboxGroup>

@@ -26,15 +26,15 @@ export function DeckEditSidebar({ deck }: Props) {
     <div className={css["deck-edit-sidebar"]}>
       <DeckCard deck={deck} showThumbnail={false} />
       <ListCard
-        canShowSubname={false}
         canShowInvestigatorIcons
         canShowParallel={false}
+        canShowSubname={false}
         card={deck.investigatorFront.card}
         tooltip={
           <DeckInvestigator
-            forceShowHeader={!!deck.cards.investigator.relations?.parallel}
-            deck={deck}
             canToggleBack={false}
+            deck={deck}
+            forceShowHeader={!!deck.cards.investigator.relations?.parallel}
           />
         }
       />
@@ -67,7 +67,7 @@ export function DeckEditSidebar({ deck }: Props) {
                 quantities={deck.slots}
               />
             </DecklistSection>
-            <DecklistSection title="Special cards" showTitle>
+            <DecklistSection showTitle title="Special cards">
               <DecklistGroups
                 canEdit
                 group={deck.groups.special.data}
@@ -76,7 +76,7 @@ export function DeckEditSidebar({ deck }: Props) {
               />
             </DecklistSection>
             {deck.groups.bonded && deck.bondedSlots && (
-              <DecklistSection title="Bonded cards" showTitle>
+              <DecklistSection showTitle title="Bonded cards">
                 <DecklistGroups
                   group={deck.groups.bonded.data}
                   layout="two_column"

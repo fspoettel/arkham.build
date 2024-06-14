@@ -38,18 +38,18 @@ export const SearchInput = forwardRef<HTMLInputElement, Props>(
         </label>
         <input
           {...rest}
-          ref={ref}
-          id={id}
           className={clsx(css["field-input"], inputClassName)}
+          id={id}
           onChange={onChange}
-          value={value}
+          ref={ref}
           type="text"
+          value={value}
         />
         {!!value && (
           <Button
             className={css["field-icon_clear"]}
-            variant="bare"
             onClick={onClear}
+            variant="bare"
           >
             <Cross1Icon />
           </Button>

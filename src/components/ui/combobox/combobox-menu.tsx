@@ -22,7 +22,7 @@ type Props<T extends Coded> = {
   items: T[];
   listRef: MutableRefObject<HTMLElement[]>;
   renderItem: (t: T) => ReactNode;
-  selectedItems: Record<string, T>;
+  selectedItems: string[];
   setActiveIndex: (i: number) => void;
   setSelectedItem: (t: T) => void;
 };
@@ -57,44 +57,44 @@ export function ComboboxMenu<T extends Coded>({
 
   return (
     <Scroller
-      viewportClassName={css["combobox-menu-viewport"]}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ref={setScrollParent as any}
       style={cssVariables}
+      viewportClassName={css["combobox-menu-viewport"]}
     >
       <Virtuoso
-        ref={virtuosoRef}
         customScrollParent={scrollParent}
         data={items}
         itemContent={(index, item) => {
           const active = activeIndex === index;
           return (
             <div
-              tabIndex={active ? 0 : -1}
-              ref={(node) => {
-                if (node instanceof HTMLElement) {
-                  listRef.current[index] = node;
-                }
-              }}
               className={clsx(
                 css["combobox-menu-item"],
                 active && css["active"],
               )}
               id={item.code}
-              onPointerOver={() => {
-                setActiveIndex(index);
-              }}
               onClick={() => {
                 setSelectedItem(item);
               }}
+              onPointerOver={() => {
+                setActiveIndex(index);
+              }}
+              ref={(node) => {
+                if (node instanceof HTMLElement) {
+                  listRef.current[index] = node;
+                }
+              }}
+              tabIndex={active ? 0 : -1}
             >
-              {!!selectedItems[item.code] && (
+              {selectedItems.includes(item.code) && (
                 <CheckIcon className={css["combobox-menu-item-check"]} />
               )}
               {renderItem(item)}
             </div>
           );
         }}
+        ref={virtuosoRef}
       />
     </Scroller>
   );

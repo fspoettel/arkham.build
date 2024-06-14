@@ -87,13 +87,11 @@ describe("applyCardChanges", () => {
         [card.code]: {
           1: {
             index: 1,
-            unlocked: false,
-            xpSpent: 1,
+            xp_spent: 1,
           },
           2: {
             index: 2,
-            unlocked: true,
-            xpSpent: 2,
+            xp_spent: 2,
           },
         },
       });
@@ -108,13 +106,11 @@ describe("applyCardChanges", () => {
         [card.code]: {
           2: {
             index: 2,
-            unlocked: true,
-            xpSpent: 2,
+            xp_spent: 2,
           },
           3: {
             index: 3,
-            unlocked: true,
-            xpSpent: 2,
+            xp_spent: 2,
           },
         },
       });
@@ -132,8 +128,7 @@ describe("applyCardChanges", () => {
         [card.code]: {
           7: {
             index: 7,
-            unlocked: true,
-            xpSpent: 3,
+            xp_spent: 3,
           },
         },
       });
@@ -150,8 +145,7 @@ describe("applyCardChanges", () => {
         [card.code]: {
           0: {
             index: 0,
-            unlocked: true,
-            xpSpent: 1,
+            xp_spent: 1,
           },
         },
       });
@@ -170,8 +164,7 @@ describe("applyCardChanges", () => {
         [card.code]: {
           0: {
             index: 0,
-            unlocked: true,
-            xpSpent: 1,
+            xp_spent: 1,
           },
         },
       });
@@ -188,13 +181,11 @@ describe("applyCardChanges", () => {
         [card.code]: {
           0: {
             index: 0,
-            unlocked: true,
-            xpSpent: 1,
+            xp_spent: 1,
           },
           1: {
             index: 1,
-            unlocked: true,
-            xpSpent: 1,
+            xp_spent: 1,
           },
         },
       });
@@ -213,9 +204,8 @@ describe("applyCardChanges", () => {
       [card.code]: {
         5: {
           index: 5,
-          unlocked: true,
-          xpSpent: 2,
-          choices: "0",
+          xp_spent: 2,
+          selections: "0",
         },
       },
     });
@@ -232,13 +222,11 @@ describe("applyCardChanges", () => {
       [card.code]: {
         1: {
           index: 1,
-          unlocked: true,
-          xpSpent: 1,
+          xp_spent: 1,
         },
         6: {
           index: 6,
-          unlocked: true,
-          xpSpent: 3,
+          xp_spent: 3,
         },
       },
     });
@@ -264,18 +252,15 @@ describe("applyCardChanges", () => {
       [card.code]: {
         4: {
           index: 4,
-          unlocked: true,
-          xpSpent: 2,
+          xp_spent: 2,
         },
         5: {
           index: 5,
-          unlocked: true,
-          xpSpent: 3,
+          xp_spent: 3,
         },
         6: {
           index: 6,
-          unlocked: true,
-          xpSpent: 5,
+          xp_spent: 5,
         },
       },
     });
@@ -284,7 +269,6 @@ describe("applyCardChanges", () => {
     expect(result.real_text).toMatchInlineSnapshot(`
       "Customizable. Uses (5 supplies).
       [action] Spend 1 supply: Choose an investigator at your location and test [intellect] (1). If you succeed, that investigator performs one of the following options (2 options instead if you succeed by 2 or more) -
-      When you initiate this skill test, you may increase its difficulty by 2. If you do, increase the value of the effect granted by each option by 1 for this test.
       - Draw 2 cards.
       - Gain 2 resources."
     `);
@@ -298,15 +282,13 @@ describe("applyCardChanges", () => {
       [card.code]: {
         0: {
           index: 0,
-          unlocked: true,
-          xpSpent: 0,
-          choices: "Innate^Expert",
+          xp_spent: 0,
+          selections: "Innate^Expert",
         },
         1: {
           index: 1,
-          unlocked: true,
-          xpSpent: 1,
-          choices: "Practiced",
+          xp_spent: 1,
+          selections: "Practiced",
         },
       },
     });
@@ -327,15 +309,13 @@ describe("applyCardChanges", () => {
       [card.code]: {
         0: {
           index: 0,
-          unlocked: true,
-          xpSpent: 0,
-          choices: "07017",
+          xp_spent: 0,
+          selections: "07017",
         },
         4: {
           index: 4,
-          unlocked: true,
-          xpSpent: 2,
-          choices: "01042^08045",
+          xp_spent: 2,
+          selections: "01042^08045",
         },
       },
     });
@@ -358,21 +338,18 @@ describe("applyCardChanges", () => {
       [card.code]: {
         0: {
           index: 0,
-          unlocked: true,
-          xpSpent: 0,
-          choices: "willpower",
+          xp_spent: 0,
+          selections: "willpower",
         },
         4: {
           index: 4,
-          unlocked: true,
-          xpSpent: 2,
-          choices: "intellect",
+          xp_spent: 2,
+          selections: "intellect",
         },
         5: {
           index: 5,
-          unlocked: true,
-          xpSpent: 3,
-          choices: "agility",
+          xp_spent: 3,
+          selections: "agility",
         },
       },
     });

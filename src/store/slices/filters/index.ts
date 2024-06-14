@@ -16,7 +16,7 @@ function getInitialState(): Filters {
     },
     packCode: {
       open: false,
-      value: {},
+      value: [],
     },
     faction: {
       open: true,
@@ -44,28 +44,28 @@ function getInitialState(): Filters {
     },
     type: {
       open: false,
-      value: {},
+      value: [],
     },
     subtype: {
       open: false,
-      value: {},
+      value: [],
     },
     trait: {
       open: false,
-      value: {},
+      value: [],
     },
     action: {
-      value: {},
       open: false,
+      value: [],
     },
     asset: {
       value: {
         health: undefined,
         sanity: undefined,
         healthX: true,
-        skillBoosts: {},
-        slots: {},
-        uses: {},
+        skillBoosts: [],
+        slots: [],
+        uses: [],
       },
       open: false,
     },
@@ -112,7 +112,7 @@ function getInitialState(): Filters {
     encounter: {
       ...structuredClone(shared),
       encounterSet: {
-        value: {},
+        value: [],
         open: false,
       },
     },
@@ -227,24 +227,6 @@ export const createFiltersSlice: StateCreator<
     const filters = updateValue(get(), type, path, "value", {
       ...current.value,
       [key]: value,
-    });
-
-    set({ filters });
-  },
-
-  setDeepNestedFilter(type, path, key, value, valueKey) {
-    const state = get();
-
-    const current = state.filters[type][path] as FilterObject<
-      Record<string, Record<string, unknown>>
-    >;
-
-    const filters = updateValue(get(), type, path, "value", {
-      ...current.value,
-      [valueKey]: {
-        ...current.value[valueKey],
-        [key]: value,
-      },
     });
 
     set({ filters });

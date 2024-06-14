@@ -39,7 +39,7 @@ export function CardViewCards({
     cardWithRelations.card.duplicate_of_code ??
     cardWithRelations.card.alternate_of_code;
 
-  if (canonicalCode) return <Redirect to={`/card/${canonicalCode}`} replace />;
+  if (canonicalCode) return <Redirect replace to={`/card/${canonicalCode}`} />;
 
   return (
     <>
@@ -68,11 +68,11 @@ export function CardViewCards({
         <CardViewSection title="Bound Cards">
           {relations.bound.map((c) => (
             <Card
-              key={c.card.code}
-              resolvedCard={c}
-              linked
-              size="compact"
               canToggleBackside
+              key={c.card.code}
+              linked
+              resolvedCard={c}
+              size="compact"
             />
           ))}
         </CardViewSection>
@@ -82,11 +82,11 @@ export function CardViewCards({
         <CardViewSection title="Bonded">
           {relations.bonded.map((c) => (
             <Card
-              key={c.card.code}
-              resolvedCard={c}
-              linked
-              size="compact"
               canToggleBackside
+              key={c.card.code}
+              linked
+              resolvedCard={c}
+              size="compact"
             />
           ))}
         </CardViewSection>
@@ -96,11 +96,11 @@ export function CardViewCards({
         <CardViewSection title="Required cards">
           {relations.requiredCards.map((c) => (
             <Card
-              key={c.card.code}
-              resolvedCard={c}
-              linked
-              size="compact"
               canToggleBackside
+              key={c.card.code}
+              linked
+              resolvedCard={c}
+              size="compact"
             />
           ))}
         </CardViewSection>
@@ -110,11 +110,11 @@ export function CardViewCards({
         <CardViewSection title="Advanced cards">
           {relations.advanced.map((c) => (
             <Card
-              key={c.card.code}
-              resolvedCard={c}
-              linked
-              size="compact"
               canToggleBackside
+              key={c.card.code}
+              linked
+              resolvedCard={c}
+              size="compact"
             />
           ))}
         </CardViewSection>
@@ -124,11 +124,11 @@ export function CardViewCards({
         <CardViewSection title="Parallel cards">
           {relations.parallelCards.map((c) => (
             <Card
-              key={c.card.code}
-              resolvedCard={c}
-              linked
-              size="compact"
               canToggleBackside
+              key={c.card.code}
+              linked
+              resolvedCard={c}
+              size="compact"
             />
           ))}
         </CardViewSection>
@@ -138,11 +138,11 @@ export function CardViewCards({
         <CardViewSection title="Alternate cards">
           {relations.replacement.map((c) => (
             <Card
-              key={c.card.code}
-              resolvedCard={c}
-              linked
-              size="compact"
               canToggleBackside
+              key={c.card.code}
+              linked
+              resolvedCard={c}
+              size="compact"
             />
           ))}
         </CardViewSection>
@@ -151,10 +151,10 @@ export function CardViewCards({
       {!!relations?.restrictedTo && (
         <CardViewSection title="Restricted">
           <Card
-            resolvedCard={relations.restrictedTo}
-            linked
-            size="compact"
             canToggleBackside
+            linked
+            resolvedCard={relations.restrictedTo}
+            size="compact"
           />
         </CardViewSection>
       )}
@@ -163,11 +163,11 @@ export function CardViewCards({
         <CardViewSection title="Other levels">
           {relations.level.map((c) => (
             <Card
-              key={c.card.code}
-              resolvedCard={c}
-              linked
-              size="compact"
               canToggleBackside
+              key={c.card.code}
+              linked
+              resolvedCard={c}
+              size="compact"
             />
           ))}
         </CardViewSection>

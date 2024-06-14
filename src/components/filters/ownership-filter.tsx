@@ -40,13 +40,13 @@ export function OwnershipFilter() {
 
   return (
     <FilterContainer
-      title="Ownership"
       alwaysShowFilterString
       filterString={capitalize(value)}
-      open={open}
       onOpenChange={onOpenChange}
+      open={open}
+      title="Ownership"
     >
-      <RadioButtonGroup icons value={value ?? ""} onValueChange={onValueChange}>
+      <RadioButtonGroup icons onValueChange={onValueChange} value={value ?? ""}>
         <RadioButtonGroupItem title="All" value="all">
           <i className="icon-cards" />
         </RadioButtonGroupItem>

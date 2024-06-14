@@ -21,14 +21,14 @@ export function TypeFilter() {
   return (
     <MultiselectFilter
       cardType={cardType}
-      path="type"
-      title="Type"
       changes={changes}
-      options={types}
-      placeholder="Select type(s)..."
-      value={value}
       itemToString={itemToString}
       nameRenderer={nameRenderer}
+      options={types}
+      path="type"
+      placeholder="Select type(s)..."
+      title="Type"
+      value={value}
     />
   );
 }

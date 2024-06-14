@@ -2,6 +2,7 @@ import { createSelector } from "reselect";
 
 import { PLAYER_TYPE_ORDER } from "@/utils/constants";
 import { and, pass } from "@/utils/fp";
+import { isEmpty } from "@/utils/is-empty";
 
 import { applyCardChanges } from "../lib/card-changes";
 import { getAdditionalDeckOptions } from "../lib/deck-validation";
@@ -159,14 +160,21 @@ const selectPackCodeFilter = createSelector(
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.filters[state.filters.cardType].packCode,
   (metadata, lookupTables, filterState) => {
-    if (!Object.keys(filterState.value).length) return pass;
+    if (isEmpty(filterState.value)) return pass;
 
     const active = Object.values(filterState.value).some((x) => x);
     if (!active) return pass;
 
-    // re-use the ownership filter, the logic is identical.
+    const filterValue = filterState.value.reduce<Record<string, boolean>>(
+      (acc, curr) => {
+        acc[curr] = true;
+        return acc;
+      },
+      {},
+    );
+
     return (card: Card) =>
-      filterOwnership(card, metadata, lookupTables, filterState.value);
+      filterOwnership(card, metadata, lookupTables, filterValue);
   },
 );
 
@@ -236,6 +244,9 @@ export const selectInvestigatorFilter = createSelector(
   },
 );
 
+// FIXME: There is some room for optimization here.
+// This filter does not have to be re-calculated every time the deck changes,
+// only when the investigator back changes or certain slots are changed.
 export const selectDeckInvestigatorFilter = createSelector(
   (state: StoreState) => state.lookupTables,
   selectResolvedDeck,
@@ -499,7 +510,7 @@ export const selectFilteredCards = createSelector(
     encounterSetGroups,
     customizations,
   ) => {
-    if (!Object.keys(metadata.cards).length) {
+    if (isEmpty(metadata.cards)) {
       console.warn("player cards selected before store is initialized.");
       return undefined;
     }

@@ -69,35 +69,35 @@ export function LevelFilter() {
 
   return (
     <FilterContainer
-      filterString={changes}
-      title="Level"
       alwaysShowFilterString
+      filterString={changes}
       nonCollapsibleContent={
         !open && (
           <ToggleGroup
-            type="single"
             full
             onValueChange={applyLevelShortcut}
+            type="single"
             value={getToggleValue(value.range)}
           >
-            <ToggleGroupItem value="0" size="small-type">
+            <ToggleGroupItem size="small-type" value="0">
               Level 0
             </ToggleGroupItem>
-            <ToggleGroupItem value="1-5" size="small-type">
+            <ToggleGroupItem size="small-type" value="1-5">
               Level 1-5
             </ToggleGroupItem>
           </ToggleGroup>
         )
       }
-      onReset={resetActiveLevel}
       onOpenChange={onOpenChange}
+      onReset={resetActiveLevel}
       open={open}
+      title="Level"
     >
       <RangeSelect
-        label="Level"
         id="level-select"
-        min={0}
+        label="Level"
         max={5}
+        min={0}
         onValueCommit={(val) => {
           setValue("range", [val[0], val[1]]);
         }}
@@ -105,16 +105,16 @@ export function LevelFilter() {
       />
       <CheckboxGroup>
         <Checkbox
-          label="Exceptional"
-          id="exceptional"
-          onCheckedChange={onSetExceptional}
           checked={value.exceptional}
+          id="exceptional"
+          label="Exceptional"
+          onCheckedChange={onSetExceptional}
         />
         <Checkbox
-          label="Non-exceptional"
-          id="nonexceptional"
-          onCheckedChange={onSetNonexceptional}
           checked={value.nonexceptional}
+          id="nonexceptional"
+          label="Non-exceptional"
+          onCheckedChange={onSetNonexceptional}
         />
       </CheckboxGroup>
     </FilterContainer>

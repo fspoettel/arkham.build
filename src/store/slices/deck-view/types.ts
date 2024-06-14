@@ -9,6 +9,11 @@ type SlotEdit = {
   quantity: number;
 };
 
+export type CustomizationEdit = {
+  xp_spent?: number;
+  selections?: string[];
+};
+
 export type EditState = {
   edits: {
     quantities: {
@@ -20,6 +25,11 @@ export type EditState = {
     tabooId?: number | null;
     investigatorFront?: string | null;
     investigatorBack?: string | null;
+    customizations: {
+      [code: string]: {
+        [id: number]: CustomizationEdit;
+      };
+    };
   };
   mode: "edit";
   activeTab: Tab;
@@ -45,6 +55,12 @@ export type DeckViewSlice = {
   updateTabooId(value: number | null): void;
 
   updateInvestigatorSide(side: string, code: string): void;
+
+  updateCustomization(
+    code: string,
+    index: number,
+    edit: CustomizationEdit,
+  ): void;
 
   updateMetaProperty(
     key: string,

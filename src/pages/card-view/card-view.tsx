@@ -31,15 +31,15 @@ function CardView() {
           <Button
             as="a"
             href={`https://arkhamdb.com/card/${cardWithRelations.card.code}`}
-            target="_blank"
             rel="noreferrer"
+            target="_blank"
           >
             <i className="icon-world" /> Open on ArkhamDB
           </Button>
         </nav>
         <CardViewCards
-          key={cardWithRelations.card.code}
           cardWithRelations={cardWithRelations}
+          key={cardWithRelations.card.code}
         />
       </main>
     </div>

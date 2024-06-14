@@ -28,18 +28,18 @@ export function FactionFilter() {
   return (
     <ToggleGroup
       className={css["faction-filter"]}
-      type="multiple"
+      full
       icons
       onValueChange={setFactions}
+      type="multiple"
       value={value}
-      full
     >
       {options.map((faction) => (
         <ToggleGroupItem
           className={css[`color-active-${faction.code}`]}
           key={faction.code}
-          value={faction.code}
           title={faction.name}
+          value={faction.code}
         >
           <FactionIconFancy code={faction.code} />
         </ToggleGroupItem>
