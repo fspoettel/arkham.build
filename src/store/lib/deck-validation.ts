@@ -428,7 +428,7 @@ class DeckOptionsValidator implements SlotValidator {
   deckOptions: DeckOption[];
   forbidden: Card[] = [];
   lookupTables: LookupTables;
-  playerCardFilter: (card: Card) => boolean;
+  playerCardFilter?: (card: Card) => boolean;
   quantities: Record<string, number> = {};
   weaknessFilter: (card: Card) => boolean;
 
@@ -517,7 +517,10 @@ class DeckOptionsValidator implements SlotValidator {
   add(card: Card, quantity: number) {
     if (card.subtype_code && !this.weaknessFilter(card)) {
       this.forbidden.push(card);
-    } else if (!card.subtype_code && !this.playerCardFilter(card)) {
+    } else if (
+      !card.subtype_code &&
+      (!this.playerCardFilter || !this.playerCardFilter(card))
+    ) {
       this.forbidden.push(card);
     } else if ((cardLevel(card) ?? 0) > 5) {
       this.forbidden.push(card);

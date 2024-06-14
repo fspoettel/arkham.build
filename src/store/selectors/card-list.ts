@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
 import { PLAYER_TYPE_ORDER } from "@/utils/constants";
-import { and, pass } from "@/utils/fp";
+import { and } from "@/utils/fp";
 import { isEmpty } from "@/utils/is-empty";
 
 import { applyCardChanges } from "../lib/card-edits";
@@ -129,7 +129,7 @@ const selectEncounterSetFilter = createSelector(
 const selectFactionFilter = createSelector(
   (state: StoreState) => state.filters[state.filters.cardType].faction,
   (filterState) =>
-    filterState.value ? filterFactions(filterState.value) : undefined,
+    filterState.value.length ? filterFactions(filterState.value) : undefined,
 );
 
 const selectLevelFilter = createSelector(
@@ -143,8 +143,8 @@ const selectOwnershipFilter = createSelector(
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.filters[state.filters.cardType].ownership.value,
   (setting, metadata, lookupTables, filterState) => {
-    if (filterState === "all") return pass;
     return (card: Card) => {
+      if (filterState === "all") return true;
       const ownsCard = filterOwnership(card, metadata, lookupTables, setting);
       return filterState === "owned" ? ownsCard : !ownsCard;
     };
@@ -160,10 +160,10 @@ const selectPackCodeFilter = createSelector(
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.filters[state.filters.cardType].packCode,
   (metadata, lookupTables, filterState) => {
-    if (isEmpty(filterState.value)) return pass;
+    if (isEmpty(filterState.value)) return undefined;
 
     const active = Object.values(filterState.value).some((x) => x);
-    if (!active) return pass;
+    if (!active) return undefined;
 
     const filterValue = filterState.value.reduce<Record<string, boolean>>(
       (acc, curr) => {
@@ -192,7 +192,7 @@ const selectSkillIconsFilter = createSelector(
 
 const selectSubtypeFilter = createSelector(
   (state: StoreState) => state.filters[state.filters.cardType].subtype,
-  (state) => filterSubtypes(state.value),
+  (state) => (state.value.length ? filterSubtypes(state.value) : undefined),
 );
 
 const selectTabooSetFilter = createSelector(
@@ -209,7 +209,8 @@ const selectTraitsFilter = createSelector(
 
 const selectTypeFilter = createSelector(
   (state: StoreState) => state.filters[state.filters.cardType].type,
-  (filterState) => filterType(filterState.value),
+  (filterState) =>
+    filterState.value.length ? filterType(filterState.value) : undefined,
 );
 
 /**
@@ -315,12 +316,9 @@ export const selectPlayerCardFilters = createSelector(
       filterMythosCards,
       filterWeaknesses,
       ownershipFilter,
-      packCodeFilter,
       propertiesFilter,
       skillIconsFilter,
-      subtypeFilter,
       traitsFilter,
-      typeFilter,
       assetFilter,
     ];
 
@@ -346,6 +344,18 @@ export const selectPlayerCardFilters = createSelector(
 
     if (deckInvestigatorFilter) {
       filters.push(deckInvestigatorFilter);
+    }
+
+    if (typeFilter) {
+      filters.push(typeFilter);
+    }
+
+    if (subtypeFilter) {
+      filters.push(subtypeFilter);
+    }
+
+    if (packCodeFilter) {
+      filters.push(packCodeFilter);
     }
 
     return and(filters);
@@ -389,13 +399,10 @@ export const selectWeaknessFilters = createSelector(
       filterEncounterCards,
       filterDuplicates,
       skillIconsFilter,
-      typeFilter,
-      subtypeFilter,
       traitsFilter,
       actionsFilter,
       propertiesFilter,
       ownershipFilter,
-      packCodeFilter,
       assetFilter,
     ];
 
@@ -421,6 +428,18 @@ export const selectWeaknessFilters = createSelector(
 
     if (deckInvestigatorFilter) {
       filters.push(deckInvestigatorFilter);
+    }
+
+    if (packCodeFilter) {
+      filters.push(packCodeFilter);
+    }
+
+    if (typeFilter) {
+      filters.push(typeFilter);
+    }
+
+    if (subtypeFilter) {
+      filters.push(subtypeFilter);
     }
 
     return and(filters);
@@ -459,14 +478,11 @@ export const selectEncounterFilters = createSelector(
     const filters = [
       filterBacksides,
       skillIconsFilter,
-      typeFilter,
-      subtypeFilter,
       traitsFilter,
       actionsFilter,
       propertiesFilter,
       ownershipFilter,
       encounterSetFilter,
-      packCodeFilter,
       assetFilter,
     ];
 
@@ -480,6 +496,18 @@ export const selectEncounterFilters = createSelector(
 
     if (deckInvestigatorFilter) {
       filters.push(deckInvestigatorFilter);
+    }
+
+    if (packCodeFilter) {
+      filters.push(packCodeFilter);
+    }
+
+    if (typeFilter) {
+      filters.push(typeFilter);
+    }
+
+    if (subtypeFilter) {
+      filters.push(subtypeFilter);
     }
 
     return and(filters);

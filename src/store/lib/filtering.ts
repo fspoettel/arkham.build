@@ -3,7 +3,7 @@ import type { SkillKey } from "@/utils/constants";
 import { SKILL_KEYS } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
 import type { Filter } from "@/utils/fp";
-import { and, not, notUnless, or, pass } from "@/utils/fp";
+import { and, not, notUnless, or } from "@/utils/fp";
 
 import type { Card, DeckOption } from "../services/queries.types";
 import type {
@@ -155,16 +155,18 @@ function filterXCost(xCost: boolean) {
   return (card: Card) => xCost && card.cost === -2;
 }
 
-function filterCardCost(value: [number, number] | undefined) {
-  if (!value) return pass;
-
+function filterCardCost(value: [number, number]) {
   return (card: Card) =>
     card.cost != null && card.cost >= value[0] && card.cost <= value[1];
 }
 
 export function filterCost(filterState: CostFilter["value"]) {
   // apply level range if provided. `0-5` is assumed, null-costed cards are excluded.
-  const filters = [filterCardCost(filterState.range)];
+  const filters = [];
+
+  if (filterState.range) {
+    filters.push(filterCardCost(filterState.range));
+  }
 
   // apply even / odd filters
   const moduloFilters = [];
@@ -210,8 +212,6 @@ function filterFaction(faction: string) {
 }
 
 export function filterFactions(factions: string[]) {
-  if (!factions.length) return pass;
-
   if (factions.length === 1 && factions[0] === "multiclass") {
     return filterMulticlass;
   }
@@ -243,9 +243,7 @@ function filterNonexceptional(card: Card) {
   return !card.exceptional;
 }
 
-function filterCardLevel(value: [number, number] | undefined) {
-  if (!value) return pass;
-
+function filterCardLevel(value: [number, number]) {
   return (card: Card) => {
     const level = cardLevel(card);
     return level != null && level >= value[0] && level <= value[1];
@@ -253,8 +251,6 @@ function filterCardLevel(value: [number, number] | undefined) {
 }
 
 export function filterLevel(filterState: LevelFilter["value"]) {
-  if (!filterState.range) return pass;
-
   const filters = [];
 
   if (filterState.range) {
@@ -444,17 +440,15 @@ export function filterSkillIcons(filterState: SkillIconsFilter["value"]) {
   const iconFilter: Filter[] = [];
   const anyFilter: Filter[] = [];
 
-  const anyV = filterState.any;
+  const anyValue = filterState.any;
 
   for (const skill of SKILL_KEYS) {
-    const v = filterState[skill];
+    const value = filterState[skill];
 
-    if (v) {
-      iconFilter.push(filterSkill(skill, v));
-    }
-
-    if (anyV) {
-      anyFilter.push(filterSkill(skill, anyV));
+    if (value) {
+      iconFilter.push(filterSkill(skill, value));
+    } else if (anyValue) {
+      anyFilter.push(filterSkill(skill, anyValue));
     }
   }
 
@@ -472,8 +466,6 @@ export function filterSkillIcons(filterState: SkillIconsFilter["value"]) {
  */
 
 export function filterSubtypes(enabledTypeCodes: MultiselectFilter["value"]) {
-  if (!enabledTypeCodes.length) return pass;
-
   return (card: Card) => {
     return !!card.subtype_code && enabledTypeCodes.includes(card.subtype_code);
   };
@@ -526,7 +518,6 @@ export function filterTraits(
  */
 
 export function filterType(enabledTypeCodes: MultiselectFilter["value"]) {
-  if (!enabledTypeCodes.length) return pass;
   return (card: Card) => enabledTypeCodes.includes(card.type_code);
 }
 
@@ -720,8 +711,9 @@ export function filterInvestigatorAccess(
   investigator: Card,
   lookupTables: LookupTables,
   config?: InvestigatorAccessConfig,
-): Filter {
+): Filter | undefined {
   const mode = config?.targetDeck ?? "slots";
+
   const deckFilter =
     mode !== "extraSlots"
       ? makePlayerCardsFilter(
@@ -750,13 +742,12 @@ export function filterInvestigatorAccess(
     );
   }
 
-  if (mode === "slots") return deckFilter ?? pass;
-  if (mode === "extraSlots") return extraDeckFilter ?? pass;
+  if (mode === "slots") return deckFilter;
+  if (mode === "extraSlots") return extraDeckFilter;
 
   const filters = [];
   if (deckFilter) filters.push(deckFilter);
   if (extraDeckFilter) filters.push(extraDeckFilter);
-
   return or(filters);
 }
 

@@ -5,24 +5,38 @@ import type { StoreApi } from "zustand";
 import { getMockStore } from "@/test/get-mock-store";
 
 import type { StoreState } from "../slices";
+import type {
+  AssetFilter,
+  CostFilter,
+  LevelFilter,
+  SkillIconsFilter,
+} from "../slices/filters.types";
 import type { InvestigatorAccessConfig } from "./filtering";
-import { filterInvestigatorAccess } from "./filtering";
-
-function applyFilter(
-  state: StoreState,
-  code: string,
-  target: string,
-  config?: InvestigatorAccessConfig,
-) {
-  return filterInvestigatorAccess(
-    state.metadata.cards[code],
-    state.lookupTables,
-    config,
-  )(state.metadata.cards[target]);
-}
+import {
+  filterActions,
+  filterAssets,
+  filterCost,
+  filterFactions,
+  filterInvestigatorAccess,
+  filterLevel,
+  filterSkillIcons,
+} from "./filtering";
 
 describe("filter: investigator access", () => {
   let store: StoreApi<StoreState>;
+
+  function applyFilter(
+    state: StoreState,
+    code: string,
+    target: string,
+    config?: InvestigatorAccessConfig,
+  ) {
+    return filterInvestigatorAccess(
+      state.metadata.cards[code],
+      state.lookupTables,
+      config,
+    )?.(state.metadata.cards[target]);
+  }
 
   beforeAll(async () => {
     store = await getMockStore();
@@ -290,7 +304,7 @@ describe("filter: investigator access", () => {
     });
   });
 
-  describe("option_select filters", () => {
+  describe("parallel wendy: option_select", () => {
     it("returns true if card matches any option and no selection is provided", () => {
       const state = store.getState();
       expect(applyFilter(state, "90037", "07192")).toBeTruthy();
@@ -381,5 +395,454 @@ describe("filter: investigator access", () => {
       expect(applyFilter(state, "90049", "01063", config)).toBeTruthy();
       expect(applyFilter(state, "90049", "03266", config)).toBeTruthy();
     });
+  });
+
+  describe("additional deck options", () => {
+    it("handles an extra deck option", () => {
+      const state = store.getState();
+      expect(applyFilter(state, "01001", "01047")).toBeFalsy();
+      expect(
+        applyFilter(state, "01001", "01021", {
+          additionalDeckOptions: [
+            {
+              level: { min: 0, max: 0 },
+              limit: 1,
+              error: "Too many off-class cards for Versatile.",
+            },
+          ],
+        }),
+      ).toBeTruthy();
+    });
+
+    it("handles a 'not' additional deck option", () => {
+      const state = store.getState();
+      expect(applyFilter(state, "01001", "01021")).toBeTruthy();
+      expect(
+        applyFilter(state, "01001", "01021", {
+          additionalDeckOptions: [
+            {
+              not: true,
+              slot: ["Ally"],
+              level: { min: 0, max: 5 },
+              error: "You cannot have assets that take up an ally slot.",
+              virtual: true,
+            },
+          ],
+        }),
+      ).toBeFalsy();
+    });
+  });
+});
+
+describe("filter: level", () => {
+  let store: StoreApi<StoreState>;
+
+  beforeAll(async () => {
+    store = await getMockStore();
+  });
+
+  function applyFilter(
+    state: StoreState,
+    code: string,
+    config: LevelFilter["value"],
+  ) {
+    return filterLevel(config)(state.metadata.cards[code]);
+  }
+
+  it("handles case: no range", () => {
+    const state = store.getState();
+
+    const config = {
+      range: undefined,
+      nonexceptional: false,
+      exceptional: false,
+    };
+
+    expect(applyFilter(state, "60505", config)).toBeTruthy();
+    expect(applyFilter(state, "60522", config)).toBeTruthy();
+    expect(applyFilter(state, "02005", config)).toBeTruthy(); // investigator
+    expect(applyFilter(state, "02014", config)).toBeTruthy(); // signature
+    expect(applyFilter(state, "02015", config)).toBeTruthy(); // weakness
+  });
+
+  it("handles case: lvl. 0", () => {
+    const state = store.getState();
+
+    const config = {
+      range: [0, 0] as [number, number],
+      nonexceptional: false,
+      exceptional: false,
+    };
+
+    expect(applyFilter(state, "60505", config)).toBeTruthy();
+    expect(applyFilter(state, "60522", config)).toBeFalsy();
+    expect(applyFilter(state, "02005", config)).toBeFalsy(); // investigator
+    expect(applyFilter(state, "02014", config)).toBeFalsy(); // signature
+    expect(applyFilter(state, "02015", config)).toBeFalsy(); // weakness
+  });
+
+  it("handles case: lvl. 0-5", () => {
+    const state = store.getState();
+
+    const config = {
+      range: [0, 5] as [number, number],
+      nonexceptional: false,
+      exceptional: false,
+    };
+
+    expect(applyFilter(state, "60505", config)).toBeTruthy();
+    expect(applyFilter(state, "60522", config)).toBeTruthy();
+    expect(applyFilter(state, "02005", config)).toBeFalsy(); // investigator
+    expect(applyFilter(state, "02014", config)).toBeFalsy(); // signature
+    expect(applyFilter(state, "02015", config)).toBeFalsy(); // weakness
+  });
+
+  it("handles case: lvl. 1-5", () => {
+    const state = store.getState();
+
+    const config = {
+      range: [1, 5] as [number, number],
+      nonexceptional: false,
+      exceptional: false,
+    };
+
+    expect(applyFilter(state, "60505", config)).toBeFalsy();
+    expect(applyFilter(state, "60522", config)).toBeTruthy();
+    expect(applyFilter(state, "02005", config)).toBeFalsy(); // investigator
+    expect(applyFilter(state, "02014", config)).toBeFalsy(); // signature
+    expect(applyFilter(state, "02015", config)).toBeFalsy(); // weakness
+  });
+
+  it("handles case: exceptional", () => {
+    const state = store.getState();
+
+    const config = {
+      range: undefined,
+      nonexceptional: false,
+      exceptional: true,
+    };
+
+    expect(applyFilter(state, "60505", config)).toBeFalsy();
+    expect(applyFilter(state, "07268", config)).toBeTruthy();
+  });
+
+  it("handles case: non-exceptional", () => {
+    const state = store.getState();
+
+    const config = {
+      range: undefined,
+      nonexceptional: true,
+      exceptional: false,
+    };
+
+    expect(applyFilter(state, "60505", config)).toBeTruthy();
+    expect(applyFilter(state, "07268", config)).toBeFalsy();
+  });
+});
+
+describe("filter: cost", () => {
+  let store: StoreApi<StoreState>;
+
+  beforeAll(async () => {
+    store = await getMockStore();
+  });
+
+  function applyFilter(
+    state: StoreState,
+    code: string,
+    config: CostFilter["value"],
+  ) {
+    return filterCost(config)(state.metadata.cards[code]);
+  }
+
+  it("handles case: no range", () => {
+    const state = store.getState();
+
+    const config = {
+      range: undefined,
+      x: false,
+      even: false,
+      odd: false,
+    };
+
+    expect(applyFilter(state, "07025", config)).toBeTruthy(); // asset (4)
+    expect(applyFilter(state, "01040", config)).toBeTruthy(); // asset (0)
+    expect(applyFilter(state, "01090", config)).toBeTruthy(); // skill
+    expect(applyFilter(state, "02151", config)).toBeTruthy(); // event
+    expect(applyFilter(state, "02005", config)).toBeTruthy(); // investigator
+    expect(applyFilter(state, "07038", config)).toBeTruthy(); // enemy
+  });
+
+  it("handles case: 0+", () => {
+    const state = store.getState();
+
+    const config = {
+      range: [0, 10] as [number, number],
+      x: false,
+      even: false,
+      odd: false,
+    };
+
+    expect(applyFilter(state, "07025", config)).toBeTruthy(); // asset (4)
+    expect(applyFilter(state, "01040", config)).toBeTruthy(); // asset (0)
+    expect(applyFilter(state, "01090", config)).toBeFalsy(); // skill
+    expect(applyFilter(state, "02151", config)).toBeTruthy(); // event
+    expect(applyFilter(state, "02005", config)).toBeFalsy(); // investigator
+    expect(applyFilter(state, "07038", config)).toBeFalsy(); // enemy
+  });
+
+  it("handles case: custom range", () => {
+    const state = store.getState();
+
+    const config = {
+      range: [4, 10] as [number, number],
+      x: false,
+      even: false,
+      odd: false,
+    };
+
+    expect(applyFilter(state, "07025", config)).toBeTruthy(); // asset (4)
+    expect(applyFilter(state, "09082", config)).toBeFalsy(); // asset (3)
+    expect(applyFilter(state, "01040", config)).toBeFalsy(); // asset (0)
+  });
+
+  it("handles case: even", () => {
+    const state = store.getState();
+
+    const config = {
+      range: undefined,
+      x: false,
+      even: true,
+      odd: false,
+    };
+
+    expect(applyFilter(state, "07025", config)).toBeTruthy(); // asset (4)
+    expect(applyFilter(state, "09082", config)).toBeFalsy(); // asset (3)
+    expect(applyFilter(state, "01040", config)).toBeTruthy(); // asset (0)
+  });
+
+  it("handles case: odd", () => {
+    const state = store.getState();
+
+    const config = {
+      range: undefined,
+      x: false,
+      even: false,
+      odd: true,
+    };
+
+    expect(applyFilter(state, "07025", config)).toBeFalsy(); // asset (4)
+    expect(applyFilter(state, "09082", config)).toBeTruthy(); // asset (3)
+    expect(applyFilter(state, "01040", config)).toBeFalsy(); // asset (0)
+  });
+
+  it("handles case: X", () => {
+    const state = store.getState();
+
+    const config = {
+      range: [0, 10] as [number, number],
+      x: true,
+      even: false,
+      odd: false,
+    };
+
+    expect(applyFilter(state, "07268", config)).toBeTruthy(); // X
+    expect(applyFilter(state, "07268", { ...config, x: false })).toBeFalsy(); // X
+  });
+});
+
+describe("filter: assets", () => {
+  let store: StoreApi<StoreState>;
+
+  beforeAll(async () => {
+    store = await getMockStore();
+  });
+
+  function applyFilter(state: StoreState, code: string, config: AssetFilter) {
+    return filterAssets(config, state.lookupTables)(state.metadata.cards[code]);
+  }
+
+  const defaultConfig: AssetFilter = {
+    open: false,
+    value: {
+      health: undefined,
+      sanity: undefined,
+      skillBoosts: [],
+      slots: [],
+      uses: [],
+      healthX: false,
+    },
+  };
+
+  it("handles case: no restrictions", () => {
+    const state = store.getState();
+    const config = structuredClone(defaultConfig);
+    expect(applyFilter(state, "09103", config)).toBeTruthy(); // asset
+    expect(applyFilter(state, "01090", config)).toBeTruthy(); // skill
+    expect(applyFilter(state, "02151", config)).toBeTruthy(); // event
+    expect(applyFilter(state, "02005", config)).toBeTruthy(); // investigator
+    expect(applyFilter(state, "07038", config)).toBeTruthy(); // enemy
+  });
+
+  it("handles case: complex filter", () => {
+    const state = store.getState();
+    const config = structuredClone(defaultConfig);
+    config.value.slots = ["Hand"];
+    config.value.uses = ["supplies"];
+    config.value.skillBoosts = ["intellect"];
+    expect(applyFilter(state, "05024", config)).toBeTruthy();
+    expect(applyFilter(state, "09083", config)).toBeFalsy();
+    expect(applyFilter(state, "01087", config)).toBeFalsy();
+    expect(applyFilter(state, "01090", config)).toBeFalsy(); // skill
+    expect(applyFilter(state, "02151", config)).toBeFalsy(); // event
+    expect(applyFilter(state, "02005", config)).toBeFalsy(); // investigator
+    expect(applyFilter(state, "07038", config)).toBeFalsy(); // enemy
+  });
+
+  it("handles case: health", () => {
+    const state = store.getState();
+    const config = structuredClone(defaultConfig);
+    config.value.health = [3, 3] as [number, number];
+    expect(applyFilter(state, "09103", config)).toBeTruthy();
+    expect(applyFilter(state, "09037", config)).toBeFalsy();
+  });
+
+  it("handles case: sanity", () => {
+    const state = store.getState();
+    const config = structuredClone(defaultConfig);
+    config.value.sanity = [3, 3] as [number, number];
+    expect(applyFilter(state, "09024", config)).toBeTruthy();
+    expect(applyFilter(state, "09037", config)).toBeFalsy();
+  });
+
+  it("handles case: health X", () => {
+    const state = store.getState();
+    const config = structuredClone(defaultConfig);
+    config.value.sanity = [10, 10] as [number, number];
+    config.value.healthX = true;
+    expect(applyFilter(state, "07189", config)).toBeTruthy();
+    config.value.healthX = false;
+    expect(applyFilter(state, "07189", config)).toBeFalsy();
+  });
+});
+
+describe("filter: factions", () => {
+  let store: StoreApi<StoreState>;
+
+  beforeAll(async () => {
+    store = await getMockStore();
+  });
+
+  function applyFilter(state: StoreState, code: string, config: string[]) {
+    return filterFactions(config)(state.metadata.cards[code]);
+  }
+  it("handles case :multiclass", () => {
+    const state = store.getState();
+    expect(applyFilter(state, "05116", ["multiclass"])).toBeTruthy();
+    expect(applyFilter(state, "05116", ["multiclass", "survivor"])).toBeFalsy();
+    expect(applyFilter(state, "05189", ["multiclass"])).toBeFalsy();
+    expect(applyFilter(state, "05188", ["multiclass"])).toBeFalsy();
+  });
+});
+
+describe("filter: actions", () => {
+  let store: StoreApi<StoreState>;
+
+  beforeAll(async () => {
+    store = await getMockStore();
+  });
+
+  function applyFilter(state: StoreState, code: string, config: string[]) {
+    return filterActions(
+      config,
+      state.lookupTables.actions,
+    )(state.metadata.cards[code]);
+  }
+
+  it("handles case: no restrictions", () => {
+    const state = store.getState();
+    const config: string[] = [];
+    expect(applyFilter(state, "01040", config)).toBeTruthy(); // asset
+    expect(applyFilter(state, "01090", config)).toBeTruthy(); // skill
+    expect(applyFilter(state, "02151", config)).toBeTruthy(); // event
+    expect(applyFilter(state, "02005", config)).toBeTruthy(); // investigator
+    expect(applyFilter(state, "07038", config)).toBeTruthy(); // enemy
+  });
+
+  it("handles case: has action", () => {
+    const state = store.getState();
+    const config: string[] = ["evade"];
+    expect(applyFilter(state, "09085", config)).toBeTruthy(); // evade
+    expect(applyFilter(state, "07029", config)).toBeTruthy(); // double evade
+    expect(applyFilter(state, "05114", config)).toBeFalsy(); // fight
+    expect(applyFilter(state, "01090", config)).toBeFalsy(); // skill
+    expect(applyFilter(state, "02151", config)).toBeFalsy(); // event
+    expect(applyFilter(state, "02005", config)).toBeFalsy(); // investigator
+    expect(applyFilter(state, "07038", config)).toBeFalsy(); // enemy
+  });
+});
+
+describe("filter: skills", () => {
+  let store: StoreApi<StoreState>;
+
+  beforeAll(async () => {
+    store = await getMockStore();
+  });
+
+  function applyFilter(
+    state: StoreState,
+    code: string,
+    config: SkillIconsFilter["value"],
+  ) {
+    return filterSkillIcons(config)(state.metadata.cards[code]);
+  }
+
+  const defaultConfig: SkillIconsFilter["value"] = {
+    willpower: null,
+    intellect: null,
+    combat: null,
+    agility: null,
+    wild: null,
+    any: null,
+  };
+
+  it("handles case: single skill", () => {
+    const config = structuredClone(defaultConfig);
+    config.intellect = 2;
+    expect(applyFilter(store.getState(), "02303", config)).toBeTruthy();
+    config.intellect = null;
+    config.willpower = 2;
+    expect(applyFilter(store.getState(), "02303", config)).toBeFalsy();
+  });
+
+  it("handles case: multiple skills", () => {
+    const config = structuredClone(defaultConfig);
+    config.agility = 2;
+    config.combat = 2;
+    expect(applyFilter(store.getState(), "08089", config)).toBeFalsy();
+  });
+
+  it("handles case: wild", () => {
+    const config = structuredClone(defaultConfig);
+    config.wild = 2;
+    expect(applyFilter(store.getState(), "02303", config)).toBeFalsy();
+    expect(applyFilter(store.getState(), "03018", config)).toBeTruthy();
+  });
+
+  it("handles case: any", () => {
+    const config = structuredClone(defaultConfig);
+    config.any = 2;
+    expect(applyFilter(store.getState(), "02303", config)).toBeTruthy();
+    expect(applyFilter(store.getState(), "03018", config)).toBeTruthy();
+    expect(applyFilter(store.getState(), "60505", config)).toBeFalsy();
+  });
+
+  it("handles case: any + other", () => {
+    const config = structuredClone(defaultConfig);
+    config.any = 2;
+    config.willpower = 2;
+    expect(applyFilter(store.getState(), "50001", config)).toBeTruthy();
+    expect(applyFilter(store.getState(), "08070", config)).toBeFalsy();
+    expect(applyFilter(store.getState(), "01089", config)).toBeFalsy();
   });
 });

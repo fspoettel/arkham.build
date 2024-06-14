@@ -20,8 +20,3 @@ export function notUnless(notFilter: Filter, unlessFilters: Filter[]) {
     return unless || not(notFilter)(card);
   };
 }
-
-// TODO: factor out usages of this.
-export function pass() {
-  return true;
-}
