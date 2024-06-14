@@ -24,7 +24,7 @@
     grid-template-columns: 1fr 8rem;
   }
 
-  &.back:not(.has-image) {
+  &:not(.has-image) {
     grid-template-columns: 1fr;
   }
 }
@@ -44,6 +44,7 @@
 
   & img {
     border-radius: var(--rounded-lg);
+    box-shadow: var(--shadow-xl);
   }
 }
 

@@ -5,3 +5,7 @@ export function parseCardTextHtml(cardText: string) {
   html = html.replaceAll(/\[(.*?)\]/g, `<i class="icon-text icon-$1"></i>`);
   return html;
 }
+
+export function parseCustomizationTextHtml(customizationText: string) {
+  return parseCardTextHtml(customizationText);
+}

@@ -41,7 +41,7 @@ export function Collapsible({
       <div className={css["collapsible-header"]}>
         <h4 onClick={() => setOpen(true)}>{title}</h4>
         <Trigger asChild>
-          <Button variant="icon">
+          <Button variant="bare">
             {open ? <Cross2Icon /> : <RowSpacingIcon />}
           </Button>
         </Trigger>

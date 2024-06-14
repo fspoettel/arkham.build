@@ -3,9 +3,9 @@ import clsx from "clsx";
 import { ReactNode, useEffect, useRef } from "react";
 import { Link, useLocation, useParams } from "wouter";
 
+import { CardViewSidebar } from "@/components/card-view/card-view-sidebar";
 import { Card } from "@/components/card/card";
 import { ResolvedCard } from "@/components/card/resolved-card";
-import { Filters } from "@/components/filters/filters";
 import { AppLayout } from "@/components/layouts/app_layout";
 import { CenterLayout } from "@/components/layouts/center_layout";
 import { Button } from "@/components/ui/button";
@@ -33,13 +33,13 @@ export function CardView() {
   const { code } = useParams();
   const [pathname] = useLocation();
 
-  useEffect(() => {
-    scrollerRef.current?.scrollTo(0, 0);
-  }, [pathname]);
-
   const cardWithRelations = useStore((state) =>
     selectCardWithRelations(state, code),
   );
+
+  useEffect(() => {
+    scrollerRef.current?.scrollTo(0, 0);
+  }, [pathname]);
 
   if (!cardWithRelations) return null;
 
@@ -49,7 +49,7 @@ export function CardView() {
     <AppLayout
       centerClassName={css["view-center"]}
       sidebar="Deck list"
-      filters={<Filters />}
+      filters={<CardViewSidebar resolvedCard={cardWithRelations} />}
     >
       <CenterLayout
         top={

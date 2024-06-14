@@ -3,7 +3,7 @@
 
   & span {
     display: inline-block;
-    margin-left: 0.25rem;
+    margin-left: 0.125rem;
     font-size: var(--text-md);
   }
 }

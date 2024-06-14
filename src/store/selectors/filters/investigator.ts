@@ -63,7 +63,7 @@ export const selectInvestigatorFilter = createSelector(
     const options = card.deck_options;
 
     if (!requirements || !options) {
-      throw new TypeError(`${code} is not an investigator.`);
+      throw new TypeError(`${cardCode} is not an investigator.`);
     }
 
     // normalize parallel investigators to root for lookups.
