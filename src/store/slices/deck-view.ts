@@ -1,6 +1,7 @@
 import type { StateCreator } from "zustand";
 
 import type { StoreState } from ".";
+import { resolveDeck } from "../lib/resolve-deck";
 import { type DeckViewSlice, isTab, mapTabToSlot } from "./deck-view.types";
 
 export const createDeckViewSlice: StateCreator<
@@ -34,7 +35,14 @@ export const createDeckViewSlice: StateCreator<
     const limit = card.deck_limit ?? card.quantity;
 
     const slotEdits = state.deckView.edits.quantities?.[slot];
-    const slots = state.data.decks[state.deckView.id]?.slots ?? {};
+
+    const deck = resolveDeck(
+      state.metadata,
+      state.lookupTables,
+      state.data.decks[state.deckView.id],
+      false,
+    );
+    const slots = deck[slot] ?? {};
 
     const value = slotEdits?.[code] ?? slots?.[code] ?? 0;
 
