@@ -1,8 +1,11 @@
 import { useCallback } from "react";
+import { useLocation } from "wouter";
 
+import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
 import type { SelectOption } from "@/components/ui/select";
 import { Select } from "@/components/ui/select";
+import { useToast } from "@/components/ui/toast";
 import { useStore } from "@/store";
 import { decodeSelections } from "@/store/lib/serialization/deck-meta";
 import type { CardWithRelations } from "@/store/lib/types";
@@ -13,6 +16,7 @@ import {
 } from "@/store/selectors/deck-create";
 import { selectTabooSetSelectOptions } from "@/store/selectors/lists";
 import { capitalize, formatSelectionId } from "@/utils/formatting";
+import { useGoBack } from "@/utils/useBack";
 
 import css from "./deck-create.module.css";
 
@@ -20,6 +24,19 @@ export function DeckCreateEditor() {
   const deckCreate = useStore(selectDeckCreateChecked);
   const investigator = useStore(selectDeckCreateInvestigator);
   const back = useStore(selectDeckCreateInvestigatorBack);
+
+  const createDeck = useStore((state) => state.createDeck);
+
+  const toast = useToast();
+  const [, navigate] = useLocation();
+
+  const goBack = useGoBack();
+
+  const handleDeckCreate = () => {
+    const id = createDeck();
+    navigate(`/deck/edit/${id}`);
+    toast({ children: "Deck created successfully.", variant: "success" });
+  };
 
   const tabooSets = useStore(selectTabooSetSelectOptions);
 
@@ -151,6 +168,13 @@ export function DeckCreateEditor() {
             )}
           </Field>
         ))}
+
+      <nav className={css["editor-nav"]}>
+        <Button onClick={handleDeckCreate}>Create deck</Button>
+        <Button onClick={goBack} type="button" variant="bare">
+          Cancel
+        </Button>
+      </nav>
     </div>
   );
 }
