@@ -26,11 +26,17 @@ import { TypeFilter } from "./type-filter";
 
 type Props = {
   slotActions?: ReactNode;
+  children?: ReactNode;
   className?: string;
   hiddenFilters?: string[];
 };
 
-export function Filters({ slotActions, className, hiddenFilters }: Props) {
+export function Filters({
+  slotActions,
+  children,
+  className,
+  hiddenFilters,
+}: Props) {
   const touched = useStore((state) => state.filters.touched);
 
   const cardTypeSelection = useStore(selectActiveCardType);
@@ -50,6 +56,7 @@ export function Filters({ slotActions, className, hiddenFilters }: Props) {
       <Scroller>
         <div className={css["filters-container"]}>
           <FactionFilter />
+          {children}
           <OwnershipFilter />
           {!hiddenFilters?.includes("investigator") &&
             cardTypeSelection === "player" && <InvestigatorFilter />}

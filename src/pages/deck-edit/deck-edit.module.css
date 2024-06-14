@@ -51,3 +51,7 @@
   flex-flow: row nowrap;
   gap: 0.25rem;
 }
+
+.deck-edit-faux-filter {
+  padding: 0.5rem 0.25rem;
+}

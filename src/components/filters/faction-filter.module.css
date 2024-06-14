@@ -1,5 +1,5 @@
 .faction-filter {
-  padding: 0.5rem;
+  padding: 0.5rem 0;
 }
 
 .color-active-guardian[data-state="on"] {

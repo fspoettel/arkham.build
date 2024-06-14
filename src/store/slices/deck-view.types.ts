@@ -67,6 +67,7 @@ export type EditState = {
   };
   mode: "edit";
   activeTab: Tab;
+  showUnusableCards: boolean;
 };
 
 export type ViewState = {
@@ -107,4 +108,6 @@ export type DeckViewSlice = {
   updateDescription(value: string): void;
 
   updateTags(value: string): void;
+
+  updateShowUnusableCards(value: boolean): void;
 };

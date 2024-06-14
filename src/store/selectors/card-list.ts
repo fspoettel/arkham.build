@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
 import { PLAYER_TYPE_ORDER } from "@/utils/constants";
-import { and } from "@/utils/fp";
+import { and, not } from "@/utils/fp";
 import { isEmpty } from "@/utils/is-empty";
 
 import { applyCardChanges } from "../lib/card-edits";
@@ -264,11 +264,17 @@ export const selectDeckInvestigatorFilter = createSelector(
     if (mode !== "edit") return "slots";
     return state.deckView?.activeTab === "extraSlots" ? "extraSlots" : "slots";
   },
-  (lookupTables, resolvedDeck, targetDeck) => {
+  (state: StoreState) => {
+    return state.deckView?.mode === "edit" && state.deckView.showUnusableCards;
+  },
+  (lookupTables, resolvedDeck, targetDeck, showUnusableCards) => {
     if (!resolvedDeck) return undefined;
 
     const card = resolvedDeck.investigatorBack.card;
     if (!card) return undefined;
+
+    if (showUnusableCards)
+      return and([not(filterType(["investigator"])), filterMythosCards]);
 
     return filterInvestigatorAccess(card, lookupTables, {
       additionalDeckOptions: getAdditionalDeckOptions(resolvedDeck),

@@ -17,6 +17,7 @@ import { useDocumentTitle } from "@/utils/use-document-title";
 import css from "./deck-edit.module.css";
 
 import { DeckEditSidebar } from "./deck-edit-sidebar";
+import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 
 function DeckEdit() {
   const [, navigate] = useLocation();
@@ -43,7 +44,11 @@ function DeckEdit() {
 
   return (
     <ListLayout
-      filters={<Filters hiddenFilters={["investigator", "taboo_set"]} />}
+      filters={
+        <Filters hiddenFilters={["investigator", "taboo_set"]}>
+          <ShowUnusableCardsToggle />
+        </Filters>
+      }
       mastheadContent={
         <div className={css["deck-edit-actions"]}>
           <Button onClick={handleSave}>

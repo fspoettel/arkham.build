@@ -30,6 +30,7 @@ export const createDeckViewSlice: StateCreator<
     set({
       deckView: {
         activeTab: "slots",
+        showUnusableCards: false,
         id: activeDeckId,
         edits: {
           meta: {},
@@ -208,5 +209,18 @@ export const createDeckViewSlice: StateCreator<
         },
       });
     }
+  },
+
+  updateShowUnusableCards(showUnusableCards) {
+    const state = get();
+
+    if (state.deckView?.mode !== "edit") return;
+
+    set({
+      deckView: {
+        ...state.deckView,
+        showUnusableCards,
+      },
+    });
   },
 });
