@@ -116,7 +116,8 @@ export function groupDeckCardsByType(
       for (const { card } of bound) {
         if (
           !card.code.endsWith("b") &&
-          !bonded.some((c) => c.code === card.code)
+          !bonded.some((c) => c.code === card.code) &&
+          deck.slots[resolvedCard.card.code] > 0
         ) {
           bonded.push(card);
         }

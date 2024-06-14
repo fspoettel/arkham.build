@@ -27,6 +27,7 @@ export type Props = {
   canIndicateRemoval?: boolean;
   canOpenModal?: boolean;
   canShowOwnership?: boolean;
+  disableEdits?: boolean;
   showInvestigatorIcons?: boolean;
   className?: string;
   figureRef?: (node: ReferenceType | null) => void;
@@ -48,6 +49,7 @@ export function ListCardInner({
   canOpenModal,
   canShowOwnership,
   className,
+  disableEdits,
   figureRef,
   forbidden,
   omitBorders,
@@ -95,7 +97,7 @@ export function ListCardInner({
     >
       {!!quantities && (
         <>
-          {canEdit ? (
+          {!disableEdits && canEdit ? (
             <QuantityInput
               limit={card.deck_limit || card.quantity}
               onValueChange={onQuantityChange}

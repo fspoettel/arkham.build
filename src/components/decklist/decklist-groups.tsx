@@ -115,6 +115,7 @@ export function DecklistGroup({
             canIndicateRemoval
             canShowOwnership
             card={card}
+            disableEdits={mapping === "bonded"}
             forbidden={
               forbiddenCards.find(
                 (x) => x.code === card.code && x.target === mapping,
