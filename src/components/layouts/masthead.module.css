@@ -3,6 +3,7 @@
   grid-area: header;
   display: flex;
   justify-content: space-between;
+  height: 1.75rem;
 }
 
 .masthead h1 {

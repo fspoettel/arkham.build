@@ -51,7 +51,11 @@ export function ListCard({ card }: Props) {
   return (
     <figure className={clsx(css["listcard"])}>
       <div className={css["listcard-thumbnail"]}>
-        <CardThumbnail card={card} />
+        <Link href={`/card/${card.code}`}>
+          <a>
+            <CardThumbnail card={card} />
+          </a>
+        </Link>
       </div>
 
       {card.faction_code !== "mythos" && (
