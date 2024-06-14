@@ -6,7 +6,7 @@ import { CardModalProvider } from "./components/card-modal/card-modal-context";
 import { Loader } from "./components/ui/loader";
 import { ToastProvider } from "./components/ui/toast";
 import { useStore } from "./store";
-import { selectIsInitialized } from "./store/selectors";
+import { selectIsInitialized } from "./store/selectors/shared";
 import {
   queryCards,
   queryDataVersion,

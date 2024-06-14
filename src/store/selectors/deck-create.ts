@@ -3,10 +3,8 @@ import type { CardSet } from "@/utils/cardsets";
 import { getCardSetTitle } from "@/utils/cardsets";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 
-import { ownedCardCount } from "../lib/card-ownership";
 import { resolveCardWithRelations } from "../lib/resolve-card";
 import type { ResolvedCard } from "../lib/types";
-import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 
 export const selectDeckCreateChecked = (state: StoreState) => {
@@ -61,17 +59,6 @@ export const selectDeckCreateInvestigatorBack = (state: StoreState) => {
 
   assert(resolvedCard, "Investigator back card must be resolved.");
   return resolvedCard;
-};
-
-export const selectCardOwnedCount = (state: StoreState) => {
-  return (card: Card) => {
-    return ownedCardCount(
-      card,
-      state.metadata,
-      state.lookupTables,
-      state.settings.collection,
-    );
-  };
 };
 
 export const selectDeckCreateCardSets = (state: StoreState) => {

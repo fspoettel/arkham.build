@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
-import { selectIsInitialized } from "@/store/selectors";
+import { selectIsInitialized } from "@/store/selectors/shared";
 import { useGoBack } from "@/utils/useBack";
 
 import css from "./settings.module.css";

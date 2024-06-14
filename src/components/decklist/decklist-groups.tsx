@@ -7,6 +7,7 @@ import {
   selectCanEditDeck,
   selectForbiddenCards,
 } from "@/store/selectors/decks";
+import { selectCanCheckOwnership } from "@/store/selectors/shared";
 import type { Card } from "@/store/services/queries.types";
 import { capitalize } from "@/utils/formatting";
 
@@ -110,6 +111,7 @@ export function DecklistGroup({
 }: DecklistGroupProps) {
   const forbiddenCards = useStore(selectForbiddenCards);
   const canEdit = useStore(selectCanEditDeck) && mapping !== "bonded";
+  const canCheckOwnership = useStore(selectCanCheckOwnership);
   const changeCardQuantity = useStore((state) => state.changeCardQuantity);
 
   return (
@@ -117,6 +119,7 @@ export function DecklistGroup({
       {cards.toSorted(sortByName).map((card) => (
         <ListCard
           as="li"
+          canCheckOwnership={canCheckOwnership}
           canIndicateRemoval
           card={card}
           isForbidden={

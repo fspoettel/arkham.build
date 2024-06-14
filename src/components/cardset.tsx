@@ -1,7 +1,10 @@
 import clsx from "clsx";
 
 import { useStore } from "@/store";
-import { selectCardOwnedCount } from "@/store/selectors/deck-create";
+import {
+  selectCanCheckOwnership,
+  selectCardOwnedCount,
+} from "@/store/selectors/shared";
 import type { CardSet as CardSetType } from "@/utils/cardsets";
 
 import css from "./cardset.module.css";
@@ -22,6 +25,7 @@ export function CardSet({
   onSelect,
   set,
 }: Props) {
+  const canCheckOwnership = useStore(selectCanCheckOwnership);
   const cardOwnedCount = useStore(selectCardOwnedCount);
 
   return (
@@ -44,6 +48,7 @@ export function CardSet({
         {set.cards.map(({ card }) => (
           <ListCard
             as="li"
+            canCheckOwnership={canCheckOwnership}
             canOpenModal={canOpenModal}
             card={card}
             key={card.code}

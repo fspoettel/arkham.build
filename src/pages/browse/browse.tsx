@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Filters } from "@/components/filters/filters";
 import { ListLayout } from "@/layouts/list-layout";
 import { useStore } from "@/store";
-import { selectIsInitialized } from "@/store/selectors";
+import { selectIsInitialized } from "@/store/selectors/shared";
 import { useDocumentTitle } from "@/utils/use-document-title";
 
 import { DeckCollection } from "./deck-collection/deck-collection";

@@ -25,6 +25,7 @@ export type Props = {
   as?: "li" | "div";
   canIndicateRemoval?: boolean;
   canOpenModal?: boolean;
+  canCheckOwnership?: boolean;
   card: Card;
   className?: string;
   disableKeyboard?: boolean;
@@ -51,6 +52,7 @@ export function ListCardInner({
   card,
   disableKeyboard,
   canIndicateRemoval,
+  canCheckOwnership,
   canOpenModal,
   className,
   figureRef,
@@ -67,6 +69,7 @@ export function ListCardInner({
   const modalContext = useCardModalContext();
 
   const quantity = quantities ? quantities[card.code] ?? 0 : 0;
+
   const ownedCount = owned ?? 0;
   const ignoredCount = isIgnored ?? 0;
 
@@ -138,9 +141,10 @@ export function ListCardInner({
               </button>
             </h4>
 
-            {owned != null &&
+            {canCheckOwnership &&
+              owned != null &&
               card.code !== "01000" &&
-              (!ownedCount || ownedCount < quantity) && (
+              (!owned || ownedCount < quantity) && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <span className={css["ownership"]}>
