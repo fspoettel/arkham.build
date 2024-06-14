@@ -45,7 +45,7 @@ export const selectOwnershipFilter = createSelector(
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.filters[state.filters.cardType].ownership.value,
   (setting, metadata, lookupTables, filterState) => {
-    if (!Object.keys(setting).length || filterState === "all") return pass;
+    if (filterState === "all") return pass;
     return (card: Card) => {
       const ownsCard = filterOwnership(card, metadata, lookupTables, setting);
       return filterState === "owned" ? ownsCard : !ownsCard;
