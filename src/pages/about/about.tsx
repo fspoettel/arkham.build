@@ -18,10 +18,18 @@ function About() {
         </Button>
         <h1>About</h1>
         <p>
-          The information presented in this app about Arkham Horror: The Card
-          Game, both literal and graphical, is copyrighted by Fantasy Flight
-          Games. This app is not produced, endorsed, supported, or affiliated
-          with Fantasy Flight Games.
+          The information presented in this app about{" "}
+          <a
+            href="https://www.fantasyflightgames.com/en/products/arkham-horror-the-card-game/"
+            rel="noreferrer"
+            target="_blank"
+          >
+            Arkham Horror: The Card Game™
+          </a>
+          , both textual and graphical, is © Fantasy Flight Games{" "}
+          {new Date().getUTCFullYear()}. This app is a fan project and is not
+          produced, endorsed, or supported by, or affiliated with Fantasy Flight
+          Games.
         </p>
         <p>
           This application was created by{" "}
@@ -36,8 +44,8 @@ function About() {
           >
             contributors
           </a>{" "}
-          as a fan project to help support the Arkham Horror: The Card Game
-          community. The source code of this project is available at{" "}
+          to support the Arkham Horror: The Card Game community. The source code
+          of this project is available at{" "}
           <a
             href="https://github.com/fspoettel/arkham-build"
             rel="noreferrer"
@@ -47,6 +55,11 @@ function About() {
           </a>
           . Feedback and bug reports are welcome via Github issues or the
           dedicated channel on the Mythos Busters discord server.
+        </p>
+        <p>
+          All artwork and illustrations are the intellectual property of their
+          respective creators. All Arkham Horror: The Card Game™ images and
+          graphics are copyrighted by Fantasy Flight Games.
         </p>
         <h4>Thanks 🌟</h4>
         <ul>

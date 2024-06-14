@@ -7,11 +7,11 @@ export function Footer() {
     <div className={css["footer"]}>
       <p>
         <a
-          href="https://www.fantasyflightgames.com"
+          href="https://www.fantasyflightgames.com/en/products/arkham-horror-the-card-game/"
           rel="noreferrer"
           target="_blank"
         >
-          Arkham Horror: The Card Game
+          Arkham Horror: The Card Game™
         </a>{" "}
         and all related content &copy;{" "}
         <a
