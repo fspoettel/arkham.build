@@ -113,25 +113,26 @@ export function MetaEditor({ deck }: Props) {
 
   return (
     <>
+      <Field full padded>
+        <FieldLabel>Deck name</FieldLabel>
+        <input
+          defaultValue={deck.name}
+          onChange={onNameChange}
+          required
+          type="text"
+        />
+      </Field>
+      <Field full helpText="Enter tags, separated by spaces" padded>
+        <FieldLabel>Tags</FieldLabel>
+        <input
+          defaultValue={deck.tags ?? ""}
+          onChange={onTagsChange}
+          type="text"
+        />
+      </Field>
+
       {deck.hasParallel && (
         <>
-          <Field full padded>
-            <FieldLabel>Deck name</FieldLabel>
-            <input
-              defaultValue={deck.name}
-              onChange={onNameChange}
-              required
-              type="text"
-            />
-          </Field>
-          <Field full helpText="Enter tags, separated by spaces" padded>
-            <FieldLabel>Tags</FieldLabel>
-            <input
-              defaultValue={deck.tags ?? ""}
-              onChange={onTagsChange}
-              type="text"
-            />
-          </Field>
           <Field full padded>
             <FieldLabel>Investigator Front</FieldLabel>
             <Select
