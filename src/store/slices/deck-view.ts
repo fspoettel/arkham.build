@@ -194,4 +194,19 @@ export const createDeckViewSlice: StateCreator<
       });
     }
   },
+
+  updateTags(value) {
+    const state = get();
+    if (state.deckView && state.deckView.mode === "edit") {
+      set({
+        deckView: {
+          ...state.deckView,
+          edits: {
+            ...state.deckView.edits,
+            tags: value,
+          },
+        },
+      });
+    }
+  },
 });

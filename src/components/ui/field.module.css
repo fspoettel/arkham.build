@@ -8,6 +8,10 @@
   display: block;
 }
 
+.field.padded {
+  padding: 0.25rem;
+}
+
 .field.full {
   & > :where(input, select, textarea) {
     width: 100%;
@@ -28,4 +32,6 @@
 .field-label {
   display: inline-block;
   margin-bottom: 0.25rem;
+  font-size: var(--text-sm);
+  font-weight: 400;
 }

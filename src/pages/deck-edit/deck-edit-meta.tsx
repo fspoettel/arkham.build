@@ -1,4 +1,4 @@
-import type { ChangeEvent } from "react";
+import { type ChangeEvent, useCallback } from "react";
 
 import { Field, FieldLabel } from "@/components/ui/field";
 import type { SelectOption } from "@/components/ui/select";
@@ -8,6 +8,8 @@ import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import type { CardWithRelations, ResolvedDeck } from "@/store/lib/types";
 import { selectTabooSetSelectOptions } from "@/store/selectors/filters";
 import type { DeckOptionSelectType } from "@/store/services/queries.types";
+import type { StoreState } from "@/store/slices";
+import { debounce } from "@/utils/debounce";
 import { capitalize, formatSelectionId } from "@/utils/formatting";
 
 type Props = {
@@ -30,64 +32,107 @@ function getInvestigatorOptions(
     : [];
 }
 
+const selectUpdateName = (state: StoreState) => debounce(state.updateName, 100);
+
+const selectUpdateDescription = (state: StoreState) =>
+  debounce(state.updateDescription, 100);
+
+const selectUpdateTags = (state: StoreState) => debounce(state.updateTags, 100);
+
+const selectUpdateTabooId = (state: StoreState) => state.updateTabooId;
+
+const selectUpdateMetaProperty = (state: StoreState) =>
+  state.updateMetaProperty;
+
+const selectUpdateInvestigatorSide = (state: StoreState) =>
+  state.updateInvestigatorSide;
+
 export function DeckEditMeta({ deck }: Props) {
   const tabooSets = useStore(selectTabooSetSelectOptions);
 
-  const updateName = useStore((state) => state.updateName);
-  const updateDescription = useStore((state) => state.updateDescription);
+  const updateName = useStore(selectUpdateName);
+  const updateDescription = useStore(selectUpdateDescription);
+  const updateTags = useStore(selectUpdateTags);
+  const updateTabooId = useStore(selectUpdateTabooId);
+  const updateMetaProperty = useStore(selectUpdateMetaProperty);
+  const updateInvestigatorSide = useStore(selectUpdateInvestigatorSide);
 
-  const updateTabooId = useStore((state) => state.updateTabooId);
-  const updateMetaProperty = useStore((state) => state.updateMetaProperty);
-  const updateInvestigatorSide = useStore(
-    (state) => state.updateInvestigatorSide,
+  const onTabooChange = useCallback(
+    (evt: ChangeEvent<HTMLSelectElement>) => {
+      const value = Number.parseInt(evt.target.value, 10);
+      updateTabooId(Number.isNaN(value) ? null : value);
+    },
+    [updateTabooId],
   );
 
-  const onTabooChange = (evt: ChangeEvent<HTMLSelectElement>) => {
-    const value = Number.parseInt(evt.target.value, 10);
-    updateTabooId(Number.isNaN(value) ? null : value);
-  };
+  const onNameChange = useCallback(
+    (evt: ChangeEvent<HTMLInputElement>) => {
+      updateName(evt.target.value);
+    },
+    [updateName],
+  );
 
-  const onNameChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    updateName(evt.target.value);
-  };
+  const onDescriptionChange = useCallback(
+    (evt: ChangeEvent<HTMLTextAreaElement>) => {
+      updateDescription(evt.target.value);
+    },
+    [updateDescription],
+  );
 
-  const onDescriptionChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
-    updateDescription(evt.target.value);
-  };
+  const onTagsChange = useCallback(
+    (evt: ChangeEvent<HTMLInputElement>) => {
+      updateTags(evt.target.value);
+    },
+    [updateTags],
+  );
 
-  const onFieldChange = (evt: ChangeEvent<HTMLSelectElement>) => {
-    const value = evt.target.value;
+  const onFieldChange = useCallback(
+    (evt: ChangeEvent<HTMLSelectElement>) => {
+      const value = evt.target.value;
 
-    if (evt.target.dataset.field && evt.target.dataset.type) {
-      updateMetaProperty(
-        evt.target.dataset.field,
-        value || null,
-        evt.target.dataset.type as DeckOptionSelectType,
-      );
-    }
-  };
+      if (evt.target.dataset.field && evt.target.dataset.type) {
+        updateMetaProperty(
+          evt.target.dataset.field,
+          value || null,
+          evt.target.dataset.type as DeckOptionSelectType,
+        );
+      }
+    },
+    [updateMetaProperty],
+  );
 
-  const onInvestigatorSideChange = (evt: ChangeEvent<HTMLSelectElement>) => {
-    const value = evt.target.value;
-    if (evt.target.dataset.side) {
-      updateInvestigatorSide(evt.target.dataset.side, value);
-    }
-  };
+  const onInvestigatorSideChange = useCallback(
+    (evt: ChangeEvent<HTMLSelectElement>) => {
+      const value = evt.target.value;
+      if (evt.target.dataset.side) {
+        updateInvestigatorSide(evt.target.dataset.side, value);
+      }
+    },
+    [updateInvestigatorSide],
+  );
 
   return (
     <>
       {deck.hasParallel && (
         <>
-          <Field full>
+          <Field full padded>
             <FieldLabel>Deck name</FieldLabel>
             <input
+              defaultValue={deck.name}
               onChange={onNameChange}
               required
               type="text"
-              value={deck.name}
             />
           </Field>
-          <Field full>
+          <Field full helpText="Enter tags, separated by spaces" padded>
+            <FieldLabel>Tags</FieldLabel>
+            <input
+              defaultValue={deck.tags ?? ""}
+              onChange={onTagsChange}
+              type="text"
+            />
+          </Field>
+          <Field full padded>
             <FieldLabel>Investigator Front</FieldLabel>
             <Select
               data-side="front"
@@ -97,7 +142,7 @@ export function DeckEditMeta({ deck }: Props) {
               value={deck.investigatorFront.card.code}
             />
           </Field>
-          <Field full>
+          <Field full padded>
             <FieldLabel>Investigator Back</FieldLabel>
             <Select
               data-side="back"
@@ -111,7 +156,7 @@ export function DeckEditMeta({ deck }: Props) {
       )}
       {deck.selections &&
         Object.entries(deck.selections).map(([key, value]) => (
-          <Field full key={key}>
+          <Field full key={key} padded>
             <FieldLabel>{formatSelectionId(key)}</FieldLabel>
             {(value.type === "deckSize" || value.type === "faction") && (
               <Select
@@ -141,7 +186,7 @@ export function DeckEditMeta({ deck }: Props) {
             )}
           </Field>
         ))}
-      <Field full>
+      <Field full padded>
         <FieldLabel>Taboo Set</FieldLabel>
         <Select
           emptyLabel="None"
@@ -150,11 +195,11 @@ export function DeckEditMeta({ deck }: Props) {
           value={deck.taboo_id ?? ""}
         />
       </Field>
-      <Field full>
+      <Field full padded>
         <FieldLabel>Description</FieldLabel>
         <textarea
+          defaultValue={deck.description_md ?? ""}
           onChange={onDescriptionChange}
-          value={deck.description_md ?? ""}
         />
       </Field>
     </>

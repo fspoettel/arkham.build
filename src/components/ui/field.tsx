@@ -9,6 +9,7 @@ type Props = {
   className?: string;
   full?: boolean;
   helpText?: string;
+  padded?: boolean;
 };
 
 export function FieldLabel({
@@ -32,6 +33,7 @@ export function Field({
   className,
   full,
   helpText,
+  padded,
 }: Props) {
   return (
     <div
@@ -39,6 +41,7 @@ export function Field({
         css["field"],
         className,
         bordered && css["bordered"],
+        padded && css["padded"],
         full && css["full"],
       )}
     >

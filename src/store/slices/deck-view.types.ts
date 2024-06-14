@@ -54,6 +54,7 @@ export type EditState = {
     };
     name?: string | null;
     description_md?: string | null;
+    tags?: string | null;
     meta: Record<string, string | null>;
     tabooId?: number | null;
     investigatorFront?: string | null;
@@ -104,4 +105,6 @@ export type DeckViewSlice = {
   updateName(value: string): void;
 
   updateDescription(value: string): void;
+
+  updateTags(value: string): void;
 };
