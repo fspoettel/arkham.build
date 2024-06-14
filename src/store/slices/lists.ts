@@ -74,6 +74,9 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
           list.grouping,
           list.sorting,
           list.systemFilter,
+          {
+            ownership: getInitialOwnershipFilter(state),
+          },
         ),
       },
     });

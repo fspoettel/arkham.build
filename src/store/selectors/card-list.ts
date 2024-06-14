@@ -136,7 +136,7 @@ function makeUserFilter(
 
       case "ownership": {
         const value = filterValue.value as OwnershipFilter;
-        if (!settings.showAllCards && value !== "all") {
+        if (value !== "all") {
           filters.push((card: Card) => {
             const ownership = filterOwnership(
               card,
