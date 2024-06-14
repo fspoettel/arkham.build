@@ -86,9 +86,10 @@ export function decodeSlots<
         deck.taboo_id,
         customizations,
         false,
-      ); // SAFE! we do not need relations for side deck.
+      ); // SAFE! we do not need relations for extra deck.
 
       if (card) {
+        xpRequired += countExperience(card.card, quantity);
         deckSizeTotal += quantity;
         cards.extraSlots[code] = card as S;
       }
