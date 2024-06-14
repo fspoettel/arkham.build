@@ -2,6 +2,52 @@ export type Coded = {
   code: string;
 };
 
+export type DeckRequirements = {
+  card: Record<string, string>;
+  random: { value: string; target: string }[];
+  size: number;
+};
+
+export type DeckOption = {
+  // Lola Hayes
+  atleast?: { min: number; factions: number };
+  // Mandy
+  deck_size_select?: number[];
+  // Tony
+  faction_select?: string[];
+  // most
+  faction: string[];
+  // most
+  level: {
+    min: number;
+    max: number;
+  };
+  // Dunwich
+  limit?: string;
+  // most selects
+  name?: string;
+  not?: boolean;
+  // Suzie
+  permanent?: boolean;
+  // Wendy (Parallel)
+  option_select?: {
+    name: string;
+    id: string;
+    level: { min: number; max: number };
+    trait: string[];
+  }[];
+  // Carolyn, Vincent
+  tag?: string[];
+  // Carolyn, Allesandra
+  text?: string[];
+  // Silas
+  trait?: string[];
+  // Tony (select), Amanda (static)
+  type?: string[];
+  // Akachi
+  uses?: string[];
+};
+
 export type QueryCard = {
   alt_art_investigator?: boolean;
   alternate_of_code?: string;
@@ -14,14 +60,15 @@ export type QueryCard = {
   clues_fixed?: boolean;
   code: string;
   cost?: number;
-  customization_options?: string;
-  deck_limit?: number;
-  deck_options?: string;
-  deck_requirements?: {
-    card: Record<string, string>;
-    random: { value: string; target: string }[];
-    size: number;
+  customization_options?: {
+    xp: number;
+    tags: string[];
+    real_text: string;
+    text_change: string;
   };
+  deck_limit?: number;
+  deck_options?: DeckOption[];
+  deck_requirements?: DeckRequirements;
   doom?: number;
   double_sided?: boolean;
   duplicate_of_code?: string;
@@ -37,8 +84,8 @@ export type QueryCard = {
   faction_code: string;
   faction2_code?: string;
   faction3_code?: string;
-  heals_damage?: boolean;
-  heals_horror?: boolean;
+  // heals_damage?: boolean; does not work.
+  // heals_horror?: boolean; does not work.
   health?: number;
   hidden?: boolean;
   // id
@@ -90,7 +137,7 @@ export type QueryCard = {
   subtype_code?: string;
   // taboo_placeholder
   // taboo_set_id
-  // tags?: string;
+  tags?: string[];
   type_code: string;
   // updated_at?: string;
   vengeance?: number;

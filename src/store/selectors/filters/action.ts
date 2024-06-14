@@ -8,12 +8,12 @@ import { Filter, or } from "@/utils/fp";
 
 export function filterActions(
   filterState: ComboboxFilter,
-  actionMap: LookupTables["actions"],
+  actionTable: LookupTables["actions"],
 ) {
   const filters: Filter[] = [];
 
   Object.entries(filterState).forEach(([key, value]) => {
-    if (value) filters.push((c: Card) => !!actionMap[key][c.code]);
+    if (value) filters.push((c: Card) => !!actionTable[key][c.code]);
   });
 
   const filter = or(filters);
@@ -31,8 +31,8 @@ export const selectActionsFilter = createSelector(
 
 export const selectActions = createSelector(
   (state: StoreState) => state.lookupTables.actions,
-  (actionMap) => {
-    const actions = Object.keys(actionMap).map((code) => ({ code }));
+  (actionTable) => {
+    const actions = Object.keys(actionTable).map((code) => ({ code }));
     actions.sort((a, b) => a.code.localeCompare(b.code));
     return actions;
   },

@@ -36,7 +36,7 @@ export function PropertiesFilter() {
   );
 
   return (
-    <Collapsible title="Properties" defaultOpen>
+    <Collapsible title="Properties">
       <CollapsibleContent>
         <CheckboxGroup>
           {properties.map(({ key, label }) => (

@@ -12,9 +12,9 @@
   --gray-600: #72787a;
   --gray-700: #586065;
   --gray-800: #3e4851;
-  --gray-850: #34424f;
+  --gray-850: #2e3a46;
   --gray-900: #24303c;
-  --gray-950: #1e2832;
+  --gray-950: #202b36;
 
   --color-border: rgba(255, 255, 255, 0.125);
   --color-focus: var(--gray-200);
@@ -45,7 +45,7 @@
   --seeker: #efa345;
   --survivor: #ee4a53;
   --multiclass: #e4d083;
-  --mythos: var(--gray-100);
+  --mythos: var(--gray-200);
   --neutral: var(--gray-300);
 
   --guardian-dark: #1072c2;
@@ -115,6 +115,14 @@ svg {
   image-rendering: -webkit-optimize-contrast;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
 input,
 textarea,
 select {
@@ -146,11 +154,11 @@ button {
     cursor: default;
   }
 
-  &:not([disabled]):hover {
-    background-color: var(--gray-800);
+  &:hover {
+    background: var(--gray-950);
   }
 
-  &:not([disabled]):focus {
+  &:focus {
     outline: 1px solid var(--gray-200);
   }
 }

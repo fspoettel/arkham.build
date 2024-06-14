@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import { ActionFilter } from "./action-filter";
 import { CostFilter } from "./cost-filter";
 import { FactionFilter } from "./faction-filter";
+import { InvestigatorFilter } from "./investigator-filter";
 import { LevelFilter } from "./level-filter";
 import { PropertiesFilter } from "./properties-filter";
 import { SkillIconsFilter } from "./skill-icons-filter";
@@ -36,6 +37,7 @@ export function Filters() {
       <SkillIconsFilter />
       <ActionFilter />
       <PropertiesFilter />
+      {cardTypeSelection === "player" && <InvestigatorFilter />}
     </search>
   );
 }

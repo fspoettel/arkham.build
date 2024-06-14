@@ -47,6 +47,10 @@ export type LookupTables = {
   sanity: LookupTable<number>;
   properties: {
     // used: filtering.
+    heals_damage: Mapping<1>;
+    // used: filtering.
+    heals_horror: Mapping<1>;
+    // used: filtering.
     fast: Mapping<1>;
     // used: filtering.
     multislot: Mapping<1>;

@@ -35,6 +35,8 @@ function getInitialState(): Filters {
       permanent: false,
       exile: false,
       victory: false,
+      heals_horror: false,
+      heals_damage: false,
     },
   };
 
@@ -46,6 +48,9 @@ function getInitialState(): Filters {
         value: undefined,
         exceptional: false,
         nonexceptional: false,
+      },
+      investigator: {
+        value: undefined,
       },
     },
     encounter: {

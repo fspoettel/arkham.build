@@ -5,7 +5,7 @@
 }
 
 .icons-skills {
-  gap: calc(var(--card-spacing) / 2);
+  gap: 0.5rem;
 }
 
 .icons-skill {

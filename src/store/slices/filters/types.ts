@@ -34,6 +34,8 @@ export type PropertiesFilter = {
   fast: boolean;
   permanent: boolean;
   exile: boolean;
+  heals_damage: boolean;
+  heals_horror: boolean;
   victory: boolean;
 };
 
@@ -44,18 +46,21 @@ type SharedState = {
   faction: {
     value: string[];
   };
-  skillIcons: SkillIconsFilter;
-  type: ComboboxFilter;
-  subtype: ComboboxFilter;
-  trait: ComboboxFilter;
   action: ComboboxFilter;
   properties: PropertiesFilter;
+  skillIcons: SkillIconsFilter;
+  subtype: ComboboxFilter;
+  trait: ComboboxFilter;
+  type: ComboboxFilter;
 };
 
 export type Filters = {
   cardType: CardTypeFilter;
   player: SharedState & {
     level: LevelFilter;
+    investigator: {
+      value: string | undefined;
+    };
   };
   encounter: SharedState;
 };

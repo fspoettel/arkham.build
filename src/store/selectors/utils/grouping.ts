@@ -47,11 +47,15 @@ export function groupByPlayerCardType(
 }
 
 export function groupByWeakness(metadata: Metadata): Grouping[] {
-  return Object.keys(metadata.subtypes).map((code) => ({
+  const groups = Object.keys(metadata.subtypes).map((code) => ({
     code: code,
     name: code === "weakness" ? "Weakness" : "Basic Weakness",
     grouping_type: "subtype",
   }));
+
+  groups.sort((a) => (a.code === "weakness" ? -1 : 1));
+
+  return groups;
 }
 
 export function groupByEncounterSets(metadata: Metadata): Grouping[] {

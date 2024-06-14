@@ -8,14 +8,14 @@ import { Filter, or } from "@/utils/fp";
 
 import { selectActiveCardType } from "./shared";
 
-function filterTraits(
+export function filterTraits(
   filterState: ComboboxFilter,
-  traitMap: LookupTables["traits"],
+  traitTable: LookupTables["traits"],
 ) {
   const filters: Filter[] = [];
 
   Object.entries(filterState).forEach(([key, value]) => {
-    if (value) filters.push((c: Card) => !!traitMap[key][c.code]);
+    if (value) filters.push((c: Card) => !!traitTable[key][c.code]);
   });
 
   const filter = or(filters);
@@ -34,8 +34,8 @@ export const selectTraitsFilter = createSelector(
 export const selectTraits = createSelector(
   selectActiveCardType,
   (state: StoreState) => state.lookupTables.traitsByCardTypeSeletion,
-  (cardType, traitMap) => {
-    const types = Object.keys(traitMap[cardType]).map((code) => ({ code }));
+  (cardType, traitTable) => {
+    const types = Object.keys(traitTable[cardType]).map((code) => ({ code }));
     types.sort((a, b) => a.code.localeCompare(b.code));
     return types;
   },

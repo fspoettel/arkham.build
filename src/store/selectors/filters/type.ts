@@ -28,10 +28,10 @@ export const selectTypes = createSelector(
   selectActiveCardType,
   (state: StoreState) => state.metadata.types,
   (state: StoreState) => state.lookupTables,
-  (cardType, typesMap, lookupTables) => {
+  (cardType, typeTable, lookupTables) => {
     const types = Object.keys(
       lookupTables.typesByCardTypeSelection[cardType],
-    ).map((type) => typesMap[type]);
+    ).map((type) => typeTable[type]);
     types.sort((a, b) => a.name.localeCompare(b.name));
     return types;
   },

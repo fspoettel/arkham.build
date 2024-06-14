@@ -128,7 +128,7 @@ export function Combobox<T extends Coded>({
   return (
     <div className={clsx(css["combobox"], className)}>
       <div className={css["combobox-control"]}>
-        <label className={css["combobox-label"]} htmlFor={id}>
+        <label className={clsx(css["combobox-label"], "sr-only")} htmlFor={id}>
           {label}
         </label>
         <div className={css["combobox-control-row"]}>

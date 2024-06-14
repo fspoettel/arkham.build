@@ -18,5 +18,5 @@
   align-items: center;
   justify-content: center;
   gap: 0.125rem;
-  color: var(--gray-50);
+  color: var(--gray-100);
 }

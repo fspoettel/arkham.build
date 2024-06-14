@@ -10,6 +10,10 @@ export function or(fns: Filter[]) {
   return (card: Card) => !fns.length || fns.some((f) => f(card));
 }
 
+export function not(fn: Filter): Filter {
+  return (card: Card) => !fn(card);
+}
+
 // TODO: factor out usages of this.
 export function pass() {
   return true;

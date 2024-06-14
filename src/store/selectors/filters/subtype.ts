@@ -5,7 +5,7 @@ import { StoreState } from "@/store/slices";
 import { ComboboxFilter } from "@/store/slices/filters/types";
 import { pass } from "@/utils/fp";
 
-function filterSubtypes(filterState: ComboboxFilter) {
+export function filterSubtypes(filterState: ComboboxFilter) {
   const enabledTypeCodes = Object.entries(filterState)
     .filter(([, v]) => !!v)
     .map(([k]) => k);

@@ -13,7 +13,7 @@ function filterNonexceptional(card: Card) {
   return !card.exceptional;
 }
 
-function filterCardLevel(value: [number, number] | undefined) {
+export function filterCardLevel(value: [number, number] | undefined) {
   if (!value) return pass;
 
   return (card: Card) => {

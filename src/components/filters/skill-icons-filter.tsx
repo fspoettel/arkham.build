@@ -25,7 +25,7 @@ export function SkillIconsFilter() {
   );
 
   return (
-    <Collapsible title="Skill Icons" defaultOpen>
+    <Collapsible title="Skill Icons">
       <CollapsibleContent>
         <CheckboxGroup className={css["skill-filter-icons"]} as="div">
           {Object.entries(skillIcons).map(([key, value]) => (

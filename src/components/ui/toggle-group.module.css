@@ -1,6 +1,6 @@
 .toggle-group {
   display: inline-flex;
-  color: var(--gray-300);
+  color: var(--gray-400);
   justify-content: center;
 }
 
@@ -32,12 +32,17 @@
   &[data-state="on"] {
     color: var(--gray-200);
     background: var(--color-border);
+    font-weight: 600;
   }
 
-  &:active,
   &:focus {
-    background: var(--gray-800);
     z-index: 2;
+  }
+
+  &:hover:not([data-state="on"]),
+  &:active:not([data-state="on"]),
+  &:focus:not([data-state="on"]) {
+    background: var(--gray-950);
   }
 }
 

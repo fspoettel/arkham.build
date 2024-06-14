@@ -3,7 +3,6 @@
   --card-title-size: var(--text-lg);
   --card-spacing: 1rem;
 
-  background: var(--gray-900);
   display: grid;
   grid-template-rows: auto auto auto;
   grid-template-columns: 1fr 15rem;
@@ -52,8 +51,9 @@
   --card-spacing: 0.5rem;
 
   max-width: 32rem;
-  background: var(--gray-900);
   border-color: var(--color-border);
+  background: var(--gray-850);
+
   grid-template-columns: 1fr 6rem;
 
   &.back.has-image {

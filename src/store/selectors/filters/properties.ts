@@ -38,6 +38,18 @@ function filterPermanent(slotTable: LookupTables["slots"]) {
   return (card: Card) => !!slotTable["Permanent"]?.[card.code];
 }
 
+function filterHealsDamage(
+  healsDamageTable: LookupTables["properties"]["heals_damage"],
+) {
+  return (card: Card) => !!healsDamageTable[card.code];
+}
+
+function filterHealsHorror(
+  healsHorrorTable: LookupTables["properties"]["heals_horror"],
+) {
+  return (card: Card) => !!healsHorrorTable[card.code];
+}
+
 export function filterProperties(
   filterState: PropertiesFilter,
   lookupTables: LookupTables,
@@ -74,6 +86,14 @@ export function filterProperties(
 
   if (filterState.victory) {
     filters.push(filterVictory);
+  }
+
+  if (filterState.heals_damage) {
+    filters.push(filterHealsDamage(lookupTables.properties.heals_damage));
+  }
+
+  if (filterState.heals_horror) {
+    filters.push(filterHealsHorror(lookupTables.properties.heals_horror));
   }
 
   const filter = and(filters);

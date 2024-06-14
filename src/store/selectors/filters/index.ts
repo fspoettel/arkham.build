@@ -5,6 +5,10 @@ import { and } from "@/utils/fp";
 import { selectActionsFilter } from "./action";
 import { selectCostFilter } from "./cost";
 import { selectFactionFilter } from "./faction";
+import {
+  selectInvestigatorFilter,
+  selectInvestigatorWeaknessFilter,
+} from "./investigator";
 import { selectLevelFilter } from "./level";
 import { selectPropertiesFilter } from "./properties";
 import {
@@ -29,6 +33,7 @@ export const selectPlayerCardFilters = createSelector(
   selectTraitsFilter,
   selectActionsFilter,
   selectPropertiesFilter,
+  selectInvestigatorFilter,
   (
     factionFilter,
     levelFilter,
@@ -39,6 +44,7 @@ export const selectPlayerCardFilters = createSelector(
     traitsFilter,
     actionsFilter,
     propertiesFilter,
+    investigatorFilter,
   ) => {
     const filters = [
       filterMythosCards,
@@ -65,6 +71,10 @@ export const selectPlayerCardFilters = createSelector(
       filters.push(costFilter);
     }
 
+    if (investigatorFilter) {
+      filters.push(investigatorFilter);
+    }
+
     return and(filters);
   },
 );
@@ -79,6 +89,7 @@ export const selectWeaknessFilters = createSelector(
   selectTraitsFilter,
   selectActionsFilter,
   selectPropertiesFilter,
+  selectInvestigatorWeaknessFilter,
   (
     levelFilter,
     costFilter,
@@ -89,6 +100,7 @@ export const selectWeaknessFilters = createSelector(
     traitsFilter,
     actionsFilter,
     propertiesFilter,
+    investigatorFilter,
   ) => {
     const filters = [
       filterEncounterCards,
@@ -111,6 +123,10 @@ export const selectWeaknessFilters = createSelector(
 
     if (costFilter) {
       filters.push(costFilter);
+    }
+
+    if (investigatorFilter) {
+      filters.push(investigatorFilter);
     }
 
     return and(filters);

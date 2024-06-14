@@ -160,7 +160,7 @@ const allCardQuery: TypedDocumentNode<AllCardResponse> = parse(gql`
       subtype_code
       # taboo_placeholder
       # taboo_set_id
-      # tags
+      tags
       type_code
       # updated_at
       vengeance

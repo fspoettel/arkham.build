@@ -37,6 +37,8 @@ export function getInitialLookupTables(): LookupTables {
     health: {},
     properties: {
       fast: {},
+      heals_damage: {},
+      heals_horror: {},
       multislot: {},
       multiclass: {},
       seal: {},
@@ -81,11 +83,6 @@ export function addCardToLookupTables(
   card: Card,
   i: number,
 ) {
-  // skip indexing linked and hidden cards.
-  if (card.linked || card.hidden) {
-    return;
-  }
-
   sortedByName(tables, card, i);
 
   indexByCodes(tables, card);
@@ -104,6 +101,9 @@ export function addCardToLookupTables(
     indexByMulticlass(tables, card);
 
     indexBySeal(tables, card);
+
+    indexByHealsHorror(tables, card);
+    indexByHealsDamage(tables, card);
 
     if (card.type_code === "asset") {
       indexBySlots(tables, card);
@@ -247,6 +247,24 @@ function indexByUses(tables: LookupTables, card: Card) {
   const match = card.real_text?.match(REGEX_USES);
   if (match && match.length > 0) {
     setInLookupTable(card.code, tables.uses, match[1]);
+  }
+}
+
+function indexByHealsDamage(tables: LookupTables, card: Card) {
+  if (
+    card.tags?.includes("hd") ||
+    card.customization_options?.tags?.includes("hd")
+  ) {
+    setInLookupTable(card.code, tables.properties, "heals_damage");
+  }
+}
+
+function indexByHealsHorror(tables: LookupTables, card: Card) {
+  if (
+    card.tags?.includes("hh") ||
+    card.customization_options?.tags?.includes("hh")
+  ) {
+    setInLookupTable(card.code, tables.properties, "heals_horror");
   }
 }
 
