@@ -46,4 +46,6 @@
   user-select: none;
   line-height: var(--checkbox-size);
   word-break: normal;
+  font-family: var(--font-family-ui);
+  font-size: var(--text-sm);
 }

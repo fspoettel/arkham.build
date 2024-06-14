@@ -2,6 +2,7 @@
   --filters-spacing-x: 0.75rem;
   --filters-spacing-y: 0.25rem;
 
+  font-family: var(--font-family-ui);
   padding: var(--filters-spacing-y) var(--filters-spacing-x);
 }
 
@@ -20,5 +21,5 @@
 }
 
 .filters-title {
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
 }

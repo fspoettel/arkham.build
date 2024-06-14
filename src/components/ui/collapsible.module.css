@@ -19,6 +19,7 @@
   gap: 1rem;
   cursor: pointer;
   user-select: none;
+  font-size: var(--text-sm);
 }
 
 .collapsible-content > * + * {
