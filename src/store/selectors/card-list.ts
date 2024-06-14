@@ -2,6 +2,7 @@ import { createSelector } from "reselect";
 
 import type { Card } from "../services/types";
 import type { StoreState } from "../slices";
+import type { CardTypeFilter } from "../slices/filters/types";
 import type { Grouping } from "../utils/grouping";
 import {
   getGroupCards,
@@ -19,6 +20,13 @@ import {
 } from "./filters";
 import { selectActiveCardType } from "./filters/shared";
 import { selectCanonicalTabooSetId } from "./filters/taboo-set";
+
+export type ListState = {
+  key: CardTypeFilter;
+  groups: Grouping[];
+  cards: Card[];
+  groupCounts: number[];
+};
 
 export const selectFilteredCards = createSelector(
   selectActiveCardType,
@@ -114,6 +122,6 @@ export const selectFilteredCards = createSelector(
       groups,
       cards,
       groupCounts,
-    };
+    } as ListState;
   },
 );
