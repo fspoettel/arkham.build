@@ -7,6 +7,7 @@ import { LevelFilter } from "./level-filter";
 import { CostFilter } from "./cost-filter";
 import { SkillIconsFilter } from "./skill-icons-filter";
 import { TypeFilter } from "./type-filter";
+import { TraitFilter } from "./trait-filter";
 
 export function Filters() {
   const isInitalized = useStore(selectIsInitialized);
@@ -16,7 +17,7 @@ export function Filters() {
   if (!isInitalized) return null;
 
   return (
-    <nav className={css["filters"]}>
+    <search className={css["filters"]} title="Filters">
       <div className={css["filter-header"]}>
         <button className="button button-bare" onClick={resetFilters}>
           Reset
@@ -24,9 +25,10 @@ export function Filters() {
       </div>
       <FactionFilter />
       {cardTypeSelection === "player" && <LevelFilter />}
-      <TypeFilter />
       <CostFilter />
+      <TypeFilter />
+      <TraitFilter />
       <SkillIconsFilter />
-    </nav>
+    </search>
   );
 }

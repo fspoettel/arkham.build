@@ -14,14 +14,15 @@
   --gray-600: #72787a;
   --gray-700: #586065;
   --gray-800: #3e4851;
+  --gray-850: #34424f;
   --gray-900: #24303c;
-  --gray-950: #131b23;
+  --gray-950: #1e2832;
 
   --color-background: var(--gray-900);
   --color-text: var(--gray-400);
 
   --color-accent: var(--gray-400);
-  --color-border: var(--gray-700);
+  --color-border: rgba(255, 255, 255, 0.1);
   --color-focus: var(--gray-200);
 
   --color-input-text: var(--color-accent);
@@ -91,6 +92,7 @@ select {
   color: var(--color-input-text);
   border: 1px solid var(--color-border);
   border-radius: var(--rounded);
+  padding: 0.5rem;
 
   &:focus {
     outline: 1px solid var(--color-focus);
@@ -98,16 +100,8 @@ select {
 }
 
 select {
-  padding: 0.5rem;
   min-width: 10rem;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="search"],
-input[type="number"],
-textarea {
-  padding: 0.5rem;
+  max-width: 100%;
 }
 
 button {

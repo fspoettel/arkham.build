@@ -1,4 +1,8 @@
+import { Coded } from "@/store/graphql/types";
+
 export type CardTypeFilter = "player" | "encounter";
+
+export type Trait = Coded;
 
 export type CostFilter = {
   value: undefined | [number, number];
@@ -22,7 +26,7 @@ export type SkillIconsFilter = {
   any: number | null;
 };
 
-export type TypeFilter = Record<string, boolean>;
+export type ComboboxFilter = Record<string, boolean>;
 
 type SharedState = {
   cost: CostFilter;
@@ -30,7 +34,9 @@ type SharedState = {
     value: string[];
   };
   skillIcons: SkillIconsFilter;
-  type: TypeFilter;
+  type: ComboboxFilter;
+  subtype: ComboboxFilter;
+  trait: ComboboxFilter;
 };
 
 export type Filters = {
@@ -51,6 +57,11 @@ export type FiltersSlice = {
   resetFilterKey<C extends CardTypeFilter, P extends keyof Filters[C]>(
     type: C,
     path: P,
+  ): void;
+
+  resetFilterKeys<C extends CardTypeFilter, P extends keyof Filters[C]>(
+    type: C,
+    paths: P[],
   ): void;
 
   setActiveFilter<

@@ -44,6 +44,8 @@ export const PLAYER_TYPE_ORDER = [
   "asset",
   "event",
   "skill",
+  "location", // Dream-Gate
+  "story", // Reality Acid
 ] as const;
 
 export const ASSET_SLOT_ORDER = [

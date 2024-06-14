@@ -45,6 +45,7 @@ export function CardList() {
           <Select
             onChange={onSelectGroup}
             value=""
+            tabIndex={-1}
             options={data.groups.map((group) => ({
               value: group.code,
               label: group.name,

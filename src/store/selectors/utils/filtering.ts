@@ -1,10 +1,11 @@
 import { Card } from "@/store/graphql/types";
 import {
+  ComboboxFilter,
   CostFilter,
   LevelFilter,
   SkillIconsFilter,
-  TypeFilter,
 } from "@/store/slices/filters/types";
+import { LookupTables } from "@/store/slices/lookup-tables/types";
 import { SKILL_KEYS, SkillKey } from "@/utils/constants";
 
 type Filter = (c: Card) => boolean;
@@ -23,6 +24,7 @@ export function filterWeaknesses(card: Card) {
 
 export function filterDuplicates(card: Card) {
   return (
+    !card.hidden && // filter hidden cards (usually backsides)
     !card.alt_art_investigator && // filter novellas && parallel investigators
     !card.duplicate_of_code // filter revised_code. TODO: we will have to handle revised core.
   );
@@ -30,6 +32,11 @@ export function filterDuplicates(card: Card) {
 
 export function filterEncounterCards(card: Card) {
   return !card.encounter_code; // filter out encounter cards (story player cards).
+}
+
+// needs to filter out some bad data that would otherwise end up in player cards (i.e. 04325).
+export function filterMythosCards(card: Card) {
+  return card.faction_code !== "mythos";
 }
 
 export function filterBacksides(card: Card) {
@@ -73,24 +80,6 @@ export function filterCardCost(value: [number, number] | undefined) {
   };
 }
 
-export function filterCost(cost: CostFilter) {
-  // apply level range if provided. `0-5` is assumed, null-costed cards are excluded.
-  const filters = [filterCardCost(cost.value)];
-
-  // apply even / odd filters
-  const moduloFilters = [];
-  if (cost.even) moduloFilters.push(filterEvenCost);
-  if (cost.odd) moduloFilters.push(filterOddCost);
-  filters.push(or(moduloFilters));
-
-  const filter = or([filterXCost(cost.x), and(filters)]);
-
-  return (card: Card) => {
-    if (!cost.value) return true;
-    return filter(card);
-  };
-}
-
 function filterExceptional(card: Card) {
   return !!card.exceptional;
 }
@@ -106,43 +95,20 @@ function filterCardLevel(value: [number, number] | undefined) {
   };
 }
 
-export function filterLevel(level: LevelFilter) {
-  const filters = [];
-
-  if (level.value) {
-    filters.push(filterCardLevel(level.value));
-  }
-
-  if (level.exceptional !== level.nonexceptional) {
-    if (level.exceptional) {
-      filters.push(filterExceptional);
-    } else {
-      filters.push(filterNonexceptional);
-    }
-  }
-
-  const filter = and(filters);
-
-  return (card: Card) => {
-    if (!level.value) return true;
-    return filter(card);
-  };
-}
-
 function filterSkill(skill: SkillKey, amount: number) {
   return (card: Card) =>
     card.type_code !== "investigator" &&
     (card[`skill_${skill}`] ?? 0) >= amount;
 }
 
-export function filterSkillIcons(skillIcons: SkillIconsFilter) {
+export function filterSkillIcons(filterState: SkillIconsFilter) {
   const iconFilter: Filter[] = [];
   const anyFilter: Filter[] = [];
 
-  const anyV = skillIcons.any;
+  const anyV = filterState.any;
 
   SKILL_KEYS.forEach((skill) => {
-    const v = skillIcons[skill];
+    const v = filterState[skill];
     if (v) {
       iconFilter.push(filterSkill(skill, v));
     }
@@ -161,13 +127,80 @@ export function filterSkillIcons(skillIcons: SkillIconsFilter) {
   };
 }
 
-export function filterTypes(filter: TypeFilter) {
+export function filterCost(filterState: CostFilter) {
+  // apply level range if provided. `0-5` is assumed, null-costed cards are excluded.
+  const filters = [filterCardCost(filterState.value)];
+
+  // apply even / odd filters
+  const moduloFilters = [];
+  if (filterState.even) moduloFilters.push(filterEvenCost);
+  if (filterState.odd) moduloFilters.push(filterOddCost);
+  filters.push(or(moduloFilters));
+
+  const filter = or([filterXCost(filterState.x), and(filters)]);
+
   return (card: Card) => {
-    const enabledTypeCodes = Object.entries(filter)
+    if (!filterState.value) return true;
+    return filter(card);
+  };
+}
+
+export function filterLevel(filterState: LevelFilter) {
+  const filters = [];
+
+  if (filterState.value) {
+    filters.push(filterCardLevel(filterState.value));
+  }
+
+  if (filterState.exceptional !== filterState.nonexceptional) {
+    if (filterState.exceptional) {
+      filters.push(filterExceptional);
+    } else {
+      filters.push(filterNonexceptional);
+    }
+  }
+
+  const filter = and(filters);
+
+  return (card: Card) => {
+    if (!filterState.value) return true;
+    return filter(card);
+  };
+}
+
+export function filterTypes(filterState: ComboboxFilter) {
+  return (card: Card) => {
+    const enabledTypeCodes = Object.entries(filterState)
       .filter(([, v]) => !!v)
       .map(([k]) => k);
     if (!enabledTypeCodes.length) return true;
+    return filterState[card.type_code];
+  };
+}
 
-    return filter[card.type_code];
+export function filterSubtypes(filterState: ComboboxFilter) {
+  return (card: Card) => {
+    const enabledTypeCodes = Object.entries(filterState)
+      .filter(([, v]) => !!v)
+      .map(([k]) => k);
+    if (!enabledTypeCodes.length) return true;
+    return !!card.subtype_code && filterState[card.subtype_code];
+  };
+}
+
+export function filterTraits(
+  filterState: ComboboxFilter,
+  lookupTables: LookupTables["traits"],
+) {
+  const filters: Filter[] = [];
+
+  Object.entries(filterState).forEach(([key, value]) => {
+    if (value) filters.push((c: Card) => !!lookupTables[key][c.code]);
+  });
+
+  const filter = or(filters);
+
+  return (card: Card) => {
+    return filter(card);
   };
 }

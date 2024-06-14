@@ -1,5 +1,5 @@
 import { StateCreator } from "zustand";
-import { Filters, FiltersSlice } from "./types";
+import { CardTypeFilter, Filters, FiltersSlice } from "./types";
 import { StoreState } from "..";
 
 function getInitialState(): Filters {
@@ -21,6 +21,9 @@ function getInitialState(): Filters {
       wild: null,
       any: null,
     },
+    type: {},
+    subtype: {},
+    trait: {},
   };
 
   return {
@@ -32,11 +35,9 @@ function getInitialState(): Filters {
         exceptional: false,
         nonexceptional: false,
       },
-      type: {},
     },
     encounter: {
       ...structuredClone(shared),
-      type: {},
     },
   };
 }
@@ -68,16 +69,14 @@ export const createFiltersSlice: StateCreator<
   },
 
   resetFilterKey(type, path) {
-    const state = get();
-    set({
-      filters: {
-        ...state.filters,
-        [type]: {
-          ...state.filters[type],
-          [path]: getInitialState()[type][path],
-        },
-      },
-    });
+    set({ filters: resetFilterKeys(get(), type, [path]) });
+  },
+
+  resetFilterKeys<C extends CardTypeFilter, P extends keyof Filters[C]>(
+    type: C,
+    paths: P[],
+  ) {
+    set({ filters: resetFilterKeys(get(), type, paths) });
   },
 
   setActiveCardType(cardType) {
@@ -106,6 +105,30 @@ export const createFiltersSlice: StateCreator<
     set({ filters });
   },
 });
+
+function resetFilterKeys<C extends CardTypeFilter, P extends keyof Filters[C]>(
+  state: StoreState,
+  type: C,
+  paths: P[],
+) {
+  const initialState = getInitialState();
+
+  const filterResets = paths.reduce(
+    (acc, path) => {
+      acc[path] = initialState[type][path];
+      return acc;
+    },
+    {} as Partial<Filters[C]>,
+  );
+
+  return {
+    ...state.filters,
+    [type]: {
+      ...state.filters[type],
+      ...filterResets,
+    },
+  };
+}
 
 function updateValue<
   C extends "player" | "encounter",

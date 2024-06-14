@@ -1,7 +1,7 @@
 ## App
 
 - add a custom persist implementation that only updates indexeddb when relevant data changes.
-- resetting filters should close the respective details.
+- resetting filters should close the respective details. this would also improve filter performance (do less work for inactive filters).
 
 ## Arkham Cards API
 
@@ -19,6 +19,16 @@
 - add a `pack_code` field for `encounter_sets` to the arkham-cards API.
 - add fields that delimit off-standard artworks to the arkham-cards API. i.e. `is_mirrored`.
 - figure out why `all_cards.pack` `all_cards.encounter_sets` relations do not work on arkham-cards API.
+
+## Card data
+
+### Cards to verify
+
+- `51026`
+- `89005`
+- `07300`
+- `04325`
+- `04326`
 
 ## Further plans
 

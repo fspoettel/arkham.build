@@ -9,6 +9,7 @@ import {
 import { Card } from "@/store/graphql/types";
 import { splitMultiValue } from "@/utils/card-utils";
 import { LookupTable, LookupTables, LookupTablesSlice } from "./types";
+import { CardTypeFilter } from "../filters/types";
 
 export function getInitialLookupTables(): LookupTables {
   return {
@@ -38,6 +39,8 @@ export function getInitialLookupTables(): LookupTables {
     traits: {},
     uses: {},
     level: {},
+    types_by_card_type_selection: {},
+    traits_by_card_type_selection: {},
   };
 }
 
@@ -55,6 +58,11 @@ export function addCardToLookupTables(
   card: Card,
   i: number,
 ) {
+  // skip indexing linked and hidden cards.
+  if (card.linked || card.hidden) {
+    return;
+  }
+
   sortedByName(tables, card, i);
 
   indexByCodes(tables, card);
@@ -84,6 +92,20 @@ export function addCardToLookupTables(
   } else {
     // TODO: add enemy filters.
   }
+
+  if (card.encounter_code || card.faction_code === "mythos") {
+    indexTypeByCardTypeSelection(tables, card.type_code, "encounter");
+  } else {
+    indexTypeByCardTypeSelection(tables, card.type_code, "player");
+  }
+}
+
+function indexTypeByCardTypeSelection(
+  tables: LookupTables,
+  typeCode: string,
+  cardType: CardTypeFilter,
+) {
+  setInLookupTable(typeCode, tables.types_by_card_type_selection, cardType);
 }
 
 function indexByCodes(tables: LookupTables, card: Card) {
@@ -102,7 +124,18 @@ function indexByCodes(tables: LookupTables, card: Card) {
 
 function indexByTraits(tables: LookupTables, card: Card) {
   splitMultiValue(card.real_traits).forEach((trait) => {
-    if (trait) setInLookupTable(card.code, tables.traits, trait);
+    if (trait) {
+      setInLookupTable(card.code, tables.traits, trait);
+      if (card.encounter_code || card.faction_code === "mythos") {
+        setInLookupTable(
+          trait,
+          tables.traits_by_card_type_selection,
+          "encounter",
+        );
+      } else {
+        setInLookupTable(trait, tables.traits_by_card_type_selection, "player");
+      }
+    }
   });
 }
 

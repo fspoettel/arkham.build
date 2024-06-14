@@ -1,3 +1,7 @@
+export type Coded = {
+  code: string;
+};
+
 export type QueryCard = {
   alt_art_investigator?: boolean;
   alternate_of_code?: string;

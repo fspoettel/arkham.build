@@ -20,32 +20,47 @@ import {
   filterLevel,
   filterSkillIcons,
   filterTypes,
+  filterSubtypes,
   filterWeaknesses,
+  filterMythosCards,
+  filterTraits,
 } from "./utils/filtering";
 
 const selectTypeFilter = createSelector(
   (state: StoreState) => state.filters[state.filters.cardType].type,
-  (state) => filterTypes(state),
+  (filterState) => filterTypes(filterState),
+);
+
+const selectSubtypeFilter = createSelector(
+  (state: StoreState) => state.filters[state.filters.cardType].subtype,
+  (state) => filterSubtypes(state),
 );
 
 const selectFactionFilter = createSelector(
   (state: StoreState) => state.filters[state.filters.cardType].faction,
-  (state) => (state.value ? filterFactions(state.value) : undefined),
+  (filterState) =>
+    filterState.value ? filterFactions(filterState.value) : undefined,
 );
 
 const selectLevelFilter = createSelector(
   (state: StoreState) => state.filters.player.level,
-  (state) => (state.value ? filterLevel(state) : undefined),
+  (filterState) => (filterState.value ? filterLevel(filterState) : undefined),
 );
 
 const selectCostFilter = createSelector(
   (state: StoreState) => state.filters[state.filters.cardType].cost,
-  (state) => (state.value ? filterCost(state) : undefined),
+  (filterState) => (filterState.value ? filterCost(filterState) : undefined),
 );
 
 const selectSkillIconsFilter = createSelector(
   (state: StoreState) => state.filters[state.filters.cardType].skillIcons,
-  (skillIcons) => filterSkillIcons(skillIcons),
+  (filterState) => filterSkillIcons(filterState),
+);
+
+const selectTraitsFilter = createSelector(
+  (state: StoreState) => state.lookupTables.traits,
+  (state: StoreState) => state.filters[state.filters.cardType].trait,
+  (traitsTable, filterState) => filterTraits(filterState, traitsTable),
 );
 
 const selectPlayerCardFilters = createSelector(
@@ -54,13 +69,26 @@ const selectPlayerCardFilters = createSelector(
   selectCostFilter,
   selectSkillIconsFilter,
   selectTypeFilter,
-  (factionFilter, levelFilter, costFilter, skillIconsFilter, typeFilter) => {
+  selectSubtypeFilter,
+  selectTraitsFilter,
+  (
+    factionFilter,
+    levelFilter,
+    costFilter,
+    skillIconsFilter,
+    typeFilter,
+    subtypeFilter,
+    traitsFilter,
+  ) => {
     const filters = [
+      filterMythosCards,
       filterEncounterCards,
       filterDuplicates,
       filterWeaknesses,
       skillIconsFilter,
       typeFilter,
+      subtypeFilter,
+      traitsFilter,
     ];
 
     if (factionFilter) {
@@ -85,12 +113,24 @@ const selectWeaknessFilters = createSelector(
   selectFactionFilter,
   selectSkillIconsFilter,
   selectTypeFilter,
-  (levelFilter, costFilter, factionFilter, skillIconsFilter, typeFilter) => {
+  selectSubtypeFilter,
+  selectTraitsFilter,
+  (
+    levelFilter,
+    costFilter,
+    factionFilter,
+    skillIconsFilter,
+    typeFilter,
+    subtypeFilter,
+    traitsFilter,
+  ) => {
     const filters = [
       filterEncounterCards,
       filterDuplicates,
       skillIconsFilter,
       typeFilter,
+      subtypeFilter,
+      traitsFilter,
     ];
 
     if (factionFilter) {
@@ -114,8 +154,23 @@ const selectEncounterFilters = createSelector(
   selectFactionFilter,
   selectSkillIconsFilter,
   selectTypeFilter,
-  (costFilter, factionFilter, skillIconsFilter, typeFilter) => {
-    const filters = [filterBacksides, skillIconsFilter, typeFilter];
+  selectSubtypeFilter,
+  selectTraitsFilter,
+  (
+    costFilter,
+    factionFilter,
+    skillIconsFilter,
+    typeFilter,
+    subtypeFilter,
+    traitsFilter,
+  ) => {
+    const filters = [
+      filterBacksides,
+      skillIconsFilter,
+      typeFilter,
+      subtypeFilter,
+      traitsFilter,
+    ];
 
     if (factionFilter) {
       filters.push(factionFilter);

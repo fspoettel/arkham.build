@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 import { StoreState } from "../slices";
-import { Type } from "../graphql/types";
+import { SubType, Type } from "../graphql/types";
 
 export function selectCostMinMax(state: StoreState) {
   const costs = Object.keys(state.lookupTables.cost).map((x) =>
@@ -23,22 +23,26 @@ export function selectCostMinMax(state: StoreState) {
 export const selectActiveCardType = (state: StoreState) =>
   state.filters.cardType;
 
-export const selectActiveFactions = createSelector(
-  (state: StoreState) => state.filters[state.filters.cardType],
-  (filterState) => filterState.faction,
+export const selectTypes = createSelector(
+  selectActiveCardType,
+  (state: StoreState) => state.metadata.types,
+  (state: StoreState) => state.lookupTables,
+  (cardType, typesMap, lookupTables) => {
+    const types = Object.keys(
+      lookupTables.types_by_card_type_selection[cardType],
+    ).map((type) => typesMap[type]);
+    types.sort((a, b) => a.name.localeCompare(b.name));
+    return types;
+  },
 );
 
-export const selectActiveCost = createSelector(
-  (state: StoreState) => state.filters[state.filters.cardType],
-  (filterState) => filterState.cost,
-);
-
-export const selectActiveLevel = (state: StoreState) =>
-  state.filters.player.level;
-
-export const selectActiveSkillIcons = createSelector(
-  (state: StoreState) => state.filters[state.filters.cardType],
-  (filterState) => filterState.skillIcons,
+export const selectSubtypes = createSelector(
+  (state: StoreState) => state.metadata,
+  (metadata) => {
+    const types = Object.values(metadata.subtypes);
+    types.sort((a, b) => a.name.localeCompare(b.name));
+    return types;
+  },
 );
 
 const FACTION_SORT = [
@@ -78,26 +82,68 @@ export const selectFactions = createSelector(
   },
 );
 
-export const selectTypes = createSelector(
-  (state: StoreState) => state.metadata,
-  (metadata) => {
-    const types = Object.values(metadata.types);
-    types.sort((a, b) => a.name.localeCompare(b.name));
+export const selectTraits = createSelector(
+  selectActiveCardType,
+  (state: StoreState) => state.lookupTables.traits_by_card_type_selection,
+  (cardType, traitMap) => {
+    const types = Object.keys(traitMap[cardType]).map((code) => ({ code }));
+    types.sort((a, b) => a.code.localeCompare(b.code));
     return types;
   },
 );
 
-export const selectActiveTypes = createSelector(
-  (state: StoreState) => state.metadata,
-  (state: StoreState) => state.filters[state.filters.cardType],
+export const selectActiveFactions = (state: StoreState) =>
+  state.filters[state.filters.cardType].faction;
+
+export const selectActiveCost = (state: StoreState) =>
+  state.filters[state.filters.cardType].cost;
+
+export const selectActiveLevel = (state: StoreState) =>
+  state.filters.player.level;
+
+export const selectActiveSkillIcons = (state: StoreState) =>
+  state.filters[state.filters.cardType].skillIcons;
+
+export const selectActiveSubtypes = createSelector(
+  (state: StoreState) => state.metadata.subtypes,
+  (state: StoreState) => state.filters[state.filters.cardType].subtype,
   (metadata, filters) =>
     Object.fromEntries(
-      Object.entries(filters.type).reduce(
+      Object.entries(filters).reduce(
         (acc, [key, val]) => {
-          if (val) acc.push([key, metadata.types[key]]);
+          if (val) acc.push([key, metadata[key]]);
+          return acc;
+        },
+        [] as [string, SubType][],
+      ),
+    ),
+);
+
+export const selectActiveTypes = createSelector(
+  (state: StoreState) => state.metadata.types,
+  (state: StoreState) => state.filters[state.filters.cardType].type,
+  (metadata, filters) =>
+    Object.fromEntries(
+      Object.entries(filters).reduce(
+        (acc, [key, val]) => {
+          if (val) acc.push([key, metadata[key]]);
           return acc;
         },
         [] as [string, Type][],
+      ),
+    ),
+);
+
+export const selectActiveTraits = createSelector(
+  (state: StoreState) => state.filters[state.filters.cardType].trait,
+  (filters) =>
+    Object.fromEntries(
+      Object.entries(filters).reduce(
+        (acc, [key, val]) => {
+          if (val) acc.push([key, { code: key }]);
+          return acc;
+        },
+        [] as [string, { code: string }][],
       ),
     ),
 );

@@ -13,10 +13,11 @@
   padding-bottom: 0.25rem;
 }
 
-.field-limits input {
+.field-limits input[type="text"] {
   line-height: 1;
-  width: calc(2ch + 0.5rem);
+  width: calc(2ch + 1rem);
   text-align: center;
+  padding: 0.125rem;
 
   &:first-child {
     margin-left: -0.125rem;

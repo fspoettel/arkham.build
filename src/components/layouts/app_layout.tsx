@@ -9,10 +9,10 @@ type Props = {
 
 export function AppLayout({ children, filters, sidebar }: Props) {
   return (
-    <div className={css["layout"]}>
+    <main className={css["layout"]}>
       <section className={css["layout-sidebar"]}>{sidebar}</section>
       <section className={css["layout-main"]}>{children}</section>
       <nav className={css["layout-filters"]}>{filters}</nav>
-    </div>
+    </main>
   );
 }

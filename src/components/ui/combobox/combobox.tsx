@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { CheckIcon } from "@radix-ui/react-icons";
-import css from "./combobox.module.css";
 import {
   ReactNode,
   useCallback,
@@ -22,8 +21,10 @@ import {
   useListNavigation,
 } from "@floating-ui/react";
 import { ComboboxResults } from "./combobox-results";
+import css from "./combobox.module.css";
+import { Coded } from "@/store/graphql/types";
 
-type Props<T extends { code: string }> = {
+type Props<T extends Coded> = {
   className?: string;
   id: string;
   items: T[];
@@ -36,7 +37,7 @@ type Props<T extends { code: string }> = {
   selectedItems: Record<string, T>;
 };
 
-export function Combobox<T extends { code: string }>({
+export function Combobox<T extends Coded>({
   className,
   id,
   items,
