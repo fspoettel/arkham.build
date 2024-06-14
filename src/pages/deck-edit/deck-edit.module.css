@@ -25,10 +25,6 @@
   flex: 0 0 auto;
 }
 
-.deck-edit-sidebar-tabs-content {
-  flex: 1 1 auto;
-}
-
 .deck-edit-sidebar-tabs-content > * + *,
 .deck-edit-sidebar > * + * {
   margin-top: 0.5rem;
@@ -42,4 +38,9 @@
 .deck-edit-sidebar-icons {
   display: flex;
   justify-content: space-between;
+}
+
+.deck-edit-sidebar-placeholder {
+  text-align: center;
+  padding: 1rem;
 }

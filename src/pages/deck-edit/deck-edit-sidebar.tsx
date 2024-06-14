@@ -18,6 +18,12 @@ type Props = {
   deck: DisplayDeck;
 };
 
+function Placeholder({ name }: { name: string }) {
+  return (
+    <div className={css["deck-edit-sidebar-placeholder"]}>{name} is empty.</div>
+  );
+}
+
 export function DeckEditSidebar({ deck }: Props) {
   const currentTab = useStore(selectCurrentTab);
   const updateActiveTab = useStore((state) => state.updateActiveTab);
@@ -88,7 +94,7 @@ export function DeckEditSidebar({ deck }: Props) {
                   quantities={deck.sideSlots ?? undefined}
                 />
               ) : (
-                "No cards"
+                <Placeholder name="Side deck" />
               )}
             </DecklistSection>
           </TabsContent>
@@ -97,7 +103,7 @@ export function DeckEditSidebar({ deck }: Props) {
               className={css["deck-edit-sidebar-tabs-content"]}
               value="extraSlots"
             >
-              <DecklistSection title="Side Deck">
+              <DecklistSection title="Spirits">
                 {deck.groups.extra?.data ? (
                   <DecklistGroups
                     group={deck.groups.extra.data}
@@ -106,7 +112,7 @@ export function DeckEditSidebar({ deck }: Props) {
                     quantities={deck.extraSlots ?? undefined}
                   />
                 ) : (
-                  "No cards"
+                  <Placeholder name="Spirit deck" />
                 )}
               </DecklistSection>
             </TabsContent>

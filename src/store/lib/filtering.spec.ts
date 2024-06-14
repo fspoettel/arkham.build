@@ -341,6 +341,8 @@ describe("filter: investigator access", () => {
         targetDeck: "slots",
       } as any;
 
+      // FIXME: the card should not show up here.
+      // expect(applyFilter(state, "90049", "90053", config)).toBeFalsy();
       expect(applyFilter(state, "90049", "01018", config)).toBeFalsy();
       expect(applyFilter(state, "90049", "03266", config)).toBeTruthy();
       expect(applyFilter(state, "90049", "01063", config)).toBeTruthy();
@@ -353,6 +355,7 @@ describe("filter: investigator access", () => {
         targetDeck: "extraSlots",
       } as any;
 
+      expect(applyFilter(state, "90049", "90053", config)).toBeTruthy();
       expect(applyFilter(state, "90049", "01018", config)).toBeTruthy();
       expect(applyFilter(state, "90049", "01063", config)).toBeTruthy();
       expect(applyFilter(state, "90049", "03266", config)).toBeFalsy();
@@ -365,6 +368,7 @@ describe("filter: investigator access", () => {
         targetDeck: "both",
       } as any;
 
+      expect(applyFilter(state, "90049", "90053", config)).toBeTruthy();
       expect(applyFilter(state, "90049", "01018", config)).toBeTruthy();
       expect(applyFilter(state, "90049", "01063", config)).toBeTruthy();
       expect(applyFilter(state, "90049", "03266", config)).toBeTruthy();

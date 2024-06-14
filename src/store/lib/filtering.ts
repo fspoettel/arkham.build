@@ -768,6 +768,7 @@ function makePlayerCardsFilter(
   config?: InvestigatorAccessConfig,
 ) {
   const requirements = investigator[requiredAccessor]?.card;
+
   const baseOptions = investigator[optionsAccessor];
 
   const options = config?.additionalDeckOptions
@@ -783,7 +784,9 @@ function makePlayerCardsFilter(
 
   const ors: Filter[] = [];
 
-  if (config?.targetDeck !== "extraSlots") {
+  if (config?.targetDeck === "extraSlots") {
+    ors.push((card: Card) => card.code in requirements);
+  } else {
     ors.push(
       filterRequired(code, lookupTables.relations),
       (card: Card) => card.subtype_code === "basicweakness",

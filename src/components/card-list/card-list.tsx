@@ -71,7 +71,9 @@ export function CardList(props: Props) {
     } else {
       virtuosoRef.current?.scrollTo({ top: 0 });
     }
-  }, [data]);
+    // HACK: this makes sure this only triggers when the list actually updates, not e.g. when quantities change.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cardCount.current]);
 
   const jumpToOptions = useMemo(
     () =>
