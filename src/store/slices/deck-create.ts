@@ -1,9 +1,9 @@
 import type { StateCreator } from "zustand";
 
 import { assert } from "@/utils/assert";
-import { getDefaultDeckName } from "@/utils/deck-names";
 
 import type { StoreState } from ".";
+import { getDefaultDeckName } from "../lib/deck-factory";
 import type { DeckCreateSlice, Set } from "./deck-create.types";
 
 export const createdeckCreateSlice: StateCreator<
