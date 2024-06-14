@@ -34,7 +34,7 @@ type AllCardResponse = {
 };
 
 async function request<T>(path: string): Promise<T> {
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/${path}`);
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1${path}`);
   return await res.json();
 }
 
@@ -50,7 +50,7 @@ type MetadataApiResponseType = Omit<
 
 export async function queryMetadata() {
   // const data = await stub<MetadataApiResponseType>("./data/stubs/metadata.json")
-  const data: MetadataApiResponseType = await request("metadata");
+  const data: MetadataApiResponseType = await request("/metadata");
   return {
     ...data,
     reprint_pack: reprintPacks,
@@ -62,13 +62,13 @@ export async function queryMetadata() {
 
 export async function queryDataVersion() {
   // const data = await stub("./data/stubs/data_version.json");
-  const data = await request<DataVersionResponse>("version");
+  const data = await request<DataVersionResponse>("/version");
   return data.all_card_updated[0];
 }
 
 export async function queryCards() {
   // const data = await stub<AllCardResponse>("./data/stubs/all_card.json")
-  const data = await request<AllCardResponse>("cards");
+  const data = await request<AllCardResponse>("/cards");
   return data.all_card;
 }
 
