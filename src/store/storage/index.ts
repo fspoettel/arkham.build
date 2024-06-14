@@ -13,7 +13,7 @@ import type { Val } from "./types";
 
 const indexedDBAdapter = new IndexedDBAdapter();
 
-const VERSION = 2;
+const VERSION = 0;
 
 // use this flag to disable rehydration during dev.
 const SKIP_HYDRATION = false;
@@ -22,16 +22,6 @@ export const storageConfig: PersistOptions<StoreState, Val> = {
   name: "deckbuilder",
   storage: createCustomStorage(),
   version: VERSION,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  migrate(persistedState: any, version) {
-    if (version === 1) {
-      if (!persistedState.decks) {
-        persistedState.decks = { local: {} };
-      }
-    }
-
-    return persistedState;
-  },
   partialize(state: StoreState) {
     return {
       decks: state.decks,
@@ -64,7 +54,7 @@ function createCustomStorage(): PersistStorage<Val> | undefined {
 
         const val: StorageValue<Val> = {
           state: {
-            decks: appdata?.state?.decks ?? getInitialDecksState(),
+            decks: appdata?.state?.decks ?? getInitialDecksState().decks,
             metadata: metadata?.state?.metadata ?? getInitialMetadata(),
             settings: appdata?.state?.settings ?? getInitialSettings(),
           },
