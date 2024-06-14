@@ -1,14 +1,14 @@
 import type { StateCreator } from "zustand";
 
 import type { StoreState } from ".";
-import { queryDeck, queryUpgrades } from "../services/queries";
+import { queryDeck, queryHistory } from "../services/queries";
 import type { DataSlice } from "./data.types";
 
 export function getInitialDataState() {
   return {
     data: {
       decks: {},
-      upgrades: {},
+      history: {},
     },
   };
 }
@@ -31,10 +31,21 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
       throw new Error(`Deck ${deck.id} already exists.`);
     }
 
-    const upgrades =
+    const deckHistory =
       type === "deck" && deck.previous_deck
-        ? await queryUpgrades(deck.previous_deck)
+        ? await queryHistory(deck.previous_deck)
         : [];
+
+    const historyIds = deckHistory.map(({ id }) => id);
+
+    const nextUpgrades = {
+      ...state.data.history,
+      [deck.id]: historyIds,
+    };
+
+    for (const id of historyIds) {
+      delete nextUpgrades[id];
+    }
 
     set({
       data: {
@@ -42,33 +53,30 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
         decks: {
           ...state.data.decks,
           [deck.id]: deck,
-          ...upgrades.reduce(
-            (acc, upgrade) => ({ ...acc, [upgrade.id]: upgrade }),
+          ...deckHistory.reduce(
+            (acc, history) => ({ ...acc, [history.id]: history }),
             {},
           ),
         },
-        upgrades: {
-          ...state.data.upgrades,
-          [deck.id]: upgrades.map((upgrade) => upgrade.id),
-        },
+        history: nextUpgrades,
       },
     });
   },
-  deleteDeck(id) {
+  deleteDeck(deckId) {
     const state = get();
-    const localDecks = { ...state.data.decks };
-    delete localDecks[id];
+    const decks = { ...state.data.decks };
+    delete decks[deckId];
 
-    const upgrades = { ...state.data.upgrades };
+    const history = { ...state.data.history };
 
-    if (upgrades[id]) {
-      for (const upgrade of upgrades[id]) {
-        delete localDecks[upgrade];
+    if (history[deckId]) {
+      for (const id of history[deckId]) {
+        delete decks[id];
       }
     }
 
-    delete upgrades[id];
+    delete history[deckId];
 
-    set({ data: { ...state.data, decks: localDecks, upgrades } });
+    set({ data: { ...state.data, decks, history } });
   },
 });

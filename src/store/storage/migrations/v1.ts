@@ -10,7 +10,7 @@ function migrate(_state: unknown, version: number) {
       }
     }
 
-    state.data.upgrades = {
+    state.data.history = {
       ...Object.values(state.data.decks).reduce<{
         [id: string | number]: (string | number)[];
       }>((acc, curr) => {
