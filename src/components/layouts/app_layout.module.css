@@ -1,5 +1,5 @@
 .layout {
-  --sidebar-width: min(32rem, 33.333%);
+  --sidebar-width: 20rem;
 
   height: 100dvh;
   width: 100%;
@@ -10,12 +10,13 @@
   padding: 0.5rem;
 
   & > * {
-    border: 0.125rem solid currentColor;
+    border: 1px solid var(--gray-500);
+    border-radius: var(--rounded-md);
   }
 }
 
 .layout-sidebar {
-  flex: 0 1 var(--sidebar-width);
+  flex: 0 0 var(--sidebar-width);
 }
 
 .layout-main {
@@ -24,7 +25,7 @@
 
 .layout-filters {
   display: none;
-  flex: 0 1 var(--sidebar-width);
+  flex: 0 0 var(--sidebar-width);
 
   @media screen and (min-width: 50rem) {
     display: block;

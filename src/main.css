@@ -4,8 +4,31 @@
   --font-family-monospace: "SFMono-Regular", Consolas, "Liberation Mono", Menlo,
     Courier, monospace;
 
-  --color-background: #24303c;
-  --color-text: #c2bfb5;
+  --gray-50: #fffbf2;
+  --gray-100: #f5f0e1ff;
+  --gray-200: #dbd8ccff;
+  --gray-300: #c1c0b8ff;
+  --gray-400: #a7a8a3ff;
+  --gray-500: #8d908fff;
+  --gray-600: #72787aff;
+  --gray-700: #586065ff;
+  --gray-800: #3e4851ff;
+  --gray-900: #24303cff;
+
+  --background: var(--gray-900);
+  --text: var(--gray-400);
+
+  --guardian: #5cb4fd;
+  --mystic: #ba81f2;
+  --rogue: #48b14f;
+  --seeker: #efa345;
+  --survivor: #ee4a53;
+  --multiclass: #e4d083;
+
+  --rounded: 0.25rem;
+  --rounded-md: 0.5rem;
+  --rounded-lg: 1rem;
+  --rounded-xl: 1.5rem;
 }
 
 *,
@@ -20,14 +43,11 @@
 
 body {
   font-family: var(--font-family-ui);
+  font-size: 1rem;
   line-height: 1.5;
-  background: var(--color-background);
-  color: var(--color-text);
+  background: var(--background);
+  color: var(--text);
   -webkit-font-smoothing: antialiased;
-}
-
-code {
-  font-family: var(--font-family-monospace);
 }
 
 img,
@@ -37,6 +57,13 @@ canvas,
 svg {
   display: block;
   max-width: 100%;
+  height: auto;
+}
+
+.icon {
+  fill: currentColor;
+  width: 1em;
+  height: 1em;
 }
 
 input,
@@ -44,6 +71,11 @@ button,
 textarea,
 select {
   font: inherit;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
 }
 
 @media (prefers-color-scheme: dark) {

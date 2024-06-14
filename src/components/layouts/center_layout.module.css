@@ -5,8 +5,8 @@
 }
 
 .layout-top {
-  flex: 0 0 4rem;
-  border-bottom: 2px solid currentColor;
+  flex: 0 0 auto;
+  border-bottom: 1px solid var(--gray-500);
 }
 
 .layout-main {
