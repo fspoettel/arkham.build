@@ -43,8 +43,9 @@
     color: currentColor;
 
     &:hover,
-    &:focus,
+    &:focus-visible,
     &:active {
+      outline: none;
       background: none;
       text-decoration: underline;
       text-decoration-color: currentColor;

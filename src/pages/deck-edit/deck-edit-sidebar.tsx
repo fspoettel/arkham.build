@@ -3,7 +3,7 @@ import { DeckCard } from "@/components/deck-collection/deck";
 import { DeckInvestigator } from "@/components/deck-investigator/deck-investigator";
 import { DecklistGroups } from "@/components/decklist/decklist-groups";
 import { DecklistSection } from "@/components/decklist/decklist-section";
-import { Scroller } from "@/components/ui/scroll-area";
+import { Scroller } from "@/components/ui/scroller";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useStore } from "@/store";
 import type { DisplayDeck } from "@/store/lib/deck-grouping";

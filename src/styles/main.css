@@ -166,7 +166,7 @@ select {
   border-radius: var(--rounded);
   padding: 0.5rem;
 
-  &:focus {
+  &:focus-visible {
     outline: 1px solid var(--nord-6);
   }
 }
@@ -212,7 +212,7 @@ button {
     background: var(--nord-2);
   }
 
-  &:focus {
+  &:focus-visible {
     outline: 1px solid var(--nord-6);
   }
 }

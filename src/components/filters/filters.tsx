@@ -7,7 +7,7 @@ import { selectActiveCardType } from "@/store/selectors/filters";
 import css from "./filters.module.css";
 
 import { Button } from "../ui/button";
-import { Scroller } from "../ui/scroll-area";
+import { Scroller } from "../ui/scroller";
 import { ActionFilter } from "./action-filter";
 import { AssetFilter } from "./asset-filter";
 import { CostFilter } from "./cost-filter";

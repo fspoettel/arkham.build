@@ -21,7 +21,7 @@
     background: var(--nord-2);
   }
 
-  &:focus {
+  &:focus-visible {
     outline: 1px solid var(--nord-6);
   }
 }

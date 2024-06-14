@@ -5,7 +5,7 @@ import clsx from "clsx";
 import type { ForwardedRef, ReactNode } from "react";
 import { forwardRef } from "react";
 
-import css from "./scroll-area.module.css";
+import css from "./scroller.module.css";
 
 type Props = ScrollAreaProps & {
   className?: string;
@@ -27,6 +27,7 @@ export const Scroller = forwardRef(
         <Viewport
           ref={ref}
           className={clsx(css["scroll-area-viewport"], viewportClassName)}
+          tabIndex={-1}
         >
           {children}
         </Viewport>

@@ -27,13 +27,15 @@
     background: var(--nord-2);
   }
 
-  &:focus {
+  &:hover,
+  &:active,
+  &:focus-visible {
     z-index: 2;
   }
 
   &:hover:not([data-state="checked"]),
   &:active:not([data-state="checked"]),
-  &:focus:not([data-state="checked"]) {
+  &:focus-visible:not([data-state="checked"]) {
     background: var(--nord-1);
   }
 }

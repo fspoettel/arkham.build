@@ -12,7 +12,7 @@ import { range } from "@/utils/range";
 
 import css from "./card-list.module.css";
 
-import { Scroller } from "../ui/scroll-area";
+import { Scroller } from "../ui/scroller";
 import { Select } from "../ui/select";
 import { Grouphead } from "./Grouphead";
 import { ListCard } from "./list-card";

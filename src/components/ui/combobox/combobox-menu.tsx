@@ -15,7 +15,7 @@ import type { Coded } from "@/store/services/types";
 
 import css from "./combobox.module.css";
 
-import { Scroller } from "../scroll-area";
+import { Scroller } from "../scroller";
 
 type Props<T extends Coded> = {
   activeIndex: number | null;

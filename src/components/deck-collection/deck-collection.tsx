@@ -8,7 +8,7 @@ import { capitalize } from "@/utils/formatting";
 import css from "./deck-collection.module.css";
 
 import { Button } from "../ui/button";
-import { Scroller } from "../ui/scroll-area";
+import { Scroller } from "../ui/scroller";
 import { DeckCard } from "./deck";
 import { DeckCollectionImport } from "./deck-collection-import";
 

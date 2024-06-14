@@ -27,7 +27,7 @@
   background-color: var(--nord-2);
 }
 
-.checkbox-root:focus {
+.checkbox-root:focus-visible {
   outline: 1px solid var(--nord-5);
   outline-offset: 1px;
 }

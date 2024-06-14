@@ -43,7 +43,7 @@
   background-color: var(--nord-6);
 }
 
-.slider-thumb:focus {
+.slider-thumb:focus-visible {
   outline: 0.125rem solid var(--nord-5);
   outline-offset: 0.125rem;
 }
