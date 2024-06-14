@@ -2,6 +2,9 @@ import { isSpecialCard } from "@/utils/card-utils";
 import type { PlayerType } from "@/utils/constants";
 
 import type { Card } from "../services/queries.types";
+import type { LookupTables } from "../slices/lookup-tables.types";
+import type { Metadata } from "../slices/metadata.types";
+import { ownedCardCount } from "./card-ownership";
 import type { CardWithRelations, ResolvedDeck } from "./types";
 
 export type DeckCard = Card & {
@@ -31,10 +34,17 @@ export type Groupings = {
 
 export type DisplayDeck = ResolvedDeck<CardWithRelations> & {
   groups: Groupings;
+  ownershipCounts: Record<string, number>;
   bondedSlots: Record<string, number>;
 };
 
-export function groupDeckCardsByType(deck: ResolvedDeck<CardWithRelations>) {
+export function groupDeckCardsByType(
+  deck: ResolvedDeck<CardWithRelations>,
+  metadata: Metadata,
+  lookupTables: LookupTables,
+  ownershipSetting: Record<string, number | boolean>,
+  showAllSetting: boolean,
+) {
   const groupings: Groupings = {
     main: {
       id: "main",
@@ -50,14 +60,25 @@ export function groupDeckCardsByType(deck: ResolvedDeck<CardWithRelations>) {
     },
   };
 
+  const ownershipCounts: Record<string, number> = {};
+
   for (const { card } of Object.values(deck.cards.extraSlots)) {
     const deckCard = { ...card, quantity: deck.extraSlots?.[card.code] ?? 0 };
     addCardToGrouping(groupings, "extra", deckCard);
+    addCardToOwned(
+      ownershipCounts,
+      deckCard,
+      metadata,
+      lookupTables,
+      ownershipSetting,
+      showAllSetting,
+    );
   }
 
   const bonded: Card[] = [];
 
   const investigatorRelations = deck.investigatorFront?.relations;
+
   if (investigatorRelations?.bound?.length) {
     for (const { card } of investigatorRelations.bound) {
       bonded.push(card);
@@ -66,6 +87,15 @@ export function groupDeckCardsByType(deck: ResolvedDeck<CardWithRelations>) {
 
   for (const resolvedCard of Object.values(deck.cards.slots)) {
     const card = resolvedCard.card;
+
+    addCardToOwned(
+      ownershipCounts,
+      card,
+      metadata,
+      lookupTables,
+      ownershipSetting,
+      showAllSetting,
+    );
 
     // ignore deck limit slots should always go to special, as it can contain duplicate cards of normal slots.
     //example: Ace of Rods in TCU; Parallel Agnes upgrades.
@@ -96,14 +126,30 @@ export function groupDeckCardsByType(deck: ResolvedDeck<CardWithRelations>) {
 
   for (const card of bonded) {
     addCardToGrouping(groupings, "bonded", card);
+    addCardToOwned(
+      ownershipCounts,
+      card,
+      metadata,
+      lookupTables,
+      ownershipSetting,
+      showAllSetting,
+    );
   }
 
   for (const { card } of Object.values(deck.cards.sideSlots)) {
     const deckCard = { ...card, quantity: deck.sideSlots?.[card.code] ?? 0 };
     addCardToGrouping(groupings, "side", deckCard);
+    addCardToOwned(
+      ownershipCounts,
+      deckCard,
+      metadata,
+      lookupTables,
+      ownershipSetting,
+      showAllSetting,
+    );
   }
 
-  return { groupings, bonded };
+  return { groupings, bonded, ownershipCounts };
 }
 
 function addCardToGrouping(
@@ -139,4 +185,27 @@ function addCardToGrouping(
     grouping[t] ??= [];
     grouping[t]?.push(card);
   }
+}
+
+function addCardToOwned(
+  ownershipCounts: Record<string, number>,
+  card: DeckCard,
+  metadata: Metadata,
+  lookupTables: LookupTables,
+  ownershipSetting: Record<string, number | boolean>,
+  showAllSetting: boolean,
+) {
+  if (ownershipCounts[card.code] != null) return;
+
+  if (showAllSetting) {
+    ownershipCounts[card.code] = Math.max(card.quantity, card.deck_limit ?? 0);
+    return;
+  }
+
+  ownershipCounts[card.code] = ownedCardCount(
+    card,
+    metadata,
+    lookupTables,
+    ownershipSetting,
+  );
 }

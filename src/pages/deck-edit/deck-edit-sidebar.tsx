@@ -59,6 +59,7 @@ export function DeckEditSidebar({ deck }: Props) {
                 group={deck.groups.main.data}
                 layout="two_column"
                 mapping="slots"
+                ownershipCounts={deck.ownershipCounts}
                 quantities={deck.slots}
               />
             </DecklistSection>
@@ -67,6 +68,7 @@ export function DeckEditSidebar({ deck }: Props) {
                 group={deck.groups.special.data}
                 layout="two_column"
                 mapping="slots"
+                ownershipCounts={deck.ownershipCounts}
                 quantities={deck.slots}
               />
             </DecklistSection>
@@ -76,6 +78,7 @@ export function DeckEditSidebar({ deck }: Props) {
                   group={deck.groups.bonded.data}
                   layout="two_column"
                   mapping="bonded"
+                  ownershipCounts={deck.ownershipCounts}
                   quantities={deck.bondedSlots}
                 />
               </DecklistSection>
@@ -91,6 +94,7 @@ export function DeckEditSidebar({ deck }: Props) {
                   group={deck.groups.side.data}
                   layout="two_column"
                   mapping="side"
+                  ownershipCounts={deck.ownershipCounts}
                   quantities={deck.sideSlots ?? undefined}
                 />
               ) : (
@@ -109,6 +113,7 @@ export function DeckEditSidebar({ deck }: Props) {
                     group={deck.groups.extra.data}
                     layout="one_column"
                     mapping="extraSlots"
+                    ownershipCounts={deck.ownershipCounts}
                     quantities={deck.extraSlots ?? undefined}
                   />
                 ) : (

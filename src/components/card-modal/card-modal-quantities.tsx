@@ -56,7 +56,7 @@ export function CardModalQuantities({
   };
 
   const code = card.code;
-  const limit = card.deck_limit ?? card.quantity;
+  const limit = card.deck_limit || card.quantity;
 
   const isBonded = !!(bondedSlotQuantities && bondedSlotQuantities?.[code]);
 

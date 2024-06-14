@@ -19,6 +19,7 @@ import {
   filterFactions,
   filterInvestigatorAccess,
   filterLevel,
+  filterOwnership,
   filterSkillIcons,
 } from "./filtering";
 
@@ -844,5 +845,66 @@ describe("filter: skills", () => {
     expect(applyFilter(store.getState(), "50001", config)).toBeTruthy();
     expect(applyFilter(store.getState(), "08070", config)).toBeFalsy();
     expect(applyFilter(store.getState(), "01089", config)).toBeFalsy();
+  });
+});
+
+describe("filter: ownership", () => {
+  let store: StoreApi<StoreState>;
+
+  beforeAll(async () => {
+    store = await getMockStore();
+  });
+
+  function applyFilter(
+    state: StoreState,
+    code: string,
+    config: Record<string, number | boolean>,
+  ) {
+    return filterOwnership(
+      state.metadata.cards[code],
+      state.metadata,
+      state.lookupTables,
+      config,
+    );
+  }
+
+  it("handles case: pack owned", () => {
+    const state = store.getState();
+    expect(applyFilter(state, "51007", {})).toBeFalsy();
+    expect(applyFilter(state, "51007", { rtdwl: true })).toBeTruthy();
+  });
+
+  it("handles case: new / old formats", () => {
+    const state = store.getState();
+    expect(applyFilter(state, "02301", {})).toBeFalsy();
+    expect(applyFilter(state, "02301", { litas: true })).toBeTruthy();
+    expect(applyFilter(state, "02301", { dwlp: true })).toBeTruthy();
+  });
+
+  it("handles case: core set", () => {
+    const state = store.getState();
+    expect(applyFilter(state, "01039", {})).toBeFalsy();
+    expect(applyFilter(state, "01039", { core: true })).toBeTruthy();
+    expect(applyFilter(state, "01039", { rcore: true })).toBeTruthy();
+  });
+
+  // TODO: while we and arkhamcards both normalize cards to core set ids,
+  //       arkhamdb doesn't, so we might want to make this case work.
+  // it("handles case: revised core", () => {
+  //   const state = store.getState();
+  //   expect(applyFilter(state, "01539", { core: true })).toBeTruthy();
+  //   expect(applyFilter(state, "01539", { rcore: true })).toBeTruthy();
+  // });
+
+  it("handles case: extended revised core", () => {
+    const state = store.getState();
+    expect(applyFilter(state, "51007", { core: true })).toBeFalsy();
+    expect(applyFilter(state, "51007", { rcore: true })).toBeTruthy();
+  });
+
+  it("handles case: reprints", () => {
+    const state = store.getState();
+    expect(applyFilter(state, "01039", {})).toBeFalsy();
+    expect(applyFilter(state, "01039", { har: true })).toBeTruthy();
   });
 });

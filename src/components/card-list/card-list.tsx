@@ -21,12 +21,7 @@ type Props = {
 
 export function CardList(props: Props) {
   const data = useStore(selectFilteredCards);
-
-  const cardCount = useRef<number>(data?.cards.length ?? 0);
-
-  useEffect(() => {
-    cardCount.current = data?.cards.length ?? 0;
-  }, [data?.cards.length]);
+  const search = useStore((state) => state.search.value);
 
   const [scrollParent, setScrollParent] = useState<HTMLElement | undefined>();
   const virtuosoRef = useRef<GroupedVirtuosoHandle>(null);
@@ -65,6 +60,12 @@ export function CardList(props: Props) {
   }, []);
 
   useEffect(() => {
+    activeGroup.current = undefined;
+    activeRange.current = undefined;
+    virtuosoRef.current?.scrollTo({ top: 0 });
+  }, [search]);
+
+  useEffect(() => {
     if (activeGroup.current) {
       const offset = findGroupOffset(data, activeGroup.current);
       virtuosoRef.current?.scrollToIndex(offset ?? 0);
@@ -73,7 +74,7 @@ export function CardList(props: Props) {
     }
     // HACK: this makes sure this only triggers when the list actually updates, not e.g. when quantities change.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardCount.current]);
+  }, [data?.cards.length]);
 
   const jumpToOptions = useMemo(
     () =>

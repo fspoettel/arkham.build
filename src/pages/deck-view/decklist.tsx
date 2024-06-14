@@ -39,6 +39,7 @@ export function Decklist({ deck }: Props) {
             group={deck.groups.main.data}
             layout="two_column"
             mapping="slots"
+            ownershipCounts={deck.ownershipCounts}
             quantities={deck.slots}
           />
         </DecklistSection>
@@ -50,6 +51,7 @@ export function Decklist({ deck }: Props) {
                 group={deck.groups.special.data}
                 layout="one_column"
                 mapping="slots"
+                ownershipCounts={deck.ownershipCounts}
                 quantities={deck.slots}
               />
             </DecklistSection>
@@ -59,6 +61,7 @@ export function Decklist({ deck }: Props) {
                   group={firstCol.data}
                   layout="one_column"
                   mapping={firstCol.id}
+                  ownershipCounts={deck.ownershipCounts}
                   quantities={getSlotsForGrouping(deck, firstCol)}
                 />
               </DecklistSection>
@@ -71,6 +74,7 @@ export function Decklist({ deck }: Props) {
                   group={secondCol.data}
                   layout="one_column"
                   mapping={secondCol.id}
+                  ownershipCounts={deck.ownershipCounts}
                   quantities={getSlotsForGrouping(deck, secondCol)}
                 />
               </DecklistSection>
@@ -84,6 +88,7 @@ export function Decklist({ deck }: Props) {
                 group={thirdCol.data}
                 layout="one_column"
                 mapping={thirdCol.id}
+                ownershipCounts={deck.ownershipCounts}
                 quantities={getSlotsForGrouping(deck, thirdCol)}
               />
             </DecklistSection>

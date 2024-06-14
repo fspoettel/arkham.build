@@ -63,10 +63,10 @@ export function DeckSidebar({ className, deck }: Props) {
                 {selection.type === "faction" && (
                   <p className={css["detail-value"]}>
                     {selection.value ? (
-                      <span>
+                      <>
                         <FactionIcon code={selection.value} />
                         {capitalize(selection.value)}
-                      </span>
+                      </>
                     ) : (
                       "None"
                     )}

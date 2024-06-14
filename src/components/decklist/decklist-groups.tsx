@@ -19,9 +19,16 @@ type Props = {
   quantities?: Record<string, number>;
   layout: "one_column" | "two_column";
   mapping: string;
+  ownershipCounts: Record<string, number>;
 };
 
-export function DecklistGroups({ group, layout, mapping, quantities }: Props) {
+export function DecklistGroups({
+  group,
+  layout,
+  mapping,
+  ownershipCounts,
+  quantities,
+}: Props) {
   const assetGroup = group["asset"] ? (
     <li className={clsx(css["group"], css["asset"])}>
       <h4 className={css["group-title"]}>Asset</h4>
@@ -38,6 +45,7 @@ export function DecklistGroups({ group, layout, mapping, quantities }: Props) {
                 <DecklistGroup
                   cards={val}
                   mapping={mapping}
+                  ownershipCounts={ownershipCounts}
                   quantities={quantities}
                 />
               </li>
@@ -64,6 +72,7 @@ export function DecklistGroups({ group, layout, mapping, quantities }: Props) {
           <DecklistGroup
             cards={entry}
             mapping={mapping}
+            ownershipCounts={ownershipCounts}
             quantities={quantities}
           />
         </li>
@@ -87,10 +96,12 @@ export function DecklistGroup({
   cards,
   quantities,
   mapping,
+  ownershipCounts,
 }: {
   quantities?: Record<string, number>;
   cards: Card[];
   mapping: string;
+  ownershipCounts: Record<string, number>;
 }) {
   const forbiddenCards = useStore(selectForbiddenCards);
 
@@ -102,6 +113,7 @@ export function DecklistGroup({
           <ListCard
             as="li"
             canIndicateRemoval
+            canShowOwnership
             card={card}
             forbidden={
               forbiddenCards.find(
@@ -110,6 +122,7 @@ export function DecklistGroup({
             }
             key={card.code}
             omitBorders
+            owned={ownershipCounts[card.code] >= (quantities?.[card.code] ?? 0)}
             quantities={quantities}
             size="sm"
           />

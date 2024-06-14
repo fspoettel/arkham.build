@@ -142,3 +142,9 @@
   border-radius: var(--rounded-md);
   font-size: calc(var(--card-text-size, var(--text-sm)) * 1.375);
 }
+
+.listcard-ownership {
+  margin-left: 0.375rem;
+  color: var(--nord-4);
+  font-size: var(--text-lg);
+}

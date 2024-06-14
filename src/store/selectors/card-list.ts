@@ -139,13 +139,19 @@ const selectLevelFilter = createSelector(
 
 const selectOwnershipFilter = createSelector(
   (state: StoreState) => state.settings.collection,
+  (state: StoreState) => state.settings.showAllCards,
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.filters[state.filters.cardType].ownership.value,
-  (setting, metadata, lookupTables, filterState) => {
+  (collectionSetting, showAllCards, metadata, lookupTables, filterState) => {
     return (card: Card) => {
-      if (filterState === "all") return true;
-      const ownsCard = filterOwnership(card, metadata, lookupTables, setting);
+      if (showAllCards || filterState === "all") return true;
+      const ownsCard = filterOwnership(
+        card,
+        metadata,
+        lookupTables,
+        collectionSetting,
+      );
       return filterState === "owned" ? ownsCard : !ownsCard;
     };
   },

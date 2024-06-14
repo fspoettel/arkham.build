@@ -26,11 +26,13 @@ export type Props = {
   card: Card;
   canIndicateRemoval?: boolean;
   canOpenModal?: boolean;
+  canShowOwnership?: boolean;
   showInvestigatorIcons?: boolean;
   className?: string;
   figureRef?: (node: ReferenceType | null) => void;
   forbidden?: boolean;
   omitBorders?: boolean;
+  owned?: boolean;
   size?: "sm";
   onToggleModal?: () => void;
   referenceProps?: ComponentProps<"div">;
@@ -44,10 +46,12 @@ export function ListCardInner({
   card,
   canIndicateRemoval,
   canOpenModal,
+  canShowOwnership,
   className,
   figureRef,
   forbidden,
   omitBorders,
+  owned,
   referenceProps,
   quantities,
   showInvestigatorIcons,
@@ -93,7 +97,7 @@ export function ListCardInner({
         <>
           {canEdit ? (
             <QuantityInput
-              limit={card.deck_limit ?? card.quantity}
+              limit={card.deck_limit || card.quantity}
               onValueChange={onQuantityChange}
               value={quantity ?? 0}
             />
@@ -126,6 +130,10 @@ export function ListCardInner({
             <button onClick={openModal} tabIndex={-1}>
               {card.real_name}
             </button>
+
+            {canShowOwnership && !owned && (
+              <span className={css["listcard-ownership"]}>?</span>
+            )}
           </h4>
 
           <div className={css["listcard-meta"]}>

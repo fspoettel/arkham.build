@@ -16,6 +16,7 @@ import type {
 } from "../slices/filters.types";
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
+import { ownedCardCount } from "./card-ownership";
 import type { Selections } from "./types";
 import { isOptionSelect } from "./types";
 
@@ -282,30 +283,7 @@ export function filterOwnership(
   lookupTables: LookupTables,
   setting: Record<string, number | boolean>,
 ) {
-  // direct pack ownership.
-  if (setting[card.pack_code]) return true;
-
-  // ownership of the new format.
-  const pack = metadata.packs[card.pack_code];
-  const reprintId = `${pack.cycle_code}${card.encounter_code ? "c" : "p"}`;
-  if (setting[reprintId]) return true;
-
-  // revised core.
-  if (!setting["rcore"]) return false;
-
-  // core.
-  if (card.pack_code === "core") return true;
-
-  // reprints from other cycles.
-  const duplicates = lookupTables.relations.duplicates[card.code];
-
-  return (
-    duplicates &&
-    Object.keys(duplicates).some((code) => {
-      const packCode = metadata.cards[code].pack_code;
-      return packCode && setting[packCode];
-    })
-  );
+  return ownedCardCount(card, metadata, lookupTables, setting) > 0;
 }
 
 /**
