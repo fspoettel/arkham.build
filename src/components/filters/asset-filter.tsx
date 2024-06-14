@@ -178,7 +178,7 @@ export function AssetFilter() {
       <Checkbox
         checked={healthX}
         id="asset-health-x"
-        label="X"
+        label='Include health / sanity "X"'
         onCheckedChange={(val) => {
           setNestedFilter(cardType, "asset", "healthX", !!val);
         }}
