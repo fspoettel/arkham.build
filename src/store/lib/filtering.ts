@@ -13,9 +13,9 @@ import type {
   MultiselectFilter,
   PropertiesFilter,
   SkillIconsFilter,
-} from "../slices/filters/types";
-import type { LookupTables } from "../slices/lookup-tables/types";
-import type { Metadata } from "../slices/metadata/types";
+} from "../slices/filters.types";
+import type { LookupTables } from "../slices/lookup-tables.types";
+import type { Metadata } from "../slices/metadata.types";
 import type { Selections } from "./types";
 import { isOptionSelect } from "./types";
 

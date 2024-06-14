@@ -59,7 +59,7 @@ import underworldSupportInvalidSize from "@/test/fixtures/decks/validation/under
 import { getMockStore } from "@/test/get-mock-store";
 
 import type { StoreState } from "../slices";
-import type { Deck } from "../slices/data/types";
+import type { Deck } from "../slices/data.types";
 import { validateDeck } from "./deck-validation";
 import { resolveDeck } from "./resolve-deck";
 

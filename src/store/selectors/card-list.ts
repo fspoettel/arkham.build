@@ -39,7 +39,7 @@ import {
 } from "../lib/sorting";
 import type { Card } from "../services/types";
 import type { StoreState } from "../slices";
-import type { CardTypeFilter } from "../slices/filters/types";
+import type { CardTypeFilter } from "../slices/filters.types";
 import { selectActiveDeck, selectResolvedDeck } from "./decks";
 import { selectCanonicalTabooSetId } from "./filters";
 

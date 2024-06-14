@@ -1,7 +1,7 @@
 import type { StateCreator } from "zustand";
 
-import type { StoreState } from "..";
-import { type DeckViewSlice, isTab, mapTabToSlot } from "./types";
+import type { StoreState } from ".";
+import { type DeckViewSlice, isTab, mapTabToSlot } from "./deck-view.types";
 
 export const createDeckViewSlice: StateCreator<
   StoreState,

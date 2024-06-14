@@ -3,7 +3,7 @@ import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import { selectFilterOpen } from "@/store/selectors/filters";
-import type { CardTypeFilter, Filters } from "@/store/slices/filters/types";
+import type { CardTypeFilter, Filters } from "@/store/slices/filters.types";
 
 import { FilterContainer } from "./filter-container";
 

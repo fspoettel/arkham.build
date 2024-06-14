@@ -7,7 +7,7 @@ import {
   selectPropertiesChanges,
   selectPropertiesValue,
 } from "@/store/selectors/filters";
-import type { PropertiesFilter as PropertiesFilterType } from "@/store/slices/filters/types";
+import type { PropertiesFilter as PropertiesFilterType } from "@/store/slices/filters.types";
 
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";

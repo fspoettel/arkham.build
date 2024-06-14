@@ -1,4 +1,4 @@
-import type { Metadata } from "@/store/slices/metadata/types";
+import type { Metadata } from "@/store/slices/metadata.types";
 
 import type { Customization, Customizations, DeckMeta } from "../types";
 

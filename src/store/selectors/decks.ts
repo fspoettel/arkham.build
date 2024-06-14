@@ -9,7 +9,7 @@ import type { ForbiddenCardError } from "../lib/deck-validation";
 import { validateDeck } from "../lib/deck-validation";
 import type { ResolvedCard, ResolvedDeck } from "../lib/types";
 import type { StoreState } from "../slices";
-import { type Slot, mapTabToSlot } from "../slices/deck-view/types";
+import { type Slot, mapTabToSlot } from "../slices/deck-view.types";
 
 export const selectLocalDecks = createSelector(
   (state: StoreState) => state.data,

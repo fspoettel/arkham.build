@@ -1,4 +1,4 @@
-import type { Deck } from "@/store/slices/data/types";
+import type { Deck } from "@/store/slices/data.types";
 
 import type {
   CardWithRelations,

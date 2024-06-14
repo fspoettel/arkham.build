@@ -1,7 +1,7 @@
 import type { StateCreator } from "zustand";
 
-import type { StoreState } from "..";
-import type { SearchSlice, SearchState } from "./types";
+import type { StoreState } from ".";
+import type { SearchSlice, SearchState } from "./search.types";
 
 export function getInitialState(): SearchState {
   return {

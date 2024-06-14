@@ -1,8 +1,8 @@
 import type { StateCreator } from "zustand";
 
-import type { StoreState } from "..";
-import type { DataSlice } from "./types";
-import { isDeck } from "./types";
+import type { StoreState } from ".";
+import type { DataSlice } from "./data.types";
+import { isDeck } from "./data.types";
 
 export function getInitialDataState() {
   return {

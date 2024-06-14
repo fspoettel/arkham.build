@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import { useStore } from "@/store";
 import type { ResolvedCard, ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/types";
-import type { CustomizationEdit } from "@/store/slices/deck-view/types";
+import type { CustomizationEdit } from "@/store/slices/deck-view.types";
 import { getCardColor } from "@/utils/card-utils";
 
 import css from "./card-customizations.module.css";

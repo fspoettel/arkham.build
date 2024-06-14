@@ -3,7 +3,7 @@ import { type MouseEvent, useCallback, useRef } from "react";
 import { useStore } from "@/store";
 import { selectCardQuantitiesForSlot } from "@/store/selectors/decks";
 import type { Card } from "@/store/services/types";
-import type { Slot } from "@/store/slices/deck-view/types";
+import type { Slot } from "@/store/slices/deck-view.types";
 
 import css from "./card-modal.module.css";
 

@@ -8,7 +8,7 @@ import type {
   TabooSet,
   Type,
 } from "../services/types";
-import type { Deck } from "../slices/data/types";
+import type { Deck } from "../slices/data.types";
 
 export type ResolvedCard = {
   card: Card;

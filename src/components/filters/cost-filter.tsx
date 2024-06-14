@@ -8,7 +8,7 @@ import {
   selectCostValue,
   selectFilterOpen,
 } from "@/store/selectors/filters";
-import type { CostFilter as CostFilterType } from "@/store/slices/filters/types";
+import type { CostFilter as CostFilterType } from "@/store/slices/filters.types";
 
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";

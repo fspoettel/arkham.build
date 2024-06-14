@@ -7,11 +7,11 @@ import type {
   CardTypeFilter,
   FilterObject,
   Filters,
-} from "@/store/slices/filters/types";
+} from "@/store/slices/filters.types";
 import { ASSET_SLOT_ORDER, SKILL_KEYS } from "@/utils/constants";
 import { capitalize, formatTabooSet } from "@/utils/formatting";
 
-import type { Metadata } from "../slices/metadata/types";
+import type { Metadata } from "../slices/metadata.types";
 import { selectActiveDeck } from "./decks";
 
 /**

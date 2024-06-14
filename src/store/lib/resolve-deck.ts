@@ -1,8 +1,8 @@
 import { ALT_ART_INVESTIGATOR_MAP } from "@/utils/constants";
 
-import type { Deck } from "../slices/data/types";
-import type { LookupTables } from "../slices/lookup-tables/types";
-import type { Metadata } from "../slices/metadata/types";
+import type { Deck } from "../slices/data.types";
+import type { LookupTables } from "../slices/lookup-tables.types";
+import type { Metadata } from "../slices/metadata.types";
 import { resolveCardWithRelations } from "./resolve-card";
 import { decodeCustomizations } from "./serialization/customizable";
 import { decodeDeckMeta, decodeSelections } from "./serialization/deck-meta";

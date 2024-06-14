@@ -1,5 +1,5 @@
 import type { StoreState } from "@/store/slices";
-import type { UpgradeDiff } from "@/store/slices/data/types";
+import type { UpgradeDiff } from "@/store/slices/data.types";
 
 function migrate(_state: unknown, version: number) {
   const state = _state as StoreState;

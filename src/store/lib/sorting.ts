@@ -1,8 +1,8 @@
 import { ASSET_SLOT_ORDER } from "@/utils/constants";
 
 import type { Card } from "../services/types";
-import type { LookupTables } from "../slices/lookup-tables/types";
-import type { Metadata } from "../slices/metadata/types";
+import type { LookupTables } from "../slices/lookup-tables.types";
+import type { Metadata } from "../slices/metadata.types";
 
 export function sortAlphabetically(lookupTables: LookupTables) {
   return (a: Card, b: Card) => {

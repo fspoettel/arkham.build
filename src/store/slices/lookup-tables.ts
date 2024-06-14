@@ -11,11 +11,15 @@ import {
   REGEX_USES,
 } from "@/utils/constants";
 
-import type { StoreState } from "..";
-import type { CardTypeFilter } from "../filters/types";
-import type { Metadata } from "../metadata/types";
-import type { SettingsState } from "../settings/types";
-import type { LookupTable, LookupTables, LookupTablesSlice } from "./types";
+import type { StoreState } from ".";
+import type { CardTypeFilter } from "./filters.types";
+import type {
+  LookupTable,
+  LookupTables,
+  LookupTablesSlice,
+} from "./lookup-tables.types";
+import type { Metadata } from "./metadata.types";
+import type { SettingsState } from "./settings.types";
 
 export function getInitialLookupTables(): LookupTables {
   return {

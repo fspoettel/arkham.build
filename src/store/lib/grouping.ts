@@ -1,6 +1,6 @@
 import type { Card } from "../services/types";
-import type { LookupTables } from "../slices/lookup-tables/types";
-import type { Metadata } from "../slices/metadata/types";
+import type { LookupTables } from "../slices/lookup-tables.types";
+import type { Metadata } from "../slices/metadata.types";
 
 export type Grouping = {
   code: string;

@@ -7,7 +7,7 @@ import {
   selectSkillIconsChanges,
   selectSkillIconsValue,
 } from "@/store/selectors/filters";
-import type { SkillIconsFilter as SkillIconsFilterType } from "@/store/slices/filters/types";
+import type { SkillIconsFilter as SkillIconsFilterType } from "@/store/slices/filters.types";
 
 import css from "./skill-icons-filter.module.css";
 

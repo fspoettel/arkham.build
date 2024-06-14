@@ -1,5 +1,5 @@
 import type { Card } from "@/store/services/types";
-import type { Metadata } from "@/store/slices/metadata/types";
+import type { Metadata } from "@/store/slices/metadata.types";
 
 import type { Customizations } from "./types";
 

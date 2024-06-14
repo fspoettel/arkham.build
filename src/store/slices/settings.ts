@@ -1,7 +1,7 @@
 import type { StateCreator } from "zustand";
 
-import type { StoreState } from "..";
-import type { SettingsSlice, SettingsState } from "./types";
+import type { StoreState } from ".";
+import type { SettingsSlice, SettingsState } from "./settings.types";
 
 export function getInitialSettings(): SettingsState {
   return {

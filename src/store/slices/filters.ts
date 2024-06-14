@@ -1,12 +1,12 @@
 import type { StateCreator } from "zustand";
 
-import type { StoreState } from "..";
+import type { StoreState } from ".";
 import type {
   CardTypeFilter,
   FilterObject,
   Filters,
   FiltersSlice,
-} from "./types";
+} from "./filters.types";
 
 function getInitialState(): Filters {
   const shared = {

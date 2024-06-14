@@ -5,7 +5,7 @@ import type {
   Card,
   CustomizationOption as CustomizationOptionType,
 } from "@/store/services/types";
-import type { CustomizationEdit } from "@/store/slices/deck-view/types";
+import type { CustomizationEdit } from "@/store/slices/deck-view.types";
 import { parseCustomizationTextHtml } from "@/utils/card-utils";
 import { range } from "@/utils/range";
 

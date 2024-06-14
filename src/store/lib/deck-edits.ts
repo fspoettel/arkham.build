@@ -1,8 +1,8 @@
 import { isEmpty } from "@/utils/is-empty";
 
-import type { Deck, Slots } from "../slices/data/types";
-import type { DeckViewState, EditState, Slot } from "../slices/deck-view/types";
-import type { Metadata } from "../slices/metadata/types";
+import type { Deck, Slots } from "../slices/data.types";
+import type { DeckViewState, EditState, Slot } from "../slices/deck-view.types";
+import type { Metadata } from "../slices/metadata.types";
 import {
   decodeCustomizations,
   encodeCustomizations,

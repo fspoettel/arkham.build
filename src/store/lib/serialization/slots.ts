@@ -1,6 +1,6 @@
-import type { Deck, Slots } from "@/store/slices/data/types";
-import type { LookupTables } from "@/store/slices/lookup-tables/types";
-import type { Metadata } from "@/store/slices/metadata/types";
+import type { Deck, Slots } from "@/store/slices/data.types";
+import type { LookupTables } from "@/store/slices/lookup-tables.types";
+import type { Metadata } from "@/store/slices/metadata.types";
 import { countExperience, isSpecialCard } from "@/utils/card-utils";
 import { range } from "@/utils/range";
 

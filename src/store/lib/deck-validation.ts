@@ -3,8 +3,8 @@ import { SPECIAL_CARD_CODES } from "@/utils/constants";
 
 import type { Card, DeckOption, DeckRequirements } from "../services/types";
 import type { StoreState } from "../slices";
-import type { Deck } from "../slices/data/types";
-import type { LookupTables } from "../slices/lookup-tables/types";
+import type { Deck } from "../slices/data.types";
+import type { LookupTables } from "../slices/lookup-tables.types";
 import type { InvestigatorAccessConfig } from "./filtering";
 import {
   filterInvestigatorAccess,
