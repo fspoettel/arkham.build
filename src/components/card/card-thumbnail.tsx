@@ -25,7 +25,7 @@ export function CardThumbnail({ card, className }: Props) {
         className,
       )}
     >
-      <img src={card.imageurl} loading="lazy" />
+      <img src={card.imageurl} />
     </div>
   );
 }

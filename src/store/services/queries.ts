@@ -37,6 +37,7 @@ type AllCardResponse = {
 
 const graphqlUrl = import.meta.env.VITE_GRAPHQL_URL;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function stub<T>(path: string): Promise<T> {
   return import(/* @vite-ignore */ path).then((p) => p.default as T);
 }
@@ -47,11 +48,10 @@ type MetadataApiResponseType = Omit<
 >;
 
 export async function queryMetadata() {
-  const data = import.meta.env.DEV
-    ? await stub<MetadataApiResponseType>("./data/stubs/metadata.json")
-    : await request<MetadataApiResponseType>(
-        graphqlUrl,
-        `
+  // const data = await stub<MetadataApiResponseType>("./data/stubs/metadata.json")
+  const data = await request<MetadataApiResponseType>(
+    graphqlUrl,
+    `
     {
       pack(where: { official: { _eq: true } }) {
         code
@@ -78,7 +78,7 @@ export async function queryMetadata() {
       }
     }
   `,
-      );
+  );
 
   return {
     ...data,
@@ -90,11 +90,10 @@ export async function queryMetadata() {
 }
 
 export async function queryDataVersion() {
-  const data = import.meta.env.DEV
-    ? await stub<DataVersionResponse>("./data/stubs/data_version.json")
-    : await request<DataVersionResponse>(
-        graphqlUrl,
-        `
+  // const data = await stub("./data/stubs/data_version.json");
+  const data = await request<DataVersionResponse>(
+    graphqlUrl,
+    `
     {
       all_card_updated(where: { locale: { _eq: "en" } }, limit: 1) {
         card_count
@@ -104,22 +103,22 @@ export async function queryDataVersion() {
       }
     }
   `,
-      );
+  );
   return data.all_card_updated[0];
 }
 
 export async function queryCards() {
-  const data = import.meta.env.DEV
-    ? await stub<AllCardResponse>("./data/stubs/all_card.json")
-    : await request<AllCardResponse>(
-        graphqlUrl,
-        `
+  // const data = await stub<AllCardResponse>("./data/stubs/all_card.json")
+  const data = await request<AllCardResponse>(
+    graphqlUrl,
+    `
     {
       all_card(
         where: {
-          official: { _eq: true }
-          _and: [{ taboo_placeholder: { _is_null: true } }]
-          pack_code: { _neq: "zbh_00008" }
+          official: { _eq: true },
+          taboo_placeholder: { _is_null: true },
+          pack_code: { _neq: "zbh_00008" },
+          version: { _lte:6 }
         }
       ) {
         alt_art_investigator
@@ -207,7 +206,7 @@ export async function queryCards() {
       }
     }
   `,
-      );
+  );
 
   return data.all_card;
 }

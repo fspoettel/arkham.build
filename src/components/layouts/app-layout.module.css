@@ -31,7 +31,7 @@
     grid-template-areas:
       "header header header"
       "left main right";
-    grid-template-columns: 24rem 1fr 18rem;
+    grid-template-columns: 24rem 1fr 20rem;
   }
 }
 

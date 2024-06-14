@@ -8,7 +8,6 @@ import { selectIsInitialized } from "@/store/selectors";
 
 export function Index() {
   const isInitalized = useStore(selectIsInitialized);
-
   if (!isInitalized) return null;
 
   return (

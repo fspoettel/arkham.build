@@ -38,7 +38,10 @@ function reducer<T>(_: State<T>, action: Action<T>): State<T> {
 
 type Query<T> = () => Promise<T>;
 
-export function useQuery<T>(query: Query<T> | undefined): State<T> {
+export function useQuery<T>(
+  query: Query<T> | undefined,
+  paused: boolean = false,
+): State<T> {
   const [state, dispatch] = useReducer(reducer<T>, {
     loading: false,
     error: undefined,
@@ -46,7 +49,7 @@ export function useQuery<T>(query: Query<T> | undefined): State<T> {
   } as State<T>);
 
   useEffect(() => {
-    if (query && !state.loading && !state.data && !state.error) {
+    if (!paused && query && !state.loading && !state.data && !state.error) {
       dispatch({ type: "LOADING" });
 
       query()
@@ -57,7 +60,7 @@ export function useQuery<T>(query: Query<T> | undefined): State<T> {
           dispatch({ type: "ERROR", payload: error });
         });
     }
-  }, [query, state]);
+  }, [query, state, paused]);
 
   return state;
 }

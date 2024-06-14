@@ -1,0 +1,15 @@
+.sync > * + * {
+  margin-top: 1rem;
+}
+
+.sync-status p {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.sync-info {
+  & dt {
+    font-weight: 700;
+  }
+}

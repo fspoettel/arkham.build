@@ -2,9 +2,11 @@ import type { ChangeEvent } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { GroupedVirtuosoHandle } from "react-virtuoso";
 import { GroupedVirtuoso } from "react-virtuoso";
+import { createSelector } from "reselect";
 
 import { useStore } from "@/store";
 import { selectFilteredCards } from "@/store/selectors/card-list";
+import type { StoreState } from "@/store/slices";
 import { range } from "@/utils/range";
 
 import css from "./card-list.module.css";
@@ -14,14 +16,19 @@ import { Select } from "../ui/select";
 import { Grouphead } from "./Grouphead";
 import { ListCard } from "./list-card";
 
+const selector = createSelector(
+  (state: StoreState) => state.ui,
+  (state) => state.listScrollRestore,
+);
+
 export function CardList() {
   const [scrollParent, setScrollParent] = useState<HTMLElement | undefined>();
-  const [rendered, setRendered] = useState(false);
+
   const virtuosoRef = useRef<GroupedVirtuosoHandle>(null);
   const data = useStore(selectFilteredCards);
 
   const setListScrollRestore = useStore((state) => state.setListScrollRestore);
-  const scrollRestore = useStore((state) => state.ui.listScrollRestore);
+  const scrollRestore = useStore(selector);
 
   const onSelectGroup = useCallback(
     (evt: ChangeEvent<HTMLSelectElement>) => {
@@ -53,10 +60,6 @@ export function CardList() {
   );
 
   useEffect(() => {
-    setRendered(true);
-  }, []);
-
-  useEffect(() => {
     virtuosoRef.current?.scrollTo({ top: 0 });
   }, [data?.groupCounts]);
 
@@ -70,7 +73,6 @@ export function CardList() {
           <Select
             onChange={onSelectGroup}
             value=""
-            tabIndex={-1}
             options={data.groups.map((group) => ({
               value: group.code,
               label: group.name,
@@ -78,6 +80,7 @@ export function CardList() {
           />
         )}
       </nav>
+
       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       <Scroller ref={setScrollParent as any} className={css["list-scroller"]}>
         {data && scrollParent && (
@@ -93,7 +96,7 @@ export function CardList() {
             )}
             ref={virtuosoRef}
             isScrolling={onScrollStop}
-            restoreStateFrom={!rendered ? scrollRestore : undefined}
+            restoreStateFrom={scrollRestore}
           />
         )}
       </Scroller>

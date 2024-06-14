@@ -6,7 +6,7 @@ import {
   queryMetadata,
 } from "@/store/services/queries";
 import type { Card } from "@/store/services/types";
-import { getInitialOwnershipFilter } from "@/store/utils/settings";
+import { getInitialOwnershipFilter } from "@/store/utils/settins-helpers";
 import { rewriteImageUrl } from "@/utils/card-utils";
 
 import type { StoreState } from "..";
@@ -22,12 +22,12 @@ export const createSharedSlice: StateCreator<
   [],
   SharedSlice
 > = (set, get) => ({
-  async init() {
+  async init(refresh: boolean = false) {
     const state = get();
 
-    if (state.metadata.dataVersion?.cards_updated_at) {
+    if (!refresh && state.metadata.dataVersion?.cards_updated_at) {
       state.refreshLookupTables({ filters: getInitialFilters(state) });
-      return;
+      return false;
     }
 
     console.time("[performance] query_data");
@@ -39,7 +39,6 @@ export const createSharedSlice: StateCreator<
     console.timeEnd("[performance] query_data");
 
     console.time("[performance] create_store_data");
-
     const metadata: Metadata = {
       ...getInitialMetadata(),
       dataVersion: dataVersionResponse,
@@ -122,6 +121,8 @@ export const createSharedSlice: StateCreator<
     });
 
     console.timeEnd("[performance] create_store_data");
+
+    return true;
   },
 });
 

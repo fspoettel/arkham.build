@@ -6,9 +6,14 @@ type GraphQlError = {
 export async function request<R>(graphqlUrl: string, query: string) {
   const res = await fetch(graphqlUrl, {
     method: "POST",
+    mode: "cors",
+    cache: "no-cache",
     body: JSON.stringify({
       query,
     }),
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 
   if (res.status !== 200) {

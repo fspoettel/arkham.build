@@ -19,7 +19,7 @@ export function TabooSets({ settings }: Props) {
   }, [settings]);
 
   return (
-    <Field helpText="Taboos can still be selected for individual decks when this is set.">
+    <Field>
       <label htmlFor="taboo-set">Default taboo list</label>
       <select
         name="taboo-set"

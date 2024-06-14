@@ -1,6 +1,6 @@
 .text {
-  padding-left: var(--card-spacing);
-  border-left: 3px solid var(--nord-4);
+  padding-left: calc(var(--card-spacing) / 1.5);
+  border-left: 2px solid var(--nord-4);
   font-size: var(--card-text-size);
 
   & > * + * {
@@ -23,6 +23,5 @@
 
 .flavor {
   max-width: 60ch;
-  font-size: var(--text-sm);
   font-style: italic;
 }

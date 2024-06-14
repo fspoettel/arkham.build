@@ -16,7 +16,7 @@ export function Masthead({ className }: { className?: string }) {
   return (
     <header className={clsx(className, css["masthead"])}>
       <h1>
-        <Link href="/">arkham.build</Link>
+        <Link href="/">{import.meta.env.VITE_PAGE_NAME}</Link>
       </h1>
       <nav className={css["masthead-nav"]}>
         {location === "/" && (

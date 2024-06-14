@@ -32,5 +32,5 @@
 
 .collapsible-sub {
   font-size: var(--text-sm);
-  color: color-mix(in srgb, var(--nord-3) 80%, var(--nord-6) 20%);
+  color: color-mix(in srgb, var(--nord-3) 75%, var(--nord-6) 25%);
 }

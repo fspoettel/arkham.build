@@ -25,6 +25,8 @@ export function CardFront({ className, resolvedCard, linked, size }: Props) {
 
   const colorCls = getCardColor(card, "background");
 
+  const isSideways = sideways(card);
+
   return (
     <article
       className={clsx(
@@ -57,7 +59,11 @@ export function CardFront({ className, resolvedCard, linked, size }: Props) {
 
       {card.imageurl &&
         (size === "full" ? (
-          <CardImage className={css["image"]} imageUrl={card.imageurl} />
+          <CardImage
+            className={css["image"]}
+            imageUrl={card.imageurl}
+            sideways={isSideways}
+          />
         ) : (
           <div className={css["image"]}>
             <CardThumbnail card={card} />

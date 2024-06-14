@@ -18,14 +18,14 @@
   border-radius: var(--rounded-md);
   padding-bottom: var(--card-spacing);
 
+  &:not(.has-image) {
+    grid-template-columns: 1fr;
+  }
+
   & > * {
     padding-left: var(--card-spacing);
     padding-right: var(--card-spacing);
   }
-}
-
-.card:not(.has-image) {
-  grid-template-columns: 1fr;
 }
 
 .card.full {
@@ -41,6 +41,12 @@
 
     &.sideways {
       grid-template-columns: 9fr 7fr;
+    }
+
+    &.back:not(.back-has-header) {
+      padding: var(--card-spacing) 0;
+      grid-template-rows: 1fr;
+      grid-template-areas: "content image";
     }
   }
 }
@@ -73,6 +79,12 @@
     "header header"
     "details image"
     "content image";
+
+  &.back:not(.back-has-header) {
+    padding: var(--card-spacing) 0;
+    grid-template-rows: 1fr;
+    grid-template-areas: "content image";
+  }
 
   max-width: 32rem;
 }

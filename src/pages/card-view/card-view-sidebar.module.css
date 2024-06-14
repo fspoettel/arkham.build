@@ -5,3 +5,7 @@
     margin-top: 1rem;
   }
 }
+
+.sidebar-nav > * + * {
+  margin-top: 1rem;
+}

@@ -28,9 +28,9 @@
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.3),
     0 8px 10px -6px rgb(0 0 0 / 0.3);
 
-  --text-xs: 0.6875rem;
-  --text-sm: 0.75rem;
-  --text-base: 0.875rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
   --text-lg: 1rem;
   --text-xl: 1.125rem;
   --text-2xl: 1.25rem;

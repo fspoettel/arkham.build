@@ -1,13 +1,11 @@
-import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
 import type { ReactNode } from "react";
-import { Link, Redirect, useParams } from "wouter";
+import { Redirect, useParams } from "wouter";
 
 import { Card } from "@/components/card/card";
 import { ResolvedCard } from "@/components/card/resolved-card";
 import { AppLayout } from "@/components/layouts/app-layout";
 import { CenterLayout } from "@/components/layouts/center-layout";
-import { Button } from "@/components/ui/button";
 import { CardViewSidebar } from "@/pages/card-view/card-view-sidebar";
 import { useStore } from "@/store";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
@@ -44,23 +42,12 @@ export function CardView() {
 
   return (
     <AppLayout
-      centerClassName={css["view-center"]}
       sidebar="Deck list"
       centerScroller
       filters={<CardViewSidebar resolvedCard={cardWithRelations} />}
       title={cardWithRelations.card.real_name}
     >
-      <CenterLayout
-        top={
-          <header className={css["view-nav"]}>
-            <Link href="/">
-              <Button as="a">
-                <ChevronLeftIcon />
-              </Button>
-            </Link>
-          </header>
-        }
-      >
+      <CenterLayout>
         <div className={clsx(css["view"])}>
           <ResolvedCard resolvedCard={cardWithRelations} />
 

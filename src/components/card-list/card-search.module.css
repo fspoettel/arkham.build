@@ -1,7 +1,7 @@
 .search:not([data-state="open"]) {
   display: none;
 
-  @media screen and (min-height: 45rem) {
+  @media screen and (min-height: 25rem) {
     display: block;
   }
 }

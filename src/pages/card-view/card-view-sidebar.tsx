@@ -1,3 +1,6 @@
+import { ChevronLeftIcon } from "@radix-ui/react-icons";
+import { Link } from "wouter";
+
 import SvgWorld from "@/assets/icons/world.svg?react";
 import type { CardWithRelations } from "@/store/selectors/card-view";
 
@@ -15,7 +18,12 @@ export function CardViewSidebar({ resolvedCard }: Props) {
 
   return (
     <div className={css["sidebar"]}>
-      <nav className={css["sidebar-links"]}>
+      <nav className={css["sidebar-nav"]}>
+        <Link href="/">
+          <Button as="a" size="full">
+            <ChevronLeftIcon /> Back
+          </Button>
+        </Link>
         <Button
           size="full"
           as="a"

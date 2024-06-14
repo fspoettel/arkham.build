@@ -1,7 +1,7 @@
 import clsx from "clsx";
 
 import type { CardResolved } from "@/store/selectors/card-view";
-import type { Card as ICard } from "@/store/services/types";
+import type { Card as CardType } from "@/store/services/types";
 import { getCardColor, sideways } from "@/utils/card-utils";
 
 import css from "./card.module.css";
@@ -30,7 +30,7 @@ export function CardBack({ card, size }: Props) {
       card.backimageurl !== card.imageurl &&
       card.type_code !== "investigator");
 
-  const backCard: ICard = {
+  const backCard: CardType = {
     ...card,
     real_name: card.real_back_name ?? `${card.real_name} - Back`,
     real_subname: undefined,
@@ -40,12 +40,15 @@ export function CardBack({ card, size }: Props) {
     imageurl: card.backimageurl,
   };
 
+  const isSideways = sideways(card);
+
   return (
     <article
       className={clsx(
         css["card"],
         sideways(backCard) && css["sideways"],
         css["back"],
+        card.type_code !== "investigator" && css["back-has-header"],
         showBackImage && css["has-image"],
         css[size],
       )}
@@ -70,7 +73,11 @@ export function CardBack({ card, size }: Props) {
       {backCard.imageurl &&
         showBackImage &&
         (size === "full" ? (
-          <CardImage className={css["image"]} imageUrl={backCard.imageurl} />
+          <CardImage
+            className={css["image"]}
+            imageUrl={backCard.imageurl}
+            sideways={isSideways}
+          />
         ) : (
           <div className={css["image"]}>
             <CardThumbnail card={backCard} />

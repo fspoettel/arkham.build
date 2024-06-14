@@ -9,7 +9,6 @@ export function CardImage({ className, imageUrl, sideways }: Props) {
     <div className={className}>
       <img
         src={imageUrl}
-        loading="lazy"
         width={sideways ? 420 : 300}
         height={sideways ? 300 : 420}
       />

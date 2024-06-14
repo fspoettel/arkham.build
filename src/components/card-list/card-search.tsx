@@ -59,6 +59,7 @@ export function CardSearch() {
       <div className={css["search-row"]}>
         <div className={css["search-input"]}>
           <SearchInput
+            tabIndex={0}
             className={css["search-field"]}
             inputClassName={css["search-input-field"]}
             placeholder="Search for cards..."
@@ -70,18 +71,21 @@ export function CardSearch() {
       </div>
       <div className={css["search-toggles"]}>
         <Checkbox
+          tabIndex={0}
           checked={search.includeGameText}
           id="search-game-text"
           label="Game text"
           onCheckedChange={onToggleGameText}
         />
         <Checkbox
+          tabIndex={0}
           checked={search.includeFlavor}
           id="search-game-flavor"
           label="Flavor"
           onCheckedChange={onToggleFlavor}
         />
         <Checkbox
+          tabIndex={0}
           checked={search.includeBacks}
           id="search-back"
           label="Backs"

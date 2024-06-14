@@ -139,11 +139,14 @@ function resolveRelationArray(
   ignoreDuplicates = true,
 ): CardResolved[] {
   const relation = state.lookupTables.relations[key];
+
   const relations = relation[code]
     ? Object.keys(relation[code]).reduce<CardWithRelations[]>((acc, code) => {
         const card = selectCardWithRelations(state, code, true);
+
         if (card && (!ignoreDuplicates || !card.card.duplicate_of_code))
           acc.push(card);
+
         return acc;
       }, [])
     : [];

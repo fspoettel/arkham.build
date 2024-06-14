@@ -1,6 +1,6 @@
 import type { StateCreator } from "zustand";
 
-import { getInitialOwnershipFilter } from "@/store/utils/settings";
+import { getInitialOwnershipFilter } from "@/store/utils/settins-helpers";
 
 import type { StoreState } from "..";
 import type {

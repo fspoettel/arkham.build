@@ -52,7 +52,7 @@ export function ListCard({ card }: Props) {
     <figure className={clsx(css["listcard"])}>
       <div className={css["listcard-thumbnail"]}>
         <Link href={`/card/${card.code}`}>
-          <a>
+          <a tabIndex={-1}>
             <CardThumbnail card={card} />
           </a>
         </Link>
@@ -70,7 +70,9 @@ export function ListCard({ card }: Props) {
           ref={refs.setReference}
           {...getReferenceProps()}
         >
-          <Link href={`/card/${card.code}`}>{card.real_name}</Link>
+          <Link href={`/card/${card.code}`} tabIndex={-1}>
+            {card.real_name}
+          </Link>
         </h4>
 
         <div className={css["listcard-meta"]}>

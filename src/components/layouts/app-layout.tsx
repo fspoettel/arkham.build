@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
 import { useLocation } from "wouter";
@@ -12,7 +11,6 @@ import { Masthead } from "./masthead";
 
 type Props = {
   children: ReactNode;
-  centerClassName?: string;
   centerScroller?: boolean;
   filters?: ReactNode;
   sidebar: ReactNode;
@@ -20,7 +18,6 @@ type Props = {
 };
 
 export function AppLayout({
-  centerClassName,
   children,
   centerScroller,
   filters,
@@ -41,13 +38,12 @@ export function AppLayout({
     <div className={css["layout"]}>
       <Masthead className={css["header"]} />
       <section className={css["layout-left"]}>{sidebar}</section>
-      <section className={clsx(css["layout-main"], centerClassName)}>
+      <section className={css["layout-main"]}>
         {centerScroller ? (
           <Scroller ref={scrollerRef}>{children}</Scroller>
         ) : (
           children
         )}
-        {children}
       </section>
       {filters && (
         <nav className={css["layout-right"]}>

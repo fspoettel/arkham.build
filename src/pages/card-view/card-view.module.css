@@ -13,21 +13,6 @@
   }
 }
 
-.view-nav {
-  display: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.25rem;
-  margin-bottom: 0.5rem;
-  border-radius: calc(var(--rounded-md) - 2px) calc(var(--rounded-md) - 2px) 0 0;
-}
-
-.view-nav a {
-  color: currentColor;
-  font-size: var(--icon-sm);
-}
-
 .view-section-title {
   text-align: center;
   color: var(--nord-4);

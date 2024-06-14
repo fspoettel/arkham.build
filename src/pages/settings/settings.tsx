@@ -9,6 +9,7 @@ import { selectIsInitialized } from "@/store/selectors";
 
 import css from "./settings.module.css";
 
+import { CardDataSync } from "./card-data-sync";
 import { Collection } from "./collection";
 import { TabooSets } from "./taboo-sets";
 
@@ -41,6 +42,7 @@ export function Settings() {
           <h1 className={css["settings-title"]}>Settings</h1>
           <Button type="submit">Save settings</Button>
         </header>
+        <CardDataSync />
         <TabooSets settings={settings} />
         <Collection settings={settings} />
       </form>
