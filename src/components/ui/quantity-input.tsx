@@ -6,6 +6,7 @@ import { Button } from "./button";
 
 type Props = {
   disabled?: boolean;
+  tabIndex?: number;
   onValueChange?: (value: number) => void;
   value: number;
   limit: number;
@@ -15,6 +16,7 @@ export function QuantityInput({
   disabled,
   limit,
   onValueChange,
+  tabIndex,
   value,
 }: Props) {
   const decrementCardQuantity = () => {
@@ -33,6 +35,7 @@ export function QuantityInput({
         disabled={disabled || value <= 0}
         onClick={decrementCardQuantity}
         size="sm"
+        tabIndex={tabIndex}
         variant="bare"
       >
         <Minus />
@@ -42,6 +45,7 @@ export function QuantityInput({
         disabled={disabled || value >= limit}
         onClick={incrementCardQuantity}
         size="sm"
+        tabIndex={tabIndex}
         variant="bare"
       >
         <Plus />

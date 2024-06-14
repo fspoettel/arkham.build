@@ -189,7 +189,11 @@ export function Combobox<T extends Coded>({
               placeholder: placeholder,
               autoFocus,
               onKeyDown(evt) {
-                if (evt.key === "Enter" && activeIndex != null) {
+                if (evt.key === "Escape") {
+                  evt.preventDefault();
+                  setOpen(false);
+                  (evt.target as HTMLInputElement)?.blur();
+                } else if (evt.key === "Enter" && activeIndex != null) {
                   evt.preventDefault();
                   const activeItem = filteredItems[activeIndex];
                   if (activeItem) {

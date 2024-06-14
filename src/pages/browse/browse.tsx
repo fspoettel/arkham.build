@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 
-import { CardList } from "@/components/card-list/card-list";
 import { Filters } from "@/components/filters/filters";
 import { ListLayout } from "@/layouts/list-layout";
 import { useStore } from "@/store";
@@ -27,9 +26,7 @@ function Browse() {
       filters={<Filters />}
       sidebar={<DeckCollection />}
       sidebarWidthMax="var(--sidebar-width-one-col)"
-    >
-      <CardList />
-    </ListLayout>
+    />
   );
 }
 

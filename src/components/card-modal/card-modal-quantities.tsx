@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 import { useStore } from "@/store";
 import {
@@ -37,6 +37,29 @@ export function CardModalQuantities({
   );
 
   const changeCardQuantity = useStore((state) => state.changeCardQuantity);
+
+  useEffect(() => {
+    if (!canEdit) return;
+
+    function onKeyDown(evt: KeyboardEvent) {
+      if (evt.key === "ArrowRight") {
+        evt.preventDefault();
+        changeCardQuantity(card.code, 1, "slots");
+      } else if (evt.key === "ArrowLeft") {
+        evt.preventDefault();
+        changeCardQuantity(card.code, -1, "slots");
+      } else if (Number.parseInt(evt.key) >= 0) {
+        evt.preventDefault();
+        changeCardQuantity(card.code, Number.parseInt(evt.key), "slots", "set");
+        onClickBackground?.();
+      }
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [canEdit, card.code, changeCardQuantity, onClickBackground]);
 
   const quantities = useStore((state) =>
     selectCardQuantitiesForSlot(state, "slots"),

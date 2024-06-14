@@ -3,15 +3,11 @@ import { useCallback, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 
 import { ListLayout } from "@//layouts/list-layout";
-import { CardList } from "@/components/card-list/card-list";
 import { Filters } from "@/components/filters/filters";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import { useStore } from "@/store";
-import {
-  selectActiveDeck,
-  selectCardQuantities,
-} from "@/store/selectors/decks";
+import { selectActiveDeck } from "@/store/selectors/decks";
 import { useDocumentTitle } from "@/utils/use-document-title";
 
 import css from "./deck-edit.module.css";
@@ -24,7 +20,6 @@ function DeckEdit() {
   const showToast = useToast();
   const deck = useStore(selectActiveDeck);
   const activeListId = useStore((state) => state.activeList);
-  const quantities = useStore(selectCardQuantities);
 
   const resetFilters = useStore((state) => state.resetFilters);
   const setActiveList = useStore((state) => state.setActiveList);
@@ -72,9 +67,7 @@ function DeckEdit() {
       }
       sidebar={<Editor deck={deck} />}
       sidebarWidthMax="42rem"
-    >
-      <CardList quantities={quantities} />
-    </ListLayout>
+    />
   );
 }
 

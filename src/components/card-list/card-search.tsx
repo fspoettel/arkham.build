@@ -12,11 +12,12 @@ import { Checkbox } from "../ui/checkbox";
 import { SearchInput } from "../ui/search-input";
 
 type Props = {
+  onKeyboardNavigate: (evt: React.KeyboardEvent<HTMLInputElement>) => void;
   slotLeft?: React.ReactNode;
   slotRight?: React.ReactNode;
 };
 
-export function CardSearch({ slotLeft, slotRight }: Props) {
+export function CardSearch({ onKeyboardNavigate, slotLeft, slotRight }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const setSearchValue = useStore((state) => state.setSearchValue);
@@ -51,7 +52,7 @@ export function CardSearch({ slotLeft, slotRight }: Props) {
     [setSearchValue],
   );
 
-  const onChangeValue = useCallback(
+  const onValueChange = useCallback(
     (val: string) => {
       setInputValue(val);
       debouncedSetSearchValue(val);
@@ -88,7 +89,8 @@ export function CardSearch({ slotLeft, slotRight }: Props) {
           <SearchInput
             id="card-search-input"
             inputClassName={css["field-input"]}
-            onChangeValue={onChangeValue}
+            onChangeValue={onValueChange}
+            onKeyDown={onKeyboardNavigate}
             placeholder="Search for cards..."
             ref={inputRef}
             tabIndex={0}

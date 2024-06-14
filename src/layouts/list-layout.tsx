@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { useCallback, useEffect, useRef } from "react";
 
-import { CardSearch } from "@/components/card-list/card-search";
+import { CardList } from "@/components/card-list/card-list";
 import { CardTypeFilter } from "@/components/filters/card-type-filter";
 import { Footer } from "@/components/footer";
 import { Masthead } from "@/components/masthead";
@@ -11,24 +11,18 @@ import { useMedia } from "@/utils/use-media";
 
 import css from "./list-layout.module.css";
 
-import { CenterLayout } from "./center-layout";
-
 type Props = {
-  children: React.ReactNode;
   filters: React.ReactNode;
   mastheadContent?: React.ReactNode;
   sidebar: React.ReactNode;
   sidebarWidthMax: string;
-  topContent?: React.ReactNode;
 };
 
 export function ListLayout({
-  children,
   filters,
   mastheadContent,
   sidebar,
   sidebarWidthMax,
-  topContent,
 }: Props) {
   const filtersRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -83,33 +77,24 @@ export function ListLayout({
         className={css["content"]}
         onClick={sidebarOpen || filtersOpen ? onContentClick : undefined}
       >
-        <CenterLayout
-          top={
-            <>
-              {topContent}
-              <CardSearch
-                slotLeft={
-                  <Button
-                    className={css["toggle-sidebar"]}
-                    onClick={() => onToggleSidebar(true)}
-                  >
-                    <i className="icon-deck" />
-                  </Button>
-                }
-                slotRight={
-                  <Button
-                    className={css["toggle-filters"]}
-                    onClick={() => onToggleFilters(true)}
-                  >
-                    <i className="icon-filter" />
-                  </Button>
-                }
-              />
-            </>
+        <CardList
+          slotLeft={
+            <Button
+              className={css["toggle-sidebar"]}
+              onClick={() => onToggleSidebar(true)}
+            >
+              <i className="icon-deck" />
+            </Button>
           }
-        >
-          {children}
-        </CenterLayout>
+          slotRight={
+            <Button
+              className={css["toggle-filters"]}
+              onClick={() => onToggleFilters(true)}
+            >
+              <i className="icon-filter" />
+            </Button>
+          }
+        />
       </div>
       <nav
         className={css["filters"]}

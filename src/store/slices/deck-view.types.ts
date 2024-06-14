@@ -34,11 +34,6 @@ export function mapTabToSlot(tab: Tab): Slot {
   }
 }
 
-type SlotEdit = {
-  code: string;
-  quantity: number;
-};
-
 export type CustomizationEdit = {
   xp_spent?: number;
   selections?: string[];
@@ -55,10 +50,10 @@ export type EditState = {
       [key: string]: string | null;
     };
     quantities: {
-      extraSlots?: SlotEdit[];
-      ignoreDeckLimitSlots?: SlotEdit[];
-      sideSlots?: SlotEdit[];
-      slots?: SlotEdit[];
+      extraSlots?: Record<string, number>;
+      ignoreDeckLimitSlots?: Record<string, number>;
+      sideSlots?: Record<string, number>;
+      slots?: Record<string, number>;
     };
     name?: string | null;
     description_md?: string | null;
@@ -83,7 +78,12 @@ export type DeckViewState = {
 export type DeckViewSlice = {
   deckView: DeckViewState | null;
 
-  changeCardQuantity(code: string, quantity: number, slot?: Slot): void;
+  changeCardQuantity(
+    code: string,
+    quantity: number,
+    slot?: Slot,
+    mode?: "increment" | "set",
+  ): void;
 
   setActiveDeck(id?: string, type?: "view" | "edit"): void;
 

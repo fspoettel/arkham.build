@@ -11,6 +11,15 @@
   padding-bottom: var(--card-padding-y);
   padding-inline: 0.375rem;
   padding-top: var(--card-padding-y);
+
+  &.borders {
+    border-bottom: 1px solid var(--nord-1);
+  }
+
+  &.active {
+    outline: 1px solid var(--nord-6);
+    outline-offset: -2px;
+  }
 }
 
 .content {
@@ -145,10 +154,6 @@
   & .icon {
     font-size: var(--icon-lg);
   }
-}
-
-.listcard.borders {
-  border-bottom: 1px solid var(--nord-1);
 }
 
 .listcard.forbidden {

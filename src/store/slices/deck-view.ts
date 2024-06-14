@@ -11,7 +11,7 @@ export const createDeckViewSlice: StateCreator<
 > = (set, get) => ({
   deckView: null,
 
-  changeCardQuantity(code, quantity, tab) {
+  changeCardQuantity(code, quantity, tab, mode = "increment") {
     const state = get();
 
     if (!state.deckView) {
@@ -30,7 +30,20 @@ export const createDeckViewSlice: StateCreator<
 
     const slot = mapTabToSlot(targetTab);
 
-    const current = state.deckView.edits.quantities?.[slot] ?? [];
+    const card = state.metadata.cards[code];
+    const limit = card.deck_limit ?? card.quantity;
+
+    const slotEdits = state.deckView.edits.quantities?.[slot];
+    const slots = state.data.decks[state.deckView.id]?.slots ?? {};
+
+    const value = slotEdits?.[code] ?? slots?.[code] ?? 0;
+
+    const newValue =
+      mode === "increment"
+        ? Math.max(value + quantity, 0)
+        : Math.min(quantity, limit);
+
+    if (mode === "increment" && value + quantity > limit) return;
 
     set({
       deckView: {
@@ -39,7 +52,10 @@ export const createDeckViewSlice: StateCreator<
           ...state.deckView.edits,
           quantities: {
             ...state.deckView.edits.quantities,
-            [slot]: [...current, { code, quantity }],
+            [slot]: {
+              ...state.deckView.edits.quantities[slot],
+              [code]: newValue,
+            },
           },
         },
       },

@@ -73,74 +73,21 @@ const sampleEdits = {
   edits: {
     meta: {},
     quantities: {
-      sideSlots: [
-        {
-          code: "05035",
-          quantity: -1,
-        },
-        {
-          code: "03025",
-          quantity: 1,
-        },
-        {
-          code: "03025",
-          quantity: 1,
-        },
-      ],
-      slots: [
-        {
-          code: "10102",
-          quantity: -1,
-        },
-        {
-          code: "10102",
-          quantity: 1,
-        },
-        {
-          code: "10102",
-          quantity: 1,
-        },
-        {
-          code: "10102",
-          quantity: 1,
-        },
-        {
-          code: "06201",
-          quantity: -1,
-        },
-        {
-          code: "06201",
-          quantity: -1,
-        },
-      ],
-      ignoreDeckLimitSlots: [
-        {
-          code: "10102",
-          quantity: 1,
-        },
-        {
-          code: "10102",
-          quantity: 1,
-        },
-      ],
-      extraSlots: [
-        {
-          code: "10103",
-          quantity: 1,
-        },
-        {
-          code: "10103",
-          quantity: -1,
-        },
-        {
-          code: "10103",
-          quantity: 1,
-        },
-        {
-          code: "10104",
-          quantity: 1,
-        },
-      ],
+      sideSlots: {
+        "05035": 0,
+        "03025": 2,
+      },
+      slots: {
+        "10102": 4,
+        "06201": 0,
+      },
+      ignoreDeckLimitSlots: {
+        "10102": 2,
+      },
+      extraSlots: {
+        "10103": 1,
+        "10104": 1,
+      },
     },
     customizations: {},
     tags: "spells multiplayer",

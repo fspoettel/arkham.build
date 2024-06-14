@@ -59,12 +59,11 @@ export function applyDeckEdits(
 
   // adjust quantities based on deck edits.
   for (const [key, edits] of Object.entries(deckView.edits.quantities)) {
-    for (const edit of edits) {
+    for (const [code, value] of Object.entries(edits)) {
       const slotKey = key as Slot;
 
       if (slotKey === "extraSlots") {
-        const current = extraSlots[edit.code];
-        extraSlots[edit.code] = Math.max((current ?? 0) + edit.quantity, 0);
+        extraSlots[code] = value;
         continue;
       }
 
@@ -73,12 +72,7 @@ export function applyDeckEdits(
         deck[slotKey] = {};
       }
 
-      const current = (deck[slotKey] as Slots)?.[edit.code];
-
-      (deck[slotKey] as Slots)[edit.code] = Math.max(
-        (current ?? 0) + edit.quantity,
-        0,
-      );
+      (deck[slotKey] as Slots)[code] = value;
     }
   }
 

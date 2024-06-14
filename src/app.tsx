@@ -54,7 +54,7 @@ function App() {
     <CardModalProvider>
       <ToastProvider>
         <Fallback
-          message="Loading card data..."
+          message="Initializing card database..."
           show={storeHydrated && !storeInitialized}
         />
         <Suspense fallback={<Fallback show />}>

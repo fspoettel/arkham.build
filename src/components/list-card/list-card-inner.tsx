@@ -23,11 +23,13 @@ import { QuantityOutput } from "../ui/quantity-output";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export type Props = {
+  active?: boolean;
   as?: "li" | "div";
   card: Card;
   canIndicateRemoval?: boolean;
   canOpenModal?: boolean;
   canShowOwnership?: boolean;
+  disableKeyboard?: boolean;
   disableEdits?: boolean;
   showInvestigatorIcons?: boolean;
   className?: string;
@@ -47,8 +49,10 @@ export type Props = {
 };
 
 export function ListCardInner({
+  active,
   as = "div",
   card,
+  disableKeyboard,
   canIndicateRemoval,
   canOpenModal,
   canShowOwnership,
@@ -100,6 +104,7 @@ export function ListCardInner({
         forbidden && css["forbidden"],
         className,
         canIndicateRemoval && quantity === 0 && css["removed"],
+        active && css["active"],
       )}
     >
       {!!quantities && (
@@ -108,6 +113,7 @@ export function ListCardInner({
             <QuantityInput
               limit={card.deck_limit || card.quantity}
               onValueChange={onQuantityChange}
+              tabIndex={disableKeyboard ? -1 : undefined}
               value={quantity ?? 0}
             />
           ) : (

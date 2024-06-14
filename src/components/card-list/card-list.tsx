@@ -2,35 +2,53 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { GroupedVirtuosoHandle, ListRange } from "react-virtuoso";
 import { GroupedVirtuoso } from "react-virtuoso";
 
+import { CenterLayout } from "@/layouts/center-layout";
 import { useStore } from "@/store";
 import type { ListState } from "@/store/selectors/card-list";
 import { selectListCards } from "@/store/selectors/card-list";
+import { selectCardQuantities } from "@/store/selectors/decks";
 import { selectActiveListSearch } from "@/store/selectors/lists";
 import { range } from "@/utils/range";
 
 import css from "./card-list.module.css";
 
+import { useCardModalContext } from "../card-modal/card-modal-context";
 import { ListCard } from "../list-card/list-card";
 import { Scroller } from "../ui/scroller";
 import { Select } from "../ui/select";
 import { Grouphead } from "./Grouphead";
+import { CardSearch } from "./card-search";
 
 type Props = {
-  quantities?: {
-    [code: string]: number;
-  };
+  slotLeft?: React.ReactNode;
+  slotRight?: React.ReactNode;
 };
 
-export function CardList(props: Props) {
+export function CardList({ slotLeft, slotRight }: Props) {
+  const modalContext = useCardModalContext();
+
   const data = useStore(selectListCards);
+  const quantities = useStore(selectCardQuantities);
   const search = useStore(selectActiveListSearch);
   const metadata = useStore((state) => state.metadata);
 
+  const [currentTop, setCurrentTop] = useState<number>(-1);
   const [scrollParent, setScrollParent] = useState<HTMLElement | undefined>();
-  const virtuosoRef = useRef<GroupedVirtuosoHandle>(null);
 
+  const virtuosoRef = useRef<GroupedVirtuosoHandle>(null);
   const activeRange = useRef<ListRange | undefined>(undefined);
   const activeGroup = useRef<string | undefined>(undefined);
+
+  const onScrollChange = useCallback(() => {
+    setCurrentTop(-1);
+  }, []);
+
+  useEffect(() => {
+    scrollParent?.addEventListener("wheel", onScrollChange, { passive: true });
+    return () => {
+      scrollParent?.removeEventListener("wheel", onScrollChange);
+    };
+  }, [scrollParent, onScrollChange]);
 
   const onSelectGroup = useCallback(
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
@@ -58,14 +76,59 @@ export function CardList(props: Props) {
     [data],
   );
 
+  const onKeyboardNavigate = useCallback(
+    (evt: React.KeyboardEvent<HTMLInputElement>) => {
+      if (!data?.cards.length) return;
+
+      if (evt.key === "ArrowUp" || evt.key === "ArrowDown") {
+        evt.preventDefault();
+
+        const keyboardIdx = activeRange.current?.startIndex
+          ? Math.max(activeRange.current?.startIndex, currentTop)
+          : currentTop;
+
+        const idx =
+          evt.key === "ArrowUp"
+            ? Math.max(keyboardIdx - 1, 0)
+            : Math.min(keyboardIdx + 1, data.cards.length - 1);
+
+        setCurrentTop(idx);
+
+        if (
+          !activeRange.current ||
+          (activeRange.current &&
+            (idx >= activeRange.current.endIndex ||
+              idx <= activeRange.current.startIndex))
+        ) {
+          virtuosoRef.current?.scrollToIndex(idx);
+        }
+      }
+
+      if (evt.key === "Enter" && currentTop > -1) {
+        evt.preventDefault();
+        modalContext.setOpen({
+          code: data.cards[currentTop].code,
+        });
+      }
+
+      if (evt.key === "Escape") {
+        evt.preventDefault();
+        setCurrentTop(-1);
+        (evt.target as HTMLInputElement)?.blur();
+      }
+    },
+    [data, currentTop, modalContext],
+  );
+
   const rangeChanged = useCallback((range: ListRange) => {
     activeRange.current = range;
   }, []);
 
   useEffect(() => {
+    setCurrentTop(-1);
     activeGroup.current = undefined;
     activeRange.current = undefined;
-    virtuosoRef.current?.scrollTo({ top: 0 });
+    virtuosoRef.current?.scrollToIndex(0);
   }, [search]);
 
   useEffect(() => {
@@ -73,7 +136,7 @@ export function CardList(props: Props) {
       const offset = findGroupOffset(data, activeGroup.current);
       virtuosoRef.current?.scrollToIndex(offset ?? 0);
     } else {
-      virtuosoRef.current?.scrollTo({ top: 0 });
+      virtuosoRef.current?.scrollToIndex(0);
     }
     // HACK: this makes sure this only triggers when the list actually updates, not e.g. when quantities change.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -89,45 +152,58 @@ export function CardList(props: Props) {
   );
 
   return (
-    <div className={css["container"]}>
-      <nav className={css["nav"]}>
-        <output>{data?.cards.length ?? 0} cards</output>
-        {data && (
-          <Select
-            emptyLabel="Jump to..."
-            onChange={onSelectGroup}
-            options={jumpToOptions}
-            value=""
-          />
-        )}
-      </nav>
+    <CenterLayout
+      top={
+        <CardSearch
+          onKeyboardNavigate={onKeyboardNavigate}
+          slotLeft={slotLeft}
+          slotRight={slotRight}
+        />
+      }
+    >
+      <div className={css["container"]}>
+        <nav className={css["nav"]}>
+          <output>{data?.cards.length ?? 0} cards</output>
+          {data && (
+            <Select
+              emptyLabel="Jump to..."
+              onChange={onSelectGroup}
+              options={jumpToOptions}
+              value=""
+            />
+          )}
+        </nav>
 
-      <Scroller
-        className={css["scroller"]}
-        ref={setScrollParent as unknown as React.RefObject<HTMLDivElement>}
-      >
-        {data && scrollParent && (
-          <GroupedVirtuoso
-            customScrollParent={scrollParent}
-            groupContent={(index) => (
-              <Grouphead grouping={data.groups[index]} metadata={metadata} />
-            )}
-            groupCounts={data.groupCounts}
-            isScrolling={onScrollStop}
-            itemContent={(index) => (
-              <ListCard
-                {...props}
-                card={data.cards[index]}
-                key={data.cards[index].code}
-              />
-            )}
-            key={data.key}
-            rangeChanged={rangeChanged}
-            ref={virtuosoRef}
-          />
-        )}
-      </Scroller>
-    </div>
+        <Scroller
+          className={css["scroller"]}
+          ref={setScrollParent as unknown as React.RefObject<HTMLDivElement>}
+        >
+          {data && scrollParent && (
+            <GroupedVirtuoso
+              context={{ currentTop }}
+              customScrollParent={scrollParent}
+              groupContent={(index) => (
+                <Grouphead grouping={data.groups[index]} metadata={metadata} />
+              )}
+              groupCounts={data.groupCounts}
+              isScrolling={onScrollStop}
+              itemContent={(index, _, __, { currentTop }) => (
+                <ListCard
+                  active={index === currentTop}
+                  card={data.cards[index]}
+                  disableKeyboard
+                  key={data.cards[index].code}
+                  quantities={quantities}
+                />
+              )}
+              key={data.key}
+              rangeChanged={rangeChanged}
+              ref={virtuosoRef}
+            />
+          )}
+        </Scroller>
+      </div>
+    </CenterLayout>
   );
 }
 

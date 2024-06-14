@@ -1,7 +1,6 @@
 import { ChevronLeft } from "lucide-react";
 import { useEffect } from "react";
 
-import { CardList } from "@/components/card-list/card-list";
 import { Filters } from "@/components/filters/filters";
 import { Button } from "@/components/ui/button";
 import { ListLayout } from "@/layouts/list-layout";
@@ -37,9 +36,7 @@ function DeckNew() {
       }
       sidebar={<DeckCollection />}
       sidebarWidthMax="42rem"
-    >
-      <CardList />
-    </ListLayout>
+    />
   );
 }
 
