@@ -22,6 +22,7 @@ const DeckNew = lazy(() => import("./pages/deck-new/deck-new"));
 const DeckView = lazy(() => import("./pages/deck-view/deck-view"));
 const Settings = lazy(() => import("./pages/settings/settings"));
 const CardView = lazy(() => import("./pages/card-view/card-view"));
+const About = lazy(() => import("./pages/about/about"));
 
 function Fallback({ message, show }: { message?: string; show?: boolean }) {
   return (
@@ -67,6 +68,7 @@ function App() {
                 <Route component={DeckEdit} path="/:id/edit" />
               </Route>
               <Route component={Settings} path="/settings" />
+              <Route component={About} path="/about" />
               <RouteReset />
             </Router>
           )}

@@ -505,8 +505,7 @@ svg {
   }
 
   & > :not(:where(h1, h2, h3, h4, h5, h6)) a {
-    text-decoration: none;
-    color: var(--nord-9);
+    text-decoration-style: dashed;
   }
 
   & table {

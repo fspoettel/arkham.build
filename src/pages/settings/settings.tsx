@@ -1,11 +1,11 @@
 import { useCallback, useRef } from "react";
-import { Link } from "wouter";
 
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
 import { selectIsInitialized } from "@/store/selectors";
+import { useGoBack } from "@/utils/useBack";
 
 import css from "./settings.module.css";
 
@@ -15,6 +15,7 @@ import { TabooSets } from "./taboo-sets";
 
 function Settings() {
   const toast = useToast();
+  const goBack = useGoBack();
   const formRef = useRef<HTMLFormElement>(null);
 
   const initialized = useStore(selectIsInitialized);
@@ -41,11 +42,9 @@ function Settings() {
         <header className={css["settings-header"]}>
           <h1 className={css["settings-title"]}>Settings</h1>
           <div className={css["settings-header-actions"]}>
-            <Link asChild href="/">
-              <Button as="a" type="button" variant="bare">
-                Back
-              </Button>
-            </Link>
+            <Button onClick={goBack} type="button" variant="bare">
+              Back
+            </Button>
             <Button type="submit">Save settings</Button>
           </div>
         </header>

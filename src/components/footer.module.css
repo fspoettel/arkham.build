@@ -10,3 +10,7 @@
   border-top: 1px dashed var(--nord-2);
   padding-top: 0.25rem;
 }
+
+.footer a {
+  text-decoration-style: dashed;
+}

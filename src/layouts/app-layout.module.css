@@ -2,8 +2,20 @@
   max-width: 105rem;
   margin-inline: auto;
   padding-inline: 2rem;
+  display: flex;
+  flex-flow: column nowrap;
+  min-height: 100vh;
+}
+
+.header {
+  flex: 0 0 auto;
+}
+
+.main {
+  flex: 1 1 auto;
 }
 
 .footer {
+  flex: 0 0 auto;
   padding-bottom: 0.5rem;
 }
