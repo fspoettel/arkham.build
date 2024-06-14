@@ -35,6 +35,7 @@ export function useDialog({
   const click = useClick(context, {
     enabled: controlledOpen == null,
   });
+
   const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
   const role = useRole(context);
 
