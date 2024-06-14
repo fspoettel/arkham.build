@@ -22,13 +22,6 @@ const selector = createSelector(
   (state) => state.listScrollRestore,
 );
 
-function findGroupOffset(data: ListState, code: string): number | undefined {
-  const groupIndex = data.groups.findIndex((g) => g.code === code);
-  if (groupIndex === -1) return undefined;
-
-  return range(0, groupIndex).reduce((acc, i) => acc + data.groupCounts[i], 0);
-}
-
 export function CardList() {
   const data = useStore(selectFilteredCards);
 
@@ -60,25 +53,7 @@ export function CardList() {
         virtuosoRef.current?.getState((snapshot) => {
           // track scroll restore in list. this will be used to rehydrate the view after navigation.
           setListScrollRestore(snapshot);
-
-          if (!activeRange.current || !data?.groupCounts) return;
-
-          // if there is an active group, figure out which one it is by walking the group counts
-          // until we find the one containing the index.
-          const groupIndex = activeRange.current.startIndex + 1;
-          let sum = 0;
-          let i = 0;
-
-          for (const len of data.groupCounts) {
-            sum += len;
-            if (groupIndex <= sum) {
-              break;
-            } else {
-              i += 1;
-            }
-          }
-
-          activeGroup.current = data.groups[i].code;
+          activeGroup.current = findActiveGroup(activeRange.current, data);
         });
       }
     },
@@ -115,8 +90,10 @@ export function CardList() {
         )}
       </nav>
 
-      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-      <Scroller ref={setScrollParent as any} className={css["list-scroller"]}>
+      <Scroller
+        ref={setScrollParent as unknown as React.RefObject<HTMLDivElement>}
+        className={css["list-scroller"]}
+      >
         {data && scrollParent && (
           <GroupedVirtuoso
             key={data.key}
@@ -137,4 +114,35 @@ export function CardList() {
       </Scroller>
     </div>
   );
+}
+
+function findGroupOffset(data: ListState, code: string): number | undefined {
+  const groupIndex = data.groups.findIndex((g) => g.code === code);
+  if (groupIndex === -1) return undefined;
+
+  return range(0, groupIndex).reduce((acc, i) => acc + data.groupCounts[i], 0);
+}
+
+function findActiveGroup(
+  activeRange: ListRange | undefined,
+  data: ListState | undefined,
+) {
+  if (!activeRange || !data?.groupCounts) return undefined;
+
+  // if there is an active group, figure out which one it is by walking the group counts
+  // until we find the one containing the index.
+  const groupIndex = activeRange.startIndex + 1;
+  let sum = 0;
+  let i = 0;
+
+  for (const len of data.groupCounts) {
+    sum += len;
+    if (groupIndex <= sum) {
+      break;
+    } else {
+      i += 1;
+    }
+  }
+
+  return data.groups[i].code;
 }
