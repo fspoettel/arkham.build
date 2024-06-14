@@ -5,7 +5,7 @@ import { selectActiveDeck } from "@/store/selectors/decks";
 
 import { AppLayout } from "../../components/layouts/app-layout";
 import { CenterLayout } from "../../components/layouts/center-layout";
-import { DeckDetails } from "./deck-details";
+import { DeckSidebar } from "./deck-sidebar";
 
 export function DeckView() {
   const deck = useStore(selectActiveDeck);
@@ -15,7 +15,7 @@ export function DeckView() {
   return (
     <AppLayout
       omitSidebarBorder
-      sidebar={<DeckDetails deck={deck} />}
+      sidebar={<DeckSidebar deck={deck} />}
       title={`${deck.name}`}
     >
       <CenterLayout>

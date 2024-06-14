@@ -1,21 +1,21 @@
+/* TODO: clean this up with a variant / props. */
 .tooltip {
   box-shadow: var(--shadow-lg);
 
-  & > *:only-child {
+  & > div > *:only-child {
     border-radius: var(--rounded-md);
   }
 
-  & > *:not(:only-child):first-child {
+  & > div > *:not(:only-child):first-child {
     border-radius: var(--rounded-md) var(--rounded-md) 0 0;
     border-bottom: none;
   }
 
-  & > *:not(:only-child):last-child {
+  & > div > *:not(:only-child):last-child {
     border-radius: 0 0 var(--rounded-md) var(--rounded-md);
   }
 
-  & > *:not(:only-child):last-child header {
-    /* TODO: clean this up with a variant / props. */
+  & > div > *:not(:only-child):last-child header {
     border-radius: 0;
   }
 }

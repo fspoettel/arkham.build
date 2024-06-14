@@ -9,6 +9,7 @@ import css from "./deck-collection.module.css";
 import { Button } from "../ui/button";
 import { Scroller } from "../ui/scroll-area";
 import { Deck } from "./deck";
+import { DeckCollectionImport } from "./deck-collection-import";
 
 export function DeckCollection() {
   const decks = useStore(selectLocalDecks);
@@ -17,11 +18,14 @@ export function DeckCollection() {
     <div className={css["deck-collection"]}>
       <header className={css["deck-collection-header"]}>
         <h2 className={css["deck-collection-title"]}>Decks</h2>
-        <Link href="/deck/new" asChild>
-          <Button as="a" disabled>
-            <PlusIcon />
-          </Button>
-        </Link>
+        <div className={css["deck-collection-actions"]}>
+          <DeckCollectionImport />
+          <Link href="/deck/new" asChild>
+            <Button as="a" disabled>
+              <PlusIcon />
+            </Button>
+          </Link>
+        </div>
       </header>
       {decks.length ? (
         <Scroller>

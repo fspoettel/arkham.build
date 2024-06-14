@@ -38,11 +38,6 @@ export function groupDeckCardsByType(deck: ResolvedDeck<CardWithRelations>) {
     special: {},
   };
 
-  for (const { card } of Object.values(deck.cards.sideSlots)) {
-    const deckCard = { ...card, quantity: deck.sideSlots?.[card.code] ?? 0 };
-    addCardToGrouping(groupings, "side", deckCard);
-  }
-
   for (const { card } of Object.values(deck.cards.extraSlots)) {
     const deckCard = { ...card, quantity: deck.extraSlots?.[card.code] ?? 0 };
     addCardToGrouping(groupings, "extra", deckCard);
@@ -64,6 +59,11 @@ export function groupDeckCardsByType(deck: ResolvedDeck<CardWithRelations>) {
     }
 
     addBondedToGrouping(groupings, resolvedCard);
+  }
+
+  for (const { card } of Object.values(deck.cards.sideSlots)) {
+    const deckCard = { ...card, quantity: deck.sideSlots?.[card.code] ?? 0 };
+    addCardToGrouping(groupings, "side", deckCard);
   }
 
   return groupings;
@@ -106,12 +106,16 @@ function addBondedToGrouping(
   resolvedCard: CardWithRelations,
 ) {
   const bound = resolvedCard.relations?.bound;
+
   if (bound?.length) {
     for (const { card } of bound) {
-      addCardToGrouping(groupings, "bonded", {
-        ...card,
-        quantity: card.quantity,
-      });
+      // HACK: filter bonded backsides that are linked invidivually, e.g. Dream-Gate.
+      if (!card.code.endsWith("b")) {
+        addCardToGrouping(groupings, "bonded", {
+          ...card,
+          quantity: card.quantity,
+        });
+      }
     }
   }
 }

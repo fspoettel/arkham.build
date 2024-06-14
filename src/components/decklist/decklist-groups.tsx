@@ -20,7 +20,7 @@ type Props = {
 
 export function DecklistGroups({ group, layout }: Props) {
   const assetGroup = group["asset"] ? (
-    <div className={clsx(css["group"], css["asset"])}>
+    <li className={clsx(css["group"], css["asset"])}>
       <h4 className={css["group-title"]}>Asset</h4>
       <ol className={css["group-children"]}>
         {Object.entries(group["asset"] as Record<string, Card[]>)
@@ -37,7 +37,7 @@ export function DecklistGroups({ group, layout }: Props) {
             );
           })}
       </ol>
-    </div>
+    </li>
   ) : null;
 
   const rest = Object.keys(group)

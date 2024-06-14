@@ -20,10 +20,18 @@ export type Deck = {
   next_deck?: number | null;
 };
 
+export function isDeck(x: unknown): x is Deck {
+  return (
+    typeof x === "object" && x !== null && "id" in x && "investigator_code" in x
+  );
+}
+
 export type DecksState = {
   local: Record<string, Deck>;
 };
 
 export type DecksSlice = {
   decks: DecksState;
+  importDecks(files: FileList): Promise<void>;
+  deleteDeck(id: string | number): void;
 };

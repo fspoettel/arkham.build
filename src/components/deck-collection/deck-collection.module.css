@@ -39,3 +39,13 @@
   align-items: center;
   justify-content: center;
 }
+
+.deck-collection-actions {
+  display: inline-flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.deck-collection-import-input {
+  display: none;
+}

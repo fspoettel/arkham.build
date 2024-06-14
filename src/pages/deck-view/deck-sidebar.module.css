@@ -1,3 +1,28 @@
+.deck-sidebar {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+  padding-right: 0.125rem;
+}
+
+.deck-sidebar-back-toggle {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.deck-sidebar-back-toggle.open {
+  margin-bottom: 1rem;
+}
+
+.deck-sidebar-back-toggle button {
+  border-radius: var(--rounded-lg);
+}
+
+.deck-sidebar-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
 .deck-details {
   display: flex;
   flex-flow: row wrap;
@@ -41,17 +66,4 @@
 h1.detail-value {
   padding: 0.75rem;
   font-size: var(--text-lg);
-}
-
-.deck-detail-back-toggle {
-  margin-top: 1rem;
-  text-align: center;
-}
-
-.deck-detail-back-toggle.open {
-  margin-bottom: 1rem;
-}
-
-.deck-detail-back-toggle button {
-  border-radius: var(--rounded-lg);
 }

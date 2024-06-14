@@ -145,7 +145,9 @@ export const selectAssetChanges = createSelector(
     const skillBoosts = Object.entries(filterState.skillBoosts).reduce(
       (acc, [key, val]) => {
         if (!val) return acc;
-        return !acc ? `Skill boost: ${capitalize(key)}` : `${acc} or ${key}`;
+        return !acc
+          ? `Skill boost: ${capitalize(key)}`
+          : `${acc} or ${capitalize(key)}`;
       },
       "",
     );
@@ -494,10 +496,10 @@ export const selectCanonicalTabooSetId = createSelector(
   (state: StoreState) => state.settings.tabooSetId,
   (decks, activeDeckId, filterId, settingId) => {
     if (filterId) return filterId;
-    if (activeDeckId) {
-      return decks[activeDeckId].taboo_id;
-    }
-    return settingId;
+
+    return activeDeckId && decks[activeDeckId]
+      ? decks[activeDeckId].taboo_id
+      : settingId;
   },
 );
 
