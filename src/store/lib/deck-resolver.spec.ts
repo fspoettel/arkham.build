@@ -143,17 +143,6 @@ describe("resolveDeck", async () => {
     });
   });
 
-  describe("experience", () => {
-    it("calculates experience correctly (exceptional, taboos)", () => {
-      const { metadata, lookupTables } = store.getState();
-      const deck = deckXpRequired;
-      const resolved = resolveDeck(metadata, lookupTables, deck, true);
-      expect(resolved.stats).toMatchObject({
-        xpRequired: 25,
-      });
-    });
-  });
-
   describe("extra deck", () => {
     it("parses the extra deck block", () => {
       const { metadata, lookupTables } = store.getState();
@@ -327,6 +316,26 @@ describe("resolveDeck", async () => {
           ],
         }
       `);
+    });
+
+    describe("experience", () => {
+      it("calculates experience correctly (exceptional, taboos)", () => {
+        const { metadata, lookupTables } = store.getState();
+        const deck = deckXpRequired;
+        const resolved = resolveDeck(metadata, lookupTables, deck, true);
+        expect(resolved.stats).toMatchObject({
+          xpRequired: 25,
+        });
+      });
+
+      it("counts customizable experience", () => {
+        const { metadata, lookupTables } = store.getState();
+        const deck = deckCustomizable;
+        const resolved = resolveDeck(metadata, lookupTables, deck, true);
+        expect(resolved.stats).toMatchObject({
+          xpRequired: 31,
+        });
+      });
     });
   });
 });

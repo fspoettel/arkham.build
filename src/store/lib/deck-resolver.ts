@@ -103,10 +103,20 @@ export function resolveDeck<
     withRelations,
   );
 
+  const customizations = getCustomizations(deckMeta);
+  let customizationsXp = 0;
+
+  for (const value of Object.values(customizations)) {
+    customizationsXp += value.reduce<number>(
+      (acc, curr) => acc + curr.xpSpent,
+      0,
+    );
+  }
+
   return {
     ...deck,
     cards,
-    customizations: getCustomizations(deckMeta),
+    customizations,
     extraSlots,
     factionSelect: getFactionSelect(investigatorBack, deckMeta),
     investigatorBack,
@@ -117,7 +127,7 @@ export function resolveDeck<
     stats: {
       deckSize,
       deckSizeTotal,
-      xpRequired,
+      xpRequired: xpRequired + customizationsXp,
     },
     tabooSet: deck.taboo_id ? metadata.tabooSets[deck.taboo_id] : undefined,
   };
