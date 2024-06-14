@@ -7,7 +7,7 @@ type Props = {
 };
 
 export function LevelIcon({ className, inverted, level }: Props) {
-  const iconName = level == null ? "none" : level;
+  const iconName = level == null ? "none" : Math.min(level, 5);
 
   return (
     <i

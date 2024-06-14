@@ -10,9 +10,9 @@ type Props = {
 };
 
 const selectPlayerTraitOptions = (state: StoreState) => {
-  const types = Object.keys(state.lookupTables.traits["player"]).map(
-    (code) => ({ code }),
-  );
+  const types = Object.keys(
+    state.lookupTables.traitsByCardTypeSeletion["player"],
+  ).map((code) => ({ code }));
   types.sort((a, b) => a.code.localeCompare(b.code));
   return types;
 };
