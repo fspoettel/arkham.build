@@ -12,7 +12,9 @@ export function LazyEncounterIcon(props: EncounterIconProps) {
   return (
     <Suspense
       fallback={
-        <div style={{ width: "1em", height: "1em", display: "inline-block" }} />
+        <span
+          style={{ width: "1em", height: "1em", display: "inline-block" }}
+        />
       }
     >
       <EncounterIcon {...props} />
@@ -24,7 +26,9 @@ export function LazySlotIcon(props: SlotIconProps) {
   return (
     <Suspense
       fallback={
-        <div style={{ width: "1em", height: "1em", display: "inline-block" }} />
+        <span
+          style={{ width: "1em", height: "1em", display: "inline-block" }}
+        />
       }
     >
       <SlotIcon {...props} />
@@ -36,7 +40,9 @@ export function LazyPackIcon(props: PackIconProps) {
   return (
     <Suspense
       fallback={
-        <div style={{ width: "1em", height: "1em", display: "inline-block" }} />
+        <span
+          style={{ width: "1em", height: "1em", display: "inline-block" }}
+        />
       }
     >
       <PackIcon {...props} />

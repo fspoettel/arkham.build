@@ -9,9 +9,9 @@
 }
 
 .grouphead {
-  font-size: 2rem;
+  font-size: var(--icon-2xl);
 }
 
 .grouphead h3 {
-  font-size: 1.25rem;
+  font-size: var(--text-xl);
 }

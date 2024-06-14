@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { Route, Router } from "wouter";
 
-import css from "./app.module.css";
-
 import { Index } from "./pages";
 import { CardView } from "./pages/card-view";
 import { DeckEdit } from "./pages/deck-edit";
@@ -44,12 +42,10 @@ function App() {
 
   return (
     <Router>
-      <div className={css["app"]}>
-        <Route path="/" component={Index} />
-        <Route path="/card/:code" component={CardView} />
-        <Route path="/deck/new" component={DeckNew} />
-        <Route path="/deck/edit/:id" component={DeckEdit} />
-      </div>
+      <Route path="/" component={Index} />
+      <Route path="/card/:code" component={CardView} />
+      <Route path="/deck/new" component={DeckNew} />
+      <Route path="/deck/edit/:id" component={DeckEdit} />
     </Router>
   );
 }

@@ -30,11 +30,13 @@ export function CardDetails({
   return (
     <div className={css["details"]}>
       <div className={css["details-text"]}>
-        <p className={css["details-type"]}>
-          {showType && <span>{type.name}</span>}
-          {subtype && <span>{subtype.name}</span>}
-          {slot && <span>{slot}</span>}
-        </p>
+        {(showType || subtype || slot) && (
+          <p className={css["details-type"]}>
+            {showType && <span>{type.name}</span>}
+            {subtype && <span>{subtype.name}</span>}
+            {slot && <span>{slot}</span>}
+          </p>
+        )}
         {traits && <p className={css["details-traits"]}>{traits}</p>}
         {!!doom && <p>Doom: {doom}</p>}
         {!!clues && (

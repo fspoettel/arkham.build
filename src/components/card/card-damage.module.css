@@ -3,5 +3,5 @@
   align-items: center;
   flex-flow: row nowrap;
   gap: 0.5rem;
-  font-size: 1.5rem;
+  font-size: var(--icon-lg);
 }

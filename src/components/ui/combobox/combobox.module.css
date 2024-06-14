@@ -1,5 +1,5 @@
 .combobox-label {
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   margin-bottom: 0.125rem;
 }
 
@@ -20,8 +20,8 @@
 .combobox-menu {
   width: 100%;
   max-height: min(50dvh, 15rem);
-  background: var(--color-background);
-  color: var(--color-text);
+  background: var(--gray-900);
+  color: var(--gray-300);
   padding: 0.25rem;
   border: 1px solid var(--color-border);
   border-radius: var(--rounded);
@@ -40,15 +40,15 @@
   padding: 0.5rem 0.5rem 0.5rem 2rem;
   cursor: pointer;
   position: relative;
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
 
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-border);
   }
 
   &.active {
-    background-color: var(--color-input-background-hover);
-    color: var(--color-input-text-hover);
+    background-color: var(--gray-800);
+    color: var(--gray-300);
   }
 }
 
@@ -72,11 +72,11 @@
 
 .combobox-result button {
   border-radius: var(--rounded);
-  background: var(--color-accent);
+  background: var(--gray-300);
   color: var(--gray-900);
   border: 1px solid var(--gray-700);
   padding: 0.125rem 0.25rem;
-  font-size: 0.625rem;
+  font-size: var(--text-xxs);
 
   display: inline-flex;
   align-items: center;

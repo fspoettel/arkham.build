@@ -13,7 +13,7 @@
 }
 
 .icon-base {
-  font-size: 2rem;
+  font-size: var(--icon-2xl);
 }
 
 .icon-cost {
@@ -22,5 +22,5 @@
   left: 50%;
   color: var(--gray-50);
   transform: translateX(-50%) translateY(calc(-50% - 0.125rem));
-  font-size: 1.125rem;
+  font-size: var(--icon-md);
 }

@@ -13,7 +13,7 @@
 }
 
 .listcard-name {
-  font-size: 1.125rem;
+  font-size: var(--text-lg);
 
   & a {
     text-decoration: none;

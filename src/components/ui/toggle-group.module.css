@@ -1,6 +1,6 @@
 .toggle-group {
   display: inline-flex;
-  color: var(--color-accent);
+  color: var(--gray-300);
   justify-content: center;
 }
 
@@ -17,7 +17,7 @@
 
   &.small {
     padding: 0.25rem 0.375rem;
-    font-size: 0.875rem;
+    font-size: var(--text-sm);
   }
 
   &:first-child {
@@ -30,13 +30,13 @@
   }
 
   &[data-state="on"] {
-    color: var(--color-focus);
+    color: var(--gray-200);
     background: var(--color-border);
   }
 
   &:active,
   &:focus {
-    background: var(--color-input-background-hover);
+    background: var(--gray-800);
     z-index: 2;
   }
 }

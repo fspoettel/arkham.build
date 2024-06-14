@@ -7,16 +7,11 @@
 }
 
 .skill-filter-icons {
-  font-size: 1rem;
+  font-size: var(--icon-sm);
 }
 
 .skill-filter-icon {
   display: flex;
   gap: 0.375rem;
   align-items: center;
-}
-
-.skill-filter-icons svg {
-  vertical-align: middle;
-  font-size: 1.5rem;
 }

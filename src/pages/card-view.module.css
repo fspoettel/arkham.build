@@ -25,13 +25,13 @@
 
 .view-nav a {
   color: currentColor;
-  font-size: 1.25rem;
+  font-size: var(--text-xl);
 }
 
 .view-section-title {
   text-align: center;
   color: var(--gray-300);
-  font-size: 1.25rem;
+  font-size: var(--text-xl);
   line-height: 1;
   margin: 1.5rem 0;
   text-transform: uppercase;

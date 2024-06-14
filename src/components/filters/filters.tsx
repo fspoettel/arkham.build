@@ -4,6 +4,7 @@ import { selectActiveCardType } from "@/store/selectors/filters";
 
 import css from "./filters.module.css";
 
+import { Button } from "../ui/button";
 import { ActionFilter } from "./action-filter";
 import { CostFilter } from "./cost-filter";
 import { FactionFilter } from "./faction-filter";
@@ -24,9 +25,7 @@ export function Filters() {
   return (
     <search className={css["filters"]} title="Filters">
       <div className={css["filter-header"]}>
-        <button className="button button-bare" onClick={resetFilters}>
-          Reset
-        </button>
+        <Button onClick={resetFilters}>Reset</Button>
       </div>
       <FactionFilter />
       {cardTypeSelection === "player" && <LevelFilter />}

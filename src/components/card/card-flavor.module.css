@@ -1,5 +1,5 @@
 .flavor {
   max-width: 72ch;
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   font-style: italic;
 }

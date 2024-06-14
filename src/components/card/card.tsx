@@ -24,7 +24,7 @@ type Props = {
 };
 
 export function Card({ resolvedCard, compact, linked, reversed }: Props) {
-  const { card, type, subtype, pack, encounterSet } = resolvedCard;
+  const { card, type, subtype } = resolvedCard;
 
   const colorCls = getCardColor(card, "background");
   const borderCls = getCardColor(card, "border");

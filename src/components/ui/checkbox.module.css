@@ -27,16 +27,16 @@
 }
 
 .checkbox-root:focus {
-  outline: 0.125rem solid var(--color-input-text-hover);
+  outline: 0.125rem solid var(--gray-300);
   outline-offset: 1px;
 }
 
 .checkbox-indicator {
-  color: var(--color-input-text);
+  color: var(--gray-300);
 }
 
 .checkbox:hover .checkbox-indicator {
-  color: var(--color-input-text-hover);
+  color: var(--gray-300);
 }
 
 .checkbox-label {

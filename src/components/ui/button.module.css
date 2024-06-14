@@ -1,0 +1,15 @@
+.button {
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--rounded);
+}
+
+.button.bare {
+  background: none;
+  color: var(--gray-300);
+}
+
+.button.icon {
+  padding: 0.25rem;
+  font-size: var(--icon-sm);
+  background: none;
+}

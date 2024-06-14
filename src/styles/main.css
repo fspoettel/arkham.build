@@ -16,18 +16,22 @@
   --gray-900: #24303c;
   --gray-950: #1e2832;
 
-  --color-background: var(--gray-900);
-  --color-text: var(--gray-300);
-
-  --color-accent: var(--gray-300);
   --color-border: rgba(255, 255, 255, 0.125);
   --color-focus: var(--gray-200);
 
-  --color-input-text: var(--gray-300);
-  --color-input-background: var(--gray-900);
+  --text-xxs: 0.625rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
 
-  --color-input-background-hover: var(--gray-800);
-  --color-input-text-hover: var(--gray-300);
+  --icon-sm: 1em;
+  --icon-md: 1.25rem;
+  --icon-lg: 1.5rem;
+  --icon-xl: 1.75rem;
+  --icon-2xl: 2rem;
 
   --willpower: #2c7fc0;
   --intellect: #7c3c85;
@@ -74,12 +78,16 @@
 
 body {
   font-family: var(--font-family-content);
-  font-size: 1rem;
+  font-size: var(--text-md);
   font-weight: 300;
   line-height: 1.5;
-  background: var(--color-background);
-  color: var(--color-text);
+  background: var(--gray-900);
+  color: var(--gray-300);
   -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  isolation: isolate;
 }
 
 h1,
@@ -108,19 +116,18 @@ svg {
   image-rendering: -webkit-optimize-contrast;
 }
 
-/* AUDIT */
 input,
 textarea,
 select {
   font-family: var(--font-family-ui);
-  background-color: var(--color-input-background);
-  color: var(--color-input-text);
+  background-color: var(--gray-900);
+  color: var(--gray-300);
   border: 1px solid var(--color-border);
   border-radius: var(--rounded);
   padding: 0.5rem;
 
   &:focus {
-    outline: 1px solid var(--color-focus);
+    outline: 1px solid var(--gray-200);
   }
 }
 
@@ -129,12 +136,11 @@ select {
   max-width: 100%;
 }
 
-/* AUDIT */
 button {
   all: unset;
   cursor: pointer;
-  background-color: var(--color-input-background);
-  color: var(--color-accent);
+  background-color: var(--gray-900);
+  color: var(--gray-300);
 
   &[disabled] {
     opacity: 0.3;
@@ -142,28 +148,12 @@ button {
   }
 
   &:not([disabled]):hover {
-    background-color: var(--color-input-background-hover);
+    background-color: var(--gray-800);
   }
 
   &:not([disabled]):focus {
-    outline: 1px solid var(--color-focus);
+    outline: 1px solid var(--gray-200);
   }
-}
-
-.button {
-  padding: 0.25rem 0.5rem;
-  border-radius: var(--rounded);
-}
-
-.button-bare {
-  background: none;
-  color: var(--color-accent);
-}
-
-.button-icon {
-  padding: 0.25rem;
-  font-size: 1rem;
-  background: none;
 }
 
 .color-health {
@@ -271,100 +261,100 @@ button {
 }
 
 .icon-agility {
-  mask: url("./assets/icons/agility.svg");
+  mask: url("../assets/icons/agility.svg");
 }
 
 .icon-combat {
-  mask: url("./assets/icons/combat.svg");
+  mask: url("../assets/icons/combat.svg");
 }
 
 .icon-willpower {
-  mask: url("./assets/icons/willpower.svg");
+  mask: url("../assets/icons/willpower.svg");
 }
 
 .icon-wild {
-  mask: url("./assets/icons/wild.svg");
+  mask: url("../assets/icons/wild.svg");
 }
 
 .icon-intellect {
-  mask: url("./assets/icons/intellect.svg");
+  mask: url("../assets/icons/intellect.svg");
 }
 
 .icon-action {
-  mask: url("./assets/icons/action.svg");
+  mask: url("../assets/icons/action.svg");
 }
 
 .icon-elder_sign {
-  mask: url("./assets/icons/elder_sign.svg");
+  mask: url("../assets/icons/elder_sign.svg");
 }
 
 .icon-reaction {
-  mask: url("./assets/icons/reaction.svg");
+  mask: url("../assets/icons/reaction.svg");
 }
 
 .icon-free,
 .icon-fast {
-  mask: url("./assets/icons/free.svg");
+  mask: url("../assets/icons/free.svg");
 }
 
 .icon-skull {
-  mask: url("./assets/icons/skull.svg");
+  mask: url("../assets/icons/skull.svg");
 }
 
 .icon-cultist {
-  mask: url("./assets/icons/cultist.svg");
+  mask: url("../assets/icons/cultist.svg");
 }
 
 .icon-tablet {
-  mask: url("./assets/icons/tablet.svg");
+  mask: url("../assets/icons/tablet.svg");
 }
 
 .icon-elder_thing {
-  mask: url("./assets/icons/elder_thing.svg");
+  mask: url("../assets/icons/elder_thing.svg");
 }
 
 .icon-auto_fail {
-  mask: url("./assets/icons/auto_fail.svg");
+  mask: url("../assets/icons/auto_fail.svg");
 }
 
 .icon-frost {
-  mask: url("./assets/icons/frost.svg");
+  mask: url("../assets/icons/frost.svg");
 }
 
 .icon-curse {
-  mask: url("./assets/icons/curse.svg");
+  mask: url("../assets/icons/curse.svg");
 }
 
 .icon-bless {
-  mask: url("./assets/icons/bless.svg");
+  mask: url("../assets/icons/bless.svg");
 }
 
 .icon-guardian {
-  mask: url("./assets/icons/guardian.svg");
+  mask: url("../assets/icons/guardian.svg");
 }
 
 .icon-seeker {
-  mask: url("./assets/icons/seeker.svg");
+  mask: url("../assets/icons/seeker.svg");
 }
 
 .icon-rogue {
-  mask: url("./assets/icons/rogue.svg");
+  mask: url("../assets/icons/rogue.svg");
 }
 
 .icon-mystic {
-  mask: url("./assets/icons/mystic.svg");
+  mask: url("../assets/icons/mystic.svg");
 }
 
 .icon-survivor {
-  mask: url("./assets/icons/survivor.svg");
+  mask: url("../assets/icons/survivor.svg");
 }
 
 .icon-neutral {
-  mask: url("./assets/icons/neutral.svg");
+  mask: url("../assets/icons/neutral.svg");
 }
 
 .icon-per_investigator {
-  mask: url("./assets/icons/investigator.svg");
+  mask: url("../assets/icons/investigator.svg");
 }
 
 /* TODO: refactor to use the `.icon` class. */

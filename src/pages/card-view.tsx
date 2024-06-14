@@ -67,8 +67,8 @@ export function CardView() {
             </>
           ) : (
             <>
-              <Card resolvedCard={cardWithRelations} />
-              {back && <Card resolvedCard={back} />}
+              <Card resolvedCard={cardWithRelations} tooltip />
+              {back && <Card resolvedCard={back} tooltip />}
             </>
           )}
 

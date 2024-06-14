@@ -1,15 +1,15 @@
 .text {
-  padding-left: 1rem;
+  padding-left: var(--card-spacing);
   border-left: 2px solid var(--gray-300);
+  font-size: var(--card-text-size);
 
   & > * + * {
-    margin-top: 1em;
+    margin-top: var(--card-spacing);
   }
 }
 
 .text p {
   max-width: 72ch;
-  font-weight: 300;
 }
 
 .text b {
