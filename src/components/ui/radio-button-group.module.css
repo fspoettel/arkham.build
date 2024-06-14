@@ -38,10 +38,8 @@
   }
 }
 
-.radio-button-group.is-icons .radio-button-group-item svg {
-  width: 1.5em;
-  height: 1.5em;
-  fill: currentColor;
+.radio-button-group.is-icons .radio-button-group-item {
+  font-size: var(--icon-base);
 }
 
 .radio-button-group.is-full {

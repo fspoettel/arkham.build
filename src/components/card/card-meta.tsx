@@ -1,7 +1,5 @@
 import clsx from "clsx";
 
-import SvgCard from "@/assets/icons/card-outline.svg?react";
-import SvgPaintbrush from "@/assets/icons/paintbrush.svg?react";
 import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
 import { isCardWithRelations } from "@/store/lib/types";
 import type { Cycle, Pack } from "@/store/services/types";
@@ -54,13 +52,14 @@ function PlayerEntry({ resolvedCard, size }: Props) {
         duplicates.map((duplicate) => (
           <p className={css["meta-property"]} key={duplicate.card.code}>
             {duplicate.pack.real_name} <PackIcon code={duplicate.pack.code} />{" "}
-            {duplicate.card.pack_position} <SvgCard /> ×
+            {duplicate.card.pack_position} <i className="icon-card_outline" /> ×
             {duplicate.card.quantity}
           </p>
         ))}
       <p className={css["meta-property"]}>
         {displayPack.real_name} <PackIcon code={displayPack.code} />{" "}
-        {card.pack_position} <SvgCard /> ×{card.quantity}
+        {card.pack_position} <i className="icon-card-outline-bold" /> ×
+        {card.quantity}
       </p>
     </>
   );
@@ -87,7 +86,7 @@ export function CardMeta({ size, resolvedCard }: Props) {
     <footer className={clsx(css["meta"], css[size])}>
       {size === "full" && illustrator && (
         <p className={css["meta-property"]}>
-          <SvgPaintbrush /> {illustrator}
+          <i className="icon-paintbrush" /> {illustrator}
         </p>
       )}
       <PackEntries resolvedCard={resolvedCard} size={size} />
@@ -100,7 +99,7 @@ export function CardMetaBack({ illustrator }: { illustrator?: string }) {
     <footer className={css["meta"]}>
       {illustrator && (
         <p className={css["meta-property"]}>
-          <SvgPaintbrush /> {illustrator}
+          <i className="icon-paintbrush" /> {illustrator}
         </p>
       )}
     </footer>

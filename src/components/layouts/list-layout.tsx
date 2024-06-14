@@ -2,8 +2,6 @@ import clsx from "clsx";
 import type { ReactNode } from "react";
 import { useRef } from "react";
 
-import SvgDecks from "@/assets/icons/deck.svg?react";
-import SvgFilter from "@/assets/icons/filter.svg?react";
 import { CardSearch } from "@/components/card-list/card-search";
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
@@ -78,7 +76,7 @@ export function ListLayout({
                     className={css["layout-toggle-sidebar"]}
                     onClick={() => onToggleSidebar(true)}
                   >
-                    <SvgDecks />
+                    <i className="icon-deck" />
                   </Button>
                 }
                 slotRight={
@@ -86,7 +84,7 @@ export function ListLayout({
                     className={css["layout-toggle-filters"]}
                     onClick={() => onToggleFilters(true)}
                   >
-                    <SvgFilter />
+                    <i className="icon-filter" />
                   </Button>
                 }
               />

@@ -17,10 +17,11 @@ import { Dialog, DialogContent } from "../ui/dialog";
 import type { Props as ListCardInnerProps } from "./list-card-inner";
 import { ListCardInner } from "./list-card-inner";
 
-export function ListCard({
-  card,
-  ...rest
-}: Omit<ListCardInnerProps, "onToggleModal" | "figureRef" | "referenceProps">) {
+type Props = {
+  tooltip?: React.ReactNode;
+} & Omit<ListCardInnerProps, "onToggleModal" | "figureRef" | "referenceProps">;
+
+export function ListCard({ card, tooltip, ...rest }: Props) {
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
   const restTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
@@ -88,7 +89,7 @@ export function ListCard({
       {tooltipOpen && (
         <FloatingPortal id="floating">
           <div ref={refs.setFloating} style={floatingStyles}>
-            <CardTooltip code={card.code} />
+            {tooltip ?? <CardTooltip code={card.code} />}
           </div>
         </FloatingPortal>
       )}

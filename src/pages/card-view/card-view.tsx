@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { useParams } from "wouter";
 
-import SvgWorld from "@/assets/icons/world.svg?react";
 import { CardViewCards } from "@/components/card-view/card-view-cards";
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
@@ -35,7 +34,7 @@ function CardView() {
             target="_blank"
             rel="noreferrer"
           >
-            <SvgWorld /> Open on ArkhamDB
+            <i className="icon-world" /> Open on ArkhamDB
           </Button>
         </nav>
         <CardViewCards

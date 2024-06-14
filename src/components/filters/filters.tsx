@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import type { ReactNode } from "react";
 
-import SvgFilterClear from "@/assets/icons/filter-clear.svg?react";
 import { useStore } from "@/store";
 import { selectActiveCardType } from "@/store/selectors/filters";
 
@@ -43,7 +42,7 @@ export function Filters({ slotActions, className, hiddenFilters }: Props) {
         <h3 className={css["filters-title"]}>Filters</h3>
         <div className={css["filters-actions"]}>
           <Button onClick={resetFilters} variant="bare" disabled={!touched}>
-            <SvgFilterClear />
+            <i className="icon-filter-clear" />
           </Button>
           {slotActions}
         </div>

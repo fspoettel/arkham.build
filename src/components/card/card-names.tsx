@@ -22,9 +22,7 @@ export function CardNames({
 }: Props) {
   const cardName = (
     <>
-      {parallel && (
-        <i className={clsx(css["parallel"], "encounters-parallel")} />
-      )}
+      {parallel && <i className={clsx(css["parallel"], "icon-parallel")} />}
       {name} <span>{isUnique && <>&#10040;</>}</span>
     </>
   );

@@ -1,59 +1,51 @@
-import SvgAutoFail from "@/assets/icons/auto_fail.svg?react";
-import SvgClassGuardian from "@/assets/icons/class_guardian.svg?react";
-import SvgClassMystic from "@/assets/icons/class_mystic.svg?react";
-import SvgClassNeutral from "@/assets/icons/class_neutral.svg?react";
-import SvgClassRogue from "@/assets/icons/class_rogue.svg?react";
-import SvgClassSeeker from "@/assets/icons/class_seeker.svg?react";
-import SvgClassSurvivor from "@/assets/icons/class_survivor.svg?react";
-import SvgMulticlass from "@/assets/icons/multiclass.svg?react";
-import memoize from "@/utils/memoize";
+import clsx from "clsx";
 
 type Props = {
   className?: string;
   code: string;
 };
 
-const getIconFancy = memoize((code: string) => {
+const getIconFancy = (code: string) => {
   switch (code) {
     case "guardian": {
-      return SvgClassGuardian;
+      return "icon-class_guardian";
     }
 
     case "mystic": {
-      return SvgClassMystic;
+      return "icon-class_mystic";
     }
 
     case "seeker": {
-      return SvgClassSeeker;
+      return "icon-class_seeker";
     }
 
     case "rogue": {
-      return SvgClassRogue;
+      return "icon-class_rogue";
     }
 
     case "neutral": {
-      return SvgClassNeutral;
+      return "icon-class_neutral";
     }
 
     case "multiclass": {
-      return SvgMulticlass;
+      return "icon-multiclass";
     }
 
     case "survivor": {
-      return SvgClassSurvivor;
+      return "icon-class_survivor";
     }
 
     case "mythos": {
-      return SvgAutoFail;
+      return "icon-auto_fail";
     }
 
     default: {
       return null;
     }
   }
-});
+};
 
 export function FactionIconFancy({ className, code }: Props) {
-  const Icon = getIconFancy(code);
-  return Icon ? <Icon className={className} /> : null;
+  const iconCls = getIconFancy(code);
+  return iconCls ? <i className={clsx(className, iconCls)} /> : null;
 }

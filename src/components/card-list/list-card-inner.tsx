@@ -141,7 +141,7 @@ export function ListCardInner({
           </h4>
 
           <div className={css["listcard-meta"]}>
-            {card.parallel && <i className="encounters-parallel" />}
+            {card.parallel && <i className="icon-parallel" />}
             <MulticlassIcons
               className={css["listcard-multiclass"]}
               card={card}

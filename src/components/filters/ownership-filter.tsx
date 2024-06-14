@@ -1,8 +1,7 @@
 import { useCallback } from "react";
 
-import SvgOwned from "@/assets/icons/card_all.svg?react";
+import SvgOwned from "@/assets/icons/card_owned.svg?react";
 import SvgUnowned from "@/assets/icons/card_unowned.svg?react";
-import SvgAll from "@/assets/icons/cards.svg?react";
 import { useStore } from "@/store";
 import {
   selectActiveCardType,
@@ -49,7 +48,7 @@ export function OwnershipFilter() {
     >
       <RadioButtonGroup icons value={value ?? ""} onValueChange={onValueChange}>
         <RadioButtonGroupItem title="All" value="all">
-          <SvgAll />
+          <i className="icon-cards" />
         </RadioButtonGroupItem>
         <RadioButtonGroupItem title="Owned" value="owned">
           <SvgOwned />

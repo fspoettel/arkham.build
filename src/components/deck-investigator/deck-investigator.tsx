@@ -11,11 +11,16 @@ import { CardContainer } from "../card/card-container";
 import { CardFront } from "../card/card-front";
 import { Button } from "../ui/button";
 
-export function DeckInvestigator({ deck }: { deck: DisplayDeck }) {
+type Props = {
+  canToggleBack?: boolean;
+  deck: DisplayDeck;
+};
+
+export function DeckInvestigator({ canToggleBack = true, deck }: Props) {
   const [backToggled, toggleBack] = useState(false);
 
-  return (
-    <CardContainer size="tooltip">
+  const children = canToggleBack ? (
+    <>
       <CardFront resolvedCard={deck.investigatorFront} size="tooltip" linked />
       <div className={clsx(css["back-toggle"], backToggled && css["open"])}>
         <Button onClick={() => toggleBack((p) => !p)}>
@@ -23,7 +28,7 @@ export function DeckInvestigator({ deck }: { deck: DisplayDeck }) {
           Backside{" "}
           {deck.investigatorBack.card.parallel && (
             <>
-              (<span className="encounters-parallel" />)
+              (<span className="icon-parallel" />)
             </>
           )}
         </Button>
@@ -31,6 +36,13 @@ export function DeckInvestigator({ deck }: { deck: DisplayDeck }) {
       {backToggled && (
         <CardBack card={deck.investigatorBack.card} size="tooltip" />
       )}
-    </CardContainer>
+    </>
+  ) : (
+    <>
+      <CardFront resolvedCard={deck.investigatorFront} size="tooltip" linked />
+      <CardBack card={deck.investigatorBack.card} size="tooltip" />
+    </>
   );
+
+  return <CardContainer size="tooltip">{children}</CardContainer>;
 }

@@ -64,10 +64,10 @@ export function SkillIconsFilter() {
               onValueChange={(val) => onToggleChange(key as keyof Value, val)}
               value={value ? value.toString() : ""}
             >
-              <ToggleGroupItem size="small" value="1">
+              <ToggleGroupItem size="small-type" value="1">
                 1+
               </ToggleGroupItem>
-              <ToggleGroupItem size="small" value="2">
+              <ToggleGroupItem size="small-type" value="2">
                 2+
               </ToggleGroupItem>
             </ToggleGroup>

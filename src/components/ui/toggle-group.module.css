@@ -7,9 +7,12 @@
     padding: 0.25rem 0.5rem;
   }
 
-  &.is-icons .toggle-group-item svg {
-    width: var(--icon-base);
-    height: var(--icon-base);
+  &.is-icons .toggle-group-item {
+    font-size: var(--icon-base);
+  }
+
+  &.is-icons .toggle-group-item.small {
+    font-size: var(--icon-sm);
   }
 
   &.is-full {
@@ -39,7 +42,6 @@
 
   &.small {
     padding: 0.25rem 0.375rem;
-    font-size: var(--text-sm);
   }
 
   &.small-type {

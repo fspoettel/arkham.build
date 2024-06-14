@@ -2,8 +2,6 @@ import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
 import type { ReactNode } from "react";
 
-import SvgCardOutline from "@/assets/icons/card-outline-bold.svg?react";
-import SvgXpBold from "@/assets/icons/xp-bold.svg?react";
 import { useStore } from "@/store";
 import { validateDeck } from "@/store/lib/deck-validation";
 import type { ResolvedCard, ResolvedDeck } from "@/store/lib/types";
@@ -16,11 +14,17 @@ import { CardThumbnail } from "../card/card-thumbnail";
 
 type Props = {
   children?: ReactNode;
-  interactive?: boolean;
   deck: ResolvedDeck<ResolvedCard>;
+  interactive?: boolean;
+  showThumbnail?: boolean;
 };
 
-export function DeckCard({ children, deck, interactive }: Props) {
+export function DeckCard({
+  children,
+  deck,
+  interactive,
+  showThumbnail = true,
+}: Props) {
   const lookupTables = useStore((state: StoreState) => state.lookupTables);
   const metadata = useStore((state: StoreState) => state.metadata);
 
@@ -45,9 +49,11 @@ export function DeckCard({ children, deck, interactive }: Props) {
       )}
     >
       <header className={clsx(css["deck-header"], backgroundCls)}>
-        <div className={css["deck-thumbnail"]}>
-          <CardThumbnail card={deck.cards.investigator.card} />
-        </div>
+        {showThumbnail && (
+          <div className={css["deck-thumbnail"]}>
+            <CardThumbnail card={deck.cards.investigator.card} />
+          </div>
+        )}
         <div className={css["deck-header-container"]}>
           <h3 className={css["deck-title"]}>
             {!valid && <ExclamationTriangleIcon />}
@@ -59,12 +65,12 @@ export function DeckCard({ children, deck, interactive }: Props) {
             </h4>
             <div className={css["deck-stats"]}>
               <strong>
-                <SvgXpBold />
+                <i className="icon-xp-bold" />
                 {deck.stats.xpRequired} XP
               </strong>
               <strong>
-                <SvgCardOutline />× {deck.stats.deckSize} (
-                {deck.stats.deckSizeTotal})
+                <i className="icon-card-outline-bold" />× {deck.stats.deckSize}{" "}
+                ({deck.stats.deckSizeTotal})
               </strong>
             </div>
           </div>

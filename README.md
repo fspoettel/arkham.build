@@ -8,7 +8,7 @@ The API is a separate project hosted as a Cloudflare worker. It mainly serves as
 
 ### Icons
 
-SVG icons are sourced from [ArkhamCards](https://github.com/zzorba/ArkhamCards/blob/master/assets/icomoon/project.json)'s icomoon project. Frequently used icons are bundled into the application with `vite-plugin-svgr`, while others are loaded as webfonts.
+SVG icons are sourced from [ArkhamCards](https://github.com/zzorba/ArkhamCards/blob/master/assets/icomoon/project.json)'s icomoon project. These icons are loaded as webfonts. Some additional icons are bundled as SVG via `vite-plugin-svgr`.
 
 <details>
   <summary><h2>Template readme</h2></summary>
