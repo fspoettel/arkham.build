@@ -5,6 +5,7 @@ import {
   offset,
   shift,
   useFloating,
+  useTransitionStyles,
 } from "@floating-ui/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
@@ -42,7 +43,7 @@ export function ListCard({
     if (tooltipOpen) preloadImage(imageUrl(card.code));
   }, [card.code, tooltipOpen]);
 
-  const { refs, floatingStyles } = useFloating({
+  const { context, refs, floatingStyles } = useFloating({
     open: tooltipOpen,
     onOpenChange: setTooltipOpen,
     middleware: [shift(), autoPlacement(), offset(2)],
@@ -50,6 +51,8 @@ export function ListCard({
     strategy: "fixed",
     placement: "bottom-start",
   });
+
+  const { isMounted, styles } = useTransitionStyles(context);
 
   const onPointerLeave = useCallback(() => {
     clearTimeout(restTimeoutRef.current);
@@ -86,10 +89,12 @@ export function ListCard({
         figureRef={refs.setReference}
         referenceProps={referenceProps}
       />
-      {tooltipOpen && (
+      {isMounted && (
         <FloatingPortal id={FLOATING_PORTAL_ID}>
           <div ref={refs.setFloating} style={floatingStyles}>
-            {tooltip ?? <CardTooltip code={card.code} />}
+            <div style={styles}>
+              {tooltip ?? <CardTooltip code={card.code} />}
+            </div>
           </div>
         </FloatingPortal>
       )}

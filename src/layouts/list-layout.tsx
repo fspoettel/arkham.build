@@ -58,6 +58,7 @@ export function ListLayout({
         css["layout"],
         filtersOpen && css["filters-open"],
         sidebarOpen && css["sidebar-open"],
+        "fade-in",
       )}
       onPointerDown={onContentClick}
       style={{ "--sidebar-width-max": sidebarWidthMax } as React.CSSProperties}

@@ -564,6 +564,10 @@ svg {
   animation: spin 1s linear infinite;
 }
 
+.fade-in {
+  animation: fadeIn 0.2s ease-in forwards;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -571,5 +575,14 @@ svg {
 
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

@@ -3,6 +3,7 @@ import {
   FloatingPortal,
   useId,
   useMergeRefs,
+  useTransitionStyles,
 } from "@floating-ui/react";
 import {
   cloneElement,
@@ -77,8 +78,9 @@ export const PopoverContent = forwardRef<
 >(function PopoverContent({ style, ...props }, propRef) {
   const { context: floatingContext, ...context } = usePopoverContext();
   const ref = useMergeRefs([context.refs.setFloating, propRef]);
+  const { isMounted, styles } = useTransitionStyles(floatingContext);
 
-  if (!floatingContext.open) return null;
+  if (!isMounted) return null;
 
   return (
     <FloatingPortal>
@@ -90,7 +92,7 @@ export const PopoverContent = forwardRef<
           style={{ ...context.floatingStyles, ...style }}
           {...context.getFloatingProps(props)}
         >
-          {props.children}
+          <div style={styles}>{props.children}</div>
         </div>
       </FloatingFocusManager>
     </FloatingPortal>

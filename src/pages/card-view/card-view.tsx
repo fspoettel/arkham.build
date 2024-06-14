@@ -24,7 +24,7 @@ function CardView() {
   if (!cardWithRelations) return null;
 
   return (
-    <div className={clsx(css["layout"])}>
+    <div className={clsx(css["layout"], "fade-in")}>
       <Masthead className={css["header"]} />
       <main className={css["main"]}>
         <nav className={css["actions"]}>

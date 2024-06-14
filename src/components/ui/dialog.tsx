@@ -3,6 +3,7 @@ import {
   FloatingOverlay,
   FloatingPortal,
   useMergeRefs,
+  useTransitionStyles,
 } from "@floating-ui/react";
 import { cloneElement, forwardRef, isValidElement } from "react";
 
@@ -66,21 +67,22 @@ export const DialogContent = forwardRef<
   React.HTMLProps<HTMLDivElement>
 >(function DialogContent(props, propRef) {
   const { context: floatingContext, ...context } = useDialogContext();
+  const { isMounted, styles } = useTransitionStyles(floatingContext);
   const ref = useMergeRefs([context.refs.setFloating, propRef]);
 
-  if (!floatingContext.open) return null;
+  if (!isMounted) return null;
 
   return (
     <FloatingPortal id={FLOATING_PORTAL_ID}>
       <FloatingOverlay lockScroll>
         <FloatingFocusManager context={floatingContext}>
           <div
+            {...context.getFloatingProps(props)}
             aria-describedby={context.descriptionId}
             aria-labelledby={context.labelId}
             ref={ref}
-            {...context.getFloatingProps(props)}
           >
-            {props.children}
+            <div style={styles}>{props.children}</div>
           </div>
         </FloatingFocusManager>
       </FloatingOverlay>
@@ -93,15 +95,15 @@ export const DialogContentInert = forwardRef<
   React.HTMLProps<HTMLDivElement>
 >(function DialogContent(props, propRef) {
   const { context: floatingContext, ...context } = useDialogContext();
-  const ref = useMergeRefs([context.refs.setFloating, propRef]);
+  const { isMounted, styles } = useTransitionStyles(floatingContext);
 
-  const open = floatingContext.open;
+  const ref = useMergeRefs([context.refs.setFloating, propRef]);
 
   return (
     <FloatingPortal id={FLOATING_PORTAL_ID}>
       <FloatingOverlay
-        lockScroll={open}
-        style={{ display: open ? "block" : "none" }}
+        lockScroll={isMounted}
+        style={{ display: isMounted ? "block" : "none" }}
       >
         <div
           aria-describedby={context.descriptionId}
@@ -109,7 +111,7 @@ export const DialogContentInert = forwardRef<
           ref={ref}
           {...context.getFloatingProps(props)}
         >
-          {props.children}
+          <div style={styles}>{props.children}</div>
         </div>
       </FloatingOverlay>
     </FloatingPortal>

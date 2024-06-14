@@ -5,4 +5,15 @@
   border-radius: var(--rounded);
   box-shadow: var(--shadow);
   max-width: min(100%, 15rem);
+
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

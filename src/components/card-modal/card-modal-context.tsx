@@ -14,7 +14,7 @@ type CardModalContextState =
     }
   | {
       isOpen: false;
-      config: undefined;
+      config: CardModalContextConfig | undefined;
     };
 
 type CardModalContext = {
@@ -51,7 +51,7 @@ export function CardModalProvider({ children }: Props) {
   const value: CardModalContext = useMemo(
     () => ({
       setClosed: () => {
-        setState({ config: undefined, isOpen: false });
+        setState((prev) => ({ isOpen: false, config: prev.config }));
       },
       setOpen: (config: CardModalContextConfig) => {
         setState({ config, isOpen: true });
@@ -65,7 +65,7 @@ export function CardModalProvider({ children }: Props) {
       {children}
       <Dialog onOpenChange={value.setClosed} open={state.isOpen}>
         <DialogContent>
-          {state.isOpen && <CardModal code={state.config.code} />}
+          {state.config && <CardModal code={state.config.code} />}
         </DialogContent>
       </Dialog>
     </CardModalContext.Provider>

@@ -19,7 +19,7 @@ export function Layout({
   sidebar,
 }: Props) {
   return (
-    <div className={clsx(css["layout"])}>
+    <div className={clsx(css["layout"], "fade-in")}>
       <Masthead className={css["header"]}>{mastheadContent}</Masthead>
       <div className={css["sidebar"]}>{sidebar}</div>
       <div className={css["content"]}>{children}</div>
