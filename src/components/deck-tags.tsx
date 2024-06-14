@@ -9,7 +9,8 @@ type Props = {
 };
 
 export function DeckTags({ tags }: Props) {
-  const tagList = tags.split(" ");
+  const tagList = tags.trim().split(" ");
+
   if (!tagList.length) return null;
 
   return (

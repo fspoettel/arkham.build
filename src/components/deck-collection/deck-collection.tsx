@@ -44,7 +44,7 @@ export function DeckCollection() {
                       showThumbnail
                       showValidation
                     >
-                      <DeckTags tags={deck.tags} />
+                      {deck.tags && <DeckTags tags={deck.tags} />}
                     </DeckCard>
                   </a>
                 </Link>
