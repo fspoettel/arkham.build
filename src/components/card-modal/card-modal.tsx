@@ -105,6 +105,7 @@ export function CardModal({ canEdit, canShowQuantity, code }: Props) {
               <CardModalQuantities
                 canEdit={canEdit}
                 card={cardWithRelations.card}
+                onClickBackground={onCloseModal}
               />
             )}
           </div>

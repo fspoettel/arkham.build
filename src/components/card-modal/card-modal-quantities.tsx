@@ -1,3 +1,5 @@
+import { type MouseEvent, useCallback, useRef } from "react";
+
 import { useStore } from "@/store";
 import { selectCardQuantitiesForSlot } from "@/store/selectors/decks";
 import type { Card } from "@/store/services/types";
@@ -10,9 +12,25 @@ import { QuantityInput } from "../ui/quantity-input";
 type Props = {
   card: Card;
   canEdit?: boolean;
+  onClickBackground?: () => void;
 };
 
-export function CardModalQuantities({ card, canEdit }: Props) {
+export function CardModalQuantities({
+  card,
+  canEdit,
+  onClickBackground,
+}: Props) {
+  const divRef = useRef<HTMLDivElement>(null);
+
+  const onClick = useCallback(
+    (evt: MouseEvent<HTMLDivElement>) => {
+      if (evt.target === divRef.current) {
+        onClickBackground?.();
+      }
+    },
+    [onClickBackground],
+  );
+
   const changeCardQuantity = useStore((state) => state.changeCardQuantity);
 
   const quantities = useStore((state) =>
@@ -36,7 +54,7 @@ export function CardModalQuantities({ card, canEdit }: Props) {
   const limit = card.deck_limit ?? card.quantity;
 
   return (
-    <div className={css["cardmodal-quantities"]}>
+    <div className={css["cardmodal-quantities"]} onClick={onClick} ref={divRef}>
       <article className={css["cardmodal-quantity"]}>
         <h3>Deck</h3>
         <QuantityInput

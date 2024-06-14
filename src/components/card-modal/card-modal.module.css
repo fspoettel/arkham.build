@@ -15,7 +15,7 @@
 
 .cardmodal-inner {
   width: 100%;
-  max-width: 45rem;
+  max-width: 52rem;
   container-type: inline-size;
   margin-inline: auto;
 }
@@ -29,7 +29,7 @@
 .cardmodal-row {
   display: flex;
   gap: 1rem;
-  align-items: flex-start;
+  align-items: stretch;
   flex-flow: column nowrap;
 
   @media screen and (min-width: 32rem) {
