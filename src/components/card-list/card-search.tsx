@@ -5,7 +5,6 @@ import { debounce } from "@/utils/debounce";
 
 import css from "./card-search.module.css";
 
-import { CardTypeFilter } from "../card-type-filter";
 import { Checkbox } from "../ui/checkbox";
 import { SearchInput } from "../ui/search-input";
 
@@ -13,6 +12,7 @@ export function CardSearch() {
   const setSearchValue = useStore((state) => state.setSearchValue);
   const setSearchFlag = useStore((state) => state.setSearchFlag);
   const search = useStore((state) => state.search);
+  const searchOpen = useStore((state) => state.ui.searchOpen);
 
   const [inputValue, setInputValue] = useState(search.value);
 
@@ -51,7 +51,11 @@ export function CardSearch() {
   );
 
   return (
-    <search className={css["search"]} title="Card search">
+    <search
+      data-state={searchOpen ? "open" : "closed"}
+      className={css["search"]}
+      title="Card search"
+    >
       <div className={css["search-row"]}>
         <div className={css["search-input"]}>
           <SearchInput
@@ -63,7 +67,6 @@ export function CardSearch() {
             value={inputValue}
           />
         </div>
-        <CardTypeFilter className={css["search-toggle"]} />
       </div>
       <div className={css["search-toggles"]}>
         <Checkbox

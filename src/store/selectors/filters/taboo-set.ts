@@ -20,12 +20,23 @@ export const selectTabooSetFilter = createSelector(
     filterState.value ? filterTabooSet(filterState.value) : undefined,
 );
 
-export const selectTabooSets = (state: StoreState) => {
+export const selectOptions = (state: StoreState) => {
   const sets = Object.values(state.metadata.tabooSets);
   sets.sort((a, b) => b.date.localeCompare(a.date));
   return sets;
 };
 
-export const selectActiveTabooSet = (state: StoreState) => {
+export const selectValue = (state: StoreState) => {
   return state.filters.player.tabooSet.value;
 };
+
+export const selectChanges = createSelector(
+  (state: StoreState) => state.metadata,
+  selectValue,
+  (metadata, value) => (value ? metadata.tabooSets[value].name : ""),
+);
+
+export const selectOpen = createSelector(
+  (state: StoreState) => state.filters.player.tabooSet,
+  (filterState) => filterState.open,
+);

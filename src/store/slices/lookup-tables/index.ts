@@ -76,6 +76,7 @@ export const createLookupTablesSlice: StateCreator<
       ...partial,
       lookupTables,
       ui: {
+        ...state.ui,
         initialized: true,
       },
     });

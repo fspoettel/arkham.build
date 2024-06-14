@@ -38,11 +38,11 @@ export const createSettingsSlice: StateCreator<
         ...state.filters,
         player: {
           ...state.filters.player,
-          ownership: { value: ownership },
+          ownership: { value: ownership, open: false },
         },
         encounter: {
           ...state.filters.player,
-          ownership: { value: ownership },
+          ownership: { value: ownership, open: false },
         },
       };
     }

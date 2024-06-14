@@ -114,6 +114,7 @@ export const createSharedSlice: StateCreator<
       metadata,
       lookupTables,
       ui: {
+        ...state.ui,
         initialized: true,
       },
       filters: getInitialFilters(state),
@@ -134,11 +135,11 @@ export function getInitialFilters(state: StoreState): StoreState["filters"] {
     ...state.filters,
     player: {
       ...state.filters.player,
-      ownership: { value: initialOwnershipSetting },
+      ownership: { value: initialOwnershipSetting, open: false },
     },
     encounter: {
       ...state.filters.encounter,
-      ownership: { value: initialOwnershipSetting },
+      ownership: { value: initialOwnershipSetting, open: false },
     },
   };
 }

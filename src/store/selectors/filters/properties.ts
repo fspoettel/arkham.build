@@ -4,6 +4,7 @@ import { Card } from "@/store/services/types";
 import { StoreState } from "@/store/slices";
 import { PropertiesFilter } from "@/store/slices/filters/types";
 import { LookupTables } from "@/store/slices/lookup-tables/types";
+import { capitalize } from "@/utils/capitalize";
 import { Filter, and } from "@/utils/fp";
 
 function filterBonded(bondedTable: LookupTables["relations"]["bonded"]) {
@@ -51,7 +52,7 @@ function filterHealsHorror(
 }
 
 export function filterProperties(
-  filterState: PropertiesFilter,
+  filterState: PropertiesFilter["value"],
   lookupTables: LookupTables,
 ) {
   const filters: Filter[] = [];
@@ -106,8 +107,21 @@ export function filterProperties(
 export const selectPropertiesFilter = createSelector(
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.filters[state.filters.cardType].properties,
-  (lookupTables, filterState) => filterProperties(filterState, lookupTables),
+  (lookupTables, filterState) =>
+    filterProperties(filterState.value, lookupTables),
 );
 
-export const selectActiveProperties = (state: StoreState) =>
-  state.filters[state.filters.cardType].properties;
+export const selectValue = (state: StoreState) =>
+  state.filters[state.filters.cardType].properties.value;
+
+export const selectChanges = createSelector(selectValue, (value) => {
+  return Object.entries(value).reduce((acc, [key, val]) => {
+    if (!val) return acc;
+    return !acc ? capitalize(key) : `${acc}, ${capitalize(key)}`;
+  }, "");
+});
+
+export const selectOpen = createSelector(
+  (state: StoreState) => state.filters[state.filters.cardType].properties,
+  (filterState) => filterState.open,
+);

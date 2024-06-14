@@ -9,7 +9,7 @@ import { Filter, or } from "@/utils/fp";
 import { selectActiveCardType } from "./shared";
 
 export function filterTraits(
-  filterState: ComboboxFilter,
+  filterState: ComboboxFilter["value"],
   traitTable: LookupTables["traits"],
 ) {
   const filters: Filter[] = [];
@@ -19,19 +19,16 @@ export function filterTraits(
   });
 
   const filter = or(filters);
-
-  return (card: Card) => {
-    return filter(card);
-  };
+  return (card: Card) => filter(card);
 }
 
 export const selectTraitsFilter = createSelector(
   (state: StoreState) => state.lookupTables.traits,
   (state: StoreState) => state.filters[state.filters.cardType].trait,
-  (traitsTable, filterState) => filterTraits(filterState, traitsTable),
+  (traitsTable, filterState) => filterTraits(filterState.value, traitsTable),
 );
 
-export const selectTraits = createSelector(
+export const selectOptions = createSelector(
   selectActiveCardType,
   (state: StoreState) => state.lookupTables.traitsByCardTypeSeletion,
   (cardType, traitTable) => {
@@ -41,8 +38,8 @@ export const selectTraits = createSelector(
   },
 );
 
-export const selectActiveTraits = createSelector(
-  (state: StoreState) => state.filters[state.filters.cardType].trait,
+export const selectValue = createSelector(
+  (state: StoreState) => state.filters[state.filters.cardType].trait.value,
   (filters) =>
     Object.fromEntries(
       Object.entries(filters).reduce<[string, { code: string }][]>(
@@ -53,4 +50,15 @@ export const selectActiveTraits = createSelector(
         [],
       ),
     ),
+);
+
+export const selectChanges = createSelector(selectValue, (value) => {
+  return Object.values(value).reduce((acc, curr, i) => {
+    return i === 0 ? curr.code : `${acc}, ${curr.code}`;
+  }, "");
+});
+
+export const selectOpen = createSelector(
+  (state: StoreState) => state.filters[state.filters.cardType].trait,
+  (filterState) => filterState.open,
 );

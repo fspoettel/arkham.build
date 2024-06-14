@@ -1,7 +1,7 @@
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
-import { ReactNode, useEffect, useRef } from "react";
-import { Link, Redirect, useLocation, useParams } from "wouter";
+import { ReactNode } from "react";
+import { Link, Redirect, useParams } from "wouter";
 
 import { Card } from "@/components/card/card";
 import { ResolvedCard } from "@/components/card/resolved-card";
@@ -29,17 +29,11 @@ function CardViewSection({ title, children }: Props) {
 }
 
 export function CardView() {
-  const scrollerRef = useRef<HTMLDivElement>(null);
   const { code } = useParams();
-  const [pathname] = useLocation();
 
   const cardWithRelations = useStore((state) =>
     selectCardWithRelations(state, code),
   );
-
-  useEffect(() => {
-    scrollerRef.current?.scrollTo(0, 0);
-  }, [pathname]);
 
   if (!cardWithRelations) return null;
 
@@ -67,7 +61,7 @@ export function CardView() {
           </header>
         }
       >
-        <div className={clsx(css["view"])} ref={scrollerRef}>
+        <div className={clsx(css["view"])}>
           <ResolvedCard resolvedCard={cardWithRelations} />
 
           {relations?.parallel && (

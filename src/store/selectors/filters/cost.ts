@@ -14,24 +14,19 @@ function filterOddCost(card: Card) {
 }
 
 function filterXCost(xCost: boolean) {
-  return (card: Card) => {
-    return xCost && card.cost === -2;
-  };
+  return (card: Card) => xCost && card.cost === -2;
 }
 
 function filterCardCost(value: [number, number] | undefined) {
   if (!value) return pass;
 
-  return (card: Card) => {
-    return card.cost != null && card.cost >= value[0] && card.cost <= value[1];
-  };
+  return (card: Card) =>
+    card.cost != null && card.cost >= value[0] && card.cost <= value[1];
 }
 
-function filterCost(filterState: CostFilter) {
-  if (!filterState.value) return pass;
-
+function filterCost(filterState: CostFilter["value"]) {
   // apply level range if provided. `0-5` is assumed, null-costed cards are excluded.
-  const filters = [filterCardCost(filterState.value)];
+  const filters = [filterCardCost(filterState.range)];
 
   // apply even / odd filters
   const moduloFilters = [];
@@ -40,15 +35,12 @@ function filterCost(filterState: CostFilter) {
   filters.push(or(moduloFilters));
 
   const filter = or([filterXCost(filterState.x), and(filters)]);
-
-  return (card: Card) => {
-    return filter(card);
-  };
+  return (card: Card) => filter(card);
 }
 
 export const selectCostFilter = createSelector(
-  (state: StoreState) => state.filters[state.filters.cardType].cost,
-  (filterState) => (filterState.value ? filterCost(filterState) : undefined),
+  (state: StoreState) => state.filters[state.filters.cardType].cost.value,
+  (filterState) => (filterState.range ? filterCost(filterState) : undefined),
 );
 
 export function selectCostMinMax(state: StoreState) {
@@ -69,5 +61,10 @@ export function selectCostMinMax(state: StoreState) {
   return [min, max];
 }
 
-export const selectActiveCost = (state: StoreState) =>
-  state.filters[state.filters.cardType].cost;
+export const selectValue = (state: StoreState) =>
+  state.filters[state.filters.cardType].cost.value;
+
+export const selectOpen = createSelector(
+  (state: StoreState) => state.filters[state.filters.cardType].cost,
+  (filterState) => filterState.open,
+);

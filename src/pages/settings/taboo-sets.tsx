@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { Field } from "@/components/ui/field";
 import { useStore } from "@/store";
-import { selectTabooSets } from "@/store/selectors/filters/taboo-set";
+import { selectOptions } from "@/store/selectors/filters/taboo-set";
 import { SettingsState } from "@/store/slices/settings/types";
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 };
 
 export function TabooSets({ settings }: Props) {
-  const tabooSets = useStore(selectTabooSets);
+  const tabooSets = useStore(selectOptions);
 
   const [value, setValue] = useState(settings.tabooSetId);
 

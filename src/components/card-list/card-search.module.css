@@ -1,3 +1,15 @@
+.search:not([data-state="open"]) {
+  display: none;
+
+  @media screen and (min-height: 45rem) {
+    display: block;
+  }
+}
+
+.search[data-state="open"] {
+  display: block;
+}
+
 .search {
   padding: 0.5rem 1rem;
 

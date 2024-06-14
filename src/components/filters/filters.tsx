@@ -14,13 +14,14 @@ import { LevelFilter } from "./level-filter";
 import { OwnershipFilter } from "./ownership-filter";
 import { PropertiesFilter } from "./properties-filter";
 import { SkillIconsFilter } from "./skill-icons-filter";
-import { SubtypeFilter } from "./subtypes-filter";
+import { SubtypeFilter } from "./subtype-filter";
 import { TabooSetFilter } from "./taboo-set-filter";
 import { TraitFilter } from "./trait-filter";
 import { TypeFilter } from "./type-filter";
 
 export function Filters() {
   const isInitalized = useStore(selectIsInitialized);
+
   const cardTypeSelection = useStore(selectActiveCardType);
   const resetFilters = useStore((state) => state.resetFilters);
 

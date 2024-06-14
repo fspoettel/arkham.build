@@ -15,7 +15,7 @@
   user-select: none;
   touch-action: none;
   padding: 2px;
-  background: var(--nord-0);
+  background: rgba(0, 0, 0, 0.1);
   z-index: 9999;
   transition: background 160ms ease-out;
 }

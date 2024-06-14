@@ -3,28 +3,32 @@ import { useCallback } from "react";
 import SvgX from "@/assets/icons/x.svg?react";
 import { useStore } from "@/store";
 import {
-  selectActiveCost,
   selectCostMinMax,
+  selectOpen,
+  selectValue,
 } from "@/store/selectors/filters/cost";
 import { selectActiveCardType } from "@/store/selectors/filters/shared";
 import { CostFilter as CostFilterSchema } from "@/store/slices/filters/types";
 
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
-import { Collapsible, CollapsibleContent } from "../ui/collapsible";
 import { RangeSelect } from "../ui/range-select";
+import { FilterContainer } from "./filter-container";
 
 export function CostFilter() {
   const [min, max] = useStore(selectCostMinMax);
   const cardType = useStore(selectActiveCardType);
-  const cost = useStore(selectActiveCost);
-  const setFilter = useStore((state) => state.setActiveFilter);
+  const value = useStore(selectValue);
+  const open = useStore(selectOpen);
+
+  const setFilter = useStore((state) => state.setActiveNestedFilter);
   const resetFilter = useStore((state) => state.resetFilterKey);
+  const setFilterOpen = useStore((state) => state.setFilterOpen);
 
   const setValue = useCallback(
-    function setValue<K extends keyof CostFilterSchema>(
+    function setValue<K extends keyof CostFilterSchema["value"]>(
       key: K,
-      val: CostFilterSchema[K],
+      val: CostFilterSchema["value"][K],
     ) {
       setFilter(cardType, "cost", key, val);
     },
@@ -37,7 +41,7 @@ export function CostFilter() {
 
   const onValueCommit = useCallback(
     (val: number[]) => {
-      setValue("value", [val[0], val[1]]);
+      setValue("range", [val[0], val[1]]);
     },
     [setValue],
   );
@@ -63,46 +67,47 @@ export function CostFilter() {
     [setValue],
   );
 
+  const onOpenChange = useCallback(
+    (val: boolean) => {
+      if (val) {
+        setValue("range", [min, max]);
+        setFilterOpen(cardType, "cost", val);
+      } else {
+        resetActiveCost();
+      }
+    },
+    [min, max, setValue, setFilterOpen, resetActiveCost, cardType],
+  );
+
   return (
-    <Collapsible
-      title="Cost"
-      onOpenChange={(val) => {
-        if (val) {
-          setValue("value", [min, max]);
-        } else {
-          resetActiveCost();
-        }
-      }}
-    >
-      <CollapsibleContent>
-        <RangeSelect
-          id="cost-select"
-          min={min}
-          max={max}
-          onValueCommit={onValueCommit}
-          value={cost.value ?? [min, max]}
+    <FilterContainer title="Cost" open={open} onOpenChange={onOpenChange}>
+      <RangeSelect
+        id="cost-select"
+        min={min}
+        max={max}
+        onValueCommit={onValueCommit}
+        value={value.range ?? [min, max]}
+      />
+      <CheckboxGroup>
+        <Checkbox
+          label="Even"
+          id="cost-even"
+          onCheckedChange={onSetEven}
+          checked={value.even}
         />
-        <CheckboxGroup>
-          <Checkbox
-            label="Even"
-            id="cost-even"
-            onCheckedChange={onSetEven}
-            checked={cost.even}
-          />
-          <Checkbox
-            label="Odd"
-            id="cost-odd"
-            onCheckedChange={onSetOdd}
-            checked={cost.odd}
-          />
-          <Checkbox
-            label={<SvgX />}
-            id="cost-x"
-            onCheckedChange={onSetX}
-            checked={cost.x}
-          />
-        </CheckboxGroup>
-      </CollapsibleContent>
-    </Collapsible>
+        <Checkbox
+          label="Odd"
+          id="cost-odd"
+          onCheckedChange={onSetOdd}
+          checked={value.odd}
+        />
+        <Checkbox
+          label={<SvgX />}
+          id="cost-x"
+          onCheckedChange={onSetX}
+          checked={value.x}
+        />
+      </CheckboxGroup>
+    </FilterContainer>
   );
 }

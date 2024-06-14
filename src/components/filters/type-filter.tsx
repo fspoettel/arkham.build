@@ -2,54 +2,70 @@ import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import { selectActiveCardType } from "@/store/selectors/filters/shared";
-import { selectActiveTypes, selectTypes } from "@/store/selectors/filters/type";
+import {
+  selectChanges,
+  selectOpen,
+  selectOptions,
+  selectValue,
+} from "@/store/selectors/filters/type";
 import { Type } from "@/store/services/types";
 
-import { Collapsible, CollapsibleContent } from "../ui/collapsible";
 import { Combobox } from "../ui/combobox/combobox";
+import { FilterContainer } from "./filter-container";
 
 export function TypeFilter() {
-  const types = useStore(selectTypes);
   const cardType = useStore(selectActiveCardType);
-  const selectedTypes = useStore(selectActiveTypes);
+  const changes = useStore(selectChanges);
+  const types = useStore(selectOptions);
+  const open = useStore(selectOpen);
+  const value = useStore(selectValue);
+
+  const setActiveNestedFilter = useStore(
+    (state) => state.setActiveNestedFilter,
+  );
+  const setFilterOpen = useStore((state) => state.setFilterOpen);
   const resetFilter = useStore((state) => state.resetFilterKey);
-  const updateComboboxFilter = useStore((state) => state.toggleComboboxFilter);
 
   const onOpenChange = useCallback(
     (val: boolean) => {
-      if (!val) {
-        resetFilter(cardType, "type");
-      }
+      setFilterOpen(cardType, "type", val);
     },
-    [cardType, resetFilter],
+    [setFilterOpen, cardType],
   );
+
+  const onReset = useCallback(() => {
+    resetFilter(cardType, "type");
+  }, [resetFilter, cardType]);
 
   const onSelectType = useCallback(
     (code: string, value: boolean) => {
-      updateComboboxFilter(cardType, "type", code, value);
+      setActiveNestedFilter(cardType, "type", code, value);
     },
-    [updateComboboxFilter, cardType],
+    [setActiveNestedFilter, cardType],
   );
 
   const nameRenderer = useCallback((item: Type) => item.name, []);
-
   const itemToString = useCallback((item: Type) => item.name.toLowerCase(), []);
 
   return (
-    <Collapsible title="Type" onOpenChange={onOpenChange}>
-      <CollapsibleContent>
-        <Combobox
-          id={"combobox-filter-type"}
-          items={types}
-          onSelectItem={onSelectType}
-          selectedItems={selectedTypes}
-          placeholder="Add types..."
-          label="Type"
-          itemToString={itemToString}
-          renderItem={nameRenderer}
-          renderResult={nameRenderer}
-        />
-      </CollapsibleContent>
-    </Collapsible>
+    <FilterContainer
+      title="Type"
+      filterString={changes}
+      onReset={onReset}
+      onOpenChange={onOpenChange}
+      open={open}
+    >
+      <Combobox
+        id={"combobox-filter-type"}
+        items={types}
+        onSelectItem={onSelectType}
+        selectedItems={value}
+        placeholder="Add types..."
+        label="Type"
+        itemToString={itemToString}
+        renderItem={nameRenderer}
+        renderResult={nameRenderer}
+      />
+    </FilterContainer>
   );
 }

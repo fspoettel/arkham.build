@@ -9,6 +9,7 @@ export function getInitialUIState(): UIState {
       hydrated: false,
       initialized: false,
       listScrollRestore: undefined,
+      searchOpen: false,
     },
   };
 }
@@ -23,5 +24,8 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
   },
   setListScrollRestore(snapshot) {
     set({ ui: { ...get().ui, listScrollRestore: snapshot } });
+  },
+  toggleSearch() {
+    set({ ui: { ...get().ui, searchOpen: !get().ui.searchOpen } });
   },
 });

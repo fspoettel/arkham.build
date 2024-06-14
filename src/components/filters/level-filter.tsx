@@ -1,7 +1,7 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 import { useStore } from "@/store";
-import { selectActiveLevel } from "@/store/selectors/filters/level";
+import { selectOpen, selectValue } from "@/store/selectors/filters/level";
 import { LevelFilter as LevelFilterSchema } from "@/store/slices/filters/types";
 
 import css from "./level-filter.module.css";
@@ -20,19 +20,21 @@ function getToggleValue(value: [number, number] | undefined) {
 }
 
 export function LevelFilter() {
-  const [open, setOpen] = useState(false);
-  const activeLevel = useStore(selectActiveLevel);
+  const value = useStore(selectValue);
+  const open = useStore(selectOpen);
+
   const setActiveLevelShortcut = useStore(
     (state) => state.setActiveLevelShortcut,
   );
 
-  const setFilter = useStore((store) => store.setActiveFilter);
-  const resetFilterKey = useStore((store) => store.resetFilterKey);
+  const setFilter = useStore((state) => state.setActiveNestedFilter);
+  const resetFilter = useStore((state) => state.resetFilterKey);
+  const setFilterOpen = useStore((state) => state.setFilterOpen);
 
   const setValue = useCallback(
-    function setValue<K extends keyof LevelFilterSchema>(
+    function setValue<K extends keyof LevelFilterSchema["value"]>(
       key: K,
-      value: LevelFilterSchema[K],
+      value: LevelFilterSchema["value"][K],
     ) {
       setFilter("player", "level", key, value);
     },
@@ -40,21 +42,21 @@ export function LevelFilter() {
   );
 
   const resetActiveLevel = useCallback(() => {
-    resetFilterKey("player", "level");
-  }, [resetFilterKey]);
+    resetFilter("player", "level");
+  }, [resetFilter]);
 
   const onOpenChange = useCallback(
     (val: boolean) => {
-      setOpen(val);
       if (val) {
-        if (!activeLevel.value) {
-          setValue("value", [0, 5]);
+        if (!value.range) {
+          setValue("range", [0, 5]);
         }
+        setFilterOpen("player", "level", val);
       } else {
         resetActiveLevel();
       }
     },
-    [activeLevel, setValue, resetActiveLevel],
+    [value, setValue, resetActiveLevel, setFilterOpen],
   );
 
   const onSetExceptional = useCallback(
@@ -83,7 +85,7 @@ export function LevelFilter() {
           type="single"
           full
           onValueChange={setActiveLevelShortcut}
-          value={getToggleValue(activeLevel.value)}
+          value={getToggleValue(value.range)}
         >
           <ToggleGroupItem value="0" size="small-type">
             Level 0
@@ -99,22 +101,22 @@ export function LevelFilter() {
           min={0}
           max={5}
           onValueCommit={(val) => {
-            setValue("value", [val[0], val[1]]);
+            setValue("range", [val[0], val[1]]);
           }}
-          value={activeLevel.value ?? [0, 5]}
+          value={value.range ?? [0, 5]}
         />
         <CheckboxGroup>
           <Checkbox
             label="Exceptional"
             id="exceptional"
             onCheckedChange={onSetExceptional}
-            checked={activeLevel.exceptional}
+            checked={value.exceptional}
           />
           <Checkbox
             label="Non-exceptional"
             id="nonexceptional"
             onCheckedChange={onSetNonexceptional}
-            checked={activeLevel.nonexceptional}
+            checked={value.nonexceptional}
           />
         </CheckboxGroup>
       </CollapsibleContent>

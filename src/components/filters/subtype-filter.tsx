@@ -7,16 +7,16 @@ import {
   selectOpen,
   selectOptions,
   selectValue,
-} from "@/store/selectors/filters/traits";
-import { Trait } from "@/store/slices/filters/types";
+} from "@/store/selectors/filters/subtype";
+import { SubType } from "@/store/services/types";
 
 import { Combobox } from "../ui/combobox/combobox";
 import { FilterContainer } from "./filter-container";
 
-export function TraitFilter() {
+export function SubtypeFilter() {
   const cardType = useStore(selectActiveCardType);
   const changes = useStore(selectChanges);
-  const traits = useStore(selectOptions);
+  const subtypes = useStore(selectOptions);
   const open = useStore(selectOpen);
   const value = useStore(selectValue);
 
@@ -28,43 +28,44 @@ export function TraitFilter() {
 
   const onOpenChange = useCallback(
     (val: boolean) => {
-      setFilterOpen(cardType, "trait", val);
+      setFilterOpen(cardType, "subtype", val);
     },
     [setFilterOpen, cardType],
   );
 
   const onReset = useCallback(() => {
-    resetFilter(cardType, "trait");
+    resetFilter(cardType, "subtype");
   }, [resetFilter, cardType]);
 
-  const onSelectTrait = useCallback(
+  const onSelectSubType = useCallback(
     (code: string, value: boolean) => {
-      setActiveNestedFilter(cardType, "trait", code, value);
+      setActiveNestedFilter(cardType, "subtype", code, value);
     },
     [setActiveNestedFilter, cardType],
   );
 
-  const nameRenderer = useCallback((item: Trait) => item.code, []);
+  const nameRenderer = useCallback((item: SubType) => item.name, []);
+
   const itemToString = useCallback(
-    (item: Trait) => item.code.toLowerCase(),
+    (item: SubType) => item.name.toLowerCase(),
     [],
   );
 
   return (
     <FilterContainer
-      title="Trait"
+      title="Subtype"
       filterString={changes}
       onReset={onReset}
       onOpenChange={onOpenChange}
       open={open}
     >
       <Combobox
-        id={"combobox-filter-trait"}
-        items={traits}
-        onSelectItem={onSelectTrait}
+        id={"combobox-filter-subtype"}
+        items={subtypes}
+        onSelectItem={onSelectSubType}
         selectedItems={value}
-        placeholder="Add traits..."
-        label="Traits"
+        placeholder="Add subtypes..."
+        label="Subtype"
         itemToString={itemToString}
         renderItem={nameRenderer}
         renderResult={nameRenderer}

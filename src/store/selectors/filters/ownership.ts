@@ -52,3 +52,13 @@ export const selectOwnershipFilter = createSelector(
     };
   },
 );
+
+export const selectValue = createSelector(
+  (state: StoreState) => state.filters[state.filters.cardType].ownership,
+  (filterState) => filterState.value,
+);
+
+export const selectOpen = createSelector(
+  (state: StoreState) => state.filters[state.filters.cardType].ownership,
+  (filterState) => filterState.open,
+);

@@ -2,20 +2,40 @@ import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import { selectActiveCardType } from "@/store/selectors/filters/shared";
-import { selectActiveSkillIcons } from "@/store/selectors/filters/skill-icons";
+import {
+  selectChanges,
+  selectOpen,
+  selectValue,
+} from "@/store/selectors/filters/skill-icons";
 import { SkillIconsFilter as SkillIconsFilterT } from "@/store/slices/filters/types";
 
 import css from "./skill-icons-filter.module.css";
 
 import { SkillIcon } from "../icons/skill-icon";
 import { CheckboxGroup } from "../ui/checkboxgroup";
-import { Collapsible, CollapsibleContent } from "../ui/collapsible";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+import { FilterContainer } from "./filter-container";
 
 export function SkillIconsFilter() {
   const cardType = useStore(selectActiveCardType);
-  const skillIcons = useStore(selectActiveSkillIcons);
-  const setFilter = useStore((state) => state.setActiveFilter);
+  const value = useStore(selectValue);
+  const changes = useStore(selectChanges);
+  const open = useStore(selectOpen);
+
+  const setFilter = useStore((state) => state.setActiveNestedFilter);
+  const setFilterOpen = useStore((state) => state.setFilterOpen);
+  const resetFilter = useStore((state) => state.resetFilterKey);
+
+  const onReset = useCallback(() => {
+    resetFilter("player", "skillIcons");
+  }, [resetFilter]);
+
+  const onOpenChange = useCallback(
+    (val: boolean) => {
+      setFilterOpen("player", "skillIcons", val);
+    },
+    [setFilterOpen],
+  );
 
   const onToggleChange = useCallback(
     (key: keyof SkillIconsFilterT, val: string) => {
@@ -25,32 +45,36 @@ export function SkillIconsFilter() {
   );
 
   return (
-    <Collapsible title="Skill Icons">
-      <CollapsibleContent>
-        <CheckboxGroup className={css["skill-filter-icons"]} as="div">
-          {Object.entries(skillIcons).map(([key, value]) => (
-            <div className={css["skill-filter-icon"]} key={key}>
-              <ToggleGroup
-                className={css["skill-filter-icon-toggle"]}
-                key={key}
-                type="single"
-                onValueChange={(val) =>
-                  onToggleChange(key as keyof SkillIconsFilterT, val)
-                }
-                value={value ? value.toString() : ""}
-              >
-                <ToggleGroupItem size="small" value="1">
-                  1+
-                </ToggleGroupItem>
-                <ToggleGroupItem size="small" value="2">
-                  2+
-                </ToggleGroupItem>
-              </ToggleGroup>
-              {key === "any" ? "any" : <SkillIcon skill={key} />}
-            </div>
-          ))}
-        </CheckboxGroup>
-      </CollapsibleContent>
-    </Collapsible>
+    <FilterContainer
+      title="Skill Icons"
+      open={open}
+      filterString={changes}
+      onOpenChange={onOpenChange}
+      onReset={onReset}
+    >
+      <CheckboxGroup className={css["skill-filter-icons"]} as="div">
+        {Object.entries(value).map(([key, value]) => (
+          <div className={css["skill-filter-icon"]} key={key}>
+            <ToggleGroup
+              className={css["skill-filter-icon-toggle"]}
+              key={key}
+              type="single"
+              onValueChange={(val) =>
+                onToggleChange(key as keyof SkillIconsFilterT, val)
+              }
+              value={value ? value.toString() : ""}
+            >
+              <ToggleGroupItem size="small" value="1">
+                1+
+              </ToggleGroupItem>
+              <ToggleGroupItem size="small" value="2">
+                2+
+              </ToggleGroupItem>
+            </ToggleGroup>
+            {key === "any" ? "any" : <SkillIcon skill={key} />}
+          </div>
+        ))}
+      </CheckboxGroup>
+    </FilterContainer>
   );
 }

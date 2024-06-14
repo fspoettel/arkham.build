@@ -4,54 +4,71 @@ import SvgOwned from "@/assets/icons/card_all.svg?react";
 import SvgUnowned from "@/assets/icons/card_unowned.svg?react";
 import SvgAll from "@/assets/icons/cards.svg?react";
 import { useStore } from "@/store";
+import { selectOpen, selectValue } from "@/store/selectors/filters/ownership";
 import { selectActiveCardType } from "@/store/selectors/filters/shared";
 import { OwnershipFilter as OwnershipFilterType } from "@/store/slices/filters/types";
+import { capitalize } from "@/utils/capitalize";
 
-import { Collapsible, CollapsibleContent } from "../ui/collapsible";
 import {
   RadioButtonGroup,
   RadioButtonGroupItem,
 } from "../ui/radio-button-group";
+import { FilterContainer } from "./filter-container";
 
 export function OwnershipFilter() {
-  const activeCardType = useStore(selectActiveCardType);
+  const cardType = useStore(selectActiveCardType);
+  const open = useStore(selectOpen);
+  const value = useStore(selectValue);
+
   const activeOwnershipFilter = useStore(
     (state) => state.filters[state.filters.cardType].ownership.value,
   );
 
   const setFilter = useStore((state) => state.setActiveFilter);
+  const setFilterOpen = useStore((state) => state.setFilterOpen);
+
+  const onOpenChange = useCallback(
+    (val: boolean) => {
+      setFilterOpen(cardType, "ownership", val);
+    },
+    [setFilterOpen, cardType],
+  );
 
   const onValueChange = useCallback(
     (value: string) => {
       setFilter(
-        activeCardType,
+        cardType,
         "ownership",
         "value",
         value as unknown as OwnershipFilterType["value"],
       );
     },
-    [setFilter, activeCardType],
+    [setFilter, cardType],
   );
 
   return (
-    <Collapsible title="Ownership">
-      <CollapsibleContent>
-        <RadioButtonGroup
-          icons
-          value={activeOwnershipFilter ?? ""}
-          onValueChange={onValueChange}
-        >
-          <RadioButtonGroupItem title="All" value="all">
-            <SvgAll />
-          </RadioButtonGroupItem>
-          <RadioButtonGroupItem title="Owned" value="owned">
-            <SvgOwned />
-          </RadioButtonGroupItem>
-          <RadioButtonGroupItem title="Unowned" value="unowned">
-            <SvgUnowned />
-          </RadioButtonGroupItem>
-        </RadioButtonGroup>
-      </CollapsibleContent>
-    </Collapsible>
+    <FilterContainer
+      title="Ownership"
+      alwaysShowFilterString
+      filterString={capitalize(value)}
+      open={open}
+      onOpenChange={onOpenChange}
+    >
+      <RadioButtonGroup
+        icons
+        value={activeOwnershipFilter ?? ""}
+        onValueChange={onValueChange}
+      >
+        <RadioButtonGroupItem title="All" value="all">
+          <SvgAll />
+        </RadioButtonGroupItem>
+        <RadioButtonGroupItem title="Owned" value="owned">
+          <SvgOwned />
+        </RadioButtonGroupItem>
+        <RadioButtonGroupItem title="Unowned" value="unowned">
+          <SvgUnowned />
+        </RadioButtonGroupItem>
+      </RadioButtonGroup>
+    </FilterContainer>
   );
 }

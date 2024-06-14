@@ -1,45 +1,68 @@
 import { StateCreator } from "zustand";
 
 import { StoreState } from "..";
-import { CardTypeFilter, Filters, FiltersSlice } from "./types";
+import { Filters, FiltersSlice } from "./types";
 
 function getInitialState(): Filters {
   const shared = {
     ownership: {
+      open: false,
       value: "owned" as const,
     },
     faction: {
+      open: true,
       value: [],
     },
     cost: {
-      value: undefined,
-      even: false,
-      odd: false,
-      x: true,
+      open: false,
+      value: {
+        range: undefined,
+        even: false,
+        odd: false,
+        x: true,
+      },
     },
     skillIcons: {
-      agility: null,
-      combat: null,
-      intellect: null,
-      willpower: null,
-      wild: null,
-      any: null,
+      open: false,
+      value: {
+        agility: null,
+        combat: null,
+        intellect: null,
+        willpower: null,
+        wild: null,
+        any: null,
+      },
     },
-    type: {},
-    subtype: {},
-    trait: {},
-    action: {},
+    type: {
+      open: false,
+      value: {},
+    },
+    subtype: {
+      open: false,
+      value: {},
+    },
+    trait: {
+      open: false,
+      value: {},
+    },
+    action: {
+      value: {},
+      open: false,
+    },
     properties: {
-      bonded: false,
-      customizable: false,
-      seal: false,
-      unique: false,
-      fast: false,
-      permanent: false,
-      exile: false,
-      victory: false,
-      heals_horror: false,
-      heals_damage: false,
+      open: false,
+      value: {
+        bonded: false,
+        customizable: false,
+        seal: false,
+        unique: false,
+        fast: false,
+        permanent: false,
+        exile: false,
+        victory: false,
+        heals_horror: false,
+        heals_damage: false,
+      },
     },
   };
 
@@ -48,15 +71,20 @@ function getInitialState(): Filters {
     player: {
       ...structuredClone(shared),
       level: {
-        value: undefined,
-        exceptional: false,
-        nonexceptional: false,
+        open: false,
+        value: {
+          range: undefined,
+          exceptional: false,
+          nonexceptional: false,
+        },
       },
       investigator: {
         value: undefined,
+        open: false,
       },
       tabooSet: {
         value: undefined,
+        open: false,
       },
     },
     encounter: {
@@ -72,36 +100,26 @@ export const createFiltersSlice: StateCreator<
   FiltersSlice
 > = (set, get) => ({
   filters: getInitialState(),
+
   resetFilters() {
     set({
       filters: { ...getInitialState(), cardType: get().filters.cardType },
     });
   },
-  setActiveFilter(slice, path, key, value) {
-    set({
-      filters: updateValue(get(), slice, path, key, value),
-    });
-  },
-  setActivePlayerFilter(path, key, value) {
-    set({
-      filters: updateValue(get(), "player", path, key, value),
-    });
-  },
-  setActiveEncounterFilter(path, key, value) {
-    set({
-      filters: updateValue(get(), "encounter", path, key, value),
-    });
-  },
 
   resetFilterKey(type, path) {
-    set({ filters: resetFilterKeys(get(), type, [path]) });
-  },
+    const state = get();
+    const initialState = getInitialState();
 
-  resetFilterKeys<C extends CardTypeFilter, P extends keyof Filters[C]>(
-    type: C,
-    paths: P[],
-  ) {
-    set({ filters: resetFilterKeys(get(), type, paths) });
+    set({
+      filters: {
+        ...state.filters,
+        [type]: {
+          ...state.filters[type],
+          [path]: initialState[type][path],
+        },
+      },
+    });
   },
 
   setActiveCardType(cardType) {
@@ -117,56 +135,63 @@ export const createFiltersSlice: StateCreator<
       },
     });
   },
+
+  setActiveFilter(slice, path, key, value) {
+    set({
+      filters: updateValue(get(), slice, path, key, value),
+    });
+  },
+
+  setActiveNestedFilter(type, path, key, value) {
+    const state = get();
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const current = (state.filters[type][path] as any)["value"];
+
+    const filters = updateValue(get(), type, path, "value", {
+      ...current,
+      [key]: value,
+    });
+
+    set({ filters });
+  },
+
+  setFilterOpen(type, path, val) {
+    const filters = updateValue(get(), type, path, "open", val);
+    set({ filters });
+  },
+
   setActiveLevelShortcut(value) {
     if (value === "0") {
-      const filters = updateValue(get(), "player", "level", "value", [0, 0]);
+      const filters = updateValue(get(), "player", "level", "value", {
+        range: [0, 0],
+      });
       set({ filters });
     } else if (value === "1-5") {
-      const filters = updateValue(get(), "player", "level", "value", [1, 5]);
+      const filters = updateValue(get(), "player", "level", "value", {
+        range: [1, 5],
+      });
       set({ filters });
     } else {
-      const filters = updateValue(get(), "player", "level", "value", undefined);
+      const filters = updateValue(get(), "player", "level", "value", {
+        range: undefined,
+      });
       set({ filters });
     }
   },
-
-  toggleComboboxFilter(type, path, key, value) {
-    const filters = updateValue(get(), type, path, key, value);
-    set({ filters });
-  },
 });
-
-function resetFilterKeys<C extends CardTypeFilter, P extends keyof Filters[C]>(
-  state: StoreState,
-  type: C,
-  paths: P[],
-) {
-  const initialState = getInitialState();
-
-  const filterResets = paths.reduce<Partial<Filters[C]>>((acc, path) => {
-    acc[path] = initialState[type][path];
-    return acc;
-  }, {});
-
-  return {
-    ...state.filters,
-    [type]: {
-      ...state.filters[type],
-      ...filterResets,
-    },
-  };
-}
 
 function updateValue<
   C extends "player" | "encounter",
   P extends keyof StoreState["filters"][C],
-  K extends keyof StoreState["filters"][C][P],
 >(
   state: StoreState,
   slice: C,
   path: P,
-  key: K,
-  value: StoreState["filters"][C][P][K],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  key: any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value: any,
 ) {
   return {
     ...state.filters,

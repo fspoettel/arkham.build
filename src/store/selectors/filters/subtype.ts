@@ -5,7 +5,7 @@ import { StoreState } from "@/store/slices";
 import { ComboboxFilter } from "@/store/slices/filters/types";
 import { pass } from "@/utils/fp";
 
-export function filterSubtypes(filterState: ComboboxFilter) {
+export function filterSubtypes(filterState: ComboboxFilter["value"]) {
   const enabledTypeCodes = Object.entries(filterState)
     .filter(([, v]) => !!v)
     .map(([k]) => k);
@@ -19,10 +19,10 @@ export function filterSubtypes(filterState: ComboboxFilter) {
 
 export const selectSubtypeFilter = createSelector(
   (state: StoreState) => state.filters[state.filters.cardType].subtype,
-  (state) => filterSubtypes(state),
+  (state) => filterSubtypes(state.value),
 );
 
-export const selectSubtypes = createSelector(
+export const selectOptions = createSelector(
   (state: StoreState) => state.metadata,
   (metadata) => {
     const types = Object.values(metadata.subtypes);
@@ -31,9 +31,9 @@ export const selectSubtypes = createSelector(
   },
 );
 
-export const selectActiveSubtypes = createSelector(
+export const selectValue = createSelector(
   (state: StoreState) => state.metadata.subtypes,
-  (state: StoreState) => state.filters[state.filters.cardType].subtype,
+  (state: StoreState) => state.filters[state.filters.cardType].subtype.value,
   (metadata, filters) =>
     Object.fromEntries(
       Object.entries(filters).reduce<[string, SubType][]>((acc, [key, val]) => {
@@ -41,4 +41,15 @@ export const selectActiveSubtypes = createSelector(
         return acc;
       }, []),
     ),
+);
+
+export const selectChanges = createSelector(selectValue, (value) => {
+  return Object.values(value).reduce((acc, curr, i) => {
+    return i === 0 ? curr.name : `${acc}, ${curr.name}`;
+  }, "");
+});
+
+export const selectOpen = createSelector(
+  (state: StoreState) => state.filters[state.filters.cardType].subtype,
+  (filterState) => filterState.open,
 );

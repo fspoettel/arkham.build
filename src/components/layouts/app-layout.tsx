@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useRef } from "react";
+import { useLocation } from "wouter";
 
 import { useDocumentTitle } from "@/utils/use-document-title";
 
@@ -27,12 +28,24 @@ export function AppLayout({
 }: Props) {
   useDocumentTitle(title);
 
+  const [pathname] = useLocation();
+
+  const scrollerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollerRef.current?.scrollTo(0, 0);
+  }, [pathname]);
+
   return (
     <div className={css["layout"]}>
       <Masthead className={css["header"]} />
       <section className={css["layout-left"]}>{sidebar}</section>
       <section className={clsx(css["layout-main"], centerClassName)}>
-        {centerScroller ? <Scroller>{children}</Scroller> : children}
+        {centerScroller ? (
+          <Scroller ref={scrollerRef}>{children}</Scroller>
+        ) : (
+          children
+        )}
         {children}
       </section>
       {filters && (

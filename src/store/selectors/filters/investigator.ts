@@ -190,7 +190,7 @@ export const selectInvestigatorFilter = createSelector(
         filterCount += 1;
         optionFilter.push(
           filterProperties(
-            { heals_horror: true } as PropertiesFilter,
+            { heals_horror: true } as PropertiesFilter["value"],
             lookupTables,
           ),
         );
@@ -201,7 +201,7 @@ export const selectInvestigatorFilter = createSelector(
         filterCount += 1;
         optionFilter.push(
           filterProperties(
-            { heals_damage: true } as PropertiesFilter,
+            { heals_damage: true } as PropertiesFilter["value"],
             lookupTables,
           ),
         );
@@ -224,7 +224,7 @@ export const selectInvestigatorFilter = createSelector(
   },
 );
 
-export const selectInvestigators = (state: StoreState) => {
+export const selectOptions = (state: StoreState) => {
   const investigatorTable = state.lookupTables.typeCode["investigator"];
 
   const investigators = Object.keys(investigatorTable).reduce<Card[]>(
@@ -248,5 +248,18 @@ export const selectInvestigators = (state: StoreState) => {
   return investigators;
 };
 
-export const selectActiveInvestigator = (state: StoreState) =>
-  state.filters.player.investigator.value;
+export const selectValue = createSelector(
+  (state: StoreState) => state.filters.player.investigator,
+  (filterState) => filterState.value,
+);
+
+export const selectChanges = createSelector(
+  (state: StoreState) => state.metadata,
+  selectValue,
+  (metadata, value) => (value ? metadata.cards[value].real_name : ""),
+);
+
+export const selectOpen = createSelector(
+  (state: StoreState) => state.filters.player.investigator,
+  (filterState) => filterState.open,
+);

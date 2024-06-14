@@ -8,3 +8,17 @@
 .masthead h1 {
   font-size: 1rem;
 }
+
+.masthead-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.masthead-toggle-search {
+  display: block;
+
+  @media screen and (min-height: 45rem) {
+    display: none;
+  }
+}

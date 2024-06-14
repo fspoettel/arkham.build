@@ -1,20 +1,36 @@
-import { GearIcon } from "@radix-ui/react-icons";
+import { GearIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
+
+import { useStore } from "@/store";
 
 import css from "./masthead.module.css";
 
+import { CardTypeFilter } from "../card-type-filter";
 import { Button } from "../ui/button";
 
 export function Masthead({ className }: { className?: string }) {
+  const onToggleSearch = useStore((state) => state.toggleSearch);
+
+  const [location] = useLocation();
   return (
     <header className={clsx(className, css["masthead"])}>
       <h1>
         <Link href="/">arkham.build</Link>
       </h1>
-      <nav>
+      <nav className={css["masthead-nav"]}>
+        {location === "/" && (
+          <CardTypeFilter className={css["masthead-card-toggle"]} />
+        )}
+        <Button
+          className={css["masthead-toggle-search"]}
+          variant="bare"
+          onClick={onToggleSearch}
+        >
+          <MagnifyingGlassIcon />
+        </Button>
         <Link href="/settings">
-          <Button className={css["header-settings"]} variant="bare" as="a">
+          <Button className={css["masthead-settings"]} variant="bare" as="a">
             <GearIcon />
           </Button>
         </Link>

@@ -23,3 +23,15 @@
 .collapsible-content > * + * {
   margin-top: 0.5rem;
 }
+
+.collapsible-actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.collapsible-sub {
+  font-size: var(--text-xs);
+  color: var(--nord-3);
+}

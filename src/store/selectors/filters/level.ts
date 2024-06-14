@@ -21,13 +21,13 @@ export function filterCardLevel(value: [number, number] | undefined) {
   };
 }
 
-function filterLevel(filterState: LevelFilter) {
-  if (!filterState.value) return pass;
+function filterLevel(filterState: LevelFilter["value"]) {
+  if (!filterState.range) return pass;
 
   const filters = [];
 
-  if (filterState.value) {
-    filters.push(filterCardLevel(filterState.value));
+  if (filterState.range) {
+    filters.push(filterCardLevel(filterState.range));
   }
 
   if (filterState.exceptional !== filterState.nonexceptional) {
@@ -46,9 +46,22 @@ function filterLevel(filterState: LevelFilter) {
 }
 
 export const selectLevelFilter = createSelector(
-  (state: StoreState) => state.filters.player.level,
-  (filterState) => (filterState.value ? filterLevel(filterState) : undefined),
+  (state: StoreState) => state.filters.player.level.value,
+  (filterState) => (filterState.range ? filterLevel(filterState) : undefined),
 );
 
-export const selectActiveLevel = (state: StoreState) =>
-  state.filters.player.level;
+export const selectValue = (state: StoreState) =>
+  state.filters.player.level.value;
+
+export const selectChanges = createSelector(selectValue, (value) => {
+  if (!value.range) return undefined;
+  let s = `${value.range[0]}-${value.range[1]}`;
+  if (value.exceptional) s = `${s}, exceptional`;
+  if (value.nonexceptional) s = `${s}, nonexceptional`;
+  return s;
+});
+
+export const selectOpen = createSelector(
+  (state: StoreState) => state.filters.player.level,
+  (filterState) => filterState.open,
+);

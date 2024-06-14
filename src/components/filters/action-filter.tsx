@@ -2,21 +2,29 @@ import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import {
-  selectActions,
-  selectActiveActions,
+  selectChanges,
+  selectOpen,
+  selectOptions,
+  selectValue,
 } from "@/store/selectors/filters/action";
 import { selectActiveCardType } from "@/store/selectors/filters/shared";
 import { Trait } from "@/store/slices/filters/types";
 import { capitalize } from "@/utils/capitalize";
 
-import { Collapsible, CollapsibleContent } from "../ui/collapsible";
 import { Combobox } from "../ui/combobox/combobox";
+import { FilterContainer } from "./filter-container";
 
 export function ActionFilter() {
   const cardType = useStore(selectActiveCardType);
-  const actions = useStore(selectActions);
-  const selectedActions = useStore(selectActiveActions);
-  const updateComboboxFilter = useStore((state) => state.toggleComboboxFilter);
+  const changes = useStore(selectChanges);
+  const actions = useStore(selectOptions);
+  const open = useStore(selectOpen);
+  const value = useStore(selectValue);
+
+  const setActiveNestedFilter = useStore(
+    (state) => state.setActiveNestedFilter,
+  );
+  const setFilterOpen = useStore((state) => state.setFilterOpen);
   const resetFilter = useStore((state) => state.resetFilterKey);
 
   const nameRenderer = useCallback((item: Trait) => capitalize(item.code), []);
@@ -25,37 +33,43 @@ export function ActionFilter() {
     [],
   );
 
-  const onSelectTrait = useCallback(
+  const onSelectAction = useCallback(
     (code: string, value: boolean) => {
-      updateComboboxFilter(cardType, "action", code, value);
+      setActiveNestedFilter(cardType, "action", code, value);
     },
-    [updateComboboxFilter, cardType],
+    [setActiveNestedFilter, cardType],
   );
 
   const onOpenChange = useCallback(
     (val: boolean) => {
-      if (!val) {
-        resetFilter(cardType, "action");
-      }
+      setFilterOpen(cardType, "action", val);
     },
-    [cardType, resetFilter],
+    [setFilterOpen, cardType],
   );
 
+  const onReset = useCallback(() => {
+    resetFilter(cardType, "action");
+  }, [resetFilter, cardType]);
+
   return (
-    <Collapsible title="Action" onOpenChange={onOpenChange}>
-      <CollapsibleContent>
-        <Combobox
-          id={"combobox-filter-action"}
-          items={actions}
-          onSelectItem={onSelectTrait}
-          selectedItems={selectedActions}
-          placeholder="Add actions..."
-          label="Actions"
-          itemToString={itemToString}
-          renderItem={nameRenderer}
-          renderResult={nameRenderer}
-        />
-      </CollapsibleContent>
-    </Collapsible>
+    <FilterContainer
+      title="Action"
+      filterString={changes}
+      onReset={onReset}
+      onOpenChange={onOpenChange}
+      open={open}
+    >
+      <Combobox
+        id={"combobox-filter-action"}
+        items={actions}
+        onSelectItem={onSelectAction}
+        selectedItems={value}
+        placeholder="Add actions..."
+        label="Actions"
+        itemToString={itemToString}
+        renderItem={nameRenderer}
+        renderResult={nameRenderer}
+      />
+    </FilterContainer>
   );
 }

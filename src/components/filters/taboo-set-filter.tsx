@@ -2,16 +2,34 @@ import { ChangeEvent, useCallback } from "react";
 
 import { useStore } from "@/store";
 import {
-  selectActiveTabooSet,
-  selectTabooSets,
+  selectChanges,
+  selectOpen,
+  selectOptions,
+  selectValue,
 } from "@/store/selectors/filters/taboo-set";
 
-import { Collapsible, CollapsibleContent } from "../ui/collapsible";
+import { FilterContainer } from "./filter-container";
 
 export function TabooSetFilter() {
-  const tabooSets = useStore(selectTabooSets);
+  const tabooSets = useStore(selectOptions);
+  const value = useStore(selectValue);
+  const changes = useStore(selectChanges);
+  const open = useStore(selectOpen);
+
   const setFilter = useStore((state) => state.setActiveFilter);
-  const activeTaboo = useStore(selectActiveTabooSet);
+  const setFilterOpen = useStore((state) => state.setFilterOpen);
+  const resetFilter = useStore((state) => state.resetFilterKey);
+
+  const onReset = useCallback(() => {
+    resetFilter("player", "tabooSet");
+  }, [resetFilter]);
+
+  const onOpenChange = useCallback(
+    (val: boolean) => {
+      setFilterOpen("player", "tabooSet", val);
+    },
+    [setFilterOpen],
+  );
 
   const onSelectTabooSet = useCallback(
     (evt: ChangeEvent<HTMLSelectElement>) => {
@@ -22,17 +40,21 @@ export function TabooSetFilter() {
   );
 
   return (
-    <Collapsible title="Taboo Set">
-      <CollapsibleContent>
-        <select onChange={onSelectTabooSet} value={activeTaboo ?? ""}>
-          <option value="">All cards</option>
-          {tabooSets.map((set) => (
-            <option key={set.id} value={set.id}>
-              {set.name} - {set.date}
-            </option>
-          ))}
-        </select>
-      </CollapsibleContent>
-    </Collapsible>
+    <FilterContainer
+      title="Taboo Set"
+      filterString={changes}
+      onReset={onReset}
+      open={open}
+      onOpenChange={onOpenChange}
+    >
+      <select onChange={onSelectTabooSet} value={value ?? ""}>
+        <option value="">All cards</option>
+        {tabooSets.map((set) => (
+          <option key={set.id} value={set.id}>
+            {set.name} - {set.date}
+          </option>
+        ))}
+      </select>
+    </FilterContainer>
   );
 }
