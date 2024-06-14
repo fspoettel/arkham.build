@@ -126,12 +126,13 @@ export function decodeExtraSlots(deckMeta: DeckMeta): Slots {
  * Encodes extra slots into a deck meta field.
  */
 export function encodeExtraSlots(slots: Record<string, number>) {
-  return Object.entries(slots)
+  const entries = Object.entries(slots)
     .filter(([, quantity]) => quantity > 0)
     .map(([code, quantity]) =>
       range(0, quantity)
         .map(() => code)
         .join(","),
-    )
-    .join(",");
+    );
+
+  return entries.length ? entries.join(",") : null;
 }
