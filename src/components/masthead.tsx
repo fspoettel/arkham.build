@@ -25,7 +25,7 @@ export function Masthead({ className }: { className?: string }) {
         <Link href="/">{import.meta.env.VITE_PAGE_NAME}</Link>
       </h1>
       <nav className={css["masthead-nav"]}>
-        {location === "/" && (
+        {location === "/browse" && (
           <CardTypeFilter className={css["masthead-card-toggle"]} />
         )}
         {location === "/browse" && (
