@@ -10,7 +10,7 @@ export function getInitialUIState(): UIState {
       initialized: false,
       listScrollRestore: undefined,
       searchOpen: false,
-      filtersOpen: false,
+      sidebarOpen: false,
     },
   };
 }
@@ -29,7 +29,7 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
   toggleSearch() {
     set({ ui: { ...get().ui, searchOpen: !get().ui.searchOpen } });
   },
-  toggleFilters() {
-    set({ ui: { ...get().ui, filtersOpen: !get().ui.filtersOpen } });
+  toggleSidebar() {
+    set({ ui: { ...get().ui, sidebarOpen: !get().ui.sidebarOpen } });
   },
 });

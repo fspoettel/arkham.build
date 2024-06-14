@@ -1,4 +1,8 @@
-import { GearIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import {
+  DotsHorizontalIcon,
+  GearIcon,
+  MagnifyingGlassIcon,
+} from "@radix-ui/react-icons";
 import clsx from "clsx";
 import { Link, useLocation } from "wouter";
 
@@ -12,7 +16,7 @@ import { Button } from "../ui/button";
 
 export function Masthead({ className }: { className?: string }) {
   const onToggleSearch = useStore((state) => state.toggleSearch);
-  const onToggleFilters = useStore((state) => state.toggleFilters);
+  const ontoggleSidebar = useStore((state) => state.toggleSidebar);
 
   const [location] = useLocation();
   return (
@@ -40,13 +44,13 @@ export function Masthead({ className }: { className?: string }) {
             </Button>
           </Link>
         )}
-        {location === "/" && (
+        {location !== "/settings" && (
           <Button
             className={css["masthead-toggle-filters"]}
             variant="bare"
-            onClick={onToggleFilters}
+            onClick={ontoggleSidebar}
           >
-            <SvgFilter />
+            {location === "/" ? <SvgFilter /> : <DotsHorizontalIcon />}
           </Button>
         )}
       </nav>

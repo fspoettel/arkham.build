@@ -25,7 +25,7 @@ export function AppLayout({
   sidebar,
   title,
 }: Props) {
-  const open = useStore((state) => state.ui.filtersOpen);
+  const open = useStore((state) => state.ui.sidebarOpen);
 
   useDocumentTitle(title);
 
