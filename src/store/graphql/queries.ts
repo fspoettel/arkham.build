@@ -13,6 +13,7 @@ import {
   Pack,
   QueryCard,
   SubType,
+  TabooSet,
   Type,
 } from "./types";
 
@@ -38,6 +39,7 @@ export type MetadataResponse = {
   subtype: SubType[];
   type: Type[];
   card_encounter_set: EncounterSet[];
+  taboo_set: TabooSet[];
 };
 
 const metadataQuery: TypedDocumentNode<MetadataResponse> = parse(gql`
@@ -59,6 +61,12 @@ const metadataQuery: TypedDocumentNode<MetadataResponse> = parse(gql`
       code
       name
     }
+    taboo_set(where: { active: { _eq: true } }) {
+      name
+      card_count
+      id
+      date
+    }
   }
 `);
 
@@ -72,10 +80,7 @@ const allCardQuery: TypedDocumentNode<AllCardResponse> = parse(gql`
       order_by: { real_name: asc }
       where: {
         official: { _eq: true }
-        _or: [
-          { taboo_set_id: { _is_null: true } }
-          { taboo_set_id: { _eq: 0 } }
-        ]
+        _and: [{ taboo_placeholder: { _is_null: true } }]
         pack_code: { _neq: "zbh_00008" }
       }
     ) {
@@ -113,7 +118,7 @@ const allCardQuery: TypedDocumentNode<AllCardResponse> = parse(gql`
       health
       health_per_investigator
       hidden
-      # id
+      id # used for taboos
       illustrator
       imageurl
       is_unique
@@ -132,18 +137,14 @@ const allCardQuery: TypedDocumentNode<AllCardResponse> = parse(gql`
       real_back_flavor
       real_back_name
       real_back_text
-      # real_back_traits
       real_customization_change
       real_customization_text
       real_encounter_set_name
       real_flavor
       real_name
-      # real_pack_name
       real_slot
       real_subname
-      # real_taboo_original_back_text
-      # real_taboo_original_text
-      # real_taboo_text_change
+      real_taboo_text_change
       real_text
       real_traits
       restrictions
@@ -156,16 +157,13 @@ const allCardQuery: TypedDocumentNode<AllCardResponse> = parse(gql`
       skill_intellect
       skill_willpower
       skill_wild
-      # spoiler
       stage
       subtype_code
-      # taboo_placeholder
-      # taboo_set_id
+      taboo_set_id
+      taboo_xp
       tags
       type_code
-      # updated_at
       vengeance
-      # version
       victory
       xp
     }

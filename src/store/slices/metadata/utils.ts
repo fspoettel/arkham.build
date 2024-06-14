@@ -17,3 +17,13 @@ export function mappedByCode<T extends Coded, S extends Coded = T>(
     {} as Record<string, S>,
   );
 }
+
+export function mappedById<T extends { id: number }>(arr: T[]) {
+  return arr.reduce(
+    (acc, curr) => {
+      acc[curr.id] = curr;
+      return acc;
+    },
+    {} as Record<string, T>,
+  );
+}

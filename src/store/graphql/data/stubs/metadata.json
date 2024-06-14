@@ -7,6 +7,18 @@
       "real_name": "The Feast of Hemlock Vale Investigator Expansion"
     },
     {
+      "code": "rtr",
+      "cycle_code": "parallel",
+      "position": 5,
+      "real_name": "Red Tide Rising"
+    },
+    {
+      "code": "mtt",
+      "cycle_code": "side_stories",
+      "position": 8,
+      "real_name": "Machinations Through Time"
+    },
+    {
       "code": "fof",
       "cycle_code": "side_stories",
       "position": 9,
@@ -97,6 +109,18 @@
       "real_name": "Books"
     },
     {
+      "code": "tskp",
+      "cycle_code": "tsk",
+      "position": 1,
+      "real_name": "The Scarlet Keys Investigator Expansion"
+    },
+    {
+      "code": "tskc",
+      "cycle_code": "tsk",
+      "position": 2,
+      "real_name": "The Scarlet Keys Campaign Expansion"
+    },
+    {
       "code": "eotp",
       "cycle_code": "ptc",
       "position": 2,
@@ -109,210 +133,6 @@
       "real_name": "The Unspeakable Oath"
     },
     {
-      "code": "otr",
-      "cycle_code": "parallel",
-      "position": 6,
-      "real_name": "On the Road Again"
-    },
-    {
-      "code": "ltr",
-      "cycle_code": "parallel",
-      "position": 7,
-      "real_name": "Laid to Rest"
-    },
-    {
-      "code": "ptr",
-      "cycle_code": "parallel",
-      "position": 8,
-      "real_name": "Path of the Righteous"
-    },
-    {
-      "code": "rop",
-      "cycle_code": "parallel",
-      "position": 9,
-      "real_name": "Relics of the Past"
-    },
-    {
-      "code": "bob",
-      "cycle_code": "promotional",
-      "position": 25,
-      "real_name": "Blood of Baalshandor"
-    },
-    {
-      "code": "blob",
-      "cycle_code": "side_stories",
-      "position": 6,
-      "real_name": "The Blob That Ate Everything"
-    },
-    {
-      "code": "tof",
-      "cycle_code": "tfa",
-      "position": 2,
-      "real_name": "Threads of Fate"
-    },
-    {
-      "code": "rtnotz",
-      "cycle_code": "return",
-      "position": 1,
-      "real_name": "Return to the Night of the Zealot"
-    },
-    {
-      "code": "tbb",
-      "cycle_code": "tfa",
-      "position": 3,
-      "real_name": "The Boundary Beyond"
-    },
-    {
-      "code": "hote",
-      "cycle_code": "tfa",
-      "position": 4,
-      "real_name": "Heart of the Elders"
-    },
-    {
-      "code": "tcoa",
-      "cycle_code": "tfa",
-      "position": 5,
-      "real_name": "The City of Archives"
-    },
-    {
-      "code": "tdoy",
-      "cycle_code": "tfa",
-      "position": 6,
-      "real_name": "The Depths of Yoth"
-    },
-    {
-      "code": "wog",
-      "cycle_code": "side_stories",
-      "position": 7,
-      "real_name": "War of the Outer Gods"
-    },
-    {
-      "code": "sha",
-      "cycle_code": "tfa",
-      "position": 7,
-      "real_name": "Shattered Aeons"
-    },
-    {
-      "code": "guardians",
-      "cycle_code": "side_stories",
-      "position": 4,
-      "real_name": "Guardians of the Abyss"
-    },
-    {
-      "code": "rttfa",
-      "cycle_code": "return",
-      "position": 4,
-      "real_name": "Return to the Forgotten Age"
-    },
-    {
-      "code": "aon",
-      "cycle_code": "parallel",
-      "position": 2,
-      "real_name": "All or Nothing"
-    },
-    {
-      "code": "rtdwl",
-      "cycle_code": "return",
-      "position": 2,
-      "real_name": "Return to the Dunwich Legacy"
-    },
-    {
-      "code": "nat",
-      "cycle_code": "investigator",
-      "position": 1,
-      "real_name": "Nathaniel Cho"
-    },
-    {
-      "code": "tcu",
-      "cycle_code": "tcu",
-      "position": 1,
-      "real_name": "The Circle Undone"
-    },
-    {
-      "code": "fhvc",
-      "cycle_code": "fhv",
-      "position": 2,
-      "real_name": "The Feast of Hemlock Vale Campaign Expansion"
-    },
-    {
-      "code": "tsn",
-      "cycle_code": "tcu",
-      "position": 2,
-      "real_name": "The Secret Name"
-    },
-    {
-      "code": "wos",
-      "cycle_code": "tcu",
-      "position": 3,
-      "real_name": "The Wages of Sin"
-    },
-    {
-      "code": "fgg",
-      "cycle_code": "tcu",
-      "position": 4,
-      "real_name": "For the Greater Good"
-    },
-    {
-      "code": "uad",
-      "cycle_code": "tcu",
-      "position": 5,
-      "real_name": "Union and Disillusion"
-    },
-    {
-      "code": "icc",
-      "cycle_code": "tcu",
-      "position": 6,
-      "real_name": "In the Clutches of Chaos"
-    },
-    {
-      "code": "bbt",
-      "cycle_code": "tcu",
-      "position": 7,
-      "real_name": "Before the Black Throne"
-    },
-    {
-      "code": "rtptc",
-      "cycle_code": "return",
-      "position": 3,
-      "real_name": "Return to the Path to Carcosa"
-    },
-    {
-      "code": "tde",
-      "cycle_code": "tde",
-      "position": 1,
-      "real_name": "The Dream-Eaters"
-    },
-    {
-      "code": "hotel",
-      "cycle_code": "side_stories",
-      "position": 5,
-      "real_name": "Murder at the Excelsior Hotel"
-    },
-    {
-      "code": "har",
-      "cycle_code": "investigator",
-      "position": 2,
-      "real_name": "Harvey Walters"
-    },
-    {
-      "code": "win",
-      "cycle_code": "investigator",
-      "position": 3,
-      "real_name": "Winifred Habbamock"
-    },
-    {
-      "code": "jac",
-      "cycle_code": "investigator",
-      "position": 4,
-      "real_name": "Jacqueline Fine"
-    },
-    {
-      "code": "ste",
-      "cycle_code": "investigator",
-      "position": 5,
-      "real_name": "Stella Clark"
-    },
-    {
       "code": "rcore",
       "cycle_code": "core",
       "position": 2,
@@ -323,12 +143,6 @@
       "cycle_code": "tic",
       "position": 1,
       "real_name": "The Innsmouth Conspiracy"
-    },
-    {
-      "code": "itd",
-      "cycle_code": "tic",
-      "position": 2,
-      "real_name": "In Too Deep"
     },
     {
       "code": "dre",
@@ -385,10 +199,34 @@
       "real_name": "Return to the Circle Undone"
     },
     {
-      "code": "sfk",
-      "cycle_code": "tde",
-      "position": 2,
-      "real_name": "The Search for Kadath"
+      "code": "otr",
+      "cycle_code": "parallel",
+      "position": 6,
+      "real_name": "On the Road Again"
+    },
+    {
+      "code": "blbe",
+      "cycle_code": "side_stories",
+      "position": 10,
+      "real_name": "The Blob That Ate Everything ELSE!"
+    },
+    {
+      "code": "ltr",
+      "cycle_code": "parallel",
+      "position": 7,
+      "real_name": "Laid to Rest"
+    },
+    {
+      "code": "ptr",
+      "cycle_code": "parallel",
+      "position": 8,
+      "real_name": "Path of the Righteous"
+    },
+    {
+      "code": "rop",
+      "cycle_code": "parallel",
+      "position": 9,
+      "real_name": "Relics of the Past"
     },
     {
       "code": "eoep",
@@ -403,28 +241,94 @@
       "real_name": "Edge of the Earth Campaign Expansion"
     },
     {
-      "code": "rtr",
-      "cycle_code": "parallel",
-      "position": 5,
-      "real_name": "Red Tide Rising"
+      "code": "tdoy",
+      "cycle_code": "tfa",
+      "position": 6,
+      "real_name": "The Depths of Yoth"
     },
     {
-      "code": "mtt",
+      "code": "sha",
+      "cycle_code": "tfa",
+      "position": 7,
+      "real_name": "Shattered Aeons"
+    },
+    {
+      "code": "guardians",
       "cycle_code": "side_stories",
-      "position": 8,
-      "real_name": "Machinations Through Time"
+      "position": 4,
+      "real_name": "Guardians of the Abyss"
     },
     {
-      "code": "tskp",
-      "cycle_code": "tsk",
-      "position": 1,
-      "real_name": "The Scarlet Keys Investigator Expansion"
-    },
-    {
-      "code": "tskc",
-      "cycle_code": "tsk",
+      "code": "rtdwl",
+      "cycle_code": "return",
       "position": 2,
-      "real_name": "The Scarlet Keys Campaign Expansion"
+      "real_name": "Return to the Dunwich Legacy"
+    },
+    {
+      "code": "tcu",
+      "cycle_code": "tcu",
+      "position": 1,
+      "real_name": "The Circle Undone"
+    },
+    {
+      "code": "tsn",
+      "cycle_code": "tcu",
+      "position": 2,
+      "real_name": "The Secret Name"
+    },
+    {
+      "code": "wos",
+      "cycle_code": "tcu",
+      "position": 3,
+      "real_name": "The Wages of Sin"
+    },
+    {
+      "code": "fgg",
+      "cycle_code": "tcu",
+      "position": 4,
+      "real_name": "For the Greater Good"
+    },
+    {
+      "code": "uad",
+      "cycle_code": "tcu",
+      "position": 5,
+      "real_name": "Union and Disillusion"
+    },
+    {
+      "code": "icc",
+      "cycle_code": "tcu",
+      "position": 6,
+      "real_name": "In the Clutches of Chaos"
+    },
+    {
+      "code": "bbt",
+      "cycle_code": "tcu",
+      "position": 7,
+      "real_name": "Before the Black Throne"
+    },
+    {
+      "code": "rtptc",
+      "cycle_code": "return",
+      "position": 3,
+      "real_name": "Return to the Path to Carcosa"
+    },
+    {
+      "code": "tde",
+      "cycle_code": "tde",
+      "position": 1,
+      "real_name": "The Dream-Eaters"
+    },
+    {
+      "code": "hotel",
+      "cycle_code": "side_stories",
+      "position": 5,
+      "real_name": "Murder at the Excelsior Hotel"
+    },
+    {
+      "code": "sfk",
+      "cycle_code": "tde",
+      "position": 2,
+      "real_name": "The Search for Kadath"
     },
     {
       "code": "tsh",
@@ -439,12 +343,6 @@
       "real_name": "Dark Side of the Moon"
     },
     {
-      "code": "blbe",
-      "cycle_code": "side_stories",
-      "position": 10,
-      "real_name": "The Blob That Ate Everything ELSE!"
-    },
-    {
       "code": "pnr",
       "cycle_code": "tde",
       "position": 5,
@@ -455,6 +353,84 @@
       "cycle_code": "tde",
       "position": 6,
       "real_name": "Where the Gods Dwell"
+    },
+    {
+      "code": "rod",
+      "cycle_code": "parallel",
+      "position": 1,
+      "real_name": "Read or Die"
+    },
+    {
+      "code": "woc",
+      "cycle_code": "tde",
+      "position": 7,
+      "real_name": "Weaver of the Cosmos"
+    },
+    {
+      "code": "bob",
+      "cycle_code": "promotional",
+      "position": 25,
+      "real_name": "Blood of Baalshandor"
+    },
+    {
+      "code": "fhvc",
+      "cycle_code": "fhv",
+      "position": 2,
+      "real_name": "The Feast of Hemlock Vale Campaign Expansion"
+    },
+    {
+      "code": "blob",
+      "cycle_code": "side_stories",
+      "position": 6,
+      "real_name": "The Blob That Ate Everything"
+    },
+    {
+      "code": "wog",
+      "cycle_code": "side_stories",
+      "position": 7,
+      "real_name": "War of the Outer Gods"
+    },
+    {
+      "code": "rttfa",
+      "cycle_code": "return",
+      "position": 4,
+      "real_name": "Return to the Forgotten Age"
+    },
+    {
+      "code": "aon",
+      "cycle_code": "parallel",
+      "position": 2,
+      "real_name": "All or Nothing"
+    },
+    {
+      "code": "nat",
+      "cycle_code": "investigator",
+      "position": 1,
+      "real_name": "Nathaniel Cho"
+    },
+    {
+      "code": "har",
+      "cycle_code": "investigator",
+      "position": 2,
+      "real_name": "Harvey Walters"
+    },
+    {
+      "code": "win",
+      "cycle_code": "investigator",
+      "position": 3,
+      "real_name": "Winifred Habbamock"
+    },
+    {
+      "code": "jac",
+      "cycle_code": "investigator",
+      "position": 4,
+      "real_name": "Jacqueline Fine"
+    },
+    {
+      "code": "ste",
+      "cycle_code": "investigator",
+      "position": 5,
+      "real_name": "Stella Clark"
     },
     {
       "code": "iotv",
@@ -517,24 +493,43 @@
       "real_name": "The Deep Gate"
     },
     {
-      "code": "rod",
-      "cycle_code": "parallel",
-      "position": 1,
-      "real_name": "Read or Die"
+      "code": "tof",
+      "cycle_code": "tfa",
+      "position": 2,
+      "real_name": "Threads of Fate"
     },
     {
-      "code": "woc",
-      "cycle_code": "tde",
-      "position": 7,
-      "real_name": "Weaver of the Cosmos"
+      "code": "rtnotz",
+      "cycle_code": "return",
+      "position": 1,
+      "real_name": "Return to the Night of the Zealot"
+    },
+    {
+      "code": "tbb",
+      "cycle_code": "tfa",
+      "position": 3,
+      "real_name": "The Boundary Beyond"
+    },
+    {
+      "code": "itd",
+      "cycle_code": "tic",
+      "position": 2,
+      "real_name": "In Too Deep"
+    },
+    {
+      "code": "hote",
+      "cycle_code": "tfa",
+      "position": 4,
+      "real_name": "Heart of the Elders"
+    },
+    {
+      "code": "tcoa",
+      "cycle_code": "tfa",
+      "position": 5,
+      "real_name": "The City of Archives"
     }
   ],
   "cycle": [
-    {
-      "code": "fhv",
-      "position": 10,
-      "real_name": "The Feast of Hemlock Vale"
-    },
     {
       "code": "core",
       "position": 1,
@@ -589,6 +584,11 @@
       "code": "investigator",
       "position": 60,
       "real_name": "Investigator Starter Decks"
+    },
+    {
+      "code": "fhv",
+      "position": 10,
+      "real_name": "The Feast of Hemlock Vale"
     },
     {
       "code": "side_stories",
@@ -664,10 +664,6 @@
       "name": "All or Nothing"
     },
     {
-      "code": "ancient_evils",
-      "name": "Ancient Evils"
-    },
-    {
       "code": "anettes_coven",
       "name": "Anette's Coven"
     },
@@ -692,10 +688,6 @@
       "name": "A Thousand Shapes of Horror"
     },
     {
-      "code": "bad_blood",
-      "name": "Bad Blood"
-    },
-    {
       "code": "bad_luck",
       "name": "Bad Luck"
     },
@@ -706,18 +698,6 @@
     {
       "code": "beast_thralls",
       "name": "Beast Thralls"
-    },
-    {
-      "code": "before_the_black_throne",
-      "name": "Before the Black Throne"
-    },
-    {
-      "code": "beyond_the_beyond",
-      "name": "Beyond the Beyond"
-    },
-    {
-      "code": "beyond_the_gates_of_sleep",
-      "name": "Beyond the Gates of Sleep"
     },
     {
       "code": "beyond_the_threshold",
@@ -748,20 +728,12 @@
       "name": "The Blob That Ate Everything Else"
     },
     {
-      "code": "blood_on_the_altar",
-      "name": "Blood On The Altar"
-    },
-    {
       "code": "bloodthirsty_spirits",
       "name": "Bloodthirsty Spirits"
     },
     {
       "code": "brotherhood_of_the_beast",
       "name": "Brotherhood of the Beast"
-    },
-    {
-      "code": "byakhee",
-      "name": "Byakhee"
     },
     {
       "code": "by_the_book",
@@ -852,16 +824,8 @@
       "name": "Dark Side of the Moon"
     },
     {
-      "code": "dark_veiling",
-      "name": "Dark Veiling"
-    },
-    {
-      "code": "dead_heat",
-      "name": "Dead Heat"
-    },
-    {
-      "code": "deadly_weather",
-      "name": "Deadly Weather"
+      "code": "bad_blood",
+      "name": "Bad Blood"
     },
     {
       "code": "dealings_in_the_dark",
@@ -870,10 +834,6 @@
     {
       "code": "death_of_stars",
       "name": "Death of Stars"
-    },
-    {
-      "code": "decay",
-      "name": "Decay & Filth"
     },
     {
       "code": "decaying_reality",
@@ -910,18 +870,6 @@
     {
       "code": "doomed_expedition",
       "name": "Doomed Expedition"
-    },
-    {
-      "code": "dreamers_curse",
-      "name": "Dreamer's Curse"
-    },
-    {
-      "code": "dreamlands",
-      "name": "Dreamlands"
-    },
-    {
-      "code": "dunwich",
-      "name": "Dunwich"
     },
     {
       "code": "echoes_of_the_past",
@@ -992,6 +940,10 @@
       "name": "For the Greater Good"
     },
     {
+      "code": "dead_heat",
+      "name": "Dead Heat"
+    },
+    {
       "code": "fortune_and_folly",
       "name": "Fortune and Folly"
     },
@@ -1022,10 +974,6 @@
     {
       "code": "hasturs_gift",
       "name": "Hastur's Gift"
-    },
-    {
-      "code": "hauntings",
-      "name": "Hauntings"
     },
     {
       "code": "hazards_of_antarctica",
@@ -1152,10 +1100,6 @@
       "name": "Naomi's Crew"
     },
     {
-      "code": "neurotic_fear",
-      "name": "Neurotic Fear"
-    },
-    {
       "code": "nightgaunts",
       "name": "Nightgaunts"
     },
@@ -1192,6 +1136,10 @@
       "name": "Poison"
     },
     {
+      "code": "blood_on_the_altar",
+      "name": "Blood On The Altar"
+    },
+    {
       "code": "rainforest",
       "name": "Rainforest"
     },
@@ -1202,10 +1150,6 @@
     {
       "code": "read_or_die",
       "name": "Read or Die"
-    },
-    {
-      "code": "realm_of_death",
-      "name": "Realm of Death"
     },
     {
       "code": "red_coterie",
@@ -1264,6 +1208,10 @@
       "name": "Return to Extracurricular Activity"
     },
     {
+      "code": "ancient_evils",
+      "name": "Ancient Evils"
+    },
+    {
       "code": "return_to_for_the_greater_good",
       "name": "Return to For the Greater Good"
     },
@@ -1288,24 +1236,20 @@
       "name": "Return to Pillars of Judgment"
     },
     {
-      "code": "return_to_shattered_aeons",
-      "name": "Return to Shattered Aeons"
-    },
-    {
-      "code": "return_to_the_boundary_beyond",
-      "name": "Return to the Boundary Beyond"
-    },
-    {
-      "code": "return_to_the_city_of_archives",
-      "name": "Return to the City of Archives"
-    },
-    {
       "code": "return_to_the_depths_of_yoth",
       "name": "Return to the Depths of Yoth"
     },
     {
       "code": "return_to_the_devourer_below",
       "name": "Return to the Devourer Below"
+    },
+    {
+      "code": "beyond_the_beyond",
+      "name": "Beyond the Beyond"
+    },
+    {
+      "code": "beyond_the_gates_of_sleep",
+      "name": "Beyond the Gates of Sleep"
     },
     {
       "code": "return_to_the_doom_of_eztli",
@@ -1392,6 +1336,10 @@
       "name": "Rising Tide"
     },
     {
+      "code": "dark_veiling",
+      "name": "Dark Veiling"
+    },
+    {
       "code": "rougarou",
       "name": "Curse of the Rougarou"
     },
@@ -1474,6 +1422,10 @@
     {
       "code": "spatial_anomaly",
       "name": "Spatial Anomaly"
+    },
+    {
+      "code": "byakhee",
+      "name": "Byakhee"
     },
     {
       "code": "spectral_predators",
@@ -1568,6 +1520,18 @@
       "name": "The House Always Wins"
     },
     {
+      "code": "before_the_black_throne",
+      "name": "Before the Black Throne"
+    },
+    {
+      "code": "decay",
+      "name": "Decay & Filth"
+    },
+    {
+      "code": "dreamers_curse",
+      "name": "Dreamer's Curse"
+    },
+    {
       "code": "the_lair_of_dagon",
       "name": "The Lair of Dagon"
     },
@@ -1648,10 +1612,6 @@
       "name": "Turn Back Time"
     },
     {
-      "code": "undimensioned_and_unseen",
-      "name": "Undimensioned and Unseen"
-    },
-    {
       "code": "union_and_disillusion",
       "name": "Union and Disillusion"
     },
@@ -1662,6 +1622,10 @@
     {
       "code": "unspeakable_fate",
       "name": "Unspeakable Fate"
+    },
+    {
+      "code": "deadly_weather",
+      "name": "Deadly Weather"
     },
     {
       "code": "unstable_realm",
@@ -1696,6 +1660,62 @@
       "name": "War of the Outer Gods"
     },
     {
+      "code": "abyssal_gifts",
+      "name": "Abyssal Gifts"
+    },
+    {
+      "code": "outsiders",
+      "name": "Outsiders"
+    },
+    {
+      "code": "dreamlands",
+      "name": "Dreamlands"
+    },
+    {
+      "code": "dunwich",
+      "name": "Dunwich"
+    },
+    {
+      "code": "hauntings",
+      "name": "Hauntings"
+    },
+    {
+      "code": "neurotic_fear",
+      "name": "Neurotic Fear"
+    },
+    {
+      "code": "realm_of_death",
+      "name": "Realm of Death"
+    },
+    {
+      "code": "return_to_shattered_aeons",
+      "name": "Return to Shattered Aeons"
+    },
+    {
+      "code": "return_to_the_boundary_beyond",
+      "name": "Return to the Boundary Beyond"
+    },
+    {
+      "code": "return_to_the_city_of_archives",
+      "name": "Return to the City of Archives"
+    },
+    {
+      "code": "abyssal_tribute",
+      "name": "Abyssal Tribute"
+    },
+    {
+      "code": "agents_of_yig",
+      "name": "Agents of Yig"
+    },
+    {
+      "code": "agents_of_yog",
+      "name": "Agents of Yog-Sothoth"
+    },
+    {
+      "code": "undimensioned_and_unseen",
+      "name": "Undimensioned and Unseen"
+    },
+    {
       "code": "weaver_of_the_cosmos",
       "name": "Weaver of the Cosmos"
     },
@@ -1710,26 +1730,6 @@
     {
       "code": "whippoorwills",
       "name": "Whippoorwills"
-    },
-    {
-      "code": "abyssal_gifts",
-      "name": "Abyssal Gifts"
-    },
-    {
-      "code": "outsiders",
-      "name": "Outsiders"
-    },
-    {
-      "code": "abyssal_tribute",
-      "name": "Abyssal Tribute"
-    },
-    {
-      "code": "agents_of_yig",
-      "name": "Agents of Yig"
-    },
-    {
-      "code": "agents_of_yog",
-      "name": "Agents of Yog-Sothoth"
     },
     {
       "code": "whispers_of_hypnos",
@@ -1754,6 +1754,44 @@
     {
       "code": "zoogs",
       "name": "Zoogs"
+    }
+  ],
+  "taboo_set": [
+    {
+      "name": "1.5",
+      "card_count": 13,
+      "id": 1,
+      "date": "2019-04-20"
+    },
+    {
+      "name": "1.6",
+      "card_count": 16,
+      "id": 2,
+      "date": "2019-09-27"
+    },
+    {
+      "name": "1.8",
+      "card_count": 27,
+      "id": 3,
+      "date": "2020-10-15"
+    },
+    {
+      "name": "1.9",
+      "card_count": 32,
+      "id": 4,
+      "date": "2021-06-28"
+    },
+    {
+      "name": "2.0",
+      "card_count": 51,
+      "id": 5,
+      "date": "2022-08-26"
+    },
+    {
+      "name": "2.1",
+      "card_count": 61,
+      "id": 6,
+      "date": "2023-08-30"
     }
   ]
 }

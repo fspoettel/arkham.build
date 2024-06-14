@@ -74,6 +74,8 @@ export type LookupTables = {
   uses: LookupTable<string>;
   // used: filtering.
   level: LookupTable<number>;
+
+  tabooSet: LookupTable<number>;
 };
 
 export type LookupTablesSlice = {

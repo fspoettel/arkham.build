@@ -17,7 +17,7 @@ import {
 } from "../lookup-tables";
 import { getInitialMetadata } from "../metadata";
 import { Metadata } from "../metadata/types";
-import { mappedByCode } from "../metadata/utils";
+import { mappedByCode, mappedById } from "../metadata/utils";
 import { SharedSlice } from "./types";
 
 export const createSharedSlice: StateCreator<
@@ -42,15 +42,30 @@ export const createSharedSlice: StateCreator<
       ...getInitialMetadata(),
       dataVersion: dataVersionResponse,
       cards: {},
+      taboos: {},
       cycles: mappedByCode(metadataResponse.cycle),
       packs: mappedByCode(metadataResponse.pack),
       encounterSets: mappedByCode(metadataResponse.card_encounter_set),
       factions: mappedByCode(metadataResponse.faction),
       subtypes: mappedByCode(metadataResponse.subtype),
       types: mappedByCode(metadataResponse.type),
+      tabooSets: mappedById(metadataResponse.taboo_set),
     };
 
     cards.forEach((c, i) => {
+      if (c.taboo_set_id) {
+        metadata.taboos[c.id] = {
+          code: c.code,
+          real_text: c.real_text,
+          real_back_text: c.real_back_text,
+          taboo_set_id: c.taboo_set_id,
+          taboo_xp: c.taboo_xp,
+        };
+
+        addCardToLookupTables(lookupTables, c, i);
+        return;
+      }
+
       // SAFE! Diverging fields are added below.
       const card = c as Card;
 

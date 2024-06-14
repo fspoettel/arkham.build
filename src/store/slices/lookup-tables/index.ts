@@ -55,6 +55,7 @@ export function getInitialLookupTables(): LookupTables {
     level: {},
     typesByCardTypeSelection: {},
     traitsByCardTypeSeletion: {},
+    tabooSet: {},
   };
 }
 

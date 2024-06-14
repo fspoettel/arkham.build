@@ -54,7 +54,6 @@ export type QueryCard = {
   alternate_required_code?: string;
   back_illustrator?: string;
   back_link_id?: string;
-  // backimagesrc
   backimageurl?: string;
   clues?: number;
   clues_fixed?: boolean;
@@ -84,14 +83,11 @@ export type QueryCard = {
   faction_code: string;
   faction2_code?: string;
   faction3_code?: string;
-  // heals_damage?: boolean; does not work.
-  // heals_horror?: boolean; does not work.
   health?: number;
   health_per_investigator?: boolean;
   hidden?: boolean;
-  // id
+  id: string; // {code} or {code}-{taboo_set_id}
   illustrator?: string;
-  // imagesrc
   imageurl?: string;
   is_unique?: boolean;
   linked?: boolean;
@@ -107,18 +103,13 @@ export type QueryCard = {
   real_back_flavor?: string;
   real_back_name?: string;
   real_back_text?: string;
-  // real_back_traits?: string;
   real_customization_change?: string;
   real_customization_text?: string;
-  // real_encounter_set_name
   real_flavor?: string;
   real_name: string;
-  // real_pack_name
   real_slot?: string;
   real_subname?: string;
-  // real_taboo_original_back_text
-  // real_taboo_original_text
-  // real_taboo_text_change
+  real_taboo_text_change?: string;
   real_text?: string;
   real_traits?: string;
   restrictions?: {
@@ -133,21 +124,21 @@ export type QueryCard = {
   skill_intellect?: number;
   skill_willpower?: number;
   skill_wild?: number;
-  // spoiler?: boolean;
   stage?: number;
   subtype_code?: string;
-  // taboo_placeholder
-  // taboo_set_id
-  tags?: string[];
+  taboo_xp?: number;
+  taboo_set_id?: number;
+  tags?: string[]; // used for some deckbuilding restrictions like `heals_horror`.
   type_code: string;
-  // updated_at?: string;
   vengeance?: number;
-  // version: number;
   victory?: number;
   xp?: number;
 };
 
-export type Card = QueryCard & {
+export type Card = Omit<
+  QueryCard,
+  "real_taboo_text_change" | "taboo_xp" | "id"
+> & {
   parallel?: boolean;
 };
 
@@ -195,4 +186,20 @@ export type QueryEncounterSet = {
 
 export type EncounterSet = QueryEncounterSet & {
   pack_code: string;
+};
+
+export type Taboo = {
+  code: string;
+  real_text?: string;
+  real_back_text?: string;
+  real_taboo_text_change?: string;
+  taboo_xp?: number;
+  taboo_set_id: number;
+};
+
+export type TabooSet = {
+  id: number;
+  name: string;
+  card_count: number;
+  date: string;
 };

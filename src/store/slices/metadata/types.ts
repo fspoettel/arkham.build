@@ -6,6 +6,8 @@ import {
   Faction,
   Pack,
   SubType,
+  Taboo,
+  TabooSet,
   Type,
 } from "@/store/graphql/types";
 
@@ -18,6 +20,8 @@ export type Metadata = {
   packs: Record<string, Pack>;
   subtypes: Record<string, SubType>;
   types: Record<string, Type>;
+  tabooSets: Record<string, TabooSet>;
+  taboos: Record<string, Taboo>;
 };
 
 export type MetadataSlice = {
