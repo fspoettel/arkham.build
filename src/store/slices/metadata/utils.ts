@@ -10,7 +10,6 @@ export function mappedByCode<T extends Coded, S extends Coded = T>(
   return arr.reduce(
     (acc, curr) => {
       if (mapper) mapper(curr);
-      // TODO: add type guards.
       acc[curr.code] = curr as unknown as S;
       return acc;
     },

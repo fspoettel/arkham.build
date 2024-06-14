@@ -41,6 +41,8 @@ export type PropertiesFilter = {
 
 export type ComboboxFilter = Record<string, boolean>;
 
+export type SelectFilter<T = string> = { value: T | undefined };
+
 type SharedState = {
   cost: CostFilter;
   faction: {
@@ -58,9 +60,8 @@ export type Filters = {
   cardType: CardTypeFilter;
   player: SharedState & {
     level: LevelFilter;
-    investigator: {
-      value: string | undefined;
-    };
+    investigator: SelectFilter;
+    tabooSet: SelectFilter<number>;
   };
   encounter: SharedState;
 };

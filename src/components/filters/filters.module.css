@@ -2,8 +2,10 @@
   --filters-spacing-x: 0.75rem;
   --filters-spacing-y: 0.75rem;
 
-  padding: var(--filters-spacing-y) 0;
+  padding: var(--filters-spacing-y) var(--filters-spacing-x);
+}
 
+.filter-container {
   & > * + * {
     margin-top: var(--filters-spacing-y);
   }
@@ -13,4 +15,9 @@
   display: flex;
   justify-content: flex-end;
   padding: 0 var(--filters-spacing-x);
+}
+
+.filters select {
+  display: block;
+  width: 100%;
 }

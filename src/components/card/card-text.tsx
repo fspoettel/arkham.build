@@ -1,36 +1,71 @@
+import clsx from "clsx";
+
 import css from "./card-text.module.css";
 
 import { parseCardTextHtml } from "./utils";
 
 type Props = {
-  text?: string;
   flavor?: string;
   isFlavorCardText?: boolean;
-  victory?: number;
-  typeCode: string;
   size: "full" | "compact" | "tooltip";
+  text?: string;
+  tabooText?: string;
+  tabooXp?: number;
+  typeCode: string;
+  victory?: number;
 };
 
-export function CardText({ flavor, size, text, typeCode, victory }: Props) {
+export function CardText({
+  flavor,
+  size,
+  tabooText,
+  tabooXp,
+  text,
+  typeCode,
+  victory,
+}: Props) {
   const isFlavorSwapped = ["agenda", "act", "story"].includes(typeCode);
   const isFlavorCardText = isFlavorSwapped || typeCode === "location";
   const showFlavor = size === "full" || isFlavorCardText;
 
   const textNode = text ? (
-    <div className={css["text"]}>
-      {text && (
-        <p
-          dangerouslySetInnerHTML={{
-            __html: parseCardTextHtml(text),
-          }}
-        />
+    <>
+      <div className={css["text"]}>
+        {text && (
+          <p
+            dangerouslySetInnerHTML={{
+              __html: parseCardTextHtml(text),
+            }}
+          />
+        )}
+        {victory && (
+          <p>
+            <b>Victory {victory}.</b>
+          </p>
+        )}
+      </div>
+      {(tabooText || tabooXp != null) && (
+        <div className={clsx(css["text"], "border-taboo")}>
+          {tabooText && (
+            <p>
+              <i className="icon-tablet color-taboo icon-text" />{" "}
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: parseCardTextHtml(tabooText),
+                }}
+              />
+            </p>
+          )}
+          {tabooXp && (
+            <p>
+              <i className="icon-tablet color-taboo icon-text" /> Costs{" "}
+              {tabooXp}
+              {tabooXp > 0 ? " additional" : ""} experience.
+            </p>
+          )}
+        </div>
       )}
-      {victory && (
-        <p>
-          <b>Victory {victory}.</b>
-        </p>
-      )}
-    </div>
+    </>
   ) : null;
 
   const flavorNode =

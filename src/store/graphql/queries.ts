@@ -77,7 +77,6 @@ type AllCardResponse = {
 const allCardQuery: TypedDocumentNode<AllCardResponse> = parse(gql`
   {
     all_card(
-      order_by: { real_name: asc }
       where: {
         official: { _eq: true }
         _and: [{ taboo_placeholder: { _is_null: true } }]

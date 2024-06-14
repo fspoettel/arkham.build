@@ -7,9 +7,9 @@ import { SkillIconsFilter as SkillIconsFilterT } from "@/store/slices/filters/ty
 
 import css from "./skill-icons-filter.module.css";
 
+import { SkillIcon } from "../icons/skill-icon";
 import { CheckboxGroup } from "../ui/checkboxgroup";
 import { Collapsible, CollapsibleContent } from "../ui/collapsible";
-import { SkillIcon } from "../ui/icons/skill-icon";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 export function SkillIconsFilter() {

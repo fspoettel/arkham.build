@@ -2,7 +2,7 @@ import { ChevronDownIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
 import { MouseEvent, useCallback, useMemo, useState } from "react";
 
-import { CardWithRelations } from "@/store/selectors/card-detail";
+import { CardWithRelations } from "@/store/selectors/card-view";
 import { useQuery } from "@/utils/use-query";
 
 import css from "./faq.module.css";

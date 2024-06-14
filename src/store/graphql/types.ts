@@ -135,10 +135,7 @@ export type QueryCard = {
   xp?: number;
 };
 
-export type Card = Omit<
-  QueryCard,
-  "real_taboo_text_change" | "taboo_xp" | "id"
-> & {
+export type Card = Omit<QueryCard, "id"> & {
   parallel?: boolean;
 };
 
@@ -195,6 +192,11 @@ export type Taboo = {
   real_taboo_text_change?: string;
   taboo_xp?: number;
   taboo_set_id: number;
+  exceptional?: boolean; // key of ys.
+  real_customization_text?: string;
+  real_customization_change?: Card["real_customization_change"];
+  customization_options?: Card["customization_options"];
+  deck_requirements?: Card["deck_requirements"];
 };
 
 export type TabooSet = {

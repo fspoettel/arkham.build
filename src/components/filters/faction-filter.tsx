@@ -9,7 +9,7 @@ import { selectActiveCardType } from "@/store/selectors/filters/shared";
 
 import css from "./faction-filter.module.css";
 
-import { FactionIconFancy } from "../ui/icons/faction-icon-fancy";
+import { FactionIconFancy } from "../icons/faction-icon-fancy";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 export function FactionFilter() {

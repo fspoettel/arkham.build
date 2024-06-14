@@ -60,7 +60,7 @@ const getSkillIconInverted = memoize((key: string) => {
 
 type Props = {
   className?: string;
-  skill: string; // TODO: typecheck
+  skill: string;
 };
 
 export function SkillIconFancy({ className, skill }: Props) {

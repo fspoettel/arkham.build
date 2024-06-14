@@ -9,24 +9,12 @@ import { Settings } from "./pages/settings";
 import { useStore } from "./store";
 
 function App() {
-  const storeInitialized = useStore((state) => state.ui.initialized);
-
+  const storeHydrated = useStore((state) => state.ui.hydrated);
   const init = useStore((state) => state.init);
-  const dataVersion = useStore((state) => state.metadata.dataVersion);
 
   useEffect(() => {
-    async function sync() {
-      if (storeInitialized) {
-        if (dataVersion?.cards_updated_at) {
-          console.debug(`[sync] skip, card data present.`);
-        } else {
-          console.debug("[sync]  starting initial sync.");
-          await init();
-        }
-      }
-    }
-    sync().catch(console.error);
-  }, [storeInitialized, dataVersion, init]);
+    if (storeHydrated) init().catch(console.error);
+  }, [storeHydrated, init]);
 
   return (
     <Router>

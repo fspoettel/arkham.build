@@ -2,8 +2,8 @@ import uFuzzy from "@leeoniya/ufuzzy";
 
 import { Card } from "@/store/graphql/types";
 
-import { Metadata } from "../../slices/metadata/types";
-import { SearchState } from "../../slices/search/types";
+import { Metadata } from "../slices/metadata/types";
+import { SearchState } from "../slices/search/types";
 
 function prepareCardFront(card: Card, search: SearchState["search"]) {
   let content = `|${card.real_name}`;

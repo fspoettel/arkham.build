@@ -6,6 +6,8 @@ import { UISlice, UIState } from "./types";
 export function getInitialUIState(): UIState {
   return {
     ui: {
+      hydrated: false,
+      initialized: false,
       listScrollRestore: undefined,
     },
   };
@@ -16,10 +18,10 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
   get,
 ) => ({
   ...getInitialUIState(),
-  setInitialized() {
-    set({ ui: { ...get().ui, initialized: true } });
+  setHydrated() {
+    set({ ui: { ...get().ui, hydrated: true } });
   },
   setListScrollRestore(snapshot) {
-    set({ ui: { listScrollRestore: snapshot } });
+    set({ ui: { ...get().ui, listScrollRestore: snapshot } });
   },
 });

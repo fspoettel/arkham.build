@@ -1,0 +1,11 @@
+.field label {
+  display: inline-block;
+  margin-bottom: 0.125rem;
+  font-size: var(--text-sm);
+}
+
+.field input,
+.field select,
+.field textarea {
+  display: block;
+}

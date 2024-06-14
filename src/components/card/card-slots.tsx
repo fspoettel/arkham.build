@@ -4,7 +4,7 @@ import { splitMultiValue } from "@/utils/card-utils";
 
 import css from "./card-slots.module.css";
 
-import { LazySlotIcon } from "../ui/icons/lazy-icons";
+import { LazySlotIcon } from "../icons/lazy-icons";
 
 type Props = {
   className?: string;

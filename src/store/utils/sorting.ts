@@ -1,5 +1,5 @@
-import { Card } from "../../graphql/types";
-import { LookupTables } from "../../slices/lookup-tables/types";
+import { Card } from "../graphql/types";
+import { LookupTables } from "../slices/lookup-tables/types";
 
 export function sortAlphabetically(lookupTables: LookupTables) {
   return (a: Card, b: Card) => {

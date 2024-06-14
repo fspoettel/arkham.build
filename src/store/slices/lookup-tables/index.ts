@@ -1,6 +1,7 @@
 import { StateCreator } from "zustand";
 
 import { Card } from "@/store/graphql/types";
+import { applyTaboo } from "@/store/utils/taboos";
 import { splitMultiValue } from "@/utils/card-utils";
 import {
   ACTION_TEXT,
@@ -12,11 +13,11 @@ import {
 import { StoreState } from "..";
 import { CardTypeFilter } from "../filters/types";
 import { Metadata } from "../metadata/types";
+import { SettingsState } from "../settings/types";
 import { LookupTable, LookupTables, LookupTablesSlice } from "./types";
 
 export function getInitialLookupTables(): LookupTables {
   return {
-    dataVersion: undefined,
     relations: {
       bound: {},
       bonded: {},
@@ -64,9 +65,45 @@ export const createLookupTablesSlice: StateCreator<
   [],
   [],
   LookupTablesSlice
-> = () => ({
+> = (set, get) => ({
   lookupTables: getInitialLookupTables(),
+
+  refreshLookupTables() {
+    const state = get();
+    const lookupTables = createLookupTables(state.metadata, state.settings);
+    set({
+      lookupTables,
+      ui: {
+        initialized: true,
+      },
+    });
+  },
 });
+
+export function createLookupTables(
+  metadata: Metadata,
+  settings: SettingsState,
+) {
+  console.time("[performance] refresh_lookup_tables");
+  const lookupTables = getInitialLookupTables();
+
+  const cards = Object.values(metadata.cards);
+
+  cards.sort((a, b) => a.real_name.localeCompare(b.real_name));
+
+  cards.forEach((c, i) => {
+    addCardToLookupTables(
+      lookupTables,
+      applyTaboo(c, settings.tabooSetId, metadata),
+      i,
+    );
+  });
+
+  createRelations(metadata, lookupTables);
+
+  console.timeEnd("[performance] refresh_lookup_tables");
+  return lookupTables;
+}
 
 function setInLookupTable<T extends string | number>(
   code: keyof LookupTable<T>[T] | string,
@@ -275,7 +312,7 @@ function sortedByName(tables: LookupTables, card: Card, i: number) {
 }
 
 export function createRelations(metadata: Metadata, tables: LookupTables) {
-  console.time("create_relations");
+  console.time("[performance] create_relations");
   const cards = Object.values(metadata.cards);
 
   const bonded: Record<string, string[]> = {};
@@ -381,5 +418,5 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
     }
   }
 
-  console.timeEnd("create_relations");
+  console.timeEnd("[performance] create_relations");
 }

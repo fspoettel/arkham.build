@@ -4,7 +4,7 @@ import { Card } from "@/store/graphql/types";
 
 import css from "./card-header.module.css";
 
-import { MulticlassIcons } from "../ui/icons/multiclass-icons";
+import { MulticlassIcons } from "../icons/multiclass-icons";
 import { CardIcon } from "./card-icon";
 import { CardNames } from "./card-names";
 

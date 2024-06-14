@@ -52,6 +52,9 @@ function getInitialState(): Filters {
       investigator: {
         value: undefined,
       },
+      tabooSet: {
+        value: undefined,
+      },
     },
     encounter: {
       ...structuredClone(shared),

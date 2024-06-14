@@ -10,7 +10,7 @@ export function Masthead({ className }: { className?: string }) {
   return (
     <header className={clsx(className, css["masthead"])}>
       <nav>
-        <Link href="settings">
+        <Link href="/settings">
           <Button className={css["header-settings"]} variant="bare" as="a">
             <GearIcon />
           </Button>

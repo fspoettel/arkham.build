@@ -3,11 +3,9 @@ import { StateCreator } from "zustand";
 import { StoreState } from "..";
 import { SettingsSlice, SettingsState } from "./types";
 
-export function getInitialState(): SettingsState {
+export function getInitialSettings(): SettingsState {
   return {
-    settings: {
-      tabooSetId: undefined,
-    },
+    tabooSetId: null,
   };
 }
 
@@ -17,5 +15,10 @@ export const createSettingsSlice: StateCreator<
   [],
   SettingsSlice
 > = (set, get) => ({
-  ...getInitialState(),
+  settings: getInitialSettings(),
+  updateSettings(partial) {
+    const state = get();
+    set({ settings: { ...state.settings, ...partial } });
+    state.refreshLookupTables();
+  },
 });

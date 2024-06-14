@@ -1,4 +1,4 @@
-/* COPIED FROM LODASH. FIXME: TYPES */
+/* copied from lodash. */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export function memoize<T>(func: T, resolver?: any): T {

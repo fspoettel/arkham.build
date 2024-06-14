@@ -1,7 +1,9 @@
 export type SettingsState = {
-  settings: {
-    tabooSetId: number | undefined;
-  };
+  tabooSetId: number | null;
 };
 
-export type SettingsSlice = SettingsState;
+export type SettingsSlice = {
+  settings: SettingsState;
+} & {
+  updateSettings: (partial: Partial<SettingsState>) => void;
+};

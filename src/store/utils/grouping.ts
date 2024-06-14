@@ -1,8 +1,8 @@
 import { ASSET_SLOT_ORDER, PLAYER_TYPE_ORDER } from "@/utils/constants";
 
-import { Card } from "../../graphql/types";
-import { LookupTables } from "../../slices/lookup-tables/types";
-import { Metadata } from "../../slices/metadata/types";
+import { Card } from "../graphql/types";
+import { LookupTables } from "../slices/lookup-tables/types";
+import { Metadata } from "../slices/metadata/types";
 
 export type Grouping = {
   code: string;
@@ -119,10 +119,11 @@ export function getGroupCards(
   metadata: Metadata,
   lookupTables: LookupTables,
   filter: (c: Card) => boolean,
+  mapper?: (c: Card) => Card,
 ) {
   return resolveGroupingCardCodes(grouping, lookupTables).reduce(
     (acc, code) => {
-      const card = metadata.cards[code];
+      const card = mapper ? mapper(metadata.cards[code]) : metadata.cards[code];
       if (filter(card)) acc.push(card);
       return acc;
     },

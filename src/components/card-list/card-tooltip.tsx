@@ -1,5 +1,5 @@
 import { useStore } from "@/store";
-import { selectCardWithRelations } from "@/store/selectors/card-detail";
+import { selectCardWithRelations } from "@/store/selectors/card-view";
 
 import css from "./card-tooltip.module.css";
 

@@ -15,6 +15,7 @@ export function CardList() {
   const [rendered, setRendered] = useState(false);
   const virtuosoRef = useRef<GroupedVirtuosoHandle>(null);
   const data = useStore(selectFilteredCards);
+
   const setListScrollRestore = useStore((state) => state.setListScrollRestore);
   const scrollRestore = useStore((state) => state.ui.listScrollRestore);
 
@@ -57,8 +58,7 @@ export function CardList() {
     virtuosoRef.current?.scrollTo({ top: 0 });
   }, [data?.groupCounts]);
 
-  // TODO: restore scroll position to current group?
-  // TODO: use semantic markup. maybe integrate with radix-scrollarea?
+  // TODO: - restore scroll position to current group? - use semantic markup. maybe integrate with radix-scrollarea?
   return (
     <div className={css["list-container"]}>
       <nav className={css["list-nav"]}>

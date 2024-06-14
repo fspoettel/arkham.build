@@ -66,6 +66,7 @@
   --multiclass-dark: #868600;
   --mythos-dark: var(--nord-1);
 
+  --taboo: #9869f5;
   --health: #ae4236;
   --sanity: #2c7fc0;
 
@@ -185,6 +186,10 @@ button {
   color: var(--sanity);
 }
 
+.color-taboo {
+  color: var(--taboo);
+}
+
 .color-guardian {
   color: var(--guardian);
 }
@@ -247,6 +252,10 @@ button {
 
 .background-neutral {
   background: var(--neutral-dark);
+}
+
+.border-taboo {
+  border-color: var(--taboo) !important;
 }
 
 .border-guardian {

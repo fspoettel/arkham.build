@@ -2,9 +2,9 @@ import { Card } from "@/store/graphql/types";
 
 import css from "./card-icons.module.css";
 
-import { SkillIcons } from "../ui/skill-icons";
-import { SkillIconsEnemy } from "../ui/skill-icons-enemy";
-import { SkillIconsInvestigator } from "../ui/skill-icons-investigator";
+import { SkillIcons } from "../skill-icons";
+import { SkillIconsEnemy } from "../skill-icons-enemy";
+import { SkillIconsInvestigator } from "../skill-icons-investigator";
 import { CardDamage } from "./card-damage";
 import { CardHealth } from "./card-health";
 

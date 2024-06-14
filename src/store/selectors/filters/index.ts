@@ -20,6 +20,7 @@ import {
 } from "./shared";
 import { selectSkillIconsFilter } from "./skill-icons";
 import { selectSubtypeFilter } from "./subtype";
+import { selectTabooSetFilter } from "./tabooSet";
 import { selectTraitsFilter } from "./traits";
 import { selectTypeFilter } from "./type";
 
@@ -34,6 +35,7 @@ export const selectPlayerCardFilters = createSelector(
   selectActionsFilter,
   selectPropertiesFilter,
   selectInvestigatorFilter,
+  selectTabooSetFilter,
   (
     factionFilter,
     levelFilter,
@@ -45,6 +47,7 @@ export const selectPlayerCardFilters = createSelector(
     actionsFilter,
     propertiesFilter,
     investigatorFilter,
+    tabooSetFilter,
   ) => {
     const filters = [
       filterMythosCards,
@@ -75,6 +78,10 @@ export const selectPlayerCardFilters = createSelector(
       filters.push(investigatorFilter);
     }
 
+    if (tabooSetFilter) {
+      filters.push(tabooSetFilter);
+    }
+
     return and(filters);
   },
 );
@@ -90,6 +97,7 @@ export const selectWeaknessFilters = createSelector(
   selectActionsFilter,
   selectPropertiesFilter,
   selectInvestigatorWeaknessFilter,
+  selectTabooSetFilter,
   (
     levelFilter,
     costFilter,
@@ -101,6 +109,7 @@ export const selectWeaknessFilters = createSelector(
     actionsFilter,
     propertiesFilter,
     investigatorFilter,
+    tabooSetFilter,
   ) => {
     const filters = [
       filterEncounterCards,
@@ -127,6 +136,10 @@ export const selectWeaknessFilters = createSelector(
 
     if (investigatorFilter) {
       filters.push(investigatorFilter);
+    }
+
+    if (tabooSetFilter) {
+      filters.push(tabooSetFilter);
     }
 
     return and(filters);

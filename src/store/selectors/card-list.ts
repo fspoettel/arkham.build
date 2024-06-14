@@ -3,20 +3,22 @@ import { createSelector } from "reselect";
 import { Card } from "../graphql/types";
 import { StoreState } from "../slices";
 import {
-  selectEncounterFilters,
-  selectPlayerCardFilters,
-  selectWeaknessFilters,
-} from "./filters";
-import { selectActiveCardType } from "./filters/shared";
-import {
   Grouping,
   getGroupCards,
   groupByEncounterSets,
   groupByPlayerCardType,
   groupByWeakness,
-} from "./utils/grouping";
-import { applySearch } from "./utils/searching";
-import { sortAlphabetically, sortByEncounterPosition } from "./utils/sorting";
+} from "../utils/grouping";
+import { applySearch } from "../utils/searching";
+import { sortAlphabetically, sortByEncounterPosition } from "../utils/sorting";
+import { applyTaboo } from "../utils/taboos";
+import {
+  selectEncounterFilters,
+  selectPlayerCardFilters,
+  selectWeaknessFilters,
+} from "./filters";
+import { selectActiveCardType } from "./filters/shared";
+import { selectCanonicalTabooSetId } from "./filters/tabooSet";
 
 export const selectFilteredCards = createSelector(
   selectActiveCardType,
@@ -26,6 +28,7 @@ export const selectFilteredCards = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.search,
+  selectCanonicalTabooSetId,
   (
     activeCardType,
     playerCardFilter,
@@ -34,6 +37,7 @@ export const selectFilteredCards = createSelector(
     metadata,
     lookupTables,
     search,
+    tabooSetId,
   ) => {
     if (!Object.keys(metadata.cards).length) {
       console.warn("player cards selected before store is initialized.");
@@ -50,7 +54,13 @@ export const selectFilteredCards = createSelector(
       for (const grouping of groupByPlayerCardType(metadata, lookupTables)) {
         const groupCards = applySearch(
           search,
-          getGroupCards(grouping, metadata, lookupTables, playerCardFilter),
+          getGroupCards(
+            grouping,
+            metadata,
+            lookupTables,
+            playerCardFilter,
+            tabooSetId ? (c) => applyTaboo(c, tabooSetId, metadata) : undefined,
+          ),
           metadata,
         );
 

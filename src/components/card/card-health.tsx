@@ -1,6 +1,6 @@
 import css from "./card-health.module.css";
 
-import { HealthIcon, SanityIcon } from "../ui/icons/health-icons";
+import { HealthIcon, SanityIcon } from "../icons/health-icons";
 
 type Props = {
   health?: number;

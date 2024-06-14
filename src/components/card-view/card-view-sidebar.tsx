@@ -1,5 +1,5 @@
 import SvgWorld from "@/assets/icons/world.svg?react";
-import { CardWithRelations } from "@/store/selectors/card-detail";
+import { CardWithRelations } from "@/store/selectors/card-view";
 
 import css from "./card-view-sidebar.module.css";
 

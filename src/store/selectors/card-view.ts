@@ -8,6 +8,8 @@ import {
 } from "../graphql/types";
 import { StoreState } from "../slices";
 import { LookupTables } from "../slices/lookup-tables/types";
+import { applyTaboo } from "../utils/taboos";
+import { selectCanonicalTabooSetId } from "./filters/tabooSet";
 
 export type CardResolved = {
   card: Card;
@@ -36,6 +38,7 @@ export type CardWithRelations = CardResolved & {
   };
 };
 
+// TODO: refactor into a "real" selector.
 export function selectCardWithRelations(
   state: StoreState,
   code?: string,
@@ -43,10 +46,16 @@ export function selectCardWithRelations(
 ): CardWithRelations | undefined {
   if (!code) return undefined;
 
-  const card = state.metadata.cards[code];
+  let card = state.metadata.cards[code];
   if (!card) return undefined;
 
   const metadata = state.metadata;
+
+  const tabooSetId = selectCanonicalTabooSetId(state);
+
+  if (tabooSetId) {
+    card = applyTaboo(card, tabooSetId, metadata);
+  }
 
   const pack = metadata.packs[card.pack_code];
   const type = metadata.types[card.type_code];

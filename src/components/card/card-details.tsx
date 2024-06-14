@@ -1,4 +1,4 @@
-import { CardResolved } from "@/store/selectors/card-detail";
+import { CardResolved } from "@/store/selectors/card-view";
 
 import css from "./card-details.module.css";
 

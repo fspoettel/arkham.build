@@ -6,15 +6,10 @@ import {
   queryMetadata,
 } from "@/store/graphql/queries";
 import { Card } from "@/store/graphql/types";
-import { getDataVersionIdentifier } from "@/store/storage";
 import { rewriteImageUrl } from "@/utils/card-utils";
 
 import { StoreState } from "..";
-import {
-  addCardToLookupTables,
-  createRelations,
-  getInitialLookupTables,
-} from "../lookup-tables";
+import { createLookupTables, createRelations } from "../lookup-tables";
 import { getInitialMetadata } from "../metadata";
 import { Metadata } from "../metadata/types";
 import { mappedByCode, mappedById } from "../metadata/utils";
@@ -25,8 +20,14 @@ export const createSharedSlice: StateCreator<
   [],
   [],
   SharedSlice
-> = (set) => ({
+> = (set, get) => ({
   async init() {
+    const state = get();
+
+    if (state.metadata.dataVersion?.cards_updated_at) {
+      return state.refreshLookupTables();
+    }
+
     console.time("[performance] query_data");
     const [metadataResponse, dataVersionResponse, cards] = await Promise.all([
       queryMetadata(),
@@ -36,7 +37,6 @@ export const createSharedSlice: StateCreator<
     console.timeEnd("[performance] query_data");
 
     console.time("[performance] create_store_data");
-    const lookupTables = getInitialLookupTables();
 
     const metadata: Metadata = {
       ...getInitialMetadata(),
@@ -52,17 +52,21 @@ export const createSharedSlice: StateCreator<
       tabooSets: mappedById(metadataResponse.taboo_set),
     };
 
-    cards.forEach((c, i) => {
+    cards.forEach((c) => {
       if (c.taboo_set_id) {
         metadata.taboos[c.id] = {
           code: c.code,
           real_text: c.real_text,
           real_back_text: c.real_back_text,
+          real_taboo_text_change: c.real_taboo_text_change,
           taboo_set_id: c.taboo_set_id,
           taboo_xp: c.taboo_xp,
+          exceptional: c.exceptional,
+          customization_options: c.customization_options,
+          real_customization_text: c.real_customization_text,
+          real_customization_change: c.real_customization_change,
         };
 
-        addCardToLookupTables(lookupTables, c, i);
         return;
       }
 
@@ -85,12 +89,10 @@ export const createSharedSlice: StateCreator<
           encounterSet.pack_code = card.pack_code;
         }
       }
-
-      addCardToLookupTables(lookupTables, card, i);
     });
 
+    const lookupTables = createLookupTables(metadata, state.settings);
     createRelations(metadata, lookupTables);
-    lookupTables.dataVersion = getDataVersionIdentifier(dataVersionResponse);
 
     Object.keys(metadata.encounterSets).forEach((code) => {
       if (!metadata.encounterSets[code].pack_code) {
@@ -101,7 +103,11 @@ export const createSharedSlice: StateCreator<
     set({
       metadata,
       lookupTables,
+      ui: {
+        initialized: true,
+      },
     });
+
     console.timeEnd("[performance] create_store_data");
   },
 });

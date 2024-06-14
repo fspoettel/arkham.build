@@ -1,4 +1,4 @@
-import { CardResolved } from "@/store/selectors/card-detail";
+import { CardResolved } from "@/store/selectors/card-view";
 import { reversed } from "@/utils/card-utils";
 
 import { CardBack } from "./card-back";

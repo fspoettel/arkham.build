@@ -3,12 +3,12 @@ import clsx from "clsx";
 import SvgCard from "@/assets/icons/card-outline.svg?react";
 import SvgPaintbrush from "@/assets/icons/paintbrush.svg?react";
 import { Cycle, Pack } from "@/store/graphql/types";
-import { CardResolved } from "@/store/selectors/card-detail";
+import { CardResolved } from "@/store/selectors/card-view";
 import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
 
 import css from "./card-meta.module.css";
 
-import { LazyEncounterIcon, LazyPackIcon } from "../ui/icons/lazy-icons";
+import { LazyEncounterIcon, LazyPackIcon } from "../icons/lazy-icons";
 
 type Props = {
   resolvedCard: CardResolved;

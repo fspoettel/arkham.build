@@ -3,11 +3,9 @@ import { PersistStorage, StorageValue } from "zustand/middleware";
 
 import { DataVersion } from "./graphql/types";
 import { StoreState } from "./slices";
-import { getInitialLookupTables } from "./slices/lookup-tables";
-import { LookupTables } from "./slices/lookup-tables/types";
 import { getInitialMetadata } from "./slices/metadata";
 import { Metadata } from "./slices/metadata/types";
-import { getInitialState } from "./slices/settings";
+import { getInitialSettings } from "./slices/settings";
 import { SettingsState } from "./slices/settings/types";
 
 const VERSION = 1;
@@ -19,28 +17,26 @@ export const storageConfig = {
   partialize(state: StoreState) {
     return {
       metadata: state.metadata,
-      lookupTables: state.lookupTables,
       settings: state.settings,
     };
   },
   onRehydrateStorage: () => {
-    console.time("[persist] hydration");
+    console.time("[performance] hydration");
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return (state: StoreState | undefined, error?: unknown) => {
-      if (state) state.setInitialized();
+      if (state) state.setHydrated();
       if (error) console.error(error);
-      console.timeEnd("[persist] hydration");
+      console.timeEnd("[performance] hydration");
     };
   },
 };
 
 type MetadataVal = {
   metadata: Metadata;
-  lookupTables: LookupTables;
 };
 
 type AppdataVal = {
-  settings: SettingsState["settings"];
+  settings: SettingsState;
 };
 
 type Val = MetadataVal & AppdataVal;
@@ -66,16 +62,42 @@ export function getDataVersionIdentifier(version?: DataVersion) {
 type CustomStorage = {
   getAppdata: (name: string) => Promise<StorageValue<AppdataVal> | undefined>;
   getMetadata: (name: string) => Promise<StorageValue<MetadataVal> | undefined>;
-  setAppdata: (name: string, value: StorageValue<Val>) => void;
-  setMetadata: (name: string, value: StorageValue<Val>) => void;
+  setAppdata: (name: string, value: StorageValue<Val>) => Promise<void>;
+  setMetadata: (name: string, value: StorageValue<Val>) => Promise<void>;
 };
 
 function createCustomStorage():
   | (CustomStorage & PersistStorage<Val>)
   | undefined {
   return {
+    async getItem(name) {
+      try {
+        const [metadata, appdata] = await Promise.all([
+          this.getMetadata(name),
+          this.getAppdata(name),
+        ]);
+
+        if (!metadata && !appdata) return null;
+
+        const val: StorageValue<Val> = {
+          state: {
+            metadata: metadata?.state?.metadata ?? getInitialMetadata(),
+            settings: appdata?.state?.settings ?? getInitialSettings(),
+          },
+          version: Math.min(metadata?.version ?? 1, appdata?.version ?? 1),
+        };
+
+        return val;
+      } catch (err) {
+        console.error("error during hydration:", err);
+        localStorage.removeItem(getMetadataKey(name));
+        return null;
+      }
+    },
     async getAppdata(name: string) {
-      return get(getAppdataDbName(name));
+      const data = await get(getAppdataDbName(name));
+      if (data == null) return null;
+      return JSON.parse(data);
     },
 
     async getMetadata(name: string) {
@@ -88,22 +110,16 @@ function createCustomStorage():
         return null;
       }
 
-      try {
-        const parsed = JSON.parse(data);
+      const parsed = JSON.parse(data);
 
-        const version = getDataVersionIdentifier(
-          parsed?.state?.metadata?.dataVersion,
-        );
-        if (!version) throw new TypeError(`stored data is missing version.`);
-        localStorage.setItem(getMetadataKey(name), version);
+      const version = getDataVersionIdentifier(
+        parsed?.state?.metadata?.dataVersion,
+      );
+      if (!version) throw new TypeError(`stored data is missing version.`);
+      localStorage.setItem(getMetadataKey(name), version);
 
-        console.debug(`[persist] rehydrated card version: ${version}`);
-        return parsed;
-      } catch (err) {
-        console.error("error during metadata hydration:", err);
-        localStorage.removeItem(getMetadataKey(name));
-        return null;
-      }
+      console.debug(`[persist] rehydrated card version: ${version}`);
+      return parsed;
     },
 
     async setAppdata(name, value) {
@@ -117,19 +133,12 @@ function createCustomStorage():
       );
     },
     async setMetadata(name, value) {
-      // TODO:support storing lookup tables and decks in separate IDB stores.
       // TODO: support translated data.
       const currentDataVersion = getDataVersionIdentifier(
         value.state.metadata.dataVersion,
       );
 
-      const lookupTablesDataVersion = value.state.lookupTables.dataVersion;
-
-      if (
-        !currentDataVersion ||
-        !lookupTablesDataVersion ||
-        lookupTablesDataVersion !== currentDataVersion
-      ) {
+      if (!currentDataVersion) {
         console.debug("[persist] skip: store is uninitialized.");
         return;
       }
@@ -147,44 +156,15 @@ function createCustomStorage():
           JSON.stringify({
             state: {
               metadata: value.state.metadata,
-              lookupTables: value.state.lookupTables,
             },
             version: value.version,
           }),
         );
       }
     },
-    async getItem(name) {
-      try {
-        const [metadata, appdata] = await Promise.all([
-          this.getMetadata(name),
-          this.getAppdata(name),
-        ]);
-
-        if (!metadata && !appdata) return null;
-
-        const val: StorageValue<Val> = {
-          state: {
-            metadata: metadata?.state?.metadata ?? getInitialMetadata(),
-            lookupTables:
-              metadata?.state?.lookupTables ?? getInitialLookupTables(),
-            settings: appdata?.state?.settings ?? getInitialState().settings,
-          },
-          version: Math.min(metadata?.version ?? 1, appdata?.version ?? 1),
-        };
-
-        return val;
-      } catch (err) {
-        console.error(err);
-        localStorage.removeItem(getMetadataKey(name));
-        return null;
-      }
-    },
     async setItem(name, value) {
-      await Promise.all([
-        this.setAppdata(name, value),
-        this.setMetadata(name, value),
-      ]);
+      await this.setAppdata(name, value);
+      await this.setMetadata(name, value);
     },
     async removeItem(name) {
       return del(name);

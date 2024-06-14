@@ -6,8 +6,6 @@ export type LookupTable<
 > = Record<T, Mapping<V>>;
 
 export type LookupTables = {
-  // Tracks the data version the indexes were created for.
-  dataVersion?: string;
   // TODO: add alternative_art investigators.
   relations: {
     // `Hallowed Mirror` has bound `Soothing Melody`.
@@ -80,4 +78,6 @@ export type LookupTables = {
 
 export type LookupTablesSlice = {
   lookupTables: LookupTables;
+
+  refreshLookupTables(): void;
 };

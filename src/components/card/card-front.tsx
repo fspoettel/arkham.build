@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import { CardResolved } from "@/store/selectors/card-detail";
+import { CardResolved } from "@/store/selectors/card-view";
 import { getCardColor, sideways } from "@/utils/card-utils";
 
 import css from "./card.module.css";
@@ -44,6 +44,8 @@ export function CardFront({ className, resolvedCard, linked, size }: Props) {
           flavor={card.real_flavor}
           size={size}
           text={card.real_text}
+          tabooXp={card.taboo_xp}
+          tabooText={card.real_taboo_text_change}
           typeCode={card.type_code}
           victory={card.victory}
         />

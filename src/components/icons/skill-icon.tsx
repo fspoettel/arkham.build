@@ -2,7 +2,7 @@ import clsx from "clsx";
 
 type Props = {
   className?: string;
-  skill: string; // TODO: typecheck
+  skill: string;
 };
 
 export function SkillIcon({ className, skill }: Props) {

@@ -13,6 +13,7 @@ import { LevelFilter } from "./level-filter";
 import { PropertiesFilter } from "./properties-filter";
 import { SkillIconsFilter } from "./skill-icons-filter";
 import { SubtypeFilter } from "./subtypes-filter";
+import { TabooSetFilter } from "./taboo-set-filter";
 import { TraitFilter } from "./trait-filter";
 import { TypeFilter } from "./type-filter";
 
@@ -28,16 +29,19 @@ export function Filters() {
       <div className={css["filter-header"]}>
         <Button onClick={resetFilters}>Reset</Button>
       </div>
-      <FactionFilter />
-      {cardTypeSelection === "player" && <LevelFilter />}
-      <CostFilter />
-      <TypeFilter />
-      <SubtypeFilter />
-      <TraitFilter />
-      <SkillIconsFilter />
-      <ActionFilter />
-      <PropertiesFilter />
-      {cardTypeSelection === "player" && <InvestigatorFilter />}
+      <div className={css["filter-container"]}>
+        <FactionFilter />
+        {cardTypeSelection === "player" && <LevelFilter />}
+        <CostFilter />
+        <TypeFilter />
+        <SubtypeFilter />
+        <TraitFilter />
+        <SkillIconsFilter />
+        <ActionFilter />
+        <PropertiesFilter />
+        {cardTypeSelection === "player" && <InvestigatorFilter />}
+        {cardTypeSelection === "player" && <TabooSetFilter />}
+      </div>
     </search>
   );
 }

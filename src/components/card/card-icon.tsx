@@ -6,10 +6,10 @@ import { getCardColor } from "@/utils/card-utils";
 
 import css from "./card-icon.module.css";
 
-import { CostIcon } from "../ui/icons/cost-icon";
-import { FactionIcon } from "../ui/icons/faction-icon";
-import { LazyEncounterIcon } from "../ui/icons/lazy-icons";
-import { LevelIcon } from "../ui/icons/level-icon";
+import { CostIcon } from "../icons/cost-icon";
+import { FactionIcon } from "../icons/faction-icon";
+import { LazyEncounterIcon } from "../icons/lazy-icons";
+import { LevelIcon } from "../icons/level-icon";
 
 type Props = {
   card: Card;

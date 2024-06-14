@@ -1,8 +1,8 @@
-import { Grouping } from "@/store/selectors/utils/grouping";
+import { Grouping } from "@/store/utils/grouping";
 
 import css from "./grouphead.module.css";
 
-import { LazyEncounterIcon } from "../ui/icons/lazy-icons";
+import { LazyEncounterIcon } from "../icons/lazy-icons";
 
 type Props = {
   grouping: Grouping;

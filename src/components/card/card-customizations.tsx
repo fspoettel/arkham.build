@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import { CardResolved } from "@/store/selectors/card-detail";
+import { CardResolved } from "@/store/selectors/card-view";
 import { getCardColor } from "@/utils/card-utils";
 
 import css from "./card-customizations.module.css";

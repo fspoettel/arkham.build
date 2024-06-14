@@ -9,7 +9,7 @@ export function filterDuplicates(card: Card) {
   return (
     !card.hidden && // filter hidden cards (usually backsides)
     !card.alt_art_investigator && // filter novellas && parallel investigators
-    !card.duplicate_of_code // filter revised_code. TODO: we will have to handle revised core.
+    !card.duplicate_of_code // filter revised_code.
   );
 }
 

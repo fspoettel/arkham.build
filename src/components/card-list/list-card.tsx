@@ -13,19 +13,20 @@ import { useState } from "react";
 import { Link } from "wouter";
 
 import SvgParallel from "@/assets/icons/parallel.svg?react";
-import { Card as CardSchema } from "@/store/graphql/types";
+import { Card } from "@/store/graphql/types";
 import { getCardColor, hasSkillIcons } from "@/utils/card-utils";
 
 import css from "./list-card.module.css";
 
 import { CardIcon } from "../card/card-icon";
 import { CardThumbnail } from "../card/card-thumbnail";
-import { MulticlassIcons } from "../ui/icons/multiclass-icons";
-import { SkillIcons } from "../ui/skill-icons";
+import { ExperienceDots } from "../experience-dots";
+import { MulticlassIcons } from "../icons/multiclass-icons";
+import { SkillIcons } from "../skill-icons";
 import { CardTooltip } from "./card-tooltip";
 
 type Props = {
-  card: CardSchema;
+  card: Card;
 };
 
 export function ListCard({ card }: Props) {
@@ -73,6 +74,13 @@ export function ListCard({ card }: Props) {
           {card.parallel && <SvgParallel />}
           <MulticlassIcons className={css["listcard-multiclass"]} card={card} />
           {hasSkillIcons(card) && <SkillIcons card={card} />}
+
+          {!!card.taboo_set_id && (
+            <span className={clsx(css["listcard-taboo"], "color-taboo")}>
+              {card.taboo_xp && <ExperienceDots xp={card.taboo_xp} />}
+              <i className="icon-tablet icon-layout color-taboo" />
+            </span>
+          )}
           {card.real_subname && (
             <h5 className={css["listcard-subname"]}>{card.real_subname}</h5>
           )}

@@ -10,7 +10,7 @@ import { AppLayout } from "@/components/layouts/app-layout";
 import { CenterLayout } from "@/components/layouts/center-layout";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/store";
-import { selectCardWithRelations } from "@/store/selectors/card-detail";
+import { selectCardWithRelations } from "@/store/selectors/card-view";
 
 import css from "./card-view.module.css";
 
