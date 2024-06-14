@@ -11,10 +11,10 @@ import deckInvestigatorParallelBack from "@/test/fixtures/decks/investigator_par
 import deckInvestigatorParallelBoth from "@/test/fixtures/decks/investigator_parallel_both.json";
 import deckInvestigatorParallelFront from "@/test/fixtures/decks/investigator_parallel_front.json";
 import deckInvestigatorReplacements from "@/test/fixtures/decks/investigator_replacement.json";
+import deckMultiFactionSelected from "@/test/fixtures/decks/multi_faction_select.json";
 import deckXpRequired from "@/test/fixtures/decks/xp_required.json";
 import { getMockStore } from "@/test/get-mock-store";
 
-import type { DeckOption } from "../services/types";
 import type { StoreState } from "../slices";
 import { resolveDeck } from "./deck-resolver";
 
@@ -105,9 +105,51 @@ describe("resolveDeck", () => {
       const { metadata, lookupTables } = store.getState();
       const deck = deckFactionSelected;
       const resolved = resolveDeck(metadata, lookupTables, deck, false);
-      expect(resolved.factionSelect).toMatchObject({
-        selections: ["survivor"],
-      });
+      expect(resolved.selections).toMatchInlineSnapshot(`
+        {
+          "Secondary Class": {
+            "options": [
+              "guardian",
+              "seeker",
+              "survivor",
+            ],
+            "type": "faction",
+            "value": "survivor",
+          },
+        }
+      `);
+    });
+
+    it("parses multi faction selects if defined", () => {
+      const { metadata, lookupTables } = store.getState();
+      const deck = deckMultiFactionSelected;
+      const resolved = resolveDeck(metadata, lookupTables, deck, false);
+      expect(resolved.selections).toMatchInlineSnapshot(`
+        {
+          "faction_1": {
+            "options": [
+              "guardian",
+              "seeker",
+              "rogue",
+              "mystic",
+              "survivor",
+            ],
+            "type": "faction",
+            "value": "guardian",
+          },
+          "faction_2": {
+            "options": [
+              "guardian",
+              "seeker",
+              "rogue",
+              "mystic",
+              "survivor",
+            ],
+            "type": "faction",
+            "value": "survivor",
+          },
+        }
+      `);
     });
 
     it("considers parallel back for deckbuilding", () => {
@@ -117,15 +159,63 @@ describe("resolveDeck", () => {
       const deck = deckInvestigatorParallelBack;
       const resolved = resolveDeck(metadata, lookupTables, deck, true);
 
-      const optionSelect = resolved.investigatorBack.card.deck_options?.find(
-        (x) => x.option_select,
-      ) as DeckOption;
-
-      expect(resolved.optionSelect).toMatchObject({
-        name: optionSelect.name,
-        selection: optionSelect.option_select?.find((x) => x.id === "both")
-          ?.name,
-      });
+      expect(resolved.selections).toMatchInlineSnapshot(`
+        {
+          "Trait Choice": {
+            "options": [
+              {
+                "id": "blessed",
+                "level": {
+                  "max": 5,
+                  "min": 0,
+                },
+                "name": "Blessed",
+                "trait": [
+                  "blessed",
+                ],
+              },
+              {
+                "id": "cursed",
+                "level": {
+                  "max": 5,
+                  "min": 0,
+                },
+                "name": "Cursed",
+                "trait": [
+                  "cursed",
+                ],
+              },
+              {
+                "id": "both",
+                "level": {
+                  "max": 5,
+                  "min": 0,
+                },
+                "name": "Blessed and Cursed",
+                "size": 5,
+                "trait": [
+                  "blessed",
+                  "cursed",
+                ],
+              },
+            ],
+            "type": "option",
+            "value": {
+              "id": "both",
+              "level": {
+                "max": 5,
+                "min": 0,
+              },
+              "name": "Blessed and Cursed",
+              "size": 5,
+              "trait": [
+                "blessed",
+                "cursed",
+              ],
+            },
+          },
+        }
+      `);
     });
   });
 

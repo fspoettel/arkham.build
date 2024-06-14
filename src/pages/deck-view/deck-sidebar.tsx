@@ -77,40 +77,34 @@ export function DeckSidebar({ className, deck }: Props) {
             </p>
           </li>
 
-          {deck.factionSelect && (
-            <li className={clsx(css["detail"], css["full"])}>
-              <div className={css["detail-label"]}>
-                <SvgCardOutlineBold /> Secondary class choice(s)
-              </div>
-              <p className={css["detail-value"]}>
-                {deck.factionSelect.selections?.length
-                  ? deck.factionSelect.selections?.map((selection) =>
-                      selection ? (
-                        <span key={selection}>
-                          <FactionIcon code={selection} />
-                          {capitalize(selection)}
-                        </span>
-                      ) : (
-                        "None"
-                      ),
-                    )
-                  : "None"}
-              </p>
-            </li>
-          )}
-
-          {deck.optionSelect && (
-            <li className={clsx(css["detail"], css["full"])}>
-              <div className={css["detail-label"]}>
-                <SvgCardOutlineBold /> {deck.optionSelect.name}
-              </div>
-              <p className={css["detail-value"]}>
-                {deck.optionSelect.selection
-                  ? capitalize(deck.optionSelect.selection)
-                  : "None"}
-              </p>
-            </li>
-          )}
+          {!!deck.selections &&
+            Object.entries(deck.selections).map(([key, selection]) => (
+              <li key={key} className={css["detail"]}>
+                <div className={css["detail-label"]}>
+                  <SvgCardOutlineBold /> {capitalize(key)}
+                </div>
+                {selection.type === "deckSize" && (
+                  <p className={css["detail-value"]}>{selection.value}</p>
+                )}
+                {selection.type === "faction" && (
+                  <p className={css["detail-value"]}>
+                    {selection.value ? (
+                      <span>
+                        <FactionIcon code={selection.value} />
+                        {capitalize(selection.value)}
+                      </span>
+                    ) : (
+                      "None"
+                    )}
+                  </p>
+                )}
+                {selection.type === "option" && (
+                  <p className={css["detail-value"]}>
+                    {selection.value?.name ?? "None"}
+                  </p>
+                )}
+              </li>
+            ))}
         </ul>
       </div>
     </div>

@@ -13,6 +13,8 @@ import type {
   DeckMeta,
   ResolvedCard,
   ResolvedDeck,
+  Selection,
+  Selections,
 } from "./types";
 
 export function resolveDeck<
@@ -78,11 +80,10 @@ export function resolveDeck<
     cards,
     customizations,
     extraSlots,
-    factionSelect: getFactionSelect(investigatorBack, deckMeta),
     investigatorBack,
     investigatorFront,
     metaParsed: deckMeta,
-    optionSelect: getOptionSelect(investigatorBack, deckMeta),
+    selections: getSelections(investigatorBack, deckMeta),
     sideSlots: Array.isArray(deck.sideSlots) ? null : deck.sideSlots,
     stats: {
       deckSize,
@@ -229,38 +230,53 @@ export function isSpecialCard(
   return !!isSpecial || !!(card.permanent && !ignorePermanent);
 }
 
-function getFactionSelect(investigator: CardWithRelations, deckMeta: DeckMeta) {
-  const factionSelects = investigator.card.deck_options?.filter(
-    (x) => x.faction_select,
-  );
+function getSelections(
+  investigator: CardWithRelations,
+  deckMeta: DeckMeta,
+): Selections | undefined {
+  const selections = investigator.card.deck_options?.reduce<Selections>(
+    (acc, option) => {
+      const key = option.id ?? option.name;
+      if (!key) return acc;
 
-  return factionSelects?.length
-    ? {
-        options: [], // TODO: implement.
-        selections: factionSelects.map((s) => {
-          if (s.id === "faction_1") return deckMeta.faction_1;
-          if (s.id === "faction_2") return deckMeta.faction_2;
-          return deckMeta.faction_selected;
-        }),
+      let selection: Selection | undefined;
+
+      if (option.deck_size_select) {
+        selection = {
+          options: Array.isArray(option.deck_size_select)
+            ? option.deck_size_select
+            : [option.deck_size_select],
+          type: "deckSize",
+          value: deckMeta.deck_size_selected
+            ? Number.parseInt(deckMeta.deck_size_selected, 10)
+            : 30,
+        };
+      } else if (option.faction_select) {
+        selection = {
+          options: option.faction_select,
+          type: "faction",
+          value:
+            (option.id
+              ? deckMeta[option.id as keyof DeckMeta]
+              : deckMeta.faction_selected) ?? undefined,
+        };
+      } else if (option.option_select) {
+        selection = {
+          options: option.option_select,
+          type: "option",
+          value: option.option_select.find(
+            (x) => x.id === deckMeta.option_selected,
+          ),
+        };
       }
-    : undefined;
-}
 
-function getOptionSelect(investigator: CardWithRelations, deckMeta: DeckMeta) {
-  const optionSelectType = investigator.card.deck_options?.find(
-    (x) => x.option_select,
-  );
-  if (!optionSelectType?.name) return undefined;
-
-  const selection = optionSelectType.option_select?.find(
-    (x) => x.id === deckMeta.option_selected,
+      if (selection) acc[key] = selection;
+      return acc;
+    },
+    {},
   );
 
-  return {
-    name: optionSelectType.name,
-    options: [], // TODO: implement.
-    selection: selection?.name,
-  };
+  return selections;
 }
 
 function getExtraSlots(deckMeta: DeckMeta) {

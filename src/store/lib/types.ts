@@ -2,6 +2,7 @@ import type {
   Card,
   Cycle,
   EncounterSet,
+  OptionSelect,
   Pack,
   SubType,
   TabooSet,
@@ -65,6 +66,29 @@ export type DeckMeta = {
   extra_deck?: string;
 };
 
+export type DeckSizeSelection = {
+  type: "deckSize";
+  value: number;
+  options: number[];
+};
+
+export type FactionSelection = {
+  type: "faction";
+  value?: string;
+  options: string[];
+};
+
+export type OptionSelection = {
+  type: "option";
+  value?: OptionSelect;
+  options: OptionSelect[];
+};
+
+export type Selection = OptionSelection | FactionSelection | DeckSizeSelection;
+
+// selections, keyed by their `id`, or if not present their `name`.
+export type Selections = Record<string, Selection>;
+
 export type ResolvedDeck<T extends ResolvedCard | CardWithRelations> = Omit<
   Deck,
   "sideSlots"
@@ -80,21 +104,13 @@ export type ResolvedDeck<T extends ResolvedCard | CardWithRelations> = Omit<
     ignoreDeckLimitSlots: Record<string, T>;
     extraSlots: Record<string, T>; // used by parallel jim.
   };
-  factionSelect?: {
-    options: string[];
-    selections: (string | undefined)[];
-  };
   investigatorFront: ResolvedCard; // does not track relations.
   investigatorBack: ResolvedCard; // does not track relations.
-  optionSelect?: {
-    options: string[];
-    name: string;
-    selection?: string;
-  };
   stats: {
     xpRequired: number;
     deckSize: number;
     deckSizeTotal: number;
   };
+  selections?: Selections;
   tabooSet?: TabooSet;
 };

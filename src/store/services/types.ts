@@ -8,6 +8,14 @@ export type DeckRequirements = {
   size: number;
 };
 
+export type OptionSelect = {
+  name: string;
+  id: string;
+  size?: number;
+  level: { min: number; max: number };
+  trait: string[];
+};
+
 export type DeckOption = {
   // => Lola Hayes
   atleast?: {
@@ -43,13 +51,7 @@ export type DeckOption = {
   // => Suzie
   permanent?: boolean;
   // => Wendy (Parallel)
-  option_select?: {
-    name: string;
-    id: string;
-    size?: number;
-    level: { min: number; max: number };
-    trait: string[];
-  }[];
+  option_select?: OptionSelect[];
   // => Carolyn / Vincent
   tag?: string[];
   // => Allesandra
