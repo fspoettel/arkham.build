@@ -1,0 +1,14 @@
+.quantity-input {
+  display: inline-flex;
+  gap: 0.125rem;
+}
+
+.quantity-input-value {
+  font-size: var(--text-xs);
+  font-family: var(--font-family-ui);
+  line-height: 1;
+  border-radius: var(--rounded);
+  border: 1px solid var(--nord-1);
+  padding: 0.125rem 0.25rem;
+  user-select: none;
+}

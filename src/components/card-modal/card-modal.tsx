@@ -14,12 +14,15 @@ import { CardCustomizations } from "../card/customizations/card-customizations";
 import { CardCustomizationsEdit } from "../card/customizations/card-customizations-edit";
 import { Button } from "../ui/button";
 import { useDialogContext } from "../ui/dialog";
+import { CardModalQuantities } from "./card-modal-quantities";
 
 type Props = {
+  canEdit?: boolean;
+  canShowQuantity?: boolean;
   code: string;
 };
 
-export function CardModal({ code }: Props) {
+export function CardModal({ canEdit, canShowQuantity, code }: Props) {
   const actionRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
   const modalContext = useDialogContext();
@@ -52,6 +55,25 @@ export function CardModal({ code }: Props) {
 
   if (!cardWithRelations) return null;
 
+  const cardNode = (
+    <Card
+      canToggleBackside
+      resolvedCard={cardWithRelations}
+      size={canRenderFull ? "full" : "compact"}
+    >
+      {cardWithRelations.card.customization_options ? (
+        activeDeck ? (
+          <CardCustomizationsEdit
+            activeDeck={activeDeck}
+            card={cardWithRelations.card}
+          />
+        ) : (
+          <CardCustomizations card={cardWithRelations.card} />
+        )
+      ) : undefined}
+    </Card>
+  );
+
   return (
     <div
       className={css["cardmodal"]}
@@ -76,23 +98,19 @@ export function CardModal({ code }: Props) {
             <Cross2Icon />
           </Button>
         </div>
-
-        <Card
-          canToggleBackside
-          resolvedCard={cardWithRelations}
-          size={canRenderFull ? "full" : "compact"}
-        >
-          {cardWithRelations.card.customization_options ? (
-            activeDeck ? (
-              <CardCustomizationsEdit
-                activeDeck={activeDeck}
+        {canShowQuantity ? (
+          <div className={css["cardmodal-row"]}>
+            {cardNode}
+            {canShowQuantity && (
+              <CardModalQuantities
+                canEdit={canEdit}
                 card={cardWithRelations.card}
               />
-            ) : (
-              <CardCustomizations card={cardWithRelations.card} />
-            )
-          ) : undefined}
-        </Card>
+            )}
+          </div>
+        ) : (
+          cardNode
+        )}
       </div>
     </div>
   );

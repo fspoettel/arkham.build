@@ -1,4 +1,3 @@
-import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
 import type { ElementType, ReactNode } from "react";
 import { useCallback } from "react";
@@ -16,14 +15,15 @@ import { ExperienceDots } from "../experience-dots";
 import { MulticlassIcons } from "../icons/multiclass-icons";
 import { SkillIcons } from "../skill-icons";
 import { SkillIconsInvestigator } from "../skill-icons-investigator";
-import { Button } from "../ui/button";
 import { useDialogContextUnchecked } from "../ui/dialog";
+import { QuantityInput } from "../ui/quantity-input";
+import { QuantityOutput } from "../ui/quantity-output";
 
 export type Props = {
   as?: "li" | "div";
   card: Card;
   canEdit?: boolean;
-  canIndicateQuantity?: boolean;
+  canIndicateRemoval?: boolean;
   canOpenModal?: boolean;
   canShowQuantity?: boolean;
   canShowInvestigatorIcons?: boolean;
@@ -47,7 +47,7 @@ export function ListCardInner({
   as = "div",
   card,
   canEdit,
-  canIndicateQuantity,
+  canIndicateRemoval,
   canOpenModal,
   canShowQuantity,
   canShowSubname = true,
@@ -70,13 +70,12 @@ export function ListCardInner({
   const colorCls = getCardColor(card);
   const Element = as as ElementType;
 
-  const decrementCardQuantity = useCallback(() => {
-    changeCardQuantity(card.code, -1);
-  }, [changeCardQuantity, card.code]);
-
-  const incrementCardQuantity = useCallback(() => {
-    changeCardQuantity(card.code, 1);
-  }, [changeCardQuantity, card.code]);
+  const onQuantityChange = useCallback(
+    (val: number) => {
+      changeCardQuantity(card.code, val);
+    },
+    [changeCardQuantity, card.code],
+  );
 
   const openModal = useCallback(() => {
     if (canOpenModal && modalContext) modalContext.setOpen(true);
@@ -90,40 +89,21 @@ export function ListCardInner({
         size && css[size],
         forbidden && css["forbidden"],
         className,
-        canIndicateQuantity && quantity === 0 && css["removed"],
+        canIndicateRemoval && quantity === 0 && css["removed"],
       )}
     >
       {canShowQuantity && (
-        <div className={css["listcard-quantity-row"]}>
+        <>
           {canEdit ? (
-            <div className={css["listcard-quantity-input"]}>
-              <Button
-                onClick={decrementCardQuantity}
-                disabled={quantity === 0}
-                variant="bare"
-                size="sm"
-              >
-                <MinusIcon />
-              </Button>
-              <strong className={css["listcard-quantity"]}>
-                {quantity ?? 0}
-              </strong>
-              <Button
-                onClick={incrementCardQuantity}
-                disabled={(quantity ?? 0) >= (card.deck_limit || card.quantity)}
-                variant="bare"
-                size="sm"
-              >
-                <PlusIcon />
-              </Button>
-            </div>
+            <QuantityInput
+              limit={card.deck_limit ?? card.quantity}
+              onValueChange={onQuantityChange}
+              value={quantity ?? 0}
+            />
           ) : (
-            <>
-              <strong className={css["listcard-quantity"]}>{quantity}</strong>
-              <span className={css["listcard-quantity-x"]}>×</span>
-            </>
+            <QuantityOutput value={quantity} />
           )}
-        </div>
+        </>
       )}
 
       <figure className={css["listcard-inner"]} ref={figureRef}>

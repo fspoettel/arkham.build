@@ -21,7 +21,7 @@ type Props = {
   tooltip?: React.ReactNode;
 } & Omit<ListCardInnerProps, "onToggleModal" | "figureRef" | "referenceProps">;
 
-export function ListCard({ card, tooltip, ...rest }: Props) {
+export function ListCard({ card, tooltip, canShowQuantity, ...rest }: Props) {
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
   const restTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
@@ -78,12 +78,17 @@ export function ListCard({ card, tooltip, ...rest }: Props) {
         <ListCardInner
           {...rest}
           canOpenModal
+          canShowQuantity={canShowQuantity}
           card={card}
           referenceProps={referenceProps}
           figureRef={refs.setReference}
         />
         <DialogContent>
-          <CardModal code={card.code} />,
+          <CardModal
+            canEdit={rest.canEdit}
+            canShowQuantity={canShowQuantity}
+            code={card.code}
+          />
         </DialogContent>
       </Dialog>
       {tooltipOpen && (

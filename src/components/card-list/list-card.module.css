@@ -17,17 +17,6 @@
   }
 }
 
-.listcard-quantity-row {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-}
-
-.listcard-quantity-x {
-  color: color-mix(in srgb, var(--nord-3) 80%, var(--nord-4) 20%);
-}
-
 .listcard-inner {
   display: flex;
   align-items: center;
@@ -106,21 +95,6 @@
 
 .listcard-thumbnail {
   width: var(--card-image-height);
-}
-
-.listcard-quantity {
-  font-size: var(--text-xs);
-  font-family: var(--font-family-ui);
-  line-height: 1;
-  border-radius: var(--rounded);
-  border: 1px solid var(--nord-1);
-  padding: 0.125rem 0.25rem;
-  user-select: none;
-}
-
-.listcard-quantity-input {
-  display: flex;
-  gap: 0.125rem;
 }
 
 .listcard.sm {

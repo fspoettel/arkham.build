@@ -10,7 +10,7 @@ import type { DeckMeta, ResolvedCard, ResolvedDeck } from "../lib/types";
 import type { StoreState } from "../slices";
 import type { Deck } from "../slices/data/types";
 import { getSlotForTab } from "../slices/deck-view";
-import type { DeckViewState, EditState } from "../slices/deck-view/types";
+import type { DeckViewState, EditState, Slot } from "../slices/deck-view/types";
 
 export const selectLocalDecks = createSelector(
   (state: StoreState) => state.data,
@@ -161,18 +161,24 @@ export const selectForbiddenCards = createSelector(
   },
 );
 
-export function selectCardQuantities(state: StoreState) {
+export function selectCardQuantitiesForSlot(state: StoreState, slot: Slot) {
   if (!state.deckView) return undefined;
 
   const activeDeck = selectActiveDeck(state);
   if (!activeDeck) return undefined;
+
+  return activeDeck[slot];
+}
+
+export function selectCardQuantities(state: StoreState) {
+  if (!state.deckView) return undefined;
 
   const slot =
     state.deckView.mode === "view"
       ? "slots"
       : getSlotForTab(state.deckView.activeTab);
 
-  return activeDeck[slot];
+  return selectCardQuantitiesForSlot(state, slot);
 }
 
 export const selectCurrentTab = (state: StoreState) => {

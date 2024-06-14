@@ -103,7 +103,7 @@ export function DecklistGroup({
             as="li"
             canEdit={canEdit}
             canShowQuantity
-            canIndicateQuantity
+            canIndicateRemoval
             card={card}
             forbidden={forbiddenCards.includes(card.code)}
             key={card.code}

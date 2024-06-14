@@ -25,3 +25,29 @@
   justify-content: space-between;
   padding-bottom: 1rem;
 }
+
+.cardmodal-row {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.cardmodal-quantities {
+  flex: 0 0 7rem;
+}
+
+.cardmodal-quantities > * + * {
+  margin-top: 1rem;
+}
+
+.cardmodal-quantity {
+  background: var(--nord-1);
+  padding: 0.5rem;
+  border-radius: var(--rounded);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.cardmodal-quantity > * + * {
+  margin-top: 0.5rem;
+}

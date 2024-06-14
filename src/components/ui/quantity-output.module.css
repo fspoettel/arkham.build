@@ -1,0 +1,19 @@
+.quantity-output {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.quantity-output-value {
+  font-size: var(--text-xs);
+  font-family: var(--font-family-ui);
+  line-height: 1;
+  border-radius: var(--rounded);
+  border: 1px solid var(--nord-1);
+  padding: 0.125rem 0.25rem;
+  user-select: none;
+}
+
+.quantity-output-x {
+  color: color-mix(in srgb, var(--nord-3) 80%, var(--nord-4) 20%);
+}
