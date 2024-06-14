@@ -51,6 +51,7 @@ export function CardModal({ code }: Props) {
         activeDeck ? (
           <CardCustomizationsEdit
             activeDeck={activeDeck}
+            canEdit={canEdit}
             card={cardWithRelations.card}
           />
         ) : (
