@@ -1,7 +1,6 @@
+import { File, FileCheck, FileWarning } from "lucide-react";
 import { useCallback } from "react";
 
-import SvgOwned from "@/assets/icons/card_owned.svg?react";
-import SvgUnowned from "@/assets/icons/card_unowned.svg?react";
 import { useStore } from "@/store";
 import {
   selectActiveCardType,
@@ -50,13 +49,13 @@ export function OwnershipFilter() {
     >
       <RadioButtonGroup icons onValueChange={onValueChange} value={value ?? ""}>
         <RadioButtonGroupItem title="All" value="all">
-          <i className="icon-cards" />
+          <File />
         </RadioButtonGroupItem>
         <RadioButtonGroupItem title="Owned" value="owned">
-          <SvgOwned className="icon-current" />
+          <FileCheck />
         </RadioButtonGroupItem>
         <RadioButtonGroupItem title="Unavailable" value="unowned">
-          <SvgUnowned className="icon-current" />
+          <FileWarning />
         </RadioButtonGroupItem>
       </RadioButtonGroup>
     </FilterContainer>

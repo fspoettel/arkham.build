@@ -1,5 +1,6 @@
 import type { ReferenceType } from "@floating-ui/react";
 import clsx from "clsx";
+import { FileWarning } from "lucide-react";
 import type { ComponentProps, ElementType, ReactNode } from "react";
 import { useCallback } from "react";
 
@@ -20,6 +21,7 @@ import { SkillIcons } from "../skill-icons";
 import { SkillIconsInvestigator } from "../skill-icons-investigator";
 import { QuantityInput } from "../ui/quantity-input";
 import { QuantityOutput } from "../ui/quantity-output";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export type Props = {
   as?: "li" | "div";
@@ -33,7 +35,7 @@ export type Props = {
   figureRef?: (node: ReferenceType | null) => void;
   forbidden?: boolean;
   omitBorders?: boolean;
-  owned?: boolean;
+  owned?: number;
   size?: "sm";
   onToggleModal?: () => void;
   referenceProps?: ComponentProps<"div">;
@@ -62,6 +64,7 @@ export function ListCardInner({
   const modalContext = useCardModalContext();
 
   const quantity = quantities ? quantities[card.code] ?? 0 : 0;
+  const ownedCount = owned ?? 0;
 
   const canEdit = useStore(selectCanEditDeck);
   const changeCardQuantity = useStore((state) => state.changeCardQuantity);
@@ -125,18 +128,27 @@ export function ListCardInner({
         )}
 
         <figcaption className={css["listcard-caption"]}>
-          <h4
-            className={clsx(css["listcard-name"], colorCls)}
-            {...referenceProps}
-          >
-            <button onClick={openModal} tabIndex={-1}>
-              {card.real_name}
-            </button>
-
-            {canShowOwnership && !owned && (
-              <span className={css["listcard-ownership"]}>?</span>
+          <div className={clsx(css["listcard-name-row"], colorCls)}>
+            <h4 className={css["listcard-name"]} {...referenceProps}>
+              <button onClick={openModal} tabIndex={-1}>
+                {card.real_name}
+              </button>
+            </h4>
+            {canShowOwnership && ownedCount < quantity && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span className={css["listcard-ownership"]}>
+                    <FileWarning />
+                  </span>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>
+                    Unavailable: {quantity - ownedCount}/{quantity}
+                  </p>
+                </TooltipContent>
+              </Tooltip>
             )}
-          </h4>
+          </div>
 
           <div className={css["listcard-meta"]}>
             {!showInvestigatorIcons && card.parallel && (

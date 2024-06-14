@@ -32,6 +32,12 @@
   flex: 1 1 auto;
 }
 
+.listcard-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
 .listcard-name {
   & * {
     background: none;
@@ -144,7 +150,6 @@
 }
 
 .listcard-ownership {
-  margin-left: 0.375rem;
   color: var(--nord-4);
-  font-size: var(--text-lg);
+  font-weight: 700;
 }

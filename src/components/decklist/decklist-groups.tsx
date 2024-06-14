@@ -123,7 +123,7 @@ export function DecklistGroup({
             }
             key={card.code}
             omitBorders
-            owned={ownershipCounts[card.code] >= (quantities?.[card.code] ?? 0)}
+            owned={ownershipCounts[card.code]}
             quantities={quantities}
             size="sm"
           />

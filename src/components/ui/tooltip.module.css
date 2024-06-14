@@ -1,0 +1,7 @@
+.tooltip-content {
+  background-color: var(--nord-1);
+  padding: 0.25rem 0.25rem;
+  font-size: var(--text-sm);
+  border-radius: var(--rounded);
+  box-shadow: var(--shadow);
+}
