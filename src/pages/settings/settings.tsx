@@ -3,7 +3,6 @@ import { useCallback, useRef } from "react";
 import { Link } from "wouter";
 
 import { AppLayout } from "@/components/layouts/app-layout";
-import { SettingsLayout } from "@/components/layouts/settings-layout";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import { useStore } from "@/store";
