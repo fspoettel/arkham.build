@@ -48,7 +48,7 @@ export function groupByPlayerCardType(
 export function groupByWeakness(metadata: Metadata): Grouping[] {
   return Object.keys(metadata.subtypes).map((code) => ({
     code: code,
-    name: code === "weakness" ? "Signature Weakness" : "Basic Weakness",
+    name: code === "weakness" ? "Weakness" : "Basic Weakness",
     grouping_type: "subtype",
   }));
 }

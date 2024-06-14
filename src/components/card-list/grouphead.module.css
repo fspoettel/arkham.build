@@ -1,4 +1,4 @@
-.group-header {
+.grouphead {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -8,10 +8,10 @@
   height: 3rem; /* icon height + padding */
 }
 
-.group-header {
+.grouphead {
   font-size: 2rem;
 }
 
-.group-header h3 {
+.grouphead h3 {
   font-size: 1.25rem;
 }

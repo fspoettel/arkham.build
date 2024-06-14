@@ -1,0 +1,33 @@
+.skill-icon_fancy {
+  position: relative;
+  display: block;
+  border-radius: var(--rounded);
+  font-size: 1.5rem;
+
+  &.agility {
+    color: var(--agility);
+  }
+
+  &.combat {
+    color: var(--combat);
+  }
+
+  &.willpower {
+    color: var(--willpower);
+  }
+
+  &.intellect {
+    color: var(--intellect);
+  }
+
+  &.wild {
+    color: var(--wild);
+  }
+}
+
+.skill-icon_fancy-inverted {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--gray-100);
+}

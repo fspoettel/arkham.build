@@ -25,6 +25,7 @@ import {
   filterMythosCards,
   filterTraits,
   filterActions,
+  filterProperties,
 } from "./utils/filtering";
 
 const selectTypeFilter = createSelector(
@@ -70,6 +71,12 @@ const selectActionsFilter = createSelector(
   (actionTable, filterState) => filterActions(filterState, actionTable),
 );
 
+const selectPropertiesFilter = createSelector(
+  (state: StoreState) => state.lookupTables,
+  (state: StoreState) => state.filters[state.filters.cardType].properties,
+  (lookupTables, filterState) => filterProperties(filterState, lookupTables),
+);
+
 const selectPlayerCardFilters = createSelector(
   selectFactionFilter,
   selectLevelFilter,
@@ -79,6 +86,7 @@ const selectPlayerCardFilters = createSelector(
   selectSubtypeFilter,
   selectTraitsFilter,
   selectActionsFilter,
+  selectPropertiesFilter,
   (
     factionFilter,
     levelFilter,
@@ -88,6 +96,7 @@ const selectPlayerCardFilters = createSelector(
     subtypeFilter,
     traitsFilter,
     actionsFilter,
+    propertiesFilter,
   ) => {
     const filters = [
       filterMythosCards,
@@ -99,6 +108,7 @@ const selectPlayerCardFilters = createSelector(
       subtypeFilter,
       traitsFilter,
       actionsFilter,
+      propertiesFilter,
     ];
 
     if (factionFilter) {
@@ -126,6 +136,7 @@ const selectWeaknessFilters = createSelector(
   selectSubtypeFilter,
   selectTraitsFilter,
   selectActionsFilter,
+  selectPropertiesFilter,
   (
     levelFilter,
     costFilter,
@@ -135,6 +146,7 @@ const selectWeaknessFilters = createSelector(
     subtypeFilter,
     traitsFilter,
     actionsFilter,
+    propertiesFilter,
   ) => {
     const filters = [
       filterEncounterCards,
@@ -144,6 +156,7 @@ const selectWeaknessFilters = createSelector(
       subtypeFilter,
       traitsFilter,
       actionsFilter,
+      propertiesFilter,
     ];
 
     if (factionFilter) {
@@ -170,6 +183,7 @@ const selectEncounterFilters = createSelector(
   selectSubtypeFilter,
   selectTraitsFilter,
   selectActionsFilter,
+  selectPropertiesFilter,
   (
     costFilter,
     factionFilter,
@@ -178,6 +192,7 @@ const selectEncounterFilters = createSelector(
     subtypeFilter,
     traitsFilter,
     actionsFilter,
+    propertiesFilter,
   ) => {
     const filters = [
       filterBacksides,
@@ -186,6 +201,7 @@ const selectEncounterFilters = createSelector(
       subtypeFilter,
       traitsFilter,
       actionsFilter,
+      propertiesFilter,
     ];
 
     if (factionFilter) {

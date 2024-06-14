@@ -1,29 +1,74 @@
+import clsx from "clsx";
 import { Card } from "@/store/graphql/types";
-import css from "./skill-icons.module.css";
 import { SKILL_KEYS } from "@/utils/constants";
 import { range } from "@/utils/range";
 import { SkillIcon } from "./icons/skill-icon";
 import { Fragment } from "react";
+import { SkillIconFancy } from "./icons/skill-icon-fancy";
+import { CostIcon } from "./icons/cost-icon";
+
+import css from "./skill-icons.module.css";
 
 type Props = {
+  asEnemy?: boolean;
+  asInvestigator?: boolean;
   card: Card;
+  className?: string;
+  fancy?: boolean;
+  iconClassName?: string;
 };
 
-export function SkillIcons({ card }: Props) {
-  if (card.type_code === "investigator") return null;
+export function SkillIcons({
+  asEnemy,
+  asInvestigator,
+  className,
+  card,
+  fancy,
+  iconClassName,
+}: Props) {
+  if (!asInvestigator && card.type_code === "investigator") return null;
+
+  const Icon = fancy ? SkillIconFancy : SkillIcon;
+
+  const entries: [string, number | undefined][] = asEnemy
+    ? [
+        ["combat", card.enemy_fight],
+        ["health", card.health],
+        ["agility", card.enemy_evade],
+      ]
+    : SKILL_KEYS.reduce(
+        (acc, key) => {
+          if (card[`skill_${key}`])
+            acc.push([key, card[`skill_${key}`] as number]);
+          return acc;
+        },
+        [] as [string, number][],
+      );
+
+  if (!entries.length) return null;
+
+  const isNumbered = asInvestigator || asEnemy;
 
   return (
-    <ol className={css["skill-icons"]}>
-      {SKILL_KEYS.map((key) => {
-        const skillValue = card[`skill_${key}`];
-        if (!skillValue) return null;
+    <ol className={clsx(css["skills"], className)}>
+      {entries.map(([key, val]) => {
         return (
           <Fragment key={key}>
-            {range(0, skillValue).map((i) => (
-              <li key={key + i}>
-                <SkillIcon skill={key} />
+            {isNumbered && (
+              <li
+                className={clsx(css["skill_investigator"], iconClassName)}
+                key={key}
+              >
+                <CostIcon cost={val} />
+                <Icon skill={key} />
               </li>
-            ))}
+            )}
+            {!isNumbered &&
+              range(0, val ?? 0).map((i) => (
+                <li className={iconClassName} key={key + i}>
+                  <Icon skill={key} />
+                </li>
+              ))}
           </Fragment>
         );
       })}

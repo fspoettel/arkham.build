@@ -1,0 +1,22 @@
+.text {
+  padding-left: 1rem;
+  border-left: 2px solid var(--gray-300);
+
+  & > * + * {
+    margin-top: 1em;
+  }
+}
+
+.text p {
+  max-width: 72ch;
+  font-weight: 300;
+}
+
+.text b {
+  color: var(--gray-200);
+  font-weight: 600;
+}
+
+.text br {
+  line-height: 2;
+}

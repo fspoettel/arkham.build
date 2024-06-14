@@ -2,18 +2,29 @@ import { StateCreator } from "zustand";
 import { StoreState } from "..";
 import {
   ACTION_TEXT,
+  REGEX_BONDED,
   REGEX_SKILL_BOOST,
   REGEX_USES,
-  SKILL_KEYS,
 } from "@/utils/constants";
 import { Card } from "@/store/graphql/types";
 import { splitMultiValue } from "@/utils/card-utils";
 import { LookupTable, LookupTables, LookupTablesSlice } from "./types";
 import { CardTypeFilter } from "../filters/types";
+import { Metadata } from "../metadata/types";
 
 export function getInitialLookupTables(): LookupTables {
   return {
-    // => actions.
+    relations: {
+      bound: {},
+      bonded: {},
+      restrictedTo: {},
+      requiredCards: {},
+      parallel: {},
+      parallelCards: {},
+      advanced: {},
+      replacement: {},
+      level: {},
+    },
     actions: {},
     cost: {},
     encounterCode: {},
@@ -24,12 +35,10 @@ export function getInitialLookupTables(): LookupTables {
     health: {},
     properties: {
       fast: {},
-      bonded: {},
       multislot: {},
       multiclass: {},
       seal: {},
     },
-    skillIcons: {},
     skillBoosts: {},
     slots: {},
     sanity: {},
@@ -52,6 +61,18 @@ export const createLookupTablesSlice: StateCreator<
 > = () => ({
   lookupTables: getInitialLookupTables(),
 });
+
+function setInLookupTable<T extends string | number>(
+  code: keyof LookupTable<T>[T] | string,
+  index: LookupTable<T>,
+  key: T,
+) {
+  if (index[key]) {
+    index[key][code] = 1;
+  } else {
+    index[key] = { [code]: 1 as const };
+  }
+}
 
 export function addCardToLookupTables(
   tables: LookupTables,
@@ -79,9 +100,7 @@ export function addCardToLookupTables(
     indexBySanity(tables, card);
 
     indexByMulticlass(tables, card);
-    indexBySkillIcons(tables, card);
 
-    indexByBonded(tables, card);
     indexBySeal(tables, card);
 
     if (card.type_code === "asset") {
@@ -134,7 +153,7 @@ function indexByTraits(tables: LookupTables, card: Card) {
     }
   });
 }
-
+``;
 function indexByActions(tables: LookupTables, card: Card) {
   // add card to action tables.
   Object.entries(ACTION_TEXT).forEach(([key, value]) => {
@@ -144,11 +163,11 @@ function indexByActions(tables: LookupTables, card: Card) {
   });
 }
 
-// TODO: handle edge cases ("as fast as you can")
+// TODO: use a regex.
 function indexByFast(tables: LookupTables, card: Card) {
   if (
-    card?.real_text?.startsWith("Fast.") ||
-    card?.real_text?.includes("fast")
+    card?.real_text?.includes("Fast.") ||
+    card.real_text?.includes("gains fast.")
   ) {
     setInLookupTable(card.code, tables.properties, "fast");
   }
@@ -160,16 +179,6 @@ function indexByCost(tables: LookupTables, card: Card) {
 
 function indexByLevel(tables: LookupTables, card: Card) {
   if (card.xp) setInLookupTable(card.code, tables.level, card.xp);
-}
-
-function indexBySkillIcons(tables: LookupTables, card: Card) {
-  SKILL_KEYS.forEach((key) => {
-    const val = card[`skill_${key}`];
-    if (val && card.type_code !== "investigator") {
-      setInLookupTable(card.code, tables.skillIcons, key);
-      if (val > 1) setInLookupTable(card.code, tables.skillIcons, "2+");
-    }
-  });
 }
 
 function indexByMulticlass(tables: LookupTables, card: Card) {
@@ -191,14 +200,12 @@ function indexBySanity(tables: LookupTables, card: Card) {
   if (card.sanity) setInLookupTable(card.code, tables.sanity, card.sanity);
 }
 
-function indexByBonded(tables: LookupTables, card: Card) {
-  if (card?.real_text?.startsWith("Bonded")) {
-    setInLookupTable(card.code, tables.properties, "bonded");
-  }
-}
-
+// TODO: use a regex.
 function indexBySeal(tables: LookupTables, card: Card) {
-  if (card?.real_text?.includes("Seal (")) {
+  if (
+    card?.real_text?.includes(" seal ") ||
+    card.real_text?.includes("Seal (")
+  ) {
     setInLookupTable(card.code, tables.properties, "seal");
   }
 }
@@ -245,54 +252,106 @@ function sortedByName(tables: LookupTables, card: Card, i: number) {
   tables.sort.alphabetical[card.code] = i;
 }
 
-function setInLookupTable<T extends string | number>(
-  code: keyof LookupTable<T>[T] | string,
-  index: LookupTable<T>,
-  key: T,
-) {
-  if (index[key]) {
-    index[key][code] = 1;
-  } else {
-    index[key] = { [code]: 1 as const };
+export function createRelations(metadata: Metadata, tables: LookupTables) {
+  console.time("create_relations");
+  const cards = Object.values(metadata.cards);
+
+  const bonded: Record<string, string[]> = {};
+  const upgrades: Record<
+    string,
+    { code: string; subname?: string; xp: number }[]
+  > = {};
+
+  // first pass: identify target cards.
+  for (const card of cards) {
+    if (card.xp && card.xp >= 0) {
+      const upgrade = {
+        code: card.code,
+        subname: card.real_subname,
+        xp: card.xp,
+      };
+
+      if (!upgrades[card.real_name]) {
+        upgrades[card.real_name] = [upgrade];
+      } else {
+        upgrades[card.real_name].push(upgrade);
+      }
+    }
+
+    const match = card.real_text?.match(REGEX_BONDED);
+
+    if (match && match.length > 0) {
+      if (!bonded[match[1]]) {
+        bonded[match[1]] = [card.code];
+      } else {
+        bonded[match[1]].push(card.code);
+      }
+    }
   }
+
+  // second pass: construct lookup tables.
+  for (const card of cards) {
+    if (card.deck_requirements?.card) {
+      for (const code of Object.keys(card.deck_requirements.card)) {
+        setInLookupTable(code, tables.relations.requiredCards, card.code);
+      }
+    }
+
+    if (card.restrictions?.investigator) {
+      // Can have multiple entries (alternate arts).
+      for (const key of Object.keys(card.restrictions.investigator)) {
+        setInLookupTable(key, tables.relations.restrictedTo, card.code);
+
+        if (card.real_text?.includes("Advanced.")) {
+          setInLookupTable(card.code, tables.relations.advanced, key);
+        } else if (card.real_text?.includes("Replacement.")) {
+          setInLookupTable(card.code, tables.relations.replacement, key);
+        } else {
+          if (card.parallel) {
+            setInLookupTable(card.code, tables.relations.parallelCards, key);
+          } else {
+            setInLookupTable(card.code, tables.relations.requiredCards, key);
+          }
+        }
+      }
+    }
+
+    if (card.alt_art_investigator && card.alternate_of_code) {
+      const pack = metadata.packs[card.pack_code];
+      const cycle = metadata.cycles[pack.cycle_code];
+      if (cycle.code === "parallel") {
+        setInLookupTable(
+          card.code,
+          tables.relations.parallel,
+          card.alternate_of_code,
+        );
+      }
+    }
+
+    if (upgrades[card.real_name] && card.xp != null) {
+      for (const upgrade of upgrades[card.real_name]) {
+        if (
+          card.code !== upgrade.code &&
+          (!card.real_subname ||
+            card.xp !== upgrade.xp ||
+            upgrade.subname !== card.real_subname)
+        ) {
+          setInLookupTable(upgrade.code, tables.relations.level, card.code);
+          setInLookupTable(card.code, tables.relations.level, upgrade.code);
+        }
+      }
+    }
+
+    if (!card.linked && bonded[card.real_name]) {
+      for (const bondedCode of bonded[card.real_name]) {
+        // beware the great hank samson.
+        if (bondedCode !== card.code && !card.real_text?.startsWith("Bonded")) {
+          setInLookupTable(bondedCode, tables.relations.bound, card.code);
+          setInLookupTable(card.code, tables.relations.bonded, bondedCode);
+        }
+      }
+    }
+  }
+
+  console.timeEnd("create_relations");
 }
-
-// function indexByProperties(tables: tables, card: Card) {
-//   if (card.exile) {
-//     setInLookupTable(tables, "properties", card.code, "exile");
-//   }
-
-//   if (card.heals_damage) {
-//     setInLookupTable(tables, "properties", card.code, "heals_damage");
-//   }
-
-//   if (card.heals_horror) {
-//     setInLookupTable(tables, "properties", card.code, "heals_horror");
-//   }
-
-//   if (card.exceptional) {
-//     setInLookupTable(tables, "properties", card.code, "exceptional");
-//   }
-
-//   if (card.permanent) {
-//     setInLookupTable(tables, "properties", card.code, "permanent");
-//   }
-
-//   if (card.myriad) {
-//     setInLookupTable(tables, "properties", card.code, "myriad");
-//   }
-
-//   if (card.customization_options) {
-//     setInLookupTable(tables, "properties", card.code, "customizable");
-//   }
-
-//   if (card.victory) {
-//     setInLookupTable(tables, "properties", card.code, "victory");
-//   }
-// }
-
-// function indexByUnique(tables: tables, card: Card) {
-//   if (card.is_unique) {
-//     setInLookupTable(tables, "properties", card.code, "is_unique");
-//   }
-// }

@@ -7,23 +7,24 @@ import clsx from "clsx";
 type Props = {
   className?: string;
   card: Card;
+  inverted?: boolean;
 };
 
-export function MulticlassIcons({ className, card }: Props) {
+export function MulticlassIcons({ className, card, inverted }: Props) {
   if (!card.faction2_code) return null;
 
   return (
     <ol className={clsx(css["container"], className)}>
       <li>
         <FactionIcon
-          className={`color-${card.faction_code}`}
+          className={inverted ? undefined : `color-${card.faction_code}`}
           code={card.faction_code}
         />
       </li>
       {card.faction2_code && (
         <li>
           <FactionIcon
-            className={`color-${card.faction2_code}`}
+            className={inverted ? undefined : `color-${card.faction2_code}`}
             code={card.faction2_code}
           />
         </li>
@@ -31,7 +32,7 @@ export function MulticlassIcons({ className, card }: Props) {
       {card.faction3_code && (
         <li>
           <FactionIcon
-            className={`color-${card.faction3_code}`}
+            className={inverted ? undefined : `color-${card.faction3_code}`}
             code={card.faction3_code}
           />
         </li>

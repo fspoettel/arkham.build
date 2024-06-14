@@ -1,0 +1,19 @@
+.slots {
+  display: flex;
+  flex-flow: row nowrap;
+  list-style: none;
+  gap: 0.25rem;
+
+  li {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    background: var(--gray-300);
+    color: var(--gray-800);
+    font-size: 1.5rem;
+    border-radius: 50%;
+    border: 2px solid var(--gray-800);
+  }
+}

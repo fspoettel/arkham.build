@@ -170,3 +170,6 @@ export const selectActiveActions = createSelector(
       ),
     ),
 );
+
+export const selectActiveProperties = (state: StoreState) =>
+  state.filters[state.filters.cardType].properties;

@@ -1,0 +1,26 @@
+.health,
+.sanity {
+  position: relative;
+  display: inline-block;
+}
+
+.health {
+  color: var(--health);
+}
+
+.sanity {
+  color: var(--sanity);
+}
+
+.icon-base {
+  font-size: 2rem;
+}
+
+.icon-cost {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: var(--gray-50);
+  transform: translateX(-50%) translateY(calc(-50% - 0.125rem));
+  font-size: 1.125rem;
+}

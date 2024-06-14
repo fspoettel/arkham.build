@@ -2,8 +2,6 @@
   --font-family-content: "Alegreya Variable", serif;
   --font-family-ui: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  --font-family-monospace: "SFMono-Regular", Consolas, "Liberation Mono", Menlo,
-    Courier, monospace;
 
   --gray-50: #fffbf2;
   --gray-100: #f5f0e1;
@@ -19,17 +17,23 @@
   --gray-950: #1e2832;
 
   --color-background: var(--gray-900);
-  --color-text: var(--gray-400);
+  --color-text: var(--gray-300);
 
-  --color-accent: var(--gray-400);
+  --color-accent: var(--gray-300);
   --color-border: rgba(255, 255, 255, 0.125);
   --color-focus: var(--gray-200);
 
-  --color-input-text: var(--color-accent);
+  --color-input-text: var(--gray-300);
   --color-input-background: var(--gray-900);
 
   --color-input-background-hover: var(--gray-800);
   --color-input-text-hover: var(--gray-300);
+
+  --willpower: #2c7fc0;
+  --intellect: #7c3c85;
+  --combat: #ae4236;
+  --agility: #14854d;
+  --wild: #8a7d5a;
 
   --guardian: #5cb4fd;
   --mystic: #ba81f2;
@@ -39,6 +43,18 @@
   --multiclass: #e4d083;
   --mythos: var(--gray-100);
   --neutral: var(--gray-200);
+
+  --guardian-dark: #1072c2;
+  --seeker-dark: #db7c07;
+  --rogue-dark: #219428;
+  --mystic-dark: #7554ab;
+  --survivor-dark: #cc3038;
+  --neutral-dark: var(--gray-700);
+  --multiclass-dark: #868600;
+  --mythos-dark: var(--gray-800);
+
+  --health: #ae4236;
+  --sanity: #2c7fc0;
 
   --rounded: 0.25rem;
   --rounded-md: 0.5rem;
@@ -59,11 +75,26 @@
 body {
   font-family: var(--font-family-content);
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 300;
   line-height: 1.5;
   background: var(--color-background);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.25;
+  font-weight: 600;
+}
+
+ol,
+ul {
+  padding: 0;
 }
 
 img,
@@ -77,13 +108,7 @@ svg {
   image-rendering: -webkit-optimize-contrast;
 }
 
-svg {
-  display: block;
-  fill: currentColor;
-  width: 1em;
-  height: 1em;
-}
-
+/* AUDIT */
 input,
 textarea,
 select {
@@ -104,6 +129,7 @@ select {
   max-width: 100%;
 }
 
+/* AUDIT */
 button {
   all: unset;
   cursor: pointer;
@@ -140,15 +166,12 @@ button {
   background: none;
 }
 
-ol,
-ul {
-  padding-left: 0;
+.color-health {
+  color: var(--health);
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+.color-sanity {
+  color: var(--sanity);
 }
 
 .color-guardian {
@@ -181,4 +204,201 @@ ul {
 
 .color-neutral {
   color: var(--neutral);
+}
+
+.background-guardian {
+  background: var(--guardian-dark);
+}
+
+.background-mystic {
+  background: var(--mystic-dark);
+}
+
+.background-rogue {
+  background: var(--rogue-dark);
+}
+
+.background-seeker {
+  background: var(--seeker-dark);
+}
+
+.background-survivor {
+  background: var(--survivor-dark);
+}
+
+.background-multiclass {
+  background: var(--multiclass-dark);
+}
+
+.background-mythos {
+  background: var(--mythos-dark);
+}
+
+.background-neutral {
+  background: var(--neutral-dark);
+}
+
+.border-guardian {
+  border-color: var(--guardian-dark);
+}
+
+.border-mystic {
+  border-color: var(--mystic-dark);
+}
+
+.border-rogue {
+  border-color: var(--rogue-dark);
+}
+
+.border-seeker {
+  border-color: var(--seeker-dark);
+}
+
+.border-survivor {
+  border-color: var(--survivor-dark);
+}
+
+.border-multiclass {
+  border-color: var(--multiclass-dark);
+}
+
+.border-mythos {
+  border-color: var(--mythos-dark);
+}
+
+.border-neutral {
+  border-color: var(--neutral-dark);
+}
+
+.icon-agility {
+  mask: url("./assets/icons/agility.svg");
+}
+
+.icon-combat {
+  mask: url("./assets/icons/combat.svg");
+}
+
+.icon-willpower {
+  mask: url("./assets/icons/willpower.svg");
+}
+
+.icon-wild {
+  mask: url("./assets/icons/wild.svg");
+}
+
+.icon-intellect {
+  mask: url("./assets/icons/intellect.svg");
+}
+
+.icon-action {
+  mask: url("./assets/icons/action.svg");
+}
+
+.icon-elder_sign {
+  mask: url("./assets/icons/elder_sign.svg");
+}
+
+.icon-reaction {
+  mask: url("./assets/icons/reaction.svg");
+}
+
+.icon-free,
+.icon-fast {
+  mask: url("./assets/icons/free.svg");
+}
+
+.icon-skull {
+  mask: url("./assets/icons/skull.svg");
+}
+
+.icon-cultist {
+  mask: url("./assets/icons/cultist.svg");
+}
+
+.icon-tablet {
+  mask: url("./assets/icons/tablet.svg");
+}
+
+.icon-elder_thing {
+  mask: url("./assets/icons/elder_thing.svg");
+}
+
+.icon-auto_fail {
+  mask: url("./assets/icons/auto_fail.svg");
+}
+
+.icon-frost {
+  mask: url("./assets/icons/frost.svg");
+}
+
+.icon-curse {
+  mask: url("./assets/icons/curse.svg");
+}
+
+.icon-bless {
+  mask: url("./assets/icons/bless.svg");
+}
+
+.icon-guardian {
+  mask: url("./assets/icons/guardian.svg");
+}
+
+.icon-seeker {
+  mask: url("./assets/icons/seeker.svg");
+}
+
+.icon-rogue {
+  mask: url("./assets/icons/rogue.svg");
+}
+
+.icon-mystic {
+  mask: url("./assets/icons/mystic.svg");
+}
+
+.icon-survivor {
+  mask: url("./assets/icons/survivor.svg");
+}
+
+.icon-neutral {
+  mask: url("./assets/icons/neutral.svg");
+}
+
+.icon-per_investigator {
+  mask: url("./assets/icons/investigator.svg");
+}
+
+/* TODO: refactor to use the `.icon` class. */
+svg {
+  display: block;
+  fill: currentColor;
+  width: 1em;
+  height: 1em;
+}
+
+/* use to display text icons as icons in a flexbox based layout. */
+.icon-layout {
+  display: block;
+  background: currentColor;
+  width: 1em;
+  height: 1em;
+  mask-size: 100% 100%;
+  mask-position: 0 0;
+}
+
+/* use to display text icons as icons in a text block. */
+.icon-text {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: baseline;
+  transform: translateY(3px);
+  background: currentColor;
+  mask-size: 100% 100%;
+  mask-position: 0 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
 }

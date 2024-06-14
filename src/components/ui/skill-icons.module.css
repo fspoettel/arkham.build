@@ -1,10 +1,18 @@
-.skill-icons {
+.skills {
   display: flex;
   list-style: none;
   align-items: center;
-  gap: 1px;
+  gap: 0.125rem;
 }
 
-.skill-icons > *:not(:first-child) {
+.skills > *:not(:first-child) {
   margin-left: -0.125rem;
+}
+
+.skill_investigator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.125rem;
+  color: var(--gray-50);
 }

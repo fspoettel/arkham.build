@@ -1,14 +1,15 @@
 import { Grouping } from "@/store/selectors/utils/grouping";
-import css from "./group-header.module.css";
 import { LazyEncounterIcon } from "../ui/icons/lazy-icons";
+
+import css from "./grouphead.module.css";
 
 type Props = {
   grouping: Grouping;
 };
 
-export function GroupHeader({ grouping }: Props) {
+export function Grouphead({ grouping }: Props) {
   return (
-    <div className={css["group-header"]}>
+    <div className={css["grouphead"]}>
       {grouping.grouping_type === "encounter_set" && (
         <LazyEncounterIcon code={grouping.code} />
       )}

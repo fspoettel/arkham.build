@@ -1,23 +1,4 @@
-.card {
-  --card-padding-y: 0.5rem;
-  --card-image-height: 3rem;
-
-  display: flex;
-  padding: var(--card-padding-y) 1rem;
-  border-bottom: 1px solid var(--gray-800);
-  align-items: center;
-  gap: 0.75rem;
-  line-height: 1.375;
-  position: relative;
-  z-index: 0;
-  height: calc(var(--card-image-height) + 2 * var(--card-padding-y));
-}
-
-.card-name {
-  font-size: 1.125rem;
-}
-
-.card-image {
+.thumbnail {
   position: relative;
   width: var(--card-image-height);
   height: auto;
@@ -28,12 +9,12 @@
   backface-visibility: hidden;
 }
 
-.card-image.investigator img {
+.thumbnail.investigator img {
   transform: translateZ(0) scale(1.5);
   object-position: -25% 50%;
 }
 
-.card-image img {
+.thumbnail img {
   position: absolute;
   top: 0;
   left: 0;
@@ -42,68 +23,48 @@
   height: 100%;
 }
 
-.card-image.asset img {
+.thumbnail.asset img {
   transform: translateZ(0) scale(1.8);
   object-position: 50% -15%;
 }
 
-.card-image.event img {
+.thumbnail.event img {
   transform: translateZ(0) scale(1.9);
   object-position: 50% -35%;
 }
 
-.card-image.skill img {
+.thumbnail.skill img {
   transform: translateZ(0) scale(1.4);
   object-position: 50% 5%;
 }
 
-.card-image.location img {
+.thumbnail.location img {
   transform: translateZ(0) scale(2.15);
   object-position: 50% -25%;
 }
 
-.card-image.act img {
+.thumbnail.act img {
   transform: translateZ(0) scale(2);
   object-position: 150% 50%;
 }
 
-.card-image.agenda img {
+.thumbnail.agenda img {
   transform: translateZ(0) scale(2);
   object-position: -50% 50%;
 }
 
-.card-image.scenario img,
-.card-image.story img {
+.thumbnail.scenario img,
+.thumbnail.story img {
   transform: translateZ(0) scale(1);
   object-position: 0 0;
 }
 
-.card-image.treachery img {
+.thumbnail.treachery img {
   transform: translateZ(0) scale(1.9);
   object-position: 50% -55%;
 }
 
-.card-image.enemy img {
+.thumbnail.enemy img {
   transform: translateZ(0) scale(2);
   object-position: 50% 155%;
-}
-
-.card-icon {
-  flex: 0 0 auto;
-}
-.card-subname {
-  font-weight: 400;
-  font-style: italic;
-}
-
-.card-meta {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  line-height: 1;
-  gap: 0.25rem;
-}
-
-.card-multiclass {
-  margin-top: -3px; /* FIXME */
 }

@@ -21,10 +21,11 @@ type Props = CollapsibleProps & {
 export function Collapsible({
   className,
   children,
+  defaultOpen = false,
   onOpenChange,
   title,
 }: Props) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(defaultOpen);
 
   return (
     <Root
@@ -36,7 +37,7 @@ export function Collapsible({
       }}
     >
       <div className={css["collapsible-header"]}>
-        <h4>{title}</h4>
+        <h4 onClick={() => setOpen(true)}>{title}</h4>
         <Trigger asChild>
           <button className="button-icon">
             {open ? <Cross2Icon /> : <RowSpacingIcon />}

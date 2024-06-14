@@ -1,5 +1,5 @@
 .layout {
-  --decklist-width: 28rem;
+  --decklist-width: 24rem;
   --filters-width: 20rem;
 
   height: 100dvh;
@@ -17,7 +17,7 @@
 }
 
 .layout-sidebar {
-  flex: 0 0 var(--filters-width);
+  flex: 0 0 var(--decklist-width);
   overflow-y: auto;
   display: none;
 

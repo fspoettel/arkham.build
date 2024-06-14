@@ -1,0 +1,27 @@
+.details {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  line-height: 1;
+}
+
+.details-text {
+  & > * + * {
+    margin-top: 0.25rem;
+  }
+}
+
+.details-traits {
+  font-style: italic;
+  font-weight: 700;
+}
+
+.details-type {
+  font-weight: 700;
+
+  & > *:not(:last-child)::after {
+    content: " · ";
+  }
+}

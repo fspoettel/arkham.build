@@ -6,6 +6,27 @@ export type LookupTable<
 > = Record<T, Mapping<V>>;
 
 export type LookupTables = {
+  // TODO: add alternative_art investigators.
+  relations: {
+    // `Hallowed Mirror` has bound `Soothing Melody`.
+    bound: LookupTable<string, 1>;
+    // `Soothing Melody` is bonded to `Hallowed Mirror`.
+    bonded: LookupTable<string, 1>;
+    // `Daisy's Tote Bag` is restrictory to `Daisy Walker`.
+    restrictedTo: LookupTable<string, 1>;
+    // `Daisy Walker`'s requires `Daisy's Tote Bag`.
+    requiredCards: LookupTable<string, 1>;
+    // Roland bannks has parallel card "Directive".
+    parallelCards: LookupTable<string, 1>;
+    // Parallel versions of an investigator.
+    parallel: LookupTable<string, 1>;
+    // Advanced requiredCards for an investigator.
+    advanced: LookupTable<string, 1>;
+    // Replacement requiredCards for an investigator.
+    replacement: LookupTable<string, 1>;
+    // Any card can have `n` different level version. (e.g. Ancient Stone)
+    level: LookupTable<string, 1>;
+  };
   // used: filtering.
   typesByCardTypeSelection: LookupTable<string, 1>;
   // used: filtering.
@@ -16,20 +37,24 @@ export type LookupTables = {
   typeCode: LookupTable<string>;
   // used: grouping.
   subtypeCode: LookupTable<string>;
+  // used: filtering.
   actions: LookupTable<string>;
+  // used: filtering.
   cost: LookupTable<number>;
   factionCode: LookupTable<string>;
   packCode: LookupTable<string>;
   health: LookupTable<number>;
   sanity: LookupTable<number>;
   properties: {
+    // used: filtering.
     fast: Mapping<1>;
+    // used: filtering.
     multislot: Mapping<1>;
-    bonded: Mapping<1>; // TODO: link the bonded card?
+    // used: filtering.
     seal: Mapping<1>; // TODO: link the tokens?
+    // used: filtering.
     multiclass: Mapping<1>;
   };
-  skillIcons: LookupTable<string>;
   skillBoosts: LookupTable<string>;
   // used: grouping, filtering.
   // cards that occupy multiple slots are added to both slot entries and a separate grouped entry. They are also added to the `properties.multislot` index.
@@ -38,8 +63,10 @@ export type LookupTables = {
   sort: {
     alphabetical: Mapping<number>;
   };
+  // used: filtering.
   traits: LookupTable<string>;
   uses: LookupTable<string>;
+  // used: filtering.
   level: LookupTable<number>;
 };
 

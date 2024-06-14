@@ -83,7 +83,7 @@ const allCardQuery: TypedDocumentNode<AllCardResponse> = parse(gql`
       alternate_required_code
       back_illustrator
       back_link_id
-      backimagesrc
+      backimageurl
       clues
       clues_fixed
       code
@@ -113,7 +113,6 @@ const allCardQuery: TypedDocumentNode<AllCardResponse> = parse(gql`
       hidden
       # id
       illustrator
-      imagesrc
       imageurl
       is_unique
       linked
@@ -201,6 +200,8 @@ export async function queryCards() {
   const data = import.meta.env.DEV
     ? await stub<AllCardResponse>("./data/stubs/all_card.json")
     : await request(graphqlUrl, allCardQuery);
+
+  // navigator.clipboard.writeText(JSON.stringify(data));
 
   return data.all_card;
 }

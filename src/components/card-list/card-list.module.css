@@ -1,10 +1,10 @@
-.card-list-container {
+.list-container {
   display: flex;
   height: 100%;
   flex-flow: column nowrap;
 }
 
-.card-list-nav {
+.list-nav {
   display: flex;
   flex: 0 0 auto;
   padding: 0.5rem 1rem;
@@ -13,7 +13,7 @@
   justify-content: space-between;
 }
 
-.card-list {
+.list-scroller {
   flex: 1 1 auto;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;

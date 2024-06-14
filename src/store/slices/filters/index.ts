@@ -25,6 +25,17 @@ function getInitialState(): Filters {
     subtype: {},
     trait: {},
     action: {},
+    properties: {
+      bonded: false,
+      customizable: false,
+      exceptional: false,
+      seal: false,
+      unique: false,
+      fast: false,
+      permanent: false,
+      exile: false,
+      victory: false,
+    },
   };
 
   return {
@@ -51,7 +62,9 @@ export const createFiltersSlice: StateCreator<
 > = (set, get) => ({
   filters: getInitialState(),
   resetFilters() {
-    set({ filters: getInitialState() });
+    set({
+      filters: { ...getInitialState(), cardType: get().filters.cardType },
+    });
   },
   setActiveFilter(slice, path, key, value) {
     set({

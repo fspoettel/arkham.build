@@ -9,6 +9,8 @@ import { SkillIconsFilter } from "./skill-icons-filter";
 import { TypeFilter } from "./type-filter";
 import { TraitFilter } from "./trait-filter";
 import { ActionFilter } from "./action-filter";
+import { SubtypeFilter } from "./subtypes-filter";
+import { PropertiesFilter } from "./properties-filter";
 
 export function Filters() {
   const isInitalized = useStore(selectIsInitialized);
@@ -28,9 +30,11 @@ export function Filters() {
       {cardTypeSelection === "player" && <LevelFilter />}
       <CostFilter />
       <TypeFilter />
+      <SubtypeFilter />
       <TraitFilter />
       <SkillIconsFilter />
       <ActionFilter />
+      <PropertiesFilter />
     </search>
   );
 }

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Route, Router } from "wouter";
 import { Index } from "./pages";
-import { DeckNew } from "./pages/deck_new";
-import { DeckEdit } from "./pages/deck_edit";
+import { DeckNew } from "./pages/deck-new";
+import { DeckEdit } from "./pages/deck-edit";
+import { CardView } from "./pages/card-view";
 import { useStore } from "./store";
 import css from "./app.module.css";
 
@@ -43,6 +44,7 @@ function App() {
     <Router>
       <div className={css["app"]}>
         <Route path="/" component={Index} />
+        <Route path="/card/:code" component={CardView} />
         <Route path="/deck/new" component={DeckNew} />
         <Route path="/deck/edit/:id" component={DeckEdit} />
       </div>

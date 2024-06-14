@@ -3,6 +3,7 @@ import {
   ComboboxFilter,
   CostFilter,
   LevelFilter,
+  PropertiesFilter,
   SkillIconsFilter,
 } from "@/store/slices/filters/types";
 import { LookupTables } from "@/store/slices/lookup-tables/types";
@@ -229,6 +230,87 @@ export function filterActions(
   });
 
   const filter = or(filters);
+
+  return (card: Card) => {
+    return filter(card);
+  };
+}
+
+function filterBonded(bondedTable: LookupTables["relations"]["bonded"]) {
+  return (card: Card) => !!bondedTable[card.code];
+}
+
+function filterCustomizable(card: Card) {
+  return !!card.customization_options;
+}
+
+function filterExile(card: Card) {
+  return !!card.exile;
+}
+
+function filterFast(fastTable: LookupTables["properties"]["fast"]) {
+  return (card: Card) => !!fastTable[card.code];
+}
+
+function filterUnique(card: Card) {
+  return !!card.is_unique;
+}
+
+function filterVictory(card: Card) {
+  return !!card.victory;
+}
+
+function filterSeal(sealTable: LookupTables["properties"]["seal"]) {
+  return (card: Card) => !!sealTable[card.code];
+}
+
+function filterPermanent(slotTable: LookupTables["slots"]) {
+  return (card: Card) => !!slotTable["Permanent"]?.[card.code];
+}
+
+export function filterProperties(
+  filterState: PropertiesFilter,
+  lookupTables: LookupTables,
+) {
+  const filters: Filter[] = [];
+
+  if (filterState.bonded) {
+    filters.push(filterBonded(lookupTables.relations.bonded));
+  }
+
+  if (filterState.customizable) {
+    filters.push(filterCustomizable);
+  }
+
+  if (filterState.exceptional) {
+    filters.push(filterExceptional);
+  }
+
+  if (filterState.exile) {
+    filters.push(filterExile);
+  }
+
+  if (filterState.fast) {
+    filters.push(filterFast(lookupTables.properties.fast));
+  }
+
+  if (filterState.unique) {
+    filters.push(filterUnique);
+  }
+
+  if (filterState.permanent) {
+    filters.push(filterPermanent(lookupTables.slots));
+  }
+
+  if (filterState.seal) {
+    filters.push(filterSeal(lookupTables.properties.seal));
+  }
+
+  if (filterState.victory) {
+    filters.push(filterVictory);
+  }
+
+  const filter = and(filters);
 
   return (card: Card) => {
     return filter(card);

@@ -39,7 +39,7 @@ export function TraitFilter() {
   );
 
   return (
-    <Collapsible title="Traits" onOpenChange={onOpenChange}>
+    <Collapsible title="Trait" onOpenChange={onOpenChange}>
       <CollapsibleContent>
         <Combobox
           id={"combobox-filter-trait"}

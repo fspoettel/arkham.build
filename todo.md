@@ -1,5 +1,6 @@
 ## App
 
+- figure out how to handle reprints. get back to @zzorba about API updates there.
 - add a custom persist implementation that only updates indexeddb when relevant data changes.
 - resetting filters should close the respective details. this would also improve filter performance (do less work for inactive filters).
 

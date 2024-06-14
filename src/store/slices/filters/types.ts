@@ -26,6 +26,18 @@ export type SkillIconsFilter = {
   any: number | null;
 };
 
+export type PropertiesFilter = {
+  bonded: boolean;
+  customizable: boolean;
+  exceptional: boolean;
+  seal: boolean;
+  unique: boolean;
+  fast: boolean;
+  permanent: boolean;
+  exile: boolean;
+  victory: boolean;
+};
+
 export type ComboboxFilter = Record<string, boolean>;
 
 type SharedState = {
@@ -38,6 +50,7 @@ type SharedState = {
   subtype: ComboboxFilter;
   trait: ComboboxFilter;
   action: ComboboxFilter;
+  properties: PropertiesFilter;
 };
 
 export type Filters = {

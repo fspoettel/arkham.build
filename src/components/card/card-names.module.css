@@ -1,0 +1,26 @@
+.name {
+  font-size: 1.25rem;
+
+  & span {
+    display: inline-block;
+    margin-left: 0.25rem;
+    font-size: 1rem;
+  }
+}
+
+.name a {
+  color: currentColor;
+  text-decoration: none;
+}
+
+.sub {
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.parallel {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.125rem;
+}

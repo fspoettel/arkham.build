@@ -34,13 +34,14 @@ async function mirrorImage(url) {
   const contentType = key.endsWith("jpg") ? "image/jpeg" : "image/png";
 
   try {
-    console.debug(`${key} exists already.`);
     const head = await s3.send(
       new HeadObjectCommand({
         Bucket: bucket,
         Key: key,
       }),
     );
+
+    console.debug(`${key} exists already.`);
 
     // used once to fixup missing content-type.
     if (!head.Metadata?.["content-type"]?.startsWith("image")) {
@@ -62,7 +63,6 @@ async function mirrorImage(url) {
 
     return;
   } catch (e) {
-    console.error(e);
     console.debug(`${key} not found, mirroring.`);
   }
 

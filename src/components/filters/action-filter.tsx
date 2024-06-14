@@ -40,7 +40,7 @@ export function ActionFilter() {
   );
 
   return (
-    <Collapsible title="Actions" onOpenChange={onOpenChange}>
+    <Collapsible title="Action" onOpenChange={onOpenChange}>
       <CollapsibleContent>
         <Combobox
           id={"combobox-filter-action"}

@@ -4,11 +4,11 @@ import {
   selectActiveFactions,
   selectFactions,
 } from "@/store/selectors/filters";
-import { FactionIcon } from "../ui/icons/faction-icon";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 import css from "./faction-filter.module.css";
 import { useCallback } from "react";
+import { FactionIconFancy } from "../ui/icons/faction-icon-fancy";
 
 export function FactionFilter() {
   const cardType = useStore(selectActiveCardType);
@@ -39,7 +39,7 @@ export function FactionFilter() {
           value={faction.code}
           title={faction.name}
         >
-          <FactionIcon fancy code={faction.code} />
+          <FactionIconFancy code={faction.code} />
         </ToggleGroupItem>
       ))}
     </ToggleGroup>

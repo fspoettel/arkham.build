@@ -1,0 +1,6 @@
+.health {
+  display: flex;
+  align-items: center;
+  flex-flow: row nowrap;
+  gap: 0.25rem;
+}

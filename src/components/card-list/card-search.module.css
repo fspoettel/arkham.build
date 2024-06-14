@@ -1,4 +1,4 @@
-.card-search {
+.search {
   display: flex;
   flex-flow: row nowrap;
   align-items: stretch;
@@ -6,11 +6,11 @@
   gap: 1rem;
 }
 
-.card-search-input {
+.search-input {
   flex: 1 0 auto;
   border-radius: var(--rounded-lg);
 }
 
-.card-search-toggle {
+.search-toggle {
   flex: 0 0 auto;
 }

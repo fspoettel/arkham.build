@@ -8,7 +8,11 @@ export type Props = {
 function EncounterIcon({ code, className }: Props) {
   const Icon = getEncounterIcon(code);
   return Icon ? (
-    <Suspense fallback={<div style={{ width: "1em", height: "1em" }} />}>
+    <Suspense
+      fallback={
+        <div style={{ width: "1em", height: "1em", display: "inline-block" }} />
+      }
+    >
       <Icon className={className} />
     </Suspense>
   ) : null;
@@ -19,7 +23,9 @@ const SvgMidnightMasks = React.lazy(
   () => import("@/assets/icons/midnight_masks.svg?react"),
 );
 
-const SvgArkham = React.lazy(() => import("@/assets/icons/arkham.svg?react"));
+const SvgTheGathering = React.lazy(
+  () => import("@/assets/icons/the_gathering.svg?react"),
+);
 const SvgCultists = React.lazy(
   () => import("@/assets/icons/cult_of_umordoth.svg?react"),
 );
@@ -880,9 +886,9 @@ const SvgSpectralRealm = React.lazy(
 function getEncounterIcon(code?: string) {
   switch (code) {
     case "torch":
-      return SvgMidnightMasks;
+      return SvgTheGathering;
     case "arkham":
-      return SvgArkham;
+      return SvgMidnightMasks;
     case "cultists":
       return SvgCultists;
     case "tentacles":

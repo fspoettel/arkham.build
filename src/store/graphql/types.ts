@@ -17,7 +17,11 @@ export type QueryCard = {
   customization_options?: string;
   deck_limit?: number;
   deck_options?: string;
-  deck_requirements?: string;
+  deck_requirements?: {
+    card: Record<string, string>;
+    random: { value: string; target: string }[];
+    size: number;
+  };
   doom?: number;
   double_sided?: boolean;
   duplicate_of_code?: string;
@@ -69,7 +73,9 @@ export type QueryCard = {
   // real_taboo_text_change
   real_text?: string;
   real_traits?: string;
-  restrictions?: string;
+  restrictions?: {
+    investigator: Record<string, string>;
+  };
   sanity?: number;
   shroud?: number;
   side_deck_options?: string;
@@ -99,7 +105,7 @@ export type Card = QueryCard & {
 
 export type Cycle = {
   code: string;
-  name: string;
+  real_name: string;
   position: number;
 };
 
@@ -111,7 +117,7 @@ export type Faction = {
 
 export type Pack = {
   code: string;
-  name: string;
+  real_name: string;
   position: number;
   size: number;
   cycle_code: string;

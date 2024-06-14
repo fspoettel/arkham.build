@@ -1,0 +1,49 @@
+.listcard {
+  --card-padding-y: 0.5rem;
+  --card-image-height: 3rem;
+
+  display: flex;
+  padding: var(--card-padding-y) 1rem;
+  border-bottom: 1px solid var(--gray-800);
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+  z-index: 0;
+  height: calc(var(--card-image-height) + 2 * var(--card-padding-y));
+}
+
+.listcard-name {
+  font-size: 1.125rem;
+
+  & a {
+    text-decoration: none;
+    color: currentColor;
+
+    &:hover,
+    &:focus,
+    &:active {
+      text-decoration: underline;
+      text-decoration-color: currentColor;
+    }
+  }
+}
+
+.listcard-icon {
+  flex: 0 0 auto;
+}
+.listcard-subname {
+  font-weight: 400;
+  font-style: italic;
+}
+
+.listcard-meta {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  line-height: 1;
+  gap: 0.25rem;
+}
+
+.listcard-multiclass {
+  margin-top: -2px; /* FIXME */
+}

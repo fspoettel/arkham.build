@@ -13,6 +13,7 @@ import { getInitialMetadata } from "../metadata";
 import { mappedByCode } from "../metadata/utils";
 import {
   addCardToLookupTables,
+  createRelations,
   getInitialLookupTables,
 } from "../lookup-tables";
 
@@ -69,6 +70,8 @@ export const createSharedSlice: StateCreator<
 
       addCardToLookupTables(lookupTables, card, i);
     });
+
+    createRelations(metadata, lookupTables);
 
     Object.keys(metadata.encounterSets).forEach((code) => {
       if (!metadata.encounterSets[code].pack_code) {
