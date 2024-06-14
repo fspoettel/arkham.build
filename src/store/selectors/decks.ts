@@ -76,7 +76,10 @@ export const selectResolvedDeck = createSelector(
         for (const edit of edits) {
           const slotKey = key as "slots";
 
-          deck[slotKey] ??= {};
+          // account for arkhamdb representing empty side slots as an array.
+          if (!deck[slotKey] || Array.isArray(deck[slotKey])) {
+            deck[slotKey] = {};
+          }
 
           const current = deck[slotKey]?.[edit.code];
 
