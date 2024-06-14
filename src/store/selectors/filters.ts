@@ -71,12 +71,10 @@ export const selectActionOptions = createSelector(
 export const selectActionValue = (state: StoreState) =>
   state.filters[state.filters.cardType].action.value;
 
-export const selectActionChanges = createSelector(
-  selectActionValue,
-  (value) => {
-    return value.map(capitalize).join(" or ");
-  },
-);
+export const selectActionChanges = (state: StoreState) => {
+  const val = selectActionValue(state);
+  return val.map(capitalize).join(" or ");
+};
 
 /**
  * Asset
@@ -122,55 +120,55 @@ export const selectAssetSanityValue = (state: StoreState) =>
 export const selectAssetSkillBoostsValue = (state: StoreState) =>
   state.filters[state.filters.cardType].asset.value.skillBoosts;
 
-export const selectAssetChanges = createSelector(
-  (state: StoreState) => state.filters[state.filters.cardType].asset.value,
-  (filterState) => {
-    const slot = filterState.slots.reduce((acc, key) => {
-      return !acc ? `Slot: ${capitalize(key)}` : `${acc} or ${key}`;
-    }, "");
+export const selectAssetChanges = (state: StoreState) => {
+  const filterState = state.filters[state.filters.cardType].asset.value;
 
-    const uses = filterState.uses.reduce((acc, key) => {
-      return !acc ? `Uses: ${capitalize(key)}` : `${acc} or ${key}`;
-    }, "");
+  const slot = filterState.slots.reduce((acc, key) => {
+    return !acc ? `Slot: ${capitalize(key)}` : `${acc} or ${key}`;
+  }, "");
 
-    const skillBoosts = filterState.skillBoosts.reduce((acc, key) => {
-      return !acc
-        ? `Skill boost: ${capitalize(key)}`
-        : `${acc} or ${capitalize(key)}`;
-    }, "");
+  const uses = filterState.uses.reduce((acc, key) => {
+    return !acc ? `Uses: ${capitalize(key)}` : `${acc} or ${key}`;
+  }, "");
 
-    let healthFilter = "";
+  const skillBoosts = filterState.skillBoosts.reduce((acc, key) => {
+    return !acc
+      ? `Skill boost: ${capitalize(key)}`
+      : `${acc} or ${capitalize(key)}`;
+  }, "");
 
-    if (filterState.health) {
-      let s = `${filterState.health[0]}`;
-      if (filterState.health[1] !== filterState.health[0]) {
-        s = `${s}-${filterState.health[1]}`;
-      }
-      healthFilter = `Health: ${s}`;
+  let healthFilter = "";
+
+  if (filterState.health) {
+    let s = `${filterState.health[0]}`;
+    if (filterState.health[1] !== filterState.health[0]) {
+      s = `${s}-${filterState.health[1]}`;
+    }
+    healthFilter = `Health: ${s}`;
+  }
+
+  let sanityFilter = "";
+
+  if (filterState.sanity) {
+    let s = `${filterState.sanity[0]}`;
+
+    if (filterState.sanity[1] !== filterState.sanity[0]) {
+      s = `${s}-${filterState.sanity[1]}`;
     }
 
-    let sanityFilter = "";
-    if (filterState.sanity) {
-      let s = `${filterState.sanity[0]}`;
+    sanityFilter = `Sanity: ${s}`;
+  }
 
-      if (filterState.sanity[1] !== filterState.sanity[0]) {
-        s = `${s}-${filterState.sanity[1]}`;
-      }
-
-      sanityFilter = `Sanity: ${s}`;
-    }
-
-    return [slot, uses, skillBoosts, sanityFilter, healthFilter]
-      .filter((x) => x)
-      .join(", ");
-  },
-);
+  return [slot, uses, skillBoosts, sanityFilter, healthFilter]
+    .filter((x) => x)
+    .join(", ");
+};
 
 /**
  * Cost
  */
 
-export function selectCostMinMax(state: StoreState) {
+export const selectCostMinMax = (state: StoreState) => {
   const costs = Object.keys(state.lookupTables.cost).map((x) =>
     Number.parseInt(x, 10),
   );
@@ -186,20 +184,23 @@ export function selectCostMinMax(state: StoreState) {
   const min = 0; // arkhamdb data has some cards set to negative values.
   const max = costs[costs.length - 1];
   return [min, max];
-}
+};
 
 export const selectCostValue = (state: StoreState) =>
   state.filters[state.filters.cardType].cost.value;
 
-export const selectCostChanges = createSelector(selectCostValue, (val) => {
+export const selectCostChanges = (state: StoreState) => {
+  const val = selectCostValue(state);
   if (!val.range) return "";
+
   let s = `${val.range[0]}`;
   if (val.range[1] !== val.range[0]) s = `${s}-${val.range[1]}`;
   if (val.even) s = `${s}, even`;
   if (val.odd) s = `${s}, odd`;
   if (val.x) s = `${s}, X`;
+
   return s;
-});
+};
 
 /**
  * Encounter Set
@@ -213,13 +214,10 @@ export const selectEncounterSetOptions = createSelector(
 export const selectEncounterSetValue = (state: StoreState) =>
   state.filters.encounter.encounterSet.value;
 
-export const selectEncounterSetChanges = createSelector(
-  selectEncounterSetValue,
-  (state: StoreState) => state.metadata,
-  (value, metadata) => {
-    return value.map((id) => metadata.encounterSets[id].name).join(" or ");
-  },
-);
+export const selectEncounterSetChanges = (state: StoreState) => {
+  const val = selectEncounterSetValue(state);
+  return val.map((id) => state.metadata.encounterSets[id].name).join(" or ");
+};
 
 /**
  * Faction
@@ -297,20 +295,16 @@ export const selectInvestigatorOptions = createSelector(
   },
 );
 
-export const selectInvestigatorValue = createSelector(
-  (state: StoreState) => state.filters.player.investigator,
-  (filterState) => filterState.value,
-);
+export const selectInvestigatorValue = (state: StoreState) =>
+  state.filters.player.investigator.value;
 
-export const selectInvestigatorChanges = createSelector(
-  (state: StoreState) => state.metadata,
-  selectInvestigatorValue,
-  (metadata, value) => {
-    if (!value) return "";
-    const card = metadata.cards[value];
-    return `${card.real_name}${card.parallel ? " (Parallel)" : ""}`;
-  },
-);
+export const selectInvestigatorChanges = (state: StoreState) => {
+  const val = selectInvestigatorValue(state);
+  if (!val) return "";
+
+  const card = state.metadata.cards[val];
+  return `${card.real_name}${card.parallel ? " (Parallel)" : ""}`;
+};
 
 /**
  * Level
@@ -319,14 +313,16 @@ export const selectInvestigatorChanges = createSelector(
 export const selectLevelValue = (state: StoreState) =>
   state.filters.player.level.value;
 
-export const selectLevelChanges = createSelector(selectLevelValue, (value) => {
-  if (!value.range) return undefined;
-  let s = `${value.range[0]}`;
-  if (value.range[1] !== value.range[0]) s = `${s}-${value.range[1]}`;
-  if (value.exceptional) s = `${s}, exceptional`;
-  if (value.nonexceptional) s = `${s}, nonexceptional`;
+export const selectLevelChanges = (state: StoreState) => {
+  const val = selectLevelValue(state);
+
+  if (!val.range) return undefined;
+  let s = `${val.range[0]}`;
+  if (val.range[1] !== val.range[0]) s = `${s}-${val.range[1]}`;
+  if (val.exceptional) s = `${s}, exceptional`;
+  if (val.nonexceptional) s = `${s}, nonexceptional`;
   return s;
-});
+};
 
 /**
  * Ownership
@@ -373,13 +369,13 @@ export const selectCyclesAndPacks = createSelector(
   },
 );
 
-function filterNewFormat(packs: Pack[], cardType: CardTypeFilter) {
+const filterNewFormat = (packs: Pack[], cardType: CardTypeFilter) => {
   return packs.filter((pack) =>
     cardType === "encounter"
       ? pack.code.endsWith("c")
       : pack.code.endsWith("p"),
   );
-}
+};
 
 export const selectPackOptions = createSelector(
   selectCyclesAndPacks,
@@ -400,13 +396,10 @@ export const selectPackOptions = createSelector(
 export const selectPackValue = (state: StoreState) =>
   state.filters[state.filters.cardType].packCode.value;
 
-export const selectPackChanges = createSelector(
-  selectPackValue,
-  (state: StoreState) => state.metadata,
-  (value, metadata) => {
-    return value.map((id) => metadata.packs[id].real_name).join(" or ");
-  },
-);
+export const selectPackChanges = (state: StoreState) => {
+  const val = selectPackValue(state);
+  return val.map((id) => state.metadata.packs[id].real_name).join(" or ");
+};
 
 /**
  * Properties
@@ -415,15 +408,14 @@ export const selectPackChanges = createSelector(
 export const selectPropertiesValue = (state: StoreState) =>
   state.filters[state.filters.cardType].properties.value;
 
-export const selectPropertiesChanges = createSelector(
-  selectPropertiesValue,
-  (value) => {
-    return Object.entries(value).reduce((acc, [key, val]) => {
-      if (!val) return acc;
-      return !acc ? capitalize(key) : `${acc} and ${capitalize(key)}`;
-    }, "");
-  },
-);
+export const selectPropertiesChanges = (state: StoreState) => {
+  const val = selectPropertiesValue(state);
+
+  return Object.entries(val).reduce((acc, [key, filterValue]) => {
+    if (!filterValue) return acc;
+    return !acc ? capitalize(key) : `${acc} and ${capitalize(key)}`;
+  }, "");
+};
 
 /**
  * Skill Icons
@@ -432,15 +424,15 @@ export const selectPropertiesChanges = createSelector(
 export const selectSkillIconsValue = (state: StoreState) =>
   state.filters[state.filters.cardType].skillIcons.value;
 
-export const selectSkillIconsChanges = createSelector(
-  selectSkillIconsValue,
-  (value) =>
-    Object.entries(value).reduce((acc, [key, val]) => {
-      if (!val) return acc;
-      const s = `${val}+ ${capitalize(key)}`;
-      return acc ? `${acc} and ${s}` : s;
-    }, ""),
-);
+export const selectSkillIconsChanges = (state: StoreState) => {
+  const value = selectSkillIconsValue(state);
+
+  return Object.entries(value).reduce((acc, [key, val]) => {
+    if (!val) return acc;
+    const s = `${val}+ ${capitalize(key)}`;
+    return acc ? `${acc} and ${s}` : s;
+  }, "");
+};
 
 /**
  * Subtype
@@ -458,27 +450,25 @@ export const selectSubtypeOptions = createSelector(
 export const selectSubtypeValue = (state: StoreState) =>
   state.filters[state.filters.cardType].subtype.value;
 
-export const selectSubtypeChanges = createSelector(
-  selectSubtypeValue,
-  (state: StoreState) => state.metadata,
-  (value, metadata) => {
-    return value.map((id) => metadata.subtypes[id].name).join(" or ");
-  },
-);
+export const selectSubtypeChanges = (state: StoreState) => {
+  const val = selectSubtypeValue(state);
+  const metadata = state.metadata;
+  return val.map((id) => metadata.subtypes[id].name).join(" or ");
+};
 
 /**
  * Taboo Set
  */
 
-export const selectCanonicalTabooSetId = createSelector(
-  selectActiveDeck,
-  (state: StoreState) => state.filters.player.tabooSet.value,
-  (state: StoreState) => state.settings.tabooSetId,
-  (activeDeck, filterId, settingId) => {
-    if (filterId) return filterId;
-    return activeDeck ? activeDeck.taboo_id : settingId;
-  },
-);
+export const selectCanonicalTabooSetId = (state: StoreState) => {
+  const filterValue = selectTabooSetValue(state);
+  if (filterValue) return filterValue;
+
+  const activeDeck = selectActiveDeck(state);
+  if (activeDeck) return activeDeck.taboo_id;
+
+  return state.settings.tabooSetId;
+};
 
 export const selectTabooSetOptions = (state: StoreState) => {
   const sets = Object.values(state.metadata.tabooSets);
@@ -499,11 +489,10 @@ export const selectTabooSetValue = (state: StoreState) => {
   return state.filters.player.tabooSet.value;
 };
 
-export const selectTabooSetChanges = createSelector(
-  (state: StoreState) => state.metadata,
-  selectTabooSetValue,
-  (metadata, value) => (value ? metadata.tabooSets[value].name : ""),
-);
+export const selectTabooSetChanges = (state: StoreState) => {
+  const val = selectTabooSetValue(state);
+  return val ? state.metadata.tabooSets[val].name : "";
+};
 
 /**
  * Trait
@@ -522,9 +511,10 @@ export const selectTraitOptions = createSelector(
 export const selectTraitValue = (state: StoreState) =>
   state.filters[state.filters.cardType].trait.value;
 
-export const selectTraitChanges = createSelector(selectTraitValue, (value) => {
-  return value.map(capitalize).join(" or ");
-});
+export const selectTraitChanges = (state: StoreState) => {
+  const val = selectTraitValue(state);
+  return val.map(capitalize).join(" or ");
+};
 
 /**
  * Type
@@ -546,6 +536,7 @@ export const selectTypeOptions = createSelector(
 export const selectTypeValue = (state: StoreState) =>
   state.filters[state.filters.cardType].type.value;
 
-export const selectTypeChanges = createSelector(selectTypeValue, (value) => {
-  return value.map(capitalize).join(" or ");
-});
+export const selectTypeChanges = (state: StoreState) => {
+  const val = selectTypeValue(state);
+  return val.map(capitalize).join(" or ");
+};

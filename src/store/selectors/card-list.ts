@@ -486,11 +486,6 @@ export const selectEncounterFilters = createSelector(
   },
 );
 
-const selectCustomizations = createSelector(
-  selectActiveDeck,
-  (deck) => deck?.customizations,
-);
-
 export const selectFilteredCards = createSelector(
   selectActiveCardType,
   selectPlayerCardFilters,
@@ -503,7 +498,7 @@ export const selectFilteredCards = createSelector(
   selectPlayerCardGroups,
   selectWeaknessGroups,
   selectEncounterSetGroups,
-  selectCustomizations,
+  (state: StoreState) => selectActiveDeck(state)?.customizations,
   (
     activeCardType,
     playerCardFilter,

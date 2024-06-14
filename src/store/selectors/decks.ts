@@ -23,8 +23,8 @@ export const selectLocalDecks = createSelector(
     ).map((deck) => resolveDeck(metadata, lookupTables, deck, false));
 
     resolvedDecks.sort((a, b) => b.date_update.localeCompare(a.date_update));
-    console.timeEnd("[perf] select_local_decks");
 
+    console.timeEnd("[perf] select_local_decks");
     return resolvedDecks;
   },
 );
@@ -36,9 +36,12 @@ export const selectResolvedDeck = createSelector(
   (state: StoreState) => state.deckView,
   (metadata, lookupTables, decks, deckView) => {
     if (!deckView || !decks[deckView.id]) return undefined;
+
     console.time("[perf] select_resolved_deck");
+
     const deck = applyDeckEdits(decks[deckView.id], deckView, metadata);
     const resolvedDeck = resolveDeck(metadata, lookupTables, deck, true);
+
     console.timeEnd("[perf] select_resolved_deck");
     return resolvedDeck;
   },
@@ -48,8 +51,8 @@ export const selectActiveDeck = createSelector(
   selectResolvedDeck,
   (resolvedDeck) => {
     if (!resolvedDeck) return undefined;
-    const displayDeck = resolvedDeck as DisplayDeck;
 
+    const displayDeck = resolvedDeck as DisplayDeck;
     const { groupings, bonded } = groupDeckCardsByType(resolvedDeck);
 
     displayDeck.groups = groupings;
@@ -76,10 +79,8 @@ export const selectDeckValid = createSelector(
       : { valid: false, errors: [] },
 );
 
-export const selectCanEditDeck = createSelector(
-  (state: StoreState) => state.deckView,
-  (deckView) => deckView?.mode === "edit",
-);
+export const selectCanEditDeck = (state: StoreState) =>
+  state.deckView?.mode === "edit";
 
 export const selectForbiddenCards = createSelector(
   selectDeckValid,
