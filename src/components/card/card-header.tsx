@@ -1,6 +1,7 @@
 import clsx from "clsx";
 
 import type { Card } from "@/store/services/types";
+import { getCardColor } from "@/utils/card-utils";
 
 import css from "./card-header.module.css";
 
@@ -15,11 +16,10 @@ type Props = {
 };
 
 export function CardHeader({ card, className, linked }: Props) {
+  const colorCls = getCardColor(card, "background");
+
   return (
-    <header
-      className={clsx(css["header"], className)}
-      data-faction={card.faction2_code ? "multiclass" : card.faction_code}
-    >
+    <header className={clsx(css["header"], colorCls, className)}>
       <div className={css["header-row"]}>
         <CardIcon className={css["header-icon"]} card={card} inverted />
         <CardNames

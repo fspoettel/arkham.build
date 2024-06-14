@@ -7,7 +7,7 @@
 }
 
 .masthead h1 {
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
 }
 
 .masthead-nav {

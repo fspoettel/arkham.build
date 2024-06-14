@@ -1,8 +1,8 @@
 import clsx from "clsx";
 
-import type { CardResolved } from "@/store/selectors/card-view";
 import type { Card as CardType } from "@/store/services/types";
-import { getCardColor, sideways } from "@/utils/card-utils";
+import type { CardResolved } from "@/store/utils/card-resolver";
+import { sideways } from "@/utils/card-utils";
 
 import css from "./card.module.css";
 
@@ -22,13 +22,12 @@ export type Props = {
  * Card back for cards with a non-unique back.
  */
 export function CardBack({ card, size }: Props) {
-  const colorCls = getCardColor(card, "background");
-
   const showBackImage =
     size === "full" ||
     (card.backimageurl &&
       card.backimageurl !== card.imageurl &&
-      card.type_code !== "investigator");
+      card.type_code !== "investigator" &&
+      card.type_code !== "story");
 
   const backCard: CardType = {
     ...card,
@@ -53,9 +52,7 @@ export function CardBack({ card, size }: Props) {
         css[size],
       )}
     >
-      {card.type_code !== "investigator" && (
-        <CardHeader card={backCard} className={colorCls} />
-      )}
+      {card.type_code !== "investigator" && <CardHeader card={backCard} />}
       <div className={css["container"]}>
         <CardText
           flavor={card.real_back_flavor}
@@ -75,7 +72,7 @@ export function CardBack({ card, size }: Props) {
         (size === "full" ? (
           <CardImage
             className={css["image"]}
-            imageUrl={backCard.imageurl}
+            code={`${card.code}b`}
             sideways={isSideways}
           />
         ) : (

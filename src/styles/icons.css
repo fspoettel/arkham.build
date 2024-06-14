@@ -1,14 +1,14 @@
 @font-face {
-  font-family: "encounters";
-  src: url(../assets/fonts/encounters.woff2) format("woff2");
+  font-family: "icon";
+  src: url(../assets/fonts/icon.woff2) format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 
 @font-face {
-  font-family: "icon";
-  src: url(../assets/fonts/icon.woff2) format("woff2");
+  font-family: "encounters";
+  src: url(../assets/fonts/encounters.woff2) format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -1961,6 +1961,8 @@
 .icon-reaction:before {
   content: "\55";
 }
+
+.icon-fast:before,
 .icon-free:before {
   content: "\56";
 }

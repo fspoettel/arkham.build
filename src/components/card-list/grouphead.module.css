@@ -9,6 +9,7 @@
 
 .grouphead {
   font-size: var(--icon-lg);
+  font-family: var(--font-family-ui);
 }
 
 .grouphead h3 {

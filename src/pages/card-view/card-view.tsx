@@ -37,19 +37,20 @@ export function CardView() {
   }, [pathname]);
 
   const cardWithRelations = useStore((state) =>
-    selectCardWithRelations(state, code),
+    selectCardWithRelations(state, code, true),
   );
 
   if (!cardWithRelations) return null;
 
   const { relations } = cardWithRelations;
 
-  const canonicalCode = cardWithRelations.card.duplicate_of_code;
+  const canonicalCode =
+    cardWithRelations.card.duplicate_of_code ??
+    cardWithRelations.card.alternate_of_code;
   if (canonicalCode) return <Redirect to={`/card/${canonicalCode}`} />;
 
   return (
     <AppLayout
-      centerScroller
       closeable={<CardViewSidebar resolvedCard={cardWithRelations} />}
       title={cardWithRelations.card.real_name}
     >
@@ -102,6 +103,19 @@ export function CardView() {
             </CardViewSection>
           )}
 
+          {!!relations?.advanced?.length && (
+            <CardViewSection title="Advanced cards">
+              {relations.advanced.map((c) => (
+                <ResolvedCard
+                  key={c.card.code}
+                  resolvedCard={c}
+                  linked
+                  size="compact"
+                />
+              ))}
+            </CardViewSection>
+          )}
+
           {!!relations?.parallelCards?.length && (
             <CardViewSection title="Parallel cards">
               {relations.parallelCards.map((c) => (
@@ -118,19 +132,6 @@ export function CardView() {
           {!!relations?.replacement?.length && (
             <CardViewSection title="Alternate cards">
               {relations.replacement.map((c) => (
-                <ResolvedCard
-                  key={c.card.code}
-                  resolvedCard={c}
-                  linked
-                  size="compact"
-                />
-              ))}
-            </CardViewSection>
-          )}
-
-          {!!relations?.advanced?.length && (
-            <CardViewSection title="Advanced cards">
-              {relations.advanced.map((c) => (
                 <ResolvedCard
                   key={c.card.code}
                   resolvedCard={c}

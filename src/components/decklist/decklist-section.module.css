@@ -1,0 +1,16 @@
+.decklist-section.two_column {
+  flex: 0 0 100%;
+}
+
+.decklist-section.one_column {
+  flex: 0 0 calc(50% - 0.5rem);
+  padding: 1rem;
+  border: 1px solid var(--nord-1);
+  border-radius: var(--rounded-md);
+}
+
+.decklist-section.one_column .decklist-section-title {
+  font-size: var(--text-lg);
+  font-family: var(--font-family-ui);
+  margin-bottom: 0.5rem;
+}

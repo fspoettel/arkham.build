@@ -1,0 +1,57 @@
+.deck-details {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem;
+  list-style: none;
+  margin-top: 1rem;
+}
+
+.detail {
+  flex: 1 1 calc(33.333% - 1rem);
+  border: 1px solid var(--nord-3);
+  border-radius: var(--rounded-md);
+  overflow: hidden;
+}
+
+.detail.full {
+  flex: 0 0 100%;
+  width: 100%;
+}
+
+.detail-label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: var(--nord-1);
+  font-size: var(--text-sm);
+  font-family: var(--font-family-ui);
+  padding: 0.25rem;
+  font-weight: 700;
+}
+
+.detail-value {
+  padding: 0.5rem;
+  font-weight: 700;
+  font-size: var(--text-base);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+h1.detail-value {
+  padding: 0.75rem;
+  font-size: var(--text-lg);
+}
+
+.deck-detail-back-toggle {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.deck-detail-back-toggle.open {
+  margin-bottom: 1rem;
+}
+
+.deck-detail-back-toggle button {
+  border-radius: var(--rounded-lg);
+}

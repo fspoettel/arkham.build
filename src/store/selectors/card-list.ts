@@ -29,6 +29,7 @@ import {
   sortedEncounterSets,
 } from "../utils/sorting";
 import { applyTaboo } from "../utils/taboos";
+import { selectCanonicalTabooSetId } from "./filters";
 
 export type ListState = {
   key: CardTypeFilter;
@@ -45,13 +46,13 @@ export const selectGroupedBySlot = createSelector(
   (state: StoreState) => state.lookupTables.slots,
   (slotsTable) =>
     sortedBySlots(slotsTable).map((slot) => ({
-      name: slot === "Slotless" ? "Asset" : `Asset: ${slot}`,
+      name: `Asset: ${slot}`,
       code: slot,
       grouping_type: "slot",
     })),
 );
 
-const selectPlayerCardGroups = createSelector(
+export const selectPlayerCardGroups = createSelector(
   (state: StoreState) => state.metadata,
   selectGroupedBySlot,
   (metadata, slotGroups) => {
@@ -639,12 +640,6 @@ function filterTabooSet(tabooSetId: number | null) {
   if (!tabooSetId) return undefined;
   return (card: Card) => card.taboo_set_id === tabooSetId;
 }
-
-const selectCanonicalTabooSetId = createSelector(
-  (state: StoreState) => state.filters.player.tabooSet.value,
-  (state: StoreState) => state.settings.tabooSetId,
-  (filterId, settingId) => filterId ?? settingId,
-);
 
 const selectTabooSetFilter = createSelector(
   (state: StoreState) => state.filters.player.tabooSet,

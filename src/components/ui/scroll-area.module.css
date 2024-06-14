@@ -33,6 +33,7 @@
   background: color-mix(in srgb, var(--nord-4) 50%, var(--nord-3) 50%);
   border-radius: var(--scrollbar-size);
   position: relative;
+  opacity: 0.5;
 }
 
 .scroll-area-thumb::before {

@@ -9,6 +9,7 @@
 
 .details-text {
   font-size: var(--card-text-size);
+
   & > * + * {
     margin-top: 0.25rem;
   }

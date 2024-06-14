@@ -13,7 +13,7 @@ type Props = ScrollAreaProps & {
 export const Scroller = forwardRef(
   ({ children, ...rest }: Props, ref: ForwardedRef<HTMLDivElement>) => {
     return (
-      <Root {...rest} className={css["scroll-area-root"]}>
+      <Root {...rest} className={css["scroll-area-root"]} type="scroll">
         <Viewport ref={ref} className={css["scroll-area-viewport"]}>
           {children}
         </Viewport>

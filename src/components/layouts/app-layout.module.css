@@ -36,6 +36,9 @@
   & .layout-sidebar {
     display: none;
     grid-area: sidebar;
+  }
+
+  &:not(.omit-sidebar-border) .layout-sidebar {
     border: 1px solid var(--nord-1);
   }
 
@@ -50,7 +53,7 @@
         "header header"
         "sidebar main";
 
-      grid-template-columns: 20rem 1fr;
+      grid-template-columns: 24rem 1fr;
       grid-template-rows: auto 1fr;
 
       & .layout-sidebar {
@@ -83,7 +86,7 @@
       grid-template-areas:
         "header header"
         "sidebar main";
-      grid-template-columns: 22.5rem 1fr;
+      grid-template-columns: 24rem 1fr;
       grid-template-rows: auto 1fr;
     }
 
@@ -91,7 +94,7 @@
       grid-template-areas:
         "header header header"
         "sidebar main closeable";
-      grid-template-columns: 22.5rem 1fr 20rem;
+      grid-template-columns: 24rem 1fr 20rem;
       grid-template-rows: auto 1fr;
 
       & .layout-closeable {

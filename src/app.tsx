@@ -8,8 +8,9 @@ import RouteReset from "./components/route-reset";
 import { ToastProvider } from "./components/ui/toast";
 import { Browse } from "./pages/browse";
 import { CardView } from "./pages/card-view/card-view";
-import { DeckEdit } from "./pages/deck-edit";
+import { DeckEdit } from "./pages/deck-edit/deck-edit";
 import { DeckNew } from "./pages/deck-new";
+import { DeckView } from "./pages/deck-view/deck-view";
 import { Settings } from "./pages/settings/settings";
 import { useStore } from "./store";
 import { selectIsInitialized } from "./store/selectors";
@@ -43,15 +44,18 @@ function App() {
           <p>Loading card data...</p>
         </div>
       </div>
-      <Router>
-        <Route path="/" component={Index} />
-        <Route path="/browse" component={Browse} />
-        <Route path="/card/:code" component={CardView} />
-        <Route path="/deck/new" component={DeckNew} />
-        <Route path="/deck/edit/:id" component={DeckEdit} />
-        <Route path="/settings" component={Settings} />
-        <RouteReset />
-      </Router>
+      {storeInitialized && (
+        <Router>
+          <Route path="/" component={Index} />
+          <Route path="/browse" component={Browse} />
+          <Route path="/card/:code" component={CardView} />
+          <Route path="/deck" component={DeckNew} />
+          <Route path="/deck/:id" component={DeckView} />
+          <Route path="/deck/:id/edit" component={DeckEdit} />
+          <Route path="/settings" component={Settings} />
+          <RouteReset />
+        </Router>
+      )}
     </ToastProvider>
   );
 }

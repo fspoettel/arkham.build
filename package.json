@@ -13,7 +13,7 @@
     "dev": "vite",
     "fmt": "prettier --write .",
     "lint": "eslint src",
-    "prepare": "husky install",
+    "prepare": "husky",
     "preview": "vite preview",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest watch",
@@ -39,7 +39,6 @@
     "zustand": "4.5.0"
   },
   "devDependencies": {
-    "@aws-sdk/client-s3": "3.504.0",
     "@svgr/plugin-jsx": "8.1.0",
     "@svgr/plugin-svgo": "8.1.0",
     "@testing-library/jest-dom": "6.3.0",

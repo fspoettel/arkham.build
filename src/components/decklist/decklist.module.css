@@ -1,0 +1,6 @@
+.decklist {
+  display: flex;
+  flex-flow: row wrap;
+  container-type: inline-size;
+  gap: 0.75rem;
+}

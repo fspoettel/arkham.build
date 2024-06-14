@@ -9,9 +9,9 @@ type Props = {
 
 export function CenterLayout({ children, top }: Props) {
   return (
-    <section className={css["layout"]}>
+    <div className={css["layout"]}>
       {top && <div className={css["layout-top"]}>{top}</div>}
       <div className={css["layout-main"]}>{children}</div>
-    </section>
+    </div>
   );
 }

@@ -6,6 +6,7 @@ import type { UISlice, UIState } from "./types";
 export function getInitialUIState(): UIState {
   return {
     ui: {
+      activeDeckId: undefined,
       hydrated: false,
       initialized: false,
       listScrollRestore: undefined,
@@ -20,6 +21,9 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
   get,
 ) => ({
   ...getInitialUIState(),
+  setActiveDeckId(activeDeckId) {
+    set({ ui: { ...get().ui, activeDeckId } });
+  },
   setHydrated() {
     set({ ui: { ...get().ui, hydrated: true } });
   },

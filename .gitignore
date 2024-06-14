@@ -28,6 +28,3 @@ coverage
 
 # env file
 .env
-
-# assets
-src/assets/card-images

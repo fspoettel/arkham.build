@@ -1,9 +1,7 @@
 :root {
-  --font-family-content: "Alegreya Variable", "Iowan Old Style",
-    "Palatino Linotype", "URW Palladio L", P052, serif;
-  --font-family-ui: "Alegreya Sans Variable", -apple-system, BlinkMacSystemFont,
-    Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-    Helvetica Neue, sans-serif;
+  --font-family-content: "Iowan Old Style", "Palatino Linotype",
+    "URW Palladio L", P052, serif;
+  --font-family-ui: Optima, Candara, "Noto Sans", source-sans-pro, sans-serif;
 
   --nord-0: #2e3440;
   --nord-1: #3b4252;
@@ -30,12 +28,13 @@
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.3),
     0 8px 10px -6px rgb(0 0 0 / 0.3);
 
+  --text-2xs: 0.625rem;
   --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.5rem;
-  --text-2xl: 1.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.875rem;
+  --text-lg: 1rem;
+  --text-xl: 1.125rem;
+  --text-2xl: 1.25rem;
 
   --icon-sm: 1rem;
   --icon-base: 1.25rem;
@@ -93,7 +92,6 @@ body {
   line-height: 1.45;
   background: var(--nord-0);
   color: var(--nord-4);
-  -webkit-font-smoothing: antialiased;
 }
 
 #root {
@@ -248,36 +246,102 @@ button {
   color: var(--neutral);
 }
 
+.background-guardian,
+.background-multiclass,
+.background-mystic,
+.background-mythos,
+.background-neutral,
+.background-rogue,
+.background-seeker,
+.background-survivor {
+  position: relative;
+  z-index: 0;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+
+  & > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  &::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    mask-position: left top;
+    mask-size: cover;
+    mask-repeat: repeat-x repeat-y;
+    z-index: 1;
+  }
+}
+
 .background-guardian {
-  background: var(--guardian-dark);
+  background-color: var(--guardian-dark);
+  &::after {
+    background: rgba(0, 0, 0, 0.1);
+    mask-image: url("../assets/patterns/guardian.svg");
+  }
 }
 
 .background-mystic {
   background: var(--mystic-dark);
+  &::after {
+    background: rgba(255, 255, 255, 0.05);
+    mask-image: url("../assets/patterns/mystic.svg");
+  }
 }
 
 .background-rogue {
   background: var(--rogue-dark);
+  &::after {
+    background: rgba(0, 0, 0, 0.05);
+    mask-image: url("../assets/patterns/rogue.svg");
+  }
 }
 
 .background-seeker {
   background: var(--seeker-dark);
+
+  &::after {
+    background: rgba(0, 0, 0, 0.05);
+    mask-image: url("../assets/patterns/seeker.svg");
+  }
 }
 
 .background-survivor {
   background: var(--survivor-dark);
+  &::after {
+    background: rgba(0, 0, 0, 0.05);
+    mask-image: url("../assets/patterns/survivor.svg");
+  }
 }
 
 .background-multiclass {
   background: var(--multiclass-dark);
+  &::after {
+    background: rgba(0, 0, 0, 0.05);
+    mask-image: url("../assets/patterns/multiclass.svg");
+  }
 }
 
 .background-mythos {
   background: var(--mythos-dark);
+  &::after {
+    background: rgba(0, 0, 0, 0.25);
+    mask-image: url("../assets/patterns/mythos.svg");
+  }
 }
 
 .background-neutral {
   background: var(--neutral-dark);
+  &::after {
+    background: rgba(0, 0, 0, 0.05);
+    mask-image: url("../assets/patterns/neutral.svg");
+  }
 }
 
 .border-taboo {

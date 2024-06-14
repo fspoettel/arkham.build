@@ -49,23 +49,23 @@ export function sortedEncounterSets(metadata: Metadata) {
   return encounterSets;
 }
 
+export function sortBySlots(a: string, b: string) {
+  const slotA = ASSET_SLOT_ORDER.indexOf(a);
+  const slotB = ASSET_SLOT_ORDER.indexOf(b);
+
+  if (slotA === -1 && slotB === -1) {
+    return a.localeCompare(b);
+  } else if (slotA === -1) {
+    return 1;
+  } else if (slotB === -1) {
+    return -1;
+  } else {
+    return slotA - slotB;
+  }
+}
+
 export function sortedBySlots(slotsTable: LookupTables["slots"]) {
   const slots = Object.keys(slotsTable);
-
-  slots.sort((a, b) => {
-    const slotA = ASSET_SLOT_ORDER.indexOf(a);
-    const slotB = ASSET_SLOT_ORDER.indexOf(b);
-
-    if (slotA === -1 && slotB === -1) {
-      return a.localeCompare(b);
-    } else if (slotA === -1) {
-      return 1;
-    } else if (slotB === -1) {
-      return -1;
-    } else {
-      return slotA - slotB;
-    }
-  });
-
+  slots.sort(sortBySlots);
   return slots;
 }

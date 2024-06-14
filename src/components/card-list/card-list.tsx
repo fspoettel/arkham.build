@@ -103,7 +103,11 @@ export function CardList() {
               <Grouphead grouping={data.groups[index]} />
             )}
             itemContent={(index) => (
-              <ListCard key={data.cards[index].code} card={data.cards[index]} />
+              <ListCard
+                className={css["list-listcard"]}
+                key={data.cards[index].code}
+                card={data.cards[index]}
+              />
             )}
             rangeChanged={rangeChanged}
             ref={virtuosoRef}

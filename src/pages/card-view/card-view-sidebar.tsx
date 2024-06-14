@@ -1,9 +1,8 @@
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
-import { Link } from "wouter";
 
 import SvgWorld from "@/assets/icons/world.svg?react";
 import { Scroller } from "@/components/ui/scroll-area";
-import type { CardWithRelations } from "@/store/selectors/card-view";
+import type { CardWithRelations } from "@/store/utils/card-resolver";
 
 import css from "./card-view-sidebar.module.css";
 
@@ -21,11 +20,9 @@ export function CardViewSidebar({ resolvedCard }: Props) {
     <Scroller>
       <div className={css["sidebar"]}>
         <nav className={css["sidebar-nav"]}>
-          <Link href="/">
-            <Button as="a" size="full">
-              <ChevronLeftIcon /> Back
-            </Button>
-          </Link>
+          <Button size="full" onClick={() => history.back()}>
+            <ChevronLeftIcon /> Back
+          </Button>
           <Button
             size="full"
             as="a"

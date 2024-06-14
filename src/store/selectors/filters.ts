@@ -488,9 +488,17 @@ export const selectSubtypeChanges = createSelector(
  */
 
 export const selectCanonicalTabooSetId = createSelector(
+  (state: StoreState) => state.decks.local,
+  (state: StoreState) => state.ui.activeDeckId,
   (state: StoreState) => state.filters.player.tabooSet.value,
   (state: StoreState) => state.settings.tabooSetId,
-  (filterId, settingId) => filterId ?? settingId,
+  (decks, activeDeckId, filterId, settingId) => {
+    if (filterId) return filterId;
+    if (activeDeckId) {
+      return decks[activeDeckId].taboo_id;
+    }
+    return settingId;
+  },
 );
 
 export const selectTabooSetOptions = (state: StoreState) => {

@@ -1,3 +1,4 @@
+import type { DecksSlice } from "./decks/types";
 import type { FiltersSlice } from "./filters/types";
 import type { LookupTablesSlice } from "./lookup-tables/types";
 import type { MetadataSlice } from "./metadata/types";
@@ -12,4 +13,5 @@ export type StoreState = SharedSlice &
   UISlice &
   SearchSlice &
   SettingsSlice &
+  DecksSlice &
   FiltersSlice;

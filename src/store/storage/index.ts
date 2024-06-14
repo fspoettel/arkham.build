@@ -1,6 +1,7 @@
 import type { PersistStorage, StorageValue } from "zustand/middleware";
 
 import type { StoreState } from "../slices";
+import { getInitialDecksState } from "../slices/decks";
 import { getInitialMetadata } from "../slices/metadata";
 import { getInitialSettings } from "../slices/settings";
 import { IndexedDBAdapter } from "./indexeddb-adapter";
@@ -10,12 +11,16 @@ const indexedDBAdapter = new IndexedDBAdapter();
 
 const VERSION = 1;
 
+// use this flag to disable rehydration during dev.
+const SKIP_HYDRATION = false;
+
 export const storageConfig = {
   name: "deckbuilder",
   storage: createCustomStorage(),
   version: VERSION,
   partialize(state: StoreState) {
     return {
+      decks: state.decks,
       metadata: state.metadata,
       settings: state.settings,
     };
@@ -34,6 +39,7 @@ export const storageConfig = {
 function createCustomStorage(): PersistStorage<Val> | undefined {
   return {
     async getItem(name) {
+      if (SKIP_HYDRATION) return null;
       try {
         const [metadata, appdata] = await Promise.all([
           indexedDBAdapter.getMetadata(name),
@@ -44,6 +50,7 @@ function createCustomStorage(): PersistStorage<Val> | undefined {
 
         const val: StorageValue<Val> = {
           state: {
+            decks: appdata?.state?.decks ?? getInitialDecksState(),
             metadata: metadata?.state?.metadata ?? getInitialMetadata(),
             settings: appdata?.state?.settings ?? getInitialSettings(),
           },

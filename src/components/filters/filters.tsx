@@ -1,6 +1,5 @@
 import SvgFilterClear from "@/assets/icons/filter-clear.svg?react";
 import { useStore } from "@/store";
-import { selectIsInitialized } from "@/store/selectors";
 import { selectActiveCardType } from "@/store/selectors/filters";
 
 import css from "./filters.module.css";
@@ -23,14 +22,15 @@ import { TabooSetFilter } from "./taboo-set-filter";
 import { TraitFilter } from "./trait-filter";
 import { TypeFilter } from "./type-filter";
 
-export function Filters() {
-  const isInitalized = useStore(selectIsInitialized);
+type Props = {
+  hiddenFilters?: string[];
+};
+
+export function Filters({ hiddenFilters }: Props) {
   const touched = useStore((state) => state.filters.touched);
 
   const cardTypeSelection = useStore(selectActiveCardType);
   const resetFilters = useStore((state) => state.resetFilters);
-
-  if (!isInitalized) return null;
 
   return (
     <search className={css["filters"]} title="Filters">
@@ -56,7 +56,8 @@ export function Filters() {
           <PackFilter />
           {cardTypeSelection === "encounter" && <EncounterSetFilter />}
           {cardTypeSelection === "player" && <TabooSetFilter />}
-          {cardTypeSelection === "player" && <InvestigatorFilter />}
+          {!hiddenFilters?.includes("investigator") &&
+            cardTypeSelection === "player" && <InvestigatorFilter />}
         </div>
       </Scroller>
     </search>

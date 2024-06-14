@@ -2,8 +2,8 @@ import { ChevronDownIcon } from "@radix-ui/react-icons";
 import type { MouseEvent } from "react";
 import { useCallback, useMemo, useState } from "react";
 
-import type { CardWithRelations } from "@/store/selectors/card-view";
 import { queryFaq } from "@/store/services/queries";
+import type { CardWithRelations } from "@/store/utils/card-resolver";
 import { useQuery } from "@/utils/use-query";
 
 import css from "./faq.module.css";

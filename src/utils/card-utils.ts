@@ -1,10 +1,11 @@
 import type { Card } from "@/store/services/types";
+import type {
+  CardResolved,
+  CardWithRelations,
+} from "@/store/utils/card-resolver";
 
 import { SIDEWAYS_TYPE_CODES, SKILL_KEYS } from "./constants";
 
-/**
- * Split multi value card properties. expected format: `Item. Tool.`
- */
 export function splitMultiValue(s?: string) {
   if (!s) return [];
   return s.split(".").reduce<string[]>((acc, curr) => {
@@ -40,4 +41,16 @@ export function reversed(card: Card) {
     !card.back_link_id &&
     card.encounter_code
   );
+}
+
+export function countExperience(card: Card, quantity: number) {
+  let xp = (card.xp ?? 0) + (card.taboo_xp ?? 0);
+  xp = card.exceptional ? xp * 2 : xp;
+  return xp * (card.myriad ? 1 : quantity);
+}
+
+export function isCardWithRelations(
+  x: CardResolved | CardWithRelations,
+): x is CardWithRelations {
+  return "relations" in x;
 }

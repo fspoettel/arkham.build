@@ -30,7 +30,9 @@ export const CardThumbnail = memo(
           className,
         )}
       >
-        <img src={card.imageurl} />
+        <img
+          src={`${import.meta.env.VITE_CARD_IMAGE_URL}/thumbnails/${card.code}.webp`}
+        />
       </div>
     );
   },

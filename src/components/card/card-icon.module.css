@@ -2,6 +2,7 @@
 .icon_weakness,
 .icon_large {
   font-size: 1em;
+  width: 1em;
 }
 
 .icon_skill,
@@ -34,6 +35,10 @@
 .icon-children {
   width: 100%;
   text-align: center;
+}
+
+.icon_skill .icon-child {
+  top: 15%;
 }
 
 .icon_inverted,

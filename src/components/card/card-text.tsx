@@ -38,7 +38,7 @@ export function CardText({
             }}
           />
         )}
-        {victory && (
+        {!!victory && (
           <p>
             <b>Victory {victory}.</b>
           </p>
@@ -56,7 +56,7 @@ export function CardText({
               />
             </p>
           )}
-          {tabooXp && (
+          {!!tabooXp && (
             <p>
               <i className="icon-tablet color-taboo icon-text" /> Costs{" "}
               {tabooXp}

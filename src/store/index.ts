@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 import type { StoreState } from "./slices";
+import { createDecksSlice } from "./slices/decks";
 import { createFiltersSlice } from "./slices/filters";
 import { createLookupTablesSlice } from "./slices/lookup-tables";
 import { createMetadataSlice } from "./slices/metadata";
@@ -15,6 +16,7 @@ export const useStore = create<StoreState>()(
   devtools(
     persist(
       (...args) => ({
+        ...createDecksSlice(...args),
         ...createMetadataSlice(...args),
         ...createLookupTablesSlice(...args),
         ...createFiltersSlice(...args),

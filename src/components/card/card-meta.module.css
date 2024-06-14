@@ -10,7 +10,7 @@
 .meta-property [class^="encounters-"],
 .meta-property svg {
   display: inline-block;
-  vertical-align: middle;
+  vertical-align: baseline;
 }
 
 .meta-property strong {

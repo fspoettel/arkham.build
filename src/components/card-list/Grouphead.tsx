@@ -16,7 +16,7 @@ export function Grouphead({ grouping }: Props) {
         <EncounterIcon code={grouping.code} />
       )}
       {grouping.grouping_type === "slot" &&
-        grouping.code !== "Slotless" &&
+        grouping.code !== "Other" &&
         grouping.code !== "Permanent" && (
           <CardSlots slot={grouping.code} size="small" />
         )}

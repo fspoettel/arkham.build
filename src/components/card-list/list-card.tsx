@@ -7,6 +7,7 @@ import {
   useFloating,
 } from "@floating-ui/react";
 import clsx from "clsx";
+import type { ElementType } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 
@@ -23,10 +24,20 @@ import { SkillIcons } from "../skill-icons";
 import { CardTooltip } from "./card-tooltip";
 
 type Props = {
+  as?: "li" | "div";
   card: Card;
+  className?: string;
+  quantity?: number;
+  size?: "sm";
 };
 
-export function ListCard({ card }: Props) {
+export function ListCard({
+  as = "div",
+  card,
+  className,
+  quantity,
+  size,
+}: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
   const restTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
@@ -72,16 +83,24 @@ export function ListCard({ card }: Props) {
     onMouseLeave: onPointerLeave,
   };
 
+  const Element = as as ElementType;
+
   return (
-    <div className={clsx(css["listcard"])}>
+    <Element className={clsx(css["listcard"], size && css[size], className)}>
       <figure className={css["listcard-inner"]} ref={refs.setReference}>
-        <div className={css["listcard-thumbnail"]} {...referenceProps}>
-          <Link href={`/card/${card.code}`}>
-            <a tabIndex={-1}>
-              <CardThumbnail card={card} />
-            </a>
-          </Link>
-        </div>
+        {quantity && (
+          <strong className={css["listcard-quantity"]}>{quantity} ×</strong>
+        )}
+
+        {card.imageurl && (
+          <div className={css["listcard-thumbnail"]} {...referenceProps}>
+            <Link href={`/card/${card.code}`}>
+              <a tabIndex={-1}>
+                <CardThumbnail card={card} />
+              </a>
+            </Link>
+          </div>
+        )}
 
         {card.faction_code !== "mythos" && (
           <div className={clsx(css["listcard-icon"], colorCls)}>
@@ -127,6 +146,6 @@ export function ListCard({ card }: Props) {
           )}
         </figcaption>
       </figure>
-    </div>
+    </Element>
   );
 }

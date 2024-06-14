@@ -78,10 +78,11 @@
   grid-template-rows: auto auto 1fr;
 
   grid-template-columns: 1fr 6rem;
+
   grid-template-areas:
     "header header"
     "details image"
-    "content image";
+    "content content";
 
   &.back:not(.back-has-header) {
     padding: var(--card-spacing) 0;
@@ -89,7 +90,14 @@
     grid-template-areas: "content image";
   }
 
-  min-width: 24rem;
+  &.back:not(.has-image) {
+    grid-template-columns: 1fr;
+    padding: var(--card-spacing) 0;
+    grid-template-rows: 1fr;
+    grid-template-areas: "content";
+  }
+
+  min-width: 22rem;
   max-width: 32rem;
 }
 
@@ -111,14 +119,8 @@
 
 .image {
   grid-area: image;
-
   & img {
-    border-radius: var(--rounded-lg);
     margin: 0 auto;
-
-    @media screen and (min-width: 45rem) {
-      box-shadow: var(--shadow-xl);
-    }
   }
 }
 

@@ -1,6 +1,6 @@
 import { CardList } from "@/components/card-list/card-list";
 import { CardSearch } from "@/components/card-list/card-search";
-import { Decklisting } from "@/components/deck-listing/deck-listing";
+import { DeckCollection } from "@/components/deck-collection/deck-collection";
 import { Filters } from "@/components/filters/filters";
 import { AppLayout } from "@/components/layouts/app-layout";
 import { CenterLayout } from "@/components/layouts/center-layout";
@@ -12,7 +12,11 @@ export function Browse() {
   if (!isInitalized) return null;
 
   return (
-    <AppLayout closeable={<Filters />} sidebar={<Decklisting />} title="Browse">
+    <AppLayout
+      closeable={<Filters />}
+      sidebar={<DeckCollection />}
+      title="Browse"
+    >
       <CenterLayout top={<CardSearch />}>
         <CardList />
       </CenterLayout>

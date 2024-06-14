@@ -2,11 +2,12 @@ import clsx from "clsx";
 
 import SvgCard from "@/assets/icons/card-outline.svg?react";
 import SvgPaintbrush from "@/assets/icons/paintbrush.svg?react";
+import type { Cycle, Pack } from "@/store/services/types";
 import type {
   CardResolved,
   CardWithRelations,
-} from "@/store/selectors/card-view";
-import type { Cycle, Pack } from "@/store/services/types";
+} from "@/store/utils/card-resolver";
+import { isCardWithRelations } from "@/utils/card-utils";
 import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
 
 import css from "./card-meta.module.css";
@@ -15,66 +16,68 @@ import EncounterIcon from "../icons/encounter-icon";
 import PackIcon from "../icons/pack-icon";
 
 type Props = {
-  resolvedCard: CardWithRelations;
-  size: "full" | "compact" | "tooltip";
+  resolvedCard: CardResolved | CardWithRelations;
+  size: "tooltip" | "compact" | "full";
+  skipCycle?: boolean;
 };
 
-function PackEntry({
-  resolvedCard,
-  skipCycle,
-  size,
-}: {
-  resolvedCard: CardResolved;
-  size: Props["size"];
-  skipCycle?: boolean;
-}) {
+function EncounterEntry({ resolvedCard }: Props) {
   const { card, cycle, encounterSet, pack } = resolvedCard;
+
+  if (!encounterSet) return null;
+
   const displayPack = cycleOrPack(cycle, pack);
 
   return (
     <>
-      {encounterSet ? (
-        <>
-          {size === "full" && (
-            <p className={css["meta-property"]}>
-              {encounterSet.name} <EncounterIcon code={card.encounter_code} />{" "}
-              {getEncounterPositions(
-                card.encounter_position ?? 1,
-                card.quantity,
-              )}
-            </p>
-          )}
-          {(size !== "full" ||
-            (!skipCycle && encounterSet.name !== displayPack.real_name)) && (
-            <p className={css["meta-property"]}>
-              {displayPack.real_name} <PackIcon code={displayPack.code} />{" "}
-              <strong>{card.pack_position}</strong>
-            </p>
-          )}
-        </>
+      <p className={css["meta-property"]}>
+        {encounterSet.name} <EncounterIcon code={card.encounter_code} />{" "}
+        {getEncounterPositions(card.encounter_position ?? 1, card.quantity)}
+      </p>
+      <p className={css["meta-property"]}>
+        {displayPack.real_name} <PackIcon code={displayPack.code} />{" "}
+        {card.pack_position}
+      </p>
+    </>
+  );
+}
+
+function PlayerEntry({ resolvedCard, size }: Props) {
+  const { card, cycle, pack } = resolvedCard;
+  const duplicates = isCardWithRelations(resolvedCard)
+    ? resolvedCard.relations?.duplicates
+    : [];
+
+  const displayPack = cycleOrPack(cycle, pack);
+
+  return (
+    <>
+      {size === "full" &&
+        !!duplicates?.length &&
+        duplicates.map((duplicate) => (
+          <p className={css["meta-property"]} key={duplicate.card.code}>
+            {duplicate.pack.real_name} <PackIcon code={duplicate.pack.code} />{" "}
+            {duplicate.card.pack_position} <SvgCard /> ×
+            {duplicate.card.quantity}
+          </p>
+        ))}
+      <p className={css["meta-property"]}>
+        {displayPack.real_name} <PackIcon code={displayPack.code} />{" "}
+        {card.pack_position} <SvgCard /> ×{card.quantity}
+      </p>
+    </>
+  );
+}
+
+function PackEntries({ resolvedCard, size }: Props) {
+  const { card, encounterSet } = resolvedCard;
+  const isEncounter = encounterSet && card.encounter_code;
+  return (
+    <>
+      {isEncounter ? (
+        <EncounterEntry resolvedCard={resolvedCard} size={size} />
       ) : (
-        <>
-          {size !== "full" && (
-            <p className={css["meta-property"]}>
-              {displayPack.real_name} <PackIcon code={displayPack.code} />{" "}
-              <strong>{card.pack_position}</strong>
-            </p>
-          )}
-          {size === "full" && (
-            <>
-              <p className={css["meta-property"]}>
-                {displayPack.real_name} <PackIcon code={displayPack.code} />{" "}
-                <strong>{card.pack_position}</strong> <SvgCard /> x{" "}
-                {card.quantity}
-              </p>
-              {!skipCycle && displayPack.real_name !== cycle.real_name && (
-                <p className={css["meta-property"]}>
-                  {cycle.real_name} <PackIcon code={cycle.code} />
-                </p>
-              )}
-            </>
-          )}
-        </>
+        <PlayerEntry resolvedCard={resolvedCard} size={size} />
       )}
     </>
   );
@@ -83,8 +86,6 @@ function PackEntry({
 export function CardMeta({ size, resolvedCard }: Props) {
   const illustrator = resolvedCard.card.illustrator;
 
-  const duplicates = resolvedCard?.relations?.duplicates;
-
   return (
     <footer className={clsx(css["meta"], css[size])}>
       {size === "full" && illustrator && (
@@ -92,15 +93,7 @@ export function CardMeta({ size, resolvedCard }: Props) {
           <SvgPaintbrush /> {illustrator}
         </p>
       )}
-      <PackEntry
-        skipCycle={!!duplicates?.length}
-        resolvedCard={resolvedCard}
-        size={size}
-      />
-      {duplicates &&
-        Object.values(duplicates).map((r) => (
-          <PackEntry skipCycle key={r.card.code} resolvedCard={r} size={size} />
-        ))}
+      <PackEntries resolvedCard={resolvedCard} size={size} />
     </footer>
   );
 }
@@ -125,10 +118,7 @@ function getEncounterPositions(position: number, quantity: number) {
 }
 
 function cycleOrPack(cycle: Cycle, pack: Pack) {
-  if (
-    pack.real_name.includes("Expansion") ||
-    CYCLES_WITH_STANDALONE_PACKS.includes(cycle.code)
-  ) {
+  if (CYCLES_WITH_STANDALONE_PACKS.includes(cycle.code)) {
     return pack;
   }
 

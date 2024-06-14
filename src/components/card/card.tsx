@@ -1,4 +1,7 @@
-import type { CardWithRelations } from "@/store/selectors/card-view";
+import type {
+  CardResolved,
+  CardWithRelations,
+} from "@/store/utils/card-resolver";
 import { reversed } from "@/utils/card-utils";
 
 import { CardBack } from "./card-back";
@@ -7,7 +10,8 @@ import { CardFront } from "./card-front";
 
 export type Props = {
   className?: string;
-  resolvedCard: CardWithRelations;
+  resolvedCard: CardResolved | CardWithRelations;
+  canToggleBack?: boolean;
   linked?: boolean;
   size?: "compact" | "tooltip" | "full";
 };

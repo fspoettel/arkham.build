@@ -24,3 +24,7 @@
     border-bottom: 1px solid var(--nord-3);
   }
 }
+
+.list-listcard {
+  padding-inline: 1rem;
+}

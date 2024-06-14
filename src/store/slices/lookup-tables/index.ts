@@ -275,7 +275,7 @@ function indexBySlots(tables: LookupTables, card: Card) {
   } else if (card.permanent) {
     setInLookupTable(card.code, tables.slots, "Permanent");
   } else {
-    setInLookupTable(card.code, tables.slots, "Slotless");
+    setInLookupTable(card.code, tables.slots, "Other");
   }
 }
 

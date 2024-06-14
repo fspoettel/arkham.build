@@ -36,13 +36,27 @@ export const SKILL_KEYS: SkillKey[] = [
   "wild",
 ] as const;
 
+export type PlayerType =
+  | "investigator"
+  | "asset"
+  | "event"
+  | "skill"
+  | "location"
+  | "story"
+  | "treachery"
+  | "enemy"
+  | "key";
+
 export const PLAYER_TYPE_ORDER = [
   "investigator",
   "asset",
   "event",
   "skill",
   "location",
+  "enemy",
   "story",
+  "key",
+  "treachery",
 ] as const;
 
 export const ASSET_SLOT_ORDER = [
@@ -57,7 +71,7 @@ export const ASSET_SLOT_ORDER = [
   // followed by:
   // - multi_slot
   // - permanent
-  // - slotless
+  // - Other
 ];
 
 export const SIDEWAYS_TYPE_CODES = ["act", "agenda", "investigator"];

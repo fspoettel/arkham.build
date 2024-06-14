@@ -11,9 +11,8 @@ type Props = {
 
 export function CardTooltip({ code }: Props) {
   const resolvedCard = useStore((state) =>
-    selectCardWithRelations(state, code, true),
+    selectCardWithRelations(state, code, false),
   );
-
   if (!resolvedCard) return null;
 
   return (

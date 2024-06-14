@@ -10,13 +10,19 @@ import { Masthead } from "../masthead";
 
 type Props = {
   children: ReactNode;
-  centerScroller?: boolean;
   sidebar?: ReactNode;
   closeable?: ReactNode;
   title: string;
+  omitSidebarBorder?: boolean;
 };
 
-export function AppLayout({ children, sidebar, closeable, title }: Props) {
+export function AppLayout({
+  children,
+  sidebar,
+  closeable,
+  omitSidebarBorder,
+  title,
+}: Props) {
   const open = useStore((state) => state.ui.sidebarOpen);
 
   useDocumentTitle(title);
@@ -27,6 +33,7 @@ export function AppLayout({ children, sidebar, closeable, title }: Props) {
         css["layout"],
         !!sidebar && css["has-sidebar"],
         !!closeable && css["has-closeable"],
+        !!omitSidebarBorder && css["omit-sidebar-border"],
       )}
     >
       <Masthead className={css["layout-header"]} />
