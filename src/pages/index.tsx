@@ -1,10 +1,12 @@
+import { CardSearch } from "@/components/card-search";
+import { Filters } from "@/components/filters";
 import { AppLayout } from "@/components/layouts/app_layout";
 import { CenterLayout } from "@/components/layouts/center_layout";
 
 export function Index() {
   return (
-    <AppLayout filters={"Card filters"} sidebar={"Deck list"}>
-      <CenterLayout top="Card search"> </CenterLayout>
+    <AppLayout filters={<Filters />} sidebar={"Deck list"}>
+      <CenterLayout top={<CardSearch />}> </CenterLayout>
     </AppLayout>
   );
 }

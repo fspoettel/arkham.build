@@ -11,6 +11,7 @@
     "check": "tsc --noEmit",
     "dev": "vite",
     "fmt": "prettier --write .",
+    "icons:generate": "npx @svgr/cli -- assets/icons",
     "lint": "eslint src",
     "prepare": "husky install",
     "preview": "vite preview",

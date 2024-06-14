@@ -1,0 +1,31 @@
+{
+  "jsxRuntime": "automatic",
+  "outDir": "./src/components/icons",
+  "filenameCase": "kebab",
+  "svgoConfig": {
+    "plugins": [
+      {
+        "name": "preset-default",
+        "params": {
+          "overrides": {
+            "removeViewBox": false
+          }
+        }
+      },
+      {
+        "name": "removeAttrs",
+        "params": {
+          "attrs": "*:(stroke|fill):((?!^none$).)*"
+        }
+      },
+      {
+        "name": "addClassesToSVGElement",
+        "params": {
+          "classNames": ["icon"]
+        }
+      }
+    ]
+  },
+  "dimensions": false,
+  "typescript": true
+}
