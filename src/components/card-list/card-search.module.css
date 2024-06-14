@@ -1,16 +1,30 @@
 .search {
+  padding: 0.5rem 1rem;
+
+  & > * + * {
+    margin-top: 0.5rem;
+  }
+}
+
+.search-row {
   display: flex;
   flex-flow: row nowrap;
   align-items: stretch;
-  padding: 1rem;
   gap: 1rem;
 }
 
 .search-input {
   flex: 1 0 auto;
+}
+
+.search-input input {
+  width: 100%;
   border-radius: var(--rounded-lg);
 }
 
-.search-toggle {
+.search-toggles {
   flex: 0 0 auto;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
 }

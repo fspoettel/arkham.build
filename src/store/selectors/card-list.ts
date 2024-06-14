@@ -15,6 +15,7 @@ import {
   groupByPlayerCardType,
   groupByWeakness,
 } from "./utils/grouping";
+import { applySearch } from "./utils/searching";
 import { sortAlphabetically, sortByEncounterPosition } from "./utils/sorting";
 
 export const selectFilteredCards = createSelector(
@@ -24,6 +25,7 @@ export const selectFilteredCards = createSelector(
   selectEncounterFilters,
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
+  (state: StoreState) => state.search,
   (
     activeCardType,
     playerCardFilter,
@@ -31,6 +33,7 @@ export const selectFilteredCards = createSelector(
     encounterFilters,
     metadata,
     lookupTables,
+    search,
   ) => {
     if (!Object.keys(metadata.cards).length) {
       console.warn("player cards selected before store is initialized.");
@@ -45,16 +48,14 @@ export const selectFilteredCards = createSelector(
       console.time("[performance] select_player_cards");
 
       for (const grouping of groupByPlayerCardType(metadata, lookupTables)) {
-        const groupCards = getGroupCards(
-          grouping,
+        const groupCards = applySearch(
+          search,
+          getGroupCards(grouping, metadata, lookupTables, playerCardFilter),
           metadata,
-          lookupTables,
-          playerCardFilter,
         );
 
-        groupCards.sort(sortAlphabetically(lookupTables));
-
         if (groupCards.length) {
+          groupCards.sort(sortAlphabetically(lookupTables));
           groups.push(grouping);
           cards.push(...groupCards);
           groupCounts.push(groupCards.length);
@@ -62,16 +63,14 @@ export const selectFilteredCards = createSelector(
       }
 
       for (const grouping of groupByWeakness(metadata)) {
-        const groupCards = getGroupCards(
-          grouping,
+        const groupCards = applySearch(
+          search,
+          getGroupCards(grouping, metadata, lookupTables, weaknessFilter),
           metadata,
-          lookupTables,
-          weaknessFilter,
         );
 
-        groupCards.sort(sortAlphabetically(lookupTables));
-
         if (groupCards.length) {
+          groupCards.sort(sortAlphabetically(lookupTables));
           groups.push(grouping);
           cards.push(...groupCards);
           groupCounts.push(groupCards.length);
@@ -83,16 +82,14 @@ export const selectFilteredCards = createSelector(
       console.time("[performance] select_encounter_cards");
 
       for (const grouping of groupByEncounterSets(metadata)) {
-        const groupCards = getGroupCards(
-          grouping,
+        const groupCards = applySearch(
+          search,
+          getGroupCards(grouping, metadata, lookupTables, encounterFilters),
           metadata,
-          lookupTables,
-          encounterFilters,
         );
 
-        groupCards.sort(sortByEncounterPosition);
-
         if (groupCards.length) {
+          groupCards.sort(sortByEncounterPosition);
           groups.push(grouping);
           cards.push(...groupCards);
           groupCounts.push(groupCards.length);
