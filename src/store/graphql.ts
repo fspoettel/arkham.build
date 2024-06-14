@@ -3,9 +3,11 @@ import request, { gql } from "graphql-request";
 import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
 import { Cycle, DataVersion, Pack, QueryCard } from "./schema";
 
-const dataVersionQuery: TypedDocumentNode<{
+type DataVersionResponse = {
   all_card_updated: DataVersion[];
-}> = parse(gql`
+};
+
+const dataVersionQuery: TypedDocumentNode<DataVersionResponse> = parse(gql`
   {
     all_card_updated(where: { locale: { _eq: "en" } }, limit: 1) {
       card_count
@@ -16,10 +18,12 @@ const dataVersionQuery: TypedDocumentNode<{
   }
 `);
 
-const metadataQuery: TypedDocumentNode<{
+type MetadataResponse = {
   pack: Pack[];
   cycle: Cycle[];
-}> = parse(gql`
+};
+
+const metadataQuery: TypedDocumentNode<MetadataResponse> = parse(gql`
   {
     pack(where: { official: { _eq: true } }) {
       code
@@ -37,11 +41,15 @@ const metadataQuery: TypedDocumentNode<{
   }
 `);
 
-const allCardQuery: TypedDocumentNode<{
+type AllCardResponse = {
   all_card: QueryCard[];
-}> = parse(gql`
+};
+
+const allCardQuery: TypedDocumentNode<AllCardResponse> = parse(gql`
   {
-    all_card(where: { official: { _eq: true } }) {
+    all_card(
+      where: { official: { _eq: true }, taboo_set_id: { _is_null: true } }
+    ) {
       alt_art_investigator
       alternate_of_code
       alternate_required_code
@@ -118,6 +126,7 @@ const allCardQuery: TypedDocumentNode<{
       skill_combat
       skill_intellect
       skill_willpower
+      skill_wild
       # spoiler
       stage
       subtype_code
@@ -136,16 +145,30 @@ const allCardQuery: TypedDocumentNode<{
 
 const graphqlUrl = import.meta.env.VITE_GRAPHQL_DATA_ENDPOINT;
 
+async function stub<T>(path: string): Promise<T> {
+  return import(/* @vite-ignore */ path).then((p) => p.default as T);
+}
+
 export async function queryMetadata() {
-  return request(graphqlUrl, metadataQuery);
+  const data = import.meta.env.DEV
+    ? await stub<MetadataResponse>("../data/stubs/metadata.json")
+    : await request(graphqlUrl, metadataQuery);
+
+  return data;
 }
 
 export async function queryDataVersion() {
-  const data = await request(graphqlUrl, dataVersionQuery);
+  const data = import.meta.env.DEV
+    ? await stub<DataVersionResponse>("../data/stubs/data_version.json")
+    : await request(graphqlUrl, dataVersionQuery);
+
   return data.all_card_updated[0];
 }
 
 export async function queryCards() {
-  const { all_card } = await request(graphqlUrl, allCardQuery);
-  return all_card;
+  const data = import.meta.env.DEV
+    ? await stub<AllCardResponse>("../data/stubs/all_card.json")
+    : await request(graphqlUrl, allCardQuery);
+
+  return data.all_card;
 }

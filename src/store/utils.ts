@@ -1,5 +1,5 @@
-import { PARALLEL_INVESTIGATORS } from "@/data/constants";
-import { Index } from "./schema";
+import { PARALLEL_INVESTIGATORS } from "@/store/constants";
+import { Card, Index } from "./schema";
 
 /**
  * Transform an array of arkhamdb-json-data into a map { [code]: data }.
@@ -19,9 +19,9 @@ export function mappedByCode<T extends { code: string }>(arr: T[]) {
  */
 export function setInIndex(index: Index, code: string, value: string | number) {
   if (index[value]) {
-    index[value][code] = true;
+    index[value][code] = 1;
   } else {
-    index[value] = { [code]: true };
+    index[value] = { [code]: 1 };
   }
 }
 
@@ -47,4 +47,11 @@ export function hasParallel(code: string) {
  */
 export function isParallel(code: string) {
   return Object.values(PARALLEL_INVESTIGATORS).includes(code);
+}
+
+export function isPlayerCard(card: Card) {
+  return (
+    card.faction_code !== "mythos" && // enounter deck
+    card.pack_code !== "zbh_00008" // barkham horror.
+  );
 }

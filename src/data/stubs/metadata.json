@@ -1,0 +1,712 @@
+{
+  "pack": [
+    {
+      "code": "core",
+      "cycle_code": "core",
+      "official": true,
+      "position": 1,
+      "real_name": "Core Set"
+    },
+    {
+      "code": "fhvp",
+      "cycle_code": "fhv",
+      "official": true,
+      "position": 1,
+      "real_name": "The Feast of Hemlock Vale Investigator Expansion"
+    },
+    {
+      "code": "promo",
+      "cycle_code": "promotional",
+      "official": true,
+      "position": 30,
+      "real_name": "Promo"
+    },
+    {
+      "code": "dwl",
+      "cycle_code": "dwl",
+      "official": true,
+      "position": 1,
+      "real_name": "The Dunwich Legacy"
+    },
+    {
+      "code": "tmm",
+      "cycle_code": "dwl",
+      "official": true,
+      "position": 2,
+      "real_name": "The Miskatonic Museum"
+    },
+    {
+      "code": "tece",
+      "cycle_code": "dwl",
+      "official": true,
+      "position": 3,
+      "real_name": "The Essex County Express"
+    },
+    {
+      "code": "bota",
+      "cycle_code": "dwl",
+      "official": true,
+      "position": 4,
+      "real_name": "Blood on the Altar"
+    },
+    {
+      "code": "uau",
+      "cycle_code": "dwl",
+      "official": true,
+      "position": 5,
+      "real_name": "Undimensioned and Unseen"
+    },
+    {
+      "code": "wda",
+      "cycle_code": "dwl",
+      "official": true,
+      "position": 6,
+      "real_name": "Where Doom Awaits"
+    },
+    {
+      "code": "litas",
+      "cycle_code": "dwl",
+      "official": true,
+      "position": 7,
+      "real_name": "Lost in Time and Space"
+    },
+    {
+      "code": "ptc",
+      "cycle_code": "ptc",
+      "official": true,
+      "position": 1,
+      "real_name": "The Path to Carcosa"
+    },
+    {
+      "code": "hoth",
+      "cycle_code": "promotional",
+      "official": true,
+      "position": 20,
+      "real_name": "Hour of the Huntress"
+    },
+    {
+      "code": "books",
+      "cycle_code": "promotional",
+      "official": true,
+      "position": 20,
+      "real_name": "Books"
+    },
+    {
+      "code": "eotp",
+      "cycle_code": "ptc",
+      "official": true,
+      "position": 2,
+      "real_name": "Echoes of the Past"
+    },
+    {
+      "code": "tuo",
+      "cycle_code": "ptc",
+      "official": true,
+      "position": 3,
+      "real_name": "The Unspeakable Oath"
+    },
+    {
+      "code": "cotr",
+      "cycle_code": "side_stories",
+      "official": true,
+      "position": 1,
+      "real_name": "Curse of the Rougarou"
+    },
+    {
+      "code": "coh",
+      "cycle_code": "side_stories",
+      "official": true,
+      "position": 2,
+      "real_name": "Carnevale of Horrors"
+    },
+    {
+      "code": "fof",
+      "cycle_code": "side_stories",
+      "official": true,
+      "position": 9,
+      "real_name": "Fortune and Folly"
+    },
+    {
+      "code": "otr",
+      "cycle_code": "parallel",
+      "official": true,
+      "position": 6,
+      "real_name": "On the Road Again"
+    },
+    {
+      "code": "ltr",
+      "cycle_code": "parallel",
+      "official": true,
+      "position": 7,
+      "real_name": "Laid to Rest"
+    },
+    {
+      "code": "ptr",
+      "cycle_code": "parallel",
+      "official": true,
+      "position": 8,
+      "real_name": "Path of the Righteous"
+    },
+    {
+      "code": "rop",
+      "cycle_code": "parallel",
+      "official": true,
+      "position": 9,
+      "real_name": "Relics of the Past"
+    },
+    {
+      "code": "iotv",
+      "cycle_code": "promotional",
+      "official": true,
+      "position": 22,
+      "real_name": "Ire of the Void"
+    },
+    {
+      "code": "apot",
+      "cycle_code": "ptc",
+      "official": true,
+      "position": 4,
+      "real_name": "A Phantom of Truth"
+    },
+    {
+      "code": "bob",
+      "cycle_code": "promotional",
+      "official": true,
+      "position": 25,
+      "real_name": "Blood of Baalshandor"
+    },
+    {
+      "code": "rttfa",
+      "cycle_code": "return",
+      "official": true,
+      "position": 4,
+      "real_name": "Return to the Forgotten Age"
+    },
+    {
+      "code": "tpm",
+      "cycle_code": "ptc",
+      "official": true,
+      "position": 5,
+      "real_name": "The Pallid Mask"
+    },
+    {
+      "code": "bsr",
+      "cycle_code": "ptc",
+      "official": true,
+      "position": 6,
+      "real_name": "Black Stars Rise"
+    },
+    {
+      "code": "nat",
+      "cycle_code": "investigator",
+      "official": true,
+      "position": 1,
+      "real_name": "Nathaniel Cho"
+    },
+    {
+      "code": "tdor",
+      "cycle_code": "promotional",
+      "official": true,
+      "position": 21,
+      "real_name": "The Dirge of Reason"
+    },
+    {
+      "code": "dca",
+      "cycle_code": "ptc",
+      "official": true,
+      "position": 7,
+      "real_name": "Dim Carcosa"
+    },
+    {
+      "code": "fhvc",
+      "cycle_code": "fhv",
+      "official": true,
+      "position": 2,
+      "real_name": "The Feast of Hemlock Vale Campaign Expansion"
+    },
+    {
+      "code": "lol",
+      "cycle_code": "side_stories",
+      "official": true,
+      "position": 3,
+      "real_name": "The Labyrinths of Lunacy"
+    },
+    {
+      "code": "guardians",
+      "cycle_code": "side_stories",
+      "official": true,
+      "position": 4,
+      "real_name": "Guardians of the Abyss"
+    },
+    {
+      "code": "hotel",
+      "cycle_code": "side_stories",
+      "official": true,
+      "position": 5,
+      "real_name": "Murder at the Excelsior Hotel"
+    },
+    {
+      "code": "blob",
+      "cycle_code": "side_stories",
+      "official": true,
+      "position": 6,
+      "real_name": "The Blob That Ate Everything"
+    },
+    {
+      "code": "wog",
+      "cycle_code": "side_stories",
+      "official": true,
+      "position": 7,
+      "real_name": "War of the Outer Gods"
+    },
+    {
+      "code": "mtt",
+      "cycle_code": "side_stories",
+      "official": true,
+      "position": 8,
+      "real_name": "Machinations Through Time"
+    },
+    {
+      "code": "blbe",
+      "cycle_code": "side_stories",
+      "official": true,
+      "position": 10,
+      "real_name": "The Blob That Ate Everything ELSE!"
+    },
+    {
+      "code": "rod",
+      "cycle_code": "parallel",
+      "official": true,
+      "position": 1,
+      "real_name": "Read or Die"
+    },
+    {
+      "code": "aon",
+      "cycle_code": "parallel",
+      "official": true,
+      "position": 2,
+      "real_name": "All or Nothing"
+    },
+    {
+      "code": "bad",
+      "cycle_code": "parallel",
+      "official": true,
+      "position": 3,
+      "real_name": "Bad Blood"
+    },
+    {
+      "code": "tftbw",
+      "cycle_code": "promotional",
+      "official": true,
+      "position": 24,
+      "real_name": "To Fight the Black Wind"
+    },
+    {
+      "code": "tfa",
+      "cycle_code": "tfa",
+      "official": true,
+      "position": 1,
+      "real_name": "The Forgotten Age"
+    },
+    {
+      "code": "btb",
+      "cycle_code": "parallel",
+      "official": true,
+      "position": 4,
+      "real_name": "By the Book"
+    },
+    {
+      "code": "tdg",
+      "cycle_code": "promotional",
+      "official": true,
+      "position": 23,
+      "real_name": "The Deep Gate"
+    },
+    {
+      "code": "tof",
+      "cycle_code": "tfa",
+      "official": true,
+      "position": 2,
+      "real_name": "Threads of Fate"
+    },
+    {
+      "code": "rtnotz",
+      "cycle_code": "return",
+      "official": true,
+      "position": 1,
+      "real_name": "Return to the Night of the Zealot"
+    },
+    {
+      "code": "tbb",
+      "cycle_code": "tfa",
+      "official": true,
+      "position": 3,
+      "real_name": "The Boundary Beyond"
+    },
+    {
+      "code": "hote",
+      "cycle_code": "tfa",
+      "official": true,
+      "position": 4,
+      "real_name": "Heart of the Elders"
+    },
+    {
+      "code": "tcoa",
+      "cycle_code": "tfa",
+      "official": true,
+      "position": 5,
+      "real_name": "The City of Archives"
+    },
+    {
+      "code": "tdoy",
+      "cycle_code": "tfa",
+      "official": true,
+      "position": 6,
+      "real_name": "The Depths of Yoth"
+    },
+    {
+      "code": "sha",
+      "cycle_code": "tfa",
+      "official": true,
+      "position": 7,
+      "real_name": "Shattered Aeons"
+    },
+    {
+      "code": "rtr",
+      "cycle_code": "parallel",
+      "official": true,
+      "position": 5,
+      "real_name": "Red Tide Rising"
+    },
+    {
+      "code": "har",
+      "cycle_code": "investigator",
+      "official": true,
+      "position": 2,
+      "real_name": "Harvey Walters"
+    },
+    {
+      "code": "win",
+      "cycle_code": "investigator",
+      "official": true,
+      "position": 3,
+      "real_name": "Winifred Habbamock"
+    },
+    {
+      "code": "jac",
+      "cycle_code": "investigator",
+      "official": true,
+      "position": 4,
+      "real_name": "Jacqueline Fine"
+    },
+    {
+      "code": "ste",
+      "cycle_code": "investigator",
+      "official": true,
+      "position": 5,
+      "real_name": "Stella Clark"
+    },
+    {
+      "code": "rcore",
+      "cycle_code": "core",
+      "official": true,
+      "position": 2,
+      "real_name": "Revised Core Set"
+    },
+    {
+      "code": "tic",
+      "cycle_code": "tic",
+      "official": true,
+      "position": 1,
+      "real_name": "The Innsmouth Conspiracy"
+    },
+    {
+      "code": "itd",
+      "cycle_code": "tic",
+      "official": true,
+      "position": 2,
+      "real_name": "In Too Deep"
+    },
+    {
+      "code": "rtdwl",
+      "cycle_code": "return",
+      "official": true,
+      "position": 2,
+      "real_name": "Return to the Dunwich Legacy"
+    },
+    {
+      "code": "tcu",
+      "cycle_code": "tcu",
+      "official": true,
+      "position": 1,
+      "real_name": "The Circle Undone"
+    },
+    {
+      "code": "dre",
+      "cycle_code": "promotional",
+      "official": true,
+      "position": 26,
+      "real_name": "Dark Revelations"
+    },
+    {
+      "code": "def",
+      "cycle_code": "tic",
+      "official": true,
+      "position": 3,
+      "real_name": "Devil Reef"
+    },
+    {
+      "code": "tsn",
+      "cycle_code": "tcu",
+      "official": true,
+      "position": 2,
+      "real_name": "The Secret Name"
+    },
+    {
+      "code": "hhg",
+      "cycle_code": "tic",
+      "official": true,
+      "position": 4,
+      "real_name": "Horror in High Gear"
+    },
+    {
+      "code": "wos",
+      "cycle_code": "tcu",
+      "official": true,
+      "position": 3,
+      "real_name": "The Wages of Sin"
+    },
+    {
+      "code": "lif",
+      "cycle_code": "tic",
+      "official": true,
+      "position": 5,
+      "real_name": "A Light in the Fog"
+    },
+    {
+      "code": "fgg",
+      "cycle_code": "tcu",
+      "official": true,
+      "position": 4,
+      "real_name": "For the Greater Good"
+    },
+    {
+      "code": "uad",
+      "cycle_code": "tcu",
+      "official": true,
+      "position": 5,
+      "real_name": "Union and Disillusion"
+    },
+    {
+      "code": "icc",
+      "cycle_code": "tcu",
+      "official": true,
+      "position": 6,
+      "real_name": "In the Clutches of Chaos"
+    },
+    {
+      "code": "lod",
+      "cycle_code": "tic",
+      "official": true,
+      "position": 6,
+      "real_name": "The Lair of Dagon"
+    },
+    {
+      "code": "bbt",
+      "cycle_code": "tcu",
+      "official": true,
+      "position": 7,
+      "real_name": "Before the Black Throne"
+    },
+    {
+      "code": "itm",
+      "cycle_code": "tic",
+      "official": true,
+      "position": 7,
+      "real_name": "Into the Maelstrom"
+    },
+    {
+      "code": "rttcu",
+      "cycle_code": "return",
+      "official": true,
+      "position": 5,
+      "real_name": "Return to the Circle Undone"
+    },
+    {
+      "code": "eoep",
+      "cycle_code": "eoe",
+      "official": true,
+      "position": 1,
+      "real_name": "Edge of the Earth Investigator Expansion"
+    },
+    {
+      "code": "rtptc",
+      "cycle_code": "return",
+      "official": true,
+      "position": 3,
+      "real_name": "Return to the Path to Carcosa"
+    },
+    {
+      "code": "tde",
+      "cycle_code": "tde",
+      "official": true,
+      "position": 1,
+      "real_name": "The Dream-Eaters"
+    },
+    {
+      "code": "eoec",
+      "cycle_code": "eoe",
+      "official": true,
+      "position": 2,
+      "real_name": "Edge of the Earth Campaign Expansion"
+    },
+    {
+      "code": "sfk",
+      "cycle_code": "tde",
+      "official": true,
+      "position": 2,
+      "real_name": "The Search for Kadath"
+    },
+    {
+      "code": "tsh",
+      "cycle_code": "tde",
+      "official": true,
+      "position": 3,
+      "real_name": "A Thousand Shapes of Horror"
+    },
+    {
+      "code": "dsm",
+      "cycle_code": "tde",
+      "official": true,
+      "position": 4,
+      "real_name": "Dark Side of the Moon"
+    },
+    {
+      "code": "pnr",
+      "cycle_code": "tde",
+      "official": true,
+      "position": 5,
+      "real_name": "Point of No Return"
+    },
+    {
+      "code": "wgd",
+      "cycle_code": "tde",
+      "official": true,
+      "position": 6,
+      "real_name": "Where the Gods Dwell"
+    },
+    {
+      "code": "tskp",
+      "cycle_code": "tsk",
+      "official": true,
+      "position": 1,
+      "real_name": "The Scarlet Keys Investigator Expansion"
+    },
+    {
+      "code": "tskc",
+      "cycle_code": "tsk",
+      "official": true,
+      "position": 2,
+      "real_name": "The Scarlet Keys Campaign Expansion"
+    },
+    {
+      "code": "woc",
+      "cycle_code": "tde",
+      "official": true,
+      "position": 7,
+      "real_name": "Weaver of the Cosmos"
+    }
+  ],
+  "cycle": [
+    {
+      "code": "core",
+      "official": true,
+      "position": 1,
+      "real_name": "Core"
+    },
+    {
+      "code": "dwl",
+      "official": true,
+      "position": 2,
+      "real_name": "The Dunwich Legacy"
+    },
+    {
+      "code": "ptc",
+      "official": true,
+      "position": 3,
+      "real_name": "The Path to Carcosa"
+    },
+    {
+      "code": "tfa",
+      "official": true,
+      "position": 4,
+      "real_name": "The Forgotten Age"
+    },
+    {
+      "code": "tcu",
+      "official": true,
+      "position": 5,
+      "real_name": "The Circle Undone"
+    },
+    {
+      "code": "tde",
+      "official": true,
+      "position": 6,
+      "real_name": "The Dream-Eaters"
+    },
+    {
+      "code": "tic",
+      "official": true,
+      "position": 7,
+      "real_name": "The Innsmouth Conspiracy"
+    },
+    {
+      "code": "eoe",
+      "official": true,
+      "position": 8,
+      "real_name": "Edge of the Earth"
+    },
+    {
+      "code": "tsk",
+      "official": true,
+      "position": 9,
+      "real_name": "The Scarlet Keys"
+    },
+    {
+      "code": "fhv",
+      "official": true,
+      "position": 10,
+      "real_name": "The Feast of Hemlock Vale"
+    },
+    {
+      "code": "promotional",
+      "official": true,
+      "position": 80,
+      "real_name": "Promotional"
+    },
+    {
+      "code": "return",
+      "official": true,
+      "position": 50,
+      "real_name": "Return to..."
+    },
+    {
+      "code": "investigator",
+      "official": true,
+      "position": 60,
+      "real_name": "Investigator Starter Decks"
+    },
+    {
+      "code": "side_stories",
+      "official": true,
+      "position": 70,
+      "real_name": "Side Stories"
+    },
+    {
+      "code": "parallel",
+      "official": true,
+      "position": 90,
+      "real_name": "Parallel"
+    }
+  ]
+}

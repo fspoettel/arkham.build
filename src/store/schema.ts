@@ -79,6 +79,7 @@ export type Card = {
   skill_combat?: number;
   skill_intellect?: number;
   skill_willpower?: number;
+  skill_wild?: number;
   // spoiler?: boolean;
   stage?: number;
   subtype_code?: string;
@@ -134,7 +135,7 @@ export type DataVersion = {
   translation_updated_at: string;
 };
 
-export type Index = Record<string, Record<string, boolean>>;
+export type Index = Record<string, Record<string, 1>>;
 
 export type State = {
   cards: Record<string, Card>;
