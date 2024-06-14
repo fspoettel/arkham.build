@@ -46,1858 +46,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.encounters-novella:before {
-  content: "\e910";
-}
-
-.encounters-blob:before {
-  content: "\e91c";
-}
-
-.encounters-rougerauo2:before {
-  content: "\51";
-}
-
-.encounters-the_bayou:before {
-  content: "\e904";
-}
-
-.encounters-curse_of_the_rougarou:before {
-  content: "\e901";
-}
-
-.encounters-carnevale:before {
-  content: "\e902";
-}
-
-.encounters-venice:before {
-  content: "\52";
-}
-
-.encounters-lol:before {
-  content: "\53";
-}
-
-.encounters-in_the_labyrinths_of_lunacy:before {
-  content: "\e906";
-}
-
-.encounters-epic_multiplayer:before {
-  content: "\e907";
-}
-
-.encounters-single_group:before {
-  content: "\e908";
-}
-
-.encounters-guardians:before {
-  content: "\54";
-}
-
-.encounters-abyssal_gifts:before {
-  content: "\e90a";
-}
-
-.encounters-abyssal_tribute:before {
-  content: "\e90b";
-}
-
-.encounters-brotherhood_of_the_beast:before {
-  content: "\e90c";
-}
-
-.encounters-sands_of_egypt:before {
-  content: "\e90d";
-}
-
-.encounters-eternal_slumber:before {
-  content: "\e90e";
-}
-
-.encounters-nights_usurper:before {
-  content: "\e90f";
-}
-
-.encounters-excelsior:before {
-  content: "\55";
-}
-
-.encounters-murder_at_the_excelsior_hotel:before {
-  content: "\e911";
-}
-
-.encounters-alien_interference:before {
-  content: "\e912";
-}
-
-.encounters-dark_rituals:before {
-  content: "\e913";
-}
-
-.encounters-excelsior_management:before {
-  content: "\e914";
-}
-
-.encounters-sins_of_the_past:before {
-  content: "\e915";
-}
-
-.encounters-vile_experiments:before {
-  content: "\e916";
-}
-
-.encounters-blob_set:before {
-  content: "\56";
-}
-
-.encounters-the_blob_that_ate_everything:before {
-  content: "\e919";
-}
-
-.encounters-migo:before {
-  content: "\e91a";
-}
-
-.encounters-read_or_die:before {
-  content: "\e918";
-}
-
-.encounters-all_or_nothing:before {
-  content: "\e91b";
-}
-
-.encounters-bad_blood:before {
-  content: "\e927";
-}
-
-.encounters-by_the_book:before {
-  content: "\e909";
-}
-
-.encounters-red_tide_rising:before {
-  content: "\e917";
-}
-
-.encounters-nate:before {
-  content: "\4b";
-}
-
-.encounters-harvey:before {
-  content: "\4d";
-}
-
-.encounters-jacqueline:before {
-  content: "\4e";
-}
-
-.encounters-winifred:before {
-  content: "\4f";
-}
-
-.encounters-stella:before {
-  content: "\50";
-}
-
-.encounters-wotog:before {
-  content: "\e922";
-}
-
-.encounters-war_of_the_outer_gods:before {
-  content: "\e923";
-}
-
-.encounters-children_of_paradise:before {
-  content: "\e924";
-}
-
-.encounters-assimilating_swarm:before {
-  content: "\e925";
-}
-
-.encounters-death_of_the_stars:before {
-  content: "\e926";
-}
-
-.encounters-barkham_horror:before {
-  content: "\e928";
-}
-
-.encounters-meddling:before {
-  content: "\e929";
-}
-
-.encounters-roulette:before {
-  content: "\e93c";
-}
-
-.encounters-fortune_and_folly:before {
-  content: "\e93d";
-}
-
-.encounters-fortunes_chosen:before {
-  content: "\e93e";
-}
-
-.encounters-plan_in_shambles:before {
-  content: "\e93f";
-}
-
-.encounters-consternation_on_the_constellation:before {
-  content: "\e900";
-}
-
-.encounters-deep_ones:before {
-  content: "\e903";
-}
-
-.encounters-sinking_ship:before {
-  content: "\e905";
-}
-
-.encounters-mtt:before {
-  content: "\e91d";
-}
-
-.encounters-machinations_through_time:before {
-  content: "\e91e";
-}
-
-.encounters-zez:before {
-  content: "\e91f";
-}
-
-.encounters-beta:before {
-  content: "\e920";
-}
-
-.encounters-meteoric_phenomenon:before {
-  content: "\e921";
-}
-
-.encounters-inhospitable_locality:before {
-  content: "\e92a";
-}
-
-.encounters-unnatural_disturbances:before {
-  content: "\e92b";
-}
-
-.encounters-made_flesh:before {
-  content: "\e92c";
-}
-
-.encounters-lost_cathedral:before {
-  content: "\e92d";
-}
-
-.encounters-the_fall_of_the_house_of_usher:before {
-  content: "\e92e";
-}
-
-.encounters-wendigo:before {
-  content: "\e92f";
-}
-
-.encounters-wendigos_myth:before {
-  content: "\e930";
-}
-
-.encounters-hannihah_valley:before {
-  content: "\e931";
-}
-
-.encounters-fortune:before {
-  content: "\e932";
-}
-
-.encounters-the_black_stone:before {
-  content: "\e933";
-}
-
-.encounters-tomes:before {
-  content: "\e934";
-}
-
-.encounters-occultism:before {
-  content: "\e935";
-}
-
-.encounters-natural_hazards:before {
-  content: "\e936";
-}
-
-.encounters-witch_cult:before {
-  content: "\e937";
-}
-
-.encounters-magyar:before {
-  content: "\e938";
-}
-
-.encounters-wild_beasts:before {
-  content: "\e939";
-}
-
-.encounters-legendary:before {
-  content: "\e93a";
-}
-
-.encounters-ancient_hunger:before {
-  content: "\e93b";
-}
-
-.encounters-laid_to_rest:before {
-  content: "\e940";
-}
-
-.encounters-zoc:before {
-  content: "\e941";
-}
-
-.encounters-rop:before {
-  content: "\e942";
-}
-
-.encounters-arkham_incidents:before {
-  content: "\e943";
-}
-
-.encounters-too_noble:before {
-  content: "\e944";
-}
-
-.encounters-something_big:before {
-  content: "\e945";
-}
-
-.encounters-unscrupulous_investments:before {
-  content: "\e946";
-}
-
-.encounters-anything_once:before {
-  content: "\e947";
-}
-
-.encounters-mysterious_benefits:before {
-  content: "\e948";
-}
-
-.encounters-fhvp:before {
-  content: "\e949";
-}
-
-.encounters-fhvc:before {
-  content: "\e94a";
-}
-
-.encounters-tsk:before {
-  content: "\e94b";
-}
-
-.encounters-tskc:before {
-  content: "\e94c";
-}
-
-.encounters-scarlet_sorcery:before {
-  content: "\e94d";
-}
-
-.encounters-secret_war:before {
-  content: "\e94e";
-}
-
-.encounters-shades_of_sorrow:before {
-  content: "\e94f";
-}
-
-.encounters-shadow_of_a_doubt:before {
-  content: "\e950";
-}
-
-.encounters-spatial_anomaly:before {
-  content: "\e951";
-}
-
-.encounters-spreading_corruption:before {
-  content: "\e952";
-}
-
-.encounters-strange_happenings:before {
-  content: "\e953";
-}
-
-.encounters-without_a_trace:before {
-  content: "\e954";
-}
-
-.encounters-sanguine_shadows:before {
-  content: "\e955";
-}
-
-.encounters-riddles_and_rain:before {
-  content: "\e956";
-}
-
-.encounters-red_coterie:before {
-  content: "\e957";
-}
-
-.encounters-outsiders:before {
-  content: "\e958";
-}
-
-.encounters-on_thin_ice:before {
-  content: "\e959";
-}
-
-.encounters-mysteries_abound:before {
-  content: "\e95a";
-}
-
-.encounters-globetrotting:before {
-  content: "\e95b";
-}
-
-.encounters-dogs_of_war:before {
-  content: "\e95c";
-}
-
-.encounters-dealings_in_the_dark:before {
-  content: "\e95d";
-}
-
-.encounters-dead_heat:before {
-  content: "\e95e";
-}
-
-.encounters-dark_veiling:before {
-  content: "\e95f";
-}
-
-.encounters-dancing_mad:before {
-  content: "\e960";
-}
-
-.encounters-crimson_conspiracy:before {
-  content: "\e961";
-}
-
-.encounters-congress_of_the_keys:before {
-  content: "\e962";
-}
-
-.encounters-cleanup_crew:before {
-  content: "\e963";
-}
-
-.encounters-agents_of_yuggoth:before {
-  content: "\e964";
-}
-
-.encounters-beyond_the_beyond:before {
-  content: "\e965";
-}
-
-.encounters-agents_of_the_outside:before {
-  content: "\e966";
-}
-
-.encounters-alexandria:before {
-  content: "\e967";
-}
-
-.encounters-anchorage:before {
-  content: "\e968";
-}
-
-.encounters-bermuda:before {
-  content: "\e969";
-}
-
-.encounters-constantinople:before {
-  content: "\e96a";
-}
-
-.encounters-london:before {
-  content: "\e96b";
-}
-
-.encounters-marrakesh:before {
-  content: "\e96c";
-}
-
-.encounters-moscow:before {
-  content: "\e96d";
-}
-
-.encounters-rio_de_janiero:before {
-  content: "\e96e";
-}
-
-.encounters-san_francisco:before {
-  content: "\e96f";
-}
-
-.encounters-sydney:before {
-  content: "\e970";
-}
-
-.encounters-tokyo:before {
-  content: "\e971";
-}
-
-.encounters-stockholm:before {
-  content: "\e972";
-}
-
-.encounters-lagos:before {
-  content: "\e973";
-}
-
-.encounters-shanghai:before {
-  content: "\e974";
-}
-
-.encounters-buenos_aires:before {
-  content: "\e975";
-}
-
-.encounters-kuala_lampur:before {
-  content: "\e976";
-}
-
-.encounters-havana:before {
-  content: "\e977";
-}
-
-.encounters-bombay:before {
-  content: "\e978";
-}
-
-.encounters-hong_kong:before {
-  content: "\e979";
-}
-
-.encounters-kathmandu:before {
-  content: "\e97a";
-}
-
-.encounters-rome:before {
-  content: "\e97b";
-}
-
-.encounters-tunguska:before {
-  content: "\e97c";
-}
-
-.encounters-kabul:before {
-  content: "\e97d";
-}
-
-.encounters-manokwari:before {
-  content: "\e97e";
-}
-
-.encounters-nairobi:before {
-  content: "\e97f";
-}
-
-.encounters-perth:before {
-  content: "\e980";
-}
-
-.encounters-quito:before {
-  content: "\e981";
-}
-
-.encounters-reykjavik:before {
-  content: "\e982";
-}
-
-.encounters-san_juan:before {
-  content: "\e983";
-}
-
-.encounters-arkham:before {
-  content: "\e984";
-}
-
-.encounters-cairo:before {
-  content: "\e985";
-}
-
-.encounters-monte_carlo:before {
-  content: "\e986";
-}
-
-.encounters-new_orleans:before {
-  content: "\e987";
-}
-
-.encounters-venice1:before {
-  content: "\e988";
-}
-
-.encounters-ybor_city:before {
-  content: "\e989";
-}
-
-.encounters-bermuda_2:before {
-  content: "\e98a";
-}
-
-.encounters-eoe:before {
-  content: "\e98b";
-}
-
-.encounters-eoe_campaign:before {
-  content: "\e98c";
-}
-
-.encounters-ice_and_death:before {
-  content: "\e98d";
-}
-
-.encounters-fatal_mirage:before {
-  content: "\e98e";
-}
-
-.encounters-to_the_forbidden_peaks:before {
-  content: "\e98f";
-}
-
-.encounters-city_of_the_elder_things:before {
-  content: "\e990";
-}
-
-.encounters-the_heart_of_madness:before {
-  content: "\e991";
-}
-
-.encounters-agents_of_the_unknown:before {
-  content: "\e992";
-}
-
-.encounters-creatures_in_the_ice:before {
-  content: "\e993";
-}
-
-.encounters-deadly_weather:before {
-  content: "\e994";
-}
-
-.encounters-elder_things:before {
-  content: "\e995";
-}
-
-.encounters-expedition_team:before {
-  content: "\e996";
-}
-
-.encounters-hazards_of_antarctica:before {
-  content: "\e997";
-}
-
-.encounters-left_behind:before {
-  content: "\e998";
-}
-
-.encounters-lost_in_the_night:before {
-  content: "\e999";
-}
-
-.encounters-memorials_of_the_lost:before {
-  content: "\e99a";
-}
-
-.encounters-miasma:before {
-  content: "\e99b";
-}
-
-.encounters-nameless_horrors:before {
-  content: "\e99c";
-}
-
-.encounters-penguins:before {
-  content: "\e99d";
-}
-
-.encounters-silence_and_mystery:before {
-  content: "\e99e";
-}
-
-.encounters-sleeping_nightmares:before {
-  content: "\e99f";
-}
-
-.encounters-stirring_in_the_deep:before {
-  content: "\e9a0";
-}
-
-.encounters-tekeli_li:before {
-  content: "\e9a1";
-}
-
-.encounters-the_crash:before {
-  content: "\e9a2";
-}
-
-.encounters-the_great_seal:before {
-  content: "\e9a3";
-}
-
-.encounters-shoggoths:before {
-  content: "\e9a4";
-}
-
-.encounters-tic:before {
-  content: "\41";
-}
-
-.encounters-fog_over_innsmouth:before {
-  content: "\e9a5";
-}
-
-.encounters-shattered_memories:before {
-  content: "\e9a6";
-}
-
-.encounters-syzygy:before {
-  content: "\e9a7";
-}
-
-.encounters-malfunction:before {
-  content: "\e9a8";
-}
-
-.encounters-locals:before {
-  content: "\e9a9";
-}
-
-.encounters-agents_of_hydra:before {
-  content: "\e9aa";
-}
-
-.encounters-flooded_caves:before {
-  content: "\e9ab";
-}
-
-.encounters-rising_tide:before {
-  content: "\e9ac";
-}
-
-.encounters-creatures_from_below:before {
-  content: "\e9ad";
-}
-
-.encounters-grotto_of_despair:before {
-  content: "\e9ae";
-}
-
-.encounters-disappearance_of_elina_harper:before {
-  content: "\e9af";
-}
-
-.encounters-agents_of_dagon:before {
-  content: "\e9b0";
-}
-
-.encounters-in_too_deep:before {
-  content: "\e9b1";
-}
-
-.encounters-devil_reef:before {
-  content: "\e9b2";
-}
-
-.encounters-horror_in_high_gear:before {
-  content: "\e9b3";
-}
-
-.encounters-a_light_in_the_fog:before {
-  content: "\e9b4";
-}
-
-.encounters-lair_of_dagon:before {
-  content: "\e9b5";
-}
-
-.encounters-into_the_maelstrom:before {
-  content: "\e9b6";
-}
-
-.encounters-dream:before {
-  content: "\42";
-}
-
-.encounters-agents_of_atlach_nacha:before {
-  content: "\e9b7";
-}
-
-.encounters-the_search_for_kadath:before {
-  content: "\e9b8";
-}
-
-.encounters-a_thousand_shapes_of_horror:before {
-  content: "\e9b9";
-}
-
-.encounters-dark_side_of_the_moon:before {
-  content: "\e9ba";
-}
-
-.encounters-point_of_no_return:before {
-  content: "\e9bb";
-}
-
-.encounters-where_gods_dwell:before {
-  content: "\e9bc";
-}
-
-.encounters-weaver_of_the_cosmos:before {
-  content: "\e9bd";
-}
-
-.encounters-agents_of_nyarlathotep:before {
-  content: "\e9be";
-}
-
-.encounters-beyond_the_gates_of_sleep:before {
-  content: "\e9bf";
-}
-
-.encounters-corsairs:before {
-  content: "\e9c0";
-}
-
-.encounters-creatures_of_the_underworld:before {
-  content: "\e9c1";
-}
-
-.encounters-dreamers_curse:before {
-  content: "\e9c2";
-}
-
-.encounters-dreamlands:before {
-  content: "\e9c3";
-}
-
-.encounters-merging_realities:before {
-  content: "\e9c4";
-}
-
-.encounters-spiders:before {
-  content: "\e9c5";
-}
-
-.encounters-waking_nightmare:before {
-  content: "\e9c6";
-}
-
-.encounters-whispers_of_hypnos:before {
-  content: "\e9c7";
-}
-
-.encounters-zoogs:before {
-  content: "\e9c8";
-}
-
-.encounters-descent_into_the_pitch:before {
-  content: "\e9c9";
-}
-
-.encounters-terror_of_the_vale:before {
-  content: "\e9ca";
-}
-
-.encounters-the_circle_undone:before {
-  content: "\43";
-}
-
-.encounters-disappearance_at_the_twilight_estate:before {
-  content: "\e9cb";
-}
-
-.encounters-the_witching_hour:before {
-  content: "\e9cc";
-}
-
-.encounters-at_deaths_doorstep:before {
-  content: "\e9cd";
-}
-
-.encounters-the_secret_name:before {
-  content: "\e9ce";
-}
-
-.encounters-the_wages_of_sin:before {
-  content: "\e9cf";
-}
-
-.encounters-for_the_greater_good:before {
-  content: "\e9d0";
-}
-
-.encounters-union_and_disillusion:before {
-  content: "\e9d1";
-}
-
-.encounters-in_the_clutches_of_chaos:before {
-  content: "\e9d2";
-}
-
-.encounters-before_the_black_throne:before {
-  content: "\e9d3";
-}
-
-.encounters-agents_of_azathoth:before {
-  content: "\e9d4";
-}
-
-.encounters-anettes_coven:before {
-  content: "\e9d5";
-}
-
-.encounters-city_of_sins:before {
-  content: "\e9d6";
-}
-
-.encounters-inexorable_fate:before {
-  content: "\e9d7";
-}
-
-.encounters-realm_of_death:before {
-  content: "\e9d8";
-}
-
-.encounters-silver_twilight_lodge:before {
-  content: "\e9d9";
-}
-
-.encounters-spectral_predators:before {
-  content: "\e9da";
-}
-
-.encounters-the_watcher:before {
-  content: "\e9db";
-}
-
-.encounters-trapped_spirits:before {
-  content: "\e9dc";
-}
-
-.encounters-witchcraft:before {
-  content: "\e9dd";
-}
-
-.encounters-secrets_of_the_universe:before {
-  content: "\e9de";
-}
-
-.encounters-music_of_the_damned:before {
-  content: "\e9df";
-}
-
-.encounters-rttcu:before {
-  content: "\44";
-}
-
-.encounters-return_to_disappearance_at_the_twilight_estate:before {
-  content: "\e9e0";
-}
-
-.encounters-return_to_the_witching_hour:before {
-  content: "\e9e1";
-}
-
-.encounters-return_to_at_deaths_doorstep:before {
-  content: "\e9e2";
-}
-
-.encounters-return_to_the_secret_name:before {
-  content: "\e9e3";
-}
-
-.encounters-return_to_the_wages_of_sin:before {
-  content: "\e9e4";
-}
-
-.encounters-return_to_for_the_greater_good:before {
-  content: "\e9e5";
-}
-
-.encounters-return_to_union_and_disillusion:before {
-  content: "\e9e6";
-}
-
-.encounters-return_to_in_the_clutches_of_chaos:before {
-  content: "\e9e7";
-}
-
-.encounters-return_to_before_the_black_throne:before {
-  content: "\e9e8";
-}
-
-.encounters-witchwork:before {
-  content: "\e9e9";
-}
-
-.encounters-unspeakable_fate:before {
-  content: "\e9ea";
-}
-
-.encounters-threatening_evil:before {
-  content: "\e9eb";
-}
-
-.encounters-spectral_realm:before {
-  content: "\e9ec";
-}
-
-.encounters-cold_fog:before {
-  content: "\e9ed";
-}
-
-.encounters-city_of_the_damned:before {
-  content: "\e9ee";
-}
-
-.encounters-bloodthirsty_spirits:before {
-  content: "\e9ef";
-}
-
-.encounters-the_forgotten_age:before {
-  content: "\45";
-}
-
-.encounters-the_untamed_wilds:before {
-  content: "\e9f0";
-}
-
-.encounters-the_doom_of_eztli:before {
-  content: "\e9f1";
-}
-
-.encounters-threads_of_fate:before {
-  content: "\e9f2";
-}
-
-.encounters-the_boundary_beyond:before {
-  content: "\e9f3";
-}
-
-.encounters-pillars_of_judgement:before {
-  content: "\e9f4";
-}
-
-.encounters-knyan:before {
-  content: "\e9f5";
-}
-
-.encounters-heart_of_the_elders:before {
-  content: "\e9f6";
-}
-
-.encounters-city_of_archives:before {
-  content: "\e9f7";
-}
-
-.encounters-the_depths_of_yoth:before {
-  content: "\e9f8";
-}
-
-.encounters-shattered_aeons:before {
-  content: "\e9f9";
-}
-
-.encounters-turn_back_time:before {
-  content: "\e9fa";
-}
-
-.encounters-yigs_venom:before {
-  content: "\e9fb";
-}
-
-.encounters-agents_of_yig:before {
-  content: "\e9fc";
-}
-
-.encounters-deadly_traps:before {
-  content: "\e9fd";
-}
-
-.encounters-expedition:before {
-  content: "\e9fe";
-}
-
-.encounters-forgotten_ruins:before {
-  content: "\e9ff";
-}
-
-.encounters-guardians_of_time:before {
-  content: "\ea00";
-}
-
-.encounters-pnakotic_brotherhood:before {
-  content: "\ea01";
-}
-
-.encounters-poison:before {
-  content: "\ea02";
-}
-
-.encounters-rainforest:before {
-  content: "\ea03";
-}
-
-.encounters-serpents:before {
-  content: "\ea04";
-}
-
-.encounters-temporal_flux:before {
-  content: "\ea05";
-}
-
-.encounters-return_to_the_forgotten_age:before {
-  content: "\46";
-}
-
-.encounters-return_to_the_untamed_wilds:before {
-  content: "\ea06";
-}
-
-.encounters-return_to_the_doom_of_eztli:before {
-  content: "\ea07";
-}
-
-.encounters-return_to_threads_of_fate:before {
-  content: "\ea08";
-}
-
-.encounters-return_to_the_boundary_beyond:before {
-  content: "\ea09";
-}
-
-.encounters-return_to_pillars_of_judgement:before {
-  content: "\ea0a";
-}
-
-.encounters-return_to_knyan:before {
-  content: "\ea0b";
-}
-
-.encounters-return_to_the_heart_of_the_elders:before {
-  content: "\ea0c";
-}
-
-.encounters-return_to_city_of_archives:before {
-  content: "\ea0d";
-}
-
-.encounters-return_to_the_depths_of_yoth:before {
-  content: "\ea0e";
-}
-
-.encounters-return_to_shattered_aeons:before {
-  content: "\ea0f";
-}
-
-.encounters-return_to_turn_back_time:before {
-  content: "\ea10";
-}
-
-.encounters-return_to_the_rainforest:before {
-  content: "\ea11";
-}
-
-.encounters-cult_of_pnakotus:before {
-  content: "\ea12";
-}
-
-.encounters-doomed_expedition:before {
-  content: "\ea13";
-}
-
-.encounters-temporal_hunters:before {
-  content: "\ea14";
-}
-
-.encounters-venomous_hate:before {
-  content: "\ea15";
-}
-
-.encounters-novella1:before {
-  content: "\ea16";
-}
-
-.encounters-blob1:before {
-  content: "\ea17";
-}
-
-.encounters-rougerauo21:before {
-  content: "\57";
-}
-
-.encounters-the_bayou1:before {
-  content: "\ea18";
-}
-
-.encounters-curse_of_the_rougarou1:before {
-  content: "\ea19";
-}
-
-.encounters-carnevale1:before {
-  content: "\ea1a";
-}
-
-.encounters-venice11:before {
-  content: "\58";
-}
-
-.encounters-lol1:before {
-  content: "\59";
-}
-
-.encounters-in_the_labyrinths_of_lunacy1:before {
-  content: "\ea1b";
-}
-
-.encounters-epic_multiplayer1:before {
-  content: "\ea1c";
-}
-
-.encounters-single_group1:before {
-  content: "\ea1d";
-}
-
-.encounters-guardians1:before {
-  content: "\5a";
-}
-
-.encounters-abyssal_gifts1:before {
-  content: "\ea1e";
-}
-
-.encounters-abyssal_tribute1:before {
-  content: "\ea1f";
-}
-
-.encounters-brotherhood_of_the_beast1:before {
-  content: "\ea20";
-}
-
-.encounters-sands_of_egypt1:before {
-  content: "\ea21";
-}
-
-.encounters-eternal_slumber1:before {
-  content: "\ea22";
-}
-
-.encounters-nights_usurper1:before {
-  content: "\ea23";
-}
-
-.encounters-excelsior1:before {
-  content: "\5b";
-}
-
-.encounters-murder_at_the_excelsior_hotel1:before {
-  content: "\ea24";
-}
-
-.encounters-alien_interference1:before {
-  content: "\ea25";
-}
-
-.encounters-dark_rituals1:before {
-  content: "\ea26";
-}
-
-.encounters-excelsior_management1:before {
-  content: "\ea27";
-}
-
-.encounters-sins_of_the_past1:before {
-  content: "\ea28";
-}
-
-.encounters-vile_experiments1:before {
-  content: "\ea29";
-}
-
-.encounters-blob_set1:before {
-  content: "\5c";
-}
-
-.encounters-the_blob_that_ate_everything1:before {
-  content: "\ea2a";
-}
-
-.encounters-migo1:before {
-  content: "\ea2b";
-}
-
-.encounters-read_or_die1:before {
-  content: "\ea2c";
-}
-
-.encounters-all_or_nothing1:before {
-  content: "\ea2d";
-}
-
-.encounters-bad_blood1:before {
-  content: "\ea2e";
-}
-
-.encounters-by_the_book1:before {
-  content: "\ea2f";
-}
-
-.encounters-red_tide_rising1:before {
-  content: "\ea30";
-}
-
-.encounters-nate1:before {
-  content: "\4c";
-}
-
-.encounters-harvey1:before {
-  content: "\5d";
-}
-
-.encounters-jacqueline1:before {
-  content: "\5e";
-}
-
-.encounters-winifred1:before {
-  content: "\5f";
-}
-
-.encounters-stella1:before {
-  content: "\60";
-}
-
-.encounters-wotog1:before {
-  content: "\ea31";
-}
-
-.encounters-war_of_the_outer_gods1:before {
-  content: "\ea32";
-}
-
-.encounters-children_of_paradise1:before {
-  content: "\ea33";
-}
-
-.encounters-assimilating_swarm1:before {
-  content: "\ea34";
-}
-
-.encounters-death_of_the_stars1:before {
-  content: "\ea35";
-}
-
-.encounters-barkham_horror1:before {
-  content: "\ea36";
-}
-
-.encounters-meddling1:before {
-  content: "\ea37";
-}
-
-.encounters-roulette1:before {
-  content: "\ea38";
-}
-
-.encounters-fortune_and_folly1:before {
-  content: "\ea39";
-}
-
-.encounters-fortunes_chosen1:before {
-  content: "\ea3a";
-}
-
-.encounters-plan_in_shambles1:before {
-  content: "\ea3b";
-}
-
-.encounters-consternation_on_the_constellation1:before {
-  content: "\ea3c";
-}
-
-.encounters-deep_ones1:before {
-  content: "\ea3d";
-}
-
-.encounters-sinking_ship1:before {
-  content: "\ea3e";
-}
-
-.encounters-mtt1:before {
-  content: "\ea3f";
-}
-
-.encounters-machinations_through_time1:before {
-  content: "\ea40";
-}
-
-.encounters-zez1:before {
-  content: "\ea41";
-}
-
-.encounters-beta1:before {
-  content: "\ea42";
-}
-
-.encounters-meteoric_phenomenon1:before {
-  content: "\ea43";
-}
-
-.encounters-inhospitable_locality1:before {
-  content: "\ea44";
-}
-
-.encounters-unnatural_disturbances1:before {
-  content: "\ea45";
-}
-
-.encounters-made_flesh1:before {
-  content: "\ea46";
-}
-
-.encounters-lost_cathedral1:before {
-  content: "\ea47";
-}
-
-.encounters-the_fall_of_the_house_of_usher1:before {
-  content: "\ea48";
-}
-
-.encounters-wendigo1:before {
-  content: "\ea49";
-}
-
-.encounters-wendigos_myth1:before {
-  content: "\ea4a";
-}
-
-.encounters-hannihah_valley1:before {
-  content: "\ea4b";
-}
-
-.encounters-fortune1:before {
-  content: "\ea4c";
-}
-
-.encounters-the_black_stone1:before {
-  content: "\ea4d";
-}
-
-.encounters-tomes1:before {
-  content: "\ea4e";
-}
-
-.encounters-occultism1:before {
-  content: "\ea4f";
-}
-
-.encounters-natural_hazards1:before {
-  content: "\ea50";
-}
-
-.encounters-witch_cult1:before {
-  content: "\ea51";
-}
-
-.encounters-magyar1:before {
-  content: "\ea52";
-}
-
-.encounters-wild_beasts1:before {
-  content: "\ea53";
-}
-
-.encounters-legendary1:before {
-  content: "\ea54";
-}
-
-.encounters-ancient_hunger1:before {
-  content: "\ea55";
-}
-
-.encounters-curtain_call:before {
-  content: "\ea56";
-}
-
-.encounters-the_last_king:before {
-  content: "\ea57";
-}
-
-.encounters-echoes_of_the_past:before {
-  content: "\ea58";
-}
-
-.encounters-the_unspeakable_oath:before {
-  content: "\ea59";
-}
-
-.encounters-a_phantom_of_truth:before {
-  content: "\ea5a";
-}
-
-.encounters-the_pallid_mask:before {
-  content: "\ea5b";
-}
-
-.encounters-black_stars_rise:before {
-  content: "\ea5c";
-}
-
-.encounters-the_flood_below:before {
-  content: "\ea5d";
-}
-
-.encounters-the_vortex_above:before {
-  content: "\ea5e";
-}
-
-.encounters-dim_carcosa:before {
-  content: "\ea5f";
-}
-
-.encounters-byakhee:before {
-  content: "\ea60";
-}
-
-.encounters-cult_of_the_yellow_sign:before {
-  content: "\ea61";
-}
-
-.encounters-decay_and_filth:before {
-  content: "\ea62";
-}
-
-.encounters-delusions:before {
-  content: "\ea63";
-}
-
-.encounters-evil_portents:before {
-  content: "\ea64";
-}
-
-.encounters-hasturs_gift:before {
-  content: "\ea65";
-}
-
-.encounters-hauntings:before {
-  content: "\ea66";
-}
-
-.encounters-inhabitants_of_carcosa:before {
-  content: "\ea67";
-}
-
-.encounters-the_stranger:before {
-  content: "\ea68";
-}
-
-.encounters-delusory_evils:before {
-  content: "\ea71";
-}
-
-.encounters-neurotic_fear:before {
-  content: "\ea72";
-}
-
-.encounters-hasturs_envoys:before {
-  content: "\ea73";
-}
-
-.encounters-decaying_reality:before {
-  content: "\ea74";
-}
-
-.encounters-maddening_delusions:before {
-  content: "\ea75";
-}
-
-.encounters-ancient_evils:before {
-  content: "\ea96";
-}
-
-.encounters-dark_cult:before {
-  content: "\ea97";
-}
-
-.encounters-agents_of_yog:before {
-  content: "\ea98";
-}
-
-.encounters-agents_of_cthulhu:before {
-  content: "\ea99";
-}
-
-.encounters-ghouls:before {
-  content: "\ea9a";
-}
-
-.encounters-chilling_cold:before {
-  content: "\ea9b";
-}
-
-.encounters-core:before {
-  content: "\ea9c";
-}
-
-.encounters-agents_of_hastur:before {
-  content: "\ea9d";
-}
-
-.encounters-agents_of_shub:before {
-  content: "\ea9e";
-}
-
-.encounters-locked_doors:before {
-  content: "\ea9f";
-}
-
-.encounters-nightgaunts:before {
-  content: "\eaa0";
-}
-
-.encounters-rats:before {
-  content: "\eaa1";
-}
-
-.encounters-striking_fear:before {
-  content: "\eaa2";
-}
-
-.encounters-the_gathering:before {
-  content: "\eaa3";
-}
-
-.encounters-midnight_masks:before {
-  content: "\eaa4";
-}
-
-.encounters-cult_of_umordoth:before {
-  content: "\eaa5";
-}
-
-.encounters-the_devourer_below:before {
-  content: "\eaa6";
-}
-
-.encounters-rtnotz:before {
-  content: "\61";
-}
-
-.encounters-ghouls_of_umrdhoth:before {
-  content: "\eaa7";
-}
-
-.encounters-the_devourers_cult:before {
-  content: "\eaa8";
-}
-
-.encounters-return_to_the_gathering:before {
-  content: "\eaa9";
-}
-
-.encounters-return_to_the_midnight_masks:before {
-  content: "\eaaa";
-}
-
-.encounters-return_cult:before {
-  content: "\eaab";
-}
-
-.encounters-return_to_the_devourer_below:before {
-  content: "\eaac";
-}
-
-.encounters-carcosa:before {
-  content: "\47";
-}
-
-.encounters-return_to_the_path_to_carcosa:before {
-  content: "\48";
-}
-
-.encounters-return_to_curtain_call:before {
-  content: "\ea69";
-}
-
-.encounters-return_to_the_last_king:before {
-  content: "\ea6a";
-}
-
-.encounters-return_to_echoes_of_the_past:before {
-  content: "\ea6b";
-}
-
-.encounters-return_to_the_unspeakable_oath:before {
-  content: "\ea6c";
-}
-
-.encounters-return_to_the_phantom_of_truth:before {
-  content: "\ea6d";
-}
-
-.encounters-return_to_the_pallid_mask:before {
-  content: "\ea6e";
-}
-
-.encounters-return_to_black_stars_rise:before {
-  content: "\ea6f";
-}
-
-.encounters-return_to_dim_carcosa:before {
-  content: "\ea70";
-}
-
-.encounters-set:before {
-  content: "\49";
-}
-
-.encounters-extracurricular_activity:before {
-  content: "\ea76";
-}
-
-.encounters-the_house_always_wins:before {
-  content: "\ea77";
-}
-
-.encounters-armitages_fate:before {
-  content: "\ea78";
-}
-
-.encounters-the_miskatonic_museum:before {
-  content: "\ea79";
-}
-
-.encounters-the_essex_county_express:before {
-  content: "\ea7a";
-}
-
-.encounters-blood_on_the_altar:before {
-  content: "\ea7b";
-}
-
-.encounters-undimensioned_and_unseen:before {
-  content: "\ea7c";
-}
-
-.encounters-where_doom_awaits:before {
-  content: "\ea7d";
-}
-
-.encounters-lost_in_time_and_space:before {
-  content: "\ea7e";
-}
-
-.encounters-bad_luck:before {
-  content: "\ea7f";
-}
-
-.encounters-beast_thralls:before {
-  content: "\ea80";
-}
-
-.encounters-bishops_thralls:before {
-  content: "\ea81";
-}
-
-.encounters-dunwich:before {
-  content: "\ea82";
-}
-
-.encounters-hideous_abominations:before {
-  content: "\ea83";
-}
-
-.encounters-naomis_crew:before {
-  content: "\ea84";
-}
-
-.encounters-sorcery:before {
-  content: "\ea85";
-}
-
-.encounters-the_beyond:before {
-  content: "\ea86";
-}
-
-.encounters-whippoorwills:before {
-  content: "\ea87";
-}
-
-.encounters-return_to_the_dunwich_legacy:before {
-  content: "\4a";
-}
-
-.encounters-return_to_extracurricular_activities:before {
-  content: "\ea88";
-}
-
-.encounters-return_to_the_house_always_wins:before {
-  content: "\ea89";
-}
-
-.encounters-return_to_the_miskatonic_museum:before {
-  content: "\ea8a";
-}
-
-.encounters-return_to_the_essex_county_express:before {
-  content: "\ea8b";
-}
-
-.encounters-return_to_blood_on_the_altar:before {
-  content: "\ea8c";
-}
-
-.encounters-return_to_undimensioned_and_unseen:before {
-  content: "\ea8d";
-}
-
-.encounters-return_to_where_doom_awaits:before {
-  content: "\ea8e";
-}
-
-.encounters-return_to_lost_in_time_and_space:before {
-  content: "\ea8f";
-}
-
-.encounters-resurgent_evils:before {
-  content: "\ea90";
-}
-
-.encounters-erratic_fear:before {
-  content: "\ea91";
-}
-
-.encounters-creeping_cold:before {
-  content: "\ea92";
-}
-
-.encounters-secret_doors:before {
-  content: "\ea93";
-}
-
-.encounters-yog_sothoths_emissaries:before {
-  content: "\ea94";
-}
-
-.encounters-beyond_the_threshold:before {
-  content: "\ea95";
-}
-
-.encounters-parallel:before {
-  content: "\eaad";
-}
-
 .icon-guardian:before {
   content: "\41";
 }
@@ -2146,4 +294,1196 @@
 }
 .icon-inverted_level_5:before {
   content: "\e947";
+}
+
+.encounters-fhvp:before {
+  content: "\e9b9";
+}
+.encounters-fhvc:before {
+  content: "\e9ba";
+}
+.encounters-the_first_day:before {
+  content: "\e9bb";
+}
+.encounters-the_second_day:before {
+  content: "\e9bc";
+}
+.encounters-the_final_day:before {
+  content: "\e9bd";
+}
+.encounters-agents_of_the_colour:before {
+  content: "\e9be";
+}
+.encounters-blight:before {
+  content: "\e9bf";
+}
+.encounters-day_of_rain:before {
+  content: "\e9c0";
+}
+.encounters-day_of_rest:before {
+  content: "\e9c1";
+}
+.encounters-day_of_the_feast:before {
+  content: "\e9c2";
+}
+.encounters-fate_of_the_vale:before {
+  content: "\e9c3";
+}
+.encounters-fire:before {
+  content: "\e9c4";
+}
+.encounters-heirlooms:before {
+  content: "\e9c5";
+}
+.encounters-the_lost_sister:before {
+  content: "\e9c6";
+}
+.encounters-myconids:before {
+  content: "\e9d4";
+}
+.encounters-horrors_in_the_rock:before {
+  content: "\e9d3";
+}
+.encounters-mutations:before {
+  content: "\e9d2";
+}
+.encounters-hemlock_house:before {
+  content: "\e9d1";
+}
+.encounters-refractions:before {
+  content: "\e9d0";
+}
+.encounters-residents:before {
+  content: "\e9cf";
+}
+.encounters-the_forest:before {
+  content: "\e9ce";
+}
+.encounters-the_longest_night:before {
+  content: "\e9cd";
+}
+.encounters-the_silent_heath:before {
+  content: "\e9cc";
+}
+.encounters-the_thing_in_the_depths:before {
+  content: "\e9cb";
+}
+.encounters-the_twisted_hollow:before {
+  content: "\e9ca";
+}
+.encounters-the_vale:before {
+  content: "\e9c9";
+}
+.encounters-transfiguration:before {
+  content: "\e9c8";
+}
+.encounters-written_in_rock:before {
+  content: "\e9c7";
+}
+.encounters-tsk:before {
+  content: "\e900";
+}
+.encounters-tskc:before {
+  content: "\e924";
+}
+.encounters-scarlet_sorcery:before {
+  content: "\e927";
+}
+.encounters-secret_war:before {
+  content: "\e928";
+}
+.encounters-shades_of_sorrow:before {
+  content: "\e929";
+}
+.encounters-shadow_of_a_doubt:before {
+  content: "\e92a";
+}
+.encounters-spatial_anomaly:before {
+  content: "\e92b";
+}
+.encounters-spreading_corruption:before {
+  content: "\e92c";
+}
+.encounters-strange_happenings:before {
+  content: "\e92d";
+}
+.encounters-without_a_trace:before {
+  content: "\e92e";
+}
+.encounters-sanguine_shadows:before {
+  content: "\e92f";
+}
+.encounters-riddles_and_rain:before {
+  content: "\e930";
+}
+.encounters-red_coterie:before {
+  content: "\e931";
+}
+.encounters-outsiders:before {
+  content: "\e932";
+}
+.encounters-on_thin_ice:before {
+  content: "\e933";
+}
+.encounters-mysteries_abound:before {
+  content: "\e934";
+}
+.encounters-globetrotting:before {
+  content: "\e93c";
+}
+.encounters-dogs_of_war:before {
+  content: "\e93d";
+}
+.encounters-dealings_in_the_dark:before {
+  content: "\e93e";
+}
+.encounters-dead_heat:before {
+  content: "\e93f";
+}
+.encounters-dark_veiling:before {
+  content: "\e940";
+}
+.encounters-dancing_mad:before {
+  content: "\e941";
+}
+.encounters-crimson_conspiracy:before {
+  content: "\e942";
+}
+.encounters-congress_of_the_keys:before {
+  content: "\e943";
+}
+.encounters-cleanup_crew:before {
+  content: "\e944";
+}
+.encounters-agents_of_yuggoth:before {
+  content: "\e945";
+}
+.encounters-beyond_the_beyond:before {
+  content: "\e946";
+}
+.encounters-agents_of_the_outside:before {
+  content: "\e926";
+}
+.encounters-alexandria:before {
+  content: "\e901";
+}
+.encounters-anchorage:before {
+  content: "\e902";
+}
+.encounters-bermuda:before {
+  content: "\e903";
+}
+.encounters-constantinople:before {
+  content: "\e904";
+}
+.encounters-london:before {
+  content: "\e905";
+}
+.encounters-marrakesh:before {
+  content: "\e906";
+}
+.encounters-moscow:before {
+  content: "\e907";
+}
+.encounters-rio_de_janiero:before {
+  content: "\e908";
+}
+.encounters-san_francisco:before {
+  content: "\e909";
+}
+.encounters-sydney:before {
+  content: "\e90a";
+}
+.encounters-tokyo:before {
+  content: "\e90b";
+}
+.encounters-stockholm:before {
+  content: "\e90c";
+}
+.encounters-lagos:before {
+  content: "\e90d";
+}
+.encounters-shanghai:before {
+  content: "\e90e";
+}
+.encounters-buenos_aires:before {
+  content: "\e90f";
+}
+.encounters-kuala_lampur:before {
+  content: "\e910";
+}
+.encounters-havana:before {
+  content: "\e911";
+}
+.encounters-bombay:before {
+  content: "\e912";
+}
+.encounters-hong_kong:before {
+  content: "\e913";
+}
+.encounters-kathmandu:before {
+  content: "\e914";
+}
+.encounters-rome:before {
+  content: "\e915";
+}
+.encounters-tunguska:before {
+  content: "\e916";
+}
+.encounters-kabul:before {
+  content: "\e917";
+}
+.encounters-manokwari:before {
+  content: "\e918";
+}
+.encounters-nairobi:before {
+  content: "\e919";
+}
+.encounters-perth:before {
+  content: "\e91a";
+}
+.encounters-quito:before {
+  content: "\e91b";
+}
+.encounters-reykjavik:before {
+  content: "\e91c";
+}
+.encounters-san_juan:before {
+  content: "\e91d";
+}
+.encounters-arkham:before {
+  content: "\e91e";
+}
+.encounters-cairo:before {
+  content: "\e91f";
+}
+.encounters-monte_carlo:before {
+  content: "\e920";
+}
+.encounters-new_orleans:before {
+  content: "\e921";
+}
+.encounters-venice:before {
+  content: "\e922";
+}
+.encounters-ybor_city:before {
+  content: "\e923";
+}
+.encounters-bermuda_2:before {
+  content: "\e925";
+}
+.encounters-eoe:before {
+  content: "\e935";
+}
+.encounters-eoe_campaign:before {
+  content: "\e936";
+}
+.encounters-ice_and_death:before {
+  content: "\e937";
+}
+.encounters-fatal_mirage:before {
+  content: "\e938";
+}
+.encounters-to_the_forbidden_peaks:before {
+  content: "\e939";
+}
+.encounters-city_of_the_elder_things:before {
+  content: "\e93a";
+}
+.encounters-the_heart_of_madness:before {
+  content: "\e93b";
+}
+.encounters-agents_of_the_unknown:before {
+  content: "\e947";
+}
+.encounters-creatures_in_the_ice:before {
+  content: "\e948";
+}
+.encounters-deadly_weather:before {
+  content: "\e949";
+}
+.encounters-elder_things:before {
+  content: "\e94a";
+}
+.encounters-expedition_team:before {
+  content: "\e94b";
+}
+.encounters-hazards_of_antarctica:before {
+  content: "\e94c";
+}
+.encounters-left_behind:before {
+  content: "\e94d";
+}
+.encounters-lost_in_the_night:before {
+  content: "\e94e";
+}
+.encounters-memorials_of_the_lost:before {
+  content: "\e94f";
+}
+.encounters-miasma:before {
+  content: "\e950";
+}
+.encounters-nameless_horrors:before {
+  content: "\e951";
+}
+.encounters-penguins:before {
+  content: "\e952";
+}
+.encounters-silence_and_mystery:before {
+  content: "\e953";
+}
+.encounters-sleeping_nightmares:before {
+  content: "\e954";
+}
+.encounters-stirring_in_the_deep:before {
+  content: "\e955";
+}
+.encounters-tekeli_li:before {
+  content: "\e956";
+}
+.encounters-the_crash:before {
+  content: "\e957";
+}
+.encounters-the_great_seal:before {
+  content: "\e958";
+}
+.encounters-shoggoths:before {
+  content: "\e959";
+}
+.encounters-tic:before {
+  content: "\41";
+}
+.encounters-fog_over_innsmouth:before {
+  content: "\e95a";
+}
+.encounters-shattered_memories:before {
+  content: "\e95b";
+}
+.encounters-syzygy:before {
+  content: "\e95c";
+}
+.encounters-malfunction:before {
+  content: "\e95d";
+}
+.encounters-locals:before {
+  content: "\e95e";
+}
+.encounters-agents_of_hydra:before {
+  content: "\e95f";
+}
+.encounters-flooded_caves:before {
+  content: "\e960";
+}
+.encounters-rising_tide:before {
+  content: "\e961";
+}
+.encounters-creatures_from_below:before {
+  content: "\e962";
+}
+.encounters-grotto_of_despair:before {
+  content: "\e963";
+}
+.encounters-disappearance_of_elina_harper:before {
+  content: "\e964";
+}
+.encounters-agents_of_dagon:before {
+  content: "\e965";
+}
+.encounters-in_too_deep:before {
+  content: "\e966";
+}
+.encounters-devil_reef:before {
+  content: "\e967";
+}
+.encounters-horror_in_high_gear:before {
+  content: "\e968";
+}
+.encounters-a_light_in_the_fog:before {
+  content: "\e969";
+}
+.encounters-lair_of_dagon:before {
+  content: "\e96a";
+}
+.encounters-into_the_maelstrom:before {
+  content: "\e96b";
+}
+.encounters-dream:before {
+  content: "\42";
+}
+.encounters-agents_of_atlach_nacha:before {
+  content: "\e96c";
+}
+.encounters-the_search_for_kadath:before {
+  content: "\e96d";
+}
+.encounters-a_thousand_shapes_of_horror:before {
+  content: "\e96e";
+}
+.encounters-dark_side_of_the_moon:before {
+  content: "\e96f";
+}
+.encounters-point_of_no_return:before {
+  content: "\e970";
+}
+.encounters-where_gods_dwell:before {
+  content: "\e971";
+}
+.encounters-weaver_of_the_cosmos:before {
+  content: "\e972";
+}
+.encounters-agents_of_nyarlathotep:before {
+  content: "\e973";
+}
+.encounters-beyond_the_gates_of_sleep:before {
+  content: "\e974";
+}
+.encounters-corsairs:before {
+  content: "\e975";
+}
+.encounters-creatures_of_the_underworld:before {
+  content: "\e976";
+}
+.encounters-dreamers_curse:before {
+  content: "\e977";
+}
+.encounters-dreamlands:before {
+  content: "\e978";
+}
+.encounters-merging_realities:before {
+  content: "\e979";
+}
+.encounters-spiders:before {
+  content: "\e97a";
+}
+.encounters-waking_nightmare:before {
+  content: "\e97b";
+}
+.encounters-whispers_of_hypnos:before {
+  content: "\e97c";
+}
+.encounters-zoogs:before {
+  content: "\e97d";
+}
+.encounters-descent_into_the_pitch:before {
+  content: "\e97e";
+}
+.encounters-terror_of_the_vale:before {
+  content: "\e97f";
+}
+.encounters-the_circle_undone:before {
+  content: "\43";
+}
+.encounters-disappearance_at_the_twilight_estate:before {
+  content: "\e980";
+}
+.encounters-the_witching_hour:before {
+  content: "\e981";
+}
+.encounters-at_deaths_doorstep:before {
+  content: "\e982";
+}
+.encounters-the_secret_name:before {
+  content: "\e983";
+}
+.encounters-the_wages_of_sin:before {
+  content: "\e984";
+}
+.encounters-for_the_greater_good:before {
+  content: "\e985";
+}
+.encounters-union_and_disillusion:before {
+  content: "\e986";
+}
+.encounters-in_the_clutches_of_chaos:before {
+  content: "\e987";
+}
+.encounters-before_the_black_throne:before {
+  content: "\e988";
+}
+.encounters-agents_of_azathoth:before {
+  content: "\e989";
+}
+.encounters-anettes_coven:before {
+  content: "\e98a";
+}
+.encounters-city_of_sins:before {
+  content: "\e98b";
+}
+.encounters-inexorable_fate:before {
+  content: "\e98c";
+}
+.encounters-realm_of_death:before {
+  content: "\e98d";
+}
+.encounters-silver_twilight_lodge:before {
+  content: "\e98e";
+}
+.encounters-spectral_predators:before {
+  content: "\e98f";
+}
+.encounters-the_watcher:before {
+  content: "\e990";
+}
+.encounters-trapped_spirits:before {
+  content: "\e991";
+}
+.encounters-witchcraft:before {
+  content: "\e992";
+}
+.encounters-secrets_of_the_universe:before {
+  content: "\e993";
+}
+.encounters-music_of_the_damned:before {
+  content: "\e994";
+}
+.encounters-rttcu:before {
+  content: "\44";
+}
+.encounters-return_to_disappearance_at_the_twilight_estate:before {
+  content: "\e995";
+}
+.encounters-return_to_the_witching_hour:before {
+  content: "\e996";
+}
+.encounters-return_to_at_deaths_doorstep:before {
+  content: "\e997";
+}
+.encounters-return_to_the_secret_name:before {
+  content: "\e998";
+}
+.encounters-return_to_the_wages_of_sin:before {
+  content: "\e999";
+}
+.encounters-return_to_for_the_greater_good:before {
+  content: "\e99a";
+}
+.encounters-return_to_union_and_disillusion:before {
+  content: "\e99b";
+}
+.encounters-return_to_in_the_clutches_of_chaos:before {
+  content: "\e99c";
+}
+.encounters-return_to_before_the_black_throne:before {
+  content: "\e99d";
+}
+.encounters-witchwork:before {
+  content: "\e99e";
+}
+.encounters-unspeakable_fate:before {
+  content: "\e99f";
+}
+.encounters-threatening_evil:before {
+  content: "\e9a0";
+}
+.encounters-spectral_realm:before {
+  content: "\e9a1";
+}
+.encounters-cold_fog:before {
+  content: "\e9a2";
+}
+.encounters-city_of_the_damned:before {
+  content: "\e9a3";
+}
+.encounters-bloodthirsty_spirits:before {
+  content: "\e9a4";
+}
+.encounters-the_forgotten_age:before {
+  content: "\45";
+}
+.encounters-the_untamed_wilds:before {
+  content: "\e9a5";
+}
+.encounters-the_doom_of_eztli:before {
+  content: "\e9a6";
+}
+.encounters-threads_of_fate:before {
+  content: "\e9a7";
+}
+.encounters-the_boundary_beyond:before {
+  content: "\e9a8";
+}
+.encounters-pillars_of_judgement:before {
+  content: "\e9a9";
+}
+.encounters-knyan:before {
+  content: "\e9aa";
+}
+.encounters-heart_of_the_elders:before {
+  content: "\e9ab";
+}
+.encounters-city_of_archives:before {
+  content: "\e9ac";
+}
+.encounters-the_depths_of_yoth:before {
+  content: "\e9ad";
+}
+.encounters-shattered_aeons:before {
+  content: "\e9ae";
+}
+.encounters-turn_back_time:before {
+  content: "\e9af";
+}
+.encounters-yigs_venom:before {
+  content: "\e9b0";
+}
+.encounters-agents_of_yig:before {
+  content: "\e9b1";
+}
+.encounters-deadly_traps:before {
+  content: "\e9b2";
+}
+.encounters-expedition:before {
+  content: "\e9b3";
+}
+.encounters-forgotten_ruins:before {
+  content: "\e9b4";
+}
+.encounters-guardians_of_time:before {
+  content: "\e9b5";
+}
+.encounters-pnakotic_brotherhood:before {
+  content: "\e9b6";
+}
+.encounters-poison:before {
+  content: "\e9b7";
+}
+.encounters-rainforest:before {
+  content: "\e9b8";
+}
+.encounters-serpents:before {
+  content: "\e9d5";
+}
+.encounters-temporal_flux:before {
+  content: "\e9d6";
+}
+.encounters-return_to_the_forgotten_age:before {
+  content: "\46";
+}
+.encounters-return_to_the_untamed_wilds:before {
+  content: "\e9d7";
+}
+.encounters-return_to_the_doom_of_eztli:before {
+  content: "\e9d8";
+}
+.encounters-return_to_threads_of_fate:before {
+  content: "\e9d9";
+}
+.encounters-return_to_the_boundary_beyond:before {
+  content: "\e9da";
+}
+.encounters-return_to_pillars_of_judgement:before {
+  content: "\e9db";
+}
+.encounters-return_to_knyan:before {
+  content: "\e9dc";
+}
+.encounters-return_to_the_heart_of_the_elders:before {
+  content: "\e9dd";
+}
+.encounters-return_to_city_of_archives:before {
+  content: "\e9de";
+}
+.encounters-return_to_the_depths_of_yoth:before {
+  content: "\e9df";
+}
+.encounters-return_to_shattered_aeons:before {
+  content: "\e9e0";
+}
+.encounters-return_to_turn_back_time:before {
+  content: "\e9e1";
+}
+.encounters-return_to_the_rainforest:before {
+  content: "\e9e2";
+}
+.encounters-cult_of_pnakotus:before {
+  content: "\e9e3";
+}
+.encounters-doomed_expedition:before {
+  content: "\e9e4";
+}
+.encounters-temporal_hunters:before {
+  content: "\e9e5";
+}
+.encounters-venomous_hate:before {
+  content: "\e9e6";
+}
+.encounters-novella:before {
+  content: "\ea3e";
+}
+.encounters-blob:before {
+  content: "\ea3f";
+}
+.encounters-rougerauo2:before {
+  content: "\51";
+}
+.encounters-the_bayou:before {
+  content: "\ea40";
+}
+.encounters-curse_of_the_rougarou:before {
+  content: "\ea41";
+}
+.encounters-carnevale:before {
+  content: "\ea42";
+}
+.encounters-venice1:before {
+  content: "\52";
+}
+.encounters-lol:before {
+  content: "\53";
+}
+.encounters-in_the_labyrinths_of_lunacy:before {
+  content: "\ea43";
+}
+.encounters-epic_multiplayer:before {
+  content: "\ea44";
+}
+.encounters-single_group:before {
+  content: "\ea45";
+}
+.encounters-guardians:before {
+  content: "\54";
+}
+.encounters-abyssal_gifts:before {
+  content: "\ea46";
+}
+.encounters-abyssal_tribute:before {
+  content: "\ea47";
+}
+.encounters-brotherhood_of_the_beast:before {
+  content: "\ea48";
+}
+.encounters-sands_of_egypt:before {
+  content: "\ea49";
+}
+.encounters-eternal_slumber:before {
+  content: "\ea4a";
+}
+.encounters-nights_usurper:before {
+  content: "\ea4b";
+}
+.encounters-excelsior:before {
+  content: "\55";
+}
+.encounters-murder_at_the_excelsior_hotel:before {
+  content: "\ea4c";
+}
+.encounters-alien_interference:before {
+  content: "\ea4d";
+}
+.encounters-dark_rituals:before {
+  content: "\ea4e";
+}
+.encounters-excelsior_management:before {
+  content: "\ea4f";
+}
+.encounters-sins_of_the_past:before {
+  content: "\ea50";
+}
+.encounters-vile_experiments:before {
+  content: "\ea51";
+}
+.encounters-blob_set:before {
+  content: "\56";
+}
+.encounters-the_blob_that_ate_everything:before {
+  content: "\ea52";
+}
+.encounters-migo:before {
+  content: "\ea53";
+}
+.encounters-read_or_die:before {
+  content: "\ea54";
+}
+.encounters-all_or_nothing:before {
+  content: "\ea55";
+}
+.encounters-bad_blood:before {
+  content: "\ea56";
+}
+.encounters-by_the_book:before {
+  content: "\ea57";
+}
+.encounters-red_tide_rising:before {
+  content: "\ea58";
+}
+.encounters-nate:before {
+  content: "\4b";
+}
+.encounters-harvey:before {
+  content: "\4d";
+}
+.encounters-jacqueline:before {
+  content: "\4e";
+}
+.encounters-winifred:before {
+  content: "\4f";
+}
+.encounters-stella:before {
+  content: "\50";
+}
+.encounters-wotog:before {
+  content: "\ea59";
+}
+.encounters-war_of_the_outer_gods:before {
+  content: "\ea5a";
+}
+.encounters-children_of_paradise:before {
+  content: "\ea5b";
+}
+.encounters-assimilating_swarm:before {
+  content: "\ea5c";
+}
+.encounters-death_of_the_stars:before {
+  content: "\ea5d";
+}
+.encounters-barkham_horror:before {
+  content: "\ea5e";
+}
+.encounters-meddling:before {
+  content: "\ea5f";
+}
+.encounters-roulette:before {
+  content: "\ea60";
+}
+.encounters-fortune_and_folly:before {
+  content: "\ea61";
+}
+.encounters-fortunes_chosen:before {
+  content: "\ea62";
+}
+.encounters-plan_in_shambles:before {
+  content: "\ea63";
+}
+.encounters-consternation_on_the_constellation:before {
+  content: "\ea64";
+}
+.encounters-deep_ones:before {
+  content: "\ea65";
+}
+.encounters-sinking_ship:before {
+  content: "\ea66";
+}
+.encounters-mtt:before {
+  content: "\ea67";
+}
+.encounters-machinations_through_time:before {
+  content: "\ea68";
+}
+.encounters-zez:before {
+  content: "\ea69";
+}
+.encounters-beta:before {
+  content: "\ea6a";
+}
+.encounters-meteoric_phenomenon:before {
+  content: "\ea6b";
+}
+.encounters-inhospitable_locality:before {
+  content: "\ea6c";
+}
+.encounters-unnatural_disturbances:before {
+  content: "\ea6d";
+}
+.encounters-made_flesh:before {
+  content: "\ea6e";
+}
+.encounters-lost_cathedral:before {
+  content: "\ea6f";
+}
+.encounters-the_fall_of_the_house_of_usher:before {
+  content: "\ea70";
+}
+.encounters-wendigo:before {
+  content: "\ea71";
+}
+.encounters-wendigos_myth:before {
+  content: "\ea72";
+}
+.encounters-hannihah_valley:before {
+  content: "\ea73";
+}
+.encounters-fortune:before {
+  content: "\ea74";
+}
+.encounters-the_black_stone:before {
+  content: "\ea75";
+}
+.encounters-laid_to_rest:before {
+  content: "\e9e7";
+}
+.encounters-curtain_call:before {
+  content: "\e9e8";
+}
+.encounters-the_last_king:before {
+  content: "\e9e9";
+}
+.encounters-echoes_of_the_past:before {
+  content: "\e9ea";
+}
+.encounters-the_unspeakable_oath:before {
+  content: "\e9eb";
+}
+.encounters-a_phantom_of_truth:before {
+  content: "\e9ec";
+}
+.encounters-the_pallid_mask:before {
+  content: "\e9ed";
+}
+.encounters-black_stars_rise:before {
+  content: "\e9ee";
+}
+.encounters-the_flood_below:before {
+  content: "\e9ef";
+}
+.encounters-the_vortex_above:before {
+  content: "\e9f0";
+}
+.encounters-dim_carcosa:before {
+  content: "\e9f1";
+}
+.encounters-byakhee:before {
+  content: "\e9f2";
+}
+.encounters-cult_of_the_yellow_sign:before {
+  content: "\e9f3";
+}
+.encounters-decay_and_filth:before {
+  content: "\e9f4";
+}
+.encounters-delusions:before {
+  content: "\e9f5";
+}
+.encounters-evil_portents:before {
+  content: "\e9f6";
+}
+.encounters-hasturs_gift:before {
+  content: "\e9f7";
+}
+.encounters-hauntings:before {
+  content: "\e9f8";
+}
+.encounters-inhabitants_of_carcosa:before {
+  content: "\e9f9";
+}
+.encounters-the_stranger:before {
+  content: "\e9fa";
+}
+.encounters-delusory_evils:before {
+  content: "\ea03";
+}
+.encounters-neurotic_fear:before {
+  content: "\ea04";
+}
+.encounters-hasturs_envoys:before {
+  content: "\ea05";
+}
+.encounters-decaying_reality:before {
+  content: "\ea06";
+}
+.encounters-maddening_delusions:before {
+  content: "\ea07";
+}
+.encounters-ancient_evils:before {
+  content: "\ea28";
+}
+.encounters-dark_cult:before {
+  content: "\ea29";
+}
+.encounters-agents_of_yog:before {
+  content: "\ea2a";
+}
+.encounters-agents_of_cthulhu:before {
+  content: "\ea2b";
+}
+.encounters-ghouls:before {
+  content: "\ea2c";
+}
+.encounters-chilling_cold:before {
+  content: "\ea2d";
+}
+.encounters-core:before {
+  content: "\ea2e";
+}
+.encounters-agents_of_hastur:before {
+  content: "\ea2f";
+}
+.encounters-agents_of_shub:before {
+  content: "\ea30";
+}
+.encounters-locked_doors:before {
+  content: "\ea31";
+}
+.encounters-nightgaunts:before {
+  content: "\ea32";
+}
+.encounters-rats:before {
+  content: "\ea33";
+}
+.encounters-striking_fear:before {
+  content: "\ea34";
+}
+.encounters-the_gathering:before {
+  content: "\ea35";
+}
+.encounters-midnight_masks:before {
+  content: "\ea36";
+}
+.encounters-cult_of_umordoth:before {
+  content: "\ea37";
+}
+.encounters-the_devourer_below:before {
+  content: "\ea38";
+}
+.encounters-rtnotz:before {
+  content: "\58";
+}
+.encounters-ghouls_of_umrdhoth:before {
+  content: "\ea39";
+}
+.encounters-the_devourers_cult:before {
+  content: "\ea3a";
+}
+.encounters-return_to_the_gathering:before {
+  content: "\ea3b";
+}
+.encounters-return_to_the_midnight_masks:before {
+  content: "\ea3c";
+}
+.encounters-return_cult:before {
+  content: "\ea3d";
+}
+.encounters-return_to_the_devourer_below:before {
+  content: "\ea76";
+}
+.encounters-carcosa:before {
+  content: "\47";
+}
+.encounters-return_to_the_path_to_carcosa:before {
+  content: "\48";
+}
+.encounters-return_to_curtain_call:before {
+  content: "\e9fb";
+}
+.encounters-return_to_the_last_king:before {
+  content: "\e9fc";
+}
+.encounters-return_to_echoes_of_the_past:before {
+  content: "\e9fd";
+}
+.encounters-return_to_the_unspeakable_oath:before {
+  content: "\e9fe";
+}
+.encounters-return_to_the_phantom_of_truth:before {
+  content: "\e9ff";
+}
+.encounters-return_to_the_pallid_mask:before {
+  content: "\ea00";
+}
+.encounters-return_to_black_stars_rise:before {
+  content: "\ea01";
+}
+.encounters-return_to_dim_carcosa:before {
+  content: "\ea02";
+}
+.encounters-set:before {
+  content: "\49";
+}
+.encounters-extracurricular_activity:before {
+  content: "\ea08";
+}
+.encounters-the_house_always_wins:before {
+  content: "\ea09";
+}
+.encounters-armitages_fate:before {
+  content: "\ea0a";
+}
+.encounters-the_miskatonic_museum:before {
+  content: "\ea0b";
+}
+.encounters-the_essex_county_express:before {
+  content: "\ea0c";
+}
+.encounters-blood_on_the_altar:before {
+  content: "\ea0d";
+}
+.encounters-undimensioned_and_unseen:before {
+  content: "\ea0e";
+}
+.encounters-where_doom_awaits:before {
+  content: "\ea0f";
+}
+.encounters-lost_in_time_and_space:before {
+  content: "\ea10";
+}
+.encounters-bad_luck:before {
+  content: "\ea11";
+}
+.encounters-beast_thralls:before {
+  content: "\ea12";
+}
+.encounters-bishops_thralls:before {
+  content: "\ea13";
+}
+.encounters-dunwich:before {
+  content: "\ea14";
+}
+.encounters-hideous_abominations:before {
+  content: "\ea15";
+}
+.encounters-naomis_crew:before {
+  content: "\ea16";
+}
+.encounters-sorcery:before {
+  content: "\ea17";
+}
+.encounters-the_beyond:before {
+  content: "\ea18";
+}
+.encounters-whippoorwills:before {
+  content: "\ea19";
+}
+.encounters-return_to_the_dunwich_legacy:before {
+  content: "\4a";
+}
+.encounters-return_to_extracurricular_activities:before {
+  content: "\ea1a";
+}
+.encounters-return_to_the_house_always_wins:before {
+  content: "\ea1b";
+}
+.encounters-return_to_the_miskatonic_museum:before {
+  content: "\ea1c";
+}
+.encounters-return_to_the_essex_county_express:before {
+  content: "\ea1d";
+}
+.encounters-return_to_blood_on_the_altar:before {
+  content: "\ea1e";
+}
+.encounters-return_to_undimensioned_and_unseen:before {
+  content: "\ea1f";
+}
+.encounters-return_to_where_doom_awaits:before {
+  content: "\ea20";
+}
+.encounters-return_to_lost_in_time_and_space:before {
+  content: "\ea21";
+}
+.encounters-resurgent_evils:before {
+  content: "\ea22";
+}
+.encounters-erratic_fear:before {
+  content: "\ea23";
+}
+.encounters-creeping_cold:before {
+  content: "\ea24";
+}
+.encounters-secret_doors:before {
+  content: "\ea25";
+}
+.encounters-yog_sothoths_emissaries:before {
+  content: "\ea26";
+}
+.encounters-beyond_the_threshold:before {
+  content: "\ea27";
 }

@@ -643,6 +643,41 @@ const SvgSpectralRealm = () => <i className="encounters-spectral_realm" />;
 // _ "../icons/laid_to_rest"
 // _ "../icons/relics_of_the_past"
 
+const SvgFateOfTheVale = () => <i className="encounters-fate_of_the_vale" />;
+const SvgWrittenInRock = () => <i className="encounters-written_in_rock" />;
+const SvgTheLostSister = () => <i className="encounters-the_lost_sister" />;
+const SvgTheTwistedHollow = () => (
+  <i className="encounters-the_twisted_hollow" />
+);
+const SvgTheLongestNight = () => <i className="encounters-the_longest_night" />;
+const SvgTheVale = () => <i className="encounters-the_vale" />;
+const SvgResidents = () => <i className="encounters-residents" />;
+const SvgHemlockHouse = () => <i className="encounters-hemlock_house" />;
+const SvgHeirlooms = () => <i className="encounters-heirlooms" />;
+const SvgTheThingInTheDepths = () => (
+  <i className="encounters-the_thing_in_the_depths" />
+);
+const SvgDayOfRain = () => <i className="encounters-day_of_rain" />;
+const SvgTheSilentHeath = () => <i className="encounters-the_silent_heath" />;
+const SvgTheFirstDay = () => <i className="encounters-the_first_day" />;
+const SvgTheSecondDay = () => <i className="encounters-the_second_day" />;
+const SvgTheFinalDay = () => <i className="encounters-the_final_day" />;
+const SvgAgentsOfTheColour = () => (
+  <i className="encounters-agents_of_the_colour" />
+);
+const SvgHorrorsInTheRock = () => (
+  <i className="encounters-horrors_in_the_rock" />
+);
+const SvgMyconids = () => <i className="encounters-myconids" />;
+const SvgDayOfRest = () => <i className="encounters-day_of_rest" />;
+const SvgDayOfTheFeast = () => <i className="encounters-day_of_the_feast" />;
+const SvgTransfiguration = () => <i className="encounters-transfiguration" />;
+const SvgBlight = () => <i className="encounters-blight" />;
+const SvgFire = () => <i className="encounters-fire" />;
+const SvgMutations = () => <i className="encounters-mutations" />;
+const SvgRefractions = () => <i className="encounters-refractions" />;
+const SvgTheForest = () => <i className="encounters-the_forest" />;
+
 function getEncounterIcon(code?: string) {
   switch (code) {
     case "torch":
@@ -1213,6 +1248,59 @@ function getEncounterIcon(code?: string) {
       return SvgFortunesChosen;
     case "plan_in_shambles":
       return SvgPlanInShambles;
+
+    case "the_first_day":
+      return SvgTheFirstDay;
+    case "the_second_day":
+      return SvgTheSecondDay;
+    case "the_final_day":
+      return SvgTheFinalDay;
+    case "agents_of_the_colour":
+      return SvgAgentsOfTheColour;
+    case "heirlooms":
+      return SvgHeirlooms;
+    case "written_in_rock":
+      return SvgWrittenInRock;
+    case "horrors_in_the_rock":
+      return SvgHorrorsInTheRock;
+    case "myconids":
+      return SvgMyconids;
+    case "fate_of_the_vale":
+      return SvgFateOfTheVale;
+    case "the_lost_sister":
+      return SvgTheLostSister;
+    case "the_twisted_hollow":
+      return SvgTheTwistedHollow;
+    case "the_longest_night":
+      return SvgTheLongestNight;
+    case "the_vale":
+      return SvgTheVale;
+    case "residents":
+      return SvgResidents;
+    case "hemlock_house":
+      return SvgHemlockHouse;
+    case "the_thing_in_the_depths":
+      return SvgTheThingInTheDepths;
+    case "day_of_rain":
+      return SvgDayOfRain;
+    case "day_of_rest":
+      return SvgDayOfRest;
+    case "day_of_the_feast":
+      return SvgDayOfTheFeast;
+    case "the_silent_heath":
+      return SvgTheSilentHeath;
+    case "transfiguration":
+      return SvgTransfiguration;
+    case "blight":
+      return SvgBlight;
+    case "fire":
+      return SvgFire;
+    case "mutations":
+      return SvgMutations;
+    case "refractions":
+      return SvgRefractions;
+    case "the_forest":
+      return SvgTheForest;
 
     case "blob_that_ate_everything_else":
     case "migo_incursion_2":
