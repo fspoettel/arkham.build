@@ -5,6 +5,7 @@
   align-items: center;
   gap: 1rem;
   line-height: 1;
+  font-size: var(--card-text-size);
 }
 
 .details-text {

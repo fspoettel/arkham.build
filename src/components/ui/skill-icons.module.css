@@ -9,6 +9,10 @@
   margin-left: -0.125rem;
 }
 
+.skill-cost {
+  font-size: 0.75em;
+}
+
 .skill_investigator {
   display: inline-flex;
   align-items: center;

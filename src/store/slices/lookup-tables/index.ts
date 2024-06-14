@@ -319,9 +319,7 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
     }
 
     if (card.alt_art_investigator && card.alternate_of_code) {
-      const pack = metadata.packs[card.pack_code];
-      const cycle = metadata.cycles[pack.cycle_code];
-      if (cycle.code === "parallel") {
+      if (card.parallel) {
         setInLookupTable(
           card.code,
           tables.relations.parallel,
@@ -344,6 +342,8 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
       }
     }
 
+    // TODO: there is an edge case with Dream-Gate where the front should show when accessing `06015b` via
+    // a bond, but currently does not.
     if (!card.linked && bonded[card.real_name]) {
       for (const bondedCode of bonded[card.real_name]) {
         // beware the great hank samson.

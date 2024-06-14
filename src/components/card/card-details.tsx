@@ -1,53 +1,45 @@
-import { SubType, Type } from "@/store/graphql/types";
+import { CardResolved } from "@/store/selectors/card-detail";
 
 import css from "./card-details.module.css";
 
 import { CardSlots } from "./card-slots";
 
 type Props = {
-  slot?: string;
-  subtype?: SubType;
-  traits?: string;
-  type?: Type;
-  doom?: number;
-  clues?: number;
-  cluesFixed?: boolean;
-  shroud?: number;
+  resolvedCard: CardResolved;
 };
 
-export function CardDetails({
-  clues,
-  cluesFixed,
-  doom,
-  slot,
-  traits,
-  subtype,
-  type,
-  shroud,
-}: Props) {
-  const showType = type && type.code !== "investigator";
+export function CardDetails({ resolvedCard }: Props) {
+  const { card, subtype, type } = resolvedCard;
+
+  const showType = type.code !== "investigator";
 
   return (
     <div className={css["details"]}>
       <div className={css["details-text"]}>
-        {(showType || subtype || slot) && (
+        {(showType || subtype || card.real_slot) && (
           <p className={css["details-type"]}>
             {showType && <span>{type.name}</span>}
             {subtype && <span>{subtype.name}</span>}
-            {slot && <span>{slot}</span>}
+            {card.real_slot && <span>{card.real_slot}</span>}
           </p>
         )}
-        {traits && <p className={css["details-traits"]}>{traits}</p>}
-        {!!doom && <p>Doom: {doom}</p>}
-        {!!clues && (
+        {card.real_traits && (
+          <p className={css["details-traits"]}>{card.real_traits}</p>
+        )}
+        {!!card.doom && <p>Doom: {card.doom}</p>}
+        {!!card.clues && (
           <p>
-            {!!shroud && <>Shroud: {shroud}, </>}
-            Clues: {clues}{" "}
-            {!cluesFixed && <i className="icon-text icon-per_investigator" />}
+            {!!card.shroud && <>Shroud: {card.shroud}, </>}
+            Clues: {card.clues}{" "}
+            {!card.clues_fixed && (
+              <i className="icon-text icon-per_investigator" />
+            )}
           </p>
         )}
       </div>
-      {slot && <CardSlots className={css["details-slots"]} slot={slot} />}
+      {card.real_slot && (
+        <CardSlots className={css["details-slots"]} slot={card.real_slot} />
+      )}
     </div>
   );
 }

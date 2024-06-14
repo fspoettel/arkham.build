@@ -61,8 +61,8 @@ export function SkillIcons({
                 className={clsx(css["skill_investigator"], iconClassName)}
                 key={key}
               >
-                <CostIcon cost={val} />
-                <Icon skill={key} />
+                <CostIcon className={css["skill-cost"]} cost={val} />
+                <Icon className={css["skill-icon"]} skill={key} />
               </li>
             )}
             {!isNumbered &&

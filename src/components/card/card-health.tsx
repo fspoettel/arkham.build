@@ -1,4 +1,4 @@
-import css from "./card.module.css";
+import css from "./card-health.module.css";
 
 import { HealthIcon, SanityIcon } from "../ui/icons/health-icons";
 

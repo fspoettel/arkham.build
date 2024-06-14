@@ -1,129 +1,151 @@
 import clsx from "clsx";
 
+import { Card as ICard } from "@/store/graphql/types";
 import { CardResolved } from "@/store/selectors/card-detail";
-import { getCardColor } from "@/utils/card-utils";
+import { getCardColor, reversed, sideways } from "@/utils/card-utils";
 
 import css from "./card.module.css";
 
-import { MulticlassIcons } from "../ui/icons/multiclass-icons";
 import { CardDetails } from "./card-details";
-import { CardFlavor } from "./card-flavor";
-import { CardIcon } from "./card-icon";
+import { CardHeader } from "./card-header";
 import { CardIcons } from "./card-icons";
 import { CardImage } from "./card-image";
-import { CardMeta } from "./card-meta";
-import { CardNames } from "./card-names";
+import { CardMeta, CardMetaBack } from "./card-meta";
 import { CardText } from "./card-text";
 import { CardThumbnail } from "./card-thumbnail";
 
-type Props = {
+export type Props = {
+  className?: string;
   resolvedCard: CardResolved;
-  compact?: boolean;
   linked?: boolean;
-  reversed?: boolean;
+  size?: "compact" | "tooltip" | "full";
 };
 
-export function Card({ resolvedCard, compact, linked, reversed }: Props) {
-  const { card, type, subtype } = resolvedCard;
+/**
+ * Renders a card with a "simple" back-side that is tracked on the same card object.
+ * Cards are available in three sizes:
+ *  - `full`: Renders a full card with all metadata.
+ *  - `compact`: Renders a card without its backside and with a smaller card image.
+ *  - `tooltip`: Renders the card as a tooltip that is shown in card lists.
+ * TODO: a lot of the aspects about this (CSS, selectors) should be cleaned up a bit.
+ */
+export function Card({
+  className,
+  resolvedCard,
+  linked,
+  size = "full",
+}: Props) {
+  const { card } = resolvedCard;
 
   const colorCls = getCardColor(card, "background");
   const borderCls = getCardColor(card, "border");
-
-  const isSideways = resolvedCard.type
-    ? ["investigator", "act", "agenda"].includes(type.code)
-    : false;
 
   const front = (
     <article
       className={clsx(
         css["card"],
-        isSideways && css["sideways"],
-        compact && css["compact"],
         borderCls,
+        sideways(card) && css["sideways"],
+        css[size],
+        className,
       )}
     >
-      <header className={clsx(css["header"], colorCls)}>
-        <div className={css["header-row"]}>
-          <CardIcon inverted card={card} />
-          <CardNames
-            code={card.code}
-            isUnique={card.is_unique}
-            name={card.real_name}
-            linked={linked}
-            parallel={card.parallel}
-            subname={card.real_subname}
-          />
-        </div>
-        <MulticlassIcons
-          className={css["faction-icons"]}
-          card={card}
-          inverted
-        />
-      </header>
+      <CardHeader card={card} linked={linked} className={colorCls} />
 
       <div className={css["container"]}>
-        <CardDetails
-          clues={card.clues}
-          cluesFixed={card.clues_fixed}
-          doom={card.doom}
-          shroud={card.shroud}
-          slot={card.real_slot}
-          subtype={subtype}
-          traits={card.real_traits}
-          type={type}
-        />
+        <CardDetails resolvedCard={resolvedCard} />
         <CardIcons card={card} />
-        <CardText text={card.real_text} victory={card.victory} />
-        {!compact && <CardFlavor flavor={card.real_flavor} />}
-        {!compact && <CardMeta resolvedCard={resolvedCard} />}
+        <CardText
+          flavor={card.real_flavor}
+          size={size}
+          text={card.real_text}
+          typeCode={card.type_code}
+          victory={card.victory}
+        />
+        <CardMeta resolvedCard={resolvedCard} size={size} />
       </div>
+
       {card.imageurl &&
-        (compact ? (
+        (size === "full" ? (
+          <CardImage className={css["image"]} imageUrl={card.imageurl} />
+        ) : (
           <div className={css["image"]}>
             <CardThumbnail card={card} />
           </div>
-        ) : (
-          <CardImage className={css["image"]} imageUrl={card.imageurl} />
         ))}
     </article>
   );
 
-  const back = !compact && !card.back_link_id && card.double_sided && (
+  const showBack =
+    size !== "compact" && card.double_sided && !card.back_link_id;
+
+  const showBackImage =
+    size === "full" ||
+    (card.backimageurl &&
+      card.backimageurl !== card.imageurl &&
+      card.type_code !== "investigator");
+
+  const backCard: ICard | undefined = showBack
+    ? {
+        ...card,
+        real_name: card.real_back_name ?? `${card.real_name} - Back`,
+        real_subname: undefined,
+        real_flavor: card.real_back_flavor,
+        illustrator: card.back_illustrator,
+        real_text: card.real_back_text,
+        imageurl: card.backimageurl,
+      }
+    : undefined;
+
+  const back = backCard && (
     <article
-      className={clsx(css["card"], isSideways && css["sideways"], borderCls)}
+      className={clsx(
+        css["card"],
+        sideways(backCard) && css["sideways"],
+        css["back"],
+        showBackImage && css["has-image"],
+        css[size],
+        borderCls,
+      )}
     >
-      {card.real_back_name && (
-        <header className={clsx(css["header"], colorCls)}>
-          <CardNames name={card.real_back_name} code={card.code} />
-        </header>
+      {card.type_code !== "investigator" && (
+        <CardHeader card={backCard} className={colorCls} />
       )}
       <div className={css["container"]}>
-        <CardText text={card.real_back_text} />
-        <CardFlavor flavor={card.real_back_flavor} />
-        {card.back_illustrator &&
+        <CardText
+          flavor={card.real_back_flavor}
+          size={size}
+          text={card.real_back_text}
+          typeCode={card.type_code}
+        />
+        {size === "full" &&
+          card.back_illustrator &&
           card.back_illustrator !== card.illustrator && (
-            <CardMeta resolvedCard={resolvedCard} isBack />
+            <CardMetaBack illustrator={card.back_illustrator} />
           )}
       </div>
-      {card.backimageurl && (
-        <CardImage className={css["image"]} imageUrl={card.backimageurl} />
-      )}
+
+      {backCard.imageurl &&
+        showBackImage &&
+        (size === "full" ? (
+          <CardImage className={css["image"]} imageUrl={backCard.imageurl} />
+        ) : (
+          <div className={css["image"]}>
+            <CardThumbnail card={backCard} />
+          </div>
+        ))}
     </article>
   );
 
-  return (
+  return reversed(card) ? (
     <>
-      {reversed ? (
-        <>
-          {back}
-          {front}
-        </>
-      ) : (
-        <>
-          {front}
-          {back}
-        </>
-      )}
+      {back}
+      {front}
+    </>
+  ) : (
+    <>
+      {front}
+      {back}
     </>
   );
 }

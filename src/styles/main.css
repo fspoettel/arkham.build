@@ -46,7 +46,7 @@
   --survivor: #ee4a53;
   --multiclass: #e4d083;
   --mythos: var(--gray-100);
-  --neutral: var(--gray-200);
+  --neutral: var(--gray-300);
 
   --guardian-dark: #1072c2;
   --seeker-dark: #db7c07;
@@ -79,8 +79,7 @@
 body {
   font-family: var(--font-family-content);
   font-size: var(--text-md);
-  font-weight: 300;
-  line-height: 1.5;
+  line-height: 1.45;
   background: var(--gray-900);
   color: var(--gray-300);
   -webkit-font-smoothing: antialiased;

@@ -4,9 +4,11 @@ import { ReactNode, useEffect, useRef } from "react";
 import { Link, useLocation, useParams } from "wouter";
 
 import { Card } from "@/components/card/card";
+import { ResolvedCard } from "@/components/card/resolved-card";
 import { Filters } from "@/components/filters/filters";
 import { AppLayout } from "@/components/layouts/app_layout";
 import { CenterLayout } from "@/components/layouts/center_layout";
+import { Button } from "@/components/ui/button";
 import { useStore } from "@/store";
 import { selectCardWithRelations } from "@/store/selectors/card-detail";
 
@@ -38,9 +40,10 @@ export function CardView() {
   const cardWithRelations = useStore((state) =>
     selectCardWithRelations(state, code),
   );
+
   if (!cardWithRelations) return null;
 
-  const { card, back, relations } = cardWithRelations;
+  const { relations } = cardWithRelations;
 
   return (
     <AppLayout
@@ -52,25 +55,15 @@ export function CardView() {
         top={
           <header className={css["view-nav"]}>
             <Link href="/">
-              <a className="button button-icon">
+              <Button as="a">
                 <ChevronDownIcon />
-              </a>
+              </Button>
             </Link>
           </header>
         }
       >
         <div className={clsx(css["view"])} ref={scrollerRef}>
-          {card.type_code === "location" ? (
-            <>
-              {back && <Card resolvedCard={back} />}
-              <Card resolvedCard={cardWithRelations} reversed />
-            </>
-          ) : (
-            <>
-              <Card resolvedCard={cardWithRelations} tooltip />
-              {back && <Card resolvedCard={back} tooltip />}
-            </>
-          )}
+          <ResolvedCard resolvedCard={cardWithRelations} />
 
           {relations?.parallel && (
             <CardViewSection title="Parallel">
@@ -78,48 +71,15 @@ export function CardView() {
             </CardViewSection>
           )}
 
-          {!!relations?.requiredCards?.length && (
-            <CardViewSection title="Required cards">
-              {relations.requiredCards.map((c) => (
-                <Card key={c.card.code} resolvedCard={c} linked />
-              ))}
-            </CardViewSection>
-          )}
-
-          {!!relations?.parallelCards?.length && (
-            <CardViewSection title="Parallel cards">
-              {relations.parallelCards.map((c) => (
-                <Card key={c.card.code} resolvedCard={c} linked />
-              ))}
-            </CardViewSection>
-          )}
-
-          {!!relations?.replacement?.length && (
-            <CardViewSection title="Alternate cards">
-              {relations.replacement.map((c) => (
-                <Card key={c.card.code} resolvedCard={c} linked compact />
-              ))}
-            </CardViewSection>
-          )}
-
-          {!!relations?.advanced?.length && (
-            <CardViewSection title="Advanced cards">
-              {relations.advanced.map((c) => (
-                <Card key={c.card.code} resolvedCard={c} linked compact />
-              ))}
-            </CardViewSection>
-          )}
-
-          {!!relations?.restrictedTo && (
-            <CardViewSection title="Restricted">
-              <Card resolvedCard={relations.restrictedTo} linked compact />
-            </CardViewSection>
-          )}
-
           {!!relations?.bound?.length && (
             <CardViewSection title="Bound Cards">
               {relations.bound.map((c) => (
-                <Card key={c.card.code} resolvedCard={c} linked compact />
+                <ResolvedCard
+                  key={c.card.code}
+                  resolvedCard={c}
+                  linked
+                  size="compact"
+                />
               ))}
             </CardViewSection>
           )}
@@ -127,15 +87,87 @@ export function CardView() {
           {!!relations?.bonded?.length && (
             <CardViewSection title="Bonded">
               {relations.bonded.map((c) => (
-                <Card key={c.card.code} resolvedCard={c} linked compact />
+                <ResolvedCard
+                  key={c.card.code}
+                  resolvedCard={c}
+                  linked
+                  size="compact"
+                />
               ))}
+            </CardViewSection>
+          )}
+
+          {!!relations?.requiredCards?.length && (
+            <CardViewSection title="Required cards">
+              {relations.requiredCards.map((c) => (
+                <ResolvedCard
+                  key={c.card.code}
+                  resolvedCard={c}
+                  linked
+                  size="compact"
+                />
+              ))}
+            </CardViewSection>
+          )}
+
+          {!!relations?.parallelCards?.length && (
+            <CardViewSection title="Parallel cards">
+              {relations.parallelCards.map((c) => (
+                <ResolvedCard
+                  key={c.card.code}
+                  resolvedCard={c}
+                  linked
+                  size="compact"
+                />
+              ))}
+            </CardViewSection>
+          )}
+
+          {!!relations?.replacement?.length && (
+            <CardViewSection title="Alternate cards">
+              {relations.replacement.map((c) => (
+                <ResolvedCard
+                  key={c.card.code}
+                  resolvedCard={c}
+                  linked
+                  size="compact"
+                />
+              ))}
+            </CardViewSection>
+          )}
+
+          {!!relations?.advanced?.length && (
+            <CardViewSection title="Advanced cards">
+              {relations.advanced.map((c) => (
+                <ResolvedCard
+                  key={c.card.code}
+                  resolvedCard={c}
+                  linked
+                  size="compact"
+                />
+              ))}
+            </CardViewSection>
+          )}
+
+          {!!relations?.restrictedTo && (
+            <CardViewSection title="Restricted">
+              <ResolvedCard
+                resolvedCard={relations.restrictedTo}
+                linked
+                size="compact"
+              />
             </CardViewSection>
           )}
 
           {!!relations?.level?.length && (
             <CardViewSection title="Other levels">
               {relations.level.map((c) => (
-                <Card key={c.card.code} resolvedCard={c} linked compact />
+                <ResolvedCard
+                  key={c.card.code}
+                  resolvedCard={c}
+                  linked
+                  size="compact"
+                />
               ))}
             </CardViewSection>
           )}

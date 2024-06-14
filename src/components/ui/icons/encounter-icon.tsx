@@ -10,7 +10,9 @@ function EncounterIcon({ code, className }: Props) {
   return Icon ? (
     <Suspense
       fallback={
-        <div style={{ width: "1em", height: "1em", display: "inline-block" }} />
+        <span
+          style={{ width: "1em", height: "1em", display: "inline-block" }}
+        />
       }
     >
       <Icon className={className} />

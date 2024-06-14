@@ -2,6 +2,7 @@ import clsx from "clsx";
 
 import SvgWeakness from "@/assets/icons/weakness.svg?react";
 import { Card } from "@/store/graphql/types";
+import { getCardColor } from "@/utils/card-utils";
 
 import css from "./card-icon.module.css";
 
@@ -35,7 +36,7 @@ export function CardIcon({ card, className, inverted }: Props) {
     return (
       <div
         className={clsx(
-          css["icon_large"],
+          css["icon_mythos"],
           className,
           inverted && css["icon_inverted"],
         )}
@@ -78,11 +79,13 @@ export function CardIcon({ card, className, inverted }: Props) {
     );
   }
 
+  const colorCls = getCardColor(card);
+
   return (
     <div
       className={clsx(
         css["icon_cost"],
-        `color-${card.faction_code}`,
+        colorCls,
         className,
         inverted && css["icon_inverted"],
       )}

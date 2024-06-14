@@ -4,13 +4,19 @@ import { parseCardTextHtml } from "./utils";
 
 type Props = {
   text?: string;
+  flavor?: string;
+  isFlavorCardText?: boolean;
   victory?: number;
+  typeCode: string;
+  size: "full" | "compact" | "tooltip";
 };
 
-export function CardText({ text, victory }: Props) {
-  if (!text && !victory) return null;
+export function CardText({ flavor, size, text, typeCode, victory }: Props) {
+  const isFlavorSwapped = ["agenda", "act", "story"].includes(typeCode);
+  const isFlavorCardText = isFlavorSwapped || typeCode === "location";
+  const showFlavor = size === "full" || isFlavorCardText;
 
-  return (
+  const textNode = text ? (
     <div className={css["text"]}>
       {text && (
         <p
@@ -25,5 +31,26 @@ export function CardText({ text, victory }: Props) {
         </p>
       )}
     </div>
+  ) : null;
+
+  const flavorNode =
+    showFlavor && flavor ? (
+      <div className={css["flavor"]}>
+        <p dangerouslySetInnerHTML={{ __html: parseCardTextHtml(flavor) }} />
+      </div>
+    ) : null;
+
+  if (!flavorNode && !textNode) return null;
+
+  return isFlavorSwapped ? (
+    <>
+      {flavorNode}
+      {textNode}
+    </>
+  ) : (
+    <>
+      {textNode}
+      {flavorNode}
+    </>
   );
 }

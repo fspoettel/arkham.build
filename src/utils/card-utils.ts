@@ -1,6 +1,6 @@
 import { Card } from "@/store/graphql/types";
 
-import { SKILL_KEYS } from "./constants";
+import { SIDEWAYS_TYPE_CODES, SKILL_KEYS } from "./constants";
 
 /**
  * Split multi value card properties. expected format: `Item. Tool.`
@@ -25,4 +25,17 @@ export function getCardColor(card: Card, prop = "color") {
 export function rewriteImageUrl(url?: string) {
   const id = url?.split("/").at(-1);
   return id ? `${import.meta.env.VITE_CARD_IMAGE_URL}/${id}` : undefined;
+}
+
+export function sideways(card: Card) {
+  return SIDEWAYS_TYPE_CODES.includes(card.type_code);
+}
+
+export function reversed(card: Card) {
+  return (
+    card.double_sided &&
+    card.type_code === "location" &&
+    !card.back_link_id &&
+    card.encounter_code
+  );
 }

@@ -2,7 +2,6 @@
   position: relative;
   display: block;
   border-radius: var(--rounded);
-  font-size: var(--icon-lg);
 
   &.agility {
     color: var(--agility);

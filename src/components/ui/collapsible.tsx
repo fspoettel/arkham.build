@@ -11,6 +11,8 @@ import { ReactNode, useState } from "react";
 
 import css from "./collapsible.module.css";
 
+import { Button } from "./button";
+
 type Props = CollapsibleProps & {
   children: ReactNode;
   className?: string;
@@ -39,9 +41,9 @@ export function Collapsible({
       <div className={css["collapsible-header"]}>
         <h4 onClick={() => setOpen(true)}>{title}</h4>
         <Trigger asChild>
-          <button className="button-icon">
+          <Button variant="icon">
             {open ? <Cross2Icon /> : <RowSpacingIcon />}
-          </button>
+          </Button>
         </Trigger>
       </div>
       {children}

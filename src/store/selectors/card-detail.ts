@@ -82,17 +82,24 @@ export function selectCardWithRelations(
         replacement: resolveRelationArray(state, "replacement", card.code),
         requiredCards: resolveRelationArray(state, "requiredCards", card.code),
         parallelCards: resolveRelationArray(state, "parallelCards", card.code),
-        bound: resolveRelationArray(state, "bound", card.code),
-        bonded: resolveRelationArray(state, "bonded", card.code),
       };
     } else {
       cardWithRelations.relations = {
-        bound: resolveRelationArray(state, "bound", card.code),
-        bonded: resolveRelationArray(state, "bonded", card.code),
         restrictedTo: resolveRelation(state, "restrictedTo", card.code),
         level: resolveRelationArray(state, "level", card.code),
       };
     }
+
+    cardWithRelations.relations.bound = resolveRelationArray(
+      state,
+      "bound",
+      card.code,
+    );
+    cardWithRelations.relations.bonded = resolveRelationArray(
+      state,
+      "bonded",
+      card.code,
+    );
   }
 
   return cardWithRelations;

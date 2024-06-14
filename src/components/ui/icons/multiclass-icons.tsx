@@ -8,7 +8,7 @@ import { FactionIcon } from "./faction-icon";
 
 type Props = {
   className?: string;
-  card: Card;
+  card: Pick<Card, "faction_code" | "faction2_code" | "faction3_code">;
   inverted?: boolean;
 };
 

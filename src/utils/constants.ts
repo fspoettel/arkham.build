@@ -54,3 +54,14 @@ export const ASSET_SLOT_ORDER = [
   // - permanent
   // - slotless
 ];
+
+export const SIDEWAYS_TYPE_CODES = ["act", "agenda", "investigator"];
+
+export const CYCLES_WITH_STANDALONE_PACKS = [
+  "core",
+  "return",
+  "investigator",
+  "promotional",
+  "parallel",
+  "side_stories",
+];
