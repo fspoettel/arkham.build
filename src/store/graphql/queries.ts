@@ -8,6 +8,7 @@ import {
   Card,
   Cycle,
   DataVersion,
+  EncounterSet,
   Faction,
   Pack,
   SubType,
@@ -35,6 +36,7 @@ export type MetadataResponse = {
   pack: Pack[];
   subtype: SubType[];
   type: Type[];
+  card_encounter_set: EncounterSet[];
 };
 
 const metadataQuery: TypedDocumentNode<MetadataResponse> = parse(gql`
@@ -42,15 +44,19 @@ const metadataQuery: TypedDocumentNode<MetadataResponse> = parse(gql`
     pack(where: { official: { _eq: true } }) {
       code
       cycle_code
-      official
       position
       real_name
     }
     cycle(where: { official: { _eq: true } }) {
       code
-      official
       position
       real_name
+    }
+    card_encounter_set(
+      where: { official: { _eq: true }, locale: { _eq: "en" } }
+    ) {
+      code
+      name
     }
   }
 `);
@@ -63,7 +69,11 @@ const allCardQuery: TypedDocumentNode<AllCardResponse> = parse(gql`
   {
     all_card(
       order_by: { real_name: asc }
-      where: { official: { _eq: true }, taboo_set_id: { _is_null: true } }
+      where: {
+        official: { _eq: true }
+        taboo_set_id: { _is_null: true }
+        pack_code: { _neq: "zbh_00008" }
+      }
     ) {
       alt_art_investigator
       alternate_of_code

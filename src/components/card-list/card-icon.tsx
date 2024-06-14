@@ -6,7 +6,6 @@ import SvgWeakness from "../icons/weakness";
 import css from "./card-icon.module.css";
 import { CostIcon } from "../ui/cost-icon";
 import { EncounterIcon } from "../ui/encounter-icon";
-import { Suspense } from "react";
 
 type Props = {
   card: Card;
@@ -25,9 +24,7 @@ export function CardIcon({ card, className }: Props) {
   if (card.faction_code === "mythos") {
     return (
       <span className={clsx(css["icon_large"], className)}>
-        <Suspense fallback={<div style={{ width: "1em", height: "1em" }} />}>
-          <EncounterIcon code={card.encounter_code} />
-        </Suspense>
+        <EncounterIcon code={card.encounter_code} />
       </span>
     );
   }

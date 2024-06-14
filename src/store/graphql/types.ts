@@ -125,3 +125,8 @@ export type DataVersion = {
   locale: string;
   translation_updated_at: string;
 };
+
+export type EncounterSet = {
+  code: string;
+  name: string;
+};

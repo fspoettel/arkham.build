@@ -27,7 +27,7 @@ export function PlayerCardToggle() {
       <ToggleGroupItem value="player">
         <SvgInvestigator />
       </ToggleGroupItem>
-      <ToggleGroupItem value="investigator">
+      <ToggleGroupItem value="encounter">
         <SvgAutoFail />
       </ToggleGroupItem>
     </ToggleGroup>

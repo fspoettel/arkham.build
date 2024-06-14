@@ -3,8 +3,8 @@ import css from "./card.module.css";
 import clsx from "clsx";
 import { CardIcon } from "./card-icon";
 import { SkillIcons } from "../ui/skill-icons";
-import { getCardColor, hasSkillIcons } from "@/store/utils";
 import { MulticlassIcons } from "../ui/multiclass-icons";
+import { getCardColor, hasSkillIcons } from "@/utils/card-utils";
 
 type Props = {
   card: CardSchema;

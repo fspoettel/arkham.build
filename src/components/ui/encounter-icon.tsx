@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 
 type Props = {
   className?: string;
@@ -7,7 +7,11 @@ type Props = {
 
 export function EncounterIcon({ code, className }: Props) {
   const Icon = getEncounterIcon(code);
-  return Icon ? <Icon className={className} /> : null;
+  return Icon ? (
+    <Suspense fallback={<div style={{ width: "1em", height: "1em" }} />}>
+      <Icon className={className} />
+    </Suspense>
+  ) : null;
 }
 
 // BEWARE! EVERYTHING BELOW WAS GENERATED WITH COPILOT AND SOME MANUAL FIXUPS.

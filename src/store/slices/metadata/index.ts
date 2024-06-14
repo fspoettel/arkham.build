@@ -2,7 +2,7 @@ import { StateCreator } from "zustand";
 import { StoreState } from "..";
 import { mappedByCode } from "./utils";
 import { MetadataSlice } from "./types";
-import { rewriteImageUrl } from "@/store/utils";
+import { rewriteImageUrl } from "@/utils/image-urls";
 
 export const createMetadataSlice: StateCreator<
   StoreState,
@@ -14,6 +14,7 @@ export const createMetadataSlice: StateCreator<
     dataVersion: undefined,
     cards: {},
     cycles: {},
+    encounterSets: {},
     packs: {},
     factions: {},
     subtypes: {},
@@ -23,6 +24,7 @@ export const createMetadataSlice: StateCreator<
     set({
       metadata: {
         dataVersion: dataVersion,
+        encounterSets: mappedByCode(metadata.card_encounter_set),
         cycles: mappedByCode(metadata.cycle),
         packs: mappedByCode(metadata.pack),
         cards: mappedByCode(cards, (card) => {

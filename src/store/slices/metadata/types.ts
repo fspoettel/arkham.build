@@ -3,6 +3,7 @@ import {
   Card,
   Cycle,
   DataVersion,
+  EncounterSet,
   Faction,
   Pack,
   SubType,
@@ -13,6 +14,7 @@ export type MetadataSlice = {
   metadata: {
     cards: Record<string, Card>;
     dataVersion?: DataVersion;
+    encounterSets: Record<string, EncounterSet>;
     cycles: Record<string, Cycle>;
     factions: Record<string, Faction>;
     packs: Record<string, Pack>;

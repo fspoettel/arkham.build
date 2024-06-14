@@ -1,0 +1,12 @@
+.group-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--gray-800);
+  color: var(--gray-200);
+  padding: 0.5rem;
+}
+
+.group-header svg {
+  font-size: 2rem;
+}

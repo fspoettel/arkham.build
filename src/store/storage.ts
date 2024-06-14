@@ -1,7 +1,6 @@
 import { createJSONStorage, StateStorage } from "zustand/middleware";
 import { get, set, del } from "idb-keyval";
 import { StoreState } from "./slices";
-import { DATABASE_NAME } from "./constants";
 
 const indexedDBStorage: StateStorage = {
   async getItem(name: string) {
@@ -18,7 +17,7 @@ const indexedDBStorage: StateStorage = {
 };
 
 export const storageConfig = {
-  name: DATABASE_NAME,
+  name: "deckbuilder",
   storage: createJSONStorage(() => indexedDBStorage),
   version: 1,
   partialize(state: StoreState) {

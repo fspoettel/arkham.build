@@ -1,5 +1,3 @@
-export const DATABASE_NAME = "deckbuilder";
-
 export const CARD_LEVEL_MIN = 0;
 export const CARD_LEVEL_MAX = 5;
 
@@ -35,4 +33,11 @@ export const SKILL_KEYS = [
   "intellect",
   "willpower",
   "wild",
+] as const;
+
+export const PLAYER_TYPE_ORDER = [
+  "investigator",
+  "asset",
+  "event",
+  "skill",
 ] as const;
