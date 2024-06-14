@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { RangeSelect } from "../ui/range-select";
 import { useStore } from "@/store";
-import { State } from "@/store/schema";
-
+import { StoreState } from "@/store/slices";
+import { RangeSelect } from "../ui/range-select";
 import { Checkbox } from "../ui/checkbox";
 
-function selectCostMinMax(state: State) {
+function selectCostMinMax(state: StoreState) {
   const costs = Object.keys(state.indexes["byCost"] ?? {}).map((x) =>
     Number.parseInt(x, 10),
   );

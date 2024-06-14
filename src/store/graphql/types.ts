@@ -1,8 +1,3 @@
-import factions from "@/data/factions.json";
-import types from "@/data/types.json";
-import subTypes from "@/data/subtypes.json";
-import { mappedByCode } from "./utils";
-
 export type Card = {
   alt_art_investigator?: boolean;
   alternate_of_code?: string;
@@ -44,7 +39,7 @@ export type Card = {
   imageurl?: string;
   is_unique?: boolean;
   linked?: boolean;
-  linked_card_code?: string;
+  linked_card?: { code: string };
   myriad?: boolean;
   official: boolean;
   pack_code: string;
@@ -94,10 +89,6 @@ export type Card = {
   xp?: number;
 };
 
-export type QueryCard = Omit<Card, "linked_card_code"> & {
-  linked_card: { code: string };
-};
-
 export type Cycle = {
   code: string;
   name: string;
@@ -134,29 +125,3 @@ export type DataVersion = {
   locale: string;
   translation_updated_at: string;
 };
-
-export type Index = Record<string, Record<string, 1>>;
-
-export type State = {
-  cards: Record<string, Card>;
-  dataVersion?: DataVersion;
-  cycles: Record<string, Cycle>;
-  factions: Record<string, Faction>;
-  packs: Record<string, Pack>;
-  subtypes: Record<string, SubType>;
-  types: Record<string, Type>;
-  indexes: Record<string, Index>;
-};
-
-export function getInitialState(): State {
-  return {
-    factions: mappedByCode(factions),
-    subtypes: mappedByCode(subTypes),
-    types: mappedByCode(types),
-    dataVersion: undefined,
-    cards: {},
-    cycles: {},
-    packs: {},
-    indexes: {},
-  };
-}

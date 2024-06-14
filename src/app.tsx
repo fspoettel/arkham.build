@@ -3,13 +3,14 @@ import { Route, Router } from "wouter";
 import { Index } from "./pages";
 import { DeckNew } from "./pages/deck_new";
 import { DeckEdit } from "./pages/deck_edit";
-import { queryCardData, useStore } from "./store";
+import { useStore } from "./store";
 import css from "./app.module.css";
 
 function App() {
   const [storeInitialized, setStoreInitialized] = useState(false);
 
-  const dataVersion = useStore((state) => state.dataVersion);
+  const init = useStore((state) => state.init);
+  const dataVersion = useStore((state) => state.metadata.dataVersion);
 
   useEffect(() => {
     const unsub = useStore.persist.onFinishHydration(() => {
@@ -30,14 +31,12 @@ function App() {
           );
         } else {
           console.debug("starting sync...");
-          console.time("sync_metadata");
-          await queryCardData();
-          console.timeEnd("sync_metadata");
+          await init();
         }
       }
     }
     sync().catch(console.error);
-  }, [storeInitialized, dataVersion]);
+  }, [storeInitialized, dataVersion, init]);
 
   return (
     <Router>

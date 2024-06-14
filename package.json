@@ -20,16 +20,17 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@radix-ui/react-checkbox": "^1.0.4",
+    "@radix-ui/react-checkbox": "1.0.4",
     "@radix-ui/react-slider": "1.1.2",
     "@radix-ui/react-toggle-group": "1.0.4",
     "clsx": "2.1.0",
     "graphql": "16.8.1",
     "graphql-request": "6.1.0",
     "idb-keyval": "6.2.1",
-    "lodash": "4.17.21",
+    "lodash.memoize": "4.1.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-virtuoso": "4.6.2",
     "wouter": "2.12.1",
     "zustand": "4.4.7"
   },
@@ -37,7 +38,7 @@
     "@testing-library/jest-dom": "6.2.0",
     "@testing-library/react": "14.1.2",
     "@testing-library/user-event": "14.5.2",
-    "@types/lodash": "^4.14.202",
+    "@types/lodash.memoize": "^4.1.9",
     "@types/react": "18.2.46",
     "@types/react-dom": "18.2.18",
     "@typescript-eslint/eslint-plugin": "6.17.0",

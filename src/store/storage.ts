@@ -1,5 +1,6 @@
 import { createJSONStorage, StateStorage } from "zustand/middleware";
 import { get, set, del } from "idb-keyval";
+import { StoreState } from "./slices";
 import { DATABASE_NAME } from "./constants";
 
 const indexedDBStorage: StateStorage = {
@@ -20,6 +21,12 @@ export const storageConfig = {
   name: DATABASE_NAME,
   storage: createJSONStorage(() => indexedDBStorage),
   version: 1,
+  partialize(state: StoreState) {
+    return {
+      metadata: state.metadata,
+      indexes: state.indexes,
+    };
+  },
   onRehydrateStorage: () => {
     console.time("hydration");
     return () => console.timeEnd("hydration");

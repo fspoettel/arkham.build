@@ -3,6 +3,9 @@ export const DATABASE_NAME = "deckbuilder";
 export const CARD_LEVEL_MIN = 0;
 export const CARD_LEVEL_MAX = 5;
 
+export const REGEX_SKILL_BOOST = /\+\d+?\s\[(.+?)\]/g;
+export const REGEX_USES = /^Uses\s\(\d+?\s(\w+?)\)/;
+
 export const PARALLEL_INVESTIGATORS: Record<string, string> = {
   "01001": "98004", // Roland
   "01002": "90001", // Daisy

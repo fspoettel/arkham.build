@@ -8,7 +8,7 @@ import css from "./filters.module.css";
 import { PropertiesFilter } from "./properties-filter";
 
 export function Filters() {
-  const initialized = useStore((state) => !!state.dataVersion);
+  const initialized = useStore((state) => !!state.metadata.dataVersion);
   if (!initialized) return null;
 
   return (

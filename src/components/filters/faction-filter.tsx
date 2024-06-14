@@ -1,4 +1,4 @@
-import { State } from "@/store/schema";
+import { StoreState } from "@/store/slices";
 import { FactionIcon } from "../ui/faction-icon";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
@@ -16,8 +16,10 @@ const FACTION_SORT = [
   "mythos",
 ];
 
-function selectFactions(state: State) {
-  const factions = Object.values(state.factions).filter((f) => f.is_primary);
+function selectFactions(state: StoreState) {
+  const factions = Object.values(state.metadata.factions).filter(
+    (f) => f.is_primary,
+  );
   factions.push({ code: "multiclass", name: "Multiclass", is_primary: true });
   factions.sort(
     (a, b) => FACTION_SORT.indexOf(a.code) - FACTION_SORT.indexOf(b.code),

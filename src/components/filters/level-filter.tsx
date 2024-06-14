@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { CARD_LEVEL_MAX, CARD_LEVEL_MIN } from "@/store/constants";
 import { RangeSelect } from "../ui/range-select";
 import { Checkbox } from "../ui/checkbox";
+import { CARD_LEVEL_MAX, CARD_LEVEL_MIN } from "@/store/constants";
 
 export function LevelFilter() {
   const [value, setValue] = useState<[number, number]>([

@@ -11,7 +11,7 @@ import SvgNeutral from "@/components/icons/neutral";
 import SvgRogue from "@/components/icons/rogue";
 import SvgSeeker from "@/components/icons/seeker";
 import SvgSurvivor from "@/components/icons/survivor";
-import memoize from "lodash/memoize";
+import memoize from "lodash.memoize";
 
 type Props = {
   code: string;

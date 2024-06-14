@@ -1,7 +1,18 @@
 import { parse } from "graphql";
 import request, { gql } from "graphql-request";
+import factions from "./data/factions.json";
+import types from "./data/types.json";
+import subTypes from "./data/subtypes.json";
 import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
-import { Cycle, DataVersion, Pack, QueryCard } from "./schema";
+import {
+  Card,
+  Cycle,
+  DataVersion,
+  Faction,
+  Pack,
+  SubType,
+  Type,
+} from "./types";
 
 type DataVersionResponse = {
   all_card_updated: DataVersion[];
@@ -18,9 +29,12 @@ const dataVersionQuery: TypedDocumentNode<DataVersionResponse> = parse(gql`
   }
 `);
 
-type MetadataResponse = {
-  pack: Pack[];
+export type MetadataResponse = {
   cycle: Cycle[];
+  faction: Faction[];
+  pack: Pack[];
+  subtype: SubType[];
+  type: Type[];
 };
 
 const metadataQuery: TypedDocumentNode<MetadataResponse> = parse(gql`
@@ -42,7 +56,7 @@ const metadataQuery: TypedDocumentNode<MetadataResponse> = parse(gql`
 `);
 
 type AllCardResponse = {
-  all_card: QueryCard[];
+  all_card: Card[];
 };
 
 const allCardQuery: TypedDocumentNode<AllCardResponse> = parse(gql`
@@ -151,15 +165,20 @@ async function stub<T>(path: string): Promise<T> {
 
 export async function queryMetadata() {
   const data = import.meta.env.DEV
-    ? await stub<MetadataResponse>("../data/stubs/metadata.json")
+    ? await stub<MetadataResponse>("./data/stubs/metadata.json")
     : await request(graphqlUrl, metadataQuery);
 
-  return data;
+  return {
+    ...data,
+    faction: factions,
+    type: types,
+    subtype: subTypes,
+  };
 }
 
 export async function queryDataVersion() {
   const data = import.meta.env.DEV
-    ? await stub<DataVersionResponse>("../data/stubs/data_version.json")
+    ? await stub<DataVersionResponse>("./data/stubs/data_version.json")
     : await request(graphqlUrl, dataVersionQuery);
 
   return data.all_card_updated[0];
@@ -167,7 +186,7 @@ export async function queryDataVersion() {
 
 export async function queryCards() {
   const data = import.meta.env.DEV
-    ? await stub<AllCardResponse>("../data/stubs/all_card.json")
+    ? await stub<AllCardResponse>("./data/stubs/all_card.json")
     : await request(graphqlUrl, allCardQuery);
 
   return data.all_card;
