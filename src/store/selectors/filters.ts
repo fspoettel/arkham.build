@@ -317,7 +317,11 @@ export const selectInvestigatorValue = createSelector(
 export const selectInvestigatorChanges = createSelector(
   (state: StoreState) => state.metadata,
   selectInvestigatorValue,
-  (metadata, value) => (value ? metadata.cards[value].real_name : ""),
+  (metadata, value) => {
+    if (!value) return "";
+    const card = metadata.cards[value];
+    return `${card.real_name}${card.parallel ? " (Parallel)" : ""}`;
+  },
 );
 
 /**
