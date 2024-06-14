@@ -66,6 +66,7 @@ export const createSharedSlice: StateCreator<
           encounterSet.pack_code = card.pack_code;
         }
       }
+
       addCardToLookupTables(lookupTables, card, i);
     });
 

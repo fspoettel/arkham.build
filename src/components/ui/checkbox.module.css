@@ -42,5 +42,6 @@
   color: currentColor;
   cursor: pointer;
   user-select: none;
-  padding-left: 0.25rem;
+  padding-left: 0.5rem;
+  line-height: var(--checkbox-size);
 }

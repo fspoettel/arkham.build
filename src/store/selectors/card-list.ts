@@ -9,36 +9,123 @@ import {
   groupByWeakness,
 } from "./utils/grouping";
 import { sortAlphabetically, sortByEncounterPosition } from "./utils/sorting";
-import {
-  selectActiveCardType,
-  selectActiveCost,
-  selectActiveFactions,
-  selectActiveLevel,
-} from "./filters";
+import { selectActiveCardType } from "./filters";
 import {
   and,
   filterBacksides,
   filterCost,
-  filterExceptional,
+  filterDuplicates,
+  filterEncounterCards,
   filterFactions,
   filterLevel,
-  filterPlayerCard,
+  filterSkillIcons,
   filterWeaknesses,
-  or,
 } from "./utils/filtering";
+
+const selectFactionFilter = createSelector(
+  (state: StoreState) => state.filters[state.filters.cardType].faction,
+  (state) => (state.value ? filterFactions(state.value) : undefined),
+);
+
+const selectLevelFilter = createSelector(
+  (state: StoreState) => state.filters.player.level,
+  (state) => (state.value ? filterLevel(state) : undefined),
+);
+
+const selectCostFilter = createSelector(
+  (state: StoreState) => state.filters[state.filters.cardType].cost,
+  (state) => (state.value ? filterCost(state) : undefined),
+);
+
+const selectSkillIconsFilter = createSelector(
+  (state: StoreState) => state.filters[state.filters.cardType].skillIcons,
+  (skillIcons) => filterSkillIcons(skillIcons),
+);
+
+const selectPlayerCardFilters = createSelector(
+  selectFactionFilter,
+  selectLevelFilter,
+  selectCostFilter,
+  selectSkillIconsFilter,
+  (factionFilter, levelFilter, costFilter, skillIconsFilter) => {
+    const filters = [
+      filterEncounterCards,
+      filterDuplicates,
+      filterWeaknesses,
+      skillIconsFilter,
+    ];
+
+    if (factionFilter) {
+      filters.push(factionFilter);
+    }
+
+    if (levelFilter) {
+      filters.push(levelFilter);
+    }
+
+    if (costFilter) {
+      filters.push(costFilter);
+    }
+
+    return and(filters);
+  },
+);
+
+const selectWeaknessFilters = createSelector(
+  selectLevelFilter,
+  selectCostFilter,
+  selectFactionFilter,
+  selectSkillIconsFilter,
+  (levelFilter, costFilter, factionFilter, skillIconsFilter) => {
+    const filters = [filterEncounterCards, filterDuplicates, skillIconsFilter];
+
+    if (factionFilter) {
+      filters.push(factionFilter);
+    }
+
+    if (levelFilter) {
+      filters.push(levelFilter);
+    }
+
+    if (costFilter) {
+      filters.push(costFilter);
+    }
+
+    return and(filters);
+  },
+);
+
+const selectEncounterFilters = createSelector(
+  selectCostFilter,
+  selectFactionFilter,
+  selectSkillIconsFilter,
+  (costFilter, factionFilter, skillIconsFilter) => {
+    const filters = [filterBacksides, skillIconsFilter];
+
+    if (factionFilter) {
+      filters.push(factionFilter);
+    }
+
+    if (costFilter) {
+      filters.push(costFilter);
+    }
+
+    return and(filters);
+  },
+);
 
 export const selectFilteredCards = createSelector(
   selectActiveCardType,
-  selectActiveFactions,
-  selectActiveLevel,
-  selectActiveCost,
+  selectPlayerCardFilters,
+  selectWeaknessFilters,
+  selectEncounterFilters,
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
   (
     activeCardType,
-    activeFactions,
-    activeLevel,
-    activeCost,
+    playerCardFilter,
+    weaknessFilter,
+    encounterFilters,
     metadata,
     lookupTables,
   ) => {
@@ -54,38 +141,12 @@ export const selectFilteredCards = createSelector(
     if (activeCardType === "player") {
       console.time("select_player_cards");
 
-      const levelFilter = filterLevel(activeLevel.value);
-      const costFilter = filterCost(
-        activeCost.value,
-        activeCost.even,
-        activeCost.odd,
-        activeCost.x,
-      );
-
-      const weaknessFilters = and([
-        filterFactions(activeFactions.value),
-        levelFilter,
-        costFilter,
-      ]);
-
-      const playerFilters = and([
-        filterPlayerCard,
-        filterFactions(activeFactions.value),
-        filterWeaknesses,
-        levelFilter,
-        or([
-          filterExceptional(activeLevel.exceptional),
-          filterExceptional(!activeLevel.nonexceptional),
-        ]),
-        costFilter,
-      ]);
-
       for (const grouping of groupByPlayerCardType(metadata, lookupTables)) {
         const groupCards = getGroupCards(
           grouping,
           metadata,
           lookupTables,
-          playerFilters,
+          playerCardFilter,
         );
 
         groupCards.sort(sortAlphabetically(lookupTables));
@@ -102,7 +163,7 @@ export const selectFilteredCards = createSelector(
           grouping,
           metadata,
           lookupTables,
-          weaknessFilters,
+          weaknessFilter,
         );
 
         groupCards.sort(sortAlphabetically(lookupTables));
@@ -123,7 +184,7 @@ export const selectFilteredCards = createSelector(
           grouping,
           metadata,
           lookupTables,
-          filterBacksides,
+          encounterFilters,
         );
 
         groupCards.sort(sortByEncounterPosition);

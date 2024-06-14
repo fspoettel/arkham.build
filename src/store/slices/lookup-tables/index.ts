@@ -136,7 +136,7 @@ function indexByLevel(tables: LookupTables, card: Card) {
 function indexBySkillIcons(tables: LookupTables, card: Card) {
   SKILL_KEYS.forEach((key) => {
     const val = card[`skill_${key}`];
-    if (val) {
+    if (val && card.type_code !== "investigator") {
       setInLookupTable(card.code, tables.skill_icons, key);
       if (val > 1) setInLookupTable(card.code, tables.skill_icons, "2+");
     }

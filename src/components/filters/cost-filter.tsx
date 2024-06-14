@@ -33,6 +33,34 @@ export function CostFilter() {
     resetFilter(cardType, "cost");
   }, [cardType, resetFilter]);
 
+  const onValueCommit = useCallback(
+    (val: number[]) => {
+      setValue("value", [val[0], val[1]]);
+    },
+    [setValue],
+  );
+
+  const onSetEven = useCallback(
+    (val: boolean | string) => {
+      setValue("even", !!val);
+    },
+    [setValue],
+  );
+
+  const onSetOdd = useCallback(
+    (val: boolean | string) => {
+      setValue("odd", !!val);
+    },
+    [setValue],
+  );
+
+  const onSetX = useCallback(
+    (val: boolean | string) => {
+      setValue("x", !!val);
+    },
+    [setValue],
+  );
+
   return (
     <Collapsible
       title="Cost"
@@ -49,28 +77,26 @@ export function CostFilter() {
           id="cost-select"
           min={min}
           max={max}
-          onValueCommit={(val) => {
-            setValue("value", [val[0], val[1]]);
-          }}
+          onValueCommit={onValueCommit}
           value={cost.value ?? [min, max]}
         />
         <CheckboxGroup>
           <Checkbox
             label="Even"
             id="cost-even"
-            onCheckedChange={(value) => setValue("even", !!value)}
+            onCheckedChange={onSetEven}
             checked={cost.even}
           />
           <Checkbox
             label="Odd"
             id="cost-odd"
-            onCheckedChange={(value) => setValue("odd", !!value)}
+            onCheckedChange={onSetOdd}
             checked={cost.odd}
           />
           <Checkbox
             label={<SvgX />}
             id="cost-x"
-            onCheckedChange={(value) => setValue("x", !!value)}
+            onCheckedChange={onSetX}
             checked={cost.x}
           />
         </CheckboxGroup>

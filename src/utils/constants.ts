@@ -24,7 +24,14 @@ export const ACTION_TEXT: { [key: string]: string } = {
   parley: "<b>Parley.</b>",
 } as const;
 
-export const SKILL_KEYS = [
+export type SkillKey =
+  | "agility"
+  | "combat"
+  | "intellect"
+  | "willpower"
+  | "wild";
+
+export const SKILL_KEYS: SkillKey[] = [
   "agility",
   "combat",
   "intellect",

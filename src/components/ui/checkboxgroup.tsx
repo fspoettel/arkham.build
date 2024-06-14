@@ -2,14 +2,14 @@ import clsx from "clsx";
 import css from "./checkboxgroup.module.css";
 
 type Props = {
+  as?: "fieldset" | "div";
   children: React.ReactNode;
   className?: string;
 };
 
-export function CheckboxGroup({ children, className }: Props) {
+export function CheckboxGroup({ as = "fieldset", children, className }: Props) {
+  const Tag = as;
   return (
-    <fieldset className={clsx(css["checkboxgroup"], className)}>
-      {children}
-    </fieldset>
+    <Tag className={clsx(css["checkboxgroup"], className)}>{children}</Tag>
   );
 }

@@ -13,6 +13,14 @@ function getInitialState(): Filters {
       odd: false,
       x: true,
     },
+    skillIcons: {
+      agility: null,
+      combat: null,
+      intellect: null,
+      willpower: null,
+      wild: null,
+      any: null,
+    },
   };
 
   return {

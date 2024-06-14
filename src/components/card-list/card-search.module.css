@@ -8,6 +8,7 @@
 
 .card-search-input {
   flex: 1 0 auto;
+  border-radius: var(--rounded-lg);
 }
 
 .card-search-toggle {

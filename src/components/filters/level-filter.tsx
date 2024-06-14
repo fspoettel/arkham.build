@@ -40,19 +40,35 @@ export function LevelFilter() {
     resetFilterKey("player", "level");
   }, [resetFilterKey]);
 
-  return (
-    <Collapsible
-      title="Level"
-      onOpenChange={(val) => {
-        if (val) {
-          if (!activeLevel.value) {
-            setValue("value", [0, 5]);
-          }
-        } else {
-          resetActiveLevel();
+  const onOpenChange = useCallback(
+    (val: boolean) => {
+      if (val) {
+        if (!activeLevel.value) {
+          setValue("value", [0, 5]);
         }
-      }}
-    >
+      } else {
+        resetActiveLevel();
+      }
+    },
+    [activeLevel, setValue, resetActiveLevel],
+  );
+
+  const onSetExceptional = useCallback(
+    (val: boolean | string) => {
+      setValue("exceptional", !!val);
+    },
+    [setValue],
+  );
+
+  const onSetNonexceptional = useCallback(
+    (val: boolean | string) => {
+      setValue("nonexceptional", !!val);
+    },
+    [setValue],
+  );
+
+  return (
+    <Collapsible title="Level" onOpenChange={onOpenChange}>
       <ToggleGroup
         type="single"
         full
@@ -76,13 +92,13 @@ export function LevelFilter() {
           <Checkbox
             label="Exceptional"
             id="exceptional"
-            onCheckedChange={(value) => setValue("exceptional", !!value)}
+            onCheckedChange={onSetExceptional}
             checked={activeLevel.exceptional}
           />
           <Checkbox
             label="Non-exceptional"
             id="nonexceptional"
-            onCheckedChange={(value) => setValue("nonexceptional", !!value)}
+            onCheckedChange={onSetNonexceptional}
             checked={activeLevel.nonexceptional}
           />
         </CheckboxGroup>

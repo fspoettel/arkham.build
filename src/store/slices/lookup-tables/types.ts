@@ -23,8 +23,8 @@ export type LookupTables = {
     multiclass: Mapping<1>;
   };
   skill_icons: LookupTable<string>;
-  slots: LookupTable<string>;
   skill_boosts: LookupTable<string>;
+  slots: LookupTable<string>;
   sort: {
     alphabetical: Mapping<number>;
   };

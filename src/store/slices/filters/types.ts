@@ -13,11 +13,21 @@ export type LevelFilter = {
   nonexceptional: boolean;
 };
 
+export type SkillIconsFilter = {
+  agility: number | null;
+  combat: number | null;
+  intellect: number | null;
+  willpower: number | null;
+  wild: number | null;
+  any: number | null;
+};
+
 type SharedState = {
   cost: CostFilter;
   faction: {
     value: string[];
   };
+  skillIcons: SkillIconsFilter;
 };
 
 export type Filters = {

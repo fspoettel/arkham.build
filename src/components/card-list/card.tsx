@@ -31,7 +31,7 @@ export function Card({ card }: Props) {
         </div>
       )}
 
-      {!card.encounter_code && (
+      {card.faction_code !== "mythos" && (
         <CardIcon className={clsx(css["card-icon"], colorCls)} card={card} />
       )}
 

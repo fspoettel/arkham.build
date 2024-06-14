@@ -71,7 +71,10 @@ const allCardQuery: TypedDocumentNode<AllCardResponse> = parse(gql`
       order_by: { real_name: asc }
       where: {
         official: { _eq: true }
-        taboo_set_id: { _is_null: true }
+        _or: [
+          { taboo_set_id: { _is_null: true } }
+          { taboo_set_id: { _eq: 0 } }
+        ]
         pack_code: { _neq: "zbh_00008" }
       }
     ) {

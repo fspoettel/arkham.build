@@ -12,6 +12,7 @@ import SvgRogue from "@/components/icons/rogue";
 import SvgSeeker from "@/components/icons/seeker";
 import SvgSurvivor from "@/components/icons/survivor";
 import memoize from "lodash.memoize";
+import SvgAutoFail from "../icons/auto-fail";
 
 type Props = {
   className?: string;
@@ -41,6 +42,10 @@ const getIconSimple = memoize((code: string) => {
 
     case "survivor":
       return SvgSurvivor;
+
+    case "mythos": {
+      return SvgAutoFail;
+    }
 
     default:
       return null;
@@ -75,6 +80,10 @@ const getIconFancy = memoize((code: string) => {
 
     case "survivor": {
       return SvgClassSurvivor;
+    }
+
+    case "mythos": {
+      return SvgAutoFail;
     }
 
     default: {
