@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useCallback, useEffect, useReducer } from "react";
 
 type StateLoading = {
   error: undefined;
@@ -38,10 +38,7 @@ function reducer<T>(_: State<T>, action: Action<T>): State<T> {
 
 type Query<T> = () => Promise<T>;
 
-export function useQuery<T>(
-  query: Query<T> | undefined,
-  paused: boolean = false,
-): State<T> {
+export function useQuery<T>(query: Query<T> | undefined): State<T> {
   const [state, dispatch] = useReducer(reducer<T>, {
     loading: false,
     error: undefined,
@@ -49,7 +46,7 @@ export function useQuery<T>(
   } as State<T>);
 
   useEffect(() => {
-    if (!paused && query && !state.loading && !state.data && !state.error) {
+    if (query && !state.loading && !state.data && !state.error) {
       dispatch({ type: "LOADING" });
 
       query()
@@ -57,10 +54,39 @@ export function useQuery<T>(
           dispatch({ type: "SUCCESS", payload: data });
         })
         .catch((error) => {
+          console.error(error);
           dispatch({ type: "ERROR", payload: error });
         });
     }
-  }, [query, state, paused]);
+  }, [query, state]);
 
   return state;
+}
+
+export function useMutate<T>(query: Query<T>): State<T> & {
+  mutate: () => Promise<void>;
+} {
+  const [state, dispatch] = useReducer(reducer<T>, {
+    loading: false,
+    error: undefined,
+    data: undefined,
+  } as State<T>);
+
+  const mutate = useCallback(async () => {
+    dispatch({ type: "LOADING" });
+
+    await query()
+      .then((data) => {
+        dispatch({ type: "SUCCESS", payload: data });
+      })
+      .catch((error) => {
+        dispatch({ type: "ERROR", payload: error });
+        throw error;
+      });
+  }, [query]);
+
+  return {
+    ...state,
+    mutate,
+  };
 }

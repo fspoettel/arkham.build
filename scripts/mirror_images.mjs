@@ -94,6 +94,7 @@ async function mirrorImage(url) {
 async function syncLocalImages() {
   const imageDir = "./src/assets/card-images";
   const contents = await fs.readdir(imageDir);
+
   const imagePaths = contents.reduce((acc, curr) => {
     if (curr.endsWith(".jpg")) acc.push(
       path.join(imageDir, curr)
@@ -113,7 +114,7 @@ async function syncLocalImages() {
           Key: key,
         }),
       );
-      return;
+      continue;
     } catch {
       console.debug(`${key} does not exist, uploading...`);
     }
@@ -137,6 +138,7 @@ async function syncLocalImages() {
 
 async function syncCards() {
   await syncLocalImages();
+
 
   const cards = allCardJson.all_card.filter(
     (c) => c.imageurl || c.backimageurl,

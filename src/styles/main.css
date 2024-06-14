@@ -140,8 +140,8 @@ input,
 textarea,
 select {
   font-family: var(--font-family-ui);
-  line-height: var(--text-sm);
-  font-size: var(--text-sm);
+  line-height: var(--text-xs);
+  font-size: var(--text-xs);
   background-color: var(--nord-0);
   color: var(--nord-5);
   border: 1px solid var(--nord-1);
@@ -157,7 +157,7 @@ input,
 textarea {
   appearance: none;
   &::placeholder {
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
   }
 }
 

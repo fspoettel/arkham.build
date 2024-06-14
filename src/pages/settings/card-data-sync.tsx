@@ -1,18 +1,16 @@
 import { CheckIcon, DoubleArrowUpIcon } from "@radix-ui/react-icons";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { useToast } from "@/components/ui/toast";
 import { useStore } from "@/store";
 import { queryDataVersion } from "@/store/services/queries";
-import { useQuery } from "@/utils/use-query";
+import { useMutate, useQuery } from "@/utils/use-query";
 
 import css from "./card-data-sync.module.css";
 
 export function CardDataSync() {
-  const [paused, setPaused] = useState(true);
-
   const toast = useToast();
   const init = useStore((state) => state.init);
   const dataVersion = useStore((state) => state.metadata.dataVersion);
@@ -23,11 +21,12 @@ export function CardDataSync() {
     data: synced,
     error: syncError,
     loading: syncing,
-  } = useQuery(() => init(true), paused);
+    mutate,
+  } = useMutate(() => init(true));
 
-  const syncData = useCallback(() => {
-    setPaused(false);
-  }, []);
+  const syncData = useCallback(async () => {
+    await mutate().catch(console.error);
+  }, [mutate]);
 
   useEffect(() => {
     if (synced) toast("Card data was synced successfully.");
@@ -61,7 +60,7 @@ export function CardDataSync() {
       <Field className={css["sync"]}>
         <Button
           onClick={syncData}
-          // disabled={loading || !!error || upToDate}
+          disabled={loading || !!error || upToDate}
           className={css["sync-action"]}
           type="button"
         >
