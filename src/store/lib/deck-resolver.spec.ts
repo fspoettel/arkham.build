@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
+import type { StoreApi } from "zustand";
 
 import deckCustomizable from "@/test/fixtures/decks/customizable.json";
 import deckSizeAllSpecials from "@/test/fixtures/decks/deck_size_all_specials.json";
@@ -14,10 +15,15 @@ import deckXpRequired from "@/test/fixtures/decks/xp_required.json";
 import { getMockStore } from "@/test/get-mock-store";
 
 import type { DeckOption } from "../services/types";
+import type { StoreState } from "../slices";
 import { resolveDeck } from "./deck-resolver";
 
 describe("resolveDeck", async () => {
-  const store = await getMockStore();
+  let store: StoreApi<StoreState>;
+
+  beforeAll(async () => {
+    store = await getMockStore();
+  });
 
   describe("alternate investigators", () => {
     it("resolves originals", () => {
@@ -258,6 +264,18 @@ describe("resolveDeck", async () => {
               "unlocked": true,
               "xpSpent": 2,
             },
+            "5": {
+              "choices": "",
+              "index": 5,
+              "unlocked": true,
+              "xpSpent": 4,
+            },
+            "6": {
+              "choices": "",
+              "index": 6,
+              "unlocked": true,
+              "xpSpent": 5,
+            },
           },
           "09041": {
             "1": {
@@ -432,7 +450,7 @@ describe("resolveDeck", async () => {
         const deck = deckCustomizable;
         const resolved = resolveDeck(metadata, lookupTables, deck, true);
         expect(resolved.stats).toMatchObject({
-          xpRequired: 38,
+          xpRequired: 47,
         });
       });
     });
