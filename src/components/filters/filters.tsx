@@ -42,7 +42,7 @@ export function Filters({ slotActions, className, hiddenFilters }: Props) {
         <h3 className={css["filters-title"]}>Filters</h3>
         <div className={css["filters-actions"]}>
           <Button disabled={!touched} onClick={resetFilters} variant="bare">
-            <i className="icon-filter-clear" />
+            <i className="icon-filter-clear" /> Clear
           </Button>
           {slotActions}
         </div>
@@ -53,19 +53,19 @@ export function Filters({ slotActions, className, hiddenFilters }: Props) {
           <OwnershipFilter />
           {cardTypeSelection === "player" && <LevelFilter />}
           <CostFilter />
+          <TraitFilter />
           <TypeFilter />
           <SubtypeFilter />
-          <TraitFilter />
+          <AssetFilter />
           <SkillIconsFilter />
           <ActionFilter />
-          <AssetFilter />
           <PropertiesFilter />
+          {!hiddenFilters?.includes("investigator") &&
+            cardTypeSelection === "player" && <InvestigatorFilter />}
           <PackFilter />
           {cardTypeSelection === "encounter" && <EncounterSetFilter />}
           {!hiddenFilters?.includes("taboo_set") &&
             cardTypeSelection === "player" && <TabooSetFilter />}
-          {!hiddenFilters?.includes("investigator") &&
-            cardTypeSelection === "player" && <InvestigatorFilter />}
         </div>
       </Scroller>
     </search>
