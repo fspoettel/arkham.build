@@ -60,11 +60,6 @@ async function request<T>(path: string): Promise<T> {
 
 export async function queryMetadata(): Promise<MetadataResponse> {
   const res = await request<MetadataApiResponse>("/metadata");
-
-  setTimeout(() => {
-    navigator.clipboard.writeText(JSON.stringify(res));
-  });
-
   return {
     ...res.data,
     reprint_pack: reprintPacks,
