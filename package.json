@@ -62,6 +62,7 @@
     "jsdom": "23.1.0",
     "lint-staged": "15.2.2",
     "prettier": "3.2.5",
+    "rollup-plugin-webpack-stats": "^0.2.4",
     "typescript": "5.3.3",
     "vite": "5.1.4",
     "vite-plugin-svgr": "4.2.0",

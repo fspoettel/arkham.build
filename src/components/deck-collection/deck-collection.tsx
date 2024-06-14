@@ -36,7 +36,9 @@ export function DeckCollection() {
                 <Link href={`/deck/${deck.id}/view`} asChild>
                   <a>
                     <DeckCard deck={deck} interactive>
-                      {deck.tags.split(" ").map((s) => capitalize(s))}
+                      {deck.tags
+                        ? deck.tags.split(" ").map((s) => capitalize(s))
+                        : undefined}
                     </DeckCard>
                   </a>
                 </Link>
