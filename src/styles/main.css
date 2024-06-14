@@ -194,7 +194,6 @@ button {
   outline: none;
   border: none;
   box-shadow: none;
-  cursor: pointer;
   background-color: var(--nord-0);
   color: var(--nord-5);
   padding: 0;

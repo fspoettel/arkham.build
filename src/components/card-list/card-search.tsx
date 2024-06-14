@@ -75,6 +75,7 @@ export function CardSearch({ slotLeft, slotRight }: Props) {
         {slotRight}
       </div>
       <div className={css["search-toggles"]}>
+        <Checkbox checked disabled id="search-card-name" label="Name" />
         <Checkbox
           checked={search.includeGameText}
           id="search-game-text"

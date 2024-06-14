@@ -4,7 +4,6 @@
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  cursor: pointer;
   gap: 0.5rem;
 }
 
@@ -14,11 +13,14 @@
   justify-content: center;
   width: var(--checkbox-size);
   height: var(--checkbox-size);
-  background: var(--nord-2);
+  background: color-mix(in srgb, var(--nord-0) 50%, var(--nord-1) 50%);
   border-radius: var(--rounded);
 
   &[disabled] {
+    cursor: default;
     opacity: 1;
+    background: var(--nord-0);
+    border: 1px solid color-mix(in srgb, var(--nord-0) 70%, var(--nord-1) 30%);
   }
 }
 
@@ -27,7 +29,7 @@
   height: 0.75em;
 }
 
-.checkbox:hover .checkbox-root {
+.checkbox:hover .checkbox-root:not([disabled]) {
   background-color: var(--nord-2);
 }
 
@@ -46,7 +48,6 @@
 
 .checkbox-label {
   color: currentColor;
-  cursor: pointer;
   user-select: none;
   line-height: var(--checkbox-size);
   word-break: normal;
