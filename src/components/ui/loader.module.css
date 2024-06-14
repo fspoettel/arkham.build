@@ -1,4 +1,4 @@
-.app-loader {
+.loader {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -9,23 +9,23 @@
   }
 }
 
-.app-loader-inner {
+.loader-inner {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
 }
 
-.app-loader-inner > * + * {
+.loader-inner > * + * {
   margin-top: 1rem;
 }
 
-.app-loader p {
+.loader p {
   font-size: var(--text-lg);
   color: var(--nord-4);
 }
 
-.app-loader-icon {
+.loader-icon {
   position: relative;
   font-size: 4rem;
   width: 4rem;
@@ -34,7 +34,7 @@
   font-family: var(--font-family-content);
 }
 
-.app-loader-icon * {
+.loader-icon * {
   position: absolute;
   top: 0;
   left: 0;
@@ -42,12 +42,16 @@
   animation: fadeInOut 5s infinite ease-in-out;
 }
 
-.app-loader-icon *:nth-child(1) {
+.loader-icon *:nth-child(1) {
   animation-delay: 0s;
 }
 
-.app-loader-icon *:nth-child(2) {
+.loader-icon *:nth-child(2) {
   animation-delay: 2.5s;
+}
+
+.loader-message {
+  height: 1em;
 }
 
 @keyframes fadeInOut {

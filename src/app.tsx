@@ -1,11 +1,9 @@
-import clsx from "clsx";
 import { Suspense, lazy, useEffect } from "react";
 import { Route, Router, useLocation } from "wouter";
 import { useBrowserLocation } from "wouter/use-browser-location";
 
-import css from "./app.module.css";
-
 import { CardModalProvider } from "./components/card-modal/card-modal-context";
+import { Loader } from "./components/ui/loader";
 import { ToastProvider } from "./components/ui/toast";
 import { useStore } from "./store";
 import { selectIsInitialized } from "./store/selectors";
@@ -27,20 +25,6 @@ const Settings = lazy(() => import("./pages/settings/settings"));
 const CardView = lazy(() => import("./pages/card-view/card-view"));
 const About = lazy(() => import("./pages/about/about"));
 
-function Fallback({ message, show }: { message?: string; show?: boolean }) {
-  return (
-    <div className={clsx(css["app-loader"], show && css["show"])}>
-      <div className={css["app-loader-inner"]}>
-        <div className={css["app-loader-icon"]}>
-          <i className="icon-auto_fail" />
-          <i className="icon-elder_sign" />
-        </div>
-        {message && <p>{message}</p>}
-      </div>
-    </div>
-  );
-}
-
 function App() {
   const storeHydrated = useStore((state) => state.ui.hydrated);
   const storeInitialized = useStore(selectIsInitialized);
@@ -56,11 +40,11 @@ function App() {
   return (
     <CardModalProvider>
       <ToastProvider>
-        <Fallback
+        <Loader
           message="Initializing card database..."
           show={storeHydrated && !storeInitialized}
         />
-        <Suspense fallback={<Fallback show />}>
+        <Suspense fallback={<Loader delay={200} show />}>
           {storeInitialized && (
             <Router hook={useBrowserLocation}>
               <Route component={Browse} path="/" />
