@@ -35,7 +35,10 @@ export const createDeckViewSlice: StateCreator<
       deckView: {
         activeTab: "slots",
         id: activeDeckId,
-        edits: {},
+        edits: {
+          meta: {},
+          quantities: {},
+        },
         mode,
       },
     });
@@ -58,14 +61,17 @@ export const createDeckViewSlice: StateCreator<
 
     const slot = getSlotForTab(targetTab);
 
-    const current = state.deckView.edits?.[slot] ?? [];
+    const current = state.deckView.edits.quantities?.[slot] ?? [];
 
     set({
       deckView: {
         ...state.deckView,
         edits: {
           ...state.deckView.edits,
-          [slot]: [...current, { code, quantity }],
+          quantities: {
+            ...state.deckView.edits.quantities,
+            [slot]: [...current, { code, quantity }],
+          },
         },
       },
     });
@@ -79,6 +85,58 @@ export const createDeckViewSlice: StateCreator<
         deckView: {
           ...state.deckView,
           activeTab: value as Tab, // TODO: typeguard
+        },
+      });
+    }
+  },
+
+  updateTabooId(value) {
+    const state = get();
+
+    if (state.deckView && state.deckView.mode === "edit") {
+      set({
+        deckView: {
+          ...state.deckView,
+          edits: {
+            ...state.deckView.edits,
+            tabooId: value,
+          },
+        },
+      });
+    }
+  },
+  updateMetaProperty(key, value) {
+    const state = get();
+
+    if (state.deckView && state.deckView.mode === "edit") {
+      set({
+        deckView: {
+          ...state.deckView,
+          edits: {
+            ...state.deckView.edits,
+            meta: {
+              ...state.deckView.edits.meta,
+              [key]: value,
+            },
+          },
+        },
+      });
+    }
+  },
+
+  updateInvestigatorSide(side, code) {
+    const state = get();
+    if (state.deckView && state.deckView.mode === "edit") {
+      set({
+        deckView: {
+          ...state.deckView,
+          edits: {
+            ...state.deckView.edits,
+            investigatorBack:
+              side === "back" ? code : state.deckView.edits.investigatorBack,
+            investigatorFront:
+              side === "front" ? code : state.deckView.edits.investigatorFront,
+          },
         },
       });
     }

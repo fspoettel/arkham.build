@@ -4,6 +4,7 @@ import {
   selectTabooSetOptions,
   selectTabooSetValue,
 } from "@/store/selectors/filters";
+import { formatTabooSet } from "@/utils/formatting";
 
 import { SelectFilter } from "./primitives/select-filter";
 
@@ -23,7 +24,7 @@ export function TabooSetFilter() {
       mapValue={(val) => (val ? +val : undefined)}
       renderOption={(set) => (
         <option key={set.id} value={set.id}>
-          {set.name} - {set.date}
+          {formatTabooSet(set)}
         </option>
       )}
     />

@@ -11,7 +11,7 @@ import {
   filterInvestigatorWeaknessAccess,
   makeOptionFilter,
 } from "./filtering";
-import type { ResolvedCard, ResolvedDeck } from "./types";
+import { type ResolvedCard, type ResolvedDeck } from "./types";
 
 type DeckValidationResult = {
   valid: boolean;
@@ -428,9 +428,8 @@ class DeckOptionsValidator implements SlotValidator {
 
     return {
       config: {
-        factionSelected: deck.metaParsed.faction_selected,
+        selections: deck.selections,
         ignoreUnselectedCustomizableOptions: true,
-        optionSelected: deck.metaParsed.option_selected,
         additionalDeckOptions,
       },
       deckOptions,

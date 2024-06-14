@@ -8,7 +8,7 @@ import {
   selectActiveCardType,
 } from "@/store/selectors/filters";
 import type { Trait } from "@/store/slices/filters/types";
-import { capitalize } from "@/utils/capitalize";
+import { capitalize } from "@/utils/formatting";
 
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 

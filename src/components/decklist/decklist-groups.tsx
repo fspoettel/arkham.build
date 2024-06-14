@@ -5,9 +5,9 @@ import type { Grouping } from "@/store/lib/deck-grouping";
 import { sortBySlots } from "@/store/lib/sorting";
 import { selectForbiddenCards } from "@/store/selectors/decks";
 import type { Card } from "@/store/services/types";
-import { capitalize } from "@/utils/capitalize";
 import type { PlayerType } from "@/utils/constants";
 import { PLAYER_TYPE_ORDER } from "@/utils/constants";
+import { capitalize } from "@/utils/formatting";
 
 import css from "./decklist-groups.module.css";
 

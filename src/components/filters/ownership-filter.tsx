@@ -9,7 +9,7 @@ import {
   selectFilterOpen,
   selectOwnershipValue,
 } from "@/store/selectors/filters";
-import { capitalize } from "@/utils/capitalize";
+import { capitalize } from "@/utils/formatting";
 
 import {
   RadioButtonGroup,

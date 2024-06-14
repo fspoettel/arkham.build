@@ -8,8 +8,8 @@ import type {
   FilterObject,
   Filters,
 } from "@/store/slices/filters/types";
-import { capitalize } from "@/utils/capitalize";
 import { ASSET_SLOT_ORDER, SKILL_KEYS } from "@/utils/constants";
+import { capitalize, formatTabooSet } from "@/utils/formatting";
 
 import type { Metadata } from "../slices/metadata/types";
 import { selectActiveDeck } from "./decks";
@@ -504,6 +504,15 @@ export const selectTabooSetOptions = (state: StoreState) => {
   const sets = Object.values(state.metadata.tabooSets);
   sets.sort((a, b) => b.date.localeCompare(a.date));
   return sets;
+};
+
+export const selectTabooSetSelectOptions = (state: StoreState) => {
+  const sets = Object.values(state.metadata.tabooSets);
+  sets.sort((a, b) => b.date.localeCompare(a.date));
+  return sets.map((s) => ({
+    label: formatTabooSet(s),
+    value: s.id,
+  }));
 };
 
 export const selectTabooSetValue = (state: StoreState) => {

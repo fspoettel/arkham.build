@@ -1,6 +1,6 @@
 .field {
-  border: 1px solid var(--nord-3);
-  padding: 1rem;
+  border: 1px solid var(--nord-1);
+  padding: 0.5rem;
   border-radius: var(--rounded);
 }
 

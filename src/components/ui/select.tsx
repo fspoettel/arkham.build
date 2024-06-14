@@ -1,15 +1,20 @@
 import type { ComponentProps } from "react";
 
-type Props = ComponentProps<"select"> & {
-  options: {
-    label: string;
-    value: string;
-  }[];
+export type SelectOption = {
+  label: string;
+  value: string | number;
 };
 
-export function Select({ options, ...rest }: Props) {
+type Props = ComponentProps<"select"> & {
+  required?: boolean;
+  emptyLabel?: string;
+  options: SelectOption[];
+};
+
+export function Select({ emptyLabel, options, required, ...rest }: Props) {
   return (
     <select {...rest}>
+      {!required && <option value="">{emptyLabel}</option>}
       {options.map((o) => (
         <option key={o.value} value={o.value}>
           {o.label}

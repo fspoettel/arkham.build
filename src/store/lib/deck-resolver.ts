@@ -58,6 +58,10 @@ export function resolveDeck<
     "alternate_back",
   ) as S;
 
+  const hasExtraDeck = !!investigatorBack.card.side_deck_options;
+  const hasParallel = !!investigator.relations?.parallel;
+  const hasReplacements = !!investigator.relations?.replacement?.length;
+
   if (!investigatorFront || !investigatorBack) {
     throw new Error(`Investigator not found: ${deck.investigator_code}`);
   }
@@ -83,6 +87,9 @@ export function resolveDeck<
     investigatorBack,
     investigatorFront,
     metaParsed: deckMeta,
+    hasExtraDeck,
+    hasParallel,
+    hasReplacements,
     selections: getSelections(investigatorBack, deckMeta),
     sideSlots: Array.isArray(deck.sideSlots) ? null : deck.sideSlots,
     stats: {
@@ -94,7 +101,7 @@ export function resolveDeck<
   };
 }
 
-function parseDeckMeta(deck: Deck): DeckMeta {
+export function parseDeckMeta(deck: Deck): DeckMeta {
   try {
     const metaJson = JSON.parse(deck.meta);
     return typeof metaJson === "object" && metaJson != null ? metaJson : {};
@@ -236,40 +243,51 @@ function getSelections(
 ): Selections | undefined {
   const selections = investigator.card.deck_options?.reduce<Selections>(
     (acc, option) => {
-      const key = option.id ?? option.name;
-      if (!key) return acc;
-
       let selection: Selection | undefined;
+      let key: string | undefined;
 
       if (option.deck_size_select) {
+        key = option.id ?? "deck_size_selected";
+
         selection = {
           options: Array.isArray(option.deck_size_select)
             ? option.deck_size_select
             : [option.deck_size_select],
           type: "deckSize",
+          accessor: key,
+          name: option.name ?? key,
           value: deckMeta.deck_size_selected
             ? Number.parseInt(deckMeta.deck_size_selected, 10)
             : 30,
         };
       } else if (option.faction_select) {
+        key = option.id ?? "faction_selected";
+
         selection = {
           options: option.faction_select,
           type: "faction",
+          accessor: key,
+          name: option.name ?? key,
           value:
             (option.id
               ? deckMeta[option.id as keyof DeckMeta]
               : deckMeta.faction_selected) ?? undefined,
         };
       } else if (option.option_select) {
+        key = option.id ?? "option_selected";
+
         selection = {
           options: option.option_select,
           type: "option",
+          accessor: key,
+          name: option.name ?? key,
           value: option.option_select.find(
             (x) => x.id === deckMeta.option_selected,
           ),
         };
       }
 
+      if (!key) return acc;
       if (selection) acc[key] = selection;
       return acc;
     },

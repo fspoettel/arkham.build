@@ -8,6 +8,8 @@ export type DeckRequirements = {
   size: number;
 };
 
+export type DeckOptionSelectType = "deckSize" | "faction" | "option";
+
 export type OptionSelect = {
   name: string;
   id: string;

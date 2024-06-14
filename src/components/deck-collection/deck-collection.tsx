@@ -3,7 +3,7 @@ import { Link } from "wouter";
 
 import { useStore } from "@/store";
 import { selectLocalDecks } from "@/store/selectors/decks";
-import { capitalize } from "@/utils/capitalize";
+import { capitalize } from "@/utils/formatting";
 
 import css from "./deck-collection.module.css";
 

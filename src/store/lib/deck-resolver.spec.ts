@@ -107,7 +107,9 @@ describe("resolveDeck", () => {
       const resolved = resolveDeck(metadata, lookupTables, deck, false);
       expect(resolved.selections).toMatchInlineSnapshot(`
         {
-          "Secondary Class": {
+          "faction_selected": {
+            "accessor": "faction_selected",
+            "name": "Secondary Class",
             "options": [
               "guardian",
               "seeker",
@@ -127,6 +129,8 @@ describe("resolveDeck", () => {
       expect(resolved.selections).toMatchInlineSnapshot(`
         {
           "faction_1": {
+            "accessor": "faction_1",
+            "name": "Class Choice",
             "options": [
               "guardian",
               "seeker",
@@ -138,6 +142,8 @@ describe("resolveDeck", () => {
             "value": "guardian",
           },
           "faction_2": {
+            "accessor": "faction_2",
+            "name": "Class Choice",
             "options": [
               "guardian",
               "seeker",
@@ -161,7 +167,9 @@ describe("resolveDeck", () => {
 
       expect(resolved.selections).toMatchInlineSnapshot(`
         {
-          "Trait Choice": {
+          "option_selected": {
+            "accessor": "option_selected",
+            "name": "Trait Choice",
             "options": [
               {
                 "id": "blessed",

@@ -54,35 +54,45 @@ export type Customization = {
 export type Customizations = Record<string, Record<number, Customization>>;
 
 export type DeckMeta = {
-  [key in `cus_${string}`]?: string;
+  [key in `cus_${string}`]?: string | null;
 } & {
-  alternate_front?: string;
-  alternate_back?: string;
-  option_selected?: string;
-  faction_selected?: string;
-  faction_1?: string;
-  faction_2?: string;
-  deck_size_selected?: string;
-  extra_deck?: string;
+  alternate_front?: string | null;
+  alternate_back?: string | null;
+  option_selected?: string | null;
+  faction_selected?: string | null;
+  faction_1?: string | null;
+  faction_2?: string | null;
+  deck_size_selected?: string | null;
+  extra_deck?: string | null;
 };
 
 export type DeckSizeSelection = {
   type: "deckSize";
   value: number;
   options: number[];
+  name: string;
+  accessor: string;
 };
 
 export type FactionSelection = {
   type: "faction";
   value?: string;
   options: string[];
+  name: string;
+  accessor: string;
 };
 
 export type OptionSelection = {
   type: "option";
   value?: OptionSelect;
   options: OptionSelect[];
+  name: string;
+  accessor: string;
 };
+
+export function isOptionSelect(x: unknown): x is OptionSelect {
+  return typeof x === "object" && x != null && "id" in x;
+}
 
 export type Selection = OptionSelection | FactionSelection | DeckSizeSelection;
 
@@ -111,6 +121,9 @@ export type ResolvedDeck<T extends ResolvedCard | CardWithRelations> = Omit<
     deckSize: number;
     deckSizeTotal: number;
   };
+  hasExtraDeck: boolean;
+  hasReplacements: boolean;
+  hasParallel: boolean;
   selections?: Selections;
   tabooSet?: TabooSet;
 };

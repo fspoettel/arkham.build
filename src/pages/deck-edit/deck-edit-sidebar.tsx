@@ -10,6 +10,8 @@ import { selectCurrentTab } from "@/store/selectors/decks";
 
 import css from "./deck-edit.module.css";
 
+import { DeckEditMeta } from "./deck-edit-meta";
+
 type Props = {
   className?: string;
   deck: DisplayDeck;
@@ -26,7 +28,7 @@ export function DeckEditSidebar({ deck }: Props) {
       <Scroller className={css["deck-edit-sidebar-cards"]}>
         <Tabs
           className={css["deck-edit-sidebar-tabs"]}
-          length={3}
+          length={deck.hasExtraDeck ? 4 : 3}
           onValueChange={(value: string) => {
             updateActiveTab(value);
           }}
@@ -34,7 +36,10 @@ export function DeckEditSidebar({ deck }: Props) {
         >
           <TabsList className={css["deck-edit-sidebar-tabs-list"]}>
             <TabsTrigger value="slots">Deck</TabsTrigger>
-            <TabsTrigger value="sideSlots">Side Deck</TabsTrigger>
+            <TabsTrigger value="sideSlots">Side</TabsTrigger>
+            {deck.hasExtraDeck && (
+              <TabsTrigger value="extraSlots">Extra</TabsTrigger>
+            )}
             <TabsTrigger value="meta">Meta</TabsTrigger>
           </TabsList>
           <TabsContent
@@ -84,11 +89,30 @@ export function DeckEditSidebar({ deck }: Props) {
               )}
             </DecklistSection>
           </TabsContent>
+          {deck.hasExtraDeck && (
+            <TabsContent
+              className={css["deck-edit-sidebar-tabs-content"]}
+              value="extraSlots"
+            >
+              <DecklistSection title="Side Deck">
+                {deck.groups.extra?.data ? (
+                  <DecklistGroups
+                    canEdit
+                    group={deck.groups.extra.data}
+                    layout="one_column"
+                    quantities={deck.extraSlots ?? undefined}
+                  />
+                ) : (
+                  "No cards"
+                )}
+              </DecklistSection>
+            </TabsContent>
+          )}
           <TabsContent
             className={css["deck-edit-sidebar-tabs-content"]}
             value="meta"
           >
-            Settings
+            <DeckEditMeta deck={deck} />
           </TabsContent>
         </Tabs>
       </Scroller>

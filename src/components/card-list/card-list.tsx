@@ -54,6 +54,8 @@ export function CardList({ canEdit, canShowQuantity, quantities }: Props) {
 
       if (offset != null) {
         virtuosoRef.current?.scrollToIndex(offset);
+      } else {
+        virtuosoRef.current?.scrollToIndex(0);
       }
     },
     [data],
@@ -87,13 +89,11 @@ export function CardList({ canEdit, canShowQuantity, quantities }: Props) {
   }, [cardCount]);
 
   const jumpToOptions = useMemo(
-    () => [
-      { value: "", label: "Jump to..." },
-      ...(data?.groups ?? []).map((group) => ({
+    () =>
+      (data?.groups ?? []).map((group) => ({
         value: group.code,
         label: group.name,
       })),
-    ],
     [data?.groups],
   );
 
@@ -102,7 +102,12 @@ export function CardList({ canEdit, canShowQuantity, quantities }: Props) {
       <nav className={css["list-nav"]}>
         <output>{data?.cards.length ?? 0} cards</output>
         {data && (
-          <Select onChange={onSelectGroup} value="" options={jumpToOptions} />
+          <Select
+            emptyLabel="Jump to..."
+            onChange={onSelectGroup}
+            value=""
+            options={jumpToOptions}
+          />
         )}
       </nav>
 

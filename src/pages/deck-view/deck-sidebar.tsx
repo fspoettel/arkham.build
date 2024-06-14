@@ -11,7 +11,7 @@ import { FactionIcon } from "@/components/icons/faction-icon";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/store";
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
-import { capitalize } from "@/utils/capitalize";
+import { capitalize } from "@/utils/formatting";
 
 import css from "./deck-sidebar.module.css";
 

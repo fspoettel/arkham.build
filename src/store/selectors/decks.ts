@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import { groupDeckCardsByType } from "@/store/lib/deck-grouping";
-import { resolveDeck } from "@/store/lib/deck-resolver";
+import { parseDeckMeta, resolveDeck } from "@/store/lib/deck-resolver";
 
 import type { ForbiddenCardError } from "../lib/deck-validation";
 import { validateDeck } from "../lib/deck-validation";
@@ -42,9 +42,37 @@ export const selectResolvedDeck = createSelector(
       : undefined;
     if (!deck) return undefined;
 
-    // adjust quantities based on deck edits.
     if (deckView.mode === "edit") {
-      for (const [key, edits] of Object.entries(deckView.edits)) {
+      // adjust taboo id based on deck edits.
+      if (deckView.edits.tabooId !== undefined) {
+        deck.taboo_id = deckView.edits.tabooId;
+      }
+
+      // adjust meta based on deck edits.
+      // TODO: get rid of the JSON.parse/JSON.stringify here.
+      const deckMeta = parseDeckMeta(deck);
+
+      const alternate_back = deckView.edits.investigatorBack
+        ? deckView.edits.investigatorBack === deck.investigator_code
+          ? null
+          : deckView.edits.investigatorBack
+        : deckMeta.alternate_back;
+
+      const alternate_front = deckView.edits.investigatorFront
+        ? deckView.edits.investigatorFront === deck.investigator_code
+          ? null
+          : deckView.edits.investigatorFront
+        : deckMeta.alternate_front;
+
+      deck.meta = JSON.stringify({
+        ...deckMeta,
+        ...deckView.edits.meta,
+        alternate_back,
+        alternate_front,
+      });
+
+      // adjust quantities based on deck edits.
+      for (const [key, edits] of Object.entries(deckView.edits.quantities)) {
         for (const edit of edits) {
           const slotKey = key as "slots";
 
@@ -71,6 +99,7 @@ export const selectResolvedDeck = createSelector(
     }
 
     const resolvedDeck = resolveDeck(metadata, lookupTables, deck, true);
+
     console.timeEnd("[perf] select_resolved_deck");
     return resolvedDeck;
   },

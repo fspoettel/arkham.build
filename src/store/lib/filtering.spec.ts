@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { beforeAll, describe, expect, it } from "vitest";
 import type { StoreApi } from "zustand";
 
@@ -184,30 +185,56 @@ describe("filter: investigator access", () => {
 
     it("returns true if faction is specified and matches chosen option", () => {
       const state = store.getState();
-      const config = { factionSelected: "seeker" };
-      expect(applyFilter(state, "06003", "01036", config)).toBeTruthy();
+
+      const config = {
+        selections: {
+          faction_selected: { value: "seeker" },
+        },
+      };
+
+      expect(applyFilter(state, "06003", "01036", config as any)).toBeTruthy();
     });
 
     it("returns false if faction is specified and card maps to option not chosen", () => {
       const state = store.getState();
-      const config = { factionSelected: "seeker" };
-      expect(applyFilter(state, "06003", "03156", config)).toBeFalsy();
-      expect(applyFilter(state, "06003", "52002", config)).toBeFalsy();
+
+      const config = {
+        selections: {
+          faction_selected: { value: "seeker" },
+        },
+      };
+
+      expect(applyFilter(state, "06003", "03156", config as any)).toBeFalsy();
+      expect(applyFilter(state, "06003", "52002", config as any)).toBeFalsy();
     });
 
     it("returns true if faction is specified and is among chosen options", () => {
       const state = store.getState();
-      const config = { faction1: "survivor", faction2: "mystic" };
-      expect(applyFilter(state, "09018", "03156", config)).toBeTruthy();
-      expect(applyFilter(state, "09018", "60420", config)).toBeTruthy();
+
+      const config = {
+        selections: {
+          faction_1: { value: "survivor" },
+          faction_2: { value: "mystic" },
+        },
+      };
+
+      expect(applyFilter(state, "09018", "03156", config as any)).toBeTruthy();
+      expect(applyFilter(state, "09018", "60420", config as any)).toBeTruthy();
     });
 
     it("returns false if faction is specified and card maps to option not among chosen options", () => {
       const state = store.getState();
-      const config = { faction1: "survivor", faction2: "mystic" };
-      expect(applyFilter(state, "09018", "09052", config)).toBeFalsy();
-      expect(applyFilter(state, "09018", "09022", config)).toBeFalsy();
-      expect(applyFilter(state, "09018", "07025", config)).toBeFalsy();
+
+      const config = {
+        selections: {
+          faction_1: { value: "survivor" },
+          faction_2: { value: "mystic" },
+        },
+      };
+
+      expect(applyFilter(state, "09018", "09052", config as any)).toBeFalsy();
+      expect(applyFilter(state, "09018", "09022", config as any)).toBeFalsy();
+      expect(applyFilter(state, "09018", "07025", config as any)).toBeFalsy();
     });
   });
 
@@ -265,26 +292,44 @@ describe("filter: investigator access", () => {
 
     it("handles option selection with multiple traits", () => {
       const state = store.getState();
-      const config = { optionSelected: "both" };
-      expect(applyFilter(state, "90037", "07192", config)).toBeTruthy();
-      expect(applyFilter(state, "90037", "10104", config)).toBeTruthy();
-      expect(applyFilter(state, "90037", "05194", config)).toBeTruthy();
+
+      const config = {
+        selections: {
+          option_selected: { value: { id: "both" } },
+        },
+      };
+
+      expect(applyFilter(state, "90037", "07192", config as any)).toBeTruthy();
+      expect(applyFilter(state, "90037", "10104", config as any)).toBeTruthy();
+      expect(applyFilter(state, "90037", "05194", config as any)).toBeTruthy();
     });
 
-    it("returns false if card does not match selected option", () => {
+    it("handles option selection with single traits", () => {
       const state = store.getState();
-      const config = { optionSelected: "blessed" };
-      expect(applyFilter(state, "90037", "07192", config)).toBeTruthy();
-      expect(applyFilter(state, "90037", "10104", config)).toBeTruthy();
-      expect(applyFilter(state, "90037", "05194", config)).toBeFalsy();
+
+      const config = {
+        selections: {
+          option_selected: { value: { id: "blessed" } },
+        },
+      };
+
+      expect(applyFilter(state, "90037", "07192", config as any)).toBeTruthy();
+      expect(applyFilter(state, "90037", "10104", config as any)).toBeTruthy();
+      expect(applyFilter(state, "90037", "05194", config as any)).toBeFalsy();
     });
 
-    it("returns false if card does not match selected option", () => {
+    it("handles other option selection with single traits", () => {
       const state = store.getState();
-      const config = { optionSelected: "cursed" };
-      expect(applyFilter(state, "90037", "07192", config)).toBeFalsy();
-      expect(applyFilter(state, "90037", "10104", config)).toBeTruthy();
-      expect(applyFilter(state, "90037", "05194", config)).toBeTruthy();
+
+      const config = {
+        selections: {
+          option_selected: { value: { id: "cursed" } },
+        },
+      };
+
+      expect(applyFilter(state, "90037", "07192", config as any)).toBeFalsy();
+      expect(applyFilter(state, "90037", "10104", config as any)).toBeTruthy();
+      expect(applyFilter(state, "90037", "05194", config as any)).toBeTruthy();
     });
   });
 });

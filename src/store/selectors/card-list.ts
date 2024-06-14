@@ -247,10 +247,7 @@ export const selectDeckInvestigatorFilter = createSelector(
 
     return filterInvestigatorAccess(card, lookupTables, {
       additionalDeckOptions: getAdditionalDeckOptions(resolvedDeck),
-      faction1: resolvedDeck.metaParsed?.faction_1,
-      faction2: resolvedDeck.metaParsed?.faction_2,
-      factionSelected: resolvedDeck.metaParsed?.faction_selected,
-      optionSelected: resolvedDeck.metaParsed?.option_selected,
+      selections: resolvedDeck.selections,
     });
   },
 );

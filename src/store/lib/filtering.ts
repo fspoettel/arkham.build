@@ -1,7 +1,7 @@
-import { capitalize } from "@/utils/capitalize";
 import { cardLevel } from "@/utils/card-utils";
 import type { SkillKey } from "@/utils/constants";
 import { SKILL_KEYS } from "@/utils/constants";
+import { capitalize } from "@/utils/formatting";
 import type { Filter } from "@/utils/fp";
 import { and, not, or, pass } from "@/utils/fp";
 
@@ -16,6 +16,8 @@ import type {
 } from "../slices/filters/types";
 import type { LookupTables } from "../slices/lookup-tables/types";
 import type { Metadata } from "../slices/metadata/types";
+import type { Selections } from "./types";
+import { isOptionSelect } from "./types";
 
 /**
  * Misc.
@@ -563,11 +565,7 @@ export type InvestigatorAccessConfig = {
   // NOTE: this currently does not consider the "level" of the customizable option for access
   // because all current cases work. This assumption might break in the future.
   ignoreUnselectedCustomizableOptions?: boolean;
-  optionSelected?: string;
-  factionSelected?: string;
-  // special case: charlie kane.
-  faction1?: string;
-  faction2?: string;
+  selections?: Selections;
   additionalDeckOptions?: DeckOption[];
 };
 
@@ -605,17 +603,13 @@ export function makeOptionFilter(
   if (option.faction_select) {
     filterCount += 1;
 
-    // special case: charlie kane.
-    let targetKey: keyof InvestigatorAccessConfig = "factionSelected";
-    if (option.id === "faction_1") {
-      targetKey = "faction1";
-    } else if (option.id === "faction_2") {
-      targetKey = "faction2";
-    }
+    const targetKey = option.id ?? "faction_selected";
+
+    const selection = config?.selections?.[targetKey]?.value;
 
     optionFilter.push(
-      config && targetKey in config
-        ? filterFactions([config[targetKey] as string])
+      typeof selection === "string"
+        ? filterFactions([selection])
         : filterFactions(option.faction_select),
     );
   }
@@ -683,8 +677,11 @@ export function makeOptionFilter(
   if (option.option_select) {
     const selectFilters: Filter[] = [];
 
+    let selection = config?.selections?.["option_selected"]?.value;
+    selection = isOptionSelect(selection) ? selection.id : undefined;
+
     for (const select of option.option_select) {
-      if (config?.optionSelected && select.id !== config.optionSelected) {
+      if (selection && select.id !== selection) {
         continue;
       }
 
@@ -780,6 +777,7 @@ export function filterInvestigatorAccess(
 
   for (const option of options) {
     const filter = makeOptionFilter(option, lookupTables, config);
+
     if (!filter) continue;
 
     if (option.not) {
