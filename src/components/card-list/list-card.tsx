@@ -5,11 +5,9 @@ import {
   offset,
   shift,
   useFloating,
-  useHover,
-  useInteractions,
 } from "@floating-ui/react";
 import clsx from "clsx";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 
 import type { Card } from "@/store/services/types";
@@ -31,7 +29,16 @@ type Props = {
 export function ListCard({ card }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { refs, floatingStyles, context } = useFloating({
+  const restTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+
+  useEffect(
+    () => () => {
+      if (restTimeoutRef.current) clearTimeout(restTimeoutRef.current);
+    },
+    [],
+  );
+
+  const { refs, floatingStyles } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
     middleware: [shift(), autoPlacement(), offset(2)],
@@ -40,16 +47,34 @@ export function ListCard({ card }: Props) {
     placement: "bottom-start",
   });
 
-  const hover = useHover(context, { restMs: 25 });
-  const { getReferenceProps, getFloatingProps } = useInteractions([hover]);
+  const onPointerLeave = useCallback(() => {
+    clearTimeout(restTimeoutRef.current);
+    setIsOpen(false);
+  }, []);
+
+  const onPointerMove = useCallback(() => {
+    if (isOpen) return;
+
+    clearTimeout(restTimeoutRef.current);
+
+    restTimeoutRef.current = setTimeout(() => {
+      setIsOpen(true);
+    }, 25);
+  }, [isOpen]);
 
   if (!card) return null;
 
   const colorCls = getCardColor(card);
 
+  const referenceProps = {
+    onPointerLeave,
+    onPointerMove,
+    onMouseLeave: onPointerLeave,
+  };
+
   return (
     <figure className={clsx(css["listcard"])}>
-      <div className={css["listcard-thumbnail"]}>
+      <div className={css["listcard-thumbnail"]} {...referenceProps}>
         <Link href={`/card/${card.code}`}>
           <a tabIndex={-1}>
             <CardThumbnail card={card} />
@@ -67,7 +92,7 @@ export function ListCard({ card }: Props) {
         <h4
           className={clsx(css["listcard-name"], colorCls)}
           ref={refs.setReference}
-          {...getReferenceProps()}
+          {...referenceProps}
         >
           <Link href={`/card/${card.code}`} tabIndex={-1}>
             {card.real_name}
@@ -92,11 +117,7 @@ export function ListCard({ card }: Props) {
 
         {isOpen && (
           <FloatingPortal>
-            <div
-              ref={refs.setFloating}
-              style={floatingStyles}
-              {...getFloatingProps()}
-            >
+            <div ref={refs.setFloating} style={floatingStyles}>
               <CardTooltip code={card.code} />
             </div>
           </FloatingPortal>
