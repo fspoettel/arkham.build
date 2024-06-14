@@ -3,7 +3,11 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
-import { getCardSetTitle, pickRelatedCardSets } from "@/utils/cardsets";
+import {
+  getCardSetTitle,
+  getRelatedCardQuantity,
+  pickRelatedCardSets,
+} from "@/utils/cardsets";
 
 import css from "./deck-investigator.module.css";
 
@@ -84,6 +88,7 @@ export function DeckInvestigator({
                   cards,
                   id: key,
                   selected: false,
+                  quantities: getRelatedCardQuantity(key, cards),
                 }}
               />
             );

@@ -21,11 +21,11 @@ const CARD_SET_ORDER = [
   "level",
 ];
 
-export const sortCardSets = (a: string, b: string) => {
+export function sortCardSets(a: string, b: string) {
   return CARD_SET_ORDER.indexOf(a) - CARD_SET_ORDER.indexOf(b);
-};
+}
 
-export const getCardSetTitle = (id: string) => {
+export function getCardSetTitle(id: string) {
   if (id === "parallel") return "Parallel investigator";
   if (id === "parallelCards") return "Parallel cards";
   if (id === "requiredCards") return "Signatures";
@@ -36,9 +36,9 @@ export const getCardSetTitle = (id: string) => {
   if (id === "restrictedTo") return "Restricted";
   if (id === "level") return "Other levels";
   return id;
-};
+}
 
-export const pickRelatedCardSets = (card: CardWithRelations) => {
+export function pickRelatedCardSets(card: CardWithRelations) {
   const relations = card?.relations ?? {};
   return Object.entries(relations)
     .filter(
@@ -48,4 +48,22 @@ export const pickRelatedCardSets = (card: CardWithRelations) => {
         (Array.isArray(value) ? value.length > 0 : value),
     )
     .toSorted((a, b) => sortCardSets(a[0], b[0]));
-};
+}
+
+export function getRelatedCardQuantity(
+  key: string,
+  set: ResolvedCard | ResolvedCard[],
+) {
+  const cards = Array.isArray(set) ? set : [set];
+  const canShowQuantity = key !== "parallel" && key !== "level";
+
+  return canShowQuantity
+    ? cards.reduce(
+        (acc, { card }) => ({
+          ...acc,
+          [card.code]: card.quantity,
+        }),
+        {},
+      )
+    : undefined;
+}

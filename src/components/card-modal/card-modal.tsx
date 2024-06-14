@@ -3,7 +3,11 @@ import { useCallback } from "react";
 import { useStore } from "@/store";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
 import { selectActiveDeck, selectCanEditDeck } from "@/store/selectors/decks";
-import { getCardSetTitle, sortCardSets } from "@/utils/cardsets";
+import {
+  getCardSetTitle,
+  getRelatedCardQuantity,
+  sortCardSets,
+} from "@/utils/cardsets";
 import { useMedia } from "@/utils/use-media";
 
 import css from "./card-modal.module.css";
@@ -83,6 +87,7 @@ export function CardModal({ code }: Props) {
                   cards,
                   id: key,
                   selected: false,
+                  quantities: getRelatedCardQuantity(key, cards),
                 }}
               />
             );
