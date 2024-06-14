@@ -1,5 +1,6 @@
+import type { ReferenceType } from "@floating-ui/react";
 import clsx from "clsx";
-import type { ElementType, ReactNode } from "react";
+import type { ComponentProps, ElementType, ReactNode } from "react";
 import { useCallback } from "react";
 
 import { useStore } from "@/store";
@@ -30,14 +31,12 @@ export type Props = {
   canShowParallel?: boolean;
   canShowSubname?: boolean;
   className?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  figureRef?: any;
+  figureRef?: (node: ReferenceType | null) => void;
   forbidden?: boolean;
   omitBorders?: boolean;
   size?: "sm";
   onToggleModal?: () => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  referenceProps?: Record<string, any>;
+  referenceProps?: ComponentProps<"div">;
   renderThumbnail?: (el: ReactNode) => ReactNode;
   quantities?: Record<string, number> | null;
   renderName?: (el: ReactNode) => ReactNode;

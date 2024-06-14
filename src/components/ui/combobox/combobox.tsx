@@ -120,11 +120,13 @@ export function Combobox<T extends Coded>({
     (item: T) => {
       if (onSelectItem) onSelectItem(item.code, !selectedItems[item.code]);
 
-      const ref = refs.reference.current as HTMLInputElement;
+      const ref = refs.reference.current;
 
-      setInputValue("");
-      if (ref && document.activeElement !== ref) {
-        ref.focus();
+      if (ref instanceof HTMLInputElement) {
+        setInputValue("");
+        if (ref && document.activeElement !== ref) {
+          ref.focus();
+        }
       }
     },
     [refs.reference, onSelectItem, selectedItems],
@@ -206,7 +208,9 @@ export function Combobox<T extends Coded>({
                 setOpen(!isOpen);
               },
               onChange(evt) {
-                setInputValue((evt.target as HTMLInputElement).value);
+                if (evt.target instanceof HTMLInputElement) {
+                  setInputValue(evt.target.value);
+                }
               },
             })}
           />

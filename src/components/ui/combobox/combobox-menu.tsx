@@ -48,7 +48,7 @@ export function ComboboxMenu<T extends Coded>({
     }
   }, [activeIndex]);
 
-  const cssVariables = useMemo(
+  const cssVariables: Record<string, string | number> = useMemo(
     () => ({
       "--viewport-item-count": items.length,
     }),
@@ -60,8 +60,7 @@ export function ComboboxMenu<T extends Coded>({
       viewportClassName={css["combobox-menu-viewport"]}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ref={setScrollParent as any}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      style={cssVariables as any}
+      style={cssVariables}
     >
       <Virtuoso
         ref={virtuosoRef}

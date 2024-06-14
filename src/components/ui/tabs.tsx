@@ -18,12 +18,10 @@ type TabsProps = RootProps & {
 };
 
 export function Tabs({ children, className, length, ...rest }: TabsProps) {
-  const cssVariables = useMemo(
-    () =>
-      ({
-        "--length": length,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      }) as any,
+  const cssVariables: Record<string, string | number> = useMemo(
+    () => ({
+      "--length": length,
+    }),
     [length],
   );
 

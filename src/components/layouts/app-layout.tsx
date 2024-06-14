@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import type { ReactNode } from "react";
+import { type ReactNode, useMemo } from "react";
 
 import { useStore } from "@/store";
 import { useDocumentTitle } from "@/utils/use-document-title";
@@ -27,6 +27,13 @@ export function AppLayout({
 
   useDocumentTitle(title);
 
+  const cssVariables: Record<string, number | string> = useMemo(
+    () => ({
+      "--sidebar-width-max": sidebarWidthMax,
+    }),
+    [sidebarWidthMax],
+  );
+
   return (
     <div
       className={clsx(
@@ -34,12 +41,7 @@ export function AppLayout({
         !!sidebar && css["has-sidebar"],
         !!closeable && css["has-closeable"],
       )}
-      style={
-        {
-          "--sidebar-width-max": sidebarWidthMax,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } as any
-      }
+      style={cssVariables}
     >
       <Masthead className={css["layout-header"]} />
       <section className={css["layout-sidebar"]}>{sidebar}</section>
