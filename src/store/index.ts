@@ -1,11 +1,12 @@
 import { create } from "zustand";
-import { createMetadataSlice } from "./slices/metadata";
-import { createLookupTablesSlice } from "./slices/lookup-tables";
+import { devtools, persist } from "zustand/middleware";
+
+import { StoreState } from "./slices";
 import { createFiltersSlice } from "./slices/filters";
+import { createLookupTablesSlice } from "./slices/lookup-tables";
+import { createMetadataSlice } from "./slices/metadata";
 import { createSharedSlice } from "./slices/shared";
 import { createUISlice } from "./slices/ui";
-import { StoreState } from "./slices";
-import { devtools, persist } from "zustand/middleware";
 import { storageConfig } from "./storage";
 
 export const useStore = create<StoreState>()(

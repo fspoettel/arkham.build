@@ -1,14 +1,16 @@
 import clsx from "clsx";
 import { Link } from "wouter";
-import { Card as CardSchema } from "@/store/graphql/types";
+
 import SvgParallel from "@/assets/icons/parallel.svg?react";
-import { CardIcon } from "../card/card-icon";
-import { SkillIcons } from "../ui/skill-icons";
-import { MulticlassIcons } from "../ui/icons/multiclass-icons";
+import { Card as CardSchema } from "@/store/graphql/types";
 import { getCardColor, hasSkillIcons } from "@/utils/card-utils";
-import { CardThumbnail } from "../card/card-thumbnail";
 
 import css from "./list-card.module.css";
+
+import { CardIcon } from "../card/card-icon";
+import { CardThumbnail } from "../card/card-thumbnail";
+import { MulticlassIcons } from "../ui/icons/multiclass-icons";
+import { SkillIcons } from "../ui/skill-icons";
 
 type Props = {
   card: CardSchema;

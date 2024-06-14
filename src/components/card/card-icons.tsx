@@ -1,9 +1,10 @@
 import { Card } from "@/store/graphql/types";
+
+import css from "./card-icons.module.css";
+
 import { SkillIcons } from "../ui/skill-icons";
 import { CardDamage } from "./card-damage";
 import { CardHealth } from "./card-health";
-
-import css from "./card-icons.module.css";
 
 type Props = {
   card: Card;

@@ -1,13 +1,15 @@
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { GroupedVirtuoso, GroupedVirtuosoHandle } from "react-virtuoso";
+
 import { useStore } from "@/store";
-import { ListCard } from "./list-card";
+import { selectFilteredCards } from "@/store/selectors/card-list";
+import { range } from "@/utils/range";
 
 import css from "./card-list.module.css";
-import { Grouphead } from "./Grouphead";
-import { selectFilteredCards } from "@/store/selectors/card-list";
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
-import { range } from "@/utils/range";
+
 import { Select } from "../ui/select";
+import { Grouphead } from "./Grouphead";
+import { ListCard } from "./list-card";
 
 export function CardList() {
   const [rendered, setRendered] = useState(false);

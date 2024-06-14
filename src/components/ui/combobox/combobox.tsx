@@ -1,5 +1,17 @@
-import clsx from "clsx";
+import {
+  FloatingFocusManager,
+  FloatingPortal,
+  autoUpdate,
+  flip,
+  offset,
+  size,
+  useDismiss,
+  useFloating,
+  useInteractions,
+  useListNavigation,
+} from "@floating-ui/react";
 import { CheckIcon } from "@radix-ui/react-icons";
+import clsx from "clsx";
 import {
   ReactNode,
   useCallback,
@@ -8,21 +20,12 @@ import {
   useRef,
   useState,
 } from "react";
-import {
-  autoUpdate,
-  flip,
-  FloatingFocusManager,
-  FloatingPortal,
-  offset,
-  size,
-  useDismiss,
-  useFloating,
-  useInteractions,
-  useListNavigation,
-} from "@floating-ui/react";
-import { ComboboxResults } from "./combobox-results";
-import css from "./combobox.module.css";
+
 import { Coded } from "@/store/graphql/types";
+
+import css from "./combobox.module.css";
+
+import { ComboboxResults } from "./combobox-results";
 
 type Props<T extends Coded> = {
   className?: string;

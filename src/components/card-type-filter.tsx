@@ -1,10 +1,12 @@
 import { useCallback } from "react";
+
 import SvgAutoFail from "@/assets/icons/auto_fail.svg?react";
 import SvgInvestigator from "@/assets/icons/investigator.svg?react";
-import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
 import { useStore } from "@/store";
-import { CardTypeFilter as CardTypeFilterT } from "@/store/slices/filters/types";
 import { selectActiveCardType } from "@/store/selectors/filters";
+import { CardTypeFilter as CardTypeFilterT } from "@/store/slices/filters/types";
+
+import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
 
 type Props = {
   className?: string;

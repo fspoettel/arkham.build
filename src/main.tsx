@@ -1,8 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./app";
+
 import "./fonts.css";
 import "./main.css";
+
+import App from "./app";
 
 const rootNode = document.getElementById("root");
 

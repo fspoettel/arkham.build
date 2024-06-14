@@ -1,7 +1,9 @@
-import { Props as SliderProps, Slider } from "./slider";
-import css from "./range-select.module.css";
 import clsx from "clsx";
 import { ReactNode, useCallback, useEffect, useState } from "react";
+
+import css from "./range-select.module.css";
+
+import { Slider, Props as SliderProps } from "./slider";
 
 type Props = Omit<SliderProps, "defaultValue"> & {
   className?: string;

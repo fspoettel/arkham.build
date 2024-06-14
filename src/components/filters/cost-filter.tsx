@@ -1,16 +1,18 @@
-import { useStore } from "@/store";
-import { RangeSelect } from "../ui/range-select";
-import { Checkbox } from "../ui/checkbox";
-import { Collapsible, CollapsibleContent } from "../ui/collapsible";
-import { CheckboxGroup } from "../ui/checkboxgroup";
+import { useCallback } from "react";
+
 import SvgX from "@/assets/icons/x.svg?react";
+import { useStore } from "@/store";
 import {
   selectActiveCardType,
   selectActiveCost,
   selectCostMinMax,
 } from "@/store/selectors/filters";
-import { useCallback } from "react";
 import { CostFilter as CostFilterT } from "@/store/slices/filters/types";
+
+import { Checkbox } from "../ui/checkbox";
+import { CheckboxGroup } from "../ui/checkboxgroup";
+import { Collapsible, CollapsibleContent } from "../ui/collapsible";
+import { RangeSelect } from "../ui/range-select";
 
 export function CostFilter() {
   const [min, max] = useStore(selectCostMinMax);

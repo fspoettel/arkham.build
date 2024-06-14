@@ -1,9 +1,10 @@
+import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
 import { parse } from "graphql";
 import request, { gql } from "graphql-request";
+
 import factions from "./data/factions.json";
-import types from "./data/types.json";
 import subTypes from "./data/subtypes.json";
-import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
+import types from "./data/types.json";
 import {
   Cycle,
   DataVersion,

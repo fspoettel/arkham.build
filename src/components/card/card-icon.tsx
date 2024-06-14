@@ -1,12 +1,14 @@
 import clsx from "clsx";
-import { Card } from "@/store/graphql/types";
+
 import SvgWeakness from "@/assets/icons/weakness.svg?react";
-import { FactionIcon } from "../ui/icons/faction-icon";
-import { LevelIcon } from "../ui/icons/level-icon";
-import { CostIcon } from "../ui/icons/cost-icon";
-import { LazyEncounterIcon } from "../ui/icons/lazy-icons";
+import { Card } from "@/store/graphql/types";
 
 import css from "./card-icon.module.css";
+
+import { CostIcon } from "../ui/icons/cost-icon";
+import { FactionIcon } from "../ui/icons/faction-icon";
+import { LazyEncounterIcon } from "../ui/icons/lazy-icons";
+import { LevelIcon } from "../ui/icons/level-icon";
 
 type Props = {
   card: Card;

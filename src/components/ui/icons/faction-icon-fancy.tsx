@@ -1,4 +1,4 @@
-import memoize from "@/utils/memoize";
+import SvgAutoFail from "@/assets/icons/auto_fail.svg?react";
 import SvgClassGuardian from "@/assets/icons/class_guardian.svg?react";
 import SvgClassMystic from "@/assets/icons/class_mystic.svg?react";
 import SvgClassNeutral from "@/assets/icons/class_neutral.svg?react";
@@ -6,7 +6,7 @@ import SvgClassRogue from "@/assets/icons/class_rogue.svg?react";
 import SvgClassSeeker from "@/assets/icons/class_seeker.svg?react";
 import SvgClassSurvivor from "@/assets/icons/class_survivor.svg?react";
 import SvgMulticlass from "@/assets/icons/multiclass.svg?react";
-import SvgAutoFail from "@/assets/icons/auto_fail.svg?react";
+import memoize from "@/utils/memoize";
 
 type Props = {
   className?: string;

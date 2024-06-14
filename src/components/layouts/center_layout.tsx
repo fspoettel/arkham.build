@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+
 import css from "./center_layout.module.css";
 
 type Props = {

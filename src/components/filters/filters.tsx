@@ -1,16 +1,18 @@
 import { useStore } from "@/store";
-import css from "./filters.module.css";
 import { selectIsInitialized } from "@/store/selectors";
 import { selectActiveCardType } from "@/store/selectors/filters";
+
+import css from "./filters.module.css";
+
+import { ActionFilter } from "./action-filter";
+import { CostFilter } from "./cost-filter";
 import { FactionFilter } from "./faction-filter";
 import { LevelFilter } from "./level-filter";
-import { CostFilter } from "./cost-filter";
-import { SkillIconsFilter } from "./skill-icons-filter";
-import { TypeFilter } from "./type-filter";
-import { TraitFilter } from "./trait-filter";
-import { ActionFilter } from "./action-filter";
-import { SubtypeFilter } from "./subtypes-filter";
 import { PropertiesFilter } from "./properties-filter";
+import { SkillIconsFilter } from "./skill-icons-filter";
+import { SubtypeFilter } from "./subtypes-filter";
+import { TraitFilter } from "./trait-filter";
+import { TypeFilter } from "./type-filter";
 
 export function Filters() {
   const isInitalized = useStore(selectIsInitialized);

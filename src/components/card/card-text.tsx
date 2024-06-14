@@ -1,6 +1,6 @@
-import { parseCardTextHtml } from "./utils";
-
 import css from "./card-text.module.css";
+
+import { parseCardTextHtml } from "./utils";
 
 type Props = {
   text?: string;

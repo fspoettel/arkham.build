@@ -1,6 +1,8 @@
-import css from "./health-icons.module.css";
 import SvgHealth from "@/assets/icons/health.svg?react";
 import SvgSanity from "@/assets/icons/sanity.svg?react";
+
+import css from "./health-icons.module.css";
+
 import { CostIcon } from "./cost-icon";
 
 export function HealthIcon({ health }: { health?: number }) {

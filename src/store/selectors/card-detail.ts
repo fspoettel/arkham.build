@@ -1,4 +1,3 @@
-import { StoreState } from "../slices";
 import {
   Card,
   Cycle,
@@ -7,6 +6,7 @@ import {
   SubType,
   Type,
 } from "../graphql/types";
+import { StoreState } from "../slices";
 import { LookupTables } from "../slices/lookup-tables/types";
 
 export type CardResolved = {

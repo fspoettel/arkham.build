@@ -1,6 +1,7 @@
 import { createSelector } from "reselect";
-import { StoreState } from "../slices";
+
 import { SubType, Type } from "../graphql/types";
+import { StoreState } from "../slices";
 
 export function selectCostMinMax(state: StoreState) {
   const costs = Object.keys(state.lookupTables.cost).map((x) =>

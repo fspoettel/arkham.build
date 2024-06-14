@@ -1,13 +1,15 @@
-import { useStore } from "@/store";
-import { Checkbox } from "../ui/checkbox";
-import { CheckboxGroup } from "../ui/checkboxgroup";
-import { Collapsible, CollapsibleContent } from "../ui/collapsible";
 import { useCallback } from "react";
+
+import { useStore } from "@/store";
 import {
   selectActiveCardType,
   selectActiveProperties,
 } from "@/store/selectors/filters";
 import { PropertiesFilter as PropertiesFilterT } from "@/store/slices/filters/types";
+
+import { Checkbox } from "../ui/checkbox";
+import { CheckboxGroup } from "../ui/checkboxgroup";
+import { Collapsible, CollapsibleContent } from "../ui/collapsible";
 
 const properties = [
   { key: "bonded", label: "Bonded" },

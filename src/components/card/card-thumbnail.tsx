@@ -1,6 +1,8 @@
 import clsx from "clsx";
+
 import { Card } from "@/store/graphql/types";
 import { getCardColor } from "@/utils/card-utils";
+
 import css from "./card-thumbnail.module.css";
 
 type Props = {

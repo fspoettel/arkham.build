@@ -1,14 +1,16 @@
+import { useCallback } from "react";
+
 import { useStore } from "@/store";
 import {
   selectActiveCardType,
   selectActiveFactions,
   selectFactions,
 } from "@/store/selectors/filters";
-import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 import css from "./faction-filter.module.css";
-import { useCallback } from "react";
+
 import { FactionIconFancy } from "../ui/icons/faction-icon-fancy";
+import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 export function FactionFilter() {
   const cardType = useStore(selectActiveCardType);

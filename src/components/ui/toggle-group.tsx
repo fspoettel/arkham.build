@@ -1,11 +1,11 @@
-import clsx from "clsx";
 import {
-  Root,
   Item,
-  ToggleGroupSingleProps,
-  ToggleGroupMultipleProps,
+  Root,
   ToggleGroupItemProps,
+  ToggleGroupMultipleProps,
+  ToggleGroupSingleProps,
 } from "@radix-ui/react-toggle-group";
+import clsx from "clsx";
 
 import css from "./toggle-group.module.css";
 

@@ -1,13 +1,15 @@
+import { useCallback } from "react";
+
 import { useStore } from "@/store";
-import { Collapsible, CollapsibleContent } from "../ui/collapsible";
-import { Combobox } from "../ui/combobox/combobox";
+import { SubType } from "@/store/graphql/types";
 import {
   selectActiveCardType,
-  selectSubtypes,
   selectActiveSubtypes,
+  selectSubtypes,
 } from "@/store/selectors/filters";
-import { useCallback } from "react";
-import { SubType } from "@/store/graphql/types";
+
+import { Collapsible, CollapsibleContent } from "../ui/collapsible";
+import { Combobox } from "../ui/combobox/combobox";
 
 export function SubtypeFilter() {
   const subtypes = useStore(selectSubtypes);

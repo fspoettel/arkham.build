@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+
 import SvgParallel from "@/assets/icons/parallel.svg?react";
 
 import css from "./card-names.module.css";

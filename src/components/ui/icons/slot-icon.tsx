@@ -1,13 +1,12 @@
-import memoize from "@/utils/memoize";
-
-import SvgHand from "@/assets/icons/hand_inverted.svg?react";
-import SvgHand2 from "@/assets/icons/hand_x2_inverted.svg?react";
 import SvgAccessory from "@/assets/icons/accessory_inverted.svg?react";
 import SvgAlly from "@/assets/icons/ally_inverted.svg?react";
 import SvgArcane from "@/assets/icons/arcane_inverted.svg?react";
 import SvgArcane2 from "@/assets/icons/arcane_x2_inverted.svg?react";
 import SvgBody from "@/assets/icons/body_inverted.svg?react";
+import SvgHand from "@/assets/icons/hand_inverted.svg?react";
+import SvgHand2 from "@/assets/icons/hand_x2_inverted.svg?react";
 import SvgTarot from "@/assets/icons/tarot_inverted.svg?react";
+import memoize from "@/utils/memoize";
 
 export type Props = {
   className?: string;

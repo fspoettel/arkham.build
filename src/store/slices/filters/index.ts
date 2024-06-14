@@ -1,6 +1,7 @@
 import { StateCreator } from "zustand";
-import { CardTypeFilter, Filters, FiltersSlice } from "./types";
+
 import { StoreState } from "..";
+import { CardTypeFilter, Filters, FiltersSlice } from "./types";
 
 function getInitialState(): Filters {
   const shared = {

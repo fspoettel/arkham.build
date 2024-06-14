@@ -1,18 +1,20 @@
+import clsx from "clsx";
+
+import { CardResolved } from "@/store/selectors/card-detail";
+import { getCardColor } from "@/utils/card-utils";
+
 import css from "./card.module.css";
 
-import { getCardColor } from "@/utils/card-utils";
-import { CardIcon } from "./card-icon";
-import { CardNames } from "./card-names";
-import clsx from "clsx";
-import { CardDetails } from "./card-details";
-import { CardText } from "./card-text";
-import { CardFlavor } from "./card-flavor";
-import { CardImage } from "./card-image";
-import { CardIcons } from "./card-icons";
-import { CardMeta } from "./card-meta";
-import { CardResolved } from "@/store/selectors/card-detail";
-import { CardThumbnail } from "./card-thumbnail";
 import { MulticlassIcons } from "../ui/icons/multiclass-icons";
+import { CardDetails } from "./card-details";
+import { CardFlavor } from "./card-flavor";
+import { CardIcon } from "./card-icon";
+import { CardIcons } from "./card-icons";
+import { CardImage } from "./card-image";
+import { CardMeta } from "./card-meta";
+import { CardNames } from "./card-names";
+import { CardText } from "./card-text";
+import { CardThumbnail } from "./card-thumbnail";
 
 type Props = {
   resolvedCard: CardResolved;

@@ -1,7 +1,9 @@
-import { Root, Track, Range, SliderProps, Thumb } from "@radix-ui/react-slider";
+import { Range, Root, SliderProps, Thumb, Track } from "@radix-ui/react-slider";
 import clsx from "clsx";
-import css from "./slider.module.css";
+
 import { range } from "@/utils/range";
+
+import css from "./slider.module.css";
 
 export type Props = SliderProps & {
   className?: string;

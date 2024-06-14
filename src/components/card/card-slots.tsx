@@ -1,8 +1,10 @@
 import clsx from "clsx";
+
 import { splitMultiValue } from "@/utils/card-utils";
-import { LazySlotIcon } from "../ui/icons/lazy-icons";
 
 import css from "./card-slots.module.css";
+
+import { LazySlotIcon } from "../ui/icons/lazy-icons";
 
 type Props = {
   className?: string;

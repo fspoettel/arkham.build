@@ -1,14 +1,14 @@
+import { ChevronDownIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
-import { Link, useLocation, useParams } from "wouter";
-import { useStore } from "@/store";
-import { Card } from "@/components/card/card";
-
-import { selectCardWithRelations } from "@/store/selectors/card-detail";
 import { ReactNode, useEffect, useRef } from "react";
+import { Link, useLocation, useParams } from "wouter";
+
+import { Card } from "@/components/card/card";
+import { Filters } from "@/components/filters/filters";
 import { AppLayout } from "@/components/layouts/app_layout";
 import { CenterLayout } from "@/components/layouts/center_layout";
-import { Filters } from "@/components/filters/filters";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { useStore } from "@/store";
+import { selectCardWithRelations } from "@/store/selectors/card-detail";
 
 import css from "./card-view.module.css";
 

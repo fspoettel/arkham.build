@@ -1,17 +1,16 @@
-import memoize from "@/utils/memoize";
-import SvgSkillAgilityInverted from "@/assets/icons/skill_agility_inverted.svg?react";
-import SvgSkillCombatInverted from "@/assets/icons/skill_combat_inverted.svg?react";
-import SvgSkillIntellectInverted from "@/assets/icons/skill_intellect_inverted.svg?react";
-import SvgSkillWillpowerInverted from "@/assets/icons/skill_willpower_inverted.svg?react";
-import SvgSkillWildInverted from "@/assets/icons/skill_wild_inverted.svg?react";
+import clsx from "clsx";
 
 import SvgSkillAgility from "@/assets/icons/skill_agility.svg?react";
+import SvgSkillAgilityInverted from "@/assets/icons/skill_agility_inverted.svg?react";
 import SvgSkillCombat from "@/assets/icons/skill_combat.svg?react";
+import SvgSkillCombatInverted from "@/assets/icons/skill_combat_inverted.svg?react";
 import SvgSkillIntellect from "@/assets/icons/skill_intellect.svg?react";
-import SvgSkillWillpower from "@/assets/icons/skill_willpower.svg?react";
+import SvgSkillIntellectInverted from "@/assets/icons/skill_intellect_inverted.svg?react";
 import SvgSkillWild from "@/assets/icons/skill_wild.svg?react";
-
-import clsx from "clsx";
+import SvgSkillWildInverted from "@/assets/icons/skill_wild_inverted.svg?react";
+import SvgSkillWillpower from "@/assets/icons/skill_willpower.svg?react";
+import SvgSkillWillpowerInverted from "@/assets/icons/skill_willpower_inverted.svg?react";
+import memoize from "@/utils/memoize";
 
 import css from "./skill-icon-fancy.module.css";
 

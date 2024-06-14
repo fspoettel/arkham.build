@@ -1,6 +1,6 @@
-import { parseCardTextHtml } from "./utils";
-
 import css from "./card-flavor.module.css";
+
+import { parseCardTextHtml } from "./utils";
 
 type Props = {
   flavor?: string;

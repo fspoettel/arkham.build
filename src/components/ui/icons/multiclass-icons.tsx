@@ -1,8 +1,10 @@
+import clsx from "clsx";
+
 import { Card } from "@/store/graphql/types";
-import { FactionIcon } from "./faction-icon";
 
 import css from "./multiclass-icons.module.css";
-import clsx from "clsx";
+
+import { FactionIcon } from "./faction-icon";
 
 type Props = {
   className?: string;

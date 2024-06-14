@@ -1,10 +1,11 @@
-import SvgPaintbrush from "@/assets/icons/paintbrush.svg?react";
 import SvgCard from "@/assets/icons/card-outline.svg?react";
+import SvgPaintbrush from "@/assets/icons/paintbrush.svg?react";
+import { Cycle, Pack } from "@/store/graphql/types";
 import { CardResolved } from "@/store/selectors/card-detail";
 
 import css from "./card-meta.module.css";
+
 import { LazyEncounterIcon, LazyPackIcon } from "../ui/icons/lazy-icons";
-import { Cycle, Pack } from "@/store/graphql/types";
 
 type Props = {
   resolvedCard: CardResolved;

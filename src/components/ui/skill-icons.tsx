@@ -1,13 +1,15 @@
 import clsx from "clsx";
+import { Fragment } from "react";
+
 import { Card } from "@/store/graphql/types";
 import { SKILL_KEYS } from "@/utils/constants";
 import { range } from "@/utils/range";
-import { SkillIcon } from "./icons/skill-icon";
-import { Fragment } from "react";
-import { SkillIconFancy } from "./icons/skill-icon-fancy";
-import { CostIcon } from "./icons/cost-icon";
 
 import css from "./skill-icons.module.css";
+
+import { CostIcon } from "./icons/cost-icon";
+import { SkillIcon } from "./icons/skill-icon";
+import { SkillIconFancy } from "./icons/skill-icon-fancy";
 
 type Props = {
   asEnemy?: boolean;

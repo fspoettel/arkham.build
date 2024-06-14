@@ -1,11 +1,12 @@
-import { createJSONStorage, StateStorage } from "zustand/middleware";
-import { get, set, del } from "idb-keyval";
+import { del, get, set } from "idb-keyval";
+import { StateStorage, createJSONStorage } from "zustand/middleware";
+
 import { StoreState } from "./slices";
 
 const indexedDBStorage: StateStorage = {
   async getItem(name: string) {
     // remove comment to test the initial store sync.
-    return Promise.resolve(null);
+    // return Promise.resolve(null);
     return (await get(name)) ?? null;
   },
   async setItem(name: string, value: string) {

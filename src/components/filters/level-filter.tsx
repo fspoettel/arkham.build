@@ -1,14 +1,16 @@
+import { useCallback, useState } from "react";
+
 import { useStore } from "@/store";
 import { selectActiveLevel } from "@/store/selectors/filters";
-import { RangeSelect } from "../ui/range-select";
-import { Checkbox } from "../ui/checkbox";
-import { Collapsible, CollapsibleContent } from "../ui/collapsible";
-import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
-import { CheckboxGroup } from "../ui/checkboxgroup";
+import { LevelFilter as LevelFilterT } from "@/store/slices/filters/types";
 
 import css from "./level-filter.module.css";
-import { LevelFilter as LevelFilterT } from "@/store/slices/filters/types";
-import { useCallback, useState } from "react";
+
+import { Checkbox } from "../ui/checkbox";
+import { CheckboxGroup } from "../ui/checkboxgroup";
+import { Collapsible, CollapsibleContent } from "../ui/collapsible";
+import { RangeSelect } from "../ui/range-select";
+import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 function getToggleValue(value: [number, number] | undefined) {
   if (!value) return "";

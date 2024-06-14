@@ -1,6 +1,6 @@
-import { CardTypeFilter } from "../card-type-filter";
-
 import css from "./card-search.module.css";
+
+import { CardTypeFilter } from "../card-type-filter";
 
 export function CardSearch() {
   return (

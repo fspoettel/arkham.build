@@ -1,6 +1,25 @@
 import { createSelector } from "reselect";
-import { StoreState } from "../slices";
+
 import { Card } from "../graphql/types";
+import { StoreState } from "../slices";
+import { selectActiveCardType } from "./filters";
+import {
+  and,
+  filterActions,
+  filterBacksides,
+  filterCost,
+  filterDuplicates,
+  filterEncounterCards,
+  filterFactions,
+  filterLevel,
+  filterMythosCards,
+  filterProperties,
+  filterSkillIcons,
+  filterSubtypes,
+  filterTraits,
+  filterTypes,
+  filterWeaknesses,
+} from "./utils/filtering";
 import {
   Grouping,
   getGroupCards,
@@ -9,24 +28,6 @@ import {
   groupByWeakness,
 } from "./utils/grouping";
 import { sortAlphabetically, sortByEncounterPosition } from "./utils/sorting";
-import { selectActiveCardType } from "./filters";
-import {
-  and,
-  filterBacksides,
-  filterCost,
-  filterDuplicates,
-  filterEncounterCards,
-  filterFactions,
-  filterLevel,
-  filterSkillIcons,
-  filterTypes,
-  filterSubtypes,
-  filterWeaknesses,
-  filterMythosCards,
-  filterTraits,
-  filterActions,
-  filterProperties,
-} from "./utils/filtering";
 
 const selectTypeFilter = createSelector(
   (state: StoreState) => state.filters[state.filters.cardType].type,

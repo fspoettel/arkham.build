@@ -1,12 +1,3 @@
-import memoize from "@/utils/memoize";
-import SvgLevel0 from "@/assets/icons/level_0.svg?react";
-import SvgLevel1 from "@/assets/icons/level_1.svg?react";
-import SvgLevel2 from "@/assets/icons/level_2.svg?react";
-import SvgLevel3 from "@/assets/icons/level_3.svg?react";
-import SvgLevel5 from "@/assets/icons/level_5.svg?react";
-import SvgLevel4 from "@/assets/icons/level_4.svg?react";
-import SvgLevelNone from "@/assets/icons/level_none.svg?react";
-
 import SvgLevel0Inverted from "@/assets/icons/inverted_level_0.svg?react";
 import SvgLevel1Inverted from "@/assets/icons/inverted_level_1.svg?react";
 import SvgLevel2Inverted from "@/assets/icons/inverted_level_2.svg?react";
@@ -14,6 +5,14 @@ import SvgLevel3Inverted from "@/assets/icons/inverted_level_3.svg?react";
 import SvgLevel4Inverted from "@/assets/icons/inverted_level_4.svg?react";
 import SvgLevel5Inverted from "@/assets/icons/inverted_level_5.svg?react";
 import SvgLevelNoneInverted from "@/assets/icons/inverted_level_none.svg?react";
+import SvgLevel0 from "@/assets/icons/level_0.svg?react";
+import SvgLevel1 from "@/assets/icons/level_1.svg?react";
+import SvgLevel2 from "@/assets/icons/level_2.svg?react";
+import SvgLevel3 from "@/assets/icons/level_3.svg?react";
+import SvgLevel4 from "@/assets/icons/level_4.svg?react";
+import SvgLevel5 from "@/assets/icons/level_5.svg?react";
+import SvgLevelNone from "@/assets/icons/level_none.svg?react";
+import memoize from "@/utils/memoize";
 
 type Props = {
   className?: string;

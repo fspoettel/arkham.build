@@ -1,7 +1,8 @@
 import { SubType, Type } from "@/store/graphql/types";
-import { CardSlots } from "./card-slots";
 
 import css from "./card-details.module.css";
+
+import { CardSlots } from "./card-slots";
 
 type Props = {
   slot?: string;

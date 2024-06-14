@@ -1,13 +1,15 @@
+import { useCallback } from "react";
+
 import { useStore } from "@/store";
-import { Collapsible, CollapsibleContent } from "../ui/collapsible";
-import { Combobox } from "../ui/combobox/combobox";
+import { Type } from "@/store/graphql/types";
 import {
   selectActiveCardType,
   selectActiveTypes,
   selectTypes,
 } from "@/store/selectors/filters";
-import { useCallback } from "react";
-import { Type } from "@/store/graphql/types";
+
+import { Collapsible, CollapsibleContent } from "../ui/collapsible";
+import { Combobox } from "../ui/combobox/combobox";
 
 export function TypeFilter() {
   const types = useStore(selectTypes);

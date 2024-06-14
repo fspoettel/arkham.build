@@ -1,4 +1,5 @@
 import React, { Suspense } from "react";
+
 import type { Props as EncounterIconProps } from "./encounter-icon";
 import type { Props as PackIconProps } from "./pack-icon";
 import type { Props as SlotIconProps } from "./slot-icon";

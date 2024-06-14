@@ -1,4 +1,5 @@
 import { Card } from "@/store/graphql/types";
+
 import { SKILL_KEYS } from "./constants";
 
 /**

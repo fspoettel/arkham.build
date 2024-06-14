@@ -1,6 +1,7 @@
-import { ReactNode } from "react";
-import css from "./app_layout.module.css";
 import clsx from "clsx";
+import { ReactNode } from "react";
+
+import css from "./app_layout.module.css";
 
 type Props = {
   children: ReactNode;

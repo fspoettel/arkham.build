@@ -1,16 +1,18 @@
 import { StateCreator } from "zustand";
-import { StoreState } from "..";
+
+import { Card } from "@/store/graphql/types";
+import { splitMultiValue } from "@/utils/card-utils";
 import {
   ACTION_TEXT,
   REGEX_BONDED,
   REGEX_SKILL_BOOST,
   REGEX_USES,
 } from "@/utils/constants";
-import { Card } from "@/store/graphql/types";
-import { splitMultiValue } from "@/utils/card-utils";
-import { LookupTable, LookupTables, LookupTablesSlice } from "./types";
+
+import { StoreState } from "..";
 import { CardTypeFilter } from "../filters/types";
 import { Metadata } from "../metadata/types";
+import { LookupTable, LookupTables, LookupTablesSlice } from "./types";
 
 export function getInitialLookupTables(): LookupTables {
   return {

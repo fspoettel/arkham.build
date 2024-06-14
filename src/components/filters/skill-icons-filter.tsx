@@ -1,16 +1,18 @@
-import { CheckboxGroup } from "../ui/checkboxgroup";
+import { useCallback } from "react";
 
-import css from "./skill-icons-filter.module.css";
 import { useStore } from "@/store";
 import {
   selectActiveCardType,
   selectActiveSkillIcons,
 } from "@/store/selectors/filters";
-import { SkillIcon } from "../ui/icons/skill-icon";
-import { useCallback } from "react";
 import { SkillIconsFilter as SkillIconsFilterT } from "@/store/slices/filters/types";
-import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+
+import css from "./skill-icons-filter.module.css";
+
+import { CheckboxGroup } from "../ui/checkboxgroup";
 import { Collapsible, CollapsibleContent } from "../ui/collapsible";
+import { SkillIcon } from "../ui/icons/skill-icon";
+import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 export function SkillIconsFilter() {
   const cardType = useStore(selectActiveCardType);

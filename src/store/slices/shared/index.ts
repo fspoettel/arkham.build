@@ -1,21 +1,23 @@
 import { StateCreator } from "zustand";
-import { Card } from "@/store/graphql/types";
+
 import {
   queryCards,
   queryDataVersion,
   queryMetadata,
 } from "@/store/graphql/queries";
+import { Card } from "@/store/graphql/types";
 import { rewriteImageUrl } from "@/utils/card-utils";
-import { SharedSlice } from "./types";
+
 import { StoreState } from "..";
-import { Metadata } from "../metadata/types";
-import { getInitialMetadata } from "../metadata";
-import { mappedByCode } from "../metadata/utils";
 import {
   addCardToLookupTables,
   createRelations,
   getInitialLookupTables,
 } from "../lookup-tables";
+import { getInitialMetadata } from "../metadata";
+import { Metadata } from "../metadata/types";
+import { mappedByCode } from "../metadata/utils";
+import { SharedSlice } from "./types";
 
 export const createSharedSlice: StateCreator<
   StoreState,

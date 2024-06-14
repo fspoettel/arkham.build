@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Route, Router } from "wouter";
-import { Index } from "./pages";
-import { DeckNew } from "./pages/deck-new";
-import { DeckEdit } from "./pages/deck-edit";
-import { CardView } from "./pages/card-view";
-import { useStore } from "./store";
+
 import css from "./app.module.css";
+
+import { Index } from "./pages";
+import { CardView } from "./pages/card-view";
+import { DeckEdit } from "./pages/deck-edit";
+import { DeckNew } from "./pages/deck-new";
+import { useStore } from "./store";
 
 function App() {
   const [storeInitialized, setStoreInitialized] = useState(false);

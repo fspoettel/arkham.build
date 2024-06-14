@@ -1,4 +1,5 @@
 import { StateCreator } from "zustand";
+
 import { StoreState } from "..";
 import { Metadata, MetadataSlice } from "./types";
 

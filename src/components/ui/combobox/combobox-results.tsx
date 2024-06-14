@@ -1,6 +1,7 @@
-import { ReactNode, useCallback } from "react";
-import css from "./combobox.module.css";
 import { Cross1Icon } from "@radix-ui/react-icons";
+import { ReactNode, useCallback } from "react";
+
+import css from "./combobox.module.css";
 
 type Props<T extends { code: string }> = {
   onRemove(item: T): void;

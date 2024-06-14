@@ -1,13 +1,15 @@
-import { useStore } from "@/store";
-import { Trait } from "@/store/slices/filters/types";
 import { useCallback } from "react";
-import { Collapsible, CollapsibleContent } from "../ui/collapsible";
-import { Combobox } from "../ui/combobox/combobox";
+
+import { useStore } from "@/store";
 import {
   selectActiveCardType,
   selectActiveTraits,
   selectTraits,
 } from "@/store/selectors/filters";
+import { Trait } from "@/store/slices/filters/types";
+
+import { Collapsible, CollapsibleContent } from "../ui/collapsible";
+import { Combobox } from "../ui/combobox/combobox";
 
 export function TraitFilter() {
   const cardType = useStore(selectActiveCardType);

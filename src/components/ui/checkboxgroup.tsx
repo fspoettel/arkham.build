@@ -1,4 +1,5 @@
 import clsx from "clsx";
+
 import css from "./checkboxgroup.module.css";
 
 type Props = {
