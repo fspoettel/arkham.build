@@ -63,6 +63,7 @@ export function DeckEditInvestigatorInner({ deck }: Props) {
             </Button>
           }
           onClose={onCloseModal}
+          size="52rem"
         >
           <DeckInvestigator
             canToggleBack={false}

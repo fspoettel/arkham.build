@@ -56,7 +56,7 @@ export function CustomizationOption({
   return (
     <div
       className={css["customization"]}
-      style={cssVariables as Record<string, string | number>}
+      style={cssVariables as React.CSSProperties}
     >
       <div className={css["customization-checks"]}>
         {!!option.xp &&

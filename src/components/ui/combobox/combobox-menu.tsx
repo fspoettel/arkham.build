@@ -48,7 +48,7 @@ export function ComboboxMenu<T extends Coded>({
     }
   }, [activeIndex]);
 
-  const cssVariables: Record<string, string | number> = useMemo(
+  const cssVariables = useMemo(
     () => ({
       "--viewport-item-count": items.length,
     }),
@@ -59,7 +59,7 @@ export function ComboboxMenu<T extends Coded>({
     <Scroller
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ref={setScrollParent as any}
-      style={cssVariables}
+      style={cssVariables as React.CSSProperties}
       viewportClassName={css["combobox-menu-viewport"]}
     >
       <Virtuoso

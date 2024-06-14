@@ -18,7 +18,7 @@ type TabsProps = RootProps & {
 };
 
 export function Tabs({ children, className, length, ...rest }: TabsProps) {
-  const cssVariables: Record<string, string | number> = useMemo(
+  const cssVariables = useMemo(
     () => ({
       "--length": length,
     }),
@@ -29,7 +29,7 @@ export function Tabs({ children, className, length, ...rest }: TabsProps) {
     <Root
       {...rest}
       className={clsx(css["tabs"], className)}
-      style={cssVariables}
+      style={cssVariables as React.CSSProperties}
     >
       {children}
     </Root>

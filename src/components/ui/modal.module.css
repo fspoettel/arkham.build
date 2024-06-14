@@ -5,8 +5,6 @@
   height: 100%;
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
-  display: grid;
-  align-items: start;
   width: 100%;
   z-index: 2;
   overflow: auto;
@@ -15,8 +13,8 @@
 }
 
 .modal-inner {
-  width: 100%;
-  max-width: 52rem;
+  width: var(--modal-width);
+  max-width: 100%;
   container-type: inline-size;
   margin-inline: auto;
 }

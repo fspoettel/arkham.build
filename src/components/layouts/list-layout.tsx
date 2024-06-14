@@ -53,9 +53,7 @@ export function ListLayout({
         css["layout"],
         (filtersOpen || sidebarOpen) && css["overlay-open"],
       )}
-      style={
-        { "--sidebar-width-max": sidebarWidthMax } as Record<string, string>
-      }
+      style={{ "--sidebar-width-max": sidebarWidthMax } as React.CSSProperties}
     >
       <Masthead className={css["header"]} slotNav={<CardTypeFilter />} />
       <div

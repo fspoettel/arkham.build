@@ -27,7 +27,7 @@ export function AppLayout({
 
   useDocumentTitle(title);
 
-  const cssVariables: Record<string, number | string> = useMemo(
+  const cssVariables = useMemo(
     () => ({
       "--sidebar-width-max": sidebarWidthMax,
     }),
@@ -41,7 +41,7 @@ export function AppLayout({
         !!sidebar && css["has-sidebar"],
         !!closeable && css["has-closeable"],
       )}
-      style={cssVariables}
+      style={cssVariables as React.CSSProperties}
     >
       <Masthead className={css["layout-header"]} />
       <section className={css["layout-sidebar"]}>{sidebar}</section>

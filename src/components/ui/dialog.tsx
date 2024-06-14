@@ -164,6 +164,34 @@ export const DialogContent = React.forwardRef<
   );
 });
 
+export const DialogContentInert = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLProps<HTMLDivElement>
+>(function DialogContent(props, propRef) {
+  const { context: floatingContext, ...context } = useDialogContext();
+  const ref = useMergeRefs([context.refs.setFloating, propRef]);
+
+  const open = floatingContext.open;
+
+  return (
+    <FloatingPortal id="floating">
+      <FloatingOverlay
+        lockScroll={open}
+        style={{ display: open ? "block" : "none" }}
+      >
+        <div
+          aria-describedby={context.descriptionId}
+          aria-labelledby={context.labelId}
+          ref={ref}
+          {...context.getFloatingProps(props)}
+        >
+          {props.children}
+        </div>
+      </FloatingOverlay>
+    </FloatingPortal>
+  );
+});
+
 export const DialogClose = React.forwardRef<
   HTMLButtonElement,
   React.ButtonHTMLAttributes<HTMLButtonElement>

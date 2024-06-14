@@ -74,6 +74,7 @@ export function CardModal({ code }: Props) {
         </Button>
       }
       onClose={onCloseModal}
+      size="52rem"
     >
       {showQuantities ? (
         <div className={css["cardmodal-row"]}>

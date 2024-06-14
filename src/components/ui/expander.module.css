@@ -1,0 +1,59 @@
+.expander {
+  border-radius: var(--rounded-md);
+  position: relative;
+  background: var(--nord-1);
+  border: 1px solid var(--nord-2);
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: -0.25rem;
+    left: 0;
+    width: 100%;
+    height: 2rem;
+    background: linear-gradient(
+      180deg,
+      rgba(59, 66, 82, 0.7) 0%,
+      var(--nord-1) 100%
+    );
+    backdrop-filter: blur(2px);
+    filter: blur(1px);
+  }
+
+  &.expanded::after {
+    display: none;
+  }
+}
+
+.expander-content {
+  max-height: var(--collapsed-height);
+  overflow: hidden;
+  padding: 0.5rem;
+}
+
+.expander.expanded {
+  & .expander-content {
+    max-height: unset;
+    overflow: auto;
+  }
+}
+
+.expander-header {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+}
+
+.expander-label {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.expander-toggle {
+  position: absolute;
+  bottom: 0.125rem;
+  right: 0.125rem;
+  background: var(--nord-1);
+  z-index: 2;
+}

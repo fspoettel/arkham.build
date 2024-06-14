@@ -9,18 +9,22 @@
   row-gap: 1rem;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: min-content min-content min-content;
+  grid-template-rows: min-content min-content min-content min-content;
   grid-template-areas:
     "header"
     "sidebar"
+    "description"
     "decklist";
+
+  padding-bottom: 1rem;
 
   @media screen and (min-width: 52rem) {
     grid-template-columns: 24rem 1fr;
     grid-template-areas:
       "sidebar header"
+      "sidebar description"
       "sidebar decklist";
-    grid-template-rows: min-content 1fr;
+    grid-template-rows: min-content min-content 1fr;
   }
 }
 
@@ -34,4 +38,16 @@
 
 .page-decklist {
   grid-area: decklist;
+}
+
+.page-floating {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 2;
+}
+
+.page-floating-button {
+  border-radius: var(--rounded-xl);
+  box-shadow: var(--shadow);
 }

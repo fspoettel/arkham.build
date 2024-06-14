@@ -1,5 +1,6 @@
 import { DecklistValidation } from "@/components/decklist/decklist-validation";
 import { Masthead } from "@/components/masthead";
+import { Dialog } from "@/components/ui/dialog";
 import { Decklist } from "@/pages/deck-view/decklist";
 import { useStore } from "@/store";
 import { selectActiveDeck } from "@/store/selectors/decks";
@@ -7,6 +8,7 @@ import { useDocumentTitle } from "@/utils/use-document-title";
 
 import css from "./deck-view.module.css";
 
+import { DeckNotes } from "./deck-notes";
 import { DeckSidebar } from "./deck-sidebar";
 
 function DeckView() {
@@ -31,6 +33,9 @@ function DeckView() {
           <Decklist deck={deck} />
         </div>
       </main>
+      <Dialog>
+        <DeckNotes deck={deck} />
+      </Dialog>
     </div>
   );
 }

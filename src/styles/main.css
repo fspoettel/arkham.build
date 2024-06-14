@@ -158,7 +158,7 @@ input,
 textarea,
 select {
   font-family: var(--font-family-ui);
-  line-height: 1.25;
+  line-height: 1.5;
   font-size: var(--text-sm);
   background-color: var(--nord-0);
   color: var(--nord-5);
@@ -400,6 +400,39 @@ button {
   border-color: var(--neutral-dark);
 }
 
+.fg-guardian {
+  color: var(--guardian);
+}
+
+.fg-mystic {
+  color: var(--mystic);
+}
+
+.fg-rogue {
+  color: var(--rogue);
+}
+
+.fg-seeker {
+  color: var(--seeker);
+}
+
+.fg-survivor {
+  color: var(--survivor);
+}
+
+.fg-dual,
+.fg-multiclass {
+  color: var(--multiclass);
+}
+
+.fg-mythos {
+  color: var(--mythos-dark);
+}
+
+.fg-neutral {
+  color: var(--nord-4);
+}
+
 svg {
   display: block;
   width: 1em;
@@ -412,4 +445,109 @@ svg {
   margin: 0;
   clear: both;
   visibility: hidden;
+}
+
+.longform {
+  font-family: var(--font-family-ui);
+  line-height: 1.5;
+
+  & :where(h1, h2, h3, h4, h5, h6) {
+    line-height: 1.25;
+  }
+
+  & h1,
+  & h2 {
+    font-size: 1.7411em;
+  }
+
+  & h3 {
+    font-size: 1.5157em;
+  }
+
+  & h4 {
+    font-size: 1.3195em;
+  }
+
+  & h5 {
+    font-size: 1.1487em;
+  }
+
+  & small {
+    font-size: 0.8706em;
+  }
+
+  & > * + * {
+    margin-top: 1rem;
+  }
+
+  & hr {
+    height: 0;
+    border: none;
+    border-bottom: 1px solid var(--nord-2);
+  }
+
+  & ol,
+  & ul {
+    margin-left: 2em;
+
+    & > li + li {
+      margin-top: 0.25em;
+    }
+  }
+
+  & code {
+    background-color: var(--nord-2);
+    padding: 0.125em;
+  }
+
+  & > :not(:where(h1, h2, h3, h4, h5, h6)) a {
+    text-decoration: none;
+    color: var(--nord-9);
+  }
+
+  & table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+
+    & :where(td, th) {
+      padding: 0.125rem 0.25rem;
+    }
+  }
+
+  & .icon-rogue {
+    color: var(--rogue);
+  }
+
+  & .icon-guardian {
+    color: var(--guardian);
+  }
+
+  & .icon-seeker {
+    color: var(--seeker);
+  }
+
+  & .icon-mystic {
+    color: var(--mystic);
+  }
+
+  & .icon-survivor {
+    color: var(--survivor);
+  }
+
+  & .icon-neutral {
+    color: var(--nord-4);
+  }
+
+  & .icon-multiclass {
+    color: var(--multiclass);
+  }
+
+  & .icon-mythos {
+    color: var(--mythos);
+  }
+
+  & [style*="color"] {
+    color: inherit !important;
+  }
 }
