@@ -31,18 +31,20 @@ export function DeckEditInvestigatorInner({ deck }: Props) {
     modalContext?.setOpen(false);
   }, [modalContext]);
 
+  const isParallelBack = !!deck.investigatorBack.card.parallel;
+
   return (
     <>
       <DialogTrigger>
         <ListCard
           canOpenModal={false}
-          showInvestigatorIcons
           card={deck.investigatorFront.card}
+          showInvestigatorIcons
           tooltip={
             <DeckInvestigator
               canToggleBack={false}
               deck={deck}
-              forceShowHeader={!!deck.cards.investigator.relations?.parallel}
+              forceShowHeader={isParallelBack}
               size="tooltip"
             />
           }
@@ -65,7 +67,7 @@ export function DeckEditInvestigatorInner({ deck }: Props) {
           <DeckInvestigator
             canToggleBack={false}
             deck={deck}
-            forceShowHeader={!!deck.cards.investigator.relations?.parallel}
+            forceShowHeader={isParallelBack}
             size="full"
           />
         </Modal>

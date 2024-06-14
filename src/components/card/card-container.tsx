@@ -4,11 +4,14 @@ import css from "./card.module.css";
 
 type Props = {
   children: React.ReactNode;
+  className?: string;
   size: "compact" | "tooltip" | "full";
 };
 
-export function CardContainer({ children, size }: Props) {
+export function CardContainer({ children, className, size }: Props) {
   return (
-    <div className={clsx(css["card-container"], css[size])}>{children}</div>
+    <div className={clsx(css["card-container"], css[size], className)}>
+      {children}
+    </div>
   );
 }

@@ -1,3 +1,7 @@
+.deck-investigator.tooltip > * + * {
+  margin-top: 0.5rem;
+}
+
 .back-toggle {
   margin-top: 1rem;
   text-align: center;

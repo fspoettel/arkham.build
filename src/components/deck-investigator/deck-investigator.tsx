@@ -55,5 +55,12 @@ export function DeckInvestigator({
     </>
   );
 
-  return <CardContainer size={size}>{children}</CardContainer>;
+  return (
+    <CardContainer
+      className={clsx(css["deck-investigator"], css[size])}
+      size={size}
+    >
+      {children}
+    </CardContainer>
+  );
 }
