@@ -1,2 +1,16 @@
+.card-list-container {
+  display: flex;
+  height: 100%;
+  flex-flow: column nowrap;
+}
+
+.card-list-nav {
+  display: flex;
+  flex: 0 0 auto;
+  padding: 0.5rem;
+  justify-content: flex-end;
+}
+
 .card-list {
+  flex: 1 1 auto;
 }

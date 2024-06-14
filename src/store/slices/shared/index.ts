@@ -47,6 +47,7 @@ export const createSharedSlice: StateCreator<
     };
 
     cards.forEach((c, i) => {
+      // SAFE! Diverging fields are added below.
       const card = c as Card;
 
       card.backimageurl = rewriteImageUrl(card.backimageurl);

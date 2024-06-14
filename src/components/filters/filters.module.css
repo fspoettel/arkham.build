@@ -5,3 +5,8 @@
     margin-top: 1.5rem;
   }
 }
+
+.filter-header {
+  display: flex;
+  justify-content: flex-end;
+}

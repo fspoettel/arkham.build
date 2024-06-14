@@ -1,7 +1,7 @@
 import { ASSET_SLOT_ORDER, PLAYER_TYPE_ORDER } from "@/utils/constants";
-import { LookupTables } from "../slices/lookup-tables/types";
-import { Metadata } from "../slices/metadata/types";
-import { Card } from "../graphql/types";
+import { LookupTables } from "../../slices/lookup-tables/types";
+import { Metadata } from "../../slices/metadata/types";
+import { Card } from "../../graphql/types";
 
 export type Grouping = {
   code: string;
@@ -103,28 +103,6 @@ export function resolveGroupingCardCodes(
   }
 }
 
-export function filterWeaknesses(card: Card) {
-  return !card.subtype_code;
-}
-
-export function filterPlayerCard(card: Card) {
-  if (card.parallel) return true;
-
-  return (
-    !card.alt_art_investigator && // filter novellas && parallel
-    !card.duplicate_of_code && // filter revised_code
-    !card.encounter_code
-  );
-}
-
-export function filterPickable(card: Card) {
-  return filterPlayerCard(card) && filterWeaknesses(card);
-}
-
-export function filterBacksides(card: Card) {
-  return !card.linked;
-}
-
 export function getGroupCards(
   grouping: Grouping,
   metadata: Metadata,
@@ -139,25 +117,4 @@ export function getGroupCards(
     },
     [] as Card[],
   );
-}
-
-export function sortAlphabetically(lookupTables: LookupTables) {
-  return (a: Card, b: Card) => {
-    if (a.real_name === b.real_name) {
-      if (a.xp === b.xp) {
-        return +(a.parallel ?? false) - +(b.parallel ?? false);
-      }
-
-      return (a.xp ?? 0) - (b.xp ?? 0);
-    }
-
-    return (
-      lookupTables.sort.alphabetical[a.code] -
-      lookupTables.sort.alphabetical[b.code]
-    );
-  };
-}
-
-export function sortByEncounterPosition(a: Card, b: Card) {
-  return (a.encounter_position ?? 0) - (b.encounter_position ?? 0);
 }

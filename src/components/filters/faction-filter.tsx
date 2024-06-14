@@ -4,6 +4,7 @@ import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 import css from "./select-faction.module.css";
 import { useStore } from "@/store";
+import { selectActiveFactions } from "@/store/selectors/filters";
 
 const FACTION_SORT = [
   "seeker",
@@ -29,9 +30,17 @@ function selectFactions(state: StoreState) {
 
 export function FactionFilter() {
   const factions = useStore(selectFactions);
+  const selectedFactions = useStore(selectActiveFactions);
+  const setFactions = useStore((state) => state.setFactionFilter);
 
   return (
-    <ToggleGroup type="multiple" icons full>
+    <ToggleGroup
+      type="multiple"
+      icons
+      onValueChange={setFactions}
+      value={selectedFactions}
+      full
+    >
       {factions.map((faction) => (
         <ToggleGroupItem
           className={css[`color-active-${faction.code}`]}

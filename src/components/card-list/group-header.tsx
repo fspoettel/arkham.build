@@ -1,4 +1,4 @@
-import { Grouping } from "@/store/selectors/utils";
+import { Grouping } from "@/store/selectors/utils/grouping";
 import { EncounterIcon } from "../ui/encounter-icon";
 import css from "./group-header.module.css";
 

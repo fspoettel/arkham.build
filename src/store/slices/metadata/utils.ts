@@ -8,6 +8,7 @@ export function mappedByCode<
   return arr.reduce(
     (acc, curr) => {
       if (mapper) mapper(curr);
+      // TODO: add type guards.
       acc[curr.code] = curr as unknown as S;
       return acc;
     },

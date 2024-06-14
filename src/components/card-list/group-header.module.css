@@ -8,6 +8,10 @@
   height: 3rem; /* icon height + padding */
 }
 
-.group-header svg {
+.group-header {
   font-size: 2rem;
+}
+
+.group-header h3 {
+  font-size: 1.25rem;
 }

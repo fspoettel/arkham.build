@@ -1,0 +1,47 @@
+.select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.25rem 0.5rem;
+  gap: 0.5rem;
+  background: var(--color-background);
+  border-radius: var(--rounded);
+  border: 1px solid var(--color-border);
+}
+
+.select-content {
+  border: 1px solid var(--color-border);
+  background: var(--gray-900);
+  overflow: hidden;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.4);
+}
+
+.select-viewport {
+  padding: 0.5rem;
+}
+
+.select-item {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  padding: 0.5rem 0.5rem 0.5rem 2rem;
+  user-select: none;
+  position: relative;
+
+  &[data-disabled] {
+    opacity: 0.3;
+  }
+
+  &[data-highlighted] {
+    outline: none;
+    color: var(--gray-200);
+    background: var(--gray-700);
+  }
+}
+
+.select-item-indicator {
+  position: absolute;
+  left: 0.5rem;
+  top: calc(50% - 0.5em);
+}

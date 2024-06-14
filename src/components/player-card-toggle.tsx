@@ -4,13 +4,15 @@ import SvgInvestigator from "./icons/investigator";
 import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
 import { useStore } from "@/store";
 import { CardTypeFilter } from "@/store/slices/filters/types";
+import { selectActiveCardType } from "@/store/selectors/filters";
 
 export function PlayerCardToggle() {
-  const cardTypeFilter = useStore((state) => state.filters.cardType);
+  const cardTypeFilter = useStore(selectActiveCardType);
   const setCardTypeFilter = useStore((state) => state.setCardTypeFilter);
 
   const onToggle = useCallback(
     (value: string) => {
+      // TODO: enforce this cast in a selector.
       if (value) setCardTypeFilter(value as CardTypeFilter);
     },
     [setCardTypeFilter],

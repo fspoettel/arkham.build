@@ -103,18 +103,31 @@ select {
 button {
   all: unset;
   cursor: pointer;
-  font-family: var(--font-family-ui);
   background-color: var(--color-input-background);
   color: var(--color-accent);
 
-  &:hover {
-    background-color: var(--color-input-background-hover);
-    color: var(--color-text-background-hover);
+  &[disabled] {
+    opacity: 0.3;
+    cursor: default;
   }
 
-  &:focus {
+  &:not([disabled]):hover {
+    background-color: var(--color-input-background-hover);
+  }
+
+  &:not([disabled]):focus {
     outline: 0.125rem solid var(--color-focus);
   }
+}
+
+.button {
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--rounded);
+}
+
+.button-bare {
+  background: none;
+  color: var(--color-accent);
 }
 
 ol,
