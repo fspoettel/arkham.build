@@ -18,7 +18,11 @@ const properties = [
     // FIXME: investigate better ways to make align the icon (how does fontawesome do it?)
     label: (
       <>
-        Unique (<SvgStarFill style={{ verticalAlign: "middle" }} />)
+        Unique (
+        <SvgStarFill
+          style={{ verticalAlign: "middle", display: "inline-flex" }}
+        />
+        )
       </>
     ),
   },

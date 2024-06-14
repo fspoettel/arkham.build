@@ -1,0 +1,28 @@
+.card {
+  display: flex;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--gray-800);
+  align-items: center;
+  gap: 1rem;
+  line-height: 1.375;
+}
+
+.card-name {
+  font-size: 1.125rem;
+}
+
+.card-icon {
+  flex: 0 0 auto;
+}
+.card-subname {
+  font-weight: 400;
+  font-style: italic;
+}
+
+.card-meta {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  line-height: 1;
+  gap: 0.25rem;
+}

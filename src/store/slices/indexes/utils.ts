@@ -1,6 +1,11 @@
 import { isPlayerCard, splitMultiValue } from "@/store/utils";
 import { Index } from "./types";
-import { ACTION_TEXT, REGEX_SKILL_BOOST, REGEX_USES } from "@/store/constants";
+import {
+  ACTION_TEXT,
+  REGEX_SKILL_BOOST,
+  REGEX_USES,
+  SKILL_KEYS,
+} from "@/store/constants";
 import { Card } from "@/store/graphql/types";
 
 /**
@@ -78,17 +83,8 @@ export function addCardToIndexes(indexes: Record<string, Index>, card: Card) {
       setInIndex(indexes, "byFactionCode", card.code, card.faction3_code);
     }
 
-    const skillKeys = [
-      "agility",
-      "combat",
-      "intellect",
-      "willpower",
-      "wild",
-    ] as const;
-
-    skillKeys.forEach((key) => {
+    SKILL_KEYS.forEach((key) => {
       const val = card[`skill_${key}`];
-
       if (val) {
         setInIndex(indexes, "byIcons", card.code, key);
         if (val > 1) setInIndex(indexes, "byIcons", card.code, "2+");

@@ -1,0 +1,50 @@
+.icon_weakness,
+.icon_investigator {
+  font-size: 2rem;
+}
+
+.icon_weakness {
+  vertical-align: middle; /* FIXME */
+}
+
+.icon_skill,
+.icon_cost {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+}
+
+.icon_skill .icon-child {
+  margin-top: -1px;
+}
+
+.icon-level {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.icon-child,
+.icon-children {
+  position: absolute;
+  z-index: 2;
+  color: var(--color-background);
+}
+
+.icon-child {
+  width: 50%;
+  height: 50%;
+  top: calc(25% - 2px);
+  left: 25%;
+}
+
+.icon-children {
+  width: 75%;
+  height: 75%;
+  top: calc(12.5% + 2px);
+  left: calc(12.5% - 1px);
+  display: inline-flex;
+  flex-flow: row nowrap;
+}

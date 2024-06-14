@@ -28,3 +28,11 @@ export const ACTION_TEXT: { [key: string]: string } = {
   resource: "<b>Resource.</b>",
   parley: "<b>Parley.</b>",
 } as const;
+
+export const SKILL_KEYS = [
+  "agility",
+  "combat",
+  "intellect",
+  "willpower",
+  "wild",
+] as const;

@@ -35,6 +35,8 @@
   --seeker: #efa345;
   --survivor: #ee4a53;
   --multiclass: #e4d083;
+  --mythos: var(--gray-100);
+  --neutral: var(--gray-200);
 
   --rounded: 0.25rem;
   --rounded-md: 0.5rem;
@@ -72,9 +74,8 @@ svg {
   height: auto;
 }
 
-.icon {
-  display: inline-block;
-  vertical-align: baseline;
+svg {
+  display: block;
   fill: currentColor;
   width: 1em;
   height: 1em;
@@ -115,8 +116,45 @@ button {
   }
 }
 
+ol,
+ul {
+  padding-left: 0;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
+}
+
+.color-guardian {
+  color: var(--guardian);
+}
+
+.color-mystic {
+  color: var(--mystic);
+}
+
+.color-rogue {
+  color: var(--rogue);
+}
+
+.color-seeker {
+  color: var(--seeker);
+}
+
+.color-survivor {
+  color: var(--survivor);
+}
+
+.color-multiclass {
+  color: var(--multiclass);
+}
+
+.color-mythos {
+  color: var(--mythos);
+}
+
+.color-neutral {
+  color: var(--neutral);
 }

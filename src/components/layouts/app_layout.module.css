@@ -1,5 +1,6 @@
 .layout {
-  --sidebar-width: 20rem;
+  --decklist-width: 30rem;
+  --filters-width: 20rem;
 
   height: 100dvh;
   width: 100%;
@@ -16,7 +17,13 @@
 }
 
 .layout-sidebar {
-  flex: 0 0 var(--sidebar-width);
+  flex: 0 0 var(--decklist-width);
+  overflow-y: auto;
+  display: none;
+
+  @media screen and (min-width: 50rem) {
+    display: block;
+  }
 }
 
 .layout-main {
@@ -24,9 +31,9 @@
 }
 
 .layout-filters {
-  display: none;
-  flex: 0 0 var(--sidebar-width);
+  flex: 0 0 var(--filters-width);
   overflow-y: auto;
+  display: none;
 
   @media screen and (min-width: 50rem) {
     display: block;

@@ -14,36 +14,84 @@ import SvgSurvivor from "@/components/icons/survivor";
 import memoize from "lodash.memoize";
 
 type Props = {
+  className?: string;
   code: string;
   fancy?: boolean;
 };
 
-const getSimpleIconDefinitions: () => Record<string, React.ComponentType> =
-  memoize(() => ({
-    guardian: SvgGuardian,
-    mystic: SvgMystic,
-    seeker: SvgSeeker,
-    rogue: SvgRogue,
-    neutral: SvgNeutral,
-    survivor: SvgSurvivor,
-  }));
+const getIconSimple = memoize((code: string) => {
+  switch (code) {
+    case "guardian": {
+      return SvgGuardian;
+    }
 
-const getFancyIconDefinitions: () => Record<string, React.ComponentType> =
-  memoize(() => ({
-    guardian: SvgClassGuardian,
-    mystic: SvgClassMystic,
-    seeker: SvgClassSeeker,
-    rogue: SvgClassRogue,
-    neutral: SvgClassNeutral,
-    multiclass: SvgMulticlass,
-    survivor: SvgClassSurvivor,
-  }));
+    case "mystic": {
+      return SvgMystic;
+    }
 
-export function FactionIcon({ code, fancy }: Props) {
-  const definitions = fancy
-    ? getFancyIconDefinitions()
-    : getSimpleIconDefinitions();
-  const Icon = definitions[code];
-  if (!Icon) return null;
-  return <Icon />;
+    case "seeker": {
+      return SvgSeeker;
+    }
+
+    case "rogue": {
+      return SvgRogue;
+    }
+
+    case "multiclass": {
+      return SvgMulticlass;
+    }
+
+    case "neutral": {
+      return SvgNeutral;
+    }
+
+    case "survivor": {
+      return SvgSurvivor;
+    }
+
+    default: {
+      return null;
+    }
+  }
+});
+
+const getIconFancy = memoize((code: string) => {
+  switch (code) {
+    case "guardian": {
+      return SvgClassGuardian;
+    }
+
+    case "mystic": {
+      return SvgClassMystic;
+    }
+
+    case "seeker": {
+      return SvgClassSeeker;
+    }
+
+    case "rogue": {
+      return SvgClassRogue;
+    }
+
+    case "neutral": {
+      return SvgClassNeutral;
+    }
+
+    case "multiclass": {
+      return SvgMulticlass;
+    }
+
+    case "survivor": {
+      return SvgClassSurvivor;
+    }
+
+    default: {
+      return null;
+    }
+  }
+});
+
+export function FactionIcon({ className, code, fancy }: Props) {
+  const Icon = fancy ? getIconFancy(code) : getIconSimple(code);
+  return Icon ? <Icon className={className} /> : null;
 }

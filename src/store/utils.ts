@@ -2,6 +2,16 @@ import { PARALLEL_INVESTIGATORS } from "./constants";
 import { Card } from "./graphql/types";
 
 /**
+ * Check if a card is a player card (=can be entered into an investigator deck).
+ */
+export function isPlayerCard(card: Card) {
+  return (
+    card.faction_code !== "mythos" && // enounter deck
+    card.pack_code !== "zbh_00008" // barkham horror.
+  );
+}
+
+/**
  * Split multi value card properties. expected format: `Item. Tool.`
  */
 export function splitMultiValue(s?: string) {
@@ -10,14 +20,6 @@ export function splitMultiValue(s?: string) {
     .map((s) => s.trim())
     .filter((s) => s);
 }
-
-/**
- * Check if a card has parallel front/back.
- */
-export function hasParallel(code: string) {
-  return PARALLEL_INVESTIGATORS[code] != null;
-}
-
 /**
  * Check if a card is a parallel front/back.
  */
@@ -26,11 +28,8 @@ export function isParallel(code: string) {
 }
 
 /**
- * Check if a card is a player card (=can be entered into an investigator deck).
+ * Check if a card has parallel front/back.
  */
-export function isPlayerCard(card: Card) {
-  return (
-    card.faction_code !== "mythos" && // enounter deck
-    card.pack_code !== "zbh_00008" // barkham horror.
-  );
+export function hasParallel(code: string) {
+  return PARALLEL_INVESTIGATORS[code] != null;
 }

@@ -1,0 +1,9 @@
+.skill-icons {
+  display: flex;
+  list-style: none;
+  align-items: center;
+}
+
+.skill-icons > *:not(:first-child) {
+  margin-left: -0.125rem;
+}
