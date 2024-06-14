@@ -1,10 +1,11 @@
 import { Save } from "lucide-react";
 import { useCallback, useEffect } from "react";
-import { Link, Redirect, useLocation } from "wouter";
+import { Redirect, useLocation } from "wouter";
 
 import { ListLayout } from "@//layouts/list-layout";
 import { Filters } from "@/components/filters/filters";
 import { Button } from "@/components/ui/button";
+import { useConfirmation } from "@/components/ui/confirmation-dialog.hook";
 import { useToast } from "@/components/ui/toast";
 import { useStore } from "@/store";
 import { selectActiveDeck } from "@/store/selectors/decks";
@@ -16,12 +17,16 @@ import { Editor } from "./editor/editor";
 import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 
 function DeckEdit() {
+  const [confirmationDialog, showConfirm] = useConfirmation();
   const [, navigate] = useLocation();
   const showToast = useToast();
 
   const deckId = useStore((state) => state.deckView?.id);
-  const deck = useStore(selectActiveDeck);
   const activeListId = useStore((state) => state.activeList);
+  const deck = useStore(selectActiveDeck);
+  const dirty = useStore((state) =>
+    state?.deckView?.mode === "edit" ? state.deckView.dirty : false,
+  );
 
   const resetFilters = useStore((state) => state.resetFilters);
   const setActiveList = useStore((state) => state.setActiveList);
@@ -36,13 +41,30 @@ function DeckEdit() {
 
   const handleSave = useCallback(() => {
     const id = saveDeck();
-    navigate(`/deck/${id}/edit`, { replace: true });
+    navigate(`/deck/view/${id}`);
 
     showToast({
       children: "Deck saved successfully.",
       variant: "success",
     });
   }, [saveDeck, navigate, showToast]);
+
+  const handleCancel = useCallback(async () => {
+    if (!deck?.id) return;
+
+    const confirmed =
+      !dirty ||
+      (await showConfirm({
+        message:
+          "Are you sure you want to cancel? Edits to your deck will be lost.",
+        cancelLabel: "Continue editing",
+        confirmLabel: "Confirm",
+      }));
+
+    if (confirmed) {
+      navigate(`/deck/view/${deck.id}`);
+    }
+  }, [navigate, deck?.id, dirty, showConfirm]);
 
   useDocumentTitle(
     deck ? `Edit: ${deck.investigatorFront.card.real_name} - ${deck.name}` : "",
@@ -55,26 +77,29 @@ function DeckEdit() {
   if (!deck || !activeListId?.startsWith("editor")) return null;
 
   return (
-    <ListLayout
-      filters={
-        <Filters>
-          <ShowUnusableCardsToggle />
-        </Filters>
-      }
-      mastheadContent={
-        <div className={css["actions"]}>
-          <Button onClick={handleSave}>
-            <Save />
-            Save
-          </Button>
-          <Link asChild to={`/deck/view/${deck.id}`}>
-            <Button variant="bare">Cancel</Button>
-          </Link>
-        </div>
-      }
-      sidebar={<Editor deck={deck} />}
-      sidebarWidthMax="42rem"
-    />
+    <>
+      <ListLayout
+        filters={
+          <Filters>
+            <ShowUnusableCardsToggle />
+          </Filters>
+        }
+        mastheadContent={
+          <div className={css["actions"]}>
+            <Button onClick={handleSave} size="lg">
+              <Save />
+              Save
+            </Button>
+            <Button onClick={handleCancel} size="lg" variant="bare">
+              Cancel edits
+            </Button>
+          </div>
+        }
+        sidebar={<Editor deck={deck} />}
+        sidebarWidthMax="42rem"
+      />
+      {confirmationDialog}
+    </>
   );
 }
 

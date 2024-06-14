@@ -62,6 +62,7 @@ export type EditState = {
     investigatorFront?: string | null;
     investigatorBack?: string | null;
   };
+  dirty: boolean;
   mode: "edit";
   activeTab: Tab;
   showUnusableCards: boolean;

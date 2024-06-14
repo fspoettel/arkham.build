@@ -163,6 +163,7 @@ export const createSharedSlice: StateCreator<
       deckView: {
         ...state.deckView,
         activeTab: state.deckView.activeTab,
+        dirty: false,
         edits: {
           meta: {},
           quantities: {},

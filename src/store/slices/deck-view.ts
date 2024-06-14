@@ -48,6 +48,7 @@ export const createDeckViewSlice: StateCreator<
     set({
       deckView: {
         ...state.deckView,
+        dirty: true,
         edits: {
           ...state.deckView.edits,
           quantities: {
@@ -83,6 +84,7 @@ export const createDeckViewSlice: StateCreator<
         activeTab: "slots",
         showUnusableCards: false,
         id: activeDeckId,
+        dirty: false,
         edits: {
           meta: {},
           quantities: {},
@@ -113,6 +115,7 @@ export const createDeckViewSlice: StateCreator<
       set({
         deckView: {
           ...state.deckView,
+          dirty: true,
           edits: {
             ...state.deckView.edits,
             tabooId: value,
@@ -128,6 +131,7 @@ export const createDeckViewSlice: StateCreator<
       set({
         deckView: {
           ...state.deckView,
+          dirty: true,
           edits: {
             ...state.deckView.edits,
             description_md: value,
@@ -143,6 +147,7 @@ export const createDeckViewSlice: StateCreator<
       set({
         deckView: {
           ...state.deckView,
+          dirty: true,
           edits: {
             ...state.deckView.edits,
             name: value,
@@ -158,6 +163,7 @@ export const createDeckViewSlice: StateCreator<
       set({
         deckView: {
           ...state.deckView,
+          dirty: true,
           edits: {
             ...state.deckView.edits,
             meta: {
@@ -176,6 +182,7 @@ export const createDeckViewSlice: StateCreator<
       set({
         deckView: {
           ...state.deckView,
+          dirty: true,
           edits: {
             ...state.deckView.edits,
             investigatorBack:
@@ -194,6 +201,7 @@ export const createDeckViewSlice: StateCreator<
       set({
         deckView: {
           ...state.deckView,
+          dirty: true,
           edits: {
             ...state.deckView.edits,
             customizations: {
@@ -218,6 +226,7 @@ export const createDeckViewSlice: StateCreator<
       set({
         deckView: {
           ...state.deckView,
+          dirty: true,
           edits: {
             ...state.deckView.edits,
             tags: value,
