@@ -8,6 +8,7 @@
   border: 1px solid var(--nord-2);
   cursor: pointer;
   font-family: var(--font-family-ui);
+  font-size: var(--text-base);
 
   &[disabled] {
     opacity: 0.3;

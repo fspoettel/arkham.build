@@ -53,7 +53,7 @@ export function AppLayout({
           data-state={open ? "open" : "closed"}
           className={css["layout-right"]}
         >
-          <Scroller>{filters}</Scroller>
+          {filters}
         </nav>
       )}
     </div>

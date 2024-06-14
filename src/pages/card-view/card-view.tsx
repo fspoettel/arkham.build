@@ -4,6 +4,7 @@ import { Redirect, useParams } from "wouter";
 
 import { Card } from "@/components/card/card";
 import { ResolvedCard } from "@/components/card/resolved-card";
+import { Decklisting } from "@/components/deck-listing/deck-listing";
 import { AppLayout } from "@/components/layouts/app-layout";
 import { CenterLayout } from "@/components/layouts/center-layout";
 import { CardViewSidebar } from "@/pages/card-view/card-view-sidebar";
@@ -42,7 +43,7 @@ export function CardView() {
 
   return (
     <AppLayout
-      sidebar="Deck list"
+      sidebar={<Decklisting />}
       centerScroller
       filters={<CardViewSidebar resolvedCard={cardWithRelations} />}
       title={cardWithRelations.card.real_name}

@@ -6,6 +6,7 @@ import { selectActiveCardType } from "@/store/selectors/filters";
 import css from "./filters.module.css";
 
 import { Button } from "../ui/button";
+import { Scroller } from "../ui/scroll-area";
 import { ActionFilter } from "./action-filter";
 import { AssetFilter } from "./asset-filter";
 import { CostFilter } from "./cost-filter";
@@ -39,23 +40,25 @@ export function Filters() {
           <SvgFilterClear />
         </Button>
       </div>
-      <div className={css["filters-container"]}>
-        <FactionFilter />
-        <OwnershipFilter />
-        {cardTypeSelection === "player" && <LevelFilter />}
-        <CostFilter />
-        <TypeFilter />
-        <SubtypeFilter />
-        <TraitFilter />
-        <SkillIconsFilter />
-        <ActionFilter />
-        <AssetFilter />
-        <PropertiesFilter />
-        <PackFilter />
-        {cardTypeSelection === "encounter" && <EncounterSetFilter />}
-        {cardTypeSelection === "player" && <TabooSetFilter />}
-        {cardTypeSelection === "player" && <InvestigatorFilter />}
-      </div>
+      <Scroller>
+        <div className={css["filters-container"]}>
+          <FactionFilter />
+          <OwnershipFilter />
+          {cardTypeSelection === "player" && <LevelFilter />}
+          <CostFilter />
+          <TypeFilter />
+          <SubtypeFilter />
+          <TraitFilter />
+          <SkillIconsFilter />
+          <ActionFilter />
+          <AssetFilter />
+          <PropertiesFilter />
+          <PackFilter />
+          {cardTypeSelection === "encounter" && <EncounterSetFilter />}
+          {cardTypeSelection === "player" && <TabooSetFilter />}
+          {cardTypeSelection === "player" && <InvestigatorFilter />}
+        </div>
+      </Scroller>
     </search>
   );
 }

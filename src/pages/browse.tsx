@@ -1,5 +1,6 @@
 import { CardList } from "@/components/card-list/card-list";
 import { CardSearch } from "@/components/card-list/card-search";
+import { Decklisting } from "@/components/deck-listing/deck-listing";
 import { Filters } from "@/components/filters/filters";
 import { AppLayout } from "@/components/layouts/app-layout";
 import { CenterLayout } from "@/components/layouts/center-layout";
@@ -11,7 +12,7 @@ export function Browse() {
   if (!isInitalized) return null;
 
   return (
-    <AppLayout filters={<Filters />} sidebar={"Deck list"} title="Browse">
+    <AppLayout filters={<Filters />} sidebar={<Decklisting />} title="Browse">
       <CenterLayout top={<CardSearch />}>
         <CardList />
       </CenterLayout>

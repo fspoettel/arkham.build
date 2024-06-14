@@ -1,0 +1,27 @@
+.decklisting {
+  display: flex;
+  height: 100%;
+  flex-flow: column nowrap;
+  padding: 0.75rem;
+  gap: 0.5rem;
+}
+
+.decklisting-header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.decklisting-title {
+  font-size: var(--text-base);
+  font-family: var(--font-family-ui);
+}
+
+.decklisting-placeholder {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
