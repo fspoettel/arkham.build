@@ -13,29 +13,23 @@ type Props = {
 
 const getLevelIcon = memoize((level: number | null | undefined | string) => {
   switch (level) {
-    case 1: {
+    case 1:
       return SvgLevel1;
-    }
 
-    case 2: {
+    case 2:
       return SvgLevel2;
-    }
 
-    case 3: {
+    case 3:
       return SvgLevel3;
-    }
 
-    case 4: {
+    case 4:
       return SvgLevel4;
-    }
 
-    case 5: {
+    case 5:
       return SvgLevel5;
-    }
 
-    default: {
+    default:
       return SvgLevel0;
-    }
   }
 });
 

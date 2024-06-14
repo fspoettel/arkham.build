@@ -3,6 +3,7 @@ import css from "./card.module.css";
 import clsx from "clsx";
 import { CardIcon } from "./card-icon";
 import { SkillIcons } from "../ui/skill-icons";
+import { hasSkillIcons } from "@/store/utils";
 
 type Props = {
   card: CardSchema;
@@ -29,7 +30,7 @@ export function Card({ card }: Props) {
           {card.real_name}
         </h4>
         <div className={css["card-meta"]}>
-          <SkillIcons card={card} />
+          {hasSkillIcons(card) && <SkillIcons card={card} />}
           {card.real_subname && (
             <h5 className={css["card-subname"]}>{card.real_subname}</h5>
           )}

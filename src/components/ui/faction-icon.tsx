@@ -21,37 +21,29 @@ type Props = {
 
 const getIconSimple = memoize((code: string) => {
   switch (code) {
-    case "guardian": {
+    case "guardian":
       return SvgGuardian;
-    }
 
-    case "mystic": {
+    case "mystic":
       return SvgMystic;
-    }
 
-    case "seeker": {
+    case "seeker":
       return SvgSeeker;
-    }
 
-    case "rogue": {
+    case "rogue":
       return SvgRogue;
-    }
 
-    case "multiclass": {
+    case "multiclass":
       return SvgMulticlass;
-    }
 
-    case "neutral": {
+    case "neutral":
       return SvgNeutral;
-    }
 
-    case "survivor": {
+    case "survivor":
       return SvgSurvivor;
-    }
 
-    default: {
+    default:
       return null;
-    }
   }
 });
 

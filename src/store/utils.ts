@@ -1,4 +1,4 @@
-import { PARALLEL_INVESTIGATORS } from "./constants";
+import { PARALLEL_INVESTIGATORS, SKILL_KEYS } from "./constants";
 import { Card } from "./graphql/types";
 
 /**
@@ -9,6 +9,10 @@ export function isPlayerCard(card: Card) {
     card.faction_code !== "mythos" && // enounter deck
     card.pack_code !== "zbh_00008" // barkham horror.
   );
+}
+
+export function hasSkillIcons(card: Card) {
+  return SKILL_KEYS.some((key) => card[`skill_${key}`]);
 }
 
 /**

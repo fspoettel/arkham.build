@@ -7,29 +7,23 @@ import SvgSkillWildInverted from "../icons/skill-wild-inverted";
 
 const getSkillIcon = memoize((key: string) => {
   switch (key) {
-    case "agility": {
+    case "agility":
       return SvgSkillAgilityInverted;
-    }
 
-    case "combat": {
+    case "combat":
       return SvgSkillCombatInverted;
-    }
 
-    case "intellect": {
+    case "intellect":
       return SvgSkillIntellectInverted;
-    }
 
-    case "willpower": {
+    case "willpower":
       return SvgSkillWillpowerInverted;
-    }
 
-    case "wild": {
+    case "wild":
       return SvgSkillWildInverted;
-    }
 
-    default: {
+    default:
       return null;
-    }
   }
 });
 
