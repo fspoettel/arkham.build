@@ -5,7 +5,7 @@
 }
 
 .layout-top {
-  flex: 0 1 8rem;
+  flex: 0 0 4rem;
   border-bottom: 2px solid currentColor;
 }
 

@@ -1,10 +1,10 @@
 [
   {
-      "code": "basicweakness",
-      "name": "Basic Weakness"
+    "code": "basicweakness",
+    "name": "Basic Weakness"
   },
   {
-      "code": "weakness",
-      "name": "Weakness"
+    "code": "weakness",
+    "name": "Weakness"
   }
 ]

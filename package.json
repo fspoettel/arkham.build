@@ -19,6 +19,8 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "graphql": "16.8.1",
+    "graphql-request": "6.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tinybase": "4.6.0",

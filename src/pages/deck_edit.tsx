@@ -4,9 +4,7 @@ import { CenterLayout } from "../components/layouts/center_layout";
 export function DeckEdit() {
   return (
     <AppLayout filters={"Card filters"} sidebar={"Card list"}>
-      <CenterLayout top="Card search">
-        Card listing
-      </CenterLayout>
+      <CenterLayout top="Card search">Card listing</CenterLayout>
     </AppLayout>
   );
 }

@@ -26,4 +26,7 @@ export default defineConfig({
       provider: "v8",
     },
   },
+  server: {
+    port: 3000,
+  },
 });

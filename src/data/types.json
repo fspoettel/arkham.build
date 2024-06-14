@@ -1,50 +1,50 @@
 [
   {
-      "code": "act",
-      "name": "Act"
+    "code": "act",
+    "name": "Act"
   },
   {
-      "code": "agenda",
-      "name": "Agenda"
+    "code": "agenda",
+    "name": "Agenda"
   },
   {
-      "code": "asset",
-      "name": "Asset"
+    "code": "asset",
+    "name": "Asset"
   },
   {
-      "code": "enemy",
-      "name": "Enemy"
+    "code": "enemy",
+    "name": "Enemy"
   },
   {
-      "code": "event",
-      "name": "Event"
+    "code": "event",
+    "name": "Event"
   },
   {
-      "code": "investigator",
-      "name": "Investigator"
+    "code": "investigator",
+    "name": "Investigator"
   },
   {
-      "code": "location",
-      "name": "Location"
+    "code": "location",
+    "name": "Location"
   },
   {
-      "code": "scenario",
-      "name": "Scenario"
+    "code": "scenario",
+    "name": "Scenario"
   },
   {
-      "code": "story",
-      "name": "Story"
+    "code": "story",
+    "name": "Story"
   },
   {
-      "code": "skill",
-      "name": "Skill"
+    "code": "skill",
+    "name": "Skill"
   },
   {
-      "code": "treachery",
-      "name": "Treachery"
+    "code": "treachery",
+    "name": "Treachery"
   },
   {
-      "code": "key",
-      "name": "Key"
+    "code": "key",
+    "name": "Key"
   }
 ]
