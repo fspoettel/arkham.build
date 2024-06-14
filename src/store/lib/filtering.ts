@@ -3,7 +3,7 @@ import type { SkillKey } from "@/utils/constants";
 import { SKILL_KEYS } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
 import type { Filter } from "@/utils/fp";
-import { and, not, or, pass } from "@/utils/fp";
+import { and, not, notUnless, or, pass } from "@/utils/fp";
 
 import type { Card, DeckOption } from "../services/types";
 import type {
@@ -767,13 +767,8 @@ function makePlayerCardsFilter(
   requiredAccessor: "deck_requirements" | "side_deck_requirements",
   config?: InvestigatorAccessConfig,
 ) {
+  const options = investigator[optionsAccessor];
   const requirements = investigator[requiredAccessor]?.card;
-
-  const baseOptions = investigator[optionsAccessor];
-
-  const options = config?.additionalDeckOptions
-    ? baseOptions?.concat(config.additionalDeckOptions)
-    : baseOptions;
 
   if (!requirements || !options) {
     return undefined;
@@ -782,6 +777,7 @@ function makePlayerCardsFilter(
   // normalize parallel investigators to root for lookups.
   const code = investigator.alternate_of_code ?? investigator.code;
 
+  const ands: Filter[] = [];
   const ors: Filter[] = [];
 
   if (config?.targetDeck === "extraSlots") {
@@ -794,7 +790,7 @@ function makePlayerCardsFilter(
     );
   }
 
-  const ands: Filter[] = [];
+  const filters: Filter[] = [];
 
   for (const option of options) {
     const filter = makeOptionFilter(option, lookupTables, config);
@@ -802,9 +798,25 @@ function makePlayerCardsFilter(
     if (!filter) continue;
 
     if (option.not) {
-      ands.push(not(filter));
+      // When encountering a NOT, every filter that comes before can be considered an "unless".
+      ands.push(filters.length ? notUnless(filter, [...filters]) : not(filter));
     } else {
-      ors.push(filter);
+      filters.push(filter);
+    }
+  }
+
+  ors.push(...filters);
+
+  if (config?.targetDeck !== "extraSlots" && config?.additionalDeckOptions) {
+    for (const option of config.additionalDeckOptions) {
+      const filter = makeOptionFilter(option, lookupTables, config);
+      if (!filter) continue;
+
+      if (option.not) {
+        ands.push(not(filter));
+      } else {
+        ors.push(filter);
+      }
     }
   }
 

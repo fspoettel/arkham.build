@@ -14,6 +14,13 @@ export function not(fn: Filter): Filter {
   return (card: Card) => !fn(card);
 }
 
+export function notUnless(notFilter: Filter, unlessFilters: Filter[]) {
+  return (card: Card) => {
+    const unless = !!unlessFilters.length && or(unlessFilters)(card);
+    return unless || not(notFilter)(card);
+  };
+}
+
 // TODO: factor out usages of this.
 export function pass() {
   return true;

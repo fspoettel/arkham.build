@@ -144,7 +144,8 @@ function findActiveGroup(
   activeRange: ListRange | undefined,
   data: ListState | undefined,
 ) {
-  if (!activeRange || !data?.groupCounts) return undefined;
+  if (!activeRange || !data?.groupCounts || !data.groups.length)
+    return undefined;
 
   // if there is an active group, figure out which one it is by walking the group counts
   // until we find the one containing the index.

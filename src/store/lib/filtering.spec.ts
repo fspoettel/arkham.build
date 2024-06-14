@@ -248,6 +248,14 @@ describe("filter: investigator access", () => {
       const state = store.getState();
       expect(applyFilter(state, "89001", "08031")).toBeFalsy();
     });
+
+    it("handles 'not unless' clauses", () => {
+      const state = store.getState();
+      expect(applyFilter(state, "90078", "10075")).toBeTruthy();
+      expect(applyFilter(state, "90078", "07273")).toBeTruthy();
+      expect(applyFilter(state, "90078", "07272")).toBeFalsy();
+      expect(applyFilter(state, "90078", "10130")).toBeFalsy();
+    });
   });
 
   describe("tag-based access", () => {
