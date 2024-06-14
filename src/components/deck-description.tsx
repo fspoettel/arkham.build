@@ -7,11 +7,10 @@ import {
   useFloating,
 } from "@floating-ui/react";
 import clsx from "clsx";
-import DOMPurify from "dompurify";
-import { marked } from "marked";
 import { useCallback, useState } from "react";
 
 import { FLOATING_PORTAL_ID } from "@/utils/constants";
+import { parseMarkdown } from "@/utils/markdown";
 
 import css from "./deck-description.module.css";
 
@@ -51,17 +50,13 @@ export function DeckDescription({ className, content, title }: Props) {
     [cardTooltip, refs],
   );
 
-  const html = DOMPurify.sanitize(
-    marked.parse(cleanArkhamdbMarkdown(content)) as string,
-  );
-
   return (
     <div className={css["description"]}>
       <h1>{title}</h1>
       <div
         className={clsx("longform", className)}
         dangerouslySetInnerHTML={{
-          __html: html,
+          __html: parseMarkdown(content),
         }}
         onClick={handleMouseLeave}
       />
@@ -83,12 +78,4 @@ function getCardCodeForEvent(evt: React.MouseEvent): string | undefined {
   if (target instanceof HTMLAnchorElement) {
     return /\/card\/(\d*)$/.exec(target.href)?.[1];
   }
-}
-
-function cleanArkhamdbMarkdown(content: string): string {
-  // fix: deck guides using valentin1337 template all contain invalid markdown for bolding in headlines.
-  return content.replaceAll(
-    /\*\*\s<center>(.*?)<\/center>\s\*\*/g,
-    "**<center>$1</center>**",
-  );
 }
