@@ -1,4 +1,6 @@
+/* eslint-disable react/display-name */
 import clsx from "clsx";
+import { memo } from "react";
 
 import type { Card } from "@/store/services/types";
 import { getCardColor } from "@/utils/card-utils";
@@ -10,22 +12,27 @@ type Props = {
   className?: string;
 };
 
-export function CardThumbnail({ card, className }: Props) {
-  const colorCls = getCardColor(card);
+// memoize this component with a custom equality check.
+// not doing results in a lot of aborted requests in firefox, which in turn seem to lead to cache misses.
+export const CardThumbnail = memo(
+  ({ card, className }: Props) => {
+    const colorCls = getCardColor(card);
 
-  if (!card.imageurl) return null;
+    if (!card.imageurl) return null;
 
-  return (
-    <div
-      className={clsx(
-        css["thumbnail"],
-        css[card.type_code],
-        card.subtype_code && css[card.subtype_code],
-        colorCls,
-        className,
-      )}
-    >
-      <img src={card.imageurl} />
-    </div>
-  );
-}
+    return (
+      <div
+        className={clsx(
+          css["thumbnail"],
+          css[card.type_code],
+          card.subtype_code && css[card.subtype_code],
+          colorCls,
+          className,
+        )}
+      >
+        <img src={card.imageurl} />
+      </div>
+    );
+  },
+  (prev, next) => prev.card.code === next.card.code,
+);
