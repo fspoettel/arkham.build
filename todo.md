@@ -4,6 +4,17 @@
 - Make the page work better on larger viewports and get back to @Chr1z.
 - Index player cards for traits etc. that occur on the back of the card.
 
+- 'What could be interesting/a nice bonus really cool gimmick if you have the time sometime: some kind of hover effect between certain cards (mainly permanents) and their "related cards"'
+
+## Deckbuilder
+
+- card modals might be a handy way to reduce focus switches when building decks. they suck on mobile though, there we should probably deactivate them.
+- there should be some effective way to go from searching for a card to including it in the deck with the keyboard.
+- it would be nice to have multiple filter views ("tabs") for the decklist while building a deck.
+  filter views for special cards in deck could be auto-created.
+- it would be nice to be able to store a filter configuration and searches and later apply it to the deck builder.
+- some searches might not be possible with the way the filters currently work: need AND/OR, maybe multiple sets of conditions per field. need to keep an eye out and see what is needed after above things are implemented.
+
 ## Arkham Cards API
 
 - add metadata fields to @zzorba's arkham cards API. This would allow us to remove respective the lookup tables:
