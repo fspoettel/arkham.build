@@ -1,5 +1,6 @@
 :root {
-  --font-family-content: "Alegreya Variable", serif;
+  --font-family-content: "Alegreya Variable", "Iowan Old Style",
+    "Palatino Linotype", "URW Palladio L", P052, serif;
   --font-family-ui: "Alegreya Sans Variable", -apple-system, BlinkMacSystemFont,
     Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
     Helvetica Neue, sans-serif;
