@@ -29,6 +29,7 @@ function filterOwnership(
 
   // reprints from other cycles.
   const duplicates = lookupTables.relations.duplicates[card.code];
+
   return (
     duplicates &&
     Object.keys(duplicates).some((code) => {
@@ -42,9 +43,12 @@ export const selectOwnershipFilter = createSelector(
   (state: StoreState) => state.settings.collection,
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
-  (setting, metadata, lookupTables) => {
-    if (!Object.keys(setting).length) return pass;
-    return (card: Card) =>
-      filterOwnership(card, metadata, lookupTables, setting);
+  (state: StoreState) => state.filters[state.filters.cardType].ownership.value,
+  (setting, metadata, lookupTables, filterState) => {
+    if (!Object.keys(setting).length || filterState === "all") return pass;
+    return (card: Card) => {
+      const ownsCard = filterOwnership(card, metadata, lookupTables, setting);
+      return filterState === "owned" ? ownsCard : !ownsCard;
+    };
   },
 );

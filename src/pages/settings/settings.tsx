@@ -1,7 +1,9 @@
+import { CheckIcon } from "@radix-ui/react-icons";
 import { FormEvent, useCallback, useRef } from "react";
 
 import { SettingsLayout } from "@/components/layouts/settings-layout";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/toast";
 import { useStore } from "@/store";
 import { selectIsInitialized } from "@/store/selectors";
 
@@ -11,11 +13,11 @@ import { Collection } from "./collection";
 import { TabooSets } from "./taboo-sets";
 
 export function Settings() {
+  const toast = useToast();
   const formRef = useRef<HTMLFormElement>(null);
+
   const initialized = useStore(selectIsInitialized);
-
   const settings = useStore((state) => state.settings);
-
   const updateSettings = useStore((state) => state.updateSettings);
 
   const onSubmit = useCallback(
@@ -24,9 +26,10 @@ export function Settings() {
 
       if (evt.target instanceof HTMLFormElement) {
         updateSettings(new FormData(evt.target));
+        toast("Settings saved successfully.");
       }
     },
-    [updateSettings],
+    [updateSettings, toast],
   );
 
   if (!initialized) return null;

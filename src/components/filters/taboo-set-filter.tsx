@@ -25,7 +25,7 @@ export function TabooSetFilter() {
     <Collapsible title="Taboo Set">
       <CollapsibleContent>
         <select onChange={onSelectTabooSet} value={activeTaboo ?? ""}>
-          <option value="">None</option>
+          <option value="">All cards</option>
           {tabooSets.map((set) => (
             <option key={set.id} value={set.id}>
               {set.name} - {set.date}

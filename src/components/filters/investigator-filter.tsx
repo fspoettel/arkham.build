@@ -32,7 +32,7 @@ export function InvestigatorFilter() {
           onChange={onSelectInvestigator}
           value={activeInvestigator ?? ""}
         >
-          <option value="">Pick an investigator</option>
+          <option value="">Choose an investigator</option>
           {investigators.map((card) => (
             <option key={card.code} value={card.code}>
               {card.real_name}

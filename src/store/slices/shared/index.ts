@@ -25,7 +25,7 @@ export const createSharedSlice: StateCreator<
     const state = get();
 
     if (state.metadata.dataVersion?.cards_updated_at) {
-      return state.refreshLookupTables();
+      state.refreshLookupTables({ filters: getInitialFilters(state) });
     }
 
     console.time("[performance] query_data");
@@ -115,8 +115,29 @@ export const createSharedSlice: StateCreator<
       ui: {
         initialized: true,
       },
+      filters: getInitialFilters(state),
     });
 
     console.timeEnd("[performance] create_store_data");
   },
 });
+
+export function getInitialFilters(state: StoreState): StoreState["filters"] {
+  const initialOwnershipSetting = Object.values(state.settings.collection).some(
+    (x) => x,
+  )
+    ? ("owned" as const)
+    : ("all" as const);
+
+  return {
+    ...state.filters,
+    player: {
+      ...state.filters.player,
+      ownership: { value: initialOwnershipSetting },
+    },
+    encounter: {
+      ...state.filters.encounter,
+      ownership: { value: initialOwnershipSetting },
+    },
+  };
+}

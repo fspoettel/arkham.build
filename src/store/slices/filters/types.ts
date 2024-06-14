@@ -43,7 +43,12 @@ export type ComboboxFilter = Record<string, boolean>;
 
 export type SelectFilter<T = string> = { value: T | undefined };
 
+export type OwnershipFilter = {
+  value: "unowned" | "owned" | "all";
+};
+
 type SharedState = {
+  ownership: OwnershipFilter;
   cost: CostFilter;
   faction: {
     value: string[];

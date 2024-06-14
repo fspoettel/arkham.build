@@ -69,10 +69,11 @@ export const createLookupTablesSlice: StateCreator<
 > = (set, get) => ({
   lookupTables: getInitialLookupTables(),
 
-  refreshLookupTables() {
+  refreshLookupTables(partial) {
     const state = get();
     const lookupTables = createLookupTables(state.metadata, state.settings);
     set({
+      ...partial,
       lookupTables,
       ui: {
         initialized: true,

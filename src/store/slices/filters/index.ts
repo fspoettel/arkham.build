@@ -5,6 +5,9 @@ import { CardTypeFilter, Filters, FiltersSlice } from "./types";
 
 function getInitialState(): Filters {
   const shared = {
+    ownership: {
+      value: "owned" as const,
+    },
     faction: {
       value: [],
     },

@@ -14,7 +14,7 @@
   & > *:not(.header) {
     border: 1px solid var(--nord-1);
     border-radius: var(--rounded-md);
-    overflow: auto;
+    overflow: hidden;
   }
 
   @media screen and (min-width: 48rem) {
@@ -29,7 +29,7 @@
     grid-template-areas:
       "header header header"
       "left main right";
-    grid-template-columns: 22.5rem 1fr 19rem;
+    grid-template-columns: 24rem 1fr 18rem;
   }
 }
 

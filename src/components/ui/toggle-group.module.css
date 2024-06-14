@@ -20,6 +20,10 @@
     font-size: var(--text-sm);
   }
 
+  &.small-type {
+    font-size: var(--text-sm);
+  }
+
   &:first-child {
     border-left-width: 1px;
     border-radius: var(--rounded-xl) 0 0 var(--rounded-xl);
@@ -46,9 +50,8 @@
 }
 
 .toggle-group.is-icons .toggle-group-item svg {
-  width: 1.5em;
-  height: 1.5em;
-  fill: currentColor;
+  width: 1.25em;
+  height: 1.25em;
 }
 
 .toggle-group.is-full {

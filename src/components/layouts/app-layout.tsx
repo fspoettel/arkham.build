@@ -5,6 +5,7 @@ import { useDocumentTitle } from "@/utils/use-document-title";
 
 import css from "./app-layout.module.css";
 
+import { Scroller } from "../ui/scroll-area";
 import { Masthead } from "./masthead";
 
 type Props = {
@@ -31,7 +32,11 @@ export function AppLayout({
       <section className={clsx(css["layout-main"], centerClassName)}>
         {children}
       </section>
-      {filters && <nav className={css["layout-right"]}>{filters}</nav>}
+      {filters && (
+        <nav className={css["layout-right"]}>
+          <Scroller>{filters}</Scroller>
+        </nav>
+      )}
     </div>
   );
 }

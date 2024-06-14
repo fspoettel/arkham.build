@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Route, Router } from "wouter";
 
+import { ToastProvider } from "./components/ui/toast";
 import { Index } from "./pages";
 import { CardView } from "./pages/card-view/card-view";
 import { DeckEdit } from "./pages/deck-edit";
@@ -17,13 +18,15 @@ function App() {
   }, [storeHydrated, init]);
 
   return (
-    <Router>
-      <Route path="/" component={Index} />
-      <Route path="/card/:code" component={CardView} />
-      <Route path="/deck/new" component={DeckNew} />
-      <Route path="/deck/edit/:id" component={DeckEdit} />
-      <Route path="/settings" component={Settings} />
-    </Router>
+    <ToastProvider>
+      <Router>
+        <Route path="/" component={Index} />
+        <Route path="/card/:code" component={CardView} />
+        <Route path="/deck/new" component={DeckNew} />
+        <Route path="/deck/edit/:id" component={DeckEdit} />
+        <Route path="/settings" component={Settings} />
+      </Router>
+    </ToastProvider>
   );
 }
 

@@ -7,11 +7,13 @@ import { range } from "@/utils/range";
 
 import css from "./card-list.module.css";
 
+import { Scroller } from "../ui/scroll-area";
 import { Select } from "../ui/select";
 import { Grouphead } from "./Grouphead";
 import { ListCard } from "./list-card";
 
 export function CardList() {
+  const [scrollParent, setScrollParent] = useState<HTMLElement | undefined>();
   const [rendered, setRendered] = useState(false);
   const virtuosoRef = useRef<GroupedVirtuosoHandle>(null);
   const data = useStore(selectFilteredCards);
@@ -76,20 +78,26 @@ export function CardList() {
           />
         )}
       </nav>
-      {data && (
-        <GroupedVirtuoso
-          className={css["list-scroller"]}
-          key={data.key}
-          groupCounts={data.groupCounts}
-          groupContent={(index) => <Grouphead grouping={data.groups[index]} />}
-          itemContent={(index) => (
-            <ListCard key={data.cards[index].code} card={data.cards[index]} />
-          )}
-          ref={virtuosoRef}
-          isScrolling={onScrollStop}
-          restoreStateFrom={!rendered ? scrollRestore : undefined}
-        />
-      )}
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+      <Scroller ref={setScrollParent as any} className={css["list-scroller"]}>
+        {data && (
+          <GroupedVirtuoso
+            key={data.key}
+            groupCounts={data.groupCounts}
+            customScrollParent={scrollParent}
+            groupContent={(index) => (
+              <Grouphead grouping={data.groups[index]} />
+            )}
+            defaultItemHeight={4 * 16}
+            itemContent={(index) => (
+              <ListCard key={data.cards[index].code} card={data.cards[index]} />
+            )}
+            ref={virtuosoRef}
+            isScrolling={onScrollStop}
+            restoreStateFrom={!rendered ? scrollRestore : undefined}
+          />
+        )}
+      </Scroller>
     </div>
   );
 }

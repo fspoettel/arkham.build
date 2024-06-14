@@ -32,10 +32,10 @@ export function CardTypeFilter({ className }: Props) {
       type="single"
       value={cardTypeFilter}
     >
-      <ToggleGroupItem value="player">
+      <ToggleGroupItem value="player" size="small">
         <SvgInvestigator />
       </ToggleGroupItem>
-      <ToggleGroupItem value="encounter">
+      <ToggleGroupItem value="encounter" size="small">
         <SvgAutoFail />
       </ToggleGroupItem>
     </ToggleGroup>

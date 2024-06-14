@@ -85,8 +85,12 @@ export function LevelFilter() {
           onValueChange={setActiveLevelShortcut}
           value={getToggleValue(activeLevel.value)}
         >
-          <ToggleGroupItem value="0">Level 0</ToggleGroupItem>
-          <ToggleGroupItem value="1-5">Level 1-5</ToggleGroupItem>
+          <ToggleGroupItem value="0" size="small-type">
+            Level 0
+          </ToggleGroupItem>
+          <ToggleGroupItem value="1-5" size="small-type">
+            Level 1-5
+          </ToggleGroupItem>
         </ToggleGroup>
       )}
       <CollapsibleContent className={css["level-filter-content"]}>

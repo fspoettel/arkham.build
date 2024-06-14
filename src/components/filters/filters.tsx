@@ -1,3 +1,4 @@
+import SvgFilterClear from "@/assets/icons/filter-clear.svg?react";
 import { useStore } from "@/store";
 import { selectIsInitialized } from "@/store/selectors";
 import { selectActiveCardType } from "@/store/selectors/filters/shared";
@@ -10,6 +11,7 @@ import { CostFilter } from "./cost-filter";
 import { FactionFilter } from "./faction-filter";
 import { InvestigatorFilter } from "./investigator-filter";
 import { LevelFilter } from "./level-filter";
+import { OwnershipFilter } from "./ownership-filter";
 import { PropertiesFilter } from "./properties-filter";
 import { SkillIconsFilter } from "./skill-icons-filter";
 import { SubtypeFilter } from "./subtypes-filter";
@@ -27,12 +29,15 @@ export function Filters() {
   return (
     <search className={css["filters"]} title="Filters">
       <div className={css["filter-header"]}>
-        <Button onClick={resetFilters}>Reset</Button>
+        <Button onClick={resetFilters} variant="bare">
+          <SvgFilterClear />
+        </Button>
       </div>
       <div className={css["filter-container"]}>
         <FactionFilter />
         {cardTypeSelection === "player" && <LevelFilter />}
         <CostFilter />
+        <OwnershipFilter />
         <TypeFilter />
         <SubtypeFilter />
         <TraitFilter />

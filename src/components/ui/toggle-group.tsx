@@ -34,7 +34,7 @@ export function ToggleGroup({
 }
 
 type GroupItemProps = ToggleGroupItemProps & {
-  size?: "small" | "default";
+  size?: "small" | "default" | "small-type";
 };
 
 export function ToggleGroupItem({ className, size, ...rest }: GroupItemProps) {

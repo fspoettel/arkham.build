@@ -17,6 +17,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  font-size: var(--text-sm);
 }
 
 .collapsible-content > * + * {

@@ -5,7 +5,7 @@ import {
   PutObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
-import allCardJson from "../src/store/graphql/data/stubs/all_card.json" assert { type: "json" };
+import allCardJson from "../src/store/services/data/stubs/all_card.json" assert { type: "json" };
 
 const accountId = process.env["R2_ACCOUNT_ID"];
 const accesKeyId = process.env["R2_ACCESS_KEY_ID"];
@@ -40,8 +40,6 @@ async function mirrorImage(url) {
         Key: key,
       }),
     );
-
-    console.debug(`${key} exists already.`);
 
     // used once to fixup missing content-type.
     if (!head.Metadata?.["content-type"]?.startsWith("image")) {
@@ -81,8 +79,8 @@ async function mirrorImage(url) {
       Body: imageBuffer,
       ContentType: contentType,
       Metadata: {
-        contentType: contentType,
-        cacheControl: "public, max-age=2592000",
+        "Content-Type": contentType,
+        "Cache-Control": "public, max-age=2592000",
       },
     }),
   );

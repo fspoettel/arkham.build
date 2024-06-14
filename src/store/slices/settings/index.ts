@@ -20,10 +20,34 @@ export const createSettingsSlice: StateCreator<
   updateSettings(form) {
     const state = get();
 
-    set({
-      settings: parseForm(form),
-    });
+    const settings = parseForm(form);
 
+    const partial: Partial<StoreState> = {};
+
+    const currentSize = Object.values(state.settings.collection).filter(
+      (x) => x !== 0,
+    ).length;
+    const nextSize = Object.values(settings.collection).filter(
+      (x) => x !== 0,
+    ).length;
+
+    if (currentSize !== nextSize) {
+      const ownership = nextSize ? "owned" : "all";
+
+      partial.filters = {
+        ...state.filters,
+        player: {
+          ...state.filters.player,
+          ownership: { value: ownership },
+        },
+        encounter: {
+          ...state.filters.player,
+          ownership: { value: ownership },
+        },
+      };
+    }
+
+    set({ ...partial, settings });
     state.refreshLookupTables();
   },
 });
