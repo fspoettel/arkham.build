@@ -62,6 +62,11 @@ export function Grouphead({ grouping, metadata }: Props) {
           if (key === NONE) {
             return isAsset ? <span key={i}>Other</span> : null;
           }
+
+          if (key === "permanent") {
+            return <span key={i}>Permanent</span>;
+          }
+
           return (
             <Fragment key={i}>
               <CardSlots className={css["icon"]} size="small" slot={key} />

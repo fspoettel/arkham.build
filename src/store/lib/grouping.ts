@@ -80,7 +80,7 @@ function groupByTypeCode(cards: Card[]) {
 function groupBySlots(cards: Card[]) {
   const result = cards.reduce<Grouping>(
     (acc, card) => {
-      const slot = card.real_slot ?? NONE;
+      const slot = card.permanent ? "permanent" : card.real_slot ?? NONE;
 
       if (!acc.data[slot]) {
         acc.data[slot] = [card];
