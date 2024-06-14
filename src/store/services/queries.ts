@@ -50,7 +50,8 @@ type MetadataApiResponseType = Omit<
 
 export async function queryMetadata() {
   // const data = await stub<MetadataApiResponseType>("./data/stubs/metadata.json")
-  const data: MetadataApiResponseType = await request("/metadata");
+  const { data }: { data: MetadataApiResponseType } =
+    await request("/metadata");
   return {
     ...data,
     reprint_pack: reprintPacks,
@@ -62,13 +63,13 @@ export async function queryMetadata() {
 
 export async function queryDataVersion() {
   // const data = await stub("./data/stubs/data_version.json");
-  const data = await request<DataVersionResponse>("/version");
+  const { data } = await request<{ data: DataVersionResponse }>("/version");
   return data.all_card_updated[0];
 }
 
 export async function queryCards() {
   // const data = await stub<AllCardResponse>("./data/stubs/all_card.json")
-  const data = await request<AllCardResponse>("/cards");
+  const { data } = await request<{ data: AllCardResponse }>("/cards");
   return data.all_card;
 }
 
