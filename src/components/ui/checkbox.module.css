@@ -28,7 +28,7 @@
 }
 
 .checkbox-root:focus {
-  outline: 0.125rem solid var(--nord-5);
+  outline: 1px solid var(--nord-5);
   outline-offset: 1px;
 }
 

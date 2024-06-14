@@ -11,6 +11,7 @@
 }
 
 .search {
+  padding: 1px;
   & > * + * {
     margin-top: 0.75rem;
   }

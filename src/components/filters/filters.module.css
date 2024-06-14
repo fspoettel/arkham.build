@@ -5,11 +5,10 @@
   flex-flow: column nowrap;
   height: 100%;
   font-family: var(--font-family-ui);
-  padding: var(--filters-spacing-y) var(--filters-spacing-x);
 }
 
 .filters-container {
-  padding-bottom: 1rem;
+  padding: var(--filters-spacing-y) var(--filters-spacing-x);
 
   & > * + * {
     margin-top: var(--filters-spacing-y);
@@ -21,7 +20,8 @@
   justify-content: space-between;
   align-items: baseline;
   gap: var(--filters-spacing-x);
-  padding: 0.5rem;
+  padding-inline: var(--filters-spacing-x);
+  padding-top: var(--filters-spacing-y);
 }
 
 .filters-title {

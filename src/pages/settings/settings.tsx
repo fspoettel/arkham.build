@@ -52,9 +52,11 @@ export function Settings() {
               <Button type="submit">Save settings</Button>
             </div>
           </header>
-          <CardDataSync />
-          <TabooSets settings={settings} />
-          <Collection settings={settings} />
+          <div className={css["settings-container"]}>
+            <CardDataSync />
+            <TabooSets settings={settings} />
+            <Collection settings={settings} />
+          </div>
         </form>
       </Scroller>
     </AppLayout>
