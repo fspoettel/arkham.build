@@ -8,7 +8,7 @@ type Props = {
 };
 
 export function CostIcon({ className, cost, style }: Props) {
-  const costStr = cost == null ? "numnull" : cost === -2 ? "x" : `num${cost}`;
+  const costStr = cost == null ? "numNull" : cost === -2 ? "x" : `num${cost}`;
 
   if (cost && typeof cost === "number" && cost >= 10) {
     return (
