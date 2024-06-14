@@ -1,3 +1,5 @@
-export function DeckNew() {
+function DeckNew() {
   return null;
 }
+
+export default DeckNew;

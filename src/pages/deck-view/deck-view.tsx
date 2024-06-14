@@ -9,7 +9,7 @@ import css from "./deck-view.module.css";
 
 import { DeckSidebar } from "./deck-sidebar";
 
-export function DeckView() {
+function DeckView() {
   const deck = useStore(selectActiveDeck);
 
   useDocumentTitle(
@@ -34,3 +34,5 @@ export function DeckView() {
     </div>
   );
 }
+
+export default DeckView;

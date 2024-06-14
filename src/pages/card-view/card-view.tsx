@@ -11,7 +11,7 @@ import { useDocumentTitle } from "@/utils/use-document-title";
 
 import css from "./card-view.module.css";
 
-export function CardView() {
+function CardView() {
   const { code } = useParams();
 
   const cardWithRelations = useStore((state) =>
@@ -46,3 +46,5 @@ export function CardView() {
     </div>
   );
 }
+
+export default CardView;

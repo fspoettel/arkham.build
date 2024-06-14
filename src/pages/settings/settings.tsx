@@ -14,7 +14,7 @@ import { CardDataSync } from "./card-data-sync";
 import { Collection } from "./collection";
 import { TabooSets } from "./taboo-sets";
 
-export function Settings() {
+function Settings() {
   const toast = useToast();
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -60,3 +60,5 @@ export function Settings() {
     </div>
   );
 }
+
+export default Settings;

@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { Redirect, Route, Router } from "wouter";
 import { useBrowserLocation } from "wouter/use-browser-location";
 
@@ -7,12 +7,6 @@ import css from "./app.module.css";
 
 import RouteReset from "./components/route-reset";
 import { ToastProvider } from "./components/ui/toast";
-import { Browse } from "./pages/browse";
-import { CardView } from "./pages/card-view/card-view";
-import { DeckEdit } from "./pages/deck-edit/deck-edit";
-import { DeckNew } from "./pages/deck-new";
-import { DeckView } from "./pages/deck-view/deck-view";
-import { Settings } from "./pages/settings/settings";
 import { useStore } from "./store";
 import { selectIsInitialized } from "./store/selectors";
 import {
@@ -20,6 +14,13 @@ import {
   queryDataVersion,
   queryMetadata,
 } from "./store/services/queries";
+
+const Browse = React.lazy(() => import("./pages/browse"));
+const DeckEdit = React.lazy(() => import("./pages/deck-edit/deck-edit"));
+const DeckNew = React.lazy(() => import("./pages/deck-new"));
+const DeckView = React.lazy(() => import("./pages/deck-view/deck-view"));
+const Settings = React.lazy(() => import("./pages/settings/settings"));
+const CardView = React.lazy(() => import("./pages/card-view/card-view"));
 
 function Index() {
   return <Redirect href="~/browse" replace />;
@@ -53,20 +54,22 @@ function App() {
           <p>Loading card data...</p>
         </div>
       </div>
-      {storeInitialized && (
-        <Router hook={useBrowserLocation}>
-          <Route path="/" component={Index} />
-          <Route path="/browse" component={Browse} />
-          <Route path="/card/:code" component={CardView} />
-          <Route path="/deck" nest>
-            <Route path="/new" component={DeckNew} />
-            <Route path="/:id/view" component={DeckView} />
-            <Route path="/:id/edit" component={DeckEdit} />
-          </Route>
-          <Route path="/settings" component={Settings} />
-          <RouteReset />
-        </Router>
-      )}
+      <Suspense fallback={null}>
+        {storeInitialized && (
+          <Router hook={useBrowserLocation}>
+            <Route path="/" component={Index} />
+            <Route path="/browse" component={Browse} />
+            <Route path="/card/:code" component={CardView} />
+            <Route path="/deck" nest>
+              <Route path="/new" component={DeckNew} />
+              <Route path="/:id/view" component={DeckView} />
+              <Route path="/:id/edit" component={DeckEdit} />
+            </Route>
+            <Route path="/settings" component={Settings} />
+            <RouteReset />
+          </Router>
+        )}
+      </Suspense>
     </ToastProvider>
   );
 }

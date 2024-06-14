@@ -10,7 +10,7 @@ import { useDocumentTitle } from "@/utils/use-document-title";
 
 import { DeckEditSidebar } from "./deck-edit-sidebar";
 
-export function DeckEdit() {
+function DeckEdit() {
   const deck = useStore(selectActiveDeck);
   const quantities = useStore(selectCardQuantities);
 
@@ -30,3 +30,5 @@ export function DeckEdit() {
     </ListLayout>
   );
 }
+
+export default DeckEdit;

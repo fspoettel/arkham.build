@@ -6,7 +6,7 @@ import { useStore } from "@/store";
 import { selectIsInitialized } from "@/store/selectors";
 import { useDocumentTitle } from "@/utils/use-document-title";
 
-export function Browse() {
+function Browse() {
   const isInitalized = useStore(selectIsInitialized);
   useDocumentTitle("Browse");
 
@@ -22,3 +22,5 @@ export function Browse() {
     </ListLayout>
   );
 }
+
+export default Browse;
