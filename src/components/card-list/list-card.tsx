@@ -73,56 +73,60 @@ export function ListCard({ card }: Props) {
   };
 
   return (
-    <figure className={clsx(css["listcard"])}>
-      <div className={css["listcard-thumbnail"]} {...referenceProps}>
-        <Link href={`/card/${card.code}`}>
-          <a tabIndex={-1}>
-            <CardThumbnail card={card} />
-          </a>
-        </Link>
-      </div>
-
-      {card.faction_code !== "mythos" && (
-        <div className={clsx(css["listcard-icon"], colorCls)}>
-          <CardIcon card={card} />
-        </div>
-      )}
-
-      <figcaption>
-        <h4
-          className={clsx(css["listcard-name"], colorCls)}
-          ref={refs.setReference}
-          {...referenceProps}
-        >
-          <Link href={`/card/${card.code}`} tabIndex={-1}>
-            {card.real_name}
+    <div className={clsx(css["listcard"])}>
+      <figure className={css["listcard-inner"]} ref={refs.setReference}>
+        <div className={css["listcard-thumbnail"]} {...referenceProps}>
+          <Link href={`/card/${card.code}`}>
+            <a tabIndex={-1}>
+              <CardThumbnail card={card} />
+            </a>
           </Link>
-        </h4>
-
-        <div className={css["listcard-meta"]}>
-          {card.parallel && <i className="encounters-parallel" />}
-          <MulticlassIcons className={css["listcard-multiclass"]} card={card} />
-          {hasSkillIcons(card) && <SkillIcons card={card} />}
-
-          {!!card.taboo_set_id && (
-            <span className={clsx(css["listcard-taboo"], "color-taboo")}>
-              {card.taboo_xp && <ExperienceDots xp={card.taboo_xp} />}
-              <i className="icon-tablet icon-layout color-taboo" />
-            </span>
-          )}
-          {card.real_subname && (
-            <h5 className={css["listcard-subname"]}>{card.real_subname}</h5>
-          )}
         </div>
 
-        {isOpen && (
-          <FloatingPortal>
-            <div ref={refs.setFloating} style={floatingStyles}>
-              <CardTooltip code={card.code} />
-            </div>
-          </FloatingPortal>
+        {card.faction_code !== "mythos" && (
+          <div className={clsx(css["listcard-icon"], colorCls)}>
+            <CardIcon card={card} />
+          </div>
         )}
-      </figcaption>
-    </figure>
+
+        <figcaption>
+          <h4
+            className={clsx(css["listcard-name"], colorCls)}
+            {...referenceProps}
+          >
+            <Link href={`/card/${card.code}`} tabIndex={-1}>
+              {card.real_name}
+            </Link>
+          </h4>
+
+          <div className={css["listcard-meta"]}>
+            {card.parallel && <i className="encounters-parallel" />}
+            <MulticlassIcons
+              className={css["listcard-multiclass"]}
+              card={card}
+            />
+            {hasSkillIcons(card) && <SkillIcons card={card} />}
+
+            {!!card.taboo_set_id && (
+              <span className={clsx(css["listcard-taboo"], "color-taboo")}>
+                {card.taboo_xp && <ExperienceDots xp={card.taboo_xp} />}
+                <i className="icon-tablet icon-layout color-taboo" />
+              </span>
+            )}
+            {card.real_subname && (
+              <h5 className={css["listcard-subname"]}>{card.real_subname}</h5>
+            )}
+          </div>
+
+          {isOpen && (
+            <FloatingPortal>
+              <div ref={refs.setFloating} style={floatingStyles}>
+                <CardTooltip code={card.code} />
+              </div>
+            </FloatingPortal>
+          )}
+        </figcaption>
+      </figure>
+    </div>
   );
 }

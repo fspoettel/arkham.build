@@ -2,14 +2,18 @@
   --card-padding-y: 0.5rem;
   --card-image-height: 3rem;
 
-  display: flex;
-  padding: var(--card-padding-y) 1rem;
+  min-height: calc(var(--card-image-height) + 2 * var(--card-padding-y));
   border-bottom: 1px solid var(--nord-1);
+  padding: var(--card-padding-y) 1rem;
+}
+
+.listcard-inner {
+  display: inline-flex;
   align-items: center;
   gap: 0.75rem;
   position: relative;
   z-index: 0;
-  min-height: calc(var(--card-image-height) + 2 * var(--card-padding-y));
+  padding-right: 0.25rem;
 }
 
 .listcard-name {
