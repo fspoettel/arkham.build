@@ -16,7 +16,7 @@
   display: grid;
   grid-template-areas: "asset" "rest";
   grid-template-columns: 1fr;
-  gap: 1rem;
+  gap: 0.5rem;
 
   @container (min-width: 34rem) {
     grid-template-areas: "asset rest";
