@@ -199,7 +199,7 @@ function validateSlots(
 
   for (const [code, quantity] of Object.entries(deck.slots)) {
     const { card } = deck.cards.slots[code];
-    if (card.encounter_code) {
+    if (card.encounter_code || quantity === 0) {
       continue;
     }
 
