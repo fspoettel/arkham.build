@@ -64,8 +64,8 @@
   --mystic-dark: #7554ab;
   --survivor-dark: #cc3038;
   --neutral-dark: var(--nord-2);
-  --multiclass-dark: #868600;
-  --mythos-dark: var(--nord-1);
+  --multiclass-dark: #a38c46;
+  --mythos-dark: var(--nord-2);
 
   --taboo: #9869f5;
   --health: #ae4236;
@@ -118,6 +118,12 @@ a {
 ol,
 ul {
   padding: 0;
+}
+
+hr {
+  height: 0;
+  margin: 0.5rem 0;
+  border-bottom: 1px solid var(--nord-4);
 }
 
 img,

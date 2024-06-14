@@ -2,6 +2,7 @@ import type { FormEvent } from "react";
 import { useCallback, useRef } from "react";
 import { Link } from "wouter";
 
+import { AppLayout } from "@/components/layouts/app-layout";
 import { SettingsLayout } from "@/components/layouts/settings-layout";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
@@ -37,7 +38,7 @@ export function Settings() {
   if (!initialized) return null;
 
   return (
-    <SettingsLayout>
+    <AppLayout title="Settings">
       <form ref={formRef} className={css["settings"]} onSubmit={onSubmit}>
         <header className={css["settings-header"]}>
           <h1 className={css["settings-title"]}>Settings</h1>
@@ -54,6 +55,6 @@ export function Settings() {
         <TabooSets settings={settings} />
         <Collection settings={settings} />
       </form>
-    </SettingsLayout>
+    </AppLayout>
   );
 }

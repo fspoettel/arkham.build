@@ -16,7 +16,10 @@ type Props = {
 
 export function CardHeader({ card, className, linked }: Props) {
   return (
-    <header className={clsx(css["header"], className)}>
+    <header
+      className={clsx(css["header"], className)}
+      data-faction={card.faction2_code ? "multiclass" : card.faction_code}
+    >
       <div className={css["header-row"]}>
         <CardIcon className={css["header-icon"]} card={card} inverted />
         <CardNames

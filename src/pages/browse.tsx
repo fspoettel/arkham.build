@@ -12,7 +12,7 @@ export function Browse() {
   if (!isInitalized) return null;
 
   return (
-    <AppLayout filters={<Filters />} sidebar={<Decklisting />} title="Browse">
+    <AppLayout closeable={<Filters />} sidebar={<Decklisting />} title="Browse">
       <CenterLayout top={<CardSearch />}>
         <CardList />
       </CenterLayout>

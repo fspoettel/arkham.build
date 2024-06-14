@@ -15,7 +15,7 @@
 .sub {
   font-style: italic;
   font-weight: 400;
-  font-size: var(--text-base);
+  font-size: var(--card-text-size);
 }
 
 .parallel {

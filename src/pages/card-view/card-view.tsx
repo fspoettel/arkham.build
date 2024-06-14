@@ -1,12 +1,11 @@
 import clsx from "clsx";
-import type { ReactNode } from "react";
-import { Redirect, useParams } from "wouter";
+import { type ReactNode, useEffect, useRef } from "react";
+import { Redirect, useLocation, useParams } from "wouter";
 
 import { Card } from "@/components/card/card";
 import { ResolvedCard } from "@/components/card/resolved-card";
-import { Decklisting } from "@/components/deck-listing/deck-listing";
 import { AppLayout } from "@/components/layouts/app-layout";
-import { CenterLayout } from "@/components/layouts/center-layout";
+import { Scroller } from "@/components/ui/scroll-area";
 import { CardViewSidebar } from "@/pages/card-view/card-view-sidebar";
 import { useStore } from "@/store";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
@@ -29,6 +28,13 @@ function CardViewSection({ title, children }: Props) {
 
 export function CardView() {
   const { code } = useParams();
+  const [pathname] = useLocation();
+
+  const scrollerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollerRef.current?.scrollTo(0, 0);
+  }, [pathname]);
 
   const cardWithRelations = useStore((state) =>
     selectCardWithRelations(state, code),
@@ -43,12 +49,11 @@ export function CardView() {
 
   return (
     <AppLayout
-      sidebar={<Decklisting />}
       centerScroller
-      filters={<CardViewSidebar resolvedCard={cardWithRelations} />}
+      closeable={<CardViewSidebar resolvedCard={cardWithRelations} />}
       title={cardWithRelations.card.real_name}
     >
-      <CenterLayout>
+      <Scroller ref={scrollerRef}>
         <div className={clsx(css["view"])}>
           <ResolvedCard resolvedCard={cardWithRelations} />
 
@@ -159,7 +164,7 @@ export function CardView() {
             </CardViewSection>
           )}
         </div>
-      </CenterLayout>
+      </Scroller>
     </AppLayout>
   );
 }

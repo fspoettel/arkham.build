@@ -3,11 +3,12 @@
   flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  gap: var(--card-spacing);
   line-height: 1;
 }
 
 .details-text {
+  font-size: var(--card-text-size);
   & > * + * {
     margin-top: 0.25rem;
   }

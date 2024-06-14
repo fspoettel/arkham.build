@@ -9,9 +9,9 @@
   gap: var(--card-spacing);
   grid-template-areas:
     "header"
-    "image"
     "details"
-    "content";
+    "content"
+    "image";
   width: 100%;
   background: var(--nord-1);
   border: 1px solid var(--nord-2);
@@ -73,7 +73,8 @@
 .card.tooltip {
   --card-text-size: var(--text-sm);
   --card-title-size: var(--text-base);
-  --card-spacing: 0.5rem;
+
+  --card-spacing: 0.75rem;
   grid-template-rows: auto auto 1fr;
 
   grid-template-columns: 1fr 6rem;
@@ -88,6 +89,7 @@
     grid-template-areas: "content image";
   }
 
+  min-width: 24rem;
   max-width: 32rem;
 }
 
