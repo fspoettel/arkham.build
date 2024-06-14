@@ -29,7 +29,6 @@ export type SkillIconsFilter = {
 export type PropertiesFilter = {
   bonded: boolean;
   customizable: boolean;
-  exceptional: boolean;
   seal: boolean;
   unique: boolean;
   fast: boolean;

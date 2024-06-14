@@ -1,6 +1,6 @@
 import { useStore } from "@/store";
 import { selectIsInitialized } from "@/store/selectors";
-import { selectActiveCardType } from "@/store/selectors/filters";
+import { selectActiveCardType } from "@/store/selectors/filters/shared";
 
 import css from "./filters.module.css";
 

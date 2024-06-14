@@ -4,8 +4,8 @@ import { useStore } from "@/store";
 import {
   selectActions,
   selectActiveActions,
-  selectActiveCardType,
-} from "@/store/selectors/filters";
+} from "@/store/selectors/filters/action";
+import { selectActiveCardType } from "@/store/selectors/filters/shared";
 import { Trait } from "@/store/slices/filters/types";
 import { capitalize } from "@/utils/capitalize";
 

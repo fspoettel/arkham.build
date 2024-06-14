@@ -1,11 +1,11 @@
 import { useCallback } from "react";
 
 import { useStore } from "@/store";
+import { selectActiveCardType } from "@/store/selectors/filters/shared";
 import {
-  selectActiveCardType,
   selectActiveTraits,
   selectTraits,
-} from "@/store/selectors/filters";
+} from "@/store/selectors/filters/traits";
 import { Trait } from "@/store/slices/filters/types";
 
 import { Collapsible, CollapsibleContent } from "../ui/collapsible";

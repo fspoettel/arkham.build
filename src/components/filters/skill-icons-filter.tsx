@@ -1,10 +1,8 @@
 import { useCallback } from "react";
 
 import { useStore } from "@/store";
-import {
-  selectActiveCardType,
-  selectActiveSkillIcons,
-} from "@/store/selectors/filters";
+import { selectActiveCardType } from "@/store/selectors/filters/shared";
+import { selectActiveSkillIcons } from "@/store/selectors/filters/skill-icons";
 import { SkillIconsFilter as SkillIconsFilterT } from "@/store/slices/filters/types";
 
 import css from "./skill-icons-filter.module.css";
@@ -16,8 +14,8 @@ import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 export function SkillIconsFilter() {
   const cardType = useStore(selectActiveCardType);
-  const setFilter = useStore((state) => state.setActiveFilter);
   const skillIcons = useStore(selectActiveSkillIcons);
+  const setFilter = useStore((state) => state.setActiveFilter);
 
   const onToggleChange = useCallback(
     (key: keyof SkillIconsFilterT, val: string) => {

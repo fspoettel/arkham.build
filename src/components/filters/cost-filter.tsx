@@ -3,10 +3,10 @@ import { useCallback } from "react";
 import SvgX from "@/assets/icons/x.svg?react";
 import { useStore } from "@/store";
 import {
-  selectActiveCardType,
   selectActiveCost,
   selectCostMinMax,
-} from "@/store/selectors/filters";
+} from "@/store/selectors/filters/cost";
+import { selectActiveCardType } from "@/store/selectors/filters/shared";
 import { CostFilter as CostFilterT } from "@/store/slices/filters/types";
 
 import { Checkbox } from "../ui/checkbox";

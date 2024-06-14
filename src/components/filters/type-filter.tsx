@@ -2,11 +2,8 @@ import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import { Type } from "@/store/graphql/types";
-import {
-  selectActiveCardType,
-  selectActiveTypes,
-  selectTypes,
-} from "@/store/selectors/filters";
+import { selectActiveCardType } from "@/store/selectors/filters/shared";
+import { selectActiveTypes, selectTypes } from "@/store/selectors/filters/type";
 
 import { Collapsible, CollapsibleContent } from "../ui/collapsible";
 import { Combobox } from "../ui/combobox/combobox";

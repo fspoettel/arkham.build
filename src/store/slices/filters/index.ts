@@ -29,7 +29,6 @@ function getInitialState(): Filters {
     properties: {
       bonded: false,
       customizable: false,
-      exceptional: false,
       seal: false,
       unique: false,
       fast: false,

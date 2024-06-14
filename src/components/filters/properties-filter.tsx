@@ -1,10 +1,8 @@
 import { useCallback } from "react";
 
 import { useStore } from "@/store";
-import {
-  selectActiveCardType,
-  selectActiveProperties,
-} from "@/store/selectors/filters";
+import { selectActiveProperties } from "@/store/selectors/filters/properties";
+import { selectActiveCardType } from "@/store/selectors/filters/shared";
 import { PropertiesFilter as PropertiesFilterT } from "@/store/slices/filters/types";
 
 import { Checkbox } from "../ui/checkbox";

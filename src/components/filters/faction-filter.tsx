@@ -2,10 +2,10 @@ import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import {
-  selectActiveCardType,
   selectActiveFactions,
   selectFactions,
-} from "@/store/selectors/filters";
+} from "@/store/selectors/filters/faction";
+import { selectActiveCardType } from "@/store/selectors/filters/shared";
 
 import css from "./faction-filter.module.css";
 

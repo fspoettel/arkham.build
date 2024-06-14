@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 
 import { useStore } from "@/store";
-import { selectActiveLevel } from "@/store/selectors/filters";
+import { selectActiveLevel } from "@/store/selectors/filters/level";
 import { LevelFilter as LevelFilterT } from "@/store/slices/filters/types";
 
 import css from "./level-filter.module.css";

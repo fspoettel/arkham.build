@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import SvgAutoFail from "@/assets/icons/auto_fail.svg?react";
 import SvgInvestigator from "@/assets/icons/investigator.svg?react";
 import { useStore } from "@/store";
-import { selectActiveCardType } from "@/store/selectors/filters";
+import { selectActiveCardType } from "@/store/selectors/filters/shared";
 import { CardTypeFilter as CardTypeFilterT } from "@/store/slices/filters/types";
 
 import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
