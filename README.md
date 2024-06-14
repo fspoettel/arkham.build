@@ -1,14 +1,12 @@
 # arkham.build
 
-## Development
+## API
 
-### API
+The API is [a separate git project](https://github.com/fspoettel/arkham-build-api/) hosted as a Cloudflare worker. It mainly serves as a cache for the ArkhamCards GraphQL API and a proxy for some arkhamdb API functions.
 
-The API is a separate project hosted as a Cloudflare worker. It mainly serves as a cache for the ArkhamCards GraphQL API and some arkhamdb API functions.
+## Icons
 
-### Icons
-
-SVG icons are sourced from [ArkhamCards](https://github.com/zzorba/ArkhamCards/blob/master/assets/icomoon/project.json)'s icomoon project. These icons are loaded as webfonts. Some additional icons are bundled as SVG via `vite-plugin-svgr`.
+Arkham-related SVG icons are sourced from ArkhamCards's [icomoon project](https://github.com/zzorba/ArkhamCards/blob/master/assets/icomoon/project.json) and loaded as webfonts. Additional icons are bundled as SVG via `vite-plugin-svgr` or imported from `lucide-react`.
 
 <details>
   <summary><h2>Template readme</h2></summary>
