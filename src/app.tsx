@@ -5,6 +5,7 @@ import { useBrowserLocation } from "wouter/use-browser-location";
 
 import css from "./app.module.css";
 
+import { CardModalProvider } from "./components/card-modal/card-modal-context";
 import RouteReset from "./components/route-reset";
 import { ToastProvider } from "./components/ui/toast";
 import { useStore } from "./store";
@@ -49,27 +50,29 @@ function App() {
   }, [storeHydrated, init]);
 
   return (
-    <ToastProvider>
-      <Fallback
-        message="Loading card data..."
-        show={storeHydrated && !storeInitialized}
-      />
-      <Suspense fallback={<Fallback show />}>
-        {storeInitialized && (
-          <Router hook={useBrowserLocation}>
-            <Route component={Browse} path="/" />
-            <Route component={CardView} path="/card/:code" />
-            <Route nest path="/deck">
-              <Route component={DeckNew} path="/new" />
-              <Route component={DeckView} path="/:id/view" />
-              <Route component={DeckEdit} path="/:id/edit" />
-            </Route>
-            <Route component={Settings} path="/settings" />
-            <RouteReset />
-          </Router>
-        )}
-      </Suspense>
-    </ToastProvider>
+    <CardModalProvider>
+      <ToastProvider>
+        <Fallback
+          message="Loading card data..."
+          show={storeHydrated && !storeInitialized}
+        />
+        <Suspense fallback={<Fallback show />}>
+          {storeInitialized && (
+            <Router hook={useBrowserLocation}>
+              <Route component={Browse} path="/" />
+              <Route component={CardView} path="/card/:code" />
+              <Route nest path="/deck">
+                <Route component={DeckNew} path="/new" />
+                <Route component={DeckView} path="/:id/view" />
+                <Route component={DeckEdit} path="/:id/edit" />
+              </Route>
+              <Route component={Settings} path="/settings" />
+              <RouteReset />
+            </Router>
+          )}
+        </Suspense>
+      </ToastProvider>
+    </CardModalProvider>
   );
 }
 

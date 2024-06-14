@@ -9,6 +9,7 @@ import { getCardColor, hasSkillIcons } from "@/utils/card-utils";
 
 import css from "./list-card.module.css";
 
+import { useCardModalContext } from "../card-modal/card-modal-context";
 import { CardHealth } from "../card/card-health";
 import { CardIcon } from "../card/card-icon";
 import { CardThumbnail } from "../card/card-thumbnail";
@@ -16,7 +17,6 @@ import { ExperienceDots } from "../experience-dots";
 import { MulticlassIcons } from "../icons/multiclass-icons";
 import { SkillIcons } from "../skill-icons";
 import { SkillIconsInvestigator } from "../skill-icons-investigator";
-import { useDialogContextUnchecked } from "../ui/dialog";
 import { QuantityInput } from "../ui/quantity-input";
 import { QuantityOutput } from "../ui/quantity-output";
 
@@ -26,7 +26,7 @@ export type Props = {
   canEdit?: boolean;
   canIndicateRemoval?: boolean;
   canOpenModal?: boolean;
-  canShowQuantity?: boolean;
+  canShowQuantities?: boolean;
   canShowInvestigatorIcons?: boolean;
   canShowParallel?: boolean;
   canShowSubname?: boolean;
@@ -48,7 +48,7 @@ export function ListCardInner({
   canEdit,
   canIndicateRemoval,
   canOpenModal,
-  canShowQuantity,
+  canShowQuantities,
   canShowSubname = true,
   canShowParallel = true,
   className,
@@ -60,7 +60,7 @@ export function ListCardInner({
   canShowInvestigatorIcons,
   size,
 }: Props) {
-  const modalContext = useDialogContextUnchecked();
+  const modalContext = useCardModalContext();
 
   const quantity = quantities ? quantities[card.code] ?? 0 : 0;
 
@@ -77,8 +77,14 @@ export function ListCardInner({
   );
 
   const openModal = useCallback(() => {
-    if (canOpenModal && modalContext) modalContext.setOpen(true);
-  }, [canOpenModal, modalContext]);
+    if (canOpenModal && modalContext) {
+      modalContext.setOpen({
+        code: card.code,
+        canEdit,
+        canShowQuantities,
+      });
+    }
+  }, [canShowQuantities, card.code, canEdit, modalContext, canOpenModal]);
 
   return (
     <Element
@@ -91,7 +97,7 @@ export function ListCardInner({
         canIndicateRemoval && quantity === 0 && css["removed"],
       )}
     >
-      {canShowQuantity && (
+      {canShowQuantities && (
         <>
           {canEdit ? (
             <QuantityInput

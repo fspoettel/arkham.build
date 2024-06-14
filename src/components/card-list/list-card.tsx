@@ -11,9 +11,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { imageUrl } from "@/utils/card-utils";
 import { preloadImage } from "@/utils/preload-image";
 
-import { CardModal } from "../card-modal/card-modal";
 import { CardTooltip } from "../card-tooltip/card-tooltip";
-import { Dialog, DialogContent } from "../ui/dialog";
 import type { Props as ListCardInnerProps } from "./list-card-inner";
 import { ListCardInner } from "./list-card-inner";
 
@@ -21,7 +19,7 @@ type Props = {
   tooltip?: React.ReactNode;
 } & Omit<ListCardInnerProps, "onToggleModal" | "figureRef" | "referenceProps">;
 
-export function ListCard({ card, tooltip, canShowQuantity, ...rest }: Props) {
+export function ListCard({ card, tooltip, canShowQuantities, ...rest }: Props) {
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
   const restTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
@@ -74,23 +72,14 @@ export function ListCard({ card, tooltip, canShowQuantity, ...rest }: Props) {
 
   return (
     <>
-      <Dialog>
-        <ListCardInner
-          {...rest}
-          canOpenModal
-          canShowQuantity={canShowQuantity}
-          card={card}
-          figureRef={refs.setReference}
-          referenceProps={referenceProps}
-        />
-        <DialogContent>
-          <CardModal
-            canEdit={rest.canEdit}
-            canShowQuantity={canShowQuantity}
-            code={card.code}
-          />
-        </DialogContent>
-      </Dialog>
+      <ListCardInner
+        {...rest}
+        canOpenModal
+        canShowQuantities={canShowQuantities}
+        card={card}
+        figureRef={refs.setReference}
+        referenceProps={referenceProps}
+      />
       {tooltipOpen && (
         <FloatingPortal id="floating">
           <div ref={refs.setFloating} style={floatingStyles}>

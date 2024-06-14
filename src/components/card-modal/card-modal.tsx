@@ -18,11 +18,11 @@ import { CardModalQuantities } from "./card-modal-quantities";
 
 type Props = {
   canEdit?: boolean;
-  canShowQuantity?: boolean;
+  canShowQuantities?: boolean;
   code: string;
 };
 
-export function CardModal({ canEdit, canShowQuantity, code }: Props) {
+export function CardModal({ canEdit, canShowQuantities, code }: Props) {
   const actionRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
   const modalContext = useDialogContext();
@@ -99,10 +99,10 @@ export function CardModal({ canEdit, canShowQuantity, code }: Props) {
             <Cross2Icon />
           </Button>
         </div>
-        {canShowQuantity ? (
+        {canShowQuantities ? (
           <div className={css["cardmodal-row"]}>
             {cardNode}
-            {canShowQuantity && (
+            {canShowQuantities && (
               <CardModalQuantities
                 canEdit={canEdit}
                 card={cardWithRelations.card}

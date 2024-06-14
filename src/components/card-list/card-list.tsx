@@ -23,12 +23,12 @@ const selector = createSelector(
 );
 
 type Props = {
-  canShowQuantity?: boolean;
+  canShowQuantities?: boolean;
   canEdit?: boolean;
   quantities?: Record<string, number> | null;
 };
 
-export function CardList({ canEdit, canShowQuantity, quantities }: Props) {
+export function CardList(props: Props) {
   const data = useStore(selectFilteredCards);
 
   const cardCount = useRef<number>(data?.cards.length ?? 0);
@@ -125,12 +125,10 @@ export function CardList({ canEdit, canShowQuantity, quantities }: Props) {
             isScrolling={onScrollStop}
             itemContent={(index) => (
               <ListCard
-                canEdit={canEdit}
-                canShowQuantity={canShowQuantity}
+                {...props}
                 card={data.cards[index]}
                 className={css["list-listcard"]}
                 key={data.cards[index].code}
-                quantities={quantities}
               />
             )}
             key={data.key}

@@ -26,7 +26,7 @@ function DeckEdit() {
       sidebar={<DeckEditSidebar deck={deck} />}
       sidebarWidthMax="42rem"
     >
-      <CardList canEdit canShowQuantity quantities={quantities} />
+      <CardList canEdit canShowQuantities quantities={quantities} />
     </ListLayout>
   );
 }
