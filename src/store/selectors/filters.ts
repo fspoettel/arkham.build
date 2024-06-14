@@ -74,8 +74,10 @@ export const selectActionValue = makeMultiselectValueSelector(
 export const selectActionChanges = createSelector(
   selectActionValue,
   (value) => {
-    return Object.values(value).reduce((acc, curr, i) => {
-      return i === 0 ? curr.code : `${acc} or ${curr.code}`;
+    return Object.values(value).reduce((acc, curr) => {
+      return !acc
+        ? capitalize(curr.code)
+        : `${acc} or ${capitalize(curr.code)}`;
     }, "");
   },
 );

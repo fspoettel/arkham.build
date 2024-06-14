@@ -23,13 +23,13 @@ export function ActionFilter() {
   return (
     <MultiselectFilter
       cardType={cardType}
-      path="action"
+      changes={changes}
+      nameRenderer={nameRenderer}
       options={actions}
-      value={value}
+      path="action"
       placeholder="Select actions..."
       title="Actions"
-      nameRenderer={nameRenderer}
-      changes={changes}
+      value={value}
     />
   );
 }

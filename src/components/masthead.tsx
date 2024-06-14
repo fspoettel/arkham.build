@@ -28,7 +28,7 @@ export function Masthead({ className }: { className?: string }) {
         {location === "/" && (
           <CardTypeFilter className={css["masthead-card-toggle"]} />
         )}
-        {location === "/" && (
+        {location === "/browse" && (
           <Button
             className={css["masthead-toggle-search"]}
             variant="bare"
@@ -50,7 +50,7 @@ export function Masthead({ className }: { className?: string }) {
             variant="bare"
             onClick={() => onToggleSidebar()}
           >
-            {location === "/" ? <SvgFilter /> : <DotsHorizontalIcon />}
+            {location === "/browse" ? <SvgFilter /> : <DotsHorizontalIcon />}
           </Button>
         )}
       </nav>
