@@ -42,8 +42,8 @@ export type LookupTables = {
   health: LookupTable<number>;
   sanity: LookupTable<number>;
   properties: {
-    heals_damage: Mapping<1>;
-    heals_horror: Mapping<1>;
+    healsDamage: Mapping<1>;
+    healsHorror: Mapping<1>;
     fast: Mapping<1>;
     multislot: Mapping<1>;
     seal: Mapping<1>; // TODO: link the tokens?

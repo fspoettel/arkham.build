@@ -41,8 +41,8 @@ export function getInitialLookupTables(): LookupTables {
     health: {},
     properties: {
       fast: {},
-      heals_damage: {},
-      heals_horror: {},
+      healsDamage: {},
+      healsHorror: {},
       multislot: {},
       seal: {},
       succeedBy: {},
@@ -308,7 +308,7 @@ function indexByHealsDamage(tables: LookupTables, card: Card) {
     card.tags?.includes("hd") ||
     card.customization_options?.tags?.includes("hd")
   ) {
-    setInLookupTable(card.code, tables.properties, "heals_damage");
+    setInLookupTable(card.code, tables.properties, "healsDamage");
   }
 }
 
@@ -317,7 +317,7 @@ function indexByHealsHorror(tables: LookupTables, card: Card) {
     card.tags?.includes("hh") ||
     card.customization_options?.tags?.includes("hh")
   ) {
-    setInLookupTable(card.code, tables.properties, "heals_horror");
+    setInLookupTable(card.code, tables.properties, "healsHorror");
   }
 }
 

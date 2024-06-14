@@ -129,7 +129,7 @@ export type QueryCard = {
   subtype_code?: string;
   taboo_xp?: number;
   taboo_set_id?: number;
-  tags?: string[]; // used for some deckbuilding restrictions like `heals_horror`.
+  tags?: string[]; // used for some deckbuilding restrictions like `healsHorror`.
   type_code: string;
   vengeance?: number;
   victory?: number;

@@ -59,6 +59,7 @@ function App() {
           <Route path="/card/:code" component={CardView} />
           <Route path="/deck" component={DeckNew} />
           <Route path="/deck/:id" component={DeckView} />
+          <Route path="/deck/:id/card/:code" component={CardView} />
           <Route path="/deck/:id/edit" component={DeckEdit} />
           <Route path="/settings" component={Settings} />
           <RouteReset />

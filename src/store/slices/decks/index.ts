@@ -3,8 +3,6 @@ import type { StateCreator } from "zustand";
 import type { StoreState } from "..";
 import type { DecksSlice } from "./types";
 
-// import deck from "@/test/fixtures/decks/parallal_jim.json";
-
 export function getInitialDecksState() {
   return {
     decks: {

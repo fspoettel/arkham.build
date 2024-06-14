@@ -494,13 +494,13 @@ function filterSucceedBy(
 }
 
 function filterHealsDamage(
-  healsDamageTable: LookupTables["properties"]["heals_damage"],
+  healsDamageTable: LookupTables["properties"]["healsDamage"],
 ) {
   return (card: Card) => !!healsDamageTable[card.code];
 }
 
 function filterHealsHorror(
-  healsHorrorTable: LookupTables["properties"]["heals_horror"],
+  healsHorrorTable: LookupTables["properties"]["healsHorror"],
 ) {
   return (card: Card) => !!healsHorrorTable[card.code];
 }
@@ -543,12 +543,12 @@ function filterProperties(
     filters.push(filterVictory);
   }
 
-  if (filterState.heals_damage) {
-    filters.push(filterHealsDamage(lookupTables.properties.heals_damage));
+  if (filterState.healsDamage) {
+    filters.push(filterHealsDamage(lookupTables.properties.healsDamage));
   }
 
-  if (filterState.heals_horror) {
-    filters.push(filterHealsHorror(lookupTables.properties.heals_horror));
+  if (filterState.healsHorror) {
+    filters.push(filterHealsHorror(lookupTables.properties.healsHorror));
   }
 
   if (filterState.succeedBy) {
@@ -874,7 +874,7 @@ const selectInvestigatorFilter = createSelector(
         filterCount += 1;
         optionFilter.push(
           filterProperties(
-            { heals_horror: true } as PropertiesFilter["value"],
+            { healsHorror: true } as PropertiesFilter["value"],
             lookupTables,
           ),
         );
@@ -885,7 +885,7 @@ const selectInvestigatorFilter = createSelector(
         filterCount += 1;
         optionFilter.push(
           filterProperties(
-            { heals_damage: true } as PropertiesFilter["value"],
+            { healsDamage: true } as PropertiesFilter["value"],
             lookupTables,
           ),
         );

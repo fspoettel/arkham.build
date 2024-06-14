@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import deckCustomizable from "@/test/fixtures/decks/customizable.json";
 import deckSizeAllSpecials from "@/test/fixtures/decks/deck_size_all_specials.json";
 import deckSizeParallelAgnes from "@/test/fixtures/decks/deck_size_parallel_agnes.json";
 import deckExtraSlots from "@/test/fixtures/decks/extra_slots.json";
@@ -179,6 +180,153 @@ describe("resolveDeck", async () => {
       const deck = deckExtraSlots;
       const resolved = resolveDeck(metadata, lookupTables, deck, true);
       expect(resolved.stats.deckSizeTotal).toEqual(45);
+    });
+  });
+
+  describe("customizable", () => {
+    it("parses card customizations if present", () => {
+      const { metadata, lookupTables } = store.getState();
+      const deck = deckCustomizable;
+      const resolved = resolveDeck(metadata, lookupTables, deck, true);
+      expect(resolved.customizations).toMatchInlineSnapshot(`
+        {
+          "09021": [
+            {
+              "choices": undefined,
+              "index": 2,
+              "xpSpent": 2,
+            },
+            {
+              "choices": undefined,
+              "index": 0,
+              "xpSpent": 1,
+            },
+            {
+              "choices": undefined,
+              "index": 4,
+              "xpSpent": 0,
+            },
+            {
+              "choices": undefined,
+              "index": 3,
+              "xpSpent": 2,
+            },
+            {
+              "choices": undefined,
+              "index": 1,
+              "xpSpent": 1,
+            },
+          ],
+          "09022": [
+            {
+              "choices": undefined,
+              "index": 0,
+              "xpSpent": 1,
+            },
+          ],
+          "09040": [
+            {
+              "choices": undefined,
+              "index": 4,
+              "xpSpent": 2,
+            },
+          ],
+          "09042": [
+            {
+              "choices": "07159",
+              "index": 0,
+              "xpSpent": 0,
+            },
+            {
+              "choices": undefined,
+              "index": 2,
+              "xpSpent": 1,
+            },
+            {
+              "choices": "07159^01031",
+              "index": 4,
+              "xpSpent": 2,
+            },
+          ],
+          "09060": [
+            {
+              "choices": "Innate",
+              "index": 0,
+              "xpSpent": 0,
+            },
+            {
+              "choices": undefined,
+              "index": 5,
+              "xpSpent": 2,
+            },
+            {
+              "choices": "Illicit",
+              "index": 2,
+              "xpSpent": 2,
+            },
+          ],
+          "09061": [
+            {
+              "choices": undefined,
+              "index": 6,
+              "xpSpent": 3,
+            },
+          ],
+          "09079": [
+            {
+              "choices": "willpower",
+              "index": 0,
+              "xpSpent": 0,
+            },
+            {
+              "choices": "intellect",
+              "index": 4,
+              "xpSpent": 2,
+            },
+            {
+              "choices": "agility",
+              "index": 5,
+              "xpSpent": 3,
+            },
+          ],
+          "09080": [
+            {
+              "choices": "0",
+              "index": 5,
+              "xpSpent": 2,
+            },
+          ],
+          "09081": [
+            {
+              "choices": undefined,
+              "index": 1,
+              "xpSpent": 1,
+            },
+            {
+              "choices": undefined,
+              "index": 7,
+              "xpSpent": 3,
+            },
+          ],
+          "09101": [
+            {
+              "choices": "Practiced",
+              "index": 1,
+              "xpSpent": 1,
+            },
+            {
+              "choices": "Innate^Expert",
+              "index": 0,
+              "xpSpent": 0,
+            },
+            {
+              "choices": undefined,
+              "index": 2,
+              "xpSpent": 0,
+            },
+          ],
+        }
+      `);
     });
   });
 });

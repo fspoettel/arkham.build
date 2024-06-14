@@ -7,6 +7,12 @@ import type { Metadata } from "../slices/metadata/types";
 import type { CardResolved, CardWithRelations } from "./card-resolver";
 import { resolveCardWithRelations } from "./card-resolver";
 
+type Customization = {
+  index: number;
+  xpSpent: number;
+  choices?: string;
+};
+
 type DeckMeta = {
   [key in `cus_${string}`]?: string;
 } & {
@@ -24,6 +30,7 @@ export type ResolvedDeck<T extends CardResolved | CardWithRelations> = Omit<
   metaParsed: DeckMeta;
   sideSlots: Record<string, number> | null; // arkhamdb stores `[]` when empty, normalize to `null`.
   extraSlots: Record<string, number> | null;
+  customizations: Record<string, Customization[]>;
   cards: {
     investigator: CardWithRelations; // tracks relations.
     slots: Record<string, T>;
@@ -74,6 +81,7 @@ export function resolveDeck<
     deckMeta,
     "alternate_front",
   ) as S;
+
   const investigatorBack = getInvestigatorSide(
     investigator,
     deckMeta,
@@ -85,9 +93,6 @@ export function resolveDeck<
   }
 
   const extraSlots = getExtraSlots(deckMeta);
-
-  const factionSelect = getFactionSelect(investigatorBack, deckMeta);
-  const optionSelect = getOptionSelect(investigatorBack, deckMeta);
 
   const { cards, deckSize, deckSizeTotal, xpRequired } = getDeckCards<T, S>(
     deck,
@@ -101,12 +106,13 @@ export function resolveDeck<
   return {
     ...deck,
     cards,
+    customizations: getCustomizations(deckMeta),
     extraSlots,
-    factionSelect,
+    factionSelect: getFactionSelect(investigatorBack, deckMeta),
     investigatorBack,
     investigatorFront,
     metaParsed: deckMeta,
-    optionSelect,
+    optionSelect: getOptionSelect(investigatorBack, deckMeta),
     sideSlots: Array.isArray(deck.sideSlots) ? null : deck.sideSlots,
     stats: {
       deckSize,
@@ -287,4 +293,33 @@ function getExtraSlots(deckMeta: DeckMeta) {
   }
 
   return {};
+}
+
+function getCustomizations(deckMeta: DeckMeta) {
+  const customizations: Record<string, Customization[]> = {};
+
+  for (const [key, value] of Object.entries(deckMeta)) {
+    // customizations are tracked in format `cus_{code}: {index}|{xp}|{choice?},...`.
+    if (key.startsWith("cus_") && value) {
+      const code = key.split("cus_")[1];
+
+      customizations[code] = value
+        .split(",")
+        .reduce<Customization[]>((acc, curr) => {
+          const entries = curr.split("|");
+
+          if (entries.length > 1) {
+            acc.push({
+              index: Number.parseInt(entries[0], 10),
+              xpSpent: Number.parseInt(entries[1], 10),
+              choices: entries[2],
+            });
+          }
+
+          return acc;
+        }, []);
+    }
+  }
+
+  return customizations;
 }

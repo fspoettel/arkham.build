@@ -45,8 +45,8 @@ export type PropertiesFilter = FilterObject<{
   fast: boolean;
   permanent: boolean;
   exile: boolean;
-  heals_damage: boolean;
-  heals_horror: boolean;
+  healsDamage: boolean;
+  healsHorror: boolean;
   victory: boolean;
   succeedBy: boolean;
 }>;

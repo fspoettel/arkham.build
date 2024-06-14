@@ -16,7 +16,7 @@ const indexedDBAdapter = new IndexedDBAdapter();
 const VERSION = 1;
 
 // use this flag to disable rehydration during dev.
-const SKIP_HYDRATION = true;
+const SKIP_HYDRATION = false;
 
 export const storageConfig: PersistOptions<StoreState, Val> = {
   name: "deckbuilder",
