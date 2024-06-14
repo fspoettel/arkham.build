@@ -12,7 +12,7 @@ import { Checkbox } from "../ui/checkbox";
 import { SearchInput } from "../ui/search-input";
 
 type Props = {
-  onKeyboardNavigate: (evt: React.KeyboardEvent<HTMLInputElement>) => void;
+  onKeyboardNavigate: (evt: React.KeyboardEvent) => void;
   slotLeft?: React.ReactNode;
   slotRight?: React.ReactNode;
 };

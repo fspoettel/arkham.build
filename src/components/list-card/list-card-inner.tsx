@@ -71,7 +71,7 @@ export function ListCardInner({
   const ignoredCount = isIgnored ?? 0;
 
   const colorCls = getCardColor(card);
-  const Element = as as React.ElementType;
+  const Element = as as React.JSX.ElementType;
 
   const onQuantityChange = useCallback(
     (val: number) => {

@@ -18,7 +18,9 @@ export function CustomizationRemoveSlot({
   selections,
 }: Props) {
   const onValueChange = (evt: React.ChangeEvent<HTMLSelectElement>) => {
-    onChange([evt.target.value]);
+    if (evt.target instanceof HTMLSelectElement) {
+      onChange([evt.target.value]);
+    }
   };
 
   return (

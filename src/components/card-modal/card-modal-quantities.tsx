@@ -28,7 +28,7 @@ export function CardModalQuantities({
   const divRef = useRef<HTMLDivElement>(null);
 
   const onClick = useCallback(
-    (evt: React.MouseEvent<HTMLDivElement>) => {
+    (evt: React.MouseEvent) => {
       if (evt.target === divRef.current) {
         onClickBackground?.();
       }

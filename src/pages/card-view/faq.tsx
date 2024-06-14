@@ -24,19 +24,16 @@ export function Faq({ card }: Props) {
 
   const response = useQuery(query);
 
-  const redirectRelativeLinks = useCallback(
-    (evt: React.MouseEvent<HTMLDivElement>) => {
-      evt.preventDefault();
-      if (evt.target instanceof HTMLAnchorElement) {
-        // Redirect relative links to another domain
-        const href = evt.target.getAttribute("href");
-        if (href && href.startsWith("/")) {
-          window.open(`https://arkhamdb.com${href}`, "_blank");
-        }
+  const redirectRelativeLinks = useCallback((evt: React.MouseEvent) => {
+    evt.preventDefault();
+    if (evt.target instanceof HTMLAnchorElement) {
+      // Redirect relative links to another domain
+      const href = evt.target.getAttribute("href");
+      if (href && href.startsWith("/")) {
+        window.open(`https://arkhamdb.com${href}`, "_blank");
       }
-    },
-    [],
-  );
+    }
+  }, []);
 
   return (
     <details className={css["faq"]}>

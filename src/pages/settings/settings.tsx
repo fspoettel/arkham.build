@@ -23,9 +23,8 @@ function Settings() {
   const updateSettings = useStore((state) => state.updateSettings);
 
   const onSubmit = useCallback(
-    (evt: React.FormEvent<HTMLFormElement>) => {
+    (evt: React.FormEvent) => {
       evt.preventDefault();
-
       if (evt.target instanceof HTMLFormElement) {
         updateSettings(new FormData(evt.target));
         toast({ children: "Settings saved successfully.", variant: "success" });

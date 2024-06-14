@@ -3,7 +3,7 @@ import clsx from "clsx";
 import css from "./tag.module.css";
 
 type Props = {
-  as?: React.ElementType;
+  as?: React.JSX.ElementType;
   children: React.ReactNode;
   size?: "xs";
 };

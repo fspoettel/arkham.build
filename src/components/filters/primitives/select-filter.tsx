@@ -42,9 +42,11 @@ export function SelectFilter<T, V extends number | string | undefined>({
 
   const onChange = useCallback(
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
-      const val = evt.target.value;
-      const mapped = mapValue ? mapValue(val) : val;
-      setFilterValue(id, mapped);
+      if (evt.target instanceof HTMLSelectElement) {
+        const val = evt.target.value;
+        const mapped = mapValue ? mapValue(val) : val;
+        setFilterValue(id, mapped);
+      }
     },
     [id, setFilterValue, mapValue],
   );

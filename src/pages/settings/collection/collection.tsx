@@ -35,7 +35,7 @@ export function Collection({ settings }: Props) {
   }, []);
 
   const onToggleCycle = useCallback(
-    (evt: React.MouseEvent<HTMLButtonElement>) => {
+    (evt: React.MouseEvent) => {
       if (evt.currentTarget instanceof HTMLButtonElement) {
         const code = evt.currentTarget.dataset.cycle;
         const val = Number.parseInt(

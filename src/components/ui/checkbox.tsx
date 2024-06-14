@@ -5,7 +5,7 @@ import { Check } from "lucide-react";
 
 import css from "./checkbox.module.css";
 
-type Props = CheckboxProps & {
+type Props = Omit<CheckboxProps, "label"> & {
   className?: string;
   hideLabel?: boolean;
   id: string;

@@ -50,8 +50,7 @@ export function ComboboxMenu<T extends Coded>({
 
   return (
     <Scroller
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ref={setScrollParent as any}
+      ref={setScrollParent as unknown as React.RefObject<HTMLDivElement>}
       style={cssVariables as React.CSSProperties}
       viewportClassName={css["menu-viewport"]}
     >

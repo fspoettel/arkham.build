@@ -37,14 +37,14 @@ export function Modal({
   }, [open]);
 
   const onCloseModalOutside = useCallback(
-    (evt: React.MouseEvent<HTMLDivElement>) => {
+    (evt: React.MouseEvent) => {
       if (evt.target === modalRef.current) onClose();
     },
     [onClose],
   );
 
   const onCloseActions = useCallback(
-    (evt: React.MouseEvent<HTMLDivElement>) => {
+    (evt: React.MouseEvent) => {
       if (evt.target === actionRef.current) onClose();
     },
     [onClose],

@@ -58,14 +58,17 @@ export function CardList({ slotLeft, slotRight }: Props) {
 
   const onSelectGroup = useCallback(
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
-      if (!data || !virtuosoRef) return;
-
-      const offset = findGroupOffset(data, evt.target.value);
-
-      if (offset != null) {
-        virtuosoRef.current?.scrollToIndex(offset);
-      } else {
-        virtuosoRef.current?.scrollToIndex(0);
+      if (
+        data &&
+        virtuosoRef.current &&
+        evt.target instanceof HTMLSelectElement
+      ) {
+        const offset = findGroupOffset(data, evt.target.value);
+        if (offset != null) {
+          virtuosoRef.current?.scrollToIndex(offset);
+        } else {
+          virtuosoRef.current?.scrollToIndex(0);
+        }
       }
     },
     [data],
@@ -83,7 +86,7 @@ export function CardList({ slotLeft, slotRight }: Props) {
   );
 
   const onKeyboardNavigate = useCallback(
-    (evt: React.KeyboardEvent<HTMLInputElement>) => {
+    (evt: React.KeyboardEvent) => {
       if (!data?.cards.length) return;
 
       if (evt.key === "ArrowUp" || evt.key === "ArrowDown") {

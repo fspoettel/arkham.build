@@ -32,7 +32,7 @@ export function ToggleGroup({
   );
 }
 
-type GroupItemProps = ToggleGroupItemProps & {
+type GroupItemProps = Omit<ToggleGroupItemProps, "size"> & {
   size?: "small" | "default" | "small-type";
 };
 

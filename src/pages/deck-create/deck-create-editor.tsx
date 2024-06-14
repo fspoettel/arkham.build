@@ -31,27 +31,44 @@ export function DeckCreateEditor() {
   );
 
   const handleInputChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setTitle(event.target.value);
+    (evt: React.ChangeEvent<HTMLInputElement>) => {
+      if (evt.target instanceof HTMLInputElement) {
+        setTitle(evt.target.value);
+      }
     },
     [setTitle],
   );
 
   const handleTabooSetChange = useCallback(
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
-      const value = evt.target.value;
-      setTabooSet(value ? parseInt(value, 10) : undefined);
+      if (evt.target instanceof HTMLSelectElement) {
+        const value = evt.target.value;
+        setTabooSet(value ? parseInt(value, 10) : undefined);
+      }
     },
     [setTabooSet],
   );
 
   const handleInvestigatorChange = useCallback(
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
-      const side = evt.target.getAttribute("data-side") as "front" | "back";
-      const value = evt.target.value;
-      setInvestigatorCode(side, value);
+      if (evt.target instanceof HTMLSelectElement) {
+        const side = evt.target.getAttribute("data-side") as "front" | "back";
+        const value = evt.target.value;
+        setInvestigatorCode(side, value);
+      }
     },
     [setInvestigatorCode],
+  );
+
+  const handleSelectionChange = useCallback(
+    (evt: React.ChangeEvent<HTMLSelectElement>) => {
+      if (evt.target instanceof HTMLSelectElement) {
+        const key = evt.target.dataset.field;
+        const value = evt.target.value;
+        if (key) setSelection(key, value);
+      }
+    },
+    [setSelection],
   );
 
   const selections = decodeSelections(back, deckCreate.selections);
@@ -111,7 +128,7 @@ export function DeckCreateEditor() {
                 data-field={value.accessor}
                 data-type={value.type}
                 emptyLabel="None"
-                onChange={(evt) => setSelection(key, evt.target.value)}
+                onChange={handleSelectionChange}
                 options={value.options.map((v) => ({
                   value: v,
                   label: capitalize(v),
@@ -124,7 +141,7 @@ export function DeckCreateEditor() {
                 data-field={value.accessor}
                 data-type={value.type}
                 emptyLabel="None"
-                onChange={(evt) => setSelection(key, evt.target.value)}
+                onChange={handleSelectionChange}
                 options={value.options.map((v) => ({
                   value: v.id,
                   label: v.name,

@@ -19,13 +19,20 @@ export function TabooSets({ settings }: Props) {
     setValue(settings.tabooSetId);
   }, [settings]);
 
+  const handleChange = (evt: React.ChangeEvent<HTMLSelectElement>) => {
+    if (evt.target instanceof HTMLSelectElement) {
+      const value = +evt.target.value || undefined;
+      setValue(value);
+    }
+  };
+
   return (
     <Field bordered>
       <FieldLabel htmlFor="taboo-set">Default taboo list</FieldLabel>
       <select
         id="taboo-set"
         name="taboo-set"
-        onChange={(evt) => setValue(+evt.target.value || undefined)}
+        onChange={handleChange}
         value={value ?? ""}
       >
         <option value="">None</option>

@@ -25,7 +25,9 @@ export const SearchInput = forwardRef<HTMLInputElement, Props>(
 
     const onChange = useCallback(
       (evt: React.ChangeEvent<HTMLInputElement>) => {
-        onChangeValue(evt.target.value);
+        if (evt.target instanceof HTMLInputElement) {
+          onChangeValue(evt.target.value);
+        }
       },
       [onChangeValue],
     );

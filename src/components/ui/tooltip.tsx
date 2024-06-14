@@ -116,13 +116,13 @@ export const TooltipTrigger = React.forwardRef<
   // `asChild` allows the user to pass any element as the anchor
   if (asChild && React.isValidElement(children)) {
     return React.cloneElement(
-      children,
+      children as React.ReactElement,
       context.getReferenceProps({
         ref,
         ...props,
-        ...children.props,
+        ...(children as React.ReactElement).props,
         "data-state": context.open ? "open" : "closed",
-      }),
+      } as React.HTMLProps<Element>),
     );
   }
 
@@ -130,7 +130,7 @@ export const TooltipTrigger = React.forwardRef<
     <button
       data-state={context.open ? "open" : "closed"}
       ref={ref}
-      {...context.getReferenceProps(props)}
+      {...context.getReferenceProps(props as React.HTMLProps<Element>)}
     >
       {children}
     </button>
@@ -139,11 +139,15 @@ export const TooltipTrigger = React.forwardRef<
 
 export const TooltipContent = React.forwardRef<
   HTMLDivElement,
-  React.HTMLProps<HTMLDivElement>
+  React.HTMLProps<HTMLElement>
   // eslint-disable-next-line react/prop-types
 >(function TooltipContent({ style, ...props }, propRef) {
   const context = useTooltipContext();
-  const ref = useMergeRefs([context.refs.setFloating, propRef]);
+
+  const ref = useMergeRefs([
+    context.refs.setFloating,
+    propRef,
+  ] as React.Ref<HTMLDivElement>[]);
 
   if (!context.open) return null;
 
@@ -154,7 +158,7 @@ export const TooltipContent = React.forwardRef<
         ref={ref}
         style={{
           ...context.floatingStyles,
-          ...style,
+          ...(style as React.CSSProperties),
         }}
         {...context.getFloatingProps(props)}
       />

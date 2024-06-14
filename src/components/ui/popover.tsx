@@ -49,13 +49,13 @@ export const PopoverTrigger = forwardRef<
   // `asChild` allows the user to pass any element as the anchor
   if (asChild && isValidElement(children)) {
     return cloneElement(
-      children,
+      children as React.ReactElement,
       context.getReferenceProps({
         ref,
         ...props,
-        ...children.props,
+        ...(children as React.ReactElement).props,
         "data-state": context.open ? "open" : "closed",
-      }),
+      } as React.HTMLProps<Element>),
     );
   }
 
@@ -64,7 +64,7 @@ export const PopoverTrigger = forwardRef<
       data-state={context.open ? "open" : "closed"}
       ref={ref}
       type="button"
-      {...context.getReferenceProps(props)}
+      {...context.getReferenceProps(props as React.HTMLProps<Element>)}
     >
       {children}
     </button>
@@ -73,12 +73,16 @@ export const PopoverTrigger = forwardRef<
 
 export const PopoverContent = forwardRef<
   HTMLDivElement,
-  React.HTMLProps<HTMLDivElement>
+  React.HTMLProps<HTMLElement>
   // eslint-disable-next-line react/prop-types
 >(function PopoverContent({ style, ...props }, propRef) {
   const { context: floatingContext, ...context } = usePopoverContext();
-  const ref = useMergeRefs([context.refs.setFloating, propRef]);
   const { isMounted, styles } = useTransitionStyles(floatingContext);
+
+  const ref = useMergeRefs([
+    context.refs.setFloating,
+    propRef,
+  ] as React.Ref<HTMLDivElement>[]);
 
   if (!isMounted) return null;
 
@@ -89,7 +93,10 @@ export const PopoverContent = forwardRef<
           aria-describedby={context.descriptionId}
           aria-labelledby={context.labelId}
           ref={ref}
-          style={{ ...context.floatingStyles, ...style }}
+          style={{
+            ...context.floatingStyles,
+            ...(style as React.CSSProperties),
+          }}
           {...context.getFloatingProps(props)}
         >
           <div style={styles}>{props.children}</div>
@@ -139,8 +146,8 @@ export const PopoverDescription = forwardRef<
 
 export const PopoverClose = forwardRef<
   HTMLButtonElement,
-  React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  React.HTMLAttributes<HTMLButtonElement> & {
+    onClick?: (evt: MouseEvent) => void;
   }
 >(function PopoverClose(props, ref) {
   const { setOpen } = usePopoverContext();

@@ -6,7 +6,7 @@ import css from "./notice.module.css";
 type Variant = "info";
 
 type Props = {
-  as?: React.ElementType;
+  as?: React.JSX.ElementType;
   children: React.ReactNode;
   variant?: "info";
 };

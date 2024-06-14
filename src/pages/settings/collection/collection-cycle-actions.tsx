@@ -6,7 +6,7 @@ import css from "./collection.module.css";
 
 type Props = {
   cycleCode: string;
-  onToggleCycle: React.MouseEventHandler<HTMLButtonElement>;
+  onToggleCycle: (evt: React.MouseEvent) => void;
 };
 
 export function CollectionCycleActions({ cycleCode, onToggleCycle }: Props) {

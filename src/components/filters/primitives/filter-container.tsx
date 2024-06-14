@@ -28,7 +28,7 @@ export function FilterContainer({
   title,
 }: Props) {
   const onFilterReset = useCallback(
-    (evt: React.MouseEvent<HTMLButtonElement>) => {
+    (evt: React.MouseEvent) => {
       evt.preventDefault();
       if (onReset) onReset();
     },

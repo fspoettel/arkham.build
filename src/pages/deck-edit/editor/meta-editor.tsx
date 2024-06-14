@@ -59,43 +59,53 @@ export function MetaEditor({ deck }: Props) {
 
   const onTabooChange = useCallback(
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
-      const value = Number.parseInt(evt.target.value, 10);
-      updateTabooId(Number.isNaN(value) ? null : value);
+      if (evt.target instanceof HTMLSelectElement) {
+        const value = Number.parseInt(evt.target.value, 10);
+        updateTabooId(Number.isNaN(value) ? null : value);
+      }
     },
     [updateTabooId],
   );
 
   const onNameChange = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) => {
-      updateName(evt.target.value);
+      if (evt.target instanceof HTMLInputElement) {
+        updateName(evt.target.value);
+      }
     },
     [updateName],
   );
 
   const onDescriptionChange = useCallback(
     (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
-      updateDescription(evt.target.value);
+      if (evt.target instanceof HTMLTextAreaElement) {
+        updateDescription(evt.target.value);
+      }
     },
     [updateDescription],
   );
 
   const onTagsChange = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) => {
-      updateTags(evt.target.value);
+      if (evt.target instanceof HTMLInputElement) {
+        updateTags(evt.target.value);
+      }
     },
     [updateTags],
   );
 
   const onFieldChange = useCallback(
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
-      const value = evt.target.value;
+      if (evt.target instanceof HTMLSelectElement) {
+        const value = evt.target.value;
 
-      if (evt.target.dataset.field && evt.target.dataset.type) {
-        updateMetaProperty(
-          evt.target.dataset.field,
-          value || null,
-          evt.target.dataset.type as DeckOptionSelectType,
-        );
+        if (evt.target.dataset.field && evt.target.dataset.type) {
+          updateMetaProperty(
+            evt.target.dataset.field,
+            value || null,
+            evt.target.dataset.type as DeckOptionSelectType,
+          );
+        }
       }
     },
     [updateMetaProperty],
@@ -103,9 +113,11 @@ export function MetaEditor({ deck }: Props) {
 
   const onInvestigatorSideChange = useCallback(
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
-      const value = evt.target.value;
-      if (evt.target.dataset.side) {
-        updateInvestigatorSide(evt.target.dataset.side, value);
+      if (evt.target instanceof HTMLSelectElement) {
+        const value = evt.target.value;
+        if (evt.target.dataset.side) {
+          updateInvestigatorSide(evt.target.dataset.side, value);
+        }
       }
     },
     [updateInvestigatorSide],

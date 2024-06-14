@@ -21,6 +21,13 @@ export function CollectionPack({
   onChange,
   value,
 }: Props) {
+  const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    if (evt.target instanceof HTMLInputElement) {
+      const val = Number.parseInt(evt.target.value, 10);
+      if (!Number.isNaN(val)) onChange(pack.code, val);
+    }
+  };
+
   return (
     <li
       className={clsx(css["pack"], pack.reprint && css["reprint"])}
@@ -34,10 +41,7 @@ export function CollectionPack({
             max={2}
             min={0}
             name={pack.code}
-            onChange={(evt) => {
-              const val = Number.parseInt(evt.target.value, 10);
-              if (!Number.isNaN(val)) onChange(pack.code, val);
-            }}
+            onChange={handleChange}
             type="number"
             value={value}
           />

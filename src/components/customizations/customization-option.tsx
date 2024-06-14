@@ -67,7 +67,7 @@ export function CustomizationOption({
               hideLabel
               id={id}
               key={i}
-              label
+              label=""
               onCheckedChange={(val) => {
                 if (val) {
                   onChange(index, { xp_spent: i + 1 });

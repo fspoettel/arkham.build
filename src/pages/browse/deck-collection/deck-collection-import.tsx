@@ -21,28 +21,32 @@ export function DeckCollectionImport() {
   const showToast = useToast();
 
   const handleFormSubmit = useCallback(
-    async (evt: React.FormEvent<HTMLFormElement>) => {
+    async (evt: React.FormEvent) => {
       evt.preventDefault();
 
-      const input = new FormData(evt.currentTarget).get("deck-id")?.toString();
-      setLoading(true);
+      if (evt.currentTarget instanceof HTMLFormElement) {
+        const input = new FormData(evt.currentTarget)
+          .get("deck-id")
+          ?.toString();
+        setLoading(true);
 
-      try {
-        await importDeck(input ?? "");
+        try {
+          await importDeck(input ?? "");
 
-        showToast({
-          children: "Successfully imported deck.",
-          variant: "success",
-        });
+          showToast({
+            children: "Successfully imported deck.",
+            variant: "success",
+          });
 
-        setOpen(false);
-      } catch (err) {
-        showToast({
-          children: `Error: ${err instanceof Error ? err.message : "Unknown error."}`,
-          variant: "error",
-        });
-      } finally {
-        setLoading(false);
+          setOpen(false);
+        } catch (err) {
+          showToast({
+            children: `Error: ${err instanceof Error ? err.message : "Unknown error."}`,
+            variant: "error",
+          });
+        } finally {
+          setLoading(false);
+        }
       }
     },
     [importDeck, showToast],
