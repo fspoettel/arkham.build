@@ -18,6 +18,11 @@ export function or(fns: Filter[]) {
   return (card: Card) => !fns.length || fns.some((f) => f(card));
 }
 
+// TODO: factor out usages of this.
+function pass() {
+  return true;
+}
+
 export function filterWeaknesses(card: Card) {
   return !card.subtype_code;
 }
@@ -74,8 +79,9 @@ function filterXCost(xCost: boolean) {
 }
 
 export function filterCardCost(value: [number, number] | undefined) {
+  if (!value) return pass;
+
   return (card: Card) => {
-    if (!value) return true;
     return card.cost != null && card.cost >= value[0] && card.cost <= value[1];
   };
 }
@@ -89,8 +95,9 @@ function filterNonexceptional(card: Card) {
 }
 
 function filterCardLevel(value: [number, number] | undefined) {
+  if (!value) return pass;
+
   return (card: Card) => {
-    if (!value) return true;
     return card.xp != null && card.xp >= value[0] && card.xp <= value[1];
   };
 }
@@ -128,6 +135,8 @@ export function filterSkillIcons(filterState: SkillIconsFilter) {
 }
 
 export function filterCost(filterState: CostFilter) {
+  if (!filterState.value) return pass;
+
   // apply level range if provided. `0-5` is assumed, null-costed cards are excluded.
   const filters = [filterCardCost(filterState.value)];
 
@@ -140,12 +149,13 @@ export function filterCost(filterState: CostFilter) {
   const filter = or([filterXCost(filterState.x), and(filters)]);
 
   return (card: Card) => {
-    if (!filterState.value) return true;
     return filter(card);
   };
 }
 
 export function filterLevel(filterState: LevelFilter) {
+  if (!filterState.value) return pass;
+
   const filters = [];
 
   if (filterState.value) {
@@ -163,39 +173,59 @@ export function filterLevel(filterState: LevelFilter) {
   const filter = and(filters);
 
   return (card: Card) => {
-    if (!filterState.value) return true;
     return filter(card);
   };
 }
 
 export function filterTypes(filterState: ComboboxFilter) {
+  const enabledTypeCodes = Object.entries(filterState)
+    .filter(([, v]) => !!v)
+    .map(([k]) => k);
+
+  if (!enabledTypeCodes.length) return pass;
+
   return (card: Card) => {
-    const enabledTypeCodes = Object.entries(filterState)
-      .filter(([, v]) => !!v)
-      .map(([k]) => k);
-    if (!enabledTypeCodes.length) return true;
     return filterState[card.type_code];
   };
 }
 
 export function filterSubtypes(filterState: ComboboxFilter) {
+  const enabledTypeCodes = Object.entries(filterState)
+    .filter(([, v]) => !!v)
+    .map(([k]) => k);
+
+  if (!enabledTypeCodes.length) return pass;
+
   return (card: Card) => {
-    const enabledTypeCodes = Object.entries(filterState)
-      .filter(([, v]) => !!v)
-      .map(([k]) => k);
-    if (!enabledTypeCodes.length) return true;
     return !!card.subtype_code && filterState[card.subtype_code];
   };
 }
 
 export function filterTraits(
   filterState: ComboboxFilter,
-  lookupTables: LookupTables["traits"],
+  traitMap: LookupTables["traits"],
 ) {
   const filters: Filter[] = [];
 
   Object.entries(filterState).forEach(([key, value]) => {
-    if (value) filters.push((c: Card) => !!lookupTables[key][c.code]);
+    if (value) filters.push((c: Card) => !!traitMap[key][c.code]);
+  });
+
+  const filter = or(filters);
+
+  return (card: Card) => {
+    return filter(card);
+  };
+}
+
+export function filterActions(
+  filterState: ComboboxFilter,
+  actionMap: LookupTables["actions"],
+) {
+  const filters: Filter[] = [];
+
+  Object.entries(filterState).forEach(([key, value]) => {
+    if (value) filters.push((c: Card) => !!actionMap[key][c.code]);
   });
 
   const filter = or(filters);

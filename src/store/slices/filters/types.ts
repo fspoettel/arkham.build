@@ -37,6 +37,7 @@ type SharedState = {
   type: ComboboxFilter;
   subtype: ComboboxFilter;
   trait: ComboboxFilter;
+  action: ComboboxFilter;
 };
 
 export type Filters = {

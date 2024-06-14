@@ -7,18 +7,19 @@ export type LookupTable<
 
 export type LookupTables = {
   // used: filtering.
-  types_by_card_type_selection: LookupTable<string, 1>;
-  traits_by_card_type_selection: LookupTable<string, 1>;
+  typesByCardTypeSelection: LookupTable<string, 1>;
+  // used: filtering.
+  traitsByCardTypeSeletion: LookupTable<string, 1>;
   // used: grouping.
-  encounter_code: LookupTable<string>;
+  encounterCode: LookupTable<string>;
   // used: grouping.
-  type_code: LookupTable<string>;
+  typeCode: LookupTable<string>;
   // used: grouping.
-  subtype_code: LookupTable<string>;
+  subtypeCode: LookupTable<string>;
   actions: LookupTable<string>;
   cost: LookupTable<number>;
-  faction_code: LookupTable<string>;
-  pack_code: LookupTable<string>;
+  factionCode: LookupTable<string>;
+  packCode: LookupTable<string>;
   health: LookupTable<number>;
   sanity: LookupTable<number>;
   properties: {
@@ -28,8 +29,8 @@ export type LookupTables = {
     seal: Mapping<1>; // TODO: link the tokens?
     multiclass: Mapping<1>;
   };
-  skill_icons: LookupTable<string>;
-  skill_boosts: LookupTable<string>;
+  skillIcons: LookupTable<string>;
+  skillBoosts: LookupTable<string>;
   // used: grouping, filtering.
   // cards that occupy multiple slots are added to both slot entries and a separate grouped entry. They are also added to the `properties.multislot` index.
   slots: LookupTable<string>;

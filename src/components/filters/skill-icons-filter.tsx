@@ -10,6 +10,7 @@ import { SkillIcon } from "../ui/icons/skill-icon";
 import { useCallback } from "react";
 import { SkillIconsFilter as SkillIconsFilterT } from "@/store/slices/filters/types";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+import { Collapsible, CollapsibleContent } from "../ui/collapsible";
 
 export function SkillIconsFilter() {
   const cardType = useStore(selectActiveCardType);
@@ -24,31 +25,32 @@ export function SkillIconsFilter() {
   );
 
   return (
-    <div className={css["skill-filter"]}>
-      <h4>Skill Icons</h4>
-      <CheckboxGroup className={css["skill-filter-icons"]} as="div">
-        {Object.entries(skillIcons).map(([key, value]) => (
-          <div className={css["skill-filter-icon"]} key={key}>
-            <ToggleGroup
-              className={css["skill-filter-icon-toggle"]}
-              key={key}
-              type="single"
-              onValueChange={(val) =>
-                onToggleChange(key as keyof SkillIconsFilterT, val)
-              }
-              value={value ? value.toString() : ""}
-            >
-              <ToggleGroupItem size="small" value="1">
-                1+
-              </ToggleGroupItem>
-              <ToggleGroupItem size="small" value="2">
-                2+
-              </ToggleGroupItem>
-            </ToggleGroup>
-            {key === "any" ? "any" : <SkillIcon skill={key} />}
-          </div>
-        ))}
-      </CheckboxGroup>
-    </div>
+    <Collapsible title="Skill Icons">
+      <CollapsibleContent>
+        <CheckboxGroup className={css["skill-filter-icons"]} as="div">
+          {Object.entries(skillIcons).map(([key, value]) => (
+            <div className={css["skill-filter-icon"]} key={key}>
+              <ToggleGroup
+                className={css["skill-filter-icon-toggle"]}
+                key={key}
+                type="single"
+                onValueChange={(val) =>
+                  onToggleChange(key as keyof SkillIconsFilterT, val)
+                }
+                value={value ? value.toString() : ""}
+              >
+                <ToggleGroupItem size="small" value="1">
+                  1+
+                </ToggleGroupItem>
+                <ToggleGroupItem size="small" value="2">
+                  2+
+                </ToggleGroupItem>
+              </ToggleGroup>
+              {key === "any" ? "any" : <SkillIcon skill={key} />}
+            </div>
+          ))}
+        </CheckboxGroup>
+      </CollapsibleContent>
+    </Collapsible>
   );
 }

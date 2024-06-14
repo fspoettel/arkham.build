@@ -3,7 +3,7 @@
 }
 
 .field > * + * {
-  margin-top: 0.75rem;
+  margin-top: 0.5rem;
 }
 
 .field-limits {
@@ -15,9 +15,10 @@
 
 .field-limits input[type="text"] {
   line-height: 1;
-  width: calc(2ch + 1rem);
+  width: calc(2ch + 0.5rem);
   text-align: center;
-  padding: 0.125rem;
+  padding: 0.125rem 0;
+  font-size: 0.75rem;
 
   &:first-child {
     margin-left: -0.125rem;

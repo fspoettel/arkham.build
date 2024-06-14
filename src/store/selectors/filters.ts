@@ -29,7 +29,7 @@ export const selectTypes = createSelector(
   (state: StoreState) => state.lookupTables,
   (cardType, typesMap, lookupTables) => {
     const types = Object.keys(
-      lookupTables.types_by_card_type_selection[cardType],
+      lookupTables.typesByCardTypeSelection[cardType],
     ).map((type) => typesMap[type]);
     types.sort((a, b) => a.name.localeCompare(b.name));
     return types;
@@ -84,11 +84,20 @@ export const selectFactions = createSelector(
 
 export const selectTraits = createSelector(
   selectActiveCardType,
-  (state: StoreState) => state.lookupTables.traits_by_card_type_selection,
+  (state: StoreState) => state.lookupTables.traitsByCardTypeSeletion,
   (cardType, traitMap) => {
     const types = Object.keys(traitMap[cardType]).map((code) => ({ code }));
     types.sort((a, b) => a.code.localeCompare(b.code));
     return types;
+  },
+);
+
+export const selectActions = createSelector(
+  (state: StoreState) => state.lookupTables.actions,
+  (actionMap) => {
+    const actions = Object.keys(actionMap).map((code) => ({ code }));
+    actions.sort((a, b) => a.code.localeCompare(b.code));
+    return actions;
   },
 );
 
@@ -136,6 +145,20 @@ export const selectActiveTypes = createSelector(
 
 export const selectActiveTraits = createSelector(
   (state: StoreState) => state.filters[state.filters.cardType].trait,
+  (filters) =>
+    Object.fromEntries(
+      Object.entries(filters).reduce(
+        (acc, [key, val]) => {
+          if (val) acc.push([key, { code: key }]);
+          return acc;
+        },
+        [] as [string, { code: string }][],
+      ),
+    ),
+);
+
+export const selectActiveActions = createSelector(
+  (state: StoreState) => state.filters[state.filters.cardType].action,
   (filters) =>
     Object.fromEntries(
       Object.entries(filters).reduce(

@@ -24,6 +24,7 @@ function getInitialState(): Filters {
     type: {},
     subtype: {},
     trait: {},
+    action: {},
   };
 
   return {

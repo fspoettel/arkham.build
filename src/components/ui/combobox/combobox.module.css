@@ -37,13 +37,22 @@
   align-items: center;
   gap: 0.25rem;
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 2rem;
   cursor: pointer;
+  position: relative;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.875rem;
 
   &.active {
     background-color: var(--color-input-background-hover);
     color: var(--color-input-text-hover);
   }
+}
+
+.combobox-menu-item-check {
+  position: absolute;
+  left: 0.5rem;
+  top: calc(50% - 0.5rem);
 }
 
 .combobox-results {

@@ -16,11 +16,11 @@ export function getInitialLookupTables(): LookupTables {
     // => actions.
     actions: {},
     cost: {},
-    encounter_code: {},
-    faction_code: {},
-    pack_code: {},
-    subtype_code: {},
-    type_code: {},
+    encounterCode: {},
+    factionCode: {},
+    packCode: {},
+    subtypeCode: {},
+    typeCode: {},
     health: {},
     properties: {
       fast: {},
@@ -29,18 +29,18 @@ export function getInitialLookupTables(): LookupTables {
       multiclass: {},
       seal: {},
     },
-    skill_icons: {},
+    skillIcons: {},
+    skillBoosts: {},
     slots: {},
     sanity: {},
-    skill_boosts: {},
     sort: {
       alphabetical: {},
     },
     traits: {},
     uses: {},
     level: {},
-    types_by_card_type_selection: {},
-    traits_by_card_type_selection: {},
+    typesByCardTypeSelection: {},
+    traitsByCardTypeSeletion: {},
   };
 }
 
@@ -105,20 +105,20 @@ function indexTypeByCardTypeSelection(
   typeCode: string,
   cardType: CardTypeFilter,
 ) {
-  setInLookupTable(typeCode, tables.types_by_card_type_selection, cardType);
+  setInLookupTable(typeCode, tables.typesByCardTypeSelection, cardType);
 }
 
 function indexByCodes(tables: LookupTables, card: Card) {
-  setInLookupTable(card.code, tables.faction_code, card.faction_code);
-  setInLookupTable(card.code, tables.pack_code, card.code);
-  setInLookupTable(card.code, tables.type_code, card.type_code);
+  setInLookupTable(card.code, tables.factionCode, card.faction_code);
+  setInLookupTable(card.code, tables.packCode, card.code);
+  setInLookupTable(card.code, tables.typeCode, card.type_code);
 
   if (card.subtype_code) {
-    setInLookupTable(card.code, tables.subtype_code, card.subtype_code);
+    setInLookupTable(card.code, tables.subtypeCode, card.subtype_code);
   }
 
   if (card.encounter_code) {
-    setInLookupTable(card.code, tables.encounter_code, card.encounter_code);
+    setInLookupTable(card.code, tables.encounterCode, card.encounter_code);
   }
 }
 
@@ -127,13 +127,9 @@ function indexByTraits(tables: LookupTables, card: Card) {
     if (trait) {
       setInLookupTable(card.code, tables.traits, trait);
       if (card.encounter_code || card.faction_code === "mythos") {
-        setInLookupTable(
-          trait,
-          tables.traits_by_card_type_selection,
-          "encounter",
-        );
+        setInLookupTable(trait, tables.traitsByCardTypeSeletion, "encounter");
       } else {
-        setInLookupTable(trait, tables.traits_by_card_type_selection, "player");
+        setInLookupTable(trait, tables.traitsByCardTypeSeletion, "player");
       }
     }
   });
@@ -170,8 +166,8 @@ function indexBySkillIcons(tables: LookupTables, card: Card) {
   SKILL_KEYS.forEach((key) => {
     const val = card[`skill_${key}`];
     if (val && card.type_code !== "investigator") {
-      setInLookupTable(card.code, tables.skill_icons, key);
-      if (val > 1) setInLookupTable(card.code, tables.skill_icons, "2+");
+      setInLookupTable(card.code, tables.skillIcons, key);
+      if (val > 1) setInLookupTable(card.code, tables.skillIcons, "2+");
     }
   });
 }
@@ -179,11 +175,11 @@ function indexBySkillIcons(tables: LookupTables, card: Card) {
 function indexByMulticlass(tables: LookupTables, card: Card) {
   if (card.faction2_code) {
     setInLookupTable(card.code, tables.properties, "multiclass");
-    setInLookupTable(card.code, tables.faction_code, card.faction2_code);
+    setInLookupTable(card.code, tables.factionCode, card.faction2_code);
   }
 
   if (card.faction3_code) {
-    setInLookupTable(card.code, tables.faction_code, card.faction3_code);
+    setInLookupTable(card.code, tables.factionCode, card.faction3_code);
   }
 }
 
@@ -233,7 +229,7 @@ function indexBySkillBoosts(tables: LookupTables, card: Card) {
 
   for (const match of matches) {
     if (match.length > 0) {
-      setInLookupTable(card.code, tables.skill_boosts, match[1]);
+      setInLookupTable(card.code, tables.skillBoosts, match[1]);
     }
   }
 }

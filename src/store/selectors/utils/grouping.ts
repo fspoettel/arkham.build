@@ -96,13 +96,13 @@ export function resolveGroupingCardCodes(
     }
 
     case "subtype":
-      return Object.keys(lookupTables.subtype_code[grouping.code]);
+      return Object.keys(lookupTables.subtypeCode[grouping.code]);
 
     case "type":
-      return Object.keys(lookupTables.type_code[grouping.code]);
+      return Object.keys(lookupTables.typeCode[grouping.code]);
 
     case "encounter_set":
-      return Object.keys(lookupTables.encounter_code[grouping.code]);
+      return Object.keys(lookupTables.encounterCode[grouping.code]);
 
     default:
       return [];

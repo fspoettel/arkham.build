@@ -8,6 +8,7 @@ import { CostFilter } from "./cost-filter";
 import { SkillIconsFilter } from "./skill-icons-filter";
 import { TypeFilter } from "./type-filter";
 import { TraitFilter } from "./trait-filter";
+import { ActionFilter } from "./action-filter";
 
 export function Filters() {
   const isInitalized = useStore(selectIsInitialized);
@@ -29,6 +30,7 @@ export function Filters() {
       <TypeFilter />
       <TraitFilter />
       <SkillIconsFilter />
+      <ActionFilter />
     </search>
   );
 }

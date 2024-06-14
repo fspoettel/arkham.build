@@ -190,7 +190,9 @@ export function Combobox<T extends Coded>({
                       },
                     })}
                   >
-                    {!!selectedItems[item.code] && <CheckIcon />}
+                    {!!selectedItems[item.code] && (
+                      <CheckIcon className={css["combobox-menu-item-check"]} />
+                    )}
                     {renderItem(item)}
                   </li>
                 );

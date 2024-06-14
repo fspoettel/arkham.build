@@ -22,7 +22,7 @@
   --color-text: var(--gray-400);
 
   --color-accent: var(--gray-400);
-  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border: rgba(255, 255, 255, 0.125);
   --color-focus: var(--gray-200);
 
   --color-input-text: var(--color-accent);
