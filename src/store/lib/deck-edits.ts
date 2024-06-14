@@ -100,7 +100,9 @@ export function applyDeckEdits(
 
   if (deck.ignoreDeckLimitSlots) {
     for (const [code, quantity] of Object.entries(deck.ignoreDeckLimitSlots)) {
-      if (!quantity) delete deck.ignoreDeckLimitSlots[code];
+      if (!quantity || (alwaysDeleteEmpty && !deck.slots[code])) {
+        delete deck.ignoreDeckLimitSlots[code];
+      }
     }
   }
 

@@ -52,8 +52,11 @@ export function encodeCustomizations(customizations: Customizations) {
         .sort((a, b) => a.index - b.index)
         .map((curr) => {
           let s = `${curr.index}`;
-          if (curr.selections || curr.xp_spent != null)
+
+          if (curr.selections || curr.xp_spent != null) {
             s += `|${curr.xp_spent}`;
+          }
+
           if (curr.selections) s += `|${curr.selections}`;
           return s;
         })

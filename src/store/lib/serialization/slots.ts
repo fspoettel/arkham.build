@@ -134,5 +134,5 @@ export function encodeExtraSlots(slots: Record<string, number>) {
         .join(","),
     );
 
-  return entries.length ? entries.join(",") : null;
+  return entries.length ? entries.join(",") : undefined;
 }
