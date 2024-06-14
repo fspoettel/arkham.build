@@ -47,12 +47,7 @@ export function LevelFilter() {
 
   const onOpenChange = useCallback(
     (val: boolean) => {
-      if (val) {
-        if (!value.range) {
-          setValue("range", [0, 5]);
-        }
-      }
-
+      if (val && !value.range) setValue("range", [0, 5]);
       setFilterOpen("player", "level", val);
     },
     [value, setValue, setFilterOpen],

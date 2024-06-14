@@ -70,15 +70,10 @@ export function CostFilter() {
 
   const onOpenChange = useCallback(
     (val: boolean) => {
-      if (val) {
-        setValue("range", [min, max]);
-        setFilterOpen(cardType, "cost", val);
-      }
-      {
-        setFilterOpen(cardType, "cost", val);
-      }
+      if (val && !value.range) setValue("range", [min, max]);
+      setFilterOpen(cardType, "cost", val);
     },
-    [min, max, setValue, setFilterOpen, cardType],
+    [min, max, setValue, setFilterOpen, cardType, value.range],
   );
 
   return (
