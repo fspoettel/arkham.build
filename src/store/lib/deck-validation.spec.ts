@@ -100,6 +100,9 @@ describe("deck validation", () => {
       expect(result.errors).toMatchInlineSnapshot(`
         [
           {
+            "details": {
+              "target": "slots",
+            },
             "type": "TOO_FEW_CARDS",
           },
         ]
@@ -563,6 +566,9 @@ describe("deck validation", () => {
         expect(result.errors).toMatchInlineSnapshot(`
           [
             {
+              "details": {
+                "target": "slots",
+              },
               "type": "TOO_MANY_CARDS",
             },
           ]
@@ -650,6 +656,9 @@ describe("deck validation", () => {
         expect(result.errors).toMatchInlineSnapshot(`
           [
             {
+              "details": {
+                "target": "slots",
+              },
               "type": "TOO_MANY_CARDS",
             },
             {
