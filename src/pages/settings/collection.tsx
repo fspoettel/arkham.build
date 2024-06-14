@@ -75,7 +75,7 @@ export function Collection({ settings }: Props) {
         />
       </Field>
       <Field>
-        <details>
+        <details open>
           <summary>Card collection</summary>
           <fieldset className={css["collection"]} id="collection">
             <ol className={css["collection-cycles"]}>
