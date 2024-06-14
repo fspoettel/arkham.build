@@ -4,9 +4,10 @@ import type { Card } from "@/store/services/types";
 import { applyTaboo } from "@/store/utils/taboos";
 import { splitMultiValue } from "@/utils/card-utils";
 import {
-  ACTION_TEXT,
+  ACTION_TEXT_ENTRIES,
   REGEX_BONDED,
   REGEX_SKILL_BOOST,
+  REGEX_SUCCEED_BY,
   REGEX_USES,
 } from "@/utils/constants";
 
@@ -44,6 +45,7 @@ export function getInitialLookupTables(): LookupTables {
       heals_horror: {},
       multislot: {},
       seal: {},
+      succeedBy: {},
     },
     skillBoosts: {},
     slots: {},
@@ -149,6 +151,8 @@ export function addCardToLookupTables(
     indexByHealsHorror(tables, card);
     indexByHealsDamage(tables, card);
 
+    indexBySucceedsBy(tables, card);
+
     if (card.type_code === "asset") {
       indexBySlots(tables, card);
       indexBySkillBoosts(tables, card);
@@ -188,25 +192,24 @@ function indexByCodes(tables: LookupTables, card: Card) {
 }
 
 function indexByTraits(tables: LookupTables, card: Card) {
-  splitMultiValue(card.real_traits).forEach((trait) => {
-    if (trait) {
-      setInLookupTable(card.code, tables.traits, trait);
-      if (card.encounter_code || card.faction_code === "mythos") {
-        setInLookupTable(trait, tables.traitsByCardTypeSeletion, "encounter");
-      } else {
-        setInLookupTable(trait, tables.traitsByCardTypeSeletion, "player");
-      }
+  for (const trait of splitMultiValue(card.real_traits)) {
+    setInLookupTable(card.code, tables.traits, trait);
+
+    if (card.encounter_code || card.faction_code === "mythos") {
+      setInLookupTable(trait, tables.traitsByCardTypeSeletion, "encounter");
+    } else {
+      setInLookupTable(trait, tables.traitsByCardTypeSeletion, "player");
     }
-  });
+  }
 }
-``;
+
 function indexByActions(tables: LookupTables, card: Card) {
   // add card to action tables.
-  Object.entries(ACTION_TEXT).forEach(([key, value]) => {
+  for (const [key, value] of ACTION_TEXT_ENTRIES) {
     if (card.real_text?.includes(value)) {
       setInLookupTable(card.code, tables.actions, key);
     }
-  });
+  }
 }
 
 // TODO: use a regex.
@@ -264,9 +267,9 @@ function indexBySlots(tables: LookupTables, card: Card) {
       setInLookupTable(card.code, tables.properties, "multislot");
     }
 
-    allSlots.forEach((slot) => {
+    for (const slot of allSlots) {
       setInLookupTable(card.code, tables.slots, slot);
-    });
+    }
   } else if (card.permanent) {
     setInLookupTable(card.code, tables.slots, "Permanent");
   } else {
@@ -308,6 +311,12 @@ function indexByHealsHorror(tables: LookupTables, card: Card) {
     card.customization_options?.tags?.includes("hh")
   ) {
     setInLookupTable(card.code, tables.properties, "heals_horror");
+  }
+}
+
+function indexBySucceedsBy(tables: LookupTables, card: Card) {
+  if (card.real_text?.match(REGEX_SUCCEED_BY)) {
+    setInLookupTable(card.code, tables.properties, "succeedBy");
   }
 }
 
@@ -440,7 +449,7 @@ function addPacksToLookupTables(
   metadata: Metadata,
   lookupTables: LookupTables,
 ) {
-  Object.values(metadata.packs).forEach((pack) => {
+  for (const pack of Object.values(metadata.packs)) {
     setInLookupTable(pack.code, lookupTables.packsByCycle, pack.cycle_code);
-  });
+  }
 }

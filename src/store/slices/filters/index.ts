@@ -69,6 +69,7 @@ function getInitialState(): Filters {
         victory: false,
         heals_horror: false,
         heals_damage: false,
+        succeedBy: false,
       },
     },
   };

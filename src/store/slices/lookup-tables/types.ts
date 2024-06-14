@@ -47,6 +47,7 @@ export type LookupTables = {
     fast: Mapping<1>;
     multislot: Mapping<1>;
     seal: Mapping<1>; // TODO: link the tokens?
+    succeedBy: Mapping<1>;
   };
   skillBoosts: LookupTable<string>;
   // cards that occupy multiple slots are added to both slot entries and a separate grouped entry. They are also added to the `properties.multislot` index.

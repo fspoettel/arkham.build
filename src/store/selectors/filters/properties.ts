@@ -40,6 +40,12 @@ function filterPermanent(slotTable: LookupTables["slots"]) {
   return (card: Card) => !!slotTable["Permanent"]?.[card.code];
 }
 
+function filterSucceedBy(
+  succeedByTable: LookupTables["properties"]["succeedBy"],
+) {
+  return (card: Card) => !!succeedByTable[card.code];
+}
+
 function filterHealsDamage(
   healsDamageTable: LookupTables["properties"]["heals_damage"],
 ) {
@@ -96,6 +102,10 @@ export function filterProperties(
 
   if (filterState.heals_horror) {
     filters.push(filterHealsHorror(lookupTables.properties.heals_horror));
+  }
+
+  if (filterState.succeedBy) {
+    filters.push(filterSucceedBy(lookupTables.properties.succeedBy));
   }
 
   const filter = and(filters);

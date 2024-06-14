@@ -21,6 +21,7 @@ const properties = [
   { key: "exile", label: "Exile" },
   { key: "seal", label: "Seal" },
   { key: "victory", label: "Victory" },
+  { key: "succeedBy", label: "Succeed By" },
   {
     key: "unique",
     label: <>Unique (&#10040;)</>,

@@ -21,8 +21,9 @@ function filterSkillIcons(filterState: SkillIconsFilter["value"]) {
 
   const anyV = filterState.any;
 
-  SKILL_KEYS.forEach((skill) => {
+  for (const skill of SKILL_KEYS) {
     const v = filterState[skill];
+
     if (v) {
       iconFilter.push(filterSkill(skill, v));
     }
@@ -30,7 +31,7 @@ function filterSkillIcons(filterState: SkillIconsFilter["value"]) {
     if (anyV) {
       anyFilter.push(filterSkill(skill, anyV));
     }
-  });
+  }
 
   const filter = anyFilter.length
     ? and([or(anyFilter), and(iconFilter)])

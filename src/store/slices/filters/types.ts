@@ -48,6 +48,7 @@ export type PropertiesFilter = FilterObject<{
   heals_damage: boolean;
   heals_horror: boolean;
   victory: boolean;
+  succeedBy: boolean;
 }>;
 
 type SharedState = {

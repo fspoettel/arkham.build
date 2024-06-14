@@ -4,6 +4,9 @@ export const REGEX_USES = /^Uses\s\(\d+?\s(\w+?)\)/;
 
 export const REGEX_BONDED = /^Bonded\s\((.*?)\)\./;
 
+export const REGEX_SUCCEED_BY =
+  /succe(ssful|ed(?:s?|ed?))(:? at a skill test)? by(?! 0)/;
+
 export const ACTION_TEXT: { [key: string]: string } = {
   fight: "<b>Fight.</b>",
   engage: "<b>Engage.</b>",
@@ -15,6 +18,8 @@ export const ACTION_TEXT: { [key: string]: string } = {
   resource: "<b>Resource.</b>",
   parley: "<b>Parley.</b>",
 } as const;
+
+export const ACTION_TEXT_ENTRIES = Object.entries(ACTION_TEXT);
 
 export type SkillKey =
   | "agility"

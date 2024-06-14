@@ -62,7 +62,7 @@ export const createSharedSlice: StateCreator<
       };
     }
 
-    cards.forEach((c) => {
+    for (const c of cards) {
       if (c.taboo_set_id) {
         metadata.taboos[c.id] = {
           code: c.code,
@@ -77,7 +77,7 @@ export const createSharedSlice: StateCreator<
           real_customization_change: c.real_customization_change,
         };
 
-        return;
+        continue;
       }
 
       // SAFE! Diverging fields are added below.
@@ -99,16 +99,16 @@ export const createSharedSlice: StateCreator<
           encounterSet.pack_code = card.pack_code;
         }
       }
-    });
+    }
 
     const lookupTables = createLookupTables(metadata, state.settings);
     createRelations(metadata, lookupTables);
 
-    Object.keys(metadata.encounterSets).forEach((code) => {
+    for (const code of Object.keys(metadata.encounterSets)) {
       if (!metadata.encounterSets[code].pack_code) {
         delete metadata.encounterSets[code];
       }
-    });
+    }
 
     set({
       metadata,

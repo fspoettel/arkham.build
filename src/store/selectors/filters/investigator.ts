@@ -150,7 +150,7 @@ export const selectInvestigatorFilter = createSelector(
       if (option.option_select) {
         const selectFilters: Filter[] = [];
 
-        option.option_select.forEach((select) => {
+        for (const select of option.option_select) {
           const optionSelectFilters: Filter[] = [];
 
           if (select.level) {
@@ -172,7 +172,7 @@ export const selectInvestigatorFilter = createSelector(
           }
 
           selectFilters.push(and(optionSelectFilters));
-        });
+        }
 
         filterCount += selectFilters.length;
         optionFilter.push(or(selectFilters));

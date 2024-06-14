@@ -6,10 +6,12 @@ import { SIDEWAYS_TYPE_CODES, SKILL_KEYS } from "./constants";
  * Split multi value card properties. expected format: `Item. Tool.`
  */
 export function splitMultiValue(s?: string) {
-  return (s ?? "")
-    .split(".")
-    .map((s) => s.trim())
-    .filter((s) => s);
+  if (!s) return [];
+  return s.split(".").reduce<string[]>((acc, curr) => {
+    const s = curr.trim();
+    if (s) acc.push(s);
+    return acc;
+  }, []);
 }
 
 export function hasSkillIcons(card: Card) {

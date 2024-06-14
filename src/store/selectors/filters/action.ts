@@ -13,9 +13,9 @@ export function filterActions(
 ) {
   const filters: Filter[] = [];
 
-  Object.entries(filterState).forEach(([key, value]) => {
+  for (const [key, value] of Object.entries(filterState)) {
     if (value) filters.push((c: Card) => !!actionTable[key][c.code]);
-  });
+  }
 
   const filter = or(filters);
   return (card: Card) => filter(card);
