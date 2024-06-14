@@ -2,6 +2,7 @@ import { StateCreator } from "zustand";
 import { StoreState } from "..";
 import { mappedByCode } from "./utils";
 import { MetadataSlice } from "./types";
+import { rewriteImageUrl } from "@/store/utils";
 
 export const createMetadataSlice: StateCreator<
   StoreState,
@@ -24,7 +25,10 @@ export const createMetadataSlice: StateCreator<
         dataVersion: dataVersion,
         cycles: mappedByCode(metadata.cycle),
         packs: mappedByCode(metadata.pack),
-        cards: mappedByCode(cards),
+        cards: mappedByCode(cards, (card) => {
+          card.imageurl = rewriteImageUrl(card.imageurl);
+          card.backimageurl = rewriteImageUrl(card.backimageurl);
+        }),
         factions: mappedByCode(metadata.faction),
         subtypes: mappedByCode(metadata.subtype),
         types: mappedByCode(metadata.type),

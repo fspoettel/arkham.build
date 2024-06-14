@@ -1,12 +1,16 @@
 /**
  * Transform an array of arkhamdb-json-data into a map { [code]: data }.
  */
-export function mappedByCode<T extends { code: string }>(arr: T[]) {
+export function mappedByCode<
+  T extends { code: string },
+  S extends { code: string } = T,
+>(arr: T[], mapper?: (t: T) => void) {
   return arr.reduce(
     (acc, curr) => {
-      acc[curr.code] = curr;
+      if (mapper) mapper(curr);
+      acc[curr.code] = curr as unknown as S;
       return acc;
     },
-    {} as Record<string, T>,
+    {} as Record<string, S>,
   );
 }

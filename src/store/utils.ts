@@ -37,3 +37,12 @@ export function isParallel(code: string) {
 export function hasParallel(code: string) {
   return PARALLEL_INVESTIGATORS[code] != null;
 }
+
+export function rewriteImageUrl(url?: string) {
+  const id = url?.split("/").at(-1);
+  return id ? `${import.meta.env.VITE_CARD_IMAGE_URL}/${id}` : undefined;
+}
+
+export function getCardColor(card: Card) {
+  return card.faction2_code ? `color-multiclass` : `color-${card.faction_code}`;
+}

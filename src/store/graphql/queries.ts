@@ -62,6 +62,7 @@ type AllCardResponse = {
 const allCardQuery: TypedDocumentNode<AllCardResponse> = parse(gql`
   {
     all_card(
+      order_by: { real_name: asc }
       where: { official: { _eq: true }, taboo_set_id: { _is_null: true } }
     ) {
       alt_art_investigator
@@ -157,7 +158,7 @@ const allCardQuery: TypedDocumentNode<AllCardResponse> = parse(gql`
   }
 `);
 
-const graphqlUrl = import.meta.env.VITE_GRAPHQL_DATA_ENDPOINT;
+const graphqlUrl = import.meta.env.VITE_GRAPHQL_URL;
 
 async function stub<T>(path: string): Promise<T> {
   return import(/* @vite-ignore */ path).then((p) => p.default as T);
@@ -180,7 +181,6 @@ export async function queryDataVersion() {
   const data = import.meta.env.DEV
     ? await stub<DataVersionResponse>("./data/stubs/data_version.json")
     : await request(graphqlUrl, dataVersionQuery);
-
   return data.all_card_updated[0];
 }
 

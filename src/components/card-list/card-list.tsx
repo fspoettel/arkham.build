@@ -16,7 +16,10 @@ export function CardList() {
 
     const cards = Object.values(state.metadata.cards).filter((card) =>
       cardType === "player"
-        ? isPlayerCard(card) && !card.encounter_code
+        ? isPlayerCard(card) &&
+          !card.encounter_code &&
+          !card.duplicate_of_code &&
+          !card.alternate_of_code
         : !!card.encounter_code,
     );
 

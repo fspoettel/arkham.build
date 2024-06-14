@@ -35,6 +35,7 @@ function App() {
         }
       }
     }
+
     sync().catch(console.error);
   }, [storeInitialized, dataVersion, init]);
 

@@ -35,10 +35,12 @@
     "zustand": "4.4.7"
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "^3.489.0",
     "@testing-library/jest-dom": "6.2.0",
     "@testing-library/react": "14.1.2",
     "@testing-library/user-event": "14.5.2",
     "@types/lodash.memoize": "^4.1.9",
+    "@types/node": "^20.11.0",
     "@types/react": "18.2.46",
     "@types/react-dom": "18.2.18",
     "@typescript-eslint/eslint-plugin": "6.17.0",
