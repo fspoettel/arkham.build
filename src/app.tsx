@@ -1,100 +1,53 @@
 import { useEffect, useState } from "react";
-import { createIndexedDbPersister } from "tinybase/persisters/persister-indexed-db/with-schemas";
 import { Route, Router } from "wouter";
 import { Index } from "./pages";
 import { DeckNew } from "./pages/deck_new";
 import { DeckEdit } from "./pages/deck_edit";
-import { Provider, useCreateStore } from "./stores/DataStore";
-import {
-  createRelationshipsWithSchema,
-  createStoreWithSchema,
-  ensureDatabase,
-  useCreate,
-} from "./stores/utils";
-import { tableSchema, valuesSchema } from "./stores/DataStore/schema";
-import {
-  queryMetadata,
-  queryDataVersion,
-  queryCards,
-} from "./stores/DataStore/sync";
+import { useStore } from "./store";
 import css from "./app.module.css";
 //
 function App() {
   const [storeInitialized, setStoreInitialized] = useState(false);
-  const store = useCreateStore(() =>
-    createStoreWithSchema(tableSchema, valuesSchema),
-  );
 
-  const relationships = useCreate(store, () =>
-    createRelationshipsWithSchema(store, [
-      {
-        relationshipId: "packCycles",
-        localTableId: "packs",
-        remoteTableId: "cycles",
-        getRemoteRowId: "cycle_code",
-      },
-    ]),
-  );
-
-  const persister = useCreate(store, () =>
-    createIndexedDbPersister(store, "card-data"),
-  );
+  const dataVersion = useStore((state) => state.dataVersion);
+  const syncData = useStore((state) => state.sync);
 
   useEffect(() => {
-    async function initPersister() {
-      if (persister) {
-        console.time("init_indexed_db_persister");
-        await ensureDatabase("card-data");
-        await persister.load();
-        setStoreInitialized(true);
-        console.timeEnd("init_indexed_db_persister");
-      }
-    }
-    initPersister().catch(console.error);
-  }, [persister]);
+    const unsub = useStore.persist.onFinishHydration(() => {
+      setStoreInitialized(true);
+    });
+
+    return () => {
+      unsub();
+    };
+  }, []);
 
   useEffect(() => {
     async function sync() {
       if (storeInitialized) {
-        const hasMetadata = Object.keys(store.getTable("cycles") ?? {}).length;
-
-        if (hasMetadata) {
-          console.debug("store is initialized, skipping load.");
+        if (dataVersion?.cards_updated_at) {
+          console.debug(
+            `skipping sync, card data version: ${dataVersion.cards_updated_at}`,
+          );
         } else {
-          console.debug("starting initial sync...");
+          console.debug("starting sync...");
           console.time("sync_metadata");
-          const [metadata, dataVersion, cards] = await Promise.all([
-            queryMetadata(),
-            queryDataVersion(),
-            queryCards(),
-          ]);
-
-          store.setValues(dataVersion);
-
-          store.setTables({
-            ...metadata,
-            cards,
-          });
-
-          await persister?.save();
-
+          await syncData();
           console.timeEnd("sync_metadata");
         }
       }
     }
     sync().catch(console.error);
-  }, [storeInitialized, persister, store]);
+  }, [storeInitialized, dataVersion, syncData]);
 
   return (
-    <Provider relationships={relationships} store={store}>
-      <Router>
-        <div className={css["app"]}>
-          <Route path="/" component={Index} />
-          <Route path="/deck/new" component={DeckNew} />
-          <Route path="/deck/edit/:id" component={DeckEdit} />
-        </div>
-      </Router>
-    </Provider>
+    <Router>
+      <div className={css["app"]}>
+        <Route path="/" component={Index} />
+        <Route path="/deck/new" component={DeckNew} />
+        <Route path="/deck/edit/:id" component={DeckEdit} />
+      </div>
+    </Router>
   );
 }
 

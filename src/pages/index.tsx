@@ -1,13 +1,13 @@
 import { AppLayout } from "@/components/layouts/app_layout";
 import { CenterLayout } from "@/components/layouts/center_layout";
-import { useSortedRowIds } from "@/stores/DataStore";
+import { useStore } from "@/store";
 
 export function Index() {
-  const cardIds = useSortedRowIds("cards", "position");
-
+  const cycles = useStore((s) => s.cycles);
+  console.log(cycles);
   return (
     <AppLayout filters={"Card filters"} sidebar={"Deck list"}>
-      <CenterLayout top="Card search">{cardIds.length}</CenterLayout>
+      <CenterLayout top="Card search"> </CenterLayout>
     </AppLayout>
   );
 }

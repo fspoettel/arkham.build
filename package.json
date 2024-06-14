@@ -21,10 +21,11 @@
   "dependencies": {
     "graphql": "16.8.1",
     "graphql-request": "6.1.0",
+    "idb-keyval": "6.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "tinybase": "4.6.0",
-    "wouter": "2.12.1"
+    "wouter": "2.12.1",
+    "zustand": "4.4.7"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "6.2.0",

@@ -1,10 +1,10 @@
 import { parse } from "graphql";
-import { gql } from "graphql-request";
+import request, { gql } from "graphql-request";
 import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
-import { AllCardUpdated, Card, Cycle, Pack } from "../schema";
+import { Cycle, DataVersion, Pack, QueryCard } from "./schema";
 
-export const dataVersionQuery: TypedDocumentNode<{
-  all_card_updated: AllCardUpdated[];
+const dataVersionQuery: TypedDocumentNode<{
+  all_card_updated: DataVersion[];
 }> = parse(gql`
   {
     all_card_updated(where: { locale: { _eq: "en" } }, limit: 1) {
@@ -16,7 +16,7 @@ export const dataVersionQuery: TypedDocumentNode<{
   }
 `);
 
-export const metadataQuery: TypedDocumentNode<{
+const metadataQuery: TypedDocumentNode<{
   pack: Pack[];
   cycle: Cycle[];
 }> = parse(gql`
@@ -37,13 +37,7 @@ export const metadataQuery: TypedDocumentNode<{
   }
 `);
 
-type QueryCard = Omit<Card, "linked_card_code"> & {
-  linked_card: {
-    code: string;
-  };
-};
-
-export const allCardQuery: TypedDocumentNode<{
+const allCardQuery: TypedDocumentNode<{
   all_card: QueryCard[];
 }> = parse(gql`
   {
@@ -81,7 +75,7 @@ export const allCardQuery: TypedDocumentNode<{
       heals_horror
       health
       hidden
-      id
+      # id
       illustrator
       imagesrc
       imageurl
@@ -139,3 +133,19 @@ export const allCardQuery: TypedDocumentNode<{
     }
   }
 `);
+
+const graphqlUrl = import.meta.env.VITE_GRAPHQL_DATA_ENDPOINT;
+
+export async function queryMetadata() {
+  return request(graphqlUrl, metadataQuery);
+}
+
+export async function queryDataVersion() {
+  const data = await request(graphqlUrl, dataVersionQuery);
+  return data.all_card_updated[0];
+}
+
+export async function queryCards() {
+  const { all_card } = await request(graphqlUrl, allCardQuery);
+  return all_card;
+}
