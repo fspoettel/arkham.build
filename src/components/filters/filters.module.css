@@ -1,8 +1,8 @@
 .filters {
   --filters-spacing-x: 0.75rem;
-  --filters-spacing-y: 0.5rem;
+  --filters-spacing-y: 0.75rem;
 
-  padding: var(--filters-spacing-y);
+  padding: var(--filters-spacing-y) 0;
 
   & > * + * {
     margin-top: var(--filters-spacing-y);

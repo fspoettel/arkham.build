@@ -5,6 +5,7 @@ import { Index } from "./pages";
 import { CardView } from "./pages/card-view";
 import { DeckEdit } from "./pages/deck-edit";
 import { DeckNew } from "./pages/deck-new";
+import { Settings } from "./pages/settings";
 import { useStore } from "./store";
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
       <Route path="/card/:code" component={CardView} />
       <Route path="/deck/new" component={DeckNew} />
       <Route path="/deck/edit/:id" component={DeckEdit} />
+      <Route path="/settings" component={Settings} />
     </Router>
   );
 }

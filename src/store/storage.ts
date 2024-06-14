@@ -107,7 +107,7 @@ function createCustomStorage():
     },
 
     async setAppdata(name, value) {
-      console.debug(`[persist] save user data.`);
+      console.debug(`[persist] save app data.`);
       return set(
         getAppdataDbName(name),
         JSON.stringify({

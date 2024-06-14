@@ -1,5 +1,5 @@
-import { AppLayout } from "../components/layouts/app_layout";
-import { CenterLayout } from "../components/layouts/center_layout";
+import { AppLayout } from "../components/layouts/app-layout";
+import { CenterLayout } from "../components/layouts/center-layout";
 
 export function DeckNew() {
   return (

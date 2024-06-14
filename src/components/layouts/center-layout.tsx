@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import css from "./center_layout.module.css";
+import css from "./center-layout.module.css";
 
 type Props = {
   children: ReactNode;

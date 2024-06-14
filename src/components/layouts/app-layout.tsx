@@ -3,7 +3,9 @@ import { ReactNode } from "react";
 
 import { useDocumentTitle } from "@/utils/use-document-title";
 
-import css from "./app_layout.module.css";
+import css from "./app-layout.module.css";
+
+import { Masthead } from "./masthead";
 
 type Props = {
   children: ReactNode;
@@ -23,12 +25,13 @@ export function AppLayout({
   useDocumentTitle(title);
 
   return (
-    <main className={css["layout"]}>
-      <section className={css["layout-sidebar"]}>{sidebar}</section>
+    <div className={css["layout"]}>
+      <Masthead className={css["header"]} />
+      <section className={css["layout-left"]}>{sidebar}</section>
       <section className={clsx(css["layout-main"], centerClassName)}>
         {children}
       </section>
-      {filters && <nav className={css["layout-filters"]}>{filters}</nav>}
-    </main>
+      {filters && <nav className={css["layout-right"]}>{filters}</nav>}
+    </div>
   );
 }

@@ -1,8 +1,8 @@
 import { CardList } from "@/components/card-list/card-list";
 import { CardSearch } from "@/components/card-list/card-search";
 import { Filters } from "@/components/filters/filters";
-import { AppLayout } from "@/components/layouts/app_layout";
-import { CenterLayout } from "@/components/layouts/center_layout";
+import { AppLayout } from "@/components/layouts/app-layout";
+import { CenterLayout } from "@/components/layouts/center-layout";
 import { useStore } from "@/store";
 import { selectIsInitialized } from "@/store/selectors";
 
