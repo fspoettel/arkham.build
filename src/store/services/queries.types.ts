@@ -128,7 +128,6 @@ export type QueryCard = {
   imageurl?: string;
   is_unique?: boolean;
   linked?: boolean;
-  linked_card?: { code: string };
   myriad?: boolean;
   official: boolean;
   pack_code: string;
@@ -140,6 +139,7 @@ export type QueryCard = {
   real_back_flavor?: string;
   real_back_name?: string;
   real_back_text?: string;
+  real_back_traits?: string;
   real_customization_change?: string;
   real_customization_text?: string;
   real_flavor?: string;

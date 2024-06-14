@@ -304,6 +304,8 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
     { code: string; subname?: string; xp: number }[]
   > = {};
 
+  const backs: Record<string, string> = {};
+
   // first pass: identify target cards.
   for (const card of cards) {
     if (card.xp && card.xp >= 0) {
@@ -328,6 +330,10 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
       } else {
         bonded[match[1]].push(card.code);
       }
+    }
+
+    if (card.back_link_id) {
+      backs[card.back_link_id] = card.code;
     }
   }
 
@@ -396,6 +402,20 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
           setInLookupTable(upgrade.code, tables.relations.level, card.code);
           setInLookupTable(card.code, tables.relations.level, upgrade.code);
         }
+      }
+    }
+
+    // Index cards by back traits.
+
+    if (card.real_back_traits) {
+      for (const trait of splitMultiValue(card.real_back_traits)) {
+        setInLookupTable(card.code, tables.traits, trait);
+      }
+    }
+
+    if (backs[card.code] && card.real_traits) {
+      for (const trait of splitMultiValue(card.real_traits)) {
+        setInLookupTable(backs[card.code], tables.traits, trait);
       }
     }
 
