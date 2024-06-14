@@ -42,8 +42,11 @@ export function reversed(card: Card) {
 
 export function countExperience(card: Card, quantity: number) {
   if (card.customization_xp) return card.customization_xp;
-  let xp = (card.xp ?? 0) + (card.taboo_xp ?? 0);
-  xp = card.exceptional ? xp * 2 : xp;
+
+  let xp = card.xp ?? 0;
+  if (card.exceptional) xp *= 2;
+  if (card.taboo_xp) xp += card.taboo_xp;
+
   return xp * (card.myriad ? 1 : quantity);
 }
 
