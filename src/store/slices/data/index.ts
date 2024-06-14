@@ -8,6 +8,7 @@ export function getInitialDataState() {
   return {
     data: {
       decks: {},
+      latestDecks: {},
     },
   };
 }
@@ -33,12 +34,20 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
           throw new Error(`Deck '${json.id}' already exists.`);
         }
 
+        if (json.next_deck) {
+          console.warn("deck has a next_deck, ignoring it.");
+        }
+
         set({
           data: {
             ...state.data,
             decks: {
               ...state.data.decks,
               [json.id]: json,
+            },
+            latestDecks: {
+              ...state.data.latestDecks,
+              [json.id]: [],
             },
           },
         });
@@ -51,6 +60,10 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
     const state = get();
     const localDecks = { ...state.data.decks };
     delete localDecks[id];
-    set({ data: { ...state.data, decks: localDecks } });
+
+    const latestDecks = { ...state.data.latestDecks };
+    delete latestDecks[id];
+
+    set({ data: { ...state.data, decks: localDecks, latestDecks } });
   },
 });

@@ -23,6 +23,7 @@ export function applyDeckEdits(
   originalDeck: Deck,
   deckView: DeckViewState,
   metadata: Metadata,
+  alwaysDeleteEmpty = false,
 ) {
   if (deckView.mode !== "edit") return originalDeck;
 
@@ -79,7 +80,8 @@ export function applyDeckEdits(
   }
 
   for (const [code, quantity] of Object.entries(deck.slots)) {
-    if (!quantity && !originalDeck.slots[code]) delete deck.slots[code];
+    if (!quantity && (alwaysDeleteEmpty || !originalDeck.slots[code]))
+      delete deck.slots[code];
   }
 
   if (deck.sideSlots && !Array.isArray(deck.sideSlots)) {
@@ -89,7 +91,8 @@ export function applyDeckEdits(
   }
 
   for (const [code, quantity] of Object.entries(extraSlots)) {
-    if (!quantity && !extraSlots[code]) delete extraSlots[code];
+    if (!quantity && (alwaysDeleteEmpty || !extraSlots[code]))
+      delete extraSlots[code];
   }
 
   deck.meta = JSON.stringify({

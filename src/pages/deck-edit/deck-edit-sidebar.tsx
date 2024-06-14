@@ -30,7 +30,7 @@ export function DeckEditSidebar({ deck }: Props) {
 
   return (
     <div className={css["deck-edit-sidebar"]}>
-      <DeckCard deck={deck} showThumbnail={false} showValidation />
+      <DeckCard deck={deck} showValidation showVersion />
       <DeckEditInvestigator deck={deck} />
       <Tabs
         className={css["deck-edit-sidebar-tabs"]}

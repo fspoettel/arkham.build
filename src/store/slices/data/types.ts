@@ -2,8 +2,10 @@ export type Slots = {
   [code: string]: number;
 };
 
+type Id = number | string;
+
 export type Deck = {
-  id: string | number;
+  id: Id;
   external_id?: string | number; // external id, i.e. arkhamdb or arkhamcards.
   external_source?: string;
   name: string;
@@ -19,9 +21,10 @@ export type Deck = {
   taboo_id: number | null;
   meta: string;
   tags: string;
-  // arkhamdb: deck versions.
-  previous_deck?: number | null;
-  next_deck?: number | null;
+  version?: string;
+
+  previous_deck?: Id | null;
+  next_deck?: Id | null;
 };
 
 export function isDeck(x: unknown): x is Deck {
@@ -32,6 +35,9 @@ export function isDeck(x: unknown): x is Deck {
 
 export type DataState = {
   decks: Record<string, Deck>;
+  latestDecks: {
+    [id: Id]: Id[];
+  };
 };
 
 export type DataSlice = {

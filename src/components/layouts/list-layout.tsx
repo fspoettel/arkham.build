@@ -13,19 +13,23 @@ import css from "./list-layout.module.css";
 import { CenterLayout } from "../../components/layouts/center-layout";
 import { CardTypeFilter } from "../filters/card-type-filter";
 
-export function ListLayout({
-  children,
-  filters,
-  sidebar,
-  sidebarWidthMax,
-  topContent,
-}: {
+type Props = {
   children: ReactNode;
   filters: ReactNode;
+  mastheadContent?: ReactNode;
   sidebar: ReactNode;
   sidebarWidthMax: string;
   topContent?: ReactNode;
-}) {
+};
+
+export function ListLayout({
+  children,
+  filters,
+  mastheadContent,
+  sidebar,
+  sidebarWidthMax,
+  topContent,
+}: Props) {
   const filtersRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const filtersOpen = useStore((state) => state.ui.filtersOpen);
@@ -55,7 +59,9 @@ export function ListLayout({
       )}
       style={{ "--sidebar-width-max": sidebarWidthMax } as React.CSSProperties}
     >
-      <Masthead className={css["header"]} slotNav={<CardTypeFilter />} />
+      <Masthead className={css["header"]} slotRight={<CardTypeFilter />}>
+        {mastheadContent}
+      </Masthead>
       <div
         className={css["layout-sidebar"]}
         data-state={sidebarOpen ? "open" : "closed"}

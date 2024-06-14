@@ -9,18 +9,22 @@ import { Button } from "./ui/button";
 
 type Props = {
   className?: string;
-  slotNav?: ReactNode;
+  children?: ReactNode;
+  slotRight?: ReactNode;
 };
 
-export function Masthead({ className, slotNav }: Props) {
+export function Masthead({ children, className, slotRight }: Props) {
   const [location] = useLocation();
   return (
     <header className={clsx(className, css["masthead"])}>
-      <Link className={css["masthead-logo"]} href="~/">
-        <img alt="Arkham.build logo" src="/logo.svg" />
-      </Link>
-      <nav className={css["masthead-nav"]}>
-        {slotNav}
+      <div className={css["masthead-left"]}>
+        <Link className={css["masthead-logo"]} href="~/">
+          <img alt="Arkham.build logo" src="/logo.svg" />
+        </Link>
+        {children}
+      </div>
+      <nav className={css["masthead-right"]}>
+        {slotRight}
         {location !== "/settings" && (
           <Link asChild href="~/settings">
             <Button as="a" className={css["masthead-settings"]} variant="bare">

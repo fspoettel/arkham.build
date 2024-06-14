@@ -44,3 +44,10 @@
   text-align: center;
   padding: 1rem;
 }
+
+.deck-edit-actions {
+  display: flex;
+  align-items: center;
+  flex-flow: row nowrap;
+  gap: 0.5rem;
+}

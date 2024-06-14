@@ -7,6 +7,12 @@
   height: calc(2rem + var(--icon-3xl));
 }
 
+.masthead-left {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
 .masthead h1 {
   font-size: var(--text-base);
 }
@@ -16,7 +22,7 @@
   margin-left: 0.25rem;
 }
 
-.masthead-nav {
+.masthead-right {
   display: flex;
   align-items: center;
   gap: 0.5rem;

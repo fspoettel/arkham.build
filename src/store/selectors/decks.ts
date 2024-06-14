@@ -18,9 +18,20 @@ export const selectLocalDecks = createSelector(
   (data, metadata, lookupTables) => {
     console.time("[perf] select_local_decks");
 
-    const resolvedDecks: ResolvedDeck<ResolvedCard>[] = Object.values(
-      data.decks,
-    ).map((deck) => resolveDeck(metadata, lookupTables, deck, false));
+    const { latestDecks } = data;
+
+    const resolvedDecks = Object.keys(latestDecks).reduce<
+      ResolvedDeck<ResolvedCard>[]
+    >((acc, id) => {
+      const deck = data.decks[id];
+      if (deck) {
+        acc.push(resolveDeck(metadata, lookupTables, deck, false));
+      } else {
+        console.warn(`Could not find deck ${id} in local storage.`);
+      }
+
+      return acc;
+    }, []);
 
     resolvedDecks.sort((a, b) => b.date_update.localeCompare(a.date_update));
 

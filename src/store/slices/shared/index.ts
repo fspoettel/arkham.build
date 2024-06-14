@@ -1,7 +1,9 @@
 import type { StateCreator } from "zustand";
 
+import { applyDeckEdits } from "@/store/lib/deck-edits";
 import type { Card } from "@/store/services/types";
 import { ALT_ART_INVESTIGATOR_MAP } from "@/utils/constants";
+import { incrementVersion } from "@/utils/deck-versions";
 
 import type { StoreState } from "..";
 import { getInitialFilters } from "../filters";
@@ -128,5 +130,57 @@ export const createSharedSlice: StateCreator<
     console.timeEnd("[perf] create_store_data");
 
     return true;
+  },
+  saveDeck() {
+    const state = get();
+
+    if (state.deckView?.mode !== "edit") {
+      console.warn("Tried to save deck but not in edit mode.");
+      return;
+    }
+
+    const deck = state.data.decks[state.deckView.id];
+    if (!deck) return;
+
+    const originalDeck = window.structuredClone(deck);
+    const nextDeck = applyDeckEdits(deck, state.deckView, state.metadata, true);
+
+    nextDeck.previous_deck = originalDeck.id;
+    nextDeck.version = incrementVersion(nextDeck.version);
+
+    nextDeck.id = window.crypto.randomUUID();
+    originalDeck.next_deck = nextDeck.id;
+
+    const latestDecks = {
+      ...state.data.latestDecks,
+      [nextDeck.id]: [
+        originalDeck.id,
+        ...(state.data.latestDecks[originalDeck.id] ?? []),
+      ],
+    };
+
+    set({
+      deckView: {
+        mode: "edit",
+        id: nextDeck.id,
+        activeTab: state.deckView.activeTab,
+        edits: {
+          meta: {},
+          quantities: {},
+          customizations: {},
+        },
+      },
+      data: {
+        ...state.data,
+        decks: {
+          ...state.data.decks,
+          [nextDeck.id]: nextDeck,
+          [originalDeck.id]: originalDeck,
+        },
+        latestDecks,
+      },
+    });
+
+    return nextDeck.id;
   },
 });

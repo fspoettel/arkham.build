@@ -36,7 +36,12 @@ export function DeckCollection() {
               <li className={css["deck-collection-deck"]} key={deck.id}>
                 <Link asChild href={`/deck/${deck.id}/view`}>
                   <a>
-                    <DeckCard deck={deck} interactive showValidation>
+                    <DeckCard
+                      deck={deck}
+                      interactive
+                      showThumbnail
+                      showValidation
+                    >
                       {!!deck.tags.length && (
                         <ul className={css["deck-collection-tags"]}>
                           {deck.tags

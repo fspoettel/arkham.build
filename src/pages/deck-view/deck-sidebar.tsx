@@ -1,16 +1,13 @@
 import clsx from "clsx";
-import { Pencil, Trash2 } from "lucide-react";
-import { useCallback } from "react";
-import { Link, useLocation } from "wouter";
 
 import { DeckInvestigator } from "@/components/deck-investigator/deck-investigator";
 import { FactionIcon } from "@/components/icons/faction-icon";
-import { Button } from "@/components/ui/button";
-import { useStore } from "@/store";
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import { capitalize } from "@/utils/formatting";
 
 import css from "./deck-sidebar.module.css";
+
+import { DeckSidebarActions } from "./deck-sidebar-actions";
 
 type Props = {
   className?: string;
@@ -18,28 +15,10 @@ type Props = {
 };
 
 export function DeckSidebar({ className, deck }: Props) {
-  const deleteDeck = useStore((state) => state.deleteDeck);
-  const [, setLocation] = useLocation();
-
-  const onDelete = useCallback(() => {
-    deleteDeck(deck.id);
-    setLocation("~/");
-  }, [deck.id, deleteDeck, setLocation]);
-
   return (
     <div className={clsx(css["deck-sidebar"], className)}>
       <DeckInvestigator deck={deck} size="tooltip" />
-      <div className={css["deck-sidebar-actions"]}>
-        <Link asChild href={`/${deck.id}/edit`}>
-          <Button as="a" size="full">
-            <Pencil /> Edit
-          </Button>
-        </Link>
-
-        <Button onClick={onDelete} size="full">
-          <Trash2 /> Delete
-        </Button>
-      </div>
+      <DeckSidebarActions deck={deck} />
 
       <div className={css["deck-sidebar-details"]}>
         <ul className={css["deck-details"]}>

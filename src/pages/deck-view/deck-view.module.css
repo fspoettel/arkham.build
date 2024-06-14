@@ -42,7 +42,7 @@
 
 .page-floating {
   position: fixed;
-  left: 2rem;
+  right: 2rem;
   bottom: 1rem;
   z-index: 2;
 }
