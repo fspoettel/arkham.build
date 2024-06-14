@@ -357,12 +357,12 @@ function filterSucceedBy(
 
 function filterTag(tag: string, checkCustomizableOptions: boolean) {
   return (card: Card) => {
-    const healsDamage = !!card.tags?.includes(tag);
+    const hasTag = !!card.tags?.includes(tag);
 
-    if (healsDamage || !checkCustomizableOptions || !card.customization_options)
-      return healsDamage;
+    if (hasTag || !checkCustomizableOptions || !card.customization_options)
+      return hasTag;
 
-    return !!card.customization_options?.some((o) => o.tags?.includes("hd"));
+    return !!card.customization_options?.some((o) => o.tags?.includes(tag));
   };
 }
 
@@ -715,7 +715,7 @@ export function makeOptionFilter(
   // special case: allessandra
   if (option.text && option.text.some((s) => s.includes("Parley"))) {
     filterCount += 1;
-    optionFilter.push(filterActions({ parley: true }, lookupTables["actions"]));
+    optionFilter.push(filterTag("pa", true));
   }
 
   // carolyn fern

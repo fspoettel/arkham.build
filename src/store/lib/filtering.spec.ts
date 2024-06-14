@@ -118,9 +118,9 @@ describe("filter: investigator access", () => {
       expect(applyFilter(state, "10009", "09081")).toBeTruthy();
     });
 
-    it("returns false for cards that have parley printed elsewhere", () => {
+    it("returns true for cards that have parley printed elsewhere", () => {
       const state = store.getState();
-      expect(applyFilter(state, "10009", "09101")).toBeFalsy();
+      expect(applyFilter(state, "10009", "09101")).toBeTruthy();
     });
 
     it("returns false for cards that have a different action keyword", () => {
