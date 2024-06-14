@@ -29,7 +29,12 @@
 .icon-child,
 .icon-children {
   position: absolute;
+  color: currentColor;
   z-index: 2;
+}
+
+:not(.icon_inverted) > .icon-child,
+:not(.icon_inverted) > .icon-children {
   color: var(--color-background);
 }
 
@@ -47,4 +52,8 @@
   left: calc(12.5% - 1px);
   display: inline-flex;
   flex-flow: row nowrap;
+}
+
+.icon-children *:nth-child(2) {
+  margin-left: -3px;
 }

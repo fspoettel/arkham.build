@@ -6,20 +6,25 @@ import { useStore } from "@/store";
 import { CardTypeFilter } from "@/store/slices/filters/types";
 import { selectActiveCardType } from "@/store/selectors/filters";
 
-export function PlayerCardToggle() {
+type Props = {
+  className?: string;
+};
+
+export function PlayerCardToggle({ className }: Props) {
   const cardTypeFilter = useStore(selectActiveCardType);
-  const setCardTypeFilter = useStore((state) => state.setCardTypeFilter);
+  const setActiveCardType = useStore((state) => state.setActiveCardType);
 
   const onToggle = useCallback(
     (value: string) => {
       // TODO: enforce this cast in a selector.
-      if (value) setCardTypeFilter(value as CardTypeFilter);
+      if (value) setActiveCardType(value as CardTypeFilter);
     },
-    [setCardTypeFilter],
+    [setActiveCardType],
   );
 
   return (
     <ToggleGroup
+      className={className}
       defaultValue="player"
       icons
       onValueChange={onToggle}

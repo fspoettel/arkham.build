@@ -1,0 +1,15 @@
+.card-search {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.card-search-input {
+  flex: 1 0 auto;
+}
+
+.card-search-toggle {
+  flex: 0 0 auto;
+}

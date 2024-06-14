@@ -31,7 +31,9 @@ export function Card({ card }: Props) {
         </div>
       )}
 
-      <CardIcon className={clsx(css["card-icon"], colorCls)} card={card} />
+      {!card.encounter_code && (
+        <CardIcon className={clsx(css["card-icon"], colorCls)} card={card} />
+      )}
 
       <figcaption>
         <h4 className={clsx(css["card-name"], colorCls)}>{card.real_name}</h4>

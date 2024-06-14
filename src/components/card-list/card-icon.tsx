@@ -54,7 +54,7 @@ export function CardIcon({ card, className }: Props) {
         className,
       )}
     >
-      {card.cost && card.cost > 10 ? (
+      {card.cost && card.cost >= 10 ? (
         <span className={clsx(css["icon-children"])}>
           <CostIcon cost={card.cost.toString().split("")[0]} />
           <CostIcon cost={card.cost.toString().split("")[1]} />

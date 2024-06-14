@@ -75,7 +75,10 @@ export const createSharedSlice: StateCreator<
       }
     });
 
-    set({ metadata, lookupTables });
+    set({
+      metadata,
+      lookupTables,
+    });
     console.timeEnd("create_store_data");
   },
 });

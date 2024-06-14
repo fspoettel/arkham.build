@@ -11,12 +11,14 @@ import {
 import { sortAlphabetically, sortByEncounterPosition } from "./utils/sorting";
 import {
   selectActiveCardType,
+  selectActiveCost,
   selectActiveFactions,
-  selectActiveLevels,
+  selectActiveLevel,
 } from "./filters";
 import {
   and,
   filterBacksides,
+  filterCost,
   filterExceptional,
   filterFactions,
   filterLevel,
@@ -28,10 +30,18 @@ import {
 export const selectFilteredCards = createSelector(
   selectActiveCardType,
   selectActiveFactions,
-  selectActiveLevels,
+  selectActiveLevel,
+  selectActiveCost,
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
-  (activeCardType, activeFactions, activeLevels, metadata, lookupTables) => {
+  (
+    activeCardType,
+    activeFactions,
+    activeLevel,
+    activeCost,
+    metadata,
+    lookupTables,
+  ) => {
     if (!Object.keys(metadata.cards).length) {
       console.warn("player cards selected before store is initialized.");
       return undefined;
@@ -44,17 +54,30 @@ export const selectFilteredCards = createSelector(
     if (activeCardType === "player") {
       console.time("select_player_cards");
 
-      const weaknessFilters = and([filterFactions(activeFactions)]);
+      const levelFilter = filterLevel(activeLevel.value);
+      const costFilter = filterCost(
+        activeCost.value,
+        activeCost.even,
+        activeCost.odd,
+        activeCost.x,
+      );
+
+      const weaknessFilters = and([
+        filterFactions(activeFactions.value),
+        levelFilter,
+        costFilter,
+      ]);
 
       const playerFilters = and([
         filterPlayerCard,
-        filterFactions(activeFactions),
+        filterFactions(activeFactions.value),
         filterWeaknesses,
-        filterLevel(activeLevels.value),
+        levelFilter,
         or([
-          filterExceptional(activeLevels.exceptional),
-          filterExceptional(!activeLevels.nonexceptional),
+          filterExceptional(activeLevel.exceptional),
+          filterExceptional(!activeLevel.nonexceptional),
         ]),
+        costFilter,
       ]);
 
       for (const grouping of groupByPlayerCardType(metadata, lookupTables)) {

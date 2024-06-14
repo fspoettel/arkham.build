@@ -1,44 +1,80 @@
-import { useState } from "react";
 import { useStore } from "@/store";
-import { StoreState } from "@/store/slices";
 import { RangeSelect } from "../ui/range-select";
 import { Checkbox } from "../ui/checkbox";
-
-function selectCostMinMax(state: StoreState) {
-  const costs = Object.keys(state.lookupTables.cost).map((x) =>
-    Number.parseInt(x, 10),
-  );
-
-  if (costs.length < 2) {
-    throw new TypeError(
-      "selector {selectCostMinMax} expects store to contain metadata.",
-    );
-  }
-
-  costs.sort((a, b) => a - b);
-
-  const min = 0; // arkhamdb data has some cards set to negative values.
-  const max = costs[costs.length - 1];
-  return [min, max];
-}
+import { Collapsible, CollapsibleContent } from "../ui/collapsible";
+import { CheckboxGroup } from "../ui/checkboxgroup";
+import SvgX from "../icons/x";
+import {
+  selectActiveCardType,
+  selectActiveCost,
+  selectCostMinMax,
+} from "@/store/selectors/filters";
+import { useCallback } from "react";
+import { CostFilter as CostFilterT } from "@/store/slices/filters/types";
 
 export function CostFilter() {
   const [min, max] = useStore(selectCostMinMax);
-  const [value, setValue] = useState<[number, number]>([min, max]);
+  const cardType = useStore(selectActiveCardType);
+  const cost = useStore(selectActiveCost);
+  const setFilter = useStore((state) => state.setActiveFilter);
+  const resetFilter = useStore((state) => state.resetFilterKey);
+
+  const setValue = useCallback(
+    function setValue<K extends keyof CostFilterT>(
+      key: K,
+      val: CostFilterT[K],
+    ) {
+      setFilter(cardType, "cost", key, val);
+    },
+    [cardType, setFilter],
+  );
+
+  const resetActiveCost = useCallback(() => {
+    resetFilter(cardType, "cost");
+  }, [cardType, resetFilter]);
 
   return (
-    <RangeSelect
-      id="level-select"
-      label="Cost"
-      min={min}
-      max={max}
-      onValueChange={(val) => {
-        setValue([val[0], val[1]]);
+    <Collapsible
+      title="Cost"
+      onOpenChange={(val) => {
+        if (val) {
+          setValue("value", [min, max]);
+        } else {
+          resetActiveCost();
+        }
       }}
-      value={value}
     >
-      <Checkbox label="Even" id="even" />
-      <Checkbox label="Odd" id="odd" />
-    </RangeSelect>
+      <CollapsibleContent>
+        <RangeSelect
+          id="cost-select"
+          min={min}
+          max={max}
+          onValueCommit={(val) => {
+            setValue("value", [val[0], val[1]]);
+          }}
+          value={cost.value ?? [min, max]}
+        />
+        <CheckboxGroup>
+          <Checkbox
+            label="Even"
+            id="cost-even"
+            onCheckedChange={(value) => setValue("even", !!value)}
+            checked={cost.even}
+          />
+          <Checkbox
+            label="Odd"
+            id="cost-odd"
+            onCheckedChange={(value) => setValue("odd", !!value)}
+            checked={cost.odd}
+          />
+          <Checkbox
+            label={<SvgX />}
+            id="cost-x"
+            onCheckedChange={(value) => setValue("x", !!value)}
+            checked={cost.x}
+          />
+        </CheckboxGroup>
+      </CollapsibleContent>
+    </Collapsible>
   );
 }

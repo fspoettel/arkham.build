@@ -3,7 +3,7 @@
 }
 
 .field > * + * {
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
 }
 
 .field-limits {
@@ -24,12 +24,4 @@
   &:last-child {
     margin-right: -0.125rem;
   }
-}
-
-.field-children {
-  display: flex;
-  flex-flow: row wrap;
-  gap: 1rem;
-  align-items: center;
-  justify-content: space-between;
 }

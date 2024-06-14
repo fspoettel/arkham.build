@@ -1,5 +1,5 @@
 .layout {
-  --decklist-width: 30rem;
+  --decklist-width: 28rem;
   --filters-width: 20rem;
 
   height: 100dvh;
@@ -21,7 +21,7 @@
   overflow-y: auto;
   display: none;
 
-  @media screen and (min-width: 50rem) {
+  @media screen and (min-width: 60rem) {
     display: block;
   }
 }

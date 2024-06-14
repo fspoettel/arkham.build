@@ -1,3 +1,7 @@
+.faction-filter {
+  padding: 0.5rem;
+}
+
 .color-active-guardian[data-state="on"] {
   color: var(--guardian);
 }

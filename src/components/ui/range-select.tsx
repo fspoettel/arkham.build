@@ -1,13 +1,12 @@
 import { Props as SliderProps, Slider } from "./slider";
 import css from "./range-select.module.css";
 import clsx from "clsx";
-import { ReactNode } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 
 type Props = Omit<SliderProps, "defaultValue"> & {
   className?: string;
   children?: ReactNode;
   id: string;
-  label: string;
   min: number;
   max: number;
   sliderClassName?: string;
@@ -15,22 +14,27 @@ type Props = Omit<SliderProps, "defaultValue"> & {
 };
 
 export function RangeSelect({
-  children,
   className,
   sliderClassName,
   id,
   min,
   max,
-  label,
-  onValueChange,
+  onValueCommit,
   value,
   ...rest
 }: Props) {
+  const [liveValue, setLiveValue] = useState(value);
+
+  useEffect(() => {
+    setLiveValue(value);
+  }, [value]);
+
+  const onValueChange = useCallback((value: number[]) => {
+    setLiveValue([value[0], value[1]]);
+  }, []);
+
   return (
     <div className={clsx(css["field"], className)}>
-      <label className={css["field-label"]} htmlFor={id}>
-        {label}
-      </label>
       <Slider
         {...rest}
         className={clsx(css["field-input"], sliderClassName)}
@@ -38,9 +42,15 @@ export function RangeSelect({
         min={min}
         max={max}
         step={1}
+        onValueCommit={onValueCommit}
         onValueChange={onValueChange}
+        onLostPointerCapture={() => {
+          if (liveValue[0] !== value[0] || liveValue[1] !== value[1]) {
+            onValueCommit?.(liveValue);
+          }
+        }}
         thumbCount={2}
-        value={value}
+        value={liveValue}
       />
       <div className={css["field-limits"]}>
         <input
@@ -48,7 +58,7 @@ export function RangeSelect({
           max={value[1]}
           type="text"
           readOnly
-          value={value[0]}
+          value={liveValue[0]}
           tabIndex={-1}
         />
         <input
@@ -56,11 +66,10 @@ export function RangeSelect({
           max={max}
           type="text"
           readOnly
-          value={value[1]}
+          value={liveValue[1]}
           tabIndex={-1}
         />
       </div>
-      {children && <div className={css["field-children"]}>{children}</div>}
     </div>
   );
 }

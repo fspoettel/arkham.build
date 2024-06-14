@@ -1,41 +1,73 @@
 export type CardTypeFilter = "player" | "encounter";
 
-type CostFilter = {
+export type CostFilter = {
   value: undefined | [number, number];
-  even: boolean | undefined;
-  odd: boolean | undefined;
+  even: boolean;
+  odd: boolean;
+  x: boolean;
 };
 
-type LevelFilter = {
+export type LevelFilter = {
   value: undefined | [number, number];
   exceptional: boolean;
   nonexceptional: boolean;
 };
 
+type SharedState = {
+  cost: CostFilter;
+  faction: {
+    value: string[];
+  };
+};
+
 export type Filters = {
   cardType: CardTypeFilter;
-  player: {
-    faction: string[];
+  player: SharedState & {
     level: LevelFilter;
-    cost: CostFilter;
   };
-  encounter: {
-    faction: string[];
-    cost: CostFilter;
-  };
+  encounter: SharedState;
 };
 
 export type FiltersSlice = {
   filters: Filters;
-  setCardTypeFilter(type: CardTypeFilter): void;
 
-  setFactionFilter(factions: string[]): void;
-
-  setActiveLevelValue(value: [number, number]): void;
-  setActiveLevelFlag(
-    key: "exceptional" | "nonexceptional",
-    value: boolean,
-  ): void;
+  setActiveCardType(type: CardTypeFilter): void;
 
   resetFilters(): void;
+
+  resetFilterKey<C extends CardTypeFilter, P extends keyof Filters[C]>(
+    type: C,
+    path: P,
+  ): void;
+
+  setActiveFilter<
+    C extends CardTypeFilter,
+    P extends keyof Filters[C],
+    K extends keyof Filters[C][P],
+  >(
+    type: C,
+    path: P,
+    key: K,
+    value: Filters[C][P][K],
+  ): void;
+
+  setActiveEncounterFilter<
+    P extends keyof Filters["encounter"],
+    K extends keyof Filters["encounter"][P],
+  >(
+    path: P,
+    key: K,
+    value: Filters["encounter"][P][K],
+  ): void;
+
+  setActivePlayerFilter<
+    P extends keyof Filters["player"],
+    K extends keyof Filters["player"][P],
+  >(
+    path: P,
+    key: K,
+    value: Filters["player"][P][K],
+  ): void;
+
+  setActiveLevelShortcut(value: string): void;
 };

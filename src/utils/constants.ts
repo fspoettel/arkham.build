@@ -1,6 +1,3 @@
-export const CARD_LEVEL_MIN = 0;
-export const CARD_LEVEL_MAX = 5;
-
 export const REGEX_SKILL_BOOST = /\+\d+?\s\[(.+?)\]/g;
 export const REGEX_USES = /^Uses\s\(\d+?\s(\w+?)\)/;
 

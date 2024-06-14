@@ -100,6 +100,14 @@ select {
   }
 }
 
+input[type="text"],
+input[type="email"],
+input[type="search"],
+input[type="number"],
+textarea {
+  padding: 0.25rem;
+}
+
 button {
   all: unset;
   cursor: pointer;
@@ -128,6 +136,12 @@ button {
 .button-bare {
   background: none;
   color: var(--color-accent);
+}
+
+.button-icon {
+  padding: 0.25rem;
+  font-size: 1rem;
+  background: none;
 }
 
 ol,

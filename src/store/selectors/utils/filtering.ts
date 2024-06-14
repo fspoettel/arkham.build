@@ -7,7 +7,7 @@ export function and(fns: Filter[]) {
 }
 
 export function or(fns: Filter[]) {
-  return (card: Card) => fns.some((f) => f(card));
+  return (card: Card) => !fns.length || fns.some((f) => f(card));
 }
 
 export function filterWeaknesses(card: Card) {
@@ -46,10 +46,39 @@ export function filterExceptional(val: boolean) {
   return (card: Card) => !!card.exceptional === val;
 }
 
-export function filterLevel(value?: [number, number]) {
+export function filterLevel(value: [number, number] | undefined) {
   return (card: Card) => {
     if (!value) return true;
-    const xp = card.xp ?? 0;
-    return xp === -2 || (xp >= value[0] && xp <= value[1]);
+    return card.xp != null && card.xp >= value[0] && card.xp <= value[1];
+  };
+}
+
+export function filterCost(
+  value: [number, number] | undefined,
+  evenCost: boolean,
+  oddCost: boolean,
+  xCost: boolean,
+) {
+  return (card: Card) => {
+    const filters = [];
+
+    if (value) {
+      filters.push((c: Card) => {
+        return c.cost != null && c.cost >= value[0] && c.cost <= value[1];
+      });
+    }
+
+    const moduloFilters = [];
+    if (evenCost) {
+      moduloFilters.push((c: Card) => c.cost != null && c.cost % 2 === 0);
+    }
+
+    if (oddCost) {
+      moduloFilters.push((c: Card) => c.cost != null && c.cost % 2 !== 0);
+    }
+
+    filters.push(or(moduloFilters));
+
+    return or([(c: Card) => xCost && c.cost === -2, and(filters)])(card);
   };
 }

@@ -7,8 +7,10 @@
 .card-list-nav {
   display: flex;
   flex: 0 0 auto;
-  padding: 0.5rem;
-  justify-content: flex-end;
+  padding: 0.5rem 1rem;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .card-list {

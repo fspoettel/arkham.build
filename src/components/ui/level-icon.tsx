@@ -5,6 +5,7 @@ import SvgLevel2 from "../icons/level-2";
 import SvgLevel3 from "../icons/level-3";
 import SvgLevel5 from "../icons/level-5";
 import SvgLevel4 from "../icons/level-4";
+import SvgLevelNone from "../icons/level-none";
 
 type Props = {
   className?: string;
@@ -28,8 +29,12 @@ const getLevelIcon = memoize((level: number | null | undefined | string) => {
     case 5:
       return SvgLevel5;
 
-    default:
+    case 0:
       return SvgLevel0;
+
+    default: {
+      return SvgLevelNone;
+    }
   }
 });
 

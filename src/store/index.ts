@@ -8,15 +8,15 @@ import { devtools, persist } from "zustand/middleware";
 import { storageConfig } from "./storage";
 
 export const useStore = create<StoreState>()(
-  devtools(
-    persist(
-      (...args) => ({
-        ...createMetadataSlice(...args),
-        ...createLookupTablesSlice(...args),
-        ...createFiltersSlice(...args),
-        ...createSharedSlice(...args),
-      }),
-      storageConfig,
-    ),
+  //devtools(
+  persist(
+    (...args) => ({
+      ...createMetadataSlice(...args),
+      ...createLookupTablesSlice(...args),
+      ...createFiltersSlice(...args),
+      ...createSharedSlice(...args),
+    }),
+    storageConfig,
+    //),
   ),
 );

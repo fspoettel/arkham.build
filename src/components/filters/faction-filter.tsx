@@ -1,11 +1,14 @@
 import { StoreState } from "@/store/slices";
+import { useStore } from "@/store";
+import {
+  selectActiveCardType,
+  selectActiveFactions,
+} from "@/store/selectors/filters";
 import { FactionIcon } from "../ui/faction-icon";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
-import css from "./select-faction.module.css";
-import { useStore } from "@/store";
-import { selectActiveFactions } from "@/store/selectors/filters";
-
+import css from "./faction-filter.module.css";
+import { useCallback } from "react";
 const FACTION_SORT = [
   "seeker",
   "guardian",
@@ -29,16 +32,25 @@ function selectFactions(state: StoreState) {
 }
 
 export function FactionFilter() {
+  const cardType = useStore(selectActiveCardType);
   const factions = useStore(selectFactions);
-  const selectedFactions = useStore(selectActiveFactions);
-  const setFactions = useStore((state) => state.setFactionFilter);
+  const { value } = useStore(selectActiveFactions);
+  const setFilter = useStore((state) => state.setActiveFilter);
+
+  const setFactions = useCallback(
+    (val: string[]) => {
+      setFilter(cardType, "faction", "value", val);
+    },
+    [cardType, setFilter],
+  );
 
   return (
     <ToggleGroup
+      className={css["faction-filter"]}
       type="multiple"
       icons
       onValueChange={setFactions}
-      value={selectedFactions}
+      value={value}
       full
     >
       {factions.map((faction) => (

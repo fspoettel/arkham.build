@@ -1,0 +1,24 @@
+.collapsible-root {
+  padding: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: var(--rounded);
+}
+
+.collapsible-root[data-state="open"] {
+  border: 1px solid var(--color-border);
+}
+
+.collapsible-root > * + * {
+  margin-top: 1rem;
+}
+
+.collapsible-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.collapsible-content > * + * {
+  margin-top: 1rem;
+}

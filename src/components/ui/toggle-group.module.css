@@ -1,7 +1,6 @@
 .toggle-group {
   display: inline-flex;
   color: var(--color-accent);
-  width: 100%;
   justify-content: center;
 }
 
@@ -44,6 +43,7 @@
 
 .toggle-group.is-full {
   display: flex;
+  width: 100%;
 }
 
 .toggle-group.is-full .toggle-group-item {

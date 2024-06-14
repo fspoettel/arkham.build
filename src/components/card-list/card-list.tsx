@@ -40,6 +40,7 @@ export function CardList() {
   return (
     <div className={css["card-list-container"]} key={data.key}>
       <nav className={css["card-list-nav"]}>
+        <output>{data?.cards.length ?? 0} cards</output>
         <Select onValueChange={onSelectGroup} placeholder="Jump to..." value="">
           {data.groups.map((group) => (
             <SelectItem value={group.code} key={group.code}>
