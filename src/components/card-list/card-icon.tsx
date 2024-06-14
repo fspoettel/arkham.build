@@ -1,11 +1,11 @@
 import clsx from "clsx";
 import { Card } from "@/store/graphql/types";
-import { FactionIcon } from "../ui/faction-icon";
-import { LevelIcon } from "../ui/level-icon";
-import SvgWeakness from "../icons/weakness";
+import SvgWeakness from "@/assets/icons/weakness.svg?react";
+import { FactionIcon } from "../ui/icons/faction-icon";
+import { LevelIcon } from "../ui/icons/level-icon";
 import css from "./card-icon.module.css";
-import { CostIcon } from "../ui/cost-icon";
-import { EncounterIcon } from "../ui/encounter-icon";
+import { CostIcon } from "../ui/icons/cost-icon";
+import { LazyEncounterIcon } from "../ui/icons/lazy-icons";
 
 type Props = {
   card: Card;
@@ -24,7 +24,7 @@ export function CardIcon({ card, className }: Props) {
   if (card.faction_code === "mythos") {
     return (
       <span className={clsx(css["icon_large"], className)}>
-        <EncounterIcon code={card.encounter_code} />
+        <LazyEncounterIcon code={card.encounter_code} />
       </span>
     );
   }

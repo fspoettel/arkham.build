@@ -1,9 +1,9 @@
 .skill-filter {
-  padding: 0.75rem;
+  padding: 0 var(--filters-spacing-x);
 }
 
 .skill-filter > * + * {
-  margin-top: 1rem;
+  margin-top: var(--filters-spacing-y);
 }
 
 .skill-filter-icons {
@@ -19,8 +19,4 @@
 .skill-filter-icons svg {
   vertical-align: middle;
   font-size: 1.5rem;
-}
-
-.skill-filter-icon-toggle {
-  font-size: 0.75rem;
 }

@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import SvgAutoFail from "./icons/auto-fail";
-import SvgInvestigator from "./icons/investigator";
+import SvgAutoFail from "@/assets/icons/auto_fail.svg?react";
+import SvgInvestigator from "@/assets/icons/investigator.svg?react";
 import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
 import { useStore } from "@/store";
 import { CardTypeFilter } from "@/store/slices/filters/types";

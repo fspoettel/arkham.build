@@ -2,7 +2,7 @@ import { Card } from "@/store/graphql/types";
 import css from "./skill-icons.module.css";
 import { SKILL_KEYS } from "@/utils/constants";
 import { range } from "@/utils/range";
-import { SkillIcon } from "./skill-icon";
+import { SkillIcon } from "./icons/skill-icon";
 import { Fragment } from "react";
 
 type Props = {

@@ -5,19 +5,21 @@ import { Card } from "./card";
 import css from "./card-list.module.css";
 import { GroupHeader } from "./group-header";
 import { selectFilteredCards } from "@/store/selectors/card-list";
-import { Select, SelectItem } from "../ui/select";
-import { useCallback, useEffect, useRef } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef } from "react";
 import { range } from "@/utils/range";
+import { Select } from "../ui/select";
 
 export function CardList() {
   const virtuosoRef = useRef<GroupedVirtuosoHandle>(null);
   const data = useStore(selectFilteredCards);
 
   const onSelectGroup = useCallback(
-    (code: string) => {
+    (evt: ChangeEvent<HTMLSelectElement>) => {
       if (!data || !virtuosoRef) return;
 
-      const groupIndex = data.groups.findIndex((g) => g.code === code);
+      const groupIndex = data.groups.findIndex(
+        (g) => g.code === evt.target.value,
+      );
       if (groupIndex >= 0) {
         const groupOffset = range(0, groupIndex).reduce(
           (acc, i) => acc + data.groupCounts[i],
@@ -41,16 +43,13 @@ export function CardList() {
         <output>{data?.cards.length ?? 0} cards</output>
         {data && (
           <Select
-            onValueChange={onSelectGroup}
-            placeholder="Jump to..."
+            onChange={onSelectGroup}
             value=""
-          >
-            {data.groups.map((group) => (
-              <SelectItem value={group.code} key={group.code}>
-                {group.name}
-              </SelectItem>
-            ))}
-          </Select>
+            options={data.groups.map((group) => ({
+              value: group.code,
+              label: group.name,
+            }))}
+          />
         )}
       </nav>
       {data && (

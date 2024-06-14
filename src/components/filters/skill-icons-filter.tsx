@@ -6,7 +6,7 @@ import {
   selectActiveCardType,
   selectActiveSkillIcons,
 } from "@/store/selectors/filters";
-import { SkillIcon } from "../ui/skill-icon";
+import { SkillIcon } from "../ui/icons/skill-icon";
 import { useCallback } from "react";
 import { SkillIconsFilter as SkillIconsFilterT } from "@/store/slices/filters/types";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
@@ -38,11 +38,14 @@ export function SkillIconsFilter() {
               }
               value={value ? value.toString() : ""}
             >
-              <ToggleGroupItem value="1">1+</ToggleGroupItem>
-              <ToggleGroupItem value="2">2+</ToggleGroupItem>
+              <ToggleGroupItem size="small" value="1">
+                1+
+              </ToggleGroupItem>
+              <ToggleGroupItem size="small" value="2">
+                2+
+              </ToggleGroupItem>
             </ToggleGroup>
-            {key !== "any" && <SkillIcon skill={key} />}
-            {key === "any" && "any"}
+            {key === "any" ? "any" : <SkillIcon skill={key} />}
           </div>
         ))}
       </CheckboxGroup>

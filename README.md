@@ -4,12 +4,7 @@
 
 ### Icons
 
-Icons are sourced from [ArkhamCards](https://github.com/zzorba/ArkhamCards/blob/master/assets/icomoon/project.json). To regenerate the icon components, perform the following steps:
-
-1. Download the linked icomoon project above.
-2. Import it into the icomoon app and select all applicable icons (hint: there is 'Select all' for sets).
-3. Download the icons as SVG and move them to `assets/icons`.
-4. Run `npm run icons:generate`. This will generate a react component for each icon in `src/components/icons`.
+SVG icons are sourced from [ArkhamCards](https://github.com/zzorba/ArkhamCards/blob/master/assets/icomoon/project.json)'s icomoon project. `vite-plugin-svgr` is used to transform these into react component on impoirt.
 
 <details>
   <summary><h2>Template readme</h2></summary>

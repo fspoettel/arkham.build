@@ -4,7 +4,7 @@ import {
   selectActiveFactions,
   selectFactions,
 } from "@/store/selectors/filters";
-import { FactionIcon } from "../ui/faction-icon";
+import { FactionIcon } from "../ui/icons/faction-icon";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 import css from "./faction-filter.module.css";

@@ -8,7 +8,7 @@ import { CheckboxGroup } from "../ui/checkboxgroup";
 
 import css from "./level-filter.module.css";
 import { LevelFilter as LevelFilterT } from "@/store/slices/filters/types";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 function getToggleValue(value: [number, number] | undefined) {
   if (!value) return "";
@@ -18,6 +18,7 @@ function getToggleValue(value: [number, number] | undefined) {
 }
 
 export function LevelFilter() {
+  const [open, setOpen] = useState(false);
   const activeLevel = useStore(selectActiveLevel);
   const setActiveLevelShortcut = useStore(
     (state) => state.setActiveLevelShortcut,
@@ -42,6 +43,7 @@ export function LevelFilter() {
 
   const onOpenChange = useCallback(
     (val: boolean) => {
+      setOpen(val);
       if (val) {
         if (!activeLevel.value) {
           setValue("value", [0, 5]);
@@ -68,16 +70,23 @@ export function LevelFilter() {
   );
 
   return (
-    <Collapsible title="Level" onOpenChange={onOpenChange}>
-      <ToggleGroup
-        type="single"
-        full
-        onValueChange={setActiveLevelShortcut}
-        value={getToggleValue(activeLevel.value)}
-      >
-        <ToggleGroupItem value="0">Level 0</ToggleGroupItem>
-        <ToggleGroupItem value="1-5">Level 1-5</ToggleGroupItem>
-      </ToggleGroup>
+    <Collapsible
+      open={open}
+      className={css["level-filter"]}
+      title="Level"
+      onOpenChange={onOpenChange}
+    >
+      {!open && (
+        <ToggleGroup
+          type="single"
+          full
+          onValueChange={setActiveLevelShortcut}
+          value={getToggleValue(activeLevel.value)}
+        >
+          <ToggleGroupItem value="0">Level 0</ToggleGroupItem>
+          <ToggleGroupItem value="1-5">Level 1-5</ToggleGroupItem>
+        </ToggleGroup>
+      )}
       <CollapsibleContent className={css["level-filter-content"]}>
         <RangeSelect
           id="level-select"

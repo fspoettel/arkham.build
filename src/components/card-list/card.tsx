@@ -1,11 +1,11 @@
-import { Card as CardSchema } from "@/store/graphql/types";
-import css from "./card.module.css";
 import clsx from "clsx";
+import { Card as CardSchema } from "@/store/graphql/types";
+import SvgParallel from "@/assets/icons/parallel.svg?react";
+import css from "./card.module.css";
 import { CardIcon } from "./card-icon";
 import { SkillIcons } from "../ui/skill-icons";
-import { MulticlassIcons } from "../ui/multiclass-icons";
+import { MulticlassIcons } from "../ui/icons/multiclass-icons";
 import { getCardColor, hasSkillIcons } from "@/utils/card-utils";
-import SvgParallel from "../icons/parallel";
 
 type Props = {
   card: CardSchema;

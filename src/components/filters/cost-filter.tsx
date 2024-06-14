@@ -3,7 +3,7 @@ import { RangeSelect } from "../ui/range-select";
 import { Checkbox } from "../ui/checkbox";
 import { Collapsible, CollapsibleContent } from "../ui/collapsible";
 import { CheckboxGroup } from "../ui/checkboxgroup";
-import SvgX from "../icons/x";
+import SvgX from "@/assets/icons/x.svg?react";
 import {
   selectActiveCardType,
   selectActiveCost,

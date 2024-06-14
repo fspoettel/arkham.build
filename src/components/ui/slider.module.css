@@ -1,7 +1,7 @@
 .slider {
   --slider-height: 1.25rem;
   --track-height: 0.25rem;
-  --color-track: var(--color-input-background);
+  --color-track: var(--color-border);
   --color-range: var(--color-accent);
   --thumb-size: 1.25rem;
 

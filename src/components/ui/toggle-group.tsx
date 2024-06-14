@@ -33,11 +33,15 @@ export function ToggleGroup({
   );
 }
 
-export function ToggleGroupItem(props: ToggleGroupItemProps) {
+type GroupItemProps = ToggleGroupItemProps & {
+  size?: "small" | "default";
+};
+
+export function ToggleGroupItem({ className, size, ...rest }: GroupItemProps) {
   return (
     <Item
-      {...props}
-      className={clsx(css["toggle-group-item"], props.className)}
+      {...rest}
+      className={clsx(css["toggle-group-item"], size && css[size], className)}
     />
   );
 }
