@@ -47,6 +47,10 @@ export function CardModalQuantities({
     selectCardQuantitiesForSlot(state, "extraSlots"),
   );
 
+  const bondedSlotQuantities = useStore((state) =>
+    selectCardQuantitiesForSlot(state, "bondedSlots"),
+  );
+
   const onChangeQuantity = (quantity: number, slot: Slot) => {
     changeCardQuantity(card.code, quantity, slot);
   };
@@ -54,26 +58,44 @@ export function CardModalQuantities({
   const code = card.code;
   const limit = card.deck_limit ?? card.quantity;
 
+  const isBonded = !!(bondedSlotQuantities && bondedSlotQuantities?.[code]);
+
   return (
     <div className={css["cardmodal-quantities"]} onClick={onClick} ref={divRef}>
-      <article className={css["cardmodal-quantity"]}>
-        <h3>Deck</h3>
-        <QuantityInput
-          disabled={!canEdit}
-          limit={limit}
-          onValueChange={(quantity) => onChangeQuantity(quantity, "slots")}
-          value={quantities?.[code] ?? 0}
-        />
-      </article>
-      <article className={css["cardmodal-quantity"]}>
-        <h3>Side deck</h3>
-        <QuantityInput
-          disabled={!canEdit}
-          limit={limit}
-          onValueChange={(quantity) => onChangeQuantity(quantity, "sideSlots")}
-          value={sideSlotQuantities?.[code] ?? 0}
-        />
-      </article>
+      {!isBonded && (
+        <article className={css["cardmodal-quantity"]}>
+          <h3>Deck</h3>
+          <QuantityInput
+            disabled={!canEdit}
+            limit={limit}
+            onValueChange={(quantity) => onChangeQuantity(quantity, "slots")}
+            value={quantities?.[code] ?? 0}
+          />
+        </article>
+      )}
+      {!isBonded && (
+        <article className={css["cardmodal-quantity"]}>
+          <h3>Side deck</h3>
+          <QuantityInput
+            disabled={isBonded || !canEdit}
+            limit={limit}
+            onValueChange={(quantity) =>
+              onChangeQuantity(quantity, "sideSlots")
+            }
+            value={sideSlotQuantities?.[code] ?? 0}
+          />
+        </article>
+      )}
+      {isBonded && (
+        <article className={css["cardmodal-quantity"]}>
+          <h3>Bonded</h3>
+          <QuantityInput
+            disabled
+            limit={limit}
+            value={bondedSlotQuantities[code]}
+          />
+        </article>
+      )}
       {showExtraQuantities && (
         <article className={css["cardmodal-quantity"]}>
           <h3>Spirits</h3>

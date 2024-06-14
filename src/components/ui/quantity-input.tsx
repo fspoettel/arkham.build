@@ -6,7 +6,7 @@ import { Button } from "./button";
 
 type Props = {
   disabled?: boolean;
-  onValueChange: (value: number) => void;
+  onValueChange?: (value: number) => void;
   value: number;
   limit: number;
 };
@@ -19,12 +19,12 @@ export function QuantityInput({
 }: Props) {
   const decrementCardQuantity = () => {
     if (value <= 0) return;
-    onValueChange(-1);
+    onValueChange?.(-1);
   };
 
   const incrementCardQuantity = () => {
     if (value >= limit) return;
-    onValueChange(1);
+    onValueChange?.(1);
   };
 
   return (

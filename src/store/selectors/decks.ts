@@ -102,7 +102,10 @@ export const selectForbiddenCards = createSelector(
   },
 );
 
-export function selectCardQuantitiesForSlot(state: StoreState, slot: Slot) {
+export function selectCardQuantitiesForSlot(
+  state: StoreState,
+  slot: Slot | "bondedSlots",
+) {
   if (!state.deckView) return undefined;
 
   const activeDeck = selectActiveDeck(state);
