@@ -13,7 +13,7 @@ import type { Val } from "./types";
 
 const indexedDBAdapter = new IndexedDBAdapter();
 
-const VERSION = 0;
+const VERSION = 1;
 
 // use this flag to disable rehydration during dev.
 const SKIP_HYDRATION = false;
@@ -22,6 +22,9 @@ export const storageConfig: PersistOptions<StoreState, Val> = {
   name: "deckbuilder",
   storage: createCustomStorage(),
   version: VERSION,
+  migrate(persistedState) {
+    return persistedState as StoreState;
+  },
   partialize(state: StoreState) {
     return {
       decks: state.decks,
