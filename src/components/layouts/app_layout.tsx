@@ -1,6 +1,8 @@
 import clsx from "clsx";
 import { ReactNode } from "react";
 
+import { useDocumentTitle } from "@/utils/use-document-title";
+
 import css from "./app_layout.module.css";
 
 type Props = {
@@ -8,6 +10,7 @@ type Props = {
   centerClassName?: string;
   filters?: ReactNode;
   sidebar: ReactNode;
+  title: string;
 };
 
 export function AppLayout({
@@ -15,7 +18,10 @@ export function AppLayout({
   children,
   filters,
   sidebar,
+  title,
 }: Props) {
+  useDocumentTitle(title);
+
   return (
     <main className={css["layout"]}>
       <section className={css["layout-sidebar"]}>{sidebar}</section>

@@ -12,7 +12,7 @@ export function Index() {
   if (!isInitalized) return null;
 
   return (
-    <AppLayout filters={<Filters />} sidebar={"Deck list"}>
+    <AppLayout filters={<Filters />} sidebar={"Deck list"} title="Index">
       <CenterLayout top={<CardSearch />}>
         <CardList />
       </CenterLayout>

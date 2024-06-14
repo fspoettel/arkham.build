@@ -50,6 +50,7 @@ export function CardView() {
       centerClassName={css["view-center"]}
       sidebar="Deck list"
       filters={<CardViewSidebar resolvedCard={cardWithRelations} />}
+      title={cardWithRelations.card.real_name}
     >
       <CenterLayout
         top={
