@@ -35,8 +35,3 @@ export const selectChanges = createSelector(
   selectValue,
   (metadata, value) => (value ? metadata.tabooSets[value].name : ""),
 );
-
-export const selectOpen = createSelector(
-  (state: StoreState) => state.filters.player.tabooSet,
-  (filterState) => filterState.open,
-);

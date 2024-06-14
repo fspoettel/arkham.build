@@ -13,7 +13,7 @@ import {
   RadioButtonGroup,
   RadioButtonGroupItem,
 } from "../ui/radio-button-group";
-import { FilterContainer } from "./filter-container";
+import { FilterContainer } from "./primitives/filter-container";
 
 export function OwnershipFilter() {
   const cardType = useStore(selectActiveCardType);
@@ -24,7 +24,7 @@ export function OwnershipFilter() {
     (state) => state.filters[state.filters.cardType].ownership.value,
   );
 
-  const setFilter = useStore((state) => state.setActiveFilter);
+  const setFilter = useStore((state) => state.setFilter);
   const setFilterOpen = useStore((state) => state.setFilterOpen);
 
   const onOpenChange = useCallback(

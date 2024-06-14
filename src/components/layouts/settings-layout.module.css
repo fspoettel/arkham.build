@@ -4,7 +4,7 @@
 
 .layout-main {
   margin: 1rem auto 0 auto;
-  padding: 1rem;
+  padding: 2rem;
   border: 1px solid var(--nord-3);
   border-radius: var(--rounded-md);
 }

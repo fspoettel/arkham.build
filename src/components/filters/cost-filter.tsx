@@ -8,12 +8,14 @@ import {
   selectValue,
 } from "@/store/selectors/filters/cost";
 import { selectActiveCardType } from "@/store/selectors/filters/shared";
-import { CostFilter as CostFilterSchema } from "@/store/slices/filters/types";
+import { CostFilter as CostFilterType } from "@/store/slices/filters/types";
 
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
 import { RangeSelect } from "../ui/range-select";
-import { FilterContainer } from "./filter-container";
+import { FilterContainer } from "./primitives/filter-container";
+
+type Value = CostFilterType["value"];
 
 export function CostFilter() {
   const [min, max] = useStore(selectCostMinMax);
@@ -21,15 +23,12 @@ export function CostFilter() {
   const value = useStore(selectValue);
   const open = useStore(selectOpen);
 
-  const setFilter = useStore((state) => state.setActiveNestedFilter);
+  const setFilter = useStore((state) => state.setNestedFilter);
   const resetFilter = useStore((state) => state.resetFilterKey);
   const setFilterOpen = useStore((state) => state.setFilterOpen);
 
   const setValue = useCallback(
-    function setValue<K extends keyof CostFilterSchema["value"]>(
-      key: K,
-      val: CostFilterSchema["value"][K],
-    ) {
+    function setValue<K extends keyof Value>(key: K, val: Value[K]) {
       setFilter(cardType, "cost", key, val);
     },
     [cardType, setFilter],

@@ -7,11 +7,11 @@ import {
   selectValue,
 } from "@/store/selectors/filters/properties";
 import { selectActiveCardType } from "@/store/selectors/filters/shared";
-import { PropertiesFilter as PropertiesFilterT } from "@/store/slices/filters/types";
+import { PropertiesFilter as PropertiesFilterType } from "@/store/slices/filters/types";
 
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
-import { FilterContainer } from "./filter-container";
+import { FilterContainer } from "./primitives/filter-container";
 
 const properties = [
   { key: "bonded", label: "Bonded" },
@@ -27,13 +27,15 @@ const properties = [
   },
 ];
 
+type Value = PropertiesFilterType["value"];
+
 export function PropertiesFilter() {
   const cardType = useStore(selectActiveCardType);
   const value = useStore(selectValue);
   const changes = useStore(selectChanges);
   const open = useStore(selectOpen);
 
-  const setFilter = useStore((state) => state.setActiveNestedFilter);
+  const setFilter = useStore((state) => state.setNestedFilter);
   const setFilterOpen = useStore((state) => state.setFilterOpen);
   const resetFilter = useStore((state) => state.resetFilterKey);
 
@@ -49,7 +51,7 @@ export function PropertiesFilter() {
   );
 
   const onPropertyChange = useCallback(
-    (key: keyof PropertiesFilterT["value"], val: boolean) => {
+    (key: keyof Value, val: boolean) => {
       setFilter(cardType, "properties", key, val);
     },
     [setFilter, cardType],
@@ -71,9 +73,9 @@ export function PropertiesFilter() {
             label={label}
             id={`property-${key}`}
             onCheckedChange={(val) =>
-              onPropertyChange(key as keyof PropertiesFilterT["value"], !!val)
+              onPropertyChange(key as keyof Value, !!val)
             }
-            checked={value[key as keyof PropertiesFilterT["value"]]}
+            checked={value[key as keyof Value]}
           />
         ))}
       </CheckboxGroup>

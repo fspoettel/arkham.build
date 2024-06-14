@@ -78,18 +78,23 @@ export function Collection({ settings }: Props) {
                 </div>
 
                 {!!cycle.reprintPacks.length && (
-                  <ol className={css["collection-packs"]}>
-                    {cycle.reprintPacks.map((pack) => (
-                      <CollectionPack
-                        pack={pack}
-                        key={pack.code}
-                        hasQuantity={pack.code === "core"}
-                        onChange={onCheckboxChange}
-                        cycle={cycle}
-                        value={collectionState[pack.code] ?? 0}
-                      />
-                    ))}
-                  </ol>
+                  <div>
+                    <div className={css["collection-cycle-subheader"]}>
+                      New format
+                    </div>
+                    <ol className={css["collection-packs"]}>
+                      {cycle.reprintPacks.map((pack) => (
+                        <CollectionPack
+                          pack={pack}
+                          key={pack.code}
+                          hasQuantity={pack.code === "core"}
+                          onChange={onCheckboxChange}
+                          cycle={cycle}
+                          value={collectionState[pack.code] ?? 0}
+                        />
+                      ))}
+                    </ol>
+                  </div>
                 )}
 
                 <div>

@@ -2,9 +2,10 @@
   --checkbox-size: 1rem;
 
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   align-items: center;
   cursor: pointer;
+  gap: 0.5rem;
 }
 
 .checkbox-root {
@@ -43,7 +44,7 @@
   color: currentColor;
   cursor: pointer;
   user-select: none;
-  padding-left: 0.5rem;
   line-height: var(--checkbox-size);
   font-size: var(--text-sm);
+  word-break: normal;
 }

@@ -4,7 +4,7 @@ import SvgAutoFail from "@/assets/icons/auto_fail.svg?react";
 import SvgInvestigator from "@/assets/icons/investigator.svg?react";
 import { useStore } from "@/store";
 import { selectActiveCardType } from "@/store/selectors/filters/shared";
-import { CardTypeFilter as CardTypeFilterSchema } from "@/store/slices/filters/types";
+import { CardTypeFilter as CardTypeFilterType } from "@/store/slices/filters/types";
 
 import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
 
@@ -17,7 +17,7 @@ export function CardTypeFilter({ className }: Props) {
   const setActiveCardType = useStore((state) => state.setActiveCardType);
 
   const onToggle = useCallback(
-    (value: CardTypeFilterSchema) => {
+    (value: CardTypeFilterType) => {
       if (value) setActiveCardType(value);
     },
     [setActiveCardType],

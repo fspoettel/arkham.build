@@ -258,8 +258,3 @@ export const selectChanges = createSelector(
   selectValue,
   (metadata, value) => (value ? metadata.cards[value].real_name : ""),
 );
-
-export const selectOpen = createSelector(
-  (state: StoreState) => state.filters.player.investigator,
-  (filterState) => filterState.open,
-);

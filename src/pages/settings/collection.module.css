@@ -74,10 +74,6 @@
   border-radius: var(--rounded-md);
 }
 
-.collection-pack.reprint {
-  background: var(--nord-2);
-}
-
 .collection-pack label {
   display: block;
   flex: 1 1 auto;
@@ -90,6 +86,6 @@
 }
 
 .collection-quantity-input {
-  max-width: 2.25rem;
-  padding: 0.125rem;
+  max-width: 2.5rem;
+  padding: 0.25rem;
 }

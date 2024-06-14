@@ -7,14 +7,16 @@ import {
   selectOpen,
   selectValue,
 } from "@/store/selectors/filters/skill-icons";
-import { SkillIconsFilter as SkillIconsFilterT } from "@/store/slices/filters/types";
+import { SkillIconsFilter as SkillIconsFilterType } from "@/store/slices/filters/types";
 
 import css from "./skill-icons-filter.module.css";
 
 import { SkillIcon } from "../icons/skill-icon";
 import { CheckboxGroup } from "../ui/checkboxgroup";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
-import { FilterContainer } from "./filter-container";
+import { FilterContainer } from "./primitives/filter-container";
+
+type Value = SkillIconsFilterType["value"];
 
 export function SkillIconsFilter() {
   const cardType = useStore(selectActiveCardType);
@@ -22,7 +24,7 @@ export function SkillIconsFilter() {
   const changes = useStore(selectChanges);
   const open = useStore(selectOpen);
 
-  const setFilter = useStore((state) => state.setActiveNestedFilter);
+  const setFilter = useStore((state) => state.setNestedFilter);
   const setFilterOpen = useStore((state) => state.setFilterOpen);
   const resetFilter = useStore((state) => state.resetFilterKey);
 
@@ -38,7 +40,7 @@ export function SkillIconsFilter() {
   );
 
   const onToggleChange = useCallback(
-    (key: keyof SkillIconsFilterT, val: string) => {
+    (key: keyof Value, val: string) => {
       setFilter(cardType, "skillIcons", key, val ? +val : null);
     },
     [setFilter, cardType],
@@ -59,9 +61,7 @@ export function SkillIconsFilter() {
               className={css["skill-filter-icon-toggle"]}
               key={key}
               type="single"
-              onValueChange={(val) =>
-                onToggleChange(key as keyof SkillIconsFilterT, val)
-              }
+              onValueChange={(val) => onToggleChange(key as keyof Value, val)}
               value={value ? value.toString() : ""}
             >
               <ToggleGroupItem size="small" value="1">

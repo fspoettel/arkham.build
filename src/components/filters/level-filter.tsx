@@ -2,7 +2,7 @@ import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import { selectOpen, selectValue } from "@/store/selectors/filters/level";
-import { LevelFilter as LevelFilterSchema } from "@/store/slices/filters/types";
+import { LevelFilter as LevelFilterType } from "@/store/slices/filters/types";
 
 import css from "./level-filter.module.css";
 
@@ -23,18 +23,16 @@ export function LevelFilter() {
   const value = useStore(selectValue);
   const open = useStore(selectOpen);
 
-  const setActiveLevelShortcut = useStore(
-    (state) => state.setActiveLevelShortcut,
-  );
+  const applyLevelShortcut = useStore((state) => state.applyLevelShortcut);
 
-  const setFilter = useStore((state) => state.setActiveNestedFilter);
+  const setFilter = useStore((state) => state.setNestedFilter);
   const resetFilter = useStore((state) => state.resetFilterKey);
   const setFilterOpen = useStore((state) => state.setFilterOpen);
 
   const setValue = useCallback(
-    function setValue<K extends keyof LevelFilterSchema["value"]>(
+    function setValue<K extends keyof LevelFilterType["value"]>(
       key: K,
-      value: LevelFilterSchema["value"][K],
+      value: LevelFilterType["value"][K],
     ) {
       setFilter("player", "level", key, value);
     },
@@ -84,7 +82,7 @@ export function LevelFilter() {
         <ToggleGroup
           type="single"
           full
-          onValueChange={setActiveLevelShortcut}
+          onValueChange={applyLevelShortcut}
           value={getToggleValue(value.range)}
         >
           <ToggleGroupItem value="0" size="small-type">

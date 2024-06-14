@@ -1,5 +1,11 @@
 import { createSelector } from "reselect";
 
+import { StoreState } from "@/store/slices";
+import {
+  CardTypeFilter,
+  FilterObject,
+  Filters,
+} from "@/store/slices/filters/types";
 import { and } from "@/utils/fp";
 
 import { selectActionsFilter } from "./action";
@@ -196,3 +202,13 @@ export const selectEncounterFilters = createSelector(
     return and(filters);
   },
 );
+
+export function selectFilterOpen<C extends CardTypeFilter>(
+  cardType: C,
+  path: keyof Filters[C],
+) {
+  return (state: StoreState) => {
+    const filter = state.filters[cardType][path] as FilterObject<unknown>;
+    return filter.open;
+  };
+}

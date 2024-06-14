@@ -1,7 +1,7 @@
 import { StateCreator } from "zustand";
 
 import { StoreState } from "..";
-import { Filters, FiltersSlice } from "./types";
+import { CardTypeFilter, FilterObject, Filters, FiltersSlice } from "./types";
 
 function getInitialState(): Filters {
   const shared = {
@@ -136,20 +136,21 @@ export const createFiltersSlice: StateCreator<
     });
   },
 
-  setActiveFilter(slice, path, key, value) {
+  setFilter(slice, path, key, value) {
     set({
       filters: updateValue(get(), slice, path, key, value),
     });
   },
 
-  setActiveNestedFilter(type, path, key, value) {
+  setNestedFilter(type, path, key, value) {
     const state = get();
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const current = (state.filters[type][path] as any)["value"];
+    const current = state.filters[type][path] as FilterObject<
+      Record<string, unknown>
+    >;
 
     const filters = updateValue(get(), type, path, "value", {
-      ...current,
+      ...current.value,
       [key]: value,
     });
 
@@ -161,7 +162,7 @@ export const createFiltersSlice: StateCreator<
     set({ filters });
   },
 
-  setActiveLevelShortcut(value) {
+  applyLevelShortcut(value) {
     if (value === "0") {
       const filters = updateValue(get(), "player", "level", "value", {
         range: [0, 0],
@@ -182,17 +183,11 @@ export const createFiltersSlice: StateCreator<
 });
 
 function updateValue<
-  C extends "player" | "encounter",
-  P extends keyof StoreState["filters"][C],
->(
-  state: StoreState,
-  slice: C,
-  path: P,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  key: any,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  value: any,
-) {
+  T,
+  C extends CardTypeFilter,
+  P extends keyof Filters[C],
+  K extends keyof FilterObject<T>,
+>(state: StoreState, slice: C, path: P, key: K, value: T) {
   return {
     ...state.filters,
     [slice]: {

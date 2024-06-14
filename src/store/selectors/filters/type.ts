@@ -2,12 +2,12 @@ import { createSelector } from "reselect";
 
 import { Card, Type } from "@/store/services/types";
 import { StoreState } from "@/store/slices";
-import { ComboboxFilter } from "@/store/slices/filters/types";
+import { MultiselectFilter } from "@/store/slices/filters/types";
 import { pass } from "@/utils/fp";
 
 import { selectActiveCardType } from "./shared";
 
-export function filterType(filterState: ComboboxFilter["value"]) {
+export function filterType(filterState: MultiselectFilter["value"]) {
   const enabledTypeCodes = Object.entries(filterState)
     .filter(([, v]) => !!v)
     .map(([k]) => k);

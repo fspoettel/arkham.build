@@ -35,10 +35,10 @@ export function Filters() {
         </Button>
       </div>
       <div className={css["filter-container"]}>
+        <OwnershipFilter />
         <FactionFilter />
         {cardTypeSelection === "player" && <LevelFilter />}
         <CostFilter />
-        <OwnershipFilter />
         <TypeFilter />
         <SubtypeFilter />
         <TraitFilter />

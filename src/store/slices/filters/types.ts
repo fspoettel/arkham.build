@@ -4,10 +4,16 @@ export type CardTypeFilter = "player" | "encounter";
 
 export type Trait = Coded;
 
-type FilterObject<T> = {
+export type FilterObject<T> = {
   open: boolean;
   value: T;
 };
+
+export type MultiselectFilter = FilterObject<Record<string, boolean>>;
+
+export type SelectFilter<T = string> = FilterObject<T | undefined>;
+
+export type OwnershipFilter = FilterObject<"unowned" | "owned" | "all">;
 
 export type CostFilter = FilterObject<{
   range: undefined | [number, number];
@@ -44,22 +50,16 @@ export type PropertiesFilter = FilterObject<{
   victory: boolean;
 }>;
 
-export type ComboboxFilter = FilterObject<Record<string, boolean>>;
-
-export type SelectFilter<T = string> = FilterObject<T | undefined>;
-
-export type OwnershipFilter = FilterObject<"unowned" | "owned" | "all">;
-
 type SharedState = {
   ownership: OwnershipFilter;
   cost: CostFilter;
   faction: FilterObject<string[]>;
-  action: ComboboxFilter;
+  action: MultiselectFilter;
   properties: PropertiesFilter;
   skillIcons: SkillIconsFilter;
-  subtype: ComboboxFilter;
-  trait: ComboboxFilter;
-  type: ComboboxFilter;
+  subtype: MultiselectFilter;
+  trait: MultiselectFilter;
+  type: MultiselectFilter;
 };
 
 export type Filters = {
@@ -90,25 +90,24 @@ export type FiltersSlice = {
     path: P,
   ): void;
 
-  setActiveFilter<
+  setFilter<
+    T,
     C extends CardTypeFilter,
     P extends keyof Filters[C],
-    K extends keyof Filters[C][P],
+    K extends keyof FilterObject<T>,
   >(
     type: C,
     path: P,
     key: K,
-    value: Filters[C][P][K],
+    value: T,
   ): void;
 
-  setActiveNestedFilter<C extends CardTypeFilter, P extends keyof Filters[C]>(
+  setNestedFilter<C extends CardTypeFilter, P extends keyof Filters[C], T>(
     type: C,
     path: P,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    item: any,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    value: any,
+    item: string,
+    value: T,
   ): void;
 
-  setActiveLevelShortcut(value: string): void;
+  applyLevelShortcut(value: string): void;
 };

@@ -16,7 +16,7 @@ export function FactionFilter() {
   const cardType = useStore(selectActiveCardType);
   const factions = useStore(selectFactions);
   const { value } = useStore(selectActiveFactions);
-  const setFilter = useStore((state) => state.setActiveFilter);
+  const setFilter = useStore((state) => state.setFilter);
 
   const setFactions = useCallback(
     (val: string[]) => {

@@ -27,16 +27,24 @@ import css from "./combobox.module.css";
 
 import { ComboboxResults } from "./combobox-results";
 
+function defaultItemToString<T extends Coded>(val: T) {
+  return val.code.toLowerCase();
+}
+
+function defaultRenderer<T extends Coded>(val: T) {
+  return val.code;
+}
+
 type Props<T extends Coded> = {
   className?: string;
   id: string;
   items: T[];
-  itemToString: (item: T) => string;
-  label: string;
+  itemToString?: (item: T) => string;
+  label: ReactNode;
   onSelectItem: (code: string, val: boolean) => void;
   placeholder?: string;
-  renderItem: (item: T) => ReactNode;
-  renderResult: (item: T) => ReactNode;
+  renderItem?: (item: T) => ReactNode;
+  renderResult?: (item: T) => ReactNode;
   selectedItems: Record<string, T>;
 };
 
@@ -44,12 +52,12 @@ export function Combobox<T extends Coded>({
   className,
   id,
   items,
-  itemToString,
+  itemToString = defaultItemToString,
   label,
   placeholder,
   onSelectItem,
-  renderItem,
-  renderResult,
+  renderItem = defaultRenderer,
+  renderResult = defaultRenderer,
   selectedItems,
 }: Props<T>) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);

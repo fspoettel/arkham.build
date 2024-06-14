@@ -2,10 +2,10 @@ import { createSelector } from "reselect";
 
 import { Card, SubType } from "@/store/services/types";
 import { StoreState } from "@/store/slices";
-import { ComboboxFilter } from "@/store/slices/filters/types";
+import { MultiselectFilter } from "@/store/slices/filters/types";
 import { pass } from "@/utils/fp";
 
-export function filterSubtypes(filterState: ComboboxFilter["value"]) {
+export function filterSubtypes(filterState: MultiselectFilter["value"]) {
   const enabledTypeCodes = Object.entries(filterState)
     .filter(([, v]) => !!v)
     .map(([k]) => k);

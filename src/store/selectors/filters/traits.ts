@@ -2,14 +2,14 @@ import { createSelector } from "reselect";
 
 import { Card } from "@/store/services/types";
 import { StoreState } from "@/store/slices";
-import { ComboboxFilter } from "@/store/slices/filters/types";
+import { MultiselectFilter } from "@/store/slices/filters/types";
 import { LookupTables } from "@/store/slices/lookup-tables/types";
 import { Filter, or } from "@/utils/fp";
 
 import { selectActiveCardType } from "./shared";
 
 export function filterTraits(
-  filterState: ComboboxFilter["value"],
+  filterState: MultiselectFilter["value"],
   traitTable: LookupTables["traits"],
 ) {
   const filters: Filter[] = [];
