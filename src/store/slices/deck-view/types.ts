@@ -41,6 +41,7 @@ export type EditState = {
       extraSlots?: SlotEdit[];
     };
     name?: string | null;
+    description_md?: string | null;
     meta: Record<string, string | null>;
     tabooId?: number | null;
     investigatorFront?: string | null;
@@ -89,4 +90,6 @@ export type DeckViewSlice = {
   ): void;
 
   updateName(value: string): void;
+
+  updateDescription(value: string): void;
 };

@@ -179,6 +179,11 @@ textarea {
   }
 }
 
+textarea {
+  resize: vertical;
+  min-height: 6rem;
+}
+
 select {
   appearance: none;
   min-width: 10rem;

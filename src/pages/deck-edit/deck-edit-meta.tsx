@@ -34,6 +34,8 @@ export function DeckEditMeta({ deck }: Props) {
   const tabooSets = useStore(selectTabooSetSelectOptions);
 
   const updateName = useStore((state) => state.updateName);
+  const updateDescription = useStore((state) => state.updateDescription);
+
   const updateTabooId = useStore((state) => state.updateTabooId);
   const updateMetaProperty = useStore((state) => state.updateMetaProperty);
   const updateInvestigatorSide = useStore(
@@ -47,6 +49,10 @@ export function DeckEditMeta({ deck }: Props) {
 
   const onNameChange = (evt: ChangeEvent<HTMLInputElement>) => {
     updateName(evt.target.value);
+  };
+
+  const onDescriptionChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
+    updateDescription(evt.target.value);
   };
 
   const onFieldChange = (evt: ChangeEvent<HTMLSelectElement>) => {
@@ -142,6 +148,13 @@ export function DeckEditMeta({ deck }: Props) {
           onChange={onTabooChange}
           options={tabooSets}
           value={deck.taboo_id ?? ""}
+        />
+      </Field>
+      <Field full>
+        <label>Description</label>
+        <textarea
+          onChange={onDescriptionChange}
+          value={deck.description_md ?? ""}
         />
       </Field>
     </>

@@ -28,8 +28,13 @@ export function applyDeckEdits(
 
   const deck = structuredClone(originalDeck);
 
+  // adjust name based on deck edits.
   if (deckView.edits.name != undefined) {
     deck.name = deckView.edits.name;
+  }
+
+  if (deckView.edits.description_md != undefined) {
+    deck.description_md = deckView.edits.description_md;
   }
 
   // adjust taboo id based on deck edits.
