@@ -1,5 +1,4 @@
 .field {
-  border: 1px solid var(--nord-1);
   padding: 0.5rem;
   border-radius: var(--rounded);
 }
@@ -10,12 +9,22 @@
   display: block;
 }
 
+.field.full {
+  & > :where(input, select, textarea) {
+    width: 100%;
+  }
+}
+
+.field.bordered {
+  border: 1px solid var(--nord-1);
+}
+
 .field-help {
   margin-top: 0.5rem;
   max-width: 72ch;
 }
 
-.field:has(select) label {
+.field label {
   display: inline-block;
   margin-bottom: 0.25rem;
 }

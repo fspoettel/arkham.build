@@ -20,7 +20,7 @@ export function TabooSets({ settings }: Props) {
   }, [settings]);
 
   return (
-    <Field>
+    <Field bordered>
       <label htmlFor="taboo-set">Default taboo list</label>
       <select
         id="taboo-set"

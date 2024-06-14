@@ -104,6 +104,21 @@ export const createDeckViewSlice: StateCreator<
       });
     }
   },
+  updateName(value) {
+    const state = get();
+
+    if (state.deckView && state.deckView.mode === "edit") {
+      set({
+        deckView: {
+          ...state.deckView,
+          edits: {
+            ...state.deckView.edits,
+            name: value,
+          },
+        },
+      });
+    }
+  },
   updateMetaProperty(key, value) {
     const state = get();
 

@@ -158,13 +158,13 @@ input,
 textarea,
 select {
   font-family: var(--font-family-ui);
-  line-height: var(--text-sm);
+  line-height: 1.25;
   font-size: var(--text-sm);
   background-color: var(--nord-0);
   color: var(--nord-5);
   border: 1px solid var(--nord-2);
   border-radius: var(--rounded);
-  padding: 0.5rem;
+  padding: 0.375rem;
 
   &:focus-visible {
     outline: 1px solid var(--nord-6);

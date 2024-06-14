@@ -33,6 +33,7 @@ function getInvestigatorOptions(
 export function DeckEditMeta({ deck }: Props) {
   const tabooSets = useStore(selectTabooSetSelectOptions);
 
+  const updateName = useStore((state) => state.updateName);
   const updateTabooId = useStore((state) => state.updateTabooId);
   const updateMetaProperty = useStore((state) => state.updateMetaProperty);
   const updateInvestigatorSide = useStore(
@@ -42,6 +43,10 @@ export function DeckEditMeta({ deck }: Props) {
   const onTabooChange = (evt: ChangeEvent<HTMLSelectElement>) => {
     const value = Number.parseInt(evt.target.value, 10);
     updateTabooId(Number.isNaN(value) ? null : value);
+  };
+
+  const onNameChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    updateName(evt.target.value);
   };
 
   const onFieldChange = (evt: ChangeEvent<HTMLSelectElement>) => {
@@ -67,7 +72,16 @@ export function DeckEditMeta({ deck }: Props) {
     <>
       {deck.hasParallel && (
         <>
-          <Field>
+          <Field full>
+            <label>Deck name</label>
+            <input
+              onChange={onNameChange}
+              required
+              type="text"
+              value={deck.name}
+            />
+          </Field>
+          <Field full>
             <label>Investigator Front</label>
             <Select
               data-side="front"
@@ -77,7 +91,7 @@ export function DeckEditMeta({ deck }: Props) {
               value={deck.investigatorFront.card.code}
             />
           </Field>
-          <Field>
+          <Field full>
             <label>Investigator Back</label>
             <Select
               data-side="back"
@@ -91,7 +105,7 @@ export function DeckEditMeta({ deck }: Props) {
       )}
       {deck.selections &&
         Object.entries(deck.selections).map(([key, value]) => (
-          <Field key={key}>
+          <Field full key={key}>
             <label>{formatSelectionId(key)}</label>
             {(value.type === "deckSize" || value.type === "faction") && (
               <Select
@@ -121,7 +135,7 @@ export function DeckEditMeta({ deck }: Props) {
             )}
           </Field>
         ))}
-      <Field>
+      <Field full>
         <label>Taboo Set</label>
         <Select
           emptyLabel="None"

@@ -62,7 +62,10 @@ export function CardDataSync() {
 
   return (
     <>
-      <Field className={clsx(css["sync"], upToDate && css["uptodate"])}>
+      <Field
+        className={clsx(css["sync"], upToDate && css["uptodate"])}
+        bordered
+      >
         <Button
           className={css["sync-action"]}
           disabled={loading || !!error}
@@ -99,6 +102,7 @@ export function CardDataSync() {
         )}
       </Field>
       <Field
+        bordered
         helpText={`${import.meta.env.VITE_PAGE_NAME} uses IndexedDB to store decks and settings locally. In some circumstances, your browser may clear stored data without notice. Enabling persistence avoids this. Your browser may ask for your permission.`}
       >
         <Button onClick={enablePersistence} type="button">
