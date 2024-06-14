@@ -22,7 +22,7 @@ const DeckView = React.lazy(() => import("./pages/deck-view/deck-view"));
 const Settings = React.lazy(() => import("./pages/settings/settings"));
 const CardView = React.lazy(() => import("./pages/card-view/card-view"));
 
-function Fallback({ show }: { show?: boolean }) {
+function Fallback({ message, show }: { message?: string; show?: boolean }) {
   return (
     <div className={clsx(css["app-loader"], show && css["show"])}>
       <div className={css["app-loader-inner"]}>
@@ -30,7 +30,7 @@ function Fallback({ show }: { show?: boolean }) {
           <i className="icon-auto_fail" />
           <i className="icon-elder_sign" />
         </div>
-        <p>Loading...</p>
+        {message && <p>{message}</p>}
       </div>
     </div>
   );
@@ -50,8 +50,11 @@ function App() {
 
   return (
     <ToastProvider>
-      <Fallback show={storeHydrated && !storeInitialized} />
-      <Suspense fallback={null}>
+      <Fallback
+        message="Loading card data..."
+        show={storeHydrated && !storeInitialized}
+      />
+      <Suspense fallback={<Fallback show />}>
         {storeInitialized && (
           <Router hook={useBrowserLocation}>
             <Route component={Browse} path="/" />

@@ -2,14 +2,9 @@ import { createSelector } from "reselect";
 
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import { groupDeckCardsByType } from "@/store/lib/deck-grouping";
-import {
-  decodeCustomizations,
-  decodeDeckMeta,
-  encodeCustomizations,
-  resolveDeck,
-} from "@/store/lib/deck-resolver";
-import { isEmpty } from "@/utils/is-empty";
+import { decodeDeckMeta, resolveDeck } from "@/store/lib/deck-resolver";
 
+import { mergeCustomizationEdits } from "../lib/customizable";
 import type { ForbiddenCardError } from "../lib/deck-validation";
 import { validateDeck } from "../lib/deck-validation";
 import type { DeckMeta, ResolvedCard, ResolvedDeck } from "../lib/types";
@@ -72,36 +67,10 @@ function applyDeckEdits(
   const deckMeta = decodeDeckMeta(deck);
 
   // adjust customizations based on deck edits.
-  if (!isEmpty(deckView.edits.customizations)) {
-    const customizations = decodeCustomizations(deckMeta, metadata) ?? {};
-
-    for (const [code, changes] of Object.entries(
-      deckView.edits.customizations,
-    )) {
-      customizations[code] ??= {};
-
-      for (const [id, change] of Object.entries(changes)) {
-        if (customizations[code][id]) {
-          if (change.xp_spent != null)
-            customizations[code][id].xp_spent = change.xp_spent;
-          if (change.selections != null) {
-            customizations[code][id].selections = isEmpty(change.selections)
-              ? undefined
-              : change.selections.join("^");
-          }
-        } else {
-          customizations[code][id] ??= {
-            index: +id,
-            xp_spent: change.xp_spent ?? 0,
-            selections: change.selections?.join("^") || undefined,
-          };
-        }
-      }
-    }
-
-    const encoded = encodeCustomizations(customizations);
-    Object.assign(deckMeta, encoded);
-  }
+  Object.assign(
+    deckMeta,
+    mergeCustomizationEdits(deckView, deckMeta, metadata),
+  );
 
   deck.meta = JSON.stringify({
     ...deckMeta,

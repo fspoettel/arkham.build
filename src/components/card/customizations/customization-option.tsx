@@ -1,6 +1,6 @@
 import { useId, useMemo } from "react";
 
-import { getCustomizationUnlocked } from "@/store/lib/card-changes";
+import { customizationOptionUnlocked } from "@/store/lib/customizable";
 import type { Customization } from "@/store/lib/types";
 import type {
   Card,
@@ -52,7 +52,7 @@ export function CustomizationOption({
     [xpMax],
   );
 
-  const unlocked = getCustomizationUnlocked(option, checkedCount);
+  const unlocked = customizationOptionUnlocked(option, checkedCount);
 
   return (
     <div
