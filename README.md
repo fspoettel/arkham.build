@@ -1,10 +1,14 @@
-# arkham-deck-builder
+# arkham.build
 
 ## Development
 
+### API
+
+The API is a separate project hosted as a Cloudflare worker. It mainly serves as a cache for the ArkhamCards GraphQL API and some arkhamdb API functions.
+
 ### Icons
 
-SVG icons are sourced from [ArkhamCards](https://github.com/zzorba/ArkhamCards/blob/master/assets/icomoon/project.json)'s icomoon project. `vite-plugin-svgr` is used to transform these into react component on impoirt.
+SVG icons are sourced from [ArkhamCards](https://github.com/zzorba/ArkhamCards/blob/master/assets/icomoon/project.json)'s icomoon project. Frequently used icons are bundled into the application with `vite-plugin-svgr`, while others are loaded as webfonts.
 
 <details>
   <summary><h2>Template readme</h2></summary>
