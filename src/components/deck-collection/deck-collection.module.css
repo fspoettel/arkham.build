@@ -53,3 +53,9 @@
 .deck-collection-import-input {
   display: none;
 }
+
+.deck-collection-tags {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.25rem;
+}

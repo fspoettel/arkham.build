@@ -211,6 +211,7 @@ function validateDeckSize(deck: ResolvedDeck<ResolvedCard>): Error[] {
 
 function validateExtraDeckSize(deck: ResolvedDeck<ResolvedCard>): Error[] {
   const investigatorBack = deck.investigatorBack.card;
+
   // FIXME: this is a hack. Instead, we should not count signatures towards side deck size.
   const targetDeckSize =
     (investigatorBack.side_deck_requirements?.size ?? 0) + 1;
@@ -386,7 +387,7 @@ class DeckRequiredCardsValidator implements SlotValidator {
     }
   }
 
-  // TODO: validate that signatures are pairs.
+  // FIXME: validate that signatures are pairs.
   validate(): Error[] {
     const requirementCounts = Object.keys(this.requirements).reduce(
       (counts, code) => {

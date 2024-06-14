@@ -10,7 +10,7 @@ type Props<T extends "a" | "button" | "summary" | "label"> =
     children: ReactNode;
     className?: string;
     variant?: "bare" | "secondary";
-    size?: "sm" | "lg" | "full";
+    size?: "xs" | "sm" | "lg" | "full";
   };
 
 export const Button = forwardRef(function Button<

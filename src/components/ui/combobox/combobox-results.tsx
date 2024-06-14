@@ -4,6 +4,9 @@ import { useCallback } from "react";
 
 import css from "./combobox.module.css";
 
+import { Button } from "../button";
+import { Tag } from "../tag";
+
 type Props<T extends { code: string }> = {
   onRemove(item: T): void;
   items: T[];
@@ -27,11 +30,12 @@ export function ComboboxResults<T extends { code: string }>({
   return (
     <ul className={css["combobox-results"]}>
       {items.map((item) => (
-        <li className={css["combobox-result"]} key={item.code}>
-          <button onClick={() => onRemoveItem(item)}>
-            {renderResult(item)} <XIcon />
-          </button>
-        </li>
+        <Tag key={item.code} size="xs">
+          {renderResult(item)}
+          <Button onClick={() => onRemoveItem(item)} size="xs" variant="bare">
+            <XIcon />
+          </Button>
+        </Tag>
       ))}
     </ul>
   );

@@ -26,7 +26,6 @@ export type Props = {
  *  - `full`: Renders a full card with all metadata.
  *  - `compact`: Renders a card without its backside and with a smaller card image.
  *  - `tooltip`: Renders the card as a tooltip that is shown in card lists.
- * TODO: a lot of the aspects about this (CSS, selectors) should be cleaned up a bit.
  */
 export function Card({
   canToggleBackside,

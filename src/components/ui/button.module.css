@@ -10,6 +10,7 @@
   font-size: var(--text-base);
   user-select: none;
   cursor: pointer;
+  align-items: center;
 
   &[disabled] {
     opacity: 0.3;
@@ -39,12 +40,18 @@ a.button {
 
 .button.bare {
   color: var(--nord-5);
+  background: none;
   border: none;
 }
 
 .button.secondary {
   background-color: var(--nord-1);
   border-color: var(--nord-3);
+}
+
+.button.xs {
+  font-size: var(--text-xs);
+  padding: 0.125rem;
 }
 
 .button.sm {

@@ -80,18 +80,3 @@
   margin: 0.25rem 0 0;
   padding: 0;
 }
-
-.combobox-result button {
-  border-radius: var(--rounded);
-  background: var(--nord-3);
-  color: var(--nord-4);
-  padding: 0.125rem 0.25rem;
-  font-size: var(--text-xs);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-
-  &:not([disabled]):hover {
-    background-color: var(--nord-2);
-  }
-}
