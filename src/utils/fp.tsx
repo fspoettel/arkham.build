@@ -1,4 +1,4 @@
-import type { Card } from "@/store/services/types";
+import type { Card } from "@/store/services/queries.types";
 
 export type Filter = (c: Card) => boolean;
 

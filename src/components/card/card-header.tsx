@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import type { Card } from "@/store/services/types";
+import type { Card } from "@/store/services/queries.types";
 import { getCardColor } from "@/utils/card-utils";
 
 import css from "./card-header.module.css";

@@ -10,7 +10,7 @@ import { getInitialMetadata } from "../slices/metadata";
 import { getInitialSettings } from "../slices/settings";
 import { IndexedDBAdapter } from "./indexeddb-adapter";
 import migrateV1 from "./migrations/v1";
-import type { Val } from "./types";
+import type { Val } from "./storage.types";
 
 const indexedDBAdapter = new IndexedDBAdapter();
 

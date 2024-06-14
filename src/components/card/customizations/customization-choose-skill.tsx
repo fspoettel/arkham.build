@@ -1,5 +1,5 @@
 import { Combobox } from "@/components/ui/combobox/combobox";
-import type { Coded } from "@/store/services/types";
+import type { Coded } from "@/store/services/queries.types";
 import { SKILL_KEYS } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
 

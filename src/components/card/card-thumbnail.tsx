@@ -2,7 +2,7 @@
 import clsx from "clsx";
 import { memo } from "react";
 
-import type { Card } from "@/store/services/types";
+import type { Card } from "@/store/services/queries.types";
 import { getCardColor, thumbnailUrl } from "@/utils/card-utils";
 
 import css from "./card-thumbnail.module.css";

@@ -1,4 +1,4 @@
-import type { DeckOptionSelectType } from "@/store/services/types";
+import type { DeckOptionSelectType } from "@/store/services/queries.types";
 
 export type Slot = "slots" | "sideSlots" | "extraSlots";
 

@@ -1,7 +1,11 @@
 import { cardLevel } from "@/utils/card-utils";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 
-import type { Card, DeckOption, DeckRequirements } from "../services/types";
+import type {
+  Card,
+  DeckOption,
+  DeckRequirements,
+} from "../services/queries.types";
 import type { StoreState } from "../slices";
 import type { Deck } from "../slices/data.types";
 import type { LookupTables } from "../slices/lookup-tables.types";

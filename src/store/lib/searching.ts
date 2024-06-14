@@ -1,6 +1,6 @@
 import uFuzzy from "@leeoniya/ufuzzy";
 
-import type { Card } from "@/store/services/types";
+import type { Card } from "@/store/services/queries.types";
 
 import type { Metadata } from "../slices/metadata.types";
 import type { SearchState } from "../slices/search.types";

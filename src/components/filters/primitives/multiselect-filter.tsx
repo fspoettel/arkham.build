@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import { Combobox } from "@/components/ui/combobox/combobox";
 import { useStore } from "@/store";
 import { selectFilterOpen } from "@/store/selectors/filters";
-import type { Coded } from "@/store/services/types";
+import type { Coded } from "@/store/services/queries.types";
 import type { CardTypeFilter, Filters } from "@/store/slices/filters.types";
 
 import { FilterContainer } from "./filter-container";

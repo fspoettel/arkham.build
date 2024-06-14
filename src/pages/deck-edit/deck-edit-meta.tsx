@@ -7,7 +7,7 @@ import { useStore } from "@/store";
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import type { CardWithRelations, ResolvedDeck } from "@/store/lib/types";
 import { selectTabooSetSelectOptions } from "@/store/selectors/filters";
-import type { DeckOptionSelectType } from "@/store/services/types";
+import type { DeckOptionSelectType } from "@/store/services/queries.types";
 import { capitalize, formatSelectionId } from "@/utils/formatting";
 
 type Props = {

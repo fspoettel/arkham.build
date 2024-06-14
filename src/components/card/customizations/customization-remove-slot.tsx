@@ -1,7 +1,7 @@
 import type { ChangeEvent } from "react";
 
 import { Select } from "@/components/ui/select";
-import type { Card } from "@/store/services/types";
+import type { Card } from "@/store/services/queries.types";
 import { splitMultiValue } from "@/utils/card-utils";
 
 type Props = {

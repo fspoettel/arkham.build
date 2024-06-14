@@ -1,4 +1,4 @@
-import type { TabooSet } from "@/store/services/types";
+import type { TabooSet } from "@/store/services/queries.types";
 
 export function capitalize(s: string | number) {
   s = s.toString();

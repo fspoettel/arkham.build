@@ -5,7 +5,7 @@ import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import { selectCanEditDeck } from "@/store/selectors/decks";
-import type { Card } from "@/store/services/types";
+import type { Card } from "@/store/services/queries.types";
 import { getCardColor, hasSkillIcons } from "@/utils/card-utils";
 
 import css from "./list-card.module.css";

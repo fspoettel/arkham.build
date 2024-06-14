@@ -5,7 +5,7 @@ import {
   selectTypeOptions,
   selectTypeValue,
 } from "@/store/selectors/filters";
-import type { Type } from "@/store/services/types";
+import type { Type } from "@/store/services/queries.types";
 
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 

@@ -1,5 +1,5 @@
 import type { CardWithRelations } from "@/store/lib/types";
-import type { Card } from "@/store/services/types";
+import type { Card } from "@/store/services/queries.types";
 
 import { SIDEWAYS_TYPE_CODES, SKILL_KEYS } from "./constants";
 

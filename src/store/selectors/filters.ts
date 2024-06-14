@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
 import { sortedEncounterSets } from "@/store/lib/sorting";
-import type { Card, Coded, Cycle, Pack } from "@/store/services/types";
+import type { Card, Coded, Cycle, Pack } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
 import type {
   CardTypeFilter,

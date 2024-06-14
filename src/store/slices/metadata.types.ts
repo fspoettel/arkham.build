@@ -9,7 +9,7 @@ import type {
   Taboo,
   TabooSet,
   Type,
-} from "@/store/services/types";
+} from "@/store/services/queries.types";
 
 export type Metadata = {
   cards: Record<string, Card>;

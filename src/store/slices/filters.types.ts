@@ -1,4 +1,4 @@
-import type { Coded } from "@/store/services/types";
+import type { Coded } from "@/store/services/queries.types";
 
 export type CardTypeFilter = "player" | "encounter";
 

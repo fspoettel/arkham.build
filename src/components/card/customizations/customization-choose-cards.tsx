@@ -2,8 +2,8 @@ import { ListCardInner } from "@/components/card-list/list-card-inner";
 import { Combobox } from "@/components/ui/combobox/combobox";
 import { useStore } from "@/store";
 import { sortAlphabetically } from "@/store/lib/sorting";
-import type { Card } from "@/store/services/types";
-import type { CustomizationOption as CustomizationOptionType } from "@/store/services/types";
+import type { Card } from "@/store/services/queries.types";
+import type { CustomizationOption as CustomizationOptionType } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
 
 function selectPlayerCardsForCustomizationOptions(

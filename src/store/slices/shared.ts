@@ -1,7 +1,7 @@
 import type { StateCreator } from "zustand";
 
 import { applyDeckEdits } from "@/store/lib/deck-edits";
-import type { Card } from "@/store/services/types";
+import type { Card } from "@/store/services/queries.types";
 import { ALT_ART_INVESTIGATOR_MAP } from "@/utils/constants";
 
 import type { StoreState } from ".";

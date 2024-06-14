@@ -1,7 +1,7 @@
 import type { StateCreator } from "zustand";
 
 import { applyTaboo } from "@/store/lib/card-edits";
-import type { Card } from "@/store/services/types";
+import type { Card } from "@/store/services/queries.types";
 import { splitMultiValue } from "@/utils/card-utils";
 import {
   ACTION_TEXT_ENTRIES,

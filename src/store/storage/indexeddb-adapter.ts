@@ -1,8 +1,8 @@
 import { del, get, set } from "idb-keyval";
 import type { StorageValue } from "zustand/middleware";
 
-import type { DataVersion } from "../services/types";
-import type { Val } from "./types";
+import type { DataVersion } from "../services/queries.types";
+import type { Val } from "./storage.types";
 
 export class IndexedDBAdapter<T extends StorageValue<Val>> {
   appdataName(name: string) {

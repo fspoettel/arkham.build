@@ -1,7 +1,7 @@
 import { isSpecialCard } from "@/utils/card-utils";
 import type { PlayerType } from "@/utils/constants";
 
-import type { Card } from "../services/types";
+import type { Card } from "../services/queries.types";
 import type { CardWithRelations, ResolvedDeck } from "./types";
 
 export type DeckCard = Card & {

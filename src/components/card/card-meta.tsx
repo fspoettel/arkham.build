@@ -2,7 +2,7 @@ import clsx from "clsx";
 
 import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
 import { isCardWithRelations } from "@/store/lib/types";
-import type { Cycle, Pack } from "@/store/services/types";
+import type { Cycle, Pack } from "@/store/services/queries.types";
 import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
 
 import css from "./card-meta.module.css";

@@ -4,7 +4,7 @@ import { useStore } from "@/store";
 import type { Grouping } from "@/store/lib/deck-grouping";
 import { sortBySlots } from "@/store/lib/sorting";
 import { selectForbiddenCards } from "@/store/selectors/decks";
-import type { Card } from "@/store/services/types";
+import type { Card } from "@/store/services/queries.types";
 import type { PlayerType } from "@/utils/constants";
 import { PLAYER_TYPE_ORDER } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";

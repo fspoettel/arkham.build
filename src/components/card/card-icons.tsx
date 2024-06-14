@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import type { Card } from "@/store/services/types";
+import type { Card } from "@/store/services/queries.types";
 
 import css from "./card-icons.module.css";
 

@@ -1,4 +1,4 @@
-import type { Card } from "@/store/services/types";
+import type { Card } from "@/store/services/queries.types";
 import type { Metadata } from "@/store/slices/metadata.types";
 
 import type { Customizations } from "./types";

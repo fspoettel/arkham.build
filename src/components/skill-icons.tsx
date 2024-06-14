@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { Fragment } from "react";
 
-import type { Card } from "@/store/services/types";
+import type { Card } from "@/store/services/queries.types";
 import { SKILL_KEYS } from "@/utils/constants";
 import { range } from "@/utils/range";
 

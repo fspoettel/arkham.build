@@ -14,7 +14,7 @@ import clsx from "clsx";
 import type { ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import type { Coded } from "@/store/services/types";
+import type { Coded } from "@/store/services/queries.types";
 import { isEmpty } from "@/utils/is-empty";
 
 import css from "./combobox.module.css";

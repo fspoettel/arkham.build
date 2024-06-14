@@ -1,4 +1,4 @@
-import type { Coded } from "@/store/services/types";
+import type { Coded } from "@/store/services/queries.types";
 
 /**
  * Transform an array of arkhamdb-json-data into a map { [code]: data }.

@@ -13,7 +13,7 @@ import {
   selectAssetUsesValue,
   selectFilterOpen,
 } from "@/store/selectors/filters";
-import type { Coded } from "@/store/services/types";
+import type { Coded } from "@/store/services/queries.types";
 import type { AssetFilter } from "@/store/slices/filters.types";
 import { capitalize } from "@/utils/formatting";
 

@@ -6,7 +6,7 @@ import {
   selectEncounterSetOptions,
   selectEncounterSetValue,
 } from "@/store/selectors/filters";
-import type { EncounterSet } from "@/store/services/types";
+import type { EncounterSet } from "@/store/services/queries.types";
 
 import css from "./filters.module.css";
 

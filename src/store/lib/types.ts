@@ -7,7 +7,7 @@ import type {
   SubType,
   TabooSet,
   Type,
-} from "../services/types";
+} from "../services/queries.types";
 import type { Deck } from "../slices/data.types";
 
 export type ResolvedCard = {

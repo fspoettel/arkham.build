@@ -7,7 +7,7 @@ import {
   selectPackOptions,
   selectPackValue,
 } from "@/store/selectors/filters";
-import type { Pack } from "@/store/services/types";
+import type { Pack } from "@/store/services/queries.types";
 
 import css from "./filters.module.css";
 

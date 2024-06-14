@@ -11,7 +11,7 @@ import {
 import type { GroupedVirtuosoHandle } from "react-virtuoso";
 import { Virtuoso } from "react-virtuoso";
 
-import type { Coded } from "@/store/services/types";
+import type { Coded } from "@/store/services/queries.types";
 
 import css from "./combobox.module.css";
 

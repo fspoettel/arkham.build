@@ -12,7 +12,7 @@ import type {
   SubType,
   TabooSet,
   Type,
-} from "./types";
+} from "./queries.types";
 
 export type MetadataApiResponse = {
   data: Omit<MetadataResponse, "faction" | "reprint_pack" | "type" | "subtype">;

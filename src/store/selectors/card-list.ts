@@ -37,7 +37,7 @@ import {
   sortedBySlots,
   sortedEncounterSets,
 } from "../lib/sorting";
-import type { Card } from "../services/types";
+import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import type { CardTypeFilter } from "../slices/filters.types";
 import { selectActiveDeck, selectResolvedDeck } from "./decks";

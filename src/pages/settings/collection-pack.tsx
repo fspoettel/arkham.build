@@ -2,7 +2,7 @@ import clsx from "clsx";
 
 import PackIcon from "@/components/icons/pack-icon";
 import { Checkbox } from "@/components/ui/checkbox";
-import type { Cycle, Pack } from "@/store/services/types";
+import type { Cycle, Pack } from "@/store/services/queries.types";
 
 import css from "./collection.module.css";
 
