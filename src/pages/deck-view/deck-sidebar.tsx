@@ -23,7 +23,7 @@ export function DeckSidebar({ className, deck }: Props) {
 
   const onDelete = useCallback(() => {
     deleteDeck(deck.id);
-    setLocation("~/browse");
+    setLocation("~/");
   }, [deck.id, deleteDeck, setLocation]);
 
   return (

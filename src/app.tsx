@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
-import { Redirect, Route, Router } from "wouter";
+import { Route, Router } from "wouter";
 import { useBrowserLocation } from "wouter/use-browser-location";
 
 import css from "./app.module.css";
@@ -22,8 +22,18 @@ const DeckView = React.lazy(() => import("./pages/deck-view/deck-view"));
 const Settings = React.lazy(() => import("./pages/settings/settings"));
 const CardView = React.lazy(() => import("./pages/card-view/card-view"));
 
-function Index() {
-  return <Redirect href="~/browse" replace />;
+function Fallback() {
+  return (
+    <div className={clsx(css["app-loader"])}>
+      <div className={css["app-loader-inner"]}>
+        <div className={css["app-loader-icon"]}>
+          <i className="icon-auto_fail" />
+          <i className="icon-elder_sign" />
+        </div>
+        <p>Loading...</p>
+      </div>
+    </div>
+  );
 }
 
 function App() {
@@ -40,25 +50,10 @@ function App() {
 
   return (
     <ToastProvider>
-      <div
-        className={clsx(
-          css["app-loader"],
-          storeHydrated && !storeInitialized && css["show"],
-        )}
-      >
-        <div className={css["app-loader-inner"]}>
-          <div className={css["app-loader-icon"]}>
-            <i className="icon-auto_fail" />
-            <i className="icon-elder_sign" />
-          </div>
-          <p>Loading card data...</p>
-        </div>
-      </div>
-      <Suspense fallback={null}>
+      <Suspense fallback={<Fallback />}>
         {storeInitialized && (
           <Router hook={useBrowserLocation}>
-            <Route path="/" component={Index} />
-            <Route path="/browse" component={Browse} />
+            <Route path="/" component={Browse} />
             <Route path="/card/:code" component={CardView} />
             <Route path="/deck" nest>
               <Route path="/new" component={DeckNew} />
