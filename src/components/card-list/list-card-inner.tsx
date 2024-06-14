@@ -26,7 +26,7 @@ export type Props = {
   card: Card;
   canIndicateRemoval?: boolean;
   canOpenModal?: boolean;
-  canShowInvestigatorIcons?: boolean;
+  showInvestigatorIcons?: boolean;
   className?: string;
   figureRef?: (node: ReferenceType | null) => void;
   forbidden?: boolean;
@@ -50,7 +50,7 @@ export function ListCardInner({
   omitBorders,
   referenceProps,
   quantities,
-  canShowInvestigatorIcons,
+  showInvestigatorIcons,
   size,
 }: Props) {
   const modalContext = useCardModalContext();
@@ -129,7 +129,7 @@ export function ListCardInner({
           </h4>
 
           <div className={css["listcard-meta"]}>
-            {!canShowInvestigatorIcons && card.parallel && (
+            {!showInvestigatorIcons && card.parallel && (
               <i className="icon-parallel" />
             )}
 
@@ -146,11 +146,11 @@ export function ListCardInner({
                 <i className="icon-tablet icon-layout color-taboo" />
               </span>
             )}
-            {!canShowInvestigatorIcons && card.real_subname && (
+            {!showInvestigatorIcons && card.real_subname && (
               <h5 className={css["listcard-subname"]}>{card.real_subname}</h5>
             )}
 
-            {canShowInvestigatorIcons && card.type_code === "investigator" && (
+            {showInvestigatorIcons && card.type_code === "investigator" && (
               <>
                 <CardHealth
                   className={css["listcard-investigator-health"]}

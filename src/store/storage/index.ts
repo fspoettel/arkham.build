@@ -35,7 +35,6 @@ export const storageConfig: PersistOptions<StoreState, Val> = {
   },
   onRehydrateStorage: () => {
     console.time("[perf] hydration");
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return (state: StoreState | undefined, error?: unknown) => {
       if (state) state.setHydrated();
       if (error) console.error(error);

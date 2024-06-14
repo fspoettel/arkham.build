@@ -36,7 +36,7 @@ export function DeckEditInvestigatorInner({ deck }: Props) {
       <DialogTrigger>
         <ListCard
           canOpenModal={false}
-          canShowInvestigatorIcons
+          showInvestigatorIcons
           card={deck.investigatorFront.card}
           tooltip={
             <DeckInvestigator

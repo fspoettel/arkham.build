@@ -33,9 +33,9 @@ export function CardModal({ code }: Props) {
     selectCardWithRelations(state, code, true),
   );
 
-  const canShowQuantities =
+  const showQuantities =
     !!activeDeck && cardWithRelations?.card.type_code !== "investigator";
-  const canShowExtraQuantities = activeDeck?.hasExtraDeck;
+  const showExtraQuantities = activeDeck?.hasExtraDeck;
 
   const canRenderFull = useMedia("(min-width: 45rem)");
 
@@ -75,13 +75,13 @@ export function CardModal({ code }: Props) {
       }
       onClose={onCloseModal}
     >
-      {canShowQuantities ? (
+      {showQuantities ? (
         <div className={css["cardmodal-row"]}>
           {cardNode}
-          {canShowQuantities && (
+          {showQuantities && (
             <CardModalQuantities
               canEdit={canEdit}
-              canShowExtraQuantities={canShowExtraQuantities}
+              showExtraQuantities={showExtraQuantities}
               card={cardWithRelations.card}
               onClickBackground={onCloseModal}
             />

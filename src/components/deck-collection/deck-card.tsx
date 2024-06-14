@@ -8,7 +8,7 @@ import type { ResolvedCard, ResolvedDeck } from "@/store/lib/types";
 import type { StoreState } from "@/store/slices";
 import { getCardColor } from "@/utils/card-utils";
 
-import css from "./deck.module.css";
+import css from "./deck-card.module.css";
 
 import { CardThumbnail } from "../card/card-thumbnail";
 
@@ -17,6 +17,7 @@ type Props = {
   deck: ResolvedDeck<ResolvedCard>;
   interactive?: boolean;
   showThumbnail?: boolean;
+  showValidation?: boolean;
 };
 
 export function DeckCard({
@@ -24,14 +25,17 @@ export function DeckCard({
   deck,
   interactive,
   showThumbnail = true,
+  showValidation = false,
 }: Props) {
   const lookupTables = useStore((state: StoreState) => state.lookupTables);
   const metadata = useStore((state: StoreState) => state.metadata);
 
-  const { valid } = validateDeck(deck, {
-    lookupTables,
-    metadata,
-  } as StoreState);
+  const validationResult = showValidation
+    ? validateDeck(deck, {
+        lookupTables,
+        metadata,
+      } as StoreState)
+    : undefined;
 
   const backgroundCls = getCardColor(
     deck.cards.investigator.card,
@@ -56,7 +60,9 @@ export function DeckCard({
         )}
         <div className={css["deck-header-container"]}>
           <h3 className={css["deck-title"]}>
-            {!valid && <ExclamationTriangleIcon />}
+            {showValidation && validationResult && !validationResult.valid && (
+              <ExclamationTriangleIcon />
+            )}
             {deck.name}
           </h3>
           <div className={css["deck-header-row"]}>

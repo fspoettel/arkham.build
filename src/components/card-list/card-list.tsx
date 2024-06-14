@@ -71,8 +71,7 @@ export function CardList(props: Props) {
     } else {
       virtuosoRef.current?.scrollTo({ top: 0 });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardCount.current]);
+  }, [data]);
 
   const jumpToOptions = useMemo(
     () =>

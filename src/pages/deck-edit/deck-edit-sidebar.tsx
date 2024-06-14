@@ -1,6 +1,7 @@
-import { DeckCard } from "@/components/deck-collection/deck";
+import { DeckCard } from "@/components/deck-collection/deck-card";
 import { DecklistGroups } from "@/components/decklist/decklist-groups";
 import { DecklistSection } from "@/components/decklist/decklist-section";
+import { DecklistValidation } from "@/components/decklist/decklist-validation";
 import { Scroller } from "@/components/ui/scroller";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useStore } from "@/store";
@@ -23,7 +24,7 @@ export function DeckEditSidebar({ deck }: Props) {
 
   return (
     <div className={css["deck-edit-sidebar"]}>
-      <DeckCard deck={deck} showThumbnail={false} />
+      <DeckCard deck={deck} showThumbnail={false} showValidation />
       <DeckEditInvestigator deck={deck} />
       <Tabs
         className={css["deck-edit-sidebar-tabs"]}
@@ -117,6 +118,7 @@ export function DeckEditSidebar({ deck }: Props) {
             <DeckEditMeta deck={deck} />
           </TabsContent>
         </Scroller>
+        <DecklistValidation defaultOpen={false} />
       </Tabs>
     </div>
   );

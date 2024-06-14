@@ -3,10 +3,6 @@ import type { StateCreator } from "zustand";
 import type { StoreState } from "..";
 import { type DeckViewSlice, isTab, mapTabToSlot } from "./types";
 
-export function getInitialDeckViewState() {
-  return undefined;
-}
-
 export const createDeckViewSlice: StateCreator<
   StoreState,
   [],

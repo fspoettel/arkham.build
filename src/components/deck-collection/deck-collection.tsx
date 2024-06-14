@@ -9,7 +9,7 @@ import css from "./deck-collection.module.css";
 
 import { Button } from "../ui/button";
 import { Scroller } from "../ui/scroller";
-import { DeckCard } from "./deck";
+import { DeckCard } from "./deck-card";
 import { DeckCollectionImport } from "./deck-collection-import";
 
 export function DeckCollection() {
@@ -35,7 +35,7 @@ export function DeckCollection() {
               <li className={css["deck-collection-deck"]} key={deck.id}>
                 <Link asChild href={`/deck/${deck.id}/view`}>
                   <a>
-                    <DeckCard deck={deck} interactive>
+                    <DeckCard deck={deck} interactive showValidation>
                       {deck.tags
                         ? deck.tags.split(" ").map((s) => capitalize(s))
                         : undefined}

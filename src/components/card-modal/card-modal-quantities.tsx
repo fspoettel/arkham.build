@@ -12,14 +12,14 @@ import { QuantityInput } from "../ui/quantity-input";
 type Props = {
   card: Card;
   canEdit?: boolean;
-  canShowExtraQuantities?: boolean;
+  showExtraQuantities?: boolean;
   onClickBackground?: () => void;
 };
 
 export function CardModalQuantities({
   card,
   canEdit,
-  canShowExtraQuantities,
+  showExtraQuantities,
   onClickBackground,
 }: Props) {
   const divRef = useRef<HTMLDivElement>(null);
@@ -74,7 +74,7 @@ export function CardModalQuantities({
           value={sideSlotQuantities?.[code] ?? 0}
         />
       </article>
-      {canShowExtraQuantities && (
+      {showExtraQuantities && (
         <article className={css["cardmodal-quantity"]}>
           <h3>Spirits</h3>
           <QuantityInput
