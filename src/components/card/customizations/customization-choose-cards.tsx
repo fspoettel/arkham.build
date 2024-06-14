@@ -1,6 +1,7 @@
 import { ListCard } from "@/components/card-list/list-card";
 import { Combobox } from "@/components/ui/combobox/combobox";
 import { useStore } from "@/store";
+import { sortAlphabetically } from "@/store/lib/sorting";
 import type { Card } from "@/store/services/types";
 import type { CustomizationOption as CustomizationOptionType } from "@/store/services/types";
 import type { StoreState } from "@/store/slices";
@@ -47,9 +48,7 @@ function selectPlayerCardsForCustomizationOptions(
   }, []);
 
   const cards = Array.from(options).toSorted(
-    (a, b) =>
-      state.lookupTables.sort.alphabetical[a.code] -
-      state.lookupTables.sort.alphabetical[b.code],
+    sortAlphabetically(state.lookupTables),
   );
 
   console.timeEnd(
@@ -59,9 +58,7 @@ function selectPlayerCardsForCustomizationOptions(
   return cards;
 }
 
-const cardRenderer = (item: Card) => (
-  <ListCard card={item} size="sm" omitThumbnail />
-);
+const cardRenderer = (item: Card) => <ListCard card={item} size="sm" />;
 
 const resultRenderer = (item: Card) => item.real_name;
 

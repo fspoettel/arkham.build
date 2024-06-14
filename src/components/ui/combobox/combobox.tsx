@@ -8,8 +8,8 @@ import {
   useDismiss,
   useFloating,
   useInteractions,
-  useListNavigation,
 } from "@floating-ui/react";
+import uFuzzy from "@leeoniya/ufuzzy";
 import clsx from "clsx";
 import type { ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -29,6 +29,27 @@ function defaultRenderer<T extends Coded>(val: T) {
   return val.code;
 }
 
+function fuzzyMatch<T extends Coded>(
+  search: string,
+  items: T[],
+  itemToString: (item: T) => string,
+) {
+  if (!search) return items;
+
+  const uf = new uFuzzy();
+  const searchItems = items.map(itemToString);
+
+  const results = uf.search(searchItems, search, 1);
+  if (!results?.[0]) return items;
+
+  const matches = results[0].reduce<Record<string, boolean>>((acc, curr) => {
+    acc[curr] = true;
+    return acc;
+  }, {});
+
+  return items.filter((_, i) => matches[i]);
+}
+
 type Props<T extends Coded> = {
   autoFocus?: boolean;
   className?: string;
@@ -45,6 +66,7 @@ type Props<T extends Coded> = {
   selectedItems: Record<string, T>;
 };
 
+// TODO: the logic here is very messy, extract to a reducer when adding group support.
 export function Combobox<T extends Coded>({
   autoFocus,
   className,
@@ -85,25 +107,12 @@ export function Combobox<T extends Coded>({
 
   const listRef = useRef<HTMLElement[]>([]);
 
-  const listNavigation = useListNavigation(context, {
-    listRef,
-    activeIndex,
-    onNavigate: setActiveIndex,
-    virtual: true,
-    loop: false,
-  });
-
   const dismiss = useDismiss(context);
 
-  const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(
-    [dismiss, listNavigation],
-  );
+  const { getReferenceProps, getFloatingProps } = useInteractions([dismiss]);
 
   const filteredItems = useMemo(
-    () =>
-      items.filter((item) =>
-        itemToString(item).startsWith(inputValue.toLowerCase()),
-      ),
+    () => fuzzyMatch(inputValue, items, itemToString),
     [items, inputValue, itemToString],
   );
 
@@ -133,6 +142,14 @@ export function Combobox<T extends Coded>({
     setActiveIndex(filteredItems.length > 0 ? 0 : null);
   }, [filteredItems.length]);
 
+  useEffect(() => {
+    if (isOpen) {
+      setActiveIndex(0);
+    } else {
+      setActiveIndex(null);
+    }
+  }, [isOpen]);
+
   return (
     <div className={clsx(css["combobox"], className)}>
       <div className={css["combobox-control"]}>
@@ -157,12 +174,31 @@ export function Combobox<T extends Coded>({
                 if (evt.key === "Enter" && activeIndex != null) {
                   evt.preventDefault();
                   const activeItem = filteredItems[activeIndex];
-
                   if (activeItem) {
                     setSelectedItem(activeItem);
                     setOpen(false);
                   }
-                } else if (!isOpen) {
+                } else if (evt.key === "ArrowDown") {
+                  evt.preventDefault();
+                  setActiveIndex((prev) => {
+                    if (activeIndex == null || prev == null) return 0;
+                    return prev < filteredItems.length - 1 ? prev + 1 : prev;
+                  });
+                  if (!isOpen) setOpen(true);
+                } else if (evt.key === "ArrowUp") {
+                  evt.preventDefault();
+                  setActiveIndex((prev) => {
+                    if (prev === null) return 0;
+                    return prev > 0 ? prev - 1 : prev;
+                  });
+                  if (!isOpen) setOpen(true);
+                } else if (
+                  !isOpen &&
+                  !evt.metaKey &&
+                  !evt.altKey &&
+                  evt.key !== "Backspace" &&
+                  evt.key !== "Shift"
+                ) {
                   setOpen(true);
                 }
               },
@@ -191,8 +227,8 @@ export function Combobox<T extends Coded>({
                 activeIndex={activeIndex}
                 items={filteredItems}
                 setSelectedItem={setSelectedItem}
+                setActiveIndex={setActiveIndex}
                 listRef={listRef}
-                getItemProps={getItemProps}
                 selectedItems={selectedItems}
                 renderItem={renderItem}
               />
