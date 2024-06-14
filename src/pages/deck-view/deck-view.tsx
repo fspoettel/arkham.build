@@ -33,9 +33,11 @@ function DeckView() {
           <Decklist deck={deck} />
         </div>
       </main>
-      <Dialog>
-        <DeckNotes deck={deck} />
-      </Dialog>
+      {deck.description_md && (
+        <Dialog>
+          <DeckNotes deck={deck} />
+        </Dialog>
+      )}
     </div>
   );
 }
