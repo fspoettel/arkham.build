@@ -23,6 +23,7 @@ export type Props = {
   as?: "li" | "div";
   card: Card;
   canEdit?: boolean;
+  canIndicateQuantity?: boolean;
   canOpenModal?: boolean;
   canShowQuantity?: boolean;
   canShowInvestigatorIcons?: boolean;
@@ -46,6 +47,7 @@ export function ListCardInner({
   as = "div",
   card,
   canEdit,
+  canIndicateQuantity,
   canOpenModal,
   canShowQuantity,
   canShowSubname = true,
@@ -88,6 +90,7 @@ export function ListCardInner({
         size && css[size],
         forbidden && css["forbidden"],
         className,
+        canIndicateQuantity && quantity === 0 && css["removed"],
       )}
     >
       {canShowQuantity && (

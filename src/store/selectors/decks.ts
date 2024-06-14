@@ -6,9 +6,11 @@ import { parseDeckMeta, resolveDeck } from "@/store/lib/deck-resolver";
 
 import type { ForbiddenCardError } from "../lib/deck-validation";
 import { validateDeck } from "../lib/deck-validation";
-import type { ResolvedCard, ResolvedDeck } from "../lib/types";
+import type { DeckMeta, ResolvedCard, ResolvedDeck } from "../lib/types";
 import type { StoreState } from "../slices";
+import type { Deck } from "../slices/data/types";
 import { getSlotForTab } from "../slices/deck-view";
+import type { DeckViewState, EditState } from "../slices/deck-view/types";
 
 export const selectLocalDecks = createSelector(
   (state: StoreState) => state.data,
@@ -28,81 +30,95 @@ export const selectLocalDecks = createSelector(
   },
 );
 
+function applyInvestigatorSide(
+  deck: Deck,
+  deckMeta: DeckMeta,
+  deckView: EditState,
+  key: "investigatorFront" | "investigatorBack",
+) {
+  const current = deckView.edits[key];
+
+  if (!current) {
+    const deckMetaKey =
+      key === "investigatorFront" ? "alternate_front" : "alternate_back";
+    return deckMeta[deckMetaKey];
+  }
+
+  return current === deck.investigator_code ? null : current;
+}
+
+function applyDeckEdits(originalDeck: Deck, deckView: DeckViewState) {
+  if (deckView.mode !== "edit") return originalDeck;
+
+  const deck = structuredClone(originalDeck);
+
+  // adjust taboo id based on deck edits.
+  if (deckView.edits.tabooId !== undefined) {
+    deck.taboo_id = deckView.edits.tabooId;
+  }
+
+  // adjust meta based on deck edits.
+  // TODO: get rid of the JSON.parse/JSON.stringify here.
+  const deckMeta = parseDeckMeta(deck);
+  deck.meta = JSON.stringify({
+    ...deckMeta,
+    ...deckView.edits.meta,
+    alternate_back: applyInvestigatorSide(
+      deck,
+      deckMeta,
+      deckView,
+      "investigatorBack",
+    ),
+    alternate_front: applyInvestigatorSide(
+      deck,
+      deckMeta,
+      deckView,
+      "investigatorFront",
+    ),
+  });
+
+  // adjust quantities based on deck edits.
+  for (const [key, edits] of Object.entries(deckView.edits.quantities)) {
+    for (const edit of edits) {
+      const slotKey = key as "slots";
+
+      // account for arkhamdb representing empty side slots as an array.
+      if (!deck[slotKey] || Array.isArray(deck[slotKey])) {
+        deck[slotKey] = {};
+      }
+
+      const current = deck[slotKey]?.[edit.code];
+
+      (deck[slotKey] as Record<string, number>)[edit.code] = Math.max(
+        (current ?? 0) + edit.quantity,
+        0,
+      );
+    }
+  }
+
+  for (const [key, val] of Object.entries(deck.slots)) {
+    if (!val && !originalDeck.slots[key]) delete deck.slots[key];
+  }
+
+  if (deck.sideSlots && !Array.isArray(deck.sideSlots)) {
+    for (const [key, val] of Object.entries(deck.sideSlots)) {
+      if (!val) delete deck.sideSlots[key];
+    }
+  }
+
+  return deck;
+}
+
 export const selectResolvedDeck = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.data.decks,
   (state: StoreState) => state.deckView,
   (metadata, lookupTables, decks, deckView) => {
-    if (!deckView) return undefined;
-
+    if (!deckView || !decks[deckView.id]) return undefined;
     console.time("[perf] select_resolved_deck");
-    const deck = decks[deckView.id]
-      ? structuredClone(decks[deckView.id])
-      : undefined;
-    if (!deck) return undefined;
-
-    if (deckView.mode === "edit") {
-      // adjust taboo id based on deck edits.
-      if (deckView.edits.tabooId !== undefined) {
-        deck.taboo_id = deckView.edits.tabooId;
-      }
-
-      // adjust meta based on deck edits.
-      // TODO: get rid of the JSON.parse/JSON.stringify here.
-      const deckMeta = parseDeckMeta(deck);
-
-      const alternate_back = deckView.edits.investigatorBack
-        ? deckView.edits.investigatorBack === deck.investigator_code
-          ? null
-          : deckView.edits.investigatorBack
-        : deckMeta.alternate_back;
-
-      const alternate_front = deckView.edits.investigatorFront
-        ? deckView.edits.investigatorFront === deck.investigator_code
-          ? null
-          : deckView.edits.investigatorFront
-        : deckMeta.alternate_front;
-
-      deck.meta = JSON.stringify({
-        ...deckMeta,
-        ...deckView.edits.meta,
-        alternate_back,
-        alternate_front,
-      });
-
-      // adjust quantities based on deck edits.
-      for (const [key, edits] of Object.entries(deckView.edits.quantities)) {
-        for (const edit of edits) {
-          const slotKey = key as "slots";
-
-          // account for arkhamdb representing empty side slots as an array.
-          if (!deck[slotKey] || Array.isArray(deck[slotKey])) {
-            deck[slotKey] = {};
-          }
-
-          const current = deck[slotKey]?.[edit.code];
-
-          (deck[slotKey] as Record<string, number>)[edit.code] = Math.max(
-            (current ?? 0) + edit.quantity,
-            0,
-          );
-        }
-      }
-
-      for (const [key, val] of Object.entries(deck.slots)) {
-        if (!val) delete deck.slots[key];
-      }
-
-      if (deck.sideSlots && !Array.isArray(deck.sideSlots)) {
-        for (const [key, val] of Object.entries(deck.sideSlots)) {
-          if (!val) delete deck.sideSlots[key];
-        }
-      }
-    }
-
+    const deck = applyDeckEdits(decks[deckView.id], deckView);
     const resolvedDeck = resolveDeck(metadata, lookupTables, deck, true);
-
     console.timeEnd("[perf] select_resolved_deck");
     return resolvedDeck;
   },

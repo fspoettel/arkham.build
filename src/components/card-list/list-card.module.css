@@ -71,6 +71,10 @@
   }
 }
 
+.listcard.removed {
+  opacity: 0.3;
+}
+
 .listcard-icon {
   flex: 0 0 auto;
   font-size: var(--icon-xl);

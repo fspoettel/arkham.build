@@ -9,7 +9,7 @@ type SlotEdit = {
   quantity: number;
 };
 
-type EditState = {
+export type EditState = {
   edits: {
     quantities: {
       slots?: SlotEdit[];
@@ -25,7 +25,7 @@ type EditState = {
   activeTab: Tab;
 };
 
-type ViewState = {
+export type ViewState = {
   mode: "view";
 };
 

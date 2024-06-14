@@ -101,13 +101,14 @@ export function DecklistGroup({
         .map((card) => (
           <ListCard
             as="li"
-            key={card.code}
-            omitBorders
             canEdit={canEdit}
             canShowQuantity
+            canIndicateQuantity
             card={card}
-            quantities={quantities}
             forbidden={forbiddenCards.includes(card.code)}
+            key={card.code}
+            omitBorders
+            quantities={quantities}
             size="sm"
           />
         ))}
