@@ -36,7 +36,7 @@ export function DeckCollection() {
           <ol className={css["decks"]}>
             {decks.map((deck) => (
               <li className={css["deck"]} key={deck.id}>
-                <Link asChild href={`/deck/${deck.id}/view`}>
+                <Link asChild href={`~/deck/${deck.id}/view`}>
                   <a>
                     <DeckSummary
                       deck={deck}

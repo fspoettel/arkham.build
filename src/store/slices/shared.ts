@@ -172,37 +172,4 @@ export const createSharedSlice: StateCreator<
 
     return nextDeck.id;
   },
-
-  setActiveDeck(activeDeckId, mode) {
-    if (!activeDeckId || !mode) {
-      set({ activeList: "browse_player", deckView: null });
-      return;
-    }
-
-    if (mode === "view") {
-      set({
-        activeList: "editor_player",
-        deckView: {
-          id: activeDeckId,
-          mode,
-        },
-      });
-      return;
-    }
-
-    set({
-      activeList: "editor_player",
-      deckView: {
-        activeTab: "slots",
-        showUnusableCards: false,
-        id: activeDeckId,
-        edits: {
-          meta: {},
-          quantities: {},
-          customizations: {},
-        },
-        mode,
-      },
-    });
-  },
 });

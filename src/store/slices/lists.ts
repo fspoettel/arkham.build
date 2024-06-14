@@ -37,11 +37,23 @@ import type {
   SkillIconsFilter,
 } from "./lists.types";
 
+function getInitialList() {
+  if (window.location.href.includes("/deck/new")) {
+    return "create_deck";
+  }
+
+  if (window.location.href.includes("/deck/")) {
+    return "editor_player";
+  }
+
+  return "browse_player";
+}
+
 export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
   set,
   get,
 ) => ({
-  activeList: "browse_player",
+  activeList: getInitialList(),
   lists: makeLists(),
 
   changeList(value, path) {
@@ -106,6 +118,16 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
         },
       },
     });
+  },
+
+  setActiveList(value) {
+    const state = get();
+
+    if (state.lists[value] && state.activeList !== value) {
+      set({
+        activeList: value,
+      });
+    }
   },
 
   setFilterOpen(id, open) {
@@ -503,7 +525,6 @@ export function makePlayerCardsList(
   ];
 
   if (!showInvestigators) {
-    systemFilter.push(not(filterType(["investigator"])));
     filters.splice(filters.indexOf("investigator"), 1);
   }
 
@@ -518,12 +539,20 @@ export function makePlayerCardsList(
   );
 }
 
+export function makeInvestigatorCardsList(key: string): List {
+  return makeList(
+    key,
+    "player",
+    ["faction", "ownership"],
+    ["cycle"],
+    ["position"],
+    and([filterType(["investigator"]), filterDuplicates, filterEncounterCards]),
+  );
+}
+
 export function makeEncounterCardsList(
   key: string,
-  {
-    initialValues = {} as Partial<Record<FilterKey, unknown>>,
-    showMythos = false,
-  } = {},
+  { initialValues = {} as Partial<Record<FilterKey, unknown>> } = {},
 ): List {
   const filters: FilterKey[] = [
     "faction",
@@ -545,7 +574,6 @@ export function makeEncounterCardsList(
     not(filterEncounterCards),
     filterBacksides,
   ];
-  if (!showMythos) systemFilter.push(filterMythosCards);
 
   return makeList(
     key,
@@ -565,9 +593,10 @@ export function makeLists(initialValues?: Partial<Record<FilterKey, unknown>>) {
       initialValues,
     }),
     browse_encounter: makeEncounterCardsList("browse_encounter", {
-      showMythos: true,
       initialValues,
     }),
+    create_deck: makeInvestigatorCardsList("create_deck"),
+
     editor_player: makePlayerCardsList("editor_player", { initialValues }),
     editor_encounter: makeEncounterCardsList("editor_encounter", {
       initialValues,

@@ -1,5 +1,5 @@
 import { Save } from "lucide-react";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 
 import { ListLayout } from "@//layouts/list-layout";
@@ -23,9 +23,19 @@ function DeckEdit() {
   const [, navigate] = useLocation();
   const showToast = useToast();
   const deck = useStore(selectActiveDeck);
+  const activeListId = useStore((state) => state.activeList);
   const quantities = useStore(selectCardQuantities);
 
+  const resetFilters = useStore((state) => state.resetFilters);
+  const setActiveList = useStore((state) => state.setActiveList);
   const saveDeck = useStore((state) => state.saveDeck);
+
+  useEffect(() => {
+    setActiveList("editor_player");
+    return () => {
+      resetFilters();
+    };
+  }, [resetFilters, setActiveList]);
 
   const handleSave = useCallback(() => {
     const id = saveDeck();
@@ -40,7 +50,7 @@ function DeckEdit() {
     deck ? `Edit: ${deck.investigatorFront.card.real_name} - ${deck.name}` : "",
   );
 
-  if (!deck) return null;
+  if (!deck || !activeListId?.startsWith("editor")) return null;
 
   return (
     <ListLayout

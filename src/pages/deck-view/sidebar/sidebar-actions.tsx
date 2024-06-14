@@ -28,9 +28,8 @@ export function SidebarActions({ deck }: Props) {
     <>
       {isReadOnly && (
         <Notice variant="info">
-          There is a{" "}
-          <Link href={`~/deck/${deck.next_deck}/view`}>newer version</Link> of
-          this deck. This deck is read-only.
+          There is a <Link href={`/view/${deck.next_deck}`}>newer version</Link>{" "}
+          of this deck. This deck is read-only.
         </Notice>
       )}
       <div className={css["actions"]}>

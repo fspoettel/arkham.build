@@ -12,6 +12,5 @@ export type SharedSlice = {
     refresh?: boolean,
   ): Promise<boolean>;
 
-  setActiveDeck(id?: string, type?: "view" | "edit"): void;
   saveDeck(): void;
 };

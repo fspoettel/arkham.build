@@ -46,6 +46,37 @@ export const createDeckViewSlice: StateCreator<
     });
   },
 
+  setActiveDeck(activeDeckId, mode) {
+    if (!activeDeckId || !mode) {
+      set({ deckView: null });
+      return;
+    }
+
+    if (mode === "view") {
+      set({
+        deckView: {
+          id: activeDeckId,
+          mode,
+        },
+      });
+      return;
+    }
+
+    set({
+      deckView: {
+        activeTab: "slots",
+        showUnusableCards: false,
+        id: activeDeckId,
+        edits: {
+          meta: {},
+          quantities: {},
+          customizations: {},
+        },
+        mode,
+      },
+    });
+  },
+
   updateActiveTab(value) {
     const state = get();
 

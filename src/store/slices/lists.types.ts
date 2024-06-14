@@ -129,6 +129,7 @@ export type ListsSlice = {
   setFilterValue<T>(id: number, payload: T): void;
   setFilterOpen(id: number, open: boolean): void;
 
+  setActiveList(value: string): void;
   setSearchValue(value: string): void;
   setSearchFlag(flag: keyof Omit<Search, "value">, value: boolean): void;
 
