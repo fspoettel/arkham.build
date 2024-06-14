@@ -22,11 +22,7 @@
 
 .customizations-text b {
   color: var(--nord-6);
-  font-weight: 600;
-}
-
-.customizations-text br {
-  line-height: 2;
+  font-weight: 700;
 }
 
 .customization {

@@ -9,7 +9,6 @@
 .group-title {
   display: inline-block;
   font-size: var(--text-sm);
-  font-family: var(--font-family-ui);
   padding: 0.25rem 0.5rem;
   border-radius: var(--rounded-lg);
   background: var(--nord-1);

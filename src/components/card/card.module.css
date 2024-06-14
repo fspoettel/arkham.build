@@ -1,7 +1,9 @@
 .card-container {
+  --card-text-size-sm: var(--text-sm);
   --card-text-size: var(--text-base);
   --card-title-size: var(--text-lg);
   --card-spacing: 1rem;
+  font-family: var(--font-family-content);
 }
 
 .card {
@@ -11,9 +13,9 @@
   gap: var(--card-spacing);
   grid-template-areas:
     "header"
+    "image"
     "details"
-    "content"
-    "image";
+    "content";
   width: 100%;
   background: var(--nord-1);
   border: 1px solid var(--nord-2);
@@ -53,6 +55,10 @@
   }
 }
 
+.card-container.full .card + .card {
+  margin-top: 1rem;
+}
+
 .card-container.compact .card {
   @container (min-width: 24rem) {
     grid-template-columns: 1fr 8rem;
@@ -73,6 +79,7 @@
 }
 
 .card-container.tooltip {
+  --card-text-size-sm: var(--text-xs);
   --card-text-size: var(--text-sm);
   --card-title-size: var(--text-base);
   --card-spacing: 0.75rem;

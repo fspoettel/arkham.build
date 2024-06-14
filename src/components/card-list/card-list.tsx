@@ -40,7 +40,7 @@ export function CardList() {
 
       const offset = findGroupOffset(data, evt.target.value);
 
-      if (offset) {
+      if (offset != null) {
         virtuosoRef.current?.scrollToIndex(offset);
       }
     },

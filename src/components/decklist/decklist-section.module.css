@@ -14,7 +14,7 @@
 }
 
 .decklist-section.one_column .decklist-section-title {
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
   font-family: var(--font-family-ui);
   margin-bottom: 0.5rem;
 }

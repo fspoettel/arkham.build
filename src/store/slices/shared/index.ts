@@ -25,15 +25,15 @@ export const createSharedSlice: StateCreator<
       return false;
     }
 
-    console.time("[performance] query_data");
+    console.time("[perf] query_data");
     const [metadataResponse, dataVersionResponse, cards] = await Promise.all([
       queryMetadata(),
       queryDataVersion(),
       queryCards(),
     ]);
-    console.timeEnd("[performance] query_data");
+    console.timeEnd("[perf] query_data");
 
-    console.time("[performance] create_store_data");
+    console.time("[perf] create_store_data");
     const metadata: Metadata = {
       ...getInitialMetadata(),
       dataVersion: dataVersionResponse,
@@ -67,6 +67,8 @@ export const createSharedSlice: StateCreator<
           taboo_set_id: c.taboo_set_id,
           taboo_xp: c.taboo_xp,
           exceptional: c.exceptional,
+          deck_requirements: c.deck_requirements,
+          deck_options: c.deck_options,
           customization_options: c.customization_options,
           real_customization_text: c.real_customization_text,
           real_customization_change: c.real_customization_change,
@@ -88,6 +90,8 @@ export const createSharedSlice: StateCreator<
           ];
       }
 
+      // tempfix: "tags" is sometimes empty string, see: https://github.com/Kamalisk/arkhamdb-json-data/pull/1351#issuecomment-1937852236
+      if (!card.tags) card.tags = undefined;
       card.parallel = cycle?.code === "parallel";
       card.original_slot = card.real_slot;
 
@@ -121,7 +125,7 @@ export const createSharedSlice: StateCreator<
       filters: getInitialFilters(state),
     });
 
-    console.timeEnd("[performance] create_store_data");
+    console.timeEnd("[perf] create_store_data");
 
     return true;
   },

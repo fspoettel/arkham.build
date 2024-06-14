@@ -18,7 +18,8 @@ import type { DeckOption } from "../services/types";
 import type { StoreState } from "../slices";
 import { resolveDeck } from "./deck-resolver";
 
-describe("resolveDeck", async () => {
+// TODO: define and test revised core resolution.
+describe("resolveDeck", () => {
   let store: StoreApi<StoreState>;
 
   beforeAll(async () => {

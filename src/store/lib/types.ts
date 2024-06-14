@@ -59,6 +59,9 @@ export type DeckMeta = {
   alternate_back?: string;
   option_selected?: string;
   faction_selected?: string;
+  faction_1?: string;
+  faction_2?: string;
+  deck_size_selected?: string;
   extra_deck?: string;
 };
 

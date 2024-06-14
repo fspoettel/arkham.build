@@ -14,7 +14,6 @@ export function resolveGroupingCardCodes(
 ): string[] {
   switch (grouping.grouping_type) {
     case "slot": {
-      // TODO: it might be cleaner to solve this with a lookup table for secondary slots.
       return Object.keys(lookupTables.slots[grouping.code]).filter(
         (code) =>
           !lookupTables.properties.multislot[code] ||

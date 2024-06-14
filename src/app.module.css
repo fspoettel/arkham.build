@@ -23,7 +23,6 @@
 .app-loader p {
   font-size: var(--text-lg);
   color: var(--nord-4);
-  font-weight: 500;
 }
 
 .app-loader-icon {

@@ -20,7 +20,7 @@ function selectPlayerCardsForCustomizationOptions(
 ) {
   if (!config) return [];
 
-  console.time("[performance] select_player_cards_for_customization_options");
+  console.time("[perf] select_player_cards_for_customization_options");
 
   const options: Set<Card> = new Set();
 
@@ -51,9 +51,7 @@ function selectPlayerCardsForCustomizationOptions(
     sortAlphabetically(state.lookupTables),
   );
 
-  console.timeEnd(
-    "[performance] select_player_cards_for_customization_options",
-  );
+  console.timeEnd("[perf] select_player_cards_for_customization_options");
 
   return cards;
 }

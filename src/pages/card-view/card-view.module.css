@@ -7,7 +7,7 @@
   overflow: auto;
   margin: 0 auto;
   container-type: inline-size;
-  max-width: 48rem;
+  max-width: 52rem;
 
   & > * + * {
     margin-top: 1rem;

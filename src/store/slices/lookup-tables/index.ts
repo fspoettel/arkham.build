@@ -41,8 +41,6 @@ export function getInitialLookupTables(): LookupTables {
     health: {},
     properties: {
       fast: {},
-      healsDamage: {},
-      healsHorror: {},
       multislot: {},
       seal: {},
       succeedBy: {},
@@ -89,7 +87,7 @@ export function createLookupTables(
   metadata: Metadata,
   settings: SettingsState,
 ) {
-  console.time("[performance] refresh_lookup_tables");
+  console.time("[perf] refresh_lookup_tables");
   const lookupTables = getInitialLookupTables();
 
   const cards = Object.values(metadata.cards);
@@ -108,7 +106,7 @@ export function createLookupTables(
 
   addPacksToLookupTables(metadata, lookupTables);
 
-  console.timeEnd("[performance] refresh_lookup_tables");
+  console.timeEnd("[perf] refresh_lookup_tables");
   return lookupTables;
 }
 
@@ -147,9 +145,6 @@ export function addCardToLookupTables(
     indexByMulticlass(tables, card);
 
     indexBySeal(tables, card);
-
-    indexByHealsHorror(tables, card);
-    indexByHealsDamage(tables, card);
 
     indexBySucceedsBy(tables, card);
 
@@ -303,24 +298,6 @@ function indexByUses(tables: LookupTables, card: Card) {
   }
 }
 
-function indexByHealsDamage(tables: LookupTables, card: Card) {
-  if (
-    card.tags?.includes("hd") ||
-    card.customization_options?.some((option) => option?.tags?.includes("hd"))
-  ) {
-    setInLookupTable(card.code, tables.properties, "healsDamage");
-  }
-}
-
-function indexByHealsHorror(tables: LookupTables, card: Card) {
-  if (
-    card.tags?.includes("hh") ||
-    card.customization_options?.some((option) => option?.tags?.includes("hh"))
-  ) {
-    setInLookupTable(card.code, tables.properties, "healsHorror");
-  }
-}
-
 function indexBySucceedsBy(tables: LookupTables, card: Card) {
   if (card.real_text?.match(REGEX_SUCCEED_BY)) {
     setInLookupTable(card.code, tables.properties, "succeedBy");
@@ -332,7 +309,7 @@ function sortedByName(tables: LookupTables, card: Card, i: number) {
 }
 
 export function createRelations(metadata: Metadata, tables: LookupTables) {
-  console.time("[performance] create_relations");
+  console.time("[perf] create_relations");
   const cards = Object.values(metadata.cards);
 
   const bonded: Record<string, string[]> = {};
@@ -449,7 +426,7 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
     }
   }
 
-  console.timeEnd("[performance] create_relations");
+  console.timeEnd("[perf] create_relations");
 }
 
 function addPacksToLookupTables(

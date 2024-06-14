@@ -40,6 +40,7 @@ function applyCustomizations(
 ): Card {
   if (
     !customizations ||
+    !customizations[card.code] ||
     !card.real_customization_change ||
     !card.real_customization_text ||
     !card.customization_options

@@ -1,6 +1,7 @@
 .text {
   padding-left: calc(var(--card-spacing) / 1.5);
   border-left: 2px solid var(--nord-4);
+  font-family: var(--font-family-content);
   font-size: var(--card-text-size);
 
   & > * + * {
@@ -14,15 +15,11 @@
 
 .text b {
   color: var(--nord-6);
-  font-weight: 600;
-}
-
-.text br {
-  line-height: 2;
+  font-weight: 700;
 }
 
 .flavor {
-  font-size: var(--text-sm);
+  font-size: var(--card-text-size-sm);
   max-width: 60ch;
   font-style: italic;
 }

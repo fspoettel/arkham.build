@@ -27,7 +27,6 @@
   color: currentColor;
   z-index: 2;
   font-size: 0.5em;
-  top: 16.667%;
   color: var(--nord-0);
 }
 
@@ -35,6 +34,14 @@
 .icon-children {
   width: 100%;
   text-align: center;
+}
+
+.icon-child {
+  top: 16.667%;
+}
+
+.icon-children {
+  top: 10%;
 }
 
 .icon_skill .icon-child {

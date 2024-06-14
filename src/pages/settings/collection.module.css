@@ -36,7 +36,7 @@
   align-items: center;
   justify-content: space-between;
   background: var(--nord-1);
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
   gap: 0.25rem;
   padding: 0.5rem;
   border-radius: var(--rounded-md);

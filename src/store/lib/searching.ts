@@ -42,7 +42,7 @@ export function applySearch(
 
   const searchCards = cards.map((card) => {
     let content = prepareCardFront(card, search);
-    if (search.includeBacks && card.real_back_name) {
+    if (search.includeBacks && card.real_back_text) {
       content += prepareCardBack(card, search);
     } else if (search.includeBacks && card.back_link_id) {
       const back = metadata.cards[card.back_link_id];

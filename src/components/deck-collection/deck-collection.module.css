@@ -7,7 +7,7 @@
 
 .deck-collection-decks {
   list-style: none;
-  padding-inline: 0.75rem;
+  padding: 0.25rem 0.75rem;
 
   & > * + * {
     margin-top: 0.75rem;
@@ -16,6 +16,10 @@
 
 .deck-collection-deck a {
   text-decoration: none;
+
+  &:focus {
+    outline: 1px solid var(--nord-4);
+  }
 }
 
 .deck-collection-header {

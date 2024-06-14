@@ -29,6 +29,7 @@ export function DeckCollectionImport() {
         accept="application/json"
         className={css["deck-collection-import-input"]}
         onChange={onAddFiles}
+        multiple
       />
     </div>
   );

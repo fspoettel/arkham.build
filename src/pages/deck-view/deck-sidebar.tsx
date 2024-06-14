@@ -1,6 +1,7 @@
 import {
   ChevronDownIcon,
   ChevronUpIcon,
+  Cross2Icon,
   Pencil2Icon,
   TrashIcon,
 } from "@radix-ui/react-icons";
@@ -20,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Scroller } from "@/components/ui/scroll-area";
 import { useStore } from "@/store";
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
+import { selectDeckValid } from "@/store/selectors/decks";
 import { capitalize } from "@/utils/capitalize";
 
 import css from "./deck-sidebar.module.css";
@@ -30,6 +32,7 @@ type Props = {
 
 export function DeckSidebar({ deck }: Props) {
   const [backToggled, toggleBack] = useState(false);
+  const validation = useStore(selectDeckValid);
   const deleteDeck = useStore((state) => state.deleteDeck);
   const [, setLocation] = useLocation();
 
@@ -143,6 +146,15 @@ export function DeckSidebar({ deck }: Props) {
                   {deck.optionSelect.selection
                     ? capitalize(deck.optionSelect.selection)
                     : "None"}
+                </p>
+              </li>
+            )}
+
+            {!validation.valid && (
+              <li className={clsx(css["detail"], css["full"])}>
+                <p className={css["detail-value"]}>
+                  <Cross2Icon />
+                  Deck is invalid.
                 </p>
               </li>
             )}

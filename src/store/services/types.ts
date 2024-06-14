@@ -3,27 +3,39 @@ export type Coded = {
 };
 
 export type DeckRequirements = {
-  card: Record<string, string>;
+  card: Record<string, Record<string, string>>;
   random: { value: string; target: string }[];
   size: number;
 };
 
 export type DeckOption = {
   // => Lola Hayes
-  atleast?: { min: number; factions: number };
+  atleast?: {
+    min: number;
+    factions?: number;
+    // not present in dataset, used for special case ancestral knowledge.
+    types?: number;
+  };
   // => Mandy Thompson
   deck_size_select?: number | number[];
   // => Tony Morgan
   faction_select?: string[];
   // => 5 / 2 deck building
-  faction: string[];
+  faction?: string[];
+  // => charlie kane's faction_selects
+  id?: string;
   // => 5 / 2 deck building
-  level: {
+  level?: {
+    min: number;
+    max: number;
+  };
+  // => suzie.
+  base_level?: {
     min: number;
     max: number;
   };
   // => e.g. Dunwich.
-  limit?: string;
+  limit?: number;
   // => Investigators with deck options
   name?: string;
   // => Preston Fairmont
@@ -34,6 +46,7 @@ export type DeckOption = {
   option_select?: {
     name: string;
     id: string;
+    size?: number;
     level: { min: number; max: number };
     trait: string[];
   }[];
@@ -47,6 +60,10 @@ export type DeckOption = {
   type?: string[];
   // => Akachi
   uses?: string[];
+  error?: string;
+  // not present in dataset, special case on your own.
+  slot?: string[];
+  virtual?: boolean;
 };
 
 export type CustomizationOption = {
@@ -55,18 +72,18 @@ export type CustomizationOption = {
     trait: string[];
   };
   choice?: "choose_card" | "choose_trait" | "remove_slot" | "choose_skill";
-  xp: number;
   cost?: number;
   deck_limit?: number;
-  tags?: string[];
+  health?: number;
   position?: number;
   quantity?: number;
-  health?: number;
   real_slot?: string;
   real_text?: string;
   real_traits?: string;
   sanity?: number;
+  tags?: string[];
   text_change: "append" | "insert" | "replace";
+  xp: number;
 };
 
 export type QueryCard = {
@@ -221,6 +238,7 @@ export type Taboo = {
   real_customization_change?: Card["real_customization_change"];
   customization_options?: Card["customization_options"];
   deck_requirements?: Card["deck_requirements"];
+  deck_options?: Card["deck_options"];
 };
 
 export type TabooSet = {

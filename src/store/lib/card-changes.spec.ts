@@ -42,7 +42,7 @@ describe("applyCardChanges", () => {
       expect(result.real_taboo_text_change).toBeDefined();
     });
 
-    // TODO: why does the API not apply the text change for older?
+    // TODO: the API does not apply text changes to older taboo sets.
     it("should apply taboos for the latest taboo set", () => {
       const state = store.getState();
       const card = state.metadata.cards["02002"];

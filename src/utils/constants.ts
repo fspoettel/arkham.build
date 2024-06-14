@@ -2,7 +2,7 @@ export const REGEX_SKILL_BOOST = /\+\d+?\s\[(.+?)\]/g;
 
 export const REGEX_USES = /^Uses\s\(\d+?\s(\w+?)\)/;
 
-export const REGEX_BONDED = /^Bonded\s\((.*?)\)\./;
+export const REGEX_BONDED = /^Bonded\s\((.*?)\)(\.|\s)/;
 
 export const REGEX_SUCCEED_BY =
   /succe(ssful|ed(?:s?|ed?))(:? at a skill test)? by(?! 0)/;
@@ -92,4 +92,15 @@ export const ALT_ART_INVESTIGATOR_MAP = {
   "98010": "05001",
   "98013": "07005",
   "98016": "07004",
+};
+
+export const SPECIAL_CARD_CODES = {
+  ANCESTRAL_KNOWLEDGE: "07303",
+  FORCED_LEARNING: "08031",
+  UNDERWORLD_MARKET: "09077",
+  UNDERWORLD_SUPPORT: "08046",
+  VERSATILE: "06167",
+  MANDY: "06002",
+  OCCULT_EVIDENCE: "06008",
+  ON_YOUR_OWN: "53010",
 };
