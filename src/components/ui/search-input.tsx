@@ -1,5 +1,5 @@
-import { Cross1Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
+import { Search, XIcon } from "lucide-react";
 import type { ChangeEvent, ComponentProps } from "react";
 import { forwardRef, useCallback } from "react";
 
@@ -34,7 +34,7 @@ export const SearchInput = forwardRef<HTMLInputElement, Props>(
     return (
       <div className={clsx(css["field"], className)}>
         <label htmlFor={id} title="Search cards">
-          <MagnifyingGlassIcon className={css["field-icon_search"]} />
+          <Search className={css["field-icon_search"]} />
         </label>
         <input
           {...rest}
@@ -51,7 +51,7 @@ export const SearchInput = forwardRef<HTMLInputElement, Props>(
             onClick={onClear}
             variant="bare"
           >
-            <Cross1Icon />
+            <XIcon />
           </Button>
         )}
       </div>

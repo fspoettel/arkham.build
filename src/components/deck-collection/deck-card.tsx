@@ -1,5 +1,5 @@
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
+import { CircleAlert } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { useStore } from "@/store";
@@ -61,7 +61,7 @@ export function DeckCard({
         <div className={css["deck-header-container"]}>
           <h3 className={css["deck-title"]}>
             {showValidation && validationResult && !validationResult.valid && (
-              <ExclamationTriangleIcon />
+              <CircleAlert />
             )}
             {deck.name}
           </h3>

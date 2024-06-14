@@ -1,4 +1,4 @@
-import { UploadIcon } from "@radix-ui/react-icons";
+import { CloudUpload } from "lucide-react";
 import { useCallback } from "react";
 
 import { useStore } from "@/store";
@@ -21,7 +21,7 @@ export function DeckCollectionImport() {
   return (
     <div className={css["deck-collection-import"]}>
       <Button as="label" htmlFor="deck-collection-import">
-        <UploadIcon />
+        <CloudUpload />
       </Button>
       <input
         accept="application/json"

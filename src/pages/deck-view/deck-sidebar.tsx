@@ -1,5 +1,5 @@
-import { Pencil2Icon, TrashIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
+import { Pencil, Trash2 } from "lucide-react";
 import { useCallback } from "react";
 import { Link, useLocation } from "wouter";
 
@@ -32,12 +32,12 @@ export function DeckSidebar({ className, deck }: Props) {
       <div className={css["deck-sidebar-actions"]}>
         <Link asChild href={`/${deck.id}/edit`}>
           <Button as="a" size="full">
-            <Pencil2Icon /> Edit
+            <Pencil /> Edit
           </Button>
         </Link>
 
         <Button onClick={onDelete} size="full">
-          <TrashIcon /> Delete
+          <Trash2 /> Delete
         </Button>
       </div>
 

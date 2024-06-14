@@ -1,4 +1,4 @@
-import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
+import { Minus, Plus } from "lucide-react";
 import type { MouseEventHandler } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,7 @@ export function CollectionCycleActions({ cycleCode, onToggleCycle }: Props) {
         type="button"
         variant="bare"
       >
-        <PlusIcon />
+        <Plus />
       </Button>
       <Button
         className={css["collection-cycle-toggle"]}
@@ -33,7 +33,7 @@ export function CollectionCycleActions({ cycleCode, onToggleCycle }: Props) {
         type="button"
         variant="bare"
       >
-        <MinusIcon />
+        <Minus />
       </Button>
     </div>
   );

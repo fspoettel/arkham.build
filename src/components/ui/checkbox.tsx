@@ -1,7 +1,7 @@
 import type { CheckboxProps } from "@radix-ui/react-checkbox";
 import { Indicator, Root } from "@radix-ui/react-checkbox";
-import { CheckIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
+import { Check } from "lucide-react";
 import type { ReactNode } from "react";
 
 import css from "./checkbox.module.css";
@@ -18,7 +18,7 @@ export function Checkbox({ className, id, hideLabel, label, ...rest }: Props) {
     <div className={clsx(css["checkbox"], className)}>
       <Root {...rest} className={css["checkbox-root"]} id={id}>
         <Indicator className={css["checkbox-indicator"]}>
-          <CheckIcon />
+          <Check />
         </Indicator>
       </Root>
       <label

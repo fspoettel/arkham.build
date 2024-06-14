@@ -402,7 +402,6 @@ button {
 
 svg {
   display: block;
-  fill: currentColor;
   width: 1em;
   height: auto;
 }

@@ -3,8 +3,8 @@ import type {
   CollapsibleProps,
 } from "@radix-ui/react-collapsible";
 import { Content, Root, Trigger } from "@radix-ui/react-collapsible";
-import { Cross2Icon, RowSpacingIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
+import { UnfoldVertical, XIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
 import css from "./collapsible.module.css";
@@ -50,7 +50,7 @@ export function Collapsible({
           <div className={css["collapsible-actions"]}>
             {actions}
             <Button variant="bare">
-              {open ? <Cross2Icon /> : <RowSpacingIcon />}
+              {open ? <XIcon /> : <UnfoldVertical />}
             </Button>
           </div>
         </div>

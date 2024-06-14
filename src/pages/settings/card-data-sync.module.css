@@ -17,7 +17,7 @@
 }
 
 .sync .sync-status svg {
-  color: var(--nord-13);
+  color: var(--nord-10);
 }
 
 .sync.uptodate .sync-status svg {

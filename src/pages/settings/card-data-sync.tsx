@@ -1,5 +1,5 @@
-import { CheckIcon, DoubleArrowUpIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
+import { Check, FileDown } from "lucide-react";
 import { useCallback, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -63,8 +63,8 @@ export function CardDataSync() {
   return (
     <>
       <Field
-        className={clsx(css["sync"], upToDate && css["uptodate"])}
         bordered
+        className={clsx(css["sync"], upToDate && css["uptodate"])}
       >
         <Button
           className={css["sync-action"]}
@@ -82,11 +82,11 @@ export function CardDataSync() {
             data &&
             (upToDate ? (
               <p>
-                <CheckIcon /> Card data is up to date.
+                <Check /> Card data is up to date.
               </p>
             ) : (
               <p>
-                <DoubleArrowUpIcon /> New card data is available.
+                <FileDown /> New card data is available.
               </p>
             ))}
         </div>

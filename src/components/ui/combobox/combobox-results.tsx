@@ -1,4 +1,4 @@
-import { Cross1Icon } from "@radix-ui/react-icons";
+import { XIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { useCallback } from "react";
 
@@ -29,7 +29,7 @@ export function ComboboxResults<T extends { code: string }>({
       {items.map((item) => (
         <li className={css["combobox-result"]} key={item.code}>
           <button onClick={() => onRemoveItem(item)}>
-            {renderResult(item)} <Cross1Icon />
+            {renderResult(item)} <XIcon />
           </button>
         </li>
       ))}

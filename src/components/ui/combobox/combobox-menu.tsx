@@ -1,5 +1,5 @@
-import { CheckIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
+import { Check } from "lucide-react";
 import {
   type MutableRefObject,
   type ReactNode,
@@ -88,7 +88,7 @@ export function ComboboxMenu<T extends Coded>({
               tabIndex={active ? 0 : -1}
             >
               {selectedItems.includes(item.code) && (
-                <CheckIcon className={css["combobox-menu-item-check"]} />
+                <Check className={css["combobox-menu-item-check"]} />
               )}
               {renderItem(item)}
             </div>

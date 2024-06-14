@@ -1,4 +1,4 @@
-import { ResetIcon } from "@radix-ui/react-icons";
+import { Undo2 } from "lucide-react";
 import type { MouseEvent } from "react";
 import { type ReactNode, useCallback } from "react";
 
@@ -39,7 +39,7 @@ export function FilterContainer({
       actions={
         filterString && onReset ? (
           <Button onClick={onFilterReset} size="sm" variant="bare">
-            <ResetIcon />
+            <Undo2 />
           </Button>
         ) : undefined
       }

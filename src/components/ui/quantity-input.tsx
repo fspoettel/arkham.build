@@ -1,4 +1,4 @@
-import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
+import { Minus, Plus } from "lucide-react";
 
 import css from "./quantity-input.module.css";
 
@@ -36,7 +36,7 @@ export function QuantityInput({
           size="sm"
           variant="bare"
         >
-          <MinusIcon />
+          <Minus />
         </Button>
         <strong className={css["quantity-input-value"]}>{value}</strong>
         <Button
@@ -45,7 +45,7 @@ export function QuantityInput({
           size="sm"
           variant="bare"
         >
-          <PlusIcon />
+          <Plus />
         </Button>
       </div>
     </div>

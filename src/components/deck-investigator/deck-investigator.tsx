@@ -1,5 +1,5 @@
-import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
@@ -31,7 +31,7 @@ export function DeckInvestigator({
       <CardFront linked resolvedCard={deck.investigatorFront} size={size} />
       <div className={clsx(css["back-toggle"], backToggled && css["open"])}>
         <Button onClick={() => toggleBack((p) => !p)}>
-          {backToggled ? <ChevronUpIcon /> : <ChevronDownIcon />}
+          {backToggled ? <ChevronUp /> : <ChevronDown />}
           Backside{" "}
           {deck.investigatorBack.card.parallel && (
             <>

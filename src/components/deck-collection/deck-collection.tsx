@@ -1,4 +1,4 @@
-import { PlusIcon } from "@radix-ui/react-icons";
+import { Plus } from "lucide-react";
 import { Link } from "wouter";
 
 import { useStore } from "@/store";
@@ -23,7 +23,7 @@ export function DeckCollection() {
           <DeckCollectionImport />
           <Link asChild href="/deck/new">
             <Button as="a" disabled>
-              <PlusIcon />
+              <Plus />
             </Button>
           </Link>
         </div>

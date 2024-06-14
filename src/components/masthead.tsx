@@ -1,5 +1,5 @@
-import { GearIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
+import { Settings } from "lucide-react";
 import type { ReactNode } from "react";
 import { Link, useLocation } from "wouter";
 
@@ -24,7 +24,7 @@ export function Masthead({ className, slotNav }: Props) {
         {location !== "/settings" && (
           <Link asChild href="~/settings">
             <Button as="a" className={css["masthead-settings"]} variant="bare">
-              <GearIcon />
+              <Settings />
             </Button>
           </Link>
         )}

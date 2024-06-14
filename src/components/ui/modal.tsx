@@ -1,5 +1,5 @@
-import { Cross2Icon } from "@radix-ui/react-icons";
 import clsx from "clsx";
+import { XIcon } from "lucide-react";
 import type { MouseEvent, ReactNode } from "react";
 import { useCallback, useRef } from "react";
 
@@ -41,7 +41,7 @@ export function Modal({ actions, onClose, children }: Props) {
         >
           {actions}
           <Button onClick={onClose} tabIndex={1} variant="bare">
-            <Cross2Icon />
+            <XIcon />
           </Button>
         </div>
         {children}

@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { ChevronDown } from "lucide-react";
 import type { MouseEvent } from "react";
 import { useCallback, useMemo, useState } from "react";
 
@@ -41,7 +41,7 @@ export function Faq({ card }: Props) {
   return (
     <details className={css["faq"]}>
       <Button as="summary" onClick={() => setOpen((p) => !p)} size="full">
-        {open ? <ChevronDownIcon /> : <span>?</span>} View FAQs
+        {open ? <ChevronDown /> : <span>?</span>} View FAQs
       </Button>
 
       <div className={css["faq-content"]} onClick={redirectRelativeLinks}>

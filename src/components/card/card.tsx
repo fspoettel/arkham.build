@@ -1,4 +1,4 @@
-import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { type ReactNode, useState } from "react";
 
 import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
@@ -62,7 +62,7 @@ export function Card({
       className={css["card-backtoggle"]}
       onClick={() => toggleBack((p) => !p)}
     >
-      {backToggled ? <ChevronUpIcon /> : <ChevronDownIcon />}
+      {backToggled ? <ChevronUp /> : <ChevronDown />}
       Backside
     </Button>
   ) : undefined;
