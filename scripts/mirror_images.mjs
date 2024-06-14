@@ -1,11 +1,16 @@
 /* eslint-disable no-undef */
-import { HeadObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import {
+  CopyObjectCommand,
+  HeadObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from "@aws-sdk/client-s3";
 import allCardJson from "../src/store/graphql/data/stubs/all_card.json" assert { type: "json" };
 
-const accountId: string = process.env["R2_ACCOUNT_ID"];
+const accountId = process.env["R2_ACCOUNT_ID"];
 const accesKeyId = process.env["R2_ACCESS_KEY_ID"];
-const accessKeySecret = process.env["R2_ACCESS_KEY_SECRET"]
-const bucket = process.env["R2_BUCKET_NAME"]
+const accessKeySecret = process.env["R2_ACCESS_KEY_SECRET"];
+const bucket = process.env["R2_BUCKET_NAME"];
 
 const s3 = new S3Client({
   endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
@@ -14,7 +19,7 @@ const s3 = new S3Client({
     secretAccessKey: accessKeySecret,
   },
   region: "auto",
-  signatureVersion: 'v4',
+  signatureVersion: "v4",
 });
 
 syncCards().catch(console.error);
@@ -26,16 +31,39 @@ async function mirrorImage(url) {
     throw new Error(`could not extract key for ${url}, aborting.`);
   }
 
-  try {
-    await s3.send(new HeadObjectCommand({
-      Bucket: bucket,
-      Key: key,
-    }));
+  const contentType = key.endsWith("jpg") ? "image/jpeg" : "image/png";
 
-    console.debug(`${key} found, skipping.`);
+  try {
+    console.debug(`${key} exists already.`);
+    const head = await s3.send(
+      new HeadObjectCommand({
+        Bucket: bucket,
+        Key: key,
+      }),
+    );
+
+    // used once to fixup missing content-type.
+    if (!head.Metadata?.["content-type"]?.startsWith("image")) {
+      console.debug(`${key} fixing up metadata.`);
+      await s3.send(
+        new CopyObjectCommand({
+          Bucket: bucket,
+          Key: key,
+          CopySource: `${bucket}/${key}`,
+          MetadataDirective: "REPLACE",
+          ContentType: contentType,
+          Metadata: {
+            "Content-Type": contentType,
+            "Cache-Control": "public, max-age=2592000",
+          },
+        }),
+      );
+    }
+
     return;
-  } catch (_) {
-    console.debug(`${key} not found, mirroring.`)
+  } catch (e) {
+    console.error(e);
+    console.debug(`${key} not found, mirroring.`);
   }
 
   const response = await fetch(url);
@@ -46,19 +74,26 @@ async function mirrorImage(url) {
 
   const imageBuffer = await response.arrayBuffer();
 
-  await s3.send(new PutObjectCommand({
-    Bucket: bucket,
-    Key: key,
-    Body: imageBuffer,
-  }));
+  await s3.send(
+    new PutObjectCommand({
+      Bucket: bucket,
+      Key: key,
+      Body: imageBuffer,
+      ContentType: contentType,
+      Metadata: {
+        contentType: contentType,
+        cacheControl: "public, max-age=2592000",
+      },
+    }),
+  );
 
-  console.debug(`${key} uploaded to S3.`);
+  console.debug(`${key} finished processing.`);
 }
 
 async function syncCards() {
-  const cards = allCardJson
-    .all_card
-    .filter(c => c.imageurl || c.backimageurl);
+  const cards = allCardJson.all_card.filter(
+    (c) => c.imageurl || c.backimageurl,
+  );
 
   for await (const card of cards) {
     if (card.imageurl) await mirrorImage(card.imageurl);
