@@ -11,6 +11,11 @@
   gap: 0.5rem;
   align-items: center;
   justify-content: space-between;
+
+  & select {
+    font-size: var(--text-xs);
+    padding: 0.25rem;
+  }
 }
 
 .list-scroller {

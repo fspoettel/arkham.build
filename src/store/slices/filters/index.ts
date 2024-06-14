@@ -135,13 +135,10 @@ function resetFilterKeys<C extends CardTypeFilter, P extends keyof Filters[C]>(
 ) {
   const initialState = getInitialState();
 
-  const filterResets = paths.reduce(
-    (acc, path) => {
-      acc[path] = initialState[type][path];
-      return acc;
-    },
-    {} as Partial<Filters[C]>,
-  );
+  const filterResets = paths.reduce<Partial<Filters[C]>>((acc, path) => {
+    acc[path] = initialState[type][path];
+    return acc;
+  }, {});
 
   return {
     ...state.filters,

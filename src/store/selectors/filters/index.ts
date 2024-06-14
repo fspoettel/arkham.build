@@ -20,7 +20,7 @@ import {
 } from "./shared";
 import { selectSkillIconsFilter } from "./skill-icons";
 import { selectSubtypeFilter } from "./subtype";
-import { selectTabooSetFilter } from "./tabooSet";
+import { selectTabooSetFilter } from "./taboo-set";
 import { selectTraitsFilter } from "./traits";
 import { selectTypeFilter } from "./type";
 

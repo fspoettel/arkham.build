@@ -42,7 +42,6 @@ export function ListCard({ card }: Props) {
   });
 
   const hover = useHover(context, { restMs: 25 });
-
   const { getReferenceProps, getFloatingProps } = useInteractions([hover]);
 
   if (!card) return null;

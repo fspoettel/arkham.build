@@ -9,3 +9,8 @@
 .field textarea {
   display: block;
 }
+
+.field-help {
+  margin-top: 0.5rem;
+  font-style: italic;
+}

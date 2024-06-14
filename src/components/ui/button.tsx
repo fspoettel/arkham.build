@@ -8,7 +8,7 @@ type Props<T extends "a" | "button" | "summary"> = ComponentProps<T> & {
   children: ReactNode;
   className?: string;
   variant?: "bare";
-  size?: "full";
+  size?: "sm" | "full";
 };
 
 export const Button = forwardRef(function Button<

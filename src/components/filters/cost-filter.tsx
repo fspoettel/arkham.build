@@ -7,7 +7,7 @@ import {
   selectCostMinMax,
 } from "@/store/selectors/filters/cost";
 import { selectActiveCardType } from "@/store/selectors/filters/shared";
-import { CostFilter as CostFilterT } from "@/store/slices/filters/types";
+import { CostFilter as CostFilterSchema } from "@/store/slices/filters/types";
 
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
@@ -22,9 +22,9 @@ export function CostFilter() {
   const resetFilter = useStore((state) => state.resetFilterKey);
 
   const setValue = useCallback(
-    function setValue<K extends keyof CostFilterT>(
+    function setValue<K extends keyof CostFilterSchema>(
       key: K,
-      val: CostFilterT[K],
+      val: CostFilterSchema[K],
     ) {
       setFilter(cardType, "cost", key, val);
     },

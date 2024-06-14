@@ -1,0 +1,9 @@
+.layout {
+  padding: 0.75rem;
+}
+.layout-main {
+  margin: 0 auto;
+  padding: 1rem;
+  border: 1px solid var(--nord-3);
+  border-radius: var(--rounded-md);
+}

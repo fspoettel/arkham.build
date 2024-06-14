@@ -22,13 +22,11 @@ export function SkillIconsInvestigator({
 }: Props) {
   if (card.type_code !== "investigator") return null;
 
-  const entries = SKILL_KEYS.reduce(
-    (acc, key) => {
-      if (card[`skill_${key}`]) acc.push([key, card[`skill_${key}`] as number]);
-      return acc;
-    },
-    [] as [string, number][],
-  );
+  const entries = SKILL_KEYS.reduce<[string, number][]>((acc, key) => {
+    const val = card[`skill_${key}`];
+    if (val) acc.push([key, val]);
+    return acc;
+  }, []);
 
   if (!entries.length) return null;
 

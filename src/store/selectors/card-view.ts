@@ -9,7 +9,7 @@ import {
 import { StoreState } from "../slices";
 import { LookupTables } from "../slices/lookup-tables/types";
 import { applyTaboo } from "../utils/taboos";
-import { selectCanonicalTabooSetId } from "./filters/tabooSet";
+import { selectCanonicalTabooSetId } from "./filters/taboo-set";
 
 export type CardResolved = {
   card: Card;
@@ -130,11 +130,11 @@ function resolveRelationArray(
 ): CardResolved[] {
   const relation = state.lookupTables.relations[key];
   const relations = relation[code]
-    ? Object.keys(relation[code]).reduce((acc, code) => {
+    ? Object.keys(relation[code]).reduce<CardWithRelations[]>((acc, code) => {
         const card = selectCardWithRelations(state, code, true);
         if (card && !card.card.duplicate_of_code) acc.push(card);
         return acc;
-      }, [] as CardWithRelations[])
+      }, [])
     : [];
 
   relations.sort(({ card: a }, { card: b }) => {

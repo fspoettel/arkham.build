@@ -7,7 +7,7 @@ import { Metadata } from "../slices/metadata/types";
 export type Grouping = {
   code: string;
   name: string;
-  grouping_type: string; // TODO: maybe use keyof LookupTables?
+  grouping_type: string; // maybe use keyof LookupTables?
 };
 
 export function groupBySlot(lookupTables: LookupTables): Grouping[] {
@@ -121,12 +121,12 @@ export function getGroupCards(
   filter: (c: Card) => boolean,
   mapper?: (c: Card) => Card,
 ) {
-  return resolveGroupingCardCodes(grouping, lookupTables).reduce(
+  return resolveGroupingCardCodes(grouping, lookupTables).reduce<Card[]>(
     (acc, code) => {
       const card = mapper ? mapper(metadata.cards[code]) : metadata.cards[code];
       if (filter(card)) acc.push(card);
       return acc;
     },
-    [] as Card[],
+    [],
   );
 }

@@ -8,7 +8,7 @@ import { useQuery } from "@/utils/use-query";
 
 import css from "./faq.module.css";
 
-import { Button } from "../ui/button";
+import { Button } from "../../components/ui/button";
 
 type Props = {
   card: CardWithRelations["card"];

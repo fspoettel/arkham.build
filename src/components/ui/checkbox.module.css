@@ -45,4 +45,5 @@
   user-select: none;
   padding-left: 0.5rem;
   line-height: var(--checkbox-size);
+  font-size: var(--text-sm);
 }

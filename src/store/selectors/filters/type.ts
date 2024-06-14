@@ -42,12 +42,9 @@ export const selectActiveTypes = createSelector(
   (state: StoreState) => state.filters[state.filters.cardType].type,
   (metadata, filters) =>
     Object.fromEntries(
-      Object.entries(filters).reduce(
-        (acc, [key, val]) => {
-          if (val) acc.push([key, metadata[key]]);
-          return acc;
-        },
-        [] as [string, Type][],
-      ),
+      Object.entries(filters).reduce<[string, Type][]>((acc, [key, val]) => {
+        if (val) acc.push([key, metadata[key]]);
+        return acc;
+      }, []),
     ),
 );

@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 
 import { useStore } from "@/store";
 import { selectActiveLevel } from "@/store/selectors/filters/level";
-import { LevelFilter as LevelFilterT } from "@/store/slices/filters/types";
+import { LevelFilter as LevelFilterSchema } from "@/store/slices/filters/types";
 
 import css from "./level-filter.module.css";
 
@@ -30,9 +30,9 @@ export function LevelFilter() {
   const resetFilterKey = useStore((store) => store.resetFilterKey);
 
   const setValue = useCallback(
-    function setValue<K extends keyof LevelFilterT>(
+    function setValue<K extends keyof LevelFilterSchema>(
       key: K,
-      value: LevelFilterT[K],
+      value: LevelFilterSchema[K],
     ) {
       setFilter("player", "level", key, value);
     },

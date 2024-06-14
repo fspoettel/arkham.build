@@ -9,42 +9,43 @@ export type DeckRequirements = {
 };
 
 export type DeckOption = {
-  // Lola Hayes
+  // => Lola Hayes
   atleast?: { min: number; factions: number };
-  // Mandy
-  deck_size_select?: number[];
-  // Tony
+  // => Mandy Thompson
+  deck_size_select?: number | number[];
+  // => Tony Morgan
   faction_select?: string[];
-  // most
+  // => 5 / 2 deck building
   faction: string[];
-  // most
+  // => 5 / 2 deck building
   level: {
     min: number;
     max: number;
   };
-  // Dunwich
+  // => e.g. Dunwich.
   limit?: string;
-  // most selects
+  // => Investigators with deck options
   name?: string;
+  // => Preston Fairmont
   not?: boolean;
-  // Suzie
+  // => Suzie
   permanent?: boolean;
-  // Wendy (Parallel)
+  // => Wendy (Parallel)
   option_select?: {
     name: string;
     id: string;
     level: { min: number; max: number };
     trait: string[];
   }[];
-  // Carolyn, Vincent
+  // => Carolyn / Vincent
   tag?: string[];
-  // Carolyn, Allesandra
+  // => Allesandra
   text?: string[];
-  // Silas
+  // => Silas, Mark
   trait?: string[];
-  // Tony (select), Amanda (static)
+  // => Tony (select), Amanda (static)
   type?: string[];
-  // Akachi
+  // => Akachi
   uses?: string[];
 };
 
@@ -155,8 +156,11 @@ export type Pack = {
   code: string;
   real_name: string;
   position: number;
-  size: number;
+  size?: number;
   cycle_code: string;
+  reprint?: {
+    type: "player" | "encounter" | "rcore";
+  };
 };
 
 export type SubType = {

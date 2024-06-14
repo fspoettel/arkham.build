@@ -42,28 +42,32 @@ export function CardMeta({ size, resolvedCard }: Props) {
               )}
             </p>
           )}
-          <p className={css["meta-property"]}>
-            {displayPack.real_name} <LazyPackIcon code={displayPack.code} />{" "}
-            <strong>{card.pack_position}</strong>
-          </p>
-        </>
-      ) : (
-        <>
-          {size === "full" && (
+          {(size !== "full" || encounterSet.name !== displayPack.real_name) && (
             <p className={css["meta-property"]}>
               {displayPack.real_name} <LazyPackIcon code={displayPack.code} />{" "}
               <strong>{card.pack_position}</strong>
             </p>
           )}
+        </>
+      ) : (
+        <>
           {size !== "full" && (
+            <p className={css["meta-property"]}>
+              {displayPack.real_name} <LazyPackIcon code={displayPack.code} />{" "}
+              <strong>{card.pack_position}</strong>
+            </p>
+          )}
+          {size === "full" && (
             <>
               <p className={css["meta-property"]}>
                 {displayPack.real_name} <LazyPackIcon code={displayPack.code} />{" "}
                 <strong>{card.pack_position}</strong> <SvgCard /> x{" "}
                 {card.quantity}
               </p>
-              {pack.real_name !== displayPack.real_name && (
-                <p className={css["meta-property"]}>{pack.real_name}</p>
+              {displayPack.real_name !== cycle.real_name && (
+                <p className={css["meta-property"]}>
+                  {cycle.real_name} <LazyPackIcon code={cycle.code} />
+                </p>
               )}
             </>
           )}

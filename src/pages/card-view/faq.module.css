@@ -2,6 +2,10 @@
   & > * + * {
     margin-top: 0.5rem;
   }
+
+  & summary::-webkit-details-marker {
+    display: none;
+  }
 }
 
 .sidebar-faq summary span {

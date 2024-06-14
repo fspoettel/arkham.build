@@ -58,7 +58,8 @@ export function CardList() {
     virtuosoRef.current?.scrollTo({ top: 0 });
   }, [data?.groupCounts]);
 
-  // TODO: - restore scroll position to current group? - use semantic markup. maybe integrate with radix-scrollarea?
+  // TODO: - restore scroll position to current group?
+  //       - use semantic markup. maybe integrate with radix-scrollarea?
   return (
     <div className={css["list-container"]}>
       <nav className={css["list-nav"]}>

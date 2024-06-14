@@ -90,7 +90,11 @@ function createCustomStorage():
         return val;
       } catch (err) {
         console.error("error during hydration:", err);
-        localStorage.removeItem(getMetadataKey(name));
+        try {
+          localStorage.removeItem(getMetadataKey(name));
+        } catch (err) {
+          console.error("could not clear local storage:", err);
+        }
         return null;
       }
     },
@@ -122,6 +126,14 @@ function createCustomStorage():
       return parsed;
     },
 
+    async setItem(name, value) {
+      try {
+        await this.setAppdata(name, value);
+        await this.setMetadata(name, value);
+      } catch (err) {
+        console.error("could not persist store data:", err);
+      }
+    },
     async setAppdata(name, value) {
       console.debug(`[persist] save app data.`);
       return set(
@@ -133,7 +145,6 @@ function createCustomStorage():
       );
     },
     async setMetadata(name, value) {
-      // TODO: support translated data.
       const currentDataVersion = getDataVersionIdentifier(
         value.state.metadata.dataVersion,
       );
@@ -161,10 +172,6 @@ function createCustomStorage():
           }),
         );
       }
-    },
-    async setItem(name, value) {
-      await this.setAppdata(name, value);
-      await this.setMetadata(name, value);
     },
     async removeItem(name) {
       return del(name);

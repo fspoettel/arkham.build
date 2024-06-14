@@ -1,5 +1,4 @@
 # Ignore artifacts:
 coverage
 dist
-src/store/graphql/data/*
 src/assets/icons

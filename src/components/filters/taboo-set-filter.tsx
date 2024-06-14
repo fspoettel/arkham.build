@@ -4,7 +4,7 @@ import { useStore } from "@/store";
 import {
   selectActiveTabooSet,
   selectTabooSets,
-} from "@/store/selectors/filters/tabooSet";
+} from "@/store/selectors/filters/taboo-set";
 
 import { Collapsible, CollapsibleContent } from "../ui/collapsible";
 

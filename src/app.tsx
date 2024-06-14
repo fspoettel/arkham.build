@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { Route, Router } from "wouter";
 
 import { Index } from "./pages";
-import { CardView } from "./pages/card-view";
+import { CardView } from "./pages/card-view/card-view";
 import { DeckEdit } from "./pages/deck-edit";
 import { DeckNew } from "./pages/deck-new";
-import { Settings } from "./pages/settings";
+import { Settings } from "./pages/settings/settings";
 import { useStore } from "./store";
 
 function App() {

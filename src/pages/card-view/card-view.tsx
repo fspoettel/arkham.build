@@ -3,12 +3,12 @@ import clsx from "clsx";
 import { ReactNode, useEffect, useRef } from "react";
 import { Link, useLocation, useParams } from "wouter";
 
-import { CardViewSidebar } from "@/components/card-view/card-view-sidebar";
 import { Card } from "@/components/card/card";
 import { ResolvedCard } from "@/components/card/resolved-card";
 import { AppLayout } from "@/components/layouts/app-layout";
 import { CenterLayout } from "@/components/layouts/center-layout";
 import { Button } from "@/components/ui/button";
+import { CardViewSidebar } from "@/pages/card-view/card-view-sidebar";
 import { useStore } from "@/store";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
 

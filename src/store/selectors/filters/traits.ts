@@ -45,12 +45,12 @@ export const selectActiveTraits = createSelector(
   (state: StoreState) => state.filters[state.filters.cardType].trait,
   (filters) =>
     Object.fromEntries(
-      Object.entries(filters).reduce(
+      Object.entries(filters).reduce<[string, { code: string }][]>(
         (acc, [key, val]) => {
           if (val) acc.push([key, { code: key }]);
           return acc;
         },
-        [] as [string, { code: string }][],
+        [],
       ),
     ),
 );

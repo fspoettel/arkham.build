@@ -48,7 +48,7 @@ export function SearchInput({
         className={clsx(css["field-input"], inputClassName)}
         onChange={onChange}
         value={value}
-        type="search"
+        type="text"
       />
       {!!value && (
         <Button

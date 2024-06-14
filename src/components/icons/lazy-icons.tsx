@@ -1,4 +1,5 @@
-import React, { Suspense } from "react";
+/* eslint-disable react/display-name */
+import React, { Suspense, memo } from "react";
 
 import type { Props as EncounterIconProps } from "./encounter-icon";
 import type { Props as PackIconProps } from "./pack-icon";
@@ -8,7 +9,7 @@ const EncounterIcon = React.lazy(() => import("./encounter-icon"));
 const PackIcon = React.lazy(() => import("./pack-icon"));
 const SlotIcon = React.lazy(() => import("./slot-icon"));
 
-export function LazyEncounterIcon(props: EncounterIconProps) {
+export const LazyEncounterIcon = memo((props: EncounterIconProps) => {
   return (
     <Suspense
       fallback={
@@ -20,9 +21,9 @@ export function LazyEncounterIcon(props: EncounterIconProps) {
       <EncounterIcon {...props} />
     </Suspense>
   );
-}
+});
 
-export function LazySlotIcon(props: SlotIconProps) {
+export const LazySlotIcon = memo((props: SlotIconProps) => {
   return (
     <Suspense
       fallback={
@@ -34,9 +35,9 @@ export function LazySlotIcon(props: SlotIconProps) {
       <SlotIcon {...props} />
     </Suspense>
   );
-}
+});
 
-export function LazyPackIcon(props: PackIconProps) {
+export const LazyPackIcon = memo((props: PackIconProps) => {
   return (
     <Suspense
       fallback={
@@ -48,4 +49,4 @@ export function LazyPackIcon(props: PackIconProps) {
       <PackIcon {...props} />
     </Suspense>
   );
-}
+});

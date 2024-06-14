@@ -1,6 +1,7 @@
 import { request } from "@/utils/graphql-request";
 
 import factions from "./data/factions.json";
+import reprintPacks from "./data/reprint_packs.json";
 import subTypes from "./data/subtypes.json";
 import types from "./data/types.json";
 import {
@@ -23,6 +24,7 @@ export type MetadataResponse = {
   cycle: Cycle[];
   faction: Faction[];
   pack: Pack[];
+  reprint_pack: Pack[];
   subtype: SubType[];
   type: Type[];
   card_encounter_set: EncounterSet[];
@@ -39,10 +41,15 @@ async function stub<T>(path: string): Promise<T> {
   return import(/* @vite-ignore */ path).then((p) => p.default as T);
 }
 
+type MetadataApiResponseType = Omit<
+  MetadataResponse,
+  "faction" | "reprint_pack" | "type" | "subtype"
+>;
+
 export async function queryMetadata() {
   const data = import.meta.env.DEV
-    ? await stub<MetadataResponse>("./data/stubs/metadata.json")
-    : await request<MetadataResponse>(
+    ? await stub<MetadataApiResponseType>("./data/stubs/metadata.json")
+    : await request<MetadataApiResponseType>(
         graphqlUrl,
         `
     {
@@ -75,6 +82,7 @@ export async function queryMetadata() {
 
   return {
     ...data,
+    reprint_pack: reprintPacks,
     faction: factions,
     type: types,
     subtype: subTypes,

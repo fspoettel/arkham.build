@@ -36,12 +36,9 @@ export const selectActiveSubtypes = createSelector(
   (state: StoreState) => state.filters[state.filters.cardType].subtype,
   (metadata, filters) =>
     Object.fromEntries(
-      Object.entries(filters).reduce(
-        (acc, [key, val]) => {
-          if (val) acc.push([key, metadata[key]]);
-          return acc;
-        },
-        [] as [string, SubType][],
-      ),
+      Object.entries(filters).reduce<[string, SubType][]>((acc, [key, val]) => {
+        if (val) acc.push([key, metadata[key]]);
+        return acc;
+      }, []),
     ),
 );

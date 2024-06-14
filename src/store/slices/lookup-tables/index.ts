@@ -42,7 +42,6 @@ export function getInitialLookupTables(): LookupTables {
       heals_damage: {},
       heals_horror: {},
       multislot: {},
-      multiclass: {},
       seal: {},
     },
     skillBoosts: {},
@@ -56,6 +55,7 @@ export function getInitialLookupTables(): LookupTables {
     level: {},
     typesByCardTypeSelection: {},
     traitsByCardTypeSeletion: {},
+    packsByCycle: {},
     tabooSet: {},
   };
 }
@@ -100,6 +100,8 @@ export function createLookupTables(
   });
 
   createRelations(metadata, lookupTables);
+
+  addPacksToLookupTables(metadata, lookupTables);
 
   console.timeEnd("[performance] refresh_lookup_tables");
   return lookupTables;
@@ -224,7 +226,6 @@ function indexByLevel(tables: LookupTables, card: Card) {
 
 function indexByMulticlass(tables: LookupTables, card: Card) {
   if (card.faction2_code) {
-    setInLookupTable(card.code, tables.properties, "multiclass");
     setInLookupTable(card.code, tables.factionCode, card.faction2_code);
   }
 
@@ -419,4 +420,13 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
   }
 
   console.timeEnd("[performance] create_relations");
+}
+
+function addPacksToLookupTables(
+  metadata: Metadata,
+  lookupTables: LookupTables,
+) {
+  Object.values(metadata.packs).forEach((pack) => {
+    setInLookupTable(pack.code, lookupTables.packsByCycle, pack.cycle_code);
+  });
 }

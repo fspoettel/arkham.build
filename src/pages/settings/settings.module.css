@@ -1,0 +1,24 @@
+.settings {
+  position: relative;
+}
+
+.settings > * + * {
+  margin-top: 1rem;
+}
+
+.settings-header {
+  background: var(--nord-0);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: -0.25rem;
+  padding: 0.25rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.settings-title {
+  font-size: var(--text-2xl);
+}

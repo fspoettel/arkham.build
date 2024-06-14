@@ -27,43 +27,29 @@ export type LookupTables = {
     // Any card can have `n` different level version. (e.g. Ancient Stone)
     level: LookupTable<string, 1>;
   };
-  // used: filtering.
   typesByCardTypeSelection: LookupTable<string, 1>;
-  // used: filtering.
   traitsByCardTypeSeletion: LookupTable<string, 1>;
-  // used: grouping.
+  packsByCycle: LookupTable<string, 1>;
   encounterCode: LookupTable<string>;
-  // used: grouping.
   typeCode: LookupTable<string>;
-  // used: grouping.
   subtypeCode: LookupTable<string>;
-  // used: filtering.
   actions: LookupTable<string>;
-  // used: filtering.
   cost: LookupTable<number>;
   factionCode: LookupTable<string>;
   packCode: LookupTable<string>;
   health: LookupTable<number>;
   sanity: LookupTable<number>;
   properties: {
-    // used: filtering.
     heals_damage: Mapping<1>;
-    // used: filtering.
     heals_horror: Mapping<1>;
-    // used: filtering.
     fast: Mapping<1>;
-    // used: filtering.
     multislot: Mapping<1>;
-    // used: filtering.
     seal: Mapping<1>; // TODO: link the tokens?
-    // used: filtering.
-    multiclass: Mapping<1>;
   };
   skillBoosts: LookupTable<string>;
-  // used: grouping, filtering.
   // cards that occupy multiple slots are added to both slot entries and a separate grouped entry. They are also added to the `properties.multislot` index.
   slots: LookupTable<string>;
-  // We initially query `all_cards` in a sorted fashion. Persist this as an index to allow cheap sort lookups.
+  // Sort indexes help keep sorting operations fast by reducing time complexity of sorts to `O(n)`.
   sort: {
     alphabetical: Mapping<number>;
   };
@@ -72,7 +58,7 @@ export type LookupTables = {
   uses: LookupTable<string>;
   // used: filtering.
   level: LookupTable<number>;
-
+  // used: filtering.
   tabooSet: LookupTable<number>;
 };
 

@@ -44,13 +44,22 @@ export const createSharedSlice: StateCreator<
       cards: {},
       taboos: {},
       cycles: mappedByCode(metadataResponse.cycle),
-      packs: mappedByCode(metadataResponse.pack),
+      packs: {
+        ...mappedByCode(metadataResponse.pack),
+        ...mappedByCode(metadataResponse.reprint_pack),
+      },
       encounterSets: mappedByCode(metadataResponse.card_encounter_set),
       factions: mappedByCode(metadataResponse.faction),
       subtypes: mappedByCode(metadataResponse.subtype),
       types: mappedByCode(metadataResponse.type),
       tabooSets: mappedById(metadataResponse.taboo_set),
     };
+
+    if (metadata.packs["rcore"]) {
+      metadata.packs["rcore"].reprint = {
+        type: "rcore",
+      };
+    }
 
     cards.forEach((c) => {
       if (c.taboo_set_id) {

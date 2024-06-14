@@ -9,11 +9,12 @@ import { LazySlotIcon } from "../icons/lazy-icons";
 type Props = {
   className?: string;
   slot: string;
+  size?: "small" | "default";
 };
 
-export function CardSlots({ className, slot }: Props) {
+export function CardSlots({ className, slot, size }: Props) {
   return (
-    <ol className={clsx(css["slots"], className)}>
+    <ol className={clsx(css["slots"], size && css[size], className)}>
       {splitMultiValue(slot).map((slot) => (
         <li key={slot}>
           <LazySlotIcon code={slot} />

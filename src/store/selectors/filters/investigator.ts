@@ -227,15 +227,21 @@ export const selectInvestigatorFilter = createSelector(
 export const selectInvestigators = (state: StoreState) => {
   const investigatorTable = state.lookupTables.typeCode["investigator"];
 
-  const investigators = Object.keys(investigatorTable).reduce((acc, code) => {
-    const card = state.metadata.cards[code];
+  const investigators = Object.keys(investigatorTable).reduce<Card[]>(
+    (acc, code) => {
+      const card = state.metadata.cards[code];
 
-    if (!card.encounter_code && (!card.alt_art_investigator || card.parallel)) {
-      acc.push(card);
-    }
+      if (
+        !card.encounter_code &&
+        (!card.alt_art_investigator || card.parallel)
+      ) {
+        acc.push(card);
+      }
 
-    return acc;
-  }, [] as Card[]);
+      return acc;
+    },
+    [],
+  );
 
   investigators.sort((a, b) => a.real_name.localeCompare(b.real_name));
 

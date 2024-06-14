@@ -57,13 +57,10 @@ export function applySearch(
 
   if (!results?.[0]) return cards;
 
-  const matches = results[0].reduce(
-    (acc, curr) => {
-      acc[curr] = true;
-      return acc;
-    },
-    {} as Record<string, boolean>,
-  );
+  const matches = results[0].reduce<Record<string, boolean>>((acc, curr) => {
+    acc[curr] = true;
+    return acc;
+  }, {});
 
   return cards.filter((_, i) => matches[i]);
 }

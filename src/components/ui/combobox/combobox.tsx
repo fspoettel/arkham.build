@@ -180,7 +180,9 @@ export function Combobox<T extends Coded>({
                     key={item.code}
                     tabIndex={active ? 0 : -1}
                     ref={(node) => {
-                      listRef.current[index] = node as HTMLElement;
+                      if (node instanceof HTMLElement) {
+                        listRef.current[index] = node;
+                      }
                     }}
                     {...getItemProps({
                       className: clsx(

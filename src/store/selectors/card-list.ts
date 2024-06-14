@@ -18,7 +18,7 @@ import {
   selectWeaknessFilters,
 } from "./filters";
 import { selectActiveCardType } from "./filters/shared";
-import { selectCanonicalTabooSetId } from "./filters/tabooSet";
+import { selectCanonicalTabooSetId } from "./filters/taboo-set";
 
 export const selectFilteredCards = createSelector(
   selectActiveCardType,

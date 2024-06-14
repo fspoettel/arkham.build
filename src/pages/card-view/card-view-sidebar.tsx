@@ -3,7 +3,7 @@ import { CardWithRelations } from "@/store/selectors/card-view";
 
 import css from "./card-view-sidebar.module.css";
 
-import { Button } from "../ui/button";
+import { Button } from "../../components/ui/button";
 import { Faq } from "./faq";
 
 type Props = {

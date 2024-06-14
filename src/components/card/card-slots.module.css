@@ -17,3 +17,12 @@
     border: 2px solid var(--nord-3);
   }
 }
+
+.slots.small li {
+  width: 1.125rem;
+  height: 1.125rem;
+  border: none;
+  font-size: 1rem;
+  background: none;
+  color: var(--nord-4);
+}

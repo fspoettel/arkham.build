@@ -9,11 +9,6 @@
   backface-visibility: hidden;
 }
 
-.thumbnail.investigator img {
-  transform: translateZ(0) scale(1.5);
-  object-position: -25% 50%;
-}
-
 .thumbnail img {
   position: absolute;
   top: 0;
@@ -21,6 +16,11 @@
   object-fit: cover;
   width: 100%;
   height: 100%;
+}
+
+.thumbnail.investigator img {
+  transform: translateZ(0) scale(1.5);
+  object-position: -25% 50%;
 }
 
 .thumbnail.asset img {

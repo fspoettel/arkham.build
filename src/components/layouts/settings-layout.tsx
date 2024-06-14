@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 import { useDocumentTitle } from "@/utils/use-document-title";
 
-import css from "./masthead.module.css";
+import css from "./settings-layout.module.css";
 
 import { Masthead } from "./masthead";
 
