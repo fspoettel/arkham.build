@@ -19,6 +19,12 @@
   z-index: 2;
 }
 
+.settings-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .settings-title {
   font-size: var(--text-2xl);
 }

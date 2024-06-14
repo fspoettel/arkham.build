@@ -22,18 +22,22 @@ export function Masthead({ className }: { className?: string }) {
         {location === "/" && (
           <CardTypeFilter className={css["masthead-card-toggle"]} />
         )}
-        <Button
-          className={css["masthead-toggle-search"]}
-          variant="bare"
-          onClick={onToggleSearch}
-        >
-          <MagnifyingGlassIcon />
-        </Button>
-        <Link href="/settings">
-          <Button className={css["masthead-settings"]} variant="bare" as="a">
-            <GearIcon />
+        {location === "/" && (
+          <Button
+            className={css["masthead-toggle-search"]}
+            variant="bare"
+            onClick={onToggleSearch}
+          >
+            <MagnifyingGlassIcon />
           </Button>
-        </Link>
+        )}
+        {location !== "/settings" && (
+          <Link href="/settings">
+            <Button className={css["masthead-settings"]} variant="bare" as="a">
+              <GearIcon />
+            </Button>
+          </Link>
+        )}
       </nav>
     </header>
   );

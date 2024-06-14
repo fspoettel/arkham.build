@@ -1,5 +1,6 @@
 import type { FormEvent } from "react";
 import { useCallback, useRef } from "react";
+import { Link } from "wouter";
 
 import { SettingsLayout } from "@/components/layouts/settings-layout";
 import { Button } from "@/components/ui/button";
@@ -40,7 +41,14 @@ export function Settings() {
       <form ref={formRef} className={css["settings"]} onSubmit={onSubmit}>
         <header className={css["settings-header"]}>
           <h1 className={css["settings-title"]}>Settings</h1>
-          <Button type="submit">Save settings</Button>
+          <div className={css["settings-header-actions"]}>
+            <Link href="/">
+              <Button as="a" type="button" variant="bare">
+                Back
+              </Button>
+            </Link>
+            <Button type="submit">Save settings</Button>
+          </div>
         </header>
         <CardDataSync />
         <TabooSets settings={settings} />
