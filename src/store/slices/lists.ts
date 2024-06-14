@@ -548,7 +548,7 @@ export function makeEncounterCardsList(
     key,
     "encounter",
     filters,
-    ["cycle", "encounter_set"],
+    ["encounter_set"],
     ["position"],
     and(systemFilter),
     initialValues,
