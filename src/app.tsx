@@ -1,7 +1,11 @@
-import css from "./app.module.css";
+import { Layout } from "./components/layout";
 
 function App() {
-  return <main className={css["app"]}>React ❤️ Vite</main>;
+  return (
+    <Layout filters={""} sidebar={""}>
+      {""}
+    </Layout>
+  );
 }
 
 export default App;
