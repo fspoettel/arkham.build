@@ -3,7 +3,6 @@ import type { StateCreator } from "zustand";
 import { applyDeckEdits } from "@/store/lib/deck-edits";
 import type { Card } from "@/store/services/types";
 import { ALT_ART_INVESTIGATOR_MAP } from "@/utils/constants";
-import { incrementVersion } from "@/utils/deck-versions";
 
 import type { StoreState } from "..";
 import { getInitialFilters } from "../filters";
@@ -142,27 +141,11 @@ export const createSharedSlice: StateCreator<
     const deck = state.data.decks[state.deckView.id];
     if (!deck) return;
 
-    const originalDeck = window.structuredClone(deck);
     const nextDeck = applyDeckEdits(deck, state.deckView, state.metadata, true);
-
-    nextDeck.previous_deck = originalDeck.id;
-    nextDeck.version = incrementVersion(nextDeck.version);
-
-    nextDeck.id = window.crypto.randomUUID();
-    originalDeck.next_deck = nextDeck.id;
-
-    const latestDecks = {
-      ...state.data.latestDecks,
-      [nextDeck.id]: [
-        originalDeck.id,
-        ...(state.data.latestDecks[originalDeck.id] ?? []),
-      ],
-    };
 
     set({
       deckView: {
-        mode: "edit",
-        id: nextDeck.id,
+        ...state.deckView,
         activeTab: state.deckView.activeTab,
         edits: {
           meta: {},
@@ -175,9 +158,7 @@ export const createSharedSlice: StateCreator<
         decks: {
           ...state.data.decks,
           [nextDeck.id]: nextDeck,
-          [originalDeck.id]: originalDeck,
         },
-        latestDecks,
       },
     });
 

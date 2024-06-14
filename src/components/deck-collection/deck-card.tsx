@@ -18,7 +18,6 @@ type Props = {
   interactive?: boolean;
   showThumbnail?: boolean;
   showValidation?: boolean;
-  showVersion?: boolean;
 };
 
 export function DeckCard({
@@ -27,7 +26,6 @@ export function DeckCard({
   interactive,
   showThumbnail,
   showValidation,
-  showVersion,
 }: Props) {
   const lookupTables = useStore((state: StoreState) => state.lookupTables);
   const metadata = useStore((state: StoreState) => state.metadata);
@@ -66,7 +64,6 @@ export function DeckCard({
               <CircleAlert />
             )}
             {deck.name}
-            {showVersion ? ` v${deck.version}` : ""}
           </h3>
           <div className={css["deck-header-row"]}>
             <h4 className={css["deck-sub"]}>

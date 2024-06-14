@@ -8,7 +8,7 @@ export function getInitialDataState() {
   return {
     data: {
       decks: {},
-      latestDecks: {},
+      upgrades: {},
     },
   };
 }
@@ -45,8 +45,8 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
               ...state.data.decks,
               [json.id]: json,
             },
-            latestDecks: {
-              ...state.data.latestDecks,
+            upgrades: {
+              ...state.data.upgrades,
               [json.id]: [],
             },
           },
@@ -61,9 +61,16 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
     const localDecks = { ...state.data.decks };
     delete localDecks[id];
 
-    const latestDecks = { ...state.data.latestDecks };
-    delete latestDecks[id];
+    const upgrades = { ...state.data.upgrades };
 
-    set({ data: { ...state.data, decks: localDecks, latestDecks } });
+    if (upgrades[id]) {
+      for (const diff of upgrades[id]) {
+        delete localDecks[diff.prev_id];
+      }
+    }
+
+    delete upgrades[id];
+
+    set({ data: { ...state.data, decks: localDecks, upgrades } });
   },
 });

@@ -33,10 +33,34 @@ export function isDeck(x: unknown): x is Deck {
   );
 }
 
+export type UpgradeDiff = {
+  edits: {
+    customizations?: {
+      [code: string]: {
+        [id: number]: {
+          xp_spent?: number;
+          selections?: string[];
+        };
+      };
+    };
+    extraSlots?: {
+      [code: number]: number;
+    };
+    sideSlots?: {
+      [code: number]: number;
+    };
+    slots?: {
+      [code: number]: number;
+    };
+  };
+  prev_id: string;
+  xp: number;
+};
+
 export type DataState = {
   decks: Record<string, Deck>;
-  latestDecks: {
-    [id: Id]: Id[];
+  upgrades: {
+    [id: Id]: UpgradeDiff[];
   };
 };
 

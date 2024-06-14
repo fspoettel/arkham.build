@@ -26,7 +26,6 @@ function DeckView() {
       <main className={css["page"]}>
         <header className={css["page-header"]}>
           <h1 className={css["page-title"]}>{deck.name}</h1>
-          <p className={css["page-version"]}>v{deck.version ?? "0.0"}</p>
         </header>
         <DeckSidebar className={css["page-sidebar"]} deck={deck} />
         <div className={css["page-decklist"]}>

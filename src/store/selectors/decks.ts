@@ -18,9 +18,9 @@ export const selectLocalDecks = createSelector(
   (data, metadata, lookupTables) => {
     console.time("[perf] select_local_decks");
 
-    const { latestDecks } = data;
+    const { upgrades } = data;
 
-    const resolvedDecks = Object.keys(latestDecks).reduce<
+    const resolvedDecks = Object.keys(upgrades).reduce<
       ResolvedDeck<ResolvedCard>[]
     >((acc, id) => {
       const deck = data.decks[id];

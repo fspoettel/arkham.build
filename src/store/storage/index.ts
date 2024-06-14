@@ -9,11 +9,12 @@ import { getInitialDataState } from "../slices/data";
 import { getInitialMetadata } from "../slices/metadata";
 import { getInitialSettings } from "../slices/settings";
 import { IndexedDBAdapter } from "./indexeddb-adapter";
+import migrateV1 from "./migrations/v1";
 import type { Val } from "./types";
 
 const indexedDBAdapter = new IndexedDBAdapter();
 
-const VERSION = 1;
+const VERSION = 2;
 
 // use this flag to disable rehydration during dev.
 const SKIP_HYDRATION = false;
@@ -23,8 +24,10 @@ export const storageConfig: PersistOptions<StoreState, Val> = {
   storage: createCustomStorage(),
   version: VERSION,
   skipHydration: import.meta.env.MODE === "test",
-  migrate(persistedState) {
-    return persistedState as StoreState;
+  migrate(persisted, version) {
+    const state = persisted as StoreState;
+    if (version < 2) migrateV1(state, version);
+    return state;
   },
   partialize(state: StoreState) {
     return {

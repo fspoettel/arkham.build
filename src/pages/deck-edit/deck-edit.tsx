@@ -1,3 +1,4 @@
+import { Save } from "lucide-react";
 import { useCallback } from "react";
 import { Link, useLocation } from "wouter";
 
@@ -42,7 +43,10 @@ function DeckEdit() {
       filters={<Filters hiddenFilters={["investigator", "taboo_set"]} />}
       mastheadContent={
         <div className={css["deck-edit-actions"]}>
-          <Button onClick={handleSave}>Save</Button>
+          <Button onClick={handleSave}>
+            <Save />
+            Save
+          </Button>
           <Link asChild to={`~/deck/${deck.id}/view`}>
             <Button variant="bare">Cancel</Button>
           </Link>
