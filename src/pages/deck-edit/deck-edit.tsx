@@ -48,7 +48,7 @@ function DeckEdit() {
             Save
           </Button>
           <Link asChild to={`~/deck/${deck.id}/view`}>
-            <Button variant="bare">Cancel</Button>
+            <Button variant="bare">Close</Button>
           </Link>
         </div>
       }

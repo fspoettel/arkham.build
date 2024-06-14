@@ -53,10 +53,10 @@ export function OwnershipFilter() {
           <i className="icon-cards" />
         </RadioButtonGroupItem>
         <RadioButtonGroupItem title="Owned" value="owned">
-          <SvgOwned />
+          <SvgOwned className="icon-current" />
         </RadioButtonGroupItem>
         <RadioButtonGroupItem title="Unavailable" value="unowned">
-          <SvgUnowned />
+          <SvgUnowned className="icon-current" />
         </RadioButtonGroupItem>
       </RadioButtonGroup>
     </FilterContainer>
