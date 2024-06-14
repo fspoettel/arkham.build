@@ -1,3 +1,4 @@
+import DOMPurify from "dompurify";
 import { ChevronDown } from "lucide-react";
 import type { MouseEvent } from "react";
 import { useCallback, useMemo, useState } from "react";
@@ -53,7 +54,10 @@ export function Faq({ card }: Props) {
 
         {!!response.data?.length &&
           response.data.map((faq, i) => (
-            <p dangerouslySetInnerHTML={{ __html: faq.html }} key={i} />
+            <p
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(faq.html) }}
+              key={i}
+            />
           ))}
       </div>
     </details>
