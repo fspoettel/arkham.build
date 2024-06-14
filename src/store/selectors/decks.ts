@@ -37,7 +37,7 @@ export const selectLocalDecks = createSelector(
     }, []);
 
     resolvedDecks.sort((a, b) =>
-      sortAlphabetical(a.date_update, b.date_update),
+      sortAlphabetical(b.date_update, a.date_update),
     );
 
     console.timeEnd("[perf] select_local_decks");

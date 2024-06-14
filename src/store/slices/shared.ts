@@ -149,6 +149,7 @@ export const createSharedSlice: StateCreator<
     if (!deck) return;
 
     const nextDeck = applyDeckEdits(deck, state.deckView, state.metadata, true);
+    nextDeck.date_update = new Date().toISOString();
 
     set({
       deckView: {
