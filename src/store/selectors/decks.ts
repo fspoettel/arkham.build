@@ -4,6 +4,7 @@ import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import { groupDeckCardsByType } from "@/store/lib/deck-grouping";
 import { resolveDeck } from "@/store/lib/deck-resolver";
 
+import type { ForbiddenCardError } from "../lib/deck-validation";
 import { validateDeck } from "../lib/deck-validation";
 import type { ResolvedCard, ResolvedDeck } from "../lib/types";
 import type { StoreState } from "../slices";
@@ -61,5 +62,14 @@ export const selectDeckValid = createSelector(
   (deck, lookupTables, metadata) =>
     deck
       ? validateDeck(deck, { lookupTables, metadata } as StoreState)
-      : { valid: false },
+      : { valid: false, errors: [] },
+);
+
+export const selectForbiddenCards = createSelector(
+  selectDeckValid,
+  (deckValidation) => {
+    const forbidden = deckValidation.errors.find((x) => x.type === "FORBIDDEN");
+    if (!forbidden) return [];
+    return (forbidden as ForbiddenCardError).details.map((x) => x.code);
+  },
 );

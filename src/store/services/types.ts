@@ -129,7 +129,7 @@ export type QueryCard = {
   official: boolean;
   pack_code: string;
   pack_position: number;
-  permanent?: string;
+  permanent?: boolean;
   position: number;
   preview?: boolean;
   quantity: number;

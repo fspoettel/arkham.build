@@ -33,8 +33,6 @@
 
 .detail {
   flex: 1 1 calc(33.333% - 1rem);
-  border: 1px solid var(--nord-3);
-  border-radius: var(--rounded-md);
   overflow: hidden;
 }
 
@@ -46,19 +44,22 @@
 .detail-label {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
-  background: var(--nord-1);
+  gap: 0.125rem;
   font-size: var(--text-sm);
   font-family: var(--font-family-ui);
-  padding: 0.25rem;
+  border-bottom: 1px solid var(--nord-1);
+  padding: 0.25rem 0;
   font-weight: 700;
 }
 
+.detail-label svg {
+  font-size: var(--icon-sm);
+}
+
 .detail-value {
-  padding: 0.5rem;
-  font-weight: 700;
-  font-size: var(--text-base);
   display: flex;
   align-items: center;
+  padding: 0.25rem 0;
+  font-size: var(--text-base);
   gap: 0.25rem;
 }

@@ -1,8 +1,10 @@
 import clsx from "clsx";
 import { useParams } from "wouter";
 
+import { useStore } from "@/store";
 import type { Grouping } from "@/store/lib/deck-grouping";
 import { sortBySlots } from "@/store/lib/sorting";
+import { selectForbiddenCards } from "@/store/selectors/decks";
 import type { Card } from "@/store/services/types";
 import { capitalize } from "@/utils/capitalize";
 import type { PlayerType } from "@/utils/constants";
@@ -75,6 +77,8 @@ export function DecklistGroups({ group, layout }: Props) {
 export function DecklistGroup({ cards }: { cards: Card[] }) {
   const { id } = useParams();
 
+  const forbiddenCards = useStore(selectForbiddenCards);
+
   return (
     <ol>
       {cards
@@ -84,6 +88,7 @@ export function DecklistGroup({ cards }: { cards: Card[] }) {
             as="li"
             key={card.code}
             card={card}
+            forbidden={forbiddenCards.includes(card.code)}
             quantity={card.quantity}
             pathPrefix={`/deck/${id}/`}
             size="sm"

@@ -28,16 +28,18 @@ type Props = {
   as?: "li" | "div";
   card: Card;
   className?: string;
+  forbidden?: boolean;
   omitThumbnail?: boolean;
   pathPrefix?: string;
   quantity?: number;
-  size?: "sm";
+  size?: "sm" | "xs";
 };
 
 export function ListCard({
   as = "div",
   card,
   className,
+  forbidden,
   omitThumbnail,
   pathPrefix = "/",
   quantity,
@@ -95,7 +97,14 @@ export function ListCard({
   const Element = as as ElementType;
 
   return (
-    <Element className={clsx(css["listcard"], size && css[size], className)}>
+    <Element
+      className={clsx(
+        css["listcard"],
+        size && css[size],
+        forbidden && css["forbidden"],
+        className,
+      )}
+    >
       <figure className={css["listcard-inner"]} ref={refs.setReference}>
         {quantity && (
           <strong className={css["listcard-quantity"]}>{quantity} ×</strong>

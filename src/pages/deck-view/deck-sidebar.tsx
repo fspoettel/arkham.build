@@ -1,7 +1,6 @@
 import {
   ChevronDownIcon,
   ChevronUpIcon,
-  Cross2Icon,
   Pencil2Icon,
   TrashIcon,
 } from "@radix-ui/react-icons";
@@ -10,7 +9,6 @@ import { useCallback, useState } from "react";
 import { useLocation } from "wouter";
 
 import SvgCardOutlineBold from "@/assets/icons/card-outline-bold.svg?react";
-import SvgName from "@/assets/icons/name.svg?react";
 import SvgTaboo from "@/assets/icons/taboo.svg?react";
 import SvgXp from "@/assets/icons/xp-bold.svg?react";
 import { CardBack } from "@/components/card/card-back";
@@ -21,7 +19,6 @@ import { Button } from "@/components/ui/button";
 import { Scroller } from "@/components/ui/scroll-area";
 import { useStore } from "@/store";
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
-import { selectDeckValid } from "@/store/selectors/decks";
 import { capitalize } from "@/utils/capitalize";
 
 import css from "./deck-sidebar.module.css";
@@ -32,7 +29,6 @@ type Props = {
 
 export function DeckSidebar({ deck }: Props) {
   const [backToggled, toggleBack] = useState(false);
-  const validation = useStore(selectDeckValid);
   const deleteDeck = useStore((state) => state.deleteDeck);
   const [, setLocation] = useLocation();
 
@@ -83,13 +79,6 @@ export function DeckSidebar({ deck }: Props) {
 
         <div className={css["deck-sidebar-details"]}>
           <ul className={css["deck-details"]}>
-            <li className={clsx(css["detail"], css["full"])}>
-              <div className={css["detail-label"]}>
-                <SvgName /> Title
-              </div>
-              <h1 className={css["detail-value"]}>{deck.name}</h1>
-            </li>
-
             <li className={css["detail"]}>
               <div className={css["detail-label"]}>
                 <SvgCardOutlineBold /> Deck size
@@ -146,15 +135,6 @@ export function DeckSidebar({ deck }: Props) {
                   {deck.optionSelect.selection
                     ? capitalize(deck.optionSelect.selection)
                     : "None"}
-                </p>
-              </li>
-            )}
-
-            {!validation.valid && (
-              <li className={clsx(css["detail"], css["full"])}>
-                <p className={css["detail-value"]}>
-                  <Cross2Icon />
-                  Deck is invalid.
                 </p>
               </li>
             )}

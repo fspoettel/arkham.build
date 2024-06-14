@@ -41,6 +41,18 @@
   }
 }
 
+.listcard.forbidden {
+  filter: grayscale(1);
+
+  & .listcard-name {
+    text-decoration: line-through;
+  }
+
+  & .listcard-meta {
+    color: var(--nord-3);
+  }
+}
+
 .listcard-icon {
   flex: 0 0 auto;
   font-size: var(--icon-2xl);
@@ -75,15 +87,15 @@
 }
 
 .listcard-quantity {
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   font-family: var(--font-family-ui);
   line-height: 1;
   border-radius: var(--rounded);
 }
 
 .listcard.sm {
-  --card-padding-y: 0.375rem;
-  --card-image-height: 1.75rem;
+  --card-padding-y: 0.25rem;
+  --card-image-height: 1.625rem;
 
   & .listcard-name {
     font-size: var(--text-sm);

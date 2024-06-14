@@ -207,9 +207,12 @@ function getDeckCards<
   };
 }
 
-export function isSpecialCard(card: Card, investigator: CardWithRelations) {
-  return (
-    card.permanent ||
+export function isSpecialCard(
+  card: Card,
+  investigator: CardWithRelations,
+  ignorePermanent = false,
+) {
+  const isSpecial =
     card.encounter_code ||
     card.subtype_code ||
     investigator.relations?.advanced?.some((x) => x.card.code === card.code) ||
@@ -221,8 +224,9 @@ export function isSpecialCard(card: Card, investigator: CardWithRelations) {
     ) ||
     investigator.relations?.requiredCards?.some(
       (x) => x.card.code === card.code,
-    )
-  );
+    );
+
+  return !!isSpecial || !!(card.permanent && !ignorePermanent);
 }
 
 function getFactionSelect(investigator: CardWithRelations, deckMeta: DeckMeta) {

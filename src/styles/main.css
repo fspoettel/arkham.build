@@ -33,9 +33,9 @@
   --text-xs: 0.75rem;
   --text-sm: 0.825rem;
   --text-base: 0.875rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.375rem;
+  --text-lg: 1rem;
+  --text-xl: 1.125rem;
+  --text-2xl: 1.25rem;
 
   --icon-sm: 1rem;
   --icon-base: 1.25rem;
@@ -399,16 +399,7 @@ svg {
 }
 
 @media (prefers-color-scheme: dark) {
-  html:not(data-theme="light") {
-    color-scheme: dark;
-  }
-}
-
-[data-theme="light"] {
-  --color-background: var(--nord-5);
-  --color-text: var(--nord-1);
-
   html {
-    color-scheme: light;
+    color-scheme: dark;
   }
 }

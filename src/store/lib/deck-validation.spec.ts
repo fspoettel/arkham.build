@@ -133,19 +133,20 @@ describe("deck validation", () => {
         {
           "errors": [
             {
-              "meta": {
-                "code": "01047",
-                "limit": 2,
-                "quantity": 3,
-              },
-              "type": "INVALID_CARD_COUNT",
-            },
-            {
-              "meta": {
-                "code": "07224",
-                "limit": 1,
-                "quantity": 2,
-              },
+              "details": [
+                {
+                  "code": "01047",
+                  "limit": 2,
+                  "quantity": 3,
+                  "real_name": ".41 Derringer",
+                },
+                {
+                  "code": "07224",
+                  "limit": 1,
+                  "quantity": 2,
+                  "real_name": ""Lucky" Penny",
+                },
+              ],
               "type": "INVALID_CARD_COUNT",
             },
           ],
@@ -166,7 +167,7 @@ describe("deck validation", () => {
         {
           "errors": [
             {
-              "meta": {
+              "details": {
                 "error": "You cannot have more than one Covenant in your deck.",
               },
               "type": "INVALID_DECK_OPTION",
@@ -263,11 +264,14 @@ describe("deck validation", () => {
       expect(result.errors).toMatchInlineSnapshot(`
         [
           {
-            "meta": {
-              "code": "89003",
-              "limit": 3,
-              "quantity": 2,
-            },
+            "details": [
+              {
+                "code": "89003",
+                "limit": 3,
+                "quantity": 2,
+                "real_name": "Regurgitation",
+              },
+            ],
             "type": "INVALID_CARD_COUNT",
           },
         ]
@@ -280,11 +284,14 @@ describe("deck validation", () => {
       expect(result.errors).toMatchInlineSnapshot(`
         [
           {
-            "meta": {
-              "code": "06008",
-              "limit": 2,
-              "quantity": 3,
-            },
+            "details": [
+              {
+                "code": "06008",
+                "limit": 2,
+                "quantity": 3,
+                "real_name": "Occult Evidence",
+              },
+            ],
             "type": "INVALID_CARD_COUNT",
           },
         ]
@@ -299,11 +306,14 @@ describe("deck validation", () => {
       expect(result.errors).toMatchInlineSnapshot(`
         [
           {
-            "meta": {
-              "code": "06008",
-              "limit": 2,
-              "quantity": 1,
-            },
+            "details": [
+              {
+                "code": "06008",
+                "limit": 2,
+                "quantity": 1,
+                "real_name": "Occult Evidence",
+              },
+            ],
             "type": "INVALID_CARD_COUNT",
           },
         ]
@@ -348,21 +358,20 @@ describe("deck validation", () => {
       expect(result.errors).toMatchInlineSnapshot(`
         [
           {
-            "meta": {
-              "code": "09021",
-            },
-            "type": "FORBIDDEN",
-          },
-          {
-            "meta": {
-              "code": "09022",
-            },
-            "type": "FORBIDDEN",
-          },
-          {
-            "meta": {
-              "code": "09040",
-            },
+            "details": [
+              {
+                "code": "09021",
+                "real_name": "Hunter's Armor",
+              },
+              {
+                "code": "09022",
+                "real_name": "Runic Axe",
+              },
+              {
+                "code": "09040",
+                "real_name": "Alchemical Distillation",
+              },
+            ],
             "type": "FORBIDDEN",
           },
         ]
@@ -382,7 +391,7 @@ describe("deck validation", () => {
       expect(result.errors).toMatchInlineSnapshot(`
         [
           {
-            "meta": {
+            "details": {
               "error": "You cannot have more than 5 cards that are not Guardian or Neutral",
             },
             "type": "INVALID_DECK_OPTION",
@@ -402,7 +411,7 @@ describe("deck validation", () => {
       expect(result.errors).toMatchInlineSnapshot(`
         [
           {
-            "meta": {
+            "details": {
               "error": "Too many off-class cards (11 / 10).",
             },
             "type": "INVALID_DECK_OPTION",
@@ -422,7 +431,7 @@ describe("deck validation", () => {
       expect(result.errors).toMatchInlineSnapshot(`
         [
           {
-            "meta": {
+            "details": {
               "error": "You cannot have more than 15 level 0-1 Seeker and/or Mystic cards",
             },
             "type": "INVALID_DECK_OPTION",
@@ -442,7 +451,7 @@ describe("deck validation", () => {
       expect(result.errors).toMatchInlineSnapshot(`
         [
           {
-            "meta": {
+            "details": {
               "error": "Too many off-class cards (11 / 10).",
             },
             "type": "INVALID_DECK_OPTION",
@@ -464,7 +473,7 @@ describe("deck validation", () => {
       expect(result.errors).toMatchInlineSnapshot(`
         [
           {
-            "meta": {
+            "details": {
               "error": "You must have at least 7 cards from 3 different factions",
             },
             "type": "INVALID_DECK_OPTION",
@@ -487,7 +496,7 @@ describe("deck validation", () => {
         expect(result.errors).toMatchInlineSnapshot(`
           [
             {
-              "meta": {
+              "details": {
                 "error": "Deck must have at least 10 skill cards.",
               },
               "type": "INVALID_DECK_OPTION",
@@ -535,11 +544,14 @@ describe("deck validation", () => {
         expect(result.errors).toMatchInlineSnapshot(`
           [
             {
-              "meta": {
-                "code": "06117",
-                "limit": 1,
-                "quantity": 2,
-              },
+              "details": [
+                {
+                  "code": "06117",
+                  "limit": 1,
+                  "quantity": 2,
+                  "real_name": "Read the Signs",
+                },
+              ],
               "type": "INVALID_CARD_COUNT",
             },
           ]
@@ -559,7 +571,7 @@ describe("deck validation", () => {
         expect(result.errors).toMatchInlineSnapshot(`
           [
             {
-              "meta": {
+              "details": {
                 "error": "Too many off-class cards for Versatile.",
               },
               "type": "INVALID_DECK_OPTION",
@@ -581,9 +593,12 @@ describe("deck validation", () => {
         expect(result.errors).toMatchInlineSnapshot(`
           [
             {
-              "meta": {
-                "code": "03198",
-              },
+              "details": [
+                {
+                  "code": "03198",
+                  "real_name": "Madame Labranche",
+                },
+              ],
               "type": "FORBIDDEN",
             },
           ]
@@ -606,39 +621,32 @@ describe("deck validation", () => {
               "type": "TOO_MANY_CARDS",
             },
             {
-              "meta": {
-                "code": "07028",
-              },
-              "type": "FORBIDDEN",
-            },
-            {
-              "meta": {
-                "code": "07032",
-              },
-              "type": "FORBIDDEN",
-            },
-            {
-              "meta": {
-                "code": "07112",
-              },
-              "type": "FORBIDDEN",
-            },
-            {
-              "meta": {
-                "code": "07113",
-              },
-              "type": "FORBIDDEN",
-            },
-            {
-              "meta": {
-                "code": "07226",
-              },
-              "type": "FORBIDDEN",
-            },
-            {
-              "meta": {
-                "code": "07227",
-              },
+              "details": [
+                {
+                  "code": "07028",
+                  "real_name": "Faustian Bargain",
+                },
+                {
+                  "code": "07032",
+                  "real_name": "Promise of Power",
+                },
+                {
+                  "code": "07112",
+                  "real_name": "Stirring Up Trouble",
+                },
+                {
+                  "code": "07113",
+                  "real_name": "Blasphemous Covenant",
+                },
+                {
+                  "code": "07226",
+                  "real_name": "Armageddon",
+                },
+                {
+                  "code": "07227",
+                  "real_name": "Eye of Chaos",
+                },
+              ],
               "type": "FORBIDDEN",
             },
           ]

@@ -1,15 +1,12 @@
 import clsx from "clsx";
 import type { ReactNode } from "react";
 
-import type { Groupings } from "@/store/lib/deck-grouping";
-
 import css from "./decklist-section.module.css";
 
 type Props = {
   children: ReactNode;
   layout?: "one_column" | "two_column";
   showTitle?: boolean;
-  target: keyof Groupings;
   title: string;
 };
 

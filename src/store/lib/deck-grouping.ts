@@ -16,12 +16,17 @@ export type Grouping = {
   skill?: DeckCard[];
 };
 
+type NamedGrouping = {
+  id: string;
+  data: Grouping;
+};
+
 export type Groupings = {
-  main: Grouping;
-  special: Grouping;
-  side?: Grouping;
-  bonded?: Grouping;
-  extra?: Grouping;
+  main: NamedGrouping;
+  special: NamedGrouping;
+  side?: NamedGrouping;
+  bonded?: NamedGrouping;
+  extra?: NamedGrouping;
 };
 
 export type DisplayDeck = ResolvedDeck<CardWithRelations> & {
@@ -31,17 +36,25 @@ export type DisplayDeck = ResolvedDeck<CardWithRelations> & {
 export function groupDeckCardsByType(deck: ResolvedDeck<CardWithRelations>) {
   const groupings: Groupings = {
     main: {
-      asset: {},
-      event: [],
-      skill: [],
+      id: "main",
+      data: {
+        asset: {},
+        event: [],
+        skill: [],
+      },
     },
-    special: {},
+    special: {
+      id: "special",
+      data: {},
+    },
   };
 
   for (const { card } of Object.values(deck.cards.extraSlots)) {
     const deckCard = { ...card, quantity: deck.extraSlots?.[card.code] ?? 0 };
     addCardToGrouping(groupings, "extra", deckCard);
   }
+
+  const bonded: Card[] = [];
 
   for (const resolvedCard of Object.values(deck.cards.slots)) {
     const card = resolvedCard.card;
@@ -51,14 +64,30 @@ export function groupDeckCardsByType(deck: ResolvedDeck<CardWithRelations>) {
     //example: Ace of Rods in TCU; Parallel Agnes upgrades.
     if (
       !!deck.ignoreDeckLimitSlots?.[card.code] ||
-      isSpecialCard(card, deck.cards.investigator)
+      isSpecialCard(card, deck.cards.investigator, true)
     ) {
       addCardToGrouping(groupings, "special", deckCard);
     } else {
       addCardToGrouping(groupings, "main", deckCard);
     }
 
-    addBondedToGrouping(groupings, resolvedCard);
+    // Collect bonded cards, filtering out duplicates.
+    // These can occur when e.g. two versions of `Dream Diary` are in a deck.
+    const bound = resolvedCard.relations?.bound;
+    if (bound?.length) {
+      for (const { card } of bound) {
+        if (
+          !card.code.endsWith("b") &&
+          !bonded.some((c) => c.code === card.code)
+        ) {
+          bonded.push(card);
+        }
+      }
+    }
+  }
+
+  for (const card of bonded) {
+    addCardToGrouping(groupings, "bonded", card);
   }
 
   for (const { card } of Object.values(deck.cards.sideSlots)) {
@@ -71,12 +100,15 @@ export function groupDeckCardsByType(deck: ResolvedDeck<CardWithRelations>) {
 
 function addCardToGrouping(
   groupings: Groupings,
-  key: keyof Groupings,
+  key: "main" | "special" | "bonded" | "extra" | "side",
   card: Card,
 ) {
-  groupings[key] ??= {};
+  groupings[key] ??= {
+    id: key,
+    data: {},
+  };
 
-  const grouping = groupings[key] as Grouping;
+  const grouping = groupings[key]!.data;
 
   if (card.type_code === "asset") {
     grouping.asset ??= {};
@@ -98,24 +130,5 @@ function addCardToGrouping(
     const t = card.type_code as Exclude<PlayerType, "asset">;
     grouping[t] ??= [];
     grouping[t]?.push(card);
-  }
-}
-
-function addBondedToGrouping(
-  groupings: Groupings,
-  resolvedCard: CardWithRelations,
-) {
-  const bound = resolvedCard.relations?.bound;
-
-  if (bound?.length) {
-    for (const { card } of bound) {
-      // HACK: filter bonded backsides that are linked invidivually, e.g. Dream-Gate.
-      if (!card.code.endsWith("b")) {
-        addCardToGrouping(groupings, "bonded", {
-          ...card,
-          quantity: card.quantity,
-        });
-      }
-    }
   }
 }

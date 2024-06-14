@@ -27,6 +27,7 @@
   color: currentColor;
   z-index: 2;
   font-size: 0.5em;
+  line-height: 1;
   color: var(--nord-0);
 }
 
@@ -36,12 +37,9 @@
   text-align: center;
 }
 
-.icon-child {
-  top: 16.667%;
-}
-
+.icon-child,
 .icon-children {
-  top: 10%;
+  top: 16.667%;
 }
 
 .icon_skill .icon-child {

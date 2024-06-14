@@ -17,7 +17,7 @@ type DeckValidationResult = {
   errors: Error[];
 };
 
-type ValidationError =
+export type ValidationError =
   | "INVALID_INVESTIGATOR"
   | "INVALID_DECK_OPTION"
   | "FORBIDDEN"
@@ -30,27 +30,29 @@ type BaseError = {
   type: ValidationError;
 };
 
-type DeckOptionsError = BaseError & {
+export type DeckOptionsError = {
   type: "INVALID_DECK_OPTION";
-  meta: {
+  details: {
     error: string;
   };
 };
 
-type InvalidCardError = BaseError & {
+export type InvalidCardError = {
   type: "INVALID_CARD_COUNT";
-  meta: {
+  details: {
+    real_name: string;
     code: string;
     limit: number;
     quantity: number;
-  };
+  }[];
 };
 
-type ForbiddenCardError = BaseError & {
+export type ForbiddenCardError = {
   type: "FORBIDDEN";
-  meta: {
+  details: {
+    real_name: string;
     code: string;
-  };
+  }[];
 };
 
 type Error =
@@ -196,6 +198,7 @@ type DeckLimitViolation = {
   code: string;
   limit: number;
   quantity: number;
+  real_name: string;
 };
 
 class DeckLimitsValidator implements SlotValidator {
@@ -227,13 +230,19 @@ class DeckLimitsValidator implements SlotValidator {
       ) {
         const limit = (this.selectedDeckSize - 20) / 10;
         if (quantity !== limit) {
-          this.violations.push({ code: card.code, limit, quantity });
+          this.violations.push({
+            code: card.code,
+            limit,
+            quantity,
+            real_name: card.real_name,
+          });
         }
       } else if (quantity !== (card.quantity ?? 0)) {
         this.violations.push({
           code: card.code,
           limit: card.quantity,
           quantity,
+          real_name: card.real_name,
         });
       }
 
@@ -243,15 +252,24 @@ class DeckLimitsValidator implements SlotValidator {
     const limit = this.limitOverride ?? card.deck_limit ?? 0;
 
     if (quantity > limit) {
-      this.violations.push({ code: card.code, limit, quantity });
+      this.violations.push({
+        code: card.code,
+        limit,
+        quantity,
+        real_name: card.real_name,
+      });
     }
   }
 
   validate(): Error[] {
-    return this.violations.map((validation) => ({
-      type: "INVALID_CARD_COUNT",
-      meta: validation,
-    }));
+    return this.violations.length
+      ? [
+          {
+            type: "INVALID_CARD_COUNT",
+            details: this.violations,
+          },
+        ]
+      : [];
   }
 }
 
@@ -310,7 +328,7 @@ class DeckOptionsValidator implements SlotValidator {
   cards: Card[] = [];
   config: InvestigatorAccessConfig;
   deckOptions: DeckOption[];
-  forbidden: string[] = [];
+  forbidden: Card[] = [];
   lookupTables: LookupTables;
   playerCardFilter: (card: Card) => boolean;
   quantities: Record<string, number> = {};
@@ -400,11 +418,11 @@ class DeckOptionsValidator implements SlotValidator {
 
   add(card: Card, quantity: number) {
     if (card.subtype_code && !this.weaknessFilter(card)) {
-      this.forbidden.push(card.code);
+      this.forbidden.push(card);
     } else if (!card.subtype_code && !this.playerCardFilter(card)) {
-      this.forbidden.push(card.code);
+      this.forbidden.push(card);
     } else if ((cardLevel(card) ?? 0) > 5) {
-      this.forbidden.push(card.code);
+      this.forbidden.push(card);
     }
 
     this.cards.push(card);
@@ -412,14 +430,22 @@ class DeckOptionsValidator implements SlotValidator {
   }
 
   validate() {
-    return [
+    const errors: Error[] = [
       ...this.validateAtLeast(this.deckOptions),
       ...this.validateLimit(this.deckOptions),
-      ...this.forbidden.map((code) => ({
-        type: "FORBIDDEN" as const,
-        meta: { code },
-      })),
     ];
+
+    if (this.forbidden.length) {
+      errors.push({
+        type: "FORBIDDEN" as const,
+        details: this.forbidden.map((card) => ({
+          code: card.code,
+          real_name: card.real_name,
+        })),
+      });
+    }
+
+    return errors;
   }
 
   validateAtLeast(options: DeckOption[]): Error[] {
@@ -465,7 +491,7 @@ class DeckOptionsValidator implements SlotValidator {
       if (matches.length < (target ?? 0)) {
         errors.push({
           type: "INVALID_DECK_OPTION",
-          meta: {
+          details: {
             error: option.error ?? "Atleast constraint violated.",
           },
         });
@@ -504,7 +530,7 @@ class DeckOptionsValidator implements SlotValidator {
       if (option.limit != null && matchCount > option.limit) {
         errors.push({
           type: "INVALID_DECK_OPTION",
-          meta: {
+          details: {
             error:
               option.error ??
               `Too many off-class cards (${matchCount} / ${option.limit}).`,
