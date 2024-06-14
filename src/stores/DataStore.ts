@@ -1,4 +1,9 @@
 import { Tables } from "tinybase/with-schemas/store";
+import * as UiReact from "tinybase/ui-react/with-schemas";
+import {
+  NoValuesSchema,
+} from "tinybase/with-schemas";
+
 import { indexedByCode } from "./utils";
 
 import cycles from "../data/cycles.json";
@@ -70,3 +75,19 @@ export function getInitialState(): Tables<typeof tableSchema, true> {
     types: indexedByCode(types),
   };
 }
+
+const UiReactWithSchemas = UiReact as UiReact.WithSchemas<
+  [typeof tableSchema, NoValuesSchema]
+>;
+
+export const {
+  Provider,
+  useCreatePersister,
+  useCreateStore,
+  useLocalRowIds,
+  useRelationships,
+  useRemoteRowId,
+  useStore,
+  useTable,
+  useTables,
+} = UiReactWithSchemas;

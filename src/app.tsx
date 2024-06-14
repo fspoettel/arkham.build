@@ -6,19 +6,29 @@ import { DeckEdit } from "./pages/deck_edit";
 import css from "./app.module.css";
 import {
   Provider,
-  createAppPersister,
-  createAppRelationships,
-  createAppStore,
-  initPersister,
-  useCreate,
+  getInitialState,
+  tableSchema,
   useCreatePersister,
   useCreateStore,
-} from "./store";
+} from "./stores/DataStore";
+import {
+  createIndexedDBPersisterWithSchema,
+  createRelationshipsWithSchema,
+  createStoreWithSchema,
+  initializePersister,
+  useCreate,
+} from "./stores/utils";
 
 function App() {
-  const store = useCreateStore(createAppStore);
-  const relationships = useCreate(store, createAppRelationships);
-  useCreatePersister(store, createAppPersister, [], initPersister);
+  const store = useCreateStore(() => createStoreWithSchema(tableSchema));
+
+  const relationships = useCreate(store, createRelationshipsWithSchema);
+  useCreatePersister(
+    store,
+    (store) => createIndexedDBPersisterWithSchema(store, "card-data"),
+    [],
+    (persister) => initializePersister(persister, getInitialState()),
+  );
 
   return (
     <Provider relationships={relationships} store={store}>

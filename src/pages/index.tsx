@@ -1,6 +1,6 @@
 import { AppLayout } from "../components/layouts/app_layout";
 import { CenterLayout } from "../components/layouts/center_layout";
-import { useLocalRowIds, useRelationships } from "../store";
+import { useLocalRowIds, useRelationships } from "../stores/DataStore";
 
 export function Index() {
   const relationships = useRelationships();
