@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import { CardResolved } from "@/store/selectors/card-view";
+import { CardWithRelations } from "@/store/selectors/card-view";
 import { getCardColor, sideways } from "@/utils/card-utils";
 
 import css from "./card.module.css";
@@ -15,7 +15,7 @@ import { CardThumbnail } from "./card-thumbnail";
 
 export type Props = {
   className?: string;
-  resolvedCard: CardResolved;
+  resolvedCard: CardWithRelations;
   linked?: boolean;
   size: "compact" | "tooltip" | "full";
 };

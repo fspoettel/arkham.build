@@ -1,4 +1,3 @@
-import { CheckIcon } from "@radix-ui/react-icons";
 import { FormEvent, useCallback, useRef } from "react";
 
 import { SettingsLayout } from "@/components/layouts/settings-layout";

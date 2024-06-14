@@ -33,6 +33,7 @@ export type CardWithRelations = CardResolved & {
     replacement?: CardResolved[];
     requiredCards?: CardResolved[];
     parallelCards?: CardResolved[];
+    duplicates?: CardResolved[];
 
     level?: CardResolved[];
   };
@@ -99,11 +100,19 @@ export function selectCardWithRelations(
       };
     }
 
+    cardWithRelations.relations.duplicates = resolveRelationArray(
+      state,
+      "duplicates",
+      card.code,
+      false,
+    );
+
     cardWithRelations.relations.bound = resolveRelationArray(
       state,
       "bound",
       card.code,
     );
+
     cardWithRelations.relations.bonded = resolveRelationArray(
       state,
       "bonded",
@@ -127,12 +136,14 @@ function resolveRelationArray(
   state: StoreState,
   key: keyof LookupTables["relations"],
   code: string,
+  ignoreDuplicates = true,
 ): CardResolved[] {
   const relation = state.lookupTables.relations[key];
   const relations = relation[code]
     ? Object.keys(relation[code]).reduce<CardWithRelations[]>((acc, code) => {
         const card = selectCardWithRelations(state, code, true);
-        if (card && !card.card.duplicate_of_code) acc.push(card);
+        if (card && (!ignoreDuplicates || !card.card.duplicate_of_code))
+          acc.push(card);
         return acc;
       }, [])
     : [];

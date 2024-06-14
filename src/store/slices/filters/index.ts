@@ -105,10 +105,15 @@ export const createFiltersSlice: StateCreator<
   },
 
   setActiveCardType(cardType) {
+    const state = get();
     set({
       filters: {
-        ...get().filters,
+        ...state.filters,
         cardType,
+      },
+      ui: {
+        ...state.ui,
+        listScrollRestore: undefined,
       },
     });
   },

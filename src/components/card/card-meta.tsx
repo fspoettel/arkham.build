@@ -2,7 +2,7 @@ import clsx from "clsx";
 
 import SvgCard from "@/assets/icons/card-outline.svg?react";
 import SvgPaintbrush from "@/assets/icons/paintbrush.svg?react";
-import { CardResolved } from "@/store/selectors/card-view";
+import { CardResolved, CardWithRelations } from "@/store/selectors/card-view";
 import { Cycle, Pack } from "@/store/services/types";
 import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
 
@@ -11,25 +11,24 @@ import css from "./card-meta.module.css";
 import { LazyEncounterIcon, LazyPackIcon } from "../icons/lazy-icons";
 
 type Props = {
-  resolvedCard: CardResolved;
+  resolvedCard: CardWithRelations;
   size: "full" | "compact" | "tooltip";
 };
 
-export function CardMeta({ size, resolvedCard }: Props) {
+function PackEntry({
+  resolvedCard,
+  skipCycle,
+  size,
+}: {
+  resolvedCard: CardResolved;
+  size: Props["size"];
+  skipCycle?: boolean;
+}) {
   const { card, cycle, encounterSet, pack } = resolvedCard;
-
   const displayPack = cycleOrPack(cycle, pack);
 
-  const illustrator = card.illustrator;
-
   return (
-    <footer className={clsx(css["meta"], css[size])}>
-      {size === "full" && illustrator && (
-        <p className={css["meta-property"]}>
-          <SvgPaintbrush /> {illustrator}
-        </p>
-      )}
-
+    <>
       {encounterSet ? (
         <>
           {size === "full" && (
@@ -42,7 +41,8 @@ export function CardMeta({ size, resolvedCard }: Props) {
               )}
             </p>
           )}
-          {(size !== "full" || encounterSet.name !== displayPack.real_name) && (
+          {(size !== "full" ||
+            (!skipCycle && encounterSet.name !== displayPack.real_name)) && (
             <p className={css["meta-property"]}>
               {displayPack.real_name} <LazyPackIcon code={displayPack.code} />{" "}
               <strong>{card.pack_position}</strong>
@@ -64,7 +64,7 @@ export function CardMeta({ size, resolvedCard }: Props) {
                 <strong>{card.pack_position}</strong> <SvgCard /> x{" "}
                 {card.quantity}
               </p>
-              {displayPack.real_name !== cycle.real_name && (
+              {!skipCycle && displayPack.real_name !== cycle.real_name && (
                 <p className={css["meta-property"]}>
                   {cycle.real_name} <LazyPackIcon code={cycle.code} />
                 </p>
@@ -73,6 +73,31 @@ export function CardMeta({ size, resolvedCard }: Props) {
           )}
         </>
       )}
+    </>
+  );
+}
+
+export function CardMeta({ size, resolvedCard }: Props) {
+  const illustrator = resolvedCard.card.illustrator;
+
+  const duplicates = resolvedCard?.relations?.duplicates;
+
+  return (
+    <footer className={clsx(css["meta"], css[size])}>
+      {size === "full" && illustrator && (
+        <p className={css["meta-property"]}>
+          <SvgPaintbrush /> {illustrator}
+        </p>
+      )}
+      <PackEntry
+        skipCycle={!!duplicates?.length}
+        resolvedCard={resolvedCard}
+        size={size}
+      />
+      {duplicates &&
+        Object.values(duplicates).map((r) => (
+          <PackEntry skipCycle key={r.card.code} resolvedCard={r} size={size} />
+        ))}
     </footer>
   );
 }

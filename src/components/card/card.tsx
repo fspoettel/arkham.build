@@ -1,4 +1,4 @@
-import { CardResolved } from "@/store/selectors/card-view";
+import { CardWithRelations } from "@/store/selectors/card-view";
 import { reversed } from "@/utils/card-utils";
 
 import { CardBack } from "./card-back";
@@ -7,7 +7,7 @@ import { CardFront } from "./card-front";
 
 export type Props = {
   className?: string;
-  resolvedCard: CardResolved;
+  resolvedCard: CardWithRelations;
   linked?: boolean;
   size?: "compact" | "tooltip" | "full";
 };

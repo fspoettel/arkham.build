@@ -26,6 +26,7 @@ export const createSharedSlice: StateCreator<
 
     if (state.metadata.dataVersion?.cards_updated_at) {
       state.refreshLookupTables({ filters: getInitialFilters(state) });
+      return;
     }
 
     console.time("[performance] query_data");

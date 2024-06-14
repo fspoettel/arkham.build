@@ -43,9 +43,7 @@ export function CardList() {
     (scrolling: boolean) => {
       if (!scrolling) {
         virtuosoRef.current?.getState((snapshot) => {
-          if (snapshot.scrollTop !== 0) {
-            setListScrollRestore(snapshot);
-          }
+          setListScrollRestore(snapshot);
         });
       }
     },
@@ -80,7 +78,7 @@ export function CardList() {
       </nav>
       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       <Scroller ref={setScrollParent as any} className={css["list-scroller"]}>
-        {data && (
+        {data && scrollParent && (
           <GroupedVirtuoso
             key={data.key}
             groupCounts={data.groupCounts}
@@ -88,7 +86,6 @@ export function CardList() {
             groupContent={(index) => (
               <Grouphead grouping={data.groups[index]} />
             )}
-            defaultItemHeight={4 * 16}
             itemContent={(index) => (
               <ListCard key={data.cards[index].code} card={data.cards[index]} />
             )}
