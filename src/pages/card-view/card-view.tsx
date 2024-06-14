@@ -1,7 +1,7 @@
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
 import { ReactNode, useEffect, useRef } from "react";
-import { Link, useLocation, useParams } from "wouter";
+import { Link, Redirect, useLocation, useParams } from "wouter";
 
 import { Card } from "@/components/card/card";
 import { ResolvedCard } from "@/components/card/resolved-card";
@@ -44,6 +44,9 @@ export function CardView() {
   if (!cardWithRelations) return null;
 
   const { relations } = cardWithRelations;
+
+  const canonicalCode = cardWithRelations.card.duplicate_of_code;
+  if (canonicalCode) return <Redirect to={`/card/${canonicalCode}`} />;
 
   return (
     <AppLayout
