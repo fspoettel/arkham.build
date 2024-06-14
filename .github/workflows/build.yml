@@ -22,6 +22,6 @@ jobs:
       - run: npm ci
       - run: npm run build
       - name: Upload webpack stats artifact
-        uses: relative-ci/agent-upload-artifact-action@v1
+        uses: relative-ci/agent-upload-artifact-action@v2
         with:
           webpackStatsFile: ./dist/webpack-stats.json
