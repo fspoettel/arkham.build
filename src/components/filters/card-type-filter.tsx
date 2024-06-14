@@ -1,12 +1,10 @@
 import { useCallback } from "react";
 
-import SvgAutoFail from "@/assets/icons/auto_fail.svg?react";
-import SvgInvestigator from "@/assets/icons/investigator.svg?react";
 import { useStore } from "@/store";
-import { selectActiveCardType } from "@/store/selectors/filters/shared";
+import { selectActiveCardType } from "@/store/selectors/filters";
 import type { CardTypeFilter as CardTypeFilterType } from "@/store/slices/filters/types";
 
-import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
+import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 type Props = {
   className?: string;
@@ -32,11 +30,11 @@ export function CardTypeFilter({ className }: Props) {
       type="single"
       value={cardTypeFilter}
     >
-      <ToggleGroupItem value="player" size="small">
-        <SvgInvestigator />
+      <ToggleGroupItem value="player">
+        <i className="icon-per_investigator" />
       </ToggleGroupItem>
-      <ToggleGroupItem value="encounter" size="small">
-        <SvgAutoFail />
+      <ToggleGroupItem value="encounter">
+        <i className="icon-auto_fail" />
       </ToggleGroupItem>
     </ToggleGroup>
   );

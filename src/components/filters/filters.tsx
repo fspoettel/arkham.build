@@ -1,17 +1,20 @@
 import SvgFilterClear from "@/assets/icons/filter-clear.svg?react";
 import { useStore } from "@/store";
 import { selectIsInitialized } from "@/store/selectors";
-import { selectActiveCardType } from "@/store/selectors/filters/shared";
+import { selectActiveCardType } from "@/store/selectors/filters";
 
 import css from "./filters.module.css";
 
 import { Button } from "../ui/button";
 import { ActionFilter } from "./action-filter";
+import { AssetFilter } from "./asset-filter";
 import { CostFilter } from "./cost-filter";
+import { EncounterSetFilter } from "./encounter-set-filter";
 import { FactionFilter } from "./faction-filter";
 import { InvestigatorFilter } from "./investigator-filter";
 import { LevelFilter } from "./level-filter";
 import { OwnershipFilter } from "./ownership-filter";
+import { PackFilter } from "./pack-filter";
 import { PropertiesFilter } from "./properties-filter";
 import { SkillIconsFilter } from "./skill-icons-filter";
 import { SubtypeFilter } from "./subtype-filter";
@@ -46,9 +49,12 @@ export function Filters() {
         <TraitFilter />
         <SkillIconsFilter />
         <ActionFilter />
+        <AssetFilter />
         <PropertiesFilter />
-        {cardTypeSelection === "player" && <InvestigatorFilter />}
+        <PackFilter />
+        {cardTypeSelection === "encounter" && <EncounterSetFilter />}
         {cardTypeSelection === "player" && <TabooSetFilter />}
+        {cardTypeSelection === "player" && <InvestigatorFilter />}
       </div>
     </search>
   );

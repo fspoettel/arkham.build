@@ -51,11 +51,25 @@ export type PropertiesFilter = FilterObject<{
   succeedBy: boolean;
 }>;
 
+export type AssetFilter = {
+  open: boolean;
+  value: {
+    health: undefined | [number, number];
+    sanity: undefined | [number, number];
+    skillBoosts: MultiselectFilter["value"];
+    slots: MultiselectFilter["value"];
+    uses: MultiselectFilter["value"];
+    healthX: boolean;
+  };
+};
+
 type SharedState = {
+  asset: AssetFilter;
   ownership: OwnershipFilter;
   cost: CostFilter;
   faction: FilterObject<string[]>;
   action: MultiselectFilter;
+  packCode: MultiselectFilter;
   properties: PropertiesFilter;
   skillIcons: SkillIconsFilter;
   subtype: MultiselectFilter;
@@ -71,7 +85,9 @@ export type Filters = {
     investigator: SelectFilter;
     tabooSet: SelectFilter<number>;
   };
-  encounter: SharedState;
+  encounter: SharedState & {
+    encounterSet: MultiselectFilter;
+  };
 };
 
 export type FiltersSlice = {
@@ -109,6 +125,14 @@ export type FiltersSlice = {
     path: P,
     item: string,
     value: T,
+  ): void;
+
+  setDeepNestedFilter<C extends CardTypeFilter, P extends keyof Filters[C], T>(
+    type: C,
+    path: P,
+    item: string,
+    value: T,
+    valueKey: string,
   ): void;
 
   applyLevelShortcut(value: string): void;

@@ -23,10 +23,9 @@
 
 .header-icon {
   font-size: calc(var(--card-title-size) * 1.75);
-  height: calc(var(--card-title-size) * 1.75);
 }
 
 .faction-icons {
-  margin-top: -0.375rem;
+  font-size: calc(var(--card-title-size) * 1.5);
   gap: 0.25rem;
 }

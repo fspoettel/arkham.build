@@ -33,8 +33,8 @@ function App() {
       >
         <div className={css["app-loader-inner"]}>
           <div className={css["app-loader-icon"]}>
-            <i className="icon-text icon-auto_fail" />
-            <i className="icon-text icon-elder_sign" />
+            <i className="icon-auto_fail" />
+            <i className="icon-elder_sign" />
           </div>
           <p>Loading card data...</p>
         </div>

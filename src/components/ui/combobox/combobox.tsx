@@ -30,6 +30,7 @@ function defaultRenderer<T extends Coded>(val: T) {
 }
 
 type Props<T extends Coded> = {
+  autoFocus?: boolean;
   className?: string;
   id: string;
   items: T[];
@@ -39,10 +40,12 @@ type Props<T extends Coded> = {
   placeholder?: string;
   renderItem?: (item: T) => ReactNode;
   renderResult?: (item: T) => ReactNode;
+  showLabel?: boolean;
   selectedItems: Record<string, T>;
 };
 
 export function Combobox<T extends Coded>({
+  autoFocus,
   className,
   id,
   items,
@@ -53,6 +56,7 @@ export function Combobox<T extends Coded>({
   renderItem = defaultRenderer,
   renderResult = defaultRenderer,
   selectedItems,
+  showLabel,
 }: Props<T>) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [isOpen, setOpen] = useState(false);
@@ -122,15 +126,21 @@ export function Combobox<T extends Coded>({
   );
 
   useEffect(() => {
-    if (activeIndex == null || activeIndex > filteredItems.length) {
+    if (
+      activeIndex == null ||
+      (activeIndex > filteredItems.length && inputValue)
+    ) {
       setActiveIndex(0);
     }
-  }, [activeIndex, filteredItems]);
+  }, [activeIndex, filteredItems, inputValue]);
 
   return (
     <div className={clsx(css["combobox"], className)}>
       <div className={css["combobox-control"]}>
-        <label className={clsx(css["combobox-label"], "sr-only")} htmlFor={id}>
+        <label
+          className={clsx(css["combobox-label"], !showLabel && "sr-only")}
+          htmlFor={id}
+        >
           {label}
         </label>
         <div className={css["combobox-control-row"]}>
@@ -142,7 +152,7 @@ export function Combobox<T extends Coded>({
               type: "text",
               value: inputValue,
               placeholder: placeholder,
-              autoFocus: true,
+              autoFocus,
               onKeyDown(evt) {
                 if (evt.key === "Enter" && activeIndex != null) {
                   evt.preventDefault();

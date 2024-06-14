@@ -1,5 +1,3 @@
-import SvgHealth from "@/assets/icons/health.svg?react";
-import SvgSanity from "@/assets/icons/sanity.svg?react";
 import { range } from "@/utils/range";
 
 import css from "./card-damage.module.css";
@@ -16,11 +14,11 @@ export function CardDamage({ damage, horror }: Props) {
     <div className={css["damage"]}>
       {!!damage &&
         range(0, damage).map((i) => (
-          <SvgHealth className="color-health" key={i} />
+          <i className="icon-health color-health" key={i} />
         ))}
       {!!horror &&
         range(0, horror).map((i) => (
-          <SvgSanity className="color-sanity" key={i} />
+          <i className="icon-sanity color-sanity" key={i} />
         ))}
     </div>
   );

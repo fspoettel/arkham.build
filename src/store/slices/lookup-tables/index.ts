@@ -241,11 +241,13 @@ function indexByMulticlass(tables: LookupTables, card: Card) {
 }
 
 function indexByHealth(tables: LookupTables, card: Card) {
-  if (card.health) setInLookupTable(card.code, tables.health, card.health);
+  if (card.health && card.type_code === "asset")
+    setInLookupTable(card.code, tables.health, card.health);
 }
 
 function indexBySanity(tables: LookupTables, card: Card) {
-  if (card.sanity) setInLookupTable(card.code, tables.sanity, card.sanity);
+  if (card.sanity && card.type_code === "asset")
+    setInLookupTable(card.code, tables.sanity, card.sanity);
 }
 
 // TODO: use a regex.
@@ -291,8 +293,13 @@ function indexBySkillBoosts(tables: LookupTables, card: Card) {
 
 function indexByUses(tables: LookupTables, card: Card) {
   const match = card.real_text?.match(REGEX_USES);
+
   if (match && match.length > 0) {
-    setInLookupTable(card.code, tables.uses, match[1]);
+    setInLookupTable(
+      card.code,
+      tables.uses,
+      match[1] === "charge" ? "charges" : match[1],
+    );
   }
 }
 

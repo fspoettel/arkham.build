@@ -11,8 +11,10 @@ type Props = Omit<SliderProps, "defaultValue"> & {
   className?: string;
   children?: ReactNode;
   id: string;
+  label: ReactNode;
   min: number;
   max: number;
+  showLabel?: boolean;
   sliderClassName?: string;
   value: [number, number];
 };
@@ -21,9 +23,11 @@ export function RangeSelect({
   className,
   sliderClassName,
   id,
+  label,
   min,
   max,
   onValueCommit,
+  showLabel,
   value,
   ...rest
 }: Props) {
@@ -39,6 +43,12 @@ export function RangeSelect({
 
   return (
     <div className={clsx(css["field"], className)}>
+      <label
+        className={clsx(css["field-label"], !showLabel && "sr-only")}
+        htmlFor={id}
+      >
+        {label}
+      </label>
       <Slider
         {...rest}
         className={clsx(css["field-input"], sliderClassName)}

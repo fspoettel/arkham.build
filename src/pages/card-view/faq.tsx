@@ -1,5 +1,4 @@
 import { ChevronDownIcon } from "@radix-ui/react-icons";
-import clsx from "clsx";
 import type { MouseEvent } from "react";
 import { useCallback, useMemo, useState } from "react";
 
@@ -46,7 +45,7 @@ export function Faq({ card }: Props) {
       </Button>
 
       <div
-        className={clsx(css["sidebar-faq-content"], "icon-text-container")}
+        className={css["sidebar-faq-content"]}
         onClick={redirectRelativeLinks}
       >
         {response.loading && "Loading..."}

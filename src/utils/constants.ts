@@ -29,10 +29,10 @@ export type SkillKey =
   | "wild";
 
 export const SKILL_KEYS: SkillKey[] = [
-  "agility",
-  "combat",
-  "intellect",
   "willpower",
+  "intellect",
+  "combat",
+  "agility",
   "wild",
 ] as const;
 

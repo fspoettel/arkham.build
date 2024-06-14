@@ -66,7 +66,6 @@ export function CardSearch() {
       <div className={css["search-row"]}>
         <div className={css["search-input"]}>
           <SearchInput
-            autoFocus
             ref={inputRef}
             tabIndex={0}
             className={css["search-field"]}

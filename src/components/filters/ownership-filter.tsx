@@ -4,8 +4,11 @@ import SvgOwned from "@/assets/icons/card_all.svg?react";
 import SvgUnowned from "@/assets/icons/card_unowned.svg?react";
 import SvgAll from "@/assets/icons/cards.svg?react";
 import { useStore } from "@/store";
-import { selectOpen, selectValue } from "@/store/selectors/filters/ownership";
-import { selectActiveCardType } from "@/store/selectors/filters/shared";
+import {
+  selectActiveCardType,
+  selectFilterOpen,
+  selectOwnershipValue,
+} from "@/store/selectors/filters";
 import { capitalize } from "@/utils/capitalize";
 
 import {
@@ -16,12 +19,8 @@ import { FilterContainer } from "./primitives/filter-container";
 
 export function OwnershipFilter() {
   const cardType = useStore(selectActiveCardType);
-  const open = useStore(selectOpen);
-  const value = useStore(selectValue);
-
-  const activeOwnershipFilter = useStore(
-    (state) => state.filters[state.filters.cardType].ownership.value,
-  );
+  const open = useStore(selectFilterOpen(cardType, "ownership"));
+  const value = useStore(selectOwnershipValue);
 
   const setFilter = useStore((state) => state.setFilter);
   const setFilterOpen = useStore((state) => state.setFilterOpen);
@@ -48,11 +47,7 @@ export function OwnershipFilter() {
       open={open}
       onOpenChange={onOpenChange}
     >
-      <RadioButtonGroup
-        icons
-        value={activeOwnershipFilter ?? ""}
-        onValueChange={onValueChange}
-      >
+      <RadioButtonGroup icons value={value ?? ""} onValueChange={onValueChange}>
         <RadioButtonGroupItem title="All" value="all">
           <SvgAll />
         </RadioButtonGroupItem>

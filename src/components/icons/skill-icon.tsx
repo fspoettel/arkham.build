@@ -6,7 +6,5 @@ type Props = {
 };
 
 export function SkillIcon({ className, skill }: Props) {
-  return skill ? (
-    <i className={clsx(`icon-layout icon-${skill}`, className)} />
-  ) : null;
+  return skill ? <i className={clsx(`icon-${skill}`, className)} /> : null;
 }

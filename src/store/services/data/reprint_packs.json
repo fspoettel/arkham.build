@@ -70,23 +70,5 @@
     "reprint": {
       "type": "encounter"
     }
-  },
-  {
-    "code": "tdep",
-    "cycle_code": "tde",
-    "position": -2,
-    "real_name": "The Dream Eaters Investigator Expansion",
-    "reprint": {
-      "type": "player"
-    }
-  },
-  {
-    "code": "tdec",
-    "cycle_code": "tde",
-    "position": -1,
-    "real_name": "The Dream Eaters Campaign Expansion",
-    "reprint": {
-      "type": "encounter"
-    }
   }
 ]

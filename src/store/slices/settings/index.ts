@@ -36,7 +36,7 @@ export const createSettingsSlice: StateCreator<
         ownership: { value: ownership, open: false },
       },
       encounter: {
-        ...state.filters.player,
+        ...state.filters.encounter,
         ownership: { value: ownership, open: false },
       },
     };

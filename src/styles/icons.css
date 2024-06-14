@@ -7,8 +7,8 @@
 }
 
 @font-face {
-  font-family: "slots";
-  src: url(../assets/fonts/slots.woff2) format("woff2");
+  font-family: "icon";
+  src: url(../assets/fonts/icon.woff2) format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -18,6 +18,22 @@
 [class*=" encounters-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: "encounters" !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"],
+[class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "icon" !important;
   speak: never;
   font-style: normal;
   font-weight: normal;
@@ -1882,169 +1898,250 @@
   content: "\eaad";
 }
 
-[class^="slots"],
-[class*=" slots"] {
-  /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: "slots" !important;
-  speak: never;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.icon-guardian:before {
+  content: "\41";
 }
-
-.slots-tarot_inverted:before {
+.icon-seeker:before {
+  content: "\42";
+}
+.icon-mystic:before {
+  content: "\43";
+}
+.icon-rogue:before {
+  content: "\44";
+}
+.icon-survivor:before {
+  content: "\45";
+}
+.icon-neutral:before {
+  content: "\46";
+}
+.icon-willpower:before {
+  content: "\47";
+}
+.icon-intellect:before {
+  content: "\48";
+}
+.icon-combat:before {
+  content: "\49";
+}
+.icon-agility:before {
+  content: "\4a";
+}
+.icon-wild:before {
+  content: "\4b";
+}
+.icon-skull:before {
+  content: "\4c";
+}
+.icon-cultist:before {
+  content: "\4d";
+}
+.icon-tablet:before {
+  content: "\4e";
+}
+.icon-elder_thing:before {
+  content: "\4f";
+}
+.icon-elder_sign:before {
+  content: "\50";
+}
+.icon-auto_fail:before {
+  content: "\51";
+}
+.icon-per_investigator:before {
+  content: "\52";
+}
+.icon-weakness:before {
+  content: "\53";
+}
+.icon-action:before {
+  content: "\54";
+}
+.icon-reaction:before {
+  content: "\55";
+}
+.icon-free:before {
+  content: "\56";
+}
+.icon-bullet:before {
+  content: "\58";
+}
+.icon-guide_bullet:before {
+  content: "\59";
+}
+.icon-curse:before {
+  content: "\5a";
+}
+.icon-bless:before {
+  content: "\61";
+}
+.icon-frost:before {
+  content: "\62";
+}
+.icon-seal_a:before {
+  content: "\63";
+}
+.icon-seal_b:before {
+  content: "\64";
+}
+.icon-seal_c:before {
+  content: "\65";
+}
+.icon-seal_d:before {
+  content: "\66";
+}
+.icon-seal_e:before {
+  content: "\67";
+}
+.icon-codex:before {
+  content: "\68";
+}
+.icon-day:before {
+  content: "\69";
+}
+.icon-night:before {
+  content: "\6a";
+}
+.icon-star:before {
+  content: "\2a";
+}
+.icon-x:before {
+  content: "\5b";
+}
+.icon-num0:before {
+  content: "\30";
+}
+.icon-num1:before {
+  content: "\31";
+}
+.icon-num2:before {
+  content: "\32";
+}
+.icon-num3:before {
+  content: "\33";
+}
+.icon-num4:before {
+  content: "\34";
+}
+.icon-num5:before {
+  content: "\35";
+}
+.icon-num6:before {
+  content: "\36";
+}
+.icon-num7:before {
+  content: "\37";
+}
+.icon-num8:before {
+  content: "\38";
+}
+.icon-num9:before {
+  content: "\39";
+}
+.icon-numnull:before {
+  content: "\2d";
+}
+.icon-skill_intellect:before {
+  content: "\e903";
+}
+.icon-skill_intellect_inverted:before {
+  content: "\e904";
+}
+.icon-skill_combat:before {
+  content: "\e905";
+}
+.icon-skill_combat_inverted:before {
+  content: "\e906";
+}
+.icon-skill_agility:before {
+  content: "\e907";
+}
+.icon-skill_agility_inverted:before {
+  content: "\e908";
+}
+.icon-skill_wild:before {
+  content: "\e909";
+}
+.icon-skill_wild_inverted:before {
+  content: "\e90a";
+}
+.icon-skill_willpower:before {
+  content: "\e901";
+}
+.icon-skill_willpower_inverted:before {
+  content: "\e902";
+}
+.icon-tarot_inverted:before {
   content: "\e90b";
 }
-
-.slots-accessory_inverted:before {
+.icon-accessory_inverted:before {
   content: "\e90d";
 }
-
-.slots-ally_inverted:before {
+.icon-ally_inverted:before {
   content: "\e90f";
 }
-
-.slots-arcane_inverted:before {
+.icon-arcane_inverted:before {
   content: "\e911";
 }
-
-.slots-arcane_x2_inverted:before {
+.icon-arcane_x2_inverted:before {
   content: "\e912";
 }
-
-.slots-body_inverted:before {
+.icon-body_inverted:before {
   content: "\e915";
 }
-
-.slots-hand_inverted:before {
+.icon-hand_inverted:before {
   content: "\e917";
 }
-
-.slots-hand_x2_inverted:before {
+.icon-hand_x2_inverted:before {
   content: "\e918";
 }
-
-.icon-agility {
-  mask: url("../assets/icons/agility.svg");
+.icon-health:before {
+  content: "\e91b";
+}
+.icon-sanity:before {
+  content: "\e91c";
 }
 
-.icon-combat {
-  mask: url("../assets/icons/combat.svg");
+.icon-level_none:before {
+  content: "\e926";
 }
-
-.icon-willpower {
-  mask: url("../assets/icons/willpower.svg");
+.icon-level_0:before {
+  content: "\e927";
 }
-
-.icon-wild {
-  mask: url("../assets/icons/wild.svg");
+.icon-level_1:before {
+  content: "\e933";
 }
-
-.icon-intellect {
-  mask: url("../assets/icons/intellect.svg");
+.icon-level_2:before {
+  content: "\e934";
 }
-
-.icon-action {
-  mask: url("../assets/icons/action.svg");
+.icon-level_3:before {
+  content: "\e935";
 }
-
-.icon-elder_sign {
-  mask: url("../assets/icons/elder_sign.svg");
+.icon-level_4:before {
+  content: "\e93b";
 }
-
-.icon-reaction {
-  mask: url("../assets/icons/reaction.svg");
+.icon-level_5:before {
+  content: "\e941";
 }
-
-.icon-free,
-.icon-fast,
-.icon-lightning,
-.icon-lighting /* sic! */ {
-  mask: url("../assets/icons/free.svg");
+.icon-inverted_level_none:before {
+  content: "\e942";
 }
-
-.icon-skull {
-  mask: url("../assets/icons/skull.svg");
+.icon-inverted_level_0:before {
+  content: "\e943";
 }
-
-.icon-cultist {
-  mask: url("../assets/icons/cultist.svg");
+.icon-inverted_level_1:before {
+  content: "\e944";
 }
-
-.icon-tablet {
-  mask: url("../assets/icons/tablet.svg");
+.icon-inverted_level_2:before {
+  content: "\e945";
 }
-
-.icon-elder_thing {
-  mask: url("../assets/icons/elder_thing.svg");
+.icon-inverted_level_3:before {
+  content: "\e946";
 }
-
-.icon-auto_fail {
-  mask: url("../assets/icons/auto_fail.svg");
+.icon-inverted_level_4:before {
+  content: "\e948";
 }
-
-.icon-frost {
-  mask: url("../assets/icons/frost.svg");
-}
-
-.icon-curse {
-  mask: url("../assets/icons/curse.svg");
-}
-
-.icon-bless {
-  mask: url("../assets/icons/bless.svg");
-}
-
-.icon-guardian {
-  mask: url("../assets/icons/guardian.svg");
-}
-
-.icon-seeker {
-  mask: url("../assets/icons/seeker.svg");
-}
-
-.icon-rogue {
-  mask: url("../assets/icons/rogue.svg");
-}
-
-.icon-mystic {
-  mask: url("../assets/icons/mystic.svg");
-}
-
-.icon-survivor {
-  mask: url("../assets/icons/survivor.svg");
-}
-
-.icon-neutral {
-  mask: url("../assets/icons/neutral.svg");
-}
-
-.icon-per_investigator {
-  mask: url("../assets/icons/investigator.svg");
-}
-
-.icon-seal_a {
-  mask: url("../assets/icons/seal_a.svg");
-}
-
-.icon-seal_b {
-  mask: url("../assets/icons/seal_b.svg");
-}
-
-.icon-seal_c {
-  mask: url("../assets/icons/seal_c.svg");
-}
-
-.icon-seal_d {
-  mask: url("../assets/icons/seal_d.svg");
-}
-
-.icon-seal_e {
-  mask: url("../assets/icons/seal_e.svg");
+.icon-inverted_level_5:before {
+  content: "\e947";
 }

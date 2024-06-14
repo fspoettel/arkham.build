@@ -1,16 +1,16 @@
 import { useStore } from "@/store";
 import {
-  selectChanges,
-  selectOptions,
-  selectValue,
-} from "@/store/selectors/filters/taboo-set";
+  selectTabooSetChanges,
+  selectTabooSetOptions,
+  selectTabooSetValue,
+} from "@/store/selectors/filters";
 
 import { SelectFilter } from "./primitives/select-filter";
 
 export function TabooSetFilter() {
-  const tabooSets = useStore(selectOptions);
-  const value = useStore(selectValue);
-  const changes = useStore(selectChanges);
+  const tabooSets = useStore(selectTabooSetOptions);
+  const value = useStore(selectTabooSetValue);
+  const changes = useStore(selectTabooSetChanges);
 
   return (
     <SelectFilter

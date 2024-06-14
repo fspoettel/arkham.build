@@ -2,11 +2,11 @@ import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import {
-  selectChanges,
-  selectOptions,
-  selectValue,
-} from "@/store/selectors/filters/action";
-import { selectActiveCardType } from "@/store/selectors/filters/shared";
+  selectActionChanges,
+  selectActionOptions,
+  selectActionValue,
+  selectActiveCardType,
+} from "@/store/selectors/filters";
 import type { Trait } from "@/store/slices/filters/types";
 import { capitalize } from "@/utils/capitalize";
 
@@ -14,9 +14,9 @@ import { MultiselectFilter } from "./primitives/multiselect-filter";
 
 export function ActionFilter() {
   const cardType = useStore(selectActiveCardType);
-  const changes = useStore(selectChanges);
-  const actions = useStore(selectOptions);
-  const value = useStore(selectValue);
+  const changes = useStore(selectActionChanges);
+  const actions = useStore(selectActionOptions);
+  const value = useStore(selectActionValue);
 
   const nameRenderer = useCallback((item: Trait) => capitalize(item.code), []);
 

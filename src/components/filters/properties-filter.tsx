@@ -2,11 +2,11 @@ import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import {
-  selectChanges,
-  selectOpen,
-  selectValue,
-} from "@/store/selectors/filters/properties";
-import { selectActiveCardType } from "@/store/selectors/filters/shared";
+  selectActiveCardType,
+  selectFilterOpen,
+  selectPropertiesChanges,
+  selectPropertiesValue,
+} from "@/store/selectors/filters";
 import type { PropertiesFilter as PropertiesFilterType } from "@/store/slices/filters/types";
 
 import { Checkbox } from "../ui/checkbox";
@@ -32,23 +32,23 @@ type Value = PropertiesFilterType["value"];
 
 export function PropertiesFilter() {
   const cardType = useStore(selectActiveCardType);
-  const value = useStore(selectValue);
-  const changes = useStore(selectChanges);
-  const open = useStore(selectOpen);
+  const value = useStore(selectPropertiesValue);
+  const changes = useStore(selectPropertiesChanges);
+  const open = useStore(selectFilterOpen(cardType, "properties"));
 
   const setFilter = useStore((state) => state.setNestedFilter);
   const setFilterOpen = useStore((state) => state.setFilterOpen);
   const resetFilter = useStore((state) => state.resetFilterKey);
 
   const onReset = useCallback(() => {
-    resetFilter("player", "properties");
-  }, [resetFilter]);
+    resetFilter(cardType, "properties");
+  }, [resetFilter, cardType]);
 
   const onOpenChange = useCallback(
     (val: boolean) => {
-      setFilterOpen("player", "properties", val);
+      setFilterOpen(cardType, "properties", val);
     },
-    [setFilterOpen],
+    [setFilterOpen, cardType],
   );
 
   const onPropertyChange = useCallback(

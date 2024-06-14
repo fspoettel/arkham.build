@@ -9,7 +9,7 @@ import type {
 import type { StoreState } from "../slices";
 import type { LookupTables } from "../slices/lookup-tables/types";
 import { applyTaboo } from "../utils/taboos";
-import { selectCanonicalTabooSetId } from "./filters/taboo-set";
+import { selectCanonicalTabooSetId } from "./filters";
 
 export type CardResolved = {
   card: Card;

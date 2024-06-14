@@ -1,5 +1,3 @@
-import { ASSET_SLOT_ORDER, PLAYER_TYPE_ORDER } from "@/utils/constants";
-
 import type { Card } from "../services/types";
 import type { LookupTables } from "../slices/lookup-tables/types";
 import type { Metadata } from "../slices/metadata/types";
@@ -9,82 +7,6 @@ export type Grouping = {
   name: string;
   grouping_type: string; // maybe use keyof LookupTables?
 };
-
-export function groupBySlot(lookupTables: LookupTables): Grouping[] {
-  const slots = Object.keys(lookupTables.slots);
-
-  slots.sort((a, b) => {
-    const slotA = ASSET_SLOT_ORDER.indexOf(a);
-    const slotB = ASSET_SLOT_ORDER.indexOf(b);
-
-    if (slotA === -1 && slotB === -1) {
-      return a.localeCompare(b);
-    } else if (slotA === -1) {
-      return 1;
-    } else if (slotB === -1) {
-      return -1;
-    } else {
-      return slotA - slotB;
-    }
-  });
-
-  return slots.map((slot) => ({
-    name: slot === "Slotless" ? "Asset" : `Asset: ${slot}`,
-    code: slot,
-    grouping_type: "slot",
-  }));
-}
-
-export function groupByPlayerCardType(
-  metadata: Metadata,
-  lookupTables: LookupTables,
-): Grouping[] {
-  return PLAYER_TYPE_ORDER.flatMap((type) =>
-    type === "asset"
-      ? groupBySlot(lookupTables)
-      : { ...metadata.types[type], grouping_type: "type" },
-  );
-}
-
-export function groupByWeakness(metadata: Metadata): Grouping[] {
-  const groups = Object.keys(metadata.subtypes).map((code) => ({
-    code: code,
-    name: code === "weakness" ? "Weakness" : "Basic Weakness",
-    grouping_type: "subtype",
-  }));
-
-  groups.sort((a) => (a.code === "weakness" ? -1 : 1));
-
-  return groups;
-}
-
-export function groupByEncounterSets(metadata: Metadata): Grouping[] {
-  const encounterSets = Object.values(metadata.encounterSets);
-
-  encounterSets.sort((a, b) => {
-    const packA = metadata.packs[a.pack_code];
-    const packB = metadata.packs[b.pack_code];
-
-    const cycleA = metadata.cycles[packA.cycle_code];
-    const cycleB = metadata.cycles[packB.cycle_code];
-
-    if (cycleA.position !== cycleB.position) {
-      return cycleA.position - cycleB.position;
-    }
-
-    if (packA.position !== packB.position) {
-      return packA.position - packB.position;
-    }
-
-    return a.name.localeCompare(b.name);
-  });
-
-  return encounterSets.map((e) => ({
-    code: e.code,
-    name: e.name,
-    grouping_type: "encounter_set",
-  }));
-}
 
 export function resolveGroupingCardCodes(
   grouping: Grouping,

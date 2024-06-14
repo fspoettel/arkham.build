@@ -1,5 +1,5 @@
 .field-label {
-  font-weight: 500;
+  font-size: var(--text-sm);
 }
 
 .field > * + * {

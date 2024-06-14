@@ -9,8 +9,8 @@
 - add basic metadata fields to @zzorba's arkham cards API. This would allow us to remove respective the lookup tables:
 
   - `dynamic icons` in card text (available in @SCED metadata)
-  - `uses` in card text (available in @SCED metadata)
-  - `bonded` (available in @SCED)
+  - `uses` in card text (lookup table, available in @SCED metadata)
+  - `bonded` (lookup table, also available in @SCED metadata)
   - `action_text` (lookup table)
   - `is_fast` (lookup table)
 
@@ -27,14 +27,23 @@
 
 ## Card data
 
-### Cards to verify
-
-- `51026`
-- `89005`
-- `07300`
-- `04325`
-- `04326`
+- verify `51026`
+- verify `89005`
+- verify `07300`
+- verify `04325`
+- verify `04326`
 
 ## Further plans
 
 - implement a suggestion API for the deck builder. get back to @Buteremelse once their project is up.
+- Add more complex property filters, such as:
+
+```
+Symbols Matter (both positive and negative effects):
+"[After/when/if/for each/anytime] [at least 1] [you reveal] [it has] [a/an] [investigator at your location reveals] [list of all bad symbols/list of all bad symbols except :autofail:/list of all bad symbols except :skull: and :autofail:/:tablet:, :elderthing:, or :eldersign:/non-:eldersign:/non-:autofail:/non-:eldersign: non-:bless:/non-:curse: non-:autofail/:skull: or :autofail:/:skull:/:autofail:/:skull: and :autofail:/:skull: or :curse:] [symbol] [token] [is/was] [reveal/revealed]
+
+Chaos Bag Manipulation:
+[do not] [before/When/after you] [would] [reveal[ing]] [a] chaos token[s]
+```
+
+- Add archetype filters, e.g. "Oversucceed".

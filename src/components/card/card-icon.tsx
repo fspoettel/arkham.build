@@ -1,6 +1,5 @@
 import clsx from "clsx";
 
-import SvgWeakness from "@/assets/icons/weakness.svg?react";
 import type { Card } from "@/store/services/types";
 import { getCardColor } from "@/utils/card-utils";
 
@@ -27,7 +26,7 @@ export function CardIcon({ card, className, inverted }: Props) {
           inverted && css["icon_inverted"],
         )}
       >
-        <SvgWeakness />
+        <i className="icon-weakness" />
       </span>
     );
   }

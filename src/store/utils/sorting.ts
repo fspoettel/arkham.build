@@ -1,5 +1,8 @@
+import { ASSET_SLOT_ORDER } from "@/utils/constants";
+
 import type { Card } from "../services/types";
 import type { LookupTables } from "../slices/lookup-tables/types";
+import type { Metadata } from "../slices/metadata/types";
 
 export function sortAlphabetically(lookupTables: LookupTables) {
   return (a: Card, b: Card) => {
@@ -20,4 +23,49 @@ export function sortAlphabetically(lookupTables: LookupTables) {
 
 export function sortByEncounterPosition(a: Card, b: Card) {
   return (a.encounter_position ?? 0) - (b.encounter_position ?? 0);
+}
+
+export function sortedEncounterSets(metadata: Metadata) {
+  const encounterSets = Object.values(metadata.encounterSets);
+
+  encounterSets.sort((a, b) => {
+    const packA = metadata.packs[a.pack_code];
+    const packB = metadata.packs[b.pack_code];
+
+    const cycleA = metadata.cycles[packA.cycle_code];
+    const cycleB = metadata.cycles[packB.cycle_code];
+
+    if (cycleA.position !== cycleB.position) {
+      return cycleA.position - cycleB.position;
+    }
+
+    if (packA.position !== packB.position) {
+      return packA.position - packB.position;
+    }
+
+    return a.name.localeCompare(b.name);
+  });
+
+  return encounterSets;
+}
+
+export function sortedBySlots(slotsTable: LookupTables["slots"]) {
+  const slots = Object.keys(slotsTable);
+
+  slots.sort((a, b) => {
+    const slotA = ASSET_SLOT_ORDER.indexOf(a);
+    const slotB = ASSET_SLOT_ORDER.indexOf(b);
+
+    if (slotA === -1 && slotB === -1) {
+      return a.localeCompare(b);
+    } else if (slotA === -1) {
+      return 1;
+    } else if (slotB === -1) {
+      return -1;
+    } else {
+      return slotA - slotB;
+    }
+  });
+
+  return slots;
 }

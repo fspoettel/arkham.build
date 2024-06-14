@@ -2,10 +2,10 @@ import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import {
-  selectActiveFactions,
-  selectFactions,
-} from "@/store/selectors/filters/faction";
-import { selectActiveCardType } from "@/store/selectors/filters/shared";
+  selectActiveCardType,
+  selectFactionOptions,
+  selectFactionValue,
+} from "@/store/selectors/filters";
 
 import css from "./faction-filter.module.css";
 
@@ -14,8 +14,8 @@ import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 export function FactionFilter() {
   const cardType = useStore(selectActiveCardType);
-  const factions = useStore(selectFactions);
-  const { value } = useStore(selectActiveFactions);
+  const options = useStore(selectFactionOptions);
+  const value = useStore(selectFactionValue);
   const setFilter = useStore((state) => state.setFilter);
 
   const setFactions = useCallback(
@@ -34,7 +34,7 @@ export function FactionFilter() {
       value={value}
       full
     >
-      {factions.map((faction) => (
+      {options.map((faction) => (
         <ToggleGroupItem
           className={css[`color-active-${faction.code}`]}
           key={faction.code}

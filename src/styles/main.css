@@ -318,29 +318,6 @@ svg {
   height: 1em;
 }
 
-/* use to display text icons as icons in a flexbox based layout. */
-.icon-layout {
-  display: block;
-  background: currentColor;
-  width: 1em;
-  height: 1em;
-  mask-size: 100% 100%;
-  mask-position: 0 0;
-}
-
-/* use to display text icons as icons in a text block. */
-.icon-text-container span,
-.icon-text {
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  vertical-align: baseline;
-  transform: translateY(3px);
-  background: currentColor;
-  mask-size: 100% 100%;
-  mask-position: 0 0;
-}
-
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

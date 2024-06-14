@@ -1,5 +1,9 @@
 .skill-icon_fancy {
   position: relative;
+  width: 1em;
+  height: 1em;
+  font-size: 1em;
+
   display: block;
   border-radius: var(--rounded);
 
@@ -22,11 +26,14 @@
   &.wild {
     color: var(--wild);
   }
+
+  & > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 }
 
 .skill-icon_fancy-inverted {
-  position: absolute;
-  top: 0;
-  left: 0;
   color: var(--nord-5);
 }

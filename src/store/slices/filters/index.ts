@@ -1,7 +1,5 @@
 import type { StateCreator } from "zustand";
 
-import { getInitialOwnershipFilter } from "@/store/utils/settins-helpers";
-
 import type { StoreState } from "..";
 import type {
   CardTypeFilter,
@@ -15,6 +13,10 @@ function getInitialState(): Filters {
     ownership: {
       open: false,
       value: "owned" as const,
+    },
+    packCode: {
+      open: false,
+      value: {},
     },
     faction: {
       open: true,
@@ -54,6 +56,17 @@ function getInitialState(): Filters {
     },
     action: {
       value: {},
+      open: false,
+    },
+    asset: {
+      value: {
+        health: undefined,
+        sanity: undefined,
+        healthX: true,
+        skillBoosts: {},
+        slots: {},
+        uses: {},
+      },
       open: false,
     },
     properties: {
@@ -98,6 +111,44 @@ function getInitialState(): Filters {
     },
     encounter: {
       ...structuredClone(shared),
+      encounterSet: {
+        value: {},
+        open: false,
+      },
+    },
+  };
+}
+
+function getInitialOwnershipFilter(state: StoreState) {
+  if (state.settings.showAllCards) {
+    return {
+      open: false,
+      value: "all" as const,
+    };
+  }
+
+  const value = Object.values(state.settings.collection).some((x) => x)
+    ? ("owned" as const)
+    : ("all" as const);
+
+  return {
+    open: false,
+    value,
+  };
+}
+
+export function getInitialFilters(state: StoreState): StoreState["filters"] {
+  const initialOwnershipSetting = getInitialOwnershipFilter(state);
+
+  return {
+    ...state.filters,
+    player: {
+      ...state.filters.player,
+      ownership: initialOwnershipSetting,
+    },
+    encounter: {
+      ...state.filters.encounter,
+      ownership: initialOwnershipSetting,
     },
   };
 }
@@ -176,6 +227,24 @@ export const createFiltersSlice: StateCreator<
     const filters = updateValue(get(), type, path, "value", {
       ...current.value,
       [key]: value,
+    });
+
+    set({ filters });
+  },
+
+  setDeepNestedFilter(type, path, key, value, valueKey) {
+    const state = get();
+
+    const current = state.filters[type][path] as FilterObject<
+      Record<string, Record<string, unknown>>
+    >;
+
+    const filters = updateValue(get(), type, path, "value", {
+      ...current.value,
+      [valueKey]: {
+        ...current.value[valueKey],
+        [key]: value,
+      },
     });
 
     set({ filters });

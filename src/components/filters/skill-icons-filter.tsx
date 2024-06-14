@@ -1,12 +1,12 @@
 import { useCallback } from "react";
 
 import { useStore } from "@/store";
-import { selectActiveCardType } from "@/store/selectors/filters/shared";
 import {
-  selectChanges,
-  selectOpen,
-  selectValue,
-} from "@/store/selectors/filters/skill-icons";
+  selectActiveCardType,
+  selectFilterOpen,
+  selectSkillIconsChanges,
+  selectSkillIconsValue,
+} from "@/store/selectors/filters";
 import type { SkillIconsFilter as SkillIconsFilterType } from "@/store/slices/filters/types";
 
 import css from "./skill-icons-filter.module.css";
@@ -20,23 +20,23 @@ type Value = SkillIconsFilterType["value"];
 
 export function SkillIconsFilter() {
   const cardType = useStore(selectActiveCardType);
-  const value = useStore(selectValue);
-  const changes = useStore(selectChanges);
-  const open = useStore(selectOpen);
+  const value = useStore(selectSkillIconsValue);
+  const changes = useStore(selectSkillIconsChanges);
+  const open = useStore(selectFilterOpen(cardType, "skillIcons"));
 
   const setFilter = useStore((state) => state.setNestedFilter);
   const setFilterOpen = useStore((state) => state.setFilterOpen);
   const resetFilter = useStore((state) => state.resetFilterKey);
 
   const onReset = useCallback(() => {
-    resetFilter("player", "skillIcons");
-  }, [resetFilter]);
+    resetFilter(cardType, "skillIcons");
+  }, [resetFilter, cardType]);
 
   const onOpenChange = useCallback(
     (val: boolean) => {
-      setFilterOpen("player", "skillIcons", val);
+      setFilterOpen(cardType, "skillIcons", val);
     },
-    [setFilterOpen],
+    [setFilterOpen, cardType],
   );
 
   const onToggleChange = useCallback(

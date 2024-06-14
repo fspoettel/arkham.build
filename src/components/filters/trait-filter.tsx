@@ -1,18 +1,18 @@
 import { useStore } from "@/store";
-import { selectActiveCardType } from "@/store/selectors/filters/shared";
 import {
-  selectChanges,
-  selectOptions,
-  selectValue,
-} from "@/store/selectors/filters/traits";
+  selectActiveCardType,
+  selectTraitChanges,
+  selectTraitOptions,
+  selectTraitValue,
+} from "@/store/selectors/filters";
 
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 
 export function TraitFilter() {
   const cardType = useStore(selectActiveCardType);
-  const changes = useStore(selectChanges);
-  const traits = useStore(selectOptions);
-  const value = useStore(selectValue);
+  const changes = useStore(selectTraitChanges);
+  const traits = useStore(selectTraitOptions);
+  const value = useStore(selectTraitValue);
 
   return (
     <MultiselectFilter

@@ -15,7 +15,7 @@
   width: var(--checkbox-size);
   height: var(--checkbox-size);
   background: var(--nord-1);
-  border-radius: var(--rounded-lg);
+  border-radius: var(--rounded);
 }
 
 .checkbox-root svg {

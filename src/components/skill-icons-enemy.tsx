@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { Fragment } from "react";
 
-import SvgInvestigator from "@/assets/icons/investigator.svg?react";
 import type { Card } from "@/store/services/types";
 
 import css from "./skill-icons.module.css";
@@ -37,7 +36,7 @@ export function SkillIconsEnemy({ className, card, iconClassName }: Props) {
               {key === "health" ? (
                 <>
                   {card.health_per_investigator ? (
-                    <SvgInvestigator />
+                    <i className="icon-per_investigator" />
                   ) : (
                     <div className={css["skill-stub"]} />
                   )}

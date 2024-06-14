@@ -2,10 +2,10 @@ import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import {
-  selectChanges,
-  selectOpen,
-  selectValue,
-} from "@/store/selectors/filters/level";
+  selectFilterOpen,
+  selectLevelChanges,
+  selectLevelValue,
+} from "@/store/selectors/filters";
 import type { LevelFilter as LevelFilterType } from "@/store/slices/filters/types";
 
 import { Checkbox } from "../ui/checkbox";
@@ -22,9 +22,9 @@ function getToggleValue(value: [number, number] | undefined) {
 }
 
 export function LevelFilter() {
-  const value = useStore(selectValue);
-  const open = useStore(selectOpen);
-  const changes = useStore(selectChanges);
+  const changes = useStore(selectLevelChanges);
+  const open = useStore(selectFilterOpen("player", "level"));
+  const value = useStore(selectLevelValue);
 
   const applyLevelShortcut = useStore((state) => state.applyLevelShortcut);
   const setFilter = useStore((state) => state.setNestedFilter);
@@ -94,6 +94,7 @@ export function LevelFilter() {
       open={open}
     >
       <RangeSelect
+        label="Level"
         id="level-select"
         min={0}
         max={5}

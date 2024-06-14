@@ -65,6 +65,7 @@ export function MultiselectFilter<T extends Coded, K extends CardTypeFilter>({
       open={open}
     >
       <Combobox
+        autoFocus
         id={`filter-${cardType}-${path as string}`}
         items={options}
         onSelectItem={onChange}

@@ -11,8 +11,8 @@ import { useStore } from "@/store";
 
 import css from "./masthead.module.css";
 
-import { CardTypeFilter } from "../card-type-filter";
-import { Button } from "../ui/button";
+import { CardTypeFilter } from "./filters/card-type-filter";
+import { Button } from "./ui/button";
 
 export function Masthead({ className }: { className?: string }) {
   const onToggleSearch = useStore((state) => state.toggleSearch);

@@ -6,5 +6,5 @@ type Props = {
 };
 
 export function FactionIcon({ className, code }: Props) {
-  return <i className={clsx(className, `icon-layout icon-${code}`)} />;
+  return <i className={clsx(className, `icon-${code}`)} />;
 }

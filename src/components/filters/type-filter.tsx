@@ -1,10 +1,10 @@
 import { useStore } from "@/store";
-import { selectActiveCardType } from "@/store/selectors/filters/shared";
 import {
-  selectChanges,
-  selectOptions,
-  selectValue,
-} from "@/store/selectors/filters/type";
+  selectActiveCardType,
+  selectTypeChanges,
+  selectTypeOptions,
+  selectTypeValue,
+} from "@/store/selectors/filters";
 import type { Type } from "@/store/services/types";
 
 import { MultiselectFilter } from "./primitives/multiselect-filter";
@@ -14,9 +14,9 @@ const itemToString = (item: Type) => item.name.toLowerCase();
 
 export function TypeFilter() {
   const cardType = useStore(selectActiveCardType);
-  const changes = useStore(selectChanges);
-  const types = useStore(selectOptions);
-  const value = useStore(selectValue);
+  const changes = useStore(selectTypeChanges);
+  const types = useStore(selectTypeOptions);
+  const value = useStore(selectTypeValue);
 
   return (
     <MultiselectFilter

@@ -1,14 +1,13 @@
 import { useCallback } from "react";
 
-import SvgX from "@/assets/icons/x.svg?react";
 import { useStore } from "@/store";
 import {
-  selectChanges,
+  selectActiveCardType,
+  selectCostChanges,
   selectCostMinMax,
-  selectOpen,
-  selectValue,
-} from "@/store/selectors/filters/cost";
-import { selectActiveCardType } from "@/store/selectors/filters/shared";
+  selectCostValue,
+  selectFilterOpen,
+} from "@/store/selectors/filters";
 import type { CostFilter as CostFilterType } from "@/store/slices/filters/types";
 
 import { Checkbox } from "../ui/checkbox";
@@ -21,9 +20,9 @@ type Value = CostFilterType["value"];
 export function CostFilter() {
   const [min, max] = useStore(selectCostMinMax);
   const cardType = useStore(selectActiveCardType);
-  const changes = useStore(selectChanges);
-  const value = useStore(selectValue);
-  const open = useStore(selectOpen);
+  const changes = useStore(selectCostChanges);
+  const value = useStore(selectCostValue);
+  const open = useStore(selectFilterOpen(cardType, "cost"));
 
   const setFilter = useStore((state) => state.setNestedFilter);
   const resetFilter = useStore((state) => state.resetFilterKey);
@@ -85,6 +84,7 @@ export function CostFilter() {
       onOpenChange={onOpenChange}
     >
       <RangeSelect
+        label="Cost"
         id="cost-select"
         min={min}
         max={max}
@@ -105,7 +105,7 @@ export function CostFilter() {
           checked={value.odd}
         />
         <Checkbox
-          label={<SvgX />}
+          label={<i className="icon-x" />}
           id="cost-x"
           onCheckedChange={onSetX}
           checked={value.x}

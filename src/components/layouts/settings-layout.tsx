@@ -4,7 +4,7 @@ import { useDocumentTitle } from "@/utils/use-document-title";
 
 import css from "./settings-layout.module.css";
 
-import { Masthead } from "./masthead";
+import { Masthead } from "../masthead";
 
 type Props = {
   children?: ReactNode;

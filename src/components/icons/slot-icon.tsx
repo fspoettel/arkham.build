@@ -5,21 +5,21 @@ export type Props = {
 const getIcon = (code: string) => {
   switch (code) {
     case "Hand":
-      return <i className="slots-hand_inverted" />;
+      return <i className="icon-hand_inverted" />;
     case "Hand x2":
-      return <i className="slots-hand_x2_inverted" />;
+      return <i className="icon-hand_x2_inverted" />;
     case "Accessory":
-      return <i className="slots-accessory_inverted" />;
+      return <i className="icon-accessory_inverted" />;
     case "Ally":
-      return <i className="slots-ally_inverted" />;
+      return <i className="icon-ally_inverted" />;
     case "Arcane":
-      return <i className="slots-arcane_inverted" />;
+      return <i className="icon-arcane_inverted" />;
     case "Arcane x2":
-      return <i className="slots-arcane_x2_inverted" />;
+      return <i className="icon-arcane_x2_inverted" />;
     case "Body":
-      return <i className="slots-body_inverted" />;
+      return <i className="icon-body_inverted" />;
     case "Tarot":
-      return <i className="slots-tarot_inverted" />;
+      return <i className="icon-tarot_inverted" />;
     default:
       return null;
   }

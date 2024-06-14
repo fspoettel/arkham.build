@@ -6,10 +6,10 @@ import {
   queryMetadata,
 } from "@/store/services/queries";
 import type { Card } from "@/store/services/types";
-import { getInitialOwnershipFilter } from "@/store/utils/settins-helpers";
 import { rewriteImageUrl } from "@/utils/card-utils";
 
 import type { StoreState } from "..";
+import { getInitialFilters } from "../filters";
 import { createLookupTables, createRelations } from "../lookup-tables";
 import { getInitialMetadata } from "../metadata";
 import type { Metadata } from "../metadata/types";
@@ -125,18 +125,3 @@ export const createSharedSlice: StateCreator<
     return true;
   },
 });
-
-export function getInitialFilters(state: StoreState): StoreState["filters"] {
-  const initialOwnershipSetting = getInitialOwnershipFilter(state);
-  return {
-    ...state.filters,
-    player: {
-      ...state.filters.player,
-      ownership: initialOwnershipSetting,
-    },
-    encounter: {
-      ...state.filters.encounter,
-      ownership: initialOwnershipSetting,
-    },
-  };
-}
