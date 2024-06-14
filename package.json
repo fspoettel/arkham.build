@@ -64,7 +64,7 @@
     "prettier": "3.2.5",
     "rollup-plugin-webpack-stats": "0.2.5",
     "typescript": "5.4.3",
-    "vite": "5.2.6",
+    "vite": "5.2.7",
     "vite-plugin-svgr": "4.2.0",
     "vitest": "1.4.0"
   }
