@@ -41,6 +41,8 @@ import requiredQuantityInvalid from "@/test/fixtures/decks/validation/required_q
 import requiredReplacements from "@/test/fixtures/decks/validation/required_replacements.json";
 import requiredReplacementsInAddition from "@/test/fixtures/decks/validation/required_replacements_in_addition.json";
 import requiredReplacementsInvalid from "@/test/fixtures/decks/validation/required_replacements_invalid.json";
+import requiredSilasReplacement from "@/test/fixtures/decks/validation/required_silas_replacement.json";
+import requiredSilasStandard from "@/test/fixtures/decks/validation/required_silas_standard.json";
 import tooFew from "@/test/fixtures/decks/validation/too_few_cards.json";
 import tooMany from "@/test/fixtures/decks/validation/too_many_cards.json";
 import tooManyCopies from "@/test/fixtures/decks/validation/too_many_copies.json";
@@ -303,6 +305,31 @@ describe("deck validation", () => {
               "quantity": 1,
             },
             "type": "INVALID_CARD_COUNT",
+          },
+        ]
+      `);
+    });
+
+    it("handles case: silas (standard)", () => {
+      const result = validate(store, requiredSilasStandard);
+      expect(result.valid).toBeTruthy();
+    });
+
+    it("handles case: silas (replacement)", () => {
+      const result = validate(store, requiredSilasReplacement);
+      expect(result.valid).toBeTruthy();
+    });
+
+    it("handles case: silas (replacement), invalid", () => {
+      const deck = requiredSilasReplacement;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      delete (deck.slots as any)["98014"];
+      const result = validate(store, requiredSilasReplacement);
+      expect(result.valid).toBeFalsy();
+      expect(result.errors).toMatchInlineSnapshot(`
+        [
+          {
+            "type": "DECK_REQUIREMENTS_NOT_MET",
           },
         ]
       `);

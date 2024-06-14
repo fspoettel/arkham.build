@@ -277,21 +277,25 @@ class DeckRequiredCardsValidator implements SlotValidator {
 
   // TODO: validate that signatures are pairs.
   validate(): Error[] {
-    const requirementCounts = Object.fromEntries(
-      Object.keys(this.requirements).map((code) => [code, 0]),
+    const requirementCounts = Object.keys(this.requirements).reduce(
+      (counts, code) => {
+        counts[code] = 0;
+        return counts;
+      },
+      {} as Record<string, number>,
     );
 
     for (let i = 0; i < this.cards.length; i += 1) {
       const card = this.cards[i];
       const quantity = this.quantities[i];
 
-      const req = Object.entries(this.requirements).find(
+      const matches = Object.entries(this.requirements).filter(
         (r) => !!r[1][card.code],
       );
 
-      if (!req) continue;
-
-      requirementCounts[req[0]] += quantity;
+      for (const match of matches) {
+        requirementCounts[match[0]] += quantity;
+      }
     }
 
     const matchesRequirements = Object.entries(requirementCounts).every(
