@@ -14,7 +14,6 @@ import { mappedByCode, mappedById } from "../../utils/metadata-utils";
 import { encodeExtraSlots } from "../lib/serialization/slots";
 import type { DeckMeta } from "../lib/types";
 import { selectDeckCreateCardSets } from "../selectors/deck-create";
-import type { CardSet } from "./deck-create.types";
 import { getInitialOwnershipFilter, makeLists } from "./lists";
 import { createLookupTables, createRelations } from "./lookup-tables";
 import { getInitialMetadata } from "./metadata";
@@ -210,7 +209,7 @@ export const createSharedSlice: StateCreator<
     const cardSets = selectDeckCreateCardSets(state);
 
     for (const set of cardSets) {
-      if (!state.deckCreate.sets.includes(set.id as CardSet)) continue;
+      if (!set.selected) continue;
 
       for (const { card } of set.cards) {
         const quantity =
@@ -245,6 +244,10 @@ export const createSharedSlice: StateCreator<
         decks: {
           ...state.data.decks,
           [deck.id]: deck,
+        },
+        history: {
+          ...state.data.history,
+          [deck.id]: [],
         },
       },
       deckCreate: undefined,

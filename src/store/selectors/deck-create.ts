@@ -1,3 +1,4 @@
+import type { CardSetType } from "@/components/cardset";
 import { assert } from "@/utils/assert";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 
@@ -72,19 +73,28 @@ export const selectCardOwnedCount = (state: StoreState) => {
   };
 };
 
-type CardSet = {
-  cards: ResolvedCard[];
-  id: string;
-  quantities: Record<string, number>;
-  quantitiesSettable?: boolean;
-  static?: boolean;
-  title: string;
-};
-
 export const selectDeckCreateCardSets = (state: StoreState) => {
   const deckCreate = selectDeckCreateChecked(state);
 
-  const groupings: CardSet[] = [];
+  const groupings: CardSetType[] = [
+    {
+      id: "random_basic_weakness",
+      title: "Random basic weakness",
+      canSelect: false,
+      selected: true,
+      cards: [
+        resolveCardWithRelations(
+          state.metadata,
+          state.lookupTables,
+          "01000",
+          undefined,
+        ) as ResolvedCard,
+      ],
+      quantities: {
+        "01000": 1,
+      },
+    },
+  ];
 
   const investigator = selectDeckCreateInvestigator(state);
   const { relations } = investigator;
@@ -98,8 +108,10 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
   if (relations?.requiredCards) {
     groupings.push({
       id: "required",
+      canSelect: true,
       cards: relations.requiredCards,
       title: "Required cards",
+      selected: deckCreate.sets.includes("required"),
       quantities: relations.requiredCards.reduce(
         (acc, { card }) => {
           let quantity = card.quantity;
@@ -128,7 +140,9 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
     groupings.push({
       id: "advanced",
       title: "Advanced cards",
+      canSelect: true,
       cards: relations.advanced,
+      selected: deckCreate.sets.includes("advanced"),
       quantities: relations.advanced.reduce(
         (acc, { card }) => {
           acc[card.code] = card.quantity;
@@ -143,7 +157,9 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
     groupings.push({
       id: "replacement",
       title: "Replacements",
+      canSelect: true,
       cards: relations.replacement,
+      selected: deckCreate.sets.includes("replacement"),
       quantities: relations.replacement.reduce(
         (acc, { card }) => {
           acc[card.code] = card.quantity;
@@ -160,13 +176,14 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
       deckCreate.investigatorFrontCode === SPECIAL_CARD_CODES.PARALLEL_WENDY ||
       deckCreate.investigatorFrontCode === SPECIAL_CARD_CODES.PARALLEL_ROLAND)
   ) {
-    const quantitiesSettable =
-      deckCreate.investigatorFrontCode === SPECIAL_CARD_CODES.PARALLEL_ROLAND;
-
     groupings.push({
       id: "extra",
       title: "Special cards",
       cards: relations.parallelCards,
+      canSetQuantity:
+        deckCreate.investigatorFrontCode === SPECIAL_CARD_CODES.PARALLEL_ROLAND,
+      canSelect: false,
+      selected: true,
       quantities: relations.parallelCards.reduce(
         (acc, { card }) => {
           acc[card.code] =
@@ -175,8 +192,6 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
         },
         {} as Record<string, number>,
       ),
-      quantitiesSettable,
-      static: true,
     });
   }
 
@@ -184,6 +199,8 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
     groupings.push({
       id: "bound",
       title: "Bound",
+      canSelect: false,
+      selected: false,
       cards: relations.bound,
       quantities: relations.bound.reduce(
         (acc, { card }) => {
@@ -192,7 +209,6 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
         },
         {} as Record<string, number>,
       ),
-      static: true,
     });
   }
 
