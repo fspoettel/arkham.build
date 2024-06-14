@@ -2,8 +2,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--gray-850);
-  color: var(--gray-200);
+  background: var(--nord-1);
   padding: 0.25rem;
   height: 2.5rem; /* icon height + padding */
 }

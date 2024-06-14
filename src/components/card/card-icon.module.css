@@ -32,7 +32,7 @@
   position: absolute;
   color: currentColor;
   z-index: 2;
-  color: var(--gray-900);
+  color: var(--nord-0);
 }
 
 .icon-child {
@@ -63,5 +63,5 @@
 .icon_inverted,
 .icon_inverted .icon-child,
 .icon_inverted .icon-children {
-  color: var(--gray-50) !important;
+  color: var(--nord-4);
 }

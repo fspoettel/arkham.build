@@ -1,5 +1,5 @@
 .tooltip {
-  box-shadow: 1rem 1rem 1rem rgba(0, 0, 20, 0.3);
+  box-shadow: 1rem 1rem 1.5rem rgba(0, 0, 0, 0.25);
 
   & > *:only-child {
     border-radius: var(--rounded-md);

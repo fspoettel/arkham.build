@@ -1,6 +1,6 @@
 .text {
   padding-left: var(--card-spacing);
-  border-left: 2px solid var(--gray-300);
+  border-left: 3px solid var(--nord-4);
   font-size: var(--card-text-size);
 
   & > * + * {
@@ -13,7 +13,7 @@
 }
 
 .text b {
-  color: var(--gray-200);
+  color: var(--nord-6);
   font-weight: 600;
 }
 

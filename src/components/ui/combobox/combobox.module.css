@@ -20,12 +20,12 @@
 .combobox-menu {
   width: 100%;
   max-height: min(50dvh, 15rem);
-  background: var(--gray-850);
-  color: var(--gray-300);
+  background: var(--nord-1);
+  color: var(--nord-5);
   padding: 0.25rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--nord-0);
   border-radius: var(--rounded);
-  box-shadow: 1rem 1rem 1rem rgba(0, 0, 20, 0.3);
+  box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.1);
   list-style-type: none;
   padding: 0;
   margin: 0;
@@ -43,12 +43,12 @@
   font-size: var(--text-sm);
 
   &:not(:last-child) {
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--nord-2);
   }
 
   &.active {
-    background-color: var(--gray-800);
-    color: var(--gray-300);
+    background-color: var(--nord-2);
+    color: var(--nord-5);
   }
 }
 
@@ -72,9 +72,8 @@
 
 .combobox-result button {
   border-radius: var(--rounded);
-  background: var(--gray-300);
-  color: var(--gray-900);
-  border: 1px solid var(--gray-700);
+  background: var(--nord-3);
+  color: var(--nord-4);
   padding: 0.125rem 0.25rem;
   font-size: var(--text-xxs);
 
@@ -83,6 +82,6 @@
   gap: 0.25rem;
 
   &:not([disabled]):hover {
-    background-color: var(--gray-300);
+    background-color: var(--nord-2);
   }
 }

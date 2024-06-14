@@ -22,7 +22,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  color: var(--gray-100);
+  color: var(--nord-5);
   transform: translateX(-50%) translateY(calc(-50% - 0.125rem));
   font-size: 0.75em;
 }

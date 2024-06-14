@@ -3,7 +3,7 @@
 
   display: flex;
   padding: var(--card-padding-y) 1rem;
-  border-bottom: 1px solid var(--gray-800);
+  border-bottom: 1px solid var(--nord-1);
   align-items: center;
   gap: 0.75rem;
   position: relative;

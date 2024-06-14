@@ -5,7 +5,7 @@
   justify-content: space-between;
   gap: var(--card-spacing);
   padding: calc(var(--card-spacing) / 2) var(--card-spacing);
-  color: var(--gray-100);
+  color: var(--nord-6);
   border-radius: calc(var(--rounded-md) - 2px) calc(var(--rounded-md) - 2px) 0 0;
 }
 

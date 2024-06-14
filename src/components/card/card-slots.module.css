@@ -10,10 +10,10 @@
     align-items: center;
     width: 2rem;
     height: 2rem;
-    background: var(--gray-300);
-    color: var(--gray-800);
+    background: var(--nord-4);
+    color: var(--nord-3);
     font-size: var(--icon-lg);
     border-radius: 50%;
-    border: 2px solid var(--gray-800);
+    border: 2px solid var(--nord-3);
   }
 }

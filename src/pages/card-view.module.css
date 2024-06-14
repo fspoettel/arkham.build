@@ -20,7 +20,7 @@
   align-items: center;
   padding: 0.5rem;
   margin-bottom: 1rem;
-  background: var(--gray-850);
+  background: var(--nord-1);
 }
 
 .view-nav a {
@@ -30,7 +30,7 @@
 
 .view-section-title {
   text-align: center;
-  color: var(--gray-300);
+  color: var(--nord-4);
   font-size: var(--text-xl);
   line-height: 1;
   margin: 1.5rem 0;

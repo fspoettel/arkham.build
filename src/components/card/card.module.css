@@ -12,6 +12,8 @@
   border-width: 1px;
   border-style: solid;
   border-radius: var(--rounded-md);
+  border-color: var(--nord-3);
+  background: var(--nord-1);
 
   &.sideways {
     grid-template-columns: 1fr 20rem;
@@ -51,8 +53,6 @@
   --card-spacing: 0.5rem;
 
   max-width: 32rem;
-  border-color: var(--color-border);
-  background: var(--gray-850);
 
   grid-template-columns: 1fr 6rem;
 

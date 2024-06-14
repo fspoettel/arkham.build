@@ -3,21 +3,22 @@
   --font-family-ui: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 
-  --gray-50: #fffbf2;
-  --gray-100: #f5f0e1;
-  --gray-200: #dbd8cc;
-  --gray-300: #c1c0b8;
-  --gray-400: #a7a8a3;
-  --gray-500: #8d908f;
-  --gray-600: #72787a;
-  --gray-700: #586065;
-  --gray-800: #3e4851;
-  --gray-850: #2e3a46;
-  --gray-900: #24303c;
-  --gray-950: #202b36;
-
-  --color-border: rgba(255, 255, 255, 0.125);
-  --color-focus: var(--gray-200);
+  --nord-0: #2e3440;
+  --nord-1: #3b4252;
+  --nord-2: #434c5e;
+  --nord-3: #4c566a;
+  --nord-4: #d8dee9;
+  --nord-5: #e5e9f0;
+  --nord-6: #eceff4;
+  --nord-7: #8fbcbb;
+  --nord-8: #88c0d0;
+  --nord-9: #81a1c1;
+  --nord-10: #5e81ac;
+  --nord-11: #bf616a;
+  --nord-12: #d08770;
+  --nord-13: #ebcb8b;
+  --nord-14: #a3be8c;
+  --nord-15: #b48ead;
 
   --text-xxs: 0.625rem;
   --text-xs: 0.75rem;
@@ -45,17 +46,17 @@
   --seeker: #efa345;
   --survivor: #ee4a53;
   --multiclass: #e4d083;
-  --mythos: var(--gray-200);
-  --neutral: var(--gray-300);
+  --mythos: var(--nord-5);
+  --neutral: var(--nord-4);
 
   --guardian-dark: #1072c2;
   --seeker-dark: #db7c07;
   --rogue-dark: #219428;
   --mystic-dark: #7554ab;
   --survivor-dark: #cc3038;
-  --neutral-dark: var(--gray-700);
+  --neutral-dark: var(--nord-2);
   --multiclass-dark: #868600;
-  --mythos-dark: var(--gray-800);
+  --mythos-dark: var(--nord-1);
 
   --health: #ae4236;
   --sanity: #2c7fc0;
@@ -80,8 +81,8 @@ body {
   font-family: var(--font-family-content);
   font-size: var(--text-md);
   line-height: 1.45;
-  background: var(--gray-900);
-  color: var(--gray-300);
+  background: var(--nord-0);
+  color: var(--nord-4);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -127,14 +128,14 @@ input,
 textarea,
 select {
   font-family: var(--font-family-ui);
-  background-color: var(--gray-900);
-  color: var(--gray-300);
-  border: 1px solid var(--color-border);
+  background-color: var(--nord-0);
+  color: var(--nord-5);
+  border: 1px solid var(--nord-1);
   border-radius: var(--rounded);
   padding: 0.5rem;
 
   &:focus {
-    outline: 1px solid var(--gray-200);
+    outline: 1px solid var(--nord-6);
   }
 }
 
@@ -146,8 +147,8 @@ select {
 button {
   all: unset;
   cursor: pointer;
-  background-color: var(--gray-900);
-  color: var(--gray-300);
+  background-color: var(--nord-0);
+  color: var(--nord-5);
 
   &[disabled] {
     opacity: 0.3;
@@ -155,11 +156,11 @@ button {
   }
 
   &:hover {
-    background: var(--gray-950);
+    background: var(--nord-2);
   }
 
   &:focus {
-    outline: 1px solid var(--gray-200);
+    outline: 1px solid var(--nord-6);
   }
 }
 

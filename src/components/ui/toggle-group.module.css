@@ -1,12 +1,12 @@
 .toggle-group {
   display: inline-flex;
-  color: var(--gray-400);
+  color: var(--nord-0);
   justify-content: center;
 }
 
 .toggle-group-item {
   border-style: solid;
-  border-color: var(--color-border);
+  border-color: var(--nord-1);
   border-top-width: 1px;
   border-bottom-width: 1px;
   border-right-width: 1px;
@@ -30,9 +30,8 @@
   }
 
   &[data-state="on"] {
-    color: var(--gray-200);
-    background: var(--color-border);
-    font-weight: 600;
+    color: var(--nord-6);
+    background: var(--nord-2);
   }
 
   &:focus {
@@ -42,7 +41,7 @@
   &:hover:not([data-state="on"]),
   &:active:not([data-state="on"]),
   &:focus:not([data-state="on"]) {
-    background: var(--gray-950);
+    background: var(--nord-1);
   }
 }
 
