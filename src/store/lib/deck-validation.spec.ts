@@ -78,6 +78,13 @@ describe("deck validation", () => {
     expect(result.valid).toBeTruthy();
   });
 
+  it("handles case: valid base case, forbidden card with quantity 0", () => {
+    const deck = structuredClone(baseCase);
+    (deck.slots as Record<string, number>)["01020"] = 0;
+    const result = validate(store, deck);
+    expect(result.valid).toBeTruthy();
+  });
+
   describe("deck size", () => {
     it("handles case: no deck size selection, too many cards", () => {
       const result = validate(store, tooMany);
