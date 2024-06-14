@@ -1,5 +1,6 @@
 import { createSelector } from "reselect";
 
+import { sortedEncounterSets } from "@/store/lib/sorting";
 import type { Card, Coded, Cycle, Pack } from "@/store/services/types";
 import type { StoreState } from "@/store/slices";
 import type {
@@ -7,7 +8,6 @@ import type {
   FilterObject,
   Filters,
 } from "@/store/slices/filters/types";
-import { sortedEncounterSets } from "@/store/utils/sorting";
 import { capitalize } from "@/utils/capitalize";
 import { ASSET_SLOT_ORDER, SKILL_KEYS } from "@/utils/constants";
 

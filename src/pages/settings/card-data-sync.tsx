@@ -6,7 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { useToast } from "@/components/ui/toast";
 import { useStore } from "@/store";
-import { queryDataVersion } from "@/store/services/queries";
+import {
+  queryCards,
+  queryDataVersion,
+  queryMetadata,
+} from "@/store/services/queries";
 import { useMutate, useQuery } from "@/utils/use-query";
 
 import css from "./card-data-sync.module.css";
@@ -23,7 +27,7 @@ export function CardDataSync() {
     error: syncError,
     loading: syncing,
     mutate,
-  } = useMutate(() => init(true));
+  } = useMutate(() => init(queryMetadata, queryDataVersion, queryCards, true));
 
   const syncData = useCallback(async () => {
     await mutate().catch(console.error);

@@ -1,3 +1,14 @@
+import type {
+  AllCardResponse,
+  DataVersionResponse,
+  MetadataResponse,
+} from "@/store/services/queries";
+
 export type SharedSlice = {
-  init(refresh?: boolean): Promise<boolean>;
+  init(
+    queryMetadata: () => Promise<MetadataResponse>,
+    queryDataVersion: () => Promise<DataVersionResponse>,
+    queryCards: () => Promise<AllCardResponse>,
+    refresh?: boolean,
+  ): Promise<boolean>;
 };

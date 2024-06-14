@@ -33,7 +33,7 @@
   gap: 0.25rem;
   border-bottom: 1px solid var(--nord-1);
   font-family: var(--font-family-ui);
-  color: color-mix(in srgb, var(--nord-3) 20%, var(--nord-4) 80%);
+  color: var(--nord-4);
 }
 
 .group-children {

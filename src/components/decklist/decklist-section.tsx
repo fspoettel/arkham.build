@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import type { ReactNode } from "react";
 
-import type { Groupings } from "@/store/utils/deck-grouping";
+import type { Groupings } from "@/store/lib/deck-grouping";
 
 import css from "./decklist-section.module.css";
 

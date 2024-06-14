@@ -14,8 +14,8 @@ import type {
   Type,
 } from "./types";
 
-type DataVersionResponse = {
-  all_card_updated: DataVersion[];
+export type MetadataApiResponse = {
+  data: Omit<MetadataResponse, "faction" | "reprint_pack" | "type" | "subtype">;
 };
 
 export type MetadataResponse = {
@@ -29,29 +29,38 @@ export type MetadataResponse = {
   taboo_set: TabooSet[];
 };
 
-type AllCardResponse = {
-  all_card: QueryCard[];
+export type DataVersionApiResponse = {
+  data: {
+    all_card_updated: DataVersion[];
+  };
 };
+
+export type DataVersionResponse = DataVersion;
+
+export type AllCardApiResponse = {
+  data: {
+    all_card: QueryCard[];
+  };
+};
+
+export type AllCardResponse = QueryCard[];
+
+export type FaqResponse = {
+  code: string;
+  html: string;
+  updated: {
+    date: string;
+  };
+}[];
 
 async function request<T>(path: string): Promise<T> {
   const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1${path}`);
   return await res.json();
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function stub<T>(path: string): Promise<T> {
-  return import(/* @vite-ignore */ path).then((p) => p.default as T);
-}
+export async function queryMetadata(): Promise<MetadataResponse> {
+  const { data } = await request<MetadataApiResponse>("/metadata");
 
-type MetadataApiResponseType = Omit<
-  MetadataResponse,
-  "faction" | "reprint_pack" | "type" | "subtype"
->;
-
-export async function queryMetadata() {
-  // const data = await stub<MetadataApiResponseType>("./data/stubs/metadata.json")
-  const { data }: { data: MetadataApiResponseType } =
-    await request("/metadata");
   return {
     ...data,
     reprint_pack: reprintPacks,
@@ -61,25 +70,15 @@ export async function queryMetadata() {
   };
 }
 
-export async function queryDataVersion() {
-  // const data = await stub("./data/stubs/data_version.json");
-  const { data } = await request<{ data: DataVersionResponse }>("/version");
+export async function queryDataVersion(): Promise<DataVersionResponse> {
+  const { data } = await request<DataVersionApiResponse>("/version");
   return data.all_card_updated[0];
 }
 
-export async function queryCards() {
-  // const data = await stub<AllCardResponse>("./data/stubs/all_card.json")
-  const { data } = await request<{ data: AllCardResponse }>("/cards");
+export async function queryCards(): Promise<AllCardResponse> {
+  const { data } = await request<AllCardApiResponse>("/cards");
   return data.all_card;
 }
-
-export type FaqResponse = {
-  code: string;
-  html: string;
-  updated: {
-    date: string;
-  };
-}[];
 
 export async function queryFaq(code: string): Promise<FaqResponse> {
   return request(`/faq/${code}`);

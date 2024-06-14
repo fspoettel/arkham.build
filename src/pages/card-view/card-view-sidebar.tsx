@@ -2,7 +2,7 @@ import { ChevronLeftIcon } from "@radix-ui/react-icons";
 
 import SvgWorld from "@/assets/icons/world.svg?react";
 import { Scroller } from "@/components/ui/scroll-area";
-import type { CardWithRelations } from "@/store/utils/card-resolver";
+import type { CardWithRelations } from "@/store/lib/card-resolver";
 
 import css from "./card-view-sidebar.module.css";
 

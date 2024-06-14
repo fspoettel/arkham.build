@@ -12,20 +12,20 @@ import { createSharedSlice } from "./slices/shared";
 import { createUISlice } from "./slices/ui";
 import { storageConfig } from "./storage";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const stateCreator = (...args: [any, any, any]) => ({
+  ...createDecksSlice(...args),
+  ...createMetadataSlice(...args),
+  ...createLookupTablesSlice(...args),
+  ...createFiltersSlice(...args),
+  ...createSettingsSlice(...args),
+  ...createSearchSlice(...args),
+  ...createUISlice(...args),
+  ...createSharedSlice(...args),
+});
+
 export const useStore = create<StoreState>()(
-  devtools(
-    persist(
-      (...args) => ({
-        ...createDecksSlice(...args),
-        ...createMetadataSlice(...args),
-        ...createLookupTablesSlice(...args),
-        ...createFiltersSlice(...args),
-        ...createSettingsSlice(...args),
-        ...createSearchSlice(...args),
-        ...createUISlice(...args),
-        ...createSharedSlice(...args),
-      }),
-      storageConfig,
-    ),
-  ),
+  import.meta.env.MODE === "test"
+    ? stateCreator
+    : devtools(persist(stateCreator, storageConfig)),
 );

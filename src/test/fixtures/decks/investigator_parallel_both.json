@@ -1,0 +1,28 @@
+{
+  "id": 3555305,
+  "name": "test_wendy",
+  "date_creation": "2024-02-04T12:23:37+00:00",
+  "date_update": "2024-02-04T12:25:28+00:00",
+  "description_md": "",
+  "user_id": null,
+  "investigator_code": "01005",
+  "investigator_name": "Wendy Adams",
+  "slots": {
+    "01000": 1,
+    "01014": 1,
+    "01015": 1
+  },
+  "sideSlots": [],
+  "ignoreDeckLimitSlots": null,
+  "version": "0.4",
+  "xp": null,
+  "xp_spent": null,
+  "xp_adjustment": 0,
+  "exile_string": null,
+  "taboo_id": null,
+  "meta": "{\"alternate_front\":\"90037\",\"alternate_back\":\"90037\",\"option_selected\":\"both\"}",
+  "tags": "survivor",
+  "previous_deck": null,
+  "next_deck": null,
+  "problem": "too_few_cards"
+}

@@ -1,0 +1,29 @@
+{
+  "id": 3555334,
+  "name": "test_tony",
+  "date_creation": "2024-02-04T12:40:53+00:00",
+  "date_update": "2024-02-04T12:41:07+00:00",
+  "description_md": "",
+  "user_id": null,
+  "investigator_code": "06003",
+  "investigator_name": "Tony Morgan",
+  "slots": {
+    "01000": 1,
+    "06010": 1,
+    "06011": 2,
+    "06012": 1
+  },
+  "sideSlots": [],
+  "ignoreDeckLimitSlots": null,
+  "version": "0.1",
+  "xp": null,
+  "xp_spent": null,
+  "xp_adjustment": 0,
+  "exile_string": null,
+  "taboo_id": null,
+  "meta": "{\"faction_selected\":\"survivor\"}",
+  "tags": "rogue",
+  "previous_deck": null,
+  "next_deck": null,
+  "problem": "too_few_cards"
+}

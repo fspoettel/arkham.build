@@ -1,3 +1,7 @@
+.decklist-section-title {
+  color: var(--nord-4);
+}
+
 .decklist-section.two_column {
   flex: 0 0 100%;
 }

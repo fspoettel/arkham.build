@@ -2,8 +2,8 @@ import clsx from "clsx";
 
 import SvgCardOutline from "@/assets/icons/card-outline-bold.svg?react";
 import SvgXpBold from "@/assets/icons/xp-bold.svg?react";
-import type { CardResolved } from "@/store/utils/card-resolver";
-import type { ResolvedDeck } from "@/store/utils/deck-resolver";
+import type { CardResolved } from "@/store/lib/card-resolver";
+import type { ResolvedDeck } from "@/store/lib/deck-resolver";
 import { capitalize } from "@/utils/capitalize";
 import { getCardColor } from "@/utils/card-utils";
 

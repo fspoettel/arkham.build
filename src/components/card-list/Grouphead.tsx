@@ -1,4 +1,4 @@
-import type { Grouping } from "@/store/utils/grouping";
+import type { Grouping } from "@/store/lib/grouping";
 
 import css from "./grouphead.module.css";
 

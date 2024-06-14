@@ -7,6 +7,7 @@
 
 .deck-collection-decks {
   list-style: none;
+  padding-inline: 0.75rem;
 
   & > * + * {
     margin-top: 0.75rem;

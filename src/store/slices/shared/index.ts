@@ -1,10 +1,5 @@
 import type { StateCreator } from "zustand";
 
-import {
-  queryCards,
-  queryDataVersion,
-  queryMetadata,
-} from "@/store/services/queries";
 import type { Card } from "@/store/services/types";
 import { rewriteImageUrl } from "@/utils/card-utils";
 
@@ -22,7 +17,7 @@ export const createSharedSlice: StateCreator<
   [],
   SharedSlice
 > = (set, get) => ({
-  async init(refresh: boolean = false) {
+  async init(queryMetadata, queryDataVersion, queryCards, refresh = false) {
     const state = get();
 
     if (!refresh && state.metadata.dataVersion?.cards_updated_at) {

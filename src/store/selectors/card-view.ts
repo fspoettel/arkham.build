@@ -1,6 +1,6 @@
+import type { CardResolved, CardWithRelations } from "../lib/card-resolver";
+import { resolveCardWithRelations } from "../lib/card-resolver";
 import type { StoreState } from "../slices";
-import type { CardResolved, CardWithRelations } from "../utils/card-resolver";
-import { resolveCardWithRelations } from "../utils/card-resolver";
 import { selectCanonicalTabooSetId } from "./filters";
 
 export function selectCardWithRelations<T extends boolean>(

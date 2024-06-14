@@ -1,0 +1,41 @@
+{
+  "id": 3555358,
+  "name": "test_roland",
+  "date_creation": "2024-02-04T12:47:41+00:00",
+  "date_update": "2024-02-04T12:51:48+00:00",
+  "description_md": "",
+  "user_id": null,
+  "investigator_code": "01001",
+  "investigator_name": "Roland Banks",
+  "slots": {
+    "01000": 1,
+    "01006": 1,
+    "01007": 1,
+    "02040": 1,
+    "02157": 2,
+    "08125": 1,
+    "54002": 1,
+    "90025": 1,
+    "90026": 1,
+    "90029": 1,
+    "90030": 1,
+    "90031": 1,
+    "98005": 1,
+    "98006": 1
+  },
+  "sideSlots": {
+    "01016": 2
+  },
+  "ignoreDeckLimitSlots": null,
+  "version": "0.2",
+  "xp": null,
+  "xp_spent": null,
+  "xp_adjustment": 0,
+  "exile_string": null,
+  "taboo_id": null,
+  "meta": "{\"alternate_front\":\"90024\"}",
+  "tags": "guardian",
+  "previous_deck": null,
+  "next_deck": null,
+  "problem": "too_few_cards"
+}

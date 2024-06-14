@@ -1,7 +1,7 @@
 import type { StateCreator } from "zustand";
 
+import { applyTaboo } from "@/store/lib/taboos";
 import type { Card } from "@/store/services/types";
-import { applyTaboo } from "@/store/utils/taboos";
 import { splitMultiValue } from "@/utils/card-utils";
 import {
   ACTION_TEXT_ENTRIES,

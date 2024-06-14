@@ -1,8 +1,8 @@
 import clsx from "clsx";
 
+import type { Grouping } from "@/store/lib/deck-grouping";
+import { sortBySlots } from "@/store/lib/sorting";
 import type { Card } from "@/store/services/types";
-import type { Grouping } from "@/store/utils/deck-grouping";
-import { sortBySlots } from "@/store/utils/sorting";
 import { capitalize } from "@/utils/capitalize";
 import type { PlayerType } from "@/utils/constants";
 import { PLAYER_TYPE_ORDER } from "@/utils/constants";

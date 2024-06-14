@@ -16,12 +16,13 @@ const indexedDBAdapter = new IndexedDBAdapter();
 const VERSION = 1;
 
 // use this flag to disable rehydration during dev.
-const SKIP_HYDRATION = false;
+const SKIP_HYDRATION = true;
 
 export const storageConfig: PersistOptions<StoreState, Val> = {
   name: "deckbuilder",
   storage: createCustomStorage(),
   version: VERSION,
+  skipHydration: import.meta.env.MODE === "test",
   migrate(persistedState) {
     return persistedState as StoreState;
   },

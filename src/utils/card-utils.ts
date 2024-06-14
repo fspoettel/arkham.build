@@ -1,8 +1,8 @@
-import type { Card } from "@/store/services/types";
 import type {
   CardResolved,
   CardWithRelations,
-} from "@/store/utils/card-resolver";
+} from "@/store/lib/card-resolver";
+import type { Card } from "@/store/services/types";
 
 import { SIDEWAYS_TYPE_CODES, SKILL_KEYS } from "./constants";
 

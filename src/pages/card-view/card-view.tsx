@@ -47,7 +47,8 @@ export function CardView() {
   const canonicalCode =
     cardWithRelations.card.duplicate_of_code ??
     cardWithRelations.card.alternate_of_code;
-  if (canonicalCode) return <Redirect to={`/card/${canonicalCode}`} />;
+
+  if (canonicalCode) return <Redirect to={`/card/${canonicalCode}`} replace />;
 
   return (
     <AppLayout

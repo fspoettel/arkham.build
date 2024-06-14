@@ -3,7 +3,7 @@ import clsx from "clsx";
 import type {
   CardResolved,
   CardWithRelations,
-} from "@/store/utils/card-resolver";
+} from "@/store/lib/card-resolver";
 import { sideways } from "@/utils/card-utils";
 
 import css from "./card.module.css";

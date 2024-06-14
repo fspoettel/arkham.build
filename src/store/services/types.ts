@@ -159,7 +159,7 @@ export type Pack = {
   size?: number;
   cycle_code: string;
   reprint?: {
-    type: "player" | "encounter" | "rcore";
+    type: string; // "player" | "encounter" | "rcore"
   };
 };
 

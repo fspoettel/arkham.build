@@ -1,7 +1,7 @@
 import clsx from "clsx";
 
+import type { CardResolved } from "@/store/lib/card-resolver";
 import type { Card as CardType } from "@/store/services/types";
-import type { CardResolved } from "@/store/utils/card-resolver";
 import { sideways } from "@/utils/card-utils";
 
 import css from "./card.module.css";

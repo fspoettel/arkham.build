@@ -8,8 +8,8 @@ export type Deck = {
   investigator_code: string;
   description_md: string;
   slots: Record<string, number>;
-  sideSlots: Record<string, number>; // NOTE: arkhamdb returns `[]` for empty side slots.
-  ignoreDeckLimitSlots?: Record<string, number>;
+  sideSlots: Record<string, number> | string[]; // NOTE: arkhamdb returns `[]` for empty side slots.
+  ignoreDeckLimitSlots?: Record<string, number> | null;
   xp: number | null;
   xp_spent: number | null;
   taboo_id: number | null;

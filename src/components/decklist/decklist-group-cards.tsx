@@ -1,4 +1,4 @@
-import type { DeckCard } from "@/store/utils/deck-grouping";
+import type { DeckCard } from "@/store/lib/deck-grouping";
 
 import { ListCard } from "../card-list/list-card";
 

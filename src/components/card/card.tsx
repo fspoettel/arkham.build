@@ -1,7 +1,7 @@
 import type {
   CardResolved,
   CardWithRelations,
-} from "@/store/utils/card-resolver";
+} from "@/store/lib/card-resolver";
 import { reversed } from "@/utils/card-utils";
 
 import { CardBack } from "./card-back";

@@ -1,4 +1,4 @@
-import type { DisplayDeck, Groupings } from "@/store/utils/deck-grouping";
+import type { DisplayDeck, Groupings } from "@/store/lib/deck-grouping";
 
 import css from "./decklist.module.css";
 
@@ -14,6 +14,7 @@ const LABELS: Record<string, string> = {
   side: "Side deck",
   special: "Special cards",
   bonded: "Bonded cards",
+  extra: "Extra deck",
 };
 
 export function Decklist({ deck }: Props) {

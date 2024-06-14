@@ -1,4 +1,4 @@
-import type { CardResolved } from "@/store/utils/card-resolver";
+import type { CardResolved } from "@/store/lib/card-resolver";
 
 import css from "./card-details.module.css";
 

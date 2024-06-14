@@ -1,0 +1,33 @@
+{
+  "id": 3555733,
+  "name": "test_xp",
+  "date_creation": "2024-02-04T15:04:45+00:00",
+  "date_update": "2024-02-04T15:06:27+00:00",
+  "description_md": "",
+  "user_id": null,
+  "investigator_code": "05003",
+  "investigator_name": "Preston Fairmont",
+  "slots": {
+    "01000": 1,
+    "03315": 1,
+    "05011": 1,
+    "05012": 1,
+    "06026": 3,
+    "07197": 2,
+    "07225": 1,
+    "08099": 2
+  },
+  "sideSlots": [],
+  "ignoreDeckLimitSlots": null,
+  "version": "0.1",
+  "xp": null,
+  "xp_spent": null,
+  "xp_adjustment": 0,
+  "exile_string": null,
+  "taboo_id": 6,
+  "meta": "{}",
+  "tags": "rogue",
+  "previous_deck": null,
+  "next_deck": null,
+  "problem": "too_few_cards"
+}

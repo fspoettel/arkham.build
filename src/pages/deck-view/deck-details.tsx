@@ -11,7 +11,7 @@ import { CardFront } from "@/components/card/card-front";
 import { FactionIcon } from "@/components/icons/faction-icon";
 import { Button } from "@/components/ui/button";
 import { Scroller } from "@/components/ui/scroll-area";
-import type { DisplayDeck } from "@/store/utils/deck-grouping";
+import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import { capitalize } from "@/utils/capitalize";
 
 import css from "./deck-details.module.css";

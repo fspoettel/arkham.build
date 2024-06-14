@@ -14,6 +14,11 @@ import { DeckView } from "./pages/deck-view/deck-view";
 import { Settings } from "./pages/settings/settings";
 import { useStore } from "./store";
 import { selectIsInitialized } from "./store/selectors";
+import {
+  queryCards,
+  queryDataVersion,
+  queryMetadata,
+} from "./store/services/queries";
 
 function Index() {
   return <Redirect href="/browse" />;
@@ -25,7 +30,10 @@ function App() {
   const init = useStore((state) => state.init);
 
   useEffect(() => {
-    if (storeHydrated) init().catch(console.error);
+    if (storeHydrated)
+      init(queryMetadata, queryDataVersion, queryCards, false).catch(
+        console.error,
+      );
   }, [storeHydrated, init]);
 
   return (

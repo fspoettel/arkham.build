@@ -1,11 +1,12 @@
 import { createSelector } from "reselect";
 
+import { type CardResolved } from "@/store/lib/card-resolver";
+import type { DisplayDeck } from "@/store/lib/deck-grouping";
+import { groupDeckCardsByType } from "@/store/lib/deck-grouping";
+import type { ResolvedDeck } from "@/store/lib/deck-resolver";
+import { resolveDeck } from "@/store/lib/deck-resolver";
+
 import type { StoreState } from "../slices";
-import { type CardResolved } from "../utils/card-resolver";
-import type { DisplayDeck } from "../utils/deck-grouping";
-import { groupDeckCardsByType } from "../utils/deck-grouping";
-import type { ResolvedDeck } from "../utils/deck-resolver";
-import { resolveDeck } from "../utils/deck-resolver";
 
 export const selectLocalDecks = createSelector(
   (state: StoreState) => state.decks,

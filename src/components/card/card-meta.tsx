@@ -2,11 +2,11 @@ import clsx from "clsx";
 
 import SvgCard from "@/assets/icons/card-outline.svg?react";
 import SvgPaintbrush from "@/assets/icons/paintbrush.svg?react";
-import type { Cycle, Pack } from "@/store/services/types";
 import type {
   CardResolved,
   CardWithRelations,
-} from "@/store/utils/card-resolver";
+} from "@/store/lib/card-resolver";
+import type { Cycle, Pack } from "@/store/services/types";
 import { isCardWithRelations } from "@/utils/card-utils";
 import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
 
