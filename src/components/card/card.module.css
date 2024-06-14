@@ -52,12 +52,14 @@
 }
 
 .card.compact {
-  grid-template-columns: 1fr 8rem;
-  grid-template-rows: auto auto 1fr;
-  grid-template-areas:
-    "header header"
-    "details image"
-    "content content";
+  @container (min-width: 24rem) {
+    grid-template-columns: 1fr 8rem;
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+      "header header"
+      "details image"
+      "content content";
+  }
 
   @container (min-width: 32rem) {
     grid-template-columns: 1fr 8rem;
@@ -116,6 +118,11 @@
       box-shadow: var(--shadow-xl);
     }
   }
+}
+
+.card.compact .image {
+  max-width: 100%;
+  width: 8rem;
 }
 
 .card.full .image img {
