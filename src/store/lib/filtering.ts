@@ -822,7 +822,12 @@ export function filterInvestigatorWeaknessAccess(
   const ors: Filter[] = [
     filterRequired(code, lookupTables.relations),
     filterSubtypes(["basicweakness"]),
+    (card: Card) => card.xp == null && !card.restrictions,
   ];
 
-  return or(ors);
+  return and([
+    filterSubtypes(["basicweakness", "weakness"]),
+    not(filterBonded(lookupTables.relations.bonded)),
+    or(ors),
+  ]);
 }

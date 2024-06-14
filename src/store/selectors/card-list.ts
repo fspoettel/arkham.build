@@ -120,8 +120,10 @@ function makeUserFilter(
             metadata.cards[value],
             lookupTables,
           );
+
           if (accessFilter) filter.push(accessFilter);
           if (weaknessFilter) filter.push(weaknessFilter);
+
           filters.push(or(filter));
         }
 
@@ -220,18 +222,42 @@ export const selectDeckInvestigatorFilter = createSelector(
   (lookupTables, resolvedDeck, targetDeck, showUnusableCards) => {
     if (!resolvedDeck) return undefined;
 
-    const card = resolvedDeck.investigatorBack.card;
-    if (!card) return undefined;
+    const investigator = resolvedDeck.investigatorBack.card;
+    if (!investigator) return undefined;
 
     if (showUnusableCards) {
-      return and([not(filterType(["investigator"])), filterMythosCards]);
+      return and([
+        not(filterType(["investigator"])),
+        filterMythosCards,
+        (card: Card) =>
+          !lookupTables.relations.bonded[card.code] &&
+          (card?.xp != null ||
+            !card.restrictions ||
+            card.restrictions?.investigator[card.code]),
+      ]);
     }
 
-    return filterInvestigatorAccess(card, lookupTables, {
-      additionalDeckOptions: getAdditionalDeckOptions(resolvedDeck),
-      selections: resolvedDeck.selections,
-      targetDeck,
-    });
+    const ors = [];
+
+    const investigatorFilter = filterInvestigatorAccess(
+      investigator,
+      lookupTables,
+      {
+        additionalDeckOptions: getAdditionalDeckOptions(resolvedDeck),
+        selections: resolvedDeck.selections,
+        targetDeck,
+      },
+    );
+
+    const weaknessFilter = filterInvestigatorWeaknessAccess(
+      investigator,
+      lookupTables,
+    );
+
+    if (investigatorFilter) ors.push(investigatorFilter);
+    if (weaknessFilter) ors.push(weaknessFilter);
+
+    return or(ors);
   },
 );
 

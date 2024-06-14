@@ -18,6 +18,7 @@ import {
   filterCost,
   filterFactions,
   filterInvestigatorAccess,
+  filterInvestigatorWeaknessAccess,
   filterLevel,
   filterOwnership,
   filterSkillIcons,
@@ -897,5 +898,46 @@ describe("filter: ownership", () => {
     const state = store.getState();
     expect(applyFilter(state, "01039", {})).toBeFalsy();
     expect(applyFilter(state, "01039", { har: true })).toBeTruthy();
+  });
+});
+
+describe("filter: investigator weakness access", () => {
+  let store: StoreApi<StoreState>;
+
+  beforeAll(async () => {
+    store = await getMockStore();
+  });
+
+  function applyFilter(state: StoreState, code: string, target: string) {
+    return filterInvestigatorWeaknessAccess(
+      state.metadata.cards[code],
+      state.lookupTables,
+    )?.(state.metadata.cards[target]);
+  }
+
+  it("handles case: weakness is required by investigator", () => {
+    const state = store.getState();
+    expect(applyFilter(state, "60101", "60103")).toBeTruthy();
+  });
+
+  it("handles case: weakness is required by other investigator", () => {
+    const state = store.getState();
+    expect(applyFilter(state, "60101", "06009")).toBeFalsy();
+  });
+
+  it("handles case: weakness is basic weakness", () => {
+    const state = store.getState();
+    expect(applyFilter(state, "60101", "01000")).toBeTruthy();
+    expect(applyFilter(state, "60101", "01100")).toBeTruthy();
+  });
+
+  it("handles case: weakness is multi-stage weakness", () => {
+    const state = store.getState();
+    expect(applyFilter(state, "60101", "04042")).toBeTruthy();
+  });
+
+  it("handles case: weakness is bonded", () => {
+    const state = store.getState();
+    expect(applyFilter(state, "60101", "06283")).toBeFalsy();
   });
 });
