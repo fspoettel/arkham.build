@@ -1,5 +1,5 @@
 :root {
-  --font-family-content: "Iowan Old Style", "Palatino Linotype",
+  --font-family-content: "Iowan Old Style", "Palatino Linotype", "Palatino",
     "URW Palladio L", P052, serif;
   --font-family-ui: Optima, Candara, "Noto Sans", source-sans-pro, sans-serif;
 
@@ -89,7 +89,7 @@
 body {
   font-family: var(--font-family-content);
   font-size: var(--text-base);
-  line-height: 1.45;
+  line-height: 1.5;
   background: var(--nord-0);
   color: var(--nord-4);
 }

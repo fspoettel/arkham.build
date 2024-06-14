@@ -47,6 +47,7 @@
 }
 
 .deck-title {
+  font-family: var(--font-family-ui);
   font-size: var(--text-base);
 }
 

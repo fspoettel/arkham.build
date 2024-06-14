@@ -1,5 +1,6 @@
 .name {
   font-size: var(--card-title-size);
+  font-family: var(--font-family-ui);
 
   & span {
     display: inline-block;

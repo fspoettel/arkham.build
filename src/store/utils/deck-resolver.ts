@@ -74,7 +74,7 @@ export function resolveDeck<
   const { cards, deckSize, deckSizeTotal, xpRequired } = getDeckCards<T, S>(
     metadata,
     lookupTables,
-    investigatorBack,
+    investigator,
     deck,
     withRelations,
   );
@@ -135,6 +135,7 @@ function getDeckCards<
       deck.taboo_id,
       withRelations,
     );
+
     if (card) {
       if (!isSpecialCard(card.card, investigator)) deckSize += quantity;
       deckSizeTotal += quantity;
@@ -152,6 +153,7 @@ function getDeckCards<
         deck.taboo_id,
         withRelations,
       );
+
       if (card) {
         deckSizeTotal += quantity;
         cards.ignoreDeckLimitSlots[code] = card as S;

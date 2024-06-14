@@ -54,7 +54,7 @@ export function CardView() {
       closeable={<CardViewSidebar resolvedCard={cardWithRelations} />}
       title={cardWithRelations.card.real_name}
     >
-      <Scroller ref={scrollerRef}>
+      <Scroller ref={scrollerRef} key={cardWithRelations.card.code}>
         <div className={clsx(css["view"])}>
           <ResolvedCard resolvedCard={cardWithRelations} />
 

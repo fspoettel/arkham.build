@@ -12,7 +12,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 
 import type { Card } from "@/store/services/types";
-import { getCardColor, hasSkillIcons } from "@/utils/card-utils";
+import { getCardColor, hasSkillIcons, imageUrl } from "@/utils/card-utils";
+import { preloadImage } from "@/utils/preload-image";
 
 import css from "./list-card.module.css";
 
@@ -48,6 +49,10 @@ export function ListCard({
     },
     [],
   );
+
+  useEffect(() => {
+    if (isOpen) preloadImage(imageUrl(card.code));
+  }, [card.code, isOpen]);
 
   const { refs, floatingStyles } = useFloating({
     open: isOpen,

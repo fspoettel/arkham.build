@@ -54,3 +54,11 @@ export function isCardWithRelations(
 ): x is CardWithRelations {
   return "relations" in x;
 }
+
+export function imageUrl(code: string) {
+  return `${import.meta.env.VITE_CARD_IMAGE_URL}/optimized/${code}.webp`;
+}
+
+export function thumbnailUrl(code: string) {
+  return `${import.meta.env.VITE_CARD_IMAGE_URL}/thumbnails/${code}.webp`;
+}

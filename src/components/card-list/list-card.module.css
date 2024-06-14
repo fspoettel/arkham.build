@@ -26,6 +26,7 @@
 
 .listcard-name {
   font-size: var(--text-base);
+  font-family: var(--font-family-ui);
 
   & a {
     text-decoration: none;
@@ -62,11 +63,12 @@
 .listcard-taboo {
   display: inline-flex;
   align-items: center;
-  gap: 1px;
+  gap: 0.125rem;
+  font-size: var(--text-xs);
 }
 
 .listcard-taboo span {
-  font-size: var(--text-2xs);
+  font-size: 0.5rem;
 }
 
 .listcard-thumbnail {
@@ -86,10 +88,6 @@
 
   & .listcard-name {
     font-size: var(--text-base);
-  }
-
-  & .listcard-meta {
-    font-size: var(--text-sm);
   }
 
   & .listcard-icon {

@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { memo } from "react";
 
 import type { Card } from "@/store/services/types";
-import { getCardColor } from "@/utils/card-utils";
+import { getCardColor, thumbnailUrl } from "@/utils/card-utils";
 
 import css from "./card-thumbnail.module.css";
 
@@ -30,9 +30,7 @@ export const CardThumbnail = memo(
           className,
         )}
       >
-        <img
-          src={`${import.meta.env.VITE_CARD_IMAGE_URL}/thumbnails/${card.code}.webp`}
-        />
+        <img src={thumbnailUrl(card.code)} />
       </div>
     );
   },

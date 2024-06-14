@@ -1,5 +1,7 @@
 import clsx from "clsx";
 
+import { imageUrl } from "@/utils/card-utils";
+
 import css from "./card-image.module.css";
 
 type Props = {
@@ -12,7 +14,7 @@ export function CardImage({ className, code, sideways }: Props) {
   return (
     <div className={clsx(css["image"], className)}>
       <img
-        src={`${import.meta.env.VITE_CARD_IMAGE_URL}/optimized/${code}.webp`}
+        src={imageUrl(code)}
         width={sideways ? 420 : 300}
         height={sideways ? 300 : 420}
       />
