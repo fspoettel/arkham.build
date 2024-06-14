@@ -4,6 +4,7 @@ import { useStore } from "@/store";
 import { selectActiveListSearch } from "@/store/selectors/lists";
 import { assert, isDefined } from "@/utils/assert";
 import { debounce } from "@/utils/debounce";
+import { inputFocused } from "@/utils/keyboard";
 
 import css from "./card-search.module.css";
 
@@ -25,6 +26,21 @@ export function CardSearch({ slotLeft, slotRight }: Props) {
   assert(isDefined(search), "Search bar requires an active list.");
 
   const [inputValue, setInputValue] = useState(search.value ?? "");
+
+  useEffect(() => {
+    function onShortcut(evt: KeyboardEvent) {
+      if (evt.key === "/" && !inputFocused()) {
+        evt.preventDefault();
+        inputRef.current?.focus();
+        inputRef.current?.select();
+      }
+    }
+
+    document.addEventListener("keydown", onShortcut);
+    return () => {
+      document.removeEventListener("keydown", onShortcut);
+    };
+  }, []);
 
   useEffect(() => {
     setInputValue(search.value ?? "");
