@@ -1,1166 +1,643 @@
-import React, { Suspense } from "react";
-
 export type Props = {
   className?: string;
   code?: string;
 };
 
-function EncounterIcon({ code, className }: Props) {
+function EncounterIcon({ code }: Props) {
   const Icon = getEncounterIcon(code);
-  return Icon ? (
-    <Suspense
-      fallback={
-        <span
-          style={{ width: "1em", height: "1em", display: "inline-block" }}
-        />
-      }
-    >
-      <Icon className={className} />
-    </Suspense>
-  ) : null;
+  return Icon ? <Icon /> : null;
 }
 
 // BEWARE! EVERYTHING BELOW WAS GENERATED WITH COPILOT AND SOME MANUAL FIXUPS.
-const SvgMidnightMasks = React.lazy(
-  () => import("@/assets/icons/midnight_masks.svg?react"),
-);
-
-const SvgTheGathering = React.lazy(
-  () => import("@/assets/icons/the_gathering.svg?react"),
-);
-
-const SvgCultists = React.lazy(
-  () => import("@/assets/icons/cult_of_umordoth.svg?react"),
-);
-
-const SvgRats = React.lazy(() => import("@/assets/icons/rats.svg?react"));
-
-const SvgGhouls = React.lazy(() => import("@/assets/icons/ghouls.svg?react"));
-
-const SvgStrikingFear = React.lazy(
-  () => import("@/assets/icons/striking_fear.svg?react"),
-);
-
-const SvgAncientEvils = React.lazy(
-  () => import("@/assets/icons/ancient_evils.svg?react"),
-);
-
-const SvgChillingCold = React.lazy(
-  () => import("@/assets/icons/chilling_cold.svg?react"),
-);
-
-const SvgPentagram = React.lazy(
-  () => import("@/assets/icons/dark_cult.svg?react"),
-);
-
-const SvgNightgaunts = React.lazy(
-  () => import("@/assets/icons/nightgaunts.svg?react"),
-);
-
-const SvgLockedDoors = React.lazy(
-  () => import("@/assets/icons/locked_doors.svg?react"),
-);
-
-const SvgAgentsOfHastur = React.lazy(
-  () => import("@/assets/icons/agents_of_hastur.svg?react"),
-);
-
-const SvgAgentsOfYog = React.lazy(
-  () => import("@/assets/icons/agents_of_yog.svg?react"),
-);
-
-const SvgAgentsOfShub = React.lazy(
-  () => import("@/assets/icons/agents_of_shub.svg?react"),
-);
-
-const SvgAgentsOfCthulhu = React.lazy(
-  () => import("@/assets/icons/agents_of_cthulhu.svg?react.svg?react"),
-);
-
-const SvgVenice = React.lazy(() => import("@/assets/icons/venice.svg?react"));
-
-const SvgArmitagesFate = React.lazy(
-  () => import("@/assets/icons/armitages_fate.svg?react"),
-);
-
-const SvgBishopsThralls = React.lazy(
-  () => import("@/assets/icons/bishops_thralls.svg?react"),
-);
-
-const SvgBeastThralls = React.lazy(
-  () => import("@/assets/icons/beast_thralls.svg?react"),
-);
-
-const SvgNaomisCrew = React.lazy(
-  () => import("@/assets/icons/naomis_crew.svg?react"),
-);
-
-const SvgExtracurricularActivity = React.lazy(
-  () => import("@/assets/icons/extracurricular_activity.svg?react.svg?react"),
-);
-
-const SvgTheHouseAlwaysWins = React.lazy(
-  () => import("@/assets/icons/the_house_always_wins.svg?react.svg?react"),
-);
-
-const SvgSorcery = React.lazy(() => import("@/assets/icons/sorcery.svg?react"));
-
-const SvgDunwich = React.lazy(() => import("@/assets/icons/dunwich.svg?react"));
-
-const SvgWhippoorwills = React.lazy(
-  () => import("@/assets/icons/whippoorwills.svg?react"),
-);
-
-const SvgBadLuck = React.lazy(
-  () => import("@/assets/icons/bad_luck.svg?react"),
-);
-
-const SvgTheBeyond = React.lazy(
-  () => import("@/assets/icons/the_beyond.svg?react"),
-);
-
-const SvgHideousAbominations = React.lazy(
-  () => import("@/assets/icons/hideous_abominations.svg?react.svg?react"),
-);
-
-export const SvgTheMiskatonicMuseum = React.lazy(
-  () => import("@/assets/icons/the_miskatonic_museum.svg?react.svg?react"),
-);
-
-export const SvgEssexCountyExpress = React.lazy(
-  () => import("@/assets/icons/the_essex_county_express.svg?react.svg?react"),
-);
-
-export const SvgBloodOnTheAltar = React.lazy(
-  () => import("@/assets/icons/blood_on_the_altar.svg?react.svg?react"),
-);
-
-export const SvgUndimensionedAndUnseen = React.lazy(
-  () => import("@/assets/icons/undimensioned_and_unseen.svg?react.svg?react"),
-);
-
-export const SvgWhereDoomAwaits = React.lazy(
-  () => import("@/assets/icons/where_doom_awaits.svg?react.svg?react"),
-);
-
-export const SvgLostInTimeAndSpace = React.lazy(
-  () => import("@/assets/icons/lost_in_time_and_space.svg?react.svg?react"),
-);
-
-const SvgCurtainCall = React.lazy(
-  () => import("@/assets/icons/curtain_call.svg?react"),
-);
-
-const SvgTheLastKing = React.lazy(
-  () => import("@/assets/icons/the_last_king.svg?react"),
-);
-
-const SvgDelusions = React.lazy(
-  () => import("@/assets/icons/delusions.svg?react"),
-);
-
-const SvgByakhee = React.lazy(() => import("@/assets/icons/byakhee.svg?react"));
-
-const SvgInhabitantsOfCarcosa = React.lazy(
-  () => import("@/assets/icons/inhabitants_of_carcosa.svg?react.svg?react"),
-);
-
-const SvgEvilPortents = React.lazy(
-  () => import("@/assets/icons/evil_portents.svg?react"),
-);
-
-const SvgHauntings = React.lazy(
-  () => import("@/assets/icons/hauntings.svg?react"),
-);
-
-const SvgHastursGift = React.lazy(
-  () => import("@/assets/icons/hasturs_gift.svg?react"),
-);
-
-const SvgCultOfTheYellowSign = React.lazy(
-  () => import("@/assets/icons/cult_of_the_yellow_sign.svg?react.svg?react"),
-);
-
-const SvgDecay = React.lazy(
-  () => import("@/assets/icons/decay_and_filth.svg?react"),
-);
-
-export const SvgEchoesOfThePast = React.lazy(
-  () => import("@/assets/icons/echoes_of_the_past.svg?react.svg?react"),
-);
-
-export const SvgTheUnspeakableOath = React.lazy(
-  () => import("@/assets/icons/the_unspeakable_oath.svg?react.svg?react"),
-);
-
-export const SvgAPhantomOfTruth = React.lazy(
-  () => import("@/assets/icons/a_phantom_of_truth.svg?react.svg?react"),
-);
-
-export const SvgThePallidMask = React.lazy(
-  () => import("@/assets/icons/the_pallid_mask.svg?react"),
-);
-
-export const SvgBlackStarsRise = React.lazy(
-  () => import("@/assets/icons/black_stars_rise.svg?react"),
-);
-
-const SvgFlood = React.lazy(
-  () => import("@/assets/icons/the_flood_below.svg?react"),
-);
-
-const SvgVortex = React.lazy(
-  () => import("@/assets/icons/the_vortex_above.svg?react"),
-);
-
-export const SvgDimCarcosa = React.lazy(
-  () => import("@/assets/icons/dim_carcosa.svg?react"),
-);
-
-const SvgAgentsOfYig = React.lazy(
-  () => import("@/assets/icons/agents_of_yig.svg?react"),
-);
-
-const SvgExpedition = React.lazy(
-  () => import("@/assets/icons/expedition.svg?react"),
-);
-
-const SvgGuardiansOfTime = React.lazy(
-  () => import("@/assets/icons/guardians_of_time.svg?react.svg?react"),
-);
-
-const SvgPnakoticBrotherhood = React.lazy(
-  () => import("@/assets/icons/pnakotic_brotherhood.svg?react.svg?react"),
-);
-
-const SvgPoison = React.lazy(() => import("@/assets/icons/poison.svg?react"));
-
-const SvgRainforest = React.lazy(
-  () => import("@/assets/icons/rainforest.svg?react"),
-);
-
-const SvgSerpents = React.lazy(
-  () => import("@/assets/icons/serpents.svg?react"),
-);
-
-export const SvgThreadsOfFate = React.lazy(
-  () => import("@/assets/icons/threads_of_fate.svg?react"),
-);
-
-export const SvgTheBoundaryBeyond = React.lazy(
-  () => import("@/assets/icons/the_boundary_beyond.svg?react.svg?react"),
-);
-
-export const SvgHeartOfTheElders = React.lazy(
-  () => import("@/assets/icons/heart_of_the_elders.svg?react.svg?react"),
-);
-
-const SvgPillarsOfJudgment = React.lazy(
-  () => import("@/assets/icons/pillars_of_judgement.svg?react.svg?react"),
-);
-
-const SvgKnyan = React.lazy(() => import("@/assets/icons/knyan.svg?react"));
-
-export const SvgTheCityOfArchives = React.lazy(
-  () => import("@/assets/icons/city_of_archives.svg?react.svg?react"),
-);
-
-export const SvgTheDepthsOfYoth = React.lazy(
-  () => import("@/assets/icons/the_depths_of_yoth.svg?react.svg?react"),
-);
-
-export const SvgShatteredAeons = React.lazy(
-  () => import("@/assets/icons/shattered_aeons.svg?react"),
-);
-
-const SvgTurnBackTime = React.lazy(
-  () => import("@/assets/icons/turn_back_time.svg?react"),
-);
-
-const SvgAgentsOfAzathoth = React.lazy(
-  () => import("@/assets/icons/agents_of_azathoth.svg?react.svg?react"),
-);
-
-const SvgAnettesCoven = React.lazy(
-  () => import("@/assets/icons/anettes_coven.svg?react"),
-);
-
-const SvgAtDeathsDoorstep = React.lazy(
-  () => import("@/assets/icons/at_deaths_doorstep.svg?react.svg?react"),
-);
-
-const SvgCityOfSins = React.lazy(
-  () => import("@/assets/icons/city_of_sins.svg?react"),
-);
-
-const SvgDisappearanceAtTheTwilightEstate = React.lazy(
-  () =>
-    import(
-      "@/assets/icons/disappearance_at_the_twilight_estate.svg?react.svg?react"
-    ),
-);
-
-const SvgInexorableFate = React.lazy(
-  () => import("@/assets/icons/inexorable_fate.svg?react"),
-);
-
-const SvgRealmOfDeath = React.lazy(
-  () => import("@/assets/icons/realm_of_death.svg?react"),
-);
-
-const SvgSilverTwilightLodge = React.lazy(
-  () => import("@/assets/icons/silver_twilight_lodge.svg?react.svg?react"),
-);
-
-const SvgSpectralPredators = React.lazy(
-  () => import("@/assets/icons/spectral_predators.svg?react.svg?react"),
-);
-
-const SvgTheWatcher = React.lazy(
-  () => import("@/assets/icons/the_watcher.svg?react"),
-);
-
-const SvgTheWitchingHour = React.lazy(
-  () => import("@/assets/icons/the_witching_hour.svg?react.svg?react"),
-);
-
-const SvgTrappedSpirits = React.lazy(
-  () => import("@/assets/icons/trapped_spirits.svg?react"),
-);
-
-const SvgWitchcraft = React.lazy(
-  () => import("@/assets/icons/witchcraft.svg?react"),
-);
-
-export const SvgTheSecretName = React.lazy(
-  () => import("@/assets/icons/the_secret_name.svg?react"),
-);
-
-export const SvgTheWagesOfSin = React.lazy(
-  () => import("@/assets/icons/the_wages_of_sin.svg?react"),
-);
-
-export const SvgForTheGreaterGood = React.lazy(
-  () => import("@/assets/icons/for_the_greater_good.svg?react.svg?react"),
-);
-
-export const SvgUnionAndDisillusion = React.lazy(
-  () => import("@/assets/icons/union_and_disillusion.svg?react.svg?react"),
-);
-
-export const SvgInTheClutchesOfChaos = React.lazy(
-  () => import("@/assets/icons/in_the_clutches_of_chaos.svg?react.svg?react"),
-);
-
-const SvgMusicOfTheDamned = React.lazy(
-  () => import("@/assets/icons/music_of_the_damned.svg?react.svg?react"),
-);
-
-const SvgSecretsOfTheUniverse = React.lazy(
-  () => import("@/assets/icons/secrets_of_the_universe.svg?react.svg?react"),
-);
-
-export const SvgBeforeTheBlackThrone = React.lazy(
-  () => import("@/assets/icons/before_the_black_throne.svg?react.svg?react"),
-);
-
-const SvgAgentsOfAtlachNacha = React.lazy(
-  () => import("@/assets/icons/agents_of_atlach_nacha.svg?react.svg?react"),
-);
-
-const SvgAgentsOfNyarlathotep = React.lazy(
-  () => import("@/assets/icons/agents_of_nyarlathotep.svg?react.svg?react"),
-);
+const SvgMidnightMasks = () => <i className="encounters-midnight_masks" />;
+const SvgTheGathering = () => <i className="encounters-the_gathering" />;
+const SvgCultists = () => <i className="encounters-cult_of_umordoth" />;
+const SvgRats = () => <i className="encounters-rats" />;
+const SvgGhouls = () => <i className="encounters-ghouls" />;
 
-const SvgCorsairs = React.lazy(
-  () => import("@/assets/icons/corsairs.svg?react"),
-);
-
-const SvgCreaturesOfTheUnderworld = React.lazy(
-  () =>
-    import("@/assets/icons/creatures_of_the_underworld.svg?react.svg?react"),
-);
-
-const SvgDreamersCurse = React.lazy(
-  () => import("@/assets/icons/dreamers_curse.svg?react"),
-);
-
-const SvgDreamlands = React.lazy(
-  () => import("@/assets/icons/dreamlands.svg?react"),
-);
-
-const SvgMergingRealities = React.lazy(
-  () => import("@/assets/icons/merging_realities.svg?react.svg?react"),
-);
-
-const SvgSpiders = React.lazy(() => import("@/assets/icons/spiders.svg?react"));
-
-const SvgWhispersOfHypnos = React.lazy(
-  () => import("@/assets/icons/whispers_of_hypnos.svg?react.svg?react"),
-);
-
-const SvgZoogs = React.lazy(() => import("@/assets/icons/zoogs.svg?react"));
-
-export const SvgInTheLabyrinthsOfLunacy = React.lazy(
-  () =>
-    import("@/assets/icons/in_the_labyrinths_of_lunacy.svg?react.svg?react"),
-);
-
-const SvgEpicMultiplayer = React.lazy(
-  () => import("@/assets/icons/epic_multiplayer.svg?react.svg?react"),
-);
-
-const SvgSingleGroup = React.lazy(
-  () => import("@/assets/icons/single_group.svg?react"),
-);
-
-const SvgAbyssalGifts = React.lazy(
-  () => import("@/assets/icons/abyssal_gifts.svg?react"),
-);
-
-const SvgAbyssalTribute = React.lazy(
-  () => import("@/assets/icons/abyssal_tribute.svg?react"),
-);
-
-const SvgBrotherhoodOfTheBeast = React.lazy(
-  () => import("@/assets/icons/brotherhood_of_the_beast.svg?react.svg?react"),
-);
-
-const SvgSandsOfEgypt = React.lazy(
-  () => import("@/assets/icons/sands_of_egypt.svg?react"),
-);
-
-const SvgTheEternalSlumber = React.lazy(
-  () => import("@/assets/icons/eternal_slumber.svg?react.svg?react"),
-);
-
-const SvgTheNightsUsurper = React.lazy(
-  () => import("@/assets/icons/nights_usurper.svg?react"),
-);
-
-const SvgReturnToTheGathering = React.lazy(
-  () => import("@/assets/icons/return_to_the_gathering.svg?react.svg?react"),
-);
-
-const SvgReturnToTheMidnightMasks = React.lazy(
-  () =>
-    import("@/assets/icons/return_to_the_midnight_masks.svg?react.svg?react"),
-);
-
-const SvgReturnToTheDevourerBelow = React.lazy(
-  () =>
-    import("@/assets/icons/return_to_the_devourer_below.svg?react.svg?react"),
-);
-
-const SvgGhoulsOfUmordhoth = React.lazy(
-  () => import("@/assets/icons/ghouls_of_umrdhoth.svg?react.svg?react"),
-);
-
-const SvgTheDevourersCult = React.lazy(
-  () => import("@/assets/icons/the_devourers_cult.svg?react.svg?react"),
-);
-
-const SvgReturnCult = React.lazy(
-  () => import("@/assets/icons/return_cult.svg?react"),
-);
+const SvgStrikingFear = () => <i className="encounters-striking_fear" />;
+const SvgAncientEvils = () => <i className="encounters-ancient_evils" />;
+const SvgChillingCold = () => <i className="encounters-chilling_cold" />;
+const SvgPentagram = () => <i className="encounters-dark_cult" />;
+const SvgNightgaunts = () => <i className="encounters-nightgaunts" />;
+const SvgLockedDoors = () => <i className="encounters-locked_doors" />;
+const SvgAgentsOfHastur = () => <i className="encounters-agents_of_hastur" />;
+const SvgAgentsOfYog = () => <i className="encounters-agents_of_yog" />;
+const SvgAgentsOfShub = () => <i className="encounters-agents_of_shub" />;
+const SvgAgentsOfCthulhu = () => <i className="encounters-agents_of_cthulhu" />;
 
-const SvgReturnToExtracurricularActivities = React.lazy(
-  () =>
-    import(
-      "@/assets/icons/return_to_extracurricular_activities.svg?react.svg?react"
-    ),
-);
-
-const SvgReturnToTheHouseAlwaysWins = React.lazy(
-  () =>
-    import(
-      "@/assets/icons/return_to_the_house_always_wins.svg?react.svg?react"
-    ),
-);
-
-const SvgReturnToTheMiskatonicMuseum = React.lazy(
-  () =>
-    import(
-      "@/assets/icons/return_to_the_miskatonic_museum.svg?react.svg?react"
-    ),
-);
-
-const SvgReturnToTheEssexCountyExpress = React.lazy(
-  () =>
-    import(
-      "@/assets/icons/return_to_the_essex_county_express.svg?react.svg?react"
-    ),
-);
-
-const SvgReturnToBloodOnTheAltar = React.lazy(
-  () =>
-    import("@/assets/icons/return_to_blood_on_the_altar.svg?react.svg?react"),
-);
-
-const SvgReturnToUndimensionedAndUnseen = React.lazy(
-  () =>
-    import(
-      "@/assets/icons/return_to_undimensioned_and_unseen.svg?react.svg?react"
-    ),
-);
-
-const SvgReturnToWhereDoomAwaits = React.lazy(
-  () =>
-    import("@/assets/icons/return_to_where_doom_awaits.svg?react.svg?react"),
-);
-
-const SvgReturnToLostInTimeAndSpace = React.lazy(
-  () =>
-    import(
-      "@/assets/icons/return_to_lost_in_time_and_space.svg?react.svg?react"
-    ),
-);
-
-const SvgResurgentEvils = React.lazy(
-  () => import("@/assets/icons/resurgent_evils.svg?react"),
-);
-
-const SvgErraticFear = React.lazy(
-  () => import("@/assets/icons/erratic_fear.svg?react"),
-);
-
-const SvgCreepingCold = React.lazy(
-  () => import("@/assets/icons/creeping_cold.svg?react"),
-);
-
-const SvgSecretDoors = React.lazy(
-  () => import("@/assets/icons/secret_doors.svg?react"),
-);
-
-const SvgYogSothothsEmissaries = React.lazy(
-  () => import("@/assets/icons/yog_sothoths_emissaries.svg?react.svg?react"),
-);
-
-const SvgBeyondTheThreshold = React.lazy(
-  () => import("@/assets/icons/beyond_the_threshold.svg?react"),
-);
-
-const SvgReturnToCurtainCall = React.lazy(
-  () => import("@/assets/icons/return_to_curtain_call.svg?react"),
-);
-
-const SvgReturnToTheLastKing = React.lazy(
-  () => import("@/assets/icons/return_to_the_last_king.svg?react"),
-);
-
-const SvgReturnToEchoesOfThePast = React.lazy(
-  () => import("@/assets/icons/return_to_echoes_of_the_past.svg?react"),
-);
+const SvgVenice = () => <i className="encounters-venice" />;
 
-const SvgReturnToTheUnspeakableOath = React.lazy(
-  () => import("@/assets/icons/return_to_the_unspeakable_oath.svg?react"),
+const SvgArmitagesFate = () => <i className="encounters-armitages_fate" />;
+const SvgBishopsThralls = () => <i className="encounters-bishops_thralls" />;
+const SvgBeastThralls = () => <i className="encounters-beast_thralls" />;
+const SvgNaomisCrew = () => <i className="encounters-naomis_crew" />;
+const SvgExtracurricularActivity = () => (
+  <i className="encounters-extracurricular_activity" />
 );
 
-const SvgReturnToAPhantomOfTruth = React.lazy(
-  () => import("@/assets/icons/return_to_the_phantom_of_truth.svg?react"),
+const SvgTheHouseAlwaysWins = () => (
+  <i className="encounters-the_house_always_wins" />
 );
 
-const SvgReturnToThePallidMask = React.lazy(
-  () => import("@/assets/icons/return_to_the_pallid_mask.svg?react"),
-);
-
-const SvgReturnToBlackStarsRise = React.lazy(
-  () => import("@/assets/icons/return_to_black_stars_rise.svg?react"),
-);
-
-const SvgReturnToDimCarcosa = React.lazy(
-  () => import("@/assets/icons/return_to_dim_carcosa.svg?react"),
-);
+const SvgSorcery = () => <i className="encounters-sorcery" />;
 
-const SvgDelusoryEvils = React.lazy(
-  () => import("@/assets/icons/delusory_evils.svg?react"),
-);
-
-const SvgNeuroticFear = React.lazy(
-  () => import("@/assets/icons/neurotic_fear.svg?react"),
-);
+const SvgDunwich = () => <i className="encounters-dunwich" />;
 
-const SvgHastursEnvoys = React.lazy(
-  () => import("@/assets/icons/hasturs_envoys.svg?react"),
+const SvgWhippoorwills = () => <i className="encounters-whippoorwills" />;
+const SvgBadLuck = () => <i className="encounters-bad_luck" />;
+const SvgTheBeyond = () => <i className="encounters-the_beyond" />;
+const SvgHideousAbominations = () => (
+  <i className="encounters-hideous_abominations" />
 );
 
-const SvgDecayingReality = React.lazy(
-  () => import("@/assets/icons/decaying_reality.svg?react"),
+export const SvgTheMiskatonicMuseum = () => (
+  <i className="encounters-the_miskatonic_museum" />
 );
 
-const SvgMaddeningDelusions = React.lazy(
-  () => import("@/assets/icons/maddening_delusions.svg?react"),
+export const SvgEssexCountyExpress = () => (
+  <i className="encounters-the_essex_county_express" />
 );
 
-const SvgBeyondTheGatesOfSleep = React.lazy(
-  () => import("@/assets/icons/beyond_the_gates_of_sleep.svg?react"),
+export const SvgBloodOnTheAltar = () => (
+  <i className="encounters-blood_on_the_altar" />
 );
 
-const SvgWakingNightmare = React.lazy(
-  () => import("@/assets/icons/waking_nightmare.svg?react"),
+export const SvgUndimensionedAndUnseen = () => (
+  <i className="encounters-undimensioned_and_unseen" />
 );
 
-export const SvgAThousandShapesOfHorror = React.lazy(
-  () => import("@/assets/icons/a_thousand_shapes_of_horror.svg?react"),
+export const SvgWhereDoomAwaits = () => (
+  <i className="encounters-where_doom_awaits" />
 );
 
-export const SvgTheSearchForKadath = React.lazy(
-  () => import("@/assets/icons/the_search_for_kadath.svg?react"),
+export const SvgLostInTimeAndSpace = () => (
+  <i className="encounters-lost_in_time_and_space" />
 );
 
-export const SvgDarkSideOfTheMoon = React.lazy(
-  () => import("@/assets/icons/dark_side_of_the_moon.svg?react"),
-);
+const SvgCurtainCall = () => <i className="encounters-curtain_call" />;
+const SvgTheLastKing = () => <i className="encounters-the_last_king" />;
+const SvgDelusions = () => <i className="encounters-delusions" />;
+const SvgByakhee = () => <i className="encounters-byakhee" />;
 
-export const SvgPointOfNoReturn = React.lazy(
-  () => import("@/assets/icons/point_of_no_return.svg?react"),
+const SvgInhabitantsOfCarcosa = () => (
+  <i className="encounters-inhabitants_of_carcosa" />
 );
 
-export const SvgWhereTheGodsDwell = React.lazy(
-  () => import("@/assets/icons/where_gods_dwell.svg?react"),
+const SvgEvilPortents = () => <i className="encounters-evil_portents" />;
+const SvgHauntings = () => <i className="encounters-hauntings" />;
+const SvgHastursGift = () => <i className="encounters-hasturs_gift" />;
+const SvgCultOfTheYellowSign = () => (
+  <i className="encounters-cult_of_the_yellow_sign" />
 );
 
-export const SvgWeaverOfTheCosmos = React.lazy(
-  () => import("@/assets/icons/weaver_of_the_cosmos.svg?react"),
+const SvgDecay = () => <i className="encounters-decay_and_filth" />;
+export const SvgEchoesOfThePast = () => (
+  <i className="encounters-echoes_of_the_past" />
 );
 
-const SvgTerrorOfTheVale = React.lazy(
-  () => import("@/assets/icons/terror_of_the_vale.svg?react"),
+export const SvgTheUnspeakableOath = () => (
+  <i className="encounters-the_unspeakable_oath" />
 );
 
-const SvgDescentIntoThePitch = React.lazy(
-  () => import("@/assets/icons/descent_into_the_pitch.svg?react"),
+export const SvgAPhantomOfTruth = () => (
+  <i className="encounters-a_phantom_of_truth" />
 );
 
-export const SvgMurderAtTheExcelsiorHotel = React.lazy(
-  () => import("@/assets/icons/excelsior.svg?react"),
+export const SvgThePallidMask = () => (
+  <i className="encounters-the_pallid_mask" />
 );
-
-const SvgAlienInterference = React.lazy(
-  () => import("@/assets/icons/alien_interference.svg?react"),
+export const SvgBlackStarsRise = () => (
+  <i className="encounters-black_stars_rise" />
 );
+const SvgFlood = () => <i className="encounters-the_flood_below" />;
+const SvgVortex = () => <i className="encounters-the_vortex_above" />;
+export const SvgDimCarcosa = () => <i className="encounters-dim_carcosa" />;
+const SvgAgentsOfYig = () => <i className="encounters-agents_of_yig" />;
+const SvgExpedition = () => <i className="encounters-expedition" />;
+const SvgGuardiansOfTime = () => <i className="encounters-guardians_of_time" />;
 
-const SvgDarkRituals = React.lazy(
-  () => import("@/assets/icons/dark_rituals.svg?react"),
+const SvgPnakoticBrotherhood = () => (
+  <i className="encounters-pnakotic_brotherhood" />
 );
 
-const SvgExcelsiorManagement = React.lazy(
-  () => import("@/assets/icons/excelsior_management.svg?react"),
-);
+const SvgPoison = () => <i className="encounters-poison" />;
 
-const SvgSinsOfThePast = React.lazy(
-  () => import("@/assets/icons/sins_of_the_past.svg?react"),
+const SvgRainforest = () => <i className="encounters-rainforest" />;
+const SvgSerpents = () => <i className="encounters-serpents" />;
+export const SvgThreadsOfFate = () => (
+  <i className="encounters-threads_of_fate" />
 );
-
-const SvgVileExperiments = React.lazy(
-  () => import("@/assets/icons/vile_experiments.svg?react"),
+export const SvgTheBoundaryBeyond = () => (
+  <i className="encounters-the_boundary_beyond" />
 );
-
-const SvgBlob = React.lazy(() => import("@/assets/icons/blob.svg?react"));
 
-const SvgBlobEpicMultiplayer = React.lazy(
-  () => import("@/assets/icons/epic_multiplayer.svg?react"),
+export const SvgHeartOfTheElders = () => (
+  <i className="encounters-heart_of_the_elders" />
 );
 
-const SvgBlobSingleGroup = React.lazy(
-  () => import("@/assets/icons/single_group.svg?react"),
+const SvgPillarsOfJudgment = () => (
+  <i className="encounters-pillars_of_judgement" />
 );
 
-const SvgMigoIncursion = React.lazy(
-  () => import("@/assets/icons/migo.svg?react"),
-);
+const SvgKnyan = () => <i className="encounters-knyan" />;
 
-export const SvgReadOrDie = React.lazy(
-  () => import("@/assets/icons/read_or_die.svg?react"),
+export const SvgTheCityOfArchives = () => (
+  <i className="encounters-city_of_archives" />
 );
 
-export const SvgAllOrNothing = React.lazy(
-  () => import("@/assets/icons/all_or_nothing.svg?react"),
+export const SvgTheDepthsOfYoth = () => (
+  <i className="encounters-the_depths_of_yoth" />
 );
 
-export const SvgBadBlood = React.lazy(
-  () => import("@/assets/icons/bad_blood.svg?react"),
+export const SvgShatteredAeons = () => (
+  <i className="encounters-shattered_aeons" />
 );
-
-export const SvgByTheBook = React.lazy(
-  () => import("@/assets/icons/by_the_book.svg?react"),
+const SvgTurnBackTime = () => <i className="encounters-turn_back_time" />;
+const SvgAgentsOfAzathoth = () => (
+  <i className="encounters-agents_of_azathoth" />
 );
 
-export const SvgRedTideRising = React.lazy(
-  () => import("@/assets/icons/red_tide_rising.svg?react"),
+const SvgAnettesCoven = () => <i className="encounters-anettes_coven" />;
+const SvgAtDeathsDoorstep = () => (
+  <i className="encounters-at_deaths_doorstep" />
 );
 
-const SvgReturnToTheUntamedWilds = React.lazy(
-  () => import("@/assets/icons/return_to_the_untamed_wilds.svg?react"),
+const SvgCityOfSins = () => <i className="encounters-city_of_sins" />;
+const SvgDisappearanceAtTheTwilightEstate = () => (
+  <i className="encounters-disappearance_at_the_twilight_estate" />
 );
 
-const SvgReturnToTheDoomOfEztli = React.lazy(
-  () => import("@/assets/icons/return_to_the_doom_of_eztli.svg?react"),
+const SvgInexorableFate = () => <i className="encounters-inexorable_fate" />;
+const SvgRealmOfDeath = () => <i className="encounters-realm_of_death" />;
+const SvgSilverTwilightLodge = () => (
+  <i className="encounters-silver_twilight_lodge" />
 );
 
-const SvgReturnToThreadsOfFate = React.lazy(
-  () => import("@/assets/icons/return_to_threads_of_fate.svg?react"),
+const SvgSpectralPredators = () => (
+  <i className="encounters-spectral_predators" />
 );
 
-const SvgReturnToTheBoundaryBeyond = React.lazy(
-  () => import("@/assets/icons/return_to_the_boundary_beyond.svg?react"),
-);
+const SvgTheWatcher = () => <i className="encounters-the_watcher" />;
+const SvgTheWitchingHour = () => <i className="encounters-the_witching_hour" />;
 
-const SvgReturnToHeartOfTheElders = React.lazy(
-  () => import("@/assets/icons/return_to_the_heart_of_the_elders.svg?react"),
+const SvgTrappedSpirits = () => <i className="encounters-trapped_spirits" />;
+const SvgWitchcraft = () => <i className="encounters-witchcraft" />;
+export const SvgTheSecretName = () => (
+  <i className="encounters-the_secret_name" />
 );
-
-const SvgReturnToPillarsOfJudgment = React.lazy(
-  () => import("@/assets/icons/return_to_pillars_of_judgement.svg?react"),
+export const SvgTheWagesOfSin = () => (
+  <i className="encounters-the_wages_of_sin" />
 );
-
-const SvgReturnToKnyan = React.lazy(
-  () => import("@/assets/icons/return_to_knyan.svg?react"),
+export const SvgForTheGreaterGood = () => (
+  <i className="encounters-for_the_greater_good" />
 );
 
-const SvgReturnToTheCityOfArchives = React.lazy(
-  () => import("@/assets/icons/return_to_city_of_archives.svg?react"),
+export const SvgUnionAndDisillusion = () => (
+  <i className="encounters-union_and_disillusion" />
 );
 
-const SvgReturnToTheDepthsOfYoth = React.lazy(
-  () => import("@/assets/icons/return_to_the_depths_of_yoth.svg?react"),
+export const SvgInTheClutchesOfChaos = () => (
+  <i className="encounters-in_the_clutches_of_chaos" />
 );
 
-const SvgReturnToShatteredAeons = React.lazy(
-  () => import("@/assets/icons/return_to_shattered_aeons.svg?react"),
+const SvgMusicOfTheDamned = () => (
+  <i className="encounters-music_of_the_damned" />
 );
 
-const SvgReturnToTurnBackTime = React.lazy(
-  () => import("@/assets/icons/return_to_turn_back_time.svg?react"),
+const SvgSecretsOfTheUniverse = () => (
+  <i className="encounters-secrets_of_the_universe" />
 );
 
-const SvgReturnToTheRainforest = React.lazy(
-  () => import("@/assets/icons/return_to_the_rainforest.svg?react"),
+export const SvgBeforeTheBlackThrone = () => (
+  <i className="encounters-before_the_black_throne" />
 );
 
-const SvgCultOfPnakotus = React.lazy(
-  () => import("@/assets/icons/cult_of_pnakotus.svg?react"),
+const SvgAgentsOfAtlachNacha = () => (
+  <i className="encounters-agents_of_atlach_nacha" />
 );
 
-const SvgDoomedExpedition = React.lazy(
-  () => import("@/assets/icons/doomed_expedition.svg?react"),
+const SvgAgentsOfNyarlathotep = () => (
+  <i className="encounters-agents_of_nyarlathotep" />
 );
 
-const SvgTemporalHunters = React.lazy(
-  () => import("@/assets/icons/temporal_hunters.svg?react"),
+const SvgCorsairs = () => <i className="encounters-corsairs" />;
+const SvgCreaturesOfTheUnderworld = () => (
+  <i className="encounters-creatures_of_the_underworld" />
 );
 
-const SvgVenomousHate = React.lazy(
-  () => import("@/assets/icons/venomous_hate.svg?react"),
+const SvgDreamersCurse = () => <i className="encounters-dreamers_curse" />;
+const SvgDreamlands = () => <i className="encounters-dreamlands" />;
+const SvgMergingRealities = () => (
+  <i className="encounters-merging_realities" />
 );
 
-const SvgThePitOfDespair = React.lazy(
-  () => import("@/assets/icons/grotto_of_despair.svg?react"),
-);
+const SvgSpiders = () => <i className="encounters-spiders" />;
 
-const SvgCreaturesOfTheDeep = React.lazy(
-  () => import("@/assets/icons/creatures_from_below.svg?react"),
+const SvgWhispersOfHypnos = () => (
+  <i className="encounters-whispers_of_hypnos" />
 );
 
-const SvgFloodedCaverns = React.lazy(
-  () => import("@/assets/icons/flooded_caves.svg?react"),
-);
+const SvgZoogs = () => <i className="encounters-zoogs" />;
 
-const SvgRisingTide = React.lazy(
-  () => import("@/assets/icons/rising_tide.svg?react"),
+export const SvgInTheLabyrinthsOfLunacy = () => (
+  <i className="encounters-in_the_labyrinths_of_lunacy" />
 );
 
-const SvgShatteredMemories = React.lazy(
-  () => import("@/assets/icons/shattered_memories.svg?react"),
-);
+const SvgEpicMultiplayer = () => <i className="encounters-epic_multiplayer" />;
 
-const SvgAgentsOfDagon = React.lazy(
-  () => import("@/assets/icons/agents_of_dagon.svg?react"),
+const SvgSingleGroup = () => <i className="encounters-single_group" />;
+const SvgAbyssalGifts = () => <i className="encounters-abyssal_gifts" />;
+const SvgAbyssalTribute = () => <i className="encounters-abyssal_tribute" />;
+const SvgBrotherhoodOfTheBeast = () => (
+  <i className="encounters-brotherhood_of_the_beast" />
 );
 
-const SvgAgentsOfHydra = React.lazy(
-  () => import("@/assets/icons/agents_of_hydra.svg?react"),
-);
+const SvgSandsOfEgypt = () => <i className="encounters-sands_of_egypt" />;
+const SvgTheEternalSlumber = () => <i className="encounters-eternal_slumber" />;
 
-const SvgTheLocals = React.lazy(
-  () => import("@/assets/icons/locals.svg?react"),
+const SvgTheNightsUsurper = () => <i className="encounters-nights_usurper" />;
+const SvgReturnToTheGathering = () => (
+  <i className="encounters-return_to_the_gathering" />
 );
 
-const SvgFogOverInnsmouth = React.lazy(
-  () => import("@/assets/icons/fog_over_innsmouth.svg?react"),
+const SvgReturnToTheMidnightMasks = () => (
+  <i className="encounters-return_to_the_midnight_masks" />
 );
 
-const SvgTheVanishingOfElinaHarper = React.lazy(
-  () => import("@/assets/icons/disappearance_of_elina_harper.svg?react"),
+const SvgReturnToTheDevourerBelow = () => (
+  <i className="encounters-return_to_the_devourer_below" />
 );
-
-const SvgSyzygy = React.lazy(() => import("@/assets/icons/syzygy.svg?react"));
 
-const SvgMalfunction = React.lazy(
-  () => import("@/assets/icons/malfunction.svg?react"),
+const SvgGhoulsOfUmordhoth = () => (
+  <i className="encounters-ghouls_of_umrdhoth" />
 );
 
-export const SvgInTooDeep = React.lazy(
-  () => import("@/assets/icons/in_too_deep.svg?react"),
+const SvgTheDevourersCult = () => (
+  <i className="encounters-the_devourers_cult" />
 );
 
-export const SvgDevilReef = React.lazy(
-  () => import("@/assets/icons/devil_reef.svg?react"),
+const SvgReturnCult = () => <i className="encounters-return_cult" />;
+const SvgReturnToExtracurricularActivities = () => (
+  <i className="encounters-return_to_extracurricular_activities" />
 );
 
-export const SvgHorrorInHighGear = React.lazy(
-  () => import("@/assets/icons/horror_in_high_gear.svg?react"),
+const SvgReturnToTheHouseAlwaysWins = () => (
+  <i className="encounters-return_to_the_house_always_wins" />
 );
 
-export const SvgALightInTheFog = React.lazy(
-  () => import("@/assets/icons/a_light_in_the_fog.svg?react"),
+const SvgReturnToTheMiskatonicMuseum = () => (
+  <i className="encounters-return_to_the_miskatonic_museum" />
 );
 
-export const SvgTheLairOfDagon = React.lazy(
-  () => import("@/assets/icons/lair_of_dagon.svg?react"),
+const SvgReturnToTheEssexCountyExpress = () => (
+  <i className="encounters-return_to_the_essex_county_express" />
 );
 
-export const SvgIntoTheMaelstrom = React.lazy(
-  () => import("@/assets/icons/into_the_maelstrom.svg?react"),
+const SvgReturnToBloodOnTheAltar = () => (
+  <i className="encounters-return_to_blood_on_the_altar" />
 );
 
-const SvgWarOfTheOuterGods = React.lazy(
-  () => import("@/assets/icons/war_of_the_outer_gods.svg?react"),
+const SvgReturnToUndimensionedAndUnseen = () => (
+  <i className="encounters-return_to_undimensioned_and_unseen" />
 );
 
-const SvgDeathOfStars = React.lazy(
-  () => import("@/assets/icons/death_of_the_stars.svg?react"),
+const SvgReturnToWhereDoomAwaits = () => (
+  <i className="encounters-return_to_where_doom_awaits" />
 );
 
-const SvgChildrenOfParadise = React.lazy(
-  () => import("@/assets/icons/children_of_paradise.svg?react"),
+const SvgReturnToLostInTimeAndSpace = () => (
+  <i className="encounters-return_to_lost_in_time_and_space" />
 );
 
-const SvgSwarmOfAssimilation = React.lazy(
-  () => import("@/assets/icons/assimilating_swarm.svg?react"),
+const SvgResurgentEvils = () => <i className="encounters-resurgent_evils" />;
+const SvgErraticFear = () => <i className="encounters-erratic_fear" />;
+const SvgCreepingCold = () => <i className="encounters-creeping_cold" />;
+const SvgSecretDoors = () => <i className="encounters-secret_doors" />;
+const SvgYogSothothsEmissaries = () => (
+  <i className="encounters-yog_sothoths_emissaries" />
 );
 
-const SvgMachinationsThroughTime = React.lazy(
-  () => import("@/assets/icons/machinations_through_time.svg?react"),
+const SvgBeyondTheThreshold = () => (
+  <i className="encounters-beyond_the_threshold" />
 );
-
-const SvgReturnToDisappearanceAtTheTwilightEstate = React.lazy(
-  () =>
-    import(
-      "@/assets/icons/return_to_disappearance_at_the_twilight_estate.svg?react"
-    ),
+const SvgReturnToCurtainCall = () => (
+  <i className="encounters-return_to_curtain_call" />
 );
-
-const SvgReturnToTheWitchingHour = React.lazy(
-  () => import("@/assets/icons/return_to_the_witching_hour.svg?react"),
+const SvgReturnToTheLastKing = () => (
+  <i className="encounters-return_to_the_last_king" />
 );
-
-const SvgReturnToAtDeathsDoorstep = React.lazy(
-  () => import("@/assets/icons/return_to_at_deaths_doorstep.svg?react"),
+const SvgReturnToEchoesOfThePast = () => (
+  <i className="encounters-return_to_echoes_of_the_past" />
 );
-
-const SvgReturnToTheSecretName = React.lazy(
-  () => import("@/assets/icons/return_to_the_secret_name.svg?react"),
+const SvgReturnToTheUnspeakableOath = () => (
+  <i className="encounters-return_to_the_unspeakable_oath" />
 );
-
-const SvgReturnToTheWagesOfSin = React.lazy(
-  () => import("@/assets/icons/return_to_the_wages_of_sin.svg?react"),
+const SvgReturnToAPhantomOfTruth = () => (
+  <i className="encounters-return_to_the_phantom_of_truth" />
 );
-
-const SvgReturnToForTheGreaterGood = React.lazy(
-  () => import("@/assets/icons/return_to_for_the_greater_good.svg?react"),
+const SvgReturnToThePallidMask = () => (
+  <i className="encounters-return_to_the_pallid_mask" />
 );
-
-const SvgReturnToUnionAndDisillusion = React.lazy(
-  () => import("@/assets/icons/return_to_union_and_disillusion.svg?react"),
+const SvgReturnToBlackStarsRise = () => (
+  <i className="encounters-return_to_black_stars_rise" />
 );
-
-const SvgReturnToInTheClutchesOfChaos = React.lazy(
-  () => import("@/assets/icons/return_to_in_the_clutches_of_chaos.svg?react"),
+const SvgReturnToDimCarcosa = () => (
+  <i className="encounters-return_to_dim_carcosa" />
 );
-
-const SvgReturnToBeforeTheBlackThrone = React.lazy(
-  () => import("@/assets/icons/return_to_before_the_black_throne.svg?react"),
+const SvgDelusoryEvils = () => <i className="encounters-delusory_evils" />;
+const SvgNeuroticFear = () => <i className="encounters-neurotic_fear" />;
+const SvgHastursEnvoys = () => <i className="encounters-hasturs_envoys" />;
+const SvgDecayingReality = () => <i className="encounters-decaying_reality" />;
+const SvgMaddeningDelusions = () => (
+  <i className="encounters-maddening_delusions" />
 );
-
-const SvgBloodthirstySpirits = React.lazy(
-  () => import("@/assets/icons/bloodthirsty_spirits.svg?react"),
+const SvgBeyondTheGatesOfSleep = () => (
+  <i className="encounters-beyond_the_gates_of_sleep" />
 );
-
-const SvgUnspeakableFate = React.lazy(
-  () => import("@/assets/icons/unspeakable_fate.svg?react"),
+const SvgWakingNightmare = () => <i className="encounters-waking_nightmare" />;
+export const SvgAThousandShapesOfHorror = () => (
+  <i className="encounters-a_thousand_shapes_of_horror" />
 );
-
-const SvgCityOfTheDamned = React.lazy(
-  () => import("@/assets/icons/city_of_the_damned.svg?react"),
+export const SvgTheSearchForKadath = () => (
+  <i className="encounters-the_search_for_kadath" />
 );
-
-const SvgIceAndDeath = React.lazy(
-  () => import("@/assets/icons/ice_and_death.svg?react"),
+export const SvgDarkSideOfTheMoon = () => (
+  <i className="encounters-dark_side_of_the_moon" />
 );
-
-const SvgTheCrash = React.lazy(
-  () => import("@/assets/icons/the_crash.svg?react"),
+export const SvgPointOfNoReturn = () => (
+  <i className="encounters-point_of_no_return" />
 );
-
-const SvgCreaturesInTheIce = React.lazy(
-  () => import("@/assets/icons/creatures_in_the_ice.svg?react"),
+export const SvgWhereTheGodsDwell = () => (
+  <i className="encounters-where_gods_dwell" />
 );
-
-const SvgDeadlyWeather = React.lazy(
-  () => import("@/assets/icons/deadly_weather.svg?react"),
+export const SvgWeaverOfTheCosmos = () => (
+  <i className="encounters-weaver_of_the_cosmos" />
 );
-
-const SvgHazardsOfAntarctica = React.lazy(
-  () => import("@/assets/icons/hazards_of_antarctica.svg?react"),
+const SvgTerrorOfTheVale = () => (
+  <i className="encounters-terror_of_the_vale" />
 );
 
-const SvgSilenceAndMystery = React.lazy(
-  () => import("@/assets/icons/silence_and_mystery.svg?react"),
+const SvgDescentIntoThePitch = () => (
+  <i className="encounters-descent_into_the_pitch" />
 );
 
-const SvgToTheForbiddenPeaks = React.lazy(
-  () => import("@/assets/icons/to_the_forbidden_peaks.svg?react"),
+export const SvgMurderAtTheExcelsiorHotel = () => (
+  <i className="encounters-excelsior" />
 );
-
-const SvgTheGreatSeal = React.lazy(
-  () => import("@/assets/icons/the_great_seal.svg?react"),
+const SvgAlienInterference = () => (
+  <i className="encounters-alien_interference" />
 );
-
-const SvgCityOfTheElderThings = React.lazy(
-  () => import("@/assets/icons/city_of_the_elder_things.svg?react"),
+const SvgDarkRituals = () => <i className="encounters-dark_rituals" />;
+const SvgExcelsiorManagement = () => (
+  <i className="encounters-excelsior_management" />
 );
+const SvgSinsOfThePast = () => <i className="encounters-sins_of_the_past" />;
+const SvgVileExperiments = () => <i className="encounters-vile_experiments" />;
+const SvgBlob = () => <i className="encounters-blob" />;
 
-const SvgSleepingNightmares = React.lazy(
-  () => import("@/assets/icons/sleeping_nightmares.svg?react"),
+const SvgBlobEpicMultiplayer = () => (
+  <i className="encounters-epic_multiplayer" />
 );
-
-const SvgNamelessHorrors = React.lazy(
-  () => import("@/assets/icons/nameless_horrors.svg?react"),
+const SvgBlobSingleGroup = () => <i className="encounters-single_group" />;
+const SvgMigoIncursion = () => <i className="encounters-migo" />;
+export const SvgReadOrDie = () => <i className="encounters-read_or_die" />;
+export const SvgAllOrNothing = () => (
+  <i className="encounters-all_or_nothing" />
 );
-
-const SvgMemorialsOfTheLost = React.lazy(
-  () => import("@/assets/icons/memorials_of_the_lost.svg?react"),
+export const SvgBadBlood = () => <i className="encounters-bad_blood" />;
+export const SvgByTheBook = () => <i className="encounters-by_the_book" />;
+export const SvgRedTideRising = () => (
+  <i className="encounters-red_tide_rising" />
 );
-
-const SvgFatalMirage = React.lazy(
-  () => import("@/assets/icons/fatal_mirage.svg?react"),
+const SvgReturnToTheUntamedWilds = () => (
+  <i className="encounters-return_to_the_untamed_wilds" />
 );
-
-const SvgElderThings = React.lazy(
-  () => import("@/assets/icons/elder_things.svg?react"),
+const SvgReturnToTheDoomOfEztli = () => (
+  <i className="encounters-return_to_the_doom_of_eztli" />
 );
-
-const SvgTheHeartOfMadness = React.lazy(
-  () => import("@/assets/icons/the_heart_of_madness.svg?react"),
+const SvgReturnToThreadsOfFate = () => (
+  <i className="encounters-return_to_threads_of_fate" />
 );
-
-const SvgStirringInTheDeep = React.lazy(
-  () => import("@/assets/icons/stirring_in_the_deep.svg?react"),
+const SvgReturnToTheBoundaryBeyond = () => (
+  <i className="encounters-return_to_the_boundary_beyond" />
 );
-
-const SvgShoggoths = React.lazy(
-  () => import("@/assets/icons/shoggoths.svg?react"),
+const SvgReturnToHeartOfTheElders = () => (
+  <i className="encounters-return_to_the_heart_of_the_elders" />
 );
-
-const SvgPenguins = React.lazy(
-  () => import("@/assets/icons/penguins.svg?react"),
+const SvgReturnToPillarsOfJudgment = () => (
+  <i className="encounters-return_to_pillars_of_judgement" />
 );
-
-const SvgMiasma = React.lazy(() => import("@/assets/icons/miasma.svg?react"));
-
-const SvgLostInTheNight = React.lazy(
-  () => import("@/assets/icons/lost_in_the_night.svg?react"),
+const SvgReturnToKnyan = () => <i className="encounters-return_to_knyan" />;
+const SvgReturnToTheCityOfArchives = () => (
+  <i className="encounters-return_to_city_of_archives" />
 );
-
-const SvgLeftBehind = React.lazy(
-  () => import("@/assets/icons/left_behind.svg?react"),
+const SvgReturnToTheDepthsOfYoth = () => (
+  <i className="encounters-return_to_the_depths_of_yoth" />
 );
-
-const SvgExpeditionTeam = React.lazy(
-  () => import("@/assets/icons/expedition_team.svg?react"),
+const SvgReturnToShatteredAeons = () => (
+  <i className="encounters-return_to_shattered_aeons" />
 );
-
-const SvgAgentsOfTheUnknown = React.lazy(
-  () => import("@/assets/icons/agents_of_the_unknown.svg?react"),
+const SvgReturnToTurnBackTime = () => (
+  <i className="encounters-return_to_turn_back_time" />
 );
-
-const SvgTekelili = React.lazy(
-  () => import("@/assets/icons/tekeli_li.svg?react"),
+const SvgReturnToTheRainforest = () => (
+  <i className="encounters-return_to_the_rainforest" />
 );
-
-const SvgRiddlesAndRain = React.lazy(
-  () => import("@/assets/icons/riddles_and_rain.svg?react"),
+const SvgCultOfPnakotus = () => <i className="encounters-cult_of_pnakotus" />;
+const SvgDoomedExpedition = () => (
+  <i className="encounters-doomed_expedition" />
 );
-
-const SvgMysteriesAbound = React.lazy(
-  () => import("@/assets/icons/mysteries_abound.svg?react"),
+const SvgTemporalHunters = () => <i className="encounters-temporal_hunters" />;
+const SvgVenomousHate = () => <i className="encounters-venomous_hate" />;
+const SvgThePitOfDespair = () => <i className="encounters-grotto_of_despair" />;
+const SvgCreaturesOfTheDeep = () => (
+  <i className="encounters-creatures_from_below" />
 );
-
-const SvgShadesOfSuffering = React.lazy(
-  () => import("@/assets/icons/shades_of_sorrow.svg?react"),
+const SvgFloodedCaverns = () => <i className="encounters-flooded_caves" />;
+const SvgRisingTide = () => <i className="encounters-rising_tide" />;
+const SvgShatteredMemories = () => (
+  <i className="encounters-shattered_memories" />
 );
-
-const SvgAgentsOfTheOutside = React.lazy(
-  () => import("@/assets/icons/agents_of_the_outside.svg?react"),
+const SvgAgentsOfDagon = () => <i className="encounters-agents_of_dagon" />;
+const SvgAgentsOfHydra = () => <i className="encounters-agents_of_hydra" />;
+const SvgTheLocals = () => <i className="encounters-locals" />;
+const SvgFogOverInnsmouth = () => (
+  <i className="encounters-fog_over_innsmouth" />
 );
-
-const SvgBeyondTheBeyond = React.lazy(
-  () => import("@/assets/icons/beyond_the_beyond.svg?react"),
+const SvgTheVanishingOfElinaHarper = () => (
+  <i className="encounters-disappearance_of_elina_harper" />
 );
+const SvgSyzygy = () => <i className="encounters-syzygy" />;
 
-const SvgCongressOfTheKeys = React.lazy(
-  () => import("@/assets/icons/congress_of_the_keys.svg?react"),
+const SvgMalfunction = () => <i className="encounters-malfunction" />;
+export const SvgInTooDeep = () => <i className="encounters-in_too_deep" />;
+export const SvgDevilReef = () => <i className="encounters-devil_reef" />;
+export const SvgHorrorInHighGear = () => (
+  <i className="encounters-horror_in_high_gear" />
 );
-
-const SvgDancingMad = React.lazy(
-  () => import("@/assets/icons/dancing_mad.svg?react"),
+export const SvgALightInTheFog = () => (
+  <i className="encounters-a_light_in_the_fog" />
 );
-
-const SvgDeadHeat = React.lazy(
-  () => import("@/assets/icons/dead_heat.svg?react"),
+export const SvgTheLairOfDagon = () => (
+  <i className="encounters-lair_of_dagon" />
 );
-
-const SvgDogsOfWar = React.lazy(
-  () => import("@/assets/icons/dogs_of_war.svg?react"),
+export const SvgIntoTheMaelstrom = () => (
+  <i className="encounters-into_the_maelstrom" />
 );
-
-const SvgOutsiders = React.lazy(
-  () => import("@/assets/icons/outsiders.svg?react"),
+const SvgWarOfTheOuterGods = () => (
+  <i className="encounters-war_of_the_outer_gods" />
 );
-
-const SvgScarletSorcery = React.lazy(
-  () => import("@/assets/icons/scarlet_sorcery.svg?react"),
+const SvgDeathOfStars = () => <i className="encounters-death_of_the_stars" />;
+const SvgChildrenOfParadise = () => (
+  <i className="encounters-children_of_paradise" />
 );
-
-const SvgSpatialAnomaly = React.lazy(
-  () => import("@/assets/icons/spatial_anomaly.svg?react"),
+const SvgSwarmOfAssimilation = () => (
+  <i className="encounters-assimilating_swarm" />
 );
-
-const SvgStrangeHappenings = React.lazy(
-  () => import("@/assets/icons/strange_happenings.svg?react"),
+const SvgMachinationsThroughTime = () => (
+  <i className="encounters-machinations_through_time" />
 );
-
-const SvgSecretWar = React.lazy(
-  () => import("@/assets/icons/secret_war.svg?react"),
+const SvgReturnToDisappearanceAtTheTwilightEstate = () => (
+  <i className="encounters-return_to_disappearance_at_the_twilight_estate" />
 );
-
-const SvgShadowOfADoubt = React.lazy(
-  () => import("@/assets/icons/shadow_of_a_doubt.svg?react"),
+const SvgReturnToTheWitchingHour = () => (
+  <i className="encounters-return_to_the_witching_hour" />
 );
-
-const SvgWithoutATrace = React.lazy(
-  () => import("@/assets/icons/without_a_trace.svg?react"),
+const SvgReturnToAtDeathsDoorstep = () => (
+  <i className="encounters-return_to_at_deaths_doorstep" />
 );
-
-const SvgAgentsOfYuggoth = React.lazy(
-  () => import("@/assets/icons/agents_of_yuggoth.svg?react"),
+const SvgReturnToTheSecretName = () => (
+  <i className="encounters-return_to_the_secret_name" />
 );
-
-const SvgCleanupCrew = React.lazy(
-  () => import("@/assets/icons/cleanup_crew.svg?react"),
+const SvgReturnToTheWagesOfSin = () => (
+  <i className="encounters-return_to_the_wages_of_sin" />
 );
-
-const SvgCrimsonConspiracy = React.lazy(
-  () => import("@/assets/icons/crimson_conspiracy.svg?react"),
+const SvgReturnToForTheGreaterGood = () => (
+  <i className="encounters-return_to_for_the_greater_good" />
 );
-
-const SvgDarkVeiling = React.lazy(
-  () => import("@/assets/icons/dark_veiling.svg?react"),
+const SvgReturnToUnionAndDisillusion = () => (
+  <i className="encounters-return_to_union_and_disillusion" />
 );
-
-const SvgDealingsInTheDark = React.lazy(
-  () => import("@/assets/icons/dealings_in_the_dark.svg?react"),
+const SvgReturnToInTheClutchesOfChaos = () => (
+  <i className="encounters-return_to_in_the_clutches_of_chaos" />
 );
-
-const SvgGlobetrotting = React.lazy(
-  () => import("@/assets/icons/globetrotting.svg?react"),
+const SvgReturnToBeforeTheBlackThrone = () => (
+  <i className="encounters-return_to_before_the_black_throne" />
 );
-
-const SvgOnThinIce = React.lazy(
-  () => import("@/assets/icons/on_thin_ice.svg?react"),
+const SvgBloodthirstySpirits = () => (
+  <i className="encounters-bloodthirsty_spirits" />
 );
-
-const SvgRedCoterie = React.lazy(
-  () => import("@/assets/icons/red_coterie.svg?react"),
+const SvgUnspeakableFate = () => <i className="encounters-unspeakable_fate" />;
+const SvgCityOfTheDamned = () => (
+  <i className="encounters-city_of_the_damned" />
 );
-
-const SvgSanguineShadows = React.lazy(
-  () => import("@/assets/icons/sanguine_shadows.svg?react"),
+const SvgIceAndDeath = () => <i className="encounters-ice_and_death" />;
+const SvgTheCrash = () => <i className="encounters-the_crash" />;
+const SvgCreaturesInTheIce = () => (
+  <i className="encounters-creatures_in_the_ice" />
 );
-
-const SvgSpreadingCorruption = React.lazy(
-  () => import("@/assets/icons/spreading_corruption.svg?react"),
+const SvgDeadlyWeather = () => <i className="encounters-deadly_weather" />;
+const SvgHazardsOfAntarctica = () => (
+  <i className="encounters-hazards_of_antarctica" />
 );
-
-const SvgFortuneAndFolly = React.lazy(
-  () => import("@/assets/icons/fortune_and_folly.svg?react"),
+const SvgSilenceAndMystery = () => (
+  <i className="encounters-silence_and_mystery" />
 );
-
-const SvgFortunesChosen = React.lazy(
-  () => import("@/assets/icons/fortunes_chosen.svg?react"),
+const SvgToTheForbiddenPeaks = () => (
+  <i className="encounters-to_the_forbidden_peaks" />
 );
-
-const SvgPlanInShambles = React.lazy(
-  () => import("@/assets/icons/plan_in_shambles.svg?react"),
+const SvgTheGreatSeal = () => <i className="encounters-the_great_seal" />;
+const SvgCityOfTheElderThings = () => (
+  <i className="encounters-city_of_the_elder_things" />
 );
-
-const SvgTheDevourerBelow = React.lazy(
-  () => import("@/assets/icons/the_devourer_below.svg?react"),
+const SvgSleepingNightmares = () => (
+  <i className="encounters-sleeping_nightmares" />
 );
-
-export const SvgCurseOfTheRougarou = React.lazy(
-  () => import("@/assets/icons/curse_of_the_rougarou.svg?react"),
+const SvgNamelessHorrors = () => <i className="encounters-nameless_horrors" />;
+const SvgMemorialsOfTheLost = () => (
+  <i className="encounters-memorials_of_the_lost" />
 );
-
-const SvgTheBayou = React.lazy(
-  () => import("@/assets/icons/the_bayou.svg?react"),
+const SvgFatalMirage = () => <i className="encounters-fatal_mirage" />;
+const SvgElderThings = () => <i className="encounters-elder_things" />;
+const SvgTheHeartOfMadness = () => (
+  <i className="encounters-the_heart_of_madness" />
 );
-
-const SvgTheStranger = React.lazy(
-  () => import("@/assets/icons/the_stranger.svg?react"),
+const SvgStirringInTheDeep = () => (
+  <i className="encounters-stirring_in_the_deep" />
 );
+const SvgShoggoths = () => <i className="encounters-shoggoths" />;
+const SvgPenguins = () => <i className="encounters-penguins" />;
+const SvgMiasma = () => <i className="encounters-miasma" />;
 
-const SvgForgottenRuins = React.lazy(
-  () => import("@/assets/icons/forgotten_ruins.svg?react"),
+const SvgLostInTheNight = () => <i className="encounters-lost_in_the_night" />;
+const SvgLeftBehind = () => <i className="encounters-left_behind" />;
+const SvgExpeditionTeam = () => <i className="encounters-expedition_team" />;
+const SvgAgentsOfTheUnknown = () => (
+  <i className="encounters-agents_of_the_unknown" />
 );
-
-const SvgDeadlyTraps = React.lazy(
-  () => import("@/assets/icons/deadly_traps.svg?react"),
+const SvgTekelili = () => <i className="encounters-tekeli_li" />;
+const SvgRiddlesAndRain = () => <i className="encounters-riddles_and_rain" />;
+const SvgMysteriesAbound = () => <i className="encounters-mysteries_abound" />;
+const SvgShadesOfSuffering = () => (
+  <i className="encounters-shades_of_sorrow" />
 );
-
-const SvgTheDoomOfEztli = React.lazy(
-  () => import("@/assets/icons/the_doom_of_eztli.svg?react"),
+const SvgAgentsOfTheOutside = () => (
+  <i className="encounters-agents_of_the_outside" />
 );
-
-const SvgTheUntamedWilds = React.lazy(
-  () => import("@/assets/icons/the_untamed_wilds.svg?react"),
+const SvgBeyondTheBeyond = () => <i className="encounters-beyond_the_beyond" />;
+const SvgCongressOfTheKeys = () => (
+  <i className="encounters-congress_of_the_keys" />
 );
-
-const SvgYigsVenom = React.lazy(
-  () => import("@/assets/icons/yigs_venom.svg?react"),
+const SvgDancingMad = () => <i className="encounters-dancing_mad" />;
+const SvgDeadHeat = () => <i className="encounters-dead_heat" />;
+const SvgDogsOfWar = () => <i className="encounters-dogs_of_war" />;
+const SvgOutsiders = () => <i className="encounters-outsiders" />;
+const SvgScarletSorcery = () => <i className="encounters-scarlet_sorcery" />;
+const SvgSpatialAnomaly = () => <i className="encounters-spatial_anomaly" />;
+const SvgStrangeHappenings = () => (
+  <i className="encounters-strange_happenings" />
 );
-
-const SvgTemporalFlux = React.lazy(
-  () => import("@/assets/icons/temporal_flux.svg?react"),
+const SvgSecretWar = () => <i className="encounters-secret_war" />;
+const SvgShadowOfADoubt = () => <i className="encounters-shadow_of_a_doubt" />;
+const SvgWithoutATrace = () => <i className="encounters-without_a_trace" />;
+const SvgAgentsOfYuggoth = () => <i className="encounters-agents_of_yuggoth" />;
+const SvgCleanupCrew = () => <i className="encounters-cleanup_crew" />;
+const SvgCrimsonConspiracy = () => (
+  <i className="encounters-crimson_conspiracy" />
 );
-
-const SvgColdFog = React.lazy(
-  () => import("@/assets/icons/cold_fog.svg?react"),
+const SvgDarkVeiling = () => <i className="encounters-dark_veiling" />;
+const SvgDealingsInTheDark = () => (
+  <i className="encounters-dealings_in_the_dark" />
 );
-
-const SvgThreateningEvil = React.lazy(
-  () => import("@/assets/icons/threatening_evil.svg?react"),
+const SvgGlobetrotting = () => <i className="encounters-globetrotting" />;
+const SvgOnThinIce = () => <i className="encounters-on_thin_ice" />;
+const SvgRedCoterie = () => <i className="encounters-red_coterie" />;
+const SvgSanguineShadows = () => <i className="encounters-sanguine_shadows" />;
+const SvgSpreadingCorruption = () => (
+  <i className="encounters-spreading_corruption" />
 );
-
-const SvgWitchwork = React.lazy(
-  () => import("@/assets/icons/witchwork.svg?react"),
+const SvgFortuneAndFolly = () => <i className="encounters-fortune_and_folly" />;
+const SvgFortunesChosen = () => <i className="encounters-fortunes_chosen" />;
+const SvgPlanInShambles = () => <i className="encounters-plan_in_shambles" />;
+const SvgTheDevourerBelow = () => (
+  <i className="encounters-the_devourer_below" />
 );
-
-const SvgSpectralRealm = React.lazy(
-  () => import("@/assets/icons/spectral_realm.svg?react"),
+export const SvgCurseOfTheRougarou = () => (
+  <i className="encounters-curse_of_the_rougarou" />
 );
-
+const SvgTheBayou = () => <i className="encounters-the_bayou" />;
+const SvgTheStranger = () => <i className="encounters-the_stranger" />;
+const SvgForgottenRuins = () => <i className="encounters-forgotten_ruins" />;
+const SvgDeadlyTraps = () => <i className="encounters-deadly_traps" />;
+const SvgTheDoomOfEztli = () => <i className="encounters-the_doom_of_eztli" />;
+const SvgTheUntamedWilds = () => <i className="encounters-the_untamed_wilds" />;
+const SvgYigsVenom = () => <i className="encounters-yigs_venom" />;
+const SvgTemporalFlux = () => <i className="encounters-temporal_flux" />;
+const SvgColdFog = () => <i className="encounters-cold_fog" />;
+const SvgThreateningEvil = () => <i className="encounters-threatening_evil" />;
+const SvgWitchwork = () => <i className="encounters-witchwork" />;
+const SvgSpectralRealm = () => <i className="encounters-spectral_realm" />;
 // these are not available yet:
 // _ "../icons/blob_that_ate_everything_else"
 // _ "../icons/migo1"

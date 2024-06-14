@@ -61,6 +61,7 @@
   height: calc(100dvh - 4.75rem);
   width: min(calc(100% - 2rem), 20rem);
   z-index: 2;
+  box-shadow: var(--shadow);
 
   @media screen and (min-width: 72rem) {
     grid-area: right;

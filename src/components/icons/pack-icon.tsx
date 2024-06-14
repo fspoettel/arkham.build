@@ -1,54 +1,11 @@
-import React, { Suspense } from "react";
-
-import {
-  SvgALightInTheFog,
-  SvgAPhantomOfTruth,
-  SvgAThousandShapesOfHorror,
-  SvgAllOrNothing,
-  SvgBadBlood,
-  SvgBlackStarsRise,
-  SvgBloodOnTheAltar,
-  SvgByTheBook,
-  SvgDarkSideOfTheMoon,
-  SvgDevilReef,
-  SvgDimCarcosa,
-  SvgEchoesOfThePast,
-  SvgEssexCountyExpress,
-  SvgForTheGreaterGood,
-  SvgHeartOfTheElders,
-  SvgHorrorInHighGear,
-  SvgInTheClutchesOfChaos,
-  SvgInTooDeep,
-  SvgIntoTheMaelstrom,
-  SvgLostInTimeAndSpace,
-  SvgPointOfNoReturn,
-  SvgReadOrDie,
-  SvgRedTideRising,
-  SvgShatteredAeons,
-  SvgTheBoundaryBeyond,
-  SvgTheCityOfArchives,
-  SvgTheDepthsOfYoth,
-  SvgTheLairOfDagon,
-  SvgTheMiskatonicMuseum,
-  SvgThePallidMask,
-  SvgTheSearchForKadath,
-  SvgTheSecretName,
-  SvgTheUnspeakableOath,
-  SvgTheWagesOfSin,
-  SvgThreadsOfFate,
-  SvgUndimensionedAndUnseen,
-  SvgUnionAndDisillusion,
-  SvgWeaverOfTheCosmos,
-  SvgWhereDoomAwaits,
-  SvgWhereTheGodsDwell,
-} from "./encounter-icon";
+import { Suspense } from "react";
 
 export type Props = {
   className?: string;
   code?: string;
 };
 
-function PackIcon({ code, className }: Props) {
+function PackIcon({ code }: Props) {
   const Icon = getPackIcon(code);
 
   return Icon ? (
@@ -59,7 +16,7 @@ function PackIcon({ code, className }: Props) {
         />
       }
     >
-      <Icon className={className} />
+      <Icon />
     </Suspense>
   ) : null;
 }
@@ -72,67 +29,63 @@ function getPackIcon(code?: string) {
     case "core":
     case "core2":
     case "return":
-      return React.lazy(() => import("@/assets/icons/core.svg?react"));
+      return () => <i className="encounters-core" />;
 
     case "otr":
     case "ltr":
     case "ptr":
     case "rop":
     case "parallel":
-      return React.lazy(() => import("@/assets/icons/parallel.svg?react"));
+      return () => <i className="encounters-parallel" />;
 
     case "dwlp":
     case "dwlc":
     case "dwl":
-      return React.lazy(() => import("@/assets/icons/set.svg?react"));
+      return () => <i className="encounters-set" />;
 
     case "ptcp":
     case "ptcc":
     case "ptc":
-      return React.lazy(() => import("@/assets/icons/carcosa.svg?react"));
+      return () => <i className="encounters-carcosa" />;
 
     case "tfap":
     case "tfac":
     case "tfa":
-      return React.lazy(
-        () => import("@/assets/icons/the_forgotten_age.svg?react"),
-      );
+      return () => <i className="encounters-the_forgotten_age" />;
 
     case "tcuc":
     case "tcup":
     case "tcu":
-      return React.lazy(
-        () => import("@/assets/icons/the_circle_undone.svg?react"),
-      );
+      return () => <i className="encounters-the_circle_undone" />;
 
     case "tdep":
     case "tdec":
     case "tde":
-      return React.lazy(() => import("@/assets/icons/dream.svg?react"));
+      return () => <i className="encounters-dream" />;
 
     case "tic":
-      return React.lazy(() => import("@/assets/icons/tic.svg?react"));
+      return () => <i className="encounters-tic" />;
 
     case "eoe":
     case "eoep":
-      return React.lazy(() => import("@/assets/icons/eoe.svg?react"));
+      return () => <i className="encounters-eoe" />;
 
     case "eoec":
-      return React.lazy(() => import("@/assets/icons/eoe_campaign.svg?react"));
+      return () => <i className="encounters-eoe_campaign" />;
 
     case "tskc":
-      return React.lazy(() => import("@/assets/icons/tskc.svg?react"));
+      return () => <i className="encounters-tskc" />;
 
     case "tsk":
     case "tskp":
-      return React.lazy(() => import("@/assets/icons/tsk.svg?react"));
+      return () => <i className="encounters-tsk" />;
 
     case "fhv":
     case "fhvp":
-      return React.lazy(() => import("@/assets/icons/fhvp.svg?react"));
+      return () => <i className="encounters-fhvp" />;
 
     case "fhvc":
-      return React.lazy(() => import("@/assets/icons/fhvc.svg?react"));
+      return () => <i className="encounters-fhvc" />;
 
     case "promo":
     case "dre":
@@ -144,7 +97,7 @@ function getPackIcon(code?: string) {
     case "books":
     case "hoth":
     case "promotional":
-      return React.lazy(() => import("@/assets/icons/novella.svg?react"));
+      return () => <i className="encounters-novella" />;
 
     case "tmm":
       return SvgTheMiskatonicMuseum;
@@ -196,7 +149,7 @@ function getPackIcon(code?: string) {
     case "icc":
       return SvgInTheClutchesOfChaos;
     case "bbt":
-      return SvgBlackStarsRise;
+      return SvgBeforeTheBlackThrone;
 
     case "sfk":
       return SvgTheSearchForKadath;
@@ -225,32 +178,26 @@ function getPackIcon(code?: string) {
       return SvgIntoTheMaelstrom;
 
     case "rtnotz":
-      return React.lazy(() => import("@/assets/icons/rtnotz.svg?react"));
-    case "rtdwl":
-      return React.lazy(
-        () => import("@/assets/icons/return_to_the_dunwich_legacy.svg?react"),
-      );
-    case "rtptc":
-      return React.lazy(
-        () => import("@/assets/icons/return_to_the_path_to_carcosa.svg?react"),
-      );
-    case "rttfa":
-      return React.lazy(
-        () => import("@/assets/icons/return_to_the_forgotten_age.svg?react"),
-      );
-    case "rttcu":
-      return React.lazy(() => import("@/assets/icons/rttcu.svg?react"));
+      return () => <i className="encounters-rtnotz" />;
 
+    case "rtdwl":
+      return () => <i className="encounters-return_to_the_dunwich_legacy" />;
+    case "rtptc":
+      return () => <i className="encounters-return_to_the_path_to_carcosa" />;
+    case "rttfa":
+      return () => <i className="encounters-return_to_the_forgotten_age" />;
+    case "rttcu":
+      return () => <i className="encounters-rttcu" />;
     case "nat":
-      return React.lazy(() => import("@/assets/icons/nate.svg?react"));
+      return () => <i className="encounters-nate" />;
     case "har":
-      return React.lazy(() => import("@/assets/icons/harvey.svg?react"));
+      return () => <i className="encounters-harvey" />;
     case "win":
-      return React.lazy(() => import("@/assets/icons/winifred.svg?react"));
+      return () => <i className="encounters-winifred" />;
     case "jac":
-      return React.lazy(() => import("@/assets/icons/jacqueline.svg?react"));
+      return () => <i className="encounters-jacqueline" />;
     case "ste":
-      return React.lazy(() => import("@/assets/icons/stella.svg?react"));
+      return () => <i className="encounters-stella" />;
 
     case "rod":
       return SvgReadOrDie;
@@ -264,25 +211,23 @@ function getPackIcon(code?: string) {
       return SvgRedTideRising;
 
     case "cotr":
-      return React.lazy(() => import("@/assets/icons/rougerauo2.svg?react"));
+      return () => <i className="encounters-rougerauo2" />;
     case "coh":
-      return React.lazy(() => import("@/assets/icons/carnevale.svg?react"));
+      return () => <i className="encounters-carnevale" />;
     case "lol":
-      return React.lazy(() => import("@/assets/icons/lol.svg?react"));
+      return () => <i className="encounters-lol" />;
     case "guardians":
-      return React.lazy(() => import("@/assets/icons/guardians.svg?react"));
+      return () => <i className="encounters-guardians" />;
     case "hotel":
-      return React.lazy(() => import("@/assets/icons/excelsior.svg?react"));
+      return () => <i className="encounters-excelsior" />;
     case "blob":
-      return React.lazy(() => import("@/assets/icons/blob_set.svg?react"));
+      return () => <i className="encounters-blob_set" />;
     case "wog":
-      return React.lazy(() => import("@/assets/icons/wotog.svg?react"));
+      return () => <i className="encounters-wotog" />;
     case "mtt":
-      return React.lazy(
-        () => import("@/assets/icons/machinations_through_time.svg?react"),
-      );
+      return () => <i className="encounters-machinations_through_time" />;
     case "fof":
-      return React.lazy(() => import("@/assets/icons/roulette.svg?react"));
+      return () => <i className="encounters-roulette" />;
     case "blbe":
       return null;
 
