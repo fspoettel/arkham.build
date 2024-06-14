@@ -1,11 +1,12 @@
 import { createSelector } from "reselect";
 
-import { Card } from "@/store/services/types";
-import { StoreState } from "@/store/slices";
-import { PropertiesFilter } from "@/store/slices/filters/types";
-import { LookupTables } from "@/store/slices/lookup-tables/types";
+import type { Card } from "@/store/services/types";
+import type { StoreState } from "@/store/slices";
+import type { PropertiesFilter } from "@/store/slices/filters/types";
+import type { LookupTables } from "@/store/slices/lookup-tables/types";
 import { capitalize } from "@/utils/capitalize";
-import { Filter, and, not, or } from "@/utils/fp";
+import type { Filter } from "@/utils/fp";
+import { and, not, or } from "@/utils/fp";
 
 import { filterActions } from "./action";
 import { filterUses } from "./assets";

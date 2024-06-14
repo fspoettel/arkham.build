@@ -1,4 +1,5 @@
-import { FormEvent, useCallback, useRef } from "react";
+import type { FormEvent } from "react";
+import { useCallback, useRef } from "react";
 
 import { SettingsLayout } from "@/components/layouts/settings-layout";
 import { Button } from "@/components/ui/button";

@@ -1,6 +1,7 @@
 import { reversed } from "@/utils/card-utils";
 
-import { Card, Props as CardProps } from "./card";
+import type { Props as CardProps } from "./card";
+import { Card } from "./card";
 
 type Props = CardProps;
 

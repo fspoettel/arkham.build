@@ -1,7 +1,8 @@
-import { CheckboxProps, Indicator, Root } from "@radix-ui/react-checkbox";
+import type { CheckboxProps } from "@radix-ui/react-checkbox";
+import { Indicator, Root } from "@radix-ui/react-checkbox";
 import { CheckIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import css from "./checkbox.module.css";
 

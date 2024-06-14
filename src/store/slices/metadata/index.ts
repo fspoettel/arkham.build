@@ -1,7 +1,7 @@
-import { StateCreator } from "zustand";
+import type { StateCreator } from "zustand";
 
-import { StoreState } from "..";
-import { Metadata, MetadataSlice } from "./types";
+import type { StoreState } from "..";
+import type { Metadata, MetadataSlice } from "./types";
 
 export function getInitialMetadata(): Metadata {
   return {

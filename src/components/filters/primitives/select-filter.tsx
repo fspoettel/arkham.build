@@ -1,8 +1,9 @@
-import { ChangeEvent, ReactNode, useCallback } from "react";
+import type { ChangeEvent, ReactNode } from "react";
+import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import { selectFilterOpen } from "@/store/selectors/filters";
-import { CardTypeFilter, Filters } from "@/store/slices/filters/types";
+import type { CardTypeFilter, Filters } from "@/store/slices/filters/types";
 
 import { FilterContainer } from "./filter-container";
 

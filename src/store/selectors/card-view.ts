@@ -1,4 +1,4 @@
-import {
+import type {
   Card,
   Cycle,
   EncounterSet,
@@ -6,8 +6,8 @@ import {
   SubType,
   Type,
 } from "../services/types";
-import { StoreState } from "../slices";
-import { LookupTables } from "../slices/lookup-tables/types";
+import type { StoreState } from "../slices";
+import type { LookupTables } from "../slices/lookup-tables/types";
 import { applyTaboo } from "../utils/taboos";
 import { selectCanonicalTabooSetId } from "./filters/taboo-set";
 

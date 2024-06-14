@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
-import { Cycle, Pack } from "../services/types";
-import { StoreState } from "../slices";
+import type { Cycle, Pack } from "../services/types";
+import type { StoreState } from "../slices";
 
 type CycleWithPacks = (Cycle & {
   packs: Pack[];

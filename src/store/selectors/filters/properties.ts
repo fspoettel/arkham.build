@@ -1,11 +1,12 @@
 import { createSelector } from "reselect";
 
-import { Card } from "@/store/services/types";
-import { StoreState } from "@/store/slices";
-import { PropertiesFilter } from "@/store/slices/filters/types";
-import { LookupTables } from "@/store/slices/lookup-tables/types";
+import type { Card } from "@/store/services/types";
+import type { StoreState } from "@/store/slices";
+import type { PropertiesFilter } from "@/store/slices/filters/types";
+import type { LookupTables } from "@/store/slices/lookup-tables/types";
 import { capitalize } from "@/utils/capitalize";
-import { Filter, and } from "@/utils/fp";
+import type { Filter } from "@/utils/fp";
+import { and } from "@/utils/fp";
 
 function filterBonded(bondedTable: LookupTables["relations"]["bonded"]) {
   return (card: Card) => !!bondedTable[card.code];

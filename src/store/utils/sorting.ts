@@ -1,5 +1,5 @@
-import { Card } from "../services/types";
-import { LookupTables } from "../slices/lookup-tables/types";
+import type { Card } from "../services/types";
+import type { LookupTables } from "../slices/lookup-tables/types";
 
 export function sortAlphabetically(lookupTables: LookupTables) {
   return (a: Card, b: Card) => {

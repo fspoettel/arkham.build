@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
-import { StoreState } from "./slices";
+import type { StoreState } from "./slices";
 import { createFiltersSlice } from "./slices/filters";
 import { createLookupTablesSlice } from "./slices/lookup-tables";
 import { createMetadataSlice } from "./slices/metadata";

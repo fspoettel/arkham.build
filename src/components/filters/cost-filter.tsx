@@ -9,7 +9,7 @@ import {
   selectValue,
 } from "@/store/selectors/filters/cost";
 import { selectActiveCardType } from "@/store/selectors/filters/shared";
-import { CostFilter as CostFilterType } from "@/store/slices/filters/types";
+import type { CostFilter as CostFilterType } from "@/store/slices/filters/types";
 
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";

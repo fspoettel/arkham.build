@@ -1,5 +1,5 @@
-import { Card } from "@/store/services/types";
-import { StoreState } from "@/store/slices";
+import type { Card } from "@/store/services/types";
+import type { StoreState } from "@/store/slices";
 
 export function filterWeaknesses(card: Card) {
   return !card.subtype_code;

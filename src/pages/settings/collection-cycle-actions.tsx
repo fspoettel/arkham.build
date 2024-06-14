@@ -1,5 +1,5 @@
 import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
-import { MouseEventHandler } from "react";
+import type { MouseEventHandler } from "react";
 
 import { Button } from "@/components/ui/button";
 

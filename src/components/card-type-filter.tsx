@@ -4,7 +4,7 @@ import SvgAutoFail from "@/assets/icons/auto_fail.svg?react";
 import SvgInvestigator from "@/assets/icons/investigator.svg?react";
 import { useStore } from "@/store";
 import { selectActiveCardType } from "@/store/selectors/filters/shared";
-import { CardTypeFilter as CardTypeFilterType } from "@/store/slices/filters/types";
+import type { CardTypeFilter as CardTypeFilterType } from "@/store/slices/filters/types";
 
 import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
 

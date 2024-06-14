@@ -1,6 +1,6 @@
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Link, Redirect, useParams } from "wouter";
 
 import { Card } from "@/components/card/card";

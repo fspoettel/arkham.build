@@ -7,7 +7,7 @@ import {
   selectValue,
 } from "@/store/selectors/filters/properties";
 import { selectActiveCardType } from "@/store/selectors/filters/shared";
-import { PropertiesFilter as PropertiesFilterType } from "@/store/slices/filters/types";
+import type { PropertiesFilter as PropertiesFilterType } from "@/store/slices/filters/types";
 
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";

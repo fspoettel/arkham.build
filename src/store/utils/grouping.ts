@@ -1,8 +1,8 @@
 import { ASSET_SLOT_ORDER, PLAYER_TYPE_ORDER } from "@/utils/constants";
 
-import { Card } from "../services/types";
-import { LookupTables } from "../slices/lookup-tables/types";
-import { Metadata } from "../slices/metadata/types";
+import type { Card } from "../services/types";
+import type { LookupTables } from "../slices/lookup-tables/types";
+import type { Metadata } from "../slices/metadata/types";
 
 export type Grouping = {
   code: string;

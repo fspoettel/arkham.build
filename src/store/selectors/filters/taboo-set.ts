@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
-import { Card } from "@/store/services/types";
-import { StoreState } from "@/store/slices";
+import type { Card } from "@/store/services/types";
+import type { StoreState } from "@/store/slices";
 
 export function filterTabooSet(tabooSetId: number | null) {
   if (!tabooSetId) return undefined;

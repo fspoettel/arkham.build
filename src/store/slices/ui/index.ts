@@ -1,7 +1,7 @@
-import { StateCreator } from "zustand";
+import type { StateCreator } from "zustand";
 
-import { StoreState } from "..";
-import { UISlice, UIState } from "./types";
+import type { StoreState } from "..";
+import type { UISlice, UIState } from "./types";
 
 export function getInitialUIState(): UIState {
   return {

@@ -1,5 +1,5 @@
-import { Card } from "@/store/services/types";
-import { Metadata } from "@/store/slices/metadata/types";
+import type { Card } from "@/store/services/types";
+import type { Metadata } from "@/store/slices/metadata/types";
 
 export function applyTaboo(
   card: Card,

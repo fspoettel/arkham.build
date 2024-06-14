@@ -1,5 +1,5 @@
-import { Card } from "@/store/services/types";
-import { LookupTables } from "@/store/slices/lookup-tables/types";
+import type { Card } from "@/store/services/types";
+import type { LookupTables } from "@/store/slices/lookup-tables/types";
 import { or } from "@/utils/fp";
 
 export function filterUses(types: string[], usesTable: LookupTables["uses"]) {

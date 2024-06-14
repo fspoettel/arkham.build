@@ -1,10 +1,11 @@
-import { MouseEvent, useCallback, useEffect, useState } from "react";
+import type { MouseEvent } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { LazyPackIcon } from "@/components/icons/lazy-icons";
 import { Field } from "@/components/ui/field";
 import { useStore } from "@/store";
 import { selectCyclesAndPacks } from "@/store/selectors/settings";
-import { SettingsState } from "@/store/slices/settings/types";
+import type { SettingsState } from "@/store/slices/settings/types";
 
 import css from "./collection.module.css";
 

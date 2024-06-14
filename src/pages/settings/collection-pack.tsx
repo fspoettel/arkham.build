@@ -2,7 +2,7 @@ import clsx from "clsx";
 
 import { LazyPackIcon } from "@/components/icons/lazy-icons";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Cycle, Pack } from "@/store/services/types";
+import type { Cycle, Pack } from "@/store/services/types";
 
 import css from "./collection.module.css";
 

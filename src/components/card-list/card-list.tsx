@@ -1,5 +1,7 @@
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
-import { GroupedVirtuoso, GroupedVirtuosoHandle } from "react-virtuoso";
+import type { ChangeEvent } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import type { GroupedVirtuosoHandle } from "react-virtuoso";
+import { GroupedVirtuoso } from "react-virtuoso";
 
 import { useStore } from "@/store";
 import { selectFilteredCards } from "@/store/selectors/card-list";

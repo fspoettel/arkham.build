@@ -1,12 +1,12 @@
 import { del, get, set } from "idb-keyval";
-import { PersistStorage, StorageValue } from "zustand/middleware";
+import type { PersistStorage, StorageValue } from "zustand/middleware";
 
-import { DataVersion } from "./services/types";
-import { StoreState } from "./slices";
+import type { DataVersion } from "./services/types";
+import type { StoreState } from "./slices";
 import { getInitialMetadata } from "./slices/metadata";
-import { Metadata } from "./slices/metadata/types";
+import type { Metadata } from "./slices/metadata/types";
 import { getInitialSettings } from "./slices/settings";
-import { SettingsState } from "./slices/settings/types";
+import type { SettingsState } from "./slices/settings/types";
 
 const VERSION = 1;
 

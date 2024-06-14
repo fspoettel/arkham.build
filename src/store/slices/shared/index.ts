@@ -1,20 +1,20 @@
-import { StateCreator } from "zustand";
+import type { StateCreator } from "zustand";
 
 import {
   queryCards,
   queryDataVersion,
   queryMetadata,
 } from "@/store/services/queries";
-import { Card } from "@/store/services/types";
+import type { Card } from "@/store/services/types";
 import { getInitialOwnershipFilter } from "@/store/utils/settings";
 import { rewriteImageUrl } from "@/utils/card-utils";
 
-import { StoreState } from "..";
+import type { StoreState } from "..";
 import { createLookupTables, createRelations } from "../lookup-tables";
 import { getInitialMetadata } from "../metadata";
-import { Metadata } from "../metadata/types";
+import type { Metadata } from "../metadata/types";
 import { mappedByCode, mappedById } from "../metadata/utils";
-import { SharedSlice } from "./types";
+import type { SharedSlice } from "./types";
 
 export const createSharedSlice: StateCreator<
   StoreState,

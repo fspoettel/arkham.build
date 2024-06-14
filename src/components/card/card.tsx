@@ -1,4 +1,4 @@
-import { CardWithRelations } from "@/store/selectors/card-view";
+import type { CardWithRelations } from "@/store/selectors/card-view";
 import { reversed } from "@/utils/card-utils";
 
 import { CardBack } from "./card-back";

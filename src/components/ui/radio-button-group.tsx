@@ -1,9 +1,8 @@
-import {
-  Item,
+import type {
   RadioGroupItemProps,
   RadioGroupProps,
-  Root,
 } from "@radix-ui/react-radio-group";
+import { Item, Root } from "@radix-ui/react-radio-group";
 import clsx from "clsx";
 
 import css from "./radio-button-group.module.css";

@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import { CardWithRelations } from "@/store/selectors/card-view";
+import type { CardWithRelations } from "@/store/selectors/card-view";
 import { getCardColor, sideways } from "@/utils/card-utils";
 
 import css from "./card.module.css";

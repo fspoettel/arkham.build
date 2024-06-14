@@ -1,4 +1,5 @@
-import { Range, Root, SliderProps, Thumb, Track } from "@radix-ui/react-slider";
+import type { SliderProps } from "@radix-ui/react-slider";
+import { Range, Root, Thumb, Track } from "@radix-ui/react-slider";
 import clsx from "clsx";
 
 import { range } from "@/utils/range";

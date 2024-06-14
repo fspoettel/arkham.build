@@ -1,8 +1,8 @@
 import { createSelector } from "reselect";
 
-import { Card, SubType } from "@/store/services/types";
-import { StoreState } from "@/store/slices";
-import { MultiselectFilter } from "@/store/slices/filters/types";
+import type { Card, SubType } from "@/store/services/types";
+import type { StoreState } from "@/store/slices";
+import type { MultiselectFilter } from "@/store/slices/filters/types";
 import { pass } from "@/utils/fp";
 
 export function filterSubtypes(filterState: MultiselectFilter["value"]) {

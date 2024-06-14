@@ -1,9 +1,9 @@
 import { createSelector } from "reselect";
 
-import { Card } from "../services/types";
-import { StoreState } from "../slices";
+import type { Card } from "../services/types";
+import type { StoreState } from "../slices";
+import type { Grouping } from "../utils/grouping";
 import {
-  Grouping,
   getGroupCards,
   groupByEncounterSets,
   groupByPlayerCardType,

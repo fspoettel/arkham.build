@@ -6,7 +6,7 @@ import {
   selectOpen,
   selectValue,
 } from "@/store/selectors/filters/level";
-import { LevelFilter as LevelFilterType } from "@/store/slices/filters/types";
+import type { LevelFilter as LevelFilterType } from "@/store/slices/filters/types";
 
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";

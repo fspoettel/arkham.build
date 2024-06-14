@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
-import { StoreState } from "@/store/slices";
-import {
+import type { StoreState } from "@/store/slices";
+import type {
   CardTypeFilter,
   FilterObject,
   Filters,

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Field } from "@/components/ui/field";
 import { useStore } from "@/store";
 import { selectOptions } from "@/store/selectors/filters/taboo-set";
-import { SettingsState } from "@/store/slices/settings/types";
+import type { SettingsState } from "@/store/slices/settings/types";
 
 type Props = {
   settings: SettingsState;

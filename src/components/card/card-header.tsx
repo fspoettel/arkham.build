@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import { Card } from "@/store/services/types";
+import type { Card } from "@/store/services/types";
 
 import css from "./card-header.module.css";
 

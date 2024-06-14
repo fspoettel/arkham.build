@@ -1,5 +1,6 @@
 import { Cross1Icon } from "@radix-ui/react-icons";
-import { ReactNode, useCallback } from "react";
+import type { ReactNode } from "react";
+import { useCallback } from "react";
 
 import css from "./combobox.module.css";
 

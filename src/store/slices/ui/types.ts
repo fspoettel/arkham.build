@@ -1,4 +1,4 @@
-import { StateSnapshot } from "react-virtuoso";
+import type { StateSnapshot } from "react-virtuoso";
 
 export type UIState = {
   ui: {

@@ -1,11 +1,13 @@
 import { createSelector } from "reselect";
 
-import { Card } from "@/store/services/types";
-import { StoreState } from "@/store/slices";
-import { SkillIconsFilter } from "@/store/slices/filters/types";
+import type { Card } from "@/store/services/types";
+import type { StoreState } from "@/store/slices";
+import type { SkillIconsFilter } from "@/store/slices/filters/types";
 import { capitalize } from "@/utils/capitalize";
-import { SKILL_KEYS, SkillKey } from "@/utils/constants";
-import { Filter, and, or } from "@/utils/fp";
+import type { SkillKey } from "@/utils/constants";
+import { SKILL_KEYS } from "@/utils/constants";
+import type { Filter } from "@/utils/fp";
+import { and, or } from "@/utils/fp";
 
 function filterSkill(skill: SkillKey, amount: number) {
   return (card: Card) =>

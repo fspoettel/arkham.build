@@ -1,4 +1,4 @@
-import { CardResolved } from "@/store/selectors/card-view";
+import type { CardResolved } from "@/store/selectors/card-view";
 
 import css from "./card-details.module.css";
 

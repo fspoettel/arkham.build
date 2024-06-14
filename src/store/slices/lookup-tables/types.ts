@@ -1,5 +1,3 @@
-import { StoreState } from "..";
-
 export type Mapping<V extends string | number> = Record<string, V>;
 
 export type LookupTable<
@@ -69,5 +67,5 @@ export type LookupTables = {
 export type LookupTablesSlice = {
   lookupTables: LookupTables;
 
-  refreshLookupTables(partial?: Partial<StoreState>): void;
+  refreshLookupTables(partial?: unknown): void;
 };

@@ -1,9 +1,14 @@
-import { StateCreator } from "zustand";
+import type { StateCreator } from "zustand";
 
 import { getInitialOwnershipFilter } from "@/store/utils/settings";
 
-import { StoreState } from "..";
-import { CardTypeFilter, FilterObject, Filters, FiltersSlice } from "./types";
+import type { StoreState } from "..";
+import type {
+  CardTypeFilter,
+  FilterObject,
+  Filters,
+  FiltersSlice,
+} from "./types";
 
 function getInitialState(): Filters {
   const shared = {

@@ -1,6 +1,7 @@
 import { Cross1Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
-import { ChangeEvent, ComponentProps, useCallback, useRef } from "react";
+import type { ChangeEvent, ComponentProps } from "react";
+import { useCallback, useRef } from "react";
 
 import css from "./search-input.module.css";
 

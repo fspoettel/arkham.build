@@ -1,13 +1,11 @@
-import {
+import type {
   CollapsibleContentProps,
   CollapsibleProps,
-  Content,
-  Root,
-  Trigger,
 } from "@radix-ui/react-collapsible";
+import { Content, Root, Trigger } from "@radix-ui/react-collapsible";
 import { Cross2Icon, RowSpacingIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import css from "./collapsible.module.css";
 

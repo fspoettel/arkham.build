@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import { ReactNode, useEffect, useRef } from "react";
+import type { ReactNode } from "react";
+import { useEffect, useRef } from "react";
 import { useLocation } from "wouter";
 
 import { useDocumentTitle } from "@/utils/use-document-title";

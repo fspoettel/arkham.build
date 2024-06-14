@@ -4,7 +4,7 @@ import factions from "./data/factions.json";
 import reprintPacks from "./data/reprint_packs.json";
 import subTypes from "./data/subtypes.json";
 import types from "./data/types.json";
-import {
+import type {
   Cycle,
   DataVersion,
   EncounterSet,

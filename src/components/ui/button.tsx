@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import { ComponentProps, ForwardedRef, ReactNode, forwardRef } from "react";
+import type { ComponentProps, ForwardedRef, ReactNode } from "react";
+import { forwardRef } from "react";
 
 import css from "./button.module.css";
 

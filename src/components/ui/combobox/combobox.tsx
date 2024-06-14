@@ -12,16 +12,10 @@ import {
 } from "@floating-ui/react";
 import { CheckIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
-import {
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import type { ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { Coded } from "@/store/services/types";
+import type { Coded } from "@/store/services/types";
 
 import css from "./combobox.module.css";
 

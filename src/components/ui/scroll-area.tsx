@@ -1,12 +1,8 @@
 /* eslint-disable react/display-name */
-import {
-  Root,
-  ScrollAreaProps,
-  Scrollbar,
-  Thumb,
-  Viewport,
-} from "@radix-ui/react-scroll-area";
-import { ForwardedRef, ReactNode, forwardRef } from "react";
+import type { ScrollAreaProps } from "@radix-ui/react-scroll-area";
+import { Root, Scrollbar, Thumb, Viewport } from "@radix-ui/react-scroll-area";
+import type { ForwardedRef, ReactNode } from "react";
+import { forwardRef } from "react";
 
 import css from "./scroll-area.module.css";
 

@@ -1,8 +1,9 @@
 import { createSelector } from "reselect";
 
-import { Card } from "@/store/services/types";
-import { StoreState } from "@/store/slices";
-import { Filter, and, or, pass } from "@/utils/fp";
+import type { Card } from "@/store/services/types";
+import type { StoreState } from "@/store/slices";
+import type { Filter } from "@/utils/fp";
+import { and, or, pass } from "@/utils/fp";
 
 import { selectActiveCardType } from "./shared";
 

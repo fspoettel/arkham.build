@@ -1,9 +1,11 @@
 import clsx from "clsx";
-import { ReactNode, useCallback, useEffect, useState } from "react";
+import type { ReactNode } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import css from "./range-select.module.css";
 
-import { Slider, Props as SliderProps } from "./slider";
+import type { Props as SliderProps } from "./slider";
+import { Slider } from "./slider";
 
 type Props = Omit<SliderProps, "defaultValue"> & {
   className?: string;

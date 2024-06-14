@@ -1,6 +1,6 @@
-import { StateCreator } from "zustand";
+import type { StateCreator } from "zustand";
 
-import { Card } from "@/store/services/types";
+import type { Card } from "@/store/services/types";
 import { applyTaboo } from "@/store/utils/taboos";
 import { splitMultiValue } from "@/utils/card-utils";
 import {
@@ -10,11 +10,11 @@ import {
   REGEX_USES,
 } from "@/utils/constants";
 
-import { StoreState } from "..";
-import { CardTypeFilter } from "../filters/types";
-import { Metadata } from "../metadata/types";
-import { SettingsState } from "../settings/types";
-import { LookupTable, LookupTables, LookupTablesSlice } from "./types";
+import type { StoreState } from "..";
+import type { CardTypeFilter } from "../filters/types";
+import type { Metadata } from "../metadata/types";
+import type { SettingsState } from "../settings/types";
+import type { LookupTable, LookupTables, LookupTablesSlice } from "./types";
 
 export function getInitialLookupTables(): LookupTables {
   return {
@@ -69,7 +69,7 @@ export const createLookupTablesSlice: StateCreator<
 > = (set, get) => ({
   lookupTables: getInitialLookupTables(),
 
-  refreshLookupTables(partial) {
+  refreshLookupTables(partial: Partial<StoreState>) {
     const state = get();
     const lookupTables = createLookupTables(state.metadata, state.settings);
     set({

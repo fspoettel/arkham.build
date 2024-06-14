@@ -1,10 +1,10 @@
 import { createSelector } from "reselect";
 
-import { Card } from "@/store/services/types";
-import { StoreState } from "@/store/slices";
-import { LookupTables } from "@/store/slices/lookup-tables/types";
-import { Metadata } from "@/store/slices/metadata/types";
-import { SettingsState } from "@/store/slices/settings/types";
+import type { Card } from "@/store/services/types";
+import type { StoreState } from "@/store/slices";
+import type { LookupTables } from "@/store/slices/lookup-tables/types";
+import type { Metadata } from "@/store/slices/metadata/types";
+import type { SettingsState } from "@/store/slices/settings/types";
 import { pass } from "@/utils/fp";
 
 function filterOwnership(

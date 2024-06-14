@@ -1,9 +1,9 @@
 import uFuzzy from "@leeoniya/ufuzzy";
 
-import { Card } from "@/store/services/types";
+import type { Card } from "@/store/services/types";
 
-import { Metadata } from "../slices/metadata/types";
-import { SearchState } from "../slices/search/types";
+import type { Metadata } from "../slices/metadata/types";
+import type { SearchState } from "../slices/search/types";
 
 function prepareCardFront(card: Card, search: SearchState["search"]) {
   let content = `|${card.real_name}`;

@@ -6,7 +6,7 @@ import SvgAll from "@/assets/icons/cards.svg?react";
 import { useStore } from "@/store";
 import { selectOpen, selectValue } from "@/store/selectors/filters/ownership";
 import { selectActiveCardType } from "@/store/selectors/filters/shared";
-import { OwnershipFilter as OwnershipFilterType } from "@/store/slices/filters/types";
+import type { OwnershipFilter as OwnershipFilterType } from "@/store/slices/filters/types";
 import { capitalize } from "@/utils/capitalize";
 
 import {

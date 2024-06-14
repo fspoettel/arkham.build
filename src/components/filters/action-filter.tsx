@@ -7,7 +7,7 @@ import {
   selectValue,
 } from "@/store/selectors/filters/action";
 import { selectActiveCardType } from "@/store/selectors/filters/shared";
-import { Trait } from "@/store/slices/filters/types";
+import type { Trait } from "@/store/slices/filters/types";
 import { capitalize } from "@/utils/capitalize";
 
 import { MultiselectFilter } from "./primitives/multiselect-filter";

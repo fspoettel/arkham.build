@@ -1,4 +1,4 @@
-import { StoreState } from "../slices";
+import type { StoreState } from "../slices";
 
 export function getInitialOwnershipFilter(state: StoreState) {
   const value = Object.values(state.settings.collection).some((x) => x)
