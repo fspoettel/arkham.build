@@ -28,7 +28,7 @@ export function DeckSidebar({ className, deck }: Props) {
 
   return (
     <div className={clsx(css["deck-sidebar"], className)}>
-      <DeckInvestigator deck={deck} />
+      <DeckInvestigator deck={deck} size="tooltip" />
       <div className={css["deck-sidebar-actions"]}>
         <Link asChild href={`/${deck.id}/edit`}>
           <Button as="a" size="full">

@@ -1,3 +1,7 @@
+export type Slots = {
+  [code: string]: number;
+};
+
 export type Deck = {
   id: string | number;
   external_id?: string | number; // external id, i.e. arkhamdb or arkhamcards.
@@ -7,9 +11,9 @@ export type Deck = {
   date_update: string;
   investigator_code: string;
   description_md: string;
-  slots: Record<string, number>;
-  sideSlots: Record<string, number> | string[]; // NOTE: arkhamdb returns `[]` for empty side slots.
-  ignoreDeckLimitSlots?: Record<string, number> | null;
+  slots: Slots;
+  sideSlots: Slots | string[]; // NOTE: arkhamdb returns `[]` for empty side slots.
+  ignoreDeckLimitSlots?: Slots | null;
   xp: number | null;
   xp_spent: number | null;
   taboo_id: number | null;

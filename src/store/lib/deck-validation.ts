@@ -53,6 +53,7 @@ export type ForbiddenCardError = {
   details: {
     real_name: string;
     code: string;
+    target: "slots" | "extraSlots";
   }[];
 };
 
@@ -109,6 +110,11 @@ export function validateDeck(
     ...validateDeckSize(deck),
     ...validateSlots(deck, state),
   ];
+
+  if (deck.hasExtraDeck) {
+    errors.push(...validateSideDeckSize(deck));
+    errors.push(...validateSlots(deck, state, "extraSlots"));
+  }
 
   console.timeEnd("[perf] validate_deck");
   return formatReturnValue(errors);
@@ -187,18 +193,45 @@ function validateDeckSize(deck: ResolvedDeck<ResolvedCard>): Error[] {
     : [];
 }
 
+function validateSideDeckSize(deck: ResolvedDeck<ResolvedCard>): Error[] {
+  const investigatorBack = deck.investigatorBack.card;
+  // FIXME: this is a hack. Instead, we should not count signatures towards side deck size.
+  const targetDeckSize =
+    (investigatorBack.side_deck_requirements?.size ?? 0) + 1;
+
+  const deckSize = Object.values(deck.extraSlots ?? {}).reduce(
+    (acc, curr) => acc + curr,
+    0,
+  );
+
+  return deckSize !== targetDeckSize
+    ? deckSize > targetDeckSize
+      ? [{ type: "TOO_MANY_CARDS" }]
+      : [{ type: "TOO_FEW_CARDS" }]
+    : [];
+}
+
 function validateSlots(
   deck: ResolvedDeck<ResolvedCard>,
   state: StoreState,
+  mode: "slots" | "extraSlots" = "slots",
 ): Error[] {
-  const validators = [
+  const validators: SlotValidator[] = [
     new DeckLimitsValidator(deck),
-    new DeckRequiredCardsValidator(deck),
-    new DeckOptionsValidator(deck, state),
+    new DeckRequiredCardsValidator(deck, mode),
+    new DeckOptionsValidator(deck, state, mode),
   ];
 
-  for (const [code, quantity] of Object.entries(deck.slots)) {
-    const { card } = deck.cards.slots[code];
+  if (mode === "extraSlots") {
+    validators.push(new SideDeckLimitsValidator());
+  }
+
+  const accessor =
+    mode === "slots" ? ("slots" as const) : ("extraSlots" as const);
+
+  for (const [code, quantity] of Object.entries(deck[accessor] ?? {})) {
+    const { card } = deck.cards[accessor][code];
+
     if (card.encounter_code || quantity === 0) {
       continue;
     }
@@ -237,6 +270,7 @@ class DeckLimitsValidator implements SlotValidator {
 
   constructor(deck: ResolvedDeck<ResolvedCard>) {
     this.ignoreDeckLimitSlots = deck.ignoreDeckLimitSlots ?? {};
+
     if (deck.slots[SPECIAL_CARD_CODES.UNDERWORLD_SUPPORT]) {
       this.limitOverride = 1;
     }
@@ -317,12 +351,16 @@ class DeckRequiredCardsValidator implements SlotValidator {
   cards: Card[] = [];
   quantities: number[] = [];
 
-  constructor(deck: ResolvedDeck<ResolvedCard>) {
+  constructor(
+    deck: ResolvedDeck<ResolvedCard>,
+    mode: "slots" | "extraSlots" = "slots",
+  ) {
     const investigatorBack = deck.investigatorBack.card;
 
-    this.requirements = (
-      investigatorBack.deck_requirements as DeckRequirements
-    ).card;
+    const accessor =
+      mode === "slots" ? "deck_requirements" : "side_deck_requirements";
+
+    this.requirements = (investigatorBack[accessor] as DeckRequirements).card;
   }
 
   add(card: Card, quantity: number) {
@@ -373,11 +411,16 @@ class DeckOptionsValidator implements SlotValidator {
   quantities: Record<string, number> = {};
   weaknessFilter: (card: Card) => boolean;
 
-  constructor(deck: ResolvedDeck<ResolvedCard>, state: StoreState) {
+  constructor(
+    deck: ResolvedDeck<ResolvedCard>,
+    state: StoreState,
+    mode: "slots" | "extraSlots" = "slots",
+  ) {
     const investigatorBack = deck.investigatorBack.card;
     this.lookupTables = state.lookupTables;
 
-    const { config, deckOptions } = this.configure(deck);
+    const { config, deckOptions } = this.configure(deck, mode);
+
     this.config = config;
     this.deckOptions = deckOptions;
 
@@ -393,24 +436,36 @@ class DeckOptionsValidator implements SlotValidator {
     );
   }
 
-  configure(deck: ResolvedDeck<ResolvedCard>): {
+  configure(
+    deck: ResolvedDeck<ResolvedCard>,
+    mode: "slots" | "extraSlots",
+  ): {
     config: InvestigatorAccessConfig;
     deckOptions: DeckOption[];
   } {
-    const deckOptions: DeckOption[] = [
-      {
-        trait: ["Covenant"],
-        limit: 1,
-        virtual: true,
-        error: "You cannot have more than one Covenant in your deck.",
-      },
-    ];
+    const deckOptions: DeckOption[] =
+      mode === "slots"
+        ? [
+            {
+              trait: ["Covenant"],
+              limit: 1,
+              virtual: true,
+              error: "You cannot have more than one Covenant in your deck.",
+            },
+          ]
+        : [];
 
-    deckOptions.push(
-      ...(deck.investigatorBack.card.deck_options as DeckOption[]),
-    );
+    const options =
+      mode === "slots"
+        ? [...(deck.investigatorBack.card.deck_options || [])]
+        : [...(deck.investigatorBack.card.side_deck_options || [])];
 
-    if (deck.slots[SPECIAL_CARD_CODES.ANCESTRAL_KNOWLEDGE]) {
+    deckOptions.push(...options);
+
+    if (
+      mode === "slots" &&
+      deck.slots[SPECIAL_CARD_CODES.ANCESTRAL_KNOWLEDGE]
+    ) {
       deckOptions.push({
         atleast: {
           min: 10,
@@ -422,7 +477,8 @@ class DeckOptionsValidator implements SlotValidator {
       });
     }
 
-    const additionalDeckOptions = getAdditionalDeckOptions(deck);
+    const additionalDeckOptions =
+      mode === "slots" ? getAdditionalDeckOptions(deck) : [];
 
     deckOptions.push(...additionalDeckOptions);
 
@@ -431,6 +487,7 @@ class DeckOptionsValidator implements SlotValidator {
         selections: deck.selections,
         ignoreUnselectedCustomizableOptions: true,
         additionalDeckOptions,
+        targetDeck: mode === "slots" ? "slots" : "extraSlots",
       },
       deckOptions,
     };
@@ -461,6 +518,10 @@ class DeckOptionsValidator implements SlotValidator {
         details: this.forbidden.map((card) => ({
           code: card.code,
           real_name: card.real_name,
+          target:
+            this.config.targetDeck === "extraSlots"
+              ? ("extraSlots" as const)
+              : ("slots" as const),
         })),
       });
     }
@@ -555,6 +616,43 @@ class DeckOptionsValidator implements SlotValidator {
               option.error ??
               `Too many off-class cards (${matchCount} / ${option.limit}).`,
           },
+        });
+      }
+    }
+
+    return errors;
+  }
+}
+
+class SideDeckLimitsValidator implements SlotValidator {
+  cards: Card[] = [];
+  quantities: number[] = [];
+
+  add(card: Card, quantity: number) {
+    if (card.subtype_code !== "basicweakness") {
+      this.cards.push(card);
+      this.quantities.push(quantity);
+    }
+  }
+
+  validate(): Error[] {
+    const errors: Error[] = [];
+
+    for (let i = 0; i < this.cards.length; i += 1) {
+      const card = this.cards[i];
+      const quantity = this.quantities[i];
+
+      if (quantity > 1) {
+        errors.push({
+          type: "INVALID_CARD_COUNT",
+          details: [
+            {
+              code: card.code,
+              limit: 1,
+              quantity,
+              real_name: card.real_name,
+            },
+          ],
         });
       }
     }

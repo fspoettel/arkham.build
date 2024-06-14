@@ -1,6 +1,5 @@
 import { useId, useMemo } from "react";
 
-import { customizationOptionUnlocked } from "@/store/lib/customizable";
 import type { Customization } from "@/store/lib/types";
 import type {
   Card,
@@ -41,7 +40,7 @@ export function CustomizationOption({
 }: Props) {
   const id = useId();
   const choice = choices?.[index];
-  const checkedCount = choice?.xp_spent ?? 0;
+  const xpSpent = choice?.xp_spent ?? 0;
 
   const selections = choice?.selections?.split("^").filter((x) => x) ?? [];
 
@@ -52,7 +51,7 @@ export function CustomizationOption({
     [xpMax],
   );
 
-  const unlocked = customizationOptionUnlocked(option, checkedCount);
+  const unlocked = xpSpent >= option.xp;
 
   return (
     <div
@@ -63,7 +62,7 @@ export function CustomizationOption({
         {!!option.xp &&
           range(0, option.xp).map((i) => (
             <Checkbox
-              checked={i < checkedCount}
+              checked={i < xpSpent}
               disabled={disabled}
               hideLabel
               id={id}

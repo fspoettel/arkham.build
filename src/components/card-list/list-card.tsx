@@ -16,10 +16,16 @@ import type { Props as ListCardInnerProps } from "./list-card-inner";
 import { ListCardInner } from "./list-card-inner";
 
 type Props = {
+  canOpenModal?: boolean;
   tooltip?: React.ReactNode;
 } & Omit<ListCardInnerProps, "onToggleModal" | "figureRef" | "referenceProps">;
 
-export function ListCard({ card, tooltip, canShowQuantities, ...rest }: Props) {
+export function ListCard({
+  canOpenModal = true,
+  card,
+  tooltip,
+  ...rest
+}: Props) {
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
   const restTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
@@ -74,8 +80,7 @@ export function ListCard({ card, tooltip, canShowQuantities, ...rest }: Props) {
     <>
       <ListCardInner
         {...rest}
-        canOpenModal
-        canShowQuantities={canShowQuantities}
+        canOpenModal={canOpenModal}
         card={card}
         figureRef={refs.setReference}
         referenceProps={referenceProps}

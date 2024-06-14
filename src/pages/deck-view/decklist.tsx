@@ -15,7 +15,6 @@ const LABELS: Record<string, string> = {
 
 type Props = {
   deck: DisplayDeck;
-  canEditQuantity?: boolean;
 };
 
 function getSlotsForGrouping(deck: DisplayDeck, grouping: NamedGrouping) {
@@ -39,6 +38,7 @@ export function Decklist({ deck }: Props) {
           <DecklistGroups
             group={deck.groups.main.data}
             layout="two_column"
+            mapping="slots"
             quantities={deck.slots}
           />
         </DecklistSection>
@@ -49,6 +49,7 @@ export function Decklist({ deck }: Props) {
               <DecklistGroups
                 group={deck.groups.special.data}
                 layout="one_column"
+                mapping="slots"
                 quantities={deck.slots}
               />
             </DecklistSection>
@@ -57,6 +58,7 @@ export function Decklist({ deck }: Props) {
                 <DecklistGroups
                   group={firstCol.data}
                   layout="one_column"
+                  mapping={firstCol.id}
                   quantities={getSlotsForGrouping(deck, firstCol)}
                 />
               </DecklistSection>
@@ -68,6 +70,7 @@ export function Decklist({ deck }: Props) {
                 <DecklistGroups
                   group={secondCol.data}
                   layout="one_column"
+                  mapping={secondCol.id}
                   quantities={getSlotsForGrouping(deck, secondCol)}
                 />
               </DecklistSection>
@@ -80,6 +83,7 @@ export function Decklist({ deck }: Props) {
               <DecklistGroups
                 group={thirdCol.data}
                 layout="one_column"
+                mapping={thirdCol.id}
                 quantities={getSlotsForGrouping(deck, thirdCol)}
               />
             </DecklistSection>

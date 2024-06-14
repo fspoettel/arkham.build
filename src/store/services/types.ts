@@ -154,8 +154,8 @@ export type QueryCard = {
   };
   sanity?: number;
   shroud?: number;
-  side_deck_options?: string;
-  side_deck_requirements?: string;
+  side_deck_options?: DeckOption[];
+  side_deck_requirements?: DeckRequirements;
   skill_agility?: number;
   skill_combat?: number;
   skill_intellect?: number;

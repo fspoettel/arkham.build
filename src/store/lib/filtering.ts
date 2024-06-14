@@ -556,6 +556,7 @@ export type InvestigatorAccessConfig = {
   ignoreUnselectedCustomizableOptions?: boolean;
   selections?: Selections;
   additionalDeckOptions?: DeckOption[];
+  targetDeck?: "slots" | "extraSlots" | "both";
 };
 
 export function makeOptionFilter(
@@ -719,25 +720,76 @@ export function filterInvestigatorAccess(
   investigator: Card,
   lookupTables: LookupTables,
   config?: InvestigatorAccessConfig,
+): Filter {
+  const mode = config?.targetDeck ?? "slots";
+  const deckFilter =
+    mode !== "extraSlots"
+      ? makePlayerCardsFilter(
+          investigator,
+          lookupTables,
+          "deck_options",
+          "deck_requirements",
+          config,
+        )
+      : undefined;
+
+  const extraDeckFilter =
+    mode !== "slots"
+      ? makePlayerCardsFilter(
+          investigator,
+          lookupTables,
+          "side_deck_options",
+          "side_deck_requirements",
+          config,
+        )
+      : undefined;
+
+  if (mode !== "extraSlots" && !deckFilter) {
+    console.warn(
+      `filter is a noop: ${investigator.code} is not an investigator.`,
+    );
+  }
+
+  if (mode === "slots") return deckFilter ?? pass;
+  if (mode === "extraSlots") return extraDeckFilter ?? pass;
+
+  const filters = [];
+  if (deckFilter) filters.push(deckFilter);
+  if (extraDeckFilter) filters.push(extraDeckFilter);
+
+  return or(filters);
+}
+
+function makePlayerCardsFilter(
+  investigator: Card,
+  lookupTables: LookupTables,
+  optionsAccessor: "deck_options" | "side_deck_options",
+  requiredAccessor: "deck_requirements" | "side_deck_requirements",
+  config?: InvestigatorAccessConfig,
 ) {
-  const requirements = investigator.deck_requirements?.card;
+  const requirements = investigator[requiredAccessor]?.card;
+  const baseOptions = investigator[optionsAccessor];
 
   const options = config?.additionalDeckOptions
-    ? investigator.deck_options?.concat(config.additionalDeckOptions)
-    : investigator.deck_options;
+    ? baseOptions?.concat(config.additionalDeckOptions)
+    : baseOptions;
 
   if (!requirements || !options) {
-    throw new TypeError(`${investigator.code} is not an investigator.`);
+    return undefined;
   }
 
   // normalize parallel investigators to root for lookups.
   const code = investigator.alternate_of_code ?? investigator.code;
 
-  const ors: Filter[] = [
-    filterRequired(code, lookupTables.relations),
-    (card: Card) => card.subtype_code === "basicweakness",
-    (card: Card) => !!card.encounter_code && card.faction_code !== "mythos",
-  ];
+  const ors: Filter[] = [];
+
+  if (config?.targetDeck !== "extraSlots") {
+    ors.push(
+      filterRequired(code, lookupTables.relations),
+      (card: Card) => card.subtype_code === "basicweakness",
+      (card: Card) => !!card.encounter_code && card.faction_code !== "mythos",
+    );
+  }
 
   const ands: Filter[] = [];
 

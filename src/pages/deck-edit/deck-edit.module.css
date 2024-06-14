@@ -9,7 +9,23 @@
   flex: 0 0 auto;
 }
 
+.deck-edit-sidebar-tabs,
 .deck-edit-sidebar-cards {
+  flex: 1 1 auto;
+}
+
+.deck-edit-sidebar-tabs {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100%;
+  min-height: 0;
+}
+
+.deck-edit-sidebar-tabs-list {
+  flex: 0 0 auto;
+}
+
+.deck-edit-sidebar-tabs-content {
   flex: 1 1 auto;
 }
 

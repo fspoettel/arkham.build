@@ -16,7 +16,7 @@ import deckXpRequired from "@/test/fixtures/decks/xp_required.json";
 import { getMockStore } from "@/test/get-mock-store";
 
 import type { StoreState } from "../slices";
-import { resolveDeck } from "./deck-resolver";
+import { resolveDeck } from "./resolve-deck";
 
 // TODO: define and test revised core resolution.
 describe("resolveDeck", () => {

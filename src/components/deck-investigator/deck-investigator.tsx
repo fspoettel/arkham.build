@@ -15,18 +15,20 @@ type Props = {
   canToggleBack?: boolean;
   forceShowHeader?: boolean;
   deck: DisplayDeck;
+  size: "tooltip" | "full";
 };
 
 export function DeckInvestigator({
   canToggleBack = true,
   forceShowHeader,
   deck,
+  size,
 }: Props) {
   const [backToggled, toggleBack] = useState(false);
 
   const children = canToggleBack ? (
     <>
-      <CardFront linked resolvedCard={deck.investigatorFront} size="tooltip" />
+      <CardFront linked resolvedCard={deck.investigatorFront} size={size} />
       <div className={clsx(css["back-toggle"], backToggled && css["open"])}>
         <Button onClick={() => toggleBack((p) => !p)}>
           {backToggled ? <ChevronUpIcon /> : <ChevronDownIcon />}
@@ -39,19 +41,19 @@ export function DeckInvestigator({
         </Button>
       </div>
       {backToggled && (
-        <CardBack card={deck.investigatorBack.card} size="tooltip" />
+        <CardBack card={deck.investigatorBack.card} size={size} />
       )}
     </>
   ) : (
     <>
-      <CardFront linked resolvedCard={deck.investigatorFront} size="tooltip" />
+      <CardFront linked resolvedCard={deck.investigatorFront} size={size} />
       <CardBack
         card={deck.investigatorBack.card}
         forceShowHeader={forceShowHeader}
-        size="tooltip"
+        size={size}
       />
     </>
   );
 
-  return <CardContainer size="tooltip">{children}</CardContainer>;
+  return <CardContainer size={size}>{children}</CardContainer>;
 }

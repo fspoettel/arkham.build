@@ -1,6 +1,4 @@
-import { ListCard } from "@/components/card-list/list-card";
 import { DeckCard } from "@/components/deck-collection/deck";
-import { DeckInvestigator } from "@/components/deck-investigator/deck-investigator";
 import { DecklistGroups } from "@/components/decklist/decklist-groups";
 import { DecklistSection } from "@/components/decklist/decklist-section";
 import { Scroller } from "@/components/ui/scroller";
@@ -11,6 +9,7 @@ import { selectCurrentTab } from "@/store/selectors/decks";
 
 import css from "./deck-edit.module.css";
 
+import { DeckEditInvestigator } from "./deck-edit-investigator";
 import { DeckEditMeta } from "./deck-edit-meta";
 
 type Props = {
@@ -25,53 +24,42 @@ export function DeckEditSidebar({ deck }: Props) {
   return (
     <div className={css["deck-edit-sidebar"]}>
       <DeckCard deck={deck} showThumbnail={false} />
-      <ListCard
-        canShowInvestigatorIcons
-        canShowParallel={false}
-        canShowSubname={false}
-        card={deck.investigatorFront.card}
-        tooltip={
-          <DeckInvestigator
-            canToggleBack={false}
-            deck={deck}
-            forceShowHeader={!!deck.cards.investigator.relations?.parallel}
-          />
-        }
-      />
-      <Scroller className={css["deck-edit-sidebar-cards"]}>
-        <Tabs
-          className={css["deck-edit-sidebar-tabs"]}
-          length={deck.hasExtraDeck ? 4 : 3}
-          onValueChange={(value: string) => {
-            updateActiveTab(value);
-          }}
-          value={currentTab}
-        >
-          <TabsList className={css["deck-edit-sidebar-tabs-list"]}>
-            <TabsTrigger value="slots">Deck</TabsTrigger>
-            <TabsTrigger value="sideSlots">Side</TabsTrigger>
-            {deck.hasExtraDeck && (
-              <TabsTrigger value="extraSlots">Extra</TabsTrigger>
-            )}
-            <TabsTrigger value="meta">Meta</TabsTrigger>
-          </TabsList>
+      <DeckEditInvestigator deck={deck} />
+      <Tabs
+        className={css["deck-edit-sidebar-tabs"]}
+        length={deck.hasExtraDeck ? 4 : 3}
+        onValueChange={(value: string) => {
+          updateActiveTab(value);
+        }}
+        value={currentTab}
+      >
+        <TabsList className={css["deck-edit-sidebar-tabs-list"]}>
+          <TabsTrigger value="slots">Deck</TabsTrigger>
+          <TabsTrigger value="sideSlots">Side</TabsTrigger>
+          {deck.hasExtraDeck && (
+            <TabsTrigger value="extraSlots">Spirits</TabsTrigger>
+          )}
+          <TabsTrigger value="meta">Meta</TabsTrigger>
+        </TabsList>
+
+        <Scroller className={css["deck-edit-sidebar-cards"]}>
           <TabsContent
             className={css["deck-edit-sidebar-tabs-content"]}
             value="slots"
           >
             <DecklistSection title="Cards">
               <DecklistGroups
-                canEdit
                 group={deck.groups.main.data}
                 layout="two_column"
+                mapping="slots"
                 quantities={deck.slots}
               />
             </DecklistSection>
             <DecklistSection showTitle title="Special cards">
               <DecklistGroups
-                canEdit
                 group={deck.groups.special.data}
                 layout="two_column"
+                mapping="slots"
                 quantities={deck.slots}
               />
             </DecklistSection>
@@ -80,6 +68,7 @@ export function DeckEditSidebar({ deck }: Props) {
                 <DecklistGroups
                   group={deck.groups.bonded.data}
                   layout="two_column"
+                  mapping="bonded"
                   quantities={deck.bondedSlots}
                 />
               </DecklistSection>
@@ -92,9 +81,9 @@ export function DeckEditSidebar({ deck }: Props) {
             <DecklistSection title="Side Deck">
               {deck.groups.side?.data ? (
                 <DecklistGroups
-                  canEdit
                   group={deck.groups.side.data}
                   layout="two_column"
+                  mapping="side"
                   quantities={deck.sideSlots ?? undefined}
                 />
               ) : (
@@ -110,9 +99,9 @@ export function DeckEditSidebar({ deck }: Props) {
               <DecklistSection title="Side Deck">
                 {deck.groups.extra?.data ? (
                   <DecklistGroups
-                    canEdit
                     group={deck.groups.extra.data}
                     layout="one_column"
+                    mapping="extraSlots"
                     quantities={deck.extraSlots ?? undefined}
                   />
                 ) : (
@@ -127,8 +116,8 @@ export function DeckEditSidebar({ deck }: Props) {
           >
             <DeckEditMeta deck={deck} />
           </TabsContent>
-        </Tabs>
-      </Scroller>
+        </Scroller>
+      </Tabs>
     </div>
   );
 }

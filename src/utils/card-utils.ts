@@ -1,3 +1,4 @@
+import type { CardWithRelations } from "@/store/lib/types";
 import type { Card } from "@/store/services/types";
 
 import { SIDEWAYS_TYPE_CODES, SKILL_KEYS } from "./constants";
@@ -73,4 +74,26 @@ export function parseCardTextHtml(cardText: string) {
 
 export function parseCustomizationTextHtml(customizationText: string) {
   return parseCardTextHtml(customizationText).replaceAll(/□/g, "");
+}
+
+export function isSpecialCard(
+  card: Card,
+  investigator: CardWithRelations,
+  ignorePermanent = false,
+) {
+  const isSpecial =
+    card.encounter_code ||
+    card.subtype_code ||
+    investigator.relations?.advanced?.some((x) => x.card.code === card.code) ||
+    investigator.relations?.parallelCards?.some(
+      (x) => x.card.code === card.code,
+    ) ||
+    investigator.relations?.replacement?.some(
+      (x) => x.card.code === card.code,
+    ) ||
+    investigator.relations?.requiredCards?.some(
+      (x) => x.card.code === card.code,
+    );
+
+  return !!isSpecial || !!(card.permanent && !ignorePermanent);
 }

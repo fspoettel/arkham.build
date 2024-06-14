@@ -1,6 +1,6 @@
 import type { StateCreator } from "zustand";
 
-import { applyTaboo } from "@/store/lib/card-changes";
+import { applyTaboo } from "@/store/lib/card-edits";
 import type { Card } from "@/store/services/types";
 import { splitMultiValue } from "@/utils/card-utils";
 import {

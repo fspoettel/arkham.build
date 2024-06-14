@@ -4,7 +4,7 @@ import { PLAYER_TYPE_ORDER } from "@/utils/constants";
 import { and, pass } from "@/utils/fp";
 import { isEmpty } from "@/utils/is-empty";
 
-import { applyCardChanges } from "../lib/card-changes";
+import { applyCardChanges } from "../lib/card-edits";
 import { getAdditionalDeckOptions } from "../lib/deck-validation";
 import {
   filterActions,
@@ -240,7 +240,9 @@ export const selectInvestigatorFilter = createSelector(
     const card = metadata[cardCode];
     if (!card) return undefined;
 
-    return filterInvestigatorAccess(card, lookupTables);
+    return filterInvestigatorAccess(card, lookupTables, {
+      targetDeck: card.side_deck_options ? "both" : "slots",
+    });
   },
 );
 
@@ -250,7 +252,12 @@ export const selectInvestigatorFilter = createSelector(
 export const selectDeckInvestigatorFilter = createSelector(
   (state: StoreState) => state.lookupTables,
   selectResolvedDeck,
-  (lookupTables, resolvedDeck) => {
+  (state: StoreState) => {
+    const mode = state.deckView?.mode;
+    if (mode !== "edit") return "slots";
+    return state.deckView?.activeTab === "extraSlots" ? "extraSlots" : "slots";
+  },
+  (lookupTables, resolvedDeck, targetDeck) => {
     if (!resolvedDeck) return undefined;
 
     const card = resolvedDeck.investigatorBack.card;
@@ -259,6 +266,7 @@ export const selectDeckInvestigatorFilter = createSelector(
     return filterInvestigatorAccess(card, lookupTables, {
       additionalDeckOptions: getAdditionalDeckOptions(resolvedDeck),
       selections: resolvedDeck.selections,
+      targetDeck,
     });
   },
 );

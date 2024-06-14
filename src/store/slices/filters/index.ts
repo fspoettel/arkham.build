@@ -206,7 +206,6 @@ export const createFiltersSlice: StateCreator<
       },
       ui: {
         ...state.ui,
-        listScrollRestore: undefined,
       },
     });
   },

@@ -2,17 +2,14 @@ import { createSelector } from "reselect";
 
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import { groupDeckCardsByType } from "@/store/lib/deck-grouping";
-import { decodeDeckMeta, resolveDeck } from "@/store/lib/deck-resolver";
+import { resolveDeck } from "@/store/lib/resolve-deck";
 
-import { mergeCustomizationEdits } from "../lib/customizable";
+import { applyDeckEdits } from "../lib/deck-edits";
 import type { ForbiddenCardError } from "../lib/deck-validation";
 import { validateDeck } from "../lib/deck-validation";
-import type { DeckMeta, ResolvedCard, ResolvedDeck } from "../lib/types";
+import type { ResolvedCard, ResolvedDeck } from "../lib/types";
 import type { StoreState } from "../slices";
-import type { Deck } from "../slices/data/types";
-import { getSlotForTab } from "../slices/deck-view";
-import type { DeckViewState, EditState, Slot } from "../slices/deck-view/types";
-import type { Metadata } from "../slices/metadata/types";
+import { type Slot, mapTabToSlot } from "../slices/deck-view/types";
 
 export const selectLocalDecks = createSelector(
   (state: StoreState) => state.data,
@@ -31,95 +28,6 @@ export const selectLocalDecks = createSelector(
     return resolvedDecks;
   },
 );
-
-function applyInvestigatorSide(
-  deck: Deck,
-  deckMeta: DeckMeta,
-  deckView: EditState,
-  key: "investigatorFront" | "investigatorBack",
-) {
-  const current = deckView.edits[key];
-
-  if (!current) {
-    const deckMetaKey =
-      key === "investigatorFront" ? "alternate_front" : "alternate_back";
-    return deckMeta[deckMetaKey];
-  }
-
-  return current === deck.investigator_code ? null : current;
-}
-
-function applyDeckEdits(
-  originalDeck: Deck,
-  deckView: DeckViewState,
-  metadata: Metadata,
-) {
-  if (deckView.mode !== "edit") return originalDeck;
-
-  const deck = structuredClone(originalDeck);
-
-  // adjust taboo id based on deck edits.
-  if (deckView.edits.tabooId !== undefined) {
-    deck.taboo_id = deckView.edits.tabooId;
-  }
-
-  // adjust meta based on deck edits.
-  const deckMeta = decodeDeckMeta(deck);
-
-  // adjust customizations based on deck edits.
-  Object.assign(
-    deckMeta,
-    mergeCustomizationEdits(deckView, deckMeta, metadata),
-  );
-
-  deck.meta = JSON.stringify({
-    ...deckMeta,
-    ...deckView.edits.meta,
-    alternate_back: applyInvestigatorSide(
-      deck,
-      deckMeta,
-      deckView,
-      "investigatorBack",
-    ),
-    alternate_front: applyInvestigatorSide(
-      deck,
-      deckMeta,
-      deckView,
-      "investigatorFront",
-    ),
-  });
-
-  // adjust quantities based on deck edits.
-  for (const [key, edits] of Object.entries(deckView.edits.quantities)) {
-    for (const edit of edits) {
-      const slotKey = key as "slots";
-
-      // account for arkhamdb representing empty side slots as an array.
-      if (!deck[slotKey] || Array.isArray(deck[slotKey])) {
-        deck[slotKey] = {};
-      }
-
-      const current = deck[slotKey]?.[edit.code];
-
-      (deck[slotKey] as Record<string, number>)[edit.code] = Math.max(
-        (current ?? 0) + edit.quantity,
-        0,
-      );
-    }
-  }
-
-  for (const [key, val] of Object.entries(deck.slots)) {
-    if (!val && !originalDeck.slots[key]) delete deck.slots[key];
-  }
-
-  if (deck.sideSlots && !Array.isArray(deck.sideSlots)) {
-    for (const [key, val] of Object.entries(deck.sideSlots)) {
-      if (!val) delete deck.sideSlots[key];
-    }
-  }
-
-  return deck;
-}
 
 export const selectResolvedDeck = createSelector(
   (state: StoreState) => state.metadata,
@@ -141,8 +49,11 @@ export const selectActiveDeck = createSelector(
   (resolvedDeck) => {
     if (!resolvedDeck) return undefined;
     const displayDeck = resolvedDeck as DisplayDeck;
+
     const { groupings, bonded } = groupDeckCardsByType(resolvedDeck);
+
     displayDeck.groups = groupings;
+
     displayDeck.bondedSlots = bonded.reduce<Record<string, number>>(
       (acc, curr) => {
         acc[curr.code] = curr.quantity;
@@ -150,6 +61,7 @@ export const selectActiveDeck = createSelector(
       },
       {},
     );
+
     return displayDeck;
   },
 );
@@ -164,12 +76,17 @@ export const selectDeckValid = createSelector(
       : { valid: false, errors: [] },
 );
 
+export const selectCanEditDeck = createSelector(
+  (state: StoreState) => state.deckView,
+  (deckView) => deckView?.mode === "edit",
+);
+
 export const selectForbiddenCards = createSelector(
   selectDeckValid,
   (deckValidation) => {
     const forbidden = deckValidation.errors.find((x) => x.type === "FORBIDDEN");
     if (!forbidden) return [];
-    return (forbidden as ForbiddenCardError).details.map((x) => x.code);
+    return (forbidden as ForbiddenCardError).details;
   },
 );
 
@@ -188,7 +105,7 @@ export function selectCardQuantities(state: StoreState) {
   const slot =
     state.deckView.mode === "view"
       ? "slots"
-      : getSlotForTab(state.deckView.activeTab);
+      : mapTabToSlot(state.deckView.activeTab);
 
   return selectCardQuantitiesForSlot(state, slot);
 }

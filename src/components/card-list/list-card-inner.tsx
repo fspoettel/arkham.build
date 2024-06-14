@@ -4,6 +4,7 @@ import type { ComponentProps, ElementType, ReactNode } from "react";
 import { useCallback } from "react";
 
 import { useStore } from "@/store";
+import { selectCanEditDeck } from "@/store/selectors/decks";
 import type { Card } from "@/store/services/types";
 import { getCardColor, hasSkillIcons } from "@/utils/card-utils";
 
@@ -23,13 +24,9 @@ import { QuantityOutput } from "../ui/quantity-output";
 export type Props = {
   as?: "li" | "div";
   card: Card;
-  canEdit?: boolean;
   canIndicateRemoval?: boolean;
   canOpenModal?: boolean;
-  canShowQuantities?: boolean;
   canShowInvestigatorIcons?: boolean;
-  canShowParallel?: boolean;
-  canShowSubname?: boolean;
   className?: string;
   figureRef?: (node: ReferenceType | null) => void;
   forbidden?: boolean;
@@ -45,12 +42,8 @@ export type Props = {
 export function ListCardInner({
   as = "div",
   card,
-  canEdit,
   canIndicateRemoval,
   canOpenModal,
-  canShowQuantities,
-  canShowSubname = true,
-  canShowParallel = true,
   className,
   figureRef,
   forbidden,
@@ -64,6 +57,7 @@ export function ListCardInner({
 
   const quantity = quantities ? quantities[card.code] ?? 0 : 0;
 
+  const canEdit = useStore(selectCanEditDeck);
   const changeCardQuantity = useStore((state) => state.changeCardQuantity);
 
   const colorCls = getCardColor(card);
@@ -80,11 +74,9 @@ export function ListCardInner({
     if (canOpenModal && modalContext) {
       modalContext.setOpen({
         code: card.code,
-        canEdit,
-        canShowQuantities,
       });
     }
-  }, [canShowQuantities, card.code, canEdit, modalContext, canOpenModal]);
+  }, [card.code, modalContext, canOpenModal]);
 
   return (
     <Element
@@ -97,7 +89,7 @@ export function ListCardInner({
         canIndicateRemoval && quantity === 0 && css["removed"],
       )}
     >
-      {canShowQuantities && (
+      {!!quantities && (
         <>
           {canEdit ? (
             <QuantityInput
@@ -137,7 +129,7 @@ export function ListCardInner({
           </h4>
 
           <div className={css["listcard-meta"]}>
-            {canShowParallel && card.parallel && (
+            {!canShowInvestigatorIcons && card.parallel && (
               <i className="icon-parallel" />
             )}
 
@@ -154,7 +146,7 @@ export function ListCardInner({
                 <i className="icon-tablet icon-layout color-taboo" />
               </span>
             )}
-            {canShowSubname && card.real_subname && (
+            {!canShowInvestigatorIcons && card.real_subname && (
               <h5 className={css["listcard-subname"]}>{card.real_subname}</h5>
             )}
 

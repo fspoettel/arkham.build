@@ -4,6 +4,25 @@ export type Slot = "slots" | "sideSlots" | "extraSlots";
 
 export type Tab = Slot | "meta";
 
+export function isSlot(value: string): value is Slot {
+  return value === "slots" || value === "sideSlots" || value === "extraSlots";
+}
+
+export function isTab(value: string): value is Tab {
+  return isSlot(value) || value === "meta";
+}
+
+export function mapTabToSlot(tab: Tab): Slot {
+  switch (tab) {
+    case "extraSlots":
+      return "extraSlots";
+    case "sideSlots":
+      return "sideSlots";
+    default:
+      return "slots";
+  }
+}
+
 type SlotEdit = {
   code: string;
   quantity: number;

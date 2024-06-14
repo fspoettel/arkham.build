@@ -12,12 +12,14 @@ import { QuantityInput } from "../ui/quantity-input";
 type Props = {
   card: Card;
   canEdit?: boolean;
+  canShowExtraQuantities?: boolean;
   onClickBackground?: () => void;
 };
 
 export function CardModalQuantities({
   card,
   canEdit,
+  canShowExtraQuantities,
   onClickBackground,
 }: Props) {
   const divRef = useRef<HTMLDivElement>(null);
@@ -41,10 +43,9 @@ export function CardModalQuantities({
     selectCardQuantitiesForSlot(state, "sideSlots"),
   );
 
-  // FIXME: parallel jim
-  // const extraSlotQuantities = useStore((state) =>
-  //   selectCardQuantitiesForSlot(state, "extraSlots"),
-  // );
+  const extraSlotQuantities = useStore((state) =>
+    selectCardQuantitiesForSlot(state, "extraSlots"),
+  );
 
   const onChangeQuantity = (quantity: number, slot: Slot) => {
     changeCardQuantity(card.code, quantity, slot);
@@ -73,15 +74,19 @@ export function CardModalQuantities({
           value={sideSlotQuantities?.[code] ?? 0}
         />
       </article>
-      {/* <article className={css["cardmodal-quantity"]}>
-        <h3>Extra deck</h3>
-        <QuantityInput
-          disabled={!canEdit}
-          limit={limit}
-          onValueChange={(quantity) => onChangeQuantity(quantity, "extraSlots")}
-          value={extraSlotQuantities?.[code] ?? 0}
-        />
-      </article> */}
+      {canShowExtraQuantities && (
+        <article className={css["cardmodal-quantity"]}>
+          <h3>Spirits</h3>
+          <QuantityInput
+            disabled={!canEdit}
+            limit={limit}
+            onValueChange={(quantity) =>
+              onChangeQuantity(quantity, "extraSlots")
+            }
+            value={extraSlotQuantities?.[code] ?? 0}
+          />
+        </article>
+      )}
     </div>
   );
 }

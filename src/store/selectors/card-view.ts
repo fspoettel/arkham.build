@@ -1,4 +1,4 @@
-import { resolveCardWithRelations } from "../lib/card-resolver";
+import { resolveCardWithRelations } from "../lib/resolve-card";
 import type { CardWithRelations, ResolvedCard } from "../lib/types";
 import type { StoreState } from "../slices";
 import { selectActiveDeck } from "./decks";

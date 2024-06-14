@@ -1,7 +1,7 @@
 import type { StateCreator } from "zustand";
 
 import type { StoreState } from "..";
-import type { DeckViewSlice, Slot, Tab } from "./types";
+import { type DeckViewSlice, isTab, mapTabToSlot } from "./types";
 
 export function getInitialDeckViewState() {
   return undefined;
@@ -62,7 +62,7 @@ export const createDeckViewSlice: StateCreator<
 
     const targetTab = tab || state.deckView.activeTab || "slots";
 
-    const slot = getSlotForTab(targetTab);
+    const slot = mapTabToSlot(targetTab);
 
     const current = state.deckView.edits.quantities?.[slot] ?? [];
 
@@ -83,11 +83,11 @@ export const createDeckViewSlice: StateCreator<
   updateActiveTab(value) {
     const state = get();
 
-    if (state.deckView && state.deckView.mode === "edit") {
+    if (state.deckView && state.deckView.mode === "edit" && isTab(value)) {
       set({
         deckView: {
           ...state.deckView,
-          activeTab: value as Tab, // TODO: typeguard
+          activeTab: value,
         },
       });
     }
@@ -169,14 +169,3 @@ export const createDeckViewSlice: StateCreator<
     }
   },
 });
-
-export function getSlotForTab(tab: Tab): Slot {
-  switch (tab) {
-    case "extraSlots":
-      return "extraSlots";
-    case "sideSlots":
-      return "sideSlots";
-    default:
-      return "slots";
-  }
-}

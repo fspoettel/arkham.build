@@ -1,10 +1,8 @@
-import { Cross2Icon } from "@radix-ui/react-icons";
-import type { MouseEvent } from "react";
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
-import { selectActiveDeck } from "@/store/selectors/decks";
+import { selectActiveDeck, selectCanEditDeck } from "@/store/selectors/decks";
 import { useMedia } from "@/utils/use-media";
 
 import css from "./card-modal.module.css";
@@ -14,42 +12,30 @@ import { CardCustomizations } from "../card/customizations/card-customizations";
 import { CardCustomizationsEdit } from "../card/customizations/card-customizations-edit";
 import { Button } from "../ui/button";
 import { useDialogContext } from "../ui/dialog";
+import { Modal } from "../ui/modal";
 import { CardModalQuantities } from "./card-modal-quantities";
 
 type Props = {
-  canEdit?: boolean;
-  canShowQuantities?: boolean;
   code: string;
 };
 
-export function CardModal({ canEdit, canShowQuantities, code }: Props) {
-  const actionRef = useRef<HTMLDivElement>(null);
-  const innerRef = useRef<HTMLDivElement>(null);
+export function CardModal({ code }: Props) {
   const modalContext = useDialogContext();
-
-  const activeDeck = useStore(selectActiveDeck);
-
-  const cardWithRelations = useStore((state) =>
-    selectCardWithRelations(state, code, true),
-  );
 
   const onCloseModal = useCallback(() => {
     modalContext?.setOpen(false);
   }, [modalContext]);
 
-  const onCloseModalOutside = useCallback(
-    (evt: MouseEvent<HTMLDivElement>) => {
-      if (evt.target === innerRef.current) onCloseModal();
-    },
-    [onCloseModal],
+  const activeDeck = useStore(selectActiveDeck);
+  const canEdit = useStore(selectCanEditDeck);
+
+  const cardWithRelations = useStore((state) =>
+    selectCardWithRelations(state, code, true),
   );
 
-  const onCloseActions = useCallback(
-    (evt: MouseEvent<HTMLDivElement>) => {
-      if (evt.target === actionRef.current) onCloseModal();
-    },
-    [onCloseModal],
-  );
+  const canShowQuantities =
+    !!activeDeck && cardWithRelations?.card.type_code !== "investigator";
+  const canShowExtraQuantities = activeDeck?.hasExtraDeck;
 
   const canRenderFull = useMedia("(min-width: 45rem)");
 
@@ -65,7 +51,6 @@ export function CardModal({ canEdit, canShowQuantities, code }: Props) {
         activeDeck ? (
           <CardCustomizationsEdit
             activeDeck={activeDeck}
-            canEdit={canEdit}
             card={cardWithRelations.card}
           />
         ) : (
@@ -76,44 +61,34 @@ export function CardModal({ canEdit, canShowQuantities, code }: Props) {
   );
 
   return (
-    <div
-      className={css["cardmodal"]}
-      onClick={onCloseModalOutside}
-      ref={innerRef}
-    >
-      <div className={css["cardmodal-inner"]}>
-        <div
-          className={css["cardmodal-actions"]}
-          onClick={onCloseActions}
-          ref={actionRef}
+    <Modal
+      actions={
+        <Button
+          as="a"
+          href={`/card/${cardWithRelations.card.code}`}
+          tabIndex={2}
+          target="_blank"
         >
-          <Button
-            as="a"
-            href={`/card/${cardWithRelations.card.code}`}
-            tabIndex={2}
-            target="_blank"
-          >
-            Open card page
-          </Button>
-          <Button onClick={onCloseModal} tabIndex={1} variant="bare">
-            <Cross2Icon />
-          </Button>
+          Open card page
+        </Button>
+      }
+      onClose={onCloseModal}
+    >
+      {canShowQuantities ? (
+        <div className={css["cardmodal-row"]}>
+          {cardNode}
+          {canShowQuantities && (
+            <CardModalQuantities
+              canEdit={canEdit}
+              canShowExtraQuantities={canShowExtraQuantities}
+              card={cardWithRelations.card}
+              onClickBackground={onCloseModal}
+            />
+          )}
         </div>
-        {canShowQuantities ? (
-          <div className={css["cardmodal-row"]}>
-            {cardNode}
-            {canShowQuantities && (
-              <CardModalQuantities
-                canEdit={canEdit}
-                card={cardWithRelations.card}
-                onClickBackground={onCloseModal}
-              />
-            )}
-          </div>
-        ) : (
-          cardNode
-        )}
-      </div>
-    </div>
+      ) : (
+        cardNode
+      )}
+    </Modal>
   );
 }

@@ -1,8 +1,11 @@
-import { applyCardChanges } from "../lib/card-changes";
 import type { LookupTables } from "../slices/lookup-tables/types";
 import type { Metadata } from "../slices/metadata/types";
+import { applyCardChanges } from "./card-edits";
 import type { CardWithRelations, Customizations, ResolvedCard } from "./types";
 
+/**
+ * Given a card code, resolve the card and its relations for display.
+ */
 export function resolveCardWithRelations<T extends boolean>(
   metadata: Metadata,
   lookupTables: LookupTables,

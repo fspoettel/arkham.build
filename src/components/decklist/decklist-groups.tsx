@@ -15,13 +15,13 @@ import { ListCard } from "../card-list/list-card";
 import SlotIcon from "../icons/slot-icon";
 
 type Props = {
-  canEdit?: boolean;
   group: Grouping;
   quantities?: Record<string, number>;
   layout: "one_column" | "two_column";
+  mapping: string;
 };
 
-export function DecklistGroups({ canEdit, group, layout, quantities }: Props) {
+export function DecklistGroups({ group, layout, mapping, quantities }: Props) {
   const assetGroup = group["asset"] ? (
     <li className={clsx(css["group"], css["asset"])}>
       <h4 className={css["group-title"]}>Asset</h4>
@@ -36,8 +36,8 @@ export function DecklistGroups({ canEdit, group, layout, quantities }: Props) {
                   {capitalize(key)}
                 </h5>
                 <DecklistGroup
-                  canEdit={canEdit}
                   cards={val}
+                  mapping={mapping}
                   quantities={quantities}
                 />
               </li>
@@ -62,8 +62,8 @@ export function DecklistGroups({ canEdit, group, layout, quantities }: Props) {
         <li className={clsx(css["group"])} key={k}>
           <h4 className={css["group-title"]}>{capitalize(k)}</h4>
           <DecklistGroup
-            canEdit={canEdit}
             cards={entry}
+            mapping={mapping}
             quantities={quantities}
           />
         </li>
@@ -84,13 +84,13 @@ export function DecklistGroups({ canEdit, group, layout, quantities }: Props) {
 }
 
 export function DecklistGroup({
-  canEdit,
   cards,
   quantities,
+  mapping,
 }: {
-  canEdit?: boolean;
   quantities?: Record<string, number>;
   cards: Card[];
+  mapping: string;
 }) {
   const forbiddenCards = useStore(selectForbiddenCards);
 
@@ -101,11 +101,13 @@ export function DecklistGroup({
         .map((card) => (
           <ListCard
             as="li"
-            canEdit={canEdit}
             canIndicateRemoval
-            canShowQuantities
             card={card}
-            forbidden={forbiddenCards.includes(card.code)}
+            forbidden={
+              forbiddenCards.find(
+                (x) => x.code === card.code && x.target === mapping,
+              ) != null
+            }
             key={card.code}
             omitBorders
             quantities={quantities}

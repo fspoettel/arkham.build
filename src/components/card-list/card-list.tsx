@@ -2,12 +2,10 @@ import type { ChangeEvent } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { GroupedVirtuosoHandle, ListRange } from "react-virtuoso";
 import { GroupedVirtuoso } from "react-virtuoso";
-import { createSelector } from "reselect";
 
 import { useStore } from "@/store";
 import type { ListState } from "@/store/selectors/card-list";
 import { selectFilteredCards } from "@/store/selectors/card-list";
-import type { StoreState } from "@/store/slices";
 import { range } from "@/utils/range";
 
 import css from "./card-list.module.css";
@@ -17,14 +15,7 @@ import { Select } from "../ui/select";
 import { Grouphead } from "./Grouphead";
 import { ListCard } from "./list-card";
 
-const selector = createSelector(
-  (state: StoreState) => state.ui,
-  (state) => state.listScrollRestore,
-);
-
 type Props = {
-  canShowQuantities?: boolean;
-  canEdit?: boolean;
   quantities?: Record<string, number> | null;
 };
 
@@ -39,9 +30,6 @@ export function CardList(props: Props) {
 
   const [scrollParent, setScrollParent] = useState<HTMLElement | undefined>();
   const virtuosoRef = useRef<GroupedVirtuosoHandle>(null);
-
-  const setListScrollRestore = useStore((state) => state.setListScrollRestore);
-  const scrollRestore = useStore(selector);
 
   const activeRange = useRef<ListRange | undefined>(undefined);
   const activeGroup = useRef<string | undefined>(undefined);
@@ -64,14 +52,12 @@ export function CardList(props: Props) {
   const onScrollStop = useCallback(
     (scrolling: boolean) => {
       if (!scrolling) {
-        virtuosoRef.current?.getState((snapshot) => {
-          // track scroll restore in list. this will be used to rehydrate the view after navigation.
-          setListScrollRestore(snapshot);
+        virtuosoRef.current?.getState(() => {
           activeGroup.current = findActiveGroup(activeRange.current, data);
         });
       }
     },
-    [setListScrollRestore, data],
+    [data],
   );
 
   const rangeChanged = useCallback((range: ListRange) => {
@@ -79,14 +65,14 @@ export function CardList(props: Props) {
   }, []);
 
   useEffect(() => {
-    if (activeGroup.current && data) {
+    if (activeGroup.current) {
       const offset = findGroupOffset(data, activeGroup.current);
       virtuosoRef.current?.scrollToIndex(offset ?? 0);
     } else {
       virtuosoRef.current?.scrollTo({ top: 0 });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardCount]);
+  }, [cardCount.current]);
 
   const jumpToOptions = useMemo(
     () =>
@@ -134,7 +120,6 @@ export function CardList(props: Props) {
             key={data.key}
             rangeChanged={rangeChanged}
             ref={virtuosoRef}
-            restoreStateFrom={scrollRestore}
           />
         )}
       </Scroller>
@@ -142,7 +127,12 @@ export function CardList(props: Props) {
   );
 }
 
-function findGroupOffset(data: ListState, code: string): number | undefined {
+function findGroupOffset(
+  data: ListState | undefined,
+  code: string,
+): number | undefined {
+  if (!data) return undefined;
+
   const groupIndex = data.groups.findIndex((g) => g.code === code);
   if (groupIndex === -1) return undefined;
 

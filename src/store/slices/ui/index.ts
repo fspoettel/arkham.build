@@ -8,7 +8,6 @@ export function getInitialUIState(): UIState {
     ui: {
       hydrated: false,
       initialized: false,
-      listScrollRestore: undefined,
       filtersOpen: false,
       sidebarOpen: false,
     },
@@ -22,9 +21,6 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
   ...getInitialUIState(),
   setHydrated() {
     set({ ui: { ...get().ui, hydrated: true } });
-  },
-  setListScrollRestore(snapshot) {
-    set({ ui: { ...get().ui, listScrollRestore: snapshot } });
   },
   toggleFilters(val?: boolean) {
     const state = get();

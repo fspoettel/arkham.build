@@ -4,44 +4,86 @@ import type { StoreApi } from "zustand";
 import { getMockStore } from "@/test/get-mock-store";
 
 import type { StoreState } from "../slices";
-import { applyCustomizations } from "./customizable";
+import { applyCardChanges } from "./card-edits";
 
-describe("customizable", () => {
+describe("applyCardChanges", () => {
   let store: StoreApi<StoreState>;
 
   beforeAll(async () => {
     store = await getMockStore();
   });
 
-  describe("applyCustomizations", () => {
+  describe("taboo", () => {
+    it("should return the original card if tabooSetId is nul-ish", () => {
+      const state = store.getState();
+      const card = state.metadata.cards["02002"];
+      const result = applyCardChanges(card, state.metadata, null, undefined);
+      expect(result).toEqual(card);
+    });
+
+    it("should return the original card if tabooSetId is 0", () => {
+      const state = store.getState();
+      const card = state.metadata.cards["02002"];
+      const result = applyCardChanges(card, state.metadata, 0, undefined);
+      expect(result).toEqual(card);
+    });
+
+    it("should return the original card if tabooSetId was not found", () => {
+      const state = store.getState();
+      const card = state.metadata.cards["02002"];
+      const result = applyCardChanges(card, state.metadata, 8, undefined);
+      expect(result).toEqual(card);
+    });
+
+    it("should return a tabood card if tabooSetId is present", () => {
+      const state = store.getState();
+      const card = state.metadata.cards["02002"];
+      const result = applyCardChanges(card, state.metadata, 1, undefined);
+      expect(result.real_taboo_text_change).toBeDefined();
+    });
+
+    it("should apply taboos for the latest taboo set", () => {
+      const state = store.getState();
+      const card = state.metadata.cards["02002"];
+      const result = applyCardChanges(card, state.metadata, 6, undefined);
+      expect(result.real_text).not.toEqual(card.real_text);
+    });
+  });
+
+  describe("customizations", () => {
     it("should return the original card if card is not customizable", () => {
       const state = store.getState();
       const card = state.metadata.cards["02002"];
       const customizations = {
         [card.code]: {},
       };
-      const result = applyCustomizations(card, state.metadata, customizations);
+      const result = applyCardChanges(
+        card,
+        state.metadata,
+        null,
+        customizations,
+      );
       expect(result).toEqual(card);
     });
 
     it("should return the original card if customizations is undefined", () => {
       const state = store.getState();
       const card = state.metadata.cards["09040"];
-      const result = applyCustomizations(card, state.metadata, undefined);
+      const result = applyCardChanges(card, state.metadata, null, undefined);
       expect(result).toEqual(card);
     });
 
     it("should return the original card if customizations is undefined", () => {
       const state = store.getState();
       const card = state.metadata.cards["09040"];
-      const result = applyCustomizations(card, state.metadata, undefined);
+      const result = applyCardChanges(card, state.metadata, null, undefined);
       expect(result).toEqual(card);
     });
 
     it("calculates customization_xp", () => {
       const state = store.getState();
       const card = state.metadata.cards["09021"];
-      const result = applyCustomizations(card, state.metadata, {
+      const result = applyCardChanges(card, state.metadata, null, {
         [card.code]: {
           1: {
             index: 1,
@@ -60,7 +102,7 @@ describe("customizable", () => {
     it("applies health and sanity changes", () => {
       const state = store.getState();
       const card = state.metadata.cards["09021"];
-      const result = applyCustomizations(card, state.metadata, {
+      const result = applyCardChanges(card, state.metadata, null, {
         [card.code]: {
           2: {
             index: 2,
@@ -82,7 +124,7 @@ describe("customizable", () => {
       const state = store.getState();
       const card = state.metadata.cards["09081"];
 
-      const result = applyCustomizations(card, state.metadata, {
+      const result = applyCardChanges(card, state.metadata, null, {
         [card.code]: {
           7: {
             index: 7,
@@ -99,7 +141,7 @@ describe("customizable", () => {
       const state = store.getState();
       const card = state.metadata.cards["09021"];
 
-      const result = applyCustomizations(card, state.metadata, {
+      const result = applyCardChanges(card, state.metadata, null, {
         [card.code]: {
           0: {
             index: 0,
@@ -118,7 +160,7 @@ describe("customizable", () => {
       const state = store.getState();
       const card = state.metadata.cards["09022"];
 
-      const result = applyCustomizations(card, state.metadata, {
+      const result = applyCardChanges(card, state.metadata, null, {
         [card.code]: {
           0: {
             index: 0,
@@ -135,7 +177,7 @@ describe("customizable", () => {
       const state = store.getState();
       const card = state.metadata.cards["09040"];
 
-      const result = applyCustomizations(card, state.metadata, {
+      const result = applyCardChanges(card, state.metadata, null, {
         [card.code]: {
           0: {
             index: 0,
@@ -158,7 +200,7 @@ describe("customizable", () => {
     const state = store.getState();
     const card = state.metadata.cards["09080"];
 
-    const result = applyCustomizations(card, state.metadata, {
+    const result = applyCardChanges(card, state.metadata, null, {
       [card.code]: {
         5: {
           index: 5,
@@ -176,7 +218,7 @@ describe("customizable", () => {
     const state = store.getState();
     const card = state.metadata.cards["09041"];
 
-    const result = applyCustomizations(card, state.metadata, {
+    const result = applyCardChanges(card, state.metadata, null, {
       [card.code]: {
         1: {
           index: 1,
@@ -206,7 +248,7 @@ describe("customizable", () => {
     const state = store.getState();
     const card = state.metadata.cards["09040"];
 
-    const result = applyCustomizations(card, state.metadata, {
+    const result = applyCardChanges(card, state.metadata, null, {
       [card.code]: {
         4: {
           index: 4,
@@ -236,7 +278,7 @@ describe("customizable", () => {
     const state = store.getState();
     const card = state.metadata.cards["09101"];
 
-    const result = applyCustomizations(card, state.metadata, {
+    const result = applyCardChanges(card, state.metadata, null, {
       [card.code]: {
         0: {
           index: 0,
@@ -263,7 +305,7 @@ describe("customizable", () => {
     const state = store.getState();
     const card = state.metadata.cards["09042"];
 
-    const result = applyCustomizations(card, state.metadata, {
+    const result = applyCardChanges(card, state.metadata, null, {
       [card.code]: {
         0: {
           index: 0,
@@ -292,7 +334,7 @@ describe("customizable", () => {
     const state = store.getState();
     const card = state.metadata.cards["09079"];
 
-    const result = applyCustomizations(card, state.metadata, {
+    const result = applyCardChanges(card, state.metadata, null, {
       [card.code]: {
         0: {
           index: 0,

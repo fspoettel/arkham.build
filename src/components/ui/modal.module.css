@@ -1,0 +1,33 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: grid;
+  align-items: start;
+  width: 100%;
+  z-index: 2;
+  overflow: auto;
+  padding: 1rem;
+  container-type: inline-size;
+}
+
+.modal-inner {
+  width: 100%;
+  max-width: 52rem;
+  container-type: inline-size;
+  margin-inline: auto;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 1rem;
+  gap: 1rem;
+}
+
+.modal-actions.has-actions {
+  justify-content: space-between;
+}

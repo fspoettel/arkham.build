@@ -6,9 +6,6 @@ import { CardModal } from "./card-modal";
 
 type CardModalContextConfig = {
   code: string;
-  canEdit?: boolean;
-  canShowQuantities?: boolean;
-  canShowExtraQuantity?: boolean;
 };
 
 type CardModalContextState =
@@ -69,13 +66,7 @@ export function CardModalProvider({ children }: Props) {
       {children}
       <Dialog onOpenChange={value.setClosed} open={state.isOpen}>
         <DialogContent>
-          {state.isOpen && (
-            <CardModal
-              canEdit={state.config.canEdit}
-              canShowQuantities={state.config.canShowQuantities}
-              code={state.config.code}
-            />
-          )}
+          {state.isOpen && <CardModal code={state.config.code} />}
         </DialogContent>
       </Dialog>
     </CardModalContext.Provider>

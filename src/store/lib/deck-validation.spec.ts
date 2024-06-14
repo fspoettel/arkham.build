@@ -55,8 +55,8 @@ import { getMockStore } from "@/test/get-mock-store";
 
 import type { StoreState } from "../slices";
 import type { Deck } from "../slices/data/types";
-import { resolveDeck } from "./deck-resolver";
 import { validateDeck } from "./deck-validation";
+import { resolveDeck } from "./resolve-deck";
 
 function validate(store: StoreApi<StoreState>, deck: Deck) {
   const state = store.getState();
@@ -370,14 +370,17 @@ describe("deck validation", () => {
               {
                 "code": "09021",
                 "real_name": "Hunter's Armor",
+                "target": "slots",
               },
               {
                 "code": "09022",
                 "real_name": "Runic Axe",
+                "target": "slots",
               },
               {
                 "code": "09040",
                 "real_name": "Alchemical Distillation",
+                "target": "slots",
               },
             ],
             "type": "FORBIDDEN",
@@ -625,6 +628,7 @@ describe("deck validation", () => {
                 {
                   "code": "03198",
                   "real_name": "Madame Labranche",
+                  "target": "slots",
                 },
               ],
               "type": "FORBIDDEN",
@@ -653,26 +657,32 @@ describe("deck validation", () => {
                 {
                   "code": "07028",
                   "real_name": "Faustian Bargain",
+                  "target": "slots",
                 },
                 {
                   "code": "07032",
                   "real_name": "Promise of Power",
+                  "target": "slots",
                 },
                 {
                   "code": "07112",
                   "real_name": "Stirring Up Trouble",
+                  "target": "slots",
                 },
                 {
                   "code": "07113",
                   "real_name": "Blasphemous Covenant",
+                  "target": "slots",
                 },
                 {
                   "code": "07226",
                   "real_name": "Armageddon",
+                  "target": "slots",
                 },
                 {
                   "code": "07227",
                   "real_name": "Eye of Chaos",
+                  "target": "slots",
                 },
               ],
               "type": "FORBIDDEN",
