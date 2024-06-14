@@ -24,7 +24,7 @@ export function SkillIconsInvestigator({
 
   const entries = SKILL_KEYS.reduce<[string, number][]>((acc, key) => {
     const val = card[`skill_${key}`];
-    if (val) acc.push([key, val]);
+    if (val != null) acc.push([key, val]);
     return acc;
   }, []);
 

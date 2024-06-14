@@ -14,7 +14,7 @@
 }
 
 .icon-base {
-  font-size: var(--icon-xl);
+  font-size: calc(2 * var(--card-text-size, var(--text-sm)));
 }
 
 .icon-cost {

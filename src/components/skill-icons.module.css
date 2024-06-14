@@ -5,7 +5,11 @@
 }
 
 .skill-cost {
-  font-size: 0.75em;
+  font-size: calc(var(--card-text-size, 0.75em));
+}
+
+.skill-icon {
+  font-size: calc(1.25 * var(--card-text-size, 0.9375em));
 }
 
 .skill_numbered {

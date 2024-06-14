@@ -144,3 +144,22 @@
     font-size: var(--icon-lg);
   }
 }
+
+.listcard-investigator-health {
+  --card-text-size: var(--text-xs);
+}
+
+.listcard-investigator-skills {
+  --card-text-size: var(--text-sm);
+  gap: 0.25rem;
+}
+
+.listcard-investigator-skill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  background: var(--nord-2);
+  border-radius: var(--rounded-md);
+  font-size: calc(var(--card-text-size, var(--text-sm)) * 1.375);
+}

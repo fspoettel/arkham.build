@@ -4,6 +4,7 @@
   display: flex;
   justify-content: space-between;
   padding: 1rem 0;
+  height: calc(2rem + var(--icon-3xl));
 }
 
 .masthead h1 {

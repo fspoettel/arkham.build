@@ -26,6 +26,8 @@ export function DeckEditSidebar({ deck }: Props) {
     <div className={css["deck-edit-sidebar"]}>
       <DeckCard deck={deck} showThumbnail={false} />
       <ListCard
+        canShowSubname={false}
+        canShowInvestigatorIcons
         card={deck.investigatorFront.card}
         tooltip={<DeckInvestigator deck={deck} canToggleBack={false} />}
       />

@@ -22,102 +22,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-name:before {
-  content: "\e913";
-}
-.icon-class_guardian:before {
-  content: "\e919";
-}
-.icon-class_seeker:before {
-  content: "\e915";
-}
-.icon-class_rogue:before {
-  content: "\e914";
-}
-.icon-class_mystic:before {
-  content: "\e918";
-}
-.icon-class_survivor:before {
-  content: "\e916";
-}
-.icon-multiclass:before {
-  content: "\e989";
-}
-.icon-class_neutral:before {
-  content: "\e917";
-}
-.icon-xp-bold:before {
-  content: "\e9a3";
-}
-.icon-parallel1:before {
-  content: "\e94c";
-}
-.icon-world:before {
-  content: "\e91c";
-}
-.icon-card-outline-bold:before {
-  content: "\e9a4";
-}
-.icon-upgrade:before {
-  content: "\e940";
-}
-.icon-taboo:before {
-  content: "\e93a";
-}
-.icon-cards:before {
-  content: "\e92b";
-}
-.icon-deck:before {
-  content: "\e92a";
-}
-.icon-filter-clear:before {
-  content: "\e98d";
-}
-.icon-tag-bold:before {
-  content: "\e9a6";
-}
-.icon-level_none:before {
-  content: "\e926";
-}
-.icon-level_0:before {
-  content: "\e927";
-}
-.icon-level_1:before {
-  content: "\e933";
-}
-.icon-level_2:before {
-  content: "\e934";
-}
-.icon-level_3:before {
-  content: "\e935";
-}
-.icon-level_4:before {
-  content: "\e93b";
-}
-.icon-level_5:before {
-  content: "\e941";
-}
-.icon-inverted_level_none:before {
-  content: "\e942";
-}
-.icon-inverted_level_0:before {
-  content: "\e943";
-}
-.icon-inverted_level_1:before {
-  content: "\e944";
-}
-.icon-inverted_level_2:before {
-  content: "\e945";
-}
-.icon-inverted_level_3:before {
-  content: "\e946";
-}
-.icon-inverted_level_4:before {
-  content: "\e948";
-}
-.icon-inverted_level_5:before {
-  content: "\e947";
-}
 .icon-filter:before {
   content: "\ea5b";
 }
@@ -253,6 +157,9 @@
 .icon-reaction:before {
   content: "\75";
 }
+.icon-fast:before,
+.icon-lightning:before,
+icon.lighting:before,
 .icon-free:before {
   content: "\76";
 }
@@ -312,4 +219,103 @@
 }
 .icon-day:before {
   content: "\e903";
+}
+.icon-num0:before {
+  content: "\7b";
+}
+.icon-name:before {
+  content: "\e913";
+}
+.icon-class_guardian:before {
+  content: "\e919";
+}
+.icon-class_seeker:before {
+  content: "\e915";
+}
+.icon-class_rogue:before {
+  content: "\e914";
+}
+.icon-class_mystic:before {
+  content: "\e918";
+}
+.icon-class_survivor:before {
+  content: "\e916";
+}
+.icon-multiclass:before {
+  content: "\e989";
+}
+.icon-class_neutral:before {
+  content: "\e917";
+}
+.icon-xp-bold:before {
+  content: "\e9a3";
+}
+.icon-parallel1:before {
+  content: "\e94c";
+}
+.icon-world:before {
+  content: "\e91c";
+}
+.icon-card-outline-bold:before {
+  content: "\e9a4";
+}
+.icon-upgrade:before {
+  content: "\e940";
+}
+.icon-taboo:before {
+  content: "\e93a";
+}
+.icon-cards:before {
+  content: "\e92b";
+}
+.icon-deck:before {
+  content: "\e92a";
+}
+.icon-filter-clear:before {
+  content: "\e98d";
+}
+.icon-tag-bold:before {
+  content: "\e9a6";
+}
+.icon-level_none:before {
+  content: "\e926";
+}
+.icon-level_0:before {
+  content: "\e927";
+}
+.icon-level_1:before {
+  content: "\e933";
+}
+.icon-level_2:before {
+  content: "\e934";
+}
+.icon-level_3:before {
+  content: "\e935";
+}
+.icon-level_4:before {
+  content: "\e93b";
+}
+.icon-level_5:before {
+  content: "\e941";
+}
+.icon-inverted_level_none:before {
+  content: "\e942";
+}
+.icon-inverted_level_0:before {
+  content: "\e943";
+}
+.icon-inverted_level_1:before {
+  content: "\e944";
+}
+.icon-inverted_level_2:before {
+  content: "\e945";
+}
+.icon-inverted_level_3:before {
+  content: "\e946";
+}
+.icon-inverted_level_4:before {
+  content: "\e948";
+}
+.icon-inverted_level_5:before {
+  content: "\e947";
 }

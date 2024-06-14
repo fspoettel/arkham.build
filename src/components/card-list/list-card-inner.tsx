@@ -9,11 +9,13 @@ import { getCardColor, hasSkillIcons } from "@/utils/card-utils";
 
 import css from "./list-card.module.css";
 
+import { CardHealth } from "../card/card-health";
 import { CardIcon } from "../card/card-icon";
 import { CardThumbnail } from "../card/card-thumbnail";
 import { ExperienceDots } from "../experience-dots";
 import { MulticlassIcons } from "../icons/multiclass-icons";
 import { SkillIcons } from "../skill-icons";
+import { SkillIconsInvestigator } from "../skill-icons-investigator";
 import { Button } from "../ui/button";
 import { useDialogContextUnchecked } from "../ui/dialog";
 
@@ -23,6 +25,8 @@ export type Props = {
   canEdit?: boolean;
   canOpenModal?: boolean;
   canShowQuantity?: boolean;
+  canShowInvestigatorIcons?: boolean;
+  canShowSubname?: boolean;
   className?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   figureRef?: any;
@@ -43,12 +47,14 @@ export function ListCardInner({
   canEdit,
   canOpenModal,
   canShowQuantity,
+  canShowSubname = true,
   className,
   figureRef,
   forbidden,
   omitBorders,
   referenceProps,
   quantities,
+  canShowInvestigatorIcons,
   size,
 }: Props) {
   const modalContext = useDialogContextUnchecked();
@@ -141,11 +147,15 @@ export function ListCardInner({
           </h4>
 
           <div className={css["listcard-meta"]}>
-            {card.parallel && <i className="icon-parallel" />}
+            {card.type_code !== "investigator" && card.parallel && (
+              <i className="icon-parallel" />
+            )}
+
             <MulticlassIcons
               className={css["listcard-multiclass"]}
               card={card}
             />
+
             {hasSkillIcons(card) && <SkillIcons card={card} />}
 
             {!!card.taboo_set_id && (
@@ -154,8 +164,23 @@ export function ListCardInner({
                 <i className="icon-tablet icon-layout color-taboo" />
               </span>
             )}
-            {card.real_subname && (
+            {canShowSubname && card.real_subname && (
               <h5 className={css["listcard-subname"]}>{card.real_subname}</h5>
+            )}
+
+            {canShowInvestigatorIcons && card.type_code === "investigator" && (
+              <>
+                <CardHealth
+                  className={css["listcard-investigator-health"]}
+                  health={card.health}
+                  sanity={card.sanity}
+                />
+                <SkillIconsInvestigator
+                  className={css["listcard-investigator-skills"]}
+                  iconClassName={css["listcard-investigator-skill"]}
+                  card={card}
+                />
+              </>
             )}
           </div>
         </figcaption>
