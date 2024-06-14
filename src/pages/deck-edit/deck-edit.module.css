@@ -22,3 +22,8 @@
   max-width: 12rem;
   margin: 0 auto;
 }
+
+.deck-edit-sidebar-icons {
+  display: flex;
+  justify-content: space-between;
+}

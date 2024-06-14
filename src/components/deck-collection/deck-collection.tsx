@@ -3,6 +3,7 @@ import { Link } from "wouter";
 
 import { useStore } from "@/store";
 import { selectLocalDecks } from "@/store/selectors/decks";
+import { capitalize } from "@/utils/capitalize";
 
 import css from "./deck-collection.module.css";
 
@@ -34,7 +35,9 @@ export function DeckCollection() {
               <li key={deck.id} className={css["deck-collection-deck"]}>
                 <Link href={`/deck/${deck.id}/view`} asChild>
                   <a>
-                    <DeckCard deck={deck} interactive />
+                    <DeckCard deck={deck} interactive>
+                      {deck.tags.split(" ").map((s) => capitalize(s))}
+                    </DeckCard>
                   </a>
                 </Link>
               </li>

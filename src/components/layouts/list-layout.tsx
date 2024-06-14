@@ -20,11 +20,13 @@ export function ListLayout({
   filters,
   sidebar,
   sidebarWidthMax,
+  topContent,
 }: {
   children: ReactNode;
   filters: ReactNode;
   sidebar: ReactNode;
   sidebarWidthMax: string;
+  topContent?: ReactNode;
 }) {
   const filtersRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -68,24 +70,27 @@ export function ListLayout({
       <div className={css["layout-cardlist"]}>
         <CenterLayout
           top={
-            <CardSearch
-              slotLeft={
-                <Button
-                  className={css["layout-toggle-sidebar"]}
-                  onClick={() => onToggleSidebar(true)}
-                >
-                  <SvgDecks />
-                </Button>
-              }
-              slotRight={
-                <Button
-                  className={css["layout-toggle-filters"]}
-                  onClick={() => onToggleFilters(true)}
-                >
-                  <SvgFilter />
-                </Button>
-              }
-            />
+            <>
+              {topContent}
+              <CardSearch
+                slotLeft={
+                  <Button
+                    className={css["layout-toggle-sidebar"]}
+                    onClick={() => onToggleSidebar(true)}
+                  >
+                    <SvgDecks />
+                  </Button>
+                }
+                slotRight={
+                  <Button
+                    className={css["layout-toggle-filters"]}
+                    onClick={() => onToggleFilters(true)}
+                  >
+                    <SvgFilter />
+                  </Button>
+                }
+              />
+            </>
           }
         >
           {children}

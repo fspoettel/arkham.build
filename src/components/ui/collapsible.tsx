@@ -18,6 +18,7 @@ type Props = Omit<CollapsibleProps, "title"> & {
   onOpenChange?: (x: boolean) => void;
   sub?: ReactNode;
   title: ReactNode;
+  header?: ReactNode;
 };
 
 export function Collapsible({
@@ -28,6 +29,7 @@ export function Collapsible({
   onOpenChange,
   sub,
   title,
+  header,
   ...rest
 }: Props) {
   return (
@@ -39,10 +41,12 @@ export function Collapsible({
     >
       <Trigger asChild>
         <div className={css["collapsible-header"]}>
-          <div className={css["collapsible-titles"]}>
-            <h4>{title}</h4>
-            <div className={css["collapsible-sub"]}>{sub}</div>
-          </div>
+          {header || (
+            <div className={css["collapsible-titles"]}>
+              <h4>{title}</h4>
+              <div className={css["collapsible-sub"]}>{sub}</div>
+            </div>
+          )}
           <div className={css["collapsible-actions"]}>
             {actions}
             <Button variant="bare">

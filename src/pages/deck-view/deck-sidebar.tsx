@@ -1,19 +1,12 @@
-import {
-  ChevronDownIcon,
-  ChevronUpIcon,
-  Pencil2Icon,
-  TrashIcon,
-} from "@radix-ui/react-icons";
+import { Pencil2Icon, TrashIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { Link, useLocation } from "wouter";
 
 import SvgCardOutlineBold from "@/assets/icons/card-outline-bold.svg?react";
 import SvgTaboo from "@/assets/icons/taboo.svg?react";
 import SvgXp from "@/assets/icons/xp-bold.svg?react";
-import { CardBack } from "@/components/card/card-back";
-import { CardContainer } from "@/components/card/card-container";
-import { CardFront } from "@/components/card/card-front";
+import { DeckInvestigator } from "@/components/deck-investigator/deck-investigator";
 import { FactionIcon } from "@/components/icons/faction-icon";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/store";
@@ -28,7 +21,6 @@ type Props = {
 };
 
 export function DeckSidebar({ className, deck }: Props) {
-  const [backToggled, toggleBack] = useState(false);
   const deleteDeck = useStore((state) => state.deleteDeck);
   const [, setLocation] = useLocation();
 
@@ -39,33 +31,7 @@ export function DeckSidebar({ className, deck }: Props) {
 
   return (
     <div className={clsx(css["deck-sidebar"], className)}>
-      <CardContainer size="tooltip">
-        <CardFront
-          resolvedCard={deck.investigatorFront}
-          size="tooltip"
-          linked
-        />
-        <div
-          className={clsx(
-            css["deck-sidebar-back-toggle"],
-            backToggled && css["open"],
-          )}
-        >
-          <Button onClick={() => toggleBack((p) => !p)}>
-            {backToggled ? <ChevronUpIcon /> : <ChevronDownIcon />}
-            Backside{" "}
-            {deck.investigatorBack.card.parallel && (
-              <>
-                (<span className="encounters-parallel" />)
-              </>
-            )}
-          </Button>
-        </div>
-        {backToggled && (
-          <CardBack card={deck.investigatorBack.card} size="tooltip" />
-        )}
-      </CardContainer>
-
+      <DeckInvestigator deck={deck} />
       <div className={css["deck-sidebar-actions"]}>
         <Link asChild href={`/${deck.id}/edit`}>
           <Button as="a" size="full">

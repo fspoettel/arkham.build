@@ -1,7 +1,7 @@
+import { CardIcons } from "@/components/card/card-icons";
 import { DeckCard } from "@/components/deck-collection/deck";
 import { DecklistGroups } from "@/components/decklist/decklist-groups";
 import { DecklistSection } from "@/components/decklist/decklist-section";
-import { SkillIcons } from "@/components/skill-icons";
 import { Scroller } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useStore } from "@/store";
@@ -21,8 +21,12 @@ export function DeckEditSidebar({ deck }: Props) {
 
   return (
     <div className={css["deck-edit-sidebar"]}>
-      <DeckCard deck={deck} />
-      <SkillIcons card={deck.investigatorFront.card} />
+      <DeckCard deck={deck}>
+        <CardIcons
+          className={css["deck-edit-sidebar-icons"]}
+          card={deck.investigatorFront.card}
+        />
+      </DeckCard>
       <Scroller className={css["deck-edit-sidebar-cards"]}>
         <Tabs
           className={css["deck-edit-sidebar-tabs"]}

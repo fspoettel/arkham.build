@@ -1,0 +1,12 @@
+.back-toggle {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.back-toggle.open {
+  margin-bottom: 1rem;
+}
+
+.back-toggle button {
+  border-radius: var(--rounded-lg);
+}

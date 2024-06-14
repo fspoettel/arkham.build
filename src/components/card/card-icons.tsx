@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 import type { Card } from "@/store/services/types";
 
 import css from "./card-icons.module.css";
@@ -10,11 +12,12 @@ import { CardHealth } from "./card-health";
 
 type Props = {
   card: Card;
+  className?: string;
 };
 
-export function CardIcons({ card }: Props) {
+export function CardIcons({ card, className }: Props) {
   return (
-    <div className={css["icons"]}>
+    <div className={clsx(css["icons"], className)}>
       {card.type_code === "investigator" ? (
         <SkillIconsInvestigator
           className={css["icons-skills"]}

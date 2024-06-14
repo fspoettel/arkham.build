@@ -5,19 +5,6 @@
   padding-right: 0.125rem;
 }
 
-.deck-sidebar-back-toggle {
-  margin-top: 1rem;
-  text-align: center;
-}
-
-.deck-sidebar-back-toggle.open {
-  margin-bottom: 1rem;
-}
-
-.deck-sidebar-back-toggle button {
-  border-radius: var(--rounded-lg);
-}
-
 .deck-sidebar-actions {
   display: flex;
   gap: 0.5rem;

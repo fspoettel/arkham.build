@@ -1,5 +1,6 @@
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
+import type { ReactNode } from "react";
 
 import SvgCardOutline from "@/assets/icons/card-outline-bold.svg?react";
 import SvgXpBold from "@/assets/icons/xp-bold.svg?react";
@@ -7,7 +8,6 @@ import { useStore } from "@/store";
 import { validateDeck } from "@/store/lib/deck-validation";
 import type { ResolvedCard, ResolvedDeck } from "@/store/lib/types";
 import type { StoreState } from "@/store/slices";
-import { capitalize } from "@/utils/capitalize";
 import { getCardColor } from "@/utils/card-utils";
 
 import css from "./deck.module.css";
@@ -15,13 +15,15 @@ import css from "./deck.module.css";
 import { CardThumbnail } from "../card/card-thumbnail";
 
 type Props = {
+  children?: ReactNode;
   interactive?: boolean;
   deck: ResolvedDeck<ResolvedCard>;
 };
 
-export function DeckCard({ deck, interactive }: Props) {
+export function DeckCard({ children, deck, interactive }: Props) {
   const lookupTables = useStore((state: StoreState) => state.lookupTables);
   const metadata = useStore((state: StoreState) => state.metadata);
+
   const { valid } = validateDeck(deck, {
     lookupTables,
     metadata,
@@ -69,11 +71,7 @@ export function DeckCard({ deck, interactive }: Props) {
         </div>
       </header>
 
-      {false && deck.tags && (
-        <div className={css["deck-meta"]}>
-          {deck.tags.split(" ").map((s) => capitalize(s))}
-        </div>
-      )}
+      {children && <div className={css["deck-meta"]}>{children}</div>}
     </article>
   );
 }
