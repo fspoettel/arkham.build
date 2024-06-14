@@ -7,19 +7,21 @@ import css from "./app.module.css";
 import {
   Provider,
   createAppPersister,
+  createAppRelationships,
   createAppStore,
   initPersister,
+  useCreate,
   useCreatePersister,
   useCreateStore,
 } from "./store";
 
 function App() {
   const store = useCreateStore(createAppStore);
-
+  const relationships = useCreate(store, createAppRelationships);
   useCreatePersister(store, createAppPersister, [], initPersister);
 
   return (
-    <Provider>
+    <Provider relationships={relationships} store={store}>
       <Router>
         <div className={css["app"]}>
           <Route path="/" component={Index} />
