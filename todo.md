@@ -1,5 +1,8 @@
 ## App
 
+- Reflect filters to URL so that views can be shared and get back to @zzorba.
+- Make the page work better on larger viewports and get back to @Chr1z.
+
 ## Arkham Cards API
 
 - add basic metadata fields to @zzorba's arkham cards API. This would allow us to remove respective the lookup tables:
