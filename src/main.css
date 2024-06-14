@@ -107,7 +107,7 @@ input[type="email"],
 input[type="search"],
 input[type="number"],
 textarea {
-  padding: 0.25rem;
+  padding: 0.5rem;
 }
 
 button {

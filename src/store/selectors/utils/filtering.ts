@@ -3,6 +3,7 @@ import {
   CostFilter,
   LevelFilter,
   SkillIconsFilter,
+  TypeFilter,
 } from "@/store/slices/filters/types";
 import { SKILL_KEYS, SkillKey } from "@/utils/constants";
 
@@ -157,5 +158,16 @@ export function filterSkillIcons(skillIcons: SkillIconsFilter) {
 
   return (card: Card) => {
     return filter(card);
+  };
+}
+
+export function filterTypes(filter: TypeFilter) {
+  return (card: Card) => {
+    const enabledTypeCodes = Object.entries(filter)
+      .filter(([, v]) => !!v)
+      .map(([k]) => k);
+    if (!enabledTypeCodes.length) return true;
+
+    return filter[card.type_code];
   };
 }

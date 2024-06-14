@@ -6,6 +6,7 @@ import { FactionFilter } from "./faction-filter";
 import { LevelFilter } from "./level-filter";
 import { CostFilter } from "./cost-filter";
 import { SkillIconsFilter } from "./skill-icons-filter";
+import { TypeFilter } from "./type-filter";
 
 export function Filters() {
   const isInitalized = useStore(selectIsInitialized);
@@ -23,6 +24,7 @@ export function Filters() {
       </div>
       <FactionFilter />
       {cardTypeSelection === "player" && <LevelFilter />}
+      <TypeFilter />
       <CostFilter />
       <SkillIconsFilter />
     </nav>

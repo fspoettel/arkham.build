@@ -1,0 +1,76 @@
+.combobox-label {
+  font-size: 0.875rem;
+  margin-bottom: 0.125rem;
+}
+
+.combobox-control-row {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.combobox-input {
+  flex: 1 1 100%;
+}
+
+.combobox-toggle {
+  flex: 0 0 auto;
+}
+
+.combobox-menu {
+  width: 100%;
+  height: min(50dvh, 15rem);
+  background: var(--color-background);
+  color: var(--color-text);
+  padding: 0.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--rounded);
+  box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.25);
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  overflow: auto;
+}
+
+.combobox-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  width: 100%;
+  padding: 0.5rem;
+  cursor: pointer;
+
+  &.active {
+    background-color: var(--color-input-background-hover);
+    color: var(--color-input-text-hover);
+  }
+}
+
+.combobox-results {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-flow: row wrap;
+  width: 100%;
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0;
+}
+
+.combobox-result button {
+  border-radius: var(--rounded);
+  background: var(--color-accent);
+  color: var(--gray-900);
+  border: 1px solid var(--gray-700);
+  padding: 0.125rem 0.25rem;
+  font-size: 0.625rem;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  &:not([disabled]):hover {
+    background-color: var(--gray-300);
+  }
+}

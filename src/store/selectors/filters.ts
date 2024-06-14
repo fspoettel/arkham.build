@@ -1,5 +1,6 @@
 import { createSelector } from "reselect";
 import { StoreState } from "../slices";
+import { Type } from "../graphql/types";
 
 export function selectCostMinMax(state: StoreState) {
   const costs = Object.keys(state.lookupTables.cost).map((x) =>
@@ -75,4 +76,28 @@ export const selectFactions = createSelector(
 
     return factions;
   },
+);
+
+export const selectTypes = createSelector(
+  (state: StoreState) => state.metadata,
+  (metadata) => {
+    const types = Object.values(metadata.types);
+    types.sort((a, b) => a.name.localeCompare(b.name));
+    return types;
+  },
+);
+
+export const selectActiveTypes = createSelector(
+  (state: StoreState) => state.metadata,
+  (state: StoreState) => state.filters[state.filters.cardType],
+  (metadata, filters) =>
+    Object.fromEntries(
+      Object.entries(filters.type).reduce(
+        (acc, [key, val]) => {
+          if (val) acc.push([key, metadata.types[key]]);
+          return acc;
+        },
+        [] as [string, Type][],
+      ),
+    ),
 );

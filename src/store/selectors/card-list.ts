@@ -19,8 +19,14 @@ import {
   filterFactions,
   filterLevel,
   filterSkillIcons,
+  filterTypes,
   filterWeaknesses,
 } from "./utils/filtering";
+
+const selectTypeFilter = createSelector(
+  (state: StoreState) => state.filters[state.filters.cardType].type,
+  (state) => filterTypes(state),
+);
 
 const selectFactionFilter = createSelector(
   (state: StoreState) => state.filters[state.filters.cardType].faction,
@@ -47,12 +53,14 @@ const selectPlayerCardFilters = createSelector(
   selectLevelFilter,
   selectCostFilter,
   selectSkillIconsFilter,
-  (factionFilter, levelFilter, costFilter, skillIconsFilter) => {
+  selectTypeFilter,
+  (factionFilter, levelFilter, costFilter, skillIconsFilter, typeFilter) => {
     const filters = [
       filterEncounterCards,
       filterDuplicates,
       filterWeaknesses,
       skillIconsFilter,
+      typeFilter,
     ];
 
     if (factionFilter) {
@@ -76,8 +84,14 @@ const selectWeaknessFilters = createSelector(
   selectCostFilter,
   selectFactionFilter,
   selectSkillIconsFilter,
-  (levelFilter, costFilter, factionFilter, skillIconsFilter) => {
-    const filters = [filterEncounterCards, filterDuplicates, skillIconsFilter];
+  selectTypeFilter,
+  (levelFilter, costFilter, factionFilter, skillIconsFilter, typeFilter) => {
+    const filters = [
+      filterEncounterCards,
+      filterDuplicates,
+      skillIconsFilter,
+      typeFilter,
+    ];
 
     if (factionFilter) {
       filters.push(factionFilter);
@@ -99,8 +113,9 @@ const selectEncounterFilters = createSelector(
   selectCostFilter,
   selectFactionFilter,
   selectSkillIconsFilter,
-  (costFilter, factionFilter, skillIconsFilter) => {
-    const filters = [filterBacksides, skillIconsFilter];
+  selectTypeFilter,
+  (costFilter, factionFilter, skillIconsFilter, typeFilter) => {
+    const filters = [filterBacksides, skillIconsFilter, typeFilter];
 
     if (factionFilter) {
       filters.push(factionFilter);

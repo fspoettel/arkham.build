@@ -32,9 +32,11 @@ function getInitialState(): Filters {
         exceptional: false,
         nonexceptional: false,
       },
+      type: {},
     },
     encounter: {
       ...structuredClone(shared),
+      type: {},
     },
   };
 }
@@ -97,6 +99,11 @@ export const createFiltersSlice: StateCreator<
       const filters = updateValue(get(), "player", "level", "value", undefined);
       set({ filters });
     }
+  },
+
+  toggleComboboxFilter(type, path, key, value) {
+    const filters = updateValue(get(), type, path, key, value);
+    set({ filters });
   },
 });
 

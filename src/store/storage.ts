@@ -9,6 +9,7 @@ const indexedDBStorage: StateStorage = {
     return (await get(name)) ?? null;
   },
   async setItem(name: string, value: string) {
+    //return Promise.resolve();
     return set(name, value);
   },
   async removeItem(name: string) {

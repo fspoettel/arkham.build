@@ -22,12 +22,15 @@ export type SkillIconsFilter = {
   any: number | null;
 };
 
+export type TypeFilter = Record<string, boolean>;
+
 type SharedState = {
   cost: CostFilter;
   faction: {
     value: string[];
   };
   skillIcons: SkillIconsFilter;
+  type: TypeFilter;
 };
 
 export type Filters = {
@@ -80,4 +83,15 @@ export type FiltersSlice = {
   ): void;
 
   setActiveLevelShortcut(value: string): void;
+
+  toggleComboboxFilter<
+    C extends CardTypeFilter,
+    P extends keyof Filters[C],
+    K extends keyof Filters[C][P],
+  >(
+    type: C,
+    path: P,
+    item: K,
+    value: Filters[C][P][K],
+  ): void;
 };
