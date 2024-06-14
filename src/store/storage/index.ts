@@ -5,7 +5,7 @@ import type {
 } from "zustand/middleware";
 
 import type { StoreState } from "../slices";
-import { getInitialDecksState } from "../slices/decks";
+import { getInitialDataState } from "../slices/data";
 import { getInitialMetadata } from "../slices/metadata";
 import { getInitialSettings } from "../slices/settings";
 import { IndexedDBAdapter } from "./indexeddb-adapter";
@@ -28,7 +28,7 @@ export const storageConfig: PersistOptions<StoreState, Val> = {
   },
   partialize(state: StoreState) {
     return {
-      decks: state.decks,
+      data: state.data,
       metadata: state.metadata,
       settings: state.settings,
     };
@@ -58,7 +58,7 @@ function createCustomStorage(): PersistStorage<Val> | undefined {
 
         const val: StorageValue<Val> = {
           state: {
-            decks: appdata?.state?.decks ?? getInitialDecksState().decks,
+            data: appdata?.state?.data ?? getInitialDataState().data,
             metadata: metadata?.state?.metadata ?? getInitialMetadata(),
             settings: appdata?.state?.settings ?? getInitialSettings(),
           },

@@ -26,6 +26,7 @@
 }
 
 .toggle-group-item {
+  --active-color: var(--nord-6);
   border-style: solid;
   border-color: var(--nord-1);
   border-top-width: 1px;
@@ -55,7 +56,7 @@
   }
 
   &[data-state="on"] {
-    color: var(--nord-6);
+    color: var(--active-color);
     background: var(--nord-2);
   }
 

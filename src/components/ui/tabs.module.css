@@ -1,0 +1,18 @@
+.tabs-list {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+  padding: 1px;
+}
+
+.tabs-list > * {
+  flex: 1 1 calc(100% / var(--length) - 0.5rem);
+}
+
+.tabs-trigger[data-state="active"] {
+  background: var(--nord-2);
+}
+
+.tabs-content {
+  padding: 0.2rem 0;
+}

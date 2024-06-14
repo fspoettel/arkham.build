@@ -11,7 +11,7 @@ import css from "./collapsible.module.css";
 
 import { Button } from "./button";
 
-type Props = CollapsibleProps & {
+type Props = Omit<CollapsibleProps, "title"> & {
   actions?: ReactNode;
   children: ReactNode;
   className?: string;
@@ -28,9 +28,11 @@ export function Collapsible({
   onOpenChange,
   sub,
   title,
+  ...rest
 }: Props) {
   return (
     <Root
+      {...rest}
       className={clsx(css["collapsible-root"], className)}
       open={open}
       onOpenChange={onOpenChange}

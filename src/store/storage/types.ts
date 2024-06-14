@@ -1,4 +1,4 @@
-import type { DecksState } from "../slices/decks/types";
+import type { DataState } from "../slices/data/types";
 import type { Metadata } from "../slices/metadata/types";
 import type { SettingsState } from "../slices/settings/types";
 
@@ -7,7 +7,7 @@ type MetadataVal = {
 };
 
 type AppdataVal = {
-  decks: DecksState;
+  data: DataState;
   settings: SettingsState;
 };
 

@@ -106,7 +106,7 @@ describe("resolveDeck", () => {
       const deck = deckFactionSelected;
       const resolved = resolveDeck(metadata, lookupTables, deck, false);
       expect(resolved.factionSelect).toMatchObject({
-        selection: "survivor",
+        selections: ["survivor"],
       });
     });
 

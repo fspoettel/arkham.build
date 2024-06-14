@@ -7,7 +7,7 @@ import type {
   TabooSet,
   Type,
 } from "../services/types";
-import type { Deck } from "../slices/decks/types";
+import type { Deck } from "../slices/data/types";
 
 export type ResolvedCard = {
   card: Card;
@@ -82,7 +82,7 @@ export type ResolvedDeck<T extends ResolvedCard | CardWithRelations> = Omit<
   };
   factionSelect?: {
     options: string[];
-    selection?: string;
+    selections: (string | undefined)[];
   };
   investigatorFront: ResolvedCard; // does not track relations.
   investigatorBack: ResolvedCard; // does not track relations.

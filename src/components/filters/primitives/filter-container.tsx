@@ -39,7 +39,7 @@ export function FilterContainer({
       actions={
         filterString && onReset ? (
           <Button size="sm" variant="bare" onClick={onFilterReset}>
-            <ResetIcon style={{ fontSize: "0.875rem" }} />
+            <ResetIcon />
           </Button>
         ) : undefined
       }

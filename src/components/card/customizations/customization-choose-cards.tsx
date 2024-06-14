@@ -1,4 +1,4 @@
-import { ListCard } from "@/components/card-list/list-card";
+import { ListCardInner } from "@/components/card-list/list-card-inner";
 import { Combobox } from "@/components/ui/combobox/combobox";
 import { useStore } from "@/store";
 import { sortAlphabetically } from "@/store/lib/sorting";
@@ -56,7 +56,7 @@ function selectPlayerCardsForCustomizationOptions(
   return cards;
 }
 
-const cardRenderer = (item: Card) => <ListCard card={item} size="sm" />;
+const cardRenderer = (item: Card) => <ListCardInner card={item} size="sm" />;
 
 const resultRenderer = (item: Card) => item.real_name;
 
@@ -83,9 +83,9 @@ export function CustomizationChooseCards({
   return (
     <Combobox
       label="Cards"
-      disabled={choices.length === limit}
       id={`${id}-choose-cards`}
       items={cards}
+      disabled={Object.keys(selectedCards).length === limit}
       itemToString={itemToString}
       renderItem={cardRenderer}
       renderResult={resultRenderer}

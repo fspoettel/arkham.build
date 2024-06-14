@@ -5,16 +5,14 @@ export type UIState = {
     listScrollRestore: StateSnapshot | undefined;
     hydrated: boolean;
     initialized: boolean;
-    searchOpen: boolean;
+    filtersOpen: boolean;
     sidebarOpen: boolean;
-    activeDeckId: string | undefined;
   };
 };
 
 export type UISlice = UIState & {
   setListScrollRestore(snapshot: StateSnapshot): void;
   setHydrated(): void;
-  toggleSearch(): void;
+  toggleFilters(val?: boolean): void;
   toggleSidebar(val?: boolean): void;
-  setActiveDeckId(id: string | undefined): void;
 };

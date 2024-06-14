@@ -3,11 +3,16 @@
   grid-area: header;
   display: flex;
   justify-content: space-between;
-  height: 1.75rem;
+  padding: 1rem 0;
 }
 
 .masthead h1 {
   font-size: var(--text-base);
+}
+
+.masthead-logo {
+  font-size: var(--icon-3xl);
+  margin-left: 0.25rem;
 }
 
 .masthead-nav {

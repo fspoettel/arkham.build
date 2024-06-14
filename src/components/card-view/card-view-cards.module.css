@@ -1,0 +1,15 @@
+.view-section-title {
+  font-family: var(--font-family-ui);
+  text-align: center;
+  color: var(--nord-4);
+  font-size: var(--text-xl);
+  line-height: 1;
+  margin: 1.5rem 0;
+  text-transform: uppercase;
+}
+
+.view-section-cards {
+  & > * + * {
+    margin-top: 1rem;
+  }
+}

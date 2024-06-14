@@ -2,7 +2,7 @@ import { countExperience } from "@/utils/card-utils";
 import { ALT_ART_INVESTIGATOR_MAP } from "@/utils/constants";
 
 import type { Card } from "../services/types";
-import type { Deck } from "../slices/decks/types";
+import type { Deck } from "../slices/data/types";
 import type { LookupTables } from "../slices/lookup-tables/types";
 import type { Metadata } from "../slices/metadata/types";
 import { resolveCardWithRelations } from "./card-resolver";
@@ -230,14 +230,18 @@ export function isSpecialCard(
 }
 
 function getFactionSelect(investigator: CardWithRelations, deckMeta: DeckMeta) {
-  const hasFactionSelect = investigator.card.deck_options?.some(
+  const factionSelects = investigator.card.deck_options?.filter(
     (x) => x.faction_select,
   );
 
-  return hasFactionSelect
+  return factionSelects?.length
     ? {
         options: [], // TODO: implement.
-        selection: deckMeta.faction_selected,
+        selections: factionSelects.map((s) => {
+          if (s.id === "faction_1") return deckMeta.faction_1;
+          if (s.id === "faction_2") return deckMeta.faction_2;
+          return deckMeta.faction_selected;
+        }),
       }
     : undefined;
 }

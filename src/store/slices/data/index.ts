@@ -1,22 +1,23 @@
 import type { StateCreator } from "zustand";
 
 import type { StoreState } from "..";
-import { type DecksSlice, isDeck } from "./types";
+import type { DataSlice } from "./types";
+import { isDeck } from "./types";
 
-export function getInitialDecksState() {
+export function getInitialDataState() {
   return {
-    decks: {
-      local: {},
+    data: {
+      decks: {},
     },
   };
 }
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
-export const createDecksSlice: StateCreator<StoreState, [], [], DecksSlice> = (
+export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
   set,
   get,
 ) => ({
-  ...getInitialDecksState(),
+  ...getInitialDataState(),
   async importDecks(files) {
     for (const file of files) {
       try {
@@ -29,15 +30,15 @@ export const createDecksSlice: StateCreator<StoreState, [], [], DecksSlice> = (
 
         const state = get();
 
-        if (state.decks.local[json.id]) {
+        if (state.data.decks[json.id]) {
           throw new Error(`Deck '${json.id}' already exists.`);
         }
 
         set({
-          decks: {
-            ...state.decks,
-            local: {
-              ...state.decks.local,
+          data: {
+            ...state.data,
+            decks: {
+              ...state.data.decks,
               [json.id]: json,
             },
           },
@@ -49,8 +50,8 @@ export const createDecksSlice: StateCreator<StoreState, [], [], DecksSlice> = (
   },
   deleteDeck(id) {
     const state = get();
-    const localDecks = { ...state.decks.local };
+    const localDecks = { ...state.data.decks };
     delete localDecks[id];
-    set({ decks: { ...state.decks, local: localDecks } });
+    set({ data: { ...state.data, decks: localDecks } });
   },
 });

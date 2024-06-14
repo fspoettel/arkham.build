@@ -1,6 +1,13 @@
-.sidebar-faq {
+.faq {
+  background: var(--nord-0);
+
   & > * + * {
     margin-top: 0.5rem;
+  }
+
+  & summary {
+    border: 2px solid var(--nord-3);
+    background: var(--nord-1);
   }
 
   & summary::-webkit-details-marker {
@@ -8,17 +15,21 @@
   }
 }
 
-.sidebar-faq summary span {
+.faq summary span {
   display: inline-block;
   min-width: 1rem;
   text-align: center;
 }
 
-.sidebar-faq-content {
+.faq-content {
   border: 1px solid var(--nord-3);
   padding: 0.5rem 1.5rem;
   font-size: var(--text-sm);
   border-radius: var(--rounded-md);
+
+  > * {
+    max-width: 72ch;
+  }
 
   & li + li {
     margin-top: 0.5rem;

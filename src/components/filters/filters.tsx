@@ -1,3 +1,6 @@
+import clsx from "clsx";
+import type { ReactNode } from "react";
+
 import SvgFilterClear from "@/assets/icons/filter-clear.svg?react";
 import { useStore } from "@/store";
 import { selectActiveCardType } from "@/store/selectors/filters";
@@ -23,22 +26,27 @@ import { TraitFilter } from "./trait-filter";
 import { TypeFilter } from "./type-filter";
 
 type Props = {
+  slotActions?: ReactNode;
+  className?: string;
   hiddenFilters?: string[];
 };
 
-export function Filters({ hiddenFilters }: Props) {
+export function Filters({ slotActions, className, hiddenFilters }: Props) {
   const touched = useStore((state) => state.filters.touched);
 
   const cardTypeSelection = useStore(selectActiveCardType);
   const resetFilters = useStore((state) => state.resetFilters);
 
   return (
-    <search className={css["filters"]} title="Filters">
+    <search className={clsx(css["filters"], className)} title="Filters">
       <div className={css["filters-header"]}>
         <h3 className={css["filters-title"]}>Filters</h3>
-        <Button onClick={resetFilters} variant="bare" disabled={!touched}>
-          <SvgFilterClear />
-        </Button>
+        <div className={css["filters-actions"]}>
+          <Button onClick={resetFilters} variant="bare" disabled={!touched}>
+            <SvgFilterClear />
+          </Button>
+          {slotActions}
+        </div>
       </div>
       <Scroller>
         <div className={css["filters-container"]}>
@@ -55,7 +63,8 @@ export function Filters({ hiddenFilters }: Props) {
           <PropertiesFilter />
           <PackFilter />
           {cardTypeSelection === "encounter" && <EncounterSetFilter />}
-          {cardTypeSelection === "player" && <TabooSetFilter />}
+          {!hiddenFilters?.includes("taboo_set") &&
+            cardTypeSelection === "player" && <TabooSetFilter />}
           {!hiddenFilters?.includes("investigator") &&
             cardTypeSelection === "player" && <InvestigatorFilter />}
         </div>

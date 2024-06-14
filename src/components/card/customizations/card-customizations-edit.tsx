@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useId } from "react";
+import { useId, useMemo } from "react";
 
 import type {
   Customization,
@@ -22,6 +22,7 @@ import { CustomizationRemoveSlot } from "./customization-remove-slot";
 type Props = {
   activeDeck: ResolvedDeck<ResolvedCard>;
   card: Card;
+  disabled?: boolean;
 };
 
 export function CardCustomizationsEdit({ activeDeck, card }: Props) {
@@ -80,11 +81,18 @@ function CustomizationOption({
   const choice = choices?.[index];
   const checkedCount = choice?.xpSpent ?? 0;
 
+  const cssVariables = useMemo(
+    () => ({
+      "--customization-xp-max": xpMax,
+    }),
+    [xpMax],
+  );
+
   return (
     <div
       className={css["customization"]}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      style={{ "--customization-xp-max": xpMax } as any}
+      style={cssVariables as any}
     >
       <div className={css["customization-checks"]}>
         {!!option.xp &&

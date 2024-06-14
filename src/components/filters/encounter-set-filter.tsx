@@ -8,17 +8,19 @@ import {
 } from "@/store/selectors/filters";
 import type { EncounterSet } from "@/store/services/types";
 
+import css from "./filters.module.css";
+
 import EncounterIcon from "../icons/encounter-icon";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 
 function EncounterSetName({ set }: { set: EncounterSet }) {
   return (
-    <span
-      style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem" }}
-    >
-      <EncounterIcon code={set.code} />
+    <>
+      <span className={css["filter-menu-icon"]}>
+        <EncounterIcon code={set.code} />
+      </span>
       {set.name}
-    </span>
+    </>
   );
 }
 

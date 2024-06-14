@@ -16,7 +16,7 @@ export type Grouping = {
   skill?: DeckCard[];
 };
 
-type NamedGrouping = {
+export type NamedGrouping = {
   id: string;
   data: Grouping;
 };
@@ -31,6 +31,7 @@ export type Groupings = {
 
 export type DisplayDeck = ResolvedDeck<CardWithRelations> & {
   groups: Groupings;
+  bondedSlots: Record<string, number>;
 };
 
 export function groupDeckCardsByType(deck: ResolvedDeck<CardWithRelations>) {
@@ -58,7 +59,6 @@ export function groupDeckCardsByType(deck: ResolvedDeck<CardWithRelations>) {
 
   for (const resolvedCard of Object.values(deck.cards.slots)) {
     const card = resolvedCard.card;
-    const deckCard = { ...card, quantity: deck.slots[card.code] };
 
     // ignore deck limit slots should always go to special, as it can contain duplicate cards of normal slots.
     //example: Ace of Rods in TCU; Parallel Agnes upgrades.
@@ -66,9 +66,9 @@ export function groupDeckCardsByType(deck: ResolvedDeck<CardWithRelations>) {
       !!deck.ignoreDeckLimitSlots?.[card.code] ||
       isSpecialCard(card, deck.cards.investigator, true)
     ) {
-      addCardToGrouping(groupings, "special", deckCard);
+      addCardToGrouping(groupings, "special", card);
     } else {
-      addCardToGrouping(groupings, "main", deckCard);
+      addCardToGrouping(groupings, "main", card);
     }
 
     // Collect bonded cards, filtering out duplicates.
@@ -95,7 +95,7 @@ export function groupDeckCardsByType(deck: ResolvedDeck<CardWithRelations>) {
     addCardToGrouping(groupings, "side", deckCard);
   }
 
-  return groupings;
+  return { groupings, bonded };
 }
 
 function addCardToGrouping(

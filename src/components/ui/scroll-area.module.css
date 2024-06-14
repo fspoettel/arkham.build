@@ -16,7 +16,7 @@
   touch-action: none;
   padding: 2px;
   background: rgba(0, 0, 0, 0.05);
-  z-index: 9999;
+  z-index: 100;
   transition: background 160ms ease-out;
 }
 

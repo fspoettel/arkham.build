@@ -22,8 +22,20 @@ const selector = createSelector(
   (state) => state.listScrollRestore,
 );
 
-export function CardList() {
+type Props = {
+  canShowQuantity?: boolean;
+  canEdit?: boolean;
+  quantities?: Record<string, number> | null;
+};
+
+export function CardList({ canEdit, canShowQuantity, quantities }: Props) {
   const data = useStore(selectFilteredCards);
+
+  const cardCount = useRef<number>(data?.cards.length ?? 0);
+
+  useEffect(() => {
+    cardCount.current = data?.cards.length ?? 0;
+  }, [data?.cards.length]);
 
   const [scrollParent, setScrollParent] = useState<HTMLElement | undefined>();
   const virtuosoRef = useRef<GroupedVirtuosoHandle>(null);
@@ -71,7 +83,8 @@ export function CardList() {
     } else {
       virtuosoRef.current?.scrollTo({ top: 0 });
     }
-  }, [data]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cardCount]);
 
   const jumpToOptions = useMemo(
     () => [
@@ -110,6 +123,9 @@ export function CardList() {
                 className={css["list-listcard"]}
                 key={data.cards[index].code}
                 card={data.cards[index]}
+                canShowQuantity={canShowQuantity}
+                canEdit={canEdit}
+                quantities={quantities}
               />
             )}
             rangeChanged={rangeChanged}

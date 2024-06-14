@@ -1,4 +1,5 @@
-import type { DecksSlice } from "./decks/types";
+import type { DataSlice } from "./data/types";
+import type { DeckViewSlice } from "./deck-view/types";
 import type { FiltersSlice } from "./filters/types";
 import type { LookupTablesSlice } from "./lookup-tables/types";
 import type { MetadataSlice } from "./metadata/types";
@@ -13,5 +14,6 @@ export type StoreState = SharedSlice &
   UISlice &
   SearchSlice &
   SettingsSlice &
-  DecksSlice &
+  DataSlice &
+  DeckViewSlice &
   FiltersSlice;

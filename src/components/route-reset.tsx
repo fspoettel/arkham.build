@@ -7,6 +7,7 @@ import { useSyncActiveDeckId } from "@/utils/use-sync-active-deck-id";
 export default function RouteReset() {
   const [pathname] = useLocation();
 
+  const toggleFilters = useStore((state) => state.toggleFilters);
   const toggleSidebar = useStore((state) => state.toggleSidebar);
 
   useSyncActiveDeckId();
@@ -14,7 +15,8 @@ export default function RouteReset() {
   useEffect(() => {
     window.scrollTo(0, 0);
     toggleSidebar(false);
-  }, [pathname, toggleSidebar]);
+    toggleFilters(false);
+  }, [pathname, toggleSidebar, toggleFilters]);
 
   return null;
 }

@@ -6,7 +6,7 @@ import {
 } from "@radix-ui/react-icons";
 import clsx from "clsx";
 import { useCallback, useState } from "react";
-import { useLocation } from "wouter";
+import { Link, useLocation } from "wouter";
 
 import SvgCardOutlineBold from "@/assets/icons/card-outline-bold.svg?react";
 import SvgTaboo from "@/assets/icons/taboo.svg?react";
@@ -16,7 +16,6 @@ import { CardContainer } from "@/components/card/card-container";
 import { CardFront } from "@/components/card/card-front";
 import { FactionIcon } from "@/components/icons/faction-icon";
 import { Button } from "@/components/ui/button";
-import { Scroller } from "@/components/ui/scroll-area";
 import { useStore } from "@/store";
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import { capitalize } from "@/utils/capitalize";
@@ -24,123 +23,130 @@ import { capitalize } from "@/utils/capitalize";
 import css from "./deck-sidebar.module.css";
 
 type Props = {
+  className?: string;
   deck: DisplayDeck;
 };
 
-export function DeckSidebar({ deck }: Props) {
+export function DeckSidebar({ className, deck }: Props) {
   const [backToggled, toggleBack] = useState(false);
   const deleteDeck = useStore((state) => state.deleteDeck);
   const [, setLocation] = useLocation();
 
   const onDelete = useCallback(() => {
     deleteDeck(deck.id);
-    setLocation("/browse");
+    setLocation("~/browse");
   }, [deck.id, deleteDeck, setLocation]);
 
   return (
-    <Scroller>
-      <div className={css["deck-sidebar"]}>
-        <CardContainer size="tooltip">
-          <CardFront
-            resolvedCard={deck.investigatorFront}
-            size="tooltip"
-            linked
-          />
-          <div
-            className={clsx(
-              css["deck-sidebar-back-toggle"],
-              backToggled && css["open"],
-            )}
-          >
-            <Button onClick={() => toggleBack((p) => !p)}>
-              {backToggled ? <ChevronUpIcon /> : <ChevronDownIcon />}
-              Backside{" "}
-              {deck.investigatorBack.card.parallel && (
-                <>
-                  (<span className="encounters-parallel" />)
-                </>
-              )}
-            </Button>
-          </div>
-          {backToggled && (
-            <CardBack card={deck.investigatorBack.card} size="tooltip" />
+    <div className={clsx(css["deck-sidebar"], className)}>
+      <CardContainer size="tooltip">
+        <CardFront
+          resolvedCard={deck.investigatorFront}
+          size="tooltip"
+          linked
+        />
+        <div
+          className={clsx(
+            css["deck-sidebar-back-toggle"],
+            backToggled && css["open"],
           )}
-        </CardContainer>
+        >
+          <Button onClick={() => toggleBack((p) => !p)}>
+            {backToggled ? <ChevronUpIcon /> : <ChevronDownIcon />}
+            Backside{" "}
+            {deck.investigatorBack.card.parallel && (
+              <>
+                (<span className="encounters-parallel" />)
+              </>
+            )}
+          </Button>
+        </div>
+        {backToggled && (
+          <CardBack card={deck.investigatorBack.card} size="tooltip" />
+        )}
+      </CardContainer>
 
-        <div className={css["deck-sidebar-actions"]}>
-          <Button size="full" disabled>
+      <div className={css["deck-sidebar-actions"]}>
+        <Link asChild href={`/${deck.id}/edit`}>
+          <Button as="a" size="full">
             <Pencil2Icon /> Edit
           </Button>
+        </Link>
 
-          <Button size="full" onClick={onDelete}>
-            <TrashIcon /> Delete
-          </Button>
-        </div>
-
-        <div className={css["deck-sidebar-details"]}>
-          <ul className={css["deck-details"]}>
-            <li className={css["detail"]}>
-              <div className={css["detail-label"]}>
-                <SvgCardOutlineBold /> Deck size
-              </div>
-              <p className={css["detail-value"]}>
-                {deck.stats.deckSize} ({deck.stats.deckSizeTotal} total)
-              </p>
-            </li>
-
-            <li className={css["detail"]}>
-              <div className={css["detail-label"]}>
-                <SvgXp /> XP required
-              </div>
-              <p className={css["detail-value"]}>{deck.stats.xpRequired}</p>
-            </li>
-
-            <li className={css["detail"]}>
-              <div className={css["detail-label"]}>
-                <SvgTaboo /> Taboo
-              </div>
-              <p className={css["detail-value"]}>
-                {deck.tabooSet ? (
-                  <span>
-                    {deck.tabooSet.name} - {deck.tabooSet.date.slice(0, 4)}
-                  </span>
-                ) : (
-                  "None"
-                )}
-              </p>
-            </li>
-
-            {deck.factionSelect && (
-              <li className={clsx(css["detail"], css["full"])}>
-                <div className={css["detail-label"]}>
-                  <SvgCardOutlineBold /> Secondary class choice
-                </div>
-                <p className={css["detail-value"]}>
-                  {deck.factionSelect.selection && (
-                    <FactionIcon code={deck.factionSelect.selection} />
-                  )}
-                  {deck.factionSelect.selection
-                    ? capitalize(deck.factionSelect.selection)
-                    : "None"}
-                </p>
-              </li>
-            )}
-
-            {deck.optionSelect && (
-              <li className={clsx(css["detail"], css["full"])}>
-                <div className={css["detail-label"]}>
-                  <SvgCardOutlineBold /> {deck.optionSelect.name}
-                </div>
-                <p className={css["detail-value"]}>
-                  {deck.optionSelect.selection
-                    ? capitalize(deck.optionSelect.selection)
-                    : "None"}
-                </p>
-              </li>
-            )}
-          </ul>
-        </div>
+        <Button size="full" onClick={onDelete}>
+          <TrashIcon /> Delete
+        </Button>
       </div>
-    </Scroller>
+
+      <div className={css["deck-sidebar-details"]}>
+        <ul className={css["deck-details"]}>
+          <li className={css["detail"]}>
+            <div className={css["detail-label"]}>
+              <SvgCardOutlineBold /> Deck size
+            </div>
+            <p className={css["detail-value"]}>
+              {deck.stats.deckSize} ({deck.stats.deckSizeTotal} total)
+            </p>
+          </li>
+
+          <li className={css["detail"]}>
+            <div className={css["detail-label"]}>
+              <SvgXp /> XP required
+            </div>
+            <p className={css["detail-value"]}>{deck.stats.xpRequired}</p>
+          </li>
+
+          <li className={css["detail"]}>
+            <div className={css["detail-label"]}>
+              <SvgTaboo /> Taboo
+            </div>
+            <p className={css["detail-value"]}>
+              {deck.tabooSet ? (
+                <span>
+                  {deck.tabooSet.name} - {deck.tabooSet.date.slice(0, 4)}
+                </span>
+              ) : (
+                "None"
+              )}
+            </p>
+          </li>
+
+          {deck.factionSelect && (
+            <li className={clsx(css["detail"], css["full"])}>
+              <div className={css["detail-label"]}>
+                <SvgCardOutlineBold /> Secondary class choice(s)
+              </div>
+              <p className={css["detail-value"]}>
+                {deck.factionSelect.selections?.length
+                  ? deck.factionSelect.selections?.map((selection) =>
+                      selection ? (
+                        <span key={selection}>
+                          <FactionIcon code={selection} />
+                          {capitalize(selection)}
+                        </span>
+                      ) : (
+                        "None"
+                      ),
+                    )
+                  : "None"}
+              </p>
+            </li>
+          )}
+
+          {deck.optionSelect && (
+            <li className={clsx(css["detail"], css["full"])}>
+              <div className={css["detail-label"]}>
+                <SvgCardOutlineBold /> {deck.optionSelect.name}
+              </div>
+              <p className={css["detail-value"]}>
+                {deck.optionSelect.selection
+                  ? capitalize(deck.optionSelect.selection)
+                  : "None"}
+              </p>
+            </li>
+          )}
+        </ul>
+      </div>
+    </div>
   );
 }

@@ -5,19 +5,13 @@ import css from "./decklist-section.module.css";
 
 type Props = {
   children: ReactNode;
-  layout?: "one_column" | "two_column";
   showTitle?: boolean;
   title: string;
 };
 
-export function DecklistSection({
-  children,
-  layout = "one_column",
-  showTitle,
-  title,
-}: Props) {
+export function DecklistSection({ children, showTitle, title }: Props) {
   return (
-    <article className={clsx(css["decklist-section"], css[layout])}>
+    <article className={clsx(css["decklist-section"])}>
       <header className={css["decklist-section-header"]}>
         <h3
           className={clsx(

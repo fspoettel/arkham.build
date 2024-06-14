@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { ReactNode } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
 import { useStore } from "@/store";
 import { debounce } from "@/utils/debounce";
@@ -8,20 +9,18 @@ import css from "./card-search.module.css";
 import { Checkbox } from "../ui/checkbox";
 import { SearchInput } from "../ui/search-input";
 
-export function CardSearch() {
+type Props = {
+  slotLeft?: ReactNode;
+  slotRight?: ReactNode;
+};
+
+export function CardSearch({ slotLeft, slotRight }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const setSearchValue = useStore((state) => state.setSearchValue);
   const setSearchFlag = useStore((state) => state.setSearchFlag);
   const search = useStore((state) => state.search);
-  const searchOpen = useStore((state) => state.ui.searchOpen);
 
   const [inputValue, setInputValue] = useState(search.value);
-
-  useEffect(() => {
-    if (searchOpen && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [searchOpen]);
 
   const debouncedSetSearchValue = useMemo(
     () => debounce(setSearchValue, 50),
@@ -58,12 +57,9 @@ export function CardSearch() {
   );
 
   return (
-    <search
-      data-state={searchOpen ? "open" : "closed"}
-      className={css["search"]}
-      title="Card search"
-    >
+    <search className={css["search"]} title="Card search">
       <div className={css["search-row"]}>
+        {slotLeft}
         <div className={css["search-input"]}>
           <SearchInput
             ref={inputRef}
@@ -76,6 +72,7 @@ export function CardSearch() {
             value={inputValue}
           />
         </div>
+        {slotRight}
       </div>
       <div className={css["search-toggles"]}>
         <Checkbox

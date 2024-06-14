@@ -19,7 +19,7 @@
 
 .combobox-menu {
   width: 100%;
-  max-width: min(18rem, 50dvw);
+  max-width: min(20rem, 50dvw);
   background: var(--nord-1);
   color: var(--nord-5);
   padding: 0.25rem;

@@ -13,14 +13,8 @@ export function CostIcon({ className, cost, style }: Props) {
   if (cost && typeof cost === "number" && cost >= 10) {
     return (
       <span className={className}>
-        <CostIcon
-          cost={cost.toString().split("")[0]}
-          style={{ verticalAlign: "middle" }}
-        />
-        <CostIcon
-          cost={cost.toString().split("")[1]}
-          style={{ verticalAlign: "middle" }}
-        />
+        <CostIcon cost={cost.toString().split("")[0]} />
+        <CostIcon cost={cost.toString().split("")[1]} />
       </span>
     );
   }

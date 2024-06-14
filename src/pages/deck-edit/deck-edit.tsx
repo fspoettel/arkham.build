@@ -1,20 +1,32 @@
 import { CardList } from "@/components/card-list/card-list";
-import { CardSearch } from "@/components/card-list/card-search";
 import { Filters } from "@/components/filters/filters";
+import { ListLayout } from "@/components/layouts/list-layout";
+import { useStore } from "@/store";
+import {
+  selectActiveDeck,
+  selectCardQuantities,
+} from "@/store/selectors/decks";
+import { useDocumentTitle } from "@/utils/use-document-title";
 
-import { AppLayout } from "../../components/layouts/app-layout";
-import { CenterLayout } from "../../components/layouts/center-layout";
+import { DeckEditSidebar } from "./deck-edit-sidebar";
 
 export function DeckEdit() {
+  const deck = useStore(selectActiveDeck);
+  const quantities = useStore(selectCardQuantities);
+
+  useDocumentTitle(
+    deck ? `Edit: ${deck.investigatorFront.card.real_name} - ${deck.name}` : "",
+  );
+
+  if (!deck) return null;
+
   return (
-    <AppLayout
-      closeable={<Filters hiddenFilters={["investigator"]} />}
-      sidebar={"Deck list"}
-      title="Edit deck"
+    <ListLayout
+      sidebar={<DeckEditSidebar deck={deck} />}
+      filters={<Filters hiddenFilters={["investigator", "taboo_set"]} />}
+      sidebarWidthMax="42rem"
     >
-      <CenterLayout top={<CardSearch />}>
-        <CardList />
-      </CenterLayout>
-    </AppLayout>
+      <CardList canEdit canShowQuantity quantities={quantities} />
+    </ListLayout>
   );
 }

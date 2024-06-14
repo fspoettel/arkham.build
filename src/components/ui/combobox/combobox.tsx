@@ -213,7 +213,7 @@ export function Combobox<T extends Coded>({
         </div>
       </div>
       {isOpen && (
-        <FloatingPortal>
+        <FloatingPortal id="floating">
           <FloatingFocusManager context={context} initialFocus={-1}>
             <div
               className={css["combobox-menu"]}

@@ -2,7 +2,8 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 import type { StoreState } from "./slices";
-import { createDecksSlice } from "./slices/decks";
+import { createDataSlice } from "./slices/data";
+import { createDeckViewSlice } from "./slices/deck-view";
 import { createFiltersSlice } from "./slices/filters";
 import { createLookupTablesSlice } from "./slices/lookup-tables";
 import { createMetadataSlice } from "./slices/metadata";
@@ -14,7 +15,7 @@ import { storageConfig } from "./storage";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const stateCreator = (...args: [any, any, any]) => ({
-  ...createDecksSlice(...args),
+  ...createDataSlice(...args),
   ...createMetadataSlice(...args),
   ...createLookupTablesSlice(...args),
   ...createFiltersSlice(...args),
@@ -22,6 +23,7 @@ export const stateCreator = (...args: [any, any, any]) => ({
   ...createSearchSlice(...args),
   ...createUISlice(...args),
   ...createSharedSlice(...args),
+  ...createDeckViewSlice(...args),
 });
 
 export const useStore = create<StoreState>()(

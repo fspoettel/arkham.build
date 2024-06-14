@@ -4,6 +4,7 @@ import { PLAYER_TYPE_ORDER } from "@/utils/constants";
 import { and, pass } from "@/utils/fp";
 
 import { applyCardChanges } from "../lib/card-changes";
+import { getAdditionalDeckOptions } from "../lib/deck-validation";
 import {
   filterActions,
   filterAssets,
@@ -38,7 +39,7 @@ import {
 import type { Card } from "../services/types";
 import type { StoreState } from "../slices";
 import type { CardTypeFilter } from "../slices/filters/types";
-import { selectActiveDeck } from "./decks";
+import { selectActiveDeck, selectResolvedDeck } from "./decks";
 import { selectCanonicalTabooSetId } from "./filters";
 
 export type ListState = {
@@ -235,6 +236,25 @@ export const selectInvestigatorFilter = createSelector(
   },
 );
 
+export const selectDeckInvestigatorFilter = createSelector(
+  (state: StoreState) => state.lookupTables,
+  selectResolvedDeck,
+  (lookupTables, resolvedDeck) => {
+    if (!resolvedDeck) return undefined;
+
+    const card = resolvedDeck.investigatorBack.card;
+    if (!card) return undefined;
+
+    return filterInvestigatorAccess(card, lookupTables, {
+      additionalDeckOptions: getAdditionalDeckOptions(resolvedDeck),
+      faction1: resolvedDeck.metaParsed?.faction_1,
+      faction2: resolvedDeck.metaParsed?.faction_2,
+      factionSelected: resolvedDeck.metaParsed?.faction_selected,
+      optionSelected: resolvedDeck.metaParsed?.option_selected,
+    });
+  },
+);
+
 /**
  * Combined list filters
  */
@@ -254,6 +274,7 @@ export const selectPlayerCardFilters = createSelector(
   selectOwnershipFilter,
   selectPackCodeFilter,
   selectAssetFilter,
+  selectDeckInvestigatorFilter,
   (
     factionFilter,
     levelFilter,
@@ -269,6 +290,7 @@ export const selectPlayerCardFilters = createSelector(
     ownershipFilter,
     packCodeFilter,
     assetFilter,
+    deckInvestigatorFilter,
   ) => {
     const filters = [
       actionsFilter,
@@ -306,6 +328,10 @@ export const selectPlayerCardFilters = createSelector(
       filters.push(tabooSetFilter);
     }
 
+    if (deckInvestigatorFilter) {
+      filters.push(deckInvestigatorFilter);
+    }
+
     return and(filters);
   },
 );
@@ -325,6 +351,7 @@ export const selectWeaknessFilters = createSelector(
   selectOwnershipFilter,
   selectPackCodeFilter,
   selectAssetFilter,
+  selectDeckInvestigatorFilter,
   (
     levelFilter,
     costFilter,
@@ -340,6 +367,7 @@ export const selectWeaknessFilters = createSelector(
     ownershipFilter,
     packCodeFilter,
     assetFilter,
+    deckInvestigatorFilter,
   ) => {
     const filters = [
       filterEncounterCards,
@@ -375,6 +403,10 @@ export const selectWeaknessFilters = createSelector(
       filters.push(tabooSetFilter);
     }
 
+    if (deckInvestigatorFilter) {
+      filters.push(deckInvestigatorFilter);
+    }
+
     return and(filters);
   },
 );
@@ -392,6 +424,7 @@ export const selectEncounterFilters = createSelector(
   selectEncounterSetFilter,
   selectPackCodeFilter,
   selectAssetFilter,
+  selectDeckInvestigatorFilter,
   (
     costFilter,
     factionFilter,
@@ -405,6 +438,7 @@ export const selectEncounterFilters = createSelector(
     encounterSetFilter,
     packCodeFilter,
     assetFilter,
+    deckInvestigatorFilter,
   ) => {
     const filters = [
       filterBacksides,
@@ -428,8 +462,17 @@ export const selectEncounterFilters = createSelector(
       filters.push(costFilter);
     }
 
+    if (deckInvestigatorFilter) {
+      filters.push(deckInvestigatorFilter);
+    }
+
     return and(filters);
   },
+);
+
+const selectCustomizations = createSelector(
+  selectActiveDeck,
+  (deck) => deck?.customizations,
 );
 
 export const selectFilteredCards = createSelector(
@@ -444,7 +487,7 @@ export const selectFilteredCards = createSelector(
   selectPlayerCardGroups,
   selectWeaknessGroups,
   selectEncounterSetGroups,
-  selectActiveDeck,
+  selectCustomizations,
   (
     activeCardType,
     playerCardFilter,
@@ -457,7 +500,7 @@ export const selectFilteredCards = createSelector(
     playerCardGroups,
     weaknessGroups,
     encounterSetGroups,
-    activeDeck,
+    customizations,
   ) => {
     if (!Object.keys(metadata.cards).length) {
       console.warn("player cards selected before store is initialized.");
@@ -479,13 +522,7 @@ export const selectFilteredCards = createSelector(
           lookupTables,
           playerCardFilter,
           tabooSetId
-            ? (c) =>
-                applyCardChanges(
-                  c,
-                  metadata,
-                  tabooSetId,
-                  activeDeck?.customizations,
-                )
+            ? (c) => applyCardChanges(c, metadata, tabooSetId, customizations)
             : undefined,
         );
 

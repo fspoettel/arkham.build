@@ -9,14 +9,14 @@ import {
 } from "@/store/selectors/filters";
 import type { Pack } from "@/store/services/types";
 
+import css from "./filters.module.css";
+
 import PackIcon from "../icons/pack-icon";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 
 function PackName({ pack }: { pack: Pack }) {
   return (
-    <span
-      style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem" }}
-    >
+    <span className={css["filter-menu-icon"]}>
       <PackIcon code={pack.code} />
       {pack.real_name}
     </span>

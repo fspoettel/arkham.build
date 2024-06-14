@@ -1,7 +1,7 @@
 .button {
   display: inline-flex;
   gap: 0.25rem;
-  background-color: transparent;
+  background-color: var(--nord-0);
   align-items: center;
   padding: 0.25rem 0.5rem;
   border-radius: var(--rounded);
@@ -9,6 +9,7 @@
   cursor: pointer;
   font-family: var(--font-family-ui);
   font-size: var(--text-base);
+  user-select: none;
 
   &[disabled] {
     opacity: 0.3;
@@ -42,5 +43,6 @@ a.button {
 }
 
 .button.sm {
+  font-size: var(--text-sm);
   padding: 0.125rem;
 }

@@ -26,12 +26,12 @@ export function isDeck(x: unknown): x is Deck {
   );
 }
 
-export type DecksState = {
-  local: Record<string, Deck>;
+export type DataState = {
+  decks: Record<string, Deck>;
 };
 
-export type DecksSlice = {
-  decks: DecksState;
+export type DataSlice = {
+  data: DataState;
   importDecks(files: FileList): Promise<void>;
   deleteDeck(id: string | number): void;
 };

@@ -45,7 +45,7 @@ export function CardText({
         )}
       </div>
       {(tabooText || tabooXp != null) && (
-        <div className={clsx(css["text"], "border-taboo")}>
+        <div className={clsx("border-taboo", css["text"])}>
           {tabooText && (
             <p>
               <i className="icon-tablet color-taboo icon-text" />{" "}

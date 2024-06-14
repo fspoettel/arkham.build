@@ -1,25 +1,24 @@
 import { CardList } from "@/components/card-list/card-list";
-import { CardSearch } from "@/components/card-list/card-search";
 import { DeckCollection } from "@/components/deck-collection/deck-collection";
 import { Filters } from "@/components/filters/filters";
-import { AppLayout } from "@/components/layouts/app-layout";
-import { CenterLayout } from "@/components/layouts/center-layout";
+import { ListLayout } from "@/components/layouts/list-layout";
 import { useStore } from "@/store";
 import { selectIsInitialized } from "@/store/selectors";
+import { useDocumentTitle } from "@/utils/use-document-title";
 
 export function Browse() {
   const isInitalized = useStore(selectIsInitialized);
+  useDocumentTitle("Browse");
+
   if (!isInitalized) return null;
 
   return (
-    <AppLayout
-      closeable={<Filters />}
+    <ListLayout
+      filters={<Filters />}
       sidebar={<DeckCollection />}
-      title="Browse"
+      sidebarWidthMax="var(--sidebar-width-one-col)"
     >
-      <CenterLayout top={<CardSearch />}>
-        <CardList />
-      </CenterLayout>
-    </AppLayout>
+      <CardList />
+    </ListLayout>
   );
 }

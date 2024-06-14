@@ -3,6 +3,7 @@ import { SPECIAL_CARD_CODES } from "@/utils/constants";
 
 import type { Card, DeckOption, DeckRequirements } from "../services/types";
 import type { StoreState } from "../slices";
+import type { Deck } from "../slices/data/types";
 import type { LookupTables } from "../slices/lookup-tables/types";
 import type { InvestigatorAccessConfig } from "./filtering";
 import {
@@ -63,6 +64,32 @@ type Error =
 
 function formatReturnValue(errors: Error[]) {
   return { valid: errors.length === 0, errors };
+}
+
+export function getAdditionalDeckOptions(
+  deck: Deck | ResolvedDeck<ResolvedCard>,
+) {
+  const additionalDeckOptions: DeckOption[] = [];
+
+  if (deck.slots[SPECIAL_CARD_CODES.VERSATILE]) {
+    additionalDeckOptions.push({
+      level: { min: 0, max: 0 },
+      limit: deck.slots[SPECIAL_CARD_CODES.VERSATILE],
+      error: "Too many off-class cards for Versatile.",
+    });
+  }
+
+  if (deck.slots[SPECIAL_CARD_CODES.ON_YOUR_OWN]) {
+    additionalDeckOptions.push({
+      not: true,
+      slot: ["Ally"],
+      level: { min: 0, max: 5 },
+      error: "You cannot have assets that take up an ally slot.",
+      virtual: true,
+    });
+  }
+
+  return additionalDeckOptions;
 }
 
 export function validateDeck(
@@ -202,11 +229,14 @@ type DeckLimitViolation = {
 };
 
 class DeckLimitsValidator implements SlotValidator {
-  violations: DeckLimitViolation[] = [];
   limitOverride: number | undefined;
   selectedDeckSize: number | undefined;
+  violations: Record<string, DeckLimitViolation> = {};
+  quantityByName: Record<string, number> = {};
+  ignoreDeckLimitSlots: Record<string, number> = {};
 
   constructor(deck: ResolvedDeck<ResolvedCard>) {
+    this.ignoreDeckLimitSlots = deck.ignoreDeckLimitSlots ?? {};
     if (deck.slots[SPECIAL_CARD_CODES.UNDERWORLD_SUPPORT]) {
       this.limitOverride = 1;
     }
@@ -223,6 +253,8 @@ class DeckLimitsValidator implements SlotValidator {
   }
 
   add(card: Card, quantity: number) {
+    const name = `${card.real_name}${card.real_subname}`;
+
     if (card.xp == null && card.subtype_code !== "basicweakness") {
       if (
         card.code === SPECIAL_CARD_CODES.OCCULT_EVIDENCE &&
@@ -230,20 +262,20 @@ class DeckLimitsValidator implements SlotValidator {
       ) {
         const limit = (this.selectedDeckSize - 20) / 10;
         if (quantity !== limit) {
-          this.violations.push({
+          this.violations[name] = {
             code: card.code,
             limit,
             quantity,
             real_name: card.real_name,
-          });
+          };
         }
       } else if (quantity !== (card.quantity ?? 0)) {
-        this.violations.push({
+        this.violations[name] = {
           code: card.code,
           limit: card.quantity,
           quantity,
           real_name: card.real_name,
-        });
+        };
       }
 
       return;
@@ -251,22 +283,29 @@ class DeckLimitsValidator implements SlotValidator {
 
     const limit = this.limitOverride ?? card.deck_limit ?? 0;
 
-    if (quantity > limit) {
-      this.violations.push({
+    // some copies of this card might be ignored, e.g. for parallel Agnes and TCU "Ace of Rods".
+    const copies = quantity - (this.ignoreDeckLimitSlots[card.code] ?? 0);
+
+    this.quantityByName[name] ??= 0;
+    this.quantityByName[name] += copies;
+
+    if (this.quantityByName[name] > limit) {
+      this.violations[name] = {
         code: card.code,
         limit,
-        quantity,
+        quantity: this.quantityByName[name],
         real_name: card.real_name,
-      });
+      };
     }
   }
 
   validate(): Error[] {
-    return this.violations.length
+    const violations = Object.values(this.violations);
+    return violations.length
       ? [
           {
             type: "INVALID_CARD_COUNT",
-            details: this.violations,
+            details: violations,
           },
         ]
       : [];
@@ -383,25 +422,7 @@ class DeckOptionsValidator implements SlotValidator {
       });
     }
 
-    const additionalDeckOptions: DeckOption[] = [];
-
-    if (deck.slots[SPECIAL_CARD_CODES.VERSATILE]) {
-      additionalDeckOptions.push({
-        level: { min: 0, max: 0 },
-        limit: deck.slots[SPECIAL_CARD_CODES.VERSATILE],
-        error: "Too many off-class cards for Versatile.",
-      });
-    }
-
-    if (deck.slots[SPECIAL_CARD_CODES.ON_YOUR_OWN]) {
-      additionalDeckOptions.push({
-        not: true,
-        slot: ["Ally"],
-        level: { min: 0, max: 5 },
-        error: "You cannot have assets that take up an ally slot.",
-        virtual: true,
-      });
-    }
+    const additionalDeckOptions = getAdditionalDeckOptions(deck);
 
     deckOptions.push(...additionalDeckOptions);
 

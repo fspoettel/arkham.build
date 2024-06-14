@@ -1,20 +1,9 @@
-.decklist-section.one_column {
+.decklist-section {
   flex: 1 1 100%;
-  padding: 1rem;
-  border: 1px solid var(--nord-1);
-  border-radius: var(--rounded-md);
 
   & .decklist-section-title {
     font-size: var(--text-base);
     margin-bottom: 0.5rem;
-  }
-}
-
-.decklist-section.two_column {
-  flex: 0 0 100%;
-
-  & .decklist-section-title {
-    font-size: var(--text-xl);
-    margin-bottom: 1rem;
+    padding-inline: 0.375rem;
   }
 }

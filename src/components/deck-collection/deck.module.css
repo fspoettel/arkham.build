@@ -7,22 +7,27 @@
   color: var(--nord-4);
   transition: border 0.15s ease-in-out;
 
-  &:hover .deck-thumbnail {
-    filter: none;
-  }
+  &.interactive {
+    .deck-thumbnail {
+      filter: grayscale(0.5);
+    }
 
-  &:not(:hover) {
-    border-color: var(--nord-3);
-  }
+    &:hover .deck-thumbnail {
+      filter: none;
+    }
 
-  &:not(:hover) .deck-header {
-    background: var(--nord-1);
+    &:not(:hover) {
+      border-color: var(--nord-3);
+    }
+
+    &:not(:hover) .deck-header {
+      background: var(--nord-1);
+    }
   }
 }
 
 .deck-thumbnail {
   width: 3rem;
-  filter: grayscale(0.5);
 }
 
 .deck-header,
@@ -47,6 +52,8 @@
 }
 
 .deck-title {
+  display: flex;
+  gap: 0.25rem;
   font-family: var(--font-family-ui);
   font-size: var(--text-sm);
 }

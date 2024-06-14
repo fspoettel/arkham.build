@@ -3,25 +3,25 @@
 }
 
 .color-active-guardian[data-state="on"] {
-  color: var(--guardian) !important;
+  --active-color: var(--guardian);
 }
 
 .color-active-rogue[data-state="on"] {
-  color: var(--rogue) !important;
+  --active-color: var(--rogue);
 }
 
 .color-active-seeker[data-state="on"] {
-  color: var(--seeker) !important;
+  --active-color: var(--seeker);
 }
 
 .color-active-survivor[data-state="on"] {
-  color: var(--survivor) !important;
+  --active-color: var(--survivor);
 }
 
 .color-active-mystic[data-state="on"] {
-  color: var(--mystic) !important;
+  --active-color: var(--mystic);
 }
 
 .color-active-multiclass[data-state="on"] {
-  color: var(--multiclass) !important;
+  --active-color: var(--multiclass);
 }

@@ -3,6 +3,7 @@
   background: var(--nord-1);
   border-radius: var(--rounded-md);
   margin-top: var(--card-spacing);
+  text-align: left;
 }
 
 .header {

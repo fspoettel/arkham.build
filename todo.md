@@ -1,14 +1,19 @@
 ## App
 
 - Reflect filters to URL so that views can be shared and get back to @zzorba.
-- Make the page work better on larger viewports and get back to @Chr1z.
 - Index player cards for traits etc. that occur on the back of the card.
-
 - 'What could be interesting/a nice bonus really cool gimmick if you have the time sometime: some kind of hover effect between certain cards (mainly permanents) and their "related cards"'
+- Add a toggle to show card text in card lists. This could also highlight search result matches.
+- Consider adding a grid view for deck / card list.
+
+- Improve filter UX:
+- I think a reasonable first step to try this would be to clear the filter sidebar and add a + selection menu that pops over and allows you to add a single filter to the sidebar, which would show after that.
+- and if that works UX-wise, you can after add the AND/OR between them. This would also immediately allow for repeated filters as in two separate level filters.
+- and also unblock the filters in search thing
+- then the filter bar would only show the active filters, which would solve the "highlight active filters" thing
 
 ## Deckbuilder
 
-- card modals might be a handy way to reduce focus switches when building decks. they suck on mobile though, there we should probably deactivate them.
 - there should be some effective way to go from searching for a card to including it in the deck with the keyboard.
 - it would be nice to have multiple filter views ("tabs") for the decklist while building a deck.
   filter views for special cards in deck could be auto-created.

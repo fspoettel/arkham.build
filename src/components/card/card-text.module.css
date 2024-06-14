@@ -1,6 +1,8 @@
 .text {
   padding-left: calc(var(--card-spacing) / 1.5);
-  border-left: 2px solid var(--nord-4);
+  border-left-width: 2px;
+  border-left-style: solid;
+  border-color: var(--nord-4);
   font-family: var(--font-family-content);
   font-size: var(--card-text-size);
 

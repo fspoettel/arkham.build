@@ -770,7 +770,12 @@ export function filterInvestigatorAccess(
   // normalize parallel investigators to root for lookups.
   const code = investigator.alternate_of_code ?? investigator.code;
 
-  const ors: Filter[] = [filterRequired(code, lookupTables.relations)];
+  const ors: Filter[] = [
+    filterRequired(code, lookupTables.relations),
+    (card: Card) => card.subtype_code === "basicweakness",
+    (card: Card) => !!card.encounter_code && card.faction_code !== "mythos",
+  ];
+
   const ands: Filter[] = [];
 
   for (const option of options) {

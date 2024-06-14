@@ -1,57 +1,32 @@
-import {
-  DotsHorizontalIcon,
-  GearIcon,
-  MagnifyingGlassIcon,
-} from "@radix-ui/react-icons";
+import { GearIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
+import type { ReactNode } from "react";
 import { Link, useLocation } from "wouter";
-
-import SvgFilter from "@/assets/icons/filter.svg?react";
-import { useStore } from "@/store";
 
 import css from "./masthead.module.css";
 
-import { CardTypeFilter } from "./filters/card-type-filter";
 import { Button } from "./ui/button";
 
-export function Masthead({ className }: { className?: string }) {
-  const onToggleSearch = useStore((state) => state.toggleSearch);
-  const onToggleSidebar = useStore((state) => state.toggleSidebar);
+type Props = {
+  className?: string;
+  slotNav?: ReactNode;
+};
 
+export function Masthead({ className, slotNav }: Props) {
   const [location] = useLocation();
   return (
     <header className={clsx(className, css["masthead"])}>
-      <h1>
-        <Link href="/">{import.meta.env.VITE_PAGE_NAME}</Link>
-      </h1>
+      <Link href="~/" className={css["masthead-logo"]}>
+        <img src="/logo.svg" alt="Arkham.build logo" />
+      </Link>
       <nav className={css["masthead-nav"]}>
-        {location === "/browse" && (
-          <CardTypeFilter className={css["masthead-card-toggle"]} />
-        )}
-        {location === "/browse" && (
-          <Button
-            className={css["masthead-toggle-search"]}
-            variant="bare"
-            onClick={onToggleSearch}
-          >
-            <MagnifyingGlassIcon />
-          </Button>
-        )}
+        {slotNav}
         {location !== "/settings" && (
-          <Link href="/settings" asChild>
+          <Link href="~/settings" asChild>
             <Button className={css["masthead-settings"]} variant="bare" as="a">
               <GearIcon />
             </Button>
           </Link>
-        )}
-        {location !== "/settings" && (
-          <Button
-            className={css["masthead-toggle-filters"]}
-            variant="bare"
-            onClick={() => onToggleSidebar()}
-          >
-            {location === "/browse" ? <SvgFilter /> : <DotsHorizontalIcon />}
-          </Button>
         )}
       </nav>
     </header>

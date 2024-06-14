@@ -12,6 +12,7 @@ import { capitalize } from "@/utils/capitalize";
 import { ASSET_SLOT_ORDER, SKILL_KEYS } from "@/utils/constants";
 
 import type { Metadata } from "../slices/metadata/types";
+import { selectActiveDeck } from "./decks";
 
 /**
  * Shared
@@ -490,16 +491,12 @@ export const selectSubtypeChanges = createSelector(
  */
 
 export const selectCanonicalTabooSetId = createSelector(
-  (state: StoreState) => state.decks.local,
-  (state: StoreState) => state.ui.activeDeckId,
+  selectActiveDeck,
   (state: StoreState) => state.filters.player.tabooSet.value,
   (state: StoreState) => state.settings.tabooSetId,
-  (decks, activeDeckId, filterId, settingId) => {
+  (activeDeck, filterId, settingId) => {
     if (filterId) return filterId;
-
-    return activeDeckId && decks[activeDeckId]
-      ? decks[activeDeckId].taboo_id
-      : settingId;
+    return activeDeck ? activeDeck.taboo_id : settingId;
   },
 );
 

@@ -22,7 +22,7 @@ import {
 } from "./store/services/queries";
 
 function Index() {
-  return <Redirect href="/browse" replace />;
+  return <Redirect href="~/browse" replace />;
 }
 
 function App() {
@@ -58,10 +58,11 @@ function App() {
           <Route path="/" component={Index} />
           <Route path="/browse" component={Browse} />
           <Route path="/card/:code" component={CardView} />
-          <Route path="/deck" component={DeckNew} />
-          <Route path="/deck/:id" component={DeckView} />
-          <Route path="/deck/:id/card/:code" component={CardView} />
-          <Route path="/deck/:id/edit" component={DeckEdit} />
+          <Route path="/deck" nest>
+            <Route path="/new" component={DeckNew} />
+            <Route path="/:id/view" component={DeckView} />
+            <Route path="/:id/edit" component={DeckEdit} />
+          </Route>
           <Route path="/settings" component={Settings} />
           <RouteReset />
         </Router>

@@ -8,7 +8,7 @@ import css from "./deck-collection.module.css";
 
 import { Button } from "../ui/button";
 import { Scroller } from "../ui/scroll-area";
-import { Deck } from "./deck";
+import { DeckCard } from "./deck";
 import { DeckCollectionImport } from "./deck-collection-import";
 
 export function DeckCollection() {
@@ -32,9 +32,9 @@ export function DeckCollection() {
           <ol className={css["deck-collection-decks"]}>
             {decks.map((deck) => (
               <li key={deck.id} className={css["deck-collection-deck"]}>
-                <Link href={`/deck/${deck.id}`} asChild>
+                <Link href={`/deck/${deck.id}/view`} asChild>
                   <a>
-                    <Deck deck={deck} />
+                    <DeckCard deck={deck} interactive />
                   </a>
                 </Link>
               </li>

@@ -39,15 +39,12 @@ export function Faq({ card }: Props) {
   );
 
   return (
-    <details className={css["sidebar-faq"]}>
-      <Button as="summary" size="full" onClick={() => setOpen((p) => !p)}>
+    <details className={css["faq"]}>
+      <Button size="full" as="summary" onClick={() => setOpen((p) => !p)}>
         {open ? <ChevronDownIcon /> : <span>?</span>} View FAQs
       </Button>
 
-      <div
-        className={css["sidebar-faq-content"]}
-        onClick={redirectRelativeLinks}
-      >
+      <div className={css["faq-content"]} onClick={redirectRelativeLinks}>
         {response.loading && "Loading..."}
 
         {!!response.error && "Error loading FAQ entries."}

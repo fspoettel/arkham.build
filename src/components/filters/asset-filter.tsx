@@ -18,6 +18,7 @@ import type { AssetFilter } from "@/store/slices/filters/types";
 import { capitalize } from "@/utils/capitalize";
 
 import css from "./asset-filter.module.css";
+import cssMain from "./filters.module.css";
 
 import { SkillIcon } from "../icons/skill-icon";
 import SlotIcon from "../icons/slot-icon";
@@ -32,9 +33,7 @@ function capitalizeCode(c: Coded) {
 
 function renderSlot(c: Coded) {
   return (
-    <span
-      style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}
-    >
+    <span className={cssMain["filter-menu-icon"]}>
       <SlotIcon code={c.code} /> {c.code}
     </span>
   );

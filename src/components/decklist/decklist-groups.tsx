@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { useParams } from "wouter";
 
 import { useStore } from "@/store";
 import type { Grouping } from "@/store/lib/deck-grouping";
@@ -16,11 +15,13 @@ import { ListCard } from "../card-list/list-card";
 import SlotIcon from "../icons/slot-icon";
 
 type Props = {
+  canEdit?: boolean;
   group: Grouping;
+  quantities?: Record<string, number>;
   layout: "one_column" | "two_column";
 };
 
-export function DecklistGroups({ group, layout }: Props) {
+export function DecklistGroups({ canEdit, group, layout, quantities }: Props) {
   const assetGroup = group["asset"] ? (
     <li className={clsx(css["group"], css["asset"])}>
       <h4 className={css["group-title"]}>Asset</h4>
@@ -34,7 +35,11 @@ export function DecklistGroups({ group, layout }: Props) {
                   <SlotIcon code={key} />
                   {capitalize(key)}
                 </h5>
-                <DecklistGroup cards={val} />
+                <DecklistGroup
+                  canEdit={canEdit}
+                  cards={val}
+                  quantities={quantities}
+                />
               </li>
             );
           })}
@@ -56,7 +61,11 @@ export function DecklistGroups({ group, layout }: Props) {
       return (
         <li className={clsx(css["group"])} key={k}>
           <h4 className={css["group-title"]}>{capitalize(k)}</h4>
-          <DecklistGroup cards={entry} />
+          <DecklistGroup
+            canEdit={canEdit}
+            cards={entry}
+            quantities={quantities}
+          />
         </li>
       );
     });
@@ -74,9 +83,15 @@ export function DecklistGroups({ group, layout }: Props) {
   );
 }
 
-export function DecklistGroup({ cards }: { cards: Card[] }) {
-  const { id } = useParams();
-
+export function DecklistGroup({
+  canEdit,
+  cards,
+  quantities,
+}: {
+  canEdit?: boolean;
+  quantities?: Record<string, number>;
+  cards: Card[];
+}) {
   const forbiddenCards = useStore(selectForbiddenCards);
 
   return (
@@ -87,10 +102,12 @@ export function DecklistGroup({ cards }: { cards: Card[] }) {
           <ListCard
             as="li"
             key={card.code}
+            omitBorders
+            canEdit={canEdit}
+            canShowQuantity
             card={card}
+            quantities={quantities}
             forbidden={forbiddenCards.includes(card.code)}
-            quantity={card.quantity}
-            pathPrefix={`/deck/${id}/`}
             size="sm"
           />
         ))}

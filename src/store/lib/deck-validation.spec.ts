@@ -23,6 +23,7 @@ import limitTrait from "@/test/fixtures/decks/validation/limit_trait.json";
 import limitTraitInvalid from "@/test/fixtures/decks/validation/limit_trait_invalid.json";
 import limitVersatile from "@/test/fixtures/decks/validation/limit_versatile.json";
 import limitVersatileInvalid from "@/test/fixtures/decks/validation/limit_versatile_invalid.json";
+import limitTooManyByName from "@/test/fixtures/decks/validation/limits_too_many_by_name.json";
 import mandyValid from "@/test/fixtures/decks/validation/mandy.json";
 import mandySignatureCountInvalid from "@/test/fixtures/decks/validation/mandy_signature_count_invalid.json";
 import mandyTabooValid from "@/test/fixtures/decks/validation/mandy_taboo.json";
@@ -53,7 +54,7 @@ import underworldSupportInvalidSize from "@/test/fixtures/decks/validation/under
 import { getMockStore } from "@/test/get-mock-store";
 
 import type { StoreState } from "../slices";
-import type { Deck } from "../slices/decks/types";
+import type { Deck } from "../slices/data/types";
 import { resolveDeck } from "./deck-resolver";
 import { validateDeck } from "./deck-validation";
 
@@ -455,6 +456,26 @@ describe("deck validation", () => {
               "error": "Too many off-class cards (11 / 10).",
             },
             "type": "INVALID_DECK_OPTION",
+          },
+        ]
+      `);
+    });
+
+    it("handles case: too many by name", () => {
+      const result = validate(store, limitTooManyByName);
+      expect(result.valid).toBeFalsy();
+      expect(result.errors).toMatchInlineSnapshot(`
+        [
+          {
+            "details": [
+              {
+                "code": "09095",
+                "limit": 2,
+                "quantity": 4,
+                "real_name": "Uncage the Soul",
+              },
+            ],
+            "type": "INVALID_CARD_COUNT",
           },
         ]
       `);
