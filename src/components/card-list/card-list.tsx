@@ -92,7 +92,6 @@ export function CardList() {
   useEffect(() => {
     if (activeGroup.current && data) {
       const offset = findGroupOffset(data, activeGroup.current);
-      console.log(offset);
       virtuosoRef.current?.scrollToIndex(offset ?? 0);
     } else {
       virtuosoRef.current?.scrollTo({ top: 0 });

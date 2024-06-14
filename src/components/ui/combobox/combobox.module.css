@@ -26,6 +26,7 @@
   border: 1px solid var(--nord-0);
   border-radius: var(--rounded);
   box-shadow: var(--shadow-sm);
+  font-family: var(--font-family-ui);
   list-style-type: none;
   padding: 0;
   margin: 0;
