@@ -1,28 +1,33 @@
 import { useStore } from "@/store";
 import {
-  selectActiveCardType,
-  selectTraitChanges,
+  selectActiveListFilter,
+  selectMultiselectChanges,
   selectTraitOptions,
-  selectTraitValue,
-} from "@/store/selectors/filters";
+} from "@/store/selectors/lists";
+import { isTraitFilterObject } from "@/store/slices/lists.type-guards";
+import { assert } from "@/utils/assert";
 
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 
-export function TraitFilter() {
-  const cardType = useStore(selectActiveCardType);
-  const changes = useStore(selectTraitChanges);
-  const traits = useStore(selectTraitOptions);
-  const value = useStore(selectTraitValue);
+export function TraitFilter({ id }: { id: number }) {
+  const filter = useStore((state) => selectActiveListFilter(state, id));
+  assert(
+    isTraitFilterObject(filter),
+    `PackFilter instantiated with '${filter?.type}'`,
+  );
+
+  const changes = selectMultiselectChanges(filter.value);
+  const options = useStore(selectTraitOptions);
 
   return (
     <MultiselectFilter
-      cardType={cardType}
       changes={changes}
-      options={traits}
-      path="trait"
+      id={id}
+      open={filter.open}
+      options={options}
       placeholder="Select trait(s)..."
       title="Trait"
-      value={value}
+      value={filter.value}
     />
   );
 }

@@ -1,7 +1,7 @@
 import { ListCardInner } from "@/components/list-card/list-card-inner";
 import { Combobox } from "@/components/ui/combobox/combobox";
 import { useStore } from "@/store";
-import { sortAlphabetically } from "@/store/lib/sorting";
+import { sortByName } from "@/store/lib/sorting";
 import type { Card } from "@/store/services/queries.types";
 import type { CustomizationOption as CustomizationOptionType } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
@@ -39,9 +39,7 @@ function selectPlayerCardsForCustomizationOptions(
     options.add(card);
   }, []);
 
-  const cards = Array.from(options).toSorted(
-    sortAlphabetically(state.lookupTables),
-  );
+  const cards = Array.from(options).toSorted(sortByName);
 
   console.timeEnd("[perf] select_player_cards_for_customization_options");
 

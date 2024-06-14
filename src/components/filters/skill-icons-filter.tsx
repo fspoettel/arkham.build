@@ -2,12 +2,12 @@ import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import {
-  selectActiveCardType,
-  selectFilterOpen,
+  selectActiveListFilter,
   selectSkillIconsChanges,
-  selectSkillIconsValue,
-} from "@/store/selectors/filters";
-import type { SkillIconsFilter as SkillIconsFilterType } from "@/store/slices/filters.types";
+} from "@/store/selectors/lists";
+import { isSkillIconsFilterObject } from "@/store/slices/lists.type-guards";
+import type { SkillIconsFilter as SkillIconsFilterType } from "@/store/slices/lists.types";
+import { assert } from "@/utils/assert";
 
 import css from "./filters.module.css";
 
@@ -16,34 +16,37 @@ import { CheckboxGroup } from "../ui/checkboxgroup";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import { FilterContainer } from "./primitives/filter-container";
 
-type Value = SkillIconsFilterType["value"];
+export function SkillIconsFilter({ id }: { id: number }) {
+  const filter = useStore((state) => selectActiveListFilter(state, id));
+  assert(
+    isSkillIconsFilterObject(filter),
+    `SkillIconsFilter instantiated with '${filter?.type}'`,
+  );
 
-export function SkillIconsFilter() {
-  const cardType = useStore(selectActiveCardType);
-  const value = useStore(selectSkillIconsValue);
-  const changes = useStore(selectSkillIconsChanges);
-  const open = useStore(selectFilterOpen(cardType, "skillIcons"));
+  const changes = selectSkillIconsChanges(filter.value);
 
-  const setFilter = useStore((state) => state.setNestedFilter);
+  const setFilterValue = useStore((state) => state.setFilterValue);
   const setFilterOpen = useStore((state) => state.setFilterOpen);
-  const resetFilter = useStore((state) => state.resetFilterKey);
+  const resetFilter = useStore((state) => state.resetFilter);
 
   const onReset = useCallback(() => {
-    resetFilter(cardType, "skillIcons");
-  }, [resetFilter, cardType]);
+    resetFilter(id);
+  }, [resetFilter, id]);
 
   const onOpenChange = useCallback(
     (val: boolean) => {
-      setFilterOpen(cardType, "skillIcons", val);
+      setFilterOpen(id, val);
     },
-    [setFilterOpen, cardType],
+    [setFilterOpen, id],
   );
 
   const onToggleChange = useCallback(
-    (key: keyof Value, val: string) => {
-      setFilter(cardType, "skillIcons", key, val ? +val : null);
+    (key: keyof SkillIconsFilterType, val: string) => {
+      setFilterValue(id, {
+        [key]: val ? +val : undefined,
+      });
     },
-    [setFilter, cardType],
+    [setFilterValue, id],
   );
 
   return (
@@ -53,15 +56,17 @@ export function SkillIconsFilter() {
       filterString={changes}
       onOpenChange={onOpenChange}
       onReset={onReset}
-      open={open}
+      open={filter.open}
       title="Skill Icons"
     >
       <CheckboxGroup as="div" className={css["icons"]}>
-        {Object.entries(value).map(([key, value]) => (
+        {Object.entries(filter.value).map(([key, value]) => (
           <div className={css["icon"]} key={key}>
             <ToggleGroup
               key={key}
-              onValueChange={(val) => onToggleChange(key as keyof Value, val)}
+              onValueChange={(val) =>
+                onToggleChange(key as keyof SkillIconsFilterType, val)
+              }
               type="single"
               value={value ? value.toString() : ""}
             >

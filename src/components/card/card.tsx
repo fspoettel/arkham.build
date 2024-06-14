@@ -12,10 +12,11 @@ import { CardContainer } from "./card-container";
 import { CardFront } from "./card-front";
 
 export type Props = {
+  canToggleBackside?: boolean;
   children?: React.ReactNode;
   className?: string;
+  isBack?: boolean;
   resolvedCard: ResolvedCard | CardWithRelations;
-  canToggleBackside?: boolean;
   linked?: boolean;
   size?: "compact" | "tooltip" | "full";
 };
@@ -31,6 +32,7 @@ export function Card({
   canToggleBackside,
   children,
   className,
+  isBack,
   resolvedCard,
   linked,
   size = "full",
@@ -48,11 +50,12 @@ export function Card({
     />
   );
 
-  const backNode = back ? (
-    <Card linked={false} resolvedCard={back} size={size} />
-  ) : card.double_sided && !card.back_link_id ? (
-    <CardBack card={card} size={size} />
-  ) : undefined;
+  const backNode =
+    !isBack && back ? (
+      <Card isBack linked={false} resolvedCard={back} size={size} />
+    ) : !isBack && card.double_sided && !card.back_link_id ? (
+      <CardBack card={card} size={size} />
+    ) : undefined;
 
   const hasToggle = !!backNode && canToggleBackside;
 

@@ -2,27 +2,36 @@ import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import {
-  selectActiveCardType,
+  selectActiveListFilter,
   selectFactionOptions,
-  selectFactionValue,
-} from "@/store/selectors/filters";
+} from "@/store/selectors/lists";
+import { isFactionFilterObject } from "@/store/slices/lists.type-guards";
+import { assert } from "@/utils/assert";
 
 import css from "./filters.module.css";
 
 import { FactionIconFancy } from "../icons/faction-icon-fancy";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
-export function FactionFilter() {
-  const cardType = useStore(selectActiveCardType);
-  const options = useStore(selectFactionOptions);
-  const value = useStore(selectFactionValue);
-  const setFilter = useStore((state) => state.setFilter);
+type Props = {
+  id: number;
+};
 
-  const setFactions = useCallback(
-    (val: string[]) => {
-      setFilter(cardType, "faction", "value", val);
+export function FactionFilter({ id }: Props) {
+  const filter = useStore((state) => selectActiveListFilter(state, id));
+  assert(
+    isFactionFilterObject(filter),
+    `FactionFilter instantiated with '${filter?.type}'`,
+  );
+
+  const options = useStore(selectFactionOptions);
+  const handleFilterChange = useStore((state) => state.setFilterValue);
+
+  const handleValueChange = useCallback(
+    (value: string[]) => {
+      handleFilterChange(id, value);
     },
-    [cardType, setFilter],
+    [handleFilterChange, id],
   );
 
   return (
@@ -30,9 +39,9 @@ export function FactionFilter() {
       className={css["faction-filter"]}
       full
       icons
-      onValueChange={setFactions}
+      onValueChange={handleValueChange}
       type="multiple"
-      value={value}
+      value={filter.value}
     >
       {options.map((faction) => (
         <ToggleGroupItem

@@ -1,5 +1,6 @@
 import { Combobox } from "@/components/ui/combobox/combobox";
 import { useStore } from "@/store";
+import { sortAlphabetical } from "@/store/lib/sorting";
 import type { StoreState } from "@/store/slices";
 
 type Props = {
@@ -14,7 +15,7 @@ const selectTraitOptions = (state: StoreState) => {
   const types = Object.keys(state.lookupTables.traits).map((code) => ({
     code,
   }));
-  types.sort((a, b) => a.code.localeCompare(b.code));
+  types.sort((a, b) => sortAlphabetical(a.code, b.code));
   return types;
 };
 

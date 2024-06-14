@@ -1,9 +1,9 @@
 import { useCallback, useRef } from "react";
 import { Link } from "wouter";
 
-import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
+import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
 import { selectIsInitialized } from "@/store/selectors";
 
@@ -36,8 +36,7 @@ function Settings() {
   if (!initialized) return null;
 
   return (
-    <div className={css["container"]}>
-      <Masthead />
+    <AppLayout title="Settings">
       <form className={css["settings"]} onSubmit={onSubmit} ref={formRef}>
         <header className={css["settings-header"]}>
           <h1 className={css["settings-title"]}>Settings</h1>
@@ -56,7 +55,7 @@ function Settings() {
           <Collection settings={settings} />
         </div>
       </form>
-    </div>
+    </AppLayout>
   );
 }
 

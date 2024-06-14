@@ -2,12 +2,13 @@ import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import {
-  selectActiveCardType,
+  selectActiveListFilter,
   selectPackChanges,
   selectPackOptions,
-  selectPackValue,
-} from "@/store/selectors/filters";
+} from "@/store/selectors/lists";
 import type { Pack } from "@/store/services/queries.types";
+import { isPackFilterObject } from "@/store/slices/lists.type-guards";
+import { assert } from "@/utils/assert";
 
 import PackIcon from "../icons/pack-icon";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
@@ -21,11 +22,15 @@ function PackName({ pack }: { pack: Pack }) {
   );
 }
 
-export function PackFilter() {
-  const cardType = useStore(selectActiveCardType);
+export function PackFilter({ id }: { id: number }) {
+  const filter = useStore((state) => selectActiveListFilter(state, id));
+  assert(
+    isPackFilterObject(filter),
+    `PackFilter instantiated with '${filter?.type}'`,
+  );
+
+  const changes = useStore((state) => selectPackChanges(state, filter.value));
   const options = useStore(selectPackOptions);
-  const value = useStore(selectPackValue);
-  const changes = useStore(selectPackChanges);
 
   const nameRenderer = useCallback(
     (pack: Pack) => <PackName pack={pack} />,
@@ -39,15 +44,15 @@ export function PackFilter() {
 
   return (
     <MultiselectFilter
-      cardType={cardType}
       changes={changes}
+      id={id}
       itemToString={itemToString}
       nameRenderer={nameRenderer}
+      open={filter.open}
       options={options}
-      path="packCode"
       placeholder="Select pack..."
       title="Pack"
-      value={value}
+      value={filter.value}
     />
   );
 }

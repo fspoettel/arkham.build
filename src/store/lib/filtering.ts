@@ -4,6 +4,7 @@ import { SKILL_KEYS } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
 import type { Filter } from "@/utils/fp";
 import { and, not, notUnless, or } from "@/utils/fp";
+import { isEmpty } from "@/utils/is-empty";
 
 import type { Card, DeckOption } from "../services/queries.types";
 import type {
@@ -13,7 +14,7 @@ import type {
   MultiselectFilter,
   PropertiesFilter,
   SkillIconsFilter,
-} from "../slices/filters.types";
+} from "../slices/lists.types";
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
 import { ownedCardCount } from "./card-ownership";
@@ -54,7 +55,7 @@ export function filterBacksides(card: Card) {
  */
 
 export function filterActions(
-  filterState: MultiselectFilter["value"],
+  filterState: MultiselectFilter,
   actionTable: LookupTables["actions"],
 ) {
   const filters: Filter[] = [];
@@ -102,42 +103,39 @@ function filterHealthProp(
   };
 }
 
-export function filterAssets(
-  { value: filterValue }: AssetFilter,
-  lookupTables: LookupTables,
-) {
+export function filterAssets(value: AssetFilter, lookupTables: LookupTables) {
   const filters: Filter[] = [];
 
-  if (filterValue.health)
-    filters.push(
-      filterHealthProp(filterValue.health, filterValue.healthX, "health"),
+  if (value.health) {
+    filters.push(filterHealthProp(value.health, value.healthX, "health"));
+  }
+
+  if (value.sanity) {
+    filters.push(filterHealthProp(value.sanity, value.healthX, "sanity"));
+  }
+
+  if (value.skillBoosts.length) {
+    const skillBoostFilters: Filter[] = value.skillBoosts.map((key) =>
+      filterSkillBoost(key, lookupTables.skillBoosts),
     );
-  if (filterValue.sanity)
-    filters.push(
-      filterHealthProp(filterValue.sanity, filterValue.healthX, "sanity"),
+    filters.push(or(skillBoostFilters));
+  }
+
+  if (value.uses.length) {
+    const usesFilters: Filter[] = value.uses.map((key) =>
+      filterUses(key, lookupTables.uses),
     );
-
-  const usesFilters: Filter[] = [];
-  const skillBoostFilters: Filter[] = [];
-  const slotsFilter: Filter[] = [];
-
-  for (const key of filterValue.skillBoosts) {
-    skillBoostFilters.push(filterSkillBoost(key, lookupTables.skillBoosts));
+    filters.push(or(usesFilters));
   }
 
-  for (const key of filterValue.uses) {
-    usesFilters.push(filterUses(key, lookupTables.uses));
+  if (value.slots.length) {
+    const slotFilters: Filter[] = value.slots.map((key) =>
+      filterSlots(key, lookupTables.slots),
+    );
+    filters.push(or(slotFilters));
   }
 
-  for (const key of filterValue.slots) {
-    slotsFilter.push(filterSlots(key, lookupTables.slots));
-  }
-
-  if (skillBoostFilters.length) filters.push(or(skillBoostFilters));
-  if (usesFilters.length) filters.push(or(usesFilters));
-  if (slotsFilter.length) filters.push(or(slotsFilter));
-
-  return (card: Card) => and(filters)(card);
+  return filters.length ? and(filters) : undefined;
 }
 
 /**
@@ -161,7 +159,7 @@ function filterCardCost(value: [number, number]) {
     card.cost != null && card.cost >= value[0] && card.cost <= value[1];
 }
 
-export function filterCost(filterState: CostFilter["value"]) {
+export function filterCost(filterState: CostFilter) {
   // apply level range if provided. `0-5` is assumed, null-costed cards are excluded.
   const filters = [];
 
@@ -186,7 +184,7 @@ export function filterCost(filterState: CostFilter["value"]) {
  * Encounter Set
  */
 
-export function filterEncounterCode(filterState: MultiselectFilter["value"]) {
+export function filterEncounterCode(filterState: MultiselectFilter) {
   const filters: Filter[] = [];
 
   for (const key of filterState) {
@@ -251,7 +249,7 @@ function filterCardLevel(value: [number, number]) {
   };
 }
 
-export function filterLevel(filterState: LevelFilter["value"]) {
+export function filterLevel(filterState: LevelFilter) {
   const filters = [];
 
   if (filterState.range) {
@@ -284,6 +282,29 @@ export function filterOwnership(
   setting: Record<string, number | boolean>,
 ) {
   return ownedCardCount(card, metadata, lookupTables, setting) > 0;
+}
+
+/**
+ * Pack Code
+ */
+
+export function filterPackCode(
+  value: MultiselectFilter,
+  metadata: Metadata,
+  lookupTables: LookupTables,
+) {
+  if (isEmpty(value)) return undefined;
+
+  const active = Object.values(value).some((x) => x);
+  if (!active) return undefined;
+
+  const filterValue = value.reduce<Record<string, boolean>>((acc, curr) => {
+    acc[curr] = true;
+    return acc;
+  }, {});
+
+  return (card: Card) =>
+    filterOwnership(card, metadata, lookupTables, filterValue);
 }
 
 /**
@@ -348,7 +369,7 @@ function filterHealsHorror(checkCustomizableOptions: boolean) {
 }
 
 export function filterProperties(
-  filterState: PropertiesFilter["value"],
+  filterState: PropertiesFilter,
   lookupTables: LookupTables,
 ) {
   const filters: Filter[] = [];
@@ -414,7 +435,7 @@ function filterSkill(skill: SkillKey, amount: number) {
     (card[`skill_${skill}`] ?? 0) >= amount;
 }
 
-export function filterSkillIcons(filterState: SkillIconsFilter["value"]) {
+export function filterSkillIcons(filterState: SkillIconsFilter) {
   const iconFilter: Filter[] = [];
   const anyFilter: Filter[] = [];
 
@@ -443,7 +464,7 @@ export function filterSkillIcons(filterState: SkillIconsFilter["value"]) {
  * Subtype
  */
 
-export function filterSubtypes(enabledTypeCodes: MultiselectFilter["value"]) {
+export function filterSubtypes(enabledTypeCodes: MultiselectFilter) {
   return (card: Card) => {
     return !!card.subtype_code && enabledTypeCodes.includes(card.subtype_code);
   };
@@ -453,9 +474,8 @@ export function filterSubtypes(enabledTypeCodes: MultiselectFilter["value"]) {
  * Taboo Set
  */
 
-export function filterTabooSet(tabooSetId: number | null | undefined) {
-  if (!tabooSetId) return undefined;
-  return (card: Card) => card.taboo_set_id === tabooSetId;
+export function filterTabooSet(tabooSetId: number, metadata: Metadata) {
+  return (card: Card) => !!metadata.taboos[`${card.code}-${tabooSetId}`];
 }
 
 /**
@@ -463,7 +483,7 @@ export function filterTabooSet(tabooSetId: number | null | undefined) {
  */
 
 export function filterTraits(
-  filterState: MultiselectFilter["value"],
+  filterState: MultiselectFilter,
   traitTable: LookupTables["traits"],
   checkCustomizableOptions?: boolean,
 ) {
@@ -495,7 +515,7 @@ export function filterTraits(
  * Type
  */
 
-export function filterType(enabledTypeCodes: MultiselectFilter["value"]) {
+export function filterType(enabledTypeCodes: MultiselectFilter) {
   return (card: Card) => enabledTypeCodes.includes(card.type_code);
 }
 

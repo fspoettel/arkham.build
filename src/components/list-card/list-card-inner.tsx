@@ -139,20 +139,22 @@ export function ListCardInner({
               </button>
             </h4>
 
-            {canShowOwnership && ownedCount < quantity && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span className={css["ownership"]}>
-                    <FileWarning />
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>
-                    Unavailable: {quantity - ownedCount} of {quantity}
-                  </p>
-                </TooltipContent>
-              </Tooltip>
-            )}
+            {canShowOwnership &&
+              card.code !== "01000" &&
+              ownedCount < quantity && (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span className={css["ownership"]}>
+                      <FileWarning />
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>
+                      Unavailable: {quantity - ownedCount} of {quantity}
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              )}
             {ignoredCount > 0 && (
               <Tooltip>
                 <TooltipTrigger asChild>

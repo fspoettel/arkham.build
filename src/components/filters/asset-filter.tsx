@@ -2,19 +2,14 @@ import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import {
-  selectActiveCardType,
+  selectActiveListFilter,
   selectAssetChanges,
-  selectAssetHealthValue,
-  selectAssetHealthXValue,
   selectAssetOptions,
-  selectAssetSanityValue,
-  selectAssetSkillBoostsValue,
-  selectAssetSlotValue,
-  selectAssetUsesValue,
-  selectFilterOpen,
-} from "@/store/selectors/filters";
+} from "@/store/selectors/lists";
 import type { Coded } from "@/store/services/queries.types";
-import type { AssetFilter } from "@/store/slices/filters.types";
+import { isAssetFilterObject } from "@/store/slices/lists.type-guards";
+import type { AssetFilter } from "@/store/slices/lists.types";
+import { assert } from "@/utils/assert";
 import { capitalize } from "@/utils/formatting";
 
 import css from "./filters.module.css";
@@ -38,58 +33,59 @@ function renderSlot(c: Coded) {
   );
 }
 
-export function AssetFilter() {
-  const cardType = useStore(selectActiveCardType);
-  const changes = useStore(selectAssetChanges);
-  const open = useStore(selectFilterOpen(cardType, "asset"));
+export function AssetFilter({ id }: { id: number }) {
+  const filter = useStore((state) => selectActiveListFilter(state, id));
+  assert(
+    isAssetFilterObject(filter),
+    `AssetFilter instantiated with '${filter?.type}'`,
+  );
+
+  const changes = selectAssetChanges(filter.value);
   const options = useStore(selectAssetOptions);
-  const usesValue = useStore(selectAssetUsesValue);
-  const slotValue = useStore(selectAssetSlotValue);
-  const healthValue = useStore(selectAssetHealthValue);
-  const healthX = useStore(selectAssetHealthXValue);
-  const sanityValue = useStore(selectAssetSanityValue);
-  const skillBoostsValue = useStore(selectAssetSkillBoostsValue);
 
-  const setNestedFilter = useStore((state) => state.setNestedFilter);
+  const setFilterValue = useStore((state) => state.setFilterValue);
   const setFilterOpen = useStore((state) => state.setFilterOpen);
-  const resetFilter = useStore((state) => state.resetFilterKey);
+  const resetFilter = useStore((state) => state.resetFilter);
 
-  const onOpenChange = useCallback(() => {
-    setFilterOpen(cardType, "asset", !open);
-  }, [open, setFilterOpen, cardType]);
+  const onOpenChange = useCallback(
+    (value: boolean) => {
+      setFilterOpen(id, value);
+    },
+    [setFilterOpen, id],
+  );
 
   const onReset = useCallback(() => {
-    resetFilter(cardType, "asset");
-  }, [resetFilter, cardType]);
+    resetFilter(id);
+  }, [resetFilter, id]);
 
   const onChangeUses = useCallback(
     (value: string[]) => {
-      setNestedFilter(cardType, "asset", "uses", value);
+      setFilterValue(id, { uses: value });
     },
-    [setNestedFilter, cardType],
+    [setFilterValue, id],
   );
 
   const onChangeSlot = useCallback(
     (value: string[]) => {
-      setNestedFilter(cardType, "asset", "slots", value);
+      setFilterValue(id, { slots: value });
     },
-    [setNestedFilter, cardType],
+    [setFilterValue, id],
   );
 
   const onChangeRange = useCallback(
-    function setValue<K extends keyof AssetFilter["value"]>(
+    function setValue<K extends keyof AssetFilter>(
       key: K,
-      value: AssetFilter["value"][K],
+      value: AssetFilter[K],
     ) {
-      setNestedFilter(cardType, "asset", key, value);
+      setFilterValue(id, { [key]: value });
     },
-    [setNestedFilter, cardType],
+    [setFilterValue, id],
   );
 
   const onSkillBoostChange = useCallback(
     (code: string, value: string | boolean) => {
       if (typeof value === "boolean") {
-        const next = [...skillBoostsValue];
+        const next = [...filter.value.skillBoosts];
         if (value) {
           next.push(code);
         } else {
@@ -99,10 +95,17 @@ export function AssetFilter() {
           }
         }
 
-        setNestedFilter(cardType, "asset", "skillBoosts", next);
+        setFilterValue(id, { skillBoosts: next });
       }
     },
-    [setNestedFilter, cardType, skillBoostsValue],
+    [setFilterValue, id, filter.value.skillBoosts],
+  );
+
+  const onHealthXChange = useCallback(
+    (value: boolean) => {
+      setFilterValue(id, { healthX: value });
+    },
+    [setFilterValue, id],
   );
 
   return (
@@ -111,7 +114,7 @@ export function AssetFilter() {
       filterString={changes}
       onOpenChange={onOpenChange}
       onReset={onReset}
-      open={open}
+      open={filter.open}
       title="Asset"
     >
       <Combobox
@@ -122,7 +125,7 @@ export function AssetFilter() {
         placeholder="Select slot(s)..."
         renderItem={renderSlot}
         renderResult={renderSlot}
-        selectedItems={slotValue}
+        selectedItems={filter.value.slots}
         showLabel
       />
 
@@ -130,7 +133,7 @@ export function AssetFilter() {
         <legend className={css["skill-boosts-label"]}>Skill Boosts</legend>
         {options.skillBoosts.map((skill) => (
           <Checkbox
-            checked={skillBoostsValue.includes(skill)}
+            checked={filter.value.skillBoosts.includes(skill)}
             id={`asset-skillboost-${skill}`}
             key={skill}
             label={<SkillIcon skill={skill} />}
@@ -147,7 +150,7 @@ export function AssetFilter() {
         placeholder="Select Uses attribute(s)..."
         renderItem={capitalizeCode}
         renderResult={capitalizeCode}
-        selectedItems={usesValue}
+        selectedItems={filter.value.uses}
         showLabel
       />
 
@@ -160,7 +163,7 @@ export function AssetFilter() {
           onChangeRange("health", [val[0], val[1]]);
         }}
         showLabel
-        value={healthValue ?? [options.health.min, options.health.max]}
+        value={filter.value.health ?? [options.health.min, options.health.max]}
       />
 
       <RangeSelect
@@ -172,16 +175,14 @@ export function AssetFilter() {
           onChangeRange("sanity", [val[0], val[1]]);
         }}
         showLabel
-        value={sanityValue ?? [options.sanity.min, options.sanity.max]}
+        value={filter.value.sanity ?? [options.sanity.min, options.sanity.max]}
       />
 
       <Checkbox
-        checked={healthX}
+        checked={filter.value.healthX}
         id="asset-health-x"
         label='Include health / sanity "X"'
-        onCheckedChange={(val) => {
-          setNestedFilter(cardType, "asset", "healthX", !!val);
-        }}
+        onCheckedChange={onHealthXChange}
       />
     </FilterContainer>
   );

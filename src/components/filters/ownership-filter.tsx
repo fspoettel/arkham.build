@@ -2,11 +2,9 @@ import { File, FileCheck, FileWarning } from "lucide-react";
 import { useCallback } from "react";
 
 import { useStore } from "@/store";
-import {
-  selectActiveCardType,
-  selectFilterOpen,
-  selectOwnershipValue,
-} from "@/store/selectors/filters";
+import { selectActiveListFilter } from "@/store/selectors/lists";
+import { isOwnershipFilterObject } from "@/store/slices/lists.type-guards";
+import { assert } from "@/utils/assert";
 
 import {
   RadioButtonGroup,
@@ -14,40 +12,47 @@ import {
 } from "../ui/radio-button-group";
 import { FilterContainer } from "./primitives/filter-container";
 
-export function OwnershipFilter() {
-  const cardType = useStore(selectActiveCardType);
-  const open = useStore(selectFilterOpen(cardType, "ownership"));
-  const value = useStore(selectOwnershipValue);
+export function OwnershipFilter({ id }: { id: number }) {
+  const filter = useStore((state) => selectActiveListFilter(state, id));
+  assert(isOwnershipFilterObject(filter), "filter must be an ownership filter");
 
-  const setFilter = useStore((state) => state.setFilter);
+  const setFilterValue = useStore((state) => state.setFilterValue);
   const setFilterOpen = useStore((state) => state.setFilterOpen);
 
   const onOpenChange = useCallback(
-    (val: boolean) => {
-      setFilterOpen(cardType, "ownership", val);
+    (open: boolean) => {
+      setFilterOpen(id, open);
     },
-    [setFilterOpen, cardType],
+    [id, setFilterOpen],
   );
 
   const onValueChange = useCallback(
     (value: string) => {
-      setFilter(cardType, "ownership", "value", value);
+      setFilterValue(id, value);
     },
-    [setFilter, cardType],
+    [id, setFilterValue],
   );
 
-  const currentTitle =
-    value === "all" ? "All" : value === "owned" ? "Owned" : "Unavailable";
+  const changes =
+    filter.value === "all"
+      ? "All"
+      : filter.value === "owned"
+        ? "Owned"
+        : "Unavailable";
 
   return (
     <FilterContainer
       alwaysShowFilterString
-      filterString={currentTitle}
+      filterString={changes}
       onOpenChange={onOpenChange}
-      open={open}
+      open={filter.open}
       title="Ownership"
     >
-      <RadioButtonGroup icons onValueChange={onValueChange} value={value ?? ""}>
+      <RadioButtonGroup
+        icons
+        onValueChange={onValueChange}
+        value={filter.value ?? ""}
+      >
         <RadioButtonGroupItem title="All" value="all">
           <File />
         </RadioButtonGroupItem>

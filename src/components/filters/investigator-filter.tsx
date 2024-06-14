@@ -1,23 +1,32 @@
 import { useStore } from "@/store";
 import {
+  selectActiveListFilter,
   selectInvestigatorChanges,
   selectInvestigatorOptions,
-  selectInvestigatorValue,
-} from "@/store/selectors/filters";
+} from "@/store/selectors/lists";
+import { isInvestigatorFilterObject } from "@/store/slices/lists.type-guards";
+import { assert } from "@/utils/assert";
 
 import { SelectFilter } from "./primitives/select-filter";
 
-export function InvestigatorFilter() {
-  const investigators = useStore(selectInvestigatorOptions);
-  const value = useStore(selectInvestigatorValue);
-  const changes = useStore(selectInvestigatorChanges);
+export function InvestigatorFilter({ id }: { id: number }) {
+  const filter = useStore((state) => selectActiveListFilter(state, id));
+  assert(
+    isInvestigatorFilterObject(filter),
+    `InvestigatorFilter instantiated with '${filter?.type}'`,
+  );
+
+  const options = useStore(selectInvestigatorOptions);
+  const changes = useStore((state) =>
+    selectInvestigatorChanges(state, filter.value),
+  );
 
   return (
     <SelectFilter
-      cardType="player"
       changes={changes}
-      options={investigators}
-      path="investigator"
+      id={id}
+      open={filter.open}
+      options={options}
       renderOption={(card) => (
         <option key={card.code} value={card.code}>
           {card.real_name}
@@ -25,7 +34,7 @@ export function InvestigatorFilter() {
         </option>
       )}
       title="Investigator"
-      value={value}
+      value={filter.value}
     />
   );
 }

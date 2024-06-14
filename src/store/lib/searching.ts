@@ -2,10 +2,10 @@ import uFuzzy from "@leeoniya/ufuzzy";
 
 import type { Card } from "@/store/services/queries.types";
 
+import type { Search } from "../slices/lists.types";
 import type { Metadata } from "../slices/metadata.types";
-import type { SearchState } from "../slices/search.types";
 
-function prepareCardFront(card: Card, search: SearchState["search"]) {
+function prepareCardFront(card: Card, search: Search) {
   let content = `|${card.real_name}`;
 
   if (card.real_subname) content += `|${card.real_subname}`;
@@ -22,7 +22,7 @@ function prepareCardFront(card: Card, search: SearchState["search"]) {
   return content;
 }
 
-function prepareCardBack(card: Card, search: SearchState["search"]) {
+function prepareCardBack(card: Card, search: Search) {
   let content = `|${card.real_back_name}`;
   if (search.includeGameText)
     if (card.real_back_text) content += `|${card.real_back_text}`;
@@ -32,12 +32,10 @@ function prepareCardBack(card: Card, search: SearchState["search"]) {
 }
 
 export function applySearch(
-  search: SearchState["search"],
+  search: Search,
   cards: Card[],
   metadata: Metadata,
 ): Card[] {
-  if (!search) return cards;
-
   const uf = new uFuzzy();
 
   const searchCards = cards.map((card) => {

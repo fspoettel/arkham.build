@@ -1,7 +1,8 @@
 import clsx from "clsx";
+import { Fragment } from "react/jsx-runtime";
 
 import { useStore } from "@/store";
-import { selectActiveCardType } from "@/store/selectors/filters";
+import { selectActiveListFilters } from "@/store/selectors/lists";
 
 import css from "./filters.module.css";
 
@@ -24,54 +25,46 @@ import { TraitFilter } from "./trait-filter";
 import { TypeFilter } from "./type-filter";
 
 type Props = {
-  slotActions?: React.ReactNode;
   children?: React.ReactNode;
   className?: string;
-  hiddenFilters?: string[];
 };
 
-export function Filters({
-  slotActions,
-  children,
-  className,
-  hiddenFilters,
-}: Props) {
-  const touched = useStore((state) => state.filters.touched);
-
-  const cardTypeSelection = useStore(selectActiveCardType);
+export function Filters({ className, children }: Props) {
   const resetFilters = useStore((state) => state.resetFilters);
+  const filters = useStore(selectActiveListFilters);
 
   return (
     <search className={clsx(css["filters"], className)} title="Filters">
+      {children && <div className={css["children"]}>{children}</div>}
       <div className={css["header"]}>
         <h3 className={css["title"]}>Filters</h3>
         <div>
-          <Button disabled={!touched} onClick={resetFilters} variant="bare">
+          <Button onClick={resetFilters} variant="bare">
             <i className="icon-filter-clear" /> Clear
           </Button>
-          {slotActions}
         </div>
       </div>
       <Scroller>
         <div className={css["content"]}>
-          <FactionFilter />
-          {children}
-          <OwnershipFilter />
-          {!hiddenFilters?.includes("investigator") &&
-            cardTypeSelection === "player" && <InvestigatorFilter />}
-          {cardTypeSelection === "player" && <LevelFilter />}
-          <CostFilter />
-          <TraitFilter />
-          <TypeFilter />
-          <SubtypeFilter />
-          <AssetFilter />
-          <SkillIconsFilter />
-          <PropertiesFilter />
-          <ActionFilter />
-          <PackFilter />
-          {cardTypeSelection === "encounter" && <EncounterSetFilter />}
-          {!hiddenFilters?.includes("taboo_set") &&
-            cardTypeSelection === "player" && <TabooSetFilter />}
+          {filters.map((filter, id) => (
+            <Fragment key={id}>
+              {filter === "faction" && <FactionFilter id={id} />}
+              {filter === "level" && <LevelFilter id={id} />}
+              {filter === "ownership" && <OwnershipFilter id={id} />}
+              {filter === "investigator" && <InvestigatorFilter id={id} />}
+              {filter === "pack" && <PackFilter id={id} />}
+              {filter === "subtype" && <SubtypeFilter id={id} />}
+              {filter === "type" && <TypeFilter id={id} />}
+              {filter === "tabooSet" && <TabooSetFilter id={id} />}
+              {filter === "trait" && <TraitFilter id={id} />}
+              {filter === "action" && <ActionFilter id={id} />}
+              {filter === "properties" && <PropertiesFilter id={id} />}
+              {filter === "skillIcons" && <SkillIconsFilter id={id} />}
+              {filter === "cost" && <CostFilter id={id} />}
+              {filter === "asset" && <AssetFilter id={id} />}
+              {filter === "encounterSet" && <EncounterSetFilter id={id} />}
+            </Fragment>
+          ))}
         </div>
       </Scroller>
     </search>

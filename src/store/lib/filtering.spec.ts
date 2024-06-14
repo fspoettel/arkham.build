@@ -10,7 +10,7 @@ import type {
   CostFilter,
   LevelFilter,
   SkillIconsFilter,
-} from "../slices/filters.types";
+} from "../slices/lists.types";
 import type { InvestigatorAccessConfig } from "./filtering";
 import {
   filterActions,
@@ -442,11 +442,7 @@ describe("filter: level", () => {
     store = await getMockStore();
   });
 
-  function applyFilter(
-    state: StoreState,
-    code: string,
-    config: LevelFilter["value"],
-  ) {
+  function applyFilter(state: StoreState, code: string, config: LevelFilter) {
     return filterLevel(config)(state.metadata.cards[code]);
   }
 
@@ -548,11 +544,7 @@ describe("filter: cost", () => {
     store = await getMockStore();
   });
 
-  function applyFilter(
-    state: StoreState,
-    code: string,
-    config: CostFilter["value"],
-  ) {
+  function applyFilter(state: StoreState, code: string, config: CostFilter) {
     return filterCost(config)(state.metadata.cards[code]);
   }
 
@@ -660,19 +652,18 @@ describe("filter: assets", () => {
   });
 
   function applyFilter(state: StoreState, code: string, config: AssetFilter) {
-    return filterAssets(config, state.lookupTables)(state.metadata.cards[code]);
+    const fn = filterAssets(config, state.lookupTables);
+    if (!fn) return true;
+    return fn(state.metadata.cards[code]);
   }
 
   const defaultConfig: AssetFilter = {
-    open: false,
-    value: {
-      health: undefined,
-      sanity: undefined,
-      skillBoosts: [],
-      slots: [],
-      uses: [],
-      healthX: false,
-    },
+    health: undefined,
+    sanity: undefined,
+    skillBoosts: [],
+    slots: [],
+    uses: [],
+    healthX: false,
   };
 
   it("handles case: no restrictions", () => {
@@ -688,9 +679,9 @@ describe("filter: assets", () => {
   it("handles case: complex filter", () => {
     const state = store.getState();
     const config = structuredClone(defaultConfig);
-    config.value.slots = ["Hand"];
-    config.value.uses = ["supplies"];
-    config.value.skillBoosts = ["intellect"];
+    config.slots = ["Hand"];
+    config.uses = ["supplies"];
+    config.skillBoosts = ["intellect"];
     expect(applyFilter(state, "05024", config)).toBeTruthy();
     expect(applyFilter(state, "09083", config)).toBeFalsy();
     expect(applyFilter(state, "01087", config)).toBeFalsy();
@@ -703,7 +694,7 @@ describe("filter: assets", () => {
   it("handles case: health", () => {
     const state = store.getState();
     const config = structuredClone(defaultConfig);
-    config.value.health = [3, 3] as [number, number];
+    config.health = [3, 3] as [number, number];
     expect(applyFilter(state, "09103", config)).toBeTruthy();
     expect(applyFilter(state, "09037", config)).toBeFalsy();
   });
@@ -711,7 +702,7 @@ describe("filter: assets", () => {
   it("handles case: sanity", () => {
     const state = store.getState();
     const config = structuredClone(defaultConfig);
-    config.value.sanity = [3, 3] as [number, number];
+    config.sanity = [3, 3] as [number, number];
     expect(applyFilter(state, "09024", config)).toBeTruthy();
     expect(applyFilter(state, "09037", config)).toBeFalsy();
   });
@@ -719,10 +710,10 @@ describe("filter: assets", () => {
   it("handles case: health X", () => {
     const state = store.getState();
     const config = structuredClone(defaultConfig);
-    config.value.sanity = [10, 10] as [number, number];
-    config.value.healthX = true;
+    config.sanity = [10, 10] as [number, number];
+    config.healthX = true;
     expect(applyFilter(state, "07189", config)).toBeTruthy();
-    config.value.healthX = false;
+    config.healthX = false;
     expect(applyFilter(state, "07189", config)).toBeFalsy();
   });
 });
@@ -793,12 +784,12 @@ describe("filter: skills", () => {
   function applyFilter(
     state: StoreState,
     code: string,
-    config: SkillIconsFilter["value"],
+    config: SkillIconsFilter,
   ) {
     return filterSkillIcons(config)(state.metadata.cards[code]);
   }
 
-  const defaultConfig: SkillIconsFilter["value"] = {
+  const defaultConfig: SkillIconsFilter = {
     willpower: undefined,
     intellect: undefined,
     combat: undefined,

@@ -1,8 +1,8 @@
 import { useCallback } from "react";
+import { useLocation } from "wouter";
 
 import { useStore } from "@/store";
-import { selectActiveCardType } from "@/store/selectors/filters";
-import type { CardTypeFilter as CardTypeFilterType } from "@/store/slices/filters.types";
+import { selectActiveList } from "@/store/selectors/lists";
 
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
@@ -11,15 +11,18 @@ type Props = {
 };
 
 export function CardTypeFilter({ className }: Props) {
-  const cardTypeFilter = useStore(selectActiveCardType);
-  const setActiveCardType = useStore((state) => state.setActiveCardType);
+  const [pathname] = useLocation();
+  const activeList = useStore(selectActiveList);
+  const changeList = useStore((state) => state.changeList);
 
   const onToggle = useCallback(
-    (value: CardTypeFilterType) => {
-      if (value) setActiveCardType(value);
+    (value: string) => {
+      changeList(value, pathname);
     },
-    [setActiveCardType],
+    [pathname, changeList],
   );
+
+  if (!activeList) return null;
 
   return (
     <ToggleGroup
@@ -28,7 +31,7 @@ export function CardTypeFilter({ className }: Props) {
       icons
       onValueChange={onToggle}
       type="single"
-      value={cardTypeFilter}
+      value={activeList.cardType}
     >
       <ToggleGroupItem size="small" value="player">
         <i className="icon-per_investigator" />

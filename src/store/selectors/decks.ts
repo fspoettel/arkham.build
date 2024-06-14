@@ -8,6 +8,7 @@ import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { applyDeckEdits } from "../lib/deck-edits";
 import type { ForbiddenCardError } from "../lib/deck-validation";
 import { validateDeck } from "../lib/deck-validation";
+import { sortAlphabetical } from "../lib/sorting";
 import type { ResolvedCard, ResolvedDeck } from "../lib/types";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
@@ -35,7 +36,9 @@ export const selectLocalDecks = createSelector(
       return acc;
     }, []);
 
-    resolvedDecks.sort((a, b) => b.date_update.localeCompare(a.date_update));
+    resolvedDecks.sort((a, b) =>
+      sortAlphabetical(a.date_update, b.date_update),
+    );
 
     console.timeEnd("[perf] select_local_decks");
     return resolvedDecks;

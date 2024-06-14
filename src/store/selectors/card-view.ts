@@ -2,7 +2,7 @@ import { resolveCardWithRelations } from "../lib/resolve-card";
 import type { CardWithRelations, ResolvedCard } from "../lib/types";
 import type { StoreState } from "../slices";
 import { selectActiveDeck } from "./decks";
-import { selectCanonicalTabooSetId } from "./filters";
+import { selectCanonicalTabooSetId } from "./lists";
 
 export function selectCardWithRelations<T extends boolean>(
   state: StoreState,

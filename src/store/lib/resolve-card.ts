@@ -1,6 +1,7 @@
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
 import { applyCardChanges } from "./card-edits";
+import { sortAlphabetical } from "./sorting";
 import type { CardWithRelations, Customizations, ResolvedCard } from "./types";
 
 /**
@@ -196,7 +197,7 @@ function resolveRelationArray(
     }
 
     if (a.xp === b.xp) {
-      return (a.real_subname ?? "").localeCompare(b.real_subname ?? "");
+      return sortAlphabetical(a.real_subname ?? "", b.real_subname ?? "");
     }
 
     return (a.xp ?? 0) - (b.xp ?? 0);

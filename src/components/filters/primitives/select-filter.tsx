@@ -1,64 +1,52 @@
 import { useCallback } from "react";
 
 import { useStore } from "@/store";
-import { selectFilterOpen } from "@/store/selectors/filters";
-import type { CardTypeFilter, Filters } from "@/store/slices/filters.types";
 
 import { FilterContainer } from "./filter-container";
 
-type Props<
-  T,
-  K extends CardTypeFilter,
-  V extends number | string | undefined,
-> = {
-  cardType: K;
-  path: keyof Filters[K];
+type Props<T, V extends number | string | undefined> = {
+  id: number;
   changes?: string;
   mapValue?: (val: string) => V;
   options: T[];
+  open: boolean;
   renderOption: (option: T) => React.ReactNode;
   title: string;
   value: V;
 };
 
-export function SelectFilter<
-  T,
-  K extends CardTypeFilter,
-  V extends number | string | undefined,
->({
-  cardType,
+export function SelectFilter<T, V extends number | string | undefined>({
   changes,
   mapValue,
-  path,
+  id,
   options,
   renderOption,
+  open,
   title,
   value,
-}: Props<T, K, V>) {
-  const open = useStore(selectFilterOpen(cardType, path));
-
-  const setFilter = useStore((state) => state.setFilter);
+}: Props<T, V>) {
+  const setFilterValue = useStore((state) => state.setFilterValue);
   const setFilterOpen = useStore((state) => state.setFilterOpen);
-  const resetFilter = useStore((state) => state.resetFilterKey);
+  const resetFilter = useStore((state) => state.resetFilter);
 
   const onReset = useCallback(() => {
-    resetFilter(cardType, path);
-  }, [resetFilter, cardType, path]);
+    resetFilter(id);
+  }, [resetFilter, id]);
 
   const onOpenChange = useCallback(
     (val: boolean) => {
-      setFilterOpen(cardType, path, val);
+      setFilterOpen(id, val);
     },
-    [setFilterOpen, cardType, path],
+    [setFilterOpen, id],
   );
 
   const onChange = useCallback(
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
       const val = evt.target.value;
       const mapped = mapValue ? mapValue(val) : val;
-      setFilter(cardType, path, "value", mapped);
+      setFilterValue(id, mapped);
     },
-    [setFilter, cardType, path, mapValue],
+    [id, setFilterValue, mapValue],
   );
 
   return (

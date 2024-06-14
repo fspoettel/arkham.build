@@ -1,6 +1,8 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useStore } from "@/store";
+import { selectActiveListSearch } from "@/store/selectors/lists";
+import { assert, isDefined } from "@/utils/assert";
 import { debounce } from "@/utils/debounce";
 
 import css from "./card-search.module.css";
@@ -15,11 +17,18 @@ type Props = {
 
 export function CardSearch({ slotLeft, slotRight }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
+
   const setSearchValue = useStore((state) => state.setSearchValue);
   const setSearchFlag = useStore((state) => state.setSearchFlag);
-  const search = useStore((state) => state.search);
 
-  const [inputValue, setInputValue] = useState(search.value);
+  const search = useStore(selectActiveListSearch);
+  assert(isDefined(search), "Search bar requires an active list.");
+
+  const [inputValue, setInputValue] = useState(search.value ?? "");
+
+  useEffect(() => {
+    setInputValue(search.value ?? "");
+  }, [search]);
 
   const debouncedSetSearchValue = useMemo(
     () => debounce(setSearchValue, 50),

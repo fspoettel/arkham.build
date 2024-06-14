@@ -12,7 +12,6 @@ import {
 } from "@/utils/constants";
 
 import type { StoreState } from ".";
-import type { CardTypeFilter } from "./filters.types";
 import type {
   LookupTable,
   LookupTables,
@@ -52,16 +51,12 @@ export function getInitialLookupTables(): LookupTables {
     skillBoosts: {},
     slots: {},
     sanity: {},
-    sort: {
-      alphabetical: {},
-    },
     traits: {},
     uses: {},
     level: {},
     typesByCardTypeSelection: {},
     traitsByCardTypeSelection: {},
     packsByCycle: {},
-    tabooSet: {},
   };
 }
 
@@ -96,13 +91,10 @@ export function createLookupTables(
 
   const cards = Object.values(metadata.cards);
 
-  cards.sort((a, b) => a.real_name.localeCompare(b.real_name));
-
-  cards.forEach((c, i) => {
+  cards.forEach((c) => {
     addCardToLookupTables(
       lookupTables,
       applyTaboo(c, metadata, settings.tabooSetId),
-      i,
     );
   });
 
@@ -126,13 +118,7 @@ function setInLookupTable<T extends string | number>(
   }
 }
 
-export function addCardToLookupTables(
-  tables: LookupTables,
-  card: Card,
-  i: number,
-) {
-  sortedByName(tables, card, i);
-
+export function addCardToLookupTables(tables: LookupTables, card: Card) {
   indexByCodes(tables, card);
   indexByTraits(tables, card);
   indexByActions(tables, card);
@@ -171,7 +157,7 @@ export function addCardToLookupTables(
 function indexTypeByCardTypeSelection(
   tables: LookupTables,
   typeCode: string,
-  cardType: CardTypeFilter,
+  cardType: "encounter" | "player",
 ) {
   setInLookupTable(typeCode, tables.typesByCardTypeSelection, cardType);
 }
@@ -306,10 +292,6 @@ function indexBySucceedsBy(tables: LookupTables, card: Card) {
   if (card.real_text?.match(REGEX_SUCCEED_BY)) {
     setInLookupTable(card.code, tables.properties, "succeedBy");
   }
-}
-
-function sortedByName(tables: LookupTables, card: Card, i: number) {
-  tables.sort.alphabetical[card.code] = i;
 }
 
 export function createRelations(metadata: Metadata, tables: LookupTables) {

@@ -2,77 +2,82 @@ import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import {
-  selectActiveCardType,
+  selectActiveListFilter,
   selectCostChanges,
   selectCostMinMax,
-  selectCostValue,
-  selectFilterOpen,
-} from "@/store/selectors/filters";
-import type { CostFilter as CostFilterType } from "@/store/slices/filters.types";
+} from "@/store/selectors/lists";
+import { isCostFilterObject } from "@/store/slices/lists.type-guards";
+import { assert } from "@/utils/assert";
 
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
 import { RangeSelect } from "../ui/range-select";
 import { FilterContainer } from "./primitives/filter-container";
 
-type Value = CostFilterType["value"];
-
-export function CostFilter() {
-  const [min, max] = useStore(selectCostMinMax);
-  const cardType = useStore(selectActiveCardType);
-  const changes = useStore(selectCostChanges);
-  const value = useStore(selectCostValue);
-  const open = useStore(selectFilterOpen(cardType, "cost"));
-
-  const setFilter = useStore((state) => state.setNestedFilter);
-  const resetFilter = useStore((state) => state.resetFilterKey);
-  const setFilterOpen = useStore((state) => state.setFilterOpen);
-
-  const setValue = useCallback(
-    function setValue<K extends keyof Value>(key: K, val: Value[K]) {
-      setFilter(cardType, "cost", key, val);
-    },
-    [cardType, setFilter],
+export function CostFilter({ id }: { id: number }) {
+  const filter = useStore((state) => selectActiveListFilter(state, id));
+  assert(
+    isCostFilterObject(filter),
+    `CostFilter instantiated with '${filter?.type}'`,
   );
 
+  const [min, max] = useStore(selectCostMinMax);
+  const changes = selectCostChanges(filter.value);
+
+  const setFilter = useStore((state) => state.setFilterValue);
+  const resetFilter = useStore((state) => state.resetFilter);
+  const setFilterOpen = useStore((state) => state.setFilterOpen);
+
   const resetActiveCost = useCallback(() => {
-    resetFilter(cardType, "cost");
-  }, [cardType, resetFilter]);
+    resetFilter(id);
+  }, [resetFilter, id]);
 
   const onValueCommit = useCallback(
     (val: number[]) => {
-      setValue("range", [val[0], val[1]]);
+      setFilter(id, {
+        range: [val[0], val[1]],
+      });
     },
-    [setValue],
+    [setFilter, id],
   );
 
   const onSetEven = useCallback(
     (val: boolean | string) => {
-      setValue("even", !!val);
+      setFilter(id, {
+        even: !!val,
+      });
     },
-    [setValue],
+    [setFilter, id],
   );
 
   const onSetOdd = useCallback(
     (val: boolean | string) => {
-      setValue("odd", !!val);
+      setFilter(id, {
+        odd: !!val,
+      });
     },
-    [setValue],
+    [setFilter, id],
   );
 
   const onSetX = useCallback(
     (val: boolean | string) => {
-      setValue("x", !!val);
+      setFilter(id, {
+        x: !!val,
+      });
     },
-    [setValue],
+    [setFilter, id],
   );
 
   const onOpenChange = useCallback(
     (val: boolean) => {
-      if (val && !value.range) setValue("range", [min, max]);
-      setFilterOpen(cardType, "cost", val);
+      if (val && !filter.value.range) {
+        setFilter(id, {
+          range: [min, max],
+        });
+      }
+      setFilterOpen(id, val);
     },
-    [min, max, setValue, setFilterOpen, cardType, value.range],
+    [min, max, id, filter.value.range, setFilter, setFilterOpen],
   );
 
   return (
@@ -80,7 +85,7 @@ export function CostFilter() {
       filterString={changes}
       onOpenChange={onOpenChange}
       onReset={resetActiveCost}
-      open={open}
+      open={filter.open}
       title="Cost"
     >
       <RangeSelect
@@ -89,23 +94,23 @@ export function CostFilter() {
         max={max}
         min={min}
         onValueCommit={onValueCommit}
-        value={value.range ?? [min, max]}
+        value={filter.value.range ?? [min, max]}
       />
       <CheckboxGroup>
         <Checkbox
-          checked={value.even}
+          checked={filter.value.even}
           id="cost-even"
           label="Even"
           onCheckedChange={onSetEven}
         />
         <Checkbox
-          checked={value.odd}
+          checked={filter.value.odd}
           id="cost-odd"
           label="Odd"
           onCheckedChange={onSetOdd}
         />
         <Checkbox
-          checked={value.x}
+          checked={filter.value.x}
           id="cost-x"
           label={<i className="icon-x" />}
           onCheckedChange={onSetX}

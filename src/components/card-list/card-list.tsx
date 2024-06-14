@@ -4,7 +4,8 @@ import { GroupedVirtuoso } from "react-virtuoso";
 
 import { useStore } from "@/store";
 import type { ListState } from "@/store/selectors/card-list";
-import { selectFilteredCards } from "@/store/selectors/card-list";
+import { selectListCards } from "@/store/selectors/card-list";
+import { selectActiveListSearch } from "@/store/selectors/lists";
 import { range } from "@/utils/range";
 
 import css from "./card-list.module.css";
@@ -21,8 +22,9 @@ type Props = {
 };
 
 export function CardList(props: Props) {
-  const data = useStore(selectFilteredCards);
-  const search = useStore((state) => state.search.value);
+  const data = useStore(selectListCards);
+  const search = useStore(selectActiveListSearch);
+  const metadata = useStore((state) => state.metadata);
 
   const [scrollParent, setScrollParent] = useState<HTMLElement | undefined>();
   const virtuosoRef = useRef<GroupedVirtuosoHandle>(null);
@@ -80,8 +82,8 @@ export function CardList(props: Props) {
   const jumpToOptions = useMemo(
     () =>
       (data?.groups ?? []).map((group, i) => ({
-        value: group.code,
-        label: `${group.name} (${data?.groupCounts[i]})`,
+        value: group.key,
+        label: `${group.key} (${data?.groupCounts[i]})`,
       })),
     [data?.groups, data?.groupCounts],
   );
@@ -108,7 +110,7 @@ export function CardList(props: Props) {
           <GroupedVirtuoso
             customScrollParent={scrollParent}
             groupContent={(index) => (
-              <Grouphead grouping={data.groups[index]} />
+              <Grouphead grouping={data.groups[index]} metadata={metadata} />
             )}
             groupCounts={data.groupCounts}
             isScrolling={onScrollStop}
@@ -131,11 +133,11 @@ export function CardList(props: Props) {
 
 function findGroupOffset(
   data: ListState | undefined,
-  code: string,
+  code: string | number,
 ): number | undefined {
   if (!data) return undefined;
 
-  const groupIndex = data.groups.findIndex((g) => g.code === code);
+  const groupIndex = data.groups.findIndex((g) => g.key === code);
   if (groupIndex === -1) return undefined;
 
   return range(0, groupIndex).reduce((acc, i) => acc + data.groupCounts[i], 0);
@@ -163,5 +165,5 @@ function findActiveGroup(
     }
   }
 
-  return data.groups[i].code;
+  return data.groups[i].key;
 }

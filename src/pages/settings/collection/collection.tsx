@@ -4,7 +4,7 @@ import PackIcon from "@/components/icons/pack-icon";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/field";
 import { useStore } from "@/store";
-import { selectCyclesAndPacks } from "@/store/selectors/filters";
+import { selectCyclesAndPacks } from "@/store/selectors/lists";
 import type { SettingsState } from "@/store/slices/settings.types";
 
 import css from "./collection.module.css";

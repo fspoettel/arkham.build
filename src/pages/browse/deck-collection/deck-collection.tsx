@@ -24,8 +24,8 @@ export function DeckCollection() {
           <Dialog>
             <DeckCollectionImport />
           </Dialog>
-          <Link asChild href="/deck/new">
-            <Button as="a" disabled>
+          <Link asChild to="~/deck/new">
+            <Button as="a">
               <Plus />
             </Button>
           </Link>

@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
-import { PLAYER_TYPE_ORDER } from "@/utils/constants";
-import { and, not } from "@/utils/fp";
+import type { Filter } from "@/utils/fp";
+import { and, not, or } from "@/utils/fp";
 import { isEmpty } from "@/utils/is-empty";
 
 import { applyCardChanges } from "../lib/card-edits";
@@ -9,10 +9,7 @@ import { getAdditionalDeckOptions } from "../lib/deck-validation";
 import {
   filterActions,
   filterAssets,
-  filterBacksides,
   filterCost,
-  filterDuplicates,
-  filterEncounterCards,
   filterEncounterCode,
   filterFactions,
   filterInvestigatorAccess,
@@ -20,238 +17,191 @@ import {
   filterLevel,
   filterMythosCards,
   filterOwnership,
+  filterPackCode,
   filterProperties,
   filterSkillIcons,
   filterSubtypes,
   filterTabooSet,
   filterTraits,
   filterType,
-  filterWeaknesses,
 } from "../lib/filtering";
-import type { Grouping } from "../lib/grouping";
-import { getGroupCards } from "../lib/grouping";
+import { getGroupedCards } from "../lib/grouping";
 import { applySearch } from "../lib/searching";
-import {
-  sortAlphabetically,
-  sortByEncounterPosition,
-  sortedBySlots,
-  sortedEncounterSets,
-} from "../lib/sorting";
+import { makeSortFunction } from "../lib/sorting";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
-import type { CardTypeFilter } from "../slices/filters.types";
-import { selectActiveDeck, selectResolvedDeck } from "./decks";
-import { selectCanonicalTabooSetId } from "./filters";
+import type {
+  AssetFilter,
+  CostFilter,
+  LevelFilter,
+  List,
+  MultiselectFilter,
+  OwnershipFilter,
+  PropertiesFilter,
+  SkillIconsFilter,
+} from "../slices/lists.types";
+import type { LookupTables } from "../slices/lookup-tables.types";
+import type { Metadata } from "../slices/metadata.types";
+import type { SettingsState } from "../slices/settings.types";
+import { selectResolvedDeck } from "./decks";
+import { selectActiveList, selectCanonicalTabooSetId } from "./lists";
+
+export type CardGroup = {
+  type: string;
+  key: string;
+};
 
 export type ListState = {
-  key: CardTypeFilter;
-  groups: Grouping[];
+  key: string;
+  groups: CardGroup[];
   cards: Card[];
   groupCounts: number[];
 };
 
-/**
- * Grouping
- */
+function makeUserFilter(
+  metadata: Metadata,
+  lookupTables: LookupTables,
+  list: List,
+  settings: SettingsState,
+  deckInvestigatorFilter?: Filter,
+) {
+  const filters: Filter[] = [];
 
-export const selectGroupedBySlot = createSelector(
-  (state: StoreState) => state.lookupTables.slots,
-  (slotsTable) =>
-    sortedBySlots(slotsTable).map((slot) => ({
-      name: `Asset: ${slot}`,
-      code: slot,
-      grouping_type: "slot",
-    })),
-);
+  if (deckInvestigatorFilter) filters.push(deckInvestigatorFilter);
 
-export const selectPlayerCardGroups = createSelector(
-  (state: StoreState) => state.metadata,
-  selectGroupedBySlot,
-  (metadata, slotGroups) => {
-    return PLAYER_TYPE_ORDER.flatMap((type) =>
-      type === "asset"
-        ? slotGroups
-        : { ...metadata.types[type], grouping_type: "type" },
-    ) as Grouping[];
-  },
-);
+  list.filters.forEach((_, id) => {
+    const filterValue = list.filterValues[id];
+    if (!filterValue) return;
 
-const selectWeaknessGroups = createSelector(
-  (state: StoreState) => state.metadata.subtypes,
-  (subtypes) => {
-    const groups = Object.keys(subtypes).map((code) => ({
-      code: code,
-      name: code === "weakness" ? "Weakness" : "Basic Weakness",
-      grouping_type: "subtype",
-    }));
+    switch (filterValue.type) {
+      case "action": {
+        const value = filterValue.value as MultiselectFilter;
+        if (value.length) {
+          filters.push(filterActions(value, lookupTables.actions));
+        }
+        break;
+      }
 
-    groups.sort((a) => (a.code === "weakness" ? -1 : 1));
+      case "asset": {
+        const value = filterValue.value as AssetFilter;
+        const filter = filterAssets(value, lookupTables);
+        if (filter) filters.push(filter);
+        break;
+      }
 
-    return groups;
-  },
-);
+      case "cost": {
+        const value = filterValue.value as CostFilter;
+        if (value.range) filters.push(filterCost(value));
+        break;
+      }
 
-const selectEncounterSetGroups = createSelector(
-  (state: StoreState) => state.metadata,
-  (metadata) => {
-    return sortedEncounterSets(metadata).map((e) => ({
-      code: e.code,
-      name: e.name,
-      grouping_type: "encounter_set",
-    }));
-  },
-);
+      case "encounterSet": {
+        const value = filterValue.value as MultiselectFilter;
+        if (value.length) filters.push(filterEncounterCode(value));
+        break;
+      }
 
-const selectActiveCardType = (state: StoreState) => state.filters.cardType;
+      case "faction": {
+        const value = filterValue.value as MultiselectFilter;
+        if (value.length) filters.push(filterFactions(value));
+        break;
+      }
 
-const selectActionsFilter = createSelector(
-  (state: StoreState) => state.lookupTables.actions,
-  (state: StoreState) => state.filters[state.filters.cardType].action,
-  (actionTable, filterState) => filterActions(filterState.value, actionTable),
-);
+      case "investigator": {
+        const value = filterValue.value as string | undefined;
 
-const selectAssetFilter = createSelector(
-  (state: StoreState) => state.filters[state.filters.cardType].asset,
-  (state: StoreState) => state.lookupTables,
-  (filterState, lookupTables) => filterAssets(filterState, lookupTables),
-);
+        if (value) {
+          const filter = [];
+          const accessFilter = filterInvestigatorAccess(
+            metadata.cards[value],
+            lookupTables,
+          );
+          const weaknessFilter = filterInvestigatorWeaknessAccess(
+            metadata.cards[value],
+            lookupTables,
+          );
+          if (accessFilter) filter.push(accessFilter);
+          if (weaknessFilter) filter.push(weaknessFilter);
+          filters.push(or(filter));
+        }
 
-const selectCostFilter = createSelector(
-  (state: StoreState) => state.filters[state.filters.cardType].cost.value,
-  (filterState) => (filterState.range ? filterCost(filterState) : undefined),
-);
+        break;
+      }
 
-const selectEncounterSetFilter = createSelector(
-  (state: StoreState) => state.filters.encounter.encounterSet,
-  (filterState) => filterEncounterCode(filterState.value),
-);
+      case "level": {
+        const value = filterValue.value as LevelFilter;
+        if (value.range) filters.push(filterLevel(value));
+        break;
+      }
 
-const selectFactionFilter = createSelector(
-  (state: StoreState) => state.filters[state.filters.cardType].faction,
-  (filterState) =>
-    filterState.value.length ? filterFactions(filterState.value) : undefined,
-);
+      case "ownership": {
+        const value = filterValue.value as OwnershipFilter;
+        if (!settings.showAllCards && value !== "all") {
+          filters.push((card: Card) => {
+            const ownership = filterOwnership(
+              card,
+              metadata,
+              lookupTables,
+              settings.collection,
+            );
 
-const selectLevelFilter = createSelector(
-  (state: StoreState) => state.filters.player.level.value,
-  (filterState) => (filterState.range ? filterLevel(filterState) : undefined),
-);
+            return value === "owned" ? ownership : !ownership;
+          });
+        }
 
-const selectOwnershipFilter = createSelector(
-  (state: StoreState) => state.settings.collection,
-  (state: StoreState) => state.settings.showAllCards,
-  (state: StoreState) => state.metadata,
-  (state: StoreState) => state.lookupTables,
-  (state: StoreState) => state.filters[state.filters.cardType].ownership.value,
-  (collectionSetting, showAllCards, metadata, lookupTables, filterState) => {
-    return (card: Card) => {
-      if (showAllCards || filterState === "all") return true;
-      const ownsCard = filterOwnership(
-        card,
-        metadata,
-        lookupTables,
-        collectionSetting,
-      );
-      return filterState === "owned" ? ownsCard : !ownsCard;
-    };
-  },
-);
+        break;
+      }
 
-/**
- * Pack
- */
+      case "pack": {
+        const value = filterValue.value as MultiselectFilter;
+        if (value.length) {
+          const filter = filterPackCode(value, metadata, lookupTables);
+          if (filter) filters.push(filter);
+        }
+        break;
+      }
 
-const selectPackCodeFilter = createSelector(
-  (state: StoreState) => state.metadata,
-  (state: StoreState) => state.lookupTables,
-  (state: StoreState) => state.filters[state.filters.cardType].packCode,
-  (metadata, lookupTables, filterState) => {
-    if (isEmpty(filterState.value)) return undefined;
+      case "properties": {
+        const value = filterValue.value as PropertiesFilter;
+        filters.push(filterProperties(value, lookupTables));
+        break;
+      }
 
-    const active = Object.values(filterState.value).some((x) => x);
-    if (!active) return undefined;
+      case "skillIcons": {
+        const value = filterValue.value as SkillIconsFilter;
+        filters.push(filterSkillIcons(value));
+        break;
+      }
 
-    const filterValue = filterState.value.reduce<Record<string, boolean>>(
-      (acc, curr) => {
-        acc[curr] = true;
-        return acc;
-      },
-      {},
-    );
+      case "subtype": {
+        const value = filterValue.value as MultiselectFilter;
+        if (value.length) filters.push(filterSubtypes(value));
+        break;
+      }
 
-    return (card: Card) =>
-      filterOwnership(card, metadata, lookupTables, filterValue);
-  },
-);
+      case "tabooSet": {
+        const value = filterValue.value as number | undefined;
+        if (value != null) filters.push(filterTabooSet(value, metadata));
+        break;
+      }
 
-const selectPropertiesFilter = createSelector(
-  (state: StoreState) => state.lookupTables,
-  (state: StoreState) => state.filters[state.filters.cardType].properties,
-  (lookupTables, filterState) =>
-    filterProperties(filterState.value, lookupTables),
-);
+      case "trait": {
+        const value = filterValue.value as MultiselectFilter;
+        if (value.length)
+          filters.push(filterTraits(value, lookupTables.traits));
+        break;
+      }
 
-const selectSkillIconsFilter = createSelector(
-  (state: StoreState) => state.filters[state.filters.cardType].skillIcons,
-  (filterState) => filterSkillIcons(filterState.value),
-);
+      case "type": {
+        const value = filterValue.value as MultiselectFilter;
+        if (value.length) filters.push(filterType(value));
+        break;
+      }
+    }
+  });
 
-const selectSubtypeFilter = createSelector(
-  (state: StoreState) => state.filters[state.filters.cardType].subtype,
-  (state) => (state.value.length ? filterSubtypes(state.value) : undefined),
-);
-
-const selectTabooSetFilter = createSelector(
-  (state: StoreState) => state.filters.player.tabooSet,
-  (filterState) =>
-    filterState.value ? filterTabooSet(filterState.value) : undefined,
-);
-
-const selectTraitsFilter = createSelector(
-  (state: StoreState) => state.lookupTables.traits,
-  (state: StoreState) => state.filters[state.filters.cardType].trait,
-  (traitsTable, filterState) => filterTraits(filterState.value, traitsTable),
-);
-
-const selectTypeFilter = createSelector(
-  (state: StoreState) => state.filters[state.filters.cardType].type,
-  (filterState) =>
-    filterState.value.length ? filterType(filterState.value) : undefined,
-);
-
-/**
- * Investigator Access
- */
-
-const selectInvestigatorWeaknessFilter = createSelector(
-  (state: StoreState) => state.metadata.cards,
-  (state: StoreState) => state.lookupTables,
-  (state: StoreState) => state.filters.player.investigator.value,
-  (metadata, lookupTables, cardCode) => {
-    if (!cardCode) return undefined;
-
-    const card = metadata[cardCode];
-    if (!card) return undefined;
-
-    return filterInvestigatorWeaknessAccess(card, lookupTables);
-  },
-);
-
-export const selectInvestigatorFilter = createSelector(
-  (state: StoreState) => state.metadata.cards,
-  (state: StoreState) => state.lookupTables,
-  (state: StoreState) => state.filters.player.investigator.value,
-  (metadata, lookupTables, cardCode) => {
-    if (!cardCode) return undefined;
-
-    const card = metadata[cardCode];
-    if (!card) return undefined;
-
-    return filterInvestigatorAccess(card, lookupTables, {
-      targetDeck: card.side_deck_options ? "both" : "slots",
-    });
-  },
-);
+  return filters.length ? and(filters) : undefined;
+}
 
 // FIXME: There is some room for optimization here.
 // This filter does not have to be re-calculated every time the deck changes,
@@ -273,8 +223,9 @@ export const selectDeckInvestigatorFilter = createSelector(
     const card = resolvedDeck.investigatorBack.card;
     if (!card) return undefined;
 
-    if (showUnusableCards)
+    if (showUnusableCards) {
       return and([not(filterType(["investigator"])), filterMythosCards]);
+    }
 
     return filterInvestigatorAccess(card, lookupTables, {
       additionalDeckOptions: getAdditionalDeckOptions(resolvedDeck),
@@ -284,356 +235,83 @@ export const selectDeckInvestigatorFilter = createSelector(
   },
 );
 
-/**
- * Combined list filters
- */
-
-export const selectPlayerCardFilters = createSelector(
-  selectFactionFilter,
-  selectLevelFilter,
-  selectCostFilter,
-  selectSkillIconsFilter,
-  selectTypeFilter,
-  selectSubtypeFilter,
-  selectTraitsFilter,
-  selectActionsFilter,
-  selectPropertiesFilter,
-  selectInvestigatorFilter,
-  selectTabooSetFilter,
-  selectOwnershipFilter,
-  selectPackCodeFilter,
-  selectAssetFilter,
-  selectDeckInvestigatorFilter,
-  (
-    factionFilter,
-    levelFilter,
-    costFilter,
-    skillIconsFilter,
-    typeFilter,
-    subtypeFilter,
-    traitsFilter,
-    actionsFilter,
-    propertiesFilter,
-    investigatorFilter,
-    tabooSetFilter,
-    ownershipFilter,
-    packCodeFilter,
-    assetFilter,
-    deckInvestigatorFilter,
-  ) => {
-    const filters = [
-      actionsFilter,
-      filterDuplicates,
-      filterEncounterCards,
-      filterMythosCards,
-      filterWeaknesses,
-      ownershipFilter,
-      propertiesFilter,
-      skillIconsFilter,
-      traitsFilter,
-      assetFilter,
-    ];
-
-    if (factionFilter) {
-      filters.push(factionFilter);
-    }
-
-    if (levelFilter) {
-      filters.push(levelFilter);
-    }
-
-    if (costFilter) {
-      filters.push(costFilter);
-    }
-
-    if (investigatorFilter) {
-      filters.push(investigatorFilter);
-    }
-
-    if (tabooSetFilter) {
-      filters.push(tabooSetFilter);
-    }
-
-    if (deckInvestigatorFilter) {
-      filters.push(deckInvestigatorFilter);
-    }
-
-    if (typeFilter) {
-      filters.push(typeFilter);
-    }
-
-    if (subtypeFilter) {
-      filters.push(subtypeFilter);
-    }
-
-    if (packCodeFilter) {
-      filters.push(packCodeFilter);
-    }
-
-    return and(filters);
-  },
-);
-
-export const selectWeaknessFilters = createSelector(
-  selectLevelFilter,
-  selectCostFilter,
-  selectFactionFilter,
-  selectSkillIconsFilter,
-  selectTypeFilter,
-  selectSubtypeFilter,
-  selectTraitsFilter,
-  selectActionsFilter,
-  selectPropertiesFilter,
-  selectInvestigatorWeaknessFilter,
-  selectTabooSetFilter,
-  selectOwnershipFilter,
-  selectPackCodeFilter,
-  selectAssetFilter,
-  selectDeckInvestigatorFilter,
-  (
-    levelFilter,
-    costFilter,
-    factionFilter,
-    skillIconsFilter,
-    typeFilter,
-    subtypeFilter,
-    traitsFilter,
-    actionsFilter,
-    propertiesFilter,
-    investigatorFilter,
-    tabooSetFilter,
-    ownershipFilter,
-    packCodeFilter,
-    assetFilter,
-    deckInvestigatorFilter,
-  ) => {
-    const filters = [
-      filterEncounterCards,
-      filterDuplicates,
-      skillIconsFilter,
-      traitsFilter,
-      actionsFilter,
-      propertiesFilter,
-      ownershipFilter,
-      assetFilter,
-    ];
-
-    if (factionFilter) {
-      filters.push(factionFilter);
-    }
-
-    if (levelFilter) {
-      filters.push(levelFilter);
-    }
-
-    if (costFilter) {
-      filters.push(costFilter);
-    }
-
-    if (investigatorFilter) {
-      filters.push(investigatorFilter);
-    }
-
-    if (tabooSetFilter) {
-      filters.push(tabooSetFilter);
-    }
-
-    if (deckInvestigatorFilter) {
-      filters.push(deckInvestigatorFilter);
-    }
-
-    if (packCodeFilter) {
-      filters.push(packCodeFilter);
-    }
-
-    if (typeFilter) {
-      filters.push(typeFilter);
-    }
-
-    if (subtypeFilter) {
-      filters.push(subtypeFilter);
-    }
-
-    return and(filters);
-  },
-);
-
-export const selectEncounterFilters = createSelector(
-  selectCostFilter,
-  selectFactionFilter,
-  selectSkillIconsFilter,
-  selectTypeFilter,
-  selectSubtypeFilter,
-  selectTraitsFilter,
-  selectActionsFilter,
-  selectPropertiesFilter,
-  selectOwnershipFilter,
-  selectEncounterSetFilter,
-  selectPackCodeFilter,
-  selectAssetFilter,
-  selectDeckInvestigatorFilter,
-  (
-    costFilter,
-    factionFilter,
-    skillIconsFilter,
-    typeFilter,
-    subtypeFilter,
-    traitsFilter,
-    actionsFilter,
-    propertiesFilter,
-    ownershipFilter,
-    encounterSetFilter,
-    packCodeFilter,
-    assetFilter,
-    deckInvestigatorFilter,
-  ) => {
-    const filters = [
-      filterBacksides,
-      skillIconsFilter,
-      traitsFilter,
-      actionsFilter,
-      propertiesFilter,
-      ownershipFilter,
-      encounterSetFilter,
-      assetFilter,
-    ];
-
-    if (factionFilter) {
-      filters.push(factionFilter);
-    }
-
-    if (costFilter) {
-      filters.push(costFilter);
-    }
-
-    if (deckInvestigatorFilter) {
-      filters.push(deckInvestigatorFilter);
-    }
-
-    if (packCodeFilter) {
-      filters.push(packCodeFilter);
-    }
-
-    if (typeFilter) {
-      filters.push(typeFilter);
-    }
-
-    if (subtypeFilter) {
-      filters.push(subtypeFilter);
-    }
-
-    return and(filters);
-  },
-);
-
-export const selectFilteredCards = createSelector(
-  selectActiveCardType,
-  selectPlayerCardFilters,
-  selectWeaknessFilters,
-  selectEncounterFilters,
+export const selectListCards = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
-  (state: StoreState) => state.search,
+  (state: StoreState) => state.settings,
+  selectActiveList,
+  selectResolvedDeck,
   selectCanonicalTabooSetId,
-  selectPlayerCardGroups,
-  selectWeaknessGroups,
-  selectEncounterSetGroups,
-  (state: StoreState) => selectActiveDeck(state)?.customizations,
+  selectDeckInvestigatorFilter,
   (
-    activeCardType,
-    playerCardFilter,
-    weaknessFilter,
-    encounterFilters,
     metadata,
     lookupTables,
-    search,
+    settings,
+    activeList,
+    resolvedDeck,
     tabooSetId,
-    playerCardGroups,
-    weaknessGroups,
-    encounterSetGroups,
-    customizations,
+    deckInvestigatorFilter,
   ) => {
+    if (!activeList) return undefined;
+
     if (isEmpty(metadata.cards)) {
       console.warn("player cards selected before store is initialized.");
       return undefined;
     }
 
-    const groups: Grouping[] = [];
-    const cards: Card[] = [];
-    const groupCounts = [];
+    console.time("[perf] select_list_cards");
 
-    if (activeCardType === "player") {
-      console.time("[perf] select_player_cards");
+    // apply system filter first to cut down on card count.
+    let filteredCards = activeList.systemFilter
+      ? Object.values(metadata.cards).filter(activeList.systemFilter)
+      : Object.values(metadata.cards);
 
-      // FIXME: consider customizable slot changes.
-      for (const grouping of playerCardGroups) {
-        const groupCards = getGroupCards(
-          grouping,
-          metadata,
-          lookupTables,
-          playerCardFilter,
-          tabooSetId
-            ? (c) => applyCardChanges(c, metadata, tabooSetId, customizations)
-            : undefined,
-        );
-
-        const filteredCards = applySearch(search, groupCards, metadata);
-
-        if (filteredCards.length) {
-          filteredCards.sort(sortAlphabetically(lookupTables));
-          groups.push(grouping);
-          cards.push(...filteredCards);
-          groupCounts.push(filteredCards.length);
-        }
-      }
-
-      for (const grouping of weaknessGroups) {
-        const groupCards = applySearch(
-          search,
-          getGroupCards(grouping, metadata, lookupTables, weaknessFilter),
-          metadata,
-        );
-
-        const filteredCards = applySearch(search, groupCards, metadata);
-
-        if (filteredCards.length) {
-          groupCards.sort(sortAlphabetically(lookupTables));
-          groups.push(grouping);
-          cards.push(...filteredCards);
-          groupCounts.push(filteredCards.length);
-        }
-      }
-
-      console.timeEnd("[perf] select_player_cards");
-    } else {
-      console.time("[perf] select_encounter_cards");
-
-      for (const grouping of encounterSetGroups) {
-        const groupCards = getGroupCards(
-          grouping,
-          metadata,
-          lookupTables,
-          encounterFilters,
-        );
-
-        const filteredCards = applySearch(search, groupCards, metadata);
-
-        if (filteredCards.length) {
-          filteredCards.sort(sortByEncounterPosition);
-          groups.push(grouping);
-          cards.push(...filteredCards);
-          groupCounts.push(filteredCards.length);
-        }
-      }
-
-      console.timeEnd("[perf] select_encounter_cards");
+    // other filters can be impacted by card changes, apply them now.
+    if (tabooSetId || resolvedDeck?.customizations) {
+      filteredCards = filteredCards.map((c) =>
+        applyCardChanges(c, metadata, tabooSetId, resolvedDeck?.customizations),
+      );
     }
 
-    return {
-      key: activeCardType,
-      groups,
-      cards,
-      groupCounts,
-    } as ListState;
+    // apply user filters.
+    const filter = makeUserFilter(
+      metadata,
+      lookupTables,
+      activeList,
+      settings,
+      deckInvestigatorFilter,
+    );
+    if (filter) filteredCards = filteredCards.filter(filter);
+
+    // apply search, do this after filtering to cut down on search operations.
+    if (activeList.search.value) {
+      filteredCards = applySearch(activeList.search, filteredCards, metadata);
+    }
+
+    const cards: Card[] = [];
+    const groups: CardGroup[] = [];
+    const groupCounts: number[] = [];
+
+    for (const group of getGroupedCards(
+      activeList.grouping,
+      filteredCards,
+      makeSortFunction(activeList.sorting, metadata),
+      metadata,
+    )) {
+      cards.push(...group.cards);
+
+      groups.push({
+        key: group.key,
+        type: group.type,
+      });
+
+      groupCounts.push(group.cards.length);
+    }
+
+    console.timeEnd("[perf] select_list_cards");
+
+    return cards.length
+      ? ({ key: activeList.key, groups, cards, groupCounts } as ListState)
+      : undefined;
   },
 );

@@ -2,12 +2,12 @@ import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import {
-  selectActiveCardType,
-  selectFilterOpen,
+  selectActiveListFilter,
   selectPropertiesChanges,
-  selectPropertiesValue,
-} from "@/store/selectors/filters";
-import type { PropertiesFilter as PropertiesFilterType } from "@/store/slices/filters.types";
+} from "@/store/selectors/lists";
+import { isPropertiesFilterObject } from "@/store/slices/lists.type-guards";
+import type { PropertiesFilter } from "@/store/slices/lists.types";
+import { assert } from "@/utils/assert";
 
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
@@ -28,34 +28,37 @@ const properties = [
   },
 ];
 
-type Value = PropertiesFilterType["value"];
+export function PropertiesFilter({ id }: { id: number }) {
+  const filter = useStore((state) => selectActiveListFilter(state, id));
+  assert(
+    isPropertiesFilterObject(filter),
+    `PropertiesFilter instantiated with '${filter?.type}'`,
+  );
 
-export function PropertiesFilter() {
-  const cardType = useStore(selectActiveCardType);
-  const value = useStore(selectPropertiesValue);
-  const changes = useStore(selectPropertiesChanges);
-  const open = useStore(selectFilterOpen(cardType, "properties"));
+  const changes = selectPropertiesChanges(filter.value);
 
-  const setFilter = useStore((state) => state.setNestedFilter);
+  const setFilterValue = useStore((state) => state.setFilterValue);
   const setFilterOpen = useStore((state) => state.setFilterOpen);
-  const resetFilter = useStore((state) => state.resetFilterKey);
+  const resetFilter = useStore((state) => state.resetFilter);
 
   const onReset = useCallback(() => {
-    resetFilter(cardType, "properties");
-  }, [resetFilter, cardType]);
+    resetFilter(id);
+  }, [resetFilter, id]);
 
   const onOpenChange = useCallback(
     (val: boolean) => {
-      setFilterOpen(cardType, "properties", val);
+      setFilterOpen(id, val);
     },
-    [setFilterOpen, cardType],
+    [setFilterOpen, id],
   );
 
   const onPropertyChange = useCallback(
-    (key: keyof Value, val: boolean) => {
-      setFilter(cardType, "properties", key, val);
+    (key: keyof PropertiesFilter, value: boolean) => {
+      setFilterValue(id, {
+        [key]: value,
+      });
     },
-    [setFilter, cardType],
+    [setFilterValue, id],
   );
 
   return (
@@ -63,19 +66,19 @@ export function PropertiesFilter() {
       filterString={changes}
       onOpenChange={onOpenChange}
       onReset={onReset}
-      open={open}
+      open={filter.open}
       title="Properties"
     >
       <CheckboxGroup>
         {properties.map(({ key, label }) => (
           <Checkbox
-            checked={value[key as keyof Value]}
+            checked={filter.value[key as keyof PropertiesFilter]}
             data-key={key}
             id={`property-${key}`}
             key={key}
             label={label}
             onCheckedChange={(val) =>
-              onPropertyChange(key as keyof Value, !!val)
+              onPropertyChange(key as keyof PropertiesFilter, !!val)
             }
           />
         ))}

@@ -1,6 +1,7 @@
 import type { StateCreator } from "zustand";
 
 import type { StoreState } from ".";
+import type { List } from "./lists.types";
 import type { SettingsSlice, SettingsState } from "./settings.types";
 
 export function getInitialSettings(): SettingsState {
@@ -18,31 +19,30 @@ export const createSettingsSlice: StateCreator<
   SettingsSlice
 > = (set, get) => ({
   settings: getInitialSettings(),
+  // TODO: extract to `shared` since this touches other state slices.
   updateSettings(form) {
     const state = get();
 
     const settings = parseForm(form);
 
-    const partial: Partial<StoreState> = {};
-
     const nextSize = Object.values(settings.collection).some((x) => x);
-
     const ownership = nextSize && !settings.showAllCards ? "owned" : "all";
 
-    partial.filters = {
-      ...state.filters,
-      player: {
-        ...state.filters.player,
-        ownership: { value: ownership, open: false },
-      },
-      encounter: {
-        ...state.filters.encounter,
-        ownership: { value: ownership, open: false },
-      },
-    };
+    const lists = Object.entries({ ...state.lists }).reduce<
+      Record<string, List>
+    >((acc, [id, list]) => {
+      const ownershipIndex = list.filters.indexOf("ownership");
 
-    set({ ...partial, settings });
-    state.refreshLookupTables();
+      if (ownershipIndex !== -1) {
+        const filterValue = list.filterValues[ownershipIndex];
+        filterValue.value = ownership;
+      }
+
+      acc[id] = list;
+      return acc;
+    }, {});
+
+    state.refreshLookupTables({ settings, lists });
   },
 });
 

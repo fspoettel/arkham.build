@@ -2,11 +2,12 @@ import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import {
-  selectFilterOpen,
+  selectActiveListFilter,
   selectLevelChanges,
-  selectLevelValue,
-} from "@/store/selectors/filters";
-import type { LevelFilter as LevelFilterType } from "@/store/slices/filters.types";
+} from "@/store/selectors/lists";
+import { isLevelFilterObject } from "@/store/slices/lists.type-guards";
+import type { LevelFilter } from "@/store/slices/lists.types";
+import { assert } from "@/utils/assert";
 
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
@@ -21,50 +22,79 @@ function getToggleValue(value: [number, number] | undefined) {
   return "";
 }
 
-export function LevelFilter() {
-  const changes = useStore(selectLevelChanges);
-  const open = useStore(selectFilterOpen("player", "level"));
-  const value = useStore(selectLevelValue);
+export function LevelFilter({ id }: { id: number }) {
+  const filter = useStore((state) => selectActiveListFilter(state, id));
+  assert(
+    isLevelFilterObject(filter),
+    `LevelFilter instantiated with '${filter?.type}'`,
+  );
 
-  const applyLevelShortcut = useStore((state) => state.applyLevelShortcut);
-  const setFilter = useStore((state) => state.setNestedFilter);
-  const resetFilter = useStore((state) => state.resetFilterKey);
+  const changes = selectLevelChanges(filter.value);
+
+  const setFilterValue = useStore((state) => state.setFilterValue);
+
   const setFilterOpen = useStore((state) => state.setFilterOpen);
 
-  const setValue = useCallback(
-    function setValue<K extends keyof LevelFilterType["value"]>(
-      key: K,
-      value: LevelFilterType["value"][K],
-    ) {
-      setFilter("player", "level", key, value);
+  const resetFilter = useStore((state) => state.resetFilter);
+
+  const handleChangeRange = useCallback(
+    (val: [number, number] | undefined) => {
+      setFilterValue(id, {
+        range: val,
+      });
     },
-    [setFilter],
+    [id, setFilterValue],
   );
 
-  const resetActiveLevel = useCallback(() => {
-    resetFilter("player", "level");
-  }, [resetFilter]);
-
-  const onOpenChange = useCallback(
+  const handleChangeOpen = useCallback(
     (val: boolean) => {
-      if (val && !value.range) setValue("range", [0, 5]);
-      setFilterOpen("player", "level", val);
+      if (val && !filter.value.range) {
+        handleChangeRange([0, 5]);
+      }
+      setFilterOpen(id, val);
     },
-    [value, setValue, setFilterOpen],
+    [handleChangeRange, id, filter.value.range, setFilterOpen],
   );
 
-  const onSetExceptional = useCallback(
-    (val: boolean | string) => {
-      setValue("exceptional", !!val);
+  const handleSetExceptional = useCallback(
+    (val: boolean) => {
+      setFilterValue(id, {
+        exceptional: val,
+      });
     },
-    [setValue],
+    [setFilterValue, id],
   );
 
-  const onSetNonexceptional = useCallback(
-    (val: boolean | string) => {
-      setValue("nonexceptional", !!val);
+  const handleSetNonexceptional = useCallback(
+    (val: boolean) => {
+      setFilterValue(id, {
+        nonexceptional: val,
+      });
     },
-    [setValue],
+    [setFilterValue, id],
+  );
+
+  const handleReset = useCallback(() => {
+    resetFilter(id);
+  }, [resetFilter, id]);
+
+  const handleApplyLevelShortcut = useCallback(
+    (value: string) => {
+      if (value === "0") {
+        setFilterValue(id, {
+          range: [0, 0],
+        });
+      } else if (value === "1-5") {
+        setFilterValue(id, {
+          range: [1, 5],
+        });
+      } else {
+        setFilterValue(id, {
+          range: undefined,
+        });
+      }
+    },
+    [id, setFilterValue],
   );
 
   return (
@@ -72,12 +102,12 @@ export function LevelFilter() {
       alwaysShowFilterString
       filterString={changes}
       nonCollapsibleContent={
-        !open && (
+        !filter.open && (
           <ToggleGroup
             full
-            onValueChange={applyLevelShortcut}
+            onValueChange={handleApplyLevelShortcut}
             type="single"
-            value={getToggleValue(value.range)}
+            value={getToggleValue(filter.value.range)}
           >
             <ToggleGroupItem size="small-type" value="0">
               Level 0
@@ -88,9 +118,9 @@ export function LevelFilter() {
           </ToggleGroup>
         )
       }
-      onOpenChange={onOpenChange}
-      onReset={resetActiveLevel}
-      open={open}
+      onOpenChange={handleChangeOpen}
+      onReset={handleReset}
+      open={filter.open}
       title="Level"
     >
       <RangeSelect
@@ -99,22 +129,22 @@ export function LevelFilter() {
         max={5}
         min={0}
         onValueCommit={(val) => {
-          setValue("range", [val[0], val[1]]);
+          handleChangeRange([val[0], val[1]]);
         }}
-        value={value.range ?? [0, 5]}
+        value={filter.value.range ?? [0, 5]}
       />
       <CheckboxGroup>
         <Checkbox
-          checked={value.exceptional}
+          checked={filter.value.exceptional}
           id="exceptional"
           label="Exceptional"
-          onCheckedChange={onSetExceptional}
+          onCheckedChange={handleSetExceptional}
         />
         <Checkbox
-          checked={value.nonexceptional}
+          checked={filter.value.nonexceptional}
           id="nonexceptional"
           label="Non-exceptional"
-          onCheckedChange={onSetNonexceptional}
+          onCheckedChange={handleSetNonexceptional}
         />
       </CheckboxGroup>
     </FilterContainer>

@@ -45,7 +45,7 @@ function DeckEdit() {
   return (
     <ListLayout
       filters={
-        <Filters hiddenFilters={["investigator", "taboo_set"]}>
+        <Filters>
           <ShowUnusableCardsToggle />
         </Filters>
       }

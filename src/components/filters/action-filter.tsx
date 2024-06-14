@@ -2,34 +2,39 @@ import { useCallback } from "react";
 
 import { useStore } from "@/store";
 import {
-  selectActionChanges,
   selectActionOptions,
-  selectActionValue,
-  selectActiveCardType,
-} from "@/store/selectors/filters";
-import type { Trait } from "@/store/slices/filters.types";
+  selectActiveListFilter,
+  selectMultiselectChanges,
+} from "@/store/selectors/lists";
+import type { Coded } from "@/store/services/queries.types";
+import { isActionFilterObject } from "@/store/slices/lists.type-guards";
+import { assert } from "@/utils/assert";
 import { capitalize } from "@/utils/formatting";
 
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 
-export function ActionFilter() {
-  const cardType = useStore(selectActiveCardType);
-  const changes = useStore(selectActionChanges);
-  const actions = useStore(selectActionOptions);
-  const value = useStore(selectActionValue);
+export function ActionFilter({ id }: { id: number }) {
+  const filter = useStore((state) => selectActiveListFilter(state, id));
+  assert(
+    isActionFilterObject(filter),
+    `ActionFilter instantiated with '${filter?.type}'`,
+  );
 
-  const nameRenderer = useCallback((item: Trait) => capitalize(item.code), []);
+  const changes = selectMultiselectChanges(filter.value);
+  const options = useStore(selectActionOptions);
+
+  const nameRenderer = useCallback((item: Coded) => capitalize(item.code), []);
 
   return (
     <MultiselectFilter
-      cardType={cardType}
       changes={changes}
+      id={id}
       nameRenderer={nameRenderer}
-      options={actions}
-      path="action"
+      open={filter.open}
+      options={options}
       placeholder="Select actions..."
       title="Actions"
-      value={value}
+      value={filter.value}
     />
   );
 }

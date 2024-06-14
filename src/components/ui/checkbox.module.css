@@ -4,7 +4,10 @@
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  gap: 0.5rem;
+
+  & > * + * {
+    padding-left: 0.5rem;
+  }
 }
 
 .root {

@@ -11,37 +11,6 @@ export const createDeckViewSlice: StateCreator<
 > = (set, get) => ({
   deckView: null,
 
-  setActiveDeck(activeDeckId, mode) {
-    if (!activeDeckId || !mode) {
-      set({ deckView: null });
-      return;
-    }
-
-    if (mode === "view") {
-      set({
-        deckView: {
-          id: activeDeckId,
-          mode,
-        },
-      });
-      return;
-    }
-
-    set({
-      deckView: {
-        activeTab: "slots",
-        showUnusableCards: false,
-        id: activeDeckId,
-        edits: {
-          meta: {},
-          quantities: {},
-          customizations: {},
-        },
-        mode,
-      },
-    });
-  },
-
   changeCardQuantity(code, quantity, tab) {
     const state = get();
 

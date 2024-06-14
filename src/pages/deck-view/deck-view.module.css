@@ -1,9 +1,3 @@
-.container {
-  max-width: 105rem;
-  margin-inline: auto;
-  padding-inline: 2rem;
-}
-
 .main {
   column-gap: 2rem;
   row-gap: 1rem;

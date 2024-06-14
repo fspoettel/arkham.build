@@ -18,7 +18,7 @@ import { useSyncActiveDeckId } from "./utils/use-sync-active-deck-id";
 
 const Browse = lazy(() => import("./pages/browse/browse"));
 const DeckEdit = lazy(() => import("./pages/deck-edit/deck-edit"));
-const DeckNew = lazy(() => import("./pages/deck-new"));
+const DeckNew = lazy(() => import("./pages/deck-new/deck-new"));
 const DeckView = lazy(() => import("./pages/deck-view/deck-view"));
 const Settings = lazy(() => import("./pages/settings/settings"));
 const CardView = lazy(() => import("./pages/card-view/card-view"));

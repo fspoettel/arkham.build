@@ -6,7 +6,7 @@ import { Select } from "@/components/ui/select";
 import { useStore } from "@/store";
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import type { CardWithRelations, ResolvedDeck } from "@/store/lib/types";
-import { selectTabooSetSelectOptions } from "@/store/selectors/filters";
+import { selectTabooSetSelectOptions } from "@/store/selectors/lists";
 import type { DeckOptionSelectType } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
 import { debounce } from "@/utils/debounce";

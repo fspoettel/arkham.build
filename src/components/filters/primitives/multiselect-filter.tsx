@@ -2,57 +2,53 @@ import { useCallback } from "react";
 
 import { Combobox } from "@/components/ui/combobox/combobox";
 import { useStore } from "@/store";
-import { selectFilterOpen } from "@/store/selectors/filters";
 import type { Coded } from "@/store/services/queries.types";
-import type { CardTypeFilter, Filters } from "@/store/slices/filters.types";
 
 import { FilterContainer } from "./filter-container";
 
-type Props<T extends Coded, K extends CardTypeFilter> = {
-  cardType: K;
-  path: keyof Filters[K];
+type Props<T extends Coded> = {
   changes?: string;
+  id: number;
   itemToString?: (val: T) => string;
   nameRenderer?: (val: T) => React.ReactNode;
   title: string;
+  open: boolean;
   options: T[];
   placeholder?: string;
   value: string[];
 };
 
-export function MultiselectFilter<T extends Coded, K extends CardTypeFilter>({
-  cardType,
+export function MultiselectFilter<T extends Coded>({
   changes,
-  path,
+  id,
   itemToString,
   nameRenderer,
+  open,
   options,
   placeholder,
   title,
   value,
-}: Props<T, K>) {
-  const open = useStore(selectFilterOpen(cardType, path));
-
-  const setFilter = useStore((state) => state.setFilter);
+}: Props<T>) {
+  const setFilterValue = useStore((state) => state.setFilterValue);
   const setFilterOpen = useStore((state) => state.setFilterOpen);
-  const resetFilter = useStore((state) => state.resetFilterKey);
+  const resetFilter = useStore((state) => state.resetFilter);
+
+  const onReset = useCallback(() => {
+    resetFilter(id);
+  }, [resetFilter, id]);
 
   const onOpenChange = useCallback(
     (val: boolean) => {
-      setFilterOpen(cardType, path, val);
+      setFilterOpen(id, val);
     },
-    [setFilterOpen, cardType, path],
+    [setFilterOpen, id],
   );
-
-  const onReset = useCallback(() => {
-    resetFilter(cardType, path);
-  }, [resetFilter, cardType, path]);
 
   const onChange = useCallback(
     (value: string[]) => {
-      setFilter(cardType, path, "value", value);
+      setFilterValue(id, value);
     },
-    [setFilter, cardType, path],
+    [id, setFilterValue],
   );
 
   return (
@@ -65,7 +61,7 @@ export function MultiselectFilter<T extends Coded, K extends CardTypeFilter>({
     >
       <Combobox
         autoFocus
-        id={`filter-${cardType}-${path as string}`}
+        id={`filter-${id}`}
         itemToString={itemToString}
         items={options}
         label={title}

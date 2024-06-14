@@ -56,9 +56,12 @@ export const PLAYER_TYPE_ORDER = [
   "skill",
   "location",
   "enemy",
-  "story",
   "key",
   "treachery",
+  "scenario",
+  "act",
+  "agenda",
+  "story",
 ] as const;
 
 export const ASSET_SLOT_ORDER = [
@@ -74,6 +77,17 @@ export const ASSET_SLOT_ORDER = [
   // - multi_slot
   // - permanent
   // - Other
+];
+
+export const FACTION_ORDER = [
+  "guardian",
+  "seeker",
+  "rogue",
+  "mystic",
+  "survivor",
+  "multiclass",
+  "neutral",
+  "mythos",
 ];
 
 export const SIDEWAYS_TYPE_CODES = ["act", "agenda", "investigator"];

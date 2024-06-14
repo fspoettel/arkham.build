@@ -11,5 +11,7 @@ export type SharedSlice = {
     queryCards: () => Promise<AllCardResponse>,
     refresh?: boolean,
   ): Promise<boolean>;
+
+  setActiveDeck(id?: string, type?: "view" | "edit"): void;
   saveDeck(): void;
 };

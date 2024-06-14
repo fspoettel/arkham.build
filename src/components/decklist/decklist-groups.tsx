@@ -2,11 +2,9 @@ import clsx from "clsx";
 
 import { useStore } from "@/store";
 import type { Grouping } from "@/store/lib/deck-grouping";
-import { sortBySlots } from "@/store/lib/sorting";
+import { sortByName, sortBySlots, sortTypesByOrder } from "@/store/lib/sorting";
 import { selectForbiddenCards } from "@/store/selectors/decks";
 import type { Card } from "@/store/services/queries.types";
-import type { PlayerType } from "@/utils/constants";
-import { PLAYER_TYPE_ORDER } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
 
 import css from "./decklist-groups.module.css";
@@ -60,11 +58,7 @@ export function DecklistGroups({
 
   const rest = Object.keys(group)
     .filter((g) => g !== "asset")
-    .toSorted(
-      (a, b) =>
-        PLAYER_TYPE_ORDER.indexOf(a as PlayerType) -
-        PLAYER_TYPE_ORDER.indexOf(b as PlayerType),
-    )
+    .toSorted(sortTypesByOrder)
     .map((key) => {
       const k = key as keyof Grouping;
       const entry = group[k] as Card[];
@@ -115,28 +109,26 @@ export function DecklistGroup({
 
   return (
     <ol>
-      {cards
-        .toSorted((a, b) => a.real_name.localeCompare(b.real_name))
-        .map((card) => (
-          <ListCard
-            as="li"
-            canIndicateRemoval
-            canShowOwnership
-            card={card}
-            disableEdits={mapping === "bonded"}
-            forbidden={
-              forbiddenCards.find(
-                (x) => x.code === card.code && x.target === mapping,
-              ) != null
-            }
-            ignored={ignoredCounts?.[card.code]}
-            key={card.code}
-            omitBorders
-            owned={ownershipCounts[card.code]}
-            quantities={quantities}
-            size="sm"
-          />
-        ))}
+      {cards.toSorted(sortByName).map((card) => (
+        <ListCard
+          as="li"
+          canIndicateRemoval
+          canShowOwnership
+          card={card}
+          disableEdits={mapping === "bonded"}
+          forbidden={
+            forbiddenCards.find(
+              (x) => x.code === card.code && x.target === mapping,
+            ) != null
+          }
+          ignored={ignoredCounts?.[card.code]}
+          key={card.code}
+          omitBorders
+          owned={ownershipCounts[card.code]}
+          quantities={quantities}
+          size="sm"
+        />
+      ))}
     </ol>
   );
 }

@@ -1,10 +1,13 @@
+import clsx from "clsx";
+
 export type Props = {
   code?: string;
+  className?: string;
 };
 
-function PackIcon({ code }: Props) {
+function PackIcon({ code, className }: Props) {
   const icon = getPackIcon(code);
-  return icon ? <i className={`encounters-${icon}`} /> : null;
+  return icon ? <i className={clsx(`encounters-${icon}`, className)} /> : null;
 }
 
 function getPackIcon(code?: string) {

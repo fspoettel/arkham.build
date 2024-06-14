@@ -4,7 +4,3 @@
   flex-flow: row nowrap;
   gap: 0.25rem;
 }
-
-.show-unusable-filter {
-  padding: 0.5rem 0.25rem;
-}

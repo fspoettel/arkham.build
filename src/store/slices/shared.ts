@@ -6,7 +6,7 @@ import { ALT_ART_INVESTIGATOR_MAP } from "@/utils/constants";
 
 import type { StoreState } from ".";
 import { mappedByCode, mappedById } from "../../utils/metadata-utils";
-import { getInitialFilters } from "./filters";
+import { getInitialOwnershipFilter, makeLists } from "./lists";
 import { createLookupTables, createRelations } from "./lookup-tables";
 import { getInitialMetadata } from "./metadata";
 import type { Metadata } from "./metadata.types";
@@ -22,7 +22,12 @@ export const createSharedSlice: StateCreator<
     const state = get();
 
     if (!refresh && state.metadata.dataVersion?.cards_updated_at) {
-      state.refreshLookupTables({ filters: getInitialFilters(state) });
+      state.refreshLookupTables({
+        lists: makeLists({
+          ownership: getInitialOwnershipFilter(state),
+        }),
+      });
+
       return false;
     }
 
@@ -123,7 +128,9 @@ export const createSharedSlice: StateCreator<
         ...state.ui,
         initialized: true,
       },
-      filters: getInitialFilters(state),
+      lists: makeLists({
+        ownership: getInitialOwnershipFilter(state),
+      }),
     });
 
     console.timeEnd("[perf] create_store_data");
@@ -163,5 +170,38 @@ export const createSharedSlice: StateCreator<
     });
 
     return nextDeck.id;
+  },
+
+  setActiveDeck(activeDeckId, mode) {
+    if (!activeDeckId || !mode) {
+      set({ activeList: "browse_player", deckView: null });
+      return;
+    }
+
+    if (mode === "view") {
+      set({
+        activeList: "editor_player",
+        deckView: {
+          id: activeDeckId,
+          mode,
+        },
+      });
+      return;
+    }
+
+    set({
+      activeList: "editor_player",
+      deckView: {
+        activeTab: "slots",
+        showUnusableCards: false,
+        id: activeDeckId,
+        edits: {
+          meta: {},
+          quantities: {},
+          customizations: {},
+        },
+        mode,
+      },
+    });
   },
 });

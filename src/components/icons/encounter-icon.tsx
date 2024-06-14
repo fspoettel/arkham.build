@@ -1,10 +1,15 @@
+import clsx from "clsx";
+
 export type Props = {
   code?: string;
+  className?: string;
 };
 
-function EncounterIcon({ code }: Props) {
+function EncounterIcon({ code, className }: Props) {
   const iconId = getEncounterIcon(code);
-  return iconId ? <i className={`encounters-${iconId}`} /> : null;
+  return iconId ? (
+    <i className={clsx(`encounters-${iconId}`, className)} />
+  ) : null;
 }
 
 function getEncounterIcon(code?: string) {

@@ -50,17 +50,9 @@ export type LookupTables = {
   skillBoosts: LookupTable<string>;
   // cards that occupy multiple slots are added to both slot entries and a separate grouped entry. They are also added to the `properties.multislot` index.
   slots: LookupTable<string>;
-  // Sort indexes help keep sorting operations fast by reducing time complexity of sorts to `O(n)`.
-  sort: {
-    alphabetical: Mapping<number>;
-  };
-  // used: filtering.
   traits: LookupTable<string>;
   uses: LookupTable<string>;
-  // used: filtering.
   level: LookupTable<number>;
-  // used: filtering.
-  tabooSet: LookupTable<number>;
 };
 
 export type LookupTablesSlice = {

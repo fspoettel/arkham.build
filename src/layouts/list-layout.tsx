@@ -3,6 +3,7 @@ import { useRef } from "react";
 
 import { CardSearch } from "@/components/card-list/card-search";
 import { CardTypeFilter } from "@/components/filters/card-type-filter";
+import { Footer } from "@/components/footer";
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/store";
@@ -104,6 +105,9 @@ export function ListLayout({
       >
         {filters}
       </nav>
+      <footer className={css["footer"]}>
+        <Footer />
+      </footer>
     </div>
   );
 }
