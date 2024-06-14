@@ -1,12 +1,14 @@
 .filters {
   --filters-spacing-x: 0.75rem;
-  --filters-spacing-y: 0.25rem;
+  --filters-spacing-y: 0.5rem;
 
   font-family: var(--font-family-ui);
   padding: var(--filters-spacing-y) var(--filters-spacing-x);
 }
 
 .filters-container {
+  padding-bottom: 1rem;
+
   & > * + * {
     margin-top: var(--filters-spacing-y);
   }

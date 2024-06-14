@@ -147,8 +147,10 @@ export function Combobox<T extends Coded>({
                 if (evt.key === "Enter" && activeIndex != null) {
                   evt.preventDefault();
                   const activeItem = filteredItems[activeIndex];
+
                   if (activeItem) {
                     setSelectedItem(activeItem);
+                    setOpen(false);
                   }
                 } else if (!isOpen) {
                   setOpen(true);
