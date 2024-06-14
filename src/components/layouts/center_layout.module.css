@@ -1,0 +1,15 @@
+.layout {
+  display: flex;
+  height: 100%;
+  flex-flow: column nowrap;
+}
+
+.layout-top {
+  flex: 0 1 8rem;
+  border-bottom: 2px solid currentColor;
+}
+
+.layout-main {
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
