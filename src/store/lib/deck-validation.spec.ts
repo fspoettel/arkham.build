@@ -10,6 +10,10 @@ import atleastFactionsInvalid from "@/test/fixtures/decks/validation/atleast_fac
 import baseCase from "@/test/fixtures/decks/validation/base_case.json";
 import covenantValid from "@/test/fixtures/decks/validation/covenant.json";
 import covenantInvalid from "@/test/fixtures/decks/validation/covenant_invalid.json";
+import extraSlotsForbidden from "@/test/fixtures/decks/validation/extra_slots_forbidden.json";
+import extraSlotsTooManyCards from "@/test/fixtures/decks/validation/extra_slots_too_many_cards.json";
+import extraSlotsTooManyCopies from "@/test/fixtures/decks/validation/extra_slots_too_many_copies.json";
+import extraSlotsValid from "@/test/fixtures/decks/validation/extra_slots_valid.json";
 import forcedLearning from "@/test/fixtures/decks/validation/forced_learning.json";
 import limitCarolyn from "@/test/fixtures/decks/validation/limit_carolyn.json";
 import limitCarolynInvalid from "@/test/fixtures/decks/validation/limit_carolyn_invalid.json";
@@ -699,6 +703,67 @@ describe("deck validation", () => {
           ]
         `);
       });
+    });
+  });
+
+  describe("extra deck", () => {
+    it("handles case: valid extra deck", () => {
+      const result = validate(store, extraSlotsValid);
+      expect(result.valid).toBeTruthy();
+    });
+
+    it("handles case: extra deck has too many cards", () => {
+      const result = validate(store, extraSlotsTooManyCards);
+      expect(result.valid).toBeFalsy();
+      expect(result.errors).toMatchInlineSnapshot(`
+        [
+          {
+            "details": {
+              "target": "extraSlots",
+            },
+            "type": "TOO_MANY_CARDS",
+          },
+        ]
+      `);
+    });
+
+    it("handles case: extra deck has too many copies of a card", () => {
+      const result = validate(store, extraSlotsTooManyCopies);
+      expect(result.valid).toBeFalsy();
+      expect(result.errors).toMatchInlineSnapshot(`
+        [
+          {
+            "details": [
+              {
+                "code": "01018",
+                "limit": 1,
+                "quantity": 2,
+                "real_name": "Beat Cop",
+              },
+            ],
+            "type": "INVALID_CARD_COUNT",
+          },
+        ]
+      `);
+    });
+
+    it("handles case: extra deck contains forbidden cards", () => {
+      const result = validate(store, extraSlotsForbidden);
+      expect(result.valid).toBeFalsy();
+      expect(result.errors).toMatchInlineSnapshot(`
+        [
+          {
+            "details": [
+              {
+                "code": "06285",
+                "real_name": "The Black Cat",
+                "target": "extraSlots",
+              },
+            ],
+            "type": "FORBIDDEN",
+          },
+        ]
+      `);
     });
   });
 });
