@@ -57,6 +57,7 @@ export function DeckEditSidebar({ deck }: Props) {
             <DecklistSection title="Cards">
               <DecklistGroups
                 group={deck.groups.main.data}
+                ignoredCounts={deck.ignoreDeckLimitSlots ?? undefined}
                 layout="two_column"
                 mapping="slots"
                 ownershipCounts={deck.ownershipCounts}
@@ -66,6 +67,7 @@ export function DeckEditSidebar({ deck }: Props) {
             <DecklistSection showTitle title="Special cards">
               <DecklistGroups
                 group={deck.groups.special.data}
+                ignoredCounts={deck.ignoreDeckLimitSlots ?? undefined}
                 layout="two_column"
                 mapping="slots"
                 ownershipCounts={deck.ownershipCounts}

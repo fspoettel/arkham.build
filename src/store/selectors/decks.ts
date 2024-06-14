@@ -3,11 +3,13 @@ import { createSelector } from "reselect";
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import { groupDeckCardsByType } from "@/store/lib/deck-grouping";
 import { resolveDeck } from "@/store/lib/resolve-deck";
+import { SPECIAL_CARD_CODES } from "@/utils/constants";
 
 import { applyDeckEdits } from "../lib/deck-edits";
 import type { ForbiddenCardError } from "../lib/deck-validation";
 import { validateDeck } from "../lib/deck-validation";
 import type { ResolvedCard, ResolvedDeck } from "../lib/types";
+import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import { type Slot, mapTabToSlot } from "../slices/deck-view.types";
 
@@ -139,4 +141,28 @@ export function selectCardQuantities(state: StoreState) {
 export const selectCurrentTab = (state: StoreState) => {
   if (!state.deckView || state.deckView.mode === "view") return "slots";
   return state.deckView.activeTab;
+};
+
+export const selectShowIgnoreDeckLimitSlots = (
+  state: StoreState,
+  card: Card,
+) => {
+  const activeDeck = selectActiveDeck(state);
+  if (!activeDeck) return false;
+
+  const traits = card.real_traits ?? "";
+  const investigator = activeDeck.investigatorBack.card.code;
+
+  return (
+    // cards that are already ignored.
+    !!activeDeck.ignoreDeckLimitSlots?.[card.code] ||
+    // parallel agnes & spells
+    (investigator === SPECIAL_CARD_CODES.PARALLEL_AGNES &&
+      traits.includes("Spell")) ||
+    // parallel skids & gambit / fortune
+    (investigator === SPECIAL_CARD_CODES.PARALLEL_SKIDS &&
+      (traits.includes("Gambit") || traits.includes("Fortunes"))) ||
+    // ace of rods
+    card.code === SPECIAL_CARD_CODES.ACE_OF_RODS
+  );
 };

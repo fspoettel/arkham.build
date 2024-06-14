@@ -95,6 +95,12 @@ export function applyDeckEdits(
       delete extraSlots[code];
   }
 
+  if (deck.ignoreDeckLimitSlots) {
+    for (const [code, quantity] of Object.entries(deck.ignoreDeckLimitSlots)) {
+      if (!quantity) delete deck.ignoreDeckLimitSlots[code];
+    }
+  }
+
   deck.meta = JSON.stringify({
     ...deckMeta,
     ...deckView.edits.meta,

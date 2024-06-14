@@ -1,6 +1,6 @@
 import type { ReferenceType } from "@floating-ui/react";
 import clsx from "clsx";
-import { FileWarning } from "lucide-react";
+import { FileWarning, Star } from "lucide-react";
 import type { ComponentProps, ElementType, ReactNode } from "react";
 import { useCallback } from "react";
 
@@ -34,6 +34,7 @@ export type Props = {
   className?: string;
   figureRef?: (node: ReferenceType | null) => void;
   forbidden?: boolean;
+  ignored?: number;
   omitBorders?: boolean;
   owned?: number;
   size?: "sm";
@@ -54,6 +55,7 @@ export function ListCardInner({
   disableEdits,
   figureRef,
   forbidden,
+  ignored,
   omitBorders,
   owned,
   referenceProps,
@@ -65,6 +67,7 @@ export function ListCardInner({
 
   const quantity = quantities ? quantities[card.code] ?? 0 : 0;
   const ownedCount = owned ?? 0;
+  const ignoredCount = ignored ?? 0;
 
   const canEdit = useStore(selectCanEditDeck);
   const changeCardQuantity = useStore((state) => state.changeCardQuantity);
@@ -134,6 +137,7 @@ export function ListCardInner({
                 {card.real_name}
               </button>
             </h4>
+
             {canShowOwnership && ownedCount < quantity && (
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -143,7 +147,23 @@ export function ListCardInner({
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>
-                    Unavailable: {quantity - ownedCount}/{quantity}
+                    Unavailable: {quantity - ownedCount} of {quantity}
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            )}
+            {ignoredCount > 0 && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span className={css["listcard-ignored"]}>
+                    <Star />
+                  </span>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>
+                    {ignoredCount}{" "}
+                    {ignoredCount === 1 ? "copy does" : "copies do"} not count
+                    towards the deck limit.
                   </p>
                 </TooltipContent>
               </Tooltip>

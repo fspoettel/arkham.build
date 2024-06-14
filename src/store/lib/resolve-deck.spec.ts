@@ -254,6 +254,17 @@ describe("resolveDeck", () => {
         deckSizeTotal: 9,
       });
     });
+
+    it("calculates player card count correctly for parallel agnes when over deck_limit", () => {
+      const { metadata, lookupTables } = store.getState();
+      const deck = structuredClone(deckSizeParallelAgnes);
+      deck.slots["02154"] = 4;
+      const resolved = resolveDeck(metadata, lookupTables, deck, true);
+      expect(resolved.stats).toMatchObject({
+        deckSize: 4,
+        deckSizeTotal: 11,
+      });
+    });
   });
 
   describe("extra deck", () => {

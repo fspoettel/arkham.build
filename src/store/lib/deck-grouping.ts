@@ -97,12 +97,7 @@ export function groupDeckCardsByType(
       showAllSetting,
     );
 
-    // ignore deck limit slots should always go to special, as it can contain duplicate cards of normal slots.
-    //example: Ace of Rods in TCU; Parallel Agnes upgrades.
-    if (
-      !!deck.ignoreDeckLimitSlots?.[card.code] ||
-      isSpecialCard(card, deck.cards.investigator, true)
-    ) {
+    if (isSpecialCard(card, deck.cards.investigator, true)) {
       addCardToGrouping(groupings, "special", card);
     } else {
       addCardToGrouping(groupings, "main", card);

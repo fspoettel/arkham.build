@@ -37,6 +37,7 @@ export function Decklist({ deck }: Props) {
         <DecklistSection title={LABELS["main"]}>
           <DecklistGroups
             group={deck.groups.main.data}
+            ignoredCounts={deck.ignoreDeckLimitSlots ?? undefined}
             layout="two_column"
             mapping="slots"
             ownershipCounts={deck.ownershipCounts}
@@ -49,6 +50,7 @@ export function Decklist({ deck }: Props) {
             <DecklistSection showTitle title={LABELS["special"]}>
               <DecklistGroups
                 group={deck.groups.special.data}
+                ignoredCounts={deck.ignoreDeckLimitSlots ?? undefined}
                 layout="one_column"
                 mapping="slots"
                 ownershipCounts={deck.ownershipCounts}

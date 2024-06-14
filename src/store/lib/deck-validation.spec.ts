@@ -34,6 +34,7 @@ import mandySignatureCountInvalid from "@/test/fixtures/decks/validation/mandy_s
 import mandyTabooValid from "@/test/fixtures/decks/validation/mandy_taboo.json";
 import mandyTooFewCards from "@/test/fixtures/decks/validation/mandy_too_few_cards.json";
 import mandyTooManyCards from "@/test/fixtures/decks/validation/mandy_too_many_cards.json";
+import parallelAgnesValid from "@/test/fixtures/decks/validation/parallel_agnes.json";
 import parallelWendy from "@/test/fixtures/decks/validation/parallel_wendy.json";
 import parallelWendyInvalid from "@/test/fixtures/decks/validation/parallel_wendy_invalid.json";
 import requiredAdvanced from "@/test/fixtures/decks/validation/required_advanced.json";
@@ -820,6 +821,51 @@ describe("deck validation", () => {
                 "limit": 1,
                 "quantity": 2,
                 "real_name": "Vengeful Shade",
+              },
+            ],
+            "type": "INVALID_CARD_COUNT",
+          },
+        ]
+      `);
+    });
+  });
+
+  describe("ignore deck limit", () => {
+    it("handles case: parallel agnes, valid", () => {
+      const result = validate(store, parallelAgnesValid);
+      expect(result.valid).toBeTruthy();
+    });
+
+    it("handles case: parallel agnes, valid (over deck_limit)", () => {
+      const deck = structuredClone(parallelAgnesValid);
+      deck.slots["06201"] = 4;
+      deck.slots["10102"] = 0;
+      const result = validate(store, deck);
+      expect(result.valid).toBeTruthy();
+    });
+
+    it("handles case: parallel agnes, invalid (over deck_limit)", () => {
+      const deck = structuredClone(parallelAgnesValid);
+      deck.slots["06201"] = 4;
+      deck.slots["10102"] = 0;
+      deck.ignoreDeckLimitSlots["06201"] = 1;
+      const result = validate(store, deck);
+      expect(result.valid).toBeFalsy();
+      expect(result.errors).toMatchInlineSnapshot(`
+        [
+          {
+            "details": {
+              "target": "slots",
+            },
+            "type": "TOO_MANY_CARDS",
+          },
+          {
+            "details": [
+              {
+                "code": "06201",
+                "limit": 2,
+                "quantity": 3,
+                "real_name": "Spectral Razor",
               },
             ],
             "type": "INVALID_CARD_COUNT",

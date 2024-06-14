@@ -16,6 +16,7 @@ import SlotIcon from "../icons/slot-icon";
 
 type Props = {
   group: Grouping;
+  ignoredCounts?: Record<string, number>;
   quantities?: Record<string, number>;
   layout: "one_column" | "two_column";
   mapping: string;
@@ -24,6 +25,7 @@ type Props = {
 
 export function DecklistGroups({
   group,
+  ignoredCounts,
   layout,
   mapping,
   ownershipCounts,
@@ -44,6 +46,7 @@ export function DecklistGroups({
                 </h5>
                 <DecklistGroup
                   cards={val}
+                  ignoredCounts={ignoredCounts}
                   mapping={mapping}
                   ownershipCounts={ownershipCounts}
                   quantities={quantities}
@@ -71,6 +74,7 @@ export function DecklistGroups({
           <h4 className={css["group-title"]}>{capitalize(k)}</h4>
           <DecklistGroup
             cards={entry}
+            ignoredCounts={ignoredCounts}
             mapping={mapping}
             ownershipCounts={ownershipCounts}
             quantities={quantities}
@@ -92,17 +96,21 @@ export function DecklistGroups({
   );
 }
 
-export function DecklistGroup({
-  cards,
-  quantities,
-  mapping,
-  ownershipCounts,
-}: {
-  quantities?: Record<string, number>;
+type DecklistGroupProps = {
   cards: Card[];
+  ignoredCounts?: Record<string, number>;
   mapping: string;
   ownershipCounts: Record<string, number>;
-}) {
+  quantities?: Record<string, number>;
+};
+
+export function DecklistGroup({
+  cards,
+  ignoredCounts,
+  mapping,
+  ownershipCounts,
+  quantities,
+}: DecklistGroupProps) {
   const forbiddenCards = useStore(selectForbiddenCards);
 
   return (
@@ -121,6 +129,7 @@ export function DecklistGroup({
                 (x) => x.code === card.code && x.target === mapping,
               ) != null
             }
+            ignored={ignoredCounts?.[card.code]}
             key={card.code}
             omitBorders
             owned={ownershipCounts[card.code]}

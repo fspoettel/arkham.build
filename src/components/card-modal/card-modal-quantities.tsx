@@ -1,7 +1,10 @@
 import { type MouseEvent, useCallback, useRef } from "react";
 
 import { useStore } from "@/store";
-import { selectCardQuantitiesForSlot } from "@/store/selectors/decks";
+import {
+  selectCardQuantitiesForSlot,
+  selectShowIgnoreDeckLimitSlots,
+} from "@/store/selectors/decks";
 import type { Card } from "@/store/services/queries.types";
 import type { Slot } from "@/store/slices/deck-view.types";
 
@@ -51,9 +54,17 @@ export function CardModalQuantities({
     selectCardQuantitiesForSlot(state, "bondedSlots"),
   );
 
+  const ignoreDeckLimitQuantities = useStore((state) =>
+    selectCardQuantitiesForSlot(state, "ignoreDeckLimitSlots"),
+  );
+
   const onChangeQuantity = (quantity: number, slot: Slot) => {
     changeCardQuantity(card.code, quantity, slot);
   };
+
+  const showIgnoreDeckLimitSlots = useStore((state) =>
+    selectShowIgnoreDeckLimitSlots(state, card),
+  );
 
   const code = card.code;
   const limit = card.deck_limit || card.quantity;
@@ -67,7 +78,7 @@ export function CardModalQuantities({
           <h3>Deck</h3>
           <QuantityInput
             disabled={!canEdit}
-            limit={limit}
+            limit={limit + (ignoreDeckLimitQuantities?.[code] ?? 0)}
             onValueChange={(quantity) => onChangeQuantity(quantity, "slots")}
             value={quantities?.[code] ?? 0}
           />
@@ -106,6 +117,19 @@ export function CardModalQuantities({
               onChangeQuantity(quantity, "extraSlots")
             }
             value={extraSlotQuantities?.[code] ?? 0}
+          />
+        </article>
+      )}
+      {!isBonded && showIgnoreDeckLimitSlots && (
+        <article className={css["cardmodal-quantity"]}>
+          <h3>Ignore deck limit</h3>
+          <QuantityInput
+            disabled={!canEdit}
+            limit={limit}
+            onValueChange={(quantity) =>
+              onChangeQuantity(quantity, "ignoreDeckLimitSlots")
+            }
+            value={ignoreDeckLimitQuantities?.[code] ?? 0}
           />
         </article>
       )}

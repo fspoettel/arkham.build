@@ -1,11 +1,20 @@
 import type { DeckOptionSelectType } from "@/store/services/queries.types";
 
-export type Slot = "slots" | "sideSlots" | "extraSlots";
+export type Slot =
+  | "slots"
+  | "sideSlots"
+  | "extraSlots"
+  | "ignoreDeckLimitSlots";
 
 export type Tab = Slot | "meta";
 
 export function isSlot(value: string): value is Slot {
-  return value === "slots" || value === "sideSlots" || value === "extraSlots";
+  return (
+    value === "slots" ||
+    value === "sideSlots" ||
+    value === "extraSlots" ||
+    value === "ignoreDeckLimitSlots"
+  );
 }
 
 export function isTab(value: string): value is Tab {
@@ -18,6 +27,8 @@ export function mapTabToSlot(tab: Tab): Slot {
       return "extraSlots";
     case "sideSlots":
       return "sideSlots";
+    case "ignoreDeckLimitSlots":
+      return "ignoreDeckLimitSlots";
     default:
       return "slots";
   }
@@ -36,9 +47,10 @@ export type CustomizationEdit = {
 export type EditState = {
   edits: {
     quantities: {
-      slots?: SlotEdit[];
-      sideSlots?: SlotEdit[];
       extraSlots?: SlotEdit[];
+      ignoreDeckLimitSlots?: SlotEdit[];
+      sideSlots?: SlotEdit[];
+      slots?: SlotEdit[];
     };
     name?: string | null;
     description_md?: string | null;

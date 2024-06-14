@@ -51,11 +51,12 @@ export function decodeSlots<
       deckSizeTotal += quantity;
       xpRequired += countExperience(card.card, quantity);
       cards.slots[code] = card as S;
-      if (
-        !deck.ignoreDeckLimitSlots?.[code] &&
-        !isSpecialCard(card.card, investigator)
-      ) {
-        deckSize += quantity;
+
+      if (!isSpecialCard(card.card, investigator)) {
+        deckSize += Math.max(
+          quantity - (deck.ignoreDeckLimitSlots?.[code] ?? 0),
+          0,
+        );
       }
     }
   }

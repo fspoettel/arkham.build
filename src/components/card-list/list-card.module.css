@@ -153,3 +153,8 @@
   color: var(--nord-4);
   font-weight: 700;
 }
+
+.listcard-ignored svg {
+  stroke: var(--nord-7);
+  fill: var(--nord-7);
+}
