@@ -31,6 +31,20 @@ type BaseError = {
   type: ValidationError;
 };
 
+export type TooManyCardsError = {
+  type: "TOO_MANY_CARDS";
+  details: {
+    target: "slots" | "extraSlots";
+  };
+};
+
+export type TooFewCardsError = {
+  type: "TOO_FEW_CARDS";
+  details: {
+    target: "slots" | "extraSlots";
+  };
+};
+
 export type DeckOptionsError = {
   type: "INVALID_DECK_OPTION";
   details: {
@@ -61,7 +75,9 @@ type Error =
   | BaseError
   | InvalidCardError
   | ForbiddenCardError
-  | DeckOptionsError;
+  | DeckOptionsError
+  | TooManyCardsError
+  | TooFewCardsError;
 
 function formatReturnValue(errors: Error[]) {
   return { valid: errors.length === 0, errors };
@@ -112,7 +128,7 @@ export function validateDeck(
   ];
 
   if (deck.hasExtraDeck) {
-    errors.push(...validateSideDeckSize(deck));
+    errors.push(...validateExtraDeckSize(deck));
     errors.push(...validateSlots(deck, state, "extraSlots"));
   }
 
@@ -188,12 +204,12 @@ function validateDeckSize(deck: ResolvedDeck<ResolvedCard>): Error[] {
 
   return deckSize !== targetDeckSize
     ? deckSize > targetDeckSize
-      ? [{ type: "TOO_MANY_CARDS" }]
-      : [{ type: "TOO_FEW_CARDS" }]
+      ? [{ type: "TOO_MANY_CARDS", details: { target: "slots" } }]
+      : [{ type: "TOO_FEW_CARDS", details: { target: "slots" } }]
     : [];
 }
 
-function validateSideDeckSize(deck: ResolvedDeck<ResolvedCard>): Error[] {
+function validateExtraDeckSize(deck: ResolvedDeck<ResolvedCard>): Error[] {
   const investigatorBack = deck.investigatorBack.card;
   // FIXME: this is a hack. Instead, we should not count signatures towards side deck size.
   const targetDeckSize =
@@ -206,8 +222,8 @@ function validateSideDeckSize(deck: ResolvedDeck<ResolvedCard>): Error[] {
 
   return deckSize !== targetDeckSize
     ? deckSize > targetDeckSize
-      ? [{ type: "TOO_MANY_CARDS" }]
-      : [{ type: "TOO_FEW_CARDS" }]
+      ? [{ type: "TOO_MANY_CARDS", details: { target: "extraSlots" } }]
+      : [{ type: "TOO_FEW_CARDS", details: { target: "extraSlots" } }]
     : [];
 }
 
