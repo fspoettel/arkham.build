@@ -229,7 +229,8 @@ export function getRelatedCardQuantity(
   set: ResolvedCard | ResolvedCard[],
 ) {
   const cards = Array.isArray(set) ? set : [set];
-  const canShowQuantity = key !== "parallel" && key !== "level";
+  const canShowQuantity =
+    key !== "parallel" && key !== "level" && key !== "restrictedTo";
 
   return canShowQuantity
     ? cards.reduce(
