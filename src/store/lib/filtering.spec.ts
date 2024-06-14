@@ -190,9 +190,9 @@ describe("filter: investigator access", () => {
         selections: {
           faction_selected: { value: "seeker" },
         },
-      };
+      } as any;
 
-      expect(applyFilter(state, "06003", "01036", config as any)).toBeTruthy();
+      expect(applyFilter(state, "06003", "01036", config)).toBeTruthy();
     });
 
     it("returns false if faction is specified and card maps to option not chosen", () => {
@@ -202,10 +202,10 @@ describe("filter: investigator access", () => {
         selections: {
           faction_selected: { value: "seeker" },
         },
-      };
+      } as any;
 
-      expect(applyFilter(state, "06003", "03156", config as any)).toBeFalsy();
-      expect(applyFilter(state, "06003", "52002", config as any)).toBeFalsy();
+      expect(applyFilter(state, "06003", "03156", config)).toBeFalsy();
+      expect(applyFilter(state, "06003", "52002", config)).toBeFalsy();
     });
 
     it("returns true if faction is specified and is among chosen options", () => {
@@ -216,10 +216,10 @@ describe("filter: investigator access", () => {
           faction_1: { value: "survivor" },
           faction_2: { value: "mystic" },
         },
-      };
+      } as any;
 
-      expect(applyFilter(state, "09018", "03156", config as any)).toBeTruthy();
-      expect(applyFilter(state, "09018", "60420", config as any)).toBeTruthy();
+      expect(applyFilter(state, "09018", "03156", config)).toBeTruthy();
+      expect(applyFilter(state, "09018", "60420", config)).toBeTruthy();
     });
 
     it("returns false if faction is specified and card maps to option not among chosen options", () => {
@@ -230,11 +230,11 @@ describe("filter: investigator access", () => {
           faction_1: { value: "survivor" },
           faction_2: { value: "mystic" },
         },
-      };
+      } as any;
 
-      expect(applyFilter(state, "09018", "09052", config as any)).toBeFalsy();
-      expect(applyFilter(state, "09018", "09022", config as any)).toBeFalsy();
-      expect(applyFilter(state, "09018", "07025", config as any)).toBeFalsy();
+      expect(applyFilter(state, "09018", "09052", config)).toBeFalsy();
+      expect(applyFilter(state, "09018", "09022", config)).toBeFalsy();
+      expect(applyFilter(state, "09018", "07025", config)).toBeFalsy();
     });
   });
 
@@ -297,11 +297,11 @@ describe("filter: investigator access", () => {
         selections: {
           option_selected: { value: { id: "both" } },
         },
-      };
+      } as any;
 
-      expect(applyFilter(state, "90037", "07192", config as any)).toBeTruthy();
-      expect(applyFilter(state, "90037", "10104", config as any)).toBeTruthy();
-      expect(applyFilter(state, "90037", "05194", config as any)).toBeTruthy();
+      expect(applyFilter(state, "90037", "07192", config)).toBeTruthy();
+      expect(applyFilter(state, "90037", "10104", config)).toBeTruthy();
+      expect(applyFilter(state, "90037", "05194", config)).toBeTruthy();
     });
 
     it("handles option selection with single traits", () => {
@@ -311,11 +311,11 @@ describe("filter: investigator access", () => {
         selections: {
           option_selected: { value: { id: "blessed" } },
         },
-      };
+      } as any;
 
-      expect(applyFilter(state, "90037", "07192", config as any)).toBeTruthy();
-      expect(applyFilter(state, "90037", "10104", config as any)).toBeTruthy();
-      expect(applyFilter(state, "90037", "05194", config as any)).toBeFalsy();
+      expect(applyFilter(state, "90037", "07192", config)).toBeTruthy();
+      expect(applyFilter(state, "90037", "10104", config)).toBeTruthy();
+      expect(applyFilter(state, "90037", "05194", config)).toBeFalsy();
     });
 
     it("handles other option selection with single traits", () => {
@@ -325,11 +325,49 @@ describe("filter: investigator access", () => {
         selections: {
           option_selected: { value: { id: "cursed" } },
         },
-      };
+      } as any;
 
-      expect(applyFilter(state, "90037", "07192", config as any)).toBeFalsy();
-      expect(applyFilter(state, "90037", "10104", config as any)).toBeTruthy();
-      expect(applyFilter(state, "90037", "05194", config as any)).toBeTruthy();
+      expect(applyFilter(state, "90037", "07192", config)).toBeFalsy();
+      expect(applyFilter(state, "90037", "10104", config)).toBeTruthy();
+      expect(applyFilter(state, "90037", "05194", config)).toBeTruthy();
+    });
+  });
+
+  describe("parallel jim: extra deck", () => {
+    it("handles slots mode when investigator has an extra deck", () => {
+      const state = store.getState();
+
+      const config = {
+        targetDeck: "slots",
+      } as any;
+
+      expect(applyFilter(state, "90049", "01018", config)).toBeFalsy();
+      expect(applyFilter(state, "90049", "03266", config)).toBeTruthy();
+      expect(applyFilter(state, "90049", "01063", config)).toBeTruthy();
+    });
+
+    it("handles extraSlots mode when investigator has an extra deck", () => {
+      const state = store.getState();
+
+      const config = {
+        targetDeck: "extraSlots",
+      } as any;
+
+      expect(applyFilter(state, "90049", "01018", config)).toBeTruthy();
+      expect(applyFilter(state, "90049", "01063", config)).toBeTruthy();
+      expect(applyFilter(state, "90049", "03266", config)).toBeFalsy();
+    });
+
+    it("handles both mode when investigator has an extra deck", () => {
+      const state = store.getState();
+
+      const config = {
+        targetDeck: "both",
+      } as any;
+
+      expect(applyFilter(state, "90049", "01018", config)).toBeTruthy();
+      expect(applyFilter(state, "90049", "01063", config)).toBeTruthy();
+      expect(applyFilter(state, "90049", "03266", config)).toBeTruthy();
     });
   });
 });

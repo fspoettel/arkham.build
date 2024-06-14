@@ -11,6 +11,7 @@ import baseCase from "@/test/fixtures/decks/validation/base_case.json";
 import covenantValid from "@/test/fixtures/decks/validation/covenant.json";
 import covenantInvalid from "@/test/fixtures/decks/validation/covenant_invalid.json";
 import extraSlotsForbidden from "@/test/fixtures/decks/validation/extra_slots_forbidden.json";
+import extraSlotsTooFewCards from "@/test/fixtures/decks/validation/extra_slots_too_few_cards.json";
 import extraSlotsTooManyCards from "@/test/fixtures/decks/validation/extra_slots_too_many_cards.json";
 import extraSlotsTooManyCopies from "@/test/fixtures/decks/validation/extra_slots_too_many_copies.json";
 import extraSlotsValid from "@/test/fixtures/decks/validation/extra_slots_valid.json";
@@ -761,6 +762,67 @@ describe("deck validation", () => {
               },
             ],
             "type": "FORBIDDEN",
+          },
+        ]
+      `);
+    });
+
+    it("handles case: extra deck has too few cards", () => {
+      const result = validate(store, extraSlotsTooFewCards);
+      expect(result.valid).toBeFalsy();
+      expect(result.errors).toMatchInlineSnapshot(`
+        [
+          {
+            "details": {
+              "target": "extraSlots",
+            },
+            "type": "TOO_FEW_CARDS",
+          },
+        ]
+      `);
+    });
+
+    it("handles case: extra deck is missing signature", () => {
+      const deck = structuredClone(extraSlotsValid);
+      deck.meta = deck.meta.replace("90053", "60213");
+
+      const result = validate(store, deck);
+
+      expect(result.valid).toBeFalsy();
+      expect(result.errors).toMatchInlineSnapshot(`
+        [
+          {
+            "type": "DECK_REQUIREMENTS_NOT_MET",
+          },
+        ]
+      `);
+    });
+
+    it("handles case: extra deck too many missing signature", () => {
+      const deck = structuredClone(extraSlotsValid);
+      deck.meta = deck.meta.replace("90053", "90053,90053");
+
+      const result = validate(store, deck);
+
+      expect(result.valid).toBeFalsy();
+      expect(result.errors).toMatchInlineSnapshot(`
+        [
+          {
+            "details": {
+              "target": "extraSlots",
+            },
+            "type": "TOO_MANY_CARDS",
+          },
+          {
+            "details": [
+              {
+                "code": "90053",
+                "limit": 1,
+                "quantity": 2,
+                "real_name": "Vengeful Shade",
+              },
+            ],
+            "type": "INVALID_CARD_COUNT",
           },
         ]
       `);

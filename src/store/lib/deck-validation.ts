@@ -658,7 +658,7 @@ class SideDeckLimitsValidator implements SlotValidator {
       const card = this.cards[i];
       const quantity = this.quantities[i];
 
-      if (quantity > 1) {
+      if (quantity > 1 && card.xp != null) {
         errors.push({
           type: "INVALID_CARD_COUNT",
           details: [
