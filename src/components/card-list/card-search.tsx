@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useStore } from "@/store";
 import { debounce } from "@/utils/debounce";
@@ -9,12 +9,19 @@ import { Checkbox } from "../ui/checkbox";
 import { SearchInput } from "../ui/search-input";
 
 export function CardSearch() {
+  const inputRef = useRef<HTMLInputElement>(null);
   const setSearchValue = useStore((state) => state.setSearchValue);
   const setSearchFlag = useStore((state) => state.setSearchFlag);
   const search = useStore((state) => state.search);
   const searchOpen = useStore((state) => state.ui.searchOpen);
 
   const [inputValue, setInputValue] = useState(search.value);
+
+  useEffect(() => {
+    if (searchOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [searchOpen]);
 
   const debouncedSetSearchValue = useMemo(
     () => debounce(setSearchValue, 50),
@@ -60,6 +67,7 @@ export function CardSearch() {
         <div className={css["search-input"]}>
           <SearchInput
             autoFocus
+            ref={inputRef}
             tabIndex={0}
             className={css["search-field"]}
             inputClassName={css["search-input-field"]}
