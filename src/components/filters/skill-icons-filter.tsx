@@ -48,6 +48,7 @@ export function SkillIconsFilter() {
 
   return (
     <FilterContainer
+      alwaysShowFilterString
       filterString={changes}
       onOpenChange={onOpenChange}
       onReset={onReset}
