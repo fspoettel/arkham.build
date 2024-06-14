@@ -57,6 +57,13 @@ export function groupDeckCardsByType(deck: ResolvedDeck<CardWithRelations>) {
 
   const bonded: Card[] = [];
 
+  const investigatorRelations = deck.investigatorFront?.relations;
+  if (investigatorRelations?.bound?.length) {
+    for (const { card } of investigatorRelations.bound) {
+      bonded.push(card);
+    }
+  }
+
   for (const resolvedCard of Object.values(deck.cards.slots)) {
     const card = resolvedCard.card;
 
@@ -74,6 +81,7 @@ export function groupDeckCardsByType(deck: ResolvedDeck<CardWithRelations>) {
     // Collect bonded cards, filtering out duplicates.
     // These can occur when e.g. two versions of `Dream Diary` are in a deck.
     const bound = resolvedCard.relations?.bound;
+
     if (bound?.length) {
       for (const { card } of bound) {
         if (

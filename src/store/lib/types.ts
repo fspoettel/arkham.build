@@ -116,8 +116,8 @@ export type ResolvedDeck<T extends ResolvedCard | CardWithRelations> = Omit<
     ignoreDeckLimitSlots: Record<string, T>;
     extraSlots: Record<string, T>; // used by parallel jim.
   };
-  investigatorFront: ResolvedCard; // does not track relations.
-  investigatorBack: ResolvedCard; // does not track relations.
+  investigatorFront: CardWithRelations;
+  investigatorBack: CardWithRelations;
   stats: {
     xpRequired: number;
     deckSize: number;
