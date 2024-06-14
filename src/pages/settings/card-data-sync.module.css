@@ -2,10 +2,26 @@
   margin-top: 1rem;
 }
 
+.sync p {
+  font-family: var(--font-family-ui);
+  font-size: var(--text-sm);
+}
+
 .sync-status p {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.25rem;
+  padding: 0.125rem 0.5rem;
+  border: 1px solid var(--nord-3);
+  border-radius: var(--rounded-lg);
+}
+
+.sync .sync-status svg {
+  color: var(--nord-13);
+}
+
+.sync.uptodate .sync-status svg {
+  color: var(--nord-14);
 }
 
 .sync-info {

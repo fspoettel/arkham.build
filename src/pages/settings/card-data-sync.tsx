@@ -1,4 +1,5 @@
 import { CheckIcon, DoubleArrowUpIcon } from "@radix-ui/react-icons";
+import clsx from "clsx";
 import { useCallback, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -57,10 +58,10 @@ export function CardDataSync() {
 
   return (
     <>
-      <Field className={css["sync"]}>
+      <Field className={clsx(css["sync"], upToDate && css["uptodate"])}>
         <Button
           onClick={syncData}
-          disabled={loading || !!error || upToDate}
+          disabled={loading || !!error}
           className={css["sync-action"]}
           type="button"
         >
