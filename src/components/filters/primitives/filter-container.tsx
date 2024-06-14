@@ -6,7 +6,7 @@ import { Collapsible, CollapsibleContent } from "../../ui/collapsible";
 
 type Props = {
   children: ReactNode;
-  nonCollapsibleContent: ReactNode;
+  nonCollapsibleContent?: ReactNode;
   alwaysShowFilterString?: boolean;
   filterString?: string;
   open: boolean;

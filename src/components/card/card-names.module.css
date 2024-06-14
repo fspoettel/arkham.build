@@ -4,7 +4,7 @@
   & span {
     display: inline-block;
     margin-left: 0.125rem;
-    font-size: var(--text-md);
+    font-size: var(--text-base);
   }
 }
 
@@ -16,7 +16,7 @@
 .sub {
   font-style: italic;
   font-weight: 400;
-  font-size: var(--text-md);
+  font-size: var(--text-base);
 }
 
 .parallel {

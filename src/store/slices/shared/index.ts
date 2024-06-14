@@ -6,6 +6,7 @@ import {
   queryMetadata,
 } from "@/store/services/queries";
 import { Card } from "@/store/services/types";
+import { getInitialOwnershipFilter } from "@/store/utils/settings";
 import { rewriteImageUrl } from "@/utils/card-utils";
 
 import { StoreState } from "..";
@@ -125,21 +126,16 @@ export const createSharedSlice: StateCreator<
 });
 
 export function getInitialFilters(state: StoreState): StoreState["filters"] {
-  const initialOwnershipSetting = Object.values(state.settings.collection).some(
-    (x) => x,
-  )
-    ? ("owned" as const)
-    : ("all" as const);
-
+  const initialOwnershipSetting = getInitialOwnershipFilter(state);
   return {
     ...state.filters,
     player: {
       ...state.filters.player,
-      ownership: { value: initialOwnershipSetting, open: false },
+      ownership: initialOwnershipSetting,
     },
     encounter: {
       ...state.filters.encounter,
-      ownership: { value: initialOwnershipSetting, open: false },
+      ownership: initialOwnershipSetting,
     },
   };
 }

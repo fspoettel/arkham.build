@@ -27,7 +27,7 @@
   }
 
   @media screen and (min-width: 72rem) {
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto 1fr;
     grid-template-areas:
       "header header header"
       "left main right";

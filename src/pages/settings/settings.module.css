@@ -3,7 +3,7 @@
 }
 
 .settings > * + * {
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 }
 
 .settings-header {
@@ -11,7 +11,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 2rem;
+  gap: 1.5rem;
   margin-top: -0.25rem;
   padding: 0.25rem 0;
   position: sticky;

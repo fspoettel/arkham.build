@@ -63,6 +63,7 @@ type SharedState = {
 };
 
 export type Filters = {
+  touched: boolean;
   cardType: CardTypeFilter;
   player: SharedState & {
     level: LevelFilter;

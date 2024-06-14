@@ -1,5 +1,7 @@
 import { StateCreator } from "zustand";
 
+import { getInitialOwnershipFilter } from "@/store/utils/settings";
+
 import { StoreState } from "..";
 import { CardTypeFilter, FilterObject, Filters, FiltersSlice } from "./types";
 
@@ -67,6 +69,7 @@ function getInitialState(): Filters {
   };
 
   return {
+    touched: false,
     cardType: "player",
     player: {
       ...structuredClone(shared),
@@ -102,8 +105,23 @@ export const createFiltersSlice: StateCreator<
   filters: getInitialState(),
 
   resetFilters() {
+    const state = get();
+    const initial = getInitialState();
+    const initialOwnershipSetting = getInitialOwnershipFilter(state);
+
     set({
-      filters: { ...getInitialState(), cardType: get().filters.cardType },
+      filters: {
+        touched: false,
+        cardType: state.filters.cardType,
+        player: {
+          ...initial.player,
+          ownership: initialOwnershipSetting,
+        },
+        encounter: {
+          ...initial.encounter,
+          ownership: initialOwnershipSetting,
+        },
+      },
     });
   },
 
@@ -190,6 +208,7 @@ function updateValue<
 >(state: StoreState, slice: C, path: P, key: K, value: T) {
   return {
     ...state.filters,
+    touched: key === "open" ? state.filters.touched : true,
     [slice]: {
       ...state.filters[slice],
       [path]: {

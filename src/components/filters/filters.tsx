@@ -21,6 +21,7 @@ import { TypeFilter } from "./type-filter";
 
 export function Filters() {
   const isInitalized = useStore(selectIsInitialized);
+  const touched = useStore((state) => state.filters.touched);
 
   const cardTypeSelection = useStore(selectActiveCardType);
   const resetFilters = useStore((state) => state.resetFilters);
@@ -29,14 +30,15 @@ export function Filters() {
 
   return (
     <search className={css["filters"]} title="Filters">
-      <div className={css["filter-header"]}>
-        <Button onClick={resetFilters} variant="bare">
+      <div className={css["filters-header"]}>
+        <h3 className={css["filters-title"]}>Filters</h3>
+        <Button onClick={resetFilters} variant="bare" disabled={!touched}>
           <SvgFilterClear />
         </Button>
       </div>
-      <div className={css["filter-container"]}>
-        <OwnershipFilter />
+      <div className={css["filters-container"]}>
         <FactionFilter />
+        <OwnershipFilter />
         {cardTypeSelection === "player" && <LevelFilter />}
         <CostFilter />
         <TypeFilter />

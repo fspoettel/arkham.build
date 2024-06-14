@@ -31,7 +31,7 @@
   --text-xxs: 0.625rem;
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
-  --text-md: 1rem;
+  --text-base: 1rem;
   --text-lg: 1.125rem;
   --text-xl: 1.25rem;
   --text-2xl: 1.5rem;
@@ -88,7 +88,7 @@
 
 body {
   font-family: var(--font-family-content);
-  font-size: var(--text-md);
+  font-size: 1rem;
   line-height: 1.45;
   background: var(--nord-0);
   color: var(--nord-4);
@@ -140,7 +140,7 @@ svg {
 input,
 textarea,
 select {
-  font-family: var(--font-family-ui);
+  font-family: var(--font-family-content);
   background-color: var(--nord-0);
   color: var(--nord-5);
   border: 1px solid var(--nord-1);
@@ -153,13 +153,22 @@ select {
 }
 
 input,
-textare {
+textarea {
   appearance: none;
+  line-height: var(--text-sm);
+  font-size: var(--text-sm);
+  &::placeholder {
+    font-size: var(--text-sm);
+  }
 }
 
 select {
+  appearance: none;
   min-width: 10rem;
   max-width: 100%;
+  background: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCA0LjkgMTAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQuOSAxMDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsOiNkOGRlZTk7fQo8L3N0eWxlPgo8dGl0bGU+YXJyb3dzPC90aXRsZT4KPHBvbHlnb24gY2xhc3M9InN0MCIgcG9pbnRzPSIxLjQsNC43IDIuNSwzLjIgMy41LDQuNyAiLz4KPHBvbHlnb24gY2xhc3M9InN0MCIgcG9pbnRzPSIzLjUsNS4zIDIuNSw2LjggMS40LDUuMyAiLz4KPC9zdmc+)
+    no-repeat 95% 50%;
+  appearance: none;
 }
 
 button {
@@ -419,7 +428,7 @@ button {
   mask: url("../assets/icons/seal_e.svg");
 }
 
-/* TODO: refactor to use the `.icon` class. */
+/* TODO: refactor to use an `.icon` class. */
 svg {
   display: block;
   fill: currentColor;

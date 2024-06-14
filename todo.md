@@ -1,7 +1,5 @@
 ## App
 
-- Fix the filter reset / ownership when settings are changed.
-
 ## Arkham Cards API
 
 - add basic metadata fields to @zzorba's arkham cards API. This would allow us to remove respective the lookup tables:

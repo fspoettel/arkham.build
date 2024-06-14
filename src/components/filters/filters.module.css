@@ -5,19 +5,19 @@
   padding: var(--filters-spacing-y) var(--filters-spacing-x);
 }
 
-.filter-container {
+.filters-container {
   & > * + * {
     margin-top: var(--filters-spacing-y);
   }
 }
 
-.filter-header {
+.filters-header {
   display: flex;
-  justify-content: flex-end;
-  padding: 0 var(--filters-spacing-x);
+  justify-content: space-between;
+  gap: var(--filters-spacing-x);
+  padding: 0.5rem;
 }
 
-.filters select {
-  display: block;
-  width: 100%;
+.filters-title {
+  font-size: var(--text-base);
 }

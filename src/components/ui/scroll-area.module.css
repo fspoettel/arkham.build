@@ -15,13 +15,13 @@
   user-select: none;
   touch-action: none;
   padding: 2px;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.05);
   z-index: 9999;
   transition: background 160ms ease-out;
 }
 
 .scroll-area-scrollbar:hover {
-  background: var(--nord-1);
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .scroll-area-scrollbar[data-orientation="vertical"] {
@@ -30,7 +30,7 @@
 
 .scroll-area-thumb {
   flex: 1;
-  background: var(--nord-4);
+  background: color-mix(in srgb, var(--nord-4) 50%, var(--nord-3) 50%);
   border-radius: var(--scrollbar-size);
   position: relative;
 }

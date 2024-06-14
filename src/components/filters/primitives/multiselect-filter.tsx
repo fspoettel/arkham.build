@@ -14,7 +14,7 @@ type Props<T extends Coded, K extends CardTypeFilter> = {
   changes?: string;
   itemToString?: (val: T) => string;
   nameRenderer?: (val: T) => ReactNode;
-  title: ReactNode;
+  title: string;
   options: T[];
   placeholder?: string;
   value: Record<string, T>;

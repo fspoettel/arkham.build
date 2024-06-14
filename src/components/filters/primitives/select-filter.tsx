@@ -17,7 +17,7 @@ type Props<
   mapValue?: (val: string) => V;
   options: T[];
   renderOption: (option: T) => ReactNode;
-  title: ReactNode;
+  title: string;
   value: V;
 };
 

@@ -13,8 +13,6 @@
 }
 
 .listcard-name {
-  font-size: var(--text-lg);
-
   & a {
     text-decoration: none;
     color: currentColor;
@@ -33,17 +31,18 @@
   font-size: var(--icon-2xl);
 }
 
-.listcard-subname {
-  font-weight: 400;
-  font-style: italic;
-}
-
 .listcard-meta {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
   line-height: 1;
   gap: 0.25rem;
+  margin-top: 0.125rem;
+}
+
+.listcard-subname {
+  font-weight: 400;
+  font-style: italic;
 }
 
 .listcard-multiclass {

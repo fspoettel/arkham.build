@@ -1,10 +1,12 @@
 .layout {
+  max-width: 75rem;
+  margin: 0 auto;
   padding: 0.75rem;
 }
 
 .layout-main {
   margin: 1rem auto 0 auto;
-  padding: 2rem;
+  padding: 1.5rem;
   border: 1px solid var(--nord-3);
   border-radius: var(--rounded-md);
 }
