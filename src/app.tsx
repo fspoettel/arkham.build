@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Route, Router } from "wouter";
 
+import RouteReset from "./components/route-reset";
 import { ToastProvider } from "./components/ui/toast";
 import { Index } from "./pages";
 import { CardView } from "./pages/card-view/card-view";
@@ -25,6 +26,7 @@ function App() {
         <Route path="/deck/new" component={DeckNew} />
         <Route path="/deck/edit/:id" component={DeckEdit} />
         <Route path="/settings" component={Settings} />
+        <RouteReset />
       </Router>
     </ToastProvider>
   );

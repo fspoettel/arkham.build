@@ -16,7 +16,7 @@ import { Button } from "../ui/button";
 
 export function Masthead({ className }: { className?: string }) {
   const onToggleSearch = useStore((state) => state.toggleSearch);
-  const ontoggleSidebar = useStore((state) => state.toggleSidebar);
+  const onToggleSidebar = useStore((state) => state.toggleSidebar);
 
   const [location] = useLocation();
   return (
@@ -48,7 +48,7 @@ export function Masthead({ className }: { className?: string }) {
           <Button
             className={css["masthead-toggle-filters"]}
             variant="bare"
-            onClick={ontoggleSidebar}
+            onClick={() => onToggleSidebar()}
           >
             {location === "/" ? <SvgFilter /> : <DotsHorizontalIcon />}
           </Button>

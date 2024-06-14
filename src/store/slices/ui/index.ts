@@ -27,9 +27,16 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
     set({ ui: { ...get().ui, listScrollRestore: snapshot } });
   },
   toggleSearch() {
-    set({ ui: { ...get().ui, searchOpen: !get().ui.searchOpen } });
+    const state = get();
+    set({ ui: { ...state.ui, searchOpen: !state.ui.searchOpen } });
   },
-  toggleSidebar() {
-    set({ ui: { ...get().ui, sidebarOpen: !get().ui.sidebarOpen } });
+  toggleSidebar(val?: boolean) {
+    const state = get();
+    set({
+      ui: {
+        ...state.ui,
+        sidebarOpen: val != null ? val : !state.ui.sidebarOpen,
+      },
+    });
   },
 });

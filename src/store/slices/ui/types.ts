@@ -14,5 +14,5 @@ export type UISlice = UIState & {
   setListScrollRestore(snapshot: StateSnapshot): void;
   setHydrated(): void;
   toggleSearch(): void;
-  toggleSidebar(): void;
+  toggleSidebar(val?: boolean): void;
 };
