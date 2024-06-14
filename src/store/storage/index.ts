@@ -1,4 +1,8 @@
-import type { PersistStorage, StorageValue } from "zustand/middleware";
+import type {
+  PersistOptions,
+  PersistStorage,
+  StorageValue,
+} from "zustand/middleware";
 
 import type { StoreState } from "../slices";
 import { getInitialDecksState } from "../slices/decks";
@@ -9,15 +13,25 @@ import type { Val } from "./types";
 
 const indexedDBAdapter = new IndexedDBAdapter();
 
-const VERSION = 1;
+const VERSION = 2;
 
 // use this flag to disable rehydration during dev.
 const SKIP_HYDRATION = false;
 
-export const storageConfig = {
+export const storageConfig: PersistOptions<StoreState, Val> = {
   name: "deckbuilder",
   storage: createCustomStorage(),
   version: VERSION,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  migrate(persistedState: any, version) {
+    if (version === 1) {
+      if (!persistedState.decks) {
+        persistedState.decks = { local: {} };
+      }
+    }
+
+    return persistedState;
+  },
   partialize(state: StoreState) {
     return {
       decks: state.decks,
