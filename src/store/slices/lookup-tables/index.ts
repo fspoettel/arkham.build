@@ -321,6 +321,12 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
     if (card.restrictions?.investigator) {
       // Can have multiple entries (alternate arts).
       for (const key of Object.keys(card.restrictions.investigator)) {
+        const investigator = metadata.cards[key];
+
+        if (investigator?.alt_art_investigator) {
+          continue;
+        }
+
         setInLookupTable(key, tables.relations.restrictedTo, card.code);
 
         if (card.real_text?.includes("Advanced.")) {

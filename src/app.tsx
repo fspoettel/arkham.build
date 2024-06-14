@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Route, Router } from "wouter";
 
 import { Index } from "./pages";
@@ -8,23 +8,7 @@ import { DeckNew } from "./pages/deck-new";
 import { useStore } from "./store";
 
 function App() {
-  const [storeInitialized, setStoreInitialized] = useState(false);
-
-  useEffect(() => {
-    // is this a potential race condition?
-    if (useStore.persist.hasHydrated()) {
-      setStoreInitialized(true);
-      return;
-    }
-
-    const unsub = useStore.persist.onFinishHydration(() => {
-      setStoreInitialized(true);
-    });
-
-    return () => {
-      unsub();
-    };
-  }, []);
+  const storeInitialized = useStore((state) => state.ui.initialized);
 
   const init = useStore((state) => state.init);
   const dataVersion = useStore((state) => state.metadata.dataVersion);
@@ -40,7 +24,6 @@ function App() {
         }
       }
     }
-
     sync().catch(console.error);
   }, [storeInitialized, dataVersion, init]);
 

@@ -13,8 +13,12 @@ export function getInitialUIState(): UIState {
 
 export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
   set,
+  get,
 ) => ({
   ...getInitialUIState(),
+  setInitialized() {
+    set({ ui: { ...get().ui, initialized: true } });
+  },
   setListScrollRestore(snapshot) {
     set({ ui: { listScrollRestore: snapshot } });
   },

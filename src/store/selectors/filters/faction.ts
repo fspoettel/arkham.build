@@ -2,23 +2,41 @@ import { createSelector } from "reselect";
 
 import { Card } from "@/store/graphql/types";
 import { StoreState } from "@/store/slices";
+import { Filter, and, or, pass } from "@/utils/fp";
 
 import { selectActiveCardType } from "./shared";
 
+function filterMulticlass(card: Card) {
+  return !!card.faction2_code;
+}
+
+function filterFaction(faction: string) {
+  return (card: Card) =>
+    card.faction_code === faction ||
+    (!!card.faction2_code && card.faction2_code === faction) ||
+    (!!card.faction3_code && card.faction3_code === faction);
+}
+
 export function filterFactions(factions: string[]) {
-  return (card: Card) => {
-    if (!factions.length) return true;
+  if (!factions.length) return pass;
 
-    if (factions.length === 1 && factions[0] === "multiclass") {
-      return !!card.faction2_code;
+  if (factions.length === 1 && factions[0] === "multiclass") {
+    return filterMulticlass;
+  }
+
+  const ands: Filter[] = [];
+  const ors: Filter[] = [];
+
+  for (const faction of factions) {
+    if (faction === "multiclass") {
+      ands.push(filterMulticlass);
+    } else {
+      ors.push(filterFaction(faction));
     }
+  }
 
-    return (
-      factions.includes(card.faction_code) ||
-      (!!card.faction2_code && factions.includes(card.faction2_code)) ||
-      (!!card.faction3_code && factions.includes(card.faction3_code))
-    );
-  };
+  const filter = and([or(ors), ...ands]);
+  return (card: Card) => filter(card);
 }
 
 export const selectFactionFilter = createSelector(

@@ -24,35 +24,37 @@ export function getDataVersionIdentifier(version?: DataVersion) {
 function createCustomStorage(): PersistStorage<Val> | undefined {
   return {
     async getItem(name) {
-      const item = await get(name);
+      try {
+        const item = await get(name);
 
-      if (item == null) {
-        console.debug(`[persist] no data found in storage.`);
-        // the item may have been deleted by the user, ensure storage key is purged as well.
+        if (item == null) {
+          console.debug(`[persist] no data found in storage.`);
+          // the item may have been deleted by the user, ensure storage key is purged as well.
+          localStorage.removeItem(getMetadataKey(name));
+          return null;
+        }
+
+        const parsed = JSON.parse(item);
+
+        const version = getDataVersionIdentifier(
+          parsed?.state?.metadata?.dataVersion,
+        );
+
+        if (version) {
+          console.debug(`[persist] rehydrated card version: ${version}`);
+          localStorage.setItem(getMetadataKey(name), version);
+          return parsed;
+        }
+
+        console.debug(`[persist] stored data appers to be malformed.`);
+        localStorage.removeItem(getMetadataKey(name));
+        return null;
+      } catch (err) {
+        console.debug(`[persist] encountered an error during hydration:`);
+        console.error(err);
         localStorage.removeItem(getMetadataKey(name));
         return null;
       }
-
-      let parsed;
-      try {
-        parsed = JSON.parse(item);
-      } catch (err) {
-        console.error(err);
-        return null;
-      }
-
-      const version = getDataVersionIdentifier(
-        parsed?.state?.metadata?.dataVersion,
-      );
-      if (version) {
-        console.debug(`[persist] rehydrated card version: ${version}`);
-        localStorage.setItem(getMetadataKey(name), version);
-        return parsed;
-      }
-
-      console.debug(`[persist] stored data appers to be malformed.`);
-      localStorage.removeItem(getMetadataKey(name));
-      return null;
     },
 
     async setItem(name, value) {
@@ -100,6 +102,11 @@ export const storageConfig = {
   },
   onRehydrateStorage: () => {
     console.time("[persist] hydration");
-    return () => console.timeEnd("[persist] hydration");
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return (state: StoreState | undefined, error?: unknown) => {
+      if (state) state.setInitialized();
+      if (error) console.error(error);
+      console.timeEnd("[persist] hydration");
+    };
   },
 };
