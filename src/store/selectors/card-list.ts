@@ -814,7 +814,7 @@ const selectInvestigatorFilter = createSelector(
         const usesFilters: Filter[] = [];
 
         for (const uses of option.uses) {
-          optionFilter.push(filterUses(uses, lookupTables.uses));
+          usesFilters.push(filterUses(uses, lookupTables.uses));
         }
 
         optionFilter.push(or(usesFilters));
