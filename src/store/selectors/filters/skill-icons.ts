@@ -53,7 +53,7 @@ export const selectChanges = createSelector(selectValue, (value) =>
   Object.entries(value).reduce((acc, [key, val]) => {
     if (!val) return acc;
     const s = `${val}+ ${capitalize(key)}`;
-    return acc ? `${acc}, ${s}` : s;
+    return acc ? `${acc} and ${s}` : s;
   }, ""),
 );
 

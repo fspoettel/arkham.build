@@ -55,7 +55,8 @@
 .combobox-menu-item-check {
   position: absolute;
   left: 0.5rem;
-  top: calc(50% - 0.5rem);
+  top: calc(50%);
+  transform: translateY(-50%);
 }
 
 .combobox-results {
@@ -75,8 +76,7 @@
   background: var(--nord-3);
   color: var(--nord-4);
   padding: 0.125rem 0.25rem;
-  font-size: var(--text-xxs);
-
+  font-size: var(--text-xs);
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;

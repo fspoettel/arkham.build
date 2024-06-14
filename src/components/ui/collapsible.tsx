@@ -35,20 +35,20 @@ export function Collapsible({
       open={open}
       onOpenChange={onOpenChange}
     >
-      <div className={css["collapsible-header"]}>
-        <div className={css["collapsible-titles"]}>
-          <h4>{title}</h4>
-          <div className={css["collapsible-sub"]}>{sub}</div>
-        </div>
-        <div className={css["collapsible-actions"]}>
-          {actions}
-          <Trigger asChild>
+      <Trigger asChild>
+        <div className={css["collapsible-header"]}>
+          <div className={css["collapsible-titles"]}>
+            <h4>{title}</h4>
+            <div className={css["collapsible-sub"]}>{sub}</div>
+          </div>
+          <div className={css["collapsible-actions"]}>
+            {actions}
             <Button variant="bare">
               {open ? <Cross2Icon /> : <RowSpacingIcon />}
             </Button>
-          </Trigger>
+          </div>
         </div>
-      </div>
+      </Trigger>
       {children}
     </Root>
   );

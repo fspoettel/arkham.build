@@ -2,6 +2,7 @@ import type { MouseEvent } from "react";
 import { useCallback, useEffect, useState } from "react";
 
 import { LazyPackIcon } from "@/components/icons/lazy-icons";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/field";
 import { useStore } from "@/store";
 import { selectCyclesAndPacks } from "@/store/selectors/settings";
@@ -19,13 +20,18 @@ type Props = {
 export function Collection({ settings }: Props) {
   const cyclesWithPacks = useStore(selectCyclesAndPacks);
 
+  const [showAllCards, setShowAllCards] = useState(settings.showAllCards);
   const [collectionState, setCollectionState] = useState(settings.collection);
 
   useEffect(() => {
     setCollectionState(settings.collection);
   }, [settings]);
 
-  const onCheckboxChange = useCallback((packCode: string, val: number) => {
+  const onCheckShowAll = useCallback((val: boolean | string) => {
+    setShowAllCards(!!val);
+  }, []);
+
+  const onCheckPack = useCallback((packCode: string, val: number) => {
     setCollectionState((prev) => ({ ...prev, [packCode]: val }));
   }, []);
 
@@ -58,76 +64,87 @@ export function Collection({ settings }: Props) {
   );
 
   return (
-    <>
+    <div className={css["collection-container"]}>
+      <Field helpText="When this is checked, the collection settings below will be ignored by default.">
+        <Checkbox
+          label="Show all cards"
+          name="show-all-cards"
+          id="show-all-cards"
+          checked={showAllCards}
+          onCheckedChange={onCheckShowAll}
+        />
+      </Field>
       <Field>
-        <fieldset className={css["collection"]} id="collection">
-          <legend>Card collection</legend>
-          <ol className={css["collection-cycles"]}>
-            {cyclesWithPacks.map((cycle) => (
-              <li className={css["collection-cycle"]} key={cycle.code}>
-                <div className={css["collection-cycle-header"]}>
-                  <div className={css["collection-cycle-label"]}>
-                    <LazyPackIcon code={cycle.code} />
-                    {cycle.real_name}
-                  </div>
-                  {!cycle.reprintPacks.length && cycle.code !== "core" && (
-                    <CollectionCycleActions
-                      cycleCode={cycle.code}
-                      onToggleCycle={onToggleCycle}
-                    />
-                  )}
-                </div>
-
-                {!!cycle.reprintPacks.length && (
-                  <div>
-                    <div className={css["collection-cycle-subheader"]}>
-                      New format
+        <details open>
+          <summary>Card collection</summary>
+          <fieldset className={css["collection"]} id="collection">
+            <ol className={css["collection-cycles"]}>
+              {cyclesWithPacks.map((cycle) => (
+                <li className={css["collection-cycle"]} key={cycle.code}>
+                  <div className={css["collection-cycle-header"]}>
+                    <div className={css["collection-cycle-label"]}>
+                      <LazyPackIcon code={cycle.code} />
+                      {cycle.real_name}
                     </div>
+                    {!cycle.reprintPacks.length && cycle.code !== "core" && (
+                      <CollectionCycleActions
+                        cycleCode={cycle.code}
+                        onToggleCycle={onToggleCycle}
+                      />
+                    )}
+                  </div>
+
+                  {!!cycle.reprintPacks.length && (
+                    <div>
+                      <div className={css["collection-cycle-subheader"]}>
+                        New format
+                      </div>
+                      <ol className={css["collection-packs"]}>
+                        {cycle.reprintPacks.map((pack) => (
+                          <CollectionPack
+                            pack={pack}
+                            key={pack.code}
+                            hasQuantity={pack.code === "core"}
+                            onChange={onCheckPack}
+                            cycle={cycle}
+                            value={collectionState[pack.code] ?? 0}
+                          />
+                        ))}
+                      </ol>
+                    </div>
+                  )}
+
+                  <div>
+                    {!!cycle.reprintPacks.length && (
+                      <div className={css["collection-cycle-subheader"]}>
+                        Old format
+                        {cycle.code !== "core" && (
+                          <CollectionCycleActions
+                            cycleCode={cycle.code}
+                            onToggleCycle={onToggleCycle}
+                          />
+                        )}
+                      </div>
+                    )}
                     <ol className={css["collection-packs"]}>
-                      {cycle.reprintPacks.map((pack) => (
+                      {cycle.packs.map((pack) => (
                         <CollectionPack
                           pack={pack}
                           key={pack.code}
                           hasQuantity={pack.code === "core"}
-                          onChange={onCheckboxChange}
+                          onChange={onCheckPack}
                           cycle={cycle}
                           value={collectionState[pack.code] ?? 0}
                         />
                       ))}
                     </ol>
                   </div>
-                )}
-
-                <div>
-                  {!!cycle.reprintPacks.length && (
-                    <div className={css["collection-cycle-subheader"]}>
-                      Old format
-                      {cycle.code !== "core" && (
-                        <CollectionCycleActions
-                          cycleCode={cycle.code}
-                          onToggleCycle={onToggleCycle}
-                        />
-                      )}
-                    </div>
-                  )}
-                  <ol className={css["collection-packs"]}>
-                    {cycle.packs.map((pack) => (
-                      <CollectionPack
-                        pack={pack}
-                        key={pack.code}
-                        hasQuantity={pack.code === "core"}
-                        onChange={onCheckboxChange}
-                        cycle={cycle}
-                        value={collectionState[pack.code] ?? 0}
-                      />
-                    ))}
-                  </ol>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </fieldset>
+                </li>
+              ))}
+            </ol>
+          </fieldset>
+        </details>
       </Field>
-    </>
+    </div>
   );
 }

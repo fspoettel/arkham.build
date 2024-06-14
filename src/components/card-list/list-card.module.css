@@ -13,6 +13,8 @@
 }
 
 .listcard-name {
+  font-size: var(--text-lg);
+
   & a {
     text-decoration: none;
     color: currentColor;

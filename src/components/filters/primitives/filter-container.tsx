@@ -1,5 +1,6 @@
 import { ResetIcon } from "@radix-ui/react-icons";
-import type { ReactNode } from "react";
+import type { MouseEvent } from "react";
+import { type ReactNode, useCallback } from "react";
 
 import { Button } from "../../ui/button";
 import { Collapsible, CollapsibleContent } from "../../ui/collapsible";
@@ -25,11 +26,19 @@ export function FilterContainer({
   open,
   title,
 }: Props) {
+  const onFilterReset = useCallback(
+    (evt: MouseEvent<HTMLButtonElement>) => {
+      evt.preventDefault();
+      if (onReset) onReset();
+    },
+    [onReset],
+  );
+
   return (
     <Collapsible
       actions={
         filterString && onReset ? (
-          <Button size="sm" variant="bare" onClick={onReset}>
+          <Button size="sm" variant="bare" onClick={onFilterReset}>
             <ResetIcon style={{ fontSize: "0.875rem" }} />
           </Button>
         ) : undefined

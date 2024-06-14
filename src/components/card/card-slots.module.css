@@ -22,7 +22,7 @@
   width: 1.125rem;
   height: 1.125rem;
   border: none;
-  font-size: 1rem;
+  font-size: var(--icon-sm);
   background: none;
   color: var(--nord-4);
 }

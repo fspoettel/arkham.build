@@ -5,8 +5,5 @@
 }
 
 .layout-main {
-  margin: 1rem auto 0 auto;
-  padding: 1.5rem;
-  border: 1px solid var(--nord-3);
-  border-radius: var(--rounded-md);
+  margin: 1.5rem auto 0 auto;
 }

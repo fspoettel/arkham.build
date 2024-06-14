@@ -25,7 +25,7 @@
 
 .view-nav a {
   color: currentColor;
-  font-size: var(--text-xl);
+  font-size: var(--icon-sm);
 }
 
 .view-section-title {

@@ -1,7 +1,7 @@
-.field label {
-  display: inline-block;
-  margin-bottom: 0.125rem;
-  font-size: var(--text-sm);
+.field {
+  border: 1px solid var(--nord-3);
+  padding: 1rem;
+  border-radius: var(--rounded);
 }
 
 .field input,
@@ -13,4 +13,9 @@
 .field-help {
   margin-top: 0.5rem;
   font-style: italic;
+}
+
+.field:has(select) label {
+  display: inline-block;
+  margin-bottom: 0.25rem;
 }

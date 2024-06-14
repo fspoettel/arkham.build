@@ -55,7 +55,7 @@ export const selectValue = createSelector(
 
 export const selectChanges = createSelector(selectValue, (value) => {
   return Object.values(value).reduce((acc, curr, i) => {
-    return i === 0 ? curr.code : `${acc}, ${curr.code}`;
+    return i === 0 ? curr.code : `${acc} or ${curr.code}`;
   }, "");
 });
 

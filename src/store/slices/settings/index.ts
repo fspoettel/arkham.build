@@ -6,6 +6,7 @@ import type { SettingsSlice, SettingsState } from "./types";
 export function getInitialSettings(): SettingsState {
   return {
     collection: {},
+    showAllCards: false,
     tabooSetId: null,
   };
 }
@@ -24,28 +25,21 @@ export const createSettingsSlice: StateCreator<
 
     const partial: Partial<StoreState> = {};
 
-    const currentSize = Object.values(state.settings.collection).filter(
-      (x) => x !== 0,
-    ).length;
-    const nextSize = Object.values(settings.collection).filter(
-      (x) => x !== 0,
-    ).length;
+    const nextSize = Object.values(settings.collection).some((x) => x);
 
-    if (currentSize !== nextSize) {
-      const ownership = nextSize ? "owned" : "all";
+    const ownership = nextSize && !settings.showAllCards ? "owned" : "all";
 
-      partial.filters = {
-        ...state.filters,
-        player: {
-          ...state.filters.player,
-          ownership: { value: ownership, open: false },
-        },
-        encounter: {
-          ...state.filters.player,
-          ownership: { value: ownership, open: false },
-        },
-      };
-    }
+    partial.filters = {
+      ...state.filters,
+      player: {
+        ...state.filters.player,
+        ownership: { value: ownership, open: false },
+      },
+      encounter: {
+        ...state.filters.player,
+        ownership: { value: ownership, open: false },
+      },
+    };
 
     set({ ...partial, settings });
     state.refreshLookupTables();
@@ -57,6 +51,9 @@ function parseForm(form: FormData) {
     if (key === "taboo-set") {
       const s = val.toString();
       acc.tabooSetId = s ? Number.parseInt(s, 10) : null;
+    } else if (key === "show-all-cards") {
+      const s = val.toString();
+      acc.showAllCards = s === "on";
     } else {
       const s = val.toString();
       acc.collection[key] = s === "on" ? 1 : safeInt(s);

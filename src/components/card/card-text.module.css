@@ -22,7 +22,7 @@
 }
 
 .flavor {
-  max-width: 80ch;
+  max-width: 60ch;
   font-size: var(--text-sm);
   font-style: italic;
 }

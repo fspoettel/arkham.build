@@ -1,6 +1,6 @@
 .card {
   --card-text-size: var(--text-base);
-  --card-title-size: var(--text-lg);
+  --card-title-size: var(--text-xl);
   --card-spacing: 1rem;
 
   display: grid;
@@ -64,7 +64,7 @@
 
 .card.tooltip {
   --card-text-size: var(--text-sm);
-  --card-title-size: var(--text-base);
+  --card-title-size: var(--text-lg);
   --card-spacing: 0.5rem;
   grid-template-rows: auto auto 1fr;
 

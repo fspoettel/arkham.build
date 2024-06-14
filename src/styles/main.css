@@ -28,19 +28,18 @@
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.3),
     0 8px 10px -6px rgb(0 0 0 / 0.3);
 
-  --text-xxs: 0.625rem;
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
+  --text-xs: 0.6875rem;
+  --text-sm: 0.75rem;
+  --text-base: 0.875rem;
+  --text-lg: 1rem;
+  --text-xl: 1.125rem;
+  --text-2xl: 1.25rem;
 
-  --icon-sm: 1em;
-  --icon-md: 1.25rem;
+  --icon-sm: 1rem;
+  --icon-base: 1.25rem;
   --icon-lg: 1.5rem;
   --icon-xl: 1.75rem;
-  --icon-2xl: 2rem;
+  --icon-2xl: 1.875rem;
 
   --willpower: #2c7fc0;
   --intellect: #7c3c85;
@@ -88,7 +87,7 @@
 
 body {
   font-family: var(--font-family-content);
-  font-size: 1rem;
+  font-size: var(--text-base);
   line-height: 1.45;
   background: var(--nord-0);
   color: var(--nord-4);
@@ -140,7 +139,9 @@ svg {
 input,
 textarea,
 select {
-  font-family: var(--font-family-content);
+  font-family: var(--font-family-ui);
+  line-height: var(--text-sm);
+  font-size: var(--text-sm);
   background-color: var(--nord-0);
   color: var(--nord-5);
   border: 1px solid var(--nord-1);
@@ -155,8 +156,6 @@ select {
 input,
 textarea {
   appearance: none;
-  line-height: var(--text-sm);
-  font-size: var(--text-sm);
   &::placeholder {
     font-size: var(--text-sm);
   }

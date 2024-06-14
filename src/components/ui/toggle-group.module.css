@@ -8,8 +8,8 @@
   }
 
   &.is-icons .toggle-group-item svg {
-    width: 1.25em;
-    height: 1.25em;
+    width: var(--icon-base);
+    height: var(--icon-base);
   }
 
   &.is-full {

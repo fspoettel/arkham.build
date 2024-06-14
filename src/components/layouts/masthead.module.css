@@ -7,7 +7,7 @@
 }
 
 .masthead h1 {
-  font-size: 1rem;
+  font-size: var(--text-lg);
 }
 
 .masthead-nav {
@@ -16,8 +16,13 @@
   gap: 0.5rem;
 }
 
+.masthead-settings {
+  font-size: var(--icon-sm);
+}
+
 .masthead-toggle-search {
   display: block;
+  font-size: var(--icon-base);
 
   @media screen and (min-height: 45rem) {
     display: none;

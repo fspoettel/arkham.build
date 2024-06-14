@@ -36,7 +36,7 @@
 }
 
 .header-settings {
-  font-size: var(--icon-md);
+  font-size: var(--icon-base);
 }
 
 .layout-left {

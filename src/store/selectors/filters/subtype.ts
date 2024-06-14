@@ -45,7 +45,7 @@ export const selectValue = createSelector(
 
 export const selectChanges = createSelector(selectValue, (value) => {
   return Object.values(value).reduce((acc, curr, i) => {
-    return i === 0 ? curr.name : `${acc}, ${curr.name}`;
+    return i === 0 ? curr.name : `${acc} or ${curr.name}`;
   }, "");
 });
 

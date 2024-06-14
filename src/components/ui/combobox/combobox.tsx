@@ -142,6 +142,7 @@ export function Combobox<T extends Coded>({
               type: "text",
               value: inputValue,
               placeholder: placeholder,
+              autoFocus: true,
               onKeyDown(evt) {
                 if (evt.key === "Enter" && activeIndex != null) {
                   evt.preventDefault();
@@ -153,8 +154,8 @@ export function Combobox<T extends Coded>({
                   setOpen(true);
                 }
               },
-              onFocus() {
-                if (!isOpen) setOpen(true);
+              onClick() {
+                setOpen(!isOpen);
               },
               onChange(evt) {
                 setInputValue((evt.target as HTMLInputElement).value);

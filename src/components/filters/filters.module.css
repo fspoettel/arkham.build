@@ -14,10 +14,11 @@
 .filters-header {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
   gap: var(--filters-spacing-x);
   padding: 0.5rem;
 }
 
 .filters-title {
-  font-size: var(--text-base);
+  font-size: var(--text-lg);
 }
