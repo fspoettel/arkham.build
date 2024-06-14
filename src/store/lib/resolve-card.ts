@@ -1,3 +1,5 @@
+import { CARD_SET_ORDER } from "@/utils/constants";
+
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
 import { applyCardChanges } from "./card-edits";
@@ -204,4 +206,38 @@ function resolveRelationArray(
   });
 
   return relations;
+}
+
+function sortRelations(a: string, b: string) {
+  return CARD_SET_ORDER.indexOf(a) - CARD_SET_ORDER.indexOf(b);
+}
+
+export function getRelatedCards(
+  cardWithRelations: CardWithRelations,
+): [string, ResolvedCard | ResolvedCard[]][] {
+  return Object.entries(cardWithRelations.relations ?? {})
+    .filter(
+      ([key, value]) =>
+        key !== "duplicates" &&
+        (Array.isArray(value) ? value.length > 0 : value),
+    )
+    .toSorted((a, b) => sortRelations(a[0], b[0]));
+}
+
+export function getRelatedCardQuantity(
+  key: string,
+  set: ResolvedCard | ResolvedCard[],
+) {
+  const cards = Array.isArray(set) ? set : [set];
+  const canShowQuantity = key !== "parallel" && key !== "level";
+
+  return canShowQuantity
+    ? cards.reduce(
+        (acc, { card }) => ({
+          ...acc,
+          [card.code]: card.quantity,
+        }),
+        {},
+      )
+    : undefined;
 }

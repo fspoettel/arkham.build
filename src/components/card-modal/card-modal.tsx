@@ -1,13 +1,13 @@
 import { useCallback } from "react";
 
 import { useStore } from "@/store";
+import {
+  getRelatedCardQuantity,
+  getRelatedCards,
+} from "@/store/lib/resolve-card";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
 import { selectActiveDeck, selectCanEditDeck } from "@/store/selectors/decks";
-import {
-  getCardSetTitle,
-  getRelatedCardQuantity,
-  sortCardSets,
-} from "@/utils/cardsets";
+import { formatRelationTitle } from "@/utils/formatting";
 import { useMedia } from "@/utils/use-media";
 
 import css from "./card-modal.module.css";
@@ -47,13 +47,7 @@ export function CardModal({ code }: Props) {
 
   if (!cardWithRelations) return null;
 
-  const related = Object.entries(cardWithRelations.relations ?? {})
-    .filter(
-      ([key, value]) =>
-        key !== "duplicates" &&
-        (Array.isArray(value) ? value.length > 0 : value),
-    )
-    .toSorted((a, b) => sortCardSets(a[0], b[0]));
+  const related = getRelatedCards(cardWithRelations);
 
   const cardNode = (
     <>
@@ -83,7 +77,7 @@ export function CardModal({ code }: Props) {
                 canOpenModal={false}
                 key={key}
                 set={{
-                  title: getCardSetTitle(key),
+                  title: formatRelationTitle(key),
                   cards,
                   id: key,
                   selected: false,
@@ -114,7 +108,7 @@ export function CardModal({ code }: Props) {
     >
       {showQuantities ? (
         <div className={css["container"]}>
-          {cardNode}
+          <div>{cardNode}</div>
           {showQuantities && (
             <CardModalQuantities
               canEdit={canEdit}

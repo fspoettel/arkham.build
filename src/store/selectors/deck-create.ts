@@ -1,10 +1,9 @@
 import { assert } from "@/utils/assert";
-import type { CardSet } from "@/utils/cardsets";
-import { getCardSetTitle } from "@/utils/cardsets";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import { formatRelationTitle } from "@/utils/formatting";
 
 import { resolveCardWithRelations } from "../lib/resolve-card";
-import type { ResolvedCard } from "../lib/types";
+import type { CardSet, ResolvedCard } from "../lib/types";
 import type { StoreState } from "../slices";
 
 export const selectDeckCreateChecked = (state: StoreState) => {
@@ -98,7 +97,7 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
       id: "requiredCards",
       canSelect: true,
       cards: relations.requiredCards,
-      title: getCardSetTitle("requiredCards"),
+      title: formatRelationTitle("requiredCards"),
       selected: deckCreate.sets.includes("requiredCards"),
       quantities: relations.requiredCards.reduce(
         (acc, { card }) => {
@@ -127,7 +126,7 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
   if (relations?.advanced) {
     groupings.push({
       id: "advanced",
-      title: getCardSetTitle("advanced"),
+      title: formatRelationTitle("advanced"),
       canSelect: true,
       cards: relations.advanced,
       selected: deckCreate.sets.includes("advanced"),
@@ -144,7 +143,7 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
   if (relations?.replacement) {
     groupings.push({
       id: "replacement",
-      title: getCardSetTitle("replacement"),
+      title: formatRelationTitle("replacement"),
       canSelect: true,
       cards: relations.replacement,
       selected: deckCreate.sets.includes("replacement"),
@@ -186,7 +185,7 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
   if (relations?.bound) {
     groupings.push({
       id: "bound",
-      title: getCardSetTitle("bound"),
+      title: formatRelationTitle("bound"),
       canSelect: false,
       selected: false,
       cards: relations.bound,

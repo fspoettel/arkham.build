@@ -1,16 +1,16 @@
 import type { StateCreator } from "zustand";
 
 import { applyDeckEdits } from "@/store/lib/deck-edits";
+import { createDeck } from "@/store/lib/deck-factory";
 import type { Card } from "@/store/services/queries.types";
 import { assert } from "@/utils/assert";
 import {
   ALT_ART_INVESTIGATOR_MAP,
   SPECIAL_CARD_CODES,
 } from "@/utils/constants";
-import { createDeck } from "@/utils/deck-factory";
 
 import type { StoreState } from ".";
-import { mappedByCode, mappedById } from "../../utils/metadata-utils";
+import { mappedByCode, mappedById } from "../lib/metadata-utils";
 import { encodeExtraSlots } from "../lib/serialization/slots";
 import type { DeckMeta } from "../lib/types";
 import { selectDeckCreateCardSets } from "../selectors/deck-create";

@@ -7,7 +7,7 @@ import { Faq } from "@/pages/card-view/faq";
 import { useStore } from "@/store";
 import type { CardWithRelations } from "@/store/lib/types";
 import { selectActiveDeck } from "@/store/selectors/decks";
-import { getCardSetTitle } from "@/utils/cardsets";
+import { formatRelationTitle } from "@/utils/formatting";
 
 import css from "./card-view.module.css";
 
@@ -70,13 +70,13 @@ export function CardViewCards({
       <Faq card={cardWithRelations.card} />
 
       {relations?.parallel && (
-        <CardViewSection id="parallel" title={getCardSetTitle("parallel")}>
+        <CardViewSection id="parallel" title={formatRelationTitle("parallel")}>
           <Card resolvedCard={relations.parallel} />
         </CardViewSection>
       )}
 
       {!!relations?.bound?.length && (
-        <CardViewSection title={getCardSetTitle("bound")}>
+        <CardViewSection title={formatRelationTitle("bound")}>
           {relations.bound.map((c) => (
             <Card
               canToggleBackside
@@ -90,7 +90,7 @@ export function CardViewCards({
       )}
 
       {!!relations?.bonded?.length && (
-        <CardViewSection title={getCardSetTitle("bonded")}>
+        <CardViewSection title={formatRelationTitle("bonded")}>
           {relations.bonded.map((c) => (
             <Card
               canToggleBackside
@@ -104,7 +104,7 @@ export function CardViewCards({
       )}
 
       {!!relations?.requiredCards?.length && (
-        <CardViewSection title={getCardSetTitle("requiredCards")}>
+        <CardViewSection title={formatRelationTitle("requiredCards")}>
           {relations.requiredCards.map((c) => (
             <Card
               canToggleBackside
@@ -118,7 +118,7 @@ export function CardViewCards({
       )}
 
       {!!relations?.advanced?.length && (
-        <CardViewSection title={getCardSetTitle("advanced")}>
+        <CardViewSection title={formatRelationTitle("advanced")}>
           {relations.advanced.map((c) => (
             <Card
               canToggleBackside
@@ -132,7 +132,7 @@ export function CardViewCards({
       )}
 
       {!!relations?.parallelCards?.length && (
-        <CardViewSection title={getCardSetTitle("parallelCards")}>
+        <CardViewSection title={formatRelationTitle("parallelCards")}>
           {relations.parallelCards.map((c) => (
             <Card
               canToggleBackside
@@ -146,7 +146,7 @@ export function CardViewCards({
       )}
 
       {!!relations?.replacement?.length && (
-        <CardViewSection title={getCardSetTitle("replacement")}>
+        <CardViewSection title={formatRelationTitle("replacement")}>
           {relations.replacement.map((c) => (
             <Card
               canToggleBackside
@@ -160,7 +160,7 @@ export function CardViewCards({
       )}
 
       {!!relations?.restrictedTo && (
-        <CardViewSection title={getCardSetTitle("restricted")}>
+        <CardViewSection title={formatRelationTitle("restricted")}>
           <Card
             canToggleBackside
             linked
@@ -171,7 +171,7 @@ export function CardViewCards({
       )}
 
       {!!relations?.level?.length && (
-        <CardViewSection title={getCardSetTitle("level")}>
+        <CardViewSection title={formatRelationTitle("level")}>
           {relations.level.map((c) => (
             <Card
               canToggleBackside

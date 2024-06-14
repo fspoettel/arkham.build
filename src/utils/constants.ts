@@ -127,3 +127,14 @@ export const SPECIAL_CARD_CODES = {
   VENGEFUL_SHADE: "90053",
   VERSATILE: "06167",
 };
+
+export const CARD_SET_ORDER = [
+  "parallel",
+  "requiredCards",
+  "advanced",
+  "replacement",
+  "parallelCards",
+  "bound",
+  "bonded",
+  "level",
+];

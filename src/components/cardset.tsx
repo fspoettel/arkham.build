@@ -1,11 +1,11 @@
 import clsx from "clsx";
 
 import { useStore } from "@/store";
+import type { CardSet as CardSetType } from "@/store/lib/types";
 import {
   selectCanCheckOwnership,
   selectCardOwnedCount,
 } from "@/store/selectors/shared";
-import type { CardSet as CardSetType } from "@/utils/cardsets";
 
 import css from "./cardset.module.css";
 

@@ -20,3 +20,16 @@ export function formatTabooSet(tabooSet: TabooSet) {
 export function formatSelectionId(id: string) {
   return id.split("_").map(capitalize).join(" ");
 }
+
+export function formatRelationTitle(id: string) {
+  if (id === "parallel") return "Parallel investigator";
+  if (id === "parallelCards") return "Parallel cards";
+  if (id === "requiredCards") return "Signatures";
+  if (id === "advanced") return "Advanced signatures";
+  if (id === "replacement") return "Replacements";
+  if (id === "bound") return "Bound";
+  if (id === "bonded") return "Bonded";
+  if (id === "restrictedTo") return "Restricted";
+  if (id === "level") return "Other levels";
+  return id;
+}

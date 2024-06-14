@@ -1,4 +1,4 @@
-export type CardSet = "requiredCards" | "advanced" | "replacement";
+export type Set = "requiredCards" | "advanced" | "replacement";
 
 export type DeckCreateState = {
   title: string;
@@ -7,7 +7,7 @@ export type DeckCreateState = {
   investigatorFrontCode: string;
   investigatorBackCode: string;
   extraCardQuantities: Record<string, number>;
-  sets: CardSet[];
+  sets: Set[];
   selections: {
     [key: string]: string;
   };

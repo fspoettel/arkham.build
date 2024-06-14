@@ -4,10 +4,10 @@ import { useState } from "react";
 
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import {
-  getCardSetTitle,
   getRelatedCardQuantity,
-  pickRelatedCardSets,
-} from "@/utils/cardsets";
+  getRelatedCards,
+} from "@/store/lib/resolve-card";
+import { formatRelationTitle } from "@/utils/formatting";
 
 import css from "./deck-investigator.module.css";
 
@@ -34,8 +34,8 @@ export function DeckInvestigator({
 }: Props) {
   const [backToggled, toggleBack] = useState(false);
 
-  const related = pickRelatedCardSets(deck.cards.investigator).filter(
-    (c) => c[0] !== "parallel",
+  const related = getRelatedCards(deck.cards.investigator).filter(
+    ([key]) => key !== "parallel",
   );
 
   const children = canToggleBack ? (
@@ -84,7 +84,7 @@ export function DeckInvestigator({
                 canOpenModal={false}
                 key={key}
                 set={{
-                  title: getCardSetTitle(key),
+                  title: formatRelationTitle(key),
                   cards,
                   id: key,
                   selected: false,

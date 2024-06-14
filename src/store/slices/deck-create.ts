@@ -4,7 +4,7 @@ import { assert } from "@/utils/assert";
 import { getDefaultDeckName } from "@/utils/deck-names";
 
 import type { StoreState } from ".";
-import type { CardSet, DeckCreateSlice } from "./deck-create.types";
+import type { DeckCreateSlice, Set } from "./deck-create.types";
 
 export const createdeckCreateSlice: StateCreator<
   StoreState,
@@ -100,7 +100,7 @@ export const createdeckCreateSlice: StateCreator<
   deckCreateToggleCardSet(value) {
     const state = get();
     assert(state.deckCreate, "DeckCreate slice must be initialized.");
-    assert(isCardSet(value), "Invalid card set value.");
+    assert(isSet(value), "Invalid card set value.");
 
     const sets = state.deckCreate.sets.includes(value)
       ? state.deckCreate.sets.filter((set) => set !== value)
@@ -134,7 +134,7 @@ export const createdeckCreateSlice: StateCreator<
   },
 });
 
-export function isCardSet(value: string): value is CardSet {
+export function isSet(value: string): value is Set {
   return (
     value === "requiredCards" || value === "advanced" || value === "replacement"
   );

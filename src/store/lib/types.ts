@@ -129,3 +129,13 @@ export type ResolvedDeck<T extends ResolvedCard | CardWithRelations> = Omit<
   selections?: Selections;
   tabooSet?: TabooSet;
 };
+
+export type CardSet = {
+  canSetQuantity?: boolean;
+  canSelect?: boolean;
+  cards: ResolvedCard[];
+  id: string;
+  quantities?: Record<string, number>;
+  selected: boolean;
+  title: string;
+};
