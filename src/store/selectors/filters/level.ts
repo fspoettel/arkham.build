@@ -55,7 +55,8 @@ export const selectValue = (state: StoreState) =>
 
 export const selectChanges = createSelector(selectValue, (value) => {
   if (!value.range) return undefined;
-  let s = `${value.range[0]}-${value.range[1]}`;
+  let s = `${value.range[0]}`;
+  if (value.range[1] !== value.range[0]) s = `${s}-${value.range[1]}`;
   if (value.exceptional) s = `${s}, exceptional`;
   if (value.nonexceptional) s = `${s}, nonexceptional`;
   return s;

@@ -1,16 +1,18 @@
 import { useCallback } from "react";
 
 import { useStore } from "@/store";
-import { selectOpen, selectValue } from "@/store/selectors/filters/level";
+import {
+  selectChanges,
+  selectOpen,
+  selectValue,
+} from "@/store/selectors/filters/level";
 import { LevelFilter as LevelFilterType } from "@/store/slices/filters/types";
-
-import css from "./level-filter.module.css";
 
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
-import { Collapsible, CollapsibleContent } from "../ui/collapsible";
 import { RangeSelect } from "../ui/range-select";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+import { FilterContainer } from "./primitives/filter-container";
 
 function getToggleValue(value: [number, number] | undefined) {
   if (!value) return "";
@@ -22,9 +24,9 @@ function getToggleValue(value: [number, number] | undefined) {
 export function LevelFilter() {
   const value = useStore(selectValue);
   const open = useStore(selectOpen);
+  const changes = useStore(selectChanges);
 
   const applyLevelShortcut = useStore((state) => state.applyLevelShortcut);
-
   const setFilter = useStore((state) => state.setNestedFilter);
   const resetFilter = useStore((state) => state.resetFilterKey);
   const setFilterOpen = useStore((state) => state.setFilterOpen);
@@ -49,12 +51,11 @@ export function LevelFilter() {
         if (!value.range) {
           setValue("range", [0, 5]);
         }
-        setFilterOpen("player", "level", val);
-      } else {
-        resetActiveLevel();
       }
+
+      setFilterOpen("player", "level", val);
     },
-    [value, setValue, resetActiveLevel, setFilterOpen],
+    [value, setValue, setFilterOpen],
   );
 
   const onSetExceptional = useCallback(
@@ -72,52 +73,54 @@ export function LevelFilter() {
   );
 
   return (
-    <Collapsible
-      open={open}
-      className={css["level-filter"]}
+    <FilterContainer
+      filterString={changes}
       title="Level"
+      alwaysShowFilterString
+      nonCollapsibleContent={
+        !open && (
+          <ToggleGroup
+            type="single"
+            full
+            onValueChange={applyLevelShortcut}
+            value={getToggleValue(value.range)}
+          >
+            <ToggleGroupItem value="0" size="small-type">
+              Level 0
+            </ToggleGroupItem>
+            <ToggleGroupItem value="1-5" size="small-type">
+              Level 1-5
+            </ToggleGroupItem>
+          </ToggleGroup>
+        )
+      }
+      onReset={resetActiveLevel}
       onOpenChange={onOpenChange}
+      open={open}
     >
-      {!open && (
-        <ToggleGroup
-          type="single"
-          full
-          onValueChange={applyLevelShortcut}
-          value={getToggleValue(value.range)}
-        >
-          <ToggleGroupItem value="0" size="small-type">
-            Level 0
-          </ToggleGroupItem>
-          <ToggleGroupItem value="1-5" size="small-type">
-            Level 1-5
-          </ToggleGroupItem>
-        </ToggleGroup>
-      )}
-      <CollapsibleContent className={css["level-filter-content"]}>
-        <RangeSelect
-          id="level-select"
-          min={0}
-          max={5}
-          onValueCommit={(val) => {
-            setValue("range", [val[0], val[1]]);
-          }}
-          value={value.range ?? [0, 5]}
+      <RangeSelect
+        id="level-select"
+        min={0}
+        max={5}
+        onValueCommit={(val) => {
+          setValue("range", [val[0], val[1]]);
+        }}
+        value={value.range ?? [0, 5]}
+      />
+      <CheckboxGroup>
+        <Checkbox
+          label="Exceptional"
+          id="exceptional"
+          onCheckedChange={onSetExceptional}
+          checked={value.exceptional}
         />
-        <CheckboxGroup>
-          <Checkbox
-            label="Exceptional"
-            id="exceptional"
-            onCheckedChange={onSetExceptional}
-            checked={value.exceptional}
-          />
-          <Checkbox
-            label="Non-exceptional"
-            id="nonexceptional"
-            onCheckedChange={onSetNonexceptional}
-            checked={value.nonexceptional}
-          />
-        </CheckboxGroup>
-      </CollapsibleContent>
-    </Collapsible>
+        <Checkbox
+          label="Non-exceptional"
+          id="nonexceptional"
+          onCheckedChange={onSetNonexceptional}
+          checked={value.nonexceptional}
+        />
+      </CheckboxGroup>
+    </FilterContainer>
   );
 }

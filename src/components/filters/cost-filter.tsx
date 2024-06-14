@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import SvgX from "@/assets/icons/x.svg?react";
 import { useStore } from "@/store";
 import {
+  selectChanges,
   selectCostMinMax,
   selectOpen,
   selectValue,
@@ -20,6 +21,7 @@ type Value = CostFilterType["value"];
 export function CostFilter() {
   const [min, max] = useStore(selectCostMinMax);
   const cardType = useStore(selectActiveCardType);
+  const changes = useStore(selectChanges);
   const value = useStore(selectValue);
   const open = useStore(selectOpen);
 
@@ -71,15 +73,22 @@ export function CostFilter() {
       if (val) {
         setValue("range", [min, max]);
         setFilterOpen(cardType, "cost", val);
-      } else {
-        resetActiveCost();
+      }
+      {
+        setFilterOpen(cardType, "cost", val);
       }
     },
-    [min, max, setValue, setFilterOpen, resetActiveCost, cardType],
+    [min, max, setValue, setFilterOpen, cardType],
   );
 
   return (
-    <FilterContainer title="Cost" open={open} onOpenChange={onOpenChange}>
+    <FilterContainer
+      title="Cost"
+      filterString={changes}
+      onReset={resetActiveCost}
+      open={open}
+      onOpenChange={onOpenChange}
+    >
       <RangeSelect
         id="cost-select"
         min={min}

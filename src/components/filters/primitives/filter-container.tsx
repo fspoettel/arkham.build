@@ -6,6 +6,7 @@ import { Collapsible, CollapsibleContent } from "../../ui/collapsible";
 
 type Props = {
   children: ReactNode;
+  nonCollapsibleContent: ReactNode;
   alwaysShowFilterString?: boolean;
   filterString?: string;
   open: boolean;
@@ -18,6 +19,7 @@ export function FilterContainer({
   alwaysShowFilterString,
   children,
   filterString,
+  nonCollapsibleContent,
   onOpenChange,
   onReset,
   open,
@@ -37,6 +39,7 @@ export function FilterContainer({
       sub={alwaysShowFilterString || !open ? filterString || "All" : undefined}
       title={title}
     >
+      {nonCollapsibleContent}
       <CollapsibleContent>{children}</CollapsibleContent>
     </Collapsible>
   );

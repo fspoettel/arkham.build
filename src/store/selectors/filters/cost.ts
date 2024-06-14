@@ -64,6 +64,16 @@ export function selectCostMinMax(state: StoreState) {
 export const selectValue = (state: StoreState) =>
   state.filters[state.filters.cardType].cost.value;
 
+export const selectChanges = createSelector(selectValue, (val) => {
+  if (!val.range) return "";
+  let s = `${val.range[0]}`;
+  if (val.range[1] !== val.range[0]) s = `${s}-${val.range[1]}`;
+  if (val.even) s = `${s}, even`;
+  if (val.odd) s = `${s}, odd`;
+  if (val.x) s = `${s}, X`;
+  return s;
+});
+
 export const selectOpen = createSelector(
   (state: StoreState) => state.filters[state.filters.cardType].cost,
   (filterState) => filterState.open,
