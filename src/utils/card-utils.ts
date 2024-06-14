@@ -1,4 +1,4 @@
-import { Card } from "@/store/graphql/types";
+import { Card } from "@/store/services/types";
 
 import { SIDEWAYS_TYPE_CODES, SKILL_KEYS } from "./constants";
 

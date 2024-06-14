@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-import { Card } from "../graphql/types";
+import { Card } from "../services/types";
 import { StoreState } from "../slices";
 import {
   Grouping,

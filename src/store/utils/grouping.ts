@@ -1,6 +1,6 @@
 import { ASSET_SLOT_ORDER, PLAYER_TYPE_ORDER } from "@/utils/constants";
 
-import { Card } from "../graphql/types";
+import { Card } from "../services/types";
 import { LookupTables } from "../slices/lookup-tables/types";
 import { Metadata } from "../slices/metadata/types";
 

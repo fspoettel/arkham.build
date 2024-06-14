@@ -1,4 +1,4 @@
-import { Card } from "@/store/graphql/types";
+import { Card } from "@/store/services/types";
 
 import css from "./card-icons.module.css";
 

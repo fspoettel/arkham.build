@@ -1,4 +1,4 @@
-import { Coded } from "@/store/graphql/types";
+import { Coded } from "@/store/services/types";
 
 /**
  * Transform an array of arkhamdb-json-data into a map { [code]: data }.

@@ -1,4 +1,4 @@
-import { Coded } from "@/store/graphql/types";
+import { Coded } from "@/store/services/types";
 
 export type CardTypeFilter = "player" | "encounter";
 

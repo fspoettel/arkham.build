@@ -1,6 +1,6 @@
 import uFuzzy from "@leeoniya/ufuzzy";
 
-import { Card } from "@/store/graphql/types";
+import { Card } from "@/store/services/types";
 
 import { Metadata } from "../slices/metadata/types";
 import { SearchState } from "../slices/search/types";

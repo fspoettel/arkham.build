@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import { Card } from "@/store/graphql/types";
+import { Card } from "@/store/services/types";
 
 import css from "./multiclass-icons.module.css";
 

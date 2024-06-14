@@ -5,7 +5,7 @@ import {
   Pack,
   SubType,
   Type,
-} from "../graphql/types";
+} from "../services/types";
 import { StoreState } from "../slices";
 import { LookupTables } from "../slices/lookup-tables/types";
 import { applyTaboo } from "../utils/taboos";

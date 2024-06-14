@@ -1,7 +1,7 @@
 import clsx from "clsx";
 
 import SvgWeakness from "@/assets/icons/weakness.svg?react";
-import { Card } from "@/store/graphql/types";
+import { Card } from "@/store/services/types";
 import { getCardColor } from "@/utils/card-utils";
 
 import css from "./card-icon.module.css";

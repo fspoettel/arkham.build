@@ -1,7 +1,7 @@
 import clsx from "clsx";
 
-import { Card as ICard } from "@/store/graphql/types";
 import { CardResolved } from "@/store/selectors/card-view";
+import { Card as ICard } from "@/store/services/types";
 import { getCardColor, sideways } from "@/utils/card-utils";
 
 import css from "./card.module.css";

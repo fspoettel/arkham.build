@@ -1,0 +1,37 @@
+[
+  {
+    "code": "guardian",
+    "name": "Guardian",
+    "is_primary": true
+  },
+  {
+    "code": "mystic",
+    "name": "Mystic",
+    "is_primary": true
+  },
+  {
+    "code": "mythos",
+    "name": "Mythos",
+    "is_primary": false
+  },
+  {
+    "code": "neutral",
+    "name": "Neutral",
+    "is_primary": true
+  },
+  {
+    "code": "rogue",
+    "name": "Rogue",
+    "is_primary": true
+  },
+  {
+    "code": "seeker",
+    "name": "Seeker",
+    "is_primary": true
+  },
+  {
+    "code": "survivor",
+    "name": "Survivor",
+    "is_primary": true
+  }
+]

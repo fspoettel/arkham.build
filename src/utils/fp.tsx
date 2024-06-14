@@ -1,4 +1,4 @@
-import { Card } from "@/store/graphql/types";
+import { Card } from "@/store/services/types";
 
 export type Filter = (c: Card) => boolean;
 

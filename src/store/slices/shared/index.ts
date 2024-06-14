@@ -4,8 +4,8 @@ import {
   queryCards,
   queryDataVersion,
   queryMetadata,
-} from "@/store/graphql/queries";
-import { Card } from "@/store/graphql/types";
+} from "@/store/services/queries";
+import { Card } from "@/store/services/types";
 import { rewriteImageUrl } from "@/utils/card-utils";
 
 import { StoreState } from "..";

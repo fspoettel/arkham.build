@@ -1,7 +1,7 @@
 import { del, get, set } from "idb-keyval";
 import { PersistStorage, StorageValue } from "zustand/middleware";
 
-import { DataVersion } from "./graphql/types";
+import { DataVersion } from "./services/types";
 import { StoreState } from "./slices";
 import { getInitialMetadata } from "./slices/metadata";
 import { Metadata } from "./slices/metadata/types";

@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { Fragment } from "react";
 
-import { Card } from "@/store/graphql/types";
+import { Card } from "@/store/services/types";
 import { SKILL_KEYS } from "@/utils/constants";
 
 import css from "./skill-icons.module.css";

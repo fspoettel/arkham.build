@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { Fragment } from "react";
 
 import SvgInvestigator from "@/assets/icons/investigator.svg?react";
-import { Card } from "@/store/graphql/types";
+import { Card } from "@/store/services/types";
 
 import css from "./skill-icons.module.css";
 

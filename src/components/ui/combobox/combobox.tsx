@@ -21,7 +21,7 @@ import {
   useState,
 } from "react";
 
-import { Coded } from "@/store/graphql/types";
+import { Coded } from "@/store/services/types";
 
 import css from "./combobox.module.css";
 

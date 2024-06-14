@@ -1,4 +1,4 @@
-import { Card } from "@/store/graphql/types";
+import { Card } from "@/store/services/types";
 import { LookupTables } from "@/store/slices/lookup-tables/types";
 import { or } from "@/utils/fp";
 

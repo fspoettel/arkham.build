@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-import { Card } from "@/store/graphql/types";
+import { Card } from "@/store/services/types";
 import { StoreState } from "@/store/slices";
 import { SkillIconsFilter } from "@/store/slices/filters/types";
 import { SKILL_KEYS, SkillKey } from "@/utils/constants";

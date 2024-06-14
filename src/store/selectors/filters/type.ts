@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-import { Card, Type } from "@/store/graphql/types";
+import { Card, Type } from "@/store/services/types";
 import { StoreState } from "@/store/slices";
 import { ComboboxFilter } from "@/store/slices/filters/types";
 import { pass } from "@/utils/fp";

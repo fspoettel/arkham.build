@@ -2,8 +2,8 @@ import clsx from "clsx";
 
 import SvgCard from "@/assets/icons/card-outline.svg?react";
 import SvgPaintbrush from "@/assets/icons/paintbrush.svg?react";
-import { Cycle, Pack } from "@/store/graphql/types";
 import { CardResolved } from "@/store/selectors/card-view";
+import { Cycle, Pack } from "@/store/services/types";
 import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
 
 import css from "./card-meta.module.css";

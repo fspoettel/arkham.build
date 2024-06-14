@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { MouseEvent, useCallback, useMemo, useState } from "react";
 
 import { CardWithRelations } from "@/store/selectors/card-view";
+import { queryFaq } from "@/store/services/queries";
 import { useQuery } from "@/utils/use-query";
 
 import css from "./faq.module.css";
@@ -59,19 +60,5 @@ export function Faq({ card }: Props) {
           ))}
       </div>
     </details>
-  );
-}
-
-export type FaqResponse = {
-  code: string;
-  html: string;
-  updated: {
-    date: string;
-  };
-}[];
-
-async function queryFaq(code: string): Promise<FaqResponse> {
-  return fetch(`https://arkhamdb.com/api/public/faq/${code}`).then((res) =>
-    res.json(),
   );
 }

@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-import { Card } from "@/store/graphql/types";
+import { Card } from "@/store/services/types";
 import { StoreState } from "@/store/slices";
 import { LevelFilter } from "@/store/slices/filters/types";
 import { and, pass } from "@/utils/fp";

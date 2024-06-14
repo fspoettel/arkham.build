@@ -1,6 +1,6 @@
 import { StateCreator } from "zustand";
 
-import { Card } from "@/store/graphql/types";
+import { Card } from "@/store/services/types";
 import { applyTaboo } from "@/store/utils/taboos";
 import { splitMultiValue } from "@/utils/card-utils";
 import {

@@ -1,4 +1,4 @@
-import { Card } from "@/store/graphql/types";
+import { Card } from "@/store/services/types";
 import { Metadata } from "@/store/slices/metadata/types";
 
 export function applyTaboo(

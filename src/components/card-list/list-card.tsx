@@ -13,7 +13,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 
 import SvgParallel from "@/assets/icons/parallel.svg?react";
-import { Card } from "@/store/graphql/types";
+import { Card } from "@/store/services/types";
 import { getCardColor, hasSkillIcons } from "@/utils/card-utils";
 
 import css from "./list-card.module.css";

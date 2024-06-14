@@ -9,7 +9,7 @@ import {
   Taboo,
   TabooSet,
   Type,
-} from "@/store/graphql/types";
+} from "@/store/services/types";
 
 export type Metadata = {
   cards: Record<string, Card>;
