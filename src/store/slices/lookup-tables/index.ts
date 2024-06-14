@@ -28,6 +28,7 @@ export function getInitialLookupTables(): LookupTables {
       advanced: {},
       replacement: {},
       level: {},
+      duplicates: {},
     },
     actions: {},
     cost: {},
@@ -382,14 +383,20 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
       }
     }
 
-    if (card.alt_art_investigator && card.alternate_of_code) {
-      if (card.parallel) {
-        setInLookupTable(
-          card.code,
-          tables.relations.parallel,
-          card.alternate_of_code,
-        );
-      }
+    if (card.parallel && card.alt_art_investigator && card.alternate_of_code) {
+      setInLookupTable(
+        card.code,
+        tables.relations.parallel,
+        card.alternate_of_code,
+      );
+    }
+
+    if (card.duplicate_of_code) {
+      setInLookupTable(
+        card.code,
+        tables.relations.duplicates,
+        card.duplicate_of_code,
+      );
     }
 
     if (upgrades[card.real_name] && card.xp != null) {

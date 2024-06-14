@@ -26,6 +26,8 @@ export type LookupTables = {
     replacement: LookupTable<string, 1>;
     // Any card can have `n` different level version. (e.g. Ancient Stone)
     level: LookupTable<string, 1>;
+    // Revised core "First Aid (3)"is a duplicate of Pallid Mask "First Aid (3)".
+    duplicates: LookupTable<string, 1>;
   };
   typesByCardTypeSelection: LookupTable<string, 1>;
   traitsByCardTypeSeletion: LookupTable<string, 1>;

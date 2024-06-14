@@ -10,6 +10,7 @@ import {
   selectInvestigatorWeaknessFilter,
 } from "./investigator";
 import { selectLevelFilter } from "./level";
+import { selectOwnershipFilter } from "./ownership";
 import { selectPropertiesFilter } from "./properties";
 import {
   filterBacksides,
@@ -36,6 +37,7 @@ export const selectPlayerCardFilters = createSelector(
   selectPropertiesFilter,
   selectInvestigatorFilter,
   selectTabooSetFilter,
+  selectOwnershipFilter,
   (
     factionFilter,
     levelFilter,
@@ -48,6 +50,7 @@ export const selectPlayerCardFilters = createSelector(
     propertiesFilter,
     investigatorFilter,
     tabooSetFilter,
+    ownershipFilter,
   ) => {
     const filters = [
       filterMythosCards,
@@ -60,6 +63,7 @@ export const selectPlayerCardFilters = createSelector(
       traitsFilter,
       actionsFilter,
       propertiesFilter,
+      ownershipFilter,
     ];
 
     if (factionFilter) {
@@ -98,6 +102,7 @@ export const selectWeaknessFilters = createSelector(
   selectPropertiesFilter,
   selectInvestigatorWeaknessFilter,
   selectTabooSetFilter,
+  selectOwnershipFilter,
   (
     levelFilter,
     costFilter,
@@ -110,6 +115,7 @@ export const selectWeaknessFilters = createSelector(
     propertiesFilter,
     investigatorFilter,
     tabooSetFilter,
+    ownershipFilter,
   ) => {
     const filters = [
       filterEncounterCards,
@@ -120,6 +126,7 @@ export const selectWeaknessFilters = createSelector(
       traitsFilter,
       actionsFilter,
       propertiesFilter,
+      ownershipFilter,
     ];
 
     if (factionFilter) {
@@ -155,6 +162,7 @@ export const selectEncounterFilters = createSelector(
   selectTraitsFilter,
   selectActionsFilter,
   selectPropertiesFilter,
+  selectOwnershipFilter,
   (
     costFilter,
     factionFilter,
@@ -164,6 +172,7 @@ export const selectEncounterFilters = createSelector(
     traitsFilter,
     actionsFilter,
     propertiesFilter,
+    ownershipFilter,
   ) => {
     const filters = [
       filterBacksides,
@@ -173,6 +182,7 @@ export const selectEncounterFilters = createSelector(
       traitsFilter,
       actionsFilter,
       propertiesFilter,
+      ownershipFilter,
     ];
 
     if (factionFilter) {
