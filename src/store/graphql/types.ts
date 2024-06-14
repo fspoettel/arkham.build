@@ -1,4 +1,4 @@
-export type Card = {
+export type QueryCard = {
   alt_art_investigator?: boolean;
   alternate_of_code?: string;
   alternate_required_code?: string;
@@ -87,6 +87,10 @@ export type Card = {
   // version: number;
   victory?: number;
   xp?: number;
+};
+
+export type Card = QueryCard & {
+  parallel?: boolean;
 };
 
 export type Cycle = {

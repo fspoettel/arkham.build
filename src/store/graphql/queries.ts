@@ -5,12 +5,12 @@ import types from "./data/types.json";
 import subTypes from "./data/subtypes.json";
 import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
 import {
-  Card,
   Cycle,
   DataVersion,
   EncounterSet,
   Faction,
   Pack,
+  QueryCard,
   SubType,
   Type,
 } from "./types";
@@ -62,7 +62,7 @@ const metadataQuery: TypedDocumentNode<MetadataResponse> = parse(gql`
 `);
 
 type AllCardResponse = {
-  all_card: Card[];
+  all_card: QueryCard[];
 };
 
 const allCardQuery: TypedDocumentNode<AllCardResponse> = parse(gql`

@@ -5,6 +5,7 @@ import { CardIcon } from "./card-icon";
 import { SkillIcons } from "../ui/skill-icons";
 import { MulticlassIcons } from "../ui/multiclass-icons";
 import { getCardColor, hasSkillIcons } from "@/utils/card-utils";
+import SvgParallel from "../icons/parallel";
 
 type Props = {
   card: CardSchema;
@@ -35,9 +36,9 @@ export function Card({ card }: Props) {
       <figcaption>
         <h4 className={clsx(css["card-name"], colorCls)}>{card.real_name}</h4>
         <div className={css["card-meta"]}>
+          {card.parallel && <SvgParallel />}
           <MulticlassIcons className={css["card-multiclass"]} card={card} />
           {hasSkillIcons(card) && <SkillIcons card={card} />}
-
           {card.real_subname && (
             <h5 className={css["card-subname"]}>{card.real_subname}</h5>
           )}

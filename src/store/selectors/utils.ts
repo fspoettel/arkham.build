@@ -108,10 +108,11 @@ export function filterWeaknesses(card: Card) {
 }
 
 export function filterPlayerCard(card: Card) {
+  if (card.parallel) return true;
+
   return (
-    !card.alt_art_investigator &&
-    !card.duplicate_of_code &&
-    !card.alternate_of_code &&
+    !card.alt_art_investigator && // filter novellas && parallel
+    !card.duplicate_of_code && // filter revised_code
     !card.encounter_code
   );
 }
@@ -143,8 +144,13 @@ export function getGroupCards(
 export function sortAlphabetically(lookupTables: LookupTables) {
   return (a: Card, b: Card) => {
     if (a.real_name === b.real_name) {
+      if (a.xp === b.xp) {
+        return +(a.parallel ?? false) - +(b.parallel ?? false);
+      }
+
       return (a.xp ?? 0) - (b.xp ?? 0);
     }
+
     return (
       lookupTables.sort.alphabetical[a.code] -
       lookupTables.sort.alphabetical[b.code]

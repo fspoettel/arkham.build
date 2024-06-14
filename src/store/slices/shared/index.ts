@@ -1,10 +1,12 @@
 import { StateCreator } from "zustand";
-import { SharedSlice } from "./types";
+import { Card } from "@/store/graphql/types";
 import {
   queryCards,
   queryDataVersion,
   queryMetadata,
 } from "@/store/graphql/queries";
+import { rewriteImageUrl } from "@/utils/card-utils";
+import { SharedSlice } from "./types";
 import { StoreState } from "..";
 import { Metadata } from "../metadata/types";
 import { getInitialMetadata } from "../metadata";
@@ -13,7 +15,6 @@ import {
   addCardToLookupTables,
   getInitialLookupTables,
 } from "../lookup-tables";
-import { rewriteImageUrl } from "@/utils/card-utils";
 
 export const createSharedSlice: StateCreator<
   StoreState,
@@ -45,9 +46,16 @@ export const createSharedSlice: StateCreator<
       types: mappedByCode(metadataResponse.type),
     };
 
-    cards.forEach((card, i) => {
+    cards.forEach((c, i) => {
+      const card = c as Card;
+
       card.backimageurl = rewriteImageUrl(card.backimageurl);
       card.imageurl = rewriteImageUrl(card.imageurl);
+
+      const pack = metadata.packs[card.pack_code];
+      const cycle = metadata.cycles[pack.cycle_code];
+      card.parallel = cycle?.code === "parallel";
+
       metadata.cards[card.code] = card;
 
       if (card.encounter_code) {
