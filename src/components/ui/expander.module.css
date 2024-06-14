@@ -2,7 +2,7 @@
   border-radius: var(--rounded-md);
   position: relative;
   background: var(--nord-1);
-  border: 1px solid var(--nord-2);
+  border: 1px solid var(--nord-1);
   overflow: hidden;
 
   &::after {

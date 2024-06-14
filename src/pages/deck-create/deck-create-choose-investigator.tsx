@@ -9,7 +9,7 @@ import { useGoBack } from "@/utils/useBack";
 
 import { DeckCollection } from "../browse/deck-collection/deck-collection";
 
-function DeckNew() {
+function DeckCreateChooseInvestigator() {
   const goBack = useGoBack();
 
   const activeListId = useStore((state) => state.activeList);
@@ -40,4 +40,4 @@ function DeckNew() {
   );
 }
 
-export default DeckNew;
+export default DeckCreateChooseInvestigator;

@@ -24,7 +24,7 @@ export function DeckCollection() {
           <Popover>
             <DeckCollectionImport />
           </Popover>
-          <Link asChild to="~/deck/new">
+          <Link asChild to="~/deck/create">
             <Button as="a">
               <Plus />
             </Button>

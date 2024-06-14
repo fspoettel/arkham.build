@@ -3,7 +3,10 @@ import clsx from "clsx";
 import { useStore } from "@/store";
 import type { Grouping } from "@/store/lib/deck-grouping";
 import { sortByName, sortBySlots, sortTypesByOrder } from "@/store/lib/sorting";
-import { selectForbiddenCards } from "@/store/selectors/decks";
+import {
+  selectCanEditDeck,
+  selectForbiddenCards,
+} from "@/store/selectors/decks";
 import type { Card } from "@/store/services/queries.types";
 import { capitalize } from "@/utils/formatting";
 
@@ -106,6 +109,8 @@ export function DecklistGroup({
   quantities,
 }: DecklistGroupProps) {
   const forbiddenCards = useStore(selectForbiddenCards);
+  const canEdit = useStore(selectCanEditDeck) && mapping !== "bonded";
+  const changeCardQuantity = useStore((state) => state.changeCardQuantity);
 
   return (
     <ol>
@@ -113,17 +118,16 @@ export function DecklistGroup({
         <ListCard
           as="li"
           canIndicateRemoval
-          canShowOwnership
           card={card}
-          disableEdits={mapping === "bonded"}
-          forbidden={
+          isForbidden={
             forbiddenCards.find(
               (x) => x.code === card.code && x.target === mapping,
             ) != null
           }
-          ignored={ignoredCounts?.[card.code]}
+          isIgnored={ignoredCounts?.[card.code]}
           key={card.code}
           omitBorders
+          onChangeCardQuantity={canEdit ? changeCardQuantity : undefined}
           owned={ownershipCounts[card.code]}
           quantities={quantities}
           size="sm"

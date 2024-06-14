@@ -12,5 +12,7 @@ export type SharedSlice = {
     refresh?: boolean,
   ): Promise<boolean>;
 
+  createDeck(): string | number;
+
   saveDeck(): void;
 };

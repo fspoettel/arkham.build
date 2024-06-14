@@ -38,7 +38,7 @@ import type {
 } from "./lists.types";
 
 function getInitialList() {
-  if (window.location.href.includes("/deck/new")) {
+  if (window.location.href.includes("/deck/create")) {
     return "create_deck";
   }
 

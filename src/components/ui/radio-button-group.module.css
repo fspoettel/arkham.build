@@ -12,7 +12,7 @@
 .item {
   border-width: 1px;
   border-style: solid;
-  border-color: var(--nord-1);
+  border-color: var(--nord-2);
   line-height: 1;
   padding: 0.5rem 0.5rem;
   user-select: none;

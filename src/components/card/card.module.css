@@ -22,8 +22,8 @@
     "pre"
     "content";
   width: 100%;
-  background: var(--nord-1);
-  border: 1px solid var(--nord-2);
+  background: var(--nord-point-five);
+  border: 1px solid var(--nord-1);
   border-radius: var(--rounded-md);
   padding-bottom: var(--card-spacing);
   text-align: left;
@@ -77,6 +77,12 @@
       "header header"
       "pre image"
       "content image";
+  }
+
+  &.back:not(.back-has-header) {
+    padding: var(--card-spacing) 0;
+    grid-template-rows: 1fr;
+    grid-template-areas: "content image";
   }
 }
 
@@ -240,7 +246,7 @@
   align-items: center;
   justify-content: center;
   padding: 0.25rem;
-  background: var(--nord-2);
+  background: var(--nord-1);
   border-radius: var(--rounded-md);
   font-size: calc(var(--card-text-size, var(--text-sm)) * 1.375);
 }
@@ -311,6 +317,7 @@
   font-size: var(--card-text-size-sm);
   max-width: 60ch;
   font-style: italic;
+  text-align: left;
 }
 
 .meta:not(.tooltip) {

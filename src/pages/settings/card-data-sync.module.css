@@ -11,8 +11,6 @@
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  padding: 0.125rem 0.5rem;
-  border: 1px solid var(--nord-3);
   border-radius: var(--rounded-lg);
 }
 

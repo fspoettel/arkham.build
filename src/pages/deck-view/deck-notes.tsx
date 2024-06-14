@@ -25,11 +25,7 @@ export function DeckNotes({ deck }: Props) {
     <>
       <DialogTrigger asChild>
         <div className={css["floating"]}>
-          <Button
-            className={css["floating-element"]}
-            size="lg"
-            variant="secondary"
-          >
+          <Button className={css["floating-element"]} size="lg">
             <BookOpenText />
             Show notes
           </Button>

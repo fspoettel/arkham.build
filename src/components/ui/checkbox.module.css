@@ -16,14 +16,20 @@
   justify-content: center;
   width: var(--checkbox-size);
   height: var(--checkbox-size);
-  background: color-mix(in srgb, var(--nord-0) 50%, var(--nord-1) 50%);
+  background: var(--nord-point-five);
   border-radius: var(--rounded);
+  border: 1px solid var(--nord-2);
 
   &[disabled] {
     cursor: default;
     opacity: 1;
     background: var(--nord-0);
-    border: 1px solid color-mix(in srgb, var(--nord-0) 70%, var(--nord-1) 30%);
+    border: 1px solid var(--nord-point-five);
+  }
+
+  &[data-state="checked"] {
+    background: var(--nord-2);
+    border: 1px solid var(--nord-3);
   }
 }
 
@@ -32,8 +38,9 @@
   height: 0.75em;
 }
 
-.checkbox:hover .root:not([disabled]) {
-  background-color: var(--nord-2);
+.checkbox:hover .root:not([disabled]):not([data-state="checked"]) {
+  background-color: var(--nord-1);
+  border-color: var(--nord-2);
 }
 
 .root:focus-visible {

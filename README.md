@@ -1,8 +1,10 @@
 # arkham.build
 
+[Roadmap](https://github.com/users/fspoettel/projects/3)
+
 ## API
 
-The API is [a separate git project](https://github.com/fspoettel/arkham-build-api/) hosted as a Cloudflare worker. It mainly serves as a cache for the ArkhamCards GraphQL API and a proxy for some arkhamdb API functions.
+The API is [a separate git project](https://github.com/fspoettel/arkham-build-api/) hosted as a Cloudflare worker. It mainly serves as a cache for the ArkhamCards GraphQL API and a proxy for some arkhamdb API routes.
 
 ## Icons
 

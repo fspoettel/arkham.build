@@ -48,12 +48,9 @@ export function CardText({
         <div className={clsx("border-taboo", css["text"])}>
           {tabooText && (
             <p>
-              <i className="icon-tablet color-taboo icon-text" />{" "}
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: parseCardTextHtml(tabooText),
-                }}
-              />
+              <i className="icon-tablet color-taboo icon-text" /> Taboo List{" "}
+              <br />
+              Mutated
             </p>
           )}
           {!!tabooXp && (

@@ -24,7 +24,8 @@
 }
 
 .quantity {
-  background: var(--nord-1);
+  background: var(--nord-point-five);
+  border: 1px solid var(--nord-1);
   padding: 0.5rem;
   border-radius: var(--rounded);
   box-shadow: var(--shadow);

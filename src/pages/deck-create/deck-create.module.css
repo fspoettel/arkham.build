@@ -1,0 +1,59 @@
+.cards {
+  container-type: inline-size;
+  max-width: 54rem;
+  margin-inline: auto;
+
+  & > * + * {
+    margin-top: 1rem;
+  }
+}
+
+.editor {
+  padding: 0.5rem;
+
+  & > * + * {
+    margin-top: 0.5rem;
+  }
+}
+
+.editor-nav {
+  padding: 0.25rem;
+}
+
+.card-selections {
+  & > * + * {
+    margin-top: 0.5rem;
+  }
+}
+
+.group {
+  background: var(--nord-point-five);
+  border: 1px solid var(--nord-1);
+  border-radius: var(--rounded-md);
+  padding: 0.25rem;
+
+  &.selected {
+    border-color: var(--accent-color);
+  }
+}
+
+.group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.25rem;
+}
+
+.group-title label {
+  width: 100%;
+}
+
+.group-title {
+  font-family: var(--font-family-ui);
+  color: var(--nord-4);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  width: 100%;
+}

@@ -6,8 +6,8 @@
   }
 
   & summary {
-    border: 2px solid var(--nord-3);
-    background: var(--nord-1);
+    border: 1px solid var(--nord-1);
+    background: var(--nord-point-five);
   }
 
   & summary::-webkit-details-marker {
@@ -22,7 +22,7 @@
 }
 
 .faq-content {
-  border: 1px solid var(--nord-3);
+  border: 1px solid var(--nord-1);
   padding: 0.5rem 1.5rem;
   font-size: var(--text-sm);
   border-radius: var(--rounded-md);

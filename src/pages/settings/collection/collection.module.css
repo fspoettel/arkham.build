@@ -27,7 +27,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--nord-1);
+  background: var(--nord-point-five);
   font-size: var(--text-base);
   gap: 0.25rem;
   padding: 0.5rem;

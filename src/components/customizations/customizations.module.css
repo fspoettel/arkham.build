@@ -1,6 +1,6 @@
 .customizations {
-  border: 1px solid var(--nord-3);
-  background: var(--nord-1);
+  border: 1px solid var(--nord-1);
+  background: var(--nord-point-five);
   border-radius: var(--rounded-md);
   margin-top: var(--card-spacing);
   text-align: left;

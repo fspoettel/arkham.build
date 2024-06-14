@@ -1,0 +1,29 @@
+import type { Deck } from "@/store/slices/data.types";
+
+type Payload = {
+  investigator_code: string;
+  name: string;
+  slots: Record<string, number>;
+} & Partial<Omit<Deck, "id" | "date_creation" | "date_update">>;
+
+export function createDeck(values: Payload): Deck {
+  const timestamp = new Date().toISOString();
+
+  return {
+    id: window.crypto.randomUUID(),
+    date_creation: timestamp,
+    date_update: timestamp,
+    description_md: "",
+    meta: "",
+    ignoreDeckLimitSlots: {},
+    sideSlots: {},
+    next_deck: null,
+    previous_deck: null,
+    tags: "",
+    version: "0.1",
+    taboo_id: null,
+    xp: null,
+    xp_spent: null,
+    ...values,
+  };
+}

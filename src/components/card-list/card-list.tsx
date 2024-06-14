@@ -6,7 +6,10 @@ import { CenterLayout } from "@/layouts/center-layout";
 import { useStore } from "@/store";
 import type { ListState } from "@/store/selectors/card-list";
 import { selectListCards } from "@/store/selectors/card-list";
-import { selectCardQuantities } from "@/store/selectors/decks";
+import {
+  selectCanEditDeck,
+  selectCardQuantities,
+} from "@/store/selectors/decks";
 import { selectActiveListSearch } from "@/store/selectors/lists";
 import { range } from "@/utils/range";
 
@@ -28,6 +31,9 @@ export function CardList({ slotLeft, slotRight }: Props) {
   const modalContext = useCardModalContext();
 
   const data = useStore(selectListCards);
+
+  const canEdit = useStore(selectCanEditDeck);
+  const changeCardQuantity = useStore((state) => state.changeCardQuantity);
   const quantities = useStore(selectCardQuantities);
   const search = useStore(selectActiveListSearch);
   const metadata = useStore((state) => state.metadata);
@@ -189,10 +195,13 @@ export function CardList({ slotLeft, slotRight }: Props) {
               isScrolling={onScrollStop}
               itemContent={(index, _, __, { currentTop }) => (
                 <ListCard
-                  active={index === currentTop}
                   card={data.cards[index]}
                   disableKeyboard
+                  isActive={index === currentTop}
                   key={data.cards[index].code}
+                  onChangeCardQuantity={
+                    canEdit ? changeCardQuantity : undefined
+                  }
                   quantities={quantities}
                 />
               )}

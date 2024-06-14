@@ -3,8 +3,6 @@ import clsx from "clsx";
 import { FileWarning, Star } from "lucide-react";
 import { useCallback } from "react";
 
-import { useStore } from "@/store";
-import { selectCanEditDeck } from "@/store/selectors/decks";
 import type { Card } from "@/store/services/queries.types";
 import { getCardColor, hasSkillIcons } from "@/utils/card-utils";
 
@@ -23,44 +21,42 @@ import { QuantityOutput } from "../ui/quantity-output";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export type Props = {
-  active?: boolean;
+  isActive?: boolean;
   as?: "li" | "div";
-  card: Card;
   canIndicateRemoval?: boolean;
   canOpenModal?: boolean;
-  canShowOwnership?: boolean;
-  disableKeyboard?: boolean;
-  disableEdits?: boolean;
-  showInvestigatorIcons?: boolean;
+  card: Card;
   className?: string;
+  disableKeyboard?: boolean;
   figureRef?: (node: ReferenceType | null) => void;
-  forbidden?: boolean;
-  ignored?: number;
+  isForbidden?: boolean;
+  isIgnored?: number;
   omitBorders?: boolean;
-  owned?: number;
-  size?: "sm";
+  onChangeCardQuantity?: (code: string, quantity: number) => void;
   onToggleModal?: () => void;
-  referenceProps?: React.ComponentProps<"div">;
-  renderThumbnail?: (el: React.ReactNode) => React.ReactNode;
+  owned?: number;
   quantities?: {
     [code: string]: number;
   };
+  referenceProps?: React.ComponentProps<"div">;
   renderName?: (el: React.ReactNode) => React.ReactNode;
+  renderThumbnail?: (el: React.ReactNode) => React.ReactNode;
+  size?: "sm";
+  showInvestigatorIcons?: boolean;
 };
 
 export function ListCardInner({
-  active,
+  isActive,
   as = "div",
   card,
   disableKeyboard,
   canIndicateRemoval,
   canOpenModal,
-  canShowOwnership,
   className,
-  disableEdits,
   figureRef,
-  forbidden,
-  ignored,
+  isForbidden,
+  isIgnored,
+  onChangeCardQuantity,
   omitBorders,
   owned,
   referenceProps,
@@ -72,19 +68,16 @@ export function ListCardInner({
 
   const quantity = quantities ? quantities[card.code] ?? 0 : 0;
   const ownedCount = owned ?? 0;
-  const ignoredCount = ignored ?? 0;
-
-  const canEdit = useStore(selectCanEditDeck);
-  const changeCardQuantity = useStore((state) => state.changeCardQuantity);
+  const ignoredCount = isIgnored ?? 0;
 
   const colorCls = getCardColor(card);
   const Element = as as React.ElementType;
 
   const onQuantityChange = useCallback(
     (val: number) => {
-      changeCardQuantity(card.code, val);
+      onChangeCardQuantity?.(card.code, val);
     },
-    [changeCardQuantity, card.code],
+    [onChangeCardQuantity, card.code],
   );
 
   const openModal = useCallback(() => {
@@ -99,17 +92,17 @@ export function ListCardInner({
     <Element
       className={clsx(
         css["listcard"],
-        !omitBorders && css["borders"],
         size && css[size],
-        forbidden && css["forbidden"],
-        className,
+        !omitBorders && css["borders"],
         canIndicateRemoval && quantity === 0 && css["removed"],
-        active && css["active"],
+        isForbidden && css["forbidden"],
+        isActive && css["active"],
+        className,
       )}
     >
       {!!quantities && (
         <>
-          {!disableEdits && canEdit ? (
+          {onChangeCardQuantity ? (
             <QuantityInput
               limit={card.deck_limit || card.quantity}
               onValueChange={onQuantityChange}
@@ -145,7 +138,7 @@ export function ListCardInner({
               </button>
             </h4>
 
-            {canShowOwnership &&
+            {owned != null &&
               card.code !== "01000" &&
               ownedCount < quantity && (
                 <Tooltip>

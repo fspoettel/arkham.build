@@ -231,7 +231,7 @@ export const selectTabooSetOptions = (state: StoreState) => {
 
 export const selectTabooSetSelectOptions = (state: StoreState) => {
   const sets = Object.values(state.metadata.tabooSets);
-  sets.sort((a, b) => sortAlphabetical(a.date, b.date));
+  sets.sort((a, b) => sortAlphabetical(b.date, a.date));
   return sets.map((s) => ({
     label: formatTabooSet(s),
     value: s.id,

@@ -2,12 +2,12 @@
   display: flex;
   justify-content: center;
   font-size: var(--text-2xs);
-  color: color-mix(in srgb, var(--nord-3) 40%, var(--nord-4) 60%);
+  color: color-mix(in srgb, var(--nord-3) 70%, var(--nord-4) 30%);
   padding-top: 0.5rem;
 }
 
 .footer p {
-  border-top: 1px dashed var(--nord-2);
+  border-top: 1px dashed var(--nord-1);
   padding-top: 0.25rem;
 }
 

@@ -2,10 +2,18 @@ import type { StateCreator } from "zustand";
 
 import { applyDeckEdits } from "@/store/lib/deck-edits";
 import type { Card } from "@/store/services/queries.types";
-import { ALT_ART_INVESTIGATOR_MAP } from "@/utils/constants";
+import { assert } from "@/utils/assert";
+import {
+  ALT_ART_INVESTIGATOR_MAP,
+  SPECIAL_CARD_CODES,
+} from "@/utils/constants";
+import { createDeck } from "@/utils/deck-factory";
 
 import type { StoreState } from ".";
 import { mappedByCode, mappedById } from "../../utils/metadata-utils";
+import { encodeExtraSlots } from "../lib/serialization/slots";
+import type { DeckMeta } from "../lib/types";
+import { selectDeckCreateCardSets } from "../selectors/deck-create";
 import { getInitialOwnershipFilter, makeLists } from "./lists";
 import { createLookupTables, createRelations } from "./lookup-tables";
 import { getInitialMetadata } from "./metadata";
@@ -171,5 +179,74 @@ export const createSharedSlice: StateCreator<
     });
 
     return nextDeck.id;
+  },
+
+  createDeck() {
+    const state = get();
+    assert(state.deckCreate, "DeckCreate state must be initialized.");
+
+    const extraSlots: Record<string, number> = {};
+    const meta: DeckMeta = {};
+    const slots: Record<string, number> = {
+      "01000": 1,
+    };
+
+    const { investigatorCode, investigatorFrontCode, investigatorBackCode } =
+      state.deckCreate;
+
+    if (investigatorCode !== investigatorFrontCode) {
+      meta.alternate_front = investigatorFrontCode;
+    }
+
+    if (investigatorCode !== investigatorBackCode) {
+      meta.alternate_back = investigatorBackCode;
+    }
+
+    for (const [key, value] of Object.entries(state.deckCreate.selections)) {
+      meta[key as keyof DeckMeta] = value;
+    }
+
+    const cardSets = selectDeckCreateCardSets(state);
+
+    for (const set of cardSets) {
+      for (const { card } of set.cards) {
+        const quantity =
+          state.deckCreate.extraCardQuantities?.[card.code] ??
+          set.quantities[card.code];
+
+        if (!quantity) continue;
+
+        if (card.code === SPECIAL_CARD_CODES.VENGEFUL_SHADE) {
+          extraSlots[card.code] = quantity;
+        } else {
+          slots[card.code] = quantity;
+        }
+      }
+    }
+
+    if (Object.keys(extraSlots).length) {
+      meta.extra_deck = encodeExtraSlots(extraSlots);
+    }
+
+    const deck = createDeck({
+      investigator_code: state.deckCreate.investigatorCode,
+      name: state.deckCreate.title,
+      slots,
+      meta: JSON.stringify(meta),
+      taboo_id: state.deckCreate.tabooSetId,
+    });
+
+    set({
+      data: {
+        ...state.data,
+        decks: {
+          ...state.data.decks,
+          [deck.id]: deck,
+        },
+      },
+      deckCreate: undefined,
+    });
+
+    return deck.id;
   },
 });

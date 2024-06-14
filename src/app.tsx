@@ -18,7 +18,10 @@ import { useSyncActiveDeckId } from "./utils/use-sync-active-deck-id";
 
 const Browse = lazy(() => import("./pages/browse/browse"));
 const DeckEdit = lazy(() => import("./pages/deck-edit/deck-edit"));
-const DeckNew = lazy(() => import("./pages/deck-new/deck-new"));
+const DeckCreateChooseInvestigator = lazy(
+  () => import("./pages/deck-create/deck-create-choose-investigator"),
+);
+const DeckCreate = lazy(() => import("./pages/deck-create/deck-create"));
 const DeckView = lazy(() => import("./pages/deck-view/deck-view"));
 const Settings = lazy(() => import("./pages/settings/settings"));
 const CardView = lazy(() => import("./pages/card-view/card-view"));
@@ -63,7 +66,11 @@ function App() {
               <Route component={Browse} path="/" />
               <Route component={CardView} path="/card/:code" />
               <Route nest path="/deck">
-                <Route component={DeckNew} path="/new" />
+                <Route
+                  component={DeckCreateChooseInvestigator}
+                  path="/create"
+                />
+                <Route component={DeckCreate} path="/create/:code" />
                 <Route component={DeckView} path="/:id/view" />
                 <Route component={DeckEdit} path="/:id/edit" />
               </Route>

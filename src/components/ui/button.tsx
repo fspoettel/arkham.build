@@ -8,7 +8,7 @@ type Props<T extends "a" | "button" | "summary" | "label"> =
     as?: T;
     children: React.ReactNode;
     className?: string;
-    variant?: "bare" | "secondary";
+    variant?: "bare";
     size?: "xs" | "sm" | "lg" | "full";
   };
 

@@ -3,6 +3,7 @@ import { devtools, persist } from "zustand/middleware";
 
 import type { StoreState } from "./slices";
 import { createDataSlice } from "./slices/data";
+import { createdeckCreateSlice } from "./slices/deck-create";
 import { createDeckViewSlice } from "./slices/deck-view";
 import { createListsSlice } from "./slices/lists";
 import { createLookupTablesSlice } from "./slices/lookup-tables";
@@ -22,6 +23,7 @@ export const stateCreator = (...args: [any, any, any]) => ({
   ...createUISlice(...args),
   ...createSharedSlice(...args),
   ...createDeckViewSlice(...args),
+  ...createdeckCreateSlice(...args),
 });
 
 export const useStore = create<StoreState>()(

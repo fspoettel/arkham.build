@@ -29,6 +29,7 @@ export const CardThumbnail = memo(
           colorCls,
           className,
         )}
+        key={card.code}
       >
         <img src={thumbnailUrl(card.code)} />
       </div>

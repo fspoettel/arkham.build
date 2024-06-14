@@ -17,11 +17,11 @@
     }
 
     &:not(:hover) {
-      border-color: var(--nord-3);
+      border-color: var(--nord-2);
     }
 
     &:not(:hover) .header {
-      background: var(--nord-1);
+      background: var(--nord-point-five);
     }
   }
 }
