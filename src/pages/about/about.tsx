@@ -38,7 +38,7 @@ function About() {
           </a>{" "}
           and{" "}
           <a
-            href="https://github.com/fspoettel/arkham-build/graphs/contributors"
+            href="https://github.com/fspoettel/arkham.build/graphs/contributors"
             rel="noreferrer"
             target="_blank"
           >
@@ -47,7 +47,7 @@ function About() {
           to support the Arkham Horror: The Card Game community. The source code
           of this project is available at{" "}
           <a
-            href="https://github.com/fspoettel/arkham-build"
+            href="https://github.com/fspoettel/arkham.build"
             rel="noreferrer"
             target="_blank"
           >

@@ -140,4 +140,4 @@ export const CARD_SET_ORDER = [
 ];
 
 export const ISSUE_URL =
-  "https://github.com/fspoettel/arkham-build/issues/new/choose";
+  "https://github.com/fspoettel/arkham.build/issues/new/choose";
