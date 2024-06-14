@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import type { ReactNode } from "react";
 import { useCallback, useEffect, useState } from "react";
 
 import css from "./range-select.module.css";
@@ -9,9 +8,9 @@ import { Slider } from "./slider";
 
 type Props = Omit<SliderProps, "defaultValue"> & {
   className?: string;
-  children?: ReactNode;
+  children?: React.ReactNode;
   id: string;
-  label: ReactNode;
+  label: React.ReactNode;
   min: number;
   max: number;
   showLabel?: boolean;
@@ -44,14 +43,14 @@ export function RangeSelect({
   return (
     <div className={clsx(css["field"], className)}>
       <label
-        className={clsx(css["field-label"], !showLabel && "sr-only")}
+        className={clsx(css["label"], !showLabel && "sr-only")}
         htmlFor={id}
       >
         {label}
       </label>
       <Slider
         {...rest}
-        className={clsx(css["field-input"], sliderClassName)}
+        className={sliderClassName}
         id={id}
         max={max}
         min={min}
@@ -66,7 +65,7 @@ export function RangeSelect({
         thumbCount={2}
         value={liveValue}
       />
-      <div className={css["field-limits"]}>
+      <div className={css["limits"]}>
         <input
           max={value[1]}
           min={min}

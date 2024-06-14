@@ -1,4 +1,4 @@
-.cardmodal-row {
+.container {
   display: flex;
   gap: 1rem;
   align-items: stretch;
@@ -9,7 +9,7 @@
   }
 }
 
-.cardmodal-quantities {
+.quantities {
   order: -1;
 
   display: flex;
@@ -23,7 +23,7 @@
   }
 }
 
-.cardmodal-quantity {
+.quantity {
   background: var(--nord-1);
   padding: 0.5rem;
   border-radius: var(--rounded);
@@ -36,6 +36,6 @@
   }
 }
 
-.cardmodal-quantity > * + * {
+.quantity > * + * {
   margin-top: 0.5rem;
 }

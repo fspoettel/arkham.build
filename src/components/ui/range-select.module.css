@@ -1,19 +1,19 @@
-.field-label {
-  font-size: var(--text-sm);
-}
-
 .field > * + * {
   margin-top: 0.5rem;
 }
 
-.field-limits {
+.label {
+  font-size: var(--text-sm);
+}
+
+.limits {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding-bottom: 0.25rem;
 }
 
-.field-limits input[type="text"] {
+.limits input[type="text"] {
   line-height: 1;
   width: calc(2ch + 0.5rem);
   text-align: center;

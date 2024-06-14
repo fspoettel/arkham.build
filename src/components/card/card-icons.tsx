@@ -1,14 +1,14 @@
 import clsx from "clsx";
 
 import type { Card } from "@/store/services/queries.types";
+import { range } from "@/utils/range";
 
-import css from "./card-icons.module.css";
+import css from "./card.module.css";
 
-import { SkillIcons } from "../skill-icons";
-import { SkillIconsEnemy } from "../skill-icons-enemy";
-import { SkillIconsInvestigator } from "../skill-icons-investigator";
-import { CardDamage } from "./card-damage";
-import { CardHealth } from "./card-health";
+import { CardHealth } from "../card-health";
+import { SkillIcons } from "../skill-icons/skill-icons";
+import { SkillIconsEnemy } from "../skill-icons/skill-icons-enemy";
+import { SkillIconsInvestigator } from "../skill-icons/skill-icons-investigator";
 
 type Props = {
   card: Card;
@@ -44,7 +44,16 @@ export function CardIcons({ card, className }: Props) {
             className={css["icons-skills"]}
             iconClassName={css["icons-skill"]}
           />
-          <CardDamage damage={card.enemy_damage} horror={card.enemy_horror} />
+          <div className={css["icons-damage"]}>
+            {!!card.enemy_damage &&
+              range(0, card.enemy_damage).map((i) => (
+                <i className="icon-health color-health" key={i} />
+              ))}
+            {!!card.enemy_horror &&
+              range(0, card.enemy_horror).map((i) => (
+                <i className="icon-sanity color-sanity" key={i} />
+              ))}
+          </div>
         </>
       )}
     </div>

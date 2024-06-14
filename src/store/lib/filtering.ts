@@ -453,7 +453,7 @@ export function filterSubtypes(enabledTypeCodes: MultiselectFilter["value"]) {
  * Taboo Set
  */
 
-export function filterTabooSet(tabooSetId: number | null) {
+export function filterTabooSet(tabooSetId: number | null | undefined) {
   if (!tabooSetId) return undefined;
   return (card: Card) => card.taboo_set_id === tabooSetId;
 }

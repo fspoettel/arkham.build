@@ -1,6 +1,7 @@
 .filters {
   --filters-spacing-x: 0.75rem;
   --filters-spacing-y: 0.5rem;
+
   display: flex;
   flex-flow: column nowrap;
   height: 100%;
@@ -8,15 +9,7 @@
   box-shadow: var(--shadow-md);
 }
 
-.filters-container {
-  padding: var(--filters-spacing-y) var(--filters-spacing-x) 1rem;
-
-  & > * + * {
-    margin-top: var(--filters-spacing-y);
-  }
-}
-
-.filters-header {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -25,12 +18,79 @@
   padding-top: var(--filters-spacing-y);
 }
 
-.filters-title {
+.title {
   font-size: var(--text-base);
 }
 
-.filter-menu-icon {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+.content {
+  padding: var(--filters-spacing-y) var(--filters-spacing-x) 1rem;
+
+  & > * + * {
+    margin-top: var(--filters-spacing-y);
+  }
+}
+
+.faction-filter {
+  padding: 0.5rem 0;
+
+  & .color-active-guardian[data-state="on"] {
+    --active-color: var(--guardian);
+  }
+
+  & .color-active-rogue[data-state="on"] {
+    --active-color: var(--rogue);
+  }
+
+  & .color-active-seeker[data-state="on"] {
+    --active-color: var(--seeker);
+  }
+
+  & .color-active-survivor[data-state="on"] {
+    --active-color: var(--survivor);
+  }
+
+  & .color-active-mystic[data-state="on"] {
+    --active-color: var(--mystic);
+  }
+
+  & .color-active-multiclass[data-state="on"] {
+    --active-color: var(--multiclass);
+  }
+}
+
+.asset-filter {
+  & .skill-boosts {
+    padding: 0;
+    border: 0;
+    display: flex;
+    align-items: center;
+    flex-flow: row wrap;
+    gap: 0.5rem;
+  }
+
+  & .skill-boosts > * + * {
+    margin-top: 0.5rem;
+  }
+
+  & .skill-boosts-label {
+    font-size: var(--text-sm);
+  }
+}
+
+.skill-filter {
+  padding: 0 var(--filters-spacing-x);
+
+  & > * + * {
+    margin-top: var(--filters-spacing-y);
+  }
+
+  & .icons {
+    font-size: var(--icon-md);
+  }
+
+  & .icon {
+    display: flex;
+    gap: 0.375rem;
+    align-items: center;
+  }
 }

@@ -7,9 +7,9 @@
   gap: 0.5rem;
 }
 
-.checkbox-root {
+.root {
   display: inline-flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   width: var(--checkbox-size);
   height: var(--checkbox-size);
@@ -24,29 +24,31 @@
   }
 }
 
-.checkbox-root svg {
+.root svg {
   width: 0.75em;
   height: 0.75em;
 }
 
-.checkbox:hover .checkbox-root:not([disabled]) {
+.checkbox:hover .root:not([disabled]) {
   background-color: var(--nord-2);
 }
 
-.checkbox-root:focus-visible {
+.root:focus-visible {
   outline: 1px solid var(--nord-5);
   outline-offset: 1px;
 }
 
-.checkbox-indicator {
+.indicator {
+  color: var(--nord-5);
+  display: inline-flex;
+  align-items: center;
+}
+
+.checkbox:hover .indicator {
   color: var(--nord-5);
 }
 
-.checkbox:hover .checkbox-indicator {
-  color: var(--nord-5);
-}
-
-.checkbox-label {
+.label {
   color: currentColor;
   user-select: none;
   line-height: var(--checkbox-size);

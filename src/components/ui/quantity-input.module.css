@@ -1,9 +1,9 @@
-.quantity-input {
+.container {
   display: inline-flex;
   gap: 0.125rem;
 }
 
-.quantity-input-value {
+.value {
   font-size: var(--text-xs);
   font-family: var(--font-family-ui);
   line-height: 1;

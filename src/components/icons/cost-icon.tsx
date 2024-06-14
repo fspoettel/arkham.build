@@ -1,10 +1,9 @@
 import clsx from "clsx";
-import type { CSSProperties } from "react";
 
 type Props = {
   className?: string;
   cost?: string | number | null;
-  style?: CSSProperties;
+  style?: React.CSSProperties;
 };
 
 export function CostIcon({ className, cost, style }: Props) {

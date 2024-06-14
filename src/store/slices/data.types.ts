@@ -6,8 +6,6 @@ type Id = number | string;
 
 export type Deck = {
   id: Id;
-  external_id?: string | number; // external id, i.e. arkhamdb or arkhamcards.
-  external_source?: string;
   name: string;
   date_creation: string;
   date_update: string;
@@ -15,16 +13,15 @@ export type Deck = {
   description_md: string;
   slots: Slots;
   sideSlots: Slots | string[]; // NOTE: arkhamdb returns `[]` for empty side slots.
-  ignoreDeckLimitSlots?: Slots | null;
+  ignoreDeckLimitSlots: Slots | null;
   xp: number | null;
   xp_spent: number | null;
   taboo_id: number | null;
   meta: string;
   tags: string;
-  version?: string;
-
-  previous_deck?: Id | null;
-  next_deck?: Id | null;
+  version: string;
+  previous_deck: Id | null;
+  next_deck: Id | null;
 };
 
 export function isDeck(x: unknown): x is Deck {

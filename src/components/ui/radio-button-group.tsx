@@ -38,11 +38,7 @@ export function RadioButtonGroupItem({
   return (
     <Item
       {...rest}
-      className={clsx(
-        css["radio-button-group-item"],
-        size && css[size],
-        className,
-      )}
+      className={clsx(css["item"], size && css[size], className)}
     />
   );
 }

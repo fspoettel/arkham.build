@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { useCallback, useMemo, useRef, useState } from "react";
 
 import { useStore } from "@/store";
@@ -10,8 +9,8 @@ import { Checkbox } from "../ui/checkbox";
 import { SearchInput } from "../ui/search-input";
 
 type Props = {
-  slotLeft?: ReactNode;
-  slotRight?: ReactNode;
+  slotLeft?: React.ReactNode;
+  slotRight?: React.ReactNode;
 };
 
 export function CardSearch({ slotLeft, slotRight }: Props) {
@@ -57,14 +56,13 @@ export function CardSearch({ slotLeft, slotRight }: Props) {
   );
 
   return (
-    <search className={css["search"]} title="Card search">
-      <div className={css["search-row"]}>
+    <search className={css["container"]} title="Card search">
+      <div className={css["row"]}>
         {slotLeft}
-        <div className={css["search-input"]}>
+        <div className={css["field"]}>
           <SearchInput
-            className={css["search-field"]}
-            id="search-card-input"
-            inputClassName={css["search-input-field"]}
+            id="card-search-input"
+            inputClassName={css["field-input"]}
             onChangeValue={onChangeValue}
             placeholder="Search for cards..."
             ref={inputRef}
@@ -74,7 +72,7 @@ export function CardSearch({ slotLeft, slotRight }: Props) {
         </div>
         {slotRight}
       </div>
-      <div className={css["search-toggles"]}>
+      <div className={css["flags"]}>
         <Checkbox checked disabled id="search-card-name" label="Name" />
         <Checkbox
           checked={search.includeGameText}

@@ -23,7 +23,7 @@ export function ToggleGroup({
     <Root
       {...rest}
       className={clsx(
-        css["toggle-group"],
+        css["togglegroup"],
         className,
         full && css["is-full"],
         icons && css["is-icons"],
@@ -40,7 +40,7 @@ export function ToggleGroupItem({ className, size, ...rest }: GroupItemProps) {
   return (
     <Item
       {...rest}
-      className={clsx(css["toggle-group-item"], size && css[size], className)}
+      className={clsx(css["item"], size && css[size], className)}
     />
   );
 }

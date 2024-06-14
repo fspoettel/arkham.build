@@ -1,11 +1,9 @@
-import type { ComponentProps } from "react";
-
 export type SelectOption = {
   label: string;
   value: string | number;
 };
 
-type Props = ComponentProps<"select"> & {
+type Props = React.ComponentProps<"select"> & {
   required?: boolean;
   emptyLabel?: string;
   options: SelectOption[];

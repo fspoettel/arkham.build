@@ -1,0 +1,42 @@
+.editor {
+  padding: 0.25rem;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+
+  & > * {
+    flex: 0 0 auto;
+  }
+
+  & > .editor-tabs {
+    flex: 1 1 auto;
+  }
+
+  & > * + * {
+    margin-top: 0.5rem;
+  }
+}
+
+.editor-tabs {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100%;
+  min-height: 0;
+
+  & > * {
+    flex: 0 0 auto;
+  }
+
+  & > .editor-tabs-content {
+    flex: 1 1 auto;
+  }
+
+  & > * + * {
+    margin-top: 0.5rem;
+  }
+}
+
+.editor-placeholder {
+  text-align: center;
+  padding: 1rem;
+}

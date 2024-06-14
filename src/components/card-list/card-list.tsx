@@ -1,4 +1,3 @@
-import type { ChangeEvent } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { GroupedVirtuosoHandle, ListRange } from "react-virtuoso";
 import { GroupedVirtuoso } from "react-virtuoso";
@@ -10,13 +9,15 @@ import { range } from "@/utils/range";
 
 import css from "./card-list.module.css";
 
+import { ListCard } from "../list-card/list-card";
 import { Scroller } from "../ui/scroller";
 import { Select } from "../ui/select";
 import { Grouphead } from "./Grouphead";
-import { ListCard } from "./list-card";
 
 type Props = {
-  quantities?: Record<string, number> | null;
+  quantities?: {
+    [code: string]: number;
+  };
 };
 
 export function CardList(props: Props) {
@@ -30,7 +31,7 @@ export function CardList(props: Props) {
   const activeGroup = useRef<string | undefined>(undefined);
 
   const onSelectGroup = useCallback(
-    (evt: ChangeEvent<HTMLSelectElement>) => {
+    (evt: React.ChangeEvent<HTMLSelectElement>) => {
       if (!data || !virtuosoRef) return;
 
       const offset = findGroupOffset(data, evt.target.value);
@@ -86,8 +87,8 @@ export function CardList(props: Props) {
   );
 
   return (
-    <div className={css["list-container"]}>
-      <nav className={css["list-nav"]}>
+    <div className={css["container"]}>
+      <nav className={css["nav"]}>
         <output>{data?.cards.length ?? 0} cards</output>
         {data && (
           <Select
@@ -100,7 +101,7 @@ export function CardList(props: Props) {
       </nav>
 
       <Scroller
-        className={css["list-scroller"]}
+        className={css["scroller"]}
         ref={setScrollParent as unknown as React.RefObject<HTMLDivElement>}
       >
         {data && scrollParent && (
@@ -115,7 +116,6 @@ export function CardList(props: Props) {
               <ListCard
                 {...props}
                 card={data.cards[index]}
-                className={css["list-listcard"]}
                 key={data.cards[index].code}
               />
             )}

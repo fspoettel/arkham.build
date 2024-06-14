@@ -1,12 +1,11 @@
 import clsx from "clsx";
-import React, { Suspense, useEffect } from "react";
-import { Route, Router } from "wouter";
+import { Suspense, lazy, useEffect } from "react";
+import { Route, Router, useLocation } from "wouter";
 import { useBrowserLocation } from "wouter/use-browser-location";
 
 import css from "./app.module.css";
 
 import { CardModalProvider } from "./components/card-modal/card-modal-context";
-import RouteReset from "./components/route-reset";
 import { ToastProvider } from "./components/ui/toast";
 import { useStore } from "./store";
 import { selectIsInitialized } from "./store/selectors";
@@ -15,13 +14,14 @@ import {
   queryDataVersion,
   queryMetadata,
 } from "./store/services/queries";
+import { useSyncActiveDeckId } from "./utils/use-sync-active-deck-id";
 
-const Browse = React.lazy(() => import("./pages/browse"));
-const DeckEdit = React.lazy(() => import("./pages/deck-edit/deck-edit"));
-const DeckNew = React.lazy(() => import("./pages/deck-new"));
-const DeckView = React.lazy(() => import("./pages/deck-view/deck-view"));
-const Settings = React.lazy(() => import("./pages/settings/settings"));
-const CardView = React.lazy(() => import("./pages/card-view/card-view"));
+const Browse = lazy(() => import("./pages/browse/browse"));
+const DeckEdit = lazy(() => import("./pages/deck-edit/deck-edit"));
+const DeckNew = lazy(() => import("./pages/deck-new"));
+const DeckView = lazy(() => import("./pages/deck-view/deck-view"));
+const Settings = lazy(() => import("./pages/settings/settings"));
+const CardView = lazy(() => import("./pages/card-view/card-view"));
 
 function Fallback({ message, show }: { message?: string; show?: boolean }) {
   return (
@@ -74,6 +74,34 @@ function App() {
       </ToastProvider>
     </CardModalProvider>
   );
+}
+
+function RouteReset() {
+  const [pathname] = useLocation();
+
+  const toggleFilters = useStore((state) => state.toggleFilters);
+  const toggleSidebar = useStore((state) => state.toggleSidebar);
+
+  useSyncActiveDeckId();
+
+  useEffect(() => {
+    toggleSidebar(false);
+    toggleFilters(false);
+
+    if (window.location.hash) {
+      // HACK: this enables hash-based deep links to work when a route is loaded async.
+      const el = document.querySelector(window.location.hash);
+
+      if (el) {
+        el.scrollIntoView();
+        return;
+      }
+    }
+
+    window.scrollTo(0, 0);
+  }, [pathname, toggleSidebar, toggleFilters]);
+
+  return null;
 }
 
 export default App;

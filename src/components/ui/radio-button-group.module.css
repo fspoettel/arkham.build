@@ -4,12 +4,12 @@
   justify-content: center;
   gap: 0.5rem;
 
-  & .radio-button-group-item {
+  & .item {
     border-radius: var(--rounded);
   }
 }
 
-.radio-button-group-item {
+.item {
   border-width: 1px;
   border-style: solid;
   border-color: var(--nord-1);

@@ -34,12 +34,12 @@ function getInitialState(): Filters {
     skillIcons: {
       open: false,
       value: {
-        agility: null,
-        combat: null,
-        intellect: null,
-        willpower: null,
-        wild: null,
-        any: null,
+        agility: undefined,
+        combat: undefined,
+        intellect: undefined,
+        willpower: undefined,
+        wild: undefined,
+        any: undefined,
       },
     },
     type: {

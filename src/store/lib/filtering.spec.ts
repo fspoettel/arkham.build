@@ -799,19 +799,19 @@ describe("filter: skills", () => {
   }
 
   const defaultConfig: SkillIconsFilter["value"] = {
-    willpower: null,
-    intellect: null,
-    combat: null,
-    agility: null,
-    wild: null,
-    any: null,
+    willpower: undefined,
+    intellect: undefined,
+    combat: undefined,
+    agility: undefined,
+    wild: undefined,
+    any: undefined,
   };
 
   it("handles case: single skill", () => {
     const config = structuredClone(defaultConfig);
     config.intellect = 2;
     expect(applyFilter(store.getState(), "02303", config)).toBeTruthy();
-    config.intellect = null;
+    config.intellect = undefined;
     config.willpower = 2;
     expect(applyFilter(store.getState(), "02303", config)).toBeFalsy();
   });

@@ -1,16 +1,16 @@
-.scroll-area-root {
+.scroller {
   height: 100%;
   overflow: hidden;
   --scrollbar-size: 10px;
 }
 
-.scroll-area-viewport {
+.viewport {
   width: 100%;
   height: 100%;
   border-radius: inherit;
 }
 
-.scroll-area-scrollbar {
+.scrollbar {
   display: flex;
   user-select: none;
   touch-action: none;
@@ -20,15 +20,15 @@
   transition: background 160ms ease-out;
 }
 
-.scroll-area-scrollbar:hover {
+.scrollbar:hover {
   background: rgba(0, 0, 0, 0.1);
 }
 
-.scroll-area-scrollbar[data-orientation="vertical"] {
+.scrollbar[data-orientation="vertical"] {
   width: var(--scrollbar-size);
 }
 
-.scroll-area-thumb {
+.scrollbar-thumb {
   flex: 1;
   background: color-mix(in srgb, var(--nord-4) 50%, var(--nord-3) 50%);
   border-radius: var(--scrollbar-size);
@@ -36,7 +36,7 @@
   opacity: 0.5;
 }
 
-.scroll-area-thumb::before {
+.scrollbar-thumb::before {
   content: "";
   position: absolute;
   top: 50%;

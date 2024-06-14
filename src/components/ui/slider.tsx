@@ -14,11 +14,11 @@ export type Props = SliderProps & {
 export function Slider({ className, thumbCount = 1, ...rest }: Props) {
   return (
     <Root {...rest} className={clsx(css["slider"], className)}>
-      <Track className={clsx(css["slider-track"])}>
-        <Range className={clsx(css["slider-range"])} />
+      <Track className={clsx(css["track"])}>
+        <Range className={clsx(css["range"])} />
       </Track>
       {range(0, thumbCount).map((i) => (
-        <Thumb className={css["slider-thumb"]} key={i} />
+        <Thumb className={css["thumb"]} key={i} />
       ))}
     </Root>
   );

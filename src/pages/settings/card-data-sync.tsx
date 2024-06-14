@@ -79,15 +79,10 @@ export function CardDataSync() {
         bordered
         className={clsx(css["sync"], upToDate && css["uptodate"])}
       >
-        <Button
-          className={css["sync-action"]}
-          disabled={loading || !!error}
-          onClick={syncData}
-          type="button"
-        >
+        <Button disabled={loading || !!error} onClick={syncData} type="button">
           Sync card data
         </Button>
-        <div className={css["sync-status"]}>
+        <div className={css["status"]}>
           {(loading || syncing) && <p>Loading latest card data...</p>}
           {(!!error || !!syncError) && <p>Could not sync card data.</p>}
           {!loading &&
@@ -95,16 +90,18 @@ export function CardDataSync() {
             data &&
             (upToDate ? (
               <p>
-                <Check /> Card data is up to date.
+                <Check className={css["status-icon"]} /> Card data is up to
+                date.
               </p>
             ) : (
               <p>
-                <FileDown /> New card data is available.
+                <FileDown className={css["status-icon"]} /> New card data is
+                available.
               </p>
             ))}
         </div>
         {dataVersion && (
-          <dl className={css["sync-info"]}>
+          <dl className={css["info"]}>
             <dt>Data version:</dt>
             <dd>{dataVersion.cards_updated_at}</dd>
             <dt>Locale:</dt>

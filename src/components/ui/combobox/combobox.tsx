@@ -11,10 +11,10 @@ import {
 } from "@floating-ui/react";
 import uFuzzy from "@leeoniya/ufuzzy";
 import clsx from "clsx";
-import type { ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import type { Coded } from "@/store/services/queries.types";
+import { FLOATING_PORTAL_ID } from "@/utils/constants";
 import { isEmpty } from "@/utils/is-empty";
 
 import css from "./combobox.module.css";
@@ -58,12 +58,12 @@ type Props<T extends Coded> = {
   id: string;
   items: T[];
   itemToString?: (item: T) => string;
-  label: ReactNode;
+  label: React.ReactNode;
   limit?: number;
   onValueChange?: (value: string[]) => void;
   placeholder?: string;
-  renderItem?: (item: T) => ReactNode;
-  renderResult?: (item: T) => ReactNode;
+  renderItem?: (item: T) => React.ReactNode;
+  renderResult?: (item: T) => React.ReactNode;
   showLabel?: boolean;
   selectedItems: string[];
 };
@@ -85,7 +85,7 @@ export function Combobox<T extends Coded>({
   selectedItems,
   showLabel,
 }: Props<T>) {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | undefined>(undefined);
   const [isOpen, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
@@ -157,32 +157,32 @@ export function Combobox<T extends Coded>({
 
   useEffect(() => {
     listRef.current = [];
-    setActiveIndex(filteredItems.length > 0 ? 0 : null);
+    setActiveIndex(filteredItems.length > 0 ? 0 : undefined);
   }, [filteredItems.length]);
 
   useEffect(() => {
     if (isOpen) {
       setActiveIndex(0);
     } else {
-      setActiveIndex(null);
+      setActiveIndex(undefined);
     }
   }, [isOpen]);
 
   return (
     <div className={clsx(css["combobox"], className)}>
-      <div className={css["combobox-control"]}>
+      <div className={css["control"]}>
         <label
-          className={clsx(css["combobox-label"], !showLabel && "sr-only")}
+          className={clsx(css["control-label"], !showLabel && "sr-only")}
           htmlFor={id}
         >
           {label}
         </label>
-        <div className={css["combobox-control-row"]}>
+        <div className={css["control-row"]}>
           <input
             ref={refs.setReference}
             {...getReferenceProps({
               id,
-              className: css["combobox-input"],
+              className: css["control-input"],
               disabled: disabled || (!!limit && selectedItems.length >= limit),
               type: "text",
               value: inputValue,
@@ -206,7 +206,7 @@ export function Combobox<T extends Coded>({
                 } else if (evt.key === "ArrowUp") {
                   evt.preventDefault();
                   setActiveIndex((prev) => {
-                    if (prev === null) return 0;
+                    if (prev == null) return 0;
                     return prev > 0 ? prev - 1 : prev;
                   });
                   if (!isOpen) setOpen(true);
@@ -233,10 +233,10 @@ export function Combobox<T extends Coded>({
         </div>
       </div>
       {isOpen && (
-        <FloatingPortal id="floating">
+        <FloatingPortal id={FLOATING_PORTAL_ID}>
           <FloatingFocusManager context={context} initialFocus={-1}>
             <div
-              className={css["combobox-menu"]}
+              className={css["menu"]}
               ref={refs.setFloating}
               style={floatingStyles}
               {...getFloatingProps({

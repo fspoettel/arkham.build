@@ -1,10 +1,9 @@
 import clsx from "clsx";
-import type { ReactNode } from "react";
 
 import css from "./decklist-section.module.css";
 
 type Props = {
-  children: ReactNode;
+  children: React.ReactNode;
   showTitle?: boolean;
   title: string;
 };

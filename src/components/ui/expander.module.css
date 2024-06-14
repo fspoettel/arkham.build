@@ -27,33 +27,33 @@
   }
 }
 
-.expander-content {
+.header {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+}
+
+.label {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.toggle {
+  position: absolute;
+  bottom: 0.125rem;
+  right: 0.125rem;
+  background: var(--nord-1);
+  z-index: 2;
+}
+
+.content {
   max-height: var(--collapsed-height);
   overflow: hidden;
   padding: 0.5rem;
 }
 
 .expander.expanded {
-  & .expander-content {
+  & .content {
     max-height: unset;
     overflow: auto;
   }
-}
-
-.expander-header {
-  display: inline-block;
-  padding: 0.25rem 0.5rem;
-}
-
-.expander-label {
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.expander-toggle {
-  position: absolute;
-  bottom: 0.125rem;
-  right: 0.125rem;
-  background: var(--nord-1);
-  z-index: 2;
 }

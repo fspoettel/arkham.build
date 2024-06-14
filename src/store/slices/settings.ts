@@ -7,7 +7,7 @@ export function getInitialSettings(): SettingsState {
   return {
     collection: {},
     showAllCards: false,
-    tabooSetId: null,
+    tabooSetId: undefined,
   };
 }
 
@@ -50,7 +50,7 @@ function parseForm(form: FormData) {
   return Array.from(form.entries()).reduce<SettingsState>((acc, [key, val]) => {
     if (key === "taboo-set") {
       const s = val.toString();
-      acc.tabooSetId = s ? Number.parseInt(s, 10) : null;
+      acc.tabooSetId = s ? Number.parseInt(s, 10) : undefined;
     } else if (key === "show-all-cards") {
       const s = val.toString();
       acc.showAllCards = s === "on";

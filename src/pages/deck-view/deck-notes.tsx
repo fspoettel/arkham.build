@@ -27,9 +27,9 @@ export function DeckNotes({ deck }: Props) {
   return (
     <>
       <DialogTrigger asChild>
-        <div className={css["page-floating"]}>
+        <div className={css["floating"]}>
           <Button
-            className={css["page-floating-button"]}
+            className={css["floating-element"]}
             size="lg"
             variant="secondary"
           >

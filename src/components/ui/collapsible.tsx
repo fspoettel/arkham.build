@@ -5,20 +5,19 @@ import type {
 import { Content, Root, Trigger } from "@radix-ui/react-collapsible";
 import clsx from "clsx";
 import { UnfoldVertical, XIcon } from "lucide-react";
-import type { ReactNode } from "react";
 
 import css from "./collapsible.module.css";
 
 import { Button } from "./button";
 
 type Props = Omit<CollapsibleProps, "title"> & {
-  actions?: ReactNode;
-  children: ReactNode;
+  actions?: React.ReactNode;
+  children: React.ReactNode;
   className?: string;
   onOpenChange?: (x: boolean) => void;
-  sub?: ReactNode;
-  title: ReactNode;
-  header?: ReactNode;
+  sub?: React.ReactNode;
+  title: React.ReactNode;
+  header?: React.ReactNode;
 };
 
 export function Collapsible({
@@ -35,19 +34,19 @@ export function Collapsible({
   return (
     <Root
       {...rest}
-      className={clsx(css["collapsible-root"], className)}
+      className={clsx(css["collapsible"], className)}
       onOpenChange={onOpenChange}
       open={open}
     >
       <Trigger asChild>
-        <div className={css["collapsible-header"]}>
+        <div className={css["header"]}>
           {header || (
-            <div className={css["collapsible-titles"]}>
+            <div>
               <h4>{title}</h4>
-              <div className={css["collapsible-sub"]}>{sub}</div>
+              <div className={css["sub"]}>{sub}</div>
             </div>
           )}
-          <div className={css["collapsible-actions"]}>
+          <div className={css["actions"]}>
             {actions}
             <Button variant="bare">
               {open ? <XIcon /> : <UnfoldVertical />}
@@ -62,15 +61,13 @@ export function Collapsible({
 
 type ContentProps = CollapsibleContentProps & {
   className?: string;
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
 export function CollapsibleContent({ className, children }: ContentProps) {
   return (
     <Content>
-      <div className={clsx(css["collapsible-content"], className)}>
-        {children}
-      </div>
+      <div className={clsx(css["content"], className)}>{children}</div>
     </Content>
   );
 }

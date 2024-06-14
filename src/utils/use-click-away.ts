@@ -1,10 +1,9 @@
-import type { RefObject } from "react";
 import { useEffect, useRef } from "react";
 
 const defaultEvents = ["mousedown", "touchstart"];
 
 export const useClickAway = <E extends Event = Event>(
-  ref: RefObject<HTMLElement | null>,
+  ref: React.RefObject<HTMLElement | null>,
   onClickAway: (event: E) => void,
   events: string[] = defaultEvents,
 ) => {

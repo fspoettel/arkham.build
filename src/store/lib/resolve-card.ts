@@ -10,7 +10,7 @@ export function resolveCardWithRelations<T extends boolean>(
   metadata: Metadata,
   lookupTables: LookupTables,
   code: string | undefined,
-  tabooSetId: number | null,
+  tabooSetId: number | null | undefined,
   customizations?: Customizations,
   withRelations?: T,
 ): T extends true ? CardWithRelations | undefined : ResolvedCard | undefined {
@@ -146,7 +146,7 @@ function resolveRelation(
   lookupTables: LookupTables,
   key: keyof LookupTables["relations"],
   code: string,
-  tabooSetId: number | null,
+  tabooSetId: number | null | undefined,
   customizations?: Customizations,
 ): ResolvedCard | undefined {
   const relations = resolveRelationArray(
@@ -165,7 +165,7 @@ function resolveRelationArray(
   lookupTables: LookupTables,
   key: keyof LookupTables["relations"],
   code: string,
-  tabooSetId: number | null,
+  tabooSetId: number | null | undefined,
   customizations?: Customizations,
   ignoreDuplicates = true,
 ): ResolvedCard[] {

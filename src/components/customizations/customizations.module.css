@@ -1,0 +1,51 @@
+.customizations {
+  border: 1px solid var(--nord-3);
+  background: var(--nord-1);
+  border-radius: var(--rounded-md);
+  margin-top: var(--card-spacing);
+  text-align: left;
+}
+
+.header {
+  border-radius: calc(var(--rounded-md) - 2px) calc(var(--rounded-md) - 2px) 0 0;
+  padding: 0.5rem 1rem;
+  color: var(--nord-6);
+}
+
+.text {
+  font-size: var(--card-text-size);
+  padding: var(--card-spacing);
+}
+
+.text p {
+  max-width: 60ch;
+}
+
+.text b {
+  color: var(--nord-6);
+  font-weight: 700;
+}
+
+.customization {
+  display: flex;
+  align-items: flex-start;
+  flex-flow: row nowrap;
+  gap: 0.75rem;
+}
+
+.customization + .customization {
+  margin-top: 0.5rem;
+}
+
+.checks {
+  flex: 0 0 calc(var(--customization-xp-max) * 1.25rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.25rem;
+  transform: translateY(0.25rem);
+}
+
+.content > * + * {
+  margin-top: 0.5rem;
+}

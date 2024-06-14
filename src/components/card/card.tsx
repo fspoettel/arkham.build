@@ -1,5 +1,5 @@
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { type ReactNode, useState } from "react";
+import { useState } from "react";
 
 import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
 import { reversed } from "@/utils/card-utils";
@@ -12,7 +12,7 @@ import { CardContainer } from "./card-container";
 import { CardFront } from "./card-front";
 
 export type Props = {
-  children?: ReactNode;
+  children?: React.ReactNode;
   className?: string;
   resolvedCard: ResolvedCard | CardWithRelations;
   canToggleBackside?: boolean;

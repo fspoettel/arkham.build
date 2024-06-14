@@ -9,12 +9,13 @@ import {
 import clsx from "clsx";
 import DOMPurify from "dompurify";
 import { marked } from "marked";
-import type React from "react";
 import { useCallback, useState } from "react";
+
+import { FLOATING_PORTAL_ID } from "@/utils/constants";
 
 import css from "./deck-description.module.css";
 
-import { CardTooltip } from "./card-tooltip/card-tooltip";
+import { CardTooltip } from "./card-tooltip";
 
 type Props = {
   className?: string;
@@ -59,7 +60,7 @@ export function DeckDescription({ className, content, title }: Props) {
   );
 
   return (
-    <div className={css["deck-description"]}>
+    <div className={css["description"]}>
       <h1>{title}</h1>
       <div
         className={clsx("longform", className)}
@@ -70,7 +71,7 @@ export function DeckDescription({ className, content, title }: Props) {
       />
 
       {cardTooltip && (
-        <FloatingPortal id="floating">
+        <FloatingPortal id={FLOATING_PORTAL_ID}>
           <div ref={refs.setFloating} style={floatingStyles}>
             <CardTooltip code={cardTooltip} />
           </div>

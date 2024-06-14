@@ -76,9 +76,9 @@ export function useTooltip({
   );
 }
 
-type ContextType = ReturnType<typeof useTooltip> | null;
+type ContextType = ReturnType<typeof useTooltip> | undefined;
 
-const TooltipContext = React.createContext<ContextType>(null);
+const TooltipContext = React.createContext<ContextType>(undefined);
 
 export const useTooltipContext = () => {
   const context = React.useContext(TooltipContext);
@@ -150,7 +150,7 @@ export const TooltipContent = React.forwardRef<
   return (
     <FloatingPortal>
       <div
-        className={css["tooltip-content"]}
+        className={css["content"]}
         ref={ref}
         style={{
           ...context.floatingStyles,

@@ -1,3 +1,0 @@
-.level-filter-content > * + * {
-  margin-top: var(--filters-spacing-y);
-}

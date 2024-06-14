@@ -1,7 +1,5 @@
 import clsx from "clsx";
 import { XIcon } from "lucide-react";
-import type { MouseEvent, ReactNode } from "react";
-import type React from "react";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 
 import css from "./modal.module.css";
@@ -10,9 +8,9 @@ import { Button } from "./button";
 
 type Props = {
   centerContent?: boolean;
-  children: ReactNode;
+  children: React.ReactNode;
   className?: string;
-  actions?: ReactNode;
+  actions?: React.ReactNode;
   onClose: () => void;
   open?: boolean;
   size?: string;
@@ -39,14 +37,14 @@ export function Modal({
   }, [open]);
 
   const onCloseModalOutside = useCallback(
-    (evt: MouseEvent<HTMLDivElement>) => {
+    (evt: React.MouseEvent<HTMLDivElement>) => {
       if (evt.target === modalRef.current) onClose();
     },
     [onClose],
   );
 
   const onCloseActions = useCallback(
-    (evt: MouseEvent<HTMLDivElement>) => {
+    (evt: React.MouseEvent<HTMLDivElement>) => {
       if (evt.target === actionRef.current) onClose();
     },
     [onClose],
@@ -66,9 +64,9 @@ export function Modal({
       ref={modalRef}
       style={cssVariables as React.CSSProperties}
     >
-      <div className={css["modal-inner"]}>
+      <div className={css["inner"]}>
         <div
-          className={clsx(css["modal-actions"], actions && css["has-actions"])}
+          className={clsx(css["actions"], actions && css["has-custom"])}
           onClick={onCloseActions}
           ref={actionRef}
         >

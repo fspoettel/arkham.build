@@ -1,17 +1,17 @@
-.toggle-group {
+.togglegroup {
   display: inline-flex;
   color: var(--nord-0);
   justify-content: center;
 
-  &.is-icons .toggle-group-item {
+  &.is-icons .item {
     padding: 0.25rem 0.5rem;
   }
 
-  &.is-icons .toggle-group-item {
+  &.is-icons .item {
     font-size: var(--icon-base);
   }
 
-  &.is-icons .toggle-group-item.small {
+  &.is-icons .item.small {
     font-size: var(--icon-sm);
   }
 
@@ -20,7 +20,7 @@
     width: 100%;
   }
 
-  &.is-full .toggle-group-item {
+  &.is-full .item {
     flex: 1 1 auto;
     display: inline-flex;
     align-items: center;
@@ -28,7 +28,7 @@
   }
 }
 
-.toggle-group-item {
+.item {
   --active-color: var(--nord-6);
   border-style: solid;
   border-color: var(--nord-1);

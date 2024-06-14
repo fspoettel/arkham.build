@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { useCallback } from "react";
 
 import { Combobox } from "@/components/ui/combobox/combobox";
@@ -14,7 +13,7 @@ type Props<T extends Coded, K extends CardTypeFilter> = {
   path: keyof Filters[K];
   changes?: string;
   itemToString?: (val: T) => string;
-  nameRenderer?: (val: T) => ReactNode;
+  nameRenderer?: (val: T) => React.ReactNode;
   title: string;
   options: T[];
   placeholder?: string;

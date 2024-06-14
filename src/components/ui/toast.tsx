@@ -1,12 +1,11 @@
 import clsx from "clsx";
 import { CheckCircle, CircleAlert } from "lucide-react";
-import type { ReactNode } from "react";
 import { createContext, useCallback, useContext, useState } from "react";
 
 import css from "./toast.module.css";
 
 type Toast = {
-  children: ReactNode;
+  children: React.ReactNode;
   variant?: "success" | "error";
 };
 
@@ -14,12 +13,12 @@ const ToastContext = createContext<((msg: Toast) => void) | undefined>(
   undefined,
 );
 
-export function ToastProvider({ children }: { children: ReactNode }) {
-  const [toast, setToast] = useState<Toast | null>(null);
+export function ToastProvider({ children }: { children: React.ReactNode }) {
+  const [toast, setToast] = useState<Toast | undefined>(undefined);
 
   const showToast = useCallback((value: Toast) => {
     setToast(value);
-    setTimeout(() => setToast(null), 3000);
+    setTimeout(() => setToast(undefined), 3000);
   }, []);
 
   return (
@@ -31,12 +30,10 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           role="status"
         >
           {toast.variant === "success" && (
-            <CheckCircle className={css["toast-icon"]} />
+            <CheckCircle className={css["icon"]} />
           )}
-          {toast.variant === "error" && (
-            <CircleAlert className={css["toast-icon"]} />
-          )}
-          <div className={css["toast-message"]}>{toast.children}</div>
+          {toast.variant === "error" && <CircleAlert className={css["icon"]} />}
+          <div>{toast.children}</div>
         </div>
       )}
     </ToastContext.Provider>

@@ -14,7 +14,7 @@
   height: var(--slider-height);
 }
 
-.slider-track {
+.track {
   background-color: var(--color-track);
   position: relative;
   flex-grow: 1;
@@ -22,14 +22,14 @@
   height: var(--track-height);
 }
 
-.slider-range {
+.range {
   position: absolute;
   background-color: var(--color-range);
   border-radius: 50%;
   height: 100%;
 }
 
-.slider-thumb {
+.thumb {
   display: block;
   width: var(--thumb-size);
   height: var(--thumb-size);
@@ -39,11 +39,11 @@
   cursor: pointer;
 }
 
-.slider-thumb:hover {
+.thumb:hover {
   background-color: var(--nord-6);
 }
 
-.slider-thumb:focus-visible {
+.thumb:focus-visible {
   outline: 0.125rem solid var(--nord-5);
   outline-offset: 0.125rem;
 }

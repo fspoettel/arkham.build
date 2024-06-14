@@ -2,9 +2,9 @@ import { Save } from "lucide-react";
 import { useCallback } from "react";
 import { Link, useLocation } from "wouter";
 
+import { ListLayout } from "@//layouts/list-layout";
 import { CardList } from "@/components/card-list/card-list";
 import { Filters } from "@/components/filters/filters";
-import { ListLayout } from "@/components/layouts/list-layout";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import { useStore } from "@/store";
@@ -16,7 +16,7 @@ import { useDocumentTitle } from "@/utils/use-document-title";
 
 import css from "./deck-edit.module.css";
 
-import { DeckEditSidebar } from "./deck-edit-sidebar";
+import { Editor } from "./editor/editor";
 import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 
 function DeckEdit() {
@@ -50,7 +50,7 @@ function DeckEdit() {
         </Filters>
       }
       mastheadContent={
-        <div className={css["deck-edit-actions"]}>
+        <div className={css["actions"]}>
           <Button onClick={handleSave}>
             <Save />
             Save
@@ -60,7 +60,7 @@ function DeckEdit() {
           </Link>
         </div>
       }
-      sidebar={<DeckEditSidebar deck={deck} />}
+      sidebar={<Editor deck={deck} />}
       sidebarWidthMax="42rem"
     >
       <CardList quantities={quantities} />

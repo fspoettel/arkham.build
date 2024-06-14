@@ -29,12 +29,12 @@ export type LevelFilter = FilterObject<{
 }>;
 
 export type SkillIconsFilter = FilterObject<{
-  agility: number | null;
-  combat: number | null;
-  intellect: number | null;
-  willpower: number | null;
-  wild: number | null;
-  any: number | null;
+  agility: number | undefined;
+  combat: number | undefined;
+  intellect: number | undefined;
+  willpower: number | undefined;
+  wild: number | undefined;
+  any: number | undefined;
 }>;
 
 export type PropertiesFilter = FilterObject<{

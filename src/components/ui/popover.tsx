@@ -14,7 +14,16 @@ import {
   useMergeRefs,
   useRole,
 } from "@floating-ui/react";
-import * as React from "react";
+import {
+  cloneElement,
+  createContext,
+  forwardRef,
+  isValidElement,
+  useContext,
+  useLayoutEffect,
+  useMemo,
+  useState,
+} from "react";
 
 interface PopoverOptions {
   initialOpen?: boolean;
@@ -31,11 +40,9 @@ export function usePopover({
   open: controlledOpen,
   onOpenChange: setControlledOpen,
 }: PopoverOptions = {}) {
-  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
-  const [labelId, setLabelId] = React.useState<string | undefined>();
-  const [descriptionId, setDescriptionId] = React.useState<
-    string | undefined
-  >();
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(initialOpen);
+  const [labelId, setLabelId] = useState<string | undefined>();
+  const [descriptionId, setDescriptionId] = useState<string | undefined>();
 
   const open = controlledOpen ?? uncontrolledOpen;
   const setOpen = setControlledOpen ?? setUncontrolledOpen;
@@ -66,7 +73,7 @@ export function usePopover({
 
   const interactions = useInteractions([click, dismiss, role]);
 
-  return React.useMemo(
+  return useMemo(
     () => ({
       open,
       setOpen,
@@ -89,12 +96,12 @@ type ContextType =
         React.SetStateAction<string | undefined>
       >;
     })
-  | null;
+  | undefined;
 
-const PopoverContext = React.createContext<ContextType>(null);
+const PopoverContext = createContext<ContextType>(undefined);
 
 export const usePopoverContext = () => {
-  const context = React.useContext(PopoverContext);
+  const context = useContext(PopoverContext);
 
   if (context == null) {
     throw new Error("Popover components must be wrapped in <Popover />");
@@ -125,7 +132,7 @@ interface PopoverTriggerProps {
   asChild?: boolean;
 }
 
-export const PopoverTrigger = React.forwardRef<
+export const PopoverTrigger = forwardRef<
   HTMLElement,
   React.HTMLProps<HTMLElement> & PopoverTriggerProps
 >(function PopoverTrigger({ children, asChild = false, ...props }, propRef) {
@@ -135,8 +142,8 @@ export const PopoverTrigger = React.forwardRef<
   const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
 
   // `asChild` allows the user to pass any element as the anchor
-  if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(
+  if (asChild && isValidElement(children)) {
+    return cloneElement(
       children,
       context.getReferenceProps({
         ref,
@@ -159,7 +166,7 @@ export const PopoverTrigger = React.forwardRef<
   );
 });
 
-export const PopoverContent = React.forwardRef<
+export const PopoverContent = forwardRef<
   HTMLDivElement,
   React.HTMLProps<HTMLDivElement>
   // eslint-disable-next-line react/prop-types
@@ -186,7 +193,7 @@ export const PopoverContent = React.forwardRef<
   );
 });
 
-export const PopoverHeading = React.forwardRef<
+export const PopoverHeading = forwardRef<
   HTMLHeadingElement,
   React.HTMLProps<HTMLHeadingElement>
 >(function PopoverHeading(props, ref) {
@@ -195,7 +202,7 @@ export const PopoverHeading = React.forwardRef<
 
   // Only sets `aria-labelledby` on the Popover root element
   // if this component is mounted inside it.
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     setLabelId(id);
     return () => setLabelId(undefined);
   }, [id, setLabelId]);
@@ -207,7 +214,7 @@ export const PopoverHeading = React.forwardRef<
   );
 });
 
-export const PopoverDescription = React.forwardRef<
+export const PopoverDescription = forwardRef<
   HTMLParagraphElement,
   React.HTMLProps<HTMLParagraphElement>
 >(function PopoverDescription(props, ref) {
@@ -216,7 +223,7 @@ export const PopoverDescription = React.forwardRef<
 
   // Only sets `aria-describedby` on the Popover root element
   // if this component is mounted inside it.
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     setDescriptionId(id);
     return () => setDescriptionId(undefined);
   }, [id, setDescriptionId]);
@@ -224,7 +231,7 @@ export const PopoverDescription = React.forwardRef<
   return <p {...props} id={id} ref={ref} />;
 });
 
-export const PopoverClose = React.forwardRef<
+export const PopoverClose = forwardRef<
   HTMLButtonElement,
   React.ButtonHTMLAttributes<HTMLButtonElement> & {
     onClick?: React.MouseEventHandler<HTMLButtonElement>;

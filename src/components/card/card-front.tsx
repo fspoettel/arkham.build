@@ -8,8 +8,8 @@ import css from "./card.module.css";
 import { CardDetails } from "./card-details";
 import { CardHeader } from "./card-header";
 import { CardIcons } from "./card-icons";
-import { CardImage } from "./card-image";
 import { CardMeta } from "./card-meta";
+import { CardScan } from "./card-scan";
 import { CardText } from "./card-text";
 import { CardThumbnail } from "./card-thumbnail";
 
@@ -40,12 +40,12 @@ export function CardFront({ className, resolvedCard, linked, size }: Props) {
     >
       <CardHeader card={card} linked={linked} />
 
-      <div className={css["details"]}>
+      <div className={css["pre"]}>
         <CardDetails resolvedCard={resolvedCard} />
         <CardIcons card={card} />
       </div>
 
-      <div className={css["container"]}>
+      <div className={css["content"]}>
         <CardText
           flavor={card.real_flavor}
           size={size}
@@ -60,7 +60,7 @@ export function CardFront({ className, resolvedCard, linked, size }: Props) {
 
       {showImage &&
         (size === "full" ? (
-          <CardImage
+          <CardScan
             className={css["image"]}
             code={card.code}
             sideways={isSideways}

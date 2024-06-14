@@ -9,7 +9,17 @@ import {
   useMergeRefs,
   useRole,
 } from "@floating-ui/react";
-import * as React from "react";
+import {
+  cloneElement,
+  createContext,
+  forwardRef,
+  isValidElement,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
+
+import { FLOATING_PORTAL_ID } from "@/utils/constants";
 
 interface DialogOptions {
   initialOpen?: boolean;
@@ -22,11 +32,9 @@ export function useDialog({
   open: controlledOpen,
   onOpenChange: setControlledOpen,
 }: DialogOptions = {}) {
-  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
-  const [labelId, setLabelId] = React.useState<string | undefined>();
-  const [descriptionId, setDescriptionId] = React.useState<
-    string | undefined
-  >();
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(initialOpen);
+  const [labelId, setLabelId] = useState<string | undefined>();
+  const [descriptionId, setDescriptionId] = useState<string | undefined>();
 
   const open = controlledOpen ?? uncontrolledOpen;
   const setOpen = setControlledOpen ?? setUncontrolledOpen;
@@ -46,7 +54,7 @@ export function useDialog({
 
   const interactions = useInteractions([click, dismiss, role]);
 
-  return React.useMemo(
+  return useMemo(
     () => ({
       open,
       setOpen,
@@ -68,12 +76,12 @@ type ContextType =
         React.SetStateAction<string | undefined>
       >;
     })
-  | null;
+  | undefined;
 
-const DialogContext = React.createContext<ContextType>(null);
+const DialogContext = createContext<ContextType>(undefined);
 
 export const useDialogContext = () => {
-  const context = React.useContext(DialogContext);
+  const context = useContext(DialogContext);
 
   if (context == null) {
     throw new Error("Dialog components must be wrapped in <Dialog />");
@@ -83,7 +91,7 @@ export const useDialogContext = () => {
 };
 
 export const useDialogContextUnchecked = () => {
-  const context = React.useContext(DialogContext);
+  const context = useContext(DialogContext);
   return context;
 };
 
@@ -104,7 +112,7 @@ interface DialogTriggerProps {
   asChild?: boolean;
 }
 
-export const DialogTrigger = React.forwardRef<
+export const DialogTrigger = forwardRef<
   HTMLElement,
   React.HTMLProps<HTMLElement> & DialogTriggerProps
 >(function DialogTrigger({ children, asChild = false, ...props }, propRef) {
@@ -114,8 +122,8 @@ export const DialogTrigger = React.forwardRef<
   const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
 
   // `asChild` allows the user to pass any element as the anchor
-  if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(
+  if (asChild && isValidElement(children)) {
+    return cloneElement(
       children,
       context.getReferenceProps({
         ref,
@@ -137,7 +145,7 @@ export const DialogTrigger = React.forwardRef<
   );
 });
 
-export const DialogContent = React.forwardRef<
+export const DialogContent = forwardRef<
   HTMLDivElement,
   React.HTMLProps<HTMLDivElement>
 >(function DialogContent(props, propRef) {
@@ -147,7 +155,7 @@ export const DialogContent = React.forwardRef<
   if (!floatingContext.open) return null;
 
   return (
-    <FloatingPortal id="floating">
+    <FloatingPortal id={FLOATING_PORTAL_ID}>
       <FloatingOverlay lockScroll>
         <FloatingFocusManager context={floatingContext}>
           <div
@@ -164,7 +172,7 @@ export const DialogContent = React.forwardRef<
   );
 });
 
-export const DialogContentInert = React.forwardRef<
+export const DialogContentInert = forwardRef<
   HTMLDivElement,
   React.HTMLProps<HTMLDivElement>
 >(function DialogContent(props, propRef) {
@@ -174,7 +182,7 @@ export const DialogContentInert = React.forwardRef<
   const open = floatingContext.open;
 
   return (
-    <FloatingPortal id="floating">
+    <FloatingPortal id={FLOATING_PORTAL_ID}>
       <FloatingOverlay
         lockScroll={open}
         style={{ display: open ? "block" : "none" }}

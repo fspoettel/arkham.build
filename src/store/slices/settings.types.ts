@@ -1,5 +1,5 @@
 export type SettingsState = {
-  tabooSetId: number | null;
+  tabooSetId: number | undefined;
   showAllCards: boolean;
   collection: Record<string, number>; // track as "quantity" owned to accomodate the core set.
 };

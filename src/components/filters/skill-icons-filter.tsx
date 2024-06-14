@@ -9,7 +9,7 @@ import {
 } from "@/store/selectors/filters";
 import type { SkillIconsFilter as SkillIconsFilterType } from "@/store/slices/filters.types";
 
-import css from "./skill-icons-filter.module.css";
+import css from "./filters.module.css";
 
 import { SkillIcon } from "../icons/skill-icon";
 import { CheckboxGroup } from "../ui/checkboxgroup";
@@ -49,17 +49,17 @@ export function SkillIconsFilter() {
   return (
     <FilterContainer
       alwaysShowFilterString
+      className={css["skill-filter"]}
       filterString={changes}
       onOpenChange={onOpenChange}
       onReset={onReset}
       open={open}
       title="Skill Icons"
     >
-      <CheckboxGroup as="div" className={css["skill-filter-icons"]}>
+      <CheckboxGroup as="div" className={css["icons"]}>
         {Object.entries(value).map(([key, value]) => (
-          <div className={css["skill-filter-icon"]} key={key}>
+          <div className={css["icon"]} key={key}>
             <ToggleGroup
-              className={css["skill-filter-icon-toggle"]}
               key={key}
               onValueChange={(val) => onToggleChange(key as keyof Value, val)}
               type="single"

@@ -1,10 +1,10 @@
-.quantity-output {
+.container {
   display: flex;
   align-items: center;
   gap: 0.375rem;
 }
 
-.quantity-output-value {
+.value {
   font-size: var(--text-xs);
   font-family: var(--font-family-ui);
   line-height: 1;
@@ -14,6 +14,6 @@
   user-select: none;
 }
 
-.quantity-output-x {
+.x {
   color: color-mix(in srgb, var(--nord-3) 80%, var(--nord-4) 20%);
 }

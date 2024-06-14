@@ -56,7 +56,7 @@ export type Customizations = Record<
 >;
 
 export type DeckMeta = {
-  [key in `cus_${string}`]?: string | null;
+  [key in `cus_${string}`]: string | null;
 } & {
   alternate_front?: string | null;
   alternate_back?: string | null;

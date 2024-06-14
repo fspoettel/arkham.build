@@ -1,23 +1,23 @@
-.combobox-label {
+.control-label {
   font-size: var(--text-sm);
   margin-bottom: 0.125rem;
 }
 
-.combobox-control-row {
+.control-row {
   display: flex;
   align-items: center;
   gap: 0.25rem;
 }
 
-.combobox-input {
+.control-input {
   flex: 1 1 100%;
 }
 
-.combobox-toggle {
+.control-toggle {
   flex: 0 0 auto;
 }
 
-.combobox-menu {
+.menu {
   width: 100%;
   max-width: min(20rem, 50dvw);
   background: var(--nord-1);
@@ -33,7 +33,7 @@
   overflow: hidden;
 }
 
-.combobox-menu-viewport {
+.menu-viewport {
   display: grid;
   grid-template-rows: min-content;
   min-height: min(calc(var(--viewport-item-count) * 3rem), 15rem);
@@ -41,10 +41,10 @@
   overflow-y: auto;
 }
 
-.combobox-menu-item {
+.menu-item {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.5rem;
   width: 100%;
   height: 3rem;
   padding: 0.5rem 0.5rem 0.5rem 2rem;
@@ -62,14 +62,14 @@
   }
 }
 
-.combobox-menu-item-check {
+.menu-item-check {
   position: absolute;
   left: 0.5rem;
   top: calc(50%);
   transform: translateY(-50%);
 }
 
-.combobox-results {
+.results {
   margin-top: 0.5rem;
   display: flex;
   align-items: center;

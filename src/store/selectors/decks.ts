@@ -135,7 +135,7 @@ export function selectCardQuantities(state: StoreState) {
       ? "slots"
       : mapTabToSlot(state.deckView.activeTab);
 
-  return selectCardQuantitiesForSlot(state, slot);
+  return selectCardQuantitiesForSlot(state, slot) ?? undefined;
 }
 
 export const selectCurrentTab = (state: StoreState) => {

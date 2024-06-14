@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { UnfoldVertical } from "lucide-react";
-import type { ReactNode } from "react";
 import { useMemo, useRef, useState } from "react";
 
 import css from "./expander.module.css";
@@ -8,10 +7,10 @@ import css from "./expander.module.css";
 import { Button } from "./button";
 
 type Props = {
-  children: ReactNode;
+  children: React.ReactNode;
   collapsedHeight?: string;
   defaultExpanded?: boolean;
-  label?: ReactNode;
+  label?: React.ReactNode;
 };
 
 export function Expander({
@@ -37,15 +36,15 @@ export function Expander({
       style={cssVariables as React.CSSProperties}
     >
       {label && (
-        <header className={css["expander-header"]}>
-          <h2 className={css["expander-label"]}>{label}</h2>
+        <header className={css["header"]}>
+          <h2 className={css["label"]}>{label}</h2>
         </header>
       )}
-      <div className={css["expander-content"]} ref={contentRef}>
+      <div className={css["content"]} ref={contentRef}>
         {children}
       </div>
       <Button
-        className={css["expander-toggle"]}
+        className={css["toggle"]}
         onClick={() => {
           setIsExpanded((prev) => !prev);
         }}

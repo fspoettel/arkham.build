@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { createContext, useContext, useMemo, useState } from "react";
 
 import { Dialog, DialogContent } from "../ui/dialog";
@@ -40,7 +39,7 @@ export function useCardModalContext() {
 }
 
 type Props = {
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
 export function CardModalProvider({ children }: Props) {

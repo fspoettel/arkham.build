@@ -1,4 +1,3 @@
-import type { ChangeEvent, ReactNode } from "react";
 import { useCallback } from "react";
 
 import { useStore } from "@/store";
@@ -17,7 +16,7 @@ type Props<
   changes?: string;
   mapValue?: (val: string) => V;
   options: T[];
-  renderOption: (option: T) => ReactNode;
+  renderOption: (option: T) => React.ReactNode;
   title: string;
   value: V;
 };
@@ -54,7 +53,7 @@ export function SelectFilter<
   );
 
   const onChange = useCallback(
-    (evt: ChangeEvent<HTMLSelectElement>) => {
+    (evt: React.ChangeEvent<HTMLSelectElement>) => {
       const val = evt.target.value;
       const mapped = mapValue ? mapValue(val) : val;
       setFilter(cardType, path, "value", mapped);

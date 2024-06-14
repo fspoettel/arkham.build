@@ -7,7 +7,7 @@ import {
   selectFactionValue,
 } from "@/store/selectors/filters";
 
-import css from "./faction-filter.module.css";
+import css from "./filters.module.css";
 
 import { FactionIconFancy } from "../icons/faction-icon-fancy";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";

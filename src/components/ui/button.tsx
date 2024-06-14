@@ -1,13 +1,12 @@
 import clsx from "clsx";
-import type { ComponentProps, ForwardedRef, ReactNode } from "react";
 import { forwardRef } from "react";
 
 import css from "./button.module.css";
 
 type Props<T extends "a" | "button" | "summary" | "label"> =
-  ComponentProps<T> & {
+  React.ComponentProps<T> & {
     as?: T;
-    children: ReactNode;
+    children: React.ReactNode;
     className?: string;
     variant?: "bare" | "secondary";
     size?: "xs" | "sm" | "lg" | "full";
@@ -15,7 +14,10 @@ type Props<T extends "a" | "button" | "summary" | "label"> =
 
 export const Button = forwardRef(function Button<
   T extends "a" | "button" | "summary" | "label",
->({ as, children, variant, size, ...rest }: Props<T>, ref: ForwardedRef<T>) {
+>(
+  { as, children, variant, size, ...rest }: Props<T>,
+  ref: React.ForwardedRef<T>,
+) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const Element: any = as ?? "button";
 

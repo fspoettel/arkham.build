@@ -17,7 +17,7 @@ export function ShowUnusableCardsToggle() {
   };
 
   return (
-    <div className={css["deck-edit-faux-filter"]}>
+    <div className={css["show-unusable-filter"]}>
       <Checkbox
         checked={showUnusableCards}
         id="show-unusable-cards"

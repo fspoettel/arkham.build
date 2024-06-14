@@ -1,18 +1,18 @@
-.tabs-list {
+.list {
   display: flex;
   flex-flow: row wrap;
   gap: 0.25rem;
   padding: 1px;
 }
 
-.tabs-list > * {
+.list > * {
   flex: 1 1 calc(100% / var(--length) - 0.5rem);
 }
 
-.tabs-trigger[data-state="active"] {
+.trigger[data-state="active"] {
   background: var(--nord-2);
 }
 
-.tabs-content {
+.content {
   padding: 0.25rem 0;
 }

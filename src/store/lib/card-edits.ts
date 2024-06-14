@@ -123,7 +123,7 @@ export function applyCustomizations(
 export function applyTaboo(
   card: Card,
   metadata: Metadata,
-  tabooSetId: number | null,
+  tabooSetId: number | null | undefined,
 ): Card {
   if (!tabooSetId) return card;
 
@@ -140,7 +140,7 @@ export function applyTaboo(
 export function applyCardChanges(
   card: Card,
   metadata: Metadata,
-  tabooSetId: number | null,
+  tabooSetId: number | null | undefined,
   customizations: Customizations | undefined,
 ) {
   return applyCustomizations(

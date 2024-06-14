@@ -10,7 +10,7 @@ type Props = {
 
 export function CardContainer({ children, className, size }: Props) {
   return (
-    <div className={clsx(css["card-container"], css[size], className)}>
+    <div className={clsx(css["container"], css[size], className)}>
       {children}
     </div>
   );

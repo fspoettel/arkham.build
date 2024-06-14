@@ -28,26 +28,24 @@ export function QuantityInput({
   };
 
   return (
-    <div className={css["quantity-input-row"]}>
-      <div className={css["quantity-input"]}>
-        <Button
-          disabled={disabled || value <= 0}
-          onClick={decrementCardQuantity}
-          size="sm"
-          variant="bare"
-        >
-          <Minus />
-        </Button>
-        <strong className={css["quantity-input-value"]}>{value}</strong>
-        <Button
-          disabled={disabled || value >= limit}
-          onClick={incrementCardQuantity}
-          size="sm"
-          variant="bare"
-        >
-          <Plus />
-        </Button>
-      </div>
+    <div className={css["container"]}>
+      <Button
+        disabled={disabled || value <= 0}
+        onClick={decrementCardQuantity}
+        size="sm"
+        variant="bare"
+      >
+        <Minus />
+      </Button>
+      <strong className={css["value"]}>{value}</strong>
+      <Button
+        disabled={disabled || value >= limit}
+        onClick={incrementCardQuantity}
+        size="sm"
+        variant="bare"
+      >
+        <Plus />
+      </Button>
     </div>
   );
 }

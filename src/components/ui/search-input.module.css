@@ -1,29 +1,29 @@
-.field {
+.search {
   position: relative;
 
-  &:focus-within .field-icon_search {
+  &:focus-within .icon_search {
     color: var(--nord-5);
   }
 }
 
-.field-icon_clear,
-.field-icon_search {
+.icon_clear,
+.icon_search {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
 }
 
-.field-input {
+.input {
   padding-left: 2rem;
   padding-right: 2rem;
 }
 
-.field-icon_search {
+.icon_search {
   left: 0.5rem;
   color: var(--nord-3);
 }
 
-.field-icon_clear {
+.icon_clear {
   right: 0.5rem;
   padding: 0.125rem;
 }

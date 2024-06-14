@@ -1,4 +1,4 @@
-.skill-icon_fancy {
+.icon {
   position: relative;
   width: 1em;
   height: 1em;
@@ -33,6 +33,6 @@
   }
 }
 
-.skill-icon_fancy-inverted {
+.inverted {
   color: var(--nord-5);
 }

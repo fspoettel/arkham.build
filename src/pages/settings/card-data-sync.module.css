@@ -7,7 +7,7 @@
   font-size: var(--text-sm);
 }
 
-.sync-status p {
+.status p {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
@@ -16,15 +16,15 @@
   border-radius: var(--rounded-lg);
 }
 
-.sync .sync-status svg {
+.sync .status-icon {
   color: var(--nord-10);
 }
 
-.sync.uptodate .sync-status svg {
+.sync.uptodate .status-icon {
   color: var(--nord-14);
 }
 
-.sync-info {
+.info {
   & dt {
     font-weight: 700;
   }

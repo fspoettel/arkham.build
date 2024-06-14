@@ -1,57 +1,10 @@
-.deck-edit-sidebar {
-  padding: 0.25rem;
-  height: 100%;
-  display: flex;
-  flex-flow: column nowrap;
-}
-
-.deck-edit-sidebar > * {
-  flex: 0 0 auto;
-}
-
-.deck-edit-sidebar-tabs,
-.deck-edit-sidebar-cards {
-  flex: 1 1 auto;
-}
-
-.deck-edit-sidebar-tabs {
-  display: flex;
-  flex-flow: column nowrap;
-  height: 100%;
-  min-height: 0;
-}
-
-.deck-edit-sidebar-tabs-list {
-  flex: 0 0 auto;
-}
-
-.deck-edit-sidebar-tabs-content > * + *,
-.deck-edit-sidebar > * + * {
-  margin-top: 0.5rem;
-}
-
-.deck-edit-sidebar-investigator {
-  max-width: 12rem;
-  margin: 0 auto;
-}
-
-.deck-edit-sidebar-icons {
-  display: flex;
-  justify-content: space-between;
-}
-
-.deck-edit-sidebar-placeholder {
-  text-align: center;
-  padding: 1rem;
-}
-
-.deck-edit-actions {
+.actions {
   display: flex;
   align-items: center;
   flex-flow: row nowrap;
   gap: 0.25rem;
 }
 
-.deck-edit-faux-filter {
+.show-unusable-filter {
   padding: 0.5rem 0.25rem;
 }

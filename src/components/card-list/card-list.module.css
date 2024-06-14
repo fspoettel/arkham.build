@@ -1,10 +1,10 @@
-.list-container {
+.container {
   display: flex;
   height: 100%;
   flex-flow: column nowrap;
 }
 
-.list-nav {
+.nav {
   display: flex;
   flex: 0 0 auto;
   padding: 0.5rem 0;
@@ -14,7 +14,7 @@
   justify-content: space-between;
 }
 
-.list-scroller {
+.scroller {
   flex: 1 1 auto;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;

@@ -46,6 +46,14 @@ export type CustomizationEdit = {
 
 export type EditState = {
   edits: {
+    customizations: {
+      [code: string]: {
+        [id: number]: CustomizationEdit;
+      };
+    };
+    meta: {
+      [key: string]: string | null;
+    };
     quantities: {
       extraSlots?: SlotEdit[];
       ignoreDeckLimitSlots?: SlotEdit[];
@@ -55,15 +63,9 @@ export type EditState = {
     name?: string | null;
     description_md?: string | null;
     tags?: string | null;
-    meta: Record<string, string | null>;
     tabooId?: number | null;
     investigatorFront?: string | null;
     investigatorBack?: string | null;
-    customizations: {
-      [code: string]: {
-        [id: number]: CustomizationEdit;
-      };
-    };
   };
   mode: "edit";
   activeTab: Tab;

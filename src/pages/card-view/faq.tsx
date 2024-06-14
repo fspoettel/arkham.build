@@ -1,6 +1,5 @@
 import DOMPurify from "dompurify";
 import { ChevronDown } from "lucide-react";
-import type { MouseEvent } from "react";
 import { useCallback, useMemo, useState } from "react";
 
 import type { ResolvedCard } from "@/store/lib/types";
@@ -26,7 +25,7 @@ export function Faq({ card }: Props) {
   const response = useQuery(query);
 
   const redirectRelativeLinks = useCallback(
-    (evt: MouseEvent<HTMLDivElement>) => {
+    (evt: React.MouseEvent<HTMLDivElement>) => {
       evt.preventDefault();
       if (evt.target instanceof HTMLAnchorElement) {
         // Redirect relative links to another domain

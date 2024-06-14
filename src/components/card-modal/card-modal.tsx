@@ -8,8 +8,8 @@ import { useMedia } from "@/utils/use-media";
 import css from "./card-modal.module.css";
 
 import { Card } from "../card/card";
-import { CardCustomizations } from "../card/customizations/card-customizations";
-import { CardCustomizationsEdit } from "../card/customizations/card-customizations-edit";
+import { Customizations } from "../customizations/customizations";
+import { CustomizationsEditor } from "../customizations/customizations-editor";
 import { Button } from "../ui/button";
 import { useDialogContext } from "../ui/dialog";
 import { Modal } from "../ui/modal";
@@ -49,13 +49,13 @@ export function CardModal({ code }: Props) {
     >
       {cardWithRelations.card.customization_options ? (
         activeDeck ? (
-          <CardCustomizationsEdit
+          <CustomizationsEditor
             activeDeck={activeDeck}
             canEdit={canEdit}
             card={cardWithRelations.card}
           />
         ) : (
-          <CardCustomizations card={cardWithRelations.card} />
+          <Customizations card={cardWithRelations.card} />
         )
       ) : undefined}
     </Card>
@@ -77,7 +77,7 @@ export function CardModal({ code }: Props) {
       size="52rem"
     >
       {showQuantities ? (
-        <div className={css["cardmodal-row"]}>
+        <div className={css["container"]}>
           {cardNode}
           {showQuantities && (
             <CardModalQuantities

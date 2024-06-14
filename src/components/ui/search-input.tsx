@@ -1,13 +1,12 @@
 import clsx from "clsx";
 import { Search, XIcon } from "lucide-react";
-import type { ChangeEvent, ComponentProps } from "react";
 import { forwardRef, useCallback } from "react";
 
 import css from "./search-input.module.css";
 
 import { Button } from "./button";
 
-type Props = ComponentProps<"input"> & {
+type Props = React.ComponentProps<"input"> & {
   className?: string;
   inputClassName?: string;
   onChangeValue: (value: string) => void;
@@ -25,20 +24,20 @@ export const SearchInput = forwardRef<HTMLInputElement, Props>(
     }, [onChangeValue]);
 
     const onChange = useCallback(
-      (evt: ChangeEvent<HTMLInputElement>) => {
+      (evt: React.ChangeEvent<HTMLInputElement>) => {
         onChangeValue(evt.target.value);
       },
       [onChangeValue],
     );
 
     return (
-      <div className={clsx(css["field"], className)}>
+      <div className={clsx(css["search"], className)}>
         <label htmlFor={id} title="Search cards">
-          <Search className={css["field-icon_search"]} />
+          <Search className={css["icon_search"]} />
         </label>
         <input
           {...rest}
-          className={clsx(css["field-input"], inputClassName)}
+          className={clsx(css["input"], inputClassName)}
           id={id}
           onChange={onChange}
           ref={ref}
@@ -47,7 +46,7 @@ export const SearchInput = forwardRef<HTMLInputElement, Props>(
         />
         {!!value && (
           <Button
-            className={css["field-icon_clear"]}
+            className={css["icon_clear"]}
             onClick={onClear}
             variant="bare"
           >

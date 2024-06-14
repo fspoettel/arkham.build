@@ -1,4 +1,4 @@
-import { type MouseEvent, useCallback, useRef } from "react";
+import { useCallback, useRef } from "react";
 
 import { useStore } from "@/store";
 import {
@@ -28,7 +28,7 @@ export function CardModalQuantities({
   const divRef = useRef<HTMLDivElement>(null);
 
   const onClick = useCallback(
-    (evt: MouseEvent<HTMLDivElement>) => {
+    (evt: React.MouseEvent<HTMLDivElement>) => {
       if (evt.target === divRef.current) {
         onClickBackground?.();
       }
@@ -72,9 +72,9 @@ export function CardModalQuantities({
   const isBonded = !!(bondedSlotQuantities && bondedSlotQuantities?.[code]);
 
   return (
-    <div className={css["cardmodal-quantities"]} onClick={onClick} ref={divRef}>
+    <div className={css["quantities"]} onClick={onClick} ref={divRef}>
       {!isBonded && (
-        <article className={css["cardmodal-quantity"]}>
+        <article className={css["quantity"]}>
           <h3>Deck</h3>
           <QuantityInput
             disabled={!canEdit}
@@ -85,7 +85,7 @@ export function CardModalQuantities({
         </article>
       )}
       {!isBonded && (
-        <article className={css["cardmodal-quantity"]}>
+        <article className={css["quantity"]}>
           <h3>Side deck</h3>
           <QuantityInput
             disabled={isBonded || !canEdit}
@@ -98,7 +98,7 @@ export function CardModalQuantities({
         </article>
       )}
       {isBonded && (
-        <article className={css["cardmodal-quantity"]}>
+        <article className={css["quantity"]}>
           <h3>Bonded</h3>
           <QuantityInput
             disabled
@@ -108,7 +108,7 @@ export function CardModalQuantities({
         </article>
       )}
       {showExtraQuantities && (
-        <article className={css["cardmodal-quantity"]}>
+        <article className={css["quantity"]}>
           <h3>Spirits</h3>
           <QuantityInput
             disabled={!canEdit}
@@ -121,7 +121,7 @@ export function CardModalQuantities({
         </article>
       )}
       {!isBonded && showIgnoreDeckLimitSlots && (
-        <article className={css["cardmodal-quantity"]}>
+        <article className={css["quantity"]}>
           <h3>Ignore deck limit</h3>
           <QuantityInput
             disabled={!canEdit}

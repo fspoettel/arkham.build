@@ -7,8 +7,8 @@ import { sideways } from "@/utils/card-utils";
 import css from "./card.module.css";
 
 import { CardHeader } from "./card-header";
-import { CardImage } from "./card-image";
 import { CardMetaBack } from "./card-meta";
+import { CardScan } from "./card-scan";
 import { CardText } from "./card-text";
 import { CardThumbnail } from "./card-thumbnail";
 
@@ -73,7 +73,7 @@ export function CardBack({ card, forceShowHeader, size }: Props) {
       {backCard.imageurl &&
         showBackImage &&
         (size === "full" ? (
-          <CardImage
+          <CardScan
             className={css["image"]}
             code={`${card.code}b`}
             sideways={isSideways}

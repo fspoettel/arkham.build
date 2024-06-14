@@ -2,7 +2,7 @@ import type { Grouping } from "@/store/lib/grouping";
 
 import css from "./grouphead.module.css";
 
-import { CardSlots } from "../card/card-slots";
+import { CardSlots } from "../card-slots";
 import EncounterIcon from "../icons/encounter-icon";
 
 type Props = {
@@ -20,7 +20,7 @@ export function Grouphead({ grouping }: Props) {
         grouping.code !== "Permanent" && (
           <CardSlots size="small" slot={grouping.code} />
         )}
-      <h3>{grouping.name}</h3>
+      <h3 className={css["title"]}>{grouping.name}</h3>
     </div>
   );
 }

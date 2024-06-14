@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { Link } from "wouter";
 
-import css from "./card-names.module.css";
+import css from "./card.module.css";
 
 type Props = {
   code: string;
@@ -28,7 +28,7 @@ export function CardNames({
   );
 
   return (
-    <div className={css["names"]}>
+    <div>
       <h1 className={css["name"]}>
         {linked ? (
           <Link asChild href={`~/card/${code}`}>

@@ -25,7 +25,7 @@ export function TabooSets({ settings }: Props) {
       <select
         id="taboo-set"
         name="taboo-set"
-        onChange={(evt) => setValue(+evt.target.value || null)}
+        onChange={(evt) => setValue(+evt.target.value || undefined)}
         value={value ?? ""}
       >
         <option value="">None</option>

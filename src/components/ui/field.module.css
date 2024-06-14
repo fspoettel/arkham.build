@@ -23,13 +23,13 @@
   padding: 0.5rem;
 }
 
-.field-help {
+.help {
   margin-top: 0.25rem;
   max-width: 72ch;
   font-size: var(--text-xs);
 }
 
-.field-label {
+.label {
   display: inline-block;
   margin-bottom: 0.25rem;
   font-size: var(--text-sm);

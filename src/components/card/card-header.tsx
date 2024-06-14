@@ -3,10 +3,10 @@ import clsx from "clsx";
 import type { Card } from "@/store/services/queries.types";
 import { getCardColor } from "@/utils/card-utils";
 
-import css from "./card-header.module.css";
+import css from "./card.module.css";
 
+import { CardIcon } from "../card-icon";
 import { MulticlassIcons } from "../icons/multiclass-icons";
-import { CardIcon } from "./card-icon";
 import { CardNames } from "./card-names";
 
 type Props = {

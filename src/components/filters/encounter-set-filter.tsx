@@ -8,17 +8,13 @@ import {
 } from "@/store/selectors/filters";
 import type { EncounterSet } from "@/store/services/queries.types";
 
-import css from "./filters.module.css";
-
 import EncounterIcon from "../icons/encounter-icon";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 
 function EncounterSetName({ set }: { set: EncounterSet }) {
   return (
     <>
-      <span className={css["filter-menu-icon"]}>
-        <EncounterIcon code={set.code} />
-      </span>
+      <EncounterIcon code={set.code} />
       {set.name}
     </>
   );

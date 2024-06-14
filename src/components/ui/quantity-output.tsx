@@ -6,9 +6,9 @@ type Props = {
 
 export function QuantityOutput({ value }: Props) {
   return (
-    <span className={css["quantity-output"]}>
-      <strong className={css["quantity-output-value"]}>{value}</strong>
-      <span className={css["quantity-output-x"]}>×</span>
+    <span className={css["container"]}>
+      <strong className={css["value"]}>{value}</strong>
+      <span className={css["x"]}>×</span>
     </span>
   );
 }

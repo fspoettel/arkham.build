@@ -11,8 +11,8 @@ import { capitalize } from "@/utils/formatting";
 
 import css from "./decklist-groups.module.css";
 
-import { ListCard } from "../card-list/list-card";
 import SlotIcon from "../icons/slot-icon";
+import { ListCard } from "../list-card/list-card";
 
 type Props = {
   group: Grouping;

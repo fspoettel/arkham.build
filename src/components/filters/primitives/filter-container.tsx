@@ -1,13 +1,13 @@
 import { Undo2 } from "lucide-react";
-import type { MouseEvent } from "react";
-import { type ReactNode, useCallback } from "react";
+import { useCallback } from "react";
 
 import { Button } from "../../ui/button";
 import { Collapsible, CollapsibleContent } from "../../ui/collapsible";
 
 type Props = {
-  children: ReactNode;
-  nonCollapsibleContent?: ReactNode;
+  children: React.ReactNode;
+  className?: string;
+  nonCollapsibleContent?: React.ReactNode;
   alwaysShowFilterString?: boolean;
   filterString?: string;
   open: boolean;
@@ -19,6 +19,7 @@ type Props = {
 export function FilterContainer({
   alwaysShowFilterString,
   children,
+  className,
   filterString,
   nonCollapsibleContent,
   onOpenChange,
@@ -27,7 +28,7 @@ export function FilterContainer({
   title,
 }: Props) {
   const onFilterReset = useCallback(
-    (evt: MouseEvent<HTMLButtonElement>) => {
+    (evt: React.MouseEvent<HTMLButtonElement>) => {
       evt.preventDefault();
       if (onReset) onReset();
     },
@@ -43,6 +44,7 @@ export function FilterContainer({
           </Button>
         ) : undefined
       }
+      className={className}
       onOpenChange={onOpenChange}
       open={open}
       sub={alwaysShowFilterString || !open ? filterString || "All" : undefined}

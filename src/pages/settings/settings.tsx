@@ -1,4 +1,3 @@
-import type { FormEvent } from "react";
 import { useCallback, useRef } from "react";
 import { Link } from "wouter";
 
@@ -11,7 +10,7 @@ import { selectIsInitialized } from "@/store/selectors";
 import css from "./settings.module.css";
 
 import { CardDataSync } from "./card-data-sync";
-import { Collection } from "./collection";
+import { Collection } from "./collection/collection";
 import { TabooSets } from "./taboo-sets";
 
 function Settings() {
@@ -23,7 +22,7 @@ function Settings() {
   const updateSettings = useStore((state) => state.updateSettings);
 
   const onSubmit = useCallback(
-    (evt: FormEvent<HTMLFormElement>) => {
+    (evt: React.FormEvent<HTMLFormElement>) => {
       evt.preventDefault();
 
       if (evt.target instanceof HTMLFormElement) {

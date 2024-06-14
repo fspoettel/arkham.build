@@ -1,8 +1,8 @@
 import type { ResolvedCard } from "@/store/lib/types";
 
-import css from "./card-details.module.css";
+import css from "./card.module.css";
 
-import { CardSlots } from "./card-slots";
+import { CardSlots } from "../card-slots";
 
 type Props = {
   resolvedCard: ResolvedCard;

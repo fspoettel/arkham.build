@@ -1,18 +1,18 @@
-.collapsible-root {
+.collapsible {
   padding: 0.5rem;
   border: 1px solid transparent;
   border-radius: var(--rounded);
 }
 
-.collapsible-root[data-state="open"] {
+.collapsible[data-state="open"] {
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.collapsible-root > * + * {
+.collapsible > * + * {
   margin-top: 0.5rem;
 }
 
-.collapsible-header {
+.header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -22,18 +22,18 @@
   font-size: var(--text-sm);
 }
 
-.collapsible-content > * + * {
+.content > * + * {
   margin-top: 0.5rem;
 }
 
-.collapsible-actions {
+.actions {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
   gap: 0.125rem;
 }
 
-.collapsible-sub {
+.sub {
   font-size: var(--text-xs);
   color: color-mix(in srgb, var(--nord-3) 80%, var(--nord-6) 20%);
 }

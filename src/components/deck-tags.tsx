@@ -15,7 +15,7 @@ export function DeckTags({ tags }: Props) {
   const tagList = trimmed.split(" ");
 
   return (
-    <ul className={css["deck-tags"]}>
+    <ul className={css["tags"]}>
       {tagList.map((s, i) => (
         <Tag as="li" key={i} size="xs">
           {capitalize(s).trim()}

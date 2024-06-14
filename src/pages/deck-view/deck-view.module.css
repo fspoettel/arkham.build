@@ -4,7 +4,7 @@
   padding-inline: 2rem;
 }
 
-.page {
+.main {
   column-gap: 2rem;
   row-gap: 1rem;
   display: grid;
@@ -28,30 +28,30 @@
   }
 }
 
-.page-sidebar {
+.sidebar {
   grid-area: sidebar;
 }
 
-.page-header {
+.header {
   grid-area: header;
+
+  & > * + * {
+    margin-top: 0.5rem;
+  }
 }
 
-.page-decklist {
+.content {
   grid-area: decklist;
 }
 
-.page-header > * + * {
-  margin-top: 0.5rem;
-}
-
-.page-floating {
+.floating {
   position: fixed;
   right: 2rem;
   bottom: 1rem;
   z-index: 2;
 }
 
-.page-floating-button {
+.floating-element {
   border-radius: var(--rounded-xl);
   box-shadow: var(--shadow);
 }

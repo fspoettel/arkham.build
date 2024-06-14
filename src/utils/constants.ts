@@ -1,3 +1,5 @@
+export const FLOATING_PORTAL_ID = "floating";
+
 export const REGEX_SKILL_BOOST = /\+\d+?\s\[(.+?)\]/g;
 
 export const REGEX_USES = /Uses\s\(\d+?\s(\w+?)\)/;

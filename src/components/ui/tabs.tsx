@@ -6,14 +6,14 @@ import type {
 } from "@radix-ui/react-tabs";
 import { Content, List, Root, Trigger } from "@radix-ui/react-tabs";
 import clsx from "clsx";
-import { type ReactNode, useMemo } from "react";
+import { useMemo } from "react";
 
 import css from "./tabs.module.css";
 
 import { Button } from "./button";
 
 type TabsProps = RootProps & {
-  children: ReactNode;
+  children: React.ReactNode;
   length: number;
 };
 
@@ -28,7 +28,7 @@ export function Tabs({ children, className, length, ...rest }: TabsProps) {
   return (
     <Root
       {...rest}
-      className={clsx(css["tabs"], className)}
+      className={className}
       style={cssVariables as React.CSSProperties}
     >
       {children}
@@ -37,25 +37,25 @@ export function Tabs({ children, className, length, ...rest }: TabsProps) {
 }
 
 type ListProps = TabsListProps & {
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
 export function TabsList({ children, className, ...rest }: ListProps) {
   return (
-    <List className={clsx(css["tabs-list"], className)} {...rest}>
+    <List className={clsx(css["list"], className)} {...rest}>
       {children}
     </List>
   );
 }
 
 type TriggerProps = TabsTriggerProps & {
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
 export function TabsTrigger({ children, className, ...rest }: TriggerProps) {
   return (
     <Trigger {...rest} asChild>
-      <Button className={clsx(css["tabs-trigger"], className)} size="full">
+      <Button className={clsx(css["trigger"], className)} size="full">
         {children}
       </Button>
     </Trigger>
@@ -63,12 +63,12 @@ export function TabsTrigger({ children, className, ...rest }: TriggerProps) {
 }
 
 type ContentProps = TabsContentProps & {
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
 export function TabsContent({ children, className, ...rest }: ContentProps) {
   return (
-    <Content className={clsx(css["tabs-content"], className)} {...rest}>
+    <Content className={clsx(css["content"], className)} {...rest}>
       {children}
     </Content>
   );

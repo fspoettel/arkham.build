@@ -1,5 +1,4 @@
 import { XIcon } from "lucide-react";
-import type { ReactNode } from "react";
 import { useCallback } from "react";
 
 import css from "./combobox.module.css";
@@ -10,7 +9,7 @@ import { Tag } from "../tag";
 type Props<T extends { code: string }> = {
   onRemove(item: T): void;
   items: T[];
-  renderResult: (item: T) => ReactNode;
+  renderResult: (item: T) => React.ReactNode;
 };
 
 export function ComboboxResults<T extends { code: string }>({
@@ -28,7 +27,7 @@ export function ComboboxResults<T extends { code: string }>({
   if (!items.length) return null;
 
   return (
-    <ul className={css["combobox-results"]}>
+    <ul className={css["results"]}>
       {items.map((item) => (
         <Tag key={item.code} size="xs">
           {renderResult(item)}

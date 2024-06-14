@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import type { ReactNode } from "react";
 
 import { useStore } from "@/store";
 import { selectActiveCardType } from "@/store/selectors/filters";
@@ -25,8 +24,8 @@ import { TraitFilter } from "./trait-filter";
 import { TypeFilter } from "./type-filter";
 
 type Props = {
-  slotActions?: ReactNode;
-  children?: ReactNode;
+  slotActions?: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   hiddenFilters?: string[];
 };
@@ -44,9 +43,9 @@ export function Filters({
 
   return (
     <search className={clsx(css["filters"], className)} title="Filters">
-      <div className={css["filters-header"]}>
-        <h3 className={css["filters-title"]}>Filters</h3>
-        <div className={css["filters-actions"]}>
+      <div className={css["header"]}>
+        <h3 className={css["title"]}>Filters</h3>
+        <div>
           <Button disabled={!touched} onClick={resetFilters} variant="bare">
             <i className="icon-filter-clear" /> Clear
           </Button>
@@ -54,7 +53,7 @@ export function Filters({
         </div>
       </div>
       <Scroller>
-        <div className={css["filters-container"]}>
+        <div className={css["content"]}>
           <FactionFilter />
           {children}
           <OwnershipFilter />

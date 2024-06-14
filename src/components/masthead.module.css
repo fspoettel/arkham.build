@@ -7,45 +7,23 @@
   height: calc(2rem + var(--icon-3xl));
 }
 
-.masthead-left {
+.left {
   display: flex;
   align-items: center;
   gap: 1.5rem;
 }
 
-.masthead h1 {
-  font-size: var(--text-base);
-}
-
-.masthead-logo {
+.logo {
   font-size: var(--icon-3xl);
   margin-left: 0.25rem;
 }
 
-.masthead-right {
+.right {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.masthead-settings {
+.settings {
   font-size: var(--icon-sm);
-}
-
-.masthead-toggle-search {
-  display: block;
-  font-size: var(--icon-base);
-
-  @media screen and (min-height: 45rem) {
-    display: none;
-  }
-}
-
-.masthead-toggle-filters {
-  display: block;
-  font-size: var(--icon-base);
-
-  @media screen and (min-width: 72rem) {
-    display: none;
-  }
 }

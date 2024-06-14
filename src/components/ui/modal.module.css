@@ -17,20 +17,20 @@
   }
 }
 
-.modal-inner {
+.inner {
   width: var(--modal-width);
   max-width: 100%;
   container-type: inline-size;
   margin-inline: auto;
 }
 
-.modal-actions {
+.actions {
   display: flex;
   justify-content: flex-end;
   padding-bottom: 1rem;
   gap: 1rem;
 }
 
-.modal-actions.has-actions {
+.actions.has-custom {
   justify-content: space-between;
 }
