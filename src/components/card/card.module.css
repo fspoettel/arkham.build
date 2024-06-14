@@ -1,6 +1,6 @@
 .card {
   --card-text-size: var(--text-base);
-  --card-title-size: var(--text-xl);
+  --card-title-size: var(--text-lg);
   --card-spacing: 1rem;
 
   display: grid;
