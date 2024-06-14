@@ -4,6 +4,7 @@ import { useLocation, useParams } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import { useStore } from "@/store";
+import { useGoBack } from "@/utils/useBack";
 
 import css from "./deck-create.module.css";
 
@@ -13,6 +14,7 @@ import { DeckCreateInvestigator } from "./deck-create-investigator";
 import { Layout } from "./layout";
 
 function DeckCreate() {
+  const goBack = useGoBack();
   const toast = useToast();
   const [, navigate] = useLocation();
   const { code } = useParams<{ code: string }>();
@@ -31,7 +33,7 @@ function DeckCreate() {
 
   const handleDeckCreate = () => {
     const id = createDeck();
-    navigate(`/${id}/edit`);
+    navigate(`/deck/edit/${id}`);
     toast({ children: "Deck created successfully.", variant: "success" });
   };
 
@@ -42,7 +44,7 @@ function DeckCreate() {
       mastheadContent={
         <nav className={css["editor-nav"]}>
           <Button onClick={handleDeckCreate}>Create deck</Button>
-          <Button type="button" variant="bare">
+          <Button onClick={goBack} type="button" variant="bare">
             Cancel
           </Button>
         </nav>

@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { Link } from "wouter";
 
 import { useStore } from "@/store";
 import {
@@ -94,14 +95,24 @@ export function CardModal({ code }: Props) {
   return (
     <Modal
       actions={
-        <Button
-          as="a"
-          href={`/card/${cardWithRelations.card.code}`}
-          tabIndex={2}
-          target="_blank"
-        >
-          Open card page
-        </Button>
+        <>
+          <Button
+            as="a"
+            href={`/card/${cardWithRelations.card.code}`}
+            target="_blank"
+          >
+            Open card page
+          </Button>
+          {cardWithRelations.card.type_code === "investigator" && (
+            <Link
+              asChild
+              onClick={onCloseModal}
+              to={`/deck/create/${cardWithRelations.card.code}`}
+            >
+              <Button as="a">Create deck</Button>
+            </Link>
+          )}
+        </>
       }
       onClose={onCloseModal}
       size="52rem"

@@ -70,7 +70,7 @@ export function Modal({
           onClick={onCloseActions}
           ref={actionRef}
         >
-          {actions}
+          <nav className={css["actions-row"]}>{actions}</nav>
           <Button onClick={onClose} tabIndex={1} variant="bare">
             <XIcon />
           </Button>
