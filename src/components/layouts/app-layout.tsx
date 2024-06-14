@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
 import { useLocation } from "wouter";
 
+import { useStore } from "@/store";
 import { useDocumentTitle } from "@/utils/use-document-title";
 
 import css from "./app-layout.module.css";
@@ -24,6 +25,8 @@ export function AppLayout({
   sidebar,
   title,
 }: Props) {
+  const open = useStore((state) => state.ui.filtersOpen);
+
   useDocumentTitle(title);
 
   const [pathname] = useLocation();
@@ -46,7 +49,10 @@ export function AppLayout({
         )}
       </section>
       {filters && (
-        <nav className={css["layout-right"]}>
+        <nav
+          data-state={open ? "open" : "closed"}
+          className={css["layout-right"]}
+        >
           <Scroller>{filters}</Scroller>
         </nav>
       )}

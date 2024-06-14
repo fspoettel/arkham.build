@@ -28,3 +28,12 @@
     display: none;
   }
 }
+
+.masthead-toggle-filters {
+  display: block;
+  font-size: var(--icon-base);
+
+  @media screen and (min-width: 72rem) {
+    display: none;
+  }
+}

@@ -6,6 +6,7 @@ export type UIState = {
     hydrated: boolean;
     initialized: boolean;
     searchOpen: boolean;
+    filtersOpen: boolean;
   };
 };
 
@@ -13,4 +14,5 @@ export type UISlice = UIState & {
   setListScrollRestore(snapshot: StateSnapshot): void;
   setHydrated(): void;
   toggleSearch(): void;
+  toggleFilters(): void;
 };
