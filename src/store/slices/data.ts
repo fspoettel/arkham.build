@@ -25,6 +25,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
 
     if (type === "decklist") {
       deck.id = window.crypto.randomUUID();
+      deck.tags = deck.tags.replaceAll(", ", " ");
     }
 
     if (state.data.decks[deck.id]) {
