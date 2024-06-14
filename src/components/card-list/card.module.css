@@ -7,6 +7,7 @@
   line-height: 1.375;
   position: relative;
   z-index: 0;
+  height: 5.5rem;
 }
 
 .card-name {
@@ -15,16 +16,17 @@
 
 .card-image {
   position: relative;
-  width: 4rem;
+  width: 4.5rem;
   height: auto;
   aspect-ratio: 1 / 1;
   overflow: hidden;
   border: 1px solid currentColor;
   border-radius: var(--rounded);
+  backface-visibility: hidden;
 }
 
 .card-image.investigator img {
-  transform: scale(1.4);
+  transform: translateZ(0) scale(1.5);
   object-position: -25% 50%;
 }
 
@@ -38,48 +40,48 @@
 }
 
 .card-image.asset img {
-  transform: scale(1.8);
+  transform: translateZ(0) scale(1.8);
   object-position: 50% -15%;
 }
 
 .card-image.event img {
-  transform: scale(1.9);
+  transform: translateZ(0) scale(1.9);
   object-position: 50% -35%;
 }
 
 .card-image.skill img {
-  transform: scale(1.4);
+  transform: translateZ(0) scale(1.4);
   object-position: 50% 5%;
 }
 
 .card-image.location img {
-  transform: scale(2.15);
+  transform: translateZ(0) scale(2.15);
   object-position: 50% -25%;
 }
 
 .card-image.act img {
-  transform: scale(2);
+  transform: translateZ(0) scale(2);
   object-position: 150% 50%;
 }
 
 .card-image.agenda img {
-  transform: scale(2);
+  transform: translateZ(0) scale(2);
   object-position: -50% 50%;
 }
 
 .card-image.scenario img,
 .card-image.story img {
-  transform: scale(1);
+  transform: translateZ(0) scale(1);
   object-position: 0 0;
 }
 
 .card-image.treachery img {
-  transform: scale(1.9);
+  transform: translateZ(0) scale(1.9);
   object-position: 50% -55%;
 }
 
 .card-image.enemy img {
-  transform: scale(2);
+  transform: translateZ(0) scale(2);
   object-position: 50% 155%;
 }
 

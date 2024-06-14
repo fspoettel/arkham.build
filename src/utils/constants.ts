@@ -41,3 +41,18 @@ export const PLAYER_TYPE_ORDER = [
   "event",
   "skill",
 ] as const;
+
+export const ASSET_SLOT_ORDER = [
+  "Hand",
+  "Hand x2",
+  "Accessory",
+  "Ally",
+  "Arcane",
+  "Arcane x2",
+  "Body",
+  "Tarot",
+  // followed by:
+  // - multi_slot
+  // - permanent
+  // - slotless
+];

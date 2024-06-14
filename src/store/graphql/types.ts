@@ -106,6 +106,7 @@ export type Pack = {
   name: string;
   position: number;
   size: number;
+  cycle_code: string;
 };
 
 export type SubType = {
@@ -131,5 +132,5 @@ export type QueryEncounterSet = {
 };
 
 export type EncounterSet = QueryEncounterSet & {
-  pack_code?: string;
+  pack_code: string;
 };

@@ -5,6 +5,7 @@
   background: var(--gray-800);
   color: var(--gray-200);
   padding: 0.5rem;
+  height: 3rem; /* icon height + padding */
 }
 
 .group-header svg {

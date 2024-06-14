@@ -13,6 +13,7 @@ import {
   addCardToLookupTables,
   getInitialLookupTables,
 } from "../lookup-tables";
+import { rewriteImageUrl } from "@/utils/card-utils";
 
 export const createSharedSlice: StateCreator<
   StoreState,
@@ -45,6 +46,8 @@ export const createSharedSlice: StateCreator<
     };
 
     cards.forEach((card, i) => {
+      card.backimageurl = rewriteImageUrl(card.backimageurl);
+      card.imageurl = rewriteImageUrl(card.imageurl);
       metadata.cards[card.code] = card;
 
       if (card.encounter_code) {
@@ -52,14 +55,15 @@ export const createSharedSlice: StateCreator<
 
         if (encounterSet && !encounterSet.pack_code) {
           encounterSet.pack_code = card.pack_code;
-        } else if (
-          encounterSet?.pack_code &&
-          encounterSet.pack_code !== card.pack_code
-        ) {
-          console.debug("duplicate encounter set", encounterSet);
         }
       }
       addCardToLookupTables(lookupTables, card, i);
+    });
+
+    Object.keys(metadata.encounterSets).forEach((code) => {
+      if (!metadata.encounterSets[code].pack_code) {
+        delete metadata.encounterSets[code];
+      }
     });
 
     set({ metadata, lookupTables });

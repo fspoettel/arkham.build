@@ -1,16 +1,18 @@
-import { EncounterSet } from "@/store/graphql/types";
+import { Grouping } from "@/store/selectors/utils";
 import { EncounterIcon } from "../ui/encounter-icon";
 import css from "./group-header.module.css";
 
 type Props = {
-  set: EncounterSet;
+  grouping: Grouping;
 };
 
-export function GroupHeader({ set }: Props) {
+export function GroupHeader({ grouping }: Props) {
   return (
     <div className={css["group-header"]}>
-      <EncounterIcon code={set.code} />
-      <h3>{set.name}</h3>
+      {grouping.grouping_type === "encounter_set" && (
+        <EncounterIcon code={grouping.code} />
+      )}
+      <h3>{grouping.name}</h3>
     </div>
   );
 }
