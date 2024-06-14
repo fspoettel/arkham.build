@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useParams } from "wouter";
+import { Redirect, useParams } from "wouter";
 
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,9 @@ function CardView() {
     cardWithRelations ? `${cardWithRelations.card.real_name}` : undefined,
   );
 
-  if (!cardWithRelations) return null;
+  if (!cardWithRelations) {
+    return <Redirect to="/404" />;
+  }
 
   return (
     <div className={clsx(css["layout"], "fade-in")}>

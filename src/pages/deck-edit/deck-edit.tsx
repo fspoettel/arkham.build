@@ -1,6 +1,6 @@
 import { Save } from "lucide-react";
 import { useCallback, useEffect } from "react";
-import { Link, useLocation } from "wouter";
+import { Link, Redirect, useLocation } from "wouter";
 
 import { ListLayout } from "@//layouts/list-layout";
 import { Filters } from "@/components/filters/filters";
@@ -18,6 +18,8 @@ import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 function DeckEdit() {
   const [, navigate] = useLocation();
   const showToast = useToast();
+
+  const deckId = useStore((state) => state.deckView?.id);
   const deck = useStore(selectActiveDeck);
   const activeListId = useStore((state) => state.activeList);
 
@@ -45,6 +47,10 @@ function DeckEdit() {
     deck ? `Edit: ${deck.investigatorFront.card.real_name} - ${deck.name}` : "",
   );
 
+  if (deckId && !deck) {
+    return <Redirect to="/404" />;
+  }
+
   if (!deck || !activeListId?.startsWith("editor")) return null;
 
   return (
@@ -60,7 +66,7 @@ function DeckEdit() {
             <Save />
             Save
           </Button>
-          <Link asChild to={`~/deck/${deck.id}/view`}>
+          <Link asChild to={`/deck/view/${deck.id}`}>
             <Button variant="bare">Close</Button>
           </Link>
         </div>

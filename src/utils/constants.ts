@@ -138,3 +138,6 @@ export const CARD_SET_ORDER = [
   "bonded",
   "level",
 ];
+
+export const ISSUE_URL =
+  "https://github.com/fspoettel/arkham-build/issues/new/choose";

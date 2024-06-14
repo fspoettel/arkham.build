@@ -1,3 +1,5 @@
+import { Redirect } from "wouter";
+
 import { DeckTags } from "@/components/deck-tags";
 import { Decklist } from "@/components/decklist/decklist";
 import { DecklistValidation } from "@/components/decklist/decklist-validation";
@@ -12,7 +14,12 @@ import { DeckNotes } from "./deck-notes";
 import { Sidebar } from "./sidebar/sidebar";
 
 function DeckView() {
+  const deckId = useStore((state) => state.deckView?.id);
   const deck = useStore(selectActiveDeck);
+
+  if (deckId && !deck) {
+    return <Redirect to="/404" />;
+  }
 
   if (!deck) return null;
 

@@ -8,16 +8,17 @@ import css from "./app-layout.module.css";
 
 type Props = {
   children: React.ReactNode;
+  mainClassName?: string;
   title: string;
 };
 
-export function AppLayout({ children, title }: Props) {
+export function AppLayout({ children, mainClassName, title }: Props) {
   useDocumentTitle(title);
 
   return (
     <div className={clsx(css["layout"], "fade-in")}>
       <Masthead className={css["header"]} />
-      <section className={css["main"]}>{children}</section>
+      <section className={clsx(css["main"], mainClassName)}>{children}</section>
       <footer className={css["footer"]}>
         <Footer />
       </footer>

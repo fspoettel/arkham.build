@@ -17,7 +17,7 @@ export function Masthead({ children, className, slotRight }: Props) {
   return (
     <header className={clsx(className, css["masthead"])}>
       <div className={css["left"]}>
-        <Link className={css["logo"]} href="~/">
+        <Link className={css["logo"]} href="/">
           <img alt="Arkham.build logo" src="/logo.svg" />
         </Link>
         {children}
@@ -25,7 +25,7 @@ export function Masthead({ children, className, slotRight }: Props) {
       <nav className={css["right"]}>
         {slotRight}
         {location !== "/settings" && (
-          <Link asChild href="~/settings">
+          <Link asChild href="/settings">
             <Button as="a" className={css["settings"]} variant="bare">
               <Settings />
             </Button>

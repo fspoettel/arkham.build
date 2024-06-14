@@ -1,10 +1,12 @@
 import { Suspense, lazy, useEffect } from "react";
-import { Route, Router, useLocation } from "wouter";
+import { Route, Router, Switch, useLocation } from "wouter";
 import { useBrowserLocation } from "wouter/use-browser-location";
 
 import { CardModalProvider } from "./components/card-modal/card-modal-context";
+import { ErrorBoundary } from "./components/error-boundary";
 import { Loader } from "./components/ui/loader";
 import { ToastProvider } from "./components/ui/toast";
+import { Error404 } from "./pages/errors/404";
 import { useStore } from "./store";
 import { selectIsInitialized } from "./store/selectors/shared";
 import {
@@ -38,34 +40,37 @@ function App() {
   }, [storeHydrated, init]);
 
   return (
-    <CardModalProvider>
-      <ToastProvider>
-        <Loader
-          message="Initializing card database..."
-          show={storeHydrated && !storeInitialized}
-        />
-        <Suspense fallback={<Loader delay={200} show />}>
-          {storeInitialized && (
-            <Router hook={useBrowserLocation}>
-              <Route component={Browse} path="/" />
-              <Route component={CardView} path="/card/:code" />
-              <Route nest path="/deck">
-                <Route
-                  component={DeckCreateChooseInvestigator}
-                  path="/create"
-                />
-                <Route component={DeckCreate} path="/create/:code" />
-                <Route component={DeckView} path="/:id/view" />
-                <Route component={DeckEdit} path="/:id/edit" />
-              </Route>
-              <Route component={Settings} path="/settings" />
-              <Route component={About} path="/about" />
-              <RouteReset />
-            </Router>
-          )}
-        </Suspense>
-      </ToastProvider>
-    </CardModalProvider>
+    <ErrorBoundary>
+      <CardModalProvider>
+        <ToastProvider>
+          <Loader
+            message="Initializing card database..."
+            show={storeHydrated && !storeInitialized}
+          />
+          <Suspense fallback={<Loader delay={200} show />}>
+            {storeInitialized && (
+              <Router hook={useBrowserLocation}>
+                <Switch>
+                  <Route component={Browse} path="/" />
+                  <Route component={CardView} path="/card/:code" />
+                  <Route
+                    component={DeckCreateChooseInvestigator}
+                    path="/deck/create"
+                  />
+                  <Route component={DeckCreate} path="/deck/create/:code" />
+                  <Route component={DeckView} path="/deck/view/:id" />
+                  <Route component={DeckEdit} path="/deck/edit/:id" />
+                  <Route component={Settings} path="/settings" />
+                  <Route component={About} path="/about" />
+                  <Route component={Error404} path="*" />
+                </Switch>
+                <RouteReset />
+              </Router>
+            )}
+          </Suspense>
+        </ToastProvider>
+      </CardModalProvider>
+    </ErrorBoundary>
   );
 }
 

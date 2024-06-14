@@ -28,12 +28,13 @@ export function SidebarActions({ deck }: Props) {
     <>
       {isReadOnly && (
         <Notice variant="info">
-          There is a <Link href={`/view/${deck.next_deck}`}>newer version</Link>{" "}
-          of this deck. This deck is read-only.
+          There is a{" "}
+          <Link href={`/deck/view/${deck.next_deck}`}>newer version</Link> of
+          this deck. This deck is read-only.
         </Notice>
       )}
       <div className={css["actions"]}>
-        <Link asChild href={`/${deck.id}/edit`}>
+        <Link asChild href={`/deck/edit/${deck.id}`}>
           <Button as="a" disabled={isReadOnly} size="full">
             <Pencil /> Edit
           </Button>

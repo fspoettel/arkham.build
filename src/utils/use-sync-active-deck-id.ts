@@ -10,7 +10,7 @@ export function useSyncActiveDeckId() {
 
   useEffect(() => {
     if (pathname.startsWith("/deck/")) {
-      const id = pathname.split("/deck/")[1].split("/")[0];
+      const id = pathname.split("/deck/")[1].split("/").at(-1);
       const mode = pathname.includes("edit") ? "edit" : "view";
       setActiveDeck(id, mode);
     } else {

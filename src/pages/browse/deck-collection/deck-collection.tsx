@@ -24,7 +24,7 @@ export function DeckCollection() {
           <Popover>
             <DeckCollectionImport />
           </Popover>
-          <Link asChild to="~/deck/create">
+          <Link asChild to="/deck/create">
             <Button as="a">
               <Plus />
             </Button>
@@ -36,7 +36,7 @@ export function DeckCollection() {
           <ol className={css["decks"]}>
             {decks.map((deck) => (
               <li className={css["deck"]} key={deck.id}>
-                <Link asChild href={`~/deck/${deck.id}/view`}>
+                <Link asChild href={`/deck/view/${deck.id}`}>
                   <a>
                     <DeckSummary
                       deck={deck}
