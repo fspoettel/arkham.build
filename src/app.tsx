@@ -10,10 +10,13 @@ import { useStore } from "./store";
 function App() {
   const [storeInitialized, setStoreInitialized] = useState(false);
 
-  const init = useStore((state) => state.init);
-  const dataVersion = useStore((state) => state.metadata.dataVersion);
-
   useEffect(() => {
+    // is this a potential race condition?
+    if (useStore.persist.hasHydrated()) {
+      setStoreInitialized(true);
+      return;
+    }
+
     const unsub = useStore.persist.onFinishHydration(() => {
       setStoreInitialized(true);
     });
@@ -23,15 +26,16 @@ function App() {
     };
   }, []);
 
+  const init = useStore((state) => state.init);
+  const dataVersion = useStore((state) => state.metadata.dataVersion);
+
   useEffect(() => {
     async function sync() {
       if (storeInitialized) {
         if (dataVersion?.cards_updated_at) {
-          console.debug(
-            `skipping sync, card data version: ${dataVersion.cards_updated_at}`,
-          );
+          console.debug(`[sync] skip, card data present.`);
         } else {
-          console.debug("starting sync...");
+          console.debug("[sync]  starting initial sync.");
           await init();
         }
       }

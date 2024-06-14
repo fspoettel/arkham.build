@@ -6,6 +6,7 @@ import {
   queryMetadata,
 } from "@/store/graphql/queries";
 import { Card } from "@/store/graphql/types";
+import { getDataVersionIdentifier } from "@/store/storage";
 import { rewriteImageUrl } from "@/utils/card-utils";
 
 import { StoreState } from "..";
@@ -74,6 +75,7 @@ export const createSharedSlice: StateCreator<
     });
 
     createRelations(metadata, lookupTables);
+    lookupTables.dataVersion = getDataVersionIdentifier(dataVersionResponse);
 
     Object.keys(metadata.encounterSets).forEach((code) => {
       if (!metadata.encounterSets[code].pack_code) {

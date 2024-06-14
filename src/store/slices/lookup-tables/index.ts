@@ -16,6 +16,7 @@ import { LookupTable, LookupTables, LookupTablesSlice } from "./types";
 
 export function getInitialLookupTables(): LookupTables {
   return {
+    dataVersion: undefined,
     relations: {
       bound: {},
       bonded: {},

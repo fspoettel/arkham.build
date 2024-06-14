@@ -42,7 +42,7 @@ export const selectFilteredCards = createSelector(
     const groupCounts = [];
 
     if (activeCardType === "player") {
-      console.time("select_player_cards");
+      console.time("[performance] select_player_cards");
 
       for (const grouping of groupByPlayerCardType(metadata, lookupTables)) {
         const groupCards = getGroupCards(
@@ -78,9 +78,9 @@ export const selectFilteredCards = createSelector(
         }
       }
 
-      console.timeEnd("select_player_cards");
+      console.timeEnd("[performance] select_player_cards");
     } else {
-      console.time("select_encounter_cards");
+      console.time("[performance] select_encounter_cards");
 
       for (const grouping of groupByEncounterSets(metadata)) {
         const groupCards = getGroupCards(
@@ -99,7 +99,7 @@ export const selectFilteredCards = createSelector(
         }
       }
 
-      console.timeEnd("select_encounter_cards");
+      console.timeEnd("[performance] select_encounter_cards");
     }
 
     return {
