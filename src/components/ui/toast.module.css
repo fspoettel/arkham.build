@@ -20,7 +20,7 @@
   &.success {
     border-color: var(--nord-14);
 
-    & .toast-icon {
+    & .icon {
       color: var(--nord-14);
     }
   }
@@ -28,7 +28,7 @@
   &.error {
     border-color: var(--nord-11);
 
-    & .toast-icon {
+    & .icon {
       color: var(--nord-11);
     }
   }
