@@ -142,6 +142,7 @@ export function validateDeck(
 
 function validateInvestigator(deck: ResolvedDeck<ResolvedCard>) {
   const investigatorBack = deck.investigatorBack.card;
+
   if (!investigatorBack.deck_options) return false;
 
   let valid = true;
