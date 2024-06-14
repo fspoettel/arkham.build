@@ -23,14 +23,6 @@ type Props = {
   title: React.ReactNode;
 };
 
-function getCardCodeForEvent(evt: React.MouseEvent): string | undefined {
-  const target = (evt.target as HTMLElement)?.closest("a");
-
-  if (target instanceof HTMLAnchorElement) {
-    return /\/card\/(\d*)$/.exec(target.href)?.[1];
-  }
-}
-
 export function DeckDescription({ className, content, title }: Props) {
   const [cardTooltip, setCardTooltip] = useState<string>("");
 
@@ -59,13 +51,17 @@ export function DeckDescription({ className, content, title }: Props) {
     [cardTooltip, refs],
   );
 
+  const html = DOMPurify.sanitize(
+    marked.parse(cleanArkhamdbMarkdown(content)) as string,
+  );
+
   return (
     <div className={css["description"]}>
       <h1>{title}</h1>
       <div
         className={clsx("longform", className)}
         dangerouslySetInnerHTML={{
-          __html: DOMPurify.sanitize(marked.parse(content) as string),
+          __html: html,
         }}
         onClick={handleMouseLeave}
       />
@@ -78,5 +74,21 @@ export function DeckDescription({ className, content, title }: Props) {
         </FloatingPortal>
       )}
     </div>
+  );
+}
+
+function getCardCodeForEvent(evt: React.MouseEvent): string | undefined {
+  const target = (evt.target as HTMLElement)?.closest("a");
+
+  if (target instanceof HTMLAnchorElement) {
+    return /\/card\/(\d*)$/.exec(target.href)?.[1];
+  }
+}
+
+function cleanArkhamdbMarkdown(content: string): string {
+  // fix: deck guides using valentin1337 template all contain invalid markdown for bolding in headlines.
+  return content.replaceAll(
+    /\*\*\s<center>(.*?)<\/center>\s\*\*/g,
+    "**<center>$1</center>**",
   );
 }
