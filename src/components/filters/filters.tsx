@@ -51,6 +51,8 @@ export function Filters({ slotActions, className, hiddenFilters }: Props) {
         <div className={css["filters-container"]}>
           <FactionFilter />
           <OwnershipFilter />
+          {!hiddenFilters?.includes("investigator") &&
+            cardTypeSelection === "player" && <InvestigatorFilter />}
           {cardTypeSelection === "player" && <LevelFilter />}
           <CostFilter />
           <TraitFilter />
@@ -58,10 +60,8 @@ export function Filters({ slotActions, className, hiddenFilters }: Props) {
           <SubtypeFilter />
           <AssetFilter />
           <SkillIconsFilter />
-          <ActionFilter />
           <PropertiesFilter />
-          {!hiddenFilters?.includes("investigator") &&
-            cardTypeSelection === "player" && <InvestigatorFilter />}
+          <ActionFilter />
           <PackFilter />
           {cardTypeSelection === "encounter" && <EncounterSetFilter />}
           {!hiddenFilters?.includes("taboo_set") &&

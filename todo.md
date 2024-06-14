@@ -5,12 +5,20 @@
 - 'What could be interesting/a nice bonus really cool gimmick if you have the time sometime: some kind of hover effect between certain cards (mainly permanents) and their "related cards"'
 - Add a toggle to show card text in card lists. This could also highlight search result matches.
 - Consider adding a grid view for deck / card list.
+- Add FAQ to card modal.
+
+- Improve mobile UX:
+
+  - No back button from investigator card page back to main on mobile
+  - Level slider open and slider button is tiny on mobile as is remove option
 
 - Improve filter UX:
 - I think a reasonable first step to try this would be to clear the filter sidebar and add a + selection menu that pops over and allows you to add a single filter to the sidebar, which would show after that.
 - and if that works UX-wise, you can after add the AND/OR between them. This would also immediately allow for repeated filters as in two separate level filters.
 - and also unblock the filters in search thing
 - then the filter bar would only show the active filters, which would solve the "highlight active filters" thing
+- action filter: consider free actions.
+- asset filter: consider reduction, living ink.
 
 ## Deckbuilder
 

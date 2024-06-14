@@ -75,11 +75,11 @@ export function CardList(props: Props) {
 
   const jumpToOptions = useMemo(
     () =>
-      (data?.groups ?? []).map((group) => ({
+      (data?.groups ?? []).map((group, i) => ({
         value: group.code,
-        label: group.name,
+        label: `${group.name} (${data?.groupCounts[i]})`,
       })),
-    [data?.groups],
+    [data?.groups, data?.groupCounts],
   );
 
   return (
