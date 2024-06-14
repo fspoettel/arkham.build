@@ -6,12 +6,12 @@ import { CenterLayout } from "@/components/layouts/center-layout";
 import { useStore } from "@/store";
 import { selectIsInitialized } from "@/store/selectors";
 
-export function Index() {
+export function Browse() {
   const isInitalized = useStore(selectIsInitialized);
   if (!isInitalized) return null;
 
   return (
-    <AppLayout filters={<Filters />} sidebar={"Deck list"} title="Index">
+    <AppLayout filters={<Filters />} sidebar={"Deck list"} title="Browse">
       <CenterLayout top={<CardSearch />}>
         <CardList />
       </CenterLayout>
