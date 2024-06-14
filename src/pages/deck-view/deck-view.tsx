@@ -1,3 +1,4 @@
+import { DeckTags } from "@/components/deck-tags";
 import { DecklistValidation } from "@/components/decklist/decklist-validation";
 import { Masthead } from "@/components/masthead";
 import { Dialog } from "@/components/ui/dialog";
@@ -26,6 +27,7 @@ function DeckView() {
       <main className={css["page"]}>
         <header className={css["page-header"]}>
           <h1 className={css["page-title"]}>{deck.name}</h1>
+          <DeckTags tags={deck.tags} />
         </header>
         <DeckSidebar className={css["page-sidebar"]} deck={deck} />
         <div className={css["page-decklist"]}>

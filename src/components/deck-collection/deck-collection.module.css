@@ -50,12 +50,6 @@
   align-items: center;
 }
 
-.deck-collection-tags {
-  display: flex;
-  flex-flow: row wrap;
-  gap: 0.25rem;
-}
-
 .deck-collection-form {
   display: flex;
   flex-flow: column nowrap;

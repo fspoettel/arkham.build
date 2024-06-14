@@ -3,14 +3,13 @@ import { Link } from "wouter";
 
 import { useStore } from "@/store";
 import { selectLocalDecks } from "@/store/selectors/decks";
-import { capitalize } from "@/utils/formatting";
 
 import css from "./deck-collection.module.css";
 
+import { DeckTags } from "../deck-tags";
 import { Button } from "../ui/button";
 import { Dialog } from "../ui/dialog";
 import { Scroller } from "../ui/scroller";
-import { Tag } from "../ui/tag";
 import { DeckCard } from "./deck-card";
 import { DeckCollectionImport } from "./deck-collection-import";
 
@@ -45,17 +44,7 @@ export function DeckCollection() {
                       showThumbnail
                       showValidation
                     >
-                      {!!deck.tags.length && (
-                        <ul className={css["deck-collection-tags"]}>
-                          {deck.tags
-                            ? deck.tags.split(" ").map((s, i) => (
-                                <Tag as="li" key={i} size="xs">
-                                  {capitalize(s).trim()}
-                                </Tag>
-                              ))
-                            : undefined}
-                        </ul>
-                      )}
+                      <DeckTags tags={deck.tags} />
                     </DeckCard>
                   </a>
                 </Link>

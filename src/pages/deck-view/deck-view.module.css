@@ -40,6 +40,10 @@
   grid-area: decklist;
 }
 
+.page-header > * + * {
+  margin-top: 0.5rem;
+}
+
 .page-floating {
   position: fixed;
   right: 2rem;
