@@ -93,7 +93,6 @@ export type Cycle = {
   code: string;
   name: string;
   position: number;
-  size: number;
 };
 
 export type Faction = {
@@ -126,7 +125,11 @@ export type DataVersion = {
   translation_updated_at: string;
 };
 
-export type EncounterSet = {
+export type QueryEncounterSet = {
   code: string;
   name: string;
+};
+
+export type EncounterSet = QueryEncounterSet & {
+  pack_code?: string;
 };

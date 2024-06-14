@@ -5,7 +5,7 @@ import { RangeSelect } from "../ui/range-select";
 import { Checkbox } from "../ui/checkbox";
 
 function selectCostMinMax(state: StoreState) {
-  const costs = Object.keys(state.indexes["cost"] ?? {}).map((x) =>
+  const costs = Object.keys(state.lookupTables.cost).map((x) =>
     Number.parseInt(x, 10),
   );
 

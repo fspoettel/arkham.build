@@ -1,22 +1,16 @@
 import { createSelector } from "reselect";
 import { StoreState } from "./slices";
-import { Indexes } from "./slices/indexes/types";
 import { Card, EncounterSet } from "./graphql/types";
-
-function alphabetical(indexes: Indexes, ids: string[]) {
-  ids.sort(
-    (a, b) => indexes.sort.alphabetical[a] - indexes.sort.alphabetical[b],
-  );
-}
 
 export const selectFilteredCards = createSelector(
   (state: StoreState) => state.filters.cardType,
   (state: StoreState) => state.metadata,
-  (state: StoreState) => state.indexes,
-  (type, metadata, indexes) => {
+  (state: StoreState) => state.lookupTables,
+  (type, metadata, luts) => {
     console.time("select_cards");
 
     if (type === "player") {
+      console.timeEnd("select_cards");
       return null;
     } else {
       const encounterSets = Object.values(metadata.encounterSets);
@@ -27,7 +21,7 @@ export const selectFilteredCards = createSelector(
       const groupCounts = [];
 
       for (const set of encounterSets) {
-        const cardsByEncounter = indexes.encounter_code[set.code];
+        const cardsByEncounter = luts.encounter_code[set.code];
 
         if (!cardsByEncounter) {
           console.debug(`set ${set.code} is empty.`);
@@ -43,15 +37,13 @@ export const selectFilteredCards = createSelector(
             return acc;
           }
 
-          if (card.encounter_position == null) {
-            console.debug(card);
-          }
-
           acc.push(card);
           return acc;
         }, [] as Card[]);
 
-        setCards.sort((a, b) => a.encounter_position - b.encounter_position);
+        setCards.sort(
+          (a, b) => (a.encounter_position ?? 0) - (b.encounter_position ?? 0),
+        );
 
         cards.push(...setCards);
         groupCounts.push(setCards.length);

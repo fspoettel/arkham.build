@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { createMetadataSlice } from "./slices/metadata";
-import { createIndexesSlice } from "./slices/indexes";
+import { createLookupTablesSlice } from "./slices/lookup-tables";
 import { createFiltersSlice } from "./slices/filters";
 import { createSharedSlice } from "./slices/shared";
 import { StoreState } from "./slices";
@@ -12,7 +12,7 @@ export const useStore = create<StoreState>()(
     persist(
       (...args) => ({
         ...createMetadataSlice(...args),
-        ...createIndexesSlice(...args),
+        ...createLookupTablesSlice(...args),
         ...createFiltersSlice(...args),
         ...createSharedSlice(...args),
       }),

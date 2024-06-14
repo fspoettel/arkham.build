@@ -4,8 +4,8 @@ import { StoreState } from "./slices";
 
 const indexedDBStorage: StateStorage = {
   async getItem(name: string) {
-    // remove comment to test indexes.
-    // return Promise.resolve(null);
+    // remove comment to test the initial store sync.
+    return Promise.resolve(null);
     return (await get(name)) ?? null;
   },
   async setItem(name: string, value: string) {
@@ -23,7 +23,7 @@ export const storageConfig = {
   partialize(state: StoreState) {
     return {
       metadata: state.metadata,
-      indexes: state.indexes,
+      lookupTables: state.lookupTables,
     };
   },
   onRehydrateStorage: () => {

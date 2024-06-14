@@ -42,3 +42,8 @@ export function isPlayerCard(card: Card) {
 export function getCardColor(card: Card) {
   return card.faction2_code ? `color-multiclass` : `color-${card.faction_code}`;
 }
+
+export function rewriteImageUrl(url?: string) {
+  const id = url?.split("/").at(-1);
+  return id ? `${import.meta.env.VITE_CARD_IMAGE_URL}/${id}` : undefined;
+}

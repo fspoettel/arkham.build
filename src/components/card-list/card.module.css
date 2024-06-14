@@ -80,7 +80,7 @@
 
 .card-image.enemy img {
   transform: scale(2);
-  object-position: 50% 160%;
+  object-position: 50% 155%;
 }
 
 .card-icon {
