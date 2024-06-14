@@ -63,6 +63,8 @@ export const selectDeckCreateInvestigatorBack = (state: StoreState) => {
 export const selectDeckCreateCardSets = (state: StoreState) => {
   const deckCreate = selectDeckCreateChecked(state);
 
+  const back = selectDeckCreateInvestigatorBack(state);
+
   const groupings: CardSet[] = [
     {
       id: "random_basic_weakness",
@@ -78,7 +80,7 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
         ) as ResolvedCard,
       ],
       quantities: {
-        "01000": 1,
+        "01000": back.card.deck_requirements?.random.length ?? 1,
       },
     },
   ];
