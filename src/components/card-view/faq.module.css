@@ -1,0 +1,22 @@
+.sidebar-faq {
+  & > * + * {
+    margin-top: 0.5rem;
+  }
+}
+
+.sidebar-faq summary span {
+  display: inline-block;
+  min-width: 1rem;
+  text-align: center;
+}
+
+.sidebar-faq-content {
+  border: 1px solid var(--nord-3);
+  padding: 0.5rem 1.5rem;
+  font-size: var(--text-sm);
+  border-radius: var(--rounded-md);
+
+  & li + li {
+    margin-top: 0.5rem;
+  }
+}

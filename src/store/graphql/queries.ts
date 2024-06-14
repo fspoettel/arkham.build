@@ -111,6 +111,7 @@ const allCardQuery: TypedDocumentNode<AllCardResponse> = parse(gql`
       heals_damage
       heals_horror
       health
+      health_per_investigator
       hidden
       # id
       illustrator

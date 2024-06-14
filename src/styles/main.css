@@ -108,6 +108,11 @@ h6 {
   font-weight: 600;
 }
 
+a {
+  color: currentColor;
+  text-decoration: underline;
+}
+
 ol,
 ul {
   padding: 0;
@@ -309,7 +314,9 @@ button {
 }
 
 .icon-free,
-.icon-fast {
+.icon-fast,
+.icon-lightning,
+.icon-lighting /* sic! */ {
   mask: url("../assets/icons/free.svg");
 }
 
@@ -373,6 +380,26 @@ button {
   mask: url("../assets/icons/investigator.svg");
 }
 
+.icon-seal_a {
+  mask: url("../assets/icons/seal_a.svg");
+}
+
+.icon-seal_b {
+  mask: url("../assets/icons/seal_b.svg");
+}
+
+.icon-seal_c {
+  mask: url("../assets/icons/seal_c.svg");
+}
+
+.icon-seal_d {
+  mask: url("../assets/icons/seal_d.svg");
+}
+
+.icon-seal_e {
+  mask: url("../assets/icons/seal_e.svg");
+}
+
 /* TODO: refactor to use the `.icon` class. */
 svg {
   display: block;
@@ -392,6 +419,7 @@ svg {
 }
 
 /* use to display text icons as icons in a text block. */
+.icon-text-container span,
 .icon-text {
   display: inline-block;
   width: 1em;

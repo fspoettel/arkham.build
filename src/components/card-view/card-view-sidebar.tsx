@@ -4,6 +4,7 @@ import { CardWithRelations } from "@/store/selectors/card-detail";
 import css from "./card-view-sidebar.module.css";
 
 import { Button } from "../ui/button";
+import { Faq } from "./faq";
 
 type Props = {
   resolvedCard: CardWithRelations;
@@ -25,6 +26,7 @@ export function CardViewSidebar({ resolvedCard }: Props) {
           <SvgWorld /> Open on ArkhamDB
         </Button>
       </nav>
+      <Faq card={resolvedCard.card} />
     </div>
   );
 }

@@ -1,9 +1,8 @@
 export function parseCardTextHtml(cardText: string) {
-  let html = cardText;
-  html = html.replaceAll("\n", "<br>");
-  html = html.replaceAll(/\[\[(.*?)\]\]/g, "<b><em>$1</em></b>");
-  html = html.replaceAll(/\[(.*?)\]/g, `<i class="icon-text icon-$1"></i>`);
-  return html;
+  return cardText
+    .replaceAll("\n", "<br>")
+    .replaceAll(/\[\[(.*?)\]\]/g, "<b><em>$1</em></b>")
+    .replaceAll(/\[((?:\w|_)+?)\]/g, `<i class="icon-text icon-$1"></i>`);
 }
 
 export function parseCustomizationTextHtml(customizationText: string) {

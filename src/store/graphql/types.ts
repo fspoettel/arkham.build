@@ -87,6 +87,7 @@ export type QueryCard = {
   // heals_damage?: boolean; does not work.
   // heals_horror?: boolean; does not work.
   health?: number;
+  health_per_investigator?: boolean;
   hidden?: boolean;
   // id
   illustrator?: string;

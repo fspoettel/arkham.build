@@ -27,15 +27,15 @@ export const createSharedSlice: StateCreator<
   SharedSlice
 > = (set) => ({
   async init() {
-    console.time("query_data");
+    console.time("[performance] query_data");
     const [metadataResponse, dataVersionResponse, cards] = await Promise.all([
       queryMetadata(),
       queryDataVersion(),
       queryCards(),
     ]);
-    console.timeEnd("query_data");
+    console.timeEnd("[performance] query_data");
 
-    console.time("create_store_data");
+    console.time("[performance] create_store_data");
     const lookupTables = getInitialLookupTables();
 
     const metadata: Metadata = {
@@ -87,6 +87,6 @@ export const createSharedSlice: StateCreator<
       metadata,
       lookupTables,
     });
-    console.timeEnd("create_store_data");
+    console.timeEnd("[performance] create_store_data");
   },
 });

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { useStore } from "@/store";
 import { debounce } from "@/utils/debounce";
@@ -21,13 +21,13 @@ export function CardSearch() {
     [setSearchValue],
   );
 
-  useEffect(() => {
-    debouncedSetSearchValue(inputValue);
-  }, [inputValue, debouncedSetSearchValue]);
-
-  const onChangeValue = useCallback((val: string) => {
-    setInputValue(val);
-  }, []);
+  const onChangeValue = useCallback(
+    (val: string) => {
+      setInputValue(val);
+      debouncedSetSearchValue(val);
+    },
+    [debouncedSetSearchValue],
+  );
 
   const onToggleGameText = useCallback(
     (val: boolean | string) => {

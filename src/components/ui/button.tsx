@@ -3,7 +3,7 @@ import { ComponentProps, ForwardedRef, ReactNode, forwardRef } from "react";
 
 import css from "./button.module.css";
 
-type Props<T extends "a" | "button"> = ComponentProps<T> & {
+type Props<T extends "a" | "button" | "summary"> = ComponentProps<T> & {
   as?: T;
   children: ReactNode;
   className?: string;
@@ -11,10 +11,9 @@ type Props<T extends "a" | "button"> = ComponentProps<T> & {
   size?: "full";
 };
 
-export const Button = forwardRef(function Button<T extends "a" | "button">(
-  { as, children, variant, size, ...rest }: Props<T>,
-  ref: ForwardedRef<T>,
-) {
+export const Button = forwardRef(function Button<
+  T extends "a" | "button" | "summary",
+>({ as, children, variant, size, ...rest }: Props<T>, ref: ForwardedRef<T>) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const Element: any = as ?? "button";
 
