@@ -9,6 +9,7 @@
   font-family: var(--font-family-ui);
   font-size: var(--text-base);
   user-select: none;
+  cursor: pointer;
 
   &[disabled] {
     opacity: 0.3;
