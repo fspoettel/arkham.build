@@ -1,3 +1,5 @@
+import { createSelector } from "reselect";
+
 import type { StoreState } from "../slices";
 import { type CardResolved } from "../utils/card-resolver";
 import type { DisplayDeck } from "../utils/deck-grouping";
@@ -5,18 +7,23 @@ import { groupDeckCardsByType } from "../utils/deck-grouping";
 import type { ResolvedDeck } from "../utils/deck-resolver";
 import { resolveDeck } from "../utils/deck-resolver";
 
-export function selectLocalDecks(state: StoreState) {
-  console.time("[performance] select_local_decks");
+export const selectLocalDecks = createSelector(
+  (state: StoreState) => state.decks,
+  (state: StoreState) => state.metadata,
+  (state: StoreState) => state.lookupTables,
+  (decks, metadata, lookupTables) => {
+    console.time("[performance] select_local_decks");
 
-  const decks: ResolvedDeck<CardResolved>[] = Object.values(
-    state.decks.local,
-  ).map((deck) => resolveDeck(state, deck, false));
+    const resolvedDecks: ResolvedDeck<CardResolved>[] = Object.values(
+      decks.local,
+    ).map((deck) => resolveDeck(metadata, lookupTables, deck, false));
 
-  decks.sort((a, b) => b.date_update.localeCompare(a.date_update));
-  console.timeEnd("[performance] select_local_decks");
+    resolvedDecks.sort((a, b) => b.date_update.localeCompare(a.date_update));
+    console.timeEnd("[performance] select_local_decks");
 
-  return decks;
-}
+    return resolvedDecks;
+  },
+);
 
 export function selectLocalDeck(
   state: StoreState,
@@ -28,7 +35,12 @@ export function selectLocalDeck(
   const deck = state.decks.local[id];
   if (!deck) return undefined;
 
-  const resolvedDeck = resolveDeck(state, deck, true);
+  const resolvedDeck = resolveDeck(
+    state.metadata,
+    state.lookupTables,
+    deck,
+    true,
+  );
 
   const displayDeck = resolvedDeck as DisplayDeck;
   displayDeck.groups = groupDeckCardsByType(resolvedDeck);

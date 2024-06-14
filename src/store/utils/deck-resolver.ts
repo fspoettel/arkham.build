@@ -1,8 +1,9 @@
 import { countExperience } from "@/utils/card-utils";
 
 import type { Card, TabooSet } from "../services/types";
-import type { StoreState } from "../slices";
 import type { Deck } from "../slices/decks/types";
+import type { LookupTables } from "../slices/lookup-tables/types";
+import type { Metadata } from "../slices/metadata/types";
 import type { CardResolved, CardWithRelations } from "./card-resolver";
 import { resolveCardWithRelations } from "./card-resolver";
 
@@ -45,12 +46,17 @@ export type ResolvedDeck<T extends CardResolved | CardWithRelations> = Deck & {
 export function resolveDeck<
   T extends boolean,
   S extends T extends true ? CardWithRelations : CardResolved,
->(state: StoreState, deck: Deck, withRelations: T): ResolvedDeck<S> {
+>(
+  metadata: Metadata,
+  lookupTables: LookupTables,
+  deck: Deck,
+  withRelations: T,
+): ResolvedDeck<S> {
   const deckMeta = parseDeckMeta(deck);
 
   const investigator = resolveCardWithRelations(
-    state.metadata,
-    state.lookupTables,
+    metadata,
+    lookupTables,
     deck.investigator_code,
     deck.taboo_id,
     true,
@@ -66,7 +72,8 @@ export function resolveDeck<
   const optionSelect = getOptionSelect(investigatorBack, deckMeta);
 
   const { cards, deckSize, deckSizeTotal, xpRequired } = getDeckCards<T, S>(
-    state,
+    metadata,
+    lookupTables,
     investigatorBack,
     deck,
     withRelations,
@@ -83,9 +90,7 @@ export function resolveDeck<
       deckSizeTotal,
       xpRequired,
     },
-    tabooSet: deck.taboo_id
-      ? state.metadata.tabooSets[deck.taboo_id]
-      : undefined,
+    tabooSet: deck.taboo_id ? metadata.tabooSets[deck.taboo_id] : undefined,
     cards,
   };
 }
@@ -105,7 +110,8 @@ function getDeckCards<
   T extends boolean,
   S extends T extends true ? CardWithRelations : CardResolved,
 >(
-  state: StoreState,
+  metadata: Metadata,
+  lookupTables: LookupTables,
   investigator: CardWithRelations,
   deck: Deck,
   withRelations: T,
@@ -123,8 +129,8 @@ function getDeckCards<
 
   for (const [code, quantity] of Object.entries(deck.slots)) {
     const card = resolveCardWithRelations(
-      state.metadata,
-      state.lookupTables,
+      metadata,
+      lookupTables,
       code,
       deck.taboo_id,
       withRelations,
@@ -140,8 +146,8 @@ function getDeckCards<
   if (deck.ignoreDeckLimitSlots) {
     for (const [code, quantity] of Object.entries(deck.ignoreDeckLimitSlots)) {
       const card = resolveCardWithRelations(
-        state.metadata,
-        state.lookupTables,
+        metadata,
+        lookupTables,
         code,
         deck.taboo_id,
         withRelations,
@@ -156,8 +162,8 @@ function getDeckCards<
   if (deck.sideSlots && !Array.isArray(deck.sideSlots)) {
     for (const [code] of Object.entries(deck.sideSlots)) {
       const card = resolveCardWithRelations(
-        state.metadata,
-        state.lookupTables,
+        metadata,
+        lookupTables,
         code,
         deck.taboo_id,
         false,
