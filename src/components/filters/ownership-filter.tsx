@@ -8,7 +8,6 @@ import {
   selectFilterOpen,
   selectOwnershipValue,
 } from "@/store/selectors/filters";
-import { capitalize } from "@/utils/formatting";
 
 import {
   RadioButtonGroup,
@@ -38,10 +37,13 @@ export function OwnershipFilter() {
     [setFilter, cardType],
   );
 
+  const currentTitle =
+    value === "all" ? "All" : value === "owned" ? "Owned" : "Unavailable";
+
   return (
     <FilterContainer
       alwaysShowFilterString
-      filterString={capitalize(value)}
+      filterString={currentTitle}
       onOpenChange={onOpenChange}
       open={open}
       title="Ownership"
@@ -53,7 +55,7 @@ export function OwnershipFilter() {
         <RadioButtonGroupItem title="Owned" value="owned">
           <SvgOwned />
         </RadioButtonGroupItem>
-        <RadioButtonGroupItem title="Unowned" value="unowned">
+        <RadioButtonGroupItem title="Unavailable" value="unowned">
           <SvgUnowned />
         </RadioButtonGroupItem>
       </RadioButtonGroup>
