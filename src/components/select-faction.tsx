@@ -1,8 +1,8 @@
 import { State } from "@/store/schema";
-import { FactionIcon } from "./primitives/faction-icon";
-import { ToggleGroup, ToggleGroupItem } from "./primitives/toggle-group";
+import { FactionIcon } from "./ui/faction-icon";
+import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
 
-import css from "./faction-toggle.module.css";
+import css from "./select-faction.module.css";
 import { useStore } from "@/store";
 
 const FACTION_SORT = [
@@ -25,7 +25,7 @@ function selectFactions(state: State) {
   return factions;
 }
 
-export function FactionToggle() {
+export function SelectFaction() {
   const factions = useStore(selectFactions);
 
   return (

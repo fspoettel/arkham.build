@@ -1,22 +1,26 @@
 :root {
+  --font-family-content: "Alegreya Variable", serif;
   --font-family-ui: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   --font-family-monospace: "SFMono-Regular", Consolas, "Liberation Mono", Menlo,
     Courier, monospace;
 
   --gray-50: #fffbf2;
-  --gray-100: #f5f0e1ff;
-  --gray-200: #dbd8ccff;
-  --gray-300: #c1c0b8ff;
-  --gray-400: #a7a8a3ff;
-  --gray-500: #8d908fff;
-  --gray-600: #72787aff;
-  --gray-700: #586065ff;
-  --gray-800: #3e4851ff;
-  --gray-900: #24303cff;
+  --gray-100: #f5f0e1;
+  --gray-200: #dbd8cc;
+  --gray-300: #c1c0b8;
+  --gray-400: #a7a8a3;
+  --gray-500: #8d908f;
+  --gray-600: #72787a;
+  --gray-700: #586065;
+  --gray-800: #3e4851;
+  --gray-900: #24303c;
 
-  --background: var(--gray-900);
-  --text: var(--gray-400);
+  --color-background: var(--gray-900);
+  --color-text: var(--gray-200);
+  --color-accent: var(--gray-400);
+  --color-border: var(--gray-800);
+  --color-focus: var(--gray-200);
 
   --guardian: #5cb4fd;
   --mystic: #ba81f2;
@@ -42,11 +46,12 @@
 }
 
 body {
-  font-family: var(--font-family-ui);
+  font-family: var(--font-family-content);
   font-size: 1rem;
+  font-weight: 400;
   line-height: 1.5;
-  background: var(--background);
-  color: var(--text);
+  background: var(--color-background);
+  color: var(--color-text);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -70,12 +75,29 @@ input,
 button,
 textarea,
 select {
-  font: inherit;
+  font-family: var(--font-family-ui);
+  background-color: var(--color-background);
+  color: var(--color-accent);
+  border: 1px solid var(--color-border);
+  border-radius: var(--rounded);
+  outline: none;
+
+  &:read-only {
+    background: var(--color-border);
+  }
+
+  &:not(:read-only):focus {
+    outline: 1px solid var(--color-focus);
+  }
 }
 
 button {
   all: unset;
   cursor: pointer;
+
+  &:focus {
+    outline: 1px solid var(--color-focus);
+  }
 }
 
 @media (prefers-color-scheme: dark) {

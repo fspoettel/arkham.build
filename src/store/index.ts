@@ -26,6 +26,7 @@ export const useStore = create<State>()(
           cards: {},
           cycles: {},
           packs: {},
+          indexes: {},
           factions: mappedByCode(factions),
           subtypes: mappedByCode(subTypes),
           types: mappedByCode(types),

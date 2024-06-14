@@ -1,0 +1,28 @@
+.field-label {
+  font-weight: 500;
+  font-size: 1.25rem;
+}
+
+.field > * + * {
+  margin-top: 0.5rem;
+}
+
+.field-limits {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.field-limits input {
+  line-height: 1;
+  width: calc(2ch + 0.5rem);
+  text-align: center;
+
+  &:first-child {
+    margin-left: -0.125rem;
+  }
+
+  &:last-child {
+    margin-right: -0.125rem;
+  }
+}

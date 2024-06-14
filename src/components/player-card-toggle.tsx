@@ -1,6 +1,6 @@
-import SvgInvestigator from "../icons/investigator";
-import SvgTokenAutoFailOverlay from "../icons/token-auto-fail-overlay";
-import { ToggleGroup, ToggleGroupItem } from "./primitives/toggle-group";
+import SvgInvestigator from "./icons/investigator";
+import SvgTokenAutoFailOverlay from "./icons/token-auto-fail-overlay";
+import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
 
 export function PlayerCardToggle() {
   return (

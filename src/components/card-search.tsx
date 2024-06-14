@@ -1,4 +1,4 @@
-import { PlayerCardToggle } from "./ui/player-card-toggle";
+import { PlayerCardToggle } from "./player-card-toggle";
 
 export function CardSearch() {
   return (
