@@ -9,9 +9,10 @@ type Props = {
 };
 
 export function DeckTags({ tags }: Props) {
-  const tagList = tags.trim().split(" ");
+  const trimmed = tags.trim();
+  if (!trimmed.length) return null;
 
-  if (!tagList.length) return null;
+  const tagList = trimmed.split(" ");
 
   return (
     <ul className={css["deck-tags"]}>
