@@ -91,13 +91,20 @@
       "details image"
       "content content";
 
+    &.back:not(.has-image) {
+      grid-template-columns: 1fr;
+      padding: 0 0 var(--card-spacing) 0;
+      grid-template-rows: auto 1fr;
+      grid-template-areas: "header" "content";
+    }
+
     &.back:not(.back-has-header) {
       padding: var(--card-spacing) 0;
       grid-template-rows: 1fr;
       grid-template-areas: "content image";
     }
 
-    &.back:not(.has-image) {
+    &.back:not(.has-image):not(.back-has-header) {
       grid-template-columns: 1fr;
       padding: var(--card-spacing) 0;
       grid-template-rows: 1fr;
