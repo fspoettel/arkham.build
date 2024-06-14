@@ -1,7 +1,7 @@
 import factions from "@/data/factions.json";
 import types from "@/data/types.json";
 import subTypes from "@/data/subtypes.json";
-import { indexedByCode } from "./utils";
+import { mappedByCode } from "./utils";
 
 export type Card = {
   alt_art_investigator?: boolean;
@@ -56,7 +56,7 @@ export type Card = {
   real_back_flavor?: string;
   real_back_name?: string;
   real_back_text?: string;
-  real_back_traits?: string;
+  // real_back_traits?: string;
   real_customization_change?: string;
   real_customization_text?: string;
   // real_encounter_set_name
@@ -79,16 +79,16 @@ export type Card = {
   skill_combat?: number;
   skill_intellect?: number;
   skill_willpower?: number;
-  spoiler?: boolean;
+  // spoiler?: boolean;
   stage?: number;
   subtype_code?: string;
   // taboo_placeholder
   // taboo_set_id
-  tags?: string;
+  // tags?: string;
   type_code: string;
-  updated_at?: string;
+  // updated_at?: string;
   vengeance?: number;
-  version: number;
+  // version: number;
   victory?: number;
   xp?: number;
 };
@@ -134,6 +134,8 @@ export type DataVersion = {
   translation_updated_at: string;
 };
 
+export type Index = Record<string, Record<string, boolean>>;
+
 export type State = {
   cards: Record<string, Card>;
   dataVersion?: DataVersion;
@@ -142,16 +144,18 @@ export type State = {
   packs: Record<string, Pack>;
   subtypes: Record<string, SubType>;
   types: Record<string, Type>;
+  indexes: Record<string, Index>;
 };
 
 export function getInitialState(): State {
   return {
+    factions: mappedByCode(factions),
+    subtypes: mappedByCode(subTypes),
+    types: mappedByCode(types),
     dataVersion: undefined,
     cards: {},
     cycles: {},
     packs: {},
-    factions: indexedByCode(factions),
-    subtypes: indexedByCode(subTypes),
-    types: indexedByCode(types),
+    indexes: {},
   };
 }

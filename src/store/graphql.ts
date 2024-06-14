@@ -41,7 +41,7 @@ const allCardQuery: TypedDocumentNode<{
   all_card: QueryCard[];
 }> = parse(gql`
   {
-    all_card {
+    all_card(where: { official: { _eq: true } }) {
       alt_art_investigator
       alternate_of_code
       alternate_required_code
@@ -95,7 +95,7 @@ const allCardQuery: TypedDocumentNode<{
       real_back_flavor
       real_back_name
       real_back_text
-      real_back_traits
+      # real_back_traits
       real_customization_change
       real_customization_text
       real_encounter_set_name
@@ -118,16 +118,16 @@ const allCardQuery: TypedDocumentNode<{
       skill_combat
       skill_intellect
       skill_willpower
-      spoiler
+      # spoiler
       stage
       subtype_code
       # taboo_placeholder
       # taboo_set_id
-      tags
+      # tags
       type_code
-      updated_at
+      # updated_at
       vengeance
-      version
+      # version
       victory
       xp
     }

@@ -2,11 +2,15 @@ import { createJSONStorage, StateStorage } from "zustand/middleware";
 import { get, set, del } from "idb-keyval";
 
 const indexedDBStorage: StateStorage = {
-  getItem: async (name: string): Promise<string | null> =>
-    get(name).then((v) => v ?? null),
-  setItem: async (name: string, value: string): Promise<void> =>
-    set(name, value),
-  removeItem: async (name: string): Promise<void> => del(name),
+  async getItem(name: string) {
+    return (await get(name)) ?? null;
+  },
+  async setItem(name: string, value: string) {
+    return set(name, value);
+  },
+  async removeItem(name: string) {
+    return del(name);
+  },
 };
 
 export const storageConfig = {
