@@ -8,6 +8,7 @@ import { capitalize } from "@/utils/formatting";
 import css from "./deck-collection.module.css";
 
 import { Button } from "../ui/button";
+import { Dialog } from "../ui/dialog";
 import { Scroller } from "../ui/scroller";
 import { Tag } from "../ui/tag";
 import { DeckCard } from "./deck-card";
@@ -21,7 +22,9 @@ export function DeckCollection() {
       <header className={css["deck-collection-header"]}>
         <h2 className={css["deck-collection-title"]}>Decks</h2>
         <div className={css["deck-collection-actions"]}>
-          <DeckCollectionImport />
+          <Dialog>
+            <DeckCollectionImport />
+          </Dialog>
           <Link asChild href="/deck/new">
             <Button as="a" disabled>
               <Plus />

@@ -26,7 +26,10 @@ export const storageConfig: PersistOptions<StoreState, Val> = {
   skipHydration: import.meta.env.MODE === "test",
   migrate(persisted, version) {
     const state = persisted as StoreState;
-    if (version < 2) migrateV1(state, version);
+    if (version < 2) {
+      console.debug("[persist] migrate store: ", version);
+      migrateV1(state, version);
+    }
     return state;
   },
   partialize(state: StoreState) {
@@ -50,6 +53,7 @@ function createCustomStorage(): PersistStorage<Val> | undefined {
   return {
     async getItem(name) {
       if (SKIP_HYDRATION) return null;
+
       try {
         const [metadata, appdata] = await Promise.all([
           indexedDBAdapter.getMetadata(name),

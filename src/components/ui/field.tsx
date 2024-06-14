@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import type { ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
 
 import css from "./field.module.css";
 
@@ -10,6 +10,21 @@ type Props = {
   full?: boolean;
   helpText?: string;
 };
+
+export function FieldLabel({
+  children,
+  className,
+  ...rest
+}: {
+  children: ReactNode;
+  className?: string;
+} & ComponentProps<"label">) {
+  return (
+    <label className={clsx(css["field-label"], className)} {...rest}>
+      {children}
+    </label>
+  );
+}
 
 export function Field({
   bordered,
@@ -28,7 +43,7 @@ export function Field({
       )}
     >
       {children}
-      {helpText && <p className={css["field-help"]}>{helpText}</p>}
+      {helpText && <div className={css["field-help"]}>{helpText}</div>}
     </div>
   );
 }

@@ -191,13 +191,3 @@ export const DialogContentInert = React.forwardRef<
     </FloatingPortal>
   );
 });
-
-export const DialogClose = React.forwardRef<
-  HTMLButtonElement,
-  React.ButtonHTMLAttributes<HTMLButtonElement>
->(function DialogClose(props, ref) {
-  const { setOpen } = useDialogContext();
-  return (
-    <button type="button" {...props} onClick={() => setOpen(false)} ref={ref} />
-  );
-});

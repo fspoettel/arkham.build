@@ -1,6 +1,6 @@
 import type { ChangeEvent } from "react";
 
-import { Field } from "@/components/ui/field";
+import { Field, FieldLabel } from "@/components/ui/field";
 import type { SelectOption } from "@/components/ui/select";
 import { Select } from "@/components/ui/select";
 import { useStore } from "@/store";
@@ -79,7 +79,7 @@ export function DeckEditMeta({ deck }: Props) {
       {deck.hasParallel && (
         <>
           <Field full>
-            <label>Deck name</label>
+            <FieldLabel>Deck name</FieldLabel>
             <input
               onChange={onNameChange}
               required
@@ -88,7 +88,7 @@ export function DeckEditMeta({ deck }: Props) {
             />
           </Field>
           <Field full>
-            <label>Investigator Front</label>
+            <FieldLabel>Investigator Front</FieldLabel>
             <Select
               data-side="front"
               onChange={onInvestigatorSideChange}
@@ -98,7 +98,7 @@ export function DeckEditMeta({ deck }: Props) {
             />
           </Field>
           <Field full>
-            <label>Investigator Back</label>
+            <FieldLabel>Investigator Back</FieldLabel>
             <Select
               data-side="back"
               onChange={onInvestigatorSideChange}
@@ -112,7 +112,7 @@ export function DeckEditMeta({ deck }: Props) {
       {deck.selections &&
         Object.entries(deck.selections).map(([key, value]) => (
           <Field full key={key}>
-            <label>{formatSelectionId(key)}</label>
+            <FieldLabel>{formatSelectionId(key)}</FieldLabel>
             {(value.type === "deckSize" || value.type === "faction") && (
               <Select
                 data-field={value.accessor}
@@ -142,7 +142,7 @@ export function DeckEditMeta({ deck }: Props) {
           </Field>
         ))}
       <Field full>
-        <label>Taboo Set</label>
+        <FieldLabel>Taboo Set</FieldLabel>
         <Select
           emptyLabel="None"
           onChange={onTabooChange}
@@ -151,7 +151,7 @@ export function DeckEditMeta({ deck }: Props) {
         />
       </Field>
       <Field full>
-        <label>Description</label>
+        <FieldLabel>Description</FieldLabel>
         <textarea
           onChange={onDescriptionChange}
           value={deck.description_md ?? ""}

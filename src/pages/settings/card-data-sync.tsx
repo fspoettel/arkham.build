@@ -34,7 +34,11 @@ export function CardDataSync() {
   }, [mutate]);
 
   useEffect(() => {
-    if (synced) toast("Card data was synced successfully.");
+    if (synced)
+      toast({
+        children: "Card data was synced successfully.",
+        variant: "success",
+      });
   }, [synced, toast]);
 
   const enablePersistence = useCallback(() => {
@@ -43,14 +47,23 @@ export function CardDataSync() {
         .persist()
         .then((res) => {
           if (res) {
-            toast("Persistence enabled successfully.");
+            toast({
+              children: "Persistence enabled successfully.",
+              variant: "success",
+            });
           } else {
-            toast("Persistence could not be enabled.");
+            toast({
+              children: "Persistence could not be enabled.",
+              variant: "error",
+            });
           }
         })
         .catch((err) => {
           console.error(err);
-          toast("Persistence could not be enabled (see browser console).");
+          toast({
+            children: "Persistence could not be enabled (see browser console).",
+            variant: "error",
+          });
         });
     }
   }, [toast]);

@@ -1,8 +1,8 @@
 import type { StateCreator } from "zustand";
 
 import type { StoreState } from ".";
+import { queryDeck, queryUpgrades } from "../services/queries";
 import type { DataSlice } from "./data.types";
-import { isDeck } from "./data.types";
 
 export function getInitialDataState() {
   return {
@@ -18,43 +18,41 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
   get,
 ) => ({
   ...getInitialDataState(),
-  async importDecks(files) {
-    for (const file of files) {
-      try {
-        const text = await file.text();
-        const json = JSON.parse(text);
+  async importDeck(input) {
+    const state = get();
 
-        if (!isDeck(json)) {
-          throw new TypeError(`file '${file.name}' is not an arkhamdb deck`);
-        }
+    const { data: deck, type } = await queryDeck(input);
 
-        const state = get();
-
-        if (state.data.decks[json.id]) {
-          throw new Error(`Deck '${json.id}' already exists.`);
-        }
-
-        if (json.next_deck) {
-          console.warn("deck has a next_deck, ignoring it.");
-        }
-
-        set({
-          data: {
-            ...state.data,
-            decks: {
-              ...state.data.decks,
-              [json.id]: json,
-            },
-            upgrades: {
-              ...state.data.upgrades,
-              [json.id]: [],
-            },
-          },
-        });
-      } catch (err) {
-        console.error(`could not import deck '${file.name}':`, err);
-      }
+    if (type === "decklist") {
+      deck.id = window.crypto.randomUUID();
     }
+
+    if (state.data.decks[deck.id]) {
+      throw new Error(`Deck ${deck.id} already exists.`);
+    }
+
+    const upgrades =
+      type === "deck" && deck.previous_deck
+        ? await queryUpgrades(deck.previous_deck)
+        : [];
+
+    set({
+      data: {
+        ...state.data,
+        decks: {
+          ...state.data.decks,
+          [deck.id]: deck,
+          ...upgrades.reduce(
+            (acc, upgrade) => ({ ...acc, [upgrade.id]: upgrade }),
+            {},
+          ),
+        },
+        upgrades: {
+          ...state.data.upgrades,
+          [deck.id]: upgrades.map((upgrade) => upgrade.id),
+        },
+      },
+    });
   },
   deleteDeck(id) {
     const state = get();
@@ -64,8 +62,8 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
     const upgrades = { ...state.data.upgrades };
 
     if (upgrades[id]) {
-      for (const diff of upgrades[id]) {
-        delete localDecks[diff.prev_id];
+      for (const upgrade of upgrades[id]) {
+        delete localDecks[upgrade];
       }
     }
 

@@ -29,7 +29,10 @@ function DeckEdit() {
   const handleSave = useCallback(() => {
     const id = saveDeck();
     navigate(`~/deck/${id}/edit`, { replace: true });
-    showToast("Deck saved successfully.");
+    showToast({
+      children: "Deck saved successfully.",
+      variant: "success",
+    });
   }, [saveDeck, navigate, showToast]);
 
   useDocumentTitle(

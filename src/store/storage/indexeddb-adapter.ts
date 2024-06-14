@@ -17,9 +17,9 @@ export class IndexedDBAdapter<T extends StorageValue<Val>> {
     return `${name}-data-version`;
   }
 
-  getDataVersionIdentifier(version?: DataVersion) {
-    return version
-      ? `${version.locale}_${version.cards_updated_at}_${version.translation_updated_at}`
+  getDataVersionIdentifier(dataVersion?: DataVersion, storeVersion = 1) {
+    return dataVersion
+      ? `${dataVersion.locale}_${dataVersion.cards_updated_at}_${dataVersion.translation_updated_at}_${storeVersion}`
       : undefined;
   }
 
@@ -28,6 +28,7 @@ export class IndexedDBAdapter<T extends StorageValue<Val>> {
 
     const currentDataVersion = this.getDataVersionIdentifier(
       value.state.metadata.dataVersion,
+      value.version,
     );
 
     if (!currentDataVersion) {
@@ -89,6 +90,7 @@ export class IndexedDBAdapter<T extends StorageValue<Val>> {
 
     const version = this.getDataVersionIdentifier(
       parsed?.state?.metadata?.dataVersion,
+      parsed?.version,
     );
 
     if (!version) throw new TypeError(`stored data is missing version.`);

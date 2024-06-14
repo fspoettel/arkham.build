@@ -1,3 +1,5 @@
+import type { Deck } from "../slices/data.types";
+import { isDeck } from "../slices/data.types";
 import factions from "./data/factions.json";
 import reprintPacks from "./data/reprint_packs.json";
 import subTypes from "./data/subtypes.json";
@@ -55,6 +57,12 @@ export type FaqResponse = {
 
 async function request<T>(path: string): Promise<T> {
   const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1${path}`);
+
+  if (res.status >= 400) {
+    const err = await res.json();
+    throw new Error(err.message);
+  }
+
   return await res.json();
 }
 
@@ -81,4 +89,29 @@ export async function queryCards(): Promise<AllCardResponse> {
 
 export async function queryFaq(code: string): Promise<FaqResponse> {
   return request(`/faq/${code}`);
+}
+
+type DeckResponse = {
+  data: Deck;
+  type: "deck" | "decklist";
+};
+
+export async function queryDeck(input: string): Promise<DeckResponse> {
+  const res = await request<DeckResponse>(`/deck?q=${input}`);
+
+  if (!isDeck(res.data)) {
+    throw new Error("Could not import deck: invalid deck format.");
+  }
+
+  return res;
+}
+
+export async function queryUpgrades(code: string | number): Promise<Deck[]> {
+  const res = await request<Deck[]>(`/upgrades/${code}`);
+
+  if (!res.every(isDeck)) {
+    throw new Error("Could not import upgrades: invalid deck format.");
+  }
+
+  return res;
 }

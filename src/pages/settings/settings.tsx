@@ -28,7 +28,7 @@ function Settings() {
 
       if (evt.target instanceof HTMLFormElement) {
         updateSettings(new FormData(evt.target));
-        toast("Settings saved successfully.");
+        toast({ children: "Settings saved successfully.", variant: "success" });
       }
     },
     [updateSettings, toast],

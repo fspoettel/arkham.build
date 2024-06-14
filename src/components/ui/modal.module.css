@@ -10,6 +10,11 @@
   overflow: auto;
   padding: 1rem;
   container-type: inline-size;
+
+  &.center {
+    display: grid;
+    place-items: center;
+  }
 }
 
 .modal-inner {

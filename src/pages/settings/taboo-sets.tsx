@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Field } from "@/components/ui/field";
+import { Field, FieldLabel } from "@/components/ui/field";
 import { useStore } from "@/store";
 import { selectTabooSetOptions } from "@/store/selectors/filters";
 import type { SettingsState } from "@/store/slices/settings.types";
@@ -21,7 +21,7 @@ export function TabooSets({ settings }: Props) {
 
   return (
     <Field bordered>
-      <label htmlFor="taboo-set">Default taboo list</label>
+      <FieldLabel htmlFor="taboo-set">Default taboo list</FieldLabel>
       <select
         id="taboo-set"
         name="taboo-set"

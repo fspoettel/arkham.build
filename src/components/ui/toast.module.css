@@ -1,17 +1,41 @@
 .toast {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: min(90%, 45ch);
   position: fixed;
   bottom: 1rem;
   right: 1rem;
   z-index: 100;
-  background: var(--nord-4);
-  color: var(--nord-3);
-  padding: 0.75rem 3rem;
+  background: var(--nord-1);
+  color: var(--nord-5);
+  padding: 0.75rem;
   box-shadow: var(--shadow-lg);
-  border: 1px solid var(--nord-3);
+  border: 3px solid var(--nord-1);
   border-radius: var(--rounded-md);
   animation: slideIn both 150ms ease-in-out;
   border: 1px solid var(--nord-3);
   text-align: left;
+
+  &.success {
+    border-color: var(--nord-14);
+
+    & .toast-icon {
+      color: var(--nord-14);
+    }
+  }
+
+  &.error {
+    border-color: var(--nord-11);
+
+    & .toast-icon {
+      color: var(--nord-11);
+    }
+  }
+}
+
+.toast-icon {
+  flex: 0 0 auto;
 }
 
 @keyframes slideIn {

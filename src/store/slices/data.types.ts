@@ -53,19 +53,18 @@ export type UpgradeDiff = {
       [code: number]: number;
     };
   };
-  prev_id: string;
-  xp: number;
+  id: Id;
 };
 
 export type DataState = {
   decks: Record<string, Deck>;
   upgrades: {
-    [id: Id]: UpgradeDiff[];
+    [id: Id]: Id[];
   };
 };
 
 export type DataSlice = {
   data: DataState;
-  importDecks(files: FileList): Promise<void>;
+  importDeck(code: string): Promise<void>;
   deleteDeck(id: string | number): void;
 };

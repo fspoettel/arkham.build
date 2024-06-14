@@ -1,13 +1,18 @@
 import type { StoreState } from "@/store/slices";
-import type { UpgradeDiff } from "@/store/slices/data.types";
 
 function migrate(_state: unknown, version: number) {
   const state = _state as StoreState;
 
   if (version === 1) {
+    for (const deck of Object.values(state.data.decks)) {
+      if (deck.next_deck != null) {
+        delete state.data.decks[deck.id];
+      }
+    }
+
     state.data.upgrades = {
       ...Object.values(state.data.decks).reduce<{
-        [id: string | number]: UpgradeDiff[];
+        [id: string | number]: (string | number)[];
       }>((acc, curr) => {
         acc[curr.id] = [];
         return acc;

@@ -9,6 +9,7 @@ import css from "./modal.module.css";
 import { Button } from "./button";
 
 type Props = {
+  centerContent?: boolean;
   children: ReactNode;
   className?: string;
   actions?: ReactNode;
@@ -19,6 +20,7 @@ type Props = {
 
 export function Modal({
   actions,
+  centerContent,
   children,
   className,
   onClose,
@@ -59,7 +61,7 @@ export function Modal({
 
   return (
     <div
-      className={clsx(css["modal"], className)}
+      className={clsx(css["modal"], centerContent && css["center"], className)}
       onClick={onCloseModalOutside}
       ref={modalRef}
       style={cssVariables as React.CSSProperties}
