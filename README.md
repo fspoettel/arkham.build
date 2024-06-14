@@ -1,12 +1,16 @@
 # arkham.build
 
-[Roadmap](https://github.com/users/fspoettel/projects/5)
+> [arkham.build](https://arkham.build) is a web-based deckbuilder for Arkham Horror: The Card Game™.
 
-## API
+🗺️ [Roadmap](https://github.com/users/fspoettel/projects/5)
+
+## Development
+
+### API
 
 The API is [a separate, private git project](https://github.com/fspoettel/arkham-build-api/) hosted as a Cloudflare worker. It mainly serves as a cache for the ArkhamCards GraphQL API and a proxy for some arkhamdb API routes.
 
-## Icons
+### Icons
 
 Arkham-related SVG icons are sourced from ArkhamCards's [icomoon project](https://github.com/zzorba/ArkhamCards/blob/master/assets/icomoon/project.json) and loaded as webfonts. Additional icons are bundled as SVG via `vite-plugin-svgr` or imported from `lucide-react`.
 
