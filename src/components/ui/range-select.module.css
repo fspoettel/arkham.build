@@ -1,6 +1,5 @@
 .field-label {
   font-weight: 500;
-  font-size: 1.25rem;
 }
 
 .field > * + * {
@@ -25,4 +24,12 @@
   &:last-child {
     margin-right: -0.125rem;
   }
+}
+
+.field-children {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
 }

@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { RangeSelect } from "./ui/range-select";
+import { RangeSelect } from "../ui/range-select";
 import { useStore } from "@/store";
 import { State } from "@/store/schema";
+
+import { Checkbox } from "../ui/checkbox";
 
 function selectCostMinMax(state: State) {
   const costs = Object.keys(state.indexes["byCost"] ?? {}).map((x) =>
@@ -21,12 +23,10 @@ function selectCostMinMax(state: State) {
   return [min, max];
 }
 
-export function SelectCost() {
+export function CostFilter() {
   const [min, max] = useStore(selectCostMinMax);
-
   const [value, setValue] = useState<[number, number]>([min, max]);
 
-  // TODO: add checkboxes for exceptional / non-exceptional.
   return (
     <RangeSelect
       id="level-select"
@@ -37,6 +37,9 @@ export function SelectCost() {
         setValue([val[0], val[1]]);
       }}
       value={value}
-    />
+    >
+      <Checkbox label="Even" id="even" />
+      <Checkbox label="Odd" id="odd" />
+    </RangeSelect>
   );
 }

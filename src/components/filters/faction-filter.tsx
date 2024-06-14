@@ -1,6 +1,6 @@
 import { State } from "@/store/schema";
-import { FactionIcon } from "./ui/faction-icon";
-import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
+import { FactionIcon } from "../ui/faction-icon";
+import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 import css from "./select-faction.module.css";
 import { useStore } from "@/store";
@@ -25,7 +25,7 @@ function selectFactions(state: State) {
   return factions;
 }
 
-export function SelectFaction() {
+export function FactionFilter() {
   const factions = useStore(selectFactions);
 
   return (

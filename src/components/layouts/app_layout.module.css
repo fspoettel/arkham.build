@@ -26,6 +26,7 @@
 .layout-filters {
   display: none;
   flex: 0 0 var(--sidebar-width);
+  overflow-y: auto;
 
   @media screen and (min-width: 50rem) {
     display: block;

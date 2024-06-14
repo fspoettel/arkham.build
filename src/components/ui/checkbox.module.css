@@ -1,0 +1,47 @@
+.checkbox {
+  --checkbox-size: 1rem;
+
+  display: inline-flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.checkbox-root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
+  border-radius: var(--rounded-lg);
+}
+
+.checkbox-root svg {
+  width: 0.75em;
+  height: 0.75em;
+}
+
+.checkbox:hover .checkbox-root {
+  background-color: var(--gray-700);
+}
+
+.checkbox-root:focus {
+  outline: 0.125rem solid var(--color-input-text-hover);
+  outline-offset: 1px;
+}
+
+.checkbox-indicator {
+  color: var(--color-input-text);
+}
+
+.checkbox:hover .checkbox-indicator {
+  color: var(--color-input-text-hover);
+}
+
+.checkbox-label {
+  color: currentColor;
+  cursor: pointer;
+  user-select: none;
+  padding-left: 0.25rem;
+}

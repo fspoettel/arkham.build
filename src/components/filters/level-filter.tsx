@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { CARD_LEVEL_MAX, CARD_LEVEL_MIN } from "@/store/constants";
-import { RangeSelect } from "./ui/range-select";
+import { RangeSelect } from "../ui/range-select";
+import { Checkbox } from "../ui/checkbox";
 
-export function SelectLevel() {
+export function LevelFilter() {
   const [value, setValue] = useState<[number, number]>([
     CARD_LEVEL_MIN,
     CARD_LEVEL_MAX,
   ]);
-  // TODO: add checkboxes for exceptional / non-exceptional.
   return (
     <RangeSelect
       id="level-select"
@@ -18,6 +18,9 @@ export function SelectLevel() {
         setValue([val[0], val[1]]);
       }}
       value={value}
-    />
+    >
+      <Checkbox label="Exceptional" id="exceptional" />
+      <Checkbox label="Non-exceptional" id="non-exceptional" />
+    </RangeSelect>
   );
 }

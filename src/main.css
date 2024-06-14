@@ -17,10 +17,17 @@
   --gray-900: #24303c;
 
   --color-background: var(--gray-900);
-  --color-text: var(--gray-200);
+  --color-text: var(--gray-400);
+
   --color-accent: var(--gray-400);
-  --color-border: var(--gray-800);
+  --color-border: var(--gray-700);
   --color-focus: var(--gray-200);
+
+  --color-input-text: var(--color-accent);
+  --color-input-background: var(--gray-800);
+
+  --color-input-background-hover: var(--gray-700);
+  --color-input-text-hover: var(--gray-300);
 
   --guardian: #5cb4fd;
   --mystic: #ba81f2;
@@ -66,37 +73,45 @@ svg {
 }
 
 .icon {
+  display: inline-block;
+  vertical-align: baseline;
   fill: currentColor;
   width: 1em;
   height: 1em;
 }
 
 input,
-button,
 textarea,
 select {
   font-family: var(--font-family-ui);
-  background-color: var(--color-background);
-  color: var(--color-accent);
+  background-color: var(--color-input-background);
+  color: var(--color-input-text);
   border: 1px solid var(--color-border);
   border-radius: var(--rounded);
-  outline: none;
 
-  &:read-only {
-    background: var(--color-border);
+  &:read-only:focus {
+    outline: none;
   }
 
   &:not(:read-only):focus {
-    outline: 1px solid var(--color-focus);
+    outline: 0.125rem solid var(--color-focus);
   }
 }
 
 button {
   all: unset;
   cursor: pointer;
+  font-family: var(--font-family-ui);
+  background-color: var(--color-input-background);
+  color: var(--color-accent);
+
+  &:hover {
+    background-color: var(--color-input-background-hover);
+    color: var(--color-text-background-hover);
+  }
 
   &:focus {
-    outline: 1px solid var(--color-focus);
+    outline: 0.125rem solid var(--color-focus);
   }
 }
 

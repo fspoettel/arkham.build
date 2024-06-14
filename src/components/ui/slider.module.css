@@ -1,9 +1,9 @@
 .slider {
-  --slider-height: 1rem;
+  --slider-height: 1.25rem;
   --track-height: 0.125rem;
-  --color-track: var(--gray-800);
+  --color-track: var(--color-input-background);
   --color-range: var(--color-accent);
-  --thumb-size: 1rem;
+  --thumb-size: 1.25rem;
 
   position: relative;
   display: flex;
@@ -36,11 +36,14 @@
   background-color: var(--color-accent);
   border-radius: 50%;
   box-shadow: 0 0 0 0.125rem var(--color-background);
+  cursor: pointer;
 }
+
 .slider-thumb:hover {
-  background-color: var(--color-accent);
+  background-color: var(--color-input-text-hover);
 }
+
 .slider-thumb:focus {
-  outline: 0.125rem solid var(--color-focus);
+  outline: 0.125rem solid var(--color-input-text-hover);
   outline-offset: 0.125rem;
 }
