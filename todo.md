@@ -1,6 +1,5 @@
 ## App
 
-- Fix editor investigator card modal for parallel front/back.
 - Reflect filters to URL so that views can be shared and get back to @zzorba.
 - Index player cards for traits etc. that occur on the back of the card.
 - 'What could be interesting/a nice bonus really cool gimmick if you have the time sometime: some kind of hover effect between certain cards (mainly permanents) and their "related cards"'

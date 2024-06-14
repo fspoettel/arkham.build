@@ -14,12 +14,14 @@ import css from "./card-view-cards.module.css";
 function CardViewSection({
   title,
   children,
+  id,
 }: {
   title: string;
   children: ReactNode;
+  id?: string;
 }) {
   return (
-    <section className={css["view-section"]}>
+    <section className={css["view-section"]} id={id}>
       <h2 className={css["view-section-title"]}>{title}</h2>
       <div className={css["view-section-cards"]}>{children}</div>
     </section>
@@ -39,7 +41,16 @@ export function CardViewCards({
     cardWithRelations.card.duplicate_of_code ??
     cardWithRelations.card.alternate_of_code;
 
-  if (canonicalCode) return <Redirect replace to={`/card/${canonicalCode}`} />;
+  if (canonicalCode) {
+    const href = `/card/${canonicalCode}`;
+
+    return (
+      <Redirect
+        replace
+        to={cardWithRelations.card.parallel ? `${href}#parallel` : href}
+      />
+    );
+  }
 
   return (
     <>
@@ -59,7 +70,7 @@ export function CardViewCards({
       <Faq card={cardWithRelations.card} />
 
       {relations?.parallel && (
-        <CardViewSection title="Parallel">
+        <CardViewSection id="parallel" title="Parallel">
           <Card resolvedCard={relations.parallel} />
         </CardViewSection>
       )}

@@ -13,9 +13,20 @@ export default function RouteReset() {
   useSyncActiveDeckId();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     toggleSidebar(false);
     toggleFilters(false);
+
+    if (window.location.hash) {
+      // HACK: this enables hash-based deep links to work when a route is loaded async.
+      const el = document.querySelector(window.location.hash);
+
+      if (el) {
+        el.scrollIntoView();
+        return;
+      }
+    }
+
+    window.scrollTo(0, 0);
   }, [pathname, toggleSidebar, toggleFilters]);
 
   return null;
