@@ -5,7 +5,7 @@ import { DeckNew } from "./pages/deck_new";
 import { DeckEdit } from "./pages/deck_edit";
 import { queryCardData, useStore } from "./store";
 import css from "./app.module.css";
-//
+
 function App() {
   const [storeInitialized, setStoreInitialized] = useState(false);
 
