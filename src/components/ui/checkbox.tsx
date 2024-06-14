@@ -8,11 +8,12 @@ import css from "./checkbox.module.css";
 
 type Props = CheckboxProps & {
   className?: string;
+  hideLabel?: boolean;
   id: string;
   label: ReactNode;
 };
 
-export function Checkbox({ className, id, label, ...rest }: Props) {
+export function Checkbox({ className, id, hideLabel, label, ...rest }: Props) {
   return (
     <div className={clsx(css["checkbox"], className)}>
       <Root {...rest} className={css["checkbox-root"]} id={id}>
@@ -20,7 +21,10 @@ export function Checkbox({ className, id, label, ...rest }: Props) {
           <CheckIcon />
         </Indicator>
       </Root>
-      <label className={css["checkbox-label"]} htmlFor={id}>
+      <label
+        className={clsx(css["checkbox-label"], hideLabel && "sr-only")}
+        htmlFor={id}
+      >
         {label}
       </label>
     </div>

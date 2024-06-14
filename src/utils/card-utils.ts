@@ -1,7 +1,3 @@
-import type {
-  CardResolved,
-  CardWithRelations,
-} from "@/store/lib/card-resolver";
 import type { Card } from "@/store/services/types";
 
 import { SIDEWAYS_TYPE_CODES, SKILL_KEYS } from "./constants";
@@ -44,15 +40,16 @@ export function reversed(card: Card) {
 }
 
 export function countExperience(card: Card, quantity: number) {
+  if (card.customization_xp) return card.customization_xp;
   let xp = (card.xp ?? 0) + (card.taboo_xp ?? 0);
   xp = card.exceptional ? xp * 2 : xp;
   return xp * (card.myriad ? 1 : quantity);
 }
 
-export function isCardWithRelations(
-  x: CardResolved | CardWithRelations,
-): x is CardWithRelations {
-  return "relations" in x;
+export function cardLevel(card: Card) {
+  return card.customization_xp
+    ? Math.round(card.customization_xp / 2)
+    : card.xp;
 }
 
 export function imageUrl(code: string) {
@@ -61,4 +58,19 @@ export function imageUrl(code: string) {
 
 export function thumbnailUrl(code: string) {
   return `${import.meta.env.VITE_CARD_IMAGE_URL}/thumbnails/${code}.webp`;
+}
+
+export function parseCardTextHtml(cardText: string) {
+  console.time("[performance] parse_card_text_html");
+  const parsed = cardText
+    .replaceAll(/^\s?(-|–)/gm, `<i class="icon-bullet"></i>`)
+    .replaceAll("\n", "<br>")
+    .replaceAll(/\[\[(.*?)\]\]/g, "<b><em>$1</em></b>")
+    .replaceAll(/\[((?:\w|_)+?)\]/g, `<i class="icon-$1"></i>`);
+  console.timeEnd("[performance] parse_card_text_html");
+  return parsed;
+}
+
+export function parseCustomizationTextHtml(customizationText: string) {
+  return parseCardTextHtml(customizationText).replaceAll(/□/g, "");
 }

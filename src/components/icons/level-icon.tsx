@@ -9,7 +9,6 @@ type Props = {
 export function LevelIcon({ className, inverted, level }: Props) {
   const iconName = level == null ? "none" : level;
 
-  // TODO: > 5
   return (
     <i
       className={clsx(

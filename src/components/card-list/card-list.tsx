@@ -1,5 +1,5 @@
 import type { ChangeEvent } from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { GroupedVirtuosoHandle, ListRange } from "react-virtuoso";
 import { GroupedVirtuoso } from "react-virtuoso";
 import { createSelector } from "reselect";
@@ -73,20 +73,23 @@ export function CardList() {
     }
   }, [data]);
 
-  //TODO: use semantic markup. maybe integrate with radix-scrollarea?
+  const jumpToOptions = useMemo(
+    () => [
+      { value: "", label: "Jump to..." },
+      ...(data?.groups ?? []).map((group) => ({
+        value: group.code,
+        label: group.name,
+      })),
+    ],
+    [data?.groups],
+  );
+
   return (
     <div className={css["list-container"]}>
       <nav className={css["list-nav"]}>
         <output>{data?.cards.length ?? 0} cards</output>
         {data && (
-          <Select
-            onChange={onSelectGroup}
-            value=""
-            options={data.groups.map((group) => ({
-              value: group.code,
-              label: group.name,
-            }))}
-          />
+          <Select onChange={onSelectGroup} value="" options={jumpToOptions} />
         )}
       </nav>
 

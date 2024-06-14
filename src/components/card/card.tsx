@@ -1,17 +1,17 @@
-import type {
-  CardResolved,
-  CardWithRelations,
-} from "@/store/lib/card-resolver";
+import type { ReactNode } from "react";
+
+import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
 import { reversed } from "@/utils/card-utils";
 
 import { CardBack } from "./card-back";
-import { CardCustomizations } from "./card-customizations";
+import { CardContainer } from "./card-container";
 import { CardFront } from "./card-front";
 
 export type Props = {
+  children?: ReactNode;
   className?: string;
-  resolvedCard: CardResolved | CardWithRelations;
-  canToggleBack?: boolean;
+  resolvedCard: ResolvedCard | CardWithRelations;
+  canEditCustomizations?: boolean;
   linked?: boolean;
   size?: "compact" | "tooltip" | "full";
 };
@@ -25,6 +25,7 @@ export type Props = {
  * TODO: a lot of the aspects about this (CSS, selectors) should be cleaned up a bit.
  */
 export function Card({
+  children,
   className,
   resolvedCard,
   linked,
@@ -41,28 +42,22 @@ export function Card({
     />
   );
 
-  const showCustomizations = size === "full" && card.customization_options;
-
-  const customizations = showCustomizations ? (
-    <CardCustomizations card={card} />
-  ) : undefined;
-
   const showBack =
     size !== "compact" && card.double_sided && !card.back_link_id;
 
   const back = showBack && <CardBack card={card} size={size} />;
 
   return reversed(card) ? (
-    <>
+    <CardContainer size={size}>
       {back}
-      {customizations}
+      {children}
       {front}
-    </>
+    </CardContainer>
   ) : (
-    <>
+    <CardContainer size={size}>
       {front}
-      {customizations}
+      {children}
       {back}
-    </>
+    </CardContainer>
   );
 }

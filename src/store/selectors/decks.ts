@@ -1,11 +1,10 @@
 import { createSelector } from "reselect";
 
-import { type CardResolved } from "@/store/lib/card-resolver";
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import { groupDeckCardsByType } from "@/store/lib/deck-grouping";
-import type { ResolvedDeck } from "@/store/lib/deck-resolver";
 import { resolveDeck } from "@/store/lib/deck-resolver";
 
+import type { ResolvedCard, ResolvedDeck } from "../lib/types";
 import type { StoreState } from "../slices";
 
 export const selectLocalDecks = createSelector(
@@ -15,7 +14,7 @@ export const selectLocalDecks = createSelector(
   (decks, metadata, lookupTables) => {
     console.time("[performance] select_local_decks");
 
-    const resolvedDecks: ResolvedDeck<CardResolved>[] = Object.values(
+    const resolvedDecks: ResolvedDeck<ResolvedCard>[] = Object.values(
       decks.local,
     ).map((deck) => resolveDeck(metadata, lookupTables, deck, false));
 
@@ -26,26 +25,24 @@ export const selectLocalDecks = createSelector(
   },
 );
 
-export function selectLocalDeck(
-  state: StoreState,
-  id: string | undefined,
-): DisplayDeck | undefined {
-  console.time("[performance] select_local_deck");
-  if (!id) return undefined;
+export const selectActiveDeck = createSelector(
+  (state: StoreState) => state.decks,
+  (state: StoreState) => state.metadata,
+  (state: StoreState) => state.lookupTables,
+  (state: StoreState) => state.ui.activeDeckId,
+  (decks, metadata, lookupTables, id) => {
+    if (!id) return undefined;
+    console.time("[performance] select_active_deck");
 
-  const deck = state.decks.local[id];
-  if (!deck) return undefined;
+    const deck = decks.local[id];
+    if (!deck) return undefined;
 
-  const resolvedDeck = resolveDeck(
-    state.metadata,
-    state.lookupTables,
-    deck,
-    true,
-  );
+    const resolvedDeck = resolveDeck(metadata, lookupTables, deck, true);
 
-  const displayDeck = resolvedDeck as DisplayDeck;
-  displayDeck.groups = groupDeckCardsByType(resolvedDeck);
+    const displayDeck = resolvedDeck as DisplayDeck;
+    displayDeck.groups = groupDeckCardsByType(resolvedDeck);
 
-  console.timeEnd("[performance] select_local_deck");
-  return displayDeck;
-}
+    console.timeEnd("[performance] select_active_deck");
+    return displayDeck;
+  },
+);

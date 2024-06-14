@@ -44,7 +44,7 @@ export function Settings() {
           <header className={css["settings-header"]}>
             <h1 className={css["settings-title"]}>Settings</h1>
             <div className={css["settings-header-actions"]}>
-              <Link href="/">
+              <Link href="/" asChild>
                 <Button as="a" type="button" variant="bare">
                   Back
                 </Button>

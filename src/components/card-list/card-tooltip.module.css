@@ -15,7 +15,7 @@
   }
 
   & > *:not(:only-child):last-child header {
-    /* FIXME */
+    /* TODO: clean this up with a variant / props. */
     border-radius: 0;
   }
 }

@@ -33,7 +33,7 @@ export function CardNames({
     <div className={css["names"]}>
       <h1 className={css["name"]}>
         {linked ? (
-          <Link href={`/card/${code}`}>
+          <Link href={`/card/${code}`} asChild>
             <a>{cardName}</a>
           </Link>
         ) : (

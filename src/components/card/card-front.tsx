@@ -1,9 +1,6 @@
 import clsx from "clsx";
 
-import type {
-  CardResolved,
-  CardWithRelations,
-} from "@/store/lib/card-resolver";
+import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
 import { sideways } from "@/utils/card-utils";
 
 import css from "./card.module.css";
@@ -18,7 +15,7 @@ import { CardThumbnail } from "./card-thumbnail";
 
 export type Props = {
   className?: string;
-  resolvedCard: CardWithRelations | CardResolved;
+  resolvedCard: CardWithRelations | ResolvedCard;
   linked?: boolean;
   size: "compact" | "tooltip" | "full";
 };

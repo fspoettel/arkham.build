@@ -17,7 +17,7 @@ export function DeckCollection() {
     <div className={css["deck-collection"]}>
       <header className={css["deck-collection-header"]}>
         <h2 className={css["deck-collection-title"]}>Decks</h2>
-        <Link href="/deck/new">
+        <Link href="/deck/new" asChild>
           <Button as="a" disabled>
             <PlusIcon />
           </Button>
@@ -28,7 +28,7 @@ export function DeckCollection() {
           <ol className={css["deck-collection-decks"]}>
             {decks.map((deck) => (
               <li key={deck.id} className={css["deck-collection-deck"]}>
-                <Link href={`/deck/${deck.id}`}>
+                <Link href={`/deck/${deck.id}`} asChild>
                   <a>
                     <Deck deck={deck} />
                   </a>

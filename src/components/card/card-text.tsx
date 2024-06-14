@@ -1,8 +1,8 @@
 import clsx from "clsx";
 
-import css from "./card-text.module.css";
+import { parseCardTextHtml } from "@/utils/card-utils";
 
-import { parseCardTextHtml } from "./utils";
+import css from "./card-text.module.css";
 
 type Props = {
   flavor?: string;

@@ -84,3 +84,12 @@ export const CYCLES_WITH_STANDALONE_PACKS = [
   "parallel",
   "side_stories",
 ];
+
+export const ALT_ART_INVESTIGATOR_MAP = {
+  "98001": "02003",
+  "98004": "01001",
+  "98007": "08004",
+  "98010": "05001",
+  "98013": "07005",
+  "98016": "07004",
+};

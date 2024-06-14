@@ -2,7 +2,7 @@ import { ChevronDownIcon } from "@radix-ui/react-icons";
 import type { MouseEvent } from "react";
 import { useCallback, useMemo, useState } from "react";
 
-import type { CardWithRelations } from "@/store/lib/card-resolver";
+import type { ResolvedCard } from "@/store/lib/types";
 import { queryFaq } from "@/store/services/queries";
 import { useQuery } from "@/utils/use-query";
 
@@ -11,7 +11,7 @@ import css from "./faq.module.css";
 import { Button } from "../../components/ui/button";
 
 type Props = {
-  card: CardWithRelations["card"];
+  card: ResolvedCard["card"];
 };
 
 export function Faq({ card }: Props) {

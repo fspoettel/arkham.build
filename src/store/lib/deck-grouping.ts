@@ -1,9 +1,8 @@
 import type { PlayerType } from "@/utils/constants";
 
 import type { Card } from "../services/types";
-import type { CardWithRelations } from "./card-resolver";
-import type { ResolvedDeck } from "./deck-resolver";
 import { isSpecialCard } from "./deck-resolver";
+import type { CardWithRelations, ResolvedDeck } from "./types";
 
 export type DeckCard = Card & {
   quantity: number;

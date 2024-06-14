@@ -35,7 +35,7 @@
     "react-dom": "18.2.0",
     "react-virtuoso": "4.6.3",
     "reselect": "5.1.0",
-    "wouter": "2.12.1",
+    "wouter": "3.0.0",
     "zustand": "4.5.0"
   },
   "devDependencies": {

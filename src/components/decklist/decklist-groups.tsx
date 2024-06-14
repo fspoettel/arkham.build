@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { useParams } from "wouter";
 
 import type { Grouping } from "@/store/lib/deck-grouping";
 import { sortBySlots } from "@/store/lib/sorting";
@@ -7,17 +8,17 @@ import { capitalize } from "@/utils/capitalize";
 import type { PlayerType } from "@/utils/constants";
 import { PLAYER_TYPE_ORDER } from "@/utils/constants";
 
-import css from "./decklist-section-groups.module.css";
+import css from "./decklist-groups.module.css";
 
+import { ListCard } from "../card-list/list-card";
 import SlotIcon from "../icons/slot-icon";
-import { DecklistGroupCards } from "./decklist-group-cards";
 
 type Props = {
   group: Grouping;
   layout: "one_column" | "two_column";
 };
 
-export function DecklistSectionGroups({ group, layout }: Props) {
+export function DecklistGroups({ group, layout }: Props) {
   const assetGroup = group["asset"] ? (
     <div className={clsx(css["group"], css["asset"])}>
       <h4 className={css["group-title"]}>Asset</h4>
@@ -31,7 +32,7 @@ export function DecklistSectionGroups({ group, layout }: Props) {
                   <SlotIcon code={key} />
                   {capitalize(key)}
                 </h5>
-                <DecklistGroupCards cards={val} />
+                <DecklistGroup cards={val} />
               </li>
             );
           })}
@@ -53,7 +54,7 @@ export function DecklistSectionGroups({ group, layout }: Props) {
       return (
         <li className={clsx(css["group"])} key={k}>
           <h4 className={css["group-title"]}>{capitalize(k)}</h4>
-          <DecklistGroupCards cards={entry} />
+          <DecklistGroup cards={entry} />
         </li>
       );
     });
@@ -68,5 +69,26 @@ export function DecklistSectionGroups({ group, layout }: Props) {
       {assetGroup}
       <ol>{rest}</ol>
     </div>
+  );
+}
+
+export function DecklistGroup({ cards }: { cards: Card[] }) {
+  const { id } = useParams();
+
+  return (
+    <ol>
+      {cards
+        .toSorted((a, b) => a.real_name.localeCompare(b.real_name))
+        .map((card) => (
+          <ListCard
+            as="li"
+            key={card.code}
+            card={card}
+            quantity={card.quantity}
+            pathPrefix={`/deck/${id}/`}
+            size="sm"
+          />
+        ))}
+    </ol>
   );
 }

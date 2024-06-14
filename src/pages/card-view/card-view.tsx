@@ -3,12 +3,15 @@ import { type ReactNode, useEffect, useRef } from "react";
 import { Redirect, useLocation, useParams } from "wouter";
 
 import { Card } from "@/components/card/card";
+import { CardCustomizations } from "@/components/card/customizations/card-customizations";
+import { CardCustomizationsEdit } from "@/components/card/customizations/card-customizations-edit";
 import { ResolvedCard } from "@/components/card/resolved-card";
 import { AppLayout } from "@/components/layouts/app-layout";
 import { Scroller } from "@/components/ui/scroll-area";
 import { CardViewSidebar } from "@/pages/card-view/card-view-sidebar";
 import { useStore } from "@/store";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
+import { selectActiveDeck } from "@/store/selectors/decks";
 
 import css from "./card-view.module.css";
 
@@ -31,10 +34,11 @@ export function CardView() {
   const [pathname] = useLocation();
 
   const scrollerRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     scrollerRef.current?.scrollTo(0, 0);
   }, [pathname]);
+
+  const activeDeck = useStore(selectActiveDeck);
 
   const cardWithRelations = useStore((state) =>
     selectCardWithRelations(state, code, true),
@@ -57,7 +61,18 @@ export function CardView() {
     >
       <Scroller ref={scrollerRef} key={cardWithRelations.card.code}>
         <div className={clsx(css["view"])}>
-          <ResolvedCard resolvedCard={cardWithRelations} />
+          <ResolvedCard resolvedCard={cardWithRelations}>
+            {cardWithRelations.card.customization_options ? (
+              activeDeck ? (
+                <CardCustomizationsEdit
+                  activeDeck={activeDeck}
+                  card={cardWithRelations.card}
+                />
+              ) : (
+                <CardCustomizations card={cardWithRelations.card} />
+              )
+            ) : undefined}
+          </ResolvedCard>
 
           {relations?.parallel && (
             <CardViewSection title="Parallel">

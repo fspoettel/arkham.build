@@ -6,6 +6,7 @@ import { PLAYER_TYPE_ORDER, SKILL_KEYS } from "@/utils/constants";
 import type { Filter } from "@/utils/fp";
 import { and, not, or, pass } from "@/utils/fp";
 
+import { applyCardChanges } from "../lib/card-changes";
 import type { Grouping } from "../lib/grouping";
 import { getGroupCards } from "../lib/grouping";
 import { applySearch } from "../lib/searching";
@@ -15,7 +16,6 @@ import {
   sortedBySlots,
   sortedEncounterSets,
 } from "../lib/sorting";
-import { applyTaboo } from "../lib/taboos";
 import type { Card } from "../services/types";
 import type { StoreState } from "../slices";
 import type {
@@ -29,6 +29,7 @@ import type {
 } from "../slices/filters/types";
 import type { LookupTables } from "../slices/lookup-tables/types";
 import type { Metadata } from "../slices/metadata/types";
+import { selectActiveDeck } from "./decks";
 import { selectCanonicalTabooSetId } from "./filters";
 
 export type ListState = {
@@ -1117,6 +1118,7 @@ export const selectFilteredCards = createSelector(
   selectPlayerCardGroups,
   selectWeaknessGroups,
   selectEncounterSetGroups,
+  selectActiveDeck,
   (
     activeCardType,
     playerCardFilter,
@@ -1129,6 +1131,7 @@ export const selectFilteredCards = createSelector(
     playerCardGroups,
     weaknessGroups,
     encounterSetGroups,
+    activeDeck,
   ) => {
     if (!Object.keys(metadata.cards).length) {
       console.warn("player cards selected before store is initialized.");
@@ -1142,13 +1145,22 @@ export const selectFilteredCards = createSelector(
     if (activeCardType === "player") {
       console.time("[performance] select_player_cards");
 
+      // FIXME: take into account customizable slot changes.
       for (const grouping of playerCardGroups) {
         const groupCards = getGroupCards(
           grouping,
           metadata,
           lookupTables,
           playerCardFilter,
-          tabooSetId ? (c) => applyTaboo(c, tabooSetId, metadata) : undefined,
+          tabooSetId
+            ? (c) =>
+                applyCardChanges(
+                  c,
+                  metadata,
+                  tabooSetId,
+                  activeDeck?.customizations,
+                )
+            : undefined,
         );
 
         const filteredCards = applySearch(search, groupCards, metadata);

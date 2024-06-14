@@ -1,7 +1,7 @@
 import clsx from "clsx";
 
 import type { Card } from "@/store/services/types";
-import { getCardColor } from "@/utils/card-utils";
+import { cardLevel, getCardColor } from "@/utils/card-utils";
 
 import css from "./card-icon.module.css";
 
@@ -59,6 +59,7 @@ export function CardIcon({ card, className, inverted }: Props) {
     );
   }
 
+  const level = cardLevel(card);
   if (card.type_code === "skill") {
     return (
       <div
@@ -71,7 +72,7 @@ export function CardIcon({ card, className, inverted }: Props) {
         <FactionIcon className={css["icon-child"]} code={card.faction_code} />
         <LevelIcon
           inverted={inverted}
-          level={card.xp}
+          level={level}
           className={css["icon-level"]}
         />
       </div>
@@ -100,7 +101,7 @@ export function CardIcon({ card, className, inverted }: Props) {
       <LevelIcon
         inverted={inverted}
         className={css["icon-level"]}
-        level={card.xp}
+        level={level}
       />
     </div>
   );

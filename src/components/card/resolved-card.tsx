@@ -11,11 +11,11 @@ type Props = CardProps;
 export function ResolvedCard({ resolvedCard, size, ...rest }: Props) {
   const { card, back } = resolvedCard;
 
-  const frontNode = <Card resolvedCard={resolvedCard} {...rest} size={size} />;
+  const frontNode = <Card {...rest} resolvedCard={resolvedCard} size={size} />;
 
   const backNode =
     size !== "compact" && back ? (
-      <Card resolvedCard={back} size={size} {...rest} linked={false} />
+      <Card {...rest} resolvedCard={back} size={size} linked={false} />
     ) : undefined;
 
   return reversed(card) ? (

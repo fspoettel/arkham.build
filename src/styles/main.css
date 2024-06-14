@@ -150,7 +150,7 @@ select {
   font-size: var(--text-sm);
   background-color: var(--nord-0);
   color: var(--nord-5);
-  border: 1px solid var(--nord-1);
+  border: 1px solid var(--nord-2);
   border-radius: var(--rounded);
   padding: 0.5rem;
 
@@ -380,12 +380,11 @@ button {
   border-color: var(--neutral-dark);
 }
 
-/* TODO: refactor to use an `.icon` class. */
 svg {
   display: block;
   fill: currentColor;
   width: 1em;
-  height: 1em;
+  height: auto;
 }
 
 @media (prefers-color-scheme: dark) {

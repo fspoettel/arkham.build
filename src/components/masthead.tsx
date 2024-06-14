@@ -38,7 +38,7 @@ export function Masthead({ className }: { className?: string }) {
           </Button>
         )}
         {location !== "/settings" && (
-          <Link href="/settings">
+          <Link href="/settings" asChild>
             <Button className={css["masthead-settings"]} variant="bare" as="a">
               <GearIcon />
             </Button>

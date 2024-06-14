@@ -1,0 +1,53 @@
+.customizations {
+  border: 1px solid var(--nord-3);
+  background: var(--nord-1);
+  border-radius: var(--rounded-md);
+  margin-top: var(--card-spacing);
+}
+
+.header {
+  border-radius: calc(var(--rounded-md) - 2px) calc(var(--rounded-md) - 2px) 0 0;
+  padding: 0.5rem 1rem;
+  color: var(--nord-6);
+}
+
+.customizations-text {
+  font-size: var(--card-text-size);
+  padding: var(--card-spacing);
+}
+
+.customizations-text p {
+  max-width: 60ch;
+}
+
+.customizations-text b {
+  color: var(--nord-6);
+  font-weight: 600;
+}
+
+.customizations-text br {
+  line-height: 2;
+}
+
+.customization {
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+  gap: 0.75rem;
+}
+
+.customization + .customization {
+  margin-top: 0.5rem;
+}
+
+.customization-checks {
+  flex: 0 0 calc(var(--customization-xp-max) * 1.25rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.25rem;
+}
+
+.customization-content > * + * {
+  margin-top: 0.5rem;
+}

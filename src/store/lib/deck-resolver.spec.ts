@@ -70,7 +70,7 @@ describe("resolveDeck", async () => {
       );
     });
 
-    it("normalizes replacements to base cards", () => {
+    it("normalizes meta.alternate_* to the base card", () => {
       const { metadata, lookupTables } = store.getState();
       const deck = deckInvestigatorReplacements;
       const resolved = resolveDeck(metadata, lookupTables, deck, true);
@@ -82,6 +82,14 @@ describe("resolveDeck", async () => {
       expect(resolved.investigatorBack.card.code).toEqual(
         resolved.investigator_code,
       );
+    });
+
+    it("normalizes alt art investigator_code to the base card", () => {
+      const { metadata, lookupTables } = store.getState();
+      const deck = deckCustomizable;
+      const resolved = resolveDeck(metadata, lookupTables, deck, true);
+      expect(deck.investigator_code).toEqual("98010");
+      expect(resolved.investigatorFront.card.code).toEqual("05001");
     });
   });
 
@@ -179,141 +187,232 @@ describe("resolveDeck", async () => {
       const resolved = resolveDeck(metadata, lookupTables, deck, true);
       expect(resolved.customizations).toMatchInlineSnapshot(`
         {
-          "09021": [
-            {
-              "choices": undefined,
-              "index": 2,
-              "xpSpent": 2,
-            },
-            {
-              "choices": undefined,
+          "09021": {
+            "0": {
+              "choices": "",
               "index": 0,
+              "unlocked": true,
               "xpSpent": 1,
             },
-            {
-              "choices": undefined,
+            "1": {
+              "choices": "",
+              "index": 1,
+              "unlocked": false,
+              "xpSpent": 1,
+            },
+            "2": {
+              "choices": "",
+              "index": 2,
+              "unlocked": true,
+              "xpSpent": 2,
+            },
+            "3": {
+              "choices": "",
+              "index": 3,
+              "unlocked": true,
+              "xpSpent": 2,
+            },
+            "4": {
+              "choices": "",
               "index": 4,
+              "unlocked": true,
+              "xpSpent": 2,
+            },
+            "5": {
+              "choices": "",
+              "index": 5,
+              "unlocked": false,
               "xpSpent": 0,
             },
-            {
-              "choices": undefined,
-              "index": 3,
-              "xpSpent": 2,
-            },
-            {
-              "choices": undefined,
-              "index": 1,
-              "xpSpent": 1,
-            },
-          ],
-          "09022": [
-            {
-              "choices": undefined,
+          },
+          "09022": {
+            "0": {
+              "choices": "",
               "index": 0,
+              "unlocked": true,
               "xpSpent": 1,
             },
-          ],
-          "09040": [
-            {
-              "choices": undefined,
+            "1": {
+              "choices": "",
+              "index": 1,
+              "unlocked": true,
+              "xpSpent": 1,
+            },
+          },
+          "09040": {
+            "0": {
+              "choices": "",
+              "index": 0,
+              "unlocked": true,
+              "xpSpent": 1,
+            },
+            "1": {
+              "choices": "",
+              "index": 1,
+              "unlocked": true,
+              "xpSpent": 1,
+            },
+            "4": {
+              "choices": "",
               "index": 4,
+              "unlocked": true,
               "xpSpent": 2,
             },
-          ],
-          "09042": [
-            {
+          },
+          "09041": {
+            "1": {
+              "choices": "",
+              "index": 1,
+              "unlocked": true,
+              "xpSpent": 1,
+            },
+            "5": {
+              "choices": "",
+              "index": 5,
+              "unlocked": true,
+              "xpSpent": 2,
+            },
+          },
+          "09042": {
+            "0": {
               "choices": "07159",
               "index": 0,
+              "unlocked": true,
               "xpSpent": 0,
             },
-            {
-              "choices": undefined,
+            "2": {
+              "choices": "",
               "index": 2,
+              "unlocked": true,
               "xpSpent": 1,
             },
-            {
+            "4": {
               "choices": "07159^01031",
               "index": 4,
+              "unlocked": true,
               "xpSpent": 2,
             },
-          ],
-          "09060": [
-            {
+          },
+          "09060": {
+            "0": {
               "choices": "Innate",
               "index": 0,
+              "unlocked": true,
               "xpSpent": 0,
             },
-            {
-              "choices": undefined,
-              "index": 5,
-              "xpSpent": 2,
+            "1": {
+              "choices": "",
+              "index": 1,
+              "unlocked": false,
+              "xpSpent": 0,
             },
-            {
+            "2": {
               "choices": "Illicit",
               "index": 2,
+              "unlocked": true,
               "xpSpent": 2,
             },
-          ],
-          "09061": [
-            {
-              "choices": undefined,
+            "3": {
+              "choices": "",
+              "index": 3,
+              "unlocked": false,
+              "xpSpent": 0,
+            },
+            "5": {
+              "choices": "",
+              "index": 5,
+              "unlocked": true,
+              "xpSpent": 2,
+            },
+          },
+          "09061": {
+            "6": {
+              "choices": "",
               "index": 6,
+              "unlocked": true,
               "xpSpent": 3,
             },
-          ],
-          "09079": [
-            {
+          },
+          "09079": {
+            "0": {
               "choices": "willpower",
               "index": 0,
+              "unlocked": true,
               "xpSpent": 0,
             },
-            {
+            "1": {
+              "choices": "",
+              "index": 1,
+              "unlocked": true,
+              "xpSpent": 1,
+            },
+            "4": {
               "choices": "intellect",
               "index": 4,
+              "unlocked": true,
               "xpSpent": 2,
             },
-            {
+            "5": {
               "choices": "agility",
               "index": 5,
+              "unlocked": true,
               "xpSpent": 3,
             },
-          ],
-          "09080": [
-            {
+          },
+          "09080": {
+            "1": {
+              "choices": "",
+              "index": 1,
+              "unlocked": true,
+              "xpSpent": 1,
+            },
+            "3": {
+              "choices": "",
+              "index": 3,
+              "unlocked": false,
+              "xpSpent": 0,
+            },
+            "5": {
               "choices": "0",
               "index": 5,
+              "unlocked": true,
               "xpSpent": 2,
             },
-          ],
-          "09081": [
-            {
-              "choices": undefined,
+          },
+          "09081": {
+            "1": {
+              "choices": "",
               "index": 1,
+              "unlocked": true,
               "xpSpent": 1,
             },
-            {
-              "choices": undefined,
+            "7": {
+              "choices": "",
               "index": 7,
+              "unlocked": true,
               "xpSpent": 3,
             },
-          ],
-          "09101": [
-            {
-              "choices": "Practiced",
-              "index": 1,
-              "xpSpent": 1,
-            },
-            {
+          },
+          "09101": {
+            "0": {
               "choices": "Innate^Expert",
               "index": 0,
+              "unlocked": true,
               "xpSpent": 0,
             },
-            {
-              "choices": undefined,
+            "1": {
+              "choices": "Practiced",
+              "index": 1,
+              "unlocked": true,
+              "xpSpent": 1,
+            },
+            "2": {
+              "choices": "",
               "index": 2,
+              "unlocked": false,
               "xpSpent": 0,
             },
-          ],
+          },
         }
       `);
     });
@@ -333,7 +432,7 @@ describe("resolveDeck", async () => {
         const deck = deckCustomizable;
         const resolved = resolveDeck(metadata, lookupTables, deck, true);
         expect(resolved.stats).toMatchObject({
-          xpRequired: 31,
+          xpRequired: 38,
         });
       });
     });

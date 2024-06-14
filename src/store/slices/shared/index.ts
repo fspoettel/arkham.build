@@ -1,7 +1,7 @@
 import type { StateCreator } from "zustand";
 
 import type { Card } from "@/store/services/types";
-import { rewriteImageUrl } from "@/utils/card-utils";
+import { ALT_ART_INVESTIGATOR_MAP } from "@/utils/constants";
 
 import type { StoreState } from "..";
 import { getInitialFilters } from "../filters";
@@ -78,12 +78,18 @@ export const createSharedSlice: StateCreator<
       // SAFE! Diverging fields are added below.
       const card = c as Card;
 
-      card.backimageurl = rewriteImageUrl(card.backimageurl);
-      card.imageurl = rewriteImageUrl(card.imageurl);
-
       const pack = metadata.packs[card.pack_code];
       const cycle = metadata.cycles[pack.cycle_code];
+
+      if (card.code in ALT_ART_INVESTIGATOR_MAP) {
+        card.duplicate_of_code =
+          ALT_ART_INVESTIGATOR_MAP[
+            card.code as keyof typeof ALT_ART_INVESTIGATOR_MAP
+          ];
+      }
+
       card.parallel = cycle?.code === "parallel";
+      card.original_slot = card.real_slot;
 
       metadata.cards[card.code] = card;
 

@@ -2,12 +2,9 @@ import clsx from "clsx";
 
 import SvgCard from "@/assets/icons/card-outline.svg?react";
 import SvgPaintbrush from "@/assets/icons/paintbrush.svg?react";
-import type {
-  CardResolved,
-  CardWithRelations,
-} from "@/store/lib/card-resolver";
+import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
+import { isCardWithRelations } from "@/store/lib/types";
 import type { Cycle, Pack } from "@/store/services/types";
-import { isCardWithRelations } from "@/utils/card-utils";
 import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
 
 import css from "./card-meta.module.css";
@@ -16,7 +13,7 @@ import EncounterIcon from "../icons/encounter-icon";
 import PackIcon from "../icons/pack-icon";
 
 type Props = {
-  resolvedCard: CardResolved | CardWithRelations;
+  resolvedCard: ResolvedCard | CardWithRelations;
   size: "tooltip" | "compact" | "full";
   skipCycle?: boolean;
 };

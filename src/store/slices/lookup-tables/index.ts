@@ -1,6 +1,6 @@
 import type { StateCreator } from "zustand";
 
-import { applyTaboo } from "@/store/lib/taboos";
+import { applyTaboo } from "@/store/lib/card-changes";
 import type { Card } from "@/store/services/types";
 import { splitMultiValue } from "@/utils/card-utils";
 import {
@@ -99,7 +99,7 @@ export function createLookupTables(
   cards.forEach((c, i) => {
     addCardToLookupTables(
       lookupTables,
-      applyTaboo(c, settings.tabooSetId, metadata),
+      applyTaboo(c, metadata, settings.tabooSetId),
       i,
     );
   });
@@ -306,7 +306,7 @@ function indexByUses(tables: LookupTables, card: Card) {
 function indexByHealsDamage(tables: LookupTables, card: Card) {
   if (
     card.tags?.includes("hd") ||
-    card.customization_options?.tags?.includes("hd")
+    card.customization_options?.some((option) => option?.tags?.includes("hd"))
   ) {
     setInLookupTable(card.code, tables.properties, "healsDamage");
   }
@@ -315,7 +315,7 @@ function indexByHealsDamage(tables: LookupTables, card: Card) {
 function indexByHealsHorror(tables: LookupTables, card: Card) {
   if (
     card.tags?.includes("hh") ||
-    card.customization_options?.tags?.includes("hh")
+    card.customization_options?.some((option) => option?.tags?.includes("hh"))
   ) {
     setInLookupTable(card.code, tables.properties, "healsHorror");
   }

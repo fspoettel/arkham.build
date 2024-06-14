@@ -2,8 +2,7 @@ import clsx from "clsx";
 
 import SvgCardOutline from "@/assets/icons/card-outline-bold.svg?react";
 import SvgXpBold from "@/assets/icons/xp-bold.svg?react";
-import type { CardResolved } from "@/store/lib/card-resolver";
-import type { ResolvedDeck } from "@/store/lib/deck-resolver";
+import type { ResolvedCard, ResolvedDeck } from "@/store/lib/types";
 import { capitalize } from "@/utils/capitalize";
 import { getCardColor } from "@/utils/card-utils";
 
@@ -12,7 +11,7 @@ import css from "./deck.module.css";
 import { CardThumbnail } from "../card/card-thumbnail";
 
 type Props = {
-  deck: ResolvedDeck<CardResolved>;
+  deck: ResolvedDeck<ResolvedCard>;
 };
 
 export function Deck({ deck }: Props) {

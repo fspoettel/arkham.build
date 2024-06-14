@@ -7,6 +7,7 @@ import SvgName from "@/assets/icons/name.svg?react";
 import SvgTaboo from "@/assets/icons/taboo.svg?react";
 import SvgXp from "@/assets/icons/xp-bold.svg?react";
 import { CardBack } from "@/components/card/card-back";
+import { CardContainer } from "@/components/card/card-container";
 import { CardFront } from "@/components/card/card-front";
 import { FactionIcon } from "@/components/icons/faction-icon";
 import { Button } from "@/components/ui/button";
@@ -25,26 +26,32 @@ export function DeckDetails({ deck }: Props) {
 
   return (
     <Scroller>
-      <CardFront resolvedCard={deck.investigatorFront} size="tooltip" linked />
-      <div
-        className={clsx(
-          css["deck-detail-back-toggle"],
-          backToggled && css["open"],
-        )}
-      >
-        <Button onClick={() => toggleBack((p) => !p)}>
-          {backToggled ? <ChevronUpIcon /> : <ChevronDownIcon />}
-          Backside{" "}
-          {deck.investigatorBack.card.parallel && (
-            <>
-              (<span className="encounters-parallel" />)
-            </>
+      <CardContainer size="tooltip">
+        <CardFront
+          resolvedCard={deck.investigatorFront}
+          size="tooltip"
+          linked
+        />
+        <div
+          className={clsx(
+            css["deck-detail-back-toggle"],
+            backToggled && css["open"],
           )}
-        </Button>
-      </div>
-      {backToggled && (
-        <CardBack card={deck.investigatorBack.card} size="tooltip" />
-      )}
+        >
+          <Button onClick={() => toggleBack((p) => !p)}>
+            {backToggled ? <ChevronUpIcon /> : <ChevronDownIcon />}
+            Backside{" "}
+            {deck.investigatorBack.card.parallel && (
+              <>
+                (<span className="encounters-parallel" />)
+              </>
+            )}
+          </Button>
+        </div>
+        {backToggled && (
+          <CardBack card={deck.investigatorBack.card} size="tooltip" />
+        )}
+      </CardContainer>
 
       <div className={css["deck-details-container"]}>
         <ul className={css["deck-details"]}>
@@ -53,6 +60,15 @@ export function DeckDetails({ deck }: Props) {
               <SvgName /> Title
             </div>
             <h1 className={css["detail-value"]}>{deck.name}</h1>
+          </li>
+
+          <li className={css["detail"]}>
+            <div className={css["detail-label"]}>
+              <SvgCardOutlineBold /> Deck size
+            </div>
+            <p className={css["detail-value"]}>
+              {deck.stats.deckSize} ({deck.stats.deckSizeTotal} total)
+            </p>
           </li>
 
           <li className={css["detail"]}>
@@ -74,15 +90,6 @@ export function DeckDetails({ deck }: Props) {
               ) : (
                 "None"
               )}
-            </p>
-          </li>
-
-          <li className={css["detail"]}>
-            <div className={css["detail-label"]}>
-              <SvgCardOutlineBold /> Deck size
-            </div>
-            <p className={css["detail-value"]}>
-              {deck.stats.deckSize} ({deck.stats.deckSizeTotal} total)
             </p>
           </li>
 

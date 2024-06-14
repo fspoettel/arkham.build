@@ -10,7 +10,6 @@ import {
   useInteractions,
   useListNavigation,
 } from "@floating-ui/react";
-import { CheckIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
 import type { ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -19,6 +18,7 @@ import type { Coded } from "@/store/services/types";
 
 import css from "./combobox.module.css";
 
+import { ComboboxMenu } from "./combobox-menu";
 import { ComboboxResults } from "./combobox-results";
 
 function defaultItemToString<T extends Coded>(val: T) {
@@ -32,11 +32,12 @@ function defaultRenderer<T extends Coded>(val: T) {
 type Props<T extends Coded> = {
   autoFocus?: boolean;
   className?: string;
+  disabled?: boolean;
   id: string;
   items: T[];
   itemToString?: (item: T) => string;
   label: ReactNode;
-  onSelectItem: (code: string, val: boolean) => void;
+  onSelectItem?: (code: string, val: boolean) => void;
   placeholder?: string;
   renderItem?: (item: T) => ReactNode;
   renderResult?: (item: T) => ReactNode;
@@ -47,6 +48,7 @@ type Props<T extends Coded> = {
 export function Combobox<T extends Coded>({
   autoFocus,
   className,
+  disabled,
   id,
   items,
   itemToString = defaultItemToString,
@@ -72,7 +74,7 @@ export function Combobox<T extends Coded>({
       size({
         apply({ rects, elements }) {
           Object.assign(elements.floating.style, {
-            width: `${rects.reference.width}px`,
+            minWidth: `${rects.reference.width}px`,
           });
         },
       }),
@@ -88,6 +90,7 @@ export function Combobox<T extends Coded>({
     activeIndex,
     onNavigate: setActiveIndex,
     virtual: true,
+    loop: false,
   });
 
   const dismiss = useDismiss(context);
@@ -106,7 +109,7 @@ export function Combobox<T extends Coded>({
 
   const setSelectedItem = useCallback(
     (item: T) => {
-      onSelectItem(item.code, !selectedItems[item.code]);
+      if (onSelectItem) onSelectItem(item.code, !selectedItems[item.code]);
 
       const ref = refs.reference.current as HTMLInputElement;
 
@@ -120,19 +123,15 @@ export function Combobox<T extends Coded>({
 
   const removeSelectedItem = useCallback(
     (item: T) => {
-      onSelectItem(item.code, false);
+      if (onSelectItem) onSelectItem(item.code, false);
     },
     [onSelectItem],
   );
 
   useEffect(() => {
-    if (
-      activeIndex == null ||
-      (activeIndex > filteredItems.length && inputValue)
-    ) {
-      setActiveIndex(0);
-    }
-  }, [activeIndex, filteredItems, inputValue]);
+    listRef.current = [];
+    setActiveIndex(filteredItems.length > 0 ? 0 : null);
+  }, [filteredItems.length]);
 
   return (
     <div className={clsx(css["combobox"], className)}>
@@ -149,6 +148,7 @@ export function Combobox<T extends Coded>({
             {...getReferenceProps({
               id,
               className: css["combobox-input"],
+              disabled,
               type: "text",
               value: inputValue,
               placeholder: placeholder,
@@ -179,53 +179,34 @@ export function Combobox<T extends Coded>({
       {isOpen && (
         <FloatingPortal>
           <FloatingFocusManager context={context} initialFocus={-1}>
-            <ol
+            <div
+              className={css["combobox-menu"]}
               ref={refs.setFloating}
               style={floatingStyles}
               {...getFloatingProps({
-                className: css["combobox-menu"],
                 ref: refs.setFloating,
               })}
             >
-              {filteredItems.map((item, index) => {
-                const active = activeIndex === index;
-
-                return (
-                  <li
-                    key={item.code}
-                    tabIndex={active ? 0 : -1}
-                    ref={(node) => {
-                      if (node instanceof HTMLElement) {
-                        listRef.current[index] = node;
-                      }
-                    }}
-                    {...getItemProps({
-                      className: clsx(
-                        css["combobox-menu-item"],
-                        active && css["active"],
-                      ),
-                      id: item.code,
-                      onClick() {
-                        setSelectedItem(item);
-                      },
-                    })}
-                  >
-                    {!!selectedItems[item.code] && (
-                      <CheckIcon className={css["combobox-menu-item-check"]} />
-                    )}
-                    {renderItem(item)}
-                  </li>
-                );
-              })}
-            </ol>
+              <ComboboxMenu
+                activeIndex={activeIndex}
+                items={filteredItems}
+                setSelectedItem={setSelectedItem}
+                listRef={listRef}
+                getItemProps={getItemProps}
+                selectedItems={selectedItems}
+                renderItem={renderItem}
+              />
+            </div>
           </FloatingFocusManager>
         </FloatingPortal>
       )}
-      <ComboboxResults
-        items={Object.values(selectedItems)}
-        onRemove={removeSelectedItem}
-        renderResult={renderResult}
-      />
+      {!!Object.values(selectedItems).length && (
+        <ComboboxResults
+          items={Object.values(selectedItems)}
+          onRemove={removeSelectedItem}
+          renderResult={renderResult}
+        />
+      )}
     </div>
   );
 }

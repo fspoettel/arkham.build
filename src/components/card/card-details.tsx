@@ -1,11 +1,11 @@
-import type { CardResolved } from "@/store/lib/card-resolver";
+import type { ResolvedCard } from "@/store/lib/types";
 
 import css from "./card-details.module.css";
 
 import { CardSlots } from "./card-slots";
 
 type Props = {
-  resolvedCard: CardResolved | CardResolved;
+  resolvedCard: ResolvedCard;
 };
 
 export function CardDetails({ resolvedCard }: Props) {

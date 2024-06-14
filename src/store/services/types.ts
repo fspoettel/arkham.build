@@ -49,6 +49,26 @@ export type DeckOption = {
   uses?: string[];
 };
 
+export type CustomizationOption = {
+  card?: {
+    type: string[];
+    trait: string[];
+  };
+  choice?: "choose_card" | "choose_trait" | "remove_slot" | "choose_skill";
+  xp: number;
+  cost?: number;
+  deck_limit?: number;
+  tags?: string[];
+  position?: number;
+  quantity?: number;
+  health?: number;
+  real_slot?: string;
+  real_text?: string;
+  real_traits?: string;
+  sanity?: number;
+  text_change: "append" | "insert" | "replace";
+};
+
 export type QueryCard = {
   alt_art_investigator?: boolean;
   alternate_of_code?: string;
@@ -60,12 +80,7 @@ export type QueryCard = {
   clues_fixed?: boolean;
   code: string;
   cost?: number;
-  customization_options?: {
-    xp: number;
-    tags: string[];
-    real_text: string;
-    text_change: string;
-  };
+  customization_options?: CustomizationOption[];
   deck_limit?: number;
   deck_options?: DeckOption[];
   deck_requirements?: DeckRequirements;
@@ -137,7 +152,12 @@ export type QueryCard = {
 };
 
 export type Card = Omit<QueryCard, "id"> & {
+  /* indicates whether a card is part of a parallel investigator pack. */
   parallel?: boolean;
+  /* indicates the amount of xp spent on customizations for a card. only relevant in deckbuilder mode. */
+  customization_xp?: number;
+  /* copy of real slot, can be changed by customizable. */
+  original_slot?: string;
 };
 
 export type Cycle = {

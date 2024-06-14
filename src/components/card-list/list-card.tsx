@@ -28,6 +28,8 @@ type Props = {
   as?: "li" | "div";
   card: Card;
   className?: string;
+  omitThumbnail?: boolean;
+  pathPrefix?: string;
   quantity?: number;
   size?: "sm";
 };
@@ -36,6 +38,8 @@ export function ListCard({
   as = "div",
   card,
   className,
+  omitThumbnail,
+  pathPrefix = "/",
   quantity,
   size,
 }: Props) {
@@ -97,9 +101,9 @@ export function ListCard({
           <strong className={css["listcard-quantity"]}>{quantity} ×</strong>
         )}
 
-        {card.imageurl && (
+        {!omitThumbnail && card.imageurl && (
           <div className={css["listcard-thumbnail"]} {...referenceProps}>
-            <Link href={`/card/${card.code}`}>
+            <Link href={`${pathPrefix}card/${card.code}`} asChild>
               <a tabIndex={-1}>
                 <CardThumbnail card={card} />
               </a>
@@ -118,7 +122,7 @@ export function ListCard({
             className={clsx(css["listcard-name"], colorCls)}
             {...referenceProps}
           >
-            <Link href={`/card/${card.code}`} tabIndex={-1}>
+            <Link href={`${pathPrefix}card/${card.code}`} tabIndex={-1}>
               {card.real_name}
             </Link>
           </h4>

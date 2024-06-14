@@ -1,59 +1,22 @@
-import { applyTaboo } from "../lib/taboos";
-import type {
-  Card,
-  Cycle,
-  EncounterSet,
-  Pack,
-  SubType,
-  Type,
-} from "../services/types";
+import { applyCardChanges } from "../lib/card-changes";
 import type { LookupTables } from "../slices/lookup-tables/types";
 import type { Metadata } from "../slices/metadata/types";
+import type { CardWithRelations, Customizations, ResolvedCard } from "./types";
 
-export type CardResolved = {
-  card: Card;
-  back?: CardResolved;
-  encounterSet?: EncounterSet;
-  cycle: Cycle;
-  pack: Pack;
-  subtype?: SubType;
-  type: Type;
-};
-
-export type CardWithRelations = CardResolved & {
-  relations?: {
-    bound?: CardResolved[];
-    bonded?: CardResolved[];
-
-    restrictedTo?: CardResolved;
-    parallel?: CardResolved;
-
-    advanced?: CardResolved[];
-    replacement?: CardResolved[];
-    requiredCards?: CardResolved[];
-    parallelCards?: CardResolved[];
-    duplicates?: CardResolved[];
-
-    level?: CardResolved[];
-  };
-};
-
-// TODO: refactor into a "real" selector.
 export function resolveCardWithRelations<T extends boolean>(
   metadata: Metadata,
   lookupTables: LookupTables,
   code: string | undefined,
   tabooSetId: number | null,
+  customizations?: Customizations,
   withRelations?: T,
-): T extends true ? CardWithRelations | undefined : CardResolved | undefined {
+): T extends true ? CardWithRelations | undefined : ResolvedCard | undefined {
   if (!code) return undefined;
 
   let card = metadata.cards[code];
   if (!card) return undefined;
 
-  if (tabooSetId) {
-    card = applyTaboo(card, tabooSetId, metadata);
-  }
+  card = applyCardChanges(card, metadata, tabooSetId, customizations);
 
   const pack = metadata.packs[card.pack_code];
   const type = metadata.types[card.type_code];
@@ -73,6 +36,7 @@ export function resolveCardWithRelations<T extends boolean>(
         lookupTables,
         card.back_link_id,
         tabooSetId,
+        customizations,
       )
     : undefined;
 
@@ -150,6 +114,7 @@ export function resolveCardWithRelations<T extends boolean>(
       "duplicates",
       card.code,
       tabooSetId,
+      customizations,
       false,
     );
 
@@ -179,13 +144,15 @@ function resolveRelation(
   key: keyof LookupTables["relations"],
   code: string,
   tabooSetId: number | null,
-): CardResolved | undefined {
+  customizations?: Customizations,
+): ResolvedCard | undefined {
   const relations = resolveRelationArray(
     metadata,
     lookupTables,
     key,
     code,
     tabooSetId,
+    customizations,
   );
   return relations.length ? relations[0] : undefined;
 }
@@ -196,8 +163,9 @@ function resolveRelationArray(
   key: keyof LookupTables["relations"],
   code: string,
   tabooSetId: number | null,
+  customizations?: Customizations,
   ignoreDuplicates = true,
-): CardResolved[] {
+): ResolvedCard[] {
   const relation = lookupTables.relations[key];
 
   const relations = relation[code]
@@ -207,6 +175,7 @@ function resolveRelationArray(
           lookupTables,
           code,
           tabooSetId,
+          customizations,
           false,
         );
 

@@ -240,14 +240,14 @@ export const selectEncounterSetChanges = createSelector(
  */
 
 const FACTION_SORT = [
-  "seeker",
   "guardian",
+  "seeker",
   "rogue",
   "mystic",
   "survivor",
   "multiclass",
-  "mythos",
   "neutral",
+  "mythos",
 ];
 
 export const selectFactionOptions = createSelector(

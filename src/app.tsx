@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { useEffect } from "react";
 import { Redirect, Route, Router } from "wouter";
+import { useBrowserLocation } from "wouter/use-browser-location";
 
 import css from "./app.module.css";
 
@@ -21,7 +22,7 @@ import {
 } from "./store/services/queries";
 
 function Index() {
-  return <Redirect href="/browse" />;
+  return <Redirect href="/browse" replace />;
 }
 
 function App() {
@@ -53,7 +54,7 @@ function App() {
         </div>
       </div>
       {storeInitialized && (
-        <Router>
+        <Router hook={useBrowserLocation}>
           <Route path="/" component={Index} />
           <Route path="/browse" component={Browse} />
           <Route path="/card/:code" component={CardView} />

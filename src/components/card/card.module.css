@@ -1,8 +1,10 @@
-.card {
+.card-container {
   --card-text-size: var(--text-base);
   --card-title-size: var(--text-lg);
   --card-spacing: 1rem;
+}
 
+.card {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto auto auto auto;
@@ -28,7 +30,7 @@
   }
 }
 
-.card.full {
+.card-container.full .card {
   border-width: 2px;
 
   @container (min-width: 33.5rem) {
@@ -51,7 +53,7 @@
   }
 }
 
-.card.compact {
+.card-container.compact .card {
   @container (min-width: 24rem) {
     grid-template-columns: 1fr 8rem;
     grid-template-rows: auto auto 1fr;
@@ -70,35 +72,36 @@
   }
 }
 
-.card.tooltip {
+.card-container.tooltip {
   --card-text-size: var(--text-sm);
   --card-title-size: var(--text-base);
-
   --card-spacing: 0.75rem;
-  grid-template-rows: auto auto 1fr;
-
-  grid-template-columns: 1fr 6rem;
-
-  grid-template-areas:
-    "header header"
-    "details image"
-    "content content";
-
-  &.back:not(.back-has-header) {
-    padding: var(--card-spacing) 0;
-    grid-template-rows: 1fr;
-    grid-template-areas: "content image";
-  }
-
-  &.back:not(.has-image) {
-    grid-template-columns: 1fr;
-    padding: var(--card-spacing) 0;
-    grid-template-rows: 1fr;
-    grid-template-areas: "content";
-  }
 
   min-width: 22rem;
   max-width: 32rem;
+
+  & .card {
+    grid-template-rows: auto auto 1fr;
+    grid-template-columns: 1fr 6rem;
+
+    grid-template-areas:
+      "header header"
+      "details image"
+      "content content";
+
+    &.back:not(.back-has-header) {
+      padding: var(--card-spacing) 0;
+      grid-template-rows: 1fr;
+      grid-template-areas: "content image";
+    }
+
+    &.back:not(.has-image) {
+      grid-template-columns: 1fr;
+      padding: var(--card-spacing) 0;
+      grid-template-rows: 1fr;
+      grid-template-areas: "content";
+    }
+  }
 }
 
 .details {
@@ -124,17 +127,17 @@
   }
 }
 
-.card.compact .image {
+.card-container.compact .image {
   max-width: 100%;
   width: 8rem;
 }
 
-.card.full .image img {
+.card-container.full .image img {
   max-width: 100%;
   width: 16rem;
 }
 
-.card.full.sideways .image img {
+.card-container.full .card.sideways .image img {
   max-width: 100%;
   width: 20rem;
 }

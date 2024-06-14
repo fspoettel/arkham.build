@@ -1,22 +1,18 @@
 import clsx from "clsx";
 
-import type { CardResolved } from "@/store/lib/card-resolver";
-import { getCardColor } from "@/utils/card-utils";
+import type { ResolvedCard } from "@/store/lib/types";
+import { getCardColor, parseCardTextHtml } from "@/utils/card-utils";
 
 import css from "./card-customizations.module.css";
 
-import { parseCustomizationTextHtml } from "./utils";
-
 type Props = {
-  card: CardResolved["card"];
+  card: ResolvedCard["card"];
 };
 
 export function CardCustomizations({ card }: Props) {
   const backgroundCls = getCardColor(card, "background");
 
-  const html = parseCustomizationTextHtml(
-    card.real_customization_text as string,
-  );
+  const html = parseCardTextHtml(card.real_customization_text as string);
 
   return (
     <article className={css["customizations"]}>

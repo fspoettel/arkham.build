@@ -42,7 +42,6 @@ export function applySearch(
 
   const searchCards = cards.map((card) => {
     let content = prepareCardFront(card, search);
-    // TODO: handle linked cards.
     if (search.includeBacks && card.real_back_name) {
       content += prepareCardBack(card, search);
     } else if (search.includeBacks && card.back_link_id) {

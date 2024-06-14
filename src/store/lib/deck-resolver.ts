@@ -1,65 +1,23 @@
 import { countExperience } from "@/utils/card-utils";
+import { ALT_ART_INVESTIGATOR_MAP } from "@/utils/constants";
 
-import type { Card, TabooSet } from "../services/types";
+import type { Card } from "../services/types";
 import type { Deck } from "../slices/decks/types";
 import type { LookupTables } from "../slices/lookup-tables/types";
 import type { Metadata } from "../slices/metadata/types";
-import type { CardResolved, CardWithRelations } from "./card-resolver";
 import { resolveCardWithRelations } from "./card-resolver";
-
-type Customization = {
-  index: number;
-  xpSpent: number;
-  choices?: string;
-};
-
-type DeckMeta = {
-  [key in `cus_${string}`]?: string;
-} & {
-  alternate_front?: string;
-  alternate_back?: string;
-  option_selected?: string;
-  faction_selected?: string;
-  extra_deck?: string;
-};
-
-export type ResolvedDeck<T extends CardResolved | CardWithRelations> = Omit<
-  Deck,
-  "sideSlots"
-> & {
-  metaParsed: DeckMeta;
-  sideSlots: Record<string, number> | null; // arkhamdb stores `[]` when empty, normalize to `null`.
-  extraSlots: Record<string, number> | null;
-  customizations: Record<string, Customization[]>;
-  cards: {
-    investigator: CardWithRelations; // tracks relations.
-    slots: Record<string, T>;
-    sideSlots: Record<string, T>;
-    ignoreDeckLimitSlots: Record<string, T>;
-    extraSlots: Record<string, T>; // used by parallel jim.
-  };
-  factionSelect?: {
-    options: string[];
-    selection?: string;
-  };
-  investigatorFront: CardResolved; // does not track relations.
-  investigatorBack: CardResolved; // does not track relations.
-  optionSelect?: {
-    options: string[];
-    name: string;
-    selection?: string;
-  };
-  stats: {
-    xpRequired: number;
-    deckSize: number;
-    deckSizeTotal: number;
-  };
-  tabooSet?: TabooSet;
-};
+import type {
+  CardWithRelations,
+  Customization,
+  Customizations,
+  DeckMeta,
+  ResolvedCard,
+  ResolvedDeck,
+} from "./types";
 
 export function resolveDeck<
   T extends boolean,
-  S extends T extends true ? CardWithRelations : CardResolved,
+  S extends T extends true ? CardWithRelations : ResolvedCard,
 >(
   metadata: Metadata,
   lookupTables: LookupTables,
@@ -68,11 +26,21 @@ export function resolveDeck<
 ): ResolvedDeck<S> {
   const deckMeta = parseDeckMeta(deck);
 
+  // some decks on arkhamdb are created for the replacement investigator, normalize.
+  // this only seems to be the case for carolyn fern?
+  const investigatorCode =
+    deck.investigator_code in ALT_ART_INVESTIGATOR_MAP
+      ? ALT_ART_INVESTIGATOR_MAP[
+          deck.investigator_code as keyof typeof ALT_ART_INVESTIGATOR_MAP
+        ]
+      : deck.investigator_code;
+
   const investigator = resolveCardWithRelations(
     metadata,
     lookupTables,
-    deck.investigator_code,
+    investigatorCode,
     deck.taboo_id,
+    undefined,
     true,
   ) as CardWithRelations;
 
@@ -93,6 +61,7 @@ export function resolveDeck<
   }
 
   const extraSlots = getExtraSlots(deckMeta);
+  const customizations = getCustomizations(deckMeta, metadata);
 
   const { cards, deckSize, deckSizeTotal, xpRequired } = getDeckCards<T, S>(
     deck,
@@ -100,18 +69,9 @@ export function resolveDeck<
     metadata,
     lookupTables,
     investigator,
+    customizations,
     withRelations,
   );
-
-  const customizations = getCustomizations(deckMeta);
-  let customizationsXp = 0;
-
-  for (const value of Object.values(customizations)) {
-    customizationsXp += value.reduce<number>(
-      (acc, curr) => acc + curr.xpSpent,
-      0,
-    );
-  }
 
   return {
     ...deck,
@@ -127,7 +87,7 @@ export function resolveDeck<
     stats: {
       deckSize,
       deckSizeTotal,
-      xpRequired: xpRequired + customizationsXp,
+      xpRequired: xpRequired,
     },
     tabooSet: deck.taboo_id ? metadata.tabooSets[deck.taboo_id] : undefined,
   };
@@ -159,13 +119,14 @@ function getInvestigatorSide(
 
 function getDeckCards<
   T extends boolean,
-  S extends T extends true ? CardWithRelations : CardResolved,
+  S extends T extends true ? CardWithRelations : ResolvedCard,
 >(
   deck: Deck,
   extraSlots: ResolvedDeck<S>["extraSlots"],
   metadata: Metadata,
   lookupTables: LookupTables,
   investigator: CardWithRelations,
+  customizations: Customizations | undefined,
   withRelations: T,
 ) {
   const cards: ResolvedDeck<S>["cards"] = {
@@ -186,6 +147,7 @@ function getDeckCards<
       lookupTables,
       code,
       deck.taboo_id,
+      customizations,
       withRelations,
     );
 
@@ -209,6 +171,7 @@ function getDeckCards<
         lookupTables,
         code,
         deck.taboo_id,
+        customizations,
         false,
       ); // SAFE! we do not need relations for side deck.
 
@@ -225,6 +188,7 @@ function getDeckCards<
         lookupTables,
         code,
         deck.taboo_id,
+        customizations,
         false,
       ); // SAFE! we do not need relations for side deck.
 
@@ -268,7 +232,7 @@ function getFactionSelect(investigator: CardWithRelations, deckMeta: DeckMeta) {
 
   return hasFactionSelect
     ? {
-        options: [], // TODO
+        options: [], // TODO: implement.
         selection: deckMeta.faction_selected,
       }
     : undefined;
@@ -286,7 +250,7 @@ function getOptionSelect(investigator: CardWithRelations, deckMeta: DeckMeta) {
 
   return {
     name: optionSelectType.name,
-    options: [], // TODO
+    options: [], // TODO: implement.
     selection: selection?.name,
   };
 }
@@ -305,31 +269,41 @@ function getExtraSlots(deckMeta: DeckMeta) {
   return {};
 }
 
-function getCustomizations(deckMeta: DeckMeta) {
-  const customizations: Record<string, Customization[]> = {};
+function getCustomizations(deckMeta: DeckMeta, metadata: Metadata) {
+  let hasCustomizations = false;
+  const customizations: Customizations = {};
 
   for (const [key, value] of Object.entries(deckMeta)) {
     // customizations are tracked in format `cus_{code}: {index}|{xp}|{choice?},...`.
     if (key.startsWith("cus_") && value) {
+      hasCustomizations = true;
       const code = key.split("cus_")[1];
 
       customizations[code] = value
         .split(",")
-        .reduce<Customization[]>((acc, curr) => {
+        .reduce<Record<number, Customization>>((acc, curr) => {
           const entries = curr.split("|");
+          const index = Number.parseInt(entries[0], 10);
 
           if (entries.length > 1) {
-            acc.push({
-              index: Number.parseInt(entries[0], 10),
-              xpSpent: Number.parseInt(entries[1], 10),
-              choices: entries[2],
-            });
+            const xpSpent = Number.parseInt(entries[1], 10);
+            const choices = entries[2] ?? "";
+
+            const option = metadata.cards[code]?.customization_options?.[index];
+            if (!option) return acc;
+
+            acc[index] = {
+              choices,
+              index,
+              unlocked: (xpSpent ?? 0) >= option.xp,
+              xpSpent,
+            };
           }
 
           return acc;
-        }, []);
+        }, {});
     }
   }
 
-  return customizations;
+  return hasCustomizations ? customizations : undefined;
 }
