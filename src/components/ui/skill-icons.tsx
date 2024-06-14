@@ -35,7 +35,10 @@ export function SkillIcons({
   const entries: [string, number | undefined][] = asEnemy
     ? [
         ["combat", card.enemy_fight],
-        ["health", card.health],
+        [
+          card.health_per_investigator ? "per_investigator" : "health",
+          card.health,
+        ],
         ["agility", card.enemy_evade],
       ]
     : SKILL_KEYS.reduce(

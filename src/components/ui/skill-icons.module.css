@@ -13,9 +13,14 @@
   font-size: 0.75em;
 }
 
-.skill_investigator {
+.skill_numbered {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.125rem;
+}
+
+.skill-stub {
+  display: block;
+  height: 1em;
 }
