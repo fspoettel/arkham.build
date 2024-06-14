@@ -1,24 +1,53 @@
-import { Suspense } from "react";
+import {
+  SvgALightInTheFog,
+  SvgAPhantomOfTruth,
+  SvgAThousandShapesOfHorror,
+  SvgAllOrNothing,
+  SvgBadBlood,
+  SvgBeforeTheBlackThrone,
+  SvgBlackStarsRise,
+  SvgBloodOnTheAltar,
+  SvgByTheBook,
+  SvgDarkSideOfTheMoon,
+  SvgDevilReef,
+  SvgDimCarcosa,
+  SvgEchoesOfThePast,
+  SvgEssexCountyExpress,
+  SvgForTheGreaterGood,
+  SvgHeartOfTheElders,
+  SvgHorrorInHighGear,
+  SvgInTheClutchesOfChaos,
+  SvgInTooDeep,
+  SvgIntoTheMaelstrom,
+  SvgLostInTimeAndSpace,
+  SvgPointOfNoReturn,
+  SvgReadOrDie,
+  SvgRedTideRising,
+  SvgShatteredAeons,
+  SvgTheBoundaryBeyond,
+  SvgTheCityOfArchives,
+  SvgTheDepthsOfYoth,
+  SvgTheLairOfDagon,
+  SvgTheMiskatonicMuseum,
+  SvgThePallidMask,
+  SvgTheSearchForKadath,
+  SvgTheSecretName,
+  SvgTheUnspeakableOath,
+  SvgTheWagesOfSin,
+  SvgThreadsOfFate,
+  SvgUndimensionedAndUnseen,
+  SvgUnionAndDisillusion,
+  SvgWeaverOfTheCosmos,
+  SvgWhereDoomAwaits,
+  SvgWhereTheGodsDwell,
+} from "./encounter-icon";
 
 export type Props = {
-  className?: string;
   code?: string;
 };
 
 function PackIcon({ code }: Props) {
-  const Icon = getPackIcon(code);
-
-  return Icon ? (
-    <Suspense
-      fallback={
-        <span
-          style={{ width: "1em", height: "1em", display: "inline-block" }}
-        />
-      }
-    >
-      <Icon />
-    </Suspense>
-  ) : null;
+  return getPackIcon(code) || null;
 }
 
 function getPackIcon(code?: string) {
@@ -29,63 +58,63 @@ function getPackIcon(code?: string) {
     case "core":
     case "core2":
     case "return":
-      return () => <i className="encounters-core" />;
+      return <i className="encounters-core" />;
 
     case "otr":
     case "ltr":
     case "ptr":
     case "rop":
     case "parallel":
-      return () => <i className="encounters-parallel" />;
+      return <i className="encounters-parallel" />;
 
     case "dwlp":
     case "dwlc":
     case "dwl":
-      return () => <i className="encounters-set" />;
+      return <i className="encounters-set" />;
 
     case "ptcp":
     case "ptcc":
     case "ptc":
-      return () => <i className="encounters-carcosa" />;
+      return <i className="encounters-carcosa" />;
 
     case "tfap":
     case "tfac":
     case "tfa":
-      return () => <i className="encounters-the_forgotten_age" />;
+      return <i className="encounters-the_forgotten_age" />;
 
     case "tcuc":
     case "tcup":
     case "tcu":
-      return () => <i className="encounters-the_circle_undone" />;
+      return <i className="encounters-the_circle_undone" />;
 
     case "tdep":
     case "tdec":
     case "tde":
-      return () => <i className="encounters-dream" />;
+      return <i className="encounters-dream" />;
 
     case "tic":
-      return () => <i className="encounters-tic" />;
+      return <i className="encounters-tic" />;
 
     case "eoe":
     case "eoep":
-      return () => <i className="encounters-eoe" />;
+      return <i className="encounters-eoe" />;
 
     case "eoec":
-      return () => <i className="encounters-eoe_campaign" />;
+      return <i className="encounters-eoe_campaign" />;
 
     case "tskc":
-      return () => <i className="encounters-tskc" />;
+      return <i className="encounters-tskc" />;
 
     case "tsk":
     case "tskp":
-      return () => <i className="encounters-tsk" />;
+      return <i className="encounters-tsk" />;
 
     case "fhv":
     case "fhvp":
-      return () => <i className="encounters-fhvp" />;
+      return <i className="encounters-fhvp" />;
 
     case "fhvc":
-      return () => <i className="encounters-fhvc" />;
+      return <i className="encounters-fhvc" />;
 
     case "promo":
     case "dre":
@@ -97,137 +126,137 @@ function getPackIcon(code?: string) {
     case "books":
     case "hoth":
     case "promotional":
-      return () => <i className="encounters-novella" />;
+      return <i className="encounters-novella" />;
 
     case "tmm":
-      return SvgTheMiskatonicMuseum;
+      return <SvgTheMiskatonicMuseum />;
     case "tece":
-      return SvgEssexCountyExpress;
+      return <SvgEssexCountyExpress />;
     case "bota":
-      return SvgBloodOnTheAltar;
+      return <SvgBloodOnTheAltar />;
     case "uau":
-      return SvgUndimensionedAndUnseen;
+      return <SvgUndimensionedAndUnseen />;
     case "wda":
-      return SvgWhereDoomAwaits;
+      return <SvgWhereDoomAwaits />;
     case "litas":
-      return SvgLostInTimeAndSpace;
+      return <SvgLostInTimeAndSpace />;
 
     case "eotp":
-      return SvgEchoesOfThePast;
+      return <SvgEchoesOfThePast />;
     case "tuo":
-      return SvgTheUnspeakableOath;
+      return <SvgTheUnspeakableOath />;
     case "apot":
-      return SvgAPhantomOfTruth;
+      return <SvgAPhantomOfTruth />;
     case "bsr":
-      return SvgBlackStarsRise;
+      return <SvgBlackStarsRise />;
     case "dca":
-      return SvgDimCarcosa;
+      return <SvgDimCarcosa />;
     case "tpm":
-      return SvgThePallidMask;
+      return <SvgThePallidMask />;
 
     case "tof":
-      return SvgThreadsOfFate;
+      return <SvgThreadsOfFate />;
     case "tbb":
-      return SvgTheBoundaryBeyond;
+      return <SvgTheBoundaryBeyond />;
     case "hote":
-      return SvgHeartOfTheElders;
+      return <SvgHeartOfTheElders />;
     case "tcoa":
-      return SvgTheCityOfArchives;
+      return <SvgTheCityOfArchives />;
     case "tdoy":
-      return SvgTheDepthsOfYoth;
+      return <SvgTheDepthsOfYoth />;
     case "sha":
-      return SvgShatteredAeons;
+      return <SvgShatteredAeons />;
 
     case "tsn":
-      return SvgTheSecretName;
+      return <SvgTheSecretName />;
     case "wos":
-      return SvgTheWagesOfSin;
+      return <SvgTheWagesOfSin />;
     case "fgg":
-      return SvgForTheGreaterGood;
+      return <SvgForTheGreaterGood />;
     case "uad":
-      return SvgUnionAndDisillusion;
+      return <SvgUnionAndDisillusion />;
     case "icc":
-      return SvgInTheClutchesOfChaos;
+      return <SvgInTheClutchesOfChaos />;
     case "bbt":
-      return SvgBeforeTheBlackThrone;
+      return <SvgBeforeTheBlackThrone />;
 
     case "sfk":
-      return SvgTheSearchForKadath;
+      return <SvgTheSearchForKadath />;
     case "tsh":
-      return SvgAThousandShapesOfHorror;
+      return <SvgAThousandShapesOfHorror />;
     case "dsm":
-      return SvgDarkSideOfTheMoon;
+      return <SvgDarkSideOfTheMoon />;
     case "pnr":
-      return SvgPointOfNoReturn;
+      return <SvgPointOfNoReturn />;
     case "wgd":
-      return SvgWhereTheGodsDwell;
+      return <SvgWhereTheGodsDwell />;
     case "woc":
-      return SvgWeaverOfTheCosmos;
+      return <SvgWeaverOfTheCosmos />;
 
     case "itd":
-      return SvgInTooDeep;
+      return <SvgInTooDeep />;
     case "def":
-      return SvgDevilReef;
+      return <SvgDevilReef />;
     case "hhg":
-      return SvgHorrorInHighGear;
+      return <SvgHorrorInHighGear />;
     case "lif":
-      return SvgALightInTheFog;
+      return <SvgALightInTheFog />;
     case "lod":
-      return SvgTheLairOfDagon;
+      return <SvgTheLairOfDagon />;
     case "itm":
-      return SvgIntoTheMaelstrom;
+      return <SvgIntoTheMaelstrom />;
 
     case "rtnotz":
-      return () => <i className="encounters-rtnotz" />;
+      return <i className="encounters-rtnotz" />;
 
     case "rtdwl":
-      return () => <i className="encounters-return_to_the_dunwich_legacy" />;
+      return <i className="encounters-return_to_the_dunwich_legacy" />;
     case "rtptc":
-      return () => <i className="encounters-return_to_the_path_to_carcosa" />;
+      return <i className="encounters-return_to_the_path_to_carcosa" />;
     case "rttfa":
-      return () => <i className="encounters-return_to_the_forgotten_age" />;
+      return <i className="encounters-return_to_the_forgotten_age" />;
     case "rttcu":
-      return () => <i className="encounters-rttcu" />;
+      return <i className="encounters-rttcu" />;
     case "nat":
-      return () => <i className="encounters-nate" />;
+      return <i className="encounters-nate" />;
     case "har":
-      return () => <i className="encounters-harvey" />;
+      return <i className="encounters-harvey" />;
     case "win":
-      return () => <i className="encounters-winifred" />;
+      return <i className="encounters-winifred" />;
     case "jac":
-      return () => <i className="encounters-jacqueline" />;
+      return <i className="encounters-jacqueline" />;
     case "ste":
-      return () => <i className="encounters-stella" />;
+      return <i className="encounters-stella" />;
 
     case "rod":
-      return SvgReadOrDie;
+      return <SvgReadOrDie />;
     case "aon":
-      return SvgAllOrNothing;
+      return <SvgAllOrNothing />;
     case "bad":
-      return SvgBadBlood;
+      return <SvgBadBlood />;
     case "btb":
-      return SvgByTheBook;
+      return <SvgByTheBook />;
     case "rtr":
-      return SvgRedTideRising;
+      return <SvgRedTideRising />;
 
     case "cotr":
-      return () => <i className="encounters-rougerauo2" />;
+      return <i className="encounters-rougerauo2" />;
     case "coh":
-      return () => <i className="encounters-carnevale" />;
+      return <i className="encounters-carnevale" />;
     case "lol":
-      return () => <i className="encounters-lol" />;
+      return <i className="encounters-lol" />;
     case "guardians":
-      return () => <i className="encounters-guardians" />;
+      return <i className="encounters-guardians" />;
     case "hotel":
-      return () => <i className="encounters-excelsior" />;
+      return <i className="encounters-excelsior" />;
     case "blob":
-      return () => <i className="encounters-blob_set" />;
+      return <i className="encounters-blob_set" />;
     case "wog":
-      return () => <i className="encounters-wotog" />;
+      return <i className="encounters-wotog" />;
     case "mtt":
-      return () => <i className="encounters-machinations_through_time" />;
+      return <i className="encounters-machinations_through_time" />;
     case "fof":
-      return () => <i className="encounters-roulette" />;
+      return <i className="encounters-roulette" />;
     case "blbe":
       return null;
 

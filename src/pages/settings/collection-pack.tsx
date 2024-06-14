@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import { LazyPackIcon } from "@/components/icons/lazy-icons";
+import PackIcon from "@/components/icons/pack-icon";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Cycle, Pack } from "@/store/services/types";
 
@@ -41,7 +41,7 @@ export function CollectionPack({
             value={value}
             id={`collection-${cycle.code}-${pack.code}`}
           />
-          <LazyPackIcon code={pack.code} />
+          <PackIcon code={pack.code} />
           <label htmlFor={`collection-${cycle.code}-${pack.code}`}>
             {pack.real_name}
           </label>
@@ -50,7 +50,7 @@ export function CollectionPack({
         <Checkbox
           label={
             <div className={css["collection-pack-label"]}>
-              <LazyPackIcon code={pack.code} />
+              <PackIcon code={pack.code} />
               {pack.real_name}
             </div>
           }

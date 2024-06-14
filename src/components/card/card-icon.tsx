@@ -7,8 +7,8 @@ import { getCardColor } from "@/utils/card-utils";
 import css from "./card-icon.module.css";
 
 import { CostIcon } from "../icons/cost-icon";
+import EncounterIcon from "../icons/encounter-icon";
 import { FactionIcon } from "../icons/faction-icon";
-import { LazyEncounterIcon } from "../icons/lazy-icons";
 import { LevelIcon } from "../icons/level-icon";
 
 type Props = {
@@ -41,7 +41,7 @@ export function CardIcon({ card, className, inverted }: Props) {
           inverted && css["icon_inverted"],
         )}
       >
-        <LazyEncounterIcon code={card.encounter_code} />
+        <EncounterIcon code={card.encounter_code} />
       </div>
     );
   }

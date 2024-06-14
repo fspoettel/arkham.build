@@ -6,6 +6,14 @@
   font-display: block;
 }
 
+@font-face {
+  font-family: "slots";
+  src: url(../assets/fonts/slots.woff2) format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
 [class^="encounters-"],
 [class*=" encounters-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
@@ -1870,6 +1878,58 @@
   content: "\ea95";
 }
 
+.encounters-parallel:before {
+  content: "\eaad";
+}
+
+[class^="slots"],
+[class*=" slots"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "slots" !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.slots-tarot_inverted:before {
+  content: "\e90b";
+}
+
+.slots-accessory_inverted:before {
+  content: "\e90d";
+}
+
+.slots-ally_inverted:before {
+  content: "\e90f";
+}
+
+.slots-arcane_inverted:before {
+  content: "\e911";
+}
+
+.slots-arcane_x2_inverted:before {
+  content: "\e912";
+}
+
+.slots-body_inverted:before {
+  content: "\e915";
+}
+
+.slots-hand_inverted:before {
+  content: "\e917";
+}
+
+.slots-hand_x2_inverted:before {
+  content: "\e918";
+}
+
 .icon-agility {
   mask: url("../assets/icons/agility.svg");
 }
@@ -1987,8 +2047,4 @@
 
 .icon-seal_e {
   mask: url("../assets/icons/seal_e.svg");
-}
-
-.encounters-parallel:before {
-  content: "\eaad";
 }

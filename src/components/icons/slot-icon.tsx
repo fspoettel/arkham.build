@@ -1,44 +1,33 @@
-import SvgAccessory from "@/assets/icons/accessory_inverted.svg?react";
-import SvgAlly from "@/assets/icons/ally_inverted.svg?react";
-import SvgArcane from "@/assets/icons/arcane_inverted.svg?react";
-import SvgArcane2 from "@/assets/icons/arcane_x2_inverted.svg?react";
-import SvgBody from "@/assets/icons/body_inverted.svg?react";
-import SvgHand from "@/assets/icons/hand_inverted.svg?react";
-import SvgHand2 from "@/assets/icons/hand_x2_inverted.svg?react";
-import SvgTarot from "@/assets/icons/tarot_inverted.svg?react";
-import memoize from "@/utils/memoize";
-
 export type Props = {
-  className?: string;
   code: string;
 };
 
-const getIcon = memoize((code: string) => {
+const getIcon = (code: string) => {
   switch (code) {
     case "Hand":
-      return SvgHand;
+      return <i className="slots-hand_inverted" />;
     case "Hand x2":
-      return SvgHand2;
+      return <i className="slots-hand_x2_inverted" />;
     case "Accessory":
-      return SvgAccessory;
+      return <i className="slots-accessory_inverted" />;
     case "Ally":
-      return SvgAlly;
+      return <i className="slots-ally_inverted" />;
     case "Arcane":
-      return SvgArcane;
+      return <i className="slots-arcane_inverted" />;
     case "Arcane x2":
-      return SvgArcane2;
+      return <i className="slots-arcane_x2_inverted" />;
     case "Body":
-      return SvgBody;
+      return <i className="slots-body_inverted" />;
     case "Tarot":
-      return SvgTarot;
+      return <i className="slots-tarot_inverted" />;
     default:
       return null;
   }
-});
+};
 
-function SlotIcon({ className, code }: Props) {
+function SlotIcon({ code }: Props) {
   const Icon = getIcon(code);
-  return Icon ? <Icon className={className} /> : null;
+  return Icon ? Icon : null;
 }
 
 export default SlotIcon;

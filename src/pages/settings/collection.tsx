@@ -1,7 +1,7 @@
 import type { MouseEvent } from "react";
 import { useCallback, useEffect, useState } from "react";
 
-import { LazyPackIcon } from "@/components/icons/lazy-icons";
+import PackIcon from "@/components/icons/pack-icon";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/field";
 import { useStore } from "@/store";
@@ -83,7 +83,7 @@ export function Collection({ settings }: Props) {
                 <li className={css["collection-cycle"]} key={cycle.code}>
                   <div className={css["collection-cycle-header"]}>
                     <div className={css["collection-cycle-label"]}>
-                      <LazyPackIcon code={cycle.code} />
+                      <PackIcon code={cycle.code} />
                       {cycle.real_name}
                     </div>
                     {!cycle.reprintPacks.length && cycle.code !== "core" && (

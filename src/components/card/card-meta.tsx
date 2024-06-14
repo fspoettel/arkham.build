@@ -11,7 +11,8 @@ import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
 
 import css from "./card-meta.module.css";
 
-import { LazyEncounterIcon, LazyPackIcon } from "../icons/lazy-icons";
+import EncounterIcon from "../icons/encounter-icon";
+import PackIcon from "../icons/pack-icon";
 
 type Props = {
   resolvedCard: CardWithRelations;
@@ -36,8 +37,7 @@ function PackEntry({
         <>
           {size === "full" && (
             <p className={css["meta-property"]}>
-              {encounterSet.name}{" "}
-              <LazyEncounterIcon code={card.encounter_code} />{" "}
+              {encounterSet.name} <EncounterIcon code={card.encounter_code} />{" "}
               {getEncounterPositions(
                 card.encounter_position ?? 1,
                 card.quantity,
@@ -47,7 +47,7 @@ function PackEntry({
           {(size !== "full" ||
             (!skipCycle && encounterSet.name !== displayPack.real_name)) && (
             <p className={css["meta-property"]}>
-              {displayPack.real_name} <LazyPackIcon code={displayPack.code} />{" "}
+              {displayPack.real_name} <PackIcon code={displayPack.code} />{" "}
               <strong>{card.pack_position}</strong>
             </p>
           )}
@@ -56,20 +56,20 @@ function PackEntry({
         <>
           {size !== "full" && (
             <p className={css["meta-property"]}>
-              {displayPack.real_name} <LazyPackIcon code={displayPack.code} />{" "}
+              {displayPack.real_name} <PackIcon code={displayPack.code} />{" "}
               <strong>{card.pack_position}</strong>
             </p>
           )}
           {size === "full" && (
             <>
               <p className={css["meta-property"]}>
-                {displayPack.real_name} <LazyPackIcon code={displayPack.code} />{" "}
+                {displayPack.real_name} <PackIcon code={displayPack.code} />{" "}
                 <strong>{card.pack_position}</strong> <SvgCard /> x{" "}
                 {card.quantity}
               </p>
               {!skipCycle && displayPack.real_name !== cycle.real_name && (
                 <p className={css["meta-property"]}>
-                  {cycle.real_name} <LazyPackIcon code={cycle.code} />
+                  {cycle.real_name} <PackIcon code={cycle.code} />
                 </p>
               )}
             </>
