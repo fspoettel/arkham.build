@@ -2,6 +2,7 @@
 
 - Reflect filters to URL so that views can be shared and get back to @zzorba.
 - Make the page work better on larger viewports and get back to @Chr1z.
+- Index player cards for traits etc. that occur on the back of the card.
 
 ## Arkham Cards API
 
