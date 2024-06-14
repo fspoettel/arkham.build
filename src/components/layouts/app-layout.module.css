@@ -2,14 +2,15 @@
   display: grid;
   grid-template-areas:
     "header"
-    "main"
-    "left";
-  grid-template-rows: auto 1fr auto;
+    "main";
+  grid-template-rows: auto 1fr;
   grid-template-columns: 1fr;
   width: 100%;
+  max-width: 90rem;
+  margin: 0 auto;
   height: 100dvh;
-  gap: 0.5rem;
-  padding: 0.75rem;
+  gap: 1rem;
+  padding: 1rem;
 
   & > *:not(.header) {
     border: 1px solid var(--nord-1);
@@ -26,6 +27,7 @@
   }
 
   @media screen and (min-width: 72rem) {
+    grid-template-rows: auto 1fr auto;
     grid-template-areas:
       "header header header"
       "left main right";
@@ -39,6 +41,11 @@
 
 .layout-left {
   grid-area: left;
+  display: none;
+
+  @media screen and (min-width: 48rem) {
+    display: block;
+  }
 }
 
 .layout-main {

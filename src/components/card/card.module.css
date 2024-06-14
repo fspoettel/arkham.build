@@ -4,47 +4,60 @@
   --card-spacing: 1rem;
 
   display: grid;
+  grid-template-columns: 1fr;
   grid-template-rows: auto auto auto;
-  grid-template-columns: 1fr 15rem;
+  gap: var(--card-spacing);
+  grid-template-areas:
+    "header"
+    "image"
+    "details"
+    "content";
+  width: 100%;
+  background: var(--nord-1);
+  border: 1px solid var(--nord-2);
+  border-radius: var(--rounded-md);
+  padding-bottom: var(--card-spacing);
+
+  & > * {
+    padding-left: var(--card-spacing);
+    padding-right: var(--card-spacing);
+  }
+}
+
+.card:not(.has-image) {
+  grid-template-columns: 1fr;
+}
+
+.card.full {
+  border-width: 2px;
+
+  @container (min-width: 33.5rem) {
+    grid-template-columns: 10fr 6fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "header header"
+      "details image"
+      "content image";
+
+    &.sideways {
+      grid-template-columns: 9fr 7fr;
+    }
+  }
+}
+
+.card.compact {
+  grid-template-columns: 1fr 8rem;
   grid-template-areas:
     "header header"
-    "content image";
-  border-width: 1px;
-  border-style: solid;
-  border-radius: var(--rounded-md);
-  border-color: var(--nord-3);
-  background: var(--nord-1);
+    "details image"
+    "content content";
 
-  &.sideways {
-    grid-template-columns: 1fr 20rem;
-  }
-
-  &.compact,
-  &.compact.sideways {
+  @container (min-width: 32rem) {
     grid-template-columns: 1fr 8rem;
-  }
-
-  &:not(.has-image) {
-    grid-template-columns: 1fr;
-  }
-}
-
-.container {
-  grid-area: content;
-  padding: var(--card-spacing);
-
-  & > * + * {
-    margin-top: var(--card-spacing);
-  }
-}
-
-.image {
-  grid-area: image;
-  padding: var(--card-spacing);
-
-  & img {
-    border-radius: var(--rounded-lg);
-    box-shadow: var(--shadow-xl);
+    grid-template-areas:
+      "header header"
+      "details image"
+      "content image";
   }
 }
 
@@ -53,11 +66,47 @@
   --card-title-size: var(--text-md);
   --card-spacing: 0.5rem;
 
-  max-width: 32rem;
-
   grid-template-columns: 1fr 6rem;
+  grid-template-areas:
+    "header header"
+    "details image"
+    "content image";
 
-  &.back.has-image {
-    grid-template-columns: 1fr 6rem;
+  max-width: 32rem;
+}
+
+.details {
+  grid-area: details;
+
+  & > * + * {
+    margin-top: var(--card-spacing);
   }
+}
+
+.container {
+  grid-area: content;
+
+  & > * + * {
+    margin-top: var(--card-spacing);
+  }
+}
+
+.image {
+  grid-area: image;
+
+  & img {
+    border-radius: var(--rounded-lg);
+    box-shadow: var(--shadow-xl);
+    margin: 0 auto;
+  }
+}
+
+.card.full .image img {
+  max-width: 100%;
+  width: 16rem;
+}
+
+.card.full.sideways .image img {
+  max-width: 100%;
+  width: 20rem;
 }

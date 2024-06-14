@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
 import { ReactNode, useEffect, useRef } from "react";
 import { Link, Redirect, useLocation, useParams } from "wouter";
@@ -52,6 +52,7 @@ export function CardView() {
     <AppLayout
       centerClassName={css["view-center"]}
       sidebar="Deck list"
+      centerScroller
       filters={<CardViewSidebar resolvedCard={cardWithRelations} />}
       title={cardWithRelations.card.real_name}
     >
@@ -60,7 +61,7 @@ export function CardView() {
           <header className={css["view-nav"]}>
             <Link href="/">
               <Button as="a">
-                <ChevronDownIcon />
+                <ChevronLeftIcon />
               </Button>
             </Link>
           </header>

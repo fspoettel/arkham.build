@@ -37,9 +37,12 @@ export function CardFront({ className, resolvedCard, linked, size }: Props) {
     >
       <CardHeader card={card} linked={linked} className={colorCls} />
 
-      <div className={css["container"]}>
+      <div className={css["details"]}>
         <CardDetails resolvedCard={resolvedCard} />
         <CardIcons card={card} />
+      </div>
+
+      <div className={css["container"]}>
         <CardText
           flavor={card.real_flavor}
           size={size}
