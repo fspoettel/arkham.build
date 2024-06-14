@@ -11,6 +11,7 @@
   padding-inline: 1rem;
   padding-bottom: 0.5rem;
   overflow: hidden;
+  will-change: contents;
 
   grid-template-areas:
     "header"
@@ -27,9 +28,18 @@
     grid-template-columns: var(--sidebar-width-one-col) 1fr;
   }
 
-  &.overlay-open .content {
-    pointer-events: none;
-    touch-action: none;
+  &.sidebar-open:not(.filters-open) .filters::after,
+  &.filters-open:not(.sidebar-open) .sidebar::after,
+  &.sidebar-open .content::after,
+  &.filters-open .content::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 2;
   }
 
   @media screen and (min-width: 75rem) {

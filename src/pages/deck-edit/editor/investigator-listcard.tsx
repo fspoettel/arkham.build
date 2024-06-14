@@ -3,12 +3,8 @@ import { useCallback } from "react";
 import { DeckInvestigator } from "@/components/deck-investigator";
 import { ListCard } from "@/components/list-card/list-card";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-  useDialogContext,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { useDialogContext } from "@/components/ui/dialog.hooks";
 import { Modal } from "@/components/ui/modal";
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
 

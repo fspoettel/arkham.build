@@ -11,7 +11,7 @@ import { Card } from "../card/card";
 import { Customizations } from "../customizations/customizations";
 import { CustomizationsEditor } from "../customizations/customizations-editor";
 import { Button } from "../ui/button";
-import { useDialogContext } from "../ui/dialog";
+import { useDialogContext } from "../ui/dialog.hooks";
 import { Modal } from "../ui/modal";
 import { CardModalQuantities } from "./card-modal-quantities";
 

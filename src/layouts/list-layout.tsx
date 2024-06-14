@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 import { CardSearch } from "@/components/card-list/card-search";
 import { CardTypeFilter } from "@/components/filters/card-type-filter";
@@ -7,7 +7,7 @@ import { Footer } from "@/components/footer";
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/store";
-import { useClickAway } from "@/utils/use-click-away";
+import { useMedia } from "@/utils/use-media";
 
 import css from "./list-layout.module.css";
 
@@ -34,29 +34,38 @@ export function ListLayout({
   const sidebarRef = useRef<HTMLDivElement>(null);
   const filtersOpen = useStore((state) => state.ui.filtersOpen);
   const sidebarOpen = useStore((state) => state.ui.sidebarOpen);
+
   const onToggleFilters = useStore((state) => state.toggleFilters);
   const onToggleSidebar = useStore((state) => state.toggleSidebar);
 
-  useClickAway(sidebarRef, (evt) => {
-    if (sidebarOpen) {
-      evt.preventDefault();
-      onToggleSidebar(false);
-    }
-  });
+  const onContentClick = useCallback(() => {
+    onToggleFilters(false);
+    onToggleSidebar(false);
+  }, [onToggleFilters, onToggleSidebar]);
 
-  useClickAway(filtersRef, (evt) => {
-    if (filtersOpen) {
-      evt.preventDefault();
-      onToggleFilters(false);
-    }
-  });
+  const preventBubble = useCallback((e: React.PointerEvent) => {
+    e.stopPropagation();
+  }, []);
+
+  const sidebarVisible = useMedia("(min-width: 52rem)");
+  const filtersVisible = useMedia("(min-width: 75rem)");
+
+  useEffect(() => {
+    if (sidebarVisible) onToggleSidebar(false);
+  }, [sidebarVisible, onToggleSidebar]);
+
+  useEffect(() => {
+    if (filtersVisible) onToggleFilters(false);
+  }, [filtersVisible, onToggleFilters]);
 
   return (
     <div
       className={clsx(
         css["layout"],
-        (filtersOpen || sidebarOpen) && css["overlay-open"],
+        filtersOpen && css["filters-open"],
+        sidebarOpen && css["sidebar-open"],
       )}
+      onPointerDown={onContentClick}
       style={{ "--sidebar-width-max": sidebarWidthMax } as React.CSSProperties}
     >
       <Masthead className={css["header"]} slotRight={<CardTypeFilter />}>
@@ -65,11 +74,15 @@ export function ListLayout({
       <div
         className={css["sidebar"]}
         data-state={sidebarOpen ? "open" : "closed"}
+        onPointerDown={sidebarOpen ? preventBubble : undefined}
         ref={sidebarRef}
       >
         {sidebar}
       </div>
-      <div className={css["content"]}>
+      <div
+        className={css["content"]}
+        onClick={sidebarOpen || filtersOpen ? onContentClick : undefined}
+      >
         <CenterLayout
           top={
             <>
@@ -101,6 +114,7 @@ export function ListLayout({
       <nav
         className={css["filters"]}
         data-state={filtersOpen ? "open" : "closed"}
+        onPointerDown={filtersOpen ? preventBubble : undefined}
         ref={filtersRef}
       >
         {filters}

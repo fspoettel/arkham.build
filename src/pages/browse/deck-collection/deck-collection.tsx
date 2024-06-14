@@ -4,7 +4,7 @@ import { Link } from "wouter";
 import { DeckSummary } from "@/components/deck-summary";
 import { DeckTags } from "@/components/deck-tags";
 import { Button } from "@/components/ui/button";
-import { Dialog } from "@/components/ui/dialog";
+import { Popover } from "@/components/ui/popover";
 import { Scroller } from "@/components/ui/scroller";
 import { useStore } from "@/store";
 import { selectLocalDecks } from "@/store/selectors/decks";
@@ -21,9 +21,9 @@ export function DeckCollection() {
       <header className={css["header"]}>
         <h2 className={css["title"]}>Decks</h2>
         <div className={css["actions"]}>
-          <Dialog>
+          <Popover>
             <DeckCollectionImport />
-          </Dialog>
+          </Popover>
           <Link asChild to="~/deck/new">
             <Button as="a">
               <Plus />

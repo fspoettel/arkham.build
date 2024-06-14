@@ -3,11 +3,8 @@ import { useCallback } from "react";
 
 import { DeckDescription } from "@/components/deck-description";
 import { Button } from "@/components/ui/button";
-import {
-  DialogContentInert,
-  DialogTrigger,
-  useDialogContext,
-} from "@/components/ui/dialog";
+import { DialogContentInert, DialogTrigger } from "@/components/ui/dialog";
+import { useDialogContext } from "@/components/ui/dialog.hooks";
 import { Modal } from "@/components/ui/modal";
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
 

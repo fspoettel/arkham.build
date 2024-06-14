@@ -9,6 +9,6 @@ export type UIState = {
 
 export type UISlice = UIState & {
   setHydrated(): void;
-  toggleFilters(val?: boolean): void;
-  toggleSidebar(val?: boolean): void;
+  toggleFilters(val: boolean): void;
+  toggleSidebar(val: boolean): void;
 };

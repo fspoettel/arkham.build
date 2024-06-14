@@ -225,7 +225,7 @@ export const selectSubtypeOptions = createSelector(
 
 export const selectTabooSetOptions = (state: StoreState) => {
   const sets = Object.values(state.metadata.tabooSets);
-  sets.sort((a, b) => sortAlphabetical(a.date, b.date));
+  sets.sort((a, b) => sortAlphabetical(b.date, a.date));
   return sets;
 };
 

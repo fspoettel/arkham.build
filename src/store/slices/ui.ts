@@ -22,22 +22,26 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
   setHydrated() {
     set({ ui: { ...get().ui, hydrated: true } });
   },
-  toggleFilters(val?: boolean) {
+  toggleFilters(val: boolean) {
     const state = get();
-    set({
-      ui: {
-        ...state.ui,
-        filtersOpen: val != null ? val : !state.ui.filtersOpen,
-      },
-    });
+    if (val !== state.ui.filtersOpen) {
+      set({
+        ui: {
+          ...state.ui,
+          filtersOpen: val,
+        },
+      });
+    }
   },
-  toggleSidebar(val?: boolean) {
+  toggleSidebar(val: boolean) {
     const state = get();
-    set({
-      ui: {
-        ...state.ui,
-        sidebarOpen: val != null ? val : !state.ui.sidebarOpen,
-      },
-    });
+    if (val !== state.ui.sidebarOpen) {
+      set({
+        ui: {
+          ...state.ui,
+          sidebarOpen: val,
+        },
+      });
+    }
   },
 });
