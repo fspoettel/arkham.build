@@ -2,12 +2,12 @@ import { Card } from "@/store/graphql/types";
 
 type Filter = (c: Card) => boolean;
 
-export function and(...args: Filter[]) {
-  return (card: Card) => args.every((f) => f(card));
+export function and(fns: Filter[]) {
+  return (card: Card) => fns.every((f) => f(card));
 }
 
-export function or(...args: Filter[]) {
-  return (card: Card) => args.some((f) => f(card));
+export function or(fns: Filter[]) {
+  return (card: Card) => fns.some((f) => f(card));
 }
 
 export function filterWeaknesses(card: Card) {
@@ -39,5 +39,17 @@ export function filterFactions(factions: string[]) {
       (!!card.faction2_code && factions.includes(card.faction2_code)) ||
       (!!card.faction3_code && factions.includes(card.faction3_code))
     );
+  };
+}
+
+export function filterExceptional(val: boolean) {
+  return (card: Card) => !!card.exceptional === val;
+}
+
+export function filterLevel(value?: [number, number]) {
+  return (card: Card) => {
+    if (!value) return true;
+    const xp = card.xp ?? 0;
+    return xp === -2 || (xp >= value[0] && xp <= value[1]);
   };
 }

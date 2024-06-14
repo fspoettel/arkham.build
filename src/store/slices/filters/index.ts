@@ -8,22 +8,24 @@ function getInitialState(): Filters {
     player: {
       faction: [],
       level: {
-        min: undefined,
-        max: undefined,
+        value: undefined,
         exceptional: false,
-        nonExceptional: false,
+        nonexceptional: false,
       },
       cost: {
-        min: undefined,
-        max: undefined,
+        value: undefined,
         even: false,
         odd: false,
       },
     },
     encounter: {
       faction: [],
+      cost: {
+        value: undefined,
+        even: false,
+        odd: false,
+      },
     },
-    shared: {},
   };
 }
 
@@ -55,6 +57,36 @@ export const createFiltersSlice: StateCreator<
         [cardType]: {
           ...state.filters[cardType],
           faction: factions,
+        },
+      },
+    });
+  },
+  setActiveLevelValue(value) {
+    const state = get();
+    set({
+      filters: {
+        ...state.filters,
+        player: {
+          ...state.filters.player,
+          level: {
+            ...state.filters.player.level,
+            value,
+          },
+        },
+      },
+    });
+  },
+  setActiveLevelFlag(key, value) {
+    const state = get();
+    set({
+      filters: {
+        ...state.filters,
+        player: {
+          ...state.filters.player,
+          level: {
+            ...state.filters.player.level,
+            [key]: value,
+          },
         },
       },
     });

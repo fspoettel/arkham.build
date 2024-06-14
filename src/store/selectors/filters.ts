@@ -7,3 +7,7 @@ export const selectActiveCardType = (state: StoreState) => {
 export const selectActiveFactions = (state: StoreState) => {
   return state.filters[state.filters.cardType].faction;
 };
+
+export const selectActiveLevels = (state: StoreState) => {
+  return state.filters.player.level;
+};

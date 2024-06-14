@@ -6,7 +6,7 @@ import css from "./card-list.module.css";
 import { GroupHeader } from "./group-header";
 import { selectFilteredCards } from "@/store/selectors/card-list";
 import { Select, SelectItem } from "../ui/select";
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { range } from "@/utils/range";
 
 export function CardList() {
@@ -16,35 +16,35 @@ export function CardList() {
   const onSelectGroup = useCallback(
     (code: string) => {
       if (!data || !virtuosoRef) return;
+
       const groupIndex = data.groups.findIndex((g) => g.code === code);
       if (groupIndex >= 0) {
         const groupOffset = range(0, groupIndex).reduce(
           (acc, i) => acc + data.groupCounts[i],
           0,
         );
-        virtuosoRef.current?.scrollToIndex(groupOffset + 1);
+        virtuosoRef.current?.scrollToIndex(groupOffset);
       }
     },
     [data],
   );
+
+  useEffect(() => {
+    virtuosoRef.current?.scrollTo({ top: 0 });
+  }, [data?.groupCounts]);
 
   if (!data || !data.cards.length) return null;
 
   // TODO: restore scroll position to current group?
   // TODO: use semantic markup. maybe integrate with radix-scrollarea?
   return (
-    <div
-      className={css["card-list-container"]}
-      key={`${data.activeCardType}-${data.activeFactionsLength}`}
-    >
+    <div className={css["card-list-container"]} key={data.key}>
       <nav className={css["card-list-nav"]}>
         <Select onValueChange={onSelectGroup} placeholder="Jump to..." value="">
           {data.groups.map((group) => (
-            <>
-              <SelectItem value={group.code} key={group.code}>
-                {group.name}
-              </SelectItem>
-            </>
+            <SelectItem value={group.code} key={group.code}>
+              {group.name}
+            </SelectItem>
           ))}
         </Select>
       </nav>

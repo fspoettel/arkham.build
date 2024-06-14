@@ -17,6 +17,7 @@ export type LookupTables = {
   type_code: LookupTable<string>;
   properties: {
     fast: Mapping<1>;
+    multislot: Mapping<1>;
     bonded: Mapping<1>; // TODO: link the bonded card?
     seal: Mapping<1>; // TODO: link the tokens?
     multiclass: Mapping<1>;

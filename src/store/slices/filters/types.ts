@@ -1,31 +1,41 @@
 export type CardTypeFilter = "player" | "encounter";
 
+type CostFilter = {
+  value: undefined | [number, number];
+  even: boolean | undefined;
+  odd: boolean | undefined;
+};
+
+type LevelFilter = {
+  value: undefined | [number, number];
+  exceptional: boolean;
+  nonexceptional: boolean;
+};
+
 export type Filters = {
   cardType: CardTypeFilter;
   player: {
     faction: string[];
-    level: {
-      min: number | undefined;
-      max: number | undefined;
-      exceptional: boolean;
-      nonExceptional: boolean;
-    };
-    cost: {
-      min: number | undefined;
-      max: number | undefined;
-      even: boolean | undefined;
-      odd: boolean | undefined;
-    };
+    level: LevelFilter;
+    cost: CostFilter;
   };
   encounter: {
     faction: string[];
+    cost: CostFilter;
   };
-  shared: {};
 };
 
 export type FiltersSlice = {
   filters: Filters;
   setCardTypeFilter(type: CardTypeFilter): void;
+
   setFactionFilter(factions: string[]): void;
+
+  setActiveLevelValue(value: [number, number]): void;
+  setActiveLevelFlag(
+    key: "exceptional" | "nonexceptional",
+    value: boolean,
+  ): void;
+
   resetFilters(): void;
 };

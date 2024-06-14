@@ -9,21 +9,29 @@ import {
   groupByWeakness,
 } from "./utils/grouping";
 import { sortAlphabetically, sortByEncounterPosition } from "./utils/sorting";
-import { selectActiveCardType, selectActiveFactions } from "./filters";
+import {
+  selectActiveCardType,
+  selectActiveFactions,
+  selectActiveLevels,
+} from "./filters";
 import {
   and,
   filterBacksides,
+  filterExceptional,
   filterFactions,
+  filterLevel,
   filterPlayerCard,
   filterWeaknesses,
+  or,
 } from "./utils/filtering";
 
 export const selectFilteredCards = createSelector(
   selectActiveCardType,
   selectActiveFactions,
+  selectActiveLevels,
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
-  (activeCardType, activeFactions, metadata, lookupTables) => {
+  (activeCardType, activeFactions, activeLevels, metadata, lookupTables) => {
     if (!Object.keys(metadata.cards).length) {
       console.warn("player cards selected before store is initialized.");
       return undefined;
@@ -33,17 +41,28 @@ export const selectFilteredCards = createSelector(
     const cards: Card[] = [];
     const groupCounts = [];
 
-    const factionsFilter = filterFactions(activeFactions);
-
     if (activeCardType === "player") {
       console.time("select_player_cards");
+
+      const weaknessFilters = and([filterFactions(activeFactions)]);
+
+      const playerFilters = and([
+        filterPlayerCard,
+        filterFactions(activeFactions),
+        filterWeaknesses,
+        filterLevel(activeLevels.value),
+        or([
+          filterExceptional(activeLevels.exceptional),
+          filterExceptional(!activeLevels.nonexceptional),
+        ]),
+      ]);
 
       for (const grouping of groupByPlayerCardType(metadata, lookupTables)) {
         const groupCards = getGroupCards(
           grouping,
           metadata,
           lookupTables,
-          and(filterPlayerCard, filterWeaknesses, factionsFilter),
+          playerFilters,
         );
 
         groupCards.sort(sortAlphabetically(lookupTables));
@@ -60,7 +79,7 @@ export const selectFilteredCards = createSelector(
           grouping,
           metadata,
           lookupTables,
-          and(filterPlayerCard, factionsFilter),
+          weaknessFilters,
         );
 
         groupCards.sort(sortAlphabetically(lookupTables));
@@ -97,8 +116,7 @@ export const selectFilteredCards = createSelector(
     }
 
     return {
-      activeCardType,
-      activeFactionsLength: activeFactions.length,
+      key: activeCardType,
       groups,
       cards,
       groupCounts,

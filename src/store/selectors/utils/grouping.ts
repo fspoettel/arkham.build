@@ -86,8 +86,14 @@ export function resolveGroupingCardCodes(
   lookupTables: LookupTables,
 ): string[] {
   switch (grouping.grouping_type) {
-    case "slot":
-      return Object.keys(lookupTables.slots[grouping.code]);
+    case "slot": {
+      // TODO: it might be cleaner to solve this with a lookup table for secondary slots.
+      return Object.keys(lookupTables.slots[grouping.code]).filter(
+        (code) =>
+          !lookupTables.properties.multislot[code] ||
+          grouping.code.includes("."),
+      );
+    }
 
     case "subtype":
       return Object.keys(lookupTables.subtype_code[grouping.code]);

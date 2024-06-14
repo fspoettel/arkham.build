@@ -7,8 +7,6 @@ const properties = [
   { key: "bonded", label: "Bonded" },
   { key: "fast", label: "Fast" },
   { key: "customizable", label: "Customizable" },
-  { key: "permanent", label: "Permanent" },
-  { key: "exceptional", label: "Exceptional" },
   { key: "exile", label: "Exile" },
   { key: "seal", label: "Seal" },
   { key: "victory", label: "Victory" },

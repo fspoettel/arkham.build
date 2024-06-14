@@ -24,6 +24,7 @@ export function getInitialLookupTables(): LookupTables {
     properties: {
       fast: {},
       bonded: {},
+      multislot: {},
       multiclass: {},
       seal: {},
     },
@@ -176,8 +177,11 @@ function indexBySeal(tables: LookupTables, card: Card) {
 function indexBySlots(tables: LookupTables, card: Card) {
   if (card.real_slot) {
     const allSlots = splitMultiValue(card.real_slot);
-    if (allSlots.length > 1)
+
+    if (allSlots.length > 1) {
       setInLookupTable(card.code, tables.slots, card.real_slot);
+      setInLookupTable(card.code, tables.properties, "multislot");
+    }
 
     allSlots.forEach((slot) => {
       setInLookupTable(card.code, tables.slots, slot);
