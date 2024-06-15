@@ -18,6 +18,7 @@ type Props = Omit<CollapsibleProps, "title"> & {
   sub?: React.ReactNode;
   title: React.ReactNode;
   header?: React.ReactNode;
+  variant?: "active";
 };
 
 export function Collapsible({
@@ -29,12 +30,13 @@ export function Collapsible({
   sub,
   title,
   header,
+  variant,
   ...rest
 }: Props) {
   return (
     <Root
       {...rest}
-      className={clsx(css["collapsible"], className)}
+      className={clsx(css["collapsible"], variant && css[variant], className)}
       onOpenChange={onOpenChange}
       open={open}
     >

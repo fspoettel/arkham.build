@@ -91,6 +91,8 @@
 
 .editor-nav {
   padding: 0.25rem;
+  display: flex;
+  gap: 0.5rem;
 }
 
 .card-selections {

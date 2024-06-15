@@ -2,10 +2,18 @@
   padding: 0.5rem;
   border: 1px solid transparent;
   border-radius: var(--rounded);
+
+  &.active {
+    border-color: var(--nord-6);
+  }
 }
 
 .collapsible[data-state="open"] {
   border: 1px solid rgba(255, 255, 255, 0.05);
+
+  &.active {
+    border-color: var(--nord-6);
+  }
 }
 
 .collapsible > * + * {

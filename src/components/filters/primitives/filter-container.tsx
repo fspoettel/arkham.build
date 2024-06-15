@@ -49,6 +49,7 @@ export function FilterContainer({
       open={open}
       sub={alwaysShowFilterString || !open ? filterString || "All" : undefined}
       title={title}
+      variant={filterString && filterString !== "All" ? "active" : undefined}
     >
       {nonCollapsibleContent}
       <CollapsibleContent>{children}</CollapsibleContent>

@@ -7,7 +7,6 @@
   grid-template-areas:
     "header"
     "sidebar"
-    "description"
     "decklist";
 
   padding-bottom: 1rem;
@@ -16,7 +15,6 @@
     grid-template-columns: 24rem 1fr;
     grid-template-areas:
       "sidebar header"
-      "sidebar description"
       "sidebar decklist";
     grid-template-rows: min-content min-content 1fr;
   }
@@ -36,6 +34,10 @@
 
 .content {
   grid-area: decklist;
+
+  & > * + * {
+    margin-top: 1rem;
+  }
 }
 
 .floating {

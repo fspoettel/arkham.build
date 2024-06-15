@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useParams } from "wouter";
 
 import { useStore } from "@/store";
+import { useDocumentTitle } from "@/utils/use-document-title";
 
 import { DeckCreateInner } from "./deck-create-inner";
 
@@ -11,6 +12,8 @@ function DeckCreate() {
 
   const destroy = useStore((state) => state.resetCreate);
   const initialize = useStore((state) => state.initCreate);
+
+  useDocumentTitle("Create deck");
 
   useEffect(() => {
     initialize(code);
