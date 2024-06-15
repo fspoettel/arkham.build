@@ -26,6 +26,10 @@
 .children {
   padding-inline: var(--filters-spacing-x);
   padding-top: calc(2 * var(--filters-spacing-y));
+
+  & > * + * {
+    margin-top: var(--filters-spacing-y);
+  }
 }
 
 .title {

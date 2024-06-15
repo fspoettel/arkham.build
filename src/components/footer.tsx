@@ -21,7 +21,7 @@ export function Footer() {
         >
           Fantasy Flight Games (FFG)
         </a>
-        . This site is not produced by, endorsed by or affiliated with FFG.{" "}
+        . This site is not produced, endorsed by or affiliated with FFG.{" "}
         <Link href="/about">About.</Link>
       </p>
     </div>

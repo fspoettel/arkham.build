@@ -1,3 +1,5 @@
+import { InfoIcon } from "lucide-react";
+
 import { useStore } from "@/store";
 import type {
   DeckOptionsError,
@@ -20,9 +22,10 @@ export function DecklistValidation({ defaultOpen }: { defaultOpen?: boolean }) {
       className={css["decklist-validation"]}
       defaultOpen={defaultOpen}
       title={
-        <p className={css["decklist-validation-text"]}>
-          <i className="icon-auto_fail" /> Deck is invalid.
-        </p>
+        <div className={css["decklist-validation-header"]}>
+          <InfoIcon />
+          <p className={css["decklist-validation-text"]}>Deck is invalid.</p>
+        </div>
       }
     >
       <CollapsibleContent>

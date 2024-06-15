@@ -1,4 +1,6 @@
+import { Info } from "lucide-react";
 import { useCallback, useRef } from "react";
+import { Link } from "wouter";
 
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
@@ -48,6 +50,12 @@ function Settings() {
           </div>
         </header>
         <div className={css["settings-container"]}>
+          <Link to="/about">
+            <Button as="a">
+              <Info />
+              About this site
+            </Button>
+          </Link>
           <CardDataSync />
           <TabooSets settings={settings} />
           <Collection settings={settings} />

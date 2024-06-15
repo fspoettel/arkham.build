@@ -3,7 +3,6 @@ import { useCallback, useEffect, useRef } from "react";
 
 import { CardList } from "@/components/card-list/card-list";
 import { CardTypeFilter } from "@/components/filters/card-type-filter";
-import { Footer } from "@/components/footer";
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/store";
@@ -83,6 +82,7 @@ export function ListLayout({
             <Button
               className={css["toggle-sidebar"]}
               onClick={() => onToggleSidebar(true)}
+              size="sm"
             >
               <i className="icon-deck" />
             </Button>
@@ -91,6 +91,7 @@ export function ListLayout({
             <Button
               className={css["toggle-filters"]}
               onClick={() => onToggleFilters(true)}
+              size="sm"
             >
               <i className="icon-filter" />
             </Button>
@@ -105,9 +106,6 @@ export function ListLayout({
       >
         {filters}
       </nav>
-      <footer className={css["footer"]}>
-        <Footer />
-      </footer>
     </div>
   );
 }

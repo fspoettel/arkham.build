@@ -40,3 +40,11 @@
   text-align: center;
   padding: 1rem;
 }
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.25rem 0.5rem 0;
+  border-top: 1px solid var(--nord-1);
+}

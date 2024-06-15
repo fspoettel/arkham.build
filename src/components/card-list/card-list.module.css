@@ -5,17 +5,26 @@
 }
 
 .nav {
-  display: flex;
+  display: none;
   flex: 0 0 auto;
   padding: 0.5rem 0;
   gap: 0.5rem;
   font-family: var(--font-family-ui);
   align-items: center;
   justify-content: space-between;
+
+  @media screen and (min-width: 45rem) {
+    display: flex;
+  }
 }
 
 .scroller {
   flex: 1 1 auto;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
+
+  margin-top: 0.5rem;
+  @media screen and (min-width: 45rem) {
+    margin-top: 0;
+  }
 }

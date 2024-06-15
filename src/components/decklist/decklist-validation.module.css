@@ -1,6 +1,6 @@
 .decklist-validation {
   background: color-mix(in srgb, var(--nord-11) 10%, var(--nord-0) 90%);
-  padding: 0.5rem;
+  padding: 0.25rem;
   border: 1px solid var(--nord-11) !important;
   border-radius: 0.25rem;
   font-size: var(--text-sm);
@@ -10,14 +10,19 @@
   margin-top: 0.25rem;
 }
 
+.decklist-validation-header {
+  display: flex;
+  gap: 0.25rem;
+}
+
 .decklist-validation-text {
   font-weight: 700;
 }
 
 .decklist-validation-results {
-  margin-left: 2rem;
+  margin-left: 1rem;
 }
 
 .decklist-validation-result-cards {
-  margin-left: 2rem;
+  margin-left: 1rem;
 }

@@ -3,6 +3,7 @@
   border: 1px solid var(--nord-1);
   border-radius: var(--rounded-md);
   padding: 0.5rem;
+  box-shadow: var(--shadow-md);
 
   &.selected {
     border-color: var(--accent-color, var(--nord-2));

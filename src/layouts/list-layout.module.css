@@ -9,7 +9,7 @@
   max-width: 115rem;
   column-gap: 1rem;
   margin-inline: auto;
-  padding-inline: 1rem;
+  padding-inline: 0.75rem;
   padding-bottom: 0.5rem;
 
   overflow: hidden;
@@ -17,16 +17,14 @@
 
   grid-template-areas:
     "header"
-    "content"
-    "footer";
+    "content";
 
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr;
 
   @media screen and (min-width: 52rem) {
     grid-template-areas:
       "header header"
-      "sidebar content"
-      "footer footer";
+      "sidebar content";
     grid-template-columns: var(--sidebar-width-one-col) 1fr;
   }
 
@@ -47,8 +45,7 @@
   @media screen and (min-width: 75rem) {
     grid-template-areas:
       "header header header"
-      "sidebar content filters"
-      "footer footer footer";
+      "sidebar content filters";
     grid-template-columns: var(--sidebar-width-one-col) 1fr var(--filters-width);
   }
 

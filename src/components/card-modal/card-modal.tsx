@@ -53,7 +53,6 @@ export function CardModal({ code }: Props) {
   const cardNode = (
     <>
       <Card
-        canToggleBackside
         resolvedCard={cardWithRelations}
         size={canRenderFull ? "full" : "compact"}
       >
@@ -109,7 +108,9 @@ export function CardModal({ code }: Props) {
               onClick={onCloseModal}
               to={`/deck/create/${cardWithRelations.card.code}`}
             >
-              <Button as="a">Create deck</Button>
+              <Button as="a">
+                <i className="icon-deck" /> Create deck
+              </Button>
             </Link>
           )}
         </>

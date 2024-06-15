@@ -16,6 +16,7 @@ import { range } from "@/utils/range";
 import css from "./card-list.module.css";
 
 import { useCardModalContext } from "../card-modal/card-modal-context";
+import { Footer } from "../footer";
 import { ListCard } from "../list-card/list-card";
 import { Scroller } from "../ui/scroller";
 import { Select } from "../ui/select";
@@ -214,6 +215,7 @@ export function CardList({ slotLeft, slotRight }: Props) {
             />
           )}
         </Scroller>
+        <Footer />
       </div>
     </CenterLayout>
   );

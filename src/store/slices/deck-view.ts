@@ -1,5 +1,7 @@
 import type { StateCreator } from "zustand";
 
+import { assert } from "@/utils/assert";
+
 import type { StoreState } from ".";
 import { resolveDeck } from "../lib/resolve-deck";
 import { type DeckViewSlice, isTab, mapTabToSlot } from "./deck-view.types";
@@ -15,17 +17,18 @@ export const createDeckViewSlice: StateCreator<
   changeCardQuantity(code, quantity, tab, mode = "increment") {
     const state = get();
 
-    if (!state.deckView) {
-      console.warn(
-        `trying to edit deck, but state does not have an active deck.`,
-      );
-      return;
-    }
-
-    if (state.deckView.mode !== "edit") {
-      console.warn(`trying to edit deck, but not in edit mode.`);
-      return;
-    }
+    assert(
+      state.deckView,
+      "trying to edit deck, but state does not have an active deck.",
+    );
+    assert(
+      state.deckView.mode === "edit",
+      "trying to edit deck, but not in edit mode.",
+    );
+    assert(
+      state.data.decks[state.deckView.id],
+      `trying to edit deck, but deck does not exist.`,
+    );
 
     const targetTab = tab || state.deckView.activeTab || "slots";
 
@@ -34,7 +37,7 @@ export const createDeckViewSlice: StateCreator<
     const card = state.metadata.cards[code];
     const limit = card.deck_limit ?? card.quantity;
 
-    const slotEdits = state.deckView.edits.quantities?.[slot];
+    const slotEdits = state.deckView.edits.quantities[slot];
 
     const deck = resolveDeck(
       state.metadata,
