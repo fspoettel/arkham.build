@@ -3,10 +3,7 @@ import { useParams } from "wouter";
 
 import { useStore } from "@/store";
 
-import { DeckCreateCardSets } from "./deck-create-card-sets";
-import { DeckCreateEditor } from "./deck-create-editor";
-import { DeckCreateInvestigator } from "./deck-create-investigator";
-import { Layout } from "./layout";
+import { DeckCreateInner } from "./deck-create-inner";
 
 function DeckCreate() {
   const { code } = useParams<{ code: string }>();
@@ -22,13 +19,7 @@ function DeckCreate() {
     };
   }, [code, initialize, destroy]);
 
-  if (!deckCreate) return null;
-
-  return (
-    <Layout selections={<DeckCreateCardSets />} sidebar={<DeckCreateEditor />}>
-      <DeckCreateInvestigator />
-    </Layout>
-  );
+  return deckCreate ? <DeckCreateInner /> : null;
 }
 
 export default DeckCreate;

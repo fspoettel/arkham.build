@@ -1,20 +1,15 @@
-import { Save } from "lucide-react";
-import { useCallback } from "react";
-import { useLocation } from "wouter";
-
 import { DeckSummary } from "@/components/deck-summary";
 import { DecklistGroups } from "@/components/decklist/decklist-groups";
 import { DecklistSection } from "@/components/decklist/decklist-section";
-import { Button } from "@/components/ui/button";
 import { Scroller } from "@/components/ui/scroller";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/components/ui/toast";
 import { useStore } from "@/store";
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import { selectCurrentTab } from "@/store/selectors/decks";
 
 import css from "./editor.module.css";
 
+import { EditorActions } from "./editor-actions";
 import { InvestigatorListcard } from "./investigator-listcard";
 import { MetaEditor } from "./meta-editor";
 
@@ -28,37 +23,8 @@ function Placeholder({ name }: { name: string }) {
 }
 
 export function Editor({ deck }: Props) {
-  const [, navigate] = useLocation();
-  const showToast = useToast();
-
-  const dirty = useStore((state) =>
-    state?.deckView?.mode === "edit" ? state.deckView.dirty : false,
-  );
-  const saveDeck = useStore((state) => state.saveDeck);
-
   const currentTab = useStore(selectCurrentTab);
   const updateActiveTab = useStore((state) => state.updateActiveTab);
-
-  const handleSave = useCallback(() => {
-    const id = saveDeck();
-    navigate(`/deck/view/${id}`);
-
-    showToast({
-      children: "Deck saved successfully.",
-      variant: "success",
-    });
-  }, [saveDeck, navigate, showToast]);
-
-  const handleCancel = useCallback(async () => {
-    if (!deck?.id) return;
-
-    const confirmed =
-      !dirty ||
-      confirm(
-        "This operation will revert the changes made to the deck. Do you want to continue?",
-      );
-    if (confirmed) navigate(`/deck/view/${deck.id}`);
-  }, [navigate, deck?.id, dirty]);
 
   return (
     <div className={css["editor"]}>
@@ -156,16 +122,7 @@ export function Editor({ deck }: Props) {
             <MetaEditor deck={deck} />
           </TabsContent>
         </Scroller>
-
-        <div className={css["actions"]}>
-          <Button onClick={handleSave}>
-            <Save />
-            Save
-          </Button>
-          <Button onClick={handleCancel} variant="bare">
-            Cancel edits
-          </Button>
-        </div>
+        <EditorActions deck={deck} />
       </Tabs>
     </div>
   );

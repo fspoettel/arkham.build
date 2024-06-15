@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 
 import { CardSet } from "@/components/cardset";
 import { useStore } from "@/store";
@@ -9,6 +9,8 @@ import {
 
 import css from "./deck-create.module.css";
 
+import { useAccentColor } from "../../utils/use-accent-color";
+
 export function DeckCreateCardSets() {
   const onChangeCardQuantity = useStore(
     (state) => state.deckCreateChangeExtraCardQuantity,
@@ -17,8 +19,6 @@ export function DeckCreateCardSets() {
   const toggleConfigureCardSet = useStore(
     (state) => state.deckCreateToggleCardSet,
   );
-
-  const investigator = useStore(selectDeckCreateInvestigator);
 
   const cardSets = useStore(selectDeckCreateCardSets);
 
@@ -29,13 +29,8 @@ export function DeckCreateCardSets() {
     [toggleConfigureCardSet],
   );
 
-  const cssVariables = useMemo(
-    () =>
-      ({
-        "--accent-color": `var(--${investigator.card.faction_code})`,
-      }) as React.CSSProperties,
-    [investigator],
-  );
+  const investigator = useStore(selectDeckCreateInvestigator);
+  const cssVariables = useAccentColor(investigator.card.faction_code);
 
   return (
     <div className={css["card-selections"]} style={cssVariables}>

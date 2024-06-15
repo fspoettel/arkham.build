@@ -6,7 +6,7 @@
   box-shadow: var(--shadow-md);
 
   &.selected {
-    border-color: var(--accent-color, var(--nord-2));
+    border-color: var(--accent-color-dark, var(--nord-2));
   }
 }
 

@@ -20,6 +20,8 @@ import { useGoBack } from "@/utils/useBack";
 
 import css from "./deck-create.module.css";
 
+import { useAccentColor } from "../../utils/use-accent-color";
+
 export function DeckCreateEditor() {
   const deckCreate = useStore(selectDeckCreateChecked);
   const investigator = useStore(selectDeckCreateInvestigator);
@@ -89,9 +91,10 @@ export function DeckCreateEditor() {
   );
 
   const selections = decodeSelections(back, deckCreate.selections);
+  const cssVariables = useAccentColor(investigator.card.faction_code);
 
   return (
-    <div className={css["editor"]}>
+    <div className={css["editor"]} style={cssVariables}>
       <Field full padded>
         <FieldLabel>Title</FieldLabel>
         <input
@@ -170,7 +173,9 @@ export function DeckCreateEditor() {
         ))}
 
       <nav className={css["editor-nav"]}>
-        <Button onClick={handleDeckCreate}>Create deck</Button>
+        <Button onClick={handleDeckCreate} variant="primary">
+          Create deck
+        </Button>
         <Button onClick={goBack} type="button" variant="bare">
           Cancel
         </Button>

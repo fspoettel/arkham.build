@@ -8,14 +8,14 @@ type Props<T extends "a" | "button" | "summary" | "label"> =
     as?: T;
     children: React.ReactNode;
     className?: string;
-    variant?: "bare";
+    variant?: "primary" | "secondary" | "bare";
     size?: "xs" | "sm" | "lg" | "full";
   };
 
 export const Button = forwardRef(function Button<
   T extends "a" | "button" | "summary" | "label",
 >(
-  { as, children, variant, size, ...rest }: Props<T>,
+  { as, children, variant = "secondary", size, ...rest }: Props<T>,
   ref: React.ForwardedRef<T>,
 ) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { Footer } from "@/components/footer";
 import { Masthead } from "@/components/masthead";
 
-import css from "./layout.module.css";
+import css from "./deck-create.module.css";
 
 type Props = {
   children: React.ReactNode;
@@ -20,11 +20,11 @@ export function Layout({
 }: Props) {
   return (
     <div className={clsx(css["layout"], "fade-in")}>
-      <Masthead className={css["header"]}>{mastheadContent}</Masthead>
-      <div className={css["sidebar"]}>{sidebar}</div>
-      <div className={css["content"]}>{children}</div>
-      <div className={css["selections"]}>{selections}</div>
-      <footer className={css["footer"]}>
+      <Masthead className={css["layout-header"]}>{mastheadContent}</Masthead>
+      <div className={css["layout-sidebar"]}>{sidebar}</div>
+      <div className={css["layout-content"]}>{children}</div>
+      <div className={css["layout-selections"]}>{selections}</div>
+      <footer className={css["layout-footer"]}>
         <Footer />
       </footer>
     </div>

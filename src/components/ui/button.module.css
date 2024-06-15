@@ -45,6 +45,16 @@ a.button {
   padding: 0.5rem 0.75rem;
 }
 
+.button.primary {
+  background: var(--accent-color-dark, var(--nord-10));
+  border-color: transparent;
+  color: var(--accent-color-contrast, var(--nord-6));
+
+  &:hover {
+    background: var(--accent-color, var(--nord-9));
+  }
+}
+
 .button.bare {
   color: var(--nord-5);
   background: none;

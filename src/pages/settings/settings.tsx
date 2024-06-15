@@ -46,7 +46,9 @@ function Settings() {
             <Button onClick={goBack} type="button" variant="bare">
               Back
             </Button>
-            <Button type="submit">Save settings</Button>
+            <Button type="submit" variant="primary">
+              Save settings
+            </Button>
           </div>
         </header>
         <div className={css["settings-container"]}>
