@@ -38,7 +38,7 @@ function DeckCreateChooseInvestigator() {
         </Button>
       }
       sidebar={<DeckCollection />}
-      sidebarWidthMax="42rem"
+      sidebarWidthMax="var(--sidebar-width-one-col)"
     />
   );
 }
