@@ -2,9 +2,9 @@
   display: flex;
   flex-flow: column nowrap;
   margin-inline: auto;
-  max-width: 115rem;
   min-height: 100vh;
-  padding-inline: 1rem;
+  max-width: var(--layout-max-width);
+  padding-inline: var(--layout-padding);
   padding-bottom: 0.5rem;
 }
 
