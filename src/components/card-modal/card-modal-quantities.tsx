@@ -36,7 +36,7 @@ export function CardModalQuantities({
     [onClickBackground],
   );
 
-  const changeCardQuantity = useStore((state) => state.changeCardQuantity);
+  const updateCardQuantity = useStore((state) => state.updateCardQuantity);
 
   useEffect(() => {
     if (!canEdit) return;
@@ -44,13 +44,13 @@ export function CardModalQuantities({
     function onKeyDown(evt: KeyboardEvent) {
       if (evt.key === "ArrowRight") {
         evt.preventDefault();
-        changeCardQuantity(card.code, 1, "slots");
+        updateCardQuantity(card.code, 1, "slots");
       } else if (evt.key === "ArrowLeft") {
         evt.preventDefault();
-        changeCardQuantity(card.code, -1, "slots");
+        updateCardQuantity(card.code, -1, "slots");
       } else if (Number.parseInt(evt.key) >= 0) {
         evt.preventDefault();
-        changeCardQuantity(card.code, Number.parseInt(evt.key), "slots", "set");
+        updateCardQuantity(card.code, Number.parseInt(evt.key), "slots", "set");
         onClickBackground?.();
       }
     }
@@ -59,7 +59,7 @@ export function CardModalQuantities({
     return () => {
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [canEdit, card.code, changeCardQuantity, onClickBackground]);
+  }, [canEdit, card.code, updateCardQuantity, onClickBackground]);
 
   const quantities = useStore((state) =>
     selectCardQuantitiesForSlot(state, "slots"),
@@ -82,7 +82,7 @@ export function CardModalQuantities({
   );
 
   const onChangeQuantity = (quantity: number, slot: Slot) => {
-    changeCardQuantity(card.code, quantity, slot);
+    updateCardQuantity(card.code, quantity, slot);
   };
 
   const showIgnoreDeckLimitSlots = useStore((state) =>

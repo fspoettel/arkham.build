@@ -34,7 +34,7 @@ export function CardList({ slotLeft, slotRight }: Props) {
   const data = useStore(selectListCards);
 
   const canEdit = useStore(selectCanEditDeck);
-  const changeCardQuantity = useStore((state) => state.changeCardQuantity);
+  const updateCardQuantity = useStore((state) => state.updateCardQuantity);
   const quantities = useStore(selectCardQuantities);
   const search = useStore(selectActiveListSearch);
   const metadata = useStore((state) => state.metadata);
@@ -204,7 +204,7 @@ export function CardList({ slotLeft, slotRight }: Props) {
                   isActive={index === currentTop}
                   key={data.cards[index].code}
                   onChangeCardQuantity={
-                    canEdit ? changeCardQuantity : undefined
+                    canEdit ? updateCardQuantity : undefined
                   }
                   quantities={quantities}
                 />

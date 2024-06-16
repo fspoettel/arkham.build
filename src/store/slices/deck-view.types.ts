@@ -79,16 +79,16 @@ export type DeckViewState = {
 export type DeckViewSlice = {
   deckView: DeckViewState | null;
 
-  changeCardQuantity(
+  setActiveDeck(id?: string, type?: "view" | "edit"): void;
+
+  updateActiveTab(value: string): void;
+
+  updateCardQuantity(
     code: string,
     quantity: number,
     slot?: Slot,
     mode?: "increment" | "set",
   ): void;
-
-  setActiveDeck(id?: string, type?: "view" | "edit"): void;
-
-  updateActiveTab(value: string): void;
 
   updateTabooId(value: number | null): void;
 

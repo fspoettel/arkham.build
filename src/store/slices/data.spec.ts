@@ -1,3 +1,4 @@
+import { afterEach } from "node:test";
 import { beforeAll, describe, expect, it } from "vitest";
 import type { StoreApi } from "zustand";
 
@@ -28,6 +29,10 @@ describe("data slice", () => {
         },
       },
     };
+
+    afterEach(async () => {
+      store = await getMockStore();
+    });
 
     it("does not delete decks with upgrades", () => {
       store.setState(mockState);

@@ -31,9 +31,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
       deck.tags = deck.tags.replaceAll(", ", " ");
     }
 
-    if (state.data.decks[deck.id]) {
-      throw new Error(`Deck ${deck.id} already exists.`);
-    }
+    assert(!state.data.decks[deck.id], `Deck ${deck.id} already exists.`);
 
     const deckHistory =
       type === "deck" && deck.previous_deck

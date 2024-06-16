@@ -112,7 +112,7 @@ export function DecklistGroup({
   const forbiddenCards = useStore(selectForbiddenCards);
   const canEdit = useStore(selectCanEditDeck) && mapping !== "bonded";
   const canCheckOwnership = useStore(selectCanCheckOwnership);
-  const changeCardQuantity = useStore((state) => state.changeCardQuantity);
+  const updateCardQuantity = useStore((state) => state.updateCardQuantity);
 
   return (
     <ol>
@@ -130,7 +130,7 @@ export function DecklistGroup({
           isIgnored={ignoredCounts?.[card.code]}
           key={card.code}
           omitBorders
-          onChangeCardQuantity={canEdit ? changeCardQuantity : undefined}
+          onChangeCardQuantity={canEdit ? updateCardQuantity : undefined}
           owned={ownershipCounts[card.code]}
           quantities={quantities}
           size="sm"
