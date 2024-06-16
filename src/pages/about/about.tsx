@@ -3,7 +3,7 @@ import { ChevronLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { AppLayout } from "@/layouts/app-layout";
-import { useGoBack } from "@/utils/useBack";
+import { useGoBack } from "@/utils/use-go-back";
 
 import css from "./about.module.css";
 

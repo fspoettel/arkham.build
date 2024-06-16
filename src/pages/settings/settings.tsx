@@ -7,7 +7,7 @@ import { useToast } from "@/components/ui/toast";
 import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
 import { selectIsInitialized } from "@/store/selectors/shared";
-import { useGoBack } from "@/utils/useBack";
+import { useGoBack } from "@/utils/use-go-back";
 
 import css from "./settings.module.css";
 

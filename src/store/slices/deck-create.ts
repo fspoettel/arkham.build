@@ -6,7 +6,7 @@ import type { StoreState } from ".";
 import { getDefaultDeckName } from "../lib/deck-factory";
 import type { DeckCreateSlice, Set } from "./deck-create.types";
 
-export const createdeckCreateSlice: StateCreator<
+export const createDeckCreateSlice: StateCreator<
   StoreState,
   [],
   [],

@@ -16,7 +16,7 @@ import {
 } from "@/store/selectors/deck-create";
 import { selectTabooSetSelectOptions } from "@/store/selectors/lists";
 import { capitalize, formatSelectionId } from "@/utils/formatting";
-import { useGoBack } from "@/utils/useBack";
+import { useGoBack } from "@/utils/use-go-back";
 
 import css from "./deck-create.module.css";
 

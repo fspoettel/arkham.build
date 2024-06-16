@@ -1,5 +1,7 @@
 import type { StateCreator } from "zustand";
 
+import { assert } from "@/utils/assert";
+
 import type { StoreState } from ".";
 import { queryDeck, queryHistory } from "../services/queries";
 import type { DataSlice } from "./data.types";
@@ -18,6 +20,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
   get,
 ) => ({
   ...getInitialDataState(),
+
   async importDeck(input) {
     const state = get();
 
@@ -63,21 +66,23 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
       },
     });
   },
-  deleteDeck(deckId) {
+  deleteDeck(id) {
     const state = get();
     const decks = { ...state.data.decks };
-    delete decks[deckId];
 
+    const deck = decks[id];
+    assert(deck.next_deck == null, "Cannot delete a deck that has upgrades.");
+
+    delete decks[id];
     const history = { ...state.data.history };
 
-    if (history[deckId]) {
-      for (const id of history[deckId]) {
-        delete decks[id];
+    if (history[id]) {
+      for (const prevId of history[id]) {
+        delete decks[prevId];
       }
     }
 
-    delete history[deckId];
-
+    delete history[id];
     set({ data: { ...state.data, decks, history } });
   },
 });

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ListLayout } from "@/layouts/list-layout";
 import { useStore } from "@/store";
 import { useDocumentTitle } from "@/utils/use-document-title";
-import { useGoBack } from "@/utils/useBack";
+import { useGoBack } from "@/utils/use-go-back";
 
 import { DeckCollection } from "../browse/deck-collection/deck-collection";
 
