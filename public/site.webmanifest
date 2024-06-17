@@ -1,6 +1,6 @@
 {
-  "name": "Arkham.build",
-  "short_name": "Arkham.build",
+  "name": "arkham.build",
+  "short_name": "arkham.build",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
