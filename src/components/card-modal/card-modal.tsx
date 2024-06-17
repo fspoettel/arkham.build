@@ -75,7 +75,6 @@ export function CardModal({ code }: Props) {
             const cards = Array.isArray(value) ? value : [value];
             return (
               <CardSet
-                canOpenModal={false}
                 key={key}
                 set={{
                   title: formatRelationTitle(key),
