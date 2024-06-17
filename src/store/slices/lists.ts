@@ -52,13 +52,15 @@ function getInitialFilterValuesForListKey(
   key: string,
 ): Record<string, unknown> {
   if (key === "editor_player") {
-    return {
-      level: {
-        range: [0, 5],
-        nonexceptional: false,
-        exceptional: false,
-      },
-    };
+    return {};
+    // FIXME: This should be activated with a setting, otherwise it's unintuitive.
+    // return {
+    //   level: {
+    //     range: [0, 5],
+    //     nonexceptional: false,
+    //     exceptional: false,
+    //   },
+    // };
   }
 
   return {};
