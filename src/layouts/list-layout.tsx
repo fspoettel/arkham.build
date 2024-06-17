@@ -1,11 +1,10 @@
 import clsx from "clsx";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { CardList } from "@/components/card-list/card-list";
 import { CardTypeFilter } from "@/components/filters/card-type-filter";
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
-import { useStore } from "@/store";
 import { useMedia } from "@/utils/use-media";
 
 import css from "./list-layout.module.css";
@@ -23,18 +22,21 @@ export function ListLayout({
   sidebar,
   sidebarWidthMax,
 }: Props) {
+  const [filtersOpen, onToggleFilters] = useState(false);
+  const [sidebarOpen, onToggleSidebar] = useState(false);
+
   const filtersRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const filtersOpen = useStore((state) => state.ui.filtersOpen);
-  const sidebarOpen = useStore((state) => state.ui.sidebarOpen);
 
-  const onToggleFilters = useStore((state) => state.toggleFilters);
-  const onToggleSidebar = useStore((state) => state.toggleSidebar);
-
-  const onContentClick = useCallback(() => {
-    onToggleFilters(false);
-    onToggleSidebar(false);
-  }, [onToggleFilters, onToggleSidebar]);
+  const onContentClick = useCallback(
+    (evt: React.PointerEvent) => {
+      if (!filtersOpen && !sidebarOpen) return;
+      evt.preventDefault();
+      onToggleFilters(false);
+      onToggleSidebar(false);
+    },
+    [onToggleFilters, onToggleSidebar, filtersOpen, sidebarOpen],
+  );
 
   const preventBubble = useCallback((e: React.PointerEvent) => {
     e.stopPropagation();
@@ -75,14 +77,13 @@ export function ListLayout({
       </div>
       <div
         className={css["content"]}
-        onClick={sidebarOpen || filtersOpen ? onContentClick : undefined}
+        onPointerDown={sidebarOpen || filtersOpen ? onContentClick : undefined}
       >
         <CardList
           slotLeft={
             <Button
               className={css["toggle-sidebar"]}
               onClick={() => onToggleSidebar(true)}
-              size="sm"
             >
               <i className="icon-deck" />
             </Button>
@@ -91,7 +92,6 @@ export function ListLayout({
             <Button
               className={css["toggle-filters"]}
               onClick={() => onToggleFilters(true)}
-              size="sm"
             >
               <i className="icon-filter" />
             </Button>

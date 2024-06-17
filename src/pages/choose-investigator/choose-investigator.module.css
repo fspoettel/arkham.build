@@ -1,0 +1,124 @@
+.layout {
+  --filters-width: 20rem;
+
+  height: 100dvh;
+  margin-inline: auto;
+  max-width: var(--layout-max-width);
+  padding-inline: var(--layout-padding);
+  padding-bottom: 0.5rem;
+
+  display: grid;
+  gap: 1rem;
+
+  grid-template-areas: "masthead" "content";
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+
+  @media screen and (min-width: 45rem) {
+    grid-template-areas: "masthead masthead" "content filters";
+    grid-template-columns: 1fr 20rem;
+    grid-template-rows: auto 1fr;
+  }
+
+  &.filters-open .content::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 2;
+  }
+}
+
+.masthead {
+  grid-area: masthead;
+}
+
+.content {
+  grid-area: content;
+
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+  height: 100%;
+  min-height: 0;
+
+  & > * {
+    flex: 0 0 auto;
+  }
+
+  & > *:last-child {
+    flex: 1 1 auto;
+  }
+}
+
+.filters {
+  position: fixed;
+  height: calc(100% - 1rem);
+  max-width: 85%;
+  top: 0.5rem;
+  z-index: 3;
+  right: 0.5rem;
+  width: var(--filters-width);
+  background: var(--nord-0);
+  transform: translateX(calc(100% + 0.5rem));
+  transition: 0.2s transform ease-in;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--nord-1);
+  border-radius: var(--rounded-md);
+
+  &[data-state="open"] {
+    transition: 0.2s transform ease-in;
+    transform: translateX(0);
+  }
+
+  &[data-state="open"] {
+    transform: translateX(0);
+  }
+
+  @media screen and (min-width: 45rem) {
+    grid-area: filters;
+    display: block;
+    position: unset;
+    left: initial;
+    top: initial;
+    transform: none;
+    box-shadow: none;
+    max-width: 100%;
+    height: 100%;
+  }
+}
+
+.header {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.title {
+  font-size: var(--text-3xl);
+}
+
+.listcard-action {
+  margin-right: 1rem;
+}
+
+.signatures {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+  list-style: none;
+  font-family: var(--font-family-content);
+}
+
+.signature a {
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+  text-decoration-style: dashed;
+  background-color: var(--nord-point-five);
+  padding: 0.125rem;
+}

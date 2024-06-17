@@ -18,8 +18,8 @@ import { useSyncActiveDeckId } from "./utils/use-sync-active-deck-id";
 
 const Browse = lazy(() => import("./pages/browse/browse"));
 const DeckEdit = lazy(() => import("./pages/deck-edit/deck-edit"));
-const DeckCreateChooseInvestigator = lazy(
-  () => import("./pages/deck-create/deck-create-choose-investigator"),
+const ChooseInvestigator = lazy(
+  () => import("./pages/choose-investigator/choose-investigator"),
 );
 const DeckCreate = lazy(() => import("./pages/deck-create/deck-create"));
 const DeckView = lazy(() => import("./pages/deck-view/deck-view"));
@@ -53,10 +53,7 @@ function App() {
                 <Switch>
                   <Route component={Browse} path="/" />
                   <Route component={CardView} path="/card/:code" />
-                  <Route
-                    component={DeckCreateChooseInvestigator}
-                    path="/deck/create"
-                  />
+                  <Route component={ChooseInvestigator} path="/deck/create" />
                   <Route component={DeckCreate} path="/deck/create/:code" />
                   <Route component={DeckView} path="/deck/view/:id" />
                   <Route component={DeckEdit} path="/deck/edit/:id" />
@@ -77,15 +74,9 @@ function App() {
 function RouteReset() {
   const [pathname] = useLocation();
 
-  const toggleFilters = useStore((state) => state.toggleFilters);
-  const toggleSidebar = useStore((state) => state.toggleSidebar);
-
   useSyncActiveDeckId();
 
   useEffect(() => {
-    toggleSidebar(false);
-    toggleFilters(false);
-
     if (window.location.hash) {
       // HACK: this enables hash-based deep links to work when a route is loaded async.
       const el = document.querySelector(window.location.hash);
@@ -97,7 +88,7 @@ function RouteReset() {
     }
 
     window.scrollTo(0, 0);
-  }, [pathname, toggleSidebar, toggleFilters]);
+  }, [pathname]);
 
   return null;
 }

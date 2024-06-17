@@ -3,6 +3,7 @@
   height: 100%;
   flex-flow: column nowrap;
   padding: 1px;
+  min-height: 0;
 }
 
 .top {

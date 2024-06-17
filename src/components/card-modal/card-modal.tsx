@@ -1,3 +1,4 @@
+import { ExternalLink } from "lucide-react";
 import { useCallback } from "react";
 import { Link } from "wouter";
 
@@ -95,13 +96,6 @@ export function CardModal({ code }: Props) {
     <Modal
       actions={
         <>
-          <Button
-            as="a"
-            href={`/card/${cardWithRelations.card.code}`}
-            target="_blank"
-          >
-            Open card page
-          </Button>
           {cardWithRelations.card.type_code === "investigator" && (
             <Link
               asChild
@@ -113,6 +107,14 @@ export function CardModal({ code }: Props) {
               </Button>
             </Link>
           )}
+          <Button
+            as="a"
+            href={`/card/${cardWithRelations.card.code}`}
+            target="_blank"
+          >
+            <ExternalLink />
+            Open card page
+          </Button>
         </>
       }
       onClose={onCloseModal}

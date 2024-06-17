@@ -8,8 +8,6 @@ export function getInitialUIState(): UIState {
     ui: {
       hydrated: false,
       initialized: false,
-      filtersOpen: false,
-      sidebarOpen: false,
     },
   };
 }
@@ -21,27 +19,5 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
   ...getInitialUIState(),
   setHydrated() {
     set({ ui: { ...get().ui, hydrated: true } });
-  },
-  toggleFilters(val: boolean) {
-    const state = get();
-    if (val !== state.ui.filtersOpen) {
-      set({
-        ui: {
-          ...state.ui,
-          filtersOpen: val,
-        },
-      });
-    }
-  },
-  toggleSidebar(val: boolean) {
-    const state = get();
-    if (val !== state.ui.sidebarOpen) {
-      set({
-        ui: {
-          ...state.ui,
-          sidebarOpen: val,
-        },
-      });
-    }
   },
 });

@@ -6,7 +6,6 @@
   flex-flow: column nowrap;
   height: 100%;
   font-family: var(--font-family-ui);
-  box-shadow: var(--shadow-md);
 }
 
 .header {

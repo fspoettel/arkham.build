@@ -1,5 +1,6 @@
 import {
   FloatingPortal,
+  autoPlacement,
   autoUpdate,
   flip,
   offset,
@@ -11,6 +12,7 @@ import {
   useInteractions,
   useMergeRefs,
   useRole,
+  useTransitionStyles,
 } from "@floating-ui/react";
 import type { Placement } from "@floating-ui/react";
 import * as React from "react";
@@ -74,6 +76,66 @@ export function useTooltip({
     }),
     [open, setOpen, interactions, data],
   );
+}
+
+export function useRestingTooltip() {
+  const [tooltipOpen, setTooltipOpen] = React.useState(false);
+  const restTimeoutRef = React.useRef<NodeJS.Timeout | undefined>(undefined);
+
+  React.useEffect(
+    () => () => {
+      if (restTimeoutRef.current) clearTimeout(restTimeoutRef.current);
+    },
+    [],
+  );
+
+  const { context, refs, floatingStyles } = useFloating({
+    open: tooltipOpen,
+    onOpenChange: setTooltipOpen,
+    middleware: [shift(), autoPlacement(), offset(2)],
+    whileElementsMounted: autoUpdate,
+    strategy: "fixed",
+    placement: "bottom-start",
+  });
+
+  const { isMounted, styles } = useTransitionStyles(context);
+
+  const onPointerLeave = React.useCallback(() => {
+    clearTimeout(restTimeoutRef.current);
+    setTooltipOpen(false);
+  }, []);
+
+  const onPointerMove = React.useCallback(() => {
+    if (tooltipOpen) return;
+
+    clearTimeout(restTimeoutRef.current);
+
+    restTimeoutRef.current = setTimeout(() => {
+      setTooltipOpen(true);
+    }, 25);
+  }, [tooltipOpen]);
+
+  const referenceProps = React.useMemo(
+    () => ({
+      onPointerLeave,
+      onPointerMove,
+      onMouseLeave: onPointerLeave,
+    }),
+    [onPointerLeave, onPointerMove],
+  );
+
+  const value = React.useMemo(
+    () => ({
+      isMounted,
+      referenceProps,
+      refs,
+      floatingStyles,
+      transitionStyles: styles,
+    }),
+    [referenceProps, refs, styles, floatingStyles, isMounted],
+  );
+
+  return value;
 }
 
 type ContextType = ReturnType<typeof useTooltip> | undefined;

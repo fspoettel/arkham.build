@@ -11,6 +11,7 @@ import {
   selectCardQuantities,
 } from "@/store/selectors/decks";
 import { selectActiveListSearch } from "@/store/selectors/lists";
+import type { Card } from "@/store/services/queries.types";
 import { range } from "@/utils/range";
 
 import css from "./card-list.module.css";
@@ -24,11 +25,18 @@ import { CardListNav } from "./card-list-nav";
 import { CardSearch } from "./card-search";
 
 type Props = {
+  renderListCardAction?: (card: Card) => React.ReactNode;
+  renderListCardExtra?: (card: Card) => React.ReactNode;
   slotLeft?: React.ReactNode;
   slotRight?: React.ReactNode;
 };
 
-export function CardList({ slotLeft, slotRight }: Props) {
+export function CardList({
+  renderListCardAction,
+  renderListCardExtra,
+  slotLeft,
+  slotRight,
+}: Props) {
   const modalContext = useCardModalContext();
 
   const data = useStore(selectListCards);
@@ -192,6 +200,8 @@ export function CardList({ slotLeft, slotRight }: Props) {
                     canEdit ? updateCardQuantity : undefined
                   }
                   quantities={quantities}
+                  renderAction={renderListCardAction}
+                  renderExtra={renderListCardExtra}
                 />
               )}
               key={data.key}

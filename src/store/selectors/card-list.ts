@@ -26,6 +26,7 @@ import {
   filterType,
 } from "../lib/filtering";
 import { getGroupedCards } from "../lib/grouping";
+import { resolveCardWithRelations } from "../lib/resolve-card";
 import { applySearch } from "../lib/searching";
 import { makeSortFunction } from "../lib/sorting";
 import type { Card } from "../services/queries.types";
@@ -205,7 +206,7 @@ function makeUserFilter(
   return filters.length ? and(filters) : undefined;
 }
 
-// FIXME: There is some room for optimization here.
+// TODO: There is some room for optimization here.
 // This filter does not have to be re-calculated every time the deck changes,
 // only when the investigator back changes or certain slots are changed.
 export const selectDeckInvestigatorFilter = createSelector(
@@ -339,5 +340,23 @@ export const selectListCards = createSelector(
     return cards.length
       ? ({ key: activeList.key, groups, cards, groupCounts } as ListState)
       : undefined;
+  },
+);
+
+export const selectCardRelationsResolver = createSelector(
+  (state: StoreState) => state.metadata,
+  (state: StoreState) => state.lookupTables,
+  (metadata, lookupTables) => {
+    return (code: string) => {
+      // for the current use case (investigator signatures), customizations and taboo are irrelevant.
+      return resolveCardWithRelations(
+        metadata,
+        lookupTables,
+        code,
+        undefined,
+        undefined,
+        true,
+      );
+    };
   },
 );

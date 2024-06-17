@@ -40,8 +40,8 @@ export type Props = {
     [code: string]: number;
   };
   referenceProps?: React.ComponentProps<"div">;
-  renderName?: (el: React.ReactNode) => React.ReactNode;
-  renderThumbnail?: (el: React.ReactNode) => React.ReactNode;
+  renderAction?: (card: Card) => React.ReactNode;
+  renderExtra?: (card: Card) => React.ReactNode;
   size?: "sm";
   showInvestigatorIcons?: boolean;
 };
@@ -62,6 +62,8 @@ export function ListCardInner({
   omitBorders,
   owned,
   referenceProps,
+  renderAction,
+  renderExtra,
   quantities,
   showInvestigatorIcons,
   size,
@@ -103,6 +105,8 @@ export function ListCardInner({
         className,
       )}
     >
+      {!!renderAction && renderAction(card)}
+
       {!!quantities && (
         <>
           {onChangeCardQuantity ? (
@@ -212,6 +216,10 @@ export function ListCardInner({
               </>
             )}
           </div>
+
+          {renderExtra && (
+            <div className={css["meta"]}>{renderExtra(card)}</div>
+          )}
         </figcaption>
       </figure>
     </Element>
