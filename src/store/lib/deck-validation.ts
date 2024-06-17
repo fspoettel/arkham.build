@@ -83,6 +83,17 @@ type Error =
   | TooManyCardsError
   | TooFewCardsError;
 
+function findIndexReversed<T>(
+  array: T[],
+  predicate: (item: T) => boolean,
+): number {
+  for (let i = array.length - 1; i >= 0; i -= 1) {
+    if (predicate(array[i])) return i;
+  }
+
+  return -1;
+}
+
 function formatReturnValue(errors: Error[]) {
   return { valid: errors.length === 0, errors };
 }
@@ -525,10 +536,11 @@ class DeckOptionsValidator implements SlotValidator {
       this.forbidden.push(card);
     } else if ((cardLevel(card) ?? 0) > 5) {
       this.forbidden.push(card);
+      // campaign and investigator cards should not be validated against deck options.
+    } else if (card.xp != null) {
+      this.cards.push(card);
+      this.quantities[card.code] = quantity;
     }
-
-    this.cards.push(card);
-    this.quantities[card.code] = quantity;
   }
 
   validate() {
@@ -610,39 +622,108 @@ class DeckOptionsValidator implements SlotValidator {
   validateLimit(options: DeckOption[]): Error[] {
     const errors: Error[] = [];
 
-    const limitMatched: Set<string> = new Set();
+    /**
+     * Tracks which card copies have been matched by a deck option.
+     * This allows us to keep track of whether any cards remain unmatched,
+     * which means that they violate the deck_building restrictions.
+     * Invariants:
+     *  - `option.not` and `option.atleast` do not count.
+     *  - `option.virtual` (used for covenants) etc. does not count.
+     *  - deck_options are sorted from "unlimited > limited".
+     */
+    const optionMatched: Map<string, number> = new Map();
 
-    for (const option of options) {
-      if (option.atleast) continue;
+    for (let i = 0; i < options.length; i += 1) {
+      const option = options[i];
+      if (option.atleast || option.not) continue;
 
       const filter = makeOptionFilter(
         option as DeckOption,
         this.lookupTables,
         this.config,
       );
+
       let matchCount = 0;
+
+      const isLimitOption = !option.not && !option.virtual && option.limit;
 
       if (filter) {
         for (const card of this.cards) {
-          if (limitMatched.has(card.code)) continue;
+          const quantity = this.quantities[card.code];
+
+          // all copies of the card fulfill a previous deck option.
+          if (quantity === optionMatched.get(card.code)) continue;
+
           const matches = filter(card);
-          if (matches) matchCount += this.quantities[card.code];
-          if (matches && !option.virtual && !option.not) {
-            limitMatched.add(card.code);
+          // card access not given by deck_option.
+          if (!matches) continue;
+
+          for (let i = 0; i < quantity; i++) {
+            const matchedQuantity = optionMatched.get(card.code) ?? 0;
+
+            // if the current match count exceeds the limit,
+            // no more cards can be covered by this option.
+            if (
+              matchedQuantity === quantity ||
+              (isLimitOption && matchCount >= (option.limit as number))
+            ) {
+              break;
+            }
+
+            if (matches) matchCount += 1;
+
+            // only mark a card as matche for "real" limit options,
+            // i.e. being a covernant should not increment the limit.
+            if (matches && !option.virtual && !option.not) {
+              optionMatched.set(card.code, matchedQuantity + 1);
+            }
+          }
+
+          // if the current match count exceeds the limit,
+          // no more cards can be covered by this option.
+          if (isLimitOption && matchCount >= (option.limit as number)) {
+            break;
           }
         }
       }
 
-      if (option.limit != null && matchCount > option.limit) {
+      // virtual options are not counted towards the limit, check separately.
+      if (option.virtual && matchCount > (option.limit as number)) {
         errors.push({
           type: "INVALID_DECK_OPTION",
           details: {
-            error:
-              option.error ??
-              `Too many off-class cards (${matchCount} / ${option.limit}).`,
+            error: option.error as string, // SAFE! all virtual limit options have error.
           },
         });
       }
+    }
+
+    const unmatchedCardCount = Object.entries(this.quantities)
+      .filter(([code, quantity]) => optionMatched.get(code) !== quantity)
+      .reduce(
+        (acc, [code, quantity]) =>
+          acc + quantity - (optionMatched.get(code) ?? 0),
+        0,
+      );
+
+    if (unmatchedCardCount > 0) {
+      // find the last limit option and
+      const lastLimitOptionIndex = findIndexReversed(
+        options,
+        (o) => o.limit != null && !o.virtual && !o.atleast,
+      );
+      if (lastLimitOptionIndex === -1) return errors;
+
+      const option = options[lastLimitOptionIndex];
+
+      const baseError = option.error ?? "Too many off-class cards.";
+
+      errors.push({
+        type: "INVALID_DECK_OPTION",
+        details: {
+          error: `${baseError} (${(option.limit ?? 0) + unmatchedCardCount} / ${option.limit})`,
+        },
+      });
     }
 
     return errors;

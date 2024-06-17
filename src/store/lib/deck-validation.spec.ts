@@ -18,6 +18,8 @@ import extraSlotsValid from "@/test/fixtures/decks/validation/extra_slots_valid.
 import forcedLearning from "@/test/fixtures/decks/validation/forced_learning.json";
 import limitCarolyn from "@/test/fixtures/decks/validation/limit_carolyn.json";
 import limitCarolynInvalid from "@/test/fixtures/decks/validation/limit_carolyn_invalid.json";
+import limitCarolynVersatile from "@/test/fixtures/decks/validation/limit_carolyn_versatile.json";
+import limitCarolynVersatileInvalid from "@/test/fixtures/decks/validation/limit_carolyn_versatile_invalid.json";
 import limitDunwich from "@/test/fixtures/decks/validation/limit_dunwich.json";
 import limitDunwichInvalid from "@/test/fixtures/decks/validation/limit_dunwich_invalid.json";
 import limitFactionSelect from "@/test/fixtures/decks/validation/limit_faction_select.json";
@@ -412,7 +414,7 @@ describe("deck validation", () => {
         [
           {
             "details": {
-              "error": "You cannot have more than 5 cards that are not Guardian or Neutral",
+              "error": "You cannot have more than 5 cards that are not Guardian or Neutral (6 / 5)",
             },
             "type": "INVALID_DECK_OPTION",
           },
@@ -432,7 +434,7 @@ describe("deck validation", () => {
         [
           {
             "details": {
-              "error": "Too many off-class cards (11 / 10).",
+              "error": "Too many off-class cards. (11 / 10)",
             },
             "type": "INVALID_DECK_OPTION",
           },
@@ -452,7 +454,27 @@ describe("deck validation", () => {
         [
           {
             "details": {
-              "error": "You cannot have more than 15 level 0-1 Seeker and/or Mystic cards",
+              "error": "You cannot have more than 15 level 0-1 Seeker and/or Mystic cards (16 / 15)",
+            },
+            "type": "INVALID_DECK_OPTION",
+          },
+        ]
+      `);
+    });
+
+    it("handles case: tag-based, versatile overlap", () => {
+      const result = validate(store, limitCarolynVersatile);
+      expect(result.valid).toBeTruthy();
+    });
+
+    it("handles case: tag-based, versatile overlap, invalid", () => {
+      const result = validate(store, limitCarolynVersatileInvalid);
+      expect(result.valid).toBeFalsy();
+      expect(result.errors).toMatchInlineSnapshot(`
+        [
+          {
+            "details": {
+              "error": "Too many off-class cards for Versatile. (2 / 1)",
             },
             "type": "INVALID_DECK_OPTION",
           },
@@ -472,7 +494,7 @@ describe("deck validation", () => {
         [
           {
             "details": {
-              "error": "Too many off-class cards (11 / 10).",
+              "error": "Too many off-class cards. (11 / 10)",
             },
             "type": "INVALID_DECK_OPTION",
           },
@@ -615,7 +637,7 @@ describe("deck validation", () => {
           [
             {
               "details": {
-                "error": "Too many off-class cards for Versatile.",
+                "error": "Too many off-class cards for Versatile. (3 / 2)",
               },
               "type": "INVALID_DECK_OPTION",
             },
