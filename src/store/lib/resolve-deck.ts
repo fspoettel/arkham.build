@@ -46,6 +46,12 @@ export function resolveDeck<
     true,
   ) as CardWithRelations;
 
+  if (!investigator) {
+    throw new Error(
+      `Investigator not found in store: ${deck.investigator_code}`,
+    );
+  }
+
   const investigatorFront = getInvestigatorForSide(
     investigator,
     deckMeta,
@@ -108,6 +114,7 @@ export function getInvestigatorForSide(
 ) {
   const val = deckMeta[key];
   const hasAlternate = val && val !== investigator.card.code;
+
   if (!hasAlternate) return investigator;
 
   if (investigator.relations?.parallel?.card.code === val)

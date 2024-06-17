@@ -263,7 +263,13 @@ function validateSlots(
     mode === "slots" ? ("slots" as const) : ("extraSlots" as const);
 
   for (const [code, quantity] of Object.entries(deck[accessor] ?? {})) {
-    const { card } = deck.cards[accessor][code];
+    const slotEntry = deck.cards[accessor][code];
+
+    if (!slotEntry) {
+      continue;
+    }
+
+    const card = slotEntry.card;
 
     if (card.encounter_code || quantity === 0) {
       continue;

@@ -138,6 +138,7 @@ export const selectInvestigatorOptions = createSelector(
         const card = metadata.cards[code];
 
         if (
+          card &&
           !card.encounter_code &&
           (!card.alt_art_investigator || card.parallel)
         ) {

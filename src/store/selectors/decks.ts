@@ -27,10 +27,16 @@ export const selectLocalDecks = createSelector(
       ResolvedDeck<ResolvedCard>[]
     >((acc, id) => {
       const deck = data.decks[id];
-      if (deck) {
-        acc.push(resolveDeck(metadata, lookupTables, deck, false));
-      } else {
-        console.warn(`Could not find deck ${id} in local storage.`);
+
+      try {
+        if (deck) {
+          acc.push(resolveDeck(metadata, lookupTables, deck, false));
+        } else {
+          console.warn(`Could not find deck ${id} in local storage.`);
+        }
+      } catch (err) {
+        console.error(`Error resolving deck ${id}: ${err}`);
+        return acc;
       }
 
       return acc;
