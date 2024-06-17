@@ -17,9 +17,62 @@ type Props = {
   metadata: Metadata;
 };
 
-export function Grouphead({ grouping, metadata }: Props) {
-  const isAsset = grouping.key.includes("asset");
+export function getGroupingKeyLabel(
+  type: string,
+  segment: string,
+  metadata: Metadata,
+) {
+  switch (type) {
+    case "subtype": {
+      if (segment === "weakness") return "Weakness";
+      if (segment === "basicweakness") return "Basic Weakness";
+      return "";
+    }
 
+    case "type": {
+      return capitalize(segment);
+    }
+
+    case "cycle": {
+      return metadata.cycles[segment]?.real_name ?? "";
+    }
+
+    case "encounter_set": {
+      return metadata.encounterSets[segment]?.name ?? "";
+    }
+
+    case "slot": {
+      if (segment === NONE) return "No Slot";
+      if (segment === "permanent") return "Permanent";
+      return capitalize(segment);
+    }
+
+    case "level": {
+      if (segment === NONE) return "No level";
+      return `Level ${segment}`;
+    }
+
+    case "cost": {
+      if (segment === NONE) return "No cost";
+      if (segment === "-2") return "Cost X";
+      return `Cost ${segment}`;
+    }
+
+    case "faction": {
+      return segment === "multiclass"
+        ? "Multiclass"
+        : metadata.factions[segment]?.name ?? "";
+    }
+
+    case "default": {
+      return segment;
+    }
+  }
+
+  return "";
+}
+
+export function Grouphead({ grouping, metadata }: Props) {
   const keys = grouping.key.split("|");
   const types = grouping.type.split("|");
 
@@ -27,24 +80,24 @@ export function Grouphead({ grouping, metadata }: Props) {
     <h3 className={css["grouphead"]}>
       {keys.map((key, i) => {
         const type = types[i];
+        const keyLabel = getGroupingKeyLabel(type, key, metadata);
 
-        if (type === "subtype") {
-          if (key === NONE) return null;
-          if (key === "weakness") return <span key={i}>Weakness</span>;
-          if (key === "basicweakness")
-            return <span key={i}>Basic Weakness</span>;
-        }
+        if (!keyLabel) return null;
 
-        if (type === "type") {
-          if (key === NONE) return null;
-          return <span key={i}>{capitalize(key)}</span>;
+        if (
+          type === "subtype" ||
+          type === "type" ||
+          type === "level" ||
+          type === "cost"
+        ) {
+          return <span key={i}>{keyLabel}</span>;
         }
 
         if (type === "cycle") {
           return (
             <Fragment key={i}>
               <PackIcon className={css["icon"]} code={key} />
-              <span>{metadata.cycles[key]?.real_name}</span>
+              <span>{keyLabel}</span>
             </Fragment>
           );
         }
@@ -53,48 +106,35 @@ export function Grouphead({ grouping, metadata }: Props) {
           return (
             <Fragment key={i}>
               <EncounterIcon className={css["icon"]} code={key} />
-              <span>{metadata.encounterSets[key]?.name}</span>
+              <span>{keyLabel}</span>
             </Fragment>
           );
         }
 
         if (type === "slot") {
           if (key === NONE) {
-            return isAsset ? <span key={i}>Other</span> : null;
+            return grouping.key.includes("asset") ? (
+              <span key={i}>{keyLabel}</span>
+            ) : null;
           }
 
           if (key === "permanent") {
-            return <span key={i}>Permanent</span>;
+            return <span key={i}>{keyLabel}</span>;
           }
 
           return (
             <Fragment key={i}>
               <CardSlots className={css["icon"]} size="small" slot={key} />
-              <span>{key}</span>
+              <span>{keyLabel}</span>
             </Fragment>
           );
-        }
-
-        if (type === "level") {
-          if (key === NONE) return <span key={i}>No level</span>;
-          return <span key={i}>Level {key}</span>;
-        }
-
-        if (type === "cost") {
-          if (key === NONE) return <span key={i}>No cost</span>;
-          if (key === "-2") return <span key={i}>X</span>;
-          return <span key={i}>Cost {key}</span>;
         }
 
         if (type === "faction") {
           return (
             <>
               <FactionIcon className={css["icon"]} code={key} />
-              <span key={i}>
-                {key === "multiclass"
-                  ? "Multiclass"
-                  : metadata.factions[key]?.name}
-              </span>
+              <span key={i}>{keyLabel}</span>
             </>
           );
         }

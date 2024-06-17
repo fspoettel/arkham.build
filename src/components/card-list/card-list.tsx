@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { GroupedVirtuosoHandle, ListRange } from "react-virtuoso";
 import { GroupedVirtuoso } from "react-virtuoso";
 
@@ -19,8 +19,8 @@ import { useCardModalContext } from "../card-modal/card-modal-context";
 import { Footer } from "../footer";
 import { ListCard } from "../list-card/list-card";
 import { Scroller } from "../ui/scroller";
-import { Select } from "../ui/select";
 import { Grouphead } from "./Grouphead";
+import { CardListNav } from "./card-list-nav";
 import { CardSearch } from "./card-search";
 
 type Props = {
@@ -152,15 +152,6 @@ export function CardList({ slotLeft, slotRight }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data?.cards.length]);
 
-  const jumpToOptions = useMemo(
-    () =>
-      (data?.groups ?? []).map((group, i) => ({
-        value: group.key,
-        label: `${group.key} (${data?.groupCounts[i]})`,
-      })),
-    [data?.groups, data?.groupCounts],
-  );
-
   return (
     <CenterLayout
       top={
@@ -172,17 +163,11 @@ export function CardList({ slotLeft, slotRight }: Props) {
       }
     >
       <div className={css["container"]}>
-        <nav className={css["nav"]}>
-          <output>{data?.cards.length ?? 0} cards</output>
-          {data && (
-            <Select
-              emptyLabel="Jump to..."
-              onChange={onSelectGroup}
-              options={jumpToOptions}
-              value=""
-            />
-          )}
-        </nav>
+        <CardListNav
+          data={data}
+          metadata={metadata}
+          onSelectGroup={onSelectGroup}
+        />
 
         <Scroller
           className={css["scroller"]}
