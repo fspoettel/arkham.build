@@ -48,6 +48,21 @@ function getInitialList() {
 
   return "browse_player";
 }
+function getInitialFilterValuesForListKey(
+  key: string,
+): Record<string, unknown> {
+  if (key === "editor_player") {
+    return {
+      level: {
+        range: [0, 5],
+        nonexceptional: false,
+        exceptional: false,
+      },
+    };
+  }
+
+  return {};
+}
 
 export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
   set,
@@ -88,6 +103,7 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
           list.systemFilter,
           {
             ownership: getInitialOwnershipFilter(state),
+            ...getInitialFilterValuesForListKey(list.key),
           },
         ),
       },
@@ -483,6 +499,7 @@ function makeList(
     filters,
     filterValues: filters.reduce<List["filterValues"]>((acc, curr, i) => {
       acc[i] = makeFilterValue(curr, initialValues?.[curr]);
+      if (curr === "level") console.log(key, acc[i], initialValues?.[curr]);
       return acc;
     }, {}),
     grouping,
@@ -590,16 +607,27 @@ export function makeLists(initialValues?: Partial<Record<FilterKey, unknown>>) {
   return {
     browse_player: makePlayerCardsList("browse_player", {
       showInvestigators: true,
-      initialValues,
+      initialValues: {
+        ...initialValues,
+        ...getInitialFilterValuesForListKey("browse_player"),
+      },
     }),
     browse_encounter: makeEncounterCardsList("browse_encounter", {
-      initialValues,
+      initialValues: {
+        ...initialValues,
+        ...getInitialFilterValuesForListKey("browse_encounter"),
+      },
     }),
     create_deck: makeInvestigatorCardsList("create_deck"),
-
-    editor_player: makePlayerCardsList("editor_player", { initialValues }),
+    editor_player: makePlayerCardsList("editor_player", {
+      initialValues: {
+        ...initialValues,
+        ...getInitialFilterValuesForListKey("editor_player"),
+      },
+    }),
     editor_encounter: makeEncounterCardsList("editor_encounter", {
       initialValues,
+      ...getInitialFilterValuesForListKey("editor_encounter"),
     }),
   };
 }
