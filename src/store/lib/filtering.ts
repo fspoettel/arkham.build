@@ -766,7 +766,10 @@ function makePlayerCardsFilter(
   // normalize parallel investigators to root for lookups.
   const code = investigator.alternate_of_code ?? investigator.code;
 
-  const ands: Filter[] = [];
+  const ands: Filter[] = [
+    not(filterType(["investigator", "location", "story"])),
+  ];
+
   const ors: Filter[] = [];
 
   if (config?.targetDeck === "extraSlots") {

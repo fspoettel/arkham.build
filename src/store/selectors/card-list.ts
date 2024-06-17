@@ -227,7 +227,7 @@ export const selectDeckInvestigatorFilter = createSelector(
 
     if (showUnusableCards) {
       return and([
-        not(filterType(["investigator"])),
+        not(filterType(["investigator", "story", "location"])),
         filterMythosCards,
         (card: Card) =>
           !lookupTables.relations.bonded[card.code] &&
