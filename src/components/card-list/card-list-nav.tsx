@@ -49,6 +49,7 @@ export function CardListNav({ data, metadata, onSelectGroup }: Props) {
       <output>{data?.cards.length ?? 0} cards</output>
       {data && (
         <Select
+          className={css["nav-jump"]}
           emptyLabel="Jump to..."
           onChange={onSelectGroup}
           options={jumpToOptions ?? []}
