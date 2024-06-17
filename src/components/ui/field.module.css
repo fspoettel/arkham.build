@@ -19,7 +19,7 @@
 }
 
 .field.bordered {
-  border: 1px solid var(--nord-1);
+  border: 1px solid var(--nord-point-five);
   padding: 0.5rem;
 }
 

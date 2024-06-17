@@ -128,7 +128,7 @@
 .sidebar,
 .filters {
   border: 1px solid var(--nord-1);
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded);
 }
 
 .sidebar {

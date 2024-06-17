@@ -2,11 +2,15 @@ import clsx from "clsx";
 import { Fragment } from "react/jsx-runtime";
 
 import { useStore } from "@/store";
-import { selectActiveListFilters } from "@/store/selectors/lists";
+import {
+  selectActiveList,
+  selectActiveListFilters,
+} from "@/store/selectors/lists";
 
 import css from "./filters.module.css";
 
 import { Button } from "../ui/button";
+import { Checkbox } from "../ui/checkbox";
 import { Scroller } from "../ui/scroller";
 import { ActionFilter } from "./action-filter";
 import { AssetFilter } from "./asset-filter";
@@ -31,16 +35,42 @@ type Props = {
 
 export function Filters({ className, children }: Props) {
   const resetFilters = useStore((state) => state.resetFilters);
+  const activeList = useStore(selectActiveList);
   const filters = useStore(selectActiveListFilters);
 
+  const filtersEnabled = activeList?.filtersEnabled ?? true;
+  const updateFiltersEnabled = useStore((state) => state.setFiltersEnabled);
+
   return (
-    <search className={clsx(css["filters"], className)} title="Filters">
+    <search
+      className={clsx(
+        css["filters"],
+        className,
+        !filtersEnabled && css["disabled"],
+      )}
+      title="Filters"
+    >
       {children && <div className={css["children"]}>{children}</div>}
       <div className={css["header"]}>
-        <h3 className={css["title"]}>Filters</h3>
+        <Checkbox
+          checked={filtersEnabled}
+          id="toggle-filters"
+          label={
+            <h3 className={css["title"]} title="Disable filters">
+              Filters
+            </h3>
+          }
+          onCheckedChange={updateFiltersEnabled}
+          title="Disable filters"
+        />
         <div>
-          <Button onClick={resetFilters} variant="bare">
-            <i className="icon-filter-clear" /> Clear
+          <Button
+            disabled={!filtersEnabled}
+            onClick={resetFilters}
+            size="sm"
+            variant="bare"
+          >
+            <i className="icon-filter-clear" /> Reset
           </Button>
         </div>
       </div>

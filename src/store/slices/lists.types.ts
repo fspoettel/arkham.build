@@ -106,6 +106,7 @@ export type SortingType =
 export type List = {
   cardType: "player" | "encounter";
   filters: FilterKey[];
+  filtersEnabled: boolean;
   filterValues: {
     [id: number]: FilterObject<FilterKey>;
   };
@@ -125,6 +126,8 @@ export type ListsSlice = {
   lists: Lists;
 
   changeList(value: string, path: string): void;
+
+  setFiltersEnabled(value: boolean): void;
 
   setFilterValue<T>(id: number, payload: T): void;
   setFilterOpen(id: number, open: boolean): void;

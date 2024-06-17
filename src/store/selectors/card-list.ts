@@ -70,6 +70,8 @@ function makeUserFilter(
 
   if (deckInvestigatorFilter) filters.push(deckInvestigatorFilter);
 
+  if (!list.filtersEnabled) return and(filters);
+
   list.filters.forEach((_, id) => {
     const filterValue = list.filterValues[id];
     if (!filterValue) return;

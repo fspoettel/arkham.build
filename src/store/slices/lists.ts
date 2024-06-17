@@ -345,6 +345,24 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
       },
     });
   },
+
+  setFiltersEnabled(value) {
+    const state = get();
+    assert(isDefined(state.activeList), "no active list is defined.");
+
+    const list = state.lists[state.activeList];
+    assert(isDefined(list), `list ${state.activeList} not defined.`);
+
+    set({
+      lists: {
+        ...state.lists,
+        [state.activeList]: {
+          ...list,
+          filtersEnabled: value,
+        },
+      },
+    });
+  },
 });
 
 function makeSearch(): Search {
@@ -499,9 +517,9 @@ function makeList(
     filters,
     filterValues: filters.reduce<List["filterValues"]>((acc, curr, i) => {
       acc[i] = makeFilterValue(curr, initialValues?.[curr]);
-      if (curr === "level") console.log(key, acc[i], initialValues?.[curr]);
       return acc;
     }, {}),
+    filtersEnabled: true,
     grouping,
     key,
     systemFilter,
