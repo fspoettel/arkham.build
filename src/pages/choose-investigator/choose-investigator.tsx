@@ -49,12 +49,13 @@ function DeckCreateChooseInvestigator() {
       className={clsx(css["layout"], filtersOpen && css["filters-open"])}
       onPointerDown={onContentClick}
     >
-      <Masthead className={css["masthead"]} />
+      <Masthead className={css["masthead"]}>
+        <Button onClick={goBack} variant="bare">
+          <ChevronLeft /> Back
+        </Button>
+      </Masthead>
       <main className={css["content"]}>
         <header className={css["header"]}>
-          <Button onClick={goBack}>
-            <ChevronLeft /> Back
-          </Button>
           <h1 className={css["title"]}>Choose investigator</h1>
         </header>
         <CardList
