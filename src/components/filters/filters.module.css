@@ -113,8 +113,6 @@
 }
 
 .skill-filter {
-  padding: 0 var(--filters-spacing-x);
-
   & > * + * {
     margin-top: var(--filters-spacing-y);
   }
