@@ -345,7 +345,7 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
       }
     }
 
-    if (card.restrictions?.investigator) {
+    if (card.restrictions?.investigator && !card.hidden) {
       // Can have multiple entries (alternate arts).
       for (const key of Object.keys(card.restrictions.investigator)) {
         const investigator = metadata.cards[key];
