@@ -8,6 +8,7 @@ import { FilterContainer } from "./filter-container";
 
 type Props<T extends Coded> = {
   changes?: string;
+  children?: React.ReactNode;
   id: number;
   itemToString?: (val: T) => string;
   nameRenderer?: (val: T) => React.ReactNode;
@@ -20,6 +21,7 @@ type Props<T extends Coded> = {
 
 export function MultiselectFilter<T extends Coded>({
   changes,
+  children,
   id,
   itemToString,
   nameRenderer,
@@ -55,6 +57,7 @@ export function MultiselectFilter<T extends Coded>({
     <FilterContainer
       filterString={changes}
       onOpenChange={onOpenChange}
+      nonCollapsibleContent={children}
       onReset={onReset}
       open={open}
       title={title}

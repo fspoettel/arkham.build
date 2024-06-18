@@ -539,12 +539,12 @@ export function makePlayerCardsList(
 ): List {
   const filters: FilterKey[] = [
     "faction",
+    "type",
+    "level",
     "ownership",
     "investigator",
-    "level",
     "cost",
     "trait",
-    "type",
     "subtype",
     "asset",
     "skillIcons",
@@ -593,10 +593,10 @@ export function makeEncounterCardsList(
 ): List {
   const filters: FilterKey[] = [
     "faction",
+    "type",
     "ownership",
     "cost",
     "trait",
-    "type",
     "subtype",
     "asset",
     "skillIcons",

@@ -72,6 +72,12 @@
   &:hover:not([data-state="on"]),
   &:active:not([data-state="on"]),
   &:focus-visible:not([data-state="on"]) {
-    background: var(--nord-2);
+    background: var(--nord-1);
+  }
+
+  &:hover[data-state="on"],
+  &:active[data-state="on"],
+  &:focus-visible[data-state="on"] {
+    background: var(--nord-3);
   }
 }

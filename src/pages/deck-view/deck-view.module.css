@@ -3,7 +3,7 @@
   row-gap: 1rem;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: min-content min-content min-content min-content;
+  grid-template-rows: min-content min-content min-content;
   grid-template-areas:
     "header"
     "sidebar"
@@ -16,7 +16,7 @@
     grid-template-areas:
       "sidebar header"
       "sidebar decklist";
-    grid-template-rows: min-content min-content 1fr;
+    grid-template-rows: min-content 1fr;
   }
 }
 
