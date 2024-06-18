@@ -56,7 +56,7 @@ export function CardBack({ card, forceShowHeader, size }: Props) {
       )}
     >
       {hasHeader && <CardHeader card={backCard} />}
-      <div className={css["container"]}>
+      <div className={css["content"]}>
         <CardText
           flavor={card.real_back_flavor}
           size={size}
