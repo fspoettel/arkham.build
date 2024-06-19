@@ -19,12 +19,7 @@ type Props = {
   set: CardSetType;
 };
 
-export function CardSet({
-  canOpenModal,
-  onChangeCardQuantity,
-  onSelect,
-  set,
-}: Props) {
+export function CardSet({ onChangeCardQuantity, onSelect, set }: Props) {
   const canCheckOwnership = useStore(selectCanCheckOwnership);
   const cardOwnedCount = useStore(selectCardOwnedCount);
 
@@ -49,7 +44,6 @@ export function CardSet({
           <ListCard
             as="li"
             canCheckOwnership={canCheckOwnership}
-            canOpenModal={canOpenModal}
             card={card}
             key={card.code}
             omitBorders

@@ -214,14 +214,9 @@ function makeUserFilter(
 export const selectDeckInvestigatorFilter = createSelector(
   (state: StoreState) => state.lookupTables,
   selectResolvedDeck,
-  (state: StoreState) => {
-    const mode = state.deckView?.mode;
-    if (mode !== "edit") return "slots";
-    return state.deckView?.activeTab === "extraSlots" ? "extraSlots" : "slots";
-  },
-  (state: StoreState) => {
-    return state.deckView?.mode === "edit" && state.deckView.showUnusableCards;
-  },
+  (state: StoreState) =>
+    state.deckView?.activeTab === "extraSlots" ? "extraSlots" : "slots",
+  (state: StoreState) => !!state.deckView?.showUnusableCards,
   (lookupTables, resolvedDeck, targetDeck, showUnusableCards) => {
     if (!resolvedDeck) return undefined;
 
