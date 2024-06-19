@@ -5,7 +5,7 @@ import { CardModal } from "./card-modal";
 
 type CardModalContextConfig = {
   code: string;
-  deckId?: string;
+  deckId?: string | number;
   canEdit?: boolean;
 };
 

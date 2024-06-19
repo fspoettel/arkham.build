@@ -1,7 +1,6 @@
 import { Redirect } from "wouter";
 
 import { Card } from "@/components/card/card";
-import { Customizations } from "@/components/customizations/customizations";
 import { CustomizationsEditor } from "@/components/customizations/customizations-editor";
 import { Faq } from "@/pages/card-view/faq";
 import { useStore } from "@/store";
@@ -56,14 +55,10 @@ export function CardViewCards({
     <>
       <Card resolvedCard={cardWithRelations}>
         {cardWithRelations.card.customization_options ? (
-          activeDeck ? (
-            <CustomizationsEditor
-              activeDeck={activeDeck}
-              card={cardWithRelations.card}
-            />
-          ) : (
-            <Customizations card={cardWithRelations.card} />
-          )
+          <CustomizationsEditor
+            activeDeck={activeDeck}
+            card={cardWithRelations.card}
+          />
         ) : undefined}
       </Card>
 

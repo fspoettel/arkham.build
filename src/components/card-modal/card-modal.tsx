@@ -22,6 +22,7 @@ import { CustomizationsEditor } from "../customizations/customizations-editor";
 import { Button } from "../ui/button";
 import { useDialogContext } from "../ui/dialog.hooks";
 import { Modal } from "../ui/modal";
+import { useCardModalContext } from "./card-modal-context";
 import { CardModalQuantities } from "./card-modal-quantities";
 
 type Props = {
@@ -32,10 +33,18 @@ type Props = {
 
 export function CardModal({ canEdit, code, deckId }: Props) {
   const modalContext = useDialogContext();
+  const cardModalContext = useCardModalContext();
 
   const onCloseModal = useCallback(() => {
     modalContext?.setOpen(false);
   }, [modalContext]);
+
+  const onOpenModal = useCallback(
+    (code: string) => {
+      cardModalContext?.setOpen({ canEdit, code, deckId });
+    },
+    [canEdit, deckId, cardModalContext],
+  );
 
   // FIXME: Remove this hack when we have refactored the deck edit state.
   const activeDeck = useStore((state) =>
@@ -45,8 +54,6 @@ export function CardModal({ canEdit, code, deckId }: Props) {
         : selectActiveDeckById(state, deckId)
       : undefined,
   );
-
-  console.log(activeDeck);
 
   const cardWithRelations = useStore((state) =>
     selectCardWithRelations(state, code, true),
@@ -86,6 +93,7 @@ export function CardModal({ canEdit, code, deckId }: Props) {
             const cards = Array.isArray(value) ? value : [value];
             return (
               <CardSet
+                onOpenModal={onOpenModal}
                 key={key}
                 set={{
                   title: formatRelationTitle(key),
