@@ -17,7 +17,7 @@ import {
 } from "./filtering";
 import { type ResolvedCard, type ResolvedDeck } from "./types";
 
-type DeckValidationResult = {
+export type DeckValidationResult = {
   valid: boolean;
   errors: Error[];
 };
@@ -275,6 +275,7 @@ function validateSlots(
       continue;
     }
 
+    // TODO: move this out of the validator.
     // normalize duplicates to base version before checking access.
     const normalized = card.duplicate_of_code
       ? state.metadata.cards[card.duplicate_of_code]

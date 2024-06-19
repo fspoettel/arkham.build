@@ -148,7 +148,7 @@ export const createSharedSlice: StateCreator<
   saveDeck() {
     const state = get();
 
-    if (state.deckView?.mode !== "edit") {
+    if (!state.deckView) {
       console.warn("Tried to save deck but not in edit mode.");
       return;
     }

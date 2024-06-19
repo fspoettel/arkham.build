@@ -1,7 +1,7 @@
 import clsx from "clsx";
+import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { CardList } from "@/components/card-list/card-list";
 import { CardTypeFilter } from "@/components/filters/card-type-filter";
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,10 @@ import { useMedia } from "@/utils/use-media";
 import css from "./list-layout.module.css";
 
 type Props = {
+  children: (props: {
+    slotRight?: React.ReactNode;
+    slotLeft?: React.ReactNode;
+  }) => React.ReactNode;
   filters: React.ReactNode;
   mastheadContent?: React.ReactNode;
   sidebar: React.ReactNode;
@@ -17,6 +21,7 @@ type Props = {
 };
 
 export function ListLayout({
+  children,
   filters,
   mastheadContent,
   sidebar,
@@ -79,24 +84,24 @@ export function ListLayout({
         className={css["content"]}
         onPointerDown={sidebarOpen || filtersOpen ? onContentClick : undefined}
       >
-        <CardList
-          slotLeft={
+        {children({
+          slotLeft: (
             <Button
               className={css["toggle-sidebar"]}
               onClick={() => onToggleSidebar(true)}
             >
               <i className="icon-deck" />
             </Button>
-          }
-          slotRight={
+          ),
+          slotRight: (
             <Button
               className={css["toggle-filters"]}
               onClick={() => onToggleFilters(true)}
             >
               <i className="icon-filter" />
             </Button>
-          }
-        />
+          ),
+        })}
       </div>
       <nav
         className={css["filters"]}

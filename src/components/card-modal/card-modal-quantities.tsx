@@ -1,10 +1,8 @@
 import { useCallback, useEffect, useRef } from "react";
 
 import { useStore } from "@/store";
-import {
-  selectCardQuantitiesForSlot,
-  selectShowIgnoreDeckLimitSlots,
-} from "@/store/selectors/decks";
+import type { DisplayDeck } from "@/store/lib/deck-grouping";
+import { selectShowIgnoreDeckLimitSlots } from "@/store/selectors/decks";
 import type { Card } from "@/store/services/queries.types";
 import type { Slot } from "@/store/slices/deck-view.types";
 
@@ -15,6 +13,7 @@ import { QuantityInput } from "../ui/quantity-input";
 type Props = {
   card: Card;
   canEdit?: boolean;
+  deck?: DisplayDeck;
   showExtraQuantities?: boolean;
   onClickBackground?: () => void;
 };
@@ -22,6 +21,7 @@ type Props = {
 export function CardModalQuantities({
   card,
   canEdit,
+  deck,
   showExtraQuantities,
   onClickBackground,
 }: Props) {
@@ -63,25 +63,11 @@ export function CardModalQuantities({
     };
   }, [canEdit, card.code, updateCardQuantity, onClickBackground]);
 
-  const quantities = useStore((state) =>
-    selectCardQuantitiesForSlot(state, "slots"),
-  );
-
-  const sideSlotQuantities = useStore((state) =>
-    selectCardQuantitiesForSlot(state, "sideSlots"),
-  );
-
-  const extraSlotQuantities = useStore((state) =>
-    selectCardQuantitiesForSlot(state, "extraSlots"),
-  );
-
-  const bondedSlotQuantities = useStore((state) =>
-    selectCardQuantitiesForSlot(state, "bondedSlots"),
-  );
-
-  const ignoreDeckLimitQuantities = useStore((state) =>
-    selectCardQuantitiesForSlot(state, "ignoreDeckLimitSlots"),
-  );
+  const quantities = deck?.slots;
+  const sideSlotQuantities = deck?.sideSlots;
+  const extraSlotQuantities = deck?.extraSlots;
+  const bondedSlotQuantities = deck?.bondedSlots;
+  const ignoreDeckLimitQuantities = deck?.ignoreDeckLimitSlots;
 
   const onChangeQuantity = (quantity: number, slot: Slot) => {
     updateCardQuantity(card.code, quantity, slot);

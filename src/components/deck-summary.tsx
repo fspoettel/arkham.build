@@ -1,10 +1,8 @@
 import clsx from "clsx";
 import { CircleAlert } from "lucide-react";
 
-import { useStore } from "@/store";
-import { validateDeck } from "@/store/lib/deck-validation";
+import type { DeckValidationResult } from "@/store/lib/deck-validation";
 import type { ResolvedCard, ResolvedDeck } from "@/store/lib/types";
-import type { StoreState } from "@/store/slices";
 import { getCardColor } from "@/utils/card-utils";
 
 import css from "./deck-summary.module.css";
@@ -16,7 +14,7 @@ type Props = {
   deck: ResolvedDeck<ResolvedCard>;
   interactive?: boolean;
   showThumbnail?: boolean;
-  showValidation?: boolean;
+  validation?: DeckValidationResult;
 };
 
 export function DeckSummary({
@@ -24,24 +22,16 @@ export function DeckSummary({
   deck,
   interactive,
   showThumbnail,
-  showValidation,
+  validation,
 }: Props) {
-  const lookupTables = useStore((state: StoreState) => state.lookupTables);
-  const metadata = useStore((state: StoreState) => state.metadata);
-
-  const validationResult = showValidation
-    ? validateDeck(deck, {
-        lookupTables,
-        metadata,
-      } as StoreState)
-    : undefined;
-
   const backgroundCls = getCardColor(
     deck.cards.investigator.card,
     "background",
   );
 
   const borderCls = getCardColor(deck.cards.investigator.card, "border");
+
+  const showValidation = !!validation;
 
   return (
     <article
@@ -59,9 +49,7 @@ export function DeckSummary({
         )}
         <div className={css["header-container"]}>
           <h3 className={css["title"]}>
-            {showValidation && validationResult && !validationResult.valid && (
-              <CircleAlert />
-            )}
+            {showValidation && !validation?.valid && <CircleAlert />}
             {deck.name}
           </h3>
           <div className={css["header-row"]}>

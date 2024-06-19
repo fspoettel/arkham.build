@@ -8,7 +8,8 @@ import {
   getRelatedCards,
 } from "@/store/lib/resolve-card";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
-import { selectActiveDeck, selectCanEditDeck } from "@/store/selectors/decks";
+import { selectActiveDeckById } from "@/store/selectors/deck-view";
+import { selectActiveDeck } from "@/store/selectors/decks";
 import { formatRelationTitle } from "@/utils/formatting";
 import { useMedia } from "@/utils/use-media";
 
@@ -25,17 +26,27 @@ import { CardModalQuantities } from "./card-modal-quantities";
 
 type Props = {
   code: string;
+  deckId?: string;
+  canEdit?: boolean;
 };
 
-export function CardModal({ code }: Props) {
+export function CardModal({ canEdit, code, deckId }: Props) {
   const modalContext = useDialogContext();
 
   const onCloseModal = useCallback(() => {
     modalContext?.setOpen(false);
   }, [modalContext]);
 
-  const activeDeck = useStore(selectActiveDeck);
-  const canEdit = useStore(selectCanEditDeck);
+  // FIXME: Remove this hack when we have refactored the deck edit state.
+  const activeDeck = useStore((state) =>
+    deckId
+      ? canEdit
+        ? selectActiveDeck(state)
+        : selectActiveDeckById(state, deckId)
+      : undefined,
+  );
+
+  console.log(activeDeck);
 
   const cardWithRelations = useStore((state) =>
     selectCardWithRelations(state, code, true),
@@ -126,6 +137,7 @@ export function CardModal({ code }: Props) {
             <CardModalQuantities
               canEdit={canEdit}
               card={cardWithRelations.card}
+              deck={activeDeck}
               onClickBackground={onCloseModal}
               showExtraQuantities={showExtraQuantities}
             />

@@ -1,20 +1,22 @@
 import { InfoIcon } from "lucide-react";
 
-import { useStore } from "@/store";
 import type {
   DeckOptionsError,
+  DeckValidationResult,
   InvalidCardError,
   TooManyCardsError,
 } from "@/store/lib/deck-validation";
-import { selectDeckValid } from "@/store/selectors/decks";
 
 import css from "./decklist-validation.module.css";
 
 import { Collapsible, CollapsibleContent } from "../ui/collapsible";
 
-export function DecklistValidation({ defaultOpen }: { defaultOpen?: boolean }) {
-  const validation = useStore(selectDeckValid);
+type Props = {
+  defaultOpen?: boolean;
+  validation: DeckValidationResult;
+};
 
+export function DecklistValidation({ defaultOpen, validation }: Props) {
   if (validation.valid) return null;
 
   return (

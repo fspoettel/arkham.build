@@ -12,7 +12,7 @@ import css from "./customizations.module.css";
 import { CustomizationOption } from "./customization-option";
 
 type Props = {
-  activeDeck: ResolvedDeck<ResolvedCard>;
+  activeDeck?: ResolvedDeck<ResolvedCard>;
   card: Card;
   canEdit?: boolean;
 };
@@ -21,7 +21,7 @@ export function CustomizationsEditor({ activeDeck, card, canEdit }: Props) {
   const updateCustomization = useStore((state) => state.updateCustomization);
   const backgroundCls = getCardColor(card, "background");
 
-  const choices = activeDeck.customizations?.[card.code];
+  const choices = activeDeck?.customizations?.[card.code];
 
   const options = card.customization_options;
   const text = card.real_customization_text?.split("\n");

@@ -10,10 +10,12 @@ export const useBrowserLocationWithConfirmation: BaseLocationHook = () => {
   const needsConfirm = useStore(selectNeedsConfirmation);
 
   const onLocationChange = useCallback(
-    (newLocation: string) => {
-      const perfomNavigation = needsConfirm
-        ? window.confirm(needsConfirm)
-        : true;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (newLocation: string, options: any) => {
+      const perfomNavigation =
+        needsConfirm && !options?.state?.confirm
+          ? window.confirm(needsConfirm)
+          : true;
       if (perfomNavigation) setLocation(newLocation);
     },
     [needsConfirm, setLocation],

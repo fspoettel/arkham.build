@@ -6,13 +6,21 @@ import { resolveDeck } from "@/store/lib/resolve-deck";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 
 import { applyDeckEdits } from "../lib/deck-edits";
-import type { ForbiddenCardError } from "../lib/deck-validation";
+import type {
+  DeckValidationResult,
+  ForbiddenCardError,
+} from "../lib/deck-validation";
 import { validateDeck } from "../lib/deck-validation";
 import { sortAlphabetical } from "../lib/sorting";
 import type { ResolvedCard, ResolvedDeck } from "../lib/types";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import { type Slot, mapTabToSlot } from "../slices/deck-view.types";
+
+type LocalDeck = {
+  deck: ResolvedDeck<ResolvedCard>;
+  validation: DeckValidationResult;
+};
 
 export const selectLocalDecks = createSelector(
   (state: StoreState) => state.data,
@@ -23,27 +31,33 @@ export const selectLocalDecks = createSelector(
 
     const { history } = data;
 
-    const resolvedDecks = Object.keys(history).reduce<
-      ResolvedDeck<ResolvedCard>[]
-    >((acc, id) => {
-      const deck = data.decks[id];
+    const resolvedDecks = Object.keys(history).reduce<LocalDeck[]>(
+      (acc, id) => {
+        const deck = data.decks[id];
 
-      try {
-        if (deck) {
-          acc.push(resolveDeck(metadata, lookupTables, deck, false));
-        } else {
-          console.warn(`Could not find deck ${id} in local storage.`);
+        try {
+          if (deck) {
+            const resolved = resolveDeck(metadata, lookupTables, deck, false);
+            const validation = validateDeck(resolved, {
+              metadata,
+              lookupTables,
+            } as StoreState);
+            acc.push({ deck: resolved, validation });
+          } else {
+            console.warn(`Could not find deck ${id} in local storage.`);
+          }
+        } catch (err) {
+          console.error(`Error resolving deck ${id}: ${err}`);
+          return acc;
         }
-      } catch (err) {
-        console.error(`Error resolving deck ${id}: ${err}`);
-        return acc;
-      }
 
-      return acc;
-    }, []);
+        return acc;
+      },
+      [],
+    );
 
     resolvedDecks.sort((a, b) =>
-      sortAlphabetical(b.date_update, a.date_update),
+      sortAlphabetical(b.deck.date_update, a.deck.date_update),
     );
 
     console.timeEnd("[perf] select_local_decks");
@@ -112,9 +126,6 @@ export const selectDeckValid = createSelector(
       : { valid: false, errors: [] },
 );
 
-export const selectCanEditDeck = (state: StoreState) =>
-  state.deckView?.mode === "edit";
-
 export const selectForbiddenCards = createSelector(
   selectDeckValid,
   (deckValidation) => {
@@ -139,16 +150,12 @@ export function selectCardQuantitiesForSlot(
 export function selectCardQuantities(state: StoreState) {
   if (!state.deckView) return undefined;
 
-  const slot =
-    state.deckView.mode === "view"
-      ? "slots"
-      : mapTabToSlot(state.deckView.activeTab);
-
+  const slot = mapTabToSlot(state.deckView.activeTab);
   return selectCardQuantitiesForSlot(state, slot) ?? undefined;
 }
 
 export const selectCurrentTab = (state: StoreState) => {
-  if (!state.deckView || state.deckView.mode === "view") return "slots";
+  if (!state.deckView) return "slots";
   return state.deckView.activeTab;
 };
 

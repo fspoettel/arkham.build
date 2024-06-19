@@ -15,22 +15,11 @@ export const createDeckViewSlice: StateCreator<
 > = (set, get) => ({
   deckView: null,
 
-  setActiveDeck(activeDeckId, mode) {
-    if (!activeDeckId || !mode) {
+  setActiveDeck(activeDeckId) {
+    if (!activeDeckId) {
       set({ deckView: null });
       return;
     }
-
-    if (mode === "view") {
-      set({
-        deckView: {
-          id: activeDeckId,
-          mode,
-        },
-      });
-      return;
-    }
-
     set({
       deckView: {
         activeTab: "slots",
@@ -42,7 +31,6 @@ export const createDeckViewSlice: StateCreator<
           quantities: {},
           customizations: {},
         },
-        mode,
       },
     });
   },
@@ -251,11 +239,6 @@ function assertInEditMode(state: StoreState): asserts state is StoreState & {
   assert(
     state.deckView,
     "trying to edit deck, but state does not have an active deck.",
-  );
-
-  assert(
-    state.deckView.mode === "edit",
-    "trying to edit deck, but not in edit mode.",
   );
 
   assert(

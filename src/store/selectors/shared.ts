@@ -27,7 +27,7 @@ export const selectCardOwnedCount = createSelector(
 );
 
 export const selectNeedsConfirmation = (state: StoreState) => {
-  if (state.deckView?.mode === "edit" && state.deckView.dirty) {
+  if (state.deckView?.dirty) {
     return "This operation will revert the changes made to the deck. Do you want to continue?";
   }
 

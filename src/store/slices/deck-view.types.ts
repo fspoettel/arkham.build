@@ -63,23 +63,18 @@ export type EditState = {
     investigatorBack?: string | null;
   };
   dirty: boolean;
-  mode: "edit";
   activeTab: Tab;
   showUnusableCards: boolean;
 };
 
-export type ViewState = {
-  mode: "view";
-};
-
 export type DeckViewState = {
   id: string;
-} & (EditState | ViewState);
+} & EditState;
 
 export type DeckViewSlice = {
   deckView: DeckViewState | null;
 
-  setActiveDeck(id?: string, type?: "view" | "edit"): void;
+  setActiveDeck(id?: string): void;
 
   updateActiveTab(value: string): void;
 

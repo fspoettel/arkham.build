@@ -45,23 +45,8 @@ describe("deck-view slice", () => {
       );
     });
 
-    it("throws an error if the active deck is not in edit mode", () => {
-      store.setState({
-        deckView: {
-          id: "deck-id",
-          mode: "view",
-        },
-      });
-
-      expect(() => {
-        store.getState().updateCardQuantity("01000", 1, "slots");
-      }).toThrowErrorMatchingInlineSnapshot(
-        `[Error: assertion failed: trying to edit deck, but not in edit mode.]`,
-      );
-    });
-
     it("throws an error if the active deck does not exist", () => {
-      store.getState().setActiveDeck("non-existent-deck", "edit");
+      store.getState().setActiveDeck("non-existent-deck");
 
       expect(() => {
         store.getState().updateCardQuantity("01000", 1, "slots");
@@ -72,28 +57,28 @@ describe("deck-view slice", () => {
 
     it("increments the quantity of a card", () => {
       const state = store.getState();
-      state.setActiveDeck("deck-id", "edit");
+      state.setActiveDeck("deck-id");
       state.updateCardQuantity("01000", 1, "slots", "increment");
       expect(selectActiveDeck(store.getState())?.slots["01000"]).toEqual(2);
     });
 
     it("decrements the quantity of a card", () => {
       const state = store.getState();
-      state.setActiveDeck("deck-id", "edit");
+      state.setActiveDeck("deck-id");
       state.updateCardQuantity("01000", -1, "slots", "increment");
       expect(selectActiveDeck(store.getState())?.slots["01000"]).toEqual(0);
     });
 
     it("sets the quantity of a card", () => {
       const state = store.getState();
-      state.setActiveDeck("deck-id", "edit");
+      state.setActiveDeck("deck-id");
       state.updateCardQuantity("01000", 5, "slots", "set");
       expect(selectActiveDeck(store.getState())?.slots["01000"]).toEqual(5);
     });
 
     it("does not set the quantity of a card to a negative value", () => {
       const state = store.getState();
-      state.setActiveDeck("deck-id", "edit");
+      state.setActiveDeck("deck-id");
       state.updateCardQuantity("01000", -5, "slots", "set");
       state.updateCardQuantity("01000", -5, "slots", "increment");
       expect(selectActiveDeck(store.getState())?.slots["01000"]).toEqual(0);
@@ -101,7 +86,7 @@ describe("deck-view slice", () => {
 
     it("does not set the quantity of a card exceeding the limit", () => {
       const state = store.getState();
-      state.setActiveDeck("deck-id", "edit");
+      state.setActiveDeck("deck-id");
       state.updateCardQuantity("06021", 5, "slots", "set");
       state.updateCardQuantity("06021", 5, "slots", "increment");
       expect(selectActiveDeck(store.getState())?.slots["06021"]).toEqual(3);
@@ -109,7 +94,7 @@ describe("deck-view slice", () => {
 
     it("adjusts cards in side slots", () => {
       const state = store.getState();
-      state.setActiveDeck("deck-id", "edit");
+      state.setActiveDeck("deck-id");
       state.updateCardQuantity("06021", 1, "sideSlots", "increment");
       expect(selectActiveDeck(store.getState())?.sideSlots?.["06021"]).toEqual(
         1,

@@ -25,7 +25,10 @@ export function EditorActions({ deck }: Props) {
 
   const handleSave = useCallback(() => {
     const id = saveDeck();
-    navigate(`/deck/view/${id}`);
+
+    navigate(`/deck/view/${id}`, {
+      state: { confirm: false },
+    });
 
     showToast({
       children: "Deck saved successfully.",

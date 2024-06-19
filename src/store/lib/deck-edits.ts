@@ -25,8 +25,6 @@ export function applyDeckEdits(
   metadata: Metadata,
   alwaysDeleteEmpty = false,
 ) {
-  if (deckView.mode !== "edit") return originalDeck;
-
   const deck = structuredClone(originalDeck);
 
   if (deckView.edits.name != undefined) {

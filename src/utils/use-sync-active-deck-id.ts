@@ -13,12 +13,9 @@ export function useSyncActiveDeckId() {
   useEffect(() => {
     modalContext.setClosed();
 
-    if (pathname.startsWith("/deck/view/")) {
+    if (pathname.startsWith("/deck/edit/")) {
       const id = pathname.split("/").at(-1);
-      setActiveDeck(id, "view");
-    } else if (pathname.startsWith("/deck/edit/")) {
-      const id = pathname.split("/").at(-1);
-      setActiveDeck(id, "edit");
+      setActiveDeck(id);
     } else {
       setActiveDeck(undefined);
     }

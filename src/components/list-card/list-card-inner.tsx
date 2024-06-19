@@ -10,7 +10,6 @@ import css from "./list-card.module.css";
 
 import { CardHealth } from "../card-health";
 import { CardIcon } from "../card-icon";
-import { useCardModalContext } from "../card-modal/card-modal-context";
 import { CardThumbnail } from "../card/card-thumbnail";
 import { ExperienceDots } from "../experience-dots";
 import { MulticlassIcons } from "../icons/multiclass-icons";
@@ -24,7 +23,6 @@ export type Props = {
   isActive?: boolean;
   as?: "li" | "div";
   canIndicateRemoval?: boolean;
-  canOpenModal?: boolean;
   canCheckOwnership?: boolean;
   card: Card;
   className?: string;
@@ -33,8 +31,8 @@ export type Props = {
   isForbidden?: boolean;
   isIgnored?: number;
   omitBorders?: boolean;
+  onOpenModal?: (code: string) => void;
   onChangeCardQuantity?: (code: string, quantity: number) => void;
-  onToggleModal?: () => void;
   owned?: number;
   quantities?: {
     [code: string]: number;
@@ -53,12 +51,12 @@ export function ListCardInner({
   disableKeyboard,
   canIndicateRemoval,
   canCheckOwnership,
-  canOpenModal,
   className,
   figureRef,
   isForbidden,
   isIgnored,
   onChangeCardQuantity,
+  onOpenModal,
   omitBorders,
   owned,
   referenceProps,
@@ -68,8 +66,6 @@ export function ListCardInner({
   showInvestigatorIcons,
   size,
 }: Props) {
-  const modalContext = useCardModalContext();
-
   const quantity = quantities ? quantities[card.code] ?? 0 : 0;
 
   const ownedCount = owned ?? 0;
@@ -86,12 +82,10 @@ export function ListCardInner({
   );
 
   const openModal = useCallback(() => {
-    if (canOpenModal && modalContext) {
-      modalContext.setOpen({
-        code: card.code,
-      });
+    if (onOpenModal) {
+      onOpenModal(card.code);
     }
-  }, [card.code, modalContext, canOpenModal]);
+  }, [onOpenModal, card.code]);
 
   return (
     <Element
