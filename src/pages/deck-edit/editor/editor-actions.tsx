@@ -1,6 +1,6 @@
 import { Save } from "lucide-react";
 import { useCallback } from "react";
-import { useLocation } from "wouter";
+import { Link, useLocation } from "wouter";
 
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
@@ -23,10 +23,6 @@ export function EditorActions({ deck }: Props) {
 
   const saveDeck = useStore((state) => state.saveDeck);
 
-  const dirty = useStore((state) =>
-    state?.deckView?.mode === "edit" ? state.deckView.dirty : false,
-  );
-
   const handleSave = useCallback(() => {
     const id = saveDeck();
     navigate(`/deck/view/${id}`);
@@ -37,26 +33,15 @@ export function EditorActions({ deck }: Props) {
     });
   }, [saveDeck, navigate, showToast]);
 
-  const handleCancel = useCallback(async () => {
-    if (!deck?.id) return;
-
-    const confirmed =
-      !dirty ||
-      confirm(
-        "This operation will revert the changes made to the deck. Do you want to continue?",
-      );
-    if (confirmed) navigate(`/deck/view/${deck.id}`);
-  }, [navigate, deck?.id, dirty]);
-
   return (
     <div className={css["actions"]} style={cssVariables}>
       <Button onClick={handleSave} variant="primary">
         <Save />
         Save
       </Button>
-      <Button onClick={handleCancel} variant="bare">
-        Cancel edits
-      </Button>
+      <Link asChild href={`/deck/view/${deck.id}`}>
+        <Button variant="bare">Cancel edits</Button>
+      </Link>
     </div>
   );
 }

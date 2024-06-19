@@ -1,15 +1,18 @@
 import { useEffect } from "react";
 import { usePathname } from "wouter/use-browser-location";
 
+import { useCardModalContext } from "@/components/card-modal/card-modal-context";
 import { useStore } from "@/store";
 
 export function useSyncActiveDeckId() {
   const pathname = usePathname();
+  const modalContext = useCardModalContext();
 
   const setActiveDeck = useStore((state) => state.setActiveDeck);
 
   useEffect(() => {
-    //
+    modalContext.setClosed();
+
     if (pathname.startsWith("/deck/view/")) {
       const id = pathname.split("/").at(-1);
       setActiveDeck(id, "view");
@@ -19,5 +22,5 @@ export function useSyncActiveDeckId() {
     } else {
       setActiveDeck(undefined);
     }
-  }, [setActiveDeck, pathname]);
+  }, [setActiveDeck, pathname, modalContext]);
 }

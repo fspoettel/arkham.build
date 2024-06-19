@@ -1,6 +1,5 @@
 import { Suspense, lazy, useEffect } from "react";
 import { Route, Router, Switch, useLocation } from "wouter";
-import { useBrowserLocation } from "wouter/use-browser-location";
 
 import { CardModalProvider } from "./components/card-modal/card-modal-context";
 import { ErrorBoundary } from "./components/error-boundary";
@@ -14,6 +13,7 @@ import {
   queryDataVersion,
   queryMetadata,
 } from "./store/services/queries";
+import { useBrowserLocationWithConfirmation } from "./utils/use-location-with-confirm";
 import { useSyncActiveDeckId } from "./utils/use-sync-active-deck-id";
 
 const Browse = lazy(() => import("./pages/browse/browse"));
@@ -49,7 +49,7 @@ function App() {
           />
           <Suspense fallback={<Loader delay={200} show />}>
             {storeInitialized && (
-              <Router hook={useBrowserLocation}>
+              <Router hook={useBrowserLocationWithConfirmation}>
                 <Switch>
                   <Route component={Browse} path="/" />
                   <Route component={CardView} path="/card/:code" />

@@ -98,8 +98,8 @@ export function CardModal({ code }: Props) {
           {cardWithRelations.card.type_code === "investigator" && (
             <Link
               asChild
+              href={`/deck/create/${cardWithRelations.card.code}`}
               onClick={onCloseModal}
-              to={`/deck/create/${cardWithRelations.card.code}`}
             >
               <Button as="a">
                 <i className="icon-deck" /> Create deck

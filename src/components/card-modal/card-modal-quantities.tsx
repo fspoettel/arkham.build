@@ -42,6 +42,8 @@ export function CardModalQuantities({
     if (!canEdit) return;
 
     function onKeyDown(evt: KeyboardEvent) {
+      if (evt.metaKey) return;
+
       if (evt.key === "ArrowRight") {
         evt.preventDefault();
         updateCardQuantity(card.code, 1, "slots");

@@ -1,3 +1,5 @@
+import { createSelector } from "reselect";
+
 import { ownedCardCount } from "../lib/card-ownership";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
@@ -13,13 +15,21 @@ export const selectCanCheckOwnership = (state: StoreState) => {
   );
 };
 
-export const selectCardOwnedCount = (state: StoreState) => {
-  return (card: Card) => {
-    return ownedCardCount(
-      card,
-      state.metadata,
-      state.lookupTables,
-      state.settings.collection,
-    );
-  };
+export const selectCardOwnedCount = createSelector(
+  (state) => state.metadata,
+  (state) => state.lookupTables,
+  (state) => state.settings.collection,
+  (metadata, lookupTables, collectionSetting) => {
+    return (card: Card) => {
+      return ownedCardCount(card, metadata, lookupTables, collectionSetting);
+    };
+  },
+);
+
+export const selectNeedsConfirmation = (state: StoreState) => {
+  if (state.deckView?.mode === "edit" && state.deckView.dirty) {
+    return "This operation will revert the changes made to the deck. Do you want to continue?";
+  }
+
+  return undefined;
 };
