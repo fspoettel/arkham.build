@@ -30,6 +30,7 @@ export function TabooSets({ settings }: Props) {
     <Field bordered>
       <FieldLabel htmlFor="taboo-set">Default taboo list</FieldLabel>
       <select
+        data-testid="settings-taboo-set"
         id="taboo-set"
         name="taboo-set"
         onChange={handleChange}

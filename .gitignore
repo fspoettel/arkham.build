@@ -31,3 +31,9 @@ coverage
 
 # auto-generated folders
 .husky
+
+# E2E tests
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

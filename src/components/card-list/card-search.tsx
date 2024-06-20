@@ -82,11 +82,16 @@ export function CardSearch({ onKeyboardNavigate, slotLeft, slotRight }: Props) {
   );
 
   return (
-    <search className={css["container"]} title="Card search">
+    <search
+      className={css["container"]}
+      data-testid="search"
+      title="Card search"
+    >
       <div className={css["row"]}>
         {slotLeft}
         <div className={css["field"]}>
           <SearchInput
+            data-testid="search-input"
             id="card-search-input"
             inputClassName={css["field-input"]}
             onChangeValue={onValueChange}
@@ -103,6 +108,7 @@ export function CardSearch({ onKeyboardNavigate, slotLeft, slotRight }: Props) {
         <Checkbox checked disabled id="search-card-name" label="Name" />
         <Checkbox
           checked={search.includeGameText}
+          data-testid="search-game-text"
           id="search-game-text"
           label="Game text"
           onCheckedChange={onToggleGameText}

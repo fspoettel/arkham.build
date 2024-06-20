@@ -26,7 +26,12 @@ export function Masthead({ children, className, slotRight }: Props) {
         {slotRight}
         {location !== "/settings" && (
           <Link asChild href="/settings">
-            <Button as="a" className={css["settings"]} variant="bare">
+            <Button
+              as="a"
+              className={css["settings"]}
+              data-testid="masthead-settings"
+              variant="bare"
+            >
               <Settings />
             </Button>
           </Link>

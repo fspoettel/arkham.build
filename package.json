@@ -58,6 +58,7 @@
     "autoprefixer": "10.4.19",
     "jsdom": "24.1.0",
     "lefthook": "1.6.18",
+    "playwright": "^1.44.1",
     "rollup-plugin-webpack-stats": "0.4.1",
     "typescript": "5.4.5",
     "vite": "5.3.1",

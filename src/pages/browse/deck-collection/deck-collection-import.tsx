@@ -57,7 +57,11 @@ export function DeckCollectionImport() {
   return (
     <Popover onOpenChange={setOpen} open={open} placement="bottom-start">
       <PopoverTrigger asChild onClick={() => setOpen((v) => !v)}>
-        <Button as="label" htmlFor="deck-collection-import">
+        <Button
+          as="label"
+          data-testid="import-trigger"
+          htmlFor="deck-collection-import"
+        >
           <CloudUpload />
         </Button>
       </PopoverTrigger>
@@ -74,6 +78,7 @@ export function DeckCollectionImport() {
             <input
               autoComplete="off"
               data-1p-ignore=""
+              data-testid="import-input"
               name="deck-id"
               placeholder="https://arkhamdb.com/deck/view/123456"
               required
@@ -81,7 +86,11 @@ export function DeckCollectionImport() {
             />
           </Field>
           <footer className={css["import-footer"]}>
-            <Button disabled={loading} type="submit">
+            <Button
+              data-testid="import-submit"
+              disabled={loading}
+              type="submit"
+            >
               Import
             </Button>
             {loading && <LoaderCircle className="spin" />}

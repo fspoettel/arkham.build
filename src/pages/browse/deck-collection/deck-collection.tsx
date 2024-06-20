@@ -33,9 +33,9 @@ export function DeckCollection() {
       </header>
       {decks.length ? (
         <Scroller>
-          <ol className={css["decks"]}>
+          <ol className={css["decks"]} data-testid="collection">
             {decks.map(({ deck, validation }) => (
-              <li className={css["deck"]} key={deck.id}>
+              <li data-testid="collection-deck" className={css["deck"]} key={deck.id}>
                 <Link href={`/deck/view/${deck.id}`}>
                   <DeckSummary
                     deck={deck}

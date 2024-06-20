@@ -353,9 +353,7 @@ export const selectListCards = createSelector(
 
     console.timeEnd("[perf] select_list_cards");
 
-    return cards.length
-      ? ({ key: activeList.key, groups, cards, groupCounts } as ListState)
-      : undefined;
+    return { key: activeList.key, groups, cards, groupCounts } as ListState;
   },
 );
 

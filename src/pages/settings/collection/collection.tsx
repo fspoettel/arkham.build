@@ -70,6 +70,7 @@ export function Collection({ settings }: Props) {
       >
         <Checkbox
           checked={showAllCards}
+          data-testid="settings-show-all"
           id="show-all-cards"
           label="Show all cards"
           name="show-all-cards"
@@ -79,7 +80,11 @@ export function Collection({ settings }: Props) {
       <Field bordered>
         <details open>
           <summary>Card collection</summary>
-          <fieldset className={css["container"]} id="collection">
+          <fieldset
+            className={css["container"]}
+            data-testid="settings-collection"
+            id="collection"
+          >
             <ol className={css["cycles"]}>
               {cyclesWithPacks.map((cycle) => (
                 <li className={css["cycle"]} key={cycle.code}>

@@ -30,7 +30,7 @@ export function CardText({
 
   const textNode = text ? (
     <>
-      <div className={css["text"]}>
+      <div className={css["text"]} data-testid="card-text">
         {text && (
           <p
             // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is from trusted source.
@@ -46,7 +46,10 @@ export function CardText({
         )}
       </div>
       {(tabooText || tabooXp != null) && (
-        <div className={clsx("border-taboo", css["text"])}>
+        <div
+          className={clsx("border-taboo", css["text"])}
+          data-testid="card-taboo"
+        >
           {tabooText && (
             <p>
               <i className="icon-tablet color-taboo icon-text" /> Taboo List{" "}
