@@ -1,7 +1,7 @@
 import { Suspense, lazy, useEffect } from "react";
 import { Route, Router, Switch, useLocation } from "wouter";
+import { useBrowserLocation } from "wouter/use-browser-location";
 
-import { CardModalProvider } from "./components/card-modal/card-modal-context";
 import { ErrorBoundary } from "./components/error-boundary";
 import { Loader } from "./components/ui/loader";
 import { ToastProvider } from "./components/ui/toast";
@@ -13,8 +13,6 @@ import {
   queryDataVersion,
   queryMetadata,
 } from "./store/services/queries";
-import { useBrowserLocationWithConfirmation } from "./utils/use-location-with-confirm";
-import { useSyncActiveDeckId } from "./utils/use-sync-active-deck-id";
 
 const Browse = lazy(() => import("./pages/browse/browse"));
 const DeckEdit = lazy(() => import("./pages/deck-edit/deck-edit"));
@@ -41,40 +39,36 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <CardModalProvider>
-        <ToastProvider>
-          <Loader
-            message="Initializing card database..."
-            show={storeHydrated && !storeInitialized}
-          />
-          <Suspense fallback={<Loader delay={200} show />}>
-            {storeInitialized && (
-              <Router hook={useBrowserLocationWithConfirmation}>
-                <Switch>
-                  <Route component={Browse} path="/" />
-                  <Route component={CardView} path="/card/:code" />
-                  <Route component={ChooseInvestigator} path="/deck/create" />
-                  <Route component={DeckCreate} path="/deck/create/:code" />
-                  <Route component={DeckView} path="/deck/view/:id" />
-                  <Route component={DeckEdit} path="/deck/edit/:id" />
-                  <Route component={Settings} path="/settings" />
-                  <Route component={About} path="/about" />
-                  <Route component={Error404} path="*" />
-                </Switch>
-                <RouteReset />
-              </Router>
-            )}
-          </Suspense>
-        </ToastProvider>
-      </CardModalProvider>
+      <ToastProvider>
+        <Loader
+          message="Initializing card database..."
+          show={storeHydrated && !storeInitialized}
+        />
+        <Suspense fallback={<Loader delay={200} show />}>
+          {storeInitialized && (
+            <Router hook={useBrowserLocation}>
+              <Switch>
+                <Route component={Browse} path="/" />
+                <Route component={CardView} path="/card/:code" />
+                <Route component={ChooseInvestigator} path="/deck/create" />
+                <Route component={DeckCreate} path="/deck/create/:code" />
+                <Route component={DeckView} path="/deck/view/:id" />
+                <Route component={DeckEdit} path="/deck/edit/:id" />
+                <Route component={Settings} path="/settings" />
+                <Route component={About} path="/about" />
+                <Route component={Error404} path="*" />
+              </Switch>
+              <RouteReset />
+            </Router>
+          )}
+        </Suspense>
+      </ToastProvider>
     </ErrorBoundary>
   );
 }
 
 function RouteReset() {
   const [pathname] = useLocation();
-
-  useSyncActiveDeckId();
 
   useEffect(() => {
     if (window.location.hash) {

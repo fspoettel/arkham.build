@@ -9,8 +9,8 @@ import {
 } from "@/store/lib/resolve-card";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
 import { selectActiveDeckById } from "@/store/selectors/deck-view";
-import { selectActiveDeck } from "@/store/selectors/decks";
 import { formatRelationTitle } from "@/utils/formatting";
+import { useDeckId } from "@/utils/use-deck-id";
 import { useMedia } from "@/utils/use-media";
 
 import css from "./card-modal.module.css";
@@ -22,41 +22,30 @@ import { CustomizationsEditor } from "../customizations/customizations-editor";
 import { Button } from "../ui/button";
 import { useDialogContext } from "../ui/dialog.hooks";
 import { Modal } from "../ui/modal";
-import { useCardModalContext } from "./card-modal-context";
 import { CardModalQuantities } from "./card-modal-quantities";
 
 type Props = {
   code: string;
-  deckId?: string;
-  canEdit?: boolean;
 };
 
-export function CardModal({ canEdit, code, deckId }: Props) {
+export function CardModal({ code }: Props) {
+  const deckIdCtx = useDeckId();
+  const deckId = deckIdCtx.deckId;
+  const canEdit = deckIdCtx.canEdit;
+
   const modalContext = useDialogContext();
-  const cardModalContext = useCardModalContext();
 
   const onCloseModal = useCallback(() => {
     modalContext?.setOpen(false);
   }, [modalContext]);
 
-  const onOpenModal = useCallback(
-    (code: string) => {
-      cardModalContext?.setOpen({ canEdit, code, deckId });
-    },
-    [canEdit, deckId, cardModalContext],
-  );
-
-  // FIXME: Remove this hack when we have refactored the deck edit state.
+  // we need the active deck here to get contents of bondedSlots.
   const activeDeck = useStore((state) =>
-    deckId
-      ? canEdit
-        ? selectActiveDeck(state)
-        : selectActiveDeckById(state, deckId)
-      : undefined,
+    deckId ? selectActiveDeckById(state, deckId, canEdit) : undefined,
   );
 
   const cardWithRelations = useStore((state) =>
-    selectCardWithRelations(state, code, true),
+    selectCardWithRelations(state, code, true, deckId, canEdit),
   );
 
   const showQuantities =
@@ -78,9 +67,9 @@ export function CardModal({ canEdit, code, deckId }: Props) {
         {cardWithRelations.card.customization_options ? (
           activeDeck ? (
             <CustomizationsEditor
-              activeDeck={activeDeck}
               canEdit={canEdit}
               card={cardWithRelations.card}
+              deck={activeDeck}
             />
           ) : (
             <Customizations card={cardWithRelations.card} />
@@ -93,7 +82,6 @@ export function CardModal({ canEdit, code, deckId }: Props) {
             const cards = Array.isArray(value) ? value : [value];
             return (
               <CardSet
-                onOpenModal={onOpenModal}
                 key={key}
                 set={{
                   title: formatRelationTitle(key),

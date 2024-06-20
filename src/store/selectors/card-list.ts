@@ -31,6 +31,7 @@ import { applySearch } from "../lib/searching";
 import { makeSortFunction } from "../lib/sorting";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
+import type { Id } from "../slices/data.types";
 import type {
   AssetFilter,
   CostFilter,
@@ -44,7 +45,7 @@ import type {
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
 import type { SettingsState } from "../slices/settings.types";
-import { selectResolvedDeck } from "./decks";
+import { selectResolvedDeckById } from "./deck-view";
 import { selectActiveList, selectCanonicalTabooSetId } from "./lists";
 
 export type CardGroup = {
@@ -65,6 +66,7 @@ function makeUserFilter(
   list: List,
   settings: SettingsState,
   deckInvestigatorFilter?: Filter,
+  targetDeck?: "slots" | "extraSlots" | "both",
 ) {
   const filters: Filter[] = [];
 
@@ -118,10 +120,12 @@ function makeUserFilter(
           const accessFilter = filterInvestigatorAccess(
             metadata.cards[value],
             lookupTables,
+            { targetDeck },
           );
           const weaknessFilter = filterInvestigatorWeaknessAccess(
             metadata.cards[value],
             lookupTables,
+            { targetDeck },
           );
 
           if (accessFilter) filter.push(accessFilter);
@@ -213,10 +217,14 @@ function makeUserFilter(
 // only when the investigator back changes or certain slots are changed.
 export const selectDeckInvestigatorFilter = createSelector(
   (state: StoreState) => state.lookupTables,
-  selectResolvedDeck,
-  (state: StoreState) =>
-    state.deckView?.activeTab === "extraSlots" ? "extraSlots" : "slots",
-  (state: StoreState) => !!state.deckView?.showUnusableCards,
+  selectResolvedDeckById,
+  (
+    state: StoreState,
+    id?: Id,
+    applyEdits?: boolean,
+    targetDeck?: "slots" | "extraSlots" | "both",
+  ) => targetDeck,
+  () => false, // FIXME
   (lookupTables, resolvedDeck, targetDeck, showUnusableCards) => {
     if (!resolvedDeck) return undefined;
 
@@ -250,6 +258,9 @@ export const selectDeckInvestigatorFilter = createSelector(
     const weaknessFilter = filterInvestigatorWeaknessAccess(
       investigator,
       lookupTables,
+      {
+        targetDeck,
+      },
     );
 
     if (investigatorFilter) ors.push(investigatorFilter);
@@ -264,9 +275,15 @@ export const selectListCards = createSelector(
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.settings,
   selectActiveList,
-  selectResolvedDeck,
+  selectResolvedDeckById,
   selectCanonicalTabooSetId,
   selectDeckInvestigatorFilter,
+  (
+    state: StoreState,
+    id?: Id,
+    applyEdits?: boolean,
+    targetDeck?: "slots" | "extraSlots" | "both",
+  ) => targetDeck,
   (
     metadata,
     lookupTables,

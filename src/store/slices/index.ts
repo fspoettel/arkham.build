@@ -1,6 +1,6 @@
 import type { DataSlice } from "./data.types";
 import type { DeckCreateSlice } from "./deck-create.types";
-import type { DeckViewSlice } from "./deck-view.types";
+import type { DeckEditsSlice } from "./deck-edits.types";
 import type { ListsSlice } from "./lists.types";
 import type { LookupTablesSlice } from "./lookup-tables.types";
 import type { MetadataSlice } from "./metadata.types";
@@ -15,5 +15,5 @@ export type StoreState = SharedSlice &
   UISlice &
   SettingsSlice &
   DataSlice &
-  DeckViewSlice &
+  DeckEditsSlice &
   DeckCreateSlice;

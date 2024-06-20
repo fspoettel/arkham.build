@@ -3,10 +3,9 @@ import { DecklistGroups } from "@/components/decklist/decklist-groups";
 import { DecklistSection } from "@/components/decklist/decklist-section";
 import { Scroller } from "@/components/ui/scroller";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useStore } from "@/store";
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import type { DeckValidationResult } from "@/store/lib/deck-validation";
-import { selectCurrentTab } from "@/store/selectors/decks";
+import type { Tab } from "@/store/slices/deck-edits.types";
 
 import css from "./editor.module.css";
 
@@ -16,15 +15,13 @@ import { MetaEditor } from "./meta-editor";
 
 type Props = {
   className?: string;
+  currentTab: Tab;
+  onTabChange: (tab: Tab) => void;
   deck: DisplayDeck;
-  onOpenModal: (code: string) => void;
   validation?: DeckValidationResult;
 };
 
-export function Editor({ deck, onOpenModal, validation }: Props) {
-  const currentTab = useStore(selectCurrentTab);
-  const updateActiveTab = useStore((state) => state.updateActiveTab);
-
+export function Editor({ currentTab, deck, onTabChange, validation }: Props) {
   return (
     <div className={css["editor"]}>
       <DeckSummary deck={deck} validation={validation} />
@@ -35,7 +32,7 @@ export function Editor({ deck, onOpenModal, validation }: Props) {
         className={css["editor-tabs"]}
         length={deck.hasExtraDeck ? 4 : 3}
         onValueChange={(value: string) => {
-          updateActiveTab(value);
+          onTabChange(value as Tab);
         }}
         value={currentTab}
       >
@@ -52,24 +49,20 @@ export function Editor({ deck, onOpenModal, validation }: Props) {
           <TabsContent value="slots">
             <DecklistSection title="Cards">
               <DecklistGroups
-                canEdit
                 group={deck.groups.main.data}
                 ignoredCounts={deck.ignoreDeckLimitSlots ?? undefined}
                 layout="two_column"
                 mapping="slots"
-                onOpenModal={onOpenModal}
                 ownershipCounts={deck.ownershipCounts}
                 quantities={deck.slots}
               />
             </DecklistSection>
             <DecklistSection showTitle title="Special cards">
               <DecklistGroups
-                canEdit
                 group={deck.groups.special.data}
                 ignoredCounts={deck.ignoreDeckLimitSlots ?? undefined}
                 layout="two_column"
                 mapping="slots"
-                onOpenModal={onOpenModal}
                 ownershipCounts={deck.ownershipCounts}
                 quantities={deck.slots}
               />
@@ -80,7 +73,6 @@ export function Editor({ deck, onOpenModal, validation }: Props) {
                   group={deck.groups.bonded.data}
                   layout="two_column"
                   mapping="bonded"
-                  onOpenModal={onOpenModal}
                   ownershipCounts={deck.ownershipCounts}
                   quantities={deck.bondedSlots}
                 />
@@ -92,11 +84,9 @@ export function Editor({ deck, onOpenModal, validation }: Props) {
             <DecklistSection title="Side Deck">
               {deck.groups.side?.data ? (
                 <DecklistGroups
-                  canEdit
                   group={deck.groups.side.data}
                   layout="two_column"
                   mapping="side"
-                  onOpenModal={onOpenModal}
                   ownershipCounts={deck.ownershipCounts}
                   quantities={deck.sideSlots ?? undefined}
                 />
@@ -111,11 +101,9 @@ export function Editor({ deck, onOpenModal, validation }: Props) {
               <DecklistSection title="Spirits">
                 {deck.groups.extra?.data ? (
                   <DecklistGroups
-                    canEdit
                     group={deck.groups.extra.data}
                     layout="one_column"
                     mapping="extraSlots"
-                    onOpenModal={onOpenModal}
                     ownershipCounts={deck.ownershipCounts}
                     quantities={deck.extraSlots ?? undefined}
                   />

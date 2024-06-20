@@ -14,17 +14,11 @@ import { Checkbox } from "./ui/checkbox";
 
 type Props = {
   onChangeCardQuantity?: (code: string, quantity: number) => void;
-  onOpenModal?: (code: string) => void;
   onSelect?: (id: string) => void;
   set: CardSetType;
 };
 
-export function CardSet({
-  onChangeCardQuantity,
-  onOpenModal,
-  onSelect,
-  set,
-}: Props) {
+export function CardSet({ onChangeCardQuantity, onSelect, set }: Props) {
   const canCheckOwnership = useStore(selectCanCheckOwnership);
   const cardOwnedCount = useStore(selectCardOwnedCount);
 
@@ -55,7 +49,6 @@ export function CardSet({
             onChangeCardQuantity={
               set.canSetQuantity ? onChangeCardQuantity : undefined
             }
-            onOpenModal={onOpenModal}
             owned={cardOwnedCount(card)}
             quantities={
               set.quantities

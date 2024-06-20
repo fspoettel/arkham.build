@@ -6,10 +6,11 @@ import { CenterLayout } from "@/layouts/center-layout";
 import { useStore } from "@/store";
 import type { ListState } from "@/store/selectors/card-list";
 import { selectListCards } from "@/store/selectors/card-list";
-import { selectCardQuantities } from "@/store/selectors/decks";
 import { selectActiveListSearch } from "@/store/selectors/lists";
 import type { Card } from "@/store/services/queries.types";
+import type { Id, Slots } from "@/store/slices/data.types";
 import { range } from "@/utils/range";
+import { useDeckId } from "@/utils/use-deck-id";
 
 import css from "./card-list.module.css";
 
@@ -22,28 +23,32 @@ import { CardListNav } from "./card-list-nav";
 import { CardSearch } from "./card-search";
 
 type Props = {
-  canEdit?: boolean;
-  onOpenModal?: (code: string) => void;
+  deckId?: Id;
+  onChangeCardQuantity?: (code: string, quantity: number) => void;
+  quantities?: Slots;
   renderListCardAction?: (card: Card) => React.ReactNode;
   renderListCardExtra?: (card: Card) => React.ReactNode;
   slotLeft?: React.ReactNode;
   slotRight?: React.ReactNode;
+  targetDeck?: "slots" | "extraSlots" | "both";
 };
 
 export function CardList({
-  canEdit,
-  onOpenModal,
+  onChangeCardQuantity,
+  quantities,
   renderListCardAction,
   renderListCardExtra,
   slotLeft,
   slotRight,
+  targetDeck,
 }: Props) {
   const modalContext = useCardModalContext();
+  const deckIdCtx = useDeckId();
 
-  const data = useStore(selectListCards);
+  const data = useStore((state) =>
+    selectListCards(state, deckIdCtx.deckId, deckIdCtx.canEdit, targetDeck),
+  );
 
-  const updateCardQuantity = useStore((state) => state.updateCardQuantity);
-  const quantities = useStore(selectCardQuantities);
   const search = useStore(selectActiveListSearch);
   const metadata = useStore((state) => state.metadata);
 
@@ -196,10 +201,7 @@ export function CardList({
                   disableKeyboard
                   isActive={index === currentTop}
                   key={data.cards[index].code}
-                  onChangeCardQuantity={
-                    canEdit ? updateCardQuantity : undefined
-                  }
-                  onOpenModal={onOpenModal}
+                  onChangeCardQuantity={onChangeCardQuantity}
                   quantities={quantities}
                   renderAction={renderListCardAction}
                   renderExtra={renderListCardExtra}

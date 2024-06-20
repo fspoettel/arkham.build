@@ -4,33 +4,36 @@ import { useCallback } from "react";
 import { useStore } from "@/store";
 import type { ResolvedCard, ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
-import type { CustomizationEdit } from "@/store/slices/deck-view.types";
+import type { CustomizationEdit } from "@/store/slices/deck-edits.types";
 import { getCardColor } from "@/utils/card-utils";
+import { useDeckId } from "@/utils/use-deck-id";
 
 import css from "./customizations.module.css";
 
 import { CustomizationOption } from "./customization-option";
 
 type Props = {
-  activeDeck?: ResolvedDeck<ResolvedCard>;
+  deck?: ResolvedDeck<ResolvedCard>;
   card: Card;
   canEdit?: boolean;
 };
 
-export function CustomizationsEditor({ activeDeck, card, canEdit }: Props) {
+export function CustomizationsEditor({ deck, card, canEdit }: Props) {
+  const deckIdCtx = useDeckId();
   const updateCustomization = useStore((state) => state.updateCustomization);
   const backgroundCls = getCardColor(card, "background");
 
-  const choices = activeDeck?.customizations?.[card.code];
+  const choices = deck?.customizations?.[card.code];
 
   const options = card.customization_options;
   const text = card.real_customization_text?.split("\n");
 
   const onChangeCustomization = useCallback(
     (index: number, edit: CustomizationEdit) => {
-      updateCustomization(card.code, index, edit);
+      if (!deckIdCtx.deckId) return;
+      updateCustomization(deckIdCtx.deckId, card.code, index, edit);
     },
-    [card.code, updateCustomization],
+    [card.code, updateCustomization, deckIdCtx.deckId],
   );
 
   if (!options || !text) return null;

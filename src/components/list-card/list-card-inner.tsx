@@ -10,6 +10,7 @@ import css from "./list-card.module.css";
 
 import { CardHealth } from "../card-health";
 import { CardIcon } from "../card-icon";
+import { useCardModalContext } from "../card-modal/card-modal-context";
 import { CardThumbnail } from "../card/card-thumbnail";
 import { ExperienceDots } from "../experience-dots";
 import { MulticlassIcons } from "../icons/multiclass-icons";
@@ -27,11 +28,11 @@ export type Props = {
   card: Card;
   className?: string;
   disableKeyboard?: boolean;
+  disableModalOpen?: boolean;
   figureRef?: (node: ReferenceType | null) => void;
   isForbidden?: boolean;
   isIgnored?: number;
   omitBorders?: boolean;
-  onOpenModal?: (code: string) => void;
   onChangeCardQuantity?: (code: string, quantity: number) => void;
   owned?: number;
   quantities?: {
@@ -48,15 +49,15 @@ export function ListCardInner({
   isActive,
   as = "div",
   card,
-  disableKeyboard,
   canIndicateRemoval,
   canCheckOwnership,
   className,
+  disableKeyboard,
+  disableModalOpen,
   figureRef,
   isForbidden,
   isIgnored,
   onChangeCardQuantity,
-  onOpenModal,
   omitBorders,
   owned,
   referenceProps,
@@ -66,6 +67,7 @@ export function ListCardInner({
   showInvestigatorIcons,
   size,
 }: Props) {
+  const modalContext = useCardModalContext();
   const quantity = quantities ? quantities[card.code] ?? 0 : 0;
 
   const ownedCount = owned ?? 0;
@@ -82,10 +84,8 @@ export function ListCardInner({
   );
 
   const openModal = useCallback(() => {
-    if (onOpenModal) {
-      onOpenModal(card.code);
-    }
-  }, [onOpenModal, card.code]);
+    modalContext.setOpen({ code: card.code });
+  }, [modalContext, card.code]);
 
   return (
     <Element
@@ -118,7 +118,10 @@ export function ListCardInner({
 
       <figure className={css["content"]} ref={figureRef}>
         {card.imageurl && (
-          <button onClick={openModal} tabIndex={-1}>
+          <button
+            onClick={disableModalOpen ? undefined : openModal}
+            tabIndex={-1}
+          >
             <div className={css["thumbnail"]} {...referenceProps}>
               <CardThumbnail card={card} />
             </div>

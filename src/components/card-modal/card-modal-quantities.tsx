@@ -2,9 +2,9 @@ import { useCallback, useEffect, useRef } from "react";
 
 import { useStore } from "@/store";
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
-import { selectShowIgnoreDeckLimitSlots } from "@/store/selectors/decks";
+import { selectShowIgnoreDeckLimitSlotsById } from "@/store/selectors/deck-view";
 import type { Card } from "@/store/services/queries.types";
-import type { Slot } from "@/store/slices/deck-view.types";
+import type { Slot } from "@/store/slices/deck-edits.types";
 
 import css from "./card-modal.module.css";
 
@@ -42,17 +42,23 @@ export function CardModalQuantities({
     if (!canEdit) return;
 
     function onKeyDown(evt: KeyboardEvent) {
-      if (evt.metaKey) return;
+      if (evt.metaKey || !deck?.id) return;
 
       if (evt.key === "ArrowRight") {
         evt.preventDefault();
-        updateCardQuantity(card.code, 1, "slots");
+        updateCardQuantity(deck.id, card.code, 1, "slots");
       } else if (evt.key === "ArrowLeft") {
         evt.preventDefault();
-        updateCardQuantity(card.code, -1, "slots");
+        updateCardQuantity(deck.id, card.code, -1, "slots");
       } else if (Number.parseInt(evt.key) >= 0) {
         evt.preventDefault();
-        updateCardQuantity(card.code, Number.parseInt(evt.key), "slots", "set");
+        updateCardQuantity(
+          deck.id,
+          card.code,
+          Number.parseInt(evt.key),
+          "slots",
+          "set",
+        );
         onClickBackground?.();
       }
     }
@@ -61,7 +67,7 @@ export function CardModalQuantities({
     return () => {
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [canEdit, card.code, updateCardQuantity, onClickBackground]);
+  }, [canEdit, card.code, updateCardQuantity, onClickBackground, deck?.id]);
 
   const quantities = deck?.slots;
   const sideSlotQuantities = deck?.sideSlots;
@@ -70,11 +76,14 @@ export function CardModalQuantities({
   const ignoreDeckLimitQuantities = deck?.ignoreDeckLimitSlots;
 
   const onChangeQuantity = (quantity: number, slot: Slot) => {
-    updateCardQuantity(card.code, quantity, slot);
+    if (!deck?.id) return;
+    updateCardQuantity(deck.id, card.code, quantity, slot);
   };
 
   const showIgnoreDeckLimitSlots = useStore((state) =>
-    selectShowIgnoreDeckLimitSlots(state, card),
+    deck
+      ? selectShowIgnoreDeckLimitSlotsById(state, deck.id, false, card)
+      : false,
   );
 
   const code = card.code;

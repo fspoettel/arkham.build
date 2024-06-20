@@ -2,7 +2,7 @@ export type Slots = {
   [code: string]: number;
 };
 
-type Id = number | string;
+export type Id = number | string;
 
 export type Deck = {
   id: Id;

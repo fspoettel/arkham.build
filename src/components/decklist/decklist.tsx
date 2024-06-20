@@ -14,9 +14,7 @@ const LABELS: Record<string, string> = {
 };
 
 type Props = {
-  canEdit?: boolean;
   deck: DisplayDeck;
-  onOpenModal?: (code: string) => void;
 };
 
 function getSlotsForGrouping(deck: DisplayDeck, grouping: NamedGrouping) {
@@ -26,7 +24,7 @@ function getSlotsForGrouping(deck: DisplayDeck, grouping: NamedGrouping) {
   return undefined;
 }
 
-export function Decklist({ canEdit, deck, onOpenModal }: Props) {
+export function Decklist({ deck }: Props) {
   const firstCol =
     deck.groups.extra || deck.groups.side ? deck.groups.bonded : null;
 
@@ -38,12 +36,10 @@ export function Decklist({ canEdit, deck, onOpenModal }: Props) {
       <div className={css["decklist"]}>
         <DecklistSection title={LABELS["main"]}>
           <DecklistGroups
-            canEdit={canEdit}
             group={deck.groups.main.data}
             ignoredCounts={deck.ignoreDeckLimitSlots ?? undefined}
             layout="two_column"
             mapping="slots"
-            onOpenModal={onOpenModal}
             ownershipCounts={deck.ownershipCounts}
             quantities={deck.slots}
           />
@@ -53,12 +49,10 @@ export function Decklist({ canEdit, deck, onOpenModal }: Props) {
           <div>
             <DecklistSection showTitle title={LABELS["special"]}>
               <DecklistGroups
-                canEdit={canEdit}
                 group={deck.groups.special.data}
                 ignoredCounts={deck.ignoreDeckLimitSlots ?? undefined}
                 layout="one_column"
                 mapping="slots"
-                onOpenModal={onOpenModal}
                 ownershipCounts={deck.ownershipCounts}
                 quantities={deck.slots}
               />
@@ -66,11 +60,9 @@ export function Decklist({ canEdit, deck, onOpenModal }: Props) {
             {firstCol && (
               <DecklistSection showTitle title={LABELS[firstCol.id]}>
                 <DecklistGroups
-                  canEdit={canEdit}
                   group={firstCol.data}
                   layout="one_column"
                   mapping={firstCol.id}
-                  onOpenModal={onOpenModal}
                   ownershipCounts={deck.ownershipCounts}
                   quantities={getSlotsForGrouping(deck, firstCol)}
                 />
@@ -81,11 +73,9 @@ export function Decklist({ canEdit, deck, onOpenModal }: Props) {
             <div>
               <DecklistSection showTitle title={LABELS[secondCol.id]}>
                 <DecklistGroups
-                  canEdit={canEdit}
                   group={secondCol.data}
                   layout="one_column"
                   mapping={secondCol.id}
-                  onOpenModal={onOpenModal}
                   ownershipCounts={deck.ownershipCounts}
                   quantities={getSlotsForGrouping(deck, secondCol)}
                 />
@@ -97,11 +87,9 @@ export function Decklist({ canEdit, deck, onOpenModal }: Props) {
           {thirdCol && (
             <DecklistSection showTitle title={LABELS[thirdCol.id]}>
               <DecklistGroups
-                canEdit={canEdit}
                 group={thirdCol.data}
                 layout="one_column"
                 mapping={thirdCol.id}
-                onOpenModal={onOpenModal}
                 ownershipCounts={deck.ownershipCounts}
                 quantities={getSlotsForGrouping(deck, thirdCol)}
               />

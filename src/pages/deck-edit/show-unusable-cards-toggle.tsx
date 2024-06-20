@@ -1,29 +1,21 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/field";
-import { useStore } from "@/store";
 
 import css from "./deck-edit.module.css";
 
-export function ShowUnusableCardsToggle() {
-  const showUnusableCards = useStore(
-    (state) => state.deckView?.showUnusableCards ?? false,
-  );
+type Props = {
+  checked: boolean;
+  onValueChange: (checked: boolean) => void;
+};
 
-  const updateShowUnusableCards = useStore(
-    (state) => state.updateShowUnusableCards,
-  );
-
-  const handleValueChange = (val: boolean) => {
-    updateShowUnusableCards(val);
-  };
-
+export function ShowUnusableCardsToggle({ checked, onValueChange }: Props) {
   return (
     <Field bordered className={css["show-unusable-filter"]}>
       <Checkbox
-        checked={showUnusableCards}
+        checked={checked}
         id="show-unusable-cards"
         label="Show unusable cards"
-        onCheckedChange={handleValueChange}
+        onCheckedChange={onValueChange}
       />
     </Field>
   );

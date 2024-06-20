@@ -1,7 +1,7 @@
 import { isEmpty } from "@/utils/is-empty";
 
 import type { Deck, Slots } from "../slices/data.types";
-import type { DeckViewState, EditState, Slot } from "../slices/deck-view.types";
+import type { EditState, Slot } from "../slices/deck-edits.types";
 import type { Metadata } from "../slices/metadata.types";
 import {
   decodeCustomizations,
@@ -21,43 +21,42 @@ import type { DeckMeta } from "./types";
  */
 export function applyDeckEdits(
   originalDeck: Deck,
-  deckView: DeckViewState,
+  edits: EditState | undefined,
   metadata: Metadata,
   alwaysDeleteEmpty = false,
 ) {
+  if (!edits) return originalDeck;
+
   const deck = structuredClone(originalDeck);
 
-  if (deckView.edits.name != undefined) {
-    deck.name = deckView.edits.name;
+  if (edits.name != undefined) {
+    deck.name = edits.name;
   }
 
-  if (deckView.edits.description_md != undefined) {
-    deck.description_md = deckView.edits.description_md;
+  if (edits.description_md != undefined) {
+    deck.description_md = edits.description_md;
   }
 
-  if (deckView.edits.tags != undefined) {
-    deck.tags = deckView.edits.tags;
+  if (edits.tags != undefined) {
+    deck.tags = edits.tags;
   }
 
   // adjust taboo id based on deck edits.
-  if (deckView.edits.tabooId !== undefined) {
-    deck.taboo_id = deckView.edits.tabooId;
+  if (edits.tabooId !== undefined) {
+    deck.taboo_id = edits.tabooId;
   }
 
   // adjust meta based on deck edits.
   const deckMeta = decodeDeckMeta(deck);
 
   // adjust customizations based on deck edits.
-  Object.assign(
-    deckMeta,
-    mergeCustomizationEdits(deckView, deckMeta, metadata),
-  );
+  Object.assign(deckMeta, mergeCustomizationEdits(edits, deckMeta, metadata));
 
   const extraSlots = decodeExtraSlots(deckMeta);
 
   // adjust quantities based on deck edits.
-  for (const [key, edits] of Object.entries(deckView.edits.quantities)) {
-    for (const [code, value] of Object.entries(edits)) {
+  for (const [key, quantityEdits] of Object.entries(edits.quantities)) {
+    for (const [code, value] of Object.entries(quantityEdits)) {
       const slotKey = key as Slot;
 
       if (slotKey === "extraSlots") {
@@ -100,18 +99,18 @@ export function applyDeckEdits(
 
   deck.meta = JSON.stringify({
     ...deckMeta,
-    ...deckView.edits.meta,
+    ...edits.meta,
     extra_deck: encodeExtraSlots(extraSlots),
     alternate_back: applyInvestigatorSide(
       deck,
       deckMeta,
-      deckView,
+      edits,
       "investigatorBack",
     ),
     alternate_front: applyInvestigatorSide(
       deck,
       deckMeta,
-      deckView,
+      edits,
       "investigatorFront",
     ),
   });
@@ -122,10 +121,10 @@ export function applyDeckEdits(
 function applyInvestigatorSide(
   deck: Deck,
   deckMeta: DeckMeta,
-  deckView: EditState,
+  edits: EditState,
   key: "investigatorFront" | "investigatorBack",
 ) {
-  const current = deckView.edits[key];
+  const current = edits[key];
 
   if (!current) {
     const deckMetaKey =
@@ -140,17 +139,17 @@ function applyInvestigatorSide(
  * Merges stored customizations in a deck with edits, returning a deck.meta JSON block.
  */
 export function mergeCustomizationEdits(
-  state: EditState,
+  edits: EditState,
   deckMeta: DeckMeta,
   metadata: Metadata,
 ) {
-  if (isEmpty(state.edits.customizations)) {
+  if (isEmpty(edits.customizations)) {
     return {};
   }
 
   const customizations = decodeCustomizations(deckMeta, metadata) ?? {};
 
-  for (const [code, changes] of Object.entries(state.edits.customizations)) {
+  for (const [code, changes] of Object.entries(edits.customizations)) {
     customizations[code] ??= {};
 
     for (const [id, change] of Object.entries(changes)) {

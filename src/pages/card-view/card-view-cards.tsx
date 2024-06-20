@@ -3,9 +3,7 @@ import { Redirect } from "wouter";
 import { Card } from "@/components/card/card";
 import { CustomizationsEditor } from "@/components/customizations/customizations-editor";
 import { Faq } from "@/pages/card-view/faq";
-import { useStore } from "@/store";
 import type { CardWithRelations } from "@/store/lib/types";
-import { selectActiveDeck } from "@/store/selectors/decks";
 import { formatRelationTitle } from "@/utils/formatting";
 
 import css from "./card-view.module.css";
@@ -32,8 +30,6 @@ export function CardViewCards({
 }: {
   cardWithRelations: CardWithRelations;
 }) {
-  const activeDeck = useStore(selectActiveDeck);
-
   const { relations } = cardWithRelations;
 
   const canonicalCode =
@@ -55,10 +51,7 @@ export function CardViewCards({
     <>
       <Card resolvedCard={cardWithRelations}>
         {cardWithRelations.card.customization_options ? (
-          <CustomizationsEditor
-            activeDeck={activeDeck}
-            card={cardWithRelations.card}
-          />
+          <CustomizationsEditor card={cardWithRelations.card} />
         ) : undefined}
       </Card>
 

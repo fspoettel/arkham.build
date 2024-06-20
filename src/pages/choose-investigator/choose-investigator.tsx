@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from "react";
 import { Link } from "wouter";
 
 import { CardList } from "@/components/card-list/card-list";
-import { useCardModalContext } from "@/components/card-modal/card-modal-context";
 import { Filters } from "@/components/filters/filters";
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
@@ -18,7 +17,6 @@ import css from "./choose-investigator.module.css";
 import { SignatureLink } from "./signature-link";
 
 function DeckCreateChooseInvestigator() {
-  const modalContext = useCardModalContext();
   const [filtersOpen, onToggleFilters] = useState(false);
 
   const goBack = useGoBack();
@@ -38,13 +36,6 @@ function DeckCreateChooseInvestigator() {
       onToggleFilters(false);
     },
     [onToggleFilters, filtersOpen],
-  );
-
-  const onOpenModal = useCallback(
-    (code: string) => {
-      modalContext.setOpen({ code });
-    },
-    [modalContext],
   );
 
   useEffect(() => {
@@ -68,7 +59,6 @@ function DeckCreateChooseInvestigator() {
           <h1 className={css["title"]}>Choose investigator</h1>
         </header>
         <CardList
-          onOpenModal={onOpenModal}
           renderListCardAction={(card) => (
             <Link asChild to={`/deck/create/${card.code}`}>
               <Button as="a" size="lg" variant="bare">

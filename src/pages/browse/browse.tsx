@@ -1,7 +1,6 @@
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 
 import { CardList } from "@/components/card-list/card-list";
-import { useCardModalContext } from "@/components/card-modal/card-modal-context";
 import { Filters } from "@/components/filters/filters";
 import { ListLayout } from "@/layouts/list-layout";
 import { useStore } from "@/store";
@@ -11,7 +10,6 @@ import { useDocumentTitle } from "@/utils/use-document-title";
 import { DeckCollection } from "./deck-collection/deck-collection";
 
 function Browse() {
-  const cardModalContext = useCardModalContext();
   const activeListId = useStore((state) => state.activeList);
   const isInitalized = useStore(selectIsInitialized);
   useDocumentTitle("Browse");
@@ -22,13 +20,6 @@ function Browse() {
     setActiveList("browse_player");
   }, [setActiveList]);
 
-  const onOpenModal = useCallback(
-    (code: string) => {
-      cardModalContext.setOpen({ code });
-    },
-    [cardModalContext],
-  );
-
   if (!isInitalized || !activeListId?.startsWith("browse")) return null;
 
   return (
@@ -37,7 +28,7 @@ function Browse() {
       sidebar={<DeckCollection />}
       sidebarWidthMax="var(--sidebar-width-one-col)"
     >
-      {(props) => <CardList {...props} onOpenModal={onOpenModal} />}
+      {(props) => <CardList {...props} />}
     </ListLayout>
   );
 }

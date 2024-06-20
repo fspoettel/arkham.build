@@ -1,67 +1,105 @@
-import { useCallback, useEffect } from "react";
-import { Redirect } from "wouter";
+import { useEffect, useMemo, useState } from "react";
+import { Redirect, useParams } from "wouter";
 
 import { ListLayout } from "@//layouts/list-layout";
 import { CardList } from "@/components/card-list/card-list";
-import { useCardModalContext } from "@/components/card-modal/card-modal-context";
+import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { DecklistValidation } from "@/components/decklist/decklist-validation";
 import { Filters } from "@/components/filters/filters";
 import { useStore } from "@/store";
-import { selectActiveDeck, selectDeckValid } from "@/store/selectors/decks";
+import type { DisplayDeck } from "@/store/lib/deck-grouping";
+import {
+  selectActiveDeckById,
+  selectDeckValidById,
+} from "@/store/selectors/deck-view";
+import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
+import { DeckIdProvider } from "@/utils/use-deck-id";
 import { useDocumentTitle } from "@/utils/use-document-title";
 
 import { Editor } from "./editor/editor";
 import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 
 function DeckEdit() {
-  const cardModalContext = useCardModalContext();
-  const deckId = useStore((state) => state.deckView?.id);
-  const activeListId = useStore((state) => state.activeList);
-  const deck = useStore(selectActiveDeck);
+  const { id } = useParams<{ id: string }>();
 
+  const activeListId = useStore((state) => state.activeList);
   const resetFilters = useStore((state) => state.resetFilters);
   const setActiveList = useStore((state) => state.setActiveList);
-
-  const validation = useStore(selectDeckValid);
+  const deck = useStore((state) => selectActiveDeckById(state, id, true));
 
   useEffect(() => {
     setActiveList("editor_player");
     return () => {
       resetFilters();
     };
-  }, [resetFilters, setActiveList]);
+  }, [setActiveList, resetFilters]);
 
-  useDocumentTitle(
-    deck ? `Edit: ${deck.investigatorFront.card.real_name} - ${deck.name}` : "",
-  );
-
-  const onOpenModal = useCallback(
-    (code: string) => {
-      cardModalContext.setOpen({ code, deckId, canEdit: true });
-    },
-    [cardModalContext, deckId],
-  );
-
-  if (deckId && !deck) {
+  if (id && !deck) {
     return <Redirect to="/404" />;
   }
 
   if (!deck || !activeListId?.startsWith("editor")) return null;
 
   return (
+    <DeckIdProvider canEdit deckId={deck.id}>
+      <CardModalProvider>
+        <DeckEditInner deck={deck} />
+      </CardModalProvider>
+    </DeckIdProvider>
+  );
+}
+
+function DeckEditInner({ deck }: { deck: DisplayDeck }) {
+  const [showUnusableCards, setShowUnusableCards] = useState(false);
+  const [currentTab, setCurrentTab] = useState<Tab>("slots");
+
+  const updateCardQuantity = useStore((state) => state.updateCardQuantity);
+
+  const validation = useStore((state) =>
+    selectDeckValidById(state, deck.id, true),
+  );
+
+  useDocumentTitle(
+    deck ? `Edit: ${deck.investigatorFront.card.real_name} - ${deck.name}` : "",
+  );
+
+  const onChangeCardQuantity = useMemo(() => {
+    return (code: string, quantity: number) => {
+      updateCardQuantity(deck.id, code, quantity, mapTabToSlot(currentTab));
+    };
+  }, [updateCardQuantity, currentTab, deck.id]);
+
+  return (
     <ListLayout
       filters={
         <Filters>
           <DecklistValidation defaultOpen={false} validation={validation} />
-          <ShowUnusableCardsToggle />
+          <ShowUnusableCardsToggle
+            checked={showUnusableCards}
+            onValueChange={setShowUnusableCards}
+          />
         </Filters>
       }
       sidebar={
-        <Editor deck={deck} onOpenModal={onOpenModal} validation={validation} />
+        <Editor
+          currentTab={currentTab}
+          deck={deck}
+          onTabChange={setCurrentTab}
+          validation={validation}
+        />
       }
       sidebarWidthMax="42rem"
     >
-      {(props) => <CardList canEdit {...props} onOpenModal={onOpenModal} />}
+      {(props) => (
+        <CardList
+          {...props}
+          onChangeCardQuantity={onChangeCardQuantity}
+          quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
+          targetDeck={
+            mapTabToSlot(currentTab) === "extraSlots" ? "extraSlots" : "slots"
+          }
+        />
+      )}
     </ListLayout>
   );
 }

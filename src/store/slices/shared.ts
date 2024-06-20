@@ -145,31 +145,27 @@ export const createSharedSlice: StateCreator<
 
     return true;
   },
-  saveDeck() {
+  saveDeck(deckId) {
     const state = get();
 
-    if (!state.deckView) {
+    const edits = state.deckEdits[deckId];
+
+    if (!edits) {
       console.warn("Tried to save deck but not in edit mode.");
       return;
     }
 
-    const deck = state.data.decks[state.deckView.id];
+    const deck = state.data.decks[deckId];
     if (!deck) return;
 
-    const nextDeck = applyDeckEdits(deck, state.deckView, state.metadata, true);
+    const nextDeck = applyDeckEdits(deck, edits, state.metadata, true);
     nextDeck.date_update = new Date().toISOString();
 
+    const deckEdits = { ...state.deckEdits };
+    delete deckEdits[deckId];
+
     set({
-      deckView: {
-        ...state.deckView,
-        activeTab: state.deckView.activeTab,
-        dirty: false,
-        edits: {
-          meta: {},
-          quantities: {},
-          customizations: {},
-        },
-      },
+      deckEdits,
       data: {
         ...state.data,
         decks: {

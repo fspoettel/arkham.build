@@ -1,12 +1,15 @@
 import clsx from "clsx";
+import { useMemo } from "react";
 
 import { useStore } from "@/store";
 import type { Grouping } from "@/store/lib/deck-grouping";
 import { sortByName, sortBySlots, sortTypesByOrder } from "@/store/lib/sorting";
-import { selectForbiddenCards } from "@/store/selectors/decks";
+import { selectForbiddenCardsById } from "@/store/selectors/deck-view";
 import { selectCanCheckOwnership } from "@/store/selectors/shared";
 import type { Card } from "@/store/services/queries.types";
+import type { Slot } from "@/store/slices/deck-edits.types";
 import { capitalize } from "@/utils/formatting";
+import { useDeckIdChecked } from "@/utils/use-deck-id";
 
 import css from "./decklist-groups.module.css";
 
@@ -14,10 +17,8 @@ import SlotIcon from "../icons/slot-icon";
 import { ListCard } from "../list-card/list-card";
 
 type Props = {
-  canEdit?: boolean;
   group: Grouping;
   ignoredCounts?: Record<string, number>;
-  onOpenModal?: (code: string) => void;
   quantities?: Record<string, number>;
   layout: "one_column" | "two_column";
   mapping: string;
@@ -25,12 +26,10 @@ type Props = {
 };
 
 export function DecklistGroups({
-  canEdit,
   group,
   ignoredCounts,
   layout,
   mapping,
-  onOpenModal,
   ownershipCounts,
   quantities,
 }: Props) {
@@ -48,11 +47,9 @@ export function DecklistGroups({
                   {capitalize(key)}
                 </h5>
                 <DecklistGroup
-                  canEdit={canEdit}
                   cards={val}
                   ignoredCounts={ignoredCounts}
                   mapping={mapping}
-                  onOpenModal={onOpenModal}
                   ownershipCounts={ownershipCounts}
                   quantities={quantities}
                 />
@@ -98,28 +95,37 @@ export function DecklistGroups({
 }
 
 type DecklistGroupProps = {
-  canEdit?: boolean;
   cards: Card[];
   ignoredCounts?: Record<string, number>;
   mapping: string;
-  onOpenModal?: (code: string) => void;
   ownershipCounts: Record<string, number>;
   quantities?: Record<string, number>;
 };
 
 export function DecklistGroup({
-  canEdit: _canEdit,
   cards,
   ignoredCounts,
   mapping,
-  onOpenModal,
   ownershipCounts,
   quantities,
 }: DecklistGroupProps) {
-  const forbiddenCards = useStore(selectForbiddenCards);
-  const canEdit = _canEdit && mapping !== "bonded";
+  const ctx = useDeckIdChecked();
+
+  const forbiddenCards = useStore((state) =>
+    selectForbiddenCardsById(state, ctx.deckId, ctx.canEdit),
+  );
+
+  const canEdit = ctx.canEdit && mapping !== "bonded";
   const canCheckOwnership = useStore(selectCanCheckOwnership);
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
+
+  const onChangeCardQuantity = useMemo(() => {
+    if (!canEdit) return undefined;
+
+    return (code: string, quantity: number) => {
+      updateCardQuantity(ctx.deckId, code, quantity, mapping as Slot);
+    };
+  }, [updateCardQuantity, canEdit, ctx.deckId, mapping]);
 
   return (
     <ol>
@@ -137,8 +143,7 @@ export function DecklistGroup({
           isIgnored={ignoredCounts?.[card.code]}
           key={card.code}
           omitBorders
-          onChangeCardQuantity={canEdit ? updateCardQuantity : undefined}
-          onOpenModal={onOpenModal}
+          onChangeCardQuantity={onChangeCardQuantity}
           owned={ownershipCounts[card.code]}
           quantities={quantities}
           size="sm"
