@@ -1,4 +1,3 @@
-import { afterEach } from "node:test";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 import type { StoreApi } from "zustand";
 
@@ -18,6 +17,7 @@ describe("deck-view slice", () => {
   describe("updateCardQuantity", () => {
     beforeEach(() => {
       store.setState({
+        deckEdits: {},
         data: {
           decks: {
             "deck-id": deckExtraSlots,
@@ -29,31 +29,37 @@ describe("deck-view slice", () => {
       });
     });
 
-    afterEach(async () => {
-      store = await getMockStore();
-    });
-
     it("increments the quantity of a card", () => {
       const state = store.getState();
       state.updateCardQuantity("deck-id", "01000", 1, "slots", "increment");
       expect(
-        selectResolvedDeckById(store.getState(), "deck-id")?.slots["01000"],
+        selectResolvedDeckById(store.getState(), "deck-id", true)?.slots[
+          "01000"
+        ],
       ).toEqual(2);
     });
 
     it("decrements the quantity of a card", () => {
       const state = store.getState();
+
       state.updateCardQuantity("deck-id", "01000", -1, "slots", "increment");
-      expect(
-        selectResolvedDeckById(store.getState(), "deck-id")?.slots["01000"],
-      ).toEqual(0);
+
+      const resolved = selectResolvedDeckById(
+        store.getState(),
+        "deck-id",
+        true,
+      );
+
+      expect(resolved?.slots["01000"]).toEqual(0);
     });
 
     it("sets the quantity of a card", () => {
       const state = store.getState();
       state.updateCardQuantity("deck-id", "01000", 5, "slots", "set");
       expect(
-        selectResolvedDeckById(store.getState(), "deck-id")?.slots["01000"],
+        selectResolvedDeckById(store.getState(), "deck-id", true)?.slots[
+          "01000"
+        ],
       ).toEqual(5);
     });
 
@@ -62,7 +68,9 @@ describe("deck-view slice", () => {
       state.updateCardQuantity("deck-id", "01000", -5, "slots", "set");
       state.updateCardQuantity("deck-id", "01000", -5, "slots", "increment");
       expect(
-        selectResolvedDeckById(store.getState(), "deck-id")?.slots["01000"],
+        selectResolvedDeckById(store.getState(), "deck-id", true)?.slots[
+          "01000"
+        ],
       ).toEqual(0);
     });
 
@@ -71,7 +79,9 @@ describe("deck-view slice", () => {
       state.updateCardQuantity("deck-id", "06021", 5, "slots", "set");
       state.updateCardQuantity("deck-id", "06021", 5, "slots", "increment");
       expect(
-        selectResolvedDeckById(store.getState(), "deck-id")?.slots["06021"],
+        selectResolvedDeckById(store.getState(), "deck-id", true)?.slots[
+          "06021"
+        ],
       ).toEqual(3);
     });
 
@@ -79,7 +89,7 @@ describe("deck-view slice", () => {
       const state = store.getState();
       state.updateCardQuantity("deck-id", "06021", 1, "sideSlots", "increment");
       expect(
-        selectResolvedDeckById(store.getState(), "deck-id")?.sideSlots?.[
+        selectResolvedDeckById(store.getState(), "deck-id", true)?.sideSlots?.[
           "06021"
         ],
       ).toEqual(1);
