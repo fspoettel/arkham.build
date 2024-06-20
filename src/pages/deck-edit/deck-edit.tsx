@@ -1,3 +1,4 @@
+import { Undo } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Redirect, useParams } from "wouter";
 
@@ -6,6 +7,8 @@ import { CardList } from "@/components/card-list/card-list";
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { DecklistValidation } from "@/components/decklist/decklist-validation";
 import { Filters } from "@/components/filters/filters";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/toast";
 import { useStore } from "@/store";
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import {
@@ -22,13 +25,48 @@ import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 function DeckEdit() {
   const { id } = useParams<{ id: string }>();
 
+  const showToast = useToast();
   const activeListId = useStore((state) => state.activeList);
   const resetFilters = useStore((state) => state.resetFilters);
   const setActiveList = useStore((state) => state.setActiveList);
+  const discardEdits = useStore((state) => state.discardEdits);
   const deck = useStore((state) => selectActiveDeckById(state, id, true));
+  const changes = useStore((state) => state.deckEdits[id]);
+
+  useEffect(() => {
+    if (changes) {
+      showToast({
+        children({ handleClose }) {
+          return (
+            <>
+              Unsaved changes were restored.
+              <div>
+                <Button onClick={handleClose} size="sm">
+                  OK
+                </Button>
+                <Button
+                  onClick={() => {
+                    discardEdits(id);
+                    handleClose();
+                  }}
+                  size="sm"
+                >
+                  <Undo />
+                  Revert
+                </Button>
+              </div>
+            </>
+          );
+        },
+        variant: "success",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [discardEdits, id, showToast]);
 
   useEffect(() => {
     setActiveList("editor_player");
+
     return () => {
       resetFilters();
     };

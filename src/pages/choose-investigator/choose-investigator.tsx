@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Link } from "wouter";
 
 import { CardList } from "@/components/card-list/card-list";
+import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { Filters } from "@/components/filters/filters";
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
@@ -45,57 +46,59 @@ function DeckCreateChooseInvestigator() {
   if (activeListId !== "create_deck") return null;
 
   return (
-    <div
-      className={clsx(css["layout"], filtersOpen && css["filters-open"])}
-      onPointerDown={onContentClick}
-    >
-      <Masthead className={css["masthead"]}>
-        <Button onClick={goBack} variant="bare">
-          <ChevronLeft /> Back
-        </Button>
-      </Masthead>
-      <main className={css["content"]}>
-        <header className={css["header"]}>
-          <h1 className={css["title"]}>Choose investigator</h1>
-        </header>
-        <CardList
-          renderListCardAction={(card) => (
-            <Link asChild to={`/deck/create/${card.code}`}>
-              <Button as="a" size="lg" variant="bare">
-                <CirclePlusIcon />
-              </Button>
-            </Link>
-          )}
-          renderListCardExtra={({ code }) => {
-            const resolved = cardResolver(code);
-            const signatures = resolved?.relations?.requiredCards;
-            if (!signatures?.length) return null;
-
-            return (
-              <ul className={css["signatures"]}>
-                {signatures.map(({ card }) => (
-                  <SignatureLink card={card} key={card.code} />
-                ))}
-              </ul>
-            );
-          }}
-          slotRight={
-            <Button
-              className={css["toggle-filters"]}
-              onClick={() => onToggleFilters(true)}
-            >
-              <i className="icon-filter" />
-            </Button>
-          }
-        />
-      </main>
-      <nav
-        className={css["filters"]}
-        data-state={filtersOpen ? "open" : "closed"}
+    <CardModalProvider>
+      <div
+        className={clsx(css["layout"], filtersOpen && css["filters-open"])}
+        onPointerDown={onContentClick}
       >
-        <Filters />
-      </nav>
-    </div>
+        <Masthead className={css["masthead"]}>
+          <Button onClick={goBack} variant="bare">
+            <ChevronLeft /> Back
+          </Button>
+        </Masthead>
+        <main className={css["content"]}>
+          <header className={css["header"]}>
+            <h1 className={css["title"]}>Choose investigator</h1>
+          </header>
+          <CardList
+            renderListCardAction={(card) => (
+              <Link asChild to={`/deck/create/${card.code}`}>
+                <Button as="a" size="lg" variant="bare">
+                  <CirclePlusIcon />
+                </Button>
+              </Link>
+            )}
+            renderListCardExtra={({ code }) => {
+              const resolved = cardResolver(code);
+              const signatures = resolved?.relations?.requiredCards;
+              if (!signatures?.length) return null;
+
+              return (
+                <ul className={css["signatures"]}>
+                  {signatures.map(({ card }) => (
+                    <SignatureLink card={card} key={card.code} />
+                  ))}
+                </ul>
+              );
+            }}
+            slotRight={
+              <Button
+                className={css["toggle-filters"]}
+                onClick={() => onToggleFilters(true)}
+              >
+                <i className="icon-filter" />
+              </Button>
+            }
+          />
+        </main>
+        <nav
+          className={css["filters"]}
+          data-state={filtersOpen ? "open" : "closed"}
+        >
+          <Filters />
+        </nav>
+      </div>
+    </CardModalProvider>
   );
 }
 

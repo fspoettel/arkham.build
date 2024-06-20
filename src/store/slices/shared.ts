@@ -149,14 +149,10 @@ export const createSharedSlice: StateCreator<
     const state = get();
 
     const edits = state.deckEdits[deckId];
-
-    if (!edits) {
-      console.warn("Tried to save deck but not in edit mode.");
-      return;
-    }
+    if (!edits) return deckId;
 
     const deck = state.data.decks[deckId];
-    if (!deck) return;
+    if (!deck) return deckId;
 
     const nextDeck = applyDeckEdits(deck, edits, state.metadata, true);
     nextDeck.date_update = new Date().toISOString();

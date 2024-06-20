@@ -21,31 +21,30 @@ export function EditorActions({ deck }: Props) {
     deck.cards.investigator.card.faction_code,
   );
 
+  const hasEdits = useStore((state) => !!state.deckEdits[deck.id]);
   const discardEdits = useStore((state) => state.discardEdits);
   const saveDeck = useStore((state) => state.saveDeck);
 
   const handleSave = useCallback(() => {
     const id = saveDeck(deck.id);
-
-    navigate(`/deck/view/${id}`, {
-      state: { confirm: false },
-    });
+    navigate(`/deck/view/${id}`);
 
     showToast({
       children: "Deck saved successfully.",
+      displayTime: 3000,
       variant: "success",
     });
   }, [saveDeck, navigate, showToast, deck.id]);
 
   const handleDiscard = useCallback(() => {
-    const confirmed = window.confirm(
-      "Are you sure you want to discard your changes?",
-    );
+    const confirmed =
+      !hasEdits ||
+      window.confirm("Are you sure you want to discard your changes?");
     if (confirmed) {
       discardEdits(deck.id);
       navigate(`/deck/view/${deck.id}`);
     }
-  }, [discardEdits, navigate, deck.id]);
+  }, [discardEdits, navigate, deck.id, hasEdits]);
 
   return (
     <div className={css["actions"]} style={cssVariables}>
@@ -54,7 +53,7 @@ export function EditorActions({ deck }: Props) {
         Save
       </Button>
       <Button onClick={handleDiscard} variant="bare">
-        Cancel edits
+        Discard edits
       </Button>
     </div>
   );

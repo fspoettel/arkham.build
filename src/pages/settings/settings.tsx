@@ -29,7 +29,11 @@ function Settings() {
       evt.preventDefault();
       if (evt.target instanceof HTMLFormElement) {
         updateSettings(new FormData(evt.target));
-        toast({ children: "Settings saved successfully.", variant: "success" });
+        toast({
+          children: "Settings saved successfully.",
+          displayTime: 3000,
+          variant: "success",
+        });
       }
     },
     [updateSettings, toast],
@@ -52,7 +56,7 @@ function Settings() {
           </div>
         </header>
         <div className={css["settings-container"]}>
-          <Link to="/about">
+          <Link asChild to="/about">
             <Button as="a">
               <Info />
               About this site
