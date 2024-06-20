@@ -25,7 +25,7 @@ export function DeckCollection() {
             <DeckCollectionImport />
           </Popover>
           <Link asChild to="/deck/create">
-            <Button as="a">
+            <Button as="a" data-testid="create-trigger">
               <Plus />
             </Button>
           </Link>
@@ -33,9 +33,13 @@ export function DeckCollection() {
       </header>
       {decks.length ? (
         <Scroller>
-          <ol className={css["decks"]} data-testid="collection">
+          <ol className={css["decks"]}>
             {decks.map(({ deck, validation }) => (
-              <li data-testid="collection-deck" className={css["deck"]} key={deck.id}>
+              <li
+                className={css["deck"]}
+                data-testid="collection-deck"
+                key={deck.id}
+              >
                 <Link href={`/deck/view/${deck.id}`}>
                   <DeckSummary
                     deck={deck}

@@ -51,6 +51,7 @@ export function TypeFilter({ id }: { id: number }) {
     >
       {!filter.open && activeList?.cardType === "player" && (
         <ToggleGroup
+          data-testid="filters-type-shortcut"
           full
           onValueChange={handleApplyShortcut}
           type="multiple"

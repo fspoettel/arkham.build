@@ -63,7 +63,12 @@ function DeckCreateChooseInvestigator() {
           <CardList
             renderListCardAction={(card) => (
               <Link asChild to={`/deck/create/${card.code}`}>
-                <Button as="a" size="lg" variant="bare">
+                <Button
+                  as="a"
+                  data-testid="create-choose-investigator"
+                  size="lg"
+                  variant="bare"
+                >
                   <CirclePlusIcon />
                 </Button>
               </Link>
