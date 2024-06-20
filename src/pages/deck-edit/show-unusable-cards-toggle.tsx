@@ -1,14 +1,22 @@
+import { useCallback } from "react";
+
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/field";
+import { useStore } from "@/store";
 
 import css from "./deck-edit.module.css";
 
-type Props = {
-  checked: boolean;
-  onValueChange: (checked: boolean) => void;
-};
+export function ShowUnusableCardsToggle() {
+  const checked = useStore((state) => state.ui.showUnusableCards);
+  const setChecked = useStore((state) => state.setShowUnusableCards);
 
-export function ShowUnusableCardsToggle({ checked, onValueChange }: Props) {
+  const onValueChange = useCallback(
+    (val: boolean) => {
+      setChecked(val);
+    },
+    [setChecked],
+  );
+
   return (
     <Field bordered className={css["show-unusable-filter"]}>
       <Checkbox

@@ -50,7 +50,6 @@ function DeckEdit() {
 }
 
 function DeckEditInner({ deck }: { deck: DisplayDeck }) {
-  const [showUnusableCards, setShowUnusableCards] = useState(false);
   const [currentTab, setCurrentTab] = useState<Tab>("slots");
 
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
@@ -74,10 +73,7 @@ function DeckEditInner({ deck }: { deck: DisplayDeck }) {
       filters={
         <Filters>
           <DecklistValidation defaultOpen={false} validation={validation} />
-          <ShowUnusableCardsToggle
-            checked={showUnusableCards}
-            onValueChange={setShowUnusableCards}
-          />
+          <ShowUnusableCardsToggle />
         </Filters>
       }
       sidebar={

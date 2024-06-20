@@ -7,6 +7,7 @@ import { useStore } from "@/store";
 import type { ListState } from "@/store/selectors/card-list";
 import { selectListCards } from "@/store/selectors/card-list";
 import { selectActiveListSearch } from "@/store/selectors/lists";
+import { selectCardOwnedCount } from "@/store/selectors/shared";
 import type { Card } from "@/store/services/queries.types";
 import type { Id, Slots } from "@/store/slices/data.types";
 import { range } from "@/utils/range";
@@ -58,6 +59,8 @@ export function CardList({
   const virtuosoRef = useRef<GroupedVirtuosoHandle>(null);
   const activeRange = useRef<ListRange | undefined>(undefined);
   const activeGroup = useRef<string | undefined>(undefined);
+
+  const cardOwnedCount = useStore(selectCardOwnedCount);
 
   const onScrollChange = useCallback(() => {
     setCurrentTop(-1);
@@ -197,11 +200,13 @@ export function CardList({
               isScrolling={onScrollStop}
               itemContent={(index, _, __, { currentTop }) => (
                 <ListCard
+                  canCheckOwnership
                   card={data.cards[index]}
                   disableKeyboard
                   isActive={index === currentTop}
                   key={data.cards[index].code}
                   onChangeCardQuantity={onChangeCardQuantity}
+                  owned={cardOwnedCount(data.cards[index])}
                   quantities={quantities}
                   renderAction={renderListCardAction}
                   renderExtra={renderListCardExtra}

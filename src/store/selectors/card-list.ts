@@ -224,7 +224,7 @@ export const selectDeckInvestigatorFilter = createSelector(
     applyEdits?: boolean,
     targetDeck?: "slots" | "extraSlots" | "both",
   ) => targetDeck,
-  () => false, // FIXME
+  (state: StoreState) => state.ui.showUnusableCards,
   (lookupTables, resolvedDeck, targetDeck, showUnusableCards) => {
     if (!resolvedDeck) return undefined;
 
