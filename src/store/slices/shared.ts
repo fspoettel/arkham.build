@@ -248,4 +248,31 @@ export const createSharedSlice: StateCreator<
 
     return deck.id;
   },
+
+  deleteDeck(id) {
+    const state = get();
+    const decks = { ...state.data.decks };
+
+    const deckEdits = { ...state.deckEdits };
+    delete deckEdits[id];
+
+    const deck = decks[id];
+    assert(deck.next_deck == null, "Cannot delete a deck that has upgrades.");
+
+    delete decks[id];
+    const history = { ...state.data.history };
+
+    if (history[id]) {
+      for (const prevId of history[id]) {
+        delete decks[prevId];
+        delete deckEdits[prevId];
+      }
+    }
+
+    delete history[id];
+    set({
+      data: { ...state.data, decks, history },
+      deckEdits,
+    });
+  },
 });

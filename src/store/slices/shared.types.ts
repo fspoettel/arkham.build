@@ -17,4 +17,5 @@ export type SharedSlice = {
   createDeck(): string | number;
 
   saveDeck(deckId: Id): void;
+  deleteDeck(id: Id): void;
 };

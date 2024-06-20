@@ -40,5 +40,4 @@ export type DataState = {
 export type DataSlice = {
   data: DataState;
   importDeck(code: string): Promise<void>;
-  deleteDeck(id: string | number): void;
 };
