@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("create deck", async ({ page }) => {
-  await page.goto("http://localhost:3000/");
+  await page.goto("/");
   await page.getByTestId("create-trigger").click();
   await page.getByTestId("search-input").click();
   await page.getByTestId("search-input").fill("jenny");

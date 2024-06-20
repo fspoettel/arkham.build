@@ -1,7 +1,8 @@
 import { expect, test } from "@playwright/test";
 
-test("test", async ({ page }) => {
-  await page.goto("http://localhost:3000/");
+test("filters (shortcuts)", async ({ page }) => {
+  await page.goto("/");
+
   await page.getByTestId("filters-faction").getByTitle("Multiclass").click();
   await page
     .getByTestId("filters-type-shortcut")
