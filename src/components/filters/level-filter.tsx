@@ -6,7 +6,6 @@ import {
   selectLevelChanges,
 } from "@/store/selectors/lists";
 import { isLevelFilterObject } from "@/store/slices/lists.type-guards";
-import type { LevelFilter } from "@/store/slices/lists.types";
 import { assert } from "@/utils/assert";
 
 import { Checkbox } from "../ui/checkbox";

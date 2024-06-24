@@ -49,13 +49,14 @@ export function CustomizationsEditor({ deck, card, canEdit }: Props) {
         <h3>Customizations</h3>
       </header>
       <div className={css["text"]}>
-        {options.map((option, index) => (
+        {options.map((option, i) => (
           <CustomizationOption
             card={card}
             choices={choices}
             disabled={!canEdit}
-            index={index}
-            key={index}
+            index={i}
+            // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
+            key={i}
             onChange={onChangeCustomization}
             option={option}
             text={text}

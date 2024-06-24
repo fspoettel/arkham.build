@@ -156,13 +156,12 @@ export function sortBySlots(a: string, b: string) {
 
   if (slotA === -1 && slotB === -1) {
     return sortAlphabetical(a, b);
-  } else if (slotA === -1) {
-    return 1;
-  } else if (slotB === -1) {
-    return -1;
-  } else {
-    return slotA - slotB;
   }
+
+  if (slotA === -1) return 1;
+  if (slotB === -1) return -1;
+
+  return slotA - slotB;
 }
 
 /**

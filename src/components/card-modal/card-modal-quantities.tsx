@@ -89,9 +89,10 @@ export function CardModalQuantities({
   const code = card.code;
   const limit = card.deck_limit || card.quantity;
 
-  const isBonded = !!(bondedSlotQuantities && bondedSlotQuantities?.[code]);
+  const isBonded = !!bondedSlotQuantities?.[code];
 
   return (
+    // biome-ignore lint/a11y/useKeyWithClickEvents: TODO.
     <div className={css["quantities"]} onClick={onClick} ref={divRef}>
       {!isBonded && (
         <article className={css["quantity"]}>

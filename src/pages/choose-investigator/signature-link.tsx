@@ -28,13 +28,13 @@ export function SignatureLink({ card }: Props) {
 
   return (
     <li className={css["signature"]} key={card.code}>
-      <a
+      <button
         ref={tooltip.refs.setReference}
         {...tooltip.referenceProps}
         onClick={openModal}
       >
         {card.real_name}
-      </a>
+      </button>
       {tooltip.isMounted && (
         <FloatingPortal id={FLOATING_PORTAL_ID}>
           <div ref={tooltip.refs.setFloating} style={tooltip.floatingStyles}>

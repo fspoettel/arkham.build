@@ -23,20 +23,14 @@ export function CardNames({
   const cardName = (
     <>
       {parallel && <i className={clsx(css["parallel"], "icon-parallel")} />}
-      {name} <span>{isUnique && <>&#10040;</>}</span>
+      {name} <span>{isUnique && "&#10040;"}</span>
     </>
   );
 
   return (
     <div>
       <h1 className={css["name"]}>
-        {linked ? (
-          <Link asChild href={`/card/${code}`}>
-            <a>{cardName}</a>
-          </Link>
-        ) : (
-          cardName
-        )}
+        {linked ? <Link href={`/card/${code}`}>{cardName}</Link> : cardName}
       </h1>
       {subname && <h2 className={css["sub"]}>{subname}</h2>}
     </div>

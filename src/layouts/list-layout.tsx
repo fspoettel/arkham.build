@@ -40,7 +40,7 @@ export function ListLayout({
       onToggleFilters(false);
       onToggleSidebar(false);
     },
-    [onToggleFilters, onToggleSidebar, filtersOpen, sidebarOpen],
+    [filtersOpen, sidebarOpen],
   );
 
   const preventBubble = useCallback((e: React.PointerEvent) => {
@@ -52,11 +52,11 @@ export function ListLayout({
 
   useEffect(() => {
     if (sidebarVisible) onToggleSidebar(false);
-  }, [sidebarVisible, onToggleSidebar]);
+  }, [sidebarVisible]);
 
   useEffect(() => {
     if (filtersVisible) onToggleFilters(false);
-  }, [filtersVisible, onToggleFilters]);
+  }, [filtersVisible]);
 
   return (
     <div

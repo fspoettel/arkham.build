@@ -36,12 +36,12 @@ function DeckCreateChooseInvestigator() {
       evt.preventDefault();
       onToggleFilters(false);
     },
-    [onToggleFilters, filtersOpen],
+    [filtersOpen],
   );
 
   useEffect(() => {
     setActiveList("create_deck");
-  }, [resetFilters, setActiveList]);
+  }, [setActiveList]);
 
   if (activeListId !== "create_deck") return null;
 

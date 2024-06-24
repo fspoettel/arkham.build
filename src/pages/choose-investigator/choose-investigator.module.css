@@ -114,13 +114,11 @@
   font-family: var(--font-family-content);
 }
 
-.signature a {
-  display: inline-block;
-  cursor: pointer;
+.signature button {
   text-decoration: none;
-  text-decoration-style: dashed;
   background-color: var(--nord-point-five);
   padding: 0.125rem;
+  font-size: var(--text-sm);
 }
 
 .toggle-filters {

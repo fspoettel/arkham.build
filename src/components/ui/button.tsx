@@ -18,7 +18,7 @@ export const Button = forwardRef(function Button<
   { as, children, variant = "secondary", size, ...rest }: Props<T>,
   ref: React.ForwardedRef<T>,
 ) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: safe.
   const Element: any = as ?? "button";
 
   return (

@@ -351,7 +351,7 @@ describe("deck validation", () => {
 
     it("handles case: silas (replacement), invalid", () => {
       const deck = requiredSilasReplacement;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: safe.
       delete (deck.slots as any)["98014"];
       const result = validate(store, requiredSilasReplacement);
       expect(result.valid).toBeFalsy();

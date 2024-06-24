@@ -43,7 +43,7 @@ export function CardDataSync() {
   }, [synced, toast]);
 
   const enablePersistence = useCallback(() => {
-    if (navigator.storage && navigator.storage.persist) {
+    if (navigator.storage?.persist) {
       navigator.storage
         .persist()
         .then((res) => {

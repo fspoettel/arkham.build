@@ -33,6 +33,7 @@ export function DecklistValidation({ defaultOpen, validation }: Props) {
       <CollapsibleContent>
         <ul className={css["decklist-validation-results"]}>
           {validation.errors.map((error, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: no unique key available.
             <li className={css["decklist-validation-result"]} key={i}>
               {error.type === "TOO_MANY_CARDS" &&
                 `${getName((error as TooManyCardsError).details.target)} contains too many cards.`}

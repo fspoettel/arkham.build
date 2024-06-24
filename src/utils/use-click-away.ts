@@ -16,7 +16,7 @@ export const useClickAway = <E extends Event = Event>(
   }, [onClickAway]);
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: safe.
     const handler = (event: any) => {
       const { current: el } = ref;
       el &&

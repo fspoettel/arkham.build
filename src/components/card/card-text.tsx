@@ -33,6 +33,7 @@ export function CardText({
       <div className={css["text"]}>
         {text && (
           <p
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is from trusted source.
             dangerouslySetInnerHTML={{
               __html: parseCardTextHtml(text),
             }}
@@ -68,6 +69,7 @@ export function CardText({
   const flavorNode =
     showFlavor && flavor ? (
       <div className={css["flavor"]}>
+        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is from trusted source. */}
         <p dangerouslySetInnerHTML={{ __html: parseCardTextHtml(flavor) }} />
       </div>
     ) : null;

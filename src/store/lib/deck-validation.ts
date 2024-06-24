@@ -15,7 +15,7 @@ import {
   filterInvestigatorWeaknessAccess,
   makeOptionFilter,
 } from "./filtering";
-import { type ResolvedCard, type ResolvedDeck } from "./types";
+import type { ResolvedCard, ResolvedDeck } from "./types";
 
 export type DeckValidationResult = {
   valid: boolean;
@@ -281,9 +281,9 @@ function validateSlots(
       ? state.metadata.cards[card.duplicate_of_code]
       : card;
 
-    validators.forEach((validator) => {
+    for (const validator of validators) {
       validator.add(normalized, quantity);
-    });
+    }
   }
 
   return validators.flatMap((validator) => validator.validate());

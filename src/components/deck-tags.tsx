@@ -17,6 +17,7 @@ export function DeckTags({ tags }: Props) {
   return (
     <ul className={css["tags"]}>
       {tagList.map((s, i) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
         <Tag as="li" key={i} size="xs">
           {capitalize(s).trim()}
         </Tag>

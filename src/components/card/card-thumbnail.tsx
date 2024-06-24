@@ -31,7 +31,10 @@ export const CardThumbnail = memo(
         )}
         key={card.code}
       >
-        <img src={thumbnailUrl(card.code)} />
+        <img
+          alt={`Thumbnail ${card.real_name}`}
+          src={thumbnailUrl(card.code)}
+        />
       </div>
     );
   },

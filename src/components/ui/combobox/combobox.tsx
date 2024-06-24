@@ -145,7 +145,7 @@ export function Combobox<T extends Coded>({
         }
       }
     },
-    [refs.reference, onValueChange, selectedItems, limit, setOpen],
+    [refs.reference, onValueChange, selectedItems, limit],
   );
 
   const removeSelectedItem = useCallback(

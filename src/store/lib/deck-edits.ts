@@ -29,15 +29,15 @@ export function applyDeckEdits(
 
   const deck = structuredClone(originalDeck);
 
-  if (edits.name != undefined) {
+  if (edits.name != null) {
     deck.name = edits.name;
   }
 
-  if (edits.description_md != undefined) {
+  if (edits.description_md != null) {
     deck.description_md = edits.description_md;
   }
 
-  if (edits.tags != undefined) {
+  if (edits.tags != null) {
     deck.tags = edits.tags;
   }
 

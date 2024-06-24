@@ -4,7 +4,7 @@ import { assert } from "@/utils/assert";
 
 import type { StoreState } from ".";
 import { getDefaultDeckName } from "../lib/deck-factory";
-import type { DeckCreateSlice, Set } from "./deck-create.types";
+import type { CardSet, DeckCreateSlice } from "./deck-create.types";
 
 export const createDeckCreateSlice: StateCreator<
   StoreState,
@@ -134,7 +134,7 @@ export const createDeckCreateSlice: StateCreator<
   },
 });
 
-export function isSet(value: string): value is Set {
+export function isSet(value: string): value is CardSet {
   return (
     value === "requiredCards" || value === "advanced" || value === "replacement"
   );

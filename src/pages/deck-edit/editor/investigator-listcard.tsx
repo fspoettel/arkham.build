@@ -52,7 +52,7 @@ function InvestigatorListcardInner({ deck }: Props) {
             <Button
               as="a"
               href={`/card/${deck.investigatorFront.card.code}`}
-              tabIndex={2}
+              tabIndex={0}
               target="_blank"
             >
               Open card page

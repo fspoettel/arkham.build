@@ -29,7 +29,7 @@ export function Faq({ card }: Props) {
     if (evt.target instanceof HTMLAnchorElement) {
       // Redirect relative links to another domain
       const href = evt.target.getAttribute("href");
-      if (href && href.startsWith("/")) {
+      if (href?.startsWith("/")) {
         window.open(`https://arkhamdb.com${href}`, "_blank");
       }
     }
@@ -41,6 +41,7 @@ export function Faq({ card }: Props) {
         {open ? <ChevronDown /> : <span>?</span>} View FAQs
       </Button>
 
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents: TODO. */}
       <div className={css["faq-content"]} onClick={redirectRelativeLinks}>
         {response.loading && "Loading..."}
 
@@ -51,7 +52,9 @@ export function Faq({ card }: Props) {
         {!!response.data?.length &&
           response.data.map((faq, i) => (
             <p
+              // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is sanitized.
               dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(faq.html) }}
+              // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
               key={i}
             />
           ))}

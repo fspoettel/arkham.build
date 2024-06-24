@@ -22,22 +22,26 @@ function selectPlayerCardsForCustomizationOptions(
   const traitTables = config.trait.map((trait) => traitTable[trait]);
   const typeTables = config.type.map((type) => typeTable[type]);
 
-  [
+  const codes = [
     ...traitTables.flatMap(Object.keys),
     ...typeTables.flatMap(Object.keys),
-  ].forEach((code) => {
+  ];
+
+  for (const code of codes) {
     if (
       !traitTables.some((x) => code in x) ||
       !typeTables.every((x) => code in x)
     ) {
-      return;
+      continue;
     }
 
     const card = state.metadata.cards[code];
-    if (!card || card.duplicate_of_code) return;
+    if (!card || card.duplicate_of_code) {
+      continue;
+    }
 
     options.add(card);
-  }, []);
+  }
 
   const cards = Array.from(options).toSorted(sortByName);
 

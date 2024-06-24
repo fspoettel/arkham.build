@@ -80,6 +80,7 @@ export function CustomizationOption({
       </div>
       <div className={css["content"]}>
         <p
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is from trusted source.
           dangerouslySetInnerHTML={{
             __html: parseCustomizationTextHtml(text[index]),
           }}

@@ -45,7 +45,6 @@ export function getDefaultDeckName(name: string, faction: string) {
     case "survivor":
       return `${name} on the Road`;
 
-    case "neutral":
     default:
       return `${name} Does It All`;
   }

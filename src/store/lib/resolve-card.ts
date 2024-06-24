@@ -233,12 +233,9 @@ export function getRelatedCardQuantity(
     key !== "parallel" && key !== "level" && key !== "restrictedTo";
 
   return canShowQuantity
-    ? cards.reduce(
-        (acc, { card }) => ({
-          ...acc,
-          [card.code]: card.quantity,
-        }),
-        {},
-      )
+    ? cards.reduce<Record<string, number>>((acc, { card }) => {
+        acc[card.code] = card.quantity;
+        return acc;
+      }, {})
     : undefined;
 }

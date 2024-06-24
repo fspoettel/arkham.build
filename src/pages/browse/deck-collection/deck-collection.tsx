@@ -36,17 +36,15 @@ export function DeckCollection() {
           <ol className={css["decks"]}>
             {decks.map(({ deck, validation }) => (
               <li className={css["deck"]} key={deck.id}>
-                <Link asChild href={`/deck/view/${deck.id}`}>
-                  <a>
-                    <DeckSummary
-                      deck={deck}
-                      interactive
-                      showThumbnail
-                      validation={validation}
-                    >
-                      {deck.tags && <DeckTags tags={deck.tags} />}
-                    </DeckSummary>
-                  </a>
+                <Link href={`/deck/view/${deck.id}`}>
+                  <DeckSummary
+                    deck={deck}
+                    interactive
+                    showThumbnail
+                    validation={validation}
+                  >
+                    {deck.tags && <DeckTags tags={deck.tags} />}
+                  </DeckSummary>
                 </Link>
               </li>
             ))}

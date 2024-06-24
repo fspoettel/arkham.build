@@ -32,12 +32,12 @@ export function ownedCardCount(
 
   if (!duplicates) return quantityOwned;
 
-  Object.keys(duplicates).forEach((code) => {
+  for (const code of Object.keys(duplicates)) {
     const duplicate = metadata.cards[code];
     const packCode = duplicate.pack_code;
     if (packCode && collectionSetting[packCode])
       quantityOwned += duplicate.quantity;
-  });
+  }
 
   return quantityOwned;
 }

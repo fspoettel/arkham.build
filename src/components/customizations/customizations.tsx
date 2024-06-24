@@ -20,6 +20,7 @@ export function Customizations({ card }: Props) {
         <h3>Customizations</h3>
       </header>
       <div className={css["text"]}>
+        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is from trusted source. */}
         <p dangerouslySetInnerHTML={{ __html: html }} />
       </div>
     </article>

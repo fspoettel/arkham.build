@@ -153,6 +153,7 @@ export function CardList({
     activeRange.current = range;
   }, []);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: a search should reset scroll position.
   useEffect(() => {
     setCurrentTop(-1);
     activeGroup.current = undefined;
@@ -160,6 +161,7 @@ export function CardList({
     virtuosoRef.current?.scrollToIndex(0);
   }, [search]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: a change to card count should reset scroll position.
   useEffect(() => {
     if (activeGroup.current) {
       const offset = findGroupOffset(data, activeGroup.current);
@@ -167,8 +169,6 @@ export function CardList({
     } else {
       virtuosoRef.current?.scrollToIndex(0);
     }
-    // HACK: this makes sure this only triggers when the list actually updates, not e.g. when quantities change.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data?.cards.length]);
 
   return (
@@ -256,9 +256,9 @@ function findActiveGroup(
     sum += len;
     if (groupIndex <= sum) {
       break;
-    } else {
-      i += 1;
     }
+
+    i += 1;
   }
 
   return data.groups[i].key;

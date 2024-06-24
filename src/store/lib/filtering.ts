@@ -669,7 +669,7 @@ export function makeOptionFilter(
   }
 
   // special case: allessandra
-  if (option.text && option.text.some((s) => s.includes("Parley"))) {
+  if (option.text?.some((s) => s.includes("Parley"))) {
     filterCount += 1;
     optionFilter.push(filterTag("pa", true));
   }
@@ -699,7 +699,7 @@ export function makeOptionFilter(
   }
 
   if (filterCount <= 1) {
-    console.debug(`unknown deck requirement`, option);
+    console.debug("unknown deck requirement", option);
   }
 
   return filterCount > 1 ? and(optionFilter) : undefined;
