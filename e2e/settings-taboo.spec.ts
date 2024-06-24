@@ -15,7 +15,7 @@ test("settings (taboo)", async ({ page }) => {
   await expect(page.getByTestId("card-text").first()).toContainText(
     "Mutated. After you succeed at a skill test by 2 or more while investigating: Discover 1 clue at your location. (Limit once per round.)",
   );
-  await expect(page.getByTestId("card-taboo")).toContainText(
+  await expect(page.getByTestId("card-taboo").first()).toContainText(
     "Taboo List Mutated",
   );
 });
