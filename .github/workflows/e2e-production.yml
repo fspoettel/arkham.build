@@ -1,4 +1,4 @@
-name: End to end tests (production)
+name: "[Production] End-to-End Tests"
 
 on:
   schedule:

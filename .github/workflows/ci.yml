@@ -26,6 +26,7 @@ jobs:
       - run: npm run test
 
   e2e:
+    name: End-to-End Test
     timeout-minutes: 60
     runs-on: ubuntu-latest
     env:
