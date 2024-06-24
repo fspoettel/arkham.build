@@ -10,6 +10,10 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      VITE_PAGE_NAME: ${{ vars.VITE_PAGE_NAME }}
+      VITE_API_URL: ${{ vars.VITE_API_URL }}
+      VITE_CARD_IMAGE_URL: ${{ vars.VITE_CARD_IMAGE_URL }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
