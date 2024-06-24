@@ -9,7 +9,7 @@ export const REGEX_BONDED = /^Bonded\s\((.*?)\)(\.|\s)/;
 export const REGEX_SUCCEED_BY =
   /succe(ssful|ed(?:s?|ed?))(:? at a skill test)? by(?! 0)/;
 
-export const ACTION_TEXT: { [key: string]: string } = {
+const ACTION_TEXT: { [key: string]: string } = {
   fight: "<b>Fight.</b>",
   engage: "<b>Engage.</b>",
   investigate: "<b>Investigate.</b>",

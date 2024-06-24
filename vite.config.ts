@@ -72,7 +72,7 @@ export default defineConfig({
     port: 3000,
   },
   test: {
-    environment: "jsdom",
+    environment: "happy-dom",
     exclude: ["e2e/**", "node_modules/**"],
     setupFiles: "./src/test/setup.ts",
     passWithNoTests: true,

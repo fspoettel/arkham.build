@@ -11,7 +11,7 @@ import { CardBack } from "./card-back";
 import { CardContainer } from "./card-container";
 import { CardFront } from "./card-front";
 
-export type Props = {
+type Props = {
   canToggleBackside?: boolean;
   children?: React.ReactNode;
   className?: string;

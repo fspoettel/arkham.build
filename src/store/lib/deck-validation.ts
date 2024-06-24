@@ -22,7 +22,7 @@ export type DeckValidationResult = {
   errors: Error[];
 };
 
-export type ValidationError =
+type ValidationError =
   | "INVALID_INVESTIGATOR"
   | "INVALID_DECK_OPTION"
   | "FORBIDDEN"

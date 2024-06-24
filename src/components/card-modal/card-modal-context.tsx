@@ -22,7 +22,7 @@ type CardModalContext = {
   setOpen: (config: CardModalContextConfig) => void;
 };
 
-export const CardModalContext = createContext<CardModalContext>({
+const CardModalContext = createContext<CardModalContext>({
   setClosed: () => {},
   setOpen: () => {},
 });

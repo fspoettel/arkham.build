@@ -25,10 +25,6 @@ import { isOptionSelect } from "./types";
  * Misc.
  */
 
-export function filterWeaknesses(card: Card) {
-  return !card.subtype_code;
-}
-
 export function filterDuplicates(card: Card) {
   return (
     !card.hidden && // filter hidden cards (usually backsides)

@@ -117,7 +117,7 @@ export type List = {
   search: Search;
 };
 
-export type Lists = {
+type Lists = {
   [key: string]: List;
 };
 

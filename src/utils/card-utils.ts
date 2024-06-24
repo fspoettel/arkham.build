@@ -22,11 +22,6 @@ export function getCardColor(card: Card, prop = "color") {
     : `${prop}-${card.faction_code}`;
 }
 
-export function rewriteImageUrl(url?: string) {
-  const id = url?.split("/").at(-1);
-  return id ? `${import.meta.env.VITE_CARD_IMAGE_URL}/${id}` : undefined;
-}
-
 export function sideways(card: Card) {
   return SIDEWAYS_TYPE_CODES.includes(card.type_code);
 }

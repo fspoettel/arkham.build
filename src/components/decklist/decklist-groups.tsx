@@ -102,7 +102,7 @@ type DecklistGroupProps = {
   quantities?: Record<string, number>;
 };
 
-export function DecklistGroup({
+function DecklistGroup({
   cards,
   ignoredCounts,
   mapping,

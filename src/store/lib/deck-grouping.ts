@@ -8,7 +8,7 @@ import type { Metadata } from "../slices/metadata.types";
 import { ownedCardCount } from "./card-ownership";
 import type { CardWithRelations, ResolvedDeck } from "./types";
 
-export type DeckCard = Card & {
+type DeckCard = Card & {
   quantity: number;
 };
 
@@ -25,7 +25,7 @@ export type NamedGrouping = {
   data: Grouping;
 };
 
-export type Groupings = {
+type Groupings = {
   main: NamedGrouping;
   special: NamedGrouping;
   side?: NamedGrouping;

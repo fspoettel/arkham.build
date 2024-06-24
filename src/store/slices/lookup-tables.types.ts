@@ -1,4 +1,4 @@
-export type Mapping<V extends string | number> = Record<string, V>;
+type Mapping<V extends string | number> = Record<string, V>;
 
 export type LookupTable<
   T extends string | number,

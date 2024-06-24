@@ -10,19 +10,6 @@ export type Slot =
 
 export type Tab = Slot | "meta";
 
-export function isSlot(value: string): value is Slot {
-  return (
-    value === "slots" ||
-    value === "sideSlots" ||
-    value === "extraSlots" ||
-    value === "ignoreDeckLimitSlots"
-  );
-}
-
-export function isTab(value: string): value is Tab {
-  return isSlot(value) || value === "meta";
-}
-
 export function mapTabToSlot(tab: Tab): Slot {
   switch (tab) {
     case "extraSlots":

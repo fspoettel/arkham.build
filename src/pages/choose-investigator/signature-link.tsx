@@ -3,10 +3,10 @@ import { useCallback } from "react";
 
 import { useCardModalContext } from "@/components/card-modal/card-modal-context";
 import { CardTooltip } from "@/components/card-tooltip";
-import { useRestingTooltip } from "@/components/ui/tooltip";
 import type { Card } from "@/store/services/queries.types";
 import { FLOATING_PORTAL_ID } from "@/utils/constants";
 
+import { useRestingTooltip } from "@/components/ui/tooltip.hooks";
 import css from "./choose-investigator.module.css";
 
 type Props = {
