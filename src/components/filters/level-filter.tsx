@@ -103,6 +103,7 @@ export function LevelFilter({ id }: { id: number }) {
       nonCollapsibleContent={
         !filter.open && (
           <ToggleGroup
+            data-testid="filters-level-shortcut"
             full
             onValueChange={handleApplyLevelShortcut}
             type="single"

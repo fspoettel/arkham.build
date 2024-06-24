@@ -42,11 +42,13 @@ export function CardListNav({ data, metadata, onSelectGroup }: Props) {
     [data, metadata],
   );
 
-  if (!data) return null;
+  if (data == null) return null;
 
   return (
     <nav className={css["nav"]}>
-      <output>{data?.cards.length ?? 0} cards</output>
+      <output data-testid="cardlist-count">
+        {data?.cards.length ?? 0} cards
+      </output>
       {data && (
         <Select
           className={css["nav-jump"]}

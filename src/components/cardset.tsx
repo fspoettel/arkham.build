@@ -29,6 +29,7 @@ export function CardSet({ onChangeCardQuantity, onSelect, set }: Props) {
           <Checkbox
             checked={set.selected}
             className={css["cardset-title"]}
+            data-testid="cardset-select"
             disabled={!onSelect || !set.canSelect}
             id={`card-set-${set.id}`}
             label={set.title}

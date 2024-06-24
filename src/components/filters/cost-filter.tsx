@@ -89,6 +89,7 @@ export function CostFilter({ id }: { id: number }) {
       title="Cost"
     >
       <RangeSelect
+        data-testid="filters-cost"
         id="cost-select"
         label="Cost"
         max={max}

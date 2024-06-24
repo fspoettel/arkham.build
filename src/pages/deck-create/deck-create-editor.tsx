@@ -102,6 +102,7 @@ export function DeckCreateEditor() {
       <Field full padded>
         <FieldLabel>Title</FieldLabel>
         <input
+          data-testid="create-title"
           onChange={handleInputChange}
           type="text"
           value={deckCreate.title}
@@ -111,6 +112,7 @@ export function DeckCreateEditor() {
       <Field full padded>
         <FieldLabel>Taboo Set</FieldLabel>
         <Select
+          data-testid="create-taboo"
           emptyLabel="None"
           onChange={handleTabooSetChange}
           options={tabooSets}
@@ -124,6 +126,7 @@ export function DeckCreateEditor() {
             <FieldLabel>Investigator Front</FieldLabel>
             <Select
               data-side="front"
+              data-testid="create-investigator-front"
               onChange={handleInvestigatorChange}
               options={getInvestigatorOptions(investigator, "Front")}
               required
@@ -134,6 +137,7 @@ export function DeckCreateEditor() {
             <FieldLabel>Investigator Back</FieldLabel>
             <Select
               data-side="back"
+              data-testid="create-investigator-back"
               onChange={handleInvestigatorChange}
               options={getInvestigatorOptions(investigator, "Back")}
               required
@@ -177,7 +181,11 @@ export function DeckCreateEditor() {
         ))}
 
       <nav className={css["editor-nav"]}>
-        <Button onClick={handleDeckCreate} variant="primary">
+        <Button
+          data-testid="create-save"
+          onClick={handleDeckCreate}
+          variant="primary"
+        >
           Create deck
         </Button>
         <Button onClick={goBack} type="button" variant="bare">

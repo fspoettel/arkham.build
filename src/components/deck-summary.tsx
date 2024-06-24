@@ -48,12 +48,12 @@ export function DeckSummary({
           </div>
         )}
         <div className={css["header-container"]}>
-          <h3 className={css["title"]}>
+          <h3 className={css["title"]} data-testid="deck-title">
             {showValidation && !validation?.valid && <CircleAlert />}
             {deck.name}
           </h3>
           <div className={css["header-row"]}>
-            <h4 className={css["sub"]}>
+            <h4 className={css["sub"]} data-testid="deck-investigator">
               {deck.cards.investigator.card.real_name}
             </h4>
             <div className={css["stats"]}>

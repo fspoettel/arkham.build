@@ -8,17 +8,19 @@
   },
   "scripts": {
     "analyze": "npx vite-bundle-visualizer",
-    "build": "tsc && vite build",
-    "check": "tsc --noEmit",
+    "build": "vite build",
+    "check": "tsc --noEmit && biome check",
     "dev": "vite",
     "fmt": "biome format --write",
     "lint": "biome lint",
     "lint:fix": "biome lint --write",
     "prepare": "lefthook install",
+    "prepare:e2e": " playwright install --with-deps",
     "preview": "vite preview",
     "test:coverage": "vitest run --coverage",
+    "test": "vitest run",
     "test:watch": "vitest watch",
-    "test": "vitest run"
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@floating-ui/react": "0.26.17",
@@ -44,6 +46,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.2",
+    "@playwright/test": "1.44.1",
     "@svgr/plugin-jsx": "8.1.0",
     "@svgr/plugin-svgo": "8.1.0",
     "@testing-library/jest-dom": "6.4.6",

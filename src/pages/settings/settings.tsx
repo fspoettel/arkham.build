@@ -47,10 +47,15 @@ function Settings() {
         <header className={css["settings-header"]}>
           <h1 className={css["settings-title"]}>Settings</h1>
           <div className={css["settings-header-actions"]}>
-            <Button onClick={goBack} type="button" variant="bare">
+            <Button
+              data-testid="settings-back"
+              onClick={goBack}
+              type="button"
+              variant="bare"
+            >
               Back
             </Button>
-            <Button type="submit" variant="primary">
+            <Button data-testid="settings-save" type="submit" variant="primary">
               Save settings
             </Button>
           </div>

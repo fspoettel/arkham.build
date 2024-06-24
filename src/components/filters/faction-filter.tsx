@@ -37,6 +37,7 @@ export function FactionFilter({ id }: Props) {
   return (
     <ToggleGroup
       className={css["faction-filter"]}
+      data-testid="filters-faction"
       full
       icons
       onValueChange={handleValueChange}

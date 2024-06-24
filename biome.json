@@ -1,7 +1,7 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.8.2/schema.json",
   "files": {
-    "ignore": ["dist/**", "coverage/**"],
+    "ignore": ["dist/**", "coverage/**", "test-results/**"],
     "maxSize": 100000000
   },
   "organizeImports": {
