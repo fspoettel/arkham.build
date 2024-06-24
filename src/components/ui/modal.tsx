@@ -58,6 +58,7 @@ export function Modal({
   );
 
   return (
+    // biome-ignore lint/a11y/useKeyWithClickEvents: TODO.
     <div
       className={clsx(css["modal"], centerContent && css["center"], className)}
       onClick={onCloseModalOutside}
@@ -65,13 +66,14 @@ export function Modal({
       style={cssVariables as React.CSSProperties}
     >
       <div className={css["inner"]}>
+        {/* biome-ignore lint/a11y/useKeyWithClickEvents: TODO. */}
         <div
           className={clsx(css["actions"], actions && css["has-custom"])}
           onClick={onCloseActions}
           ref={actionRef}
         >
           <nav className={css["actions-row"]}>{actions}</nav>
-          <Button onClick={onClose} tabIndex={1} variant="bare">
+          <Button onClick={onClose} tabIndex={0} variant="bare">
             <XIcon />
           </Button>
         </div>

@@ -30,7 +30,7 @@ export function InvestigatorFilter({ id }: { id: number }) {
       renderOption={(card) => (
         <option key={card.code} value={card.code}>
           {card.real_name}
-          {card.parallel && ` (Parallel)`}
+          {card.parallel && " (Parallel)"}
         </option>
       )}
       title="Investigator"

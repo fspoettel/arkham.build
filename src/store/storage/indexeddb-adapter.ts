@@ -37,11 +37,11 @@ export class IndexedDBAdapter<T extends StorageValue<Val>> {
     }
 
     if (currentDataVersion === localStorage.getItem(key)) {
-      console.debug(`[persist] skip: stored metadata is in sync.`);
+      console.debug("[persist] skip: stored metadata is in sync.");
       return;
     }
 
-    console.debug(`[persist] save: stored metadata is out of sync.`);
+    console.debug("[persist] save: stored metadata is out of sync.");
     localStorage.setItem(key, currentDataVersion);
 
     const payload = JSON.stringify({
@@ -55,7 +55,7 @@ export class IndexedDBAdapter<T extends StorageValue<Val>> {
   }
 
   async setAppdata(name: string, value: T) {
-    console.debug(`[persist] save app data.`);
+    console.debug("[persist] save app data.");
 
     const payload = JSON.stringify({
       state: {
@@ -81,7 +81,7 @@ export class IndexedDBAdapter<T extends StorageValue<Val>> {
     const data = await get(this.metadataName(name));
 
     if (!data) {
-      console.debug(`[persist] no metadata found in storage.`);
+      console.debug("[persist] no metadata found in storage.");
       // the item may have been deleted by the user, ensure storage key is purged as well.
       localStorage.removeItem(key);
       return null;
@@ -94,7 +94,7 @@ export class IndexedDBAdapter<T extends StorageValue<Val>> {
       parsed?.version,
     );
 
-    if (!version) throw new TypeError(`stored data is missing version.`);
+    if (!version) throw new TypeError("stored data is missing version.");
 
     localStorage.setItem(key, version);
     console.debug(`[persist] rehydrated card version: ${version}`);

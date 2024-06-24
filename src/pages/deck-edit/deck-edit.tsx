@@ -33,6 +33,7 @@ function DeckEdit() {
   const deck = useStore((state) => selectActiveDeckById(state, id, true));
   const changes = useStore((state) => state.deckEdits[id]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: we only want to run this effect once on mount.
   useEffect(() => {
     if (changes) {
       showToast({

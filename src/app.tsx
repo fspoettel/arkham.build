@@ -70,6 +70,7 @@ function App() {
 function RouteReset() {
   const [pathname] = useLocation();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: a change to pathname indicates a change to window.location.
   useEffect(() => {
     if (window.location.hash) {
       // HACK: this enables hash-based deep links to work when a route is loaded async.

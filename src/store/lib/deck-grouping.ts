@@ -1,6 +1,7 @@
 import { isSpecialCard } from "@/utils/card-utils";
 import type { PlayerType } from "@/utils/constants";
 
+import { assert } from "@/utils/assert";
 import type { Card } from "../services/queries.types";
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
@@ -158,7 +159,12 @@ function addCardToGrouping(
     data: {},
   };
 
-  const grouping = groupings[key]!.data;
+  const grouping = groupings[key]?.data;
+
+  assert(
+    grouping,
+    `Tried to add card to grouping ${key} but it was not found.`,
+  );
 
   if (card.type_code === "asset") {
     grouping.asset ??= {};

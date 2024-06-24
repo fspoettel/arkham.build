@@ -4,7 +4,7 @@ import { assert } from "@/utils/assert";
 
 import type { StoreState } from ".";
 import { queryDeck, queryHistory } from "../services/queries";
-import type { DataSlice } from "./data.types";
+import type { DataSlice, Deck } from "./data.types";
 
 export function getInitialDataState() {
   return {
@@ -55,10 +55,10 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
         decks: {
           ...state.data.decks,
           [deck.id]: deck,
-          ...deckHistory.reduce(
-            (acc, history) => ({ ...acc, [history.id]: history }),
-            {},
-          ),
+          ...deckHistory.reduce<Record<string, Deck>>((acc, history) => {
+            acc[history.id] = history;
+            return acc;
+          }, {}),
         },
         history: nextUpgrades,
       },

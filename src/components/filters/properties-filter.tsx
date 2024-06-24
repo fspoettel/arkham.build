@@ -6,7 +6,7 @@ import {
   selectPropertiesChanges,
 } from "@/store/selectors/lists";
 import { isPropertiesFilterObject } from "@/store/slices/lists.type-guards";
-import type { PropertiesFilter } from "@/store/slices/lists.types";
+import type { PropertiesFilter as PropertiesFilterType } from "@/store/slices/lists.types";
 import { assert } from "@/utils/assert";
 
 import { Checkbox } from "../ui/checkbox";
@@ -53,7 +53,7 @@ export function PropertiesFilter({ id }: { id: number }) {
   );
 
   const onPropertyChange = useCallback(
-    (key: keyof PropertiesFilter, value: boolean) => {
+    (key: keyof PropertiesFilterType, value: boolean) => {
       setFilterValue(id, {
         [key]: value,
       });
@@ -72,13 +72,13 @@ export function PropertiesFilter({ id }: { id: number }) {
       <CheckboxGroup>
         {properties.map(({ key, label }) => (
           <Checkbox
-            checked={filter.value[key as keyof PropertiesFilter]}
+            checked={filter.value[key as keyof PropertiesFilterType]}
             data-key={key}
             id={`property-${key}`}
             key={key}
             label={label}
             onCheckedChange={(val) =>
-              onPropertyChange(key as keyof PropertiesFilter, !!val)
+              onPropertyChange(key as keyof PropertiesFilterType, !!val)
             }
           />
         ))}

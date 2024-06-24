@@ -114,7 +114,10 @@ export function applyCustomizations(
   });
 
   toInsert.sort((a, b) => b.position - a.position || b.index - a.index);
-  toInsert.forEach(({ edit, position }) => lines.splice(position + 1, 0, edit));
+
+  for (const { edit, position } of toInsert) {
+    lines.splice(position + 1, 0, edit);
+  }
 
   nextCard.real_text = lines.join("\n");
   return nextCard;

@@ -77,6 +77,7 @@ export function Filters({ className, children }: Props) {
       <Scroller>
         <div className={css["content"]}>
           {filters.map((filter, id) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: index is unique key.
             <Fragment key={id}>
               {filter === "faction" && <FactionFilter id={id} />}
               {filter === "level" && <LevelFilter id={id} />}

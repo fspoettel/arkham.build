@@ -91,12 +91,12 @@ export function createLookupTables(
 
   const cards = Object.values(metadata.cards);
 
-  cards.forEach((c) => {
+  for (const card of cards) {
     addCardToLookupTables(
       lookupTables,
-      applyTaboo(c, metadata, settings.tabooSetId),
+      applyTaboo(card, metadata, settings.tabooSetId),
     );
-  });
+  }
 
   createRelations(metadata, lookupTables);
 

@@ -53,8 +53,10 @@ export function DeckDescription({ className, content, title }: Props) {
   return (
     <div className={css["description"]}>
       <h1>{title}</h1>
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents: TODO. */}
       <div
         className={clsx("longform", className)}
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: we sanitize html content.
         dangerouslySetInnerHTML={{
           __html: parseMarkdown(content),
         }}

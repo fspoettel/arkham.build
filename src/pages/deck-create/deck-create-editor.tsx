@@ -66,7 +66,7 @@ export function DeckCreateEditor() {
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
       if (evt.target instanceof HTMLSelectElement) {
         const value = evt.target.value;
-        setTabooSet(value ? parseInt(value, 10) : undefined);
+        setTabooSet(value ? Number.parseInt(value, 10) : undefined);
       }
     },
     [setTabooSet],

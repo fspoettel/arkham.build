@@ -121,6 +121,7 @@ export function ListCardInner({
           <button
             onClick={disableModalOpen ? undefined : openModal}
             tabIndex={-1}
+            type="button"
           >
             <div className={css["thumbnail"]} {...referenceProps}>
               <CardThumbnail card={card} />
@@ -137,7 +138,7 @@ export function ListCardInner({
         <figcaption className={css["caption"]}>
           <div className={clsx(css["name-container"], colorCls)}>
             <h4 className={css["name"]} {...referenceProps}>
-              <button onClick={openModal} tabIndex={-1}>
+              <button onClick={openModal} tabIndex={-1} type="button">
                 {card.real_name}
               </button>
             </h4>

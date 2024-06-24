@@ -60,6 +60,7 @@ export function ComboboxMenu<T extends Coded>({
         itemContent={(index, item) => {
           const active = activeIndex === index;
           return (
+            // biome-ignore lint/a11y/useKeyWithClickEvents: TODO.
             <div
               className={clsx(css["menu-item"], active && css["active"])}
               id={item.code}

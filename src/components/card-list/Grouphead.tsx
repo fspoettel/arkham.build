@@ -90,11 +90,13 @@ export function Grouphead({ grouping, metadata }: Props) {
           type === "level" ||
           type === "cost"
         ) {
+          // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
           return <span key={i}>{keyLabel}</span>;
         }
 
         if (type === "cycle") {
           return (
+            // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
             <Fragment key={i}>
               <PackIcon className={css["icon"]} code={key} />
               <span>{keyLabel}</span>
@@ -104,6 +106,7 @@ export function Grouphead({ grouping, metadata }: Props) {
 
         if (type === "encounter_set") {
           return (
+            // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
             <Fragment key={i}>
               <EncounterIcon className={css["icon"]} code={key} />
               <span>{keyLabel}</span>
@@ -114,15 +117,18 @@ export function Grouphead({ grouping, metadata }: Props) {
         if (type === "slot") {
           if (key === NONE) {
             return grouping.key.includes("asset") ? (
+              // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
               <span key={i}>{keyLabel}</span>
             ) : null;
           }
 
           if (key === "permanent") {
+            // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
             return <span key={i}>{keyLabel}</span>;
           }
 
           return (
+            // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
             <Fragment key={i}>
               <CardSlots className={css["icon"]} size="small" slot={key} />
               <span>{keyLabel}</span>
@@ -134,6 +140,8 @@ export function Grouphead({ grouping, metadata }: Props) {
           return (
             <>
               <FactionIcon className={css["icon"]} code={key} />
+
+              {/* biome-ignore lint/suspicious/noArrayIndexKey: order is stable. */}
               <span key={i}>{keyLabel}</span>
             </>
           );

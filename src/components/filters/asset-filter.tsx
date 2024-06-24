@@ -8,7 +8,7 @@ import {
 } from "@/store/selectors/lists";
 import type { Coded } from "@/store/services/queries.types";
 import { isAssetFilterObject } from "@/store/slices/lists.type-guards";
-import type { AssetFilter } from "@/store/slices/lists.types";
+import type { AssetFilter as AssetFilterType } from "@/store/slices/lists.types";
 import { assert } from "@/utils/assert";
 import { capitalize } from "@/utils/formatting";
 
@@ -73,9 +73,9 @@ export function AssetFilter({ id }: { id: number }) {
   );
 
   const onChangeRange = useCallback(
-    function setValue<K extends keyof AssetFilter>(
+    function setValue<K extends keyof AssetFilterType>(
       key: K,
-      value: AssetFilter[K],
+      value: AssetFilterType[K],
     ) {
       setFilterValue(id, { [key]: value });
     },

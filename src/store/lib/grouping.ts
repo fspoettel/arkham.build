@@ -317,10 +317,10 @@ export function getGroupedCards(
         const group = groups[j];
         const newGroups = applyGrouping(group.cards, grouping, metadata);
 
-        newGroups.forEach((g) => {
+        for (const g of newGroups) {
           g.key = `${group.key}|${g.key}`;
           g.type = `${group.type}|${g.type}`;
-        });
+        }
 
         groups.splice(j, 1, ...newGroups);
         j += newGroups.length;
@@ -328,9 +328,9 @@ export function getGroupedCards(
     }
   }
 
-  groups.forEach((group) => {
+  for (const group of groups) {
     group.cards.sort(sortFunction);
-  });
+  }
 
   return groups;
 }

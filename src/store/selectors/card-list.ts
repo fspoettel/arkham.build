@@ -120,7 +120,9 @@ function makeUserFilter(
           const accessFilter = filterInvestigatorAccess(
             metadata.cards[value],
             lookupTables,
-            { targetDeck },
+            {
+              targetDeck,
+            },
           );
           const weaknessFilter = filterInvestigatorWeaknessAccess(
             metadata.cards[value],
