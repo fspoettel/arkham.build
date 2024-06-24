@@ -28,3 +28,6 @@ coverage
 
 # env file
 .env
+
+# auto-generated folders
+.husky
