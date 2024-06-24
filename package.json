@@ -13,6 +13,7 @@
     "dev": "vite",
     "fmt": "biome check --write",
     "lint": "biome lint",
+    "knip": "npx knip",
     "prepare": "lefthook install",
     "prepare:e2e": " playwright install --with-deps",
     "preview": "vite preview",
