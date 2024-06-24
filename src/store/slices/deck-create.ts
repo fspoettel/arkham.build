@@ -100,7 +100,7 @@ export const createDeckCreateSlice: StateCreator<
   deckCreateToggleCardSet(value) {
     const state = get();
     assert(state.deckCreate, "DeckCreate slice must be initialized.");
-    assert(isSet(value), "Invalid card set value.");
+    assert(isCardSet(value), "Invalid card set value.");
 
     const sets = state.deckCreate.sets.includes(value)
       ? state.deckCreate.sets.filter((set) => set !== value)
@@ -134,7 +134,7 @@ export const createDeckCreateSlice: StateCreator<
   },
 });
 
-export function isSet(value: string): value is CardSet {
+function isCardSet(value: string): value is CardSet {
   return (
     value === "requiredCards" || value === "advanced" || value === "replacement"
   );

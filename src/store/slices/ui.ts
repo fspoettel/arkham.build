@@ -3,7 +3,7 @@ import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
 import type { UISlice, UIState } from "./ui.types";
 
-export function getInitialUIState(): UIState {
+function getInitialUIState(): UIState {
   return {
     ui: {
       hydrated: false,

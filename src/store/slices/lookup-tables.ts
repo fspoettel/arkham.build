@@ -20,7 +20,7 @@ import type {
 import type { Metadata } from "./metadata.types";
 import type { SettingsState } from "./settings.types";
 
-export function getInitialLookupTables(): LookupTables {
+function getInitialLookupTables(): LookupTables {
   return {
     relations: {
       bound: {},
@@ -118,7 +118,7 @@ function setInLookupTable<T extends string | number>(
   }
 }
 
-export function addCardToLookupTables(tables: LookupTables, card: Card) {
+function addCardToLookupTables(tables: LookupTables, card: Card) {
   indexByCodes(tables, card);
   indexByTraits(tables, card);
   indexByActions(tables, card);

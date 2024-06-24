@@ -138,7 +138,7 @@ function applyInvestigatorSide(
 /**
  * Merges stored customizations in a deck with edits, returning a deck.meta JSON block.
  */
-export function mergeCustomizationEdits(
+function mergeCustomizationEdits(
   edits: EditState,
   deckMeta: DeckMeta,
   metadata: Metadata,

@@ -8,7 +8,7 @@ import type { Customizations } from "./types";
  * 1. Changes to the card text and attributes.
  * 2. Changes to the customizable_text itself.
  */
-export function applyCustomizations(
+function applyCustomizations(
   card: Card,
   metadata: Metadata,
   customizations: Customizations | undefined,

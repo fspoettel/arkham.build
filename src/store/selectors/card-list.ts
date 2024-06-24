@@ -217,7 +217,7 @@ function makeUserFilter(
 // TODO: There is some room for optimization here.
 // This filter does not have to be re-calculated every time the deck changes,
 // only when the investigator back changes or certain slots are changed.
-export const selectDeckInvestigatorFilter = createSelector(
+const selectDeckInvestigatorFilter = createSelector(
   (state: StoreState) => state.lookupTables,
   selectResolvedDeckById,
   (

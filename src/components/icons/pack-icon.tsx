@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-export type Props = {
+type Props = {
   code?: string;
   className?: string;
 };

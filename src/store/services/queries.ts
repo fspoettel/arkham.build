@@ -47,7 +47,7 @@ export type AllCardApiResponse = {
 
 export type AllCardResponse = QueryCard[];
 
-export type FaqResponse = {
+type FaqResponse = {
   code: string;
   html: string;
   updated: {

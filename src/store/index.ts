@@ -14,7 +14,7 @@ import { createUISlice } from "./slices/ui";
 import { storageConfig } from "./storage";
 
 // biome-ignore lint/suspicious/noExplicitAny: safe.
-export const stateCreator = (...args: [any, any, any]) => ({
+const stateCreator = (...args: [any, any, any]) => ({
   ...createDataSlice(...args),
   ...createMetadataSlice(...args),
   ...createLookupTablesSlice(...args),

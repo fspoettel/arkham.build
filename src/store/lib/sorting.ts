@@ -31,11 +31,11 @@ function sortByLevel(a: Card, b: Card) {
   return (a.xp ?? -1) - (b.xp ?? -1);
 }
 
-export function sortByPosition(a: Card, b: Card) {
+function sortByPosition(a: Card, b: Card) {
   return (a.position ?? 0) - (b.position ?? 0);
 }
 
-export function sortByCycle(metadata: Metadata) {
+function sortByCycle(metadata: Metadata) {
   return (a: Card, b: Card) => {
     const packA = metadata.packs[a.pack_code];
     const packB = metadata.packs[b.pack_code];

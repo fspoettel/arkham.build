@@ -1,6 +1,6 @@
 export type CardSet = "requiredCards" | "advanced" | "replacement";
 
-export type DeckCreateState = {
+type DeckCreateState = {
   title: string;
   tabooSetId: number | undefined;
   investigatorCode: string;

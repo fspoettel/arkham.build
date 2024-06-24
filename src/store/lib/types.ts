@@ -68,7 +68,7 @@ export type DeckMeta = {
   extra_deck?: string | null;
 };
 
-export type DeckSizeSelection = {
+type DeckSizeSelection = {
   type: "deckSize";
   value: number;
   options: number[];
@@ -76,7 +76,7 @@ export type DeckSizeSelection = {
   accessor: string;
 };
 
-export type FactionSelection = {
+type FactionSelection = {
   type: "faction";
   value?: string;
   options: string[];
@@ -84,7 +84,7 @@ export type FactionSelection = {
   accessor: string;
 };
 
-export type OptionSelection = {
+type OptionSelection = {
   type: "option";
   value?: OptionSelect;
   options: OptionSelect[];

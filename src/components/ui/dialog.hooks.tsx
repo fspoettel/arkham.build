@@ -76,8 +76,3 @@ export const useDialogContext = () => {
 
   return context;
 };
-
-export const useDialogContextUnchecked = () => {
-  const context = useContext(DialogContext);
-  return context;
-};

@@ -4,6 +4,7 @@ import type {
   DeckOptionsError,
   DeckValidationResult,
   InvalidCardError,
+  TooFewCardsError,
   TooManyCardsError,
 } from "@/store/lib/deck-validation";
 
@@ -38,7 +39,7 @@ export function DecklistValidation({ defaultOpen, validation }: Props) {
               {error.type === "TOO_MANY_CARDS" &&
                 `${getName((error as TooManyCardsError).details.target)} contains too many cards.`}
               {error.type === "TOO_FEW_CARDS" &&
-                `${getName((error as TooManyCardsError).details.target)} contains too few cards.`}
+                `${getName((error as TooFewCardsError).details.target)} contains too few cards.`}
               {error.type === "INVALID_INVESTIGATOR" &&
                 "Investigator is invalid. Required configuration is missing or the card is not an investigator."}
               {error.type === "DECK_REQUIREMENTS_NOT_MET" &&

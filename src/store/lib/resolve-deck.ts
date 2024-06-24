@@ -107,7 +107,7 @@ export function resolveDeck<
   };
 }
 
-export function getInvestigatorForSide(
+function getInvestigatorForSide(
   investigator: CardWithRelations,
   deckMeta: DeckMeta,
   key: "alternate_front" | "alternate_back",

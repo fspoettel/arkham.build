@@ -13,7 +13,7 @@ import { CardScan } from "./card-scan";
 import { CardText } from "./card-text";
 import { CardThumbnail } from "./card-thumbnail";
 
-export type Props = {
+type Props = {
   className?: string;
   resolvedCard: CardWithRelations | ResolvedCard;
   linked?: boolean;
