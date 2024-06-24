@@ -70,9 +70,11 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: "npm run build && npm run preview",
-    url: "http://localhost:3000",
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer: process.env.E2E_BASE_URL
+    ? undefined
+    : {
+        command: "npm run build && npm run preview",
+        url: "http://localhost:3000",
+        reuseExistingServer: !process.env.CI,
+      },
 });
