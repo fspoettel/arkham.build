@@ -4,6 +4,10 @@ on:
   schedule:
     - cron: "20 4 * * *"
   workflow_dispatch:
+    inputs:
+      BASE_URL:
+        required: true
+        default: https://arkham.build
 
 jobs:
   e2e:
@@ -13,7 +17,7 @@ jobs:
       VITE_PAGE_NAME: ${{ vars.VITE_PAGE_NAME }}
       VITE_API_URL: ${{ vars.VITE_API_URL }}
       VITE_CARD_IMAGE_URL: ${{ vars.VITE_CARD_IMAGE_URL }}
-      E2E_BASE_URL: ${{ vars.PRODUCTION_BASE_URL }}
+      E2E_BASE_URL: ${{ inputs.BASE_URL || vars.PRODUCTION_BASE_URL }}
 
     steps:
       - uses: actions/checkout@v4
