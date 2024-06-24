@@ -15,6 +15,7 @@
     "lint": "biome lint",
     "lint:fix": "biome lint --write",
     "prepare": "lefthook install",
+    "prepare:e2e": " playwright install --with-deps",
     "preview": "vite preview",
     "test:coverage": "vitest run --coverage",
     "test": "vitest run",
