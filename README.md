@@ -23,9 +23,9 @@ Arkham-related SVG icons are sourced from ArkhamCards's [icomoon project](https:
 
 additional features:
 
-- [eslint](https://eslint.org/) for linting.
+- [biome](https://biomejs.dev/) for linting and code formatting.
+- [lefthook](https://github.com/evilmartians/lefthook) for pre-commit checks.
 - [vitest](https://vitest.dev/) + [testing-library](https://testing-library.com/) for testing.
-- [prettier](https://prettier.io/) + [lint-staged](https://github.com/okonet/lint-staged) hook for code formatting.
 - [github actions](https://github.com/features/actions) for continuous integration.
 - [browserslist](https://github.com/browserslist/browserslist) + [autoprefixer](https://github.com/postcss/autoprefixer).
 
