@@ -8,6 +8,7 @@ export function getInitialUIState(): UIState {
     ui: {
       hydrated: false,
       initialized: false,
+      showUnusableCards: false,
     },
   };
 }
@@ -19,5 +20,8 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
   ...getInitialUIState(),
   setHydrated() {
     set({ ui: { ...get().ui, hydrated: true } });
+  },
+  setShowUnusableCards(showUnusableCards: boolean) {
+    set({ ui: { ...get().ui, showUnusableCards } });
   },
 });

@@ -1,5 +1,6 @@
 import { useStore } from "@/store";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
+import { useDeckId } from "@/utils/use-deck-id";
 
 import css from "./card-tooltip.module.css";
 
@@ -10,8 +11,16 @@ type Props = {
 };
 
 export function CardTooltip({ code }: Props) {
+  const deckIdCtx = useDeckId();
+
   const resolvedCard = useStore((state) =>
-    selectCardWithRelations(state, code, false),
+    selectCardWithRelations(
+      state,
+      code,
+      false,
+      deckIdCtx?.deckId,
+      deckIdCtx?.canEdit,
+    ),
   );
 
   if (!resolvedCard) return null;

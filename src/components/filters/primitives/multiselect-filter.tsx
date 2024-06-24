@@ -56,8 +56,8 @@ export function MultiselectFilter<T extends Coded>({
   return (
     <FilterContainer
       filterString={changes}
-      onOpenChange={onOpenChange}
       nonCollapsibleContent={children}
+      onOpenChange={onOpenChange}
       onReset={onReset}
       open={open}
       title={title}

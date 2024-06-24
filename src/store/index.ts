@@ -4,7 +4,7 @@ import { devtools, persist } from "zustand/middleware";
 import type { StoreState } from "./slices";
 import { createDataSlice } from "./slices/data";
 import { createDeckCreateSlice } from "./slices/deck-create";
-import { createDeckViewSlice } from "./slices/deck-view";
+import { createDeckEditsSlice } from "./slices/deck-edits";
 import { createListsSlice } from "./slices/lists";
 import { createLookupTablesSlice } from "./slices/lookup-tables";
 import { createMetadataSlice } from "./slices/metadata";
@@ -22,7 +22,7 @@ export const stateCreator = (...args: [any, any, any]) => ({
   ...createSettingsSlice(...args),
   ...createUISlice(...args),
   ...createSharedSlice(...args),
-  ...createDeckViewSlice(...args),
+  ...createDeckEditsSlice(...args),
   ...createDeckCreateSlice(...args),
 });
 

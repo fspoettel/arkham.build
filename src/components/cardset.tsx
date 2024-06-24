@@ -13,18 +13,12 @@ import { ListCard } from "./list-card/list-card";
 import { Checkbox } from "./ui/checkbox";
 
 type Props = {
-  canOpenModal?: boolean;
   onChangeCardQuantity?: (code: string, quantity: number) => void;
   onSelect?: (id: string) => void;
   set: CardSetType;
 };
 
-export function CardSet({
-  canOpenModal,
-  onChangeCardQuantity,
-  onSelect,
-  set,
-}: Props) {
+export function CardSet({ onChangeCardQuantity, onSelect, set }: Props) {
   const canCheckOwnership = useStore(selectCanCheckOwnership);
   const cardOwnedCount = useStore(selectCardOwnedCount);
 
@@ -49,7 +43,6 @@ export function CardSet({
           <ListCard
             as="li"
             canCheckOwnership={canCheckOwnership}
-            canOpenModal={canOpenModal}
             card={card}
             key={card.code}
             omitBorders

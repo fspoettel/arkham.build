@@ -8,8 +8,9 @@ import {
   getRelatedCards,
 } from "@/store/lib/resolve-card";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
-import { selectActiveDeck, selectCanEditDeck } from "@/store/selectors/decks";
+import { selectActiveDeckById } from "@/store/selectors/deck-view";
 import { formatRelationTitle } from "@/utils/formatting";
+import { useDeckId } from "@/utils/use-deck-id";
 import { useMedia } from "@/utils/use-media";
 
 import css from "./card-modal.module.css";
@@ -28,17 +29,23 @@ type Props = {
 };
 
 export function CardModal({ code }: Props) {
+  const deckIdCtx = useDeckId();
+  const deckId = deckIdCtx.deckId;
+  const canEdit = deckIdCtx.canEdit;
+
   const modalContext = useDialogContext();
 
   const onCloseModal = useCallback(() => {
     modalContext?.setOpen(false);
   }, [modalContext]);
 
-  const activeDeck = useStore(selectActiveDeck);
-  const canEdit = useStore(selectCanEditDeck);
+  // we need the active deck here to get contents of bondedSlots.
+  const activeDeck = useStore((state) =>
+    deckId ? selectActiveDeckById(state, deckId, canEdit) : undefined,
+  );
 
   const cardWithRelations = useStore((state) =>
-    selectCardWithRelations(state, code, true),
+    selectCardWithRelations(state, code, true, deckId, canEdit),
   );
 
   const showQuantities =
@@ -60,9 +67,9 @@ export function CardModal({ code }: Props) {
         {cardWithRelations.card.customization_options ? (
           activeDeck ? (
             <CustomizationsEditor
-              activeDeck={activeDeck}
               canEdit={canEdit}
               card={cardWithRelations.card}
+              deck={activeDeck}
             />
           ) : (
             <Customizations card={cardWithRelations.card} />
@@ -98,8 +105,8 @@ export function CardModal({ code }: Props) {
           {cardWithRelations.card.type_code === "investigator" && (
             <Link
               asChild
+              href={`/deck/create/${cardWithRelations.card.code}`}
               onClick={onCloseModal}
-              to={`/deck/create/${cardWithRelations.card.code}`}
             >
               <Button as="a">
                 <i className="icon-deck" /> Create deck
@@ -126,6 +133,7 @@ export function CardModal({ code }: Props) {
             <CardModalQuantities
               canEdit={canEdit}
               card={cardWithRelations.card}
+              deck={activeDeck}
               onClickBackground={onCloseModal}
               showExtraQuantities={showExtraQuantities}
             />

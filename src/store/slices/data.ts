@@ -64,23 +64,4 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
       },
     });
   },
-  deleteDeck(id) {
-    const state = get();
-    const decks = { ...state.data.decks };
-
-    const deck = decks[id];
-    assert(deck.next_deck == null, "Cannot delete a deck that has upgrades.");
-
-    delete decks[id];
-    const history = { ...state.data.history };
-
-    if (history[id]) {
-      for (const prevId of history[id]) {
-        delete decks[prevId];
-      }
-    }
-
-    delete history[id];
-    set({ data: { ...state.data, decks, history } });
-  },
 });

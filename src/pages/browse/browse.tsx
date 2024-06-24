@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+import { CardList } from "@/components/card-list/card-list";
+import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { Filters } from "@/components/filters/filters";
 import { ListLayout } from "@/layouts/list-layout";
 import { useStore } from "@/store";
@@ -22,11 +24,15 @@ function Browse() {
   if (!isInitalized || !activeListId?.startsWith("browse")) return null;
 
   return (
-    <ListLayout
-      filters={<Filters />}
-      sidebar={<DeckCollection />}
-      sidebarWidthMax="var(--sidebar-width-one-col)"
-    />
+    <CardModalProvider>
+      <ListLayout
+        filters={<Filters />}
+        sidebar={<DeckCollection />}
+        sidebarWidthMax="var(--sidebar-width-one-col)"
+      >
+        {(props) => <CardList {...props} />}
+      </ListLayout>
+    </CardModalProvider>
   );
 }
 

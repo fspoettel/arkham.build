@@ -4,6 +4,8 @@ import type {
   MetadataResponse,
 } from "@/store/services/queries";
 
+import type { Id } from "./data.types";
+
 export type SharedSlice = {
   init(
     queryMetadata: () => Promise<MetadataResponse>,
@@ -14,5 +16,6 @@ export type SharedSlice = {
 
   createDeck(): string | number;
 
-  saveDeck(): void;
+  saveDeck(deckId: Id): void;
+  deleteDeck(id: Id): void;
 };

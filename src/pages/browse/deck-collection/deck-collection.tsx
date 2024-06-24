@@ -34,7 +34,7 @@ export function DeckCollection() {
       {decks.length ? (
         <Scroller>
           <ol className={css["decks"]}>
-            {decks.map((deck) => (
+            {decks.map(({ deck, validation }) => (
               <li className={css["deck"]} key={deck.id}>
                 <Link asChild href={`/deck/view/${deck.id}`}>
                   <a>
@@ -42,7 +42,7 @@ export function DeckCollection() {
                       deck={deck}
                       interactive
                       showThumbnail
-                      showValidation
+                      validation={validation}
                     >
                       {deck.tags && <DeckTags tags={deck.tags} />}
                     </DeckSummary>

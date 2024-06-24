@@ -67,36 +67,30 @@ const sampleDeck = {
 };
 
 const sampleEdits = {
-  activeTab: "slots",
-  showUnusableCards: false,
-  id: "cdd24868-e3f8-408b-a74f-513a8b10e368",
-  edits: {
-    meta: {},
-    quantities: {
-      sideSlots: {
-        "05035": 0,
-        "03025": 2,
-      },
-      slots: {
-        "10102": 4,
-        "06201": 0,
-      },
-      ignoreDeckLimitSlots: {
-        "10102": 2,
-      },
-      extraSlots: {
-        "10103": 1,
-        "10104": 1,
-      },
+  meta: {},
+  quantities: {
+    sideSlots: {
+      "05035": 0,
+      "03025": 2,
     },
-    customizations: {},
-    tags: "spells multiplayer",
-    name: "Parallel Agnes - Spell Recycling Engine 2.0",
-    investigatorFront: "01004",
-    tabooId: 7,
-    description_md: "Another description",
+    slots: {
+      "10102": 4,
+      "06201": 0,
+    },
+    ignoreDeckLimitSlots: {
+      "10102": 2,
+    },
+    extraSlots: {
+      "10103": 1,
+      "10104": 1,
+    },
   },
-  mode: "edit",
+  customizations: {},
+  tags: "spells multiplayer",
+  name: "Parallel Agnes - Spell Recycling Engine 2.0",
+  investigatorFront: "01004",
+  tabooId: 7,
+  description_md: "Another description",
 };
 
 describe("deck edits", () => {
@@ -223,46 +217,40 @@ describe("deck edits", () => {
     };
 
     const edits = {
-      activeTab: "slots",
-      showUnusableCards: false,
-      id: "3907687",
-      edits: {
-        meta: {},
-        quantities: {},
-        customizations: {
-          "09040": {
-            "0": {
-              xp_spent: 1,
-            },
-            "1": {
-              xp_spent: 0,
-            },
-            "2": {
-              xp_spent: 0,
-            },
+      meta: {},
+      quantities: {},
+      customizations: {
+        "09040": {
+          "0": {
+            xp_spent: 1,
           },
-          "09022": {
-            "2": {
-              xp_spent: 1,
-            },
+          "1": {
+            xp_spent: 0,
           },
-          "09079": {
-            "2": {
-              xp_spent: 0,
-            },
-            "4": {
-              xp_spent: 2,
-              selections: ["combat"],
-            },
+          "2": {
+            xp_spent: 0,
           },
-          "09101": {
-            "3": {
-              xp_spent: 3,
-            },
+        },
+        "09022": {
+          "2": {
+            xp_spent: 1,
+          },
+        },
+        "09079": {
+          "2": {
+            xp_spent: 0,
+          },
+          "4": {
+            xp_spent: 2,
+            selections: ["combat"],
+          },
+        },
+        "09101": {
+          "3": {
+            xp_spent: 3,
           },
         },
       },
-      mode: "edit",
     };
 
     const result = applyDeckEdits(

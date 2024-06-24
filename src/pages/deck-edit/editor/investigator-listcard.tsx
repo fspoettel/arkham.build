@@ -33,8 +33,8 @@ function InvestigatorListcardInner({ deck }: Props) {
     <>
       <DialogTrigger>
         <ListCard
-          canOpenModal={false}
           card={deck.investigatorFront.card}
+          disableModalOpen
           showInvestigatorIcons
           tooltip={
             <DeckInvestigator

@@ -24,17 +24,16 @@ export type Props = {
   isActive?: boolean;
   as?: "li" | "div";
   canIndicateRemoval?: boolean;
-  canOpenModal?: boolean;
   canCheckOwnership?: boolean;
   card: Card;
   className?: string;
   disableKeyboard?: boolean;
+  disableModalOpen?: boolean;
   figureRef?: (node: ReferenceType | null) => void;
   isForbidden?: boolean;
   isIgnored?: number;
   omitBorders?: boolean;
   onChangeCardQuantity?: (code: string, quantity: number) => void;
-  onToggleModal?: () => void;
   owned?: number;
   quantities?: {
     [code: string]: number;
@@ -50,11 +49,11 @@ export function ListCardInner({
   isActive,
   as = "div",
   card,
-  disableKeyboard,
   canIndicateRemoval,
   canCheckOwnership,
-  canOpenModal,
   className,
+  disableKeyboard,
+  disableModalOpen,
   figureRef,
   isForbidden,
   isIgnored,
@@ -69,7 +68,6 @@ export function ListCardInner({
   size,
 }: Props) {
   const modalContext = useCardModalContext();
-
   const quantity = quantities ? quantities[card.code] ?? 0 : 0;
 
   const ownedCount = owned ?? 0;
@@ -86,12 +84,8 @@ export function ListCardInner({
   );
 
   const openModal = useCallback(() => {
-    if (canOpenModal && modalContext) {
-      modalContext.setOpen({
-        code: card.code,
-      });
-    }
-  }, [card.code, modalContext, canOpenModal]);
+    modalContext.setOpen({ code: card.code });
+  }, [modalContext, card.code]);
 
   return (
     <Element
@@ -124,7 +118,10 @@ export function ListCardInner({
 
       <figure className={css["content"]} ref={figureRef}>
         {card.imageurl && (
-          <button onClick={openModal} tabIndex={-1}>
+          <button
+            onClick={disableModalOpen ? undefined : openModal}
+            tabIndex={-1}
+          >
             <div className={css["thumbnail"]} {...referenceProps}>
               <CardThumbnail card={card} />
             </div>

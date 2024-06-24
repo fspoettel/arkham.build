@@ -60,6 +60,7 @@ export class IndexedDBAdapter<T extends StorageValue<Val>> {
     const payload = JSON.stringify({
       state: {
         data: value.state.data,
+        deckEdits: value.state.deckEdits,
         settings: value.state.settings,
       },
       version: value.version,

@@ -34,7 +34,7 @@ export function TypeFilter({ id }: { id: number }) {
     (value: string[]) => {
       setFilterValue(id, value);
     },
-    [id, setFilterValue, filter.value],
+    [id, setFilterValue],
   );
 
   return (
@@ -52,17 +52,17 @@ export function TypeFilter({ id }: { id: number }) {
       {!filter.open && activeList?.cardType === "player" && (
         <ToggleGroup
           full
-          type="multiple"
           onValueChange={handleApplyShortcut}
+          type="multiple"
           value={filter.value}
         >
-          <ToggleGroupItem value="asset" size="small-type">
+          <ToggleGroupItem size="small-type" value="asset">
             Asset
           </ToggleGroupItem>
-          <ToggleGroupItem value="event" size="small-type">
+          <ToggleGroupItem size="small-type" value="event">
             Event
           </ToggleGroupItem>
-          <ToggleGroupItem value="skill" size="small-type">
+          <ToggleGroupItem size="small-type" value="skill">
             Skill
           </ToggleGroupItem>
         </ToggleGroup>

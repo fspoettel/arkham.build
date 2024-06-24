@@ -65,7 +65,7 @@ export function CardModalProvider({ children }: Props) {
       {children}
       <Dialog onOpenChange={value.setClosed} open={state.isOpen}>
         <DialogContent>
-          {state.config && <CardModal code={state.config.code} />}
+          {state.config && <CardModal {...state.config} />}
         </DialogContent>
       </Dialog>
     </CardModalContext.Provider>

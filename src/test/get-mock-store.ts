@@ -32,6 +32,7 @@ async function queryStubCardData() {
 }
 
 export async function getMockStore() {
+  useStore.setState(useStore.getInitialState(), true);
   const state = useStore.getState();
   await state.init(queryStubMetadata, queryStubDataVersion, queryStubCardData);
   return useStore;

@@ -35,6 +35,7 @@ export const storageConfig: PersistOptions<StoreState, Val> = {
   partialize(state: StoreState) {
     return {
       data: state.data,
+      deckEdits: state.deckEdits,
       metadata: state.metadata,
       settings: state.settings,
     };
@@ -65,6 +66,7 @@ function createCustomStorage(): PersistStorage<Val> | undefined {
         const val: StorageValue<Val> = {
           state: {
             data: appdata?.state?.data ?? getInitialDataState().data,
+            deckEdits: appdata?.state?.deckEdits ?? {},
             metadata: metadata?.state?.metadata ?? getInitialMetadata(),
             settings: appdata?.state?.settings ?? getInitialSettings(),
           },

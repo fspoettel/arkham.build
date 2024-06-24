@@ -1,11 +1,20 @@
 import clsx from "clsx";
 import { CheckCircle, CircleAlert } from "lucide-react";
-import { createContext, useCallback, useContext, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 import css from "./toast.module.css";
 
 type Toast = {
-  children: React.ReactNode;
+  children:
+    | React.ReactNode
+    | ((props: { handleClose: () => void }) => React.ReactNode);
+  displayTime?: number;
   variant?: "success" | "error";
 };
 
@@ -18,7 +27,20 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 
   const showToast = useCallback((value: Toast) => {
     setToast(value);
-    setTimeout(() => setToast(undefined), 3000);
+  }, []);
+
+  useEffect(() => {
+    if (!toast?.displayTime) return;
+
+    const timer = setTimeout(() => {
+      setToast(undefined);
+    }, toast.displayTime);
+
+    return () => clearTimeout(timer);
+  }, [toast]);
+
+  const handleClose = useCallback(() => {
+    setToast(undefined);
   }, []);
 
   return (
@@ -33,7 +55,11 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
             <CheckCircle className={css["icon"]} />
           )}
           {toast.variant === "error" && <CircleAlert className={css["icon"]} />}
-          <div>{toast.children}</div>
+          <div>
+            {typeof toast.children === "function"
+              ? toast.children({ handleClose })
+              : toast.children}
+          </div>
         </div>
       )}
     </ToastContext.Provider>

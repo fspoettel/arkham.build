@@ -37,7 +37,11 @@ export function DeckCreateEditor() {
   const handleDeckCreate = () => {
     const id = createDeck();
     navigate(`/deck/edit/${id}`, { replace: true });
-    toast({ children: "Deck created successfully.", variant: "success" });
+    toast({
+      children: "Deck created successfully.",
+      displayTime: 3000,
+      variant: "success",
+    });
   };
 
   const tabooSets = useStore(selectTabooSetSelectOptions);

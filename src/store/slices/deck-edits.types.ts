@@ -1,5 +1,7 @@
 import type { DeckOptionSelectType } from "@/store/services/queries.types";
 
+import type { Id } from "./data.types";
+
 export type Slot =
   | "slots"
   | "sideSlots"
@@ -40,77 +42,66 @@ export type CustomizationEdit = {
 };
 
 export type EditState = {
-  edits: {
-    customizations: {
-      [code: string]: {
-        [id: number]: CustomizationEdit;
-      };
+  customizations: {
+    [code: string]: {
+      [id: number]: CustomizationEdit;
     };
-    meta: {
-      [key: string]: string | null;
-    };
-    quantities: {
-      extraSlots?: Record<string, number>;
-      ignoreDeckLimitSlots?: Record<string, number>;
-      sideSlots?: Record<string, number>;
-      slots?: Record<string, number>;
-    };
-    name?: string | null;
-    description_md?: string | null;
-    tags?: string | null;
-    tabooId?: number | null;
-    investigatorFront?: string | null;
-    investigatorBack?: string | null;
   };
-  dirty: boolean;
-  mode: "edit";
-  activeTab: Tab;
-  showUnusableCards: boolean;
+  meta: {
+    [key: string]: string | null;
+  };
+  quantities: {
+    extraSlots?: Record<string, number>;
+    ignoreDeckLimitSlots?: Record<string, number>;
+    sideSlots?: Record<string, number>;
+    slots?: Record<string, number>;
+  };
+  name?: string | null;
+  description_md?: string | null;
+  tags?: string | null;
+  tabooId?: number | null;
+  investigatorFront?: string | null;
+  investigatorBack?: string | null;
 };
 
-export type ViewState = {
-  mode: "view";
+export type EditsState = {
+  [id: Id]: EditState;
 };
 
-export type DeckViewState = {
-  id: string;
-} & (EditState | ViewState);
+export type DeckEditsSlice = {
+  deckEdits: EditsState;
 
-export type DeckViewSlice = {
-  deckView: DeckViewState | null;
-
-  setActiveDeck(id?: string, type?: "view" | "edit"): void;
-
-  updateActiveTab(value: string): void;
+  discardEdits(deckId: Id): void;
 
   updateCardQuantity(
+    deckId: Id,
     code: string,
     quantity: number,
     slot?: Slot,
     mode?: "increment" | "set",
   ): void;
 
-  updateTabooId(value: number | null): void;
+  updateTabooId(deckId: Id, value: number | null): void;
 
-  updateInvestigatorSide(side: string, code: string): void;
+  updateInvestigatorSide(deckId: Id, side: string, code: string): void;
 
   updateCustomization(
+    deckId: Id,
     code: string,
     index: number,
     edit: CustomizationEdit,
   ): void;
 
   updateMetaProperty(
+    deckId: Id,
     key: string,
     value: string | null,
     type: DeckOptionSelectType,
   ): void;
 
-  updateName(value: string): void;
+  updateName(deckId: Id, value: string): void;
 
-  updateDescription(value: string): void;
+  updateDescription(deckId: Id, value: string): void;
 
-  updateTags(value: string): void;
-
-  updateShowUnusableCards(value: boolean): void;
+  updateTags(deckId: Id, value: string): void;
 };

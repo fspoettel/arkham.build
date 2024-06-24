@@ -744,6 +744,7 @@ export function filterInvestigatorAccess(
   if (mode === "extraSlots") return extraDeckFilter;
 
   const filters = [];
+
   if (deckFilter) filters.push(deckFilter);
   if (extraDeckFilter) filters.push(extraDeckFilter);
   return or(filters);
@@ -818,15 +819,19 @@ function makePlayerCardsFilter(
 export function filterInvestigatorWeaknessAccess(
   card: Card,
   lookupTables: LookupTables,
+  config?: Pick<InvestigatorAccessConfig, "targetDeck">,
 ) {
   // normalize parallel investigators to root for lookups.
   const code = card.alternate_of_code ?? card.code;
 
-  const ors: Filter[] = [
-    filterRequired(code, lookupTables.relations),
-    filterSubtypes(["basicweakness"]),
-    (card: Card) => card.xp == null && !card.restrictions,
-  ];
+  const ors: Filter[] =
+    config?.targetDeck !== "extraSlots"
+      ? [
+          filterRequired(code, lookupTables.relations),
+          filterSubtypes(["basicweakness"]),
+          (card: Card) => card.xp == null && !card.restrictions,
+        ]
+      : [(c: Card) => !!card.side_deck_requirements?.card?.[c.code]];
 
   return and([
     filterSubtypes(["basicweakness", "weakness"]),

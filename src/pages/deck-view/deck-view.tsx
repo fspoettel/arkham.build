@@ -1,12 +1,18 @@
-import { Redirect } from "wouter";
+import { Redirect, useParams } from "wouter";
 
+import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { DeckTags } from "@/components/deck-tags";
 import { Decklist } from "@/components/decklist/decklist";
 import { DecklistValidation } from "@/components/decklist/decklist-validation";
 import { Dialog } from "@/components/ui/dialog";
 import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
-import { selectActiveDeck } from "@/store/selectors/decks";
+import type { DisplayDeck } from "@/store/lib/deck-grouping";
+import {
+  selectActiveDeckById,
+  selectDeckValidById,
+} from "@/store/selectors/deck-view";
+import { DeckIdProvider } from "@/utils/use-deck-id";
 
 import css from "./deck-view.module.css";
 
@@ -14,14 +20,22 @@ import { DeckNotes } from "./deck-notes";
 import { Sidebar } from "./sidebar/sidebar";
 
 function DeckView() {
-  const deckId = useStore((state) => state.deckView?.id);
-  const deck = useStore(selectActiveDeck);
+  const { id } = useParams<{ id: string }>();
+  const deck = useStore((state) => selectActiveDeckById(state, id));
 
-  if (deckId && !deck) {
-    return <Redirect to="/404" />;
-  }
+  if (!deck) return <Redirect to="/404" />;
 
-  if (!deck) return null;
+  return (
+    <DeckIdProvider deckId={deck.id}>
+      <CardModalProvider>
+        <DeckViewInner deck={deck} />
+      </CardModalProvider>
+    </DeckIdProvider>
+  );
+}
+
+function DeckViewInner({ deck }: { deck: DisplayDeck }) {
+  const validation = useStore((state) => selectDeckValidById(state, deck.id));
 
   return (
     <AppLayout
@@ -36,7 +50,7 @@ function DeckView() {
         </header>
         <Sidebar className={css["sidebar"]} deck={deck} />
         <div className={css["content"]}>
-          <DecklistValidation defaultOpen />
+          <DecklistValidation defaultOpen validation={validation} />
           <Decklist deck={deck} />
         </div>
       </main>

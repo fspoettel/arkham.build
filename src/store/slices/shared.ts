@@ -145,31 +145,23 @@ export const createSharedSlice: StateCreator<
 
     return true;
   },
-  saveDeck() {
+  saveDeck(deckId) {
     const state = get();
 
-    if (state.deckView?.mode !== "edit") {
-      console.warn("Tried to save deck but not in edit mode.");
-      return;
-    }
+    const edits = state.deckEdits[deckId];
+    if (!edits) return deckId;
 
-    const deck = state.data.decks[state.deckView.id];
-    if (!deck) return;
+    const deck = state.data.decks[deckId];
+    if (!deck) return deckId;
 
-    const nextDeck = applyDeckEdits(deck, state.deckView, state.metadata, true);
+    const nextDeck = applyDeckEdits(deck, edits, state.metadata, true);
     nextDeck.date_update = new Date().toISOString();
 
+    const deckEdits = { ...state.deckEdits };
+    delete deckEdits[deckId];
+
     set({
-      deckView: {
-        ...state.deckView,
-        activeTab: state.deckView.activeTab,
-        dirty: false,
-        edits: {
-          meta: {},
-          quantities: {},
-          customizations: {},
-        },
-      },
+      deckEdits,
       data: {
         ...state.data,
         decks: {
@@ -255,5 +247,32 @@ export const createSharedSlice: StateCreator<
     });
 
     return deck.id;
+  },
+
+  deleteDeck(id) {
+    const state = get();
+    const decks = { ...state.data.decks };
+
+    const deckEdits = { ...state.deckEdits };
+    delete deckEdits[id];
+
+    const deck = decks[id];
+    assert(deck.next_deck == null, "Cannot delete a deck that has upgrades.");
+
+    delete decks[id];
+    const history = { ...state.data.history };
+
+    if (history[id]) {
+      for (const prevId of history[id]) {
+        delete decks[prevId];
+        delete deckEdits[prevId];
+      }
+    }
+
+    delete history[id];
+    set({
+      data: { ...state.data, decks, history },
+      deckEdits,
+    });
   },
 });

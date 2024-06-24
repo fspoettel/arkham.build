@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useParams } from "wouter";
 
+import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { useStore } from "@/store";
 import { useDocumentTitle } from "@/utils/use-document-title";
 
@@ -22,7 +23,11 @@ function DeckCreate() {
     };
   }, [code, initialize, destroy]);
 
-  return deckCreate ? <DeckCreateInner /> : null;
+  return deckCreate ? (
+    <CardModalProvider>
+      <DeckCreateInner />
+    </CardModalProvider>
+  ) : null;
 }
 
 export default DeckCreate;

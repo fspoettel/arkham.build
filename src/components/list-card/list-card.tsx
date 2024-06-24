@@ -8,16 +8,10 @@ import type { Props as ListCardInnerProps } from "./list-card-inner";
 import { ListCardInner } from "./list-card-inner";
 
 type Props = {
-  canOpenModal?: boolean;
   tooltip?: React.ReactNode;
-} & Omit<ListCardInnerProps, "onToggleModal" | "figureRef" | "referenceProps">;
+} & Omit<ListCardInnerProps, "figureRef" | "referenceProps">;
 
-export function ListCard({
-  canOpenModal = true,
-  card,
-  tooltip,
-  ...rest
-}: Props) {
+export function ListCard({ card, tooltip, ...rest }: Props) {
   const { refs, referenceProps, isMounted, floatingStyles, transitionStyles } =
     useRestingTooltip();
 
@@ -27,7 +21,6 @@ export function ListCard({
     <>
       <ListCardInner
         {...rest}
-        canOpenModal={canOpenModal}
         card={card}
         figureRef={refs.setReference}
         referenceProps={referenceProps}

@@ -61,10 +61,10 @@ export function MetaEditor({ deck }: Props) {
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
       if (evt.target instanceof HTMLSelectElement) {
         const value = Number.parseInt(evt.target.value, 10);
-        updateTabooId(Number.isNaN(value) ? null : value);
+        updateTabooId(deck.id, Number.isNaN(value) ? null : value);
       }
     },
-    [updateTabooId],
+    [updateTabooId, deck.id],
   );
 
   const onNameChange = useCallback(
@@ -79,19 +79,19 @@ export function MetaEditor({ deck }: Props) {
   const onDescriptionChange = useCallback(
     (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
       if (evt.target instanceof HTMLTextAreaElement) {
-        updateDescription(evt.target.value);
+        updateDescription(deck.id, evt.target.value);
       }
     },
-    [updateDescription],
+    [updateDescription, deck.id],
   );
 
   const onTagsChange = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) => {
       if (evt.target instanceof HTMLInputElement) {
-        updateTags(evt.target.value);
+        updateTags(deck.id, evt.target.value);
       }
     },
-    [updateTags],
+    [updateTags, deck.id],
   );
 
   const onFieldChange = useCallback(
@@ -101,6 +101,7 @@ export function MetaEditor({ deck }: Props) {
 
         if (evt.target.dataset.field && evt.target.dataset.type) {
           updateMetaProperty(
+            deck.id,
             evt.target.dataset.field,
             value || null,
             evt.target.dataset.type as DeckOptionSelectType,
@@ -108,7 +109,7 @@ export function MetaEditor({ deck }: Props) {
         }
       }
     },
-    [updateMetaProperty],
+    [updateMetaProperty, deck.id],
   );
 
   const onInvestigatorSideChange = useCallback(
@@ -116,11 +117,11 @@ export function MetaEditor({ deck }: Props) {
       if (evt.target instanceof HTMLSelectElement) {
         const value = evt.target.value;
         if (evt.target.dataset.side) {
-          updateInvestigatorSide(evt.target.dataset.side, value);
+          updateInvestigatorSide(deck.id, evt.target.dataset.side, value);
         }
       }
     },
-    [updateInvestigatorSide],
+    [updateInvestigatorSide, deck.id],
   );
 
   return (

@@ -3,9 +3,9 @@ import { DecklistGroups } from "@/components/decklist/decklist-groups";
 import { DecklistSection } from "@/components/decklist/decklist-section";
 import { Scroller } from "@/components/ui/scroller";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useStore } from "@/store";
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
-import { selectCurrentTab } from "@/store/selectors/decks";
+import type { DeckValidationResult } from "@/store/lib/deck-validation";
+import type { Tab } from "@/store/slices/deck-edits.types";
 
 import css from "./editor.module.css";
 
@@ -15,20 +15,16 @@ import { MetaEditor } from "./meta-editor";
 
 type Props = {
   className?: string;
+  currentTab: Tab;
+  onTabChange: (tab: Tab) => void;
   deck: DisplayDeck;
+  validation?: DeckValidationResult;
 };
 
-function Placeholder({ name }: { name: string }) {
-  return <div className={css["editor-placeholder"]}>{name} is empty.</div>;
-}
-
-export function Editor({ deck }: Props) {
-  const currentTab = useStore(selectCurrentTab);
-  const updateActiveTab = useStore((state) => state.updateActiveTab);
-
+export function Editor({ currentTab, deck, onTabChange, validation }: Props) {
   return (
     <div className={css["editor"]}>
-      <DeckSummary deck={deck} showValidation />
+      <DeckSummary deck={deck} validation={validation} />
 
       <InvestigatorListcard deck={deck} />
 
@@ -36,7 +32,7 @@ export function Editor({ deck }: Props) {
         className={css["editor-tabs"]}
         length={deck.hasExtraDeck ? 4 : 3}
         onValueChange={(value: string) => {
-          updateActiveTab(value);
+          onTabChange(value as Tab);
         }}
         value={currentTab}
       >
@@ -126,4 +122,8 @@ export function Editor({ deck }: Props) {
       </Tabs>
     </div>
   );
+}
+
+function Placeholder({ name }: { name: string }) {
+  return <div className={css["editor-placeholder"]}>{name} is empty.</div>;
 }

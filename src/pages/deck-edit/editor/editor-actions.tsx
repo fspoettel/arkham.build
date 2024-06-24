@@ -21,32 +21,30 @@ export function EditorActions({ deck }: Props) {
     deck.cards.investigator.card.faction_code,
   );
 
+  const hasEdits = useStore((state) => !!state.deckEdits[deck.id]);
+  const discardEdits = useStore((state) => state.discardEdits);
   const saveDeck = useStore((state) => state.saveDeck);
 
-  const dirty = useStore((state) =>
-    state?.deckView?.mode === "edit" ? state.deckView.dirty : false,
-  );
-
   const handleSave = useCallback(() => {
-    const id = saveDeck();
+    const id = saveDeck(deck.id);
     navigate(`/deck/view/${id}`);
 
     showToast({
       children: "Deck saved successfully.",
+      displayTime: 3000,
       variant: "success",
     });
-  }, [saveDeck, navigate, showToast]);
+  }, [saveDeck, navigate, showToast, deck.id]);
 
-  const handleCancel = useCallback(async () => {
-    if (!deck?.id) return;
-
+  const handleDiscard = useCallback(() => {
     const confirmed =
-      !dirty ||
-      confirm(
-        "This operation will revert the changes made to the deck. Do you want to continue?",
-      );
-    if (confirmed) navigate(`/deck/view/${deck.id}`);
-  }, [navigate, deck?.id, dirty]);
+      !hasEdits ||
+      window.confirm("Are you sure you want to discard your changes?");
+    if (confirmed) {
+      discardEdits(deck.id);
+      navigate(`/deck/view/${deck.id}`);
+    }
+  }, [discardEdits, navigate, deck.id, hasEdits]);
 
   return (
     <div className={css["actions"]} style={cssVariables}>
@@ -54,8 +52,8 @@ export function EditorActions({ deck }: Props) {
         <Save />
         Save
       </Button>
-      <Button onClick={handleCancel} variant="bare">
-        Cancel edits
+      <Button onClick={handleDiscard} variant="bare">
+        Discard edits
       </Button>
     </div>
   );

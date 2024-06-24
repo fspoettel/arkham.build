@@ -2,7 +2,7 @@ export type Slots = {
   [code: string]: number;
 };
 
-type Id = number | string;
+export type Id = number | string;
 
 export type Deck = {
   id: Id;
@@ -40,5 +40,4 @@ export type DataState = {
 export type DataSlice = {
   data: DataState;
   importDeck(code: string): Promise<void>;
-  deleteDeck(id: string | number): void;
 };
