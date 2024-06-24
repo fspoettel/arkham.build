@@ -23,7 +23,7 @@ export function CardNames({
   const cardName = (
     <>
       {parallel && <i className={clsx(css["parallel"], "icon-parallel")} />}
-      {name} <span>{isUnique && "&#10040;"}</span>
+      {name} <span>{isUnique && "✸"}</span>
     </>
   );
 
