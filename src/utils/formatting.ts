@@ -2,7 +2,7 @@ import type { TabooSet } from "@/store/services/queries.types";
 
 export function capitalize(s: string | number) {
   const str = s.toString();
-  if (!str.length) return s;
+  if (!str.length) return str;
   return `${str[0].toUpperCase()}${str.slice(1)}`;
 }
 
