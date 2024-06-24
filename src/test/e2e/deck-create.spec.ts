@@ -1,10 +1,10 @@
 import { expect, test } from "@playwright/test";
-import { mockApi } from "./http-mocks";
+import { mockApiCalls } from "./mocks";
 
 test("create deck", async ({ page }) => {
-  await mockApi(page);
+  await mockApiCalls(page);
   await page.goto("/");
-  await page.getByTestId("create-trigger").click();
+  await page.getByTestId("collection-create-deck").click();
   await page.getByTestId("search-input").click();
   await page.getByTestId("search-input").fill("jenny");
 

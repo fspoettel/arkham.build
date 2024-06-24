@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
-import { mockApi } from "./http-mocks";
+import { mockApiCalls } from "./mocks";
 
 test("filters (shortcuts)", async ({ page }) => {
-  await mockApi(page);
+  await mockApiCalls(page);
   await page.goto("/");
 
   await page.getByTestId("filters-faction").getByTitle("Multiclass").click();

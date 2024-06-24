@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
-import { mockApi } from "./http-mocks";
+import { mockApiCalls } from "./mocks";
 
 test("settings: collection", async ({ page }) => {
-  await mockApi(page);
+  await mockApiCalls(page);
   await page.goto("/");
 
   await page.getByTestId("masthead-settings").click();
@@ -28,7 +28,7 @@ test("settings: collection", async ({ page }) => {
 });
 
 test("settings: taboo", async ({ page }) => {
-  await mockApi(page);
+  await mockApiCalls(page);
   await page.goto("/");
 
   await page.getByTestId("search-game-text").click();
