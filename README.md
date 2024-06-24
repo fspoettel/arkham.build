@@ -25,7 +25,8 @@ additional features:
 
 - [biome](https://biomejs.dev/) for linting and code formatting.
 - [lefthook](https://github.com/evilmartians/lefthook) for pre-commit checks.
-- [vitest](https://vitest.dev/) + [testing-library](https://testing-library.com/) for testing.
+- [vitest](https://vitest.dev/) for unit testing.
+- [playwright](https://playwright.dev/) for end-to-end testing.
 - [github actions](https://github.com/features/actions) for continuous integration.
 - [browserslist](https://github.com/browserslist/browserslist) + [autoprefixer](https://github.com/postcss/autoprefixer).
 
