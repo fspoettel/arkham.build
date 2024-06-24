@@ -138,7 +138,12 @@ export function ListCardInner({
         <figcaption className={css["caption"]}>
           <div className={clsx(css["name-container"], colorCls)}>
             <h4 className={css["name"]} {...referenceProps}>
-              <button onClick={openModal} tabIndex={-1} type="button">
+              <button
+                onClick={openModal}
+                tabIndex={-1}
+                type="button"
+                data-testid="cardlist-item-title"
+              >
                 {card.real_name}
               </button>
             </h4>
