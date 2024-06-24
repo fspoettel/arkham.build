@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.2",
+    "@playwright/test": "1.44.1",
     "@svgr/plugin-jsx": "8.1.0",
     "@svgr/plugin-svgo": "8.1.0",
     "@testing-library/jest-dom": "6.4.6",
@@ -59,7 +60,6 @@
     "autoprefixer": "10.4.19",
     "jsdom": "24.1.0",
     "lefthook": "1.6.18",
-    "playwright": "^1.44.1",
     "rollup-plugin-webpack-stats": "0.4.1",
     "typescript": "5.4.5",
     "vite": "5.3.1",
