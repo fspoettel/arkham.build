@@ -11,6 +11,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           cache: "npm"
+          node-version-file: "package.json"
       - run: npm ci
       - run: npm run check
 
@@ -22,6 +23,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           cache: "npm"
+          node-version-file: "package.json"
       - run: npm ci
       - run: npm run test
 
@@ -38,6 +40,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           cache: "npm"
+          node-version-file: "package.json"
       - run: npm ci
       - run: npm run prepare:e2e
       - run: npm run test:e2e

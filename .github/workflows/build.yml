@@ -19,6 +19,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           cache: "npm"
+          node-version-file: "package.json"
       - run: npm ci
       - run: npm run build
       - name: Upload webpack stats artifact

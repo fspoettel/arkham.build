@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "engines": {
-    "node": "20.15.0"
+    "node": "20.x"
   },
   "scripts": {
     "analyze": "npx vite-bundle-visualizer",
