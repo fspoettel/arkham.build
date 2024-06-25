@@ -13,20 +13,26 @@ type Props = {
 };
 
 export function MulticlassIcons({ className, card, inverted }: Props) {
-  if (!card.faction2_code) return null;
-
   return (
     <ol className={clsx(css["container"], className)}>
       <li>
         <FactionIcon
-          className={inverted ? undefined : `color-${card.faction_code}`}
+          className={clsx(
+            css["icon"],
+            css[card.faction_code],
+            inverted ? undefined : `color-${card.faction_code}`,
+          )}
           code={card.faction_code}
         />
       </li>
       {card.faction2_code && (
         <li>
           <FactionIcon
-            className={inverted ? undefined : `color-${card.faction2_code}`}
+            className={clsx(
+              css["icon"],
+              css[card.faction2_code],
+              inverted ? undefined : `color-${card.faction2_code}`,
+            )}
             code={card.faction2_code}
           />
         </li>
@@ -34,7 +40,11 @@ export function MulticlassIcons({ className, card, inverted }: Props) {
       {card.faction3_code && (
         <li>
           <FactionIcon
-            className={inverted ? undefined : `color-${card.faction3_code}`}
+            className={clsx(
+              css["icon"],
+              css[card.faction3_code],
+              inverted ? undefined : `color-${card.faction3_code}`,
+            )}
             code={card.faction3_code}
           />
         </li>

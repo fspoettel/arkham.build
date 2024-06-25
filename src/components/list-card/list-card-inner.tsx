@@ -181,11 +181,17 @@ export function ListCardInner({
           </div>
 
           <div className={css["meta"]}>
+            {card.type_code !== "investigator" &&
+              !card.subtype_code &&
+              (card.type_code !== "skill" ||
+                card.faction2_code ||
+                card.faction3_code) && (
+                <MulticlassIcons card={card} className={css["multiclass"]} />
+              )}
+
             {!showInvestigatorIcons && card.parallel && (
               <i className="icon-parallel" />
             )}
-
-            <MulticlassIcons card={card} className={css["multiclass"]} />
 
             {hasSkillIcons(card) && <SkillIcons card={card} />}
 

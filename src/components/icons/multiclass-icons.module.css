@@ -4,3 +4,11 @@
   align-items: baseline;
   gap: 1px;
 }
+
+.container .icon {
+  display: inline-block;
+}
+
+.container .icon:not(.neutral) {
+  transform: translateY(-1px);
+}
