@@ -33,6 +33,7 @@ export function QuantityInput({
     <div className={css["container"]}>
       <Button
         disabled={disabled || value <= 0}
+        iconOnly
         onClick={decrementCardQuantity}
         size="sm"
         tabIndex={tabIndex}
@@ -43,6 +44,7 @@ export function QuantityInput({
       <strong className={css["value"]}>{value}</strong>
       <Button
         disabled={disabled || value >= limit}
+        iconOnly
         onClick={incrementCardQuantity}
         size="sm"
         tabIndex={tabIndex}
