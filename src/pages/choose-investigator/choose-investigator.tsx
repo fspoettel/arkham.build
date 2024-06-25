@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { ChevronLeft, CirclePlusIcon } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 
 import { CardList } from "@/components/card-list/card-list";
@@ -78,10 +78,16 @@ function DeckCreateChooseInvestigator() {
               const signatures = resolved?.relations?.requiredCards;
               if (!signatures?.length) return null;
 
+              const signaturesRef = useRef<HTMLUListElement>(null);
+
               return (
-                <ul className={css["signatures"]}>
+                <ul className={css["signatures"]} ref={signaturesRef}>
                   {signatures.map(({ card }) => (
-                    <SignatureLink card={card} key={card.code} />
+                    <SignatureLink
+                      card={card}
+                      key={card.code}
+                      signaturesRef={signaturesRef}
+                    />
                   ))}
                 </ul>
               );
