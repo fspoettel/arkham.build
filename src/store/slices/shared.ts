@@ -195,7 +195,18 @@ export const createSharedSlice: StateCreator<
       meta.alternate_back = investigatorBackCode;
     }
 
+    const back = state.metadata.cards[investigatorBackCode];
+
     for (const [key, value] of Object.entries(state.deckCreate.selections)) {
+      // EDGE CASE: mandy's taboo removes the deck size select,
+      // omit any selection made from deck meta.
+      if (
+        key === "deck_size_selected" &&
+        !back.deck_options?.some((o) => !!o.deck_size_select)
+      ) {
+        continue;
+      }
+
       meta[key as keyof DeckMeta] = value;
     }
 

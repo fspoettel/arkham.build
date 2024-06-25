@@ -37,16 +37,28 @@ export function Editor({ currentTab, deck, onTabChange, validation }: Props) {
         value={currentTab}
       >
         <TabsList className={css["editor-tabs-list"]}>
-          <TabsTrigger value="slots">Deck</TabsTrigger>
-          <TabsTrigger value="sideSlots">Side</TabsTrigger>
+          <TabsTrigger value="slots" data-testid="editor-tabs-trigger-slots">
+            Deck
+          </TabsTrigger>
+          <TabsTrigger
+            value="sideSlots"
+            data-testid="editor-tabs-trigger-sideslots"
+          >
+            Side
+          </TabsTrigger>
           {deck.hasExtraDeck && (
-            <TabsTrigger value="extraSlots">Spirits</TabsTrigger>
+            <TabsTrigger
+              value="extraSlots"
+              data-testid="editor-tabs-trigger-extraslots"
+            >
+              Spirits
+            </TabsTrigger>
           )}
           <TabsTrigger value="meta">Meta</TabsTrigger>
         </TabsList>
 
         <Scroller className={css["editor-tabs-content"]}>
-          <TabsContent value="slots">
+          <TabsContent value="slots" data-testid="editor-tabs-slots">
             <DecklistSection title="Cards">
               <DecklistGroups
                 group={deck.groups.main.data}

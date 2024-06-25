@@ -153,6 +153,7 @@ export function DeckCreateEditor() {
             <FieldLabel>{formatSelectionId(key)}</FieldLabel>
             {(value.type === "deckSize" || value.type === "faction") && (
               <Select
+                data-testid={`create-select-${key}`}
                 data-field={value.accessor}
                 data-type={value.type}
                 emptyLabel="None"
@@ -167,6 +168,7 @@ export function DeckCreateEditor() {
             {value.type === "option" && (
               <Select
                 data-field={value.accessor}
+                data-testid={`create-select-${key}`}
                 data-type={value.type}
                 emptyLabel="None"
                 onChange={handleSelectionChange}

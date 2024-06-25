@@ -98,6 +98,7 @@ export function ListCardInner({
         isActive && css["active"],
         className,
       )}
+      data-testid={`listcard-${card.code}`}
     >
       {!!renderAction && renderAction(card)}
 
@@ -111,7 +112,7 @@ export function ListCardInner({
               value={quantity ?? 0}
             />
           ) : (
-            <QuantityOutput value={quantity} />
+            <QuantityOutput data-testid="listcard-quantity" value={quantity} />
           )}
         </>
       )}
@@ -186,11 +187,17 @@ export function ListCardInner({
           </div>
 
           <div className={css["meta"]}>
+            {card.type_code !== "investigator" &&
+              !card.subtype_code &&
+              (card.type_code !== "skill" ||
+                card.faction2_code ||
+                card.faction3_code) && (
+                <MulticlassIcons card={card} className={css["multiclass"]} />
+              )}
+
             {!showInvestigatorIcons && card.parallel && (
               <i className="icon-parallel" />
             )}
-
-            <MulticlassIcons card={card} className={css["multiclass"]} />
 
             {hasSkillIcons(card) && <SkillIcons card={card} />}
 

@@ -14,7 +14,7 @@ type Props = {
   onClose: () => void;
   open?: boolean;
   size?: string;
-};
+} & React.HTMLAttributes<HTMLDivElement>;
 
 export function Modal({
   actions,
@@ -24,6 +24,7 @@ export function Modal({
   onClose,
   open,
   size = "100%",
+  ...rest
 }: Props) {
   const modalRef = useRef<HTMLDivElement>(null);
   const actionRef = useRef<HTMLDivElement>(null);
@@ -58,15 +59,15 @@ export function Modal({
   );
 
   return (
-    // biome-ignore lint/a11y/useKeyWithClickEvents: TODO.
     <div
+      {...rest}
       className={clsx(css["modal"], centerContent && css["center"], className)}
       onClick={onCloseModalOutside}
       ref={modalRef}
       style={cssVariables as React.CSSProperties}
     >
       <div className={css["inner"]}>
-        {/* biome-ignore lint/a11y/useKeyWithClickEvents: TODO. */}
+        {/* biome-ignore lint/a11y/useKeyWithClickEvents: An escape handler is bound higher up. */}
         <div
           className={clsx(css["actions"], actions && css["has-custom"])}
           onClick={onCloseActions}

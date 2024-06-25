@@ -23,7 +23,10 @@ export function CardSet({ onChangeCardQuantity, onSelect, set }: Props) {
   const cardOwnedCount = useStore(selectCardOwnedCount);
 
   return (
-    <article className={clsx(css["cardset"], set.selected && css["selected"])}>
+    <article
+      data-testid={`cardset-${set.id}`}
+      className={clsx(css["cardset"], set.selected && css["selected"])}
+    >
       <header className={css["cardset-header"]}>
         {onSelect ? (
           <Checkbox

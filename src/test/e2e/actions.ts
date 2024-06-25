@@ -14,3 +14,7 @@ export async function importDeck(page: Page) {
 
   await page.getByTestId("import-submit").click();
 }
+
+export function locateCardInSlots(page: Page, code: string) {
+  return page.getByTestId("editor-tabs-slots").getByTestId(`listcard-${code}`);
+}

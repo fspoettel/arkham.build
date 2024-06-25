@@ -108,7 +108,7 @@ export function CardModal({ code }: Props) {
               href={`/deck/create/${cardWithRelations.card.code}`}
               onClick={onCloseModal}
             >
-              <Button as="a">
+              <Button as="a" data-testid="card-modal-create-deck">
                 <i className="icon-deck" /> Create deck
               </Button>
             </Link>
@@ -123,6 +123,7 @@ export function CardModal({ code }: Props) {
           </Button>
         </>
       }
+      data-testid="card-modal"
       onClose={onCloseModal}
       size="52rem"
     >
