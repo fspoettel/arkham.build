@@ -20,7 +20,8 @@
     "test:coverage": "vitest run --coverage",
     "test": "vitest run",
     "test:watch": "vitest watch",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:e2e:linux": "docker run -v $(pwd):/work/ mcr.microsoft.com/playwright:v1.44.1-focal bash -c 'cd work && npm run test:e2e'"
   },
   "dependencies": {
     "@floating-ui/react": "0.26.17",
