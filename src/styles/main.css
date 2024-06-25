@@ -149,6 +149,12 @@ svg {
   height: auto;
 }
 
+img {
+  color: currentColor;
+  font-size: var(--text-2xs);
+  font-family: var(--font-family-ui);
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
