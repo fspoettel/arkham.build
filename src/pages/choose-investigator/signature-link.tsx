@@ -1,5 +1,5 @@
-import { FloatingPortal } from "@floating-ui/react";
-import { useCallback } from "react";
+import { FloatingPortal, shift } from "@floating-ui/react";
+import { useCallback, useEffect } from "react";
 
 import { useCardModalContext } from "@/components/card-modal/card-modal-context";
 import { CardTooltip } from "@/components/card-tooltip";
@@ -11,11 +11,17 @@ import css from "./choose-investigator.module.css";
 
 type Props = {
   card: Card;
+  signaturesRef: React.RefObject<HTMLElement>;
 };
 
-// TODO: This is very similar to what ListCard does, and links in deck notes should do, see if we can extract.
-export function SignatureLink({ card }: Props) {
-  const tooltip = useRestingTooltip();
+export function SignatureLink({ card, signaturesRef }: Props) {
+  const tooltip = useRestingTooltip({
+    elements: {
+      reference: signaturesRef?.current,
+    },
+    middleware: [shift({ padding: 5 })],
+    placement: "right",
+  });
   const modalContext = useCardModalContext();
 
   const openModal = useCallback(() => {
@@ -28,11 +34,7 @@ export function SignatureLink({ card }: Props) {
 
   return (
     <li className={css["signature"]} key={card.code}>
-      <button
-        ref={tooltip.refs.setReference}
-        {...tooltip.referenceProps}
-        onClick={openModal}
-      >
+      <button {...tooltip.referenceProps} onClick={openModal}>
         {card.real_name}
       </button>
       {tooltip.isMounted && (

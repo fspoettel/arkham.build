@@ -8,14 +8,15 @@ type Props<T extends "a" | "button" | "summary" | "label"> =
     as?: T;
     children: React.ReactNode;
     className?: string;
+    iconOnly?: boolean;
     variant?: "primary" | "secondary" | "bare";
-    size?: "xs" | "sm" | "lg" | "full";
+    size?: "xs" | "sm" | "lg" | "full" | "none";
   };
 
 export const Button = forwardRef(function Button<
   T extends "a" | "button" | "summary" | "label",
 >(
-  { as, children, variant = "secondary", size, ...rest }: Props<T>,
+  { as, children, iconOnly, variant = "secondary", size, ...rest }: Props<T>,
   ref: React.ForwardedRef<T>,
 ) {
   // biome-ignore lint/suspicious/noExplicitAny: safe.
@@ -28,6 +29,7 @@ export const Button = forwardRef(function Button<
         css["button"],
         variant && css[variant],
         size && css[size],
+        iconOnly && css["icon-only"],
         rest.className,
       )}
       ref={ref}

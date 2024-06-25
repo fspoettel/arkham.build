@@ -1,5 +1,7 @@
 import {
   type Placement,
+  type ReferenceType,
+  type UseFloatingOptions,
   autoPlacement,
   autoUpdate,
   flip,
@@ -82,7 +84,7 @@ export function useTooltip({
   );
 }
 
-export function useRestingTooltip() {
+export function useRestingTooltip(options?: UseFloatingOptions<ReferenceType>) {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const restTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
@@ -100,6 +102,7 @@ export function useRestingTooltip() {
     whileElementsMounted: autoUpdate,
     strategy: "fixed",
     placement: "bottom-start",
+    ...options,
   });
 
   const { isMounted, styles } = useTransitionStyles(context);

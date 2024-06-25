@@ -35,6 +35,7 @@ export function QuantityInput({
       <Button
         data-testid="quantity-decrement"
         disabled={disabled || value <= 0}
+        iconOnly
         onClick={decrementCardQuantity}
         size="sm"
         tabIndex={tabIndex}
@@ -48,6 +49,7 @@ export function QuantityInput({
       <Button
         data-testid="quantity-increment"
         disabled={disabled || value >= limit}
+        iconOnly
         onClick={incrementCardQuantity}
         size="sm"
         tabIndex={tabIndex}
