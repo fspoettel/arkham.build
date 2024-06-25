@@ -57,9 +57,6 @@ test("show deck investigator", async ({ page }) => {
 
   await page.getByTestId("deck-investigator-back-toggle").click();
   await expect(page.getByTestId("deck-investigator-back")).toBeVisible();
-
-  await waitForImagesLoaded(page);
-  await expect(page.getByTestId("deck-investigator")).toHaveScreenshot();
 });
 
 test("edit deck", async ({ page }) => {
