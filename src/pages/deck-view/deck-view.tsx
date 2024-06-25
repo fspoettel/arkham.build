@@ -45,7 +45,9 @@ function DeckViewInner({ deck }: { deck: DisplayDeck }) {
     >
       <main className={css["main"]}>
         <header className={css["header"]}>
-          <h1 className={css["title"]}>{deck.name}</h1>
+          <h1 className={css["title"]} data-testid="view-title">
+            {deck.name}
+          </h1>
           <DeckTags tags={deck.tags} />
         </header>
         <Sidebar className={css["sidebar"]} deck={deck} />

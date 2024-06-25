@@ -18,9 +18,15 @@ type Props = {
   resolvedCard: CardWithRelations | ResolvedCard;
   linked?: boolean;
   size: "compact" | "tooltip" | "full";
-};
+} & React.HTMLAttributes<HTMLDivElement>;
 
-export function CardFront({ className, resolvedCard, linked, size }: Props) {
+export function CardFront({
+  className,
+  resolvedCard,
+  linked,
+  size,
+  ...rest
+}: Props) {
   const { card } = resolvedCard;
 
   const isSideways = sideways(card);
@@ -37,6 +43,7 @@ export function CardFront({ className, resolvedCard, linked, size }: Props) {
         css[size],
         className,
       )}
+      {...rest}
     >
       <CardHeader card={card} linked={linked} />
 
