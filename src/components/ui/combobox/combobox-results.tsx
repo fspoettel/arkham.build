@@ -31,7 +31,12 @@ export function ComboboxResults<T extends { code: string }>({
       {items.map((item) => (
         <Tag key={item.code} size="xs">
           {renderResult(item)}
-          <Button onClick={() => onRemoveItem(item)} size="xs" variant="bare">
+          <Button
+            iconOnly
+            onClick={() => onRemoveItem(item)}
+            size="xs"
+            variant="bare"
+          >
             <XIcon />
           </Button>
         </Tag>
