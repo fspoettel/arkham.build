@@ -12,23 +12,25 @@ import allCardStub from "@/test/fixtures/stubs/all_card.json";
 import dataVersionStub from "@/test/fixtures/stubs/data_version.json";
 import metadataStub from "@/test/fixtures/stubs/metadata.json";
 
-async function queryStubMetadata() {
-  return {
+function queryStubMetadata() {
+  return Promise.resolve({
     ...(metadataStub as MetadataApiResponse).data,
     reprint_pack: reprintPacks,
     faction: factions,
     type: types,
     subtype: subTypes,
-  };
+  });
 }
 
-async function queryStubDataVersion() {
-  return (dataVersionStub as DataVersionApiResponse).data.all_card_updated[0];
+function queryStubDataVersion() {
+  return Promise.resolve(
+    (dataVersionStub as DataVersionApiResponse).data.all_card_updated[0],
+  );
 }
 
-async function queryStubCardData() {
+function queryStubCardData() {
   const data = allCardStub;
-  return (data as AllCardApiResponse).data.all_card;
+  return Promise.resolve((data as AllCardApiResponse).data.all_card);
 }
 
 export async function getMockStore() {

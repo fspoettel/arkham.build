@@ -17,7 +17,7 @@ export function SidebarActions({ deck }: Props) {
   const [, setLocation] = useLocation();
   const deleteDeck = useStore((state) => state.deleteDeck);
 
-  const onDelete = useCallback(async () => {
+  const onDelete = useCallback(() => {
     const confirmed = confirm("Are you sure you want to delete this deck?");
     if (confirmed) {
       deleteDeck(deck.id);

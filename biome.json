@@ -23,6 +23,13 @@
       },
       "complexity": {
         "useLiteralKeys": "off"
+      },
+      "performance": {
+        "noBarrelFile": "error",
+        "noReExportAll": "error"
+      },
+      "suspicious": {
+        "useAwait": "error"
       }
     }
   }
