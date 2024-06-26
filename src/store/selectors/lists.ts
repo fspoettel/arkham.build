@@ -220,6 +220,7 @@ export const selectSubtypeOptions = createSelector(
   (state: StoreState) => state.metadata,
   (metadata) => {
     const types = Object.values(metadata.subtypes);
+    types.push({ code: "", name: "None" });
     types.sort((a, b) => sortAlphabetical(a.name, b.name));
     return types;
   },
@@ -389,7 +390,9 @@ export const selectSubtypeChanges = createSelector(
   (state: StoreState) => state.metadata,
   (value, metadata) => {
     if (!value) return "";
-    return value.map((id) => metadata.subtypes[id].name).join(" or ");
+    return value
+      .map((id) => metadata.subtypes[id]?.name ?? "None")
+      .join(" or ");
   },
 );
 
