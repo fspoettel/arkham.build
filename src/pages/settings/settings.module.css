@@ -8,16 +8,16 @@
 }
 
 .settings-header {
-  background: var(--nord-0);
+  background: var(--nord-point-five);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  margin-top: -0.5rem;
-  padding: 0.5rem 0;
+  padding: 0.75rem 1rem;
   position: sticky;
   top: 0;
   z-index: 2;
+  border-radius: var(--rounded);
 }
 
 .settings-header-actions {
