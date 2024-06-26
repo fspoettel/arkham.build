@@ -379,9 +379,10 @@ function makeSearch(): Search {
 function makeFilterObject<K extends FilterKey>(
   type: K,
   value: FilterMapping[K],
+  open = false,
 ) {
   return {
-    open: false,
+    open,
     type,
     value,
   };
@@ -470,6 +471,7 @@ function makeFilterValue(type: FilterKey, initialValue?: unknown) {
               victory: false,
               succeedBy: false,
             },
+        true,
       );
     }
 
