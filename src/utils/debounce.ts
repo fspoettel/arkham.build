@@ -1,13 +1,10 @@
-// biome-ignore lint/suspicious/noExplicitAny: we don't care about typings here.
-export function debounce<T extends (...args: any[]) => any>(
-  cb: T,
+export function debounce<T extends unknown[], R = void>(
+  cb: (...args: T) => R,
   wait: number,
 ) {
-  // biome-ignore lint/suspicious/noExplicitAny: we don't care about typings here.
-  let h: any;
+  let h: ReturnType<typeof setTimeout>;
 
-  // biome-ignore lint/suspicious/noExplicitAny: we don't care about typings here.
-  const callable = (...args: any) => {
+  const callable = (...args: T) => {
     clearTimeout(h);
     h = setTimeout(() => cb(...args), wait);
   };
