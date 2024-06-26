@@ -9,18 +9,18 @@
   "scripts": {
     "analyze": "npx vite-bundle-visualizer",
     "build": "vite build",
-    "check": "biome check && tsc --noEmit",
+    "check": "tsc --noEmit",
     "dev": "vite",
     "fmt": "biome check --write",
-    "lint": "biome lint",
+    "lint": "biome check",
     "knip": "npx knip",
     "prepare": "lefthook install",
     "prepare:e2e": " playwright install --with-deps",
     "preview": "vite preview",
-    "test:coverage": "vitest run --coverage",
     "test": "vitest run",
-    "test:watch": "vitest watch",
-    "test:e2e": "playwright test"
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:watch": "vitest watch"
   },
   "dependencies": {
     "@floating-ui/react": "0.26.17",
