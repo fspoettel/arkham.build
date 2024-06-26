@@ -7,7 +7,7 @@
       "playwright-report/**",
       "test-results/**"
     ],
-    "maxSize": 100000000
+    "maxSize": 10000000
   },
   "organizeImports": {
     "enabled": true
