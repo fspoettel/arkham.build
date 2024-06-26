@@ -69,7 +69,7 @@ a.button {
 
 .button.sm {
   font-size: var(--text-sm);
-  padding: 0.25rem;
+  padding: 0.25rem 0.5rem;
 }
 
 .button.lg {

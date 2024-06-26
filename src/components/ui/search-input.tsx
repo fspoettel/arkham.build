@@ -49,6 +49,7 @@ export const SearchInput = forwardRef<HTMLInputElement, Props>(
         {!!value && (
           <Button
             className={css["icon_clear"]}
+            iconOnly
             onClick={onClear}
             variant="bare"
           >
