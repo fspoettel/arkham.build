@@ -71,7 +71,7 @@
   font-family: var(--font-family-content);
   font-style: italic;
   font-weight: 400;
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
 }
 
 .stats {
@@ -95,5 +95,5 @@
 .meta {
   grid-area: meta;
   font-size: var(--text-sm);
-  padding: 0.375rem;
+  padding: 0.25rem;
 }
