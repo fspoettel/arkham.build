@@ -21,15 +21,11 @@
   width: 100%;
 
   & > * {
-    flex: 0 0 100%;
-
-    @container (min-width: 45rem) {
-      flex: 1 1 calc(50% - 0.75rem);
-    }
+    flex: 0 1 calc(50% - 0.75rem);
   }
 
   & > * > * {
-    border: 1px solid var(--nord-1);
+    border: 1px solid var(--nord-point-five);
     border-radius: var(--rounded-md);
     padding: 0.5rem;
     width: 100%;

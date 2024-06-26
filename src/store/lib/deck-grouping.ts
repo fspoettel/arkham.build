@@ -1,4 +1,3 @@
-import { isSpecialCard } from "@/utils/card-utils";
 import type { PlayerType } from "@/utils/constants";
 
 import { assert } from "@/utils/assert";
@@ -27,7 +26,6 @@ export type NamedGrouping = {
 
 type Groupings = {
   main: NamedGrouping;
-  special: NamedGrouping;
   side?: NamedGrouping;
   bonded?: NamedGrouping;
   extra?: NamedGrouping;
@@ -54,10 +52,6 @@ export function groupDeckCardsByType(
         event: [],
         skill: [],
       },
-    },
-    special: {
-      id: "special",
-      data: {},
     },
   };
 
@@ -98,11 +92,7 @@ export function groupDeckCardsByType(
       showAllSetting,
     );
 
-    if (isSpecialCard(card, deck.cards.investigator, true)) {
-      addCardToGrouping(groupings, "special", card);
-    } else {
-      addCardToGrouping(groupings, "main", card);
-    }
+    addCardToGrouping(groupings, "main", card);
 
     // Collect bonded cards, filtering out duplicates.
     // These can occur when e.g. two versions of `Dream Diary` are in a deck.
@@ -151,7 +141,7 @@ export function groupDeckCardsByType(
 
 function addCardToGrouping(
   groupings: Groupings,
-  key: "main" | "special" | "bonded" | "extra" | "side",
+  key: "main" | "bonded" | "extra" | "side",
   card: Card,
 ) {
   groupings[key] ??= {

@@ -8,7 +8,6 @@ import { DecklistSection } from "./decklist-section";
 const LABELS: Record<string, string> = {
   main: "Cards",
   side: "Side deck",
-  special: "Special cards",
   bonded: "Bonded cards",
   extra: "Extra deck",
 };
@@ -25,11 +24,22 @@ function getSlotsForGrouping(deck: DisplayDeck, grouping: NamedGrouping) {
 }
 
 export function Decklist({ deck }: Props) {
-  const firstCol =
-    deck.groups.extra || deck.groups.side ? deck.groups.bonded : null;
-
-  const secondCol = deck.groups.extra || deck.groups.side || deck.groups.bonded;
-  const thirdCol = deck.groups.extra ? deck.groups.side : null;
+  const cols = [deck.groups.side, deck.groups.extra, deck.groups.bonded]
+    .filter((col) => !!col)
+    .map(
+      (col) =>
+        col && (
+          <DecklistSection showTitle title={LABELS[col.id]}>
+            <DecklistGroups
+              group={col.data}
+              layout="one_column"
+              mapping={col.id}
+              ownershipCounts={deck.ownershipCounts}
+              quantities={getSlotsForGrouping(deck, col)}
+            />
+          </DecklistSection>
+        ),
+    );
 
   return (
     <article className={css["decklist-container"]}>
@@ -47,54 +57,10 @@ export function Decklist({ deck }: Props) {
 
         <div className={css["decklist-row"]}>
           <div>
-            <DecklistSection showTitle title={LABELS["special"]}>
-              <DecklistGroups
-                group={deck.groups.special.data}
-                ignoredCounts={deck.ignoreDeckLimitSlots ?? undefined}
-                layout="one_column"
-                mapping="slots"
-                ownershipCounts={deck.ownershipCounts}
-                quantities={deck.slots}
-              />
-            </DecklistSection>
-            {firstCol && (
-              <DecklistSection showTitle title={LABELS[firstCol.id]}>
-                <DecklistGroups
-                  group={firstCol.data}
-                  layout="one_column"
-                  mapping={firstCol.id}
-                  ownershipCounts={deck.ownershipCounts}
-                  quantities={getSlotsForGrouping(deck, firstCol)}
-                />
-              </DecklistSection>
-            )}
+            {cols[0]}
+            {cols[2]}
           </div>
-          {secondCol && (
-            <div>
-              <DecklistSection showTitle title={LABELS[secondCol.id]}>
-                <DecklistGroups
-                  group={secondCol.data}
-                  layout="one_column"
-                  mapping={secondCol.id}
-                  ownershipCounts={deck.ownershipCounts}
-                  quantities={getSlotsForGrouping(deck, secondCol)}
-                />
-              </DecklistSection>
-            </div>
-          )}
-        </div>
-        <div className={css["decklist-row"]}>
-          {thirdCol && (
-            <DecklistSection showTitle title={LABELS[thirdCol.id]}>
-              <DecklistGroups
-                group={thirdCol.data}
-                layout="one_column"
-                mapping={thirdCol.id}
-                ownershipCounts={deck.ownershipCounts}
-                quantities={getSlotsForGrouping(deck, thirdCol)}
-              />
-            </DecklistSection>
-          )}
+          <div>{cols[1]}</div>
         </div>
       </div>
     </article>

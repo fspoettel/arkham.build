@@ -27,6 +27,7 @@ import { CardListNav } from "./card-list-nav";
 import { CardSearch } from "./card-search";
 
 type Props = {
+  className?: string;
   deckId?: Id;
   onChangeCardQuantity?: (code: string, quantity: number) => void;
   quantities?: Slots;
@@ -38,6 +39,7 @@ type Props = {
 };
 
 export function CardList({
+  className,
   onChangeCardQuantity,
   quantities,
   renderListCardAction,
@@ -173,6 +175,7 @@ export function CardList({
 
   return (
     <CenterLayout
+      className={className}
       top={
         <CardSearch
           onKeyboardNavigate={onKeyboardNavigate}

@@ -57,16 +57,6 @@ export function Editor({ currentTab, deck, onTabChange, validation }: Props) {
                 quantities={deck.slots}
               />
             </DecklistSection>
-            <DecklistSection showTitle title="Special cards">
-              <DecklistGroups
-                group={deck.groups.special.data}
-                ignoredCounts={deck.ignoreDeckLimitSlots ?? undefined}
-                layout="two_column"
-                mapping="slots"
-                ownershipCounts={deck.ownershipCounts}
-                quantities={deck.slots}
-              />
-            </DecklistSection>
             {deck.groups.bonded && deck.bondedSlots && (
               <DecklistSection showTitle title="Bonded cards">
                 <DecklistGroups
@@ -86,7 +76,7 @@ export function Editor({ currentTab, deck, onTabChange, validation }: Props) {
                 <DecklistGroups
                   group={deck.groups.side.data}
                   layout="two_column"
-                  mapping="side"
+                  mapping="sideSlots"
                   ownershipCounts={deck.ownershipCounts}
                   quantities={deck.sideSlots ?? undefined}
                 />
