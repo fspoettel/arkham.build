@@ -65,12 +65,9 @@ function makeUserFilter(
   lookupTables: LookupTables,
   list: List,
   settings: SettingsState,
-  deckInvestigatorFilter?: Filter,
   targetDeck?: "slots" | "extraSlots" | "both",
 ) {
   const filters: Filter[] = [];
-
-  if (deckInvestigatorFilter) filters.push(deckInvestigatorFilter);
 
   if (!list.filtersEnabled) return and(filters);
 
@@ -272,58 +269,69 @@ const selectDeckInvestigatorFilter = createSelector(
   },
 );
 
-export const selectListCards = createSelector(
+export const selectBaseListCards = createSelector(
   (state: StoreState) => state.metadata,
-  (state: StoreState) => state.lookupTables,
-  (state: StoreState) => state.settings,
-  selectActiveList,
-  selectResolvedDeckById,
-  selectCanonicalTabooSetId,
+  (state: StoreState) => selectActiveList(state)?.systemFilter,
   selectDeckInvestigatorFilter,
-  (
-    _: StoreState,
-    __?: Id,
-    ___?: boolean,
-    targetDeck?: "slots" | "extraSlots" | "both",
-  ) => targetDeck,
-  (
-    metadata,
-    lookupTables,
-    settings,
-    activeList,
-    resolvedDeck,
-    tabooSetId,
-    deckInvestigatorFilter,
-  ) => {
-    if (!activeList) return undefined;
-
+  (metadata, systemFilter, deckInvestigatorFilter) => {
     if (isEmpty(metadata.cards)) {
       console.warn("player cards selected before store is initialized.");
       return undefined;
     }
 
-    console.time("[perf] select_list_cards");
+    console.time("[perf] select_base_list_cards");
 
-    // apply system filter first to cut down on card count.
-    let filteredCards = activeList.systemFilter
-      ? Object.values(metadata.cards).filter(activeList.systemFilter)
+    // apply system filter first to cut down on # of cards that need to be processed.
+    let filteredCards = systemFilter
+      ? Object.values(metadata.cards).filter(systemFilter)
       : Object.values(metadata.cards);
 
-    // other filters can be impacted by card changes, apply them now.
-    if (tabooSetId || resolvedDeck?.customizations) {
+    if (deckInvestigatorFilter) {
+      filteredCards = filteredCards.filter(deckInvestigatorFilter);
+    }
+
+    console.timeEnd("[perf] select_base_list_cards");
+    return filteredCards;
+  },
+);
+
+const selectResolvedDeckCustomizations = createSelector(
+  selectResolvedDeckById,
+  (resolvedDeck) => resolvedDeck?.customizations,
+);
+
+export const selectListCards = createSelector(
+  (state: StoreState) => state.metadata,
+  (state: StoreState) => state.lookupTables,
+  (state: StoreState) => state.settings,
+  selectActiveList,
+  selectBaseListCards,
+  selectCanonicalTabooSetId,
+  selectResolvedDeckCustomizations,
+  (
+    metadata,
+    lookupTables,
+    settings,
+    activeList,
+    _filteredCards,
+    tabooSetId,
+    customizations,
+  ) => {
+    if (!_filteredCards || !activeList) return undefined;
+
+    console.time("[perf] select_list_cards");
+    let filteredCards = _filteredCards;
+
+    // user filters can be impacted by card changes, apply them now.
+    if (tabooSetId || customizations) {
       filteredCards = filteredCards.map((c) =>
-        applyCardChanges(c, metadata, tabooSetId, resolvedDeck?.customizations),
+        applyCardChanges(c, metadata, tabooSetId, customizations),
       );
     }
 
     // apply user filters.
-    const filter = makeUserFilter(
-      metadata,
-      lookupTables,
-      activeList,
-      settings,
-      deckInvestigatorFilter,
-    );
+    const filter = makeUserFilter(metadata, lookupTables, activeList, settings);
+
     if (filter) filteredCards = filteredCards.filter(filter);
 
     // apply search, do this after filtering to cut down on search operations.
