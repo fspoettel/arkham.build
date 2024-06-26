@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { DeckInvestigator } from "@/components/deck-investigator";
 import { FactionIcon } from "@/components/icons/faction-icon";
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
-import { capitalize } from "@/utils/formatting";
+import { capitalize, formatSelectionId } from "@/utils/formatting";
 
 import css from "./sidebar.module.css";
 
@@ -55,7 +55,9 @@ export function Sidebar({ className, deck }: Props) {
         {!!deck.selections &&
           Object.entries(deck.selections).map(([key, selection]) => (
             <li className={css["detail"]} key={key}>
-              <div className={css["detail-label"]}>{capitalize(key)}</div>
+              <div className={css["detail-label"]}>
+                {formatSelectionId(key)}
+              </div>
               {selection.type === "deckSize" && (
                 <p className={css["detail-value"]}>{selection.value}</p>
               )}
