@@ -149,6 +149,6 @@
 }
 
 .listcard.investigator {
-  --card-padding-y: 0.25rem;
+  --card-padding-y: 0.375rem;
   --card-image-height: 2.5rem;
 }
