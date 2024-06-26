@@ -9,6 +9,7 @@ import {
   SPECIAL_CARD_CODES,
 } from "@/utils/constants";
 
+import { time, timeEnd } from "@/utils/time";
 import type { StoreState } from ".";
 import { mappedByCode, mappedById } from "../lib/metadata-utils";
 import { encodeExtraSlots } from "../lib/serialization/slots";
@@ -39,15 +40,15 @@ export const createSharedSlice: StateCreator<
       return false;
     }
 
-    console.time("[perf] query_data");
+    time("query_data");
     const [metadataResponse, dataVersionResponse, cards] = await Promise.all([
       queryMetadata(),
       queryDataVersion(),
       queryCards(),
     ]);
-    console.timeEnd("[perf] query_data");
+    timeEnd("query_data");
 
-    console.time("[perf] create_store_data");
+    time("create_store_data");
     const metadata: Metadata = {
       ...getInitialMetadata(),
       dataVersion: dataVersionResponse,
@@ -141,7 +142,7 @@ export const createSharedSlice: StateCreator<
       }),
     });
 
-    console.timeEnd("[perf] create_store_data");
+    timeEnd("create_store_data");
 
     return true;
   },

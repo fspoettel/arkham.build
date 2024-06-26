@@ -2,6 +2,7 @@ import { createSelector } from "reselect";
 
 import { resolveDeck } from "@/store/lib/resolve-deck";
 
+import { time, timeEnd } from "@/utils/time";
 import type { DeckValidationResult } from "../lib/deck-validation";
 import { validateDeck } from "../lib/deck-validation";
 import { sortAlphabetical } from "../lib/sorting";
@@ -18,7 +19,7 @@ export const selectLocalDecks = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
   (data, metadata, lookupTables) => {
-    console.time("[perf] select_local_decks");
+    time("select_local_decks");
 
     const { history } = data;
 
@@ -51,7 +52,7 @@ export const selectLocalDecks = createSelector(
       sortAlphabetical(b.deck.date_update, a.deck.date_update),
     );
 
-    console.timeEnd("[perf] select_local_decks");
+    timeEnd("select_local_decks");
     return resolvedDecks;
   },
 );

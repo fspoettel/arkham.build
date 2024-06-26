@@ -4,6 +4,7 @@ import type { Filter } from "@/utils/fp";
 import { and, not, or } from "@/utils/fp";
 import { isEmpty } from "@/utils/is-empty";
 
+import { time, timeEnd } from "@/utils/time";
 import { applyCardChanges } from "../lib/card-edits";
 import { getAdditionalDeckOptions } from "../lib/deck-validation";
 import {
@@ -279,7 +280,7 @@ export const selectBaseListCards = createSelector(
       return undefined;
     }
 
-    console.time("[perf] select_base_list_cards");
+    time("select_base_list_cards");
 
     // apply system filter first to cut down on # of cards that need to be processed.
     let filteredCards = systemFilter
@@ -290,7 +291,7 @@ export const selectBaseListCards = createSelector(
       filteredCards = filteredCards.filter(deckInvestigatorFilter);
     }
 
-    console.timeEnd("[perf] select_base_list_cards");
+    timeEnd("select_base_list_cards");
     return filteredCards;
   },
 );
@@ -319,7 +320,7 @@ export const selectListCards = createSelector(
   ) => {
     if (!_filteredCards || !activeList) return undefined;
 
-    console.time("[perf] select_list_cards");
+    time("select_list_cards");
     let filteredCards = _filteredCards;
 
     // user filters can be impacted by card changes, apply them now.
@@ -359,7 +360,7 @@ export const selectListCards = createSelector(
       groupCounts.push(group.cards.length);
     }
 
-    console.timeEnd("[perf] select_list_cards");
+    timeEnd("select_list_cards");
 
     return { key: activeList.key, groups, cards, groupCounts } as ListState;
   },
