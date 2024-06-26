@@ -1,6 +1,6 @@
 .listcard {
   --card-padding-y: 0.5rem;
-  --card-image-height: 2.5rem;
+  --card-image-height: 2rem;
 
   align-items: center;
   display: flex;
@@ -131,11 +131,11 @@
  */
 
 .listcard.sm {
-  --card-padding-y: 0.375rem;
-  --card-image-height: 1.75rem;
+  --card-padding-y: 0.25rem;
+  --card-image-height: 2rem;
   padding-inline: none;
 
-  & .listcard-inner {
+  & .content {
     gap: 0.5rem;
   }
 
@@ -166,4 +166,9 @@
 
 .listcard.removed {
   opacity: 0.3;
+}
+
+.listcard.investigator {
+  --card-padding-y: 0.25rem;
+  --card-image-height: 2.5rem;
 }

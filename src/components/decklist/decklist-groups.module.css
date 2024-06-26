@@ -3,13 +3,15 @@
 }
 
 .group_one-col > .group + .group {
-  margin-top: 0.375rem;
+  margin-top: 0.25rem;
 }
 
 .group-title {
-  display: inline-block;
+  display: block;
   font-size: var(--text-xs);
   padding: 0.25rem 0.5rem;
+  border-bottom: 1px solid var(--nord-point-five);
+
 }
 
 .group_two-cols {
@@ -26,20 +28,19 @@
 }
 
 .group-entries > * + * {
-  margin-top: 0.375rem;
+  margin-top: 0.25rem;
 }
 
 .group {
-  min-height: 2.5rem;
+  min-height: 2rem;
 }
 
 .group-entry_nested-title {
-  font-size: var(--text-2xs);
-  padding: 0.375rem;
+  font-size: var(--text-xs);
+  padding: 0.25rem 0.5rem 0;
   display: flex;
   align-items: center;
   gap: 0.375rem;
-  border-bottom: 1px solid var(--nord-1);
   font-family: var(--font-family-ui);
   color: var(--nord-4);
 }

@@ -41,7 +41,7 @@ export type Props = {
   referenceProps?: React.ComponentProps<"div">;
   renderAction?: (card: Card) => React.ReactNode;
   renderExtra?: (card: Card) => React.ReactNode;
-  size?: "sm";
+  size?: "sm" | "investigator";
   showInvestigatorIcons?: boolean;
 };
 
