@@ -16,6 +16,9 @@
     "ignore": ["**/*.spec.ts"],
     "rules": {
       "recommended": true,
+      "correctness": {
+        "noUnusedImports": "error"
+      },
       "complexity": {
         "useLiteralKeys": "off"
       }

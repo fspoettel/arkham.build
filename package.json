@@ -9,7 +9,7 @@
   "scripts": {
     "analyze": "npx vite-bundle-visualizer",
     "build": "vite build",
-    "check": "tsc --noEmit && biome check",
+    "check": "biome check && tsc --noEmit",
     "dev": "vite",
     "fmt": "biome check --write",
     "lint": "biome lint",
