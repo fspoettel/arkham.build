@@ -34,7 +34,7 @@ export const selectActiveListFilters = (state: StoreState) => {
 
 export const selectActiveListFilter = createSelector(
   selectActiveList,
-  (state: StoreState, id: number) => id,
+  (_: StoreState, id: number) => id,
   (list, id) => {
     return list ? list.filterValues[id] : undefined;
   },

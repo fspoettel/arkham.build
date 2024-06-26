@@ -17,7 +17,8 @@
     "rules": {
       "recommended": true,
       "correctness": {
-        "noUnusedImports": "error"
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error"
       },
       "complexity": {
         "useLiteralKeys": "off"

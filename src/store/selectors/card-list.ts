@@ -221,9 +221,9 @@ const selectDeckInvestigatorFilter = createSelector(
   (state: StoreState) => state.lookupTables,
   selectResolvedDeckById,
   (
-    state: StoreState,
-    id?: Id,
-    applyEdits?: boolean,
+    _: StoreState,
+    __?: Id,
+    ___?: boolean,
     targetDeck?: "slots" | "extraSlots" | "both",
   ) => targetDeck,
   (state: StoreState) => state.ui.showUnusableCards,
@@ -281,9 +281,9 @@ export const selectListCards = createSelector(
   selectCanonicalTabooSetId,
   selectDeckInvestigatorFilter,
   (
-    state: StoreState,
-    id?: Id,
-    applyEdits?: boolean,
+    _: StoreState,
+    __?: Id,
+    ___?: boolean,
     targetDeck?: "slots" | "extraSlots" | "both",
   ) => targetDeck,
   (

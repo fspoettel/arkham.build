@@ -17,7 +17,7 @@ export const createSettingsSlice: StateCreator<
   [],
   [],
   SettingsSlice
-> = (set, get) => ({
+> = (_, get) => ({
   settings: getInitialSettings(),
   // TODO: extract to `shared` since this touches other state slices.
   updateSettings(form) {

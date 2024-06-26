@@ -23,7 +23,6 @@ function DeckCreateChooseInvestigator() {
   const goBack = useGoBack();
   const activeListId = useStore((state) => state.activeList);
 
-  const resetFilters = useStore((state) => state.resetFilters);
   const setActiveList = useStore((state) => state.setActiveList);
 
   const cardResolver = useStore(selectCardRelationsResolver);
