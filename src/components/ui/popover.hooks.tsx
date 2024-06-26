@@ -26,6 +26,7 @@ export function usePopover({
   modal,
   open: controlledOpen,
   onOpenChange: setControlledOpen,
+  ...rest
 }: PopoverOptions = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(initialOpen);
   const [labelId, setLabelId] = useState<string | undefined>();
@@ -48,13 +49,13 @@ export function usePopover({
       }),
       shift({ padding: 5 }),
     ],
+    ...rest,
   });
 
   const context = data.context;
 
-  const click = useClick(context, {
-    enabled: controlledOpen == null,
-  });
+  const click = useClick(context);
+
   const dismiss = useDismiss(context);
   const role = useRole(context);
 

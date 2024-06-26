@@ -98,7 +98,6 @@ export function CardSearch({ onKeyboardNavigate, slotLeft, slotRight }: Props) {
             onKeyDown={onKeyboardNavigate}
             placeholder="Search for cards..."
             ref={inputRef}
-            tabIndex={0}
             value={inputValue}
           />
         </div>
@@ -112,21 +111,18 @@ export function CardSearch({ onKeyboardNavigate, slotLeft, slotRight }: Props) {
           id="search-game-text"
           label="Game text"
           onCheckedChange={onToggleGameText}
-          tabIndex={0}
         />
         <Checkbox
           checked={search.includeFlavor}
           id="search-game-flavor"
           label="Flavor"
           onCheckedChange={onToggleFlavor}
-          tabIndex={0}
         />
         <Checkbox
           checked={search.includeBacks}
           id="search-back"
           label="Backs"
           onCheckedChange={onToggleBacks}
-          tabIndex={0}
         />
       </div>
     </search>
