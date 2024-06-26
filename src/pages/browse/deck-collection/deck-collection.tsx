@@ -55,7 +55,14 @@ export function DeckCollection() {
           </ol>
         </Scroller>
       ) : (
-        <div className={css["placeholder"]}>No decks.</div>
+        <div className={css["placeholder-container"]}>
+          <figure className={css["placeholder"]}>
+            <i className="icon-deck" />
+            <figcaption className={css["placeholder-caption"]}>
+              Collection empty
+            </figcaption>
+          </figure>
+        </div>
       )}
     </div>
   );
