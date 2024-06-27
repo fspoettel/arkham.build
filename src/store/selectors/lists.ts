@@ -58,7 +58,11 @@ export const selectAssetOptions = createSelector(
   (lookupTables) => {
     const health = Object.keys(lookupTables.health).map((x) => +x);
     const sanity = Object.keys(lookupTables.sanity).map((x) => +x);
-    const uses = Object.keys(lookupTables.uses).map((code) => ({ code }));
+
+    const uses = Object.keys(lookupTables.uses)
+      .map((code) => ({ code }))
+      .toSorted((a, b) => sortAlphabetical(a.code, b.code));
+
     const skillBoosts = SKILL_KEYS.filter((x) => x !== "wild");
 
     health.sort();
