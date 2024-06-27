@@ -123,7 +123,7 @@ function DeckEditInner({ deck }: { deck: DisplayDeck }) {
           validation={validation}
         />
       }
-      sidebarWidthMax="42rem"
+      sidebarWidthMax="46rem"
     >
       {(props) => (
         <CardList
