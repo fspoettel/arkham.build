@@ -1,7 +1,7 @@
 .container {
   display: flex;
   align-items: center;
-  gap: 0.375rem;
+  gap: var(--card-spacing-x, 0.375rem);
 }
 
 .value {

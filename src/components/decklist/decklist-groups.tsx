@@ -21,6 +21,7 @@ type Props = {
   ignoredCounts?: Record<string, number>;
   quantities?: Record<string, number>;
   layout: "one_column" | "two_column";
+  listCardSize?: "sm";
   mapping: string;
   ownershipCounts: Record<string, number>;
 };
@@ -29,6 +30,7 @@ export function DecklistGroups({
   group,
   ignoredCounts,
   layout,
+  listCardSize,
   mapping,
   ownershipCounts,
   quantities,
@@ -49,6 +51,7 @@ export function DecklistGroups({
                 <DecklistGroup
                   cards={val}
                   ignoredCounts={ignoredCounts}
+                  listCardSize={listCardSize}
                   mapping={mapping}
                   ownershipCounts={ownershipCounts}
                   quantities={quantities}
@@ -97,6 +100,7 @@ export function DecklistGroups({
 type DecklistGroupProps = {
   cards: Card[];
   ignoredCounts?: Record<string, number>;
+  listCardSize?: "sm";
   mapping: string;
   ownershipCounts: Record<string, number>;
   quantities?: Record<string, number>;
@@ -105,6 +109,7 @@ type DecklistGroupProps = {
 function DecklistGroup({
   cards,
   ignoredCounts,
+  listCardSize,
   mapping,
   ownershipCounts,
   quantities,
@@ -132,21 +137,22 @@ function DecklistGroup({
       {cards.toSorted(sortByName).map((card) => (
         <ListCard
           as="li"
-          canCheckOwnership={canCheckOwnership}
-          canIndicateRemoval
           card={card}
           isForbidden={
             forbiddenCards.find(
               (x) => x.code === card.code && x.target === mapping,
             ) != null
           }
+          isRemoved={quantities?.[card.code] === 0}
           isIgnored={ignoredCounts?.[card.code]}
           key={card.code}
           omitBorders
           onChangeCardQuantity={onChangeCardQuantity}
-          owned={ownershipCounts[card.code]}
+          ownedCount={
+            canCheckOwnership ? ownershipCounts[card.code] : undefined
+          }
           quantities={quantities}
-          size="sm"
+          size={listCardSize}
         />
       ))}
     </ol>

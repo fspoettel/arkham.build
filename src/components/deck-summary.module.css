@@ -2,7 +2,7 @@
   position: relative;
   border-style: solid;
   border-width: 1px;
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded);
   overflow: hidden;
   color: var(--nord-4);
   transition: border 0.15s ease-in-out;

@@ -43,14 +43,13 @@ export function CardSet({ onChangeCardQuantity, onSelect, set }: Props) {
         {set.cards.map(({ card }) => (
           <ListCard
             as="li"
-            canCheckOwnership={canCheckOwnership}
             card={card}
             key={card.code}
             omitBorders
             onChangeCardQuantity={
               set.canSetQuantity ? onChangeCardQuantity : undefined
             }
-            owned={cardOwnedCount(card)}
+            ownedCount={canCheckOwnership ? cardOwnedCount(card) : undefined}
             quantities={
               set.quantities
                 ? { [card.code]: set.quantities[card.code] }

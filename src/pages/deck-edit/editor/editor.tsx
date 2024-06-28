@@ -52,6 +52,7 @@ export function Editor({ currentTab, deck, onTabChange, validation }: Props) {
                 group={deck.groups.main.data}
                 ignoredCounts={deck.ignoreDeckLimitSlots ?? undefined}
                 layout="two_column"
+                listCardSize="sm"
                 mapping="slots"
                 ownershipCounts={deck.ownershipCounts}
                 quantities={deck.slots}
@@ -62,6 +63,7 @@ export function Editor({ currentTab, deck, onTabChange, validation }: Props) {
                 <DecklistGroups
                   group={deck.groups.bonded.data}
                   layout="two_column"
+                  listCardSize="sm"
                   mapping="bonded"
                   ownershipCounts={deck.ownershipCounts}
                   quantities={deck.bondedSlots}
@@ -76,6 +78,7 @@ export function Editor({ currentTab, deck, onTabChange, validation }: Props) {
                 <DecklistGroups
                   group={deck.groups.side.data}
                   layout="two_column"
+                  listCardSize="sm"
                   mapping="sideSlots"
                   ownershipCounts={deck.ownershipCounts}
                   quantities={deck.sideSlots ?? undefined}
@@ -93,6 +96,7 @@ export function Editor({ currentTab, deck, onTabChange, validation }: Props) {
                   <DecklistGroups
                     group={deck.groups.extra.data}
                     layout="one_column"
+                    listCardSize="sm"
                     mapping="extraSlots"
                     ownershipCounts={deck.ownershipCounts}
                     quantities={deck.extraSlots ?? undefined}

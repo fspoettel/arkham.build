@@ -36,10 +36,10 @@
 
 .group-entry_nested-title {
   font-size: var(--text-2xs);
-  padding-top: 0.25rem;
   display: flex;
   align-items: center;
   gap: 0.25rem;
+  margin-top: 0.125rem;
   font-family: var(--font-family-ui);
   color: var(--nord-4);
   font-weight: 400;

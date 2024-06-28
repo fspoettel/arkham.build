@@ -206,13 +206,16 @@ export function CardList({
               isScrolling={onScrollStop}
               itemContent={(index, _, __, { currentTop }) => (
                 <ListCard
-                  canCheckOwnership={canCheckOwnerhip}
                   card={data.cards[index]}
                   disableKeyboard
                   isActive={index === currentTop}
                   key={data.cards[index].code}
                   onChangeCardQuantity={onChangeCardQuantity}
-                  owned={cardOwnedCount(data.cards[index])}
+                  ownedCount={
+                    canCheckOwnerhip
+                      ? cardOwnedCount(data.cards[index])
+                      : undefined
+                  }
                   quantities={quantities}
                   renderAction={renderListCardAction}
                   renderExtra={renderListCardExtra}
