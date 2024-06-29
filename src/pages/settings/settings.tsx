@@ -31,7 +31,7 @@ function Settings() {
         updateSettings(new FormData(evt.target));
         toast({
           children: "Settings saved successfully.",
-          displayTime: 3000,
+          duration: 2000,
           variant: "success",
         });
       }

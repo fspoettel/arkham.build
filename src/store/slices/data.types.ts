@@ -40,4 +40,5 @@ export type DataState = {
 export type DataSlice = {
   data: DataState;
   importDeck(code: string): Promise<void>;
+  duplicateDeck(id: Id): Id;
 };

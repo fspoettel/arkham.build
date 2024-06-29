@@ -1,0 +1,19 @@
+
+.dropdown {
+  padding: 0.5rem 0.25rem;
+  border-radius: var(--rounded);
+  background-color: var(--nord-point-five);
+  box-shadow: var(--shadow-md);
+  min-width: 10rem;
+  border: 1px solid var(--nord-2);
+}
+
+.dropdown hr {
+  height: 0;
+  border-bottom-color: var(--nord-2);
+}
+
+.dropdown > * {
+  text-align: left;
+  justify-content: flex-start ;
+}

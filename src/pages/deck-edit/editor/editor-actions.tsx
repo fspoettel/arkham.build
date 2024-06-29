@@ -31,7 +31,7 @@ export function EditorActions({ deck }: Props) {
 
     showToast({
       children: "Deck saved successfully.",
-      displayTime: 3000,
+      duration: 2000,
       variant: "success",
     });
   }, [saveDeck, navigate, showToast, deck.id]);

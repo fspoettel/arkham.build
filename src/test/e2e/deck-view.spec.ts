@@ -66,8 +66,18 @@ test("edit deck", async ({ page }) => {
 
 test("delete deck", async ({ page }) => {
   page.on("dialog", (dialog) => dialog.accept());
+  await page.getByTestId("view-more-actions").click();
   await page.getByTestId("view-delete").click();
   await expect(page).toHaveURL(/\//);
   await expect(page.getByTestId("collection-deck")).not.toBeVisible();
   await expect(page.getByText("Collection empty")).toBeVisible();
+});
+
+test("duplicate-deck", async ({ page }) => {
+  await page.getByTestId("view-more-actions").click();
+  await page.getByTestId("view-duplicate").click();
+  await expect(page.getByTestId("view-title")).toContainText("(Copy)");
+  // TODO: why does `page.goto("/")` show a spinner? maybe we have a race condition with init logic.
+  await page.getByTestId("masthead-logo").click();
+  expect(await page.getByTestId("collection-deck").all()).toHaveLength(2);
 });

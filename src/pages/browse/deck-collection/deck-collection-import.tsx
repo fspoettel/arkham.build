@@ -35,7 +35,7 @@ export function DeckCollectionImport() {
 
           showToast({
             children: "Successfully imported deck.",
-            displayTime: 3000,
+            duration: 2000,
             variant: "success",
           });
 
@@ -43,7 +43,7 @@ export function DeckCollectionImport() {
         } catch (err) {
           showToast({
             children: `Error: ${err instanceof Error ? err.message : "Unknown error."}`,
-            displayTime: 3000,
+            duration: 2000,
             variant: "error",
           });
         } finally {

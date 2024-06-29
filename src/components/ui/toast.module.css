@@ -4,7 +4,7 @@
   gap: 0.75rem;
   max-width: min(90%, 45ch);
   position: fixed;
-  bottom: 1rem;
+  top: 1rem;
   right: 1rem;
   z-index: 100;
   background: var(--nord-1);
@@ -15,6 +15,10 @@
   animation: slideIn both 150ms ease-in-out;
   border: 1px solid var(--nord-2);
   text-align: left;
+}
+
+.toast.exiting {
+  animation: slideOut both 150ms ease-in-out;
 }
 
 .icon {
@@ -39,9 +43,20 @@
 
 @keyframes slideIn {
   from {
-    transform: translateX(100%);
+    transform: translateX(calc(100% + 1rem));
   }
+
   to {
     transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(100% + 1rem));
   }
 }

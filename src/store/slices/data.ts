@@ -64,4 +64,41 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
       },
     });
   },
+
+  duplicateDeck(id) {
+    const state = get();
+
+    const deck = state.data.decks[id];
+    assert(deck, `Deck ${id} does not exist.`);
+
+    const now = new Date().toISOString();
+
+    const newDeck: Deck = {
+      ...structuredClone(deck),
+      id: window.crypto.randomUUID(),
+      name: `(Copy) ${deck.name}`,
+      date_creation: now,
+      date_update: now,
+      next_deck: null,
+      previous_deck: null,
+      version: "0.1",
+      xp: null,
+    };
+
+    set({
+      data: {
+        ...state.data,
+        decks: {
+          ...state.data.decks,
+          [newDeck.id]: newDeck,
+        },
+        history: {
+          ...state.data.history,
+          [newDeck.id]: [],
+        },
+      },
+    });
+
+    return newDeck.id;
+  },
 });

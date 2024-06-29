@@ -17,7 +17,7 @@ export function Masthead({ children, className, slotRight }: Props) {
   return (
     <header className={clsx(className, css["masthead"])}>
       <div className={css["left"]}>
-        <Link className={css["logo"]} href="/">
+        <Link className={css["logo"]} href="/" data-testid="masthead-logo">
           <img alt="Arkham.build logo" src="/logo.svg" />
         </Link>
         {children}

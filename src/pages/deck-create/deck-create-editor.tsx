@@ -39,7 +39,7 @@ export function DeckCreateEditor() {
     navigate(`/deck/edit/${id}`, { replace: true });
     toast({
       children: "Deck created successfully.",
-      displayTime: 3000,
+      duration: 2000,
       variant: "success",
     });
   };

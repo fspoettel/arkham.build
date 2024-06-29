@@ -5,6 +5,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 
@@ -14,7 +15,7 @@ type Toast = {
   children:
     | React.ReactNode
     | ((props: { handleClose: () => void }) => React.ReactNode);
-  displayTime?: number;
+  duration?: number;
   variant?: "success" | "error";
 };
 
@@ -23,33 +24,69 @@ const ToastContext = createContext<((msg: Toast) => void) | undefined>(
 );
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
+  const toastRef = useRef<HTMLDivElement>(null);
   const [toast, setToast] = useState<Toast | undefined>(undefined);
+  const [isExiting, setIsExiting] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
-  const showToast = useCallback((value: Toast) => {
-    setToast(value);
+  const removeToast = useCallback(() => {
+    return new Promise<void>((resolve) => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+      if (!toastRef.current) {
+        setToast(undefined);
+        return resolve();
+      }
+
+      setIsExiting(true);
+
+      const afterExit = () => {
+        toastRef.current?.removeEventListener("animationend", afterExit);
+        setToast(undefined);
+        setIsExiting(false);
+        return resolve();
+      };
+
+      toastRef.current.addEventListener("animationend", afterExit);
+    });
   }, []);
 
   useEffect(() => {
-    if (!toast?.displayTime) return;
+    if (!toast?.duration) return;
 
-    const timer = setTimeout(() => {
-      setToast(undefined);
-    }, toast.displayTime);
+    timeoutRef.current = setTimeout(() => {
+      removeToast();
+    }, toast.duration);
 
-    return () => clearTimeout(timer);
-  }, [toast]);
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, [toast, removeToast]);
 
   const handleClose = useCallback(() => {
-    setToast(undefined);
-  }, []);
+    removeToast();
+  }, [removeToast]);
+
+  const showToast = useCallback(
+    async (value: Toast) => {
+      await removeToast();
+      setToast(value);
+    },
+    [removeToast],
+  );
 
   return (
     <ToastContext.Provider value={showToast}>
       {children}
       {toast && (
         <div
-          className={clsx(css["toast"], toast.variant && css[toast.variant])}
+          className={clsx(
+            css["toast"],
+            toast.variant && css[toast.variant],
+            isExiting && css["exiting"],
+          )}
           data-testid="toast"
+          ref={toastRef}
           role="status"
         >
           {toast.variant === "success" && (

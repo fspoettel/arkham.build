@@ -69,4 +69,39 @@ describe("data slice", () => {
       });
     });
   });
+
+  describe("actions.duplicateDeck", () => {
+    const mockState = {
+      data: {
+        decks: {
+          "1": {
+            id: "1",
+            previous_deck: "2",
+          } as Deck,
+        },
+        history: {
+          "1": ["2", "3"],
+        },
+      },
+    };
+
+    afterEach(async () => {
+      store = await getMockStore();
+    });
+
+    it("duplicates a deck", () => {
+      store.setState(mockState);
+      const id = store.getState().duplicateDeck("1");
+
+      const state = store.getState();
+
+      expect(state.data.decks[id]).toMatchObject({
+        id,
+        previous_deck: null,
+        version: "0.1",
+      });
+
+      expect(state.data.history[id]).toMatchObject([]);
+    });
+  });
 });
