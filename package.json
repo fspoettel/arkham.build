@@ -20,13 +20,13 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
-    "test:e2e:linux": "docker run -v $(pwd):/work/ mcr.microsoft.com/playwright:v1.44.1-focal bash -c 'cd work && npm run test:e2e'",
-    "test:watch": "vitest watch"
+    "test:watch": "vitest watch",
+    "update-snapshots": "playwright test --update-snapshots && docker run -v $(pwd):/work/ mcr.microsoft.com/playwright:v1.45.0-focal bash -c 'cd work && npm run test:e2e -- --update-snapshots'"
   },
   "dependencies": {
-    "@floating-ui/react": "0.26.17",
+    "@floating-ui/react": "0.26.18",
     "@leeoniya/ufuzzy": "1.0.14",
-    "@radix-ui/react-checkbox": "1.1.0",
+    "@radix-ui/react-checkbox": "1.1.1",
     "@radix-ui/react-collapsible": "1.1.0",
     "@radix-ui/react-radio-group": "1.2.0",
     "@radix-ui/react-scroll-area": "1.1.0",
@@ -36,22 +36,22 @@
     "clsx": "2.1.1",
     "dompurify": "3.1.5",
     "idb-keyval": "6.2.1",
-    "lucide-react": "0.396.0",
+    "lucide-react": "0.399.0",
     "marked": "12.0.2",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-virtuoso": "4.7.11",
     "reselect": "5.1.1",
-    "wouter": "3.2.1",
-    "zustand": "4.5.2"
+    "wouter": "3.3.0",
+    "zustand": "4.5.4"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.8.2",
-    "@playwright/test": "1.44.1",
+    "@biomejs/biome": "1.8.3",
+    "@playwright/test": "1.45.0",
     "@svgr/plugin-jsx": "8.1.0",
     "@svgr/plugin-svgo": "8.1.0",
     "@types/dompurify": "3.0.5",
-    "@types/node": "20.14.8",
+    "@types/node": "20.14.9",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
     "@vitejs/plugin-react": "4.3.1",
@@ -59,9 +59,9 @@
     "autoprefixer": "10.4.19",
     "happy-dom": "^14.12.3",
     "lefthook": "1.6.18",
-    "rollup-plugin-webpack-stats": "0.4.1",
+    "rollup-plugin-webpack-stats": "1.0.1",
     "typescript": "5.5.2",
-    "vite": "5.3.1",
+    "vite": "5.3.2",
     "vite-plugin-svgr": "4.2.0",
     "vitest": "1.6.0"
   }
