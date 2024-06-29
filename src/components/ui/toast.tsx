@@ -49,6 +49,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       {toast && (
         <div
           className={clsx(css["toast"], toast.variant && css[toast.variant])}
+          data-testid="toast"
           role="status"
         >
           {toast.variant === "success" && (

@@ -17,12 +17,18 @@ type Props = {
   forceShowHeader?: boolean;
   card: ResolvedCard["card"];
   size: "compact" | "tooltip" | "full";
-};
+} & React.HTMLAttributes<HTMLDivElement>;
 
 /**
  * Card back for cards with a non-unique back.
  */
-export function CardBack({ card, forceShowHeader, size }: Props) {
+export function CardBack({
+  card,
+  className,
+  forceShowHeader,
+  size,
+  ...rest
+}: Props) {
   const showBackImage =
     size === "full" ||
     (card.backimageurl &&
@@ -53,7 +59,9 @@ export function CardBack({ card, forceShowHeader, size }: Props) {
         hasHeader && css["back-has-header"],
         showBackImage && css["has-image"],
         css[size],
+        className,
       )}
+      {...rest}
     >
       {hasHeader && <CardHeader card={backCard} />}
       <div className={css["content"]}>

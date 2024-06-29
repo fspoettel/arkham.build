@@ -21,7 +21,7 @@ export function Sidebar({ className, deck }: Props) {
       <SidebarActions deck={deck} />
 
       <ul className={css["details"]}>
-        <li className={css["detail"]}>
+        <li className={css["detail"]} data-testid="view-deck-size">
           <div className={css["detail-label"]}>
             <i className="icon-card-outline-bold" /> Deck size
           </div>
@@ -30,14 +30,14 @@ export function Sidebar({ className, deck }: Props) {
           </p>
         </li>
 
-        <li className={css["detail"]}>
+        <li className={css["detail"]} data-testid="view-deck-xp">
           <div className={css["detail-label"]}>
             <i className="icon-xp-bold" /> XP required
           </div>
           <p className={css["detail-value"]}>{deck.stats.xpRequired}</p>
         </li>
 
-        <li className={css["detail"]}>
+        <li className={css["detail"]} data-testid="view-deck-taboo">
           <div className={css["detail-label"]}>
             <i className="icon-taboo" /> Taboo
           </div>

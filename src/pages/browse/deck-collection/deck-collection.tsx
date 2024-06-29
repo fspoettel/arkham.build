@@ -25,7 +25,7 @@ export function DeckCollection() {
             <DeckCollectionImport />
           </Popover>
           <Link asChild to="/deck/create">
-            <Button as="a" data-testid="create-trigger">
+            <Button as="a" data-testid="collection-create-deck">
               <Plus />
             </Button>
           </Link>

@@ -48,20 +48,20 @@ export function DeckSummary({
           </div>
         )}
         <div className={css["header-container"]}>
-          <h3 className={css["title"]} data-testid="deck-title">
+          <h3 className={css["title"]} data-testid="deck-summary-title">
             {showValidation && !validation?.valid && <CircleAlert />}
             {deck.name}
           </h3>
           <div className={css["header-row"]}>
-            <h4 className={css["sub"]} data-testid="deck-investigator">
+            <h4 className={css["sub"]} data-testid="deck-summary-investigator">
               {deck.cards.investigator.card.real_name}
             </h4>
             <div className={css["stats"]}>
-              <strong>
+              <strong data-testid="deck-summary-xp">
                 <i className="icon-xp-bold" />
                 {deck.stats.xpRequired} XP
               </strong>
-              <strong>
+              <strong data-testid="deck-summary-size">
                 <i className="icon-card-outline-bold" />× {deck.stats.deckSize}{" "}
                 ({deck.stats.deckSizeTotal})
               </strong>

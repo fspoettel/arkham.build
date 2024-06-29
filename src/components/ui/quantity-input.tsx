@@ -10,7 +10,7 @@ type Props = {
   onValueChange?: (value: number) => void;
   value: number;
   limit: number;
-};
+} & React.HTMLAttributes<HTMLDivElement>;
 
 export function QuantityInput({
   disabled,
@@ -18,6 +18,7 @@ export function QuantityInput({
   onValueChange,
   tabIndex,
   value,
+  ...rest
 }: Props) {
   const decrementCardQuantity = () => {
     if (value <= 0) return;
@@ -30,8 +31,9 @@ export function QuantityInput({
   };
 
   return (
-    <div className={css["container"]}>
+    <div className={css["container"]} {...rest}>
       <Button
+        data-testid="quantity-decrement"
         disabled={disabled || value <= 0}
         iconOnly
         onClick={decrementCardQuantity}
@@ -41,8 +43,11 @@ export function QuantityInput({
       >
         <Minus />
       </Button>
-      <strong className={css["value"]}>{value}</strong>
+      <strong className={css["value"]} data-testid="quantity-value">
+        {value}
+      </strong>
       <Button
+        data-testid="quantity-increment"
         disabled={disabled || value >= limit}
         iconOnly
         onClick={incrementCardQuantity}

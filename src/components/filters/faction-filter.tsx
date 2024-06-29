@@ -47,6 +47,7 @@ export function FactionFilter({ id }: Props) {
       {options.map((faction) => (
         <ToggleGroupItem
           className={css[`color-active-${faction.code}`]}
+          data-testid={`filters-faction-${faction.code}`}
           key={faction.code}
           title={faction.name}
           value={faction.code}

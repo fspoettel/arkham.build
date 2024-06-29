@@ -56,6 +56,12 @@
         "real_name": "Dark Revelations"
       },
       {
+        "code": "cotr",
+        "cycle_code": "side_stories",
+        "position": 1,
+        "real_name": "Curse of the Rougarou"
+      },
+      {
         "code": "def",
         "cycle_code": "tic",
         "position": 3,
@@ -66,6 +72,12 @@
         "cycle_code": "tic",
         "position": 4,
         "real_name": "Horror in High Gear"
+      },
+      {
+        "code": "coh",
+        "cycle_code": "side_stories",
+        "position": 2,
+        "real_name": "Carnevale of Horrors"
       },
       {
         "code": "lif",
@@ -104,24 +116,6 @@
         "real_name": "Edge of the Earth Campaign Expansion"
       },
       {
-        "code": "cotr",
-        "cycle_code": "side_stories",
-        "position": 1,
-        "real_name": "Curse of the Rougarou"
-      },
-      {
-        "code": "coh",
-        "cycle_code": "side_stories",
-        "position": 2,
-        "real_name": "Carnevale of Horrors"
-      },
-      {
-        "code": "tskp",
-        "cycle_code": "tsk",
-        "position": 1,
-        "real_name": "The Scarlet Keys Investigator Expansion"
-      },
-      {
         "code": "mtt",
         "cycle_code": "side_stories",
         "position": 8,
@@ -132,6 +126,12 @@
         "cycle_code": "side_stories",
         "position": 9,
         "real_name": "Fortune and Folly"
+      },
+      {
+        "code": "tskp",
+        "cycle_code": "tsk",
+        "position": 1,
+        "real_name": "The Scarlet Keys Investigator Expansion"
       },
       {
         "code": "blbe",
@@ -146,18 +146,6 @@
         "real_name": "Bad Blood"
       },
       {
-        "code": "tskc",
-        "cycle_code": "tsk",
-        "position": 2,
-        "real_name": "The Scarlet Keys Campaign Expansion"
-      },
-      {
-        "code": "core",
-        "cycle_code": "core",
-        "position": 1,
-        "real_name": "Core Set"
-      },
-      {
         "code": "btb",
         "cycle_code": "parallel",
         "position": 4,
@@ -170,6 +158,18 @@
         "real_name": "Red Tide Rising"
       },
       {
+        "code": "tskc",
+        "cycle_code": "tsk",
+        "position": 2,
+        "real_name": "The Scarlet Keys Campaign Expansion"
+      },
+      {
+        "code": "core",
+        "cycle_code": "core",
+        "position": 1,
+        "real_name": "Core Set"
+      },
+      {
         "code": "otr",
         "cycle_code": "parallel",
         "position": 6,
@@ -180,6 +180,18 @@
         "cycle_code": "parallel",
         "position": 7,
         "real_name": "Laid to Rest"
+      },
+      {
+        "code": "ptr",
+        "cycle_code": "parallel",
+        "position": 8,
+        "real_name": "Path of the Righteous"
+      },
+      {
+        "code": "rop",
+        "cycle_code": "parallel",
+        "position": 9,
+        "real_name": "Relics of the Past"
       },
       {
         "code": "promo",
@@ -204,18 +216,6 @@
         "cycle_code": "dwl",
         "position": 3,
         "real_name": "The Essex County Express"
-      },
-      {
-        "code": "ptr",
-        "cycle_code": "parallel",
-        "position": 8,
-        "real_name": "Path of the Righteous"
-      },
-      {
-        "code": "rop",
-        "cycle_code": "parallel",
-        "position": 9,
-        "real_name": "Relics of the Past"
       },
       {
         "code": "hfa",
@@ -284,40 +284,28 @@
         "real_name": "Return to the Path to Carcosa"
       },
       {
-        "code": "blob",
-        "cycle_code": "side_stories",
-        "position": 6,
-        "real_name": "The Blob That Ate Everything"
-      },
-      {
         "code": "tde",
         "cycle_code": "tde",
         "position": 1,
         "real_name": "The Dream-Eaters"
       },
       {
-        "code": "wog",
+        "code": "lol",
         "cycle_code": "side_stories",
-        "position": 7,
-        "real_name": "War of the Outer Gods"
-      },
-      {
-        "code": "rod",
-        "cycle_code": "parallel",
-        "position": 1,
-        "real_name": "Read or Die"
-      },
-      {
-        "code": "aon",
-        "cycle_code": "parallel",
-        "position": 2,
-        "real_name": "All or Nothing"
+        "position": 3,
+        "real_name": "The Labyrinths of Lunacy"
       },
       {
         "code": "sfk",
         "cycle_code": "tde",
         "position": 2,
         "real_name": "The Search for Kadath"
+      },
+      {
+        "code": "guardians",
+        "cycle_code": "side_stories",
+        "position": 4,
+        "real_name": "Guardians of the Abyss"
       },
       {
         "code": "tsh",
@@ -332,16 +320,46 @@
         "real_name": "Dark Side of the Moon"
       },
       {
+        "code": "hotel",
+        "cycle_code": "side_stories",
+        "position": 5,
+        "real_name": "Murder at the Excelsior Hotel"
+      },
+      {
         "code": "pnr",
         "cycle_code": "tde",
         "position": 5,
         "real_name": "Point of No Return"
       },
       {
+        "code": "blob",
+        "cycle_code": "side_stories",
+        "position": 6,
+        "real_name": "The Blob That Ate Everything"
+      },
+      {
+        "code": "wog",
+        "cycle_code": "side_stories",
+        "position": 7,
+        "real_name": "War of the Outer Gods"
+      },
+      {
         "code": "wgd",
         "cycle_code": "tde",
         "position": 6,
         "real_name": "Where the Gods Dwell"
+      },
+      {
+        "code": "rod",
+        "cycle_code": "parallel",
+        "position": 1,
+        "real_name": "Read or Die"
+      },
+      {
+        "code": "aon",
+        "cycle_code": "parallel",
+        "position": 2,
+        "real_name": "All or Nothing"
       },
       {
         "code": "woc",
@@ -476,18 +494,6 @@
         "real_name": "The Boundary Beyond"
       },
       {
-        "code": "lol",
-        "cycle_code": "side_stories",
-        "position": 3,
-        "real_name": "The Labyrinths of Lunacy"
-      },
-      {
-        "code": "guardians",
-        "cycle_code": "side_stories",
-        "position": 4,
-        "real_name": "Guardians of the Abyss"
-      },
-      {
         "code": "hote",
         "cycle_code": "tfa",
         "position": 4,
@@ -528,823 +534,287 @@
         "cycle_code": "tcu",
         "position": 2,
         "real_name": "The Secret Name"
-      },
-      {
-        "code": "hotel",
-        "cycle_code": "side_stories",
-        "position": 5,
-        "real_name": "Murder at the Excelsior Hotel"
       }
     ],
     "cycle": [
-      {
-        "code": "core",
-        "position": 1,
-        "real_name": "Core"
-      },
-      {
-        "code": "dwl",
-        "position": 2,
-        "real_name": "The Dunwich Legacy"
-      },
-      {
-        "code": "ptc",
-        "position": 3,
-        "real_name": "The Path to Carcosa"
-      },
-      {
-        "code": "tfa",
-        "position": 4,
-        "real_name": "The Forgotten Age"
-      },
-      {
-        "code": "tcu",
-        "position": 5,
-        "real_name": "The Circle Undone"
-      },
-      {
-        "code": "tde",
-        "position": 6,
-        "real_name": "The Dream-Eaters"
-      },
-      {
-        "code": "tic",
-        "position": 7,
-        "real_name": "The Innsmouth Conspiracy"
-      },
-      {
-        "code": "eoe",
-        "position": 8,
-        "real_name": "Edge of the Earth"
-      },
-      {
-        "code": "tsk",
-        "position": 9,
-        "real_name": "The Scarlet Keys"
-      },
+      { "code": "core", "position": 1, "real_name": "Core" },
+      { "code": "dwl", "position": 2, "real_name": "The Dunwich Legacy" },
+      { "code": "ptc", "position": 3, "real_name": "The Path to Carcosa" },
+      { "code": "tfa", "position": 4, "real_name": "The Forgotten Age" },
+      { "code": "tcu", "position": 5, "real_name": "The Circle Undone" },
+      { "code": "tde", "position": 6, "real_name": "The Dream-Eaters" },
+      { "code": "tic", "position": 7, "real_name": "The Innsmouth Conspiracy" },
+      { "code": "eoe", "position": 8, "real_name": "Edge of the Earth" },
+      { "code": "tsk", "position": 9, "real_name": "The Scarlet Keys" },
       {
         "code": "fhv",
         "position": 10,
         "real_name": "The Feast of Hemlock Vale"
       },
-      {
-        "code": "promotional",
-        "position": 80,
-        "real_name": "Promotional"
-      },
-      {
-        "code": "return",
-        "position": 50,
-        "real_name": "Return to..."
-      },
+      { "code": "promotional", "position": 80, "real_name": "Promotional" },
+      { "code": "return", "position": 50, "real_name": "Return to..." },
       {
         "code": "investigator",
         "position": 60,
         "real_name": "Investigator Starter Decks"
       },
-      {
-        "code": "side_stories",
-        "position": 70,
-        "real_name": "Side Stories"
-      },
-      {
-        "code": "parallel",
-        "position": 90,
-        "real_name": "Parallel"
-      }
+      { "code": "side_stories", "position": 70, "real_name": "Side Stories" },
+      { "code": "parallel", "position": 90, "real_name": "Parallel" }
     ],
     "card_encounter_set": [
-      {
-        "code": "agents_of_the_unknown",
-        "name": "Agents of the Unknown"
-      },
-      {
-        "code": "beyond_the_threshold",
-        "name": "Beyond the Threshold"
-      },
-      {
-        "code": "the_silent_heath",
-        "name": "The Silent Heath"
-      },
-      {
-        "code": "the_second_day",
-        "name": "The Second Day"
-      },
-      {
-        "code": "agents_of_yuggoth",
-        "name": "Agents of Yuggoth"
-      },
-      {
-        "code": "the_first_day",
-        "name": "The First Day"
-      },
-      {
-        "code": "horrors_in_the_rock",
-        "name": "Horrors in the Rock"
-      },
-      {
-        "code": "myconids",
-        "name": "Myconids"
-      },
-      {
-        "code": "day_of_rain",
-        "name": "Day of Rain"
-      },
-      {
-        "code": "agents_of_the_colour",
-        "name": "Agents of the Colour"
-      },
-      {
-        "code": "heirlooms",
-        "name": "Heirlooms"
-      },
-      {
-        "code": "blight",
-        "name": "Blight"
-      },
-      {
-        "code": "hemlock_house",
-        "name": "Hemlock House"
-      },
-      {
-        "code": "alien_interference",
-        "name": "Alien Interference"
-      },
-      {
-        "code": "blob",
-        "name": "The Blob That Ate Everything"
-      },
-      {
-        "code": "blob_epic_multiplayer",
-        "name": "Epic Multiplayer"
-      },
-      {
-        "code": "a_light_in_the_fog",
-        "name": "A Light in the Fog"
-      },
-      {
-        "code": "bishops_thralls",
-        "name": "Bishop's Thralls"
-      },
-      {
-        "code": "fate_of_the_vale",
-        "name": "Fate of the Vale"
-      },
-      {
-        "code": "residents",
-        "name": "Residents"
-      },
-      {
-        "code": "the_longest_night",
-        "name": "The Longest Night"
-      },
-      {
-        "code": "day_of_rest",
-        "name": "Day of Rest"
-      },
-      {
-        "code": "black_stars_rise",
-        "name": "Black Stars Rise"
-      },
-      {
-        "code": "agents_of_atlach_nacha",
-        "name": "Agents of Atlach-Nacha"
-      },
-      {
-        "code": "transfiguration",
-        "name": "Transfiguration"
-      },
-      {
-        "code": "day_of_the_feast",
-        "name": "Day of the Feast"
-      },
-      {
-        "code": "fire",
-        "name": "Fire!"
-      },
-      {
-        "code": "mutations",
-        "name": "Mutations"
-      },
-      {
-        "code": "blob_single_group",
-        "name": "Single Group"
-      },
-      {
-        "code": "refractions",
-        "name": "Refractions"
-      },
-      {
-        "code": "the_forest",
-        "name": "The Forest"
-      },
-      {
-        "code": "the_lost_sister",
-        "name": "The Lost Sister"
-      },
-      {
-        "code": "by_the_book",
-        "name": "By the Book"
-      },
-      {
-        "code": "all_or_nothing",
-        "name": "All or Nothing"
-      },
-      {
-        "code": "children_of_paradise",
-        "name": "Children of Paradise"
-      },
-      {
-        "code": "bloodthirsty_spirits",
-        "name": "Bloodthirsty Spirits"
-      },
-      {
-        "code": "chilling_mists",
-        "name": "Chilling Mists"
-      },
-      {
-        "code": "blob_that_ate_everything_else",
-        "name": "The Blob That Ate Everything Else"
-      },
+      { "code": "beyond_the_threshold", "name": "Beyond the Threshold" },
+      { "code": "agents_of_the_unknown", "name": "Agents of the Unknown" },
+      { "code": "agents_of_yuggoth", "name": "Agents of Yuggoth" },
+      { "code": "the_silent_heath", "name": "The Silent Heath" },
+      { "code": "the_first_day", "name": "The First Day" },
+      { "code": "the_second_day", "name": "The Second Day" },
+      { "code": "myconids", "name": "Myconids" },
+      { "code": "agents_of_the_colour", "name": "Agents of the Colour" },
+      { "code": "day_of_rain", "name": "Day of Rain" },
+      { "code": "horrors_in_the_rock", "name": "Horrors in the Rock" },
+      { "code": "heirlooms", "name": "Heirlooms" },
+      { "code": "agents_of_atlach_nacha", "name": "Agents of Atlach-Nacha" },
+      { "code": "a_light_in_the_fog", "name": "A Light in the Fog" },
+      { "code": "fate_of_the_vale", "name": "Fate of the Vale" },
+      { "code": "black_stars_rise", "name": "Black Stars Rise" },
+      { "code": "the_longest_night", "name": "The Longest Night" },
+      { "code": "alien_interference", "name": "Alien Interference" },
+      { "code": "blob", "name": "The Blob That Ate Everything" },
+      { "code": "bishops_thralls", "name": "Bishop's Thralls" },
+      { "code": "blob_epic_multiplayer", "name": "Epic Multiplayer" },
+      { "code": "day_of_rest", "name": "Day of Rest" },
+      { "code": "blight", "name": "Blight" },
+      { "code": "hemlock_house", "name": "Hemlock House" },
+      { "code": "residents", "name": "Residents" },
+      { "code": "transfiguration", "name": "Transfiguration" },
+      { "code": "children_of_paradise", "name": "Children of Paradise" },
       {
         "code": "brotherhood_of_the_beast",
         "name": "Brotherhood of the Beast"
       },
+      { "code": "the_lost_sister", "name": "The Lost Sister" },
+      { "code": "all_or_nothing", "name": "All or Nothing" },
       {
-        "code": "chilling_cold",
-        "name": "Chilling Cold"
+        "code": "blob_that_ate_everything_else",
+        "name": "The Blob That Ate Everything Else"
       },
-      {
-        "code": "blood_on_the_altar",
-        "name": "Blood On The Altar"
-      },
-      {
-        "code": "byakhee",
-        "name": "Byakhee"
-      },
-      {
-        "code": "anettes_coven",
-        "name": "Anette's Coven"
-      },
-      {
-        "code": "corsairs",
-        "name": "Corsairs"
-      },
-      {
-        "code": "the_thing_in_the_depths",
-        "name": "The Thing in the Depths"
-      },
-      {
-        "code": "the_vale",
-        "name": "The Vale"
-      },
-      {
-        "code": "written_in_rock",
-        "name": "Written in Rock"
-      },
-      {
-        "code": "city_of_the_damned",
-        "name": "City of the Damned"
-      },
+      { "code": "blob_single_group", "name": "Single Group" },
+      { "code": "byakhee", "name": "Byakhee" },
+      { "code": "day_of_the_feast", "name": "Day of the Feast" },
+      { "code": "fire", "name": "Fire!" },
+      { "code": "the_forest", "name": "The Forest" },
+      { "code": "chilling_cold", "name": "Chilling Cold" },
+      { "code": "blood_on_the_altar", "name": "Blood On The Altar" },
+      { "code": "refractions", "name": "Refractions" },
+      { "code": "mutations", "name": "Mutations" },
+      { "code": "by_the_book", "name": "By the Book" },
+      { "code": "bloodthirsty_spirits", "name": "Bloodthirsty Spirits" },
+      { "code": "chilling_mists", "name": "Chilling Mists" },
+      { "code": "city_of_the_damned", "name": "City of the Damned" },
       {
         "code": "city_of_the_elder_things",
         "name": "City of the Elder Things"
       },
-      {
-        "code": "congress_of_the_keys",
-        "name": "Congress of the Keys"
-      },
-      {
-        "code": "cleanup_crew",
-        "name": "Cleanup Crew"
-      },
-      {
-        "code": "ancient_evils",
-        "name": "Ancient Evils"
-      },
-      {
-        "code": "the_final_day",
-        "name": "The Final Day"
-      },
-      {
-        "code": "creeping_cold",
-        "name": "Creeping Cold"
-      },
-      {
-        "code": "cult_of_pnakotus",
-        "name": "Cult of Pnakotus"
-      },
-      {
-        "code": "dancing_mad",
-        "name": "Dancing Mad"
-      },
-      {
-        "code": "dark_side_of_the_moon",
-        "name": "Dark Side of the Moon"
-      },
-      {
-        "code": "creatures_in_the_ice",
-        "name": "Creatures in the Ice"
-      },
-      {
-        "code": "dark_veiling",
-        "name": "Dark Veiling"
-      },
-      {
-        "code": "crimson_conspiracy",
-        "name": "Crimson Conspiracy"
-      },
+      { "code": "congress_of_the_keys", "name": "Congress of the Keys" },
+      { "code": "ancient_evils", "name": "Ancient Evils" },
+      { "code": "anettes_coven", "name": "Anette's Coven" },
+      { "code": "corsairs", "name": "Corsairs" },
+      { "code": "cleanup_crew", "name": "Cleanup Crew" },
+      { "code": "the_thing_in_the_depths", "name": "The Thing in the Depths" },
+      { "code": "the_vale", "name": "The Vale" },
+      { "code": "written_in_rock", "name": "Written in Rock" },
       {
         "code": "creatures_of_the_underworld",
         "name": "Creatures of the Underworld"
       },
-      {
-        "code": "curtain_call",
-        "name": "Curtain Call"
-      },
-      {
-        "code": "cult_of_the_yellow_sign",
-        "name": "Cult of the Yellow Sign"
-      },
-      {
-        "code": "cultists",
-        "name": "Cult of Umôrdhoth"
-      },
-      {
-        "code": "death_of_stars",
-        "name": "Death of Stars"
-      },
-      {
-        "code": "dealings_in_the_dark",
-        "name": "Dealings in the Dark"
-      },
-      {
-        "code": "the_twisted_hollow",
-        "name": "The Twisted Hollow"
-      },
-      {
-        "code": "armitages_fate",
-        "name": "Armitage's Fate"
-      },
-      {
-        "code": "delusions",
-        "name": "Delusions"
-      },
-      {
-        "code": "agents_of_azathoth",
-        "name": "Agents of Azathoth"
-      },
-      {
-        "code": "at_deaths_doorstep",
-        "name": "At Death's Doorstep"
-      },
+      { "code": "creeping_cold", "name": "Creeping Cold" },
+      { "code": "dark_side_of_the_moon", "name": "Dark Side of the Moon" },
+      { "code": "dark_veiling", "name": "Dark Veiling" },
+      { "code": "the_final_day", "name": "The Final Day" },
+      { "code": "curtain_call", "name": "Curtain Call" },
+      { "code": "cult_of_the_yellow_sign", "name": "Cult of the Yellow Sign" },
+      { "code": "cult_of_pnakotus", "name": "Cult of Pnakotus" },
+      { "code": "creatures_in_the_ice", "name": "Creatures in the Ice" },
+      { "code": "dancing_mad", "name": "Dancing Mad" },
+      { "code": "crimson_conspiracy", "name": "Crimson Conspiracy" },
+      { "code": "cultists", "name": "Cult of Umôrdhoth" },
+      { "code": "at_deaths_doorstep", "name": "At Death's Doorstep" },
+      { "code": "death_of_stars", "name": "Death of Stars" },
+      { "code": "dealings_in_the_dark", "name": "Dealings in the Dark" },
+      { "code": "the_twisted_hollow", "name": "The Twisted Hollow" },
+      { "code": "armitages_fate", "name": "Armitage's Fate" },
+      { "code": "delusions", "name": "Delusions" },
+      { "code": "agents_of_azathoth", "name": "Agents of Azathoth" },
+      { "code": "descent_into_the_pitch", "name": "Descent into the Pitch" },
+      { "code": "dim_carcosa", "name": "Dim Carcosa" },
+      { "code": "bad_blood", "name": "Bad Blood" },
       {
         "code": "disappearance_at_the_twilight_estate",
         "name": "Disappearance at the Twilight Estate"
       },
-      {
-        "code": "delusory_evils",
-        "name": "Delusory Evils"
-      },
+      { "code": "devil_reef", "name": "Devil Reef" },
+      { "code": "delusory_evils", "name": "Delusory Evils" },
       {
         "code": "a_thousand_shapes_of_horror",
         "name": "A Thousand Shapes of Horror"
       },
+      { "code": "essex_county_express", "name": "The Essex County Express" },
+      { "code": "evil_portents", "name": "Evil Portents" },
+      { "code": "echoes_of_the_past", "name": "Echoes of the Past" },
+      { "code": "excelsior_management", "name": "Excelsior Management" },
+      { "code": "bayou", "name": "The Bayou" },
+      { "code": "doomed_expedition", "name": "Doomed Expedition" },
+      { "code": "dogs_of_war", "name": "Dogs of War" },
+      { "code": "beast_thralls", "name": "Beast Thralls" },
+      { "code": "bad_luck", "name": "Bad Luck" },
+      { "code": "eztli", "name": "The Doom of Eztli" },
+      { "code": "for_the_greater_good", "name": "For the Greater Good" },
+      { "code": "flux", "name": "Temporal Flux" },
+      { "code": "globetrotting", "name": "Globetrotting" },
+      { "code": "ghouls", "name": "Ghouls" },
+      { "code": "flood", "name": "The Flood Below" },
+      { "code": "expedition", "name": "Expedition" },
+      { "code": "ghouls_of_umôrdhoth", "name": "Ghouls of Umôrdhoth" },
+      { "code": "flooded_caverns", "name": "Flooded Caverns" },
+      { "code": "fatal_mirage", "name": "Fatal Mirage" },
+      { "code": "expedition_team", "name": "Expedition Team" },
+      { "code": "heart_of_the_elders", "name": "Heart of the Elders" },
+      { "code": "hasturs_envoys", "name": "Hastur's Envoys" },
+      { "code": "beyond_the_beyond", "name": "Beyond the Beyond" },
+      { "code": "horror_in_high_gear", "name": "Horror in High Gear" },
+      { "code": "agents_of_cthulhu", "name": "Agents of Cthulhu" },
+      { "code": "hasturs_gift", "name": "Hastur's Gift" },
+      { "code": "guardians_of_time", "name": "Guardians of Time" },
+      { "code": "hexcraft", "name": "Hexcraft" },
+      { "code": "ice_and_death", "name": "Ice and Death" },
+      { "code": "hazards_of_antarctica", "name": "Hazards of Antarctica" },
+      { "code": "agents_of_the_outside", "name": "Agents of the Outside" },
+      { "code": "arkham", "name": "The Midnight Masks" },
+      { "code": "a_phantom_of_truth", "name": "A Phantom of Truth" },
       {
-        "code": "descent_into_the_pitch",
-        "name": "Descent into the Pitch"
-      },
-      {
-        "code": "bad_blood",
-        "name": "Bad Blood"
-      },
-      {
-        "code": "dim_carcosa",
-        "name": "Dim Carcosa"
-      },
-      {
-        "code": "devil_reef",
-        "name": "Devil Reef"
-      },
-      {
-        "code": "dogs_of_war",
-        "name": "Dogs of War"
-      },
-      {
-        "code": "evil_portents",
-        "name": "Evil Portents"
-      },
-      {
-        "code": "echoes_of_the_past",
-        "name": "Echoes of the Past"
-      },
-      {
-        "code": "excelsior_management",
-        "name": "Excelsior Management"
-      },
-      {
-        "code": "doomed_expedition",
-        "name": "Doomed Expedition"
-      },
-      {
-        "code": "bayou",
-        "name": "The Bayou"
-      },
-      {
-        "code": "beast_thralls",
-        "name": "Beast Thralls"
-      },
-      {
-        "code": "bad_luck",
-        "name": "Bad Luck"
-      },
-      {
-        "code": "essex_county_express",
-        "name": "The Essex County Express"
-      },
-      {
-        "code": "flux",
-        "name": "Temporal Flux"
-      },
-      {
-        "code": "fatal_mirage",
-        "name": "Fatal Mirage"
-      },
-      {
-        "code": "eztli",
-        "name": "The Doom of Eztli"
-      },
-      {
-        "code": "expedition_team",
-        "name": "Expedition Team"
-      },
-      {
-        "code": "for_the_greater_good",
-        "name": "For the Greater Good"
-      },
-      {
-        "code": "ghouls_of_umôrdhoth",
-        "name": "Ghouls of Umôrdhoth"
-      },
-      {
-        "code": "flooded_caverns",
-        "name": "Flooded Caverns"
-      },
-      {
-        "code": "globetrotting",
-        "name": "Globetrotting"
-      },
-      {
-        "code": "expedition",
-        "name": "Expedition"
+        "code": "beyond_the_gates_of_sleep",
+        "name": "Beyond the Gates of Sleep"
       },
       {
         "code": "extracurricular_activity",
         "name": "Extracurricular Activity"
       },
       {
-        "code": "flood",
-        "name": "The Flood Below"
+        "code": "machinations_through_time_epic_multiplayer",
+        "name": "Epic Multiplayer"
       },
+      { "code": "dead_heat", "name": "Dead Heat" },
+      { "code": "creatures_of_the_deep", "name": "Creatures of the Deep" },
       {
-        "code": "ghouls",
-        "name": "Ghouls"
+        "code": "machinations_through_time_single_group",
+        "name": "Single Group"
       },
-      {
-        "code": "beyond_the_beyond",
-        "name": "Beyond the Beyond"
-      },
-      {
-        "code": "hasturs_envoys",
-        "name": "Hastur's Envoys"
-      },
-      {
-        "code": "hexcraft",
-        "name": "Hexcraft"
-      },
-      {
-        "code": "ice_and_death",
-        "name": "Ice and Death"
-      },
-      {
-        "code": "hazards_of_antarctica",
-        "name": "Hazards of Antarctica"
-      },
-      {
-        "code": "horror_in_high_gear",
-        "name": "Horror in High Gear"
-      },
-      {
-        "code": "heart_of_the_elders",
-        "name": "Heart of the Elders"
-      },
-      {
-        "code": "agents_of_cthulhu",
-        "name": "Agents of Cthulhu"
-      },
-      {
-        "code": "hasturs_gift",
-        "name": "Hastur's Gift"
-      },
-      {
-        "code": "guardians_of_time",
-        "name": "Guardians of Time"
-      },
-      {
-        "code": "agents_of_the_outside",
-        "name": "Agents of the Outside"
-      },
-      {
-        "code": "arkham",
-        "name": "The Midnight Masks"
-      },
-      {
-        "code": "a_phantom_of_truth",
-        "name": "A Phantom of Truth"
-      },
-      {
-        "code": "beyond_the_gates_of_sleep",
-        "name": "Beyond the Gates of Sleep"
-      },
-      {
-        "code": "dead_heat",
-        "name": "Dead Heat"
-      },
-      {
-        "code": "creatures_of_the_deep",
-        "name": "Creatures of the Deep"
-      },
-      {
-        "code": "dark_rituals",
-        "name": "Dark Rituals"
-      },
-      {
-        "code": "agents_of_dagon",
-        "name": "Agents of Dagon"
-      },
-      {
-        "code": "fog_over_innsmouth",
-        "name": "Fog over Innsmouth"
-      },
-      {
-        "code": "agents_of_hastur",
-        "name": "Agents of Hastur"
-      },
-      {
-        "code": "agents_of_hydra",
-        "name": "Agents of Hydra"
-      },
-      {
-        "code": "fortune_and_folly",
-        "name": "Fortune and Folly"
-      },
-      {
-        "code": "fortunes_chosen",
-        "name": "Fortune's Chosen"
-      },
-      {
-        "code": "agents_of_nyarlathotep",
-        "name": "Agents of Nyarlathotep"
-      },
-      {
-        "code": "impending_evils",
-        "name": "Impending Evils"
-      },
-      {
-        "code": "mysteries_abound",
-        "name": "Mysteries Abound"
-      },
-      {
-        "code": "agents_of_shub",
-        "name": "Agents of Shub-Niggurath"
-      },
-      {
-        "code": "inexorable_fate",
-        "name": "Inexorable Fate"
-      },
-      {
-        "code": "inhabitants_of_carcosa",
-        "name": "Inhabitants of Carcosa"
-      },
-      {
-        "code": "into_the_maelstrom",
-        "name": "Into the Maelstrom"
-      },
-      {
-        "code": "maddening_delusions",
-        "name": "Maddening Delusions"
-      },
-      {
-        "code": "lost_in_the_night",
-        "name": "Lost in the Night"
-      },
-      {
-        "code": "machinations_through_time",
-        "name": "Machinations Through Time"
-      },
-      {
-        "code": "in_too_deep",
-        "name": "In Too Deep"
-      },
-      {
-        "code": "laid_to_rest",
-        "name": "Laid to Rest"
-      },
+      { "code": "dark_rituals", "name": "Dark Rituals" },
+      { "code": "agents_of_dagon", "name": "Agents of Dagon" },
+      { "code": "fog_over_innsmouth", "name": "Fog over Innsmouth" },
+      { "code": "agents_of_hastur", "name": "Agents of Hastur" },
+      { "code": "agents_of_hydra", "name": "Agents of Hydra" },
+      { "code": "agents_of_nyarlathotep", "name": "Agents of Nyarlathotep" },
+      { "code": "fortune_and_folly", "name": "Fortune and Folly" },
+      { "code": "fortunes_chosen", "name": "Fortune's Chosen" },
+      { "code": "impending_evils", "name": "Impending Evils" },
+      { "code": "mysteries_abound", "name": "Mysteries Abound" },
+      { "code": "agents_of_shub", "name": "Agents of Shub-Niggurath" },
+      { "code": "inexorable_fate", "name": "Inexorable Fate" },
+      { "code": "inhabitants_of_carcosa", "name": "Inhabitants of Carcosa" },
+      { "code": "locked_doors", "name": "Locked Doors" },
       {
         "code": "in_the_labyrinths_of_lunacy",
         "name": "The Labyrinths of Lunacy"
       },
-      {
-        "code": "locked_doors",
-        "name": "Locked Doors"
-      },
-      {
-        "code": "lost_in_time_and_space",
-        "name": "Lost in Time and Space"
-      },
+      { "code": "in_too_deep", "name": "In Too Deep" },
+      { "code": "maddening_delusions", "name": "Maddening Delusions" },
+      { "code": "lost_in_time_and_space", "name": "Lost in Time and Space" },
       {
         "code": "in_the_clutches_of_chaos",
         "name": "In the Clutches of Chaos"
       },
+      { "code": "into_the_maelstrom", "name": "Into the Maelstrom" },
       {
-        "code": "malfunction",
-        "name": "Malfunction"
+        "code": "machinations_through_time",
+        "name": "Machinations Through Time"
       },
-      {
-        "code": "miasma",
-        "name": "Miasma"
-      },
-      {
-        "code": "nameless_horrors",
-        "name": "Nameless Horrors"
-      },
-      {
-        "code": "memorials_of_the_lost",
-        "name": "Memorials of the Lost"
-      },
-      {
-        "code": "migo_incursion",
-        "name": "Mi-Go Incursion"
-      },
-      {
-        "code": "naomis_crew",
-        "name": "Naomi's Crew"
-      },
-      {
-        "code": "music_of_the_damned",
-        "name": "Music of the Damned"
-      },
-      {
-        "code": "merging_realities",
-        "name": "Merging Realities"
-      },
-      {
-        "code": "plan_in_shambles",
-        "name": "Plan in Shambles"
-      },
-      {
-        "code": "rats",
-        "name": "Rats"
-      },
-      {
-        "code": "poison",
-        "name": "Poison"
-      },
-      {
-        "code": "read_or_die",
-        "name": "Read or Die"
-      },
-      {
-        "code": "rainforest",
-        "name": "Rainforest"
-      },
-      {
-        "code": "point_of_no_return",
-        "name": "Point of No Return"
-      },
-      {
-        "code": "pillars_of_judgment",
-        "name": "Pillars of Judgment"
-      },
-      {
-        "code": "before_the_black_throne",
-        "name": "Before the Black Throne"
-      },
-      {
-        "code": "penguins",
-        "name": "Penguins"
-      },
-      {
-        "code": "on_thin_ice",
-        "name": "On Thin Ice"
-      },
-      {
-        "code": "pnakotic_brotherhood",
-        "name": "Pnakotic Brotherhood"
-      },
-      {
-        "code": "pentagram",
-        "name": "Dark Cult"
-      },
-      {
-        "code": "nightgaunts",
-        "name": "Nightgaunts"
-      },
-      {
-        "code": "return_to_before_the_black_throne",
-        "name": "Return to Before the Black Throne"
-      },
-      {
-        "code": "return_to_a_phantom_of_truth",
-        "name": "Return to A Phantom of Truth"
-      },
-      {
-        "code": "red_coterie",
-        "name": "Red Coterie"
-      },
-      {
-        "code": "red_tide_rising",
-        "name": "Red Tide Rising"
-      },
+      { "code": "lost_in_the_night", "name": "Lost in the Night" },
+      { "code": "laid_to_rest", "name": "Laid to Rest" },
+      { "code": "nameless_horrors", "name": "Nameless Horrors" },
+      { "code": "malfunction", "name": "Malfunction" },
+      { "code": "migo_incursion", "name": "Mi-Go Incursion" },
+      { "code": "music_of_the_damned", "name": "Music of the Damned" },
+      { "code": "merging_realities", "name": "Merging Realities" },
+      { "code": "memorials_of_the_lost", "name": "Memorials of the Lost" },
+      { "code": "miasma", "name": "Miasma" },
+      { "code": "naomis_crew", "name": "Naomi's Crew" },
+      { "code": "poison", "name": "Poison" },
+      { "code": "nightgaunts", "name": "Nightgaunts" },
+      { "code": "pnakotic_brotherhood", "name": "Pnakotic Brotherhood" },
+      { "code": "pillars_of_judgment", "name": "Pillars of Judgment" },
+      { "code": "penguins", "name": "Penguins" },
+      { "code": "on_thin_ice", "name": "On Thin Ice" },
+      { "code": "plan_in_shambles", "name": "Plan in Shambles" },
+      { "code": "pentagram", "name": "Dark Cult" },
+      { "code": "rats", "name": "Rats" },
+      { "code": "before_the_black_throne", "name": "Before the Black Throne" },
+      { "code": "point_of_no_return", "name": "Point of No Return" },
+      { "code": "read_or_die", "name": "Read or Die" },
+      { "code": "rainforest", "name": "Rainforest" },
+      { "code": "red_tide_rising", "name": "Red Tide Rising" },
+      { "code": "red_coterie", "name": "Red Coterie" },
       {
         "code": "return_to_black_stars_rise",
         "name": "Return to Black Stars Rise"
       },
       {
-        "code": "relics_of_the_past",
-        "name": "Relics of the Past"
+        "code": "return_to_a_phantom_of_truth",
+        "name": "Return to A Phantom of Truth"
       },
+      { "code": "resurgent_evils", "name": "Resurgent Evils" },
+      { "code": "city_of_sins", "name": "City of Sins" },
+      { "code": "realm_of_death", "name": "Realm of Death" },
+      { "code": "return_cult", "name": "Return Cult of Umôrdhoth" },
       {
-        "code": "resurgent_evils",
-        "name": "Resurgent Evils"
+        "code": "return_to_before_the_black_throne",
+        "name": "Return to Before the Black Throne"
       },
-      {
-        "code": "city_of_sins",
-        "name": "City of Sins"
-      },
-      {
-        "code": "realm_of_death",
-        "name": "Realm of Death"
-      },
-      {
-        "code": "return_cult",
-        "name": "Return Cult of Umôrdhoth"
-      },
-      {
-        "code": "return_to_dim_carcosa",
-        "name": "Return to Dim Carcosa"
-      },
-      {
-        "code": "return_to_disappearance_at_the_twilight_estate",
-        "name": "Return to Disappearance at the Twilight Estate"
-      },
+      { "code": "relics_of_the_past", "name": "Relics of the Past" },
       {
         "code": "return_to_heart_of_the_elders",
         "name": "Return to Heart of the Elders"
+      },
+      {
+        "code": "return_to_echoes_of_the_past",
+        "name": "Return to Echoes of the Past"
+      },
+      { "code": "return_to_dim_carcosa", "name": "Return to Dim Carcosa" },
+      {
+        "code": "return_to_blood_on_the_altar",
+        "name": "Return to Blood on the Altar"
+      },
+      { "code": "return_to_curtain_call", "name": "Return to Curtain Call" },
+      {
+        "code": "return_to_disappearance_at_the_twilight_estate",
+        "name": "Return to Disappearance at the Twilight Estate"
       },
       {
         "code": "return_to_in_the_clutches_of_chaos",
         "name": "Return to In the Clutches of Chaos"
       },
       {
-        "code": "return_to_echoes_of_the_past",
-        "name": "Return to Echoes of the Past"
-      },
-      {
         "code": "return_to_extracurricular_activities",
         "name": "Return to Extracurricular Activity"
       },
-      {
-        "code": "return_to_blood_on_the_altar",
-        "name": "Return to Blood on the Altar"
-      },
-      {
-        "code": "return_to_curtain_call",
-        "name": "Return to Curtain Call"
-      },
-      {
-        "code": "return_to_knyan",
-        "name": "Return to K'n-yan"
-      },
-      {
-        "code": "return_to_the_doom_of_eztli",
-        "name": "Return to the Doom of Eztli"
-      },
+      { "code": "decaying_reality", "name": "Decaying Reality" },
       {
         "code": "return_to_pillars_of_judgment",
         "name": "Return to Pillars of Judgment"
       },
       {
-        "code": "return_to_the_depths_of_yoth",
-        "name": "Return to the Depths of Yoth"
-      },
-      {
-        "code": "decaying_reality",
-        "name": "Decaying Reality"
-      },
-      {
-        "code": "decay",
-        "name": "Decay & Filth"
+        "code": "return_to_the_doom_of_eztli",
+        "name": "Return to the Doom of Eztli"
       },
       {
         "code": "return_to_the_devourer_below",
@@ -1354,41 +824,28 @@
         "code": "return_to_lost_in_time_and_space",
         "name": "Return to Lost in Time and Space"
       },
+      { "code": "return_to_knyan", "name": "Return to K'n-yan" },
       {
-        "code": "dreamers_curse",
-        "name": "Dreamer's Curse"
+        "code": "return_to_the_depths_of_yoth",
+        "name": "Return to the Depths of Yoth"
       },
-      {
-        "code": "deadly_weather",
-        "name": "Deadly Weather"
-      },
-      {
-        "code": "elder_things",
-        "name": "Elder Things"
-      },
-      {
-        "code": "epic_multiplayer",
-        "name": "Epic Multiplayer"
-      },
+      { "code": "decay", "name": "Decay & Filth" },
+      { "code": "dreamers_curse", "name": "Dreamer's Curse" },
+      { "code": "epic_multiplayer", "name": "Epic Multiplayer" },
       {
         "code": "return_to_the_essex_county_express",
         "name": "Return to The Essex County Express"
       },
-      {
-        "code": "erratic_fear",
-        "name": "Erratic Fear"
-      },
-      {
-        "code": "return_to_the_rainforest",
-        "name": "Return to the Rainforest"
-      },
+      { "code": "erratic_fear", "name": "Erratic Fear" },
+      { "code": "deadly_weather", "name": "Deadly Weather" },
+      { "code": "elder_things", "name": "Elder Things" },
       {
         "code": "return_to_the_miskatonic_museum",
         "name": "Return to The Miskatonic Museum"
       },
       {
-        "code": "return_to_the_gathering",
-        "name": "Return to the Gathering"
+        "code": "return_to_the_rainforest",
+        "name": "Return to the Rainforest"
       },
       {
         "code": "return_to_the_midnight_masks",
@@ -1398,386 +855,134 @@
         "code": "return_to_the_house_always_wins",
         "name": "Return to The House Always Wins"
       },
-      {
-        "code": "return_to_the_last_king",
-        "name": "Return to The Last King"
-      },
+      { "code": "return_to_the_last_king", "name": "Return to The Last King" },
       {
         "code": "return_to_the_secret_name",
         "name": "Return to The Secret Name"
       },
+      { "code": "return_to_the_gathering", "name": "Return to the Gathering" },
       {
         "code": "return_to_undimensioned_and_unseen",
         "name": "Return to Undimensioned and Unseen"
       },
       {
-        "code": "shadow_of_a_doubt",
-        "name": "Shadow of a Doubt"
+        "code": "return_to_the_unspeakable_oath",
+        "name": "Return to The Unspeakable Oath"
       },
-      {
-        "code": "rising_tide",
-        "name": "Rising Tide"
-      },
+      { "code": "shattered_aeons", "name": "Shattered Aeons" },
+      { "code": "shades_of_suffering", "name": "Shades of Suffering" },
+      { "code": "shadow_of_a_doubt", "name": "Shadow of a Doubt" },
+      { "code": "rougarou", "name": "Curse of the Rougarou" },
+      { "code": "serpents", "name": "Serpents" },
+      { "code": "ruins", "name": "Forgotten Ruins" },
       {
         "code": "return_to_the_untamed_wilds",
         "name": "Return to the Untamed Wilds"
       },
-      {
-        "code": "seeping_nightmares",
-        "name": "Seeping Nightmares"
-      },
-      {
-        "code": "riddles_and_rain",
-        "name": "Riddles and Rain"
-      },
-      {
-        "code": "return_to_the_unspeakable_oath",
-        "name": "Return to The Unspeakable Oath"
-      },
-      {
-        "code": "shades_of_suffering",
-        "name": "Shades of Suffering"
-      },
-      {
-        "code": "shattered_aeons",
-        "name": "Shattered Aeons"
-      },
-      {
-        "code": "rougarou",
-        "name": "Curse of the Rougarou"
-      },
-      {
-        "code": "ruins",
-        "name": "Forgotten Ruins"
-      },
-      {
-        "code": "serpents",
-        "name": "Serpents"
-      },
-      {
-        "code": "shattered_memories",
-        "name": "Shattered Memories"
-      },
-      {
-        "code": "single_group",
-        "name": "Single Group"
-      },
-      {
-        "code": "sins_of_the_past",
-        "name": "Sins of the Past"
-      },
-      {
-        "code": "silence_and_mystery",
-        "name": "Silence and Mystery"
-      },
-      {
-        "code": "shoggoths",
-        "name": "Shoggoths"
-      },
-      {
-        "code": "spatial_anomaly",
-        "name": "Spatial Anomaly"
-      },
-      {
-        "code": "spectral_predators",
-        "name": "Spectral Predators"
-      },
-      {
-        "code": "sorcery",
-        "name": "Sorcery"
-      },
-      {
-        "code": "hideous_abominations",
-        "name": "Hideous Abominations"
-      },
-      {
-        "code": "silver_twilight_lodge",
-        "name": "Silver Twilight Lodge"
-      },
-      {
-        "code": "spiders",
-        "name": "Spiders"
-      },
-      {
-        "code": "tekelili",
-        "name": "Tekeli-Li"
-      },
-      {
-        "code": "strange_happenings",
-        "name": "Strange Happenings"
-      },
-      {
-        "code": "spreading_corruption",
-        "name": "Spreading Corruption"
-      },
-      {
-        "code": "stirring_in_the_deep",
-        "name": "Stirring in the Deep"
-      },
-      {
-        "code": "swarm_of_assimilation",
-        "name": "Swarm of Assimilation"
-      },
-      {
-        "code": "temporal_hunters",
-        "name": "Temporal Hunters"
-      },
-      {
-        "code": "terror_of_the_vale",
-        "name": "Terror of the Vale"
-      },
-      {
-        "code": "abyssal_gifts",
-        "name": "Abyssal Gifts"
-      },
-      {
-        "code": "left_behind",
-        "name": "Left Behind"
-      },
-      {
-        "code": "knyan",
-        "name": "K'n-yan"
-      },
-      {
-        "code": "tentacles",
-        "name": "The Devourer Below"
-      },
-      {
-        "code": "striking_fear",
-        "name": "Striking Fear"
-      },
-      {
-        "code": "stranger",
-        "name": "The Stranger"
-      },
-      {
-        "code": "the_eternal_slumber",
-        "name": "The Eternal Slumber"
-      },
-      {
-        "code": "the_great_seal",
-        "name": "The Great Seal"
-      },
+      { "code": "rising_tide", "name": "Rising Tide" },
+      { "code": "seeping_nightmares", "name": "Seeping Nightmares" },
+      { "code": "riddles_and_rain", "name": "Riddles and Rain" },
+      { "code": "shattered_memories", "name": "Shattered Memories" },
+      { "code": "sins_of_the_past", "name": "Sins of the Past" },
+      { "code": "spectral_predators", "name": "Spectral Predators" },
+      { "code": "single_group", "name": "Single Group" },
+      { "code": "sorcery", "name": "Sorcery" },
+      { "code": "hideous_abominations", "name": "Hideous Abominations" },
+      { "code": "silver_twilight_lodge", "name": "Silver Twilight Lodge" },
+      { "code": "silence_and_mystery", "name": "Silence and Mystery" },
+      { "code": "shoggoths", "name": "Shoggoths" },
+      { "code": "spatial_anomaly", "name": "Spatial Anomaly" },
+      { "code": "knyan", "name": "K'n-yan" },
+      { "code": "spiders", "name": "Spiders" },
+      { "code": "striking_fear", "name": "Striking Fear" },
+      { "code": "abyssal_gifts", "name": "Abyssal Gifts" },
+      { "code": "left_behind", "name": "Left Behind" },
+      { "code": "tekelili", "name": "Tekeli-Li" },
+      { "code": "strange_happenings", "name": "Strange Happenings" },
+      { "code": "spreading_corruption", "name": "Spreading Corruption" },
+      { "code": "tentacles", "name": "The Devourer Below" },
+      { "code": "stranger", "name": "The Stranger" },
+      { "code": "terror_of_the_vale", "name": "Terror of the Vale" },
+      { "code": "temporal_hunters", "name": "Temporal Hunters" },
+      { "code": "swarm_of_assimilation", "name": "Swarm of Assimilation" },
+      { "code": "stirring_in_the_deep", "name": "Stirring in the Deep" },
+      { "code": "the_devourers_cult", "name": "The Devourers Cult" },
+      { "code": "the_depths_of_yoth", "name": "The Depths of Yoth" },
+      { "code": "the_eternal_slumber", "name": "The Eternal Slumber" },
+      { "code": "migo_incursion_2", "name": "Mi-Go Incursion II" },
+      { "code": "the_beyond", "name": "The Beyond" },
+      { "code": "the_boundary_beyond", "name": "The Boundary Beyond" },
+      { "code": "the_city_of_archives", "name": "The City of Archives" },
       {
         "code": "murder_at_the_excelsior_hotel",
         "name": "Murder at the Excelsior Hotel"
       },
-      {
-        "code": "the_crash",
-        "name": "The Crash"
-      },
-      {
-        "code": "the_heart_of_madness",
-        "name": "The Heart of Madness"
-      },
-      {
-        "code": "the_devourers_cult",
-        "name": "The Devourers Cult"
-      },
-      {
-        "code": "migo_incursion_2",
-        "name": "Mi-Go Incursion II"
-      },
-      {
-        "code": "the_depths_of_yoth",
-        "name": "The Depths of Yoth"
-      },
-      {
-        "code": "the_beyond",
-        "name": "The Beyond"
-      },
-      {
-        "code": "the_boundary_beyond",
-        "name": "The Boundary Beyond"
-      },
-      {
-        "code": "the_city_of_archives",
-        "name": "The City of Archives"
-      },
-      {
-        "code": "the_lair_of_dagon",
-        "name": "The Lair of Dagon"
-      },
-      {
-        "code": "the_secret_name",
-        "name": "The Secret Name"
-      },
-      {
-        "code": "the_search_for_kadath",
-        "name": "The Search for Kadath"
-      },
-      {
-        "code": "the_pit_of_despair",
-        "name": "The Pit of Despair"
-      },
-      {
-        "code": "the_locals",
-        "name": "The Locals"
-      },
-      {
-        "code": "the_nights_usurper",
-        "name": "The Night's Usurper"
-      },
-      {
-        "code": "the_pallid_mask",
-        "name": "The Pallid Mask"
-      },
-      {
-        "code": "the_house_always_wins",
-        "name": "The House Always Wins"
-      },
-      {
-        "code": "the_miskatonic_museum",
-        "name": "The Miskatonic Museum"
-      },
-      {
-        "code": "the_last_king",
-        "name": "The Last King"
-      },
-      {
-        "code": "the_watcher",
-        "name": "The Watcher"
-      },
-      {
-        "code": "outsiders",
-        "name": "Outsiders"
-      },
-      {
-        "code": "return_to_at_deaths_doorstep",
-        "name": "Return to At Death's Doorstep"
-      },
-      {
-        "code": "trapped_spirits",
-        "name": "Trapped Spirits"
-      },
-      {
-        "code": "the_wages_of_sin",
-        "name": "The Wages of Sin"
-      },
+      { "code": "the_crash", "name": "The Crash" },
+      { "code": "the_great_seal", "name": "The Great Seal" },
+      { "code": "the_heart_of_madness", "name": "The Heart of Madness" },
+      { "code": "the_house_always_wins", "name": "The House Always Wins" },
+      { "code": "the_nights_usurper", "name": "The Night's Usurper" },
+      { "code": "the_pallid_mask", "name": "The Pallid Mask" },
+      { "code": "the_secret_name", "name": "The Secret Name" },
+      { "code": "the_miskatonic_museum", "name": "The Miskatonic Museum" },
+      { "code": "the_last_king", "name": "The Last King" },
+      { "code": "the_search_for_kadath", "name": "The Search for Kadath" },
+      { "code": "the_pit_of_despair", "name": "The Pit of Despair" },
+      { "code": "the_locals", "name": "The Locals" },
+      { "code": "the_lair_of_dagon", "name": "The Lair of Dagon" },
       {
         "code": "the_vanishing_of_elina_harper",
         "name": "The Vanishing of Elina Harper"
       },
+      { "code": "threads_of_fate", "name": "Threads of Fate" },
+      { "code": "the_watcher", "name": "The Watcher" },
+      { "code": "the_witching_hour", "name": "The Witching Hour" },
+      { "code": "to_the_forbidden_peaks", "name": "To the Forbidden Peaks" },
+      { "code": "outsiders", "name": "Outsiders" },
+      { "code": "torch", "name": "The Gathering" },
+      { "code": "traps", "name": "Deadly Traps" },
+      { "code": "the_unspeakable_oath", "name": "The Unspeakable Oath" },
+      { "code": "trapped_spirits", "name": "Trapped Spirits" },
+      { "code": "the_wages_of_sin", "name": "The Wages of Sin" },
       {
-        "code": "the_witching_hour",
-        "name": "The Witching Hour"
+        "code": "return_to_at_deaths_doorstep",
+        "name": "Return to At Death's Doorstep"
       },
-      {
-        "code": "to_the_forbidden_peaks",
-        "name": "To the Forbidden Peaks"
-      },
-      {
-        "code": "threads_of_fate",
-        "name": "Threads of Fate"
-      },
-      {
-        "code": "torch",
-        "name": "The Gathering"
-      },
-      {
-        "code": "the_unspeakable_oath",
-        "name": "The Unspeakable Oath"
-      },
-      {
-        "code": "traps",
-        "name": "Deadly Traps"
-      },
+      { "code": "venom", "name": "Yig's Venom" },
+      { "code": "secrets_of_the_universe", "name": "Secrets of the Universe" },
+      { "code": "secret_doors", "name": "Secret Doors" },
+      { "code": "venomous_hate", "name": "Venomous Hate" },
       {
         "code": "return_to_for_the_greater_good",
         "name": "Return to For the Greater Good"
       },
-      {
-        "code": "unstable_realm",
-        "name": "Unstable Realm"
-      },
-      {
-        "code": "venom",
-        "name": "Yig's Venom"
-      },
-      {
-        "code": "secrets_of_the_universe",
-        "name": "Secrets of the Universe"
-      },
-      {
-        "code": "secret_doors",
-        "name": "Secret Doors"
-      },
-      {
-        "code": "venomous_hate",
-        "name": "Venomous Hate"
-      },
-      {
-        "code": "dunwich",
-        "name": "Dunwich"
-      },
-      {
-        "code": "dreamlands",
-        "name": "Dreamlands"
-      },
-      {
-        "code": "sands_of_egypt",
-        "name": "Sands of Egypt"
-      },
-      {
-        "code": "scarlet_sorcery",
-        "name": "Scarlet Sorcery"
-      },
-      {
-        "code": "sanguine_shadows",
-        "name": "Sanguine Shadows"
-      },
+      { "code": "unstable_realm", "name": "Unstable Realm" },
+      { "code": "dunwich", "name": "Dunwich" },
+      { "code": "dreamlands", "name": "Dreamlands" },
+      { "code": "sands_of_egypt", "name": "Sands of Egypt" },
+      { "code": "scarlet_sorcery", "name": "Scarlet Sorcery" },
+      { "code": "sanguine_shadows", "name": "Sanguine Shadows" },
       {
         "code": "return_to_the_pallid_mask",
         "name": "Return to The Pallid Mask"
       },
-      {
-        "code": "hauntings",
-        "name": "Hauntings"
-      },
-      {
-        "code": "secret_war",
-        "name": "Secret War"
-      },
+      { "code": "hauntings", "name": "Hauntings" },
       {
         "code": "return_to_the_wages_of_sin",
         "name": "Return to The Wages of Sin"
       },
-      {
-        "code": "neurotic_fear",
-        "name": "Neurotic Fear"
-      },
-      {
-        "code": "unspeakable_fate",
-        "name": "Unspeakable Fate"
-      },
-      {
-        "code": "unknown",
-        "name": "Unknown"
-      },
-      {
-        "code": "turn_back_time",
-        "name": "Turn Back Time"
-      },
-      {
-        "code": "union_and_disillusion",
-        "name": "Union and Disillusion"
-      },
-      {
-        "code": "vile_experiments",
-        "name": "Vile Experiments"
-      },
+      { "code": "secret_war", "name": "Secret War" },
+      { "code": "neurotic_fear", "name": "Neurotic Fear" },
+      { "code": "unknown", "name": "Unknown" },
+      { "code": "turn_back_time", "name": "Turn Back Time" },
+      { "code": "union_and_disillusion", "name": "Union and Disillusion" },
+      { "code": "vile_experiments", "name": "Vile Experiments" },
       {
         "code": "return_to_the_witching_hour",
         "name": "Return to The Witching Hour"
       },
-      {
-        "code": "return_to_union_and_disillusion",
-        "name": "Return to Union and Disillusion"
-      },
-      {
-        "code": "venice",
-        "name": "Carnevale of Horrors"
-      },
+      { "code": "unspeakable_fate", "name": "Unspeakable Fate" },
+      { "code": "venice", "name": "Carnevale of Horrors" },
       {
         "code": "return_to_threads_of_fate",
         "name": "Return to Threads of Fate"
@@ -1785,6 +990,10 @@
       {
         "code": "return_to_turn_back_time",
         "name": "Return to Turn Back Time"
+      },
+      {
+        "code": "return_to_union_and_disillusion",
+        "name": "Return to Union and Disillusion"
       },
       {
         "code": "return_to_where_doom_awaits",
@@ -1802,122 +1011,36 @@
         "code": "return_to_shattered_aeons",
         "name": "Return to Shattered Aeons"
       },
-      {
-        "code": "abyssal_tribute",
-        "name": "Abyssal Tribute"
-      },
-      {
-        "code": "agents_of_yog",
-        "name": "Agents of Yog-Sothoth"
-      },
-      {
-        "code": "agents_of_yig",
-        "name": "Agents of Yig"
-      },
-      {
-        "code": "syzygy",
-        "name": "Syzygy"
-      },
-      {
-        "code": "vortex",
-        "name": "The Vortex Above"
-      },
-      {
-        "code": "zoogs",
-        "name": "Zoogs"
-      },
-      {
-        "code": "waking_nightmare",
-        "name": "Waking Nightmare"
-      },
-      {
-        "code": "war_of_the_outer_gods",
-        "name": "War of the Outer Gods"
-      },
+      { "code": "abyssal_tribute", "name": "Abyssal Tribute" },
+      { "code": "agents_of_yog", "name": "Agents of Yog-Sothoth" },
+      { "code": "agents_of_yig", "name": "Agents of Yig" },
+      { "code": "syzygy", "name": "Syzygy" },
+      { "code": "vortex", "name": "The Vortex Above" },
+      { "code": "zoogs", "name": "Zoogs" },
+      { "code": "waking_nightmare", "name": "Waking Nightmare" },
+      { "code": "war_of_the_outer_gods", "name": "War of the Outer Gods" },
       {
         "code": "undimensioned_and_unseen",
         "name": "Undimensioned and Unseen"
       },
-      {
-        "code": "whippoorwills",
-        "name": "Whippoorwills"
-      },
-      {
-        "code": "where_doom_awaits",
-        "name": "Where Doom Awaits"
-      },
-      {
-        "code": "where_the_gods_dwell",
-        "name": "Where the Gods Dwell"
-      },
-      {
-        "code": "weaver_of_the_cosmos",
-        "name": "Weaver of the Cosmos"
-      },
-      {
-        "code": "without_a_trace",
-        "name": "Without a Trace"
-      },
-      {
-        "code": "wilds",
-        "name": "The Untamed Wilds"
-      },
-      {
-        "code": "witchcraft",
-        "name": "Witchcraft"
-      },
-      {
-        "code": "whispers_of_hypnos",
-        "name": "Whispers of Hypnos"
-      },
-      {
-        "code": "yog_sothoths_emissaries",
-        "name": "Yog-Sothoth's Emissaries"
-      }
+      { "code": "whippoorwills", "name": "Whippoorwills" },
+      { "code": "where_doom_awaits", "name": "Where Doom Awaits" },
+      { "code": "where_the_gods_dwell", "name": "Where the Gods Dwell" },
+      { "code": "weaver_of_the_cosmos", "name": "Weaver of the Cosmos" },
+      { "code": "witchcraft", "name": "Witchcraft" },
+      { "code": "whispers_of_hypnos", "name": "Whispers of Hypnos" },
+      { "code": "yog_sothoths_emissaries", "name": "Yog-Sothoth's Emissaries" },
+      { "code": "without_a_trace", "name": "Without a Trace" },
+      { "code": "wilds", "name": "The Untamed Wilds" }
     ],
     "taboo_set": [
-      {
-        "name": "1.5",
-        "card_count": 13,
-        "id": 1,
-        "date": "2019-04-20"
-      },
-      {
-        "name": "1.6",
-        "card_count": 16,
-        "id": 2,
-        "date": "2019-09-27"
-      },
-      {
-        "name": "1.8",
-        "card_count": 27,
-        "id": 3,
-        "date": "2020-10-15"
-      },
-      {
-        "name": "1.9",
-        "card_count": 32,
-        "id": 4,
-        "date": "2021-06-28"
-      },
-      {
-        "name": "2.0",
-        "card_count": 51,
-        "id": 5,
-        "date": "2022-08-26"
-      },
-      {
-        "name": "2.1",
-        "card_count": 61,
-        "id": 6,
-        "date": "2023-08-30"
-      },
-      {
-        "name": "2.2",
-        "card_count": 68,
-        "id": 7,
-        "date": "2024-02-20"
-      }
+      { "name": "1.5", "card_count": 13, "id": 1, "date": "2019-04-20" },
+      { "name": "1.6", "card_count": 16, "id": 2, "date": "2019-09-27" },
+      { "name": "1.8", "card_count": 27, "id": 3, "date": "2020-10-15" },
+      { "name": "1.9", "card_count": 32, "id": 4, "date": "2021-06-28" },
+      { "name": "2.0", "card_count": 51, "id": 5, "date": "2022-08-26" },
+      { "name": "2.1", "card_count": 61, "id": 6, "date": "2023-08-30" },
+      { "name": "2.2", "card_count": 68, "id": 7, "date": "2024-02-20" }
     ]
   }
 }

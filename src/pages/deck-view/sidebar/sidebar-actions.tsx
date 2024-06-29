@@ -38,12 +38,22 @@ export function SidebarActions({ deck }: Props) {
       )}
       <div className={css["actions"]}>
         <Link asChild href={`/deck/edit/${deck.id}`}>
-          <Button as="a" disabled={isReadOnly} size="full">
+          <Button
+            as="a"
+            data-testid="view-edit"
+            disabled={isReadOnly}
+            size="full"
+          >
             <Pencil /> Edit
           </Button>
         </Link>
 
-        <Button disabled={isReadOnly} onClick={onDelete} size="full">
+        <Button
+          data-testid="view-delete"
+          disabled={isReadOnly}
+          onClick={onDelete}
+          size="full"
+        >
           <Trash2 /> Delete
         </Button>
       </div>

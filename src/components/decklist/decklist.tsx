@@ -42,7 +42,7 @@ export function Decklist({ deck }: Props) {
     );
 
   return (
-    <article className={css["decklist-container"]}>
+    <article className={css["decklist-container"]} data-testid="view-decklist">
       <div className={css["decklist"]}>
         <DecklistSection title={LABELS["main"]}>
           <DecklistGroups

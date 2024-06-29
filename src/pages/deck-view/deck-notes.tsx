@@ -25,14 +25,23 @@ export function DeckNotes({ deck }: Props) {
     <>
       <DialogTrigger asChild>
         <div className={css["floating"]}>
-          <Button className={css["floating-element"]} size="lg">
+          <Button
+            className={css["floating-element"]}
+            data-testid="view-notes-toggle"
+            size="lg"
+          >
             <BookOpenText />
             Show notes
           </Button>
         </div>
       </DialogTrigger>
       <DialogContentInert>
-        <Modal onClose={onCloseNotes} open={modalContext.open} size="36rem">
+        <Modal
+          onClose={onCloseNotes}
+          open={modalContext.open}
+          size="36rem"
+          data-testid="view-notes-modal"
+        >
           {modalContext.open && (
             <DeckDescription content={deck.description_md} title={deck.name} />
           )}

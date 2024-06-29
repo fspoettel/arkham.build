@@ -82,6 +82,7 @@ export function CostFilter({ id }: { id: number }) {
 
   return (
     <FilterContainer
+      data-testid="filters-cost"
       filterString={changes}
       onOpenChange={onOpenChange}
       onReset={resetActiveCost}
@@ -89,7 +90,7 @@ export function CostFilter({ id }: { id: number }) {
       title="Cost"
     >
       <RangeSelect
-        data-testid="filters-cost"
+        data-testid="filters-cost-range"
         id="cost-select"
         label="Cost"
         max={max}
@@ -99,18 +100,21 @@ export function CostFilter({ id }: { id: number }) {
       />
       <CheckboxGroup>
         <Checkbox
+          data-testid="filters-cost-even"
           checked={filter.value.even}
           id="cost-even"
           label="Even"
           onCheckedChange={onSetEven}
         />
         <Checkbox
+          data-testid="filters-cost-odd"
           checked={filter.value.odd}
           id="cost-odd"
           label="Odd"
           onCheckedChange={onSetOdd}
         />
         <Checkbox
+          data-testid="filters-cost-x"
           checked={filter.value.x}
           id="cost-x"
           label={<i className="icon-x" />}

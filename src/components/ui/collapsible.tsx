@@ -41,7 +41,7 @@ export function Collapsible({
       open={open}
     >
       <Trigger asChild>
-        <div className={css["header"]}>
+        <div className={css["header"]} data-testid="collapsible-trigger">
           {header || (
             <div>
               <h4>{title}</h4>

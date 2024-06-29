@@ -1,6 +1,7 @@
 import { Undo2 } from "lucide-react";
 import { useCallback } from "react";
 
+import type { CollapsibleProps } from "@radix-ui/react-collapsible";
 import { Button } from "../../ui/button";
 import { Collapsible, CollapsibleContent } from "../../ui/collapsible";
 
@@ -14,7 +15,7 @@ type Props = {
   onOpenChange: (val: boolean) => void;
   onReset?: () => void;
   title: string;
-};
+} & Omit<CollapsibleProps, "title">;
 
 export function FilterContainer({
   alwaysShowFilterString,
@@ -26,6 +27,7 @@ export function FilterContainer({
   onReset,
   open,
   title,
+  ...rest
 }: Props) {
   const onFilterReset = useCallback(
     (evt: React.MouseEvent) => {
@@ -37,6 +39,7 @@ export function FilterContainer({
 
   return (
     <Collapsible
+      {...rest}
       actions={
         filterString && onReset ? (
           <Button onClick={onFilterReset} size="sm" variant="bare">

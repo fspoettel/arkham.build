@@ -97,6 +97,7 @@ export function ListCardInner({
         isActive && css["active"],
         className,
       )}
+      data-testid={`listcard-${card.code}`}
     >
       {!!renderAction && renderAction(card)}
 
@@ -110,7 +111,7 @@ export function ListCardInner({
               value={quantity ?? 0}
             />
           ) : (
-            <QuantityOutput value={quantity} />
+            <QuantityOutput data-testid="listcard-quantity" value={quantity} />
           )}
         </>
       )}
@@ -137,7 +138,12 @@ export function ListCardInner({
         <figcaption className={css["caption"]}>
           <div className={clsx(css["name-container"], colorCls)}>
             <h4 className={css["name"]} {...referenceProps}>
-              <button onClick={openModal} tabIndex={-1} type="button">
+              <button
+                onClick={openModal}
+                tabIndex={-1}
+                type="button"
+                data-testid="cardlist-item-title"
+              >
                 {card.real_name}
               </button>
             </h4>
