@@ -138,10 +138,10 @@
 
 .listcard.forbidden {
   filter: grayscale(1);
+}
 
-  & .name button:not(:hover) {
-    text-decoration: line-through;
-  }
+.listcard.forbidden .name button:not(:hover) {
+  text-decoration: line-through;
 }
 
 .listcard.removed {

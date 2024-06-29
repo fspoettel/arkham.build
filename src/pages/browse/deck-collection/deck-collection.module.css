@@ -8,10 +8,10 @@
 .decks {
   list-style: none;
   padding: 0.25rem 0.75rem;
+}
 
-  & > * + * {
-    margin-top: 0.75rem;
-  }
+.decks > * + * {
+  margin-top: 0.75rem;
 }
 
 .deck a {

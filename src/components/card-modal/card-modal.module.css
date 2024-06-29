@@ -31,10 +31,10 @@
   box-shadow: var(--shadow);
   text-align: center;
   min-width: 8rem;
+}
 
-  & h3 {
-    font-size: var(--text-md);
-  }
+.quantity h3 {
+  font-size: var(--text-md);
 }
 
 .quantity > * + * {

@@ -44,14 +44,14 @@
   gap: 1rem;
   height: 100%;
   min-height: 0;
+}
 
-  & > * {
-    flex: 0 0 auto;
-  }
+.content > * {
+  flex: 0 0 auto;
+}
 
-  & > *:last-child {
-    flex: 1 1 auto;
-  }
+.content > *:last-child {
+  flex: 1 1 auto;
 }
 
 .filters {
@@ -117,8 +117,9 @@
 .signature button {
   text-decoration: none;
   background-color: var(--nord-point-five);
-  padding: 0.125rem;
+  padding: 0.125rem 0.25rem;
   font-size: var(--text-sm);
+  border-radius: var(--rounded);
 }
 
 .toggle-filters {

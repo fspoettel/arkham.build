@@ -3,10 +3,10 @@
   color: var(--nord-0);
   justify-content: center;
   gap: 0.5rem;
+}
 
-  & .item {
-    border-radius: var(--rounded);
-  }
+.radio-button-group .item {
+  border-radius: var(--rounded);
 }
 
 .item {

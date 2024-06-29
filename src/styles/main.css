@@ -467,105 +467,97 @@ svg {
 .longform {
   font-family: var(--font-family-ui);
   line-height: 1.5;
+}
 
-  & :where(h1, h2, h3, h4, h5, h6) {
-    line-height: 1.25;
-  }
+.longform :where(h1, h2, h3, h4, h5, h6) {
+  line-height: 1.25;
+}
 
-  & h1,
-  & h2 {
-    font-size: 1.7411em;
-  }
+.longform :where(h1, h2) {
+  font-size: 1.7411em;
+}
 
-  & h3 {
-    font-size: 1.5157em;
-  }
+.longform h3 {
+  font-size: 1.5157em;
+}
 
-  & h4 {
-    font-size: 1.3195em;
-  }
+.longform h4 {
+  font-size: 1.3195em;
+}
 
-  & h5 {
-    font-size: 1.1487em;
-  }
+.longform h5 {
+  font-size: 1.1487em;
+}
 
-  & small {
-    font-size: 0.8706em;
-  }
+.longform small {
+  font-size: 0.8706em;
+}
 
-  & > * + * {
-    margin-top: 1rem;
-  }
+.longform > * + * {
+  margin-top: 1rem;
+}
 
-  & hr {
-    height: 0;
-    border: none;
-    border-bottom: 1px solid var(--nord-2);
-  }
+.longform :where(ol, ul) {
+  margin-left: 2em;
+}
 
-  & ol,
-  & ul {
-    margin-left: 2em;
+.longform li + li {
+  margin-top: 0.25em;
+}
 
-    & > li + li {
-      margin-top: 0.25em;
-    }
-  }
+.longform code {
+  background-color: var(--nord-2);
+  padding: 0.125em;
+}
 
-  & code {
-    background-color: var(--nord-2);
-    padding: 0.125em;
-  }
+.longform :not(:where(h1, h2, h3, h4, h5, h6)) a {
+  text-decoration-style: dashed;
+}
 
-  & > :not(:where(h1, h2, h3, h4, h5, h6)) a {
-    text-decoration-style: dashed;
-  }
+.longform table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
 
-  & table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    width: 100%;
+.longform table :where(td, th) {
+  padding: 0.125rem 0.25rem;
+}
 
-    & :where(td, th) {
-      padding: 0.125rem 0.25rem;
-    }
-  }
+.longform .icon-rogue {
+  color: var(--rogue);
+}
 
-  & .icon-rogue {
-    color: var(--rogue);
-  }
+.longform .icon-guardian {
+  color: var(--guardian);
+}
 
-  & .icon-guardian {
-    color: var(--guardian);
-  }
+.longform .icon-seeker {
+  color: var(--seeker);
+}
 
-  & .icon-seeker {
-    color: var(--seeker);
-  }
+.longform .icon-mystic {
+  color: var(--mystic);
+}
 
-  & .icon-mystic {
-    color: var(--mystic);
-  }
+.longform .icon-survivor {
+  color: var(--survivor);
+}
 
-  & .icon-survivor {
-    color: var(--survivor);
-  }
+.longform .icon-neutral {
+  color: var(--nord-4);
+}
 
-  & .icon-neutral {
-    color: var(--nord-4);
-  }
+.longform .icon-multiclass {
+  color: var(--multiclass);
+}
 
-  & .icon-multiclass {
-    color: var(--multiclass);
-  }
+.longform .icon-mythos {
+  color: var(--mythos);
+}
 
-  & .icon-mythos {
-    color: var(--mythos);
-  }
-
-  & [style*="color"] {
-    color: inherit !important;
-  }
+.longform [style*="color"] {
+  color: inherit !important;
 }
 
 .spin {

@@ -15,26 +15,26 @@
   animation: slideIn both 150ms ease-in-out;
   border: 1px solid var(--nord-2);
   text-align: left;
-
-  &.success {
-    border-color: var(--nord-14);
-
-    & .icon {
-      color: var(--nord-14);
-    }
-  }
-
-  &.error {
-    border-color: var(--nord-11);
-
-    & .icon {
-      color: var(--nord-11);
-    }
-  }
 }
 
 .icon {
   flex: 0 0 auto;
+}
+
+.toast.success {
+  border-color: var(--nord-14);
+}
+
+.toast.success .icon {
+  color: var(--nord-14);
+}
+
+.toast.error {
+  border-color: var(--nord-11);
+}
+
+.toast.error .icon {
+  color: var(--nord-11);
 }
 
 @keyframes slideIn {

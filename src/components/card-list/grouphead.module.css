@@ -7,12 +7,12 @@
   height: 2.5rem; /* icon height + padding */
   font-size: var(--text-sm);
   font-family: var(--font-family-ui);
+}
 
-  & > *:not(.icon):not(:last-child)::after {
-    content: "·";
-    padding-left: 0.375rem;
-    color: var(--nord-3);
-  }
+.grouphead > *:not(.icon):not(:last-child)::after {
+  content: "·";
+  padding-left: 0.375rem;
+  color: var(--nord-3);
 }
 
 .grouphead .icon {

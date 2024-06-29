@@ -10,8 +10,8 @@
 
 .notice.info {
   border-color: var(--nord-9);
+}
 
-  & .notice-icon {
-    color: var(--nord-9);
-  }
+.notice.info .notice-icon {
+  color: var(--nord-9);
 }

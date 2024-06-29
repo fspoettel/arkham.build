@@ -26,18 +26,18 @@
 
 .header {
   grid-area: header;
+}
 
-  & > * + * {
-    margin-top: 0.5rem;
-  }
+.header > * + * {
+  margin-top: 0.5rem;
 }
 
 .content {
   grid-area: decklist;
+}
 
-  & > * + * {
-    margin-top: 1rem;
-  }
+.content > * + * {
+  margin-top: 1rem;
 }
 
 .floating {

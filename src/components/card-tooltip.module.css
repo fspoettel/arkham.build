@@ -8,21 +8,21 @@
   @media screen and (max-width: 36rem) {
     display: none;
   }
+}
 
-  & > div > *:only-child {
-    border-radius: var(--rounded-md);
-  }
+.tooltip > div > *:only-child {
+  border-radius: var(--rounded-md);
+}
 
-  & > div > *:not(:only-child):first-child {
-    border-radius: var(--rounded-md) var(--rounded-md) 0 0;
-    border-bottom: none;
-  }
+.tooltip > div > *:not(:only-child):first-child {
+  border-radius: var(--rounded-md) var(--rounded-md) 0 0;
+  border-bottom: none;
+}
 
-  & > div > *:not(:only-child):last-child {
-    border-radius: 0 0 var(--rounded-md) var(--rounded-md);
-  }
+.tooltip > div > *:not(:only-child):last-child {
+  border-radius: 0 0 var(--rounded-md) var(--rounded-md);
+}
 
-  & > div > *:not(:only-child):last-child header {
-    border-radius: 0;
-  }
+.tooltip > div > *:not(:only-child):last-child header {
+  border-radius: 0;
 }
