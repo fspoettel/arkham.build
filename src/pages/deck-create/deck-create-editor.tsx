@@ -34,7 +34,7 @@ export function DeckCreateEditor() {
 
   const goBack = useGoBack();
 
-  const handleDeckCreate = () => {
+  const onDeckCreate = () => {
     const id = createDeck();
     navigate(`/deck/edit/${id}`, { replace: true });
     toast({
@@ -53,7 +53,7 @@ export function DeckCreateEditor() {
     (state) => state.deckCreateSetInvestigatorCode,
   );
 
-  const handleInputChange = useCallback(
+  const onInputChange = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) => {
       if (evt.target instanceof HTMLInputElement) {
         setTitle(evt.target.value);
@@ -62,7 +62,7 @@ export function DeckCreateEditor() {
     [setTitle],
   );
 
-  const handleTabooSetChange = useCallback(
+  const onTabooSetChange = useCallback(
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
       if (evt.target instanceof HTMLSelectElement) {
         const value = evt.target.value;
@@ -72,7 +72,7 @@ export function DeckCreateEditor() {
     [setTabooSet],
   );
 
-  const handleInvestigatorChange = useCallback(
+  const onInvestigatorChange = useCallback(
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
       if (evt.target instanceof HTMLSelectElement) {
         const side = evt.target.getAttribute("data-side") as "front" | "back";
@@ -83,7 +83,7 @@ export function DeckCreateEditor() {
     [setInvestigatorCode],
   );
 
-  const handleSelectionChange = useCallback(
+  const onSelectionChange = useCallback(
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
       if (evt.target instanceof HTMLSelectElement) {
         const key = evt.target.dataset.field;
@@ -103,7 +103,7 @@ export function DeckCreateEditor() {
         <FieldLabel>Title</FieldLabel>
         <input
           data-testid="create-title"
-          onChange={handleInputChange}
+          onChange={onInputChange}
           type="text"
           value={deckCreate.title}
         />
@@ -114,7 +114,7 @@ export function DeckCreateEditor() {
         <Select
           data-testid="create-taboo"
           emptyLabel="None"
-          onChange={handleTabooSetChange}
+          onChange={onTabooSetChange}
           options={tabooSets}
           value={deckCreate.tabooSetId ?? ""}
         />
@@ -127,7 +127,7 @@ export function DeckCreateEditor() {
             <Select
               data-side="front"
               data-testid="create-investigator-front"
-              onChange={handleInvestigatorChange}
+              onChange={onInvestigatorChange}
               options={getInvestigatorOptions(investigator, "Front")}
               required
               value={deckCreate.investigatorFrontCode}
@@ -138,7 +138,7 @@ export function DeckCreateEditor() {
             <Select
               data-side="back"
               data-testid="create-investigator-back"
-              onChange={handleInvestigatorChange}
+              onChange={onInvestigatorChange}
               options={getInvestigatorOptions(investigator, "Back")}
               required
               value={deckCreate.investigatorBackCode}
@@ -157,7 +157,7 @@ export function DeckCreateEditor() {
                 data-field={value.accessor}
                 data-type={value.type}
                 emptyLabel="None"
-                onChange={handleSelectionChange}
+                onChange={onSelectionChange}
                 options={value.options.map((v) => ({
                   value: v,
                   label: capitalize(v),
@@ -171,7 +171,7 @@ export function DeckCreateEditor() {
                 data-testid={`create-select-${key}`}
                 data-type={value.type}
                 emptyLabel="None"
-                onChange={handleSelectionChange}
+                onChange={onSelectionChange}
                 options={value.options.map((v) => ({
                   value: v.id,
                   label: v.name,
@@ -185,7 +185,7 @@ export function DeckCreateEditor() {
       <nav className={css["editor-nav"]}>
         <Button
           data-testid="create-save"
-          onClick={handleDeckCreate}
+          onClick={onDeckCreate}
           variant="primary"
         >
           Create deck

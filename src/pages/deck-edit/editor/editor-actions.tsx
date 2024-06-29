@@ -8,6 +8,7 @@ import { useStore } from "@/store";
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import { useAccentColor } from "@/utils/use-accent-color";
 
+import { useHotKey } from "@/utils/use-hotkey";
 import css from "./editor.module.css";
 
 type Props = {
@@ -25,34 +26,62 @@ export function EditorActions({ deck }: Props) {
   const discardEdits = useStore((state) => state.discardEdits);
   const saveDeck = useStore((state) => state.saveDeck);
 
-  const handleSave = useCallback(() => {
-    const id = saveDeck(deck.id);
-    navigate(`/deck/view/${id}`);
+  const onSave = useCallback(
+    (stayOnPage?: boolean) => {
+      const id = saveDeck(deck.id);
 
-    showToast({
-      children: "Deck saved successfully.",
-      duration: 2000,
-      variant: "success",
-    });
-  }, [saveDeck, navigate, showToast, deck.id]);
+      if (!stayOnPage) navigate(`/deck/view/${id}`);
 
-  const handleDiscard = useCallback(() => {
-    const confirmed =
-      !hasEdits ||
-      window.confirm("Are you sure you want to discard your changes?");
-    if (confirmed) {
-      discardEdits(deck.id);
-      navigate(`/deck/view/${deck.id}`);
-    }
-  }, [discardEdits, navigate, deck.id, hasEdits]);
+      showToast({
+        children: "Deck saved successfully.",
+        duration: 2000,
+        variant: "success",
+      });
+    },
+    [saveDeck, navigate, showToast, deck.id],
+  );
+
+  const onDiscard = useCallback(
+    (stayOnPage?: boolean) => {
+      const confirmed =
+        !hasEdits ||
+        window.confirm("Are you sure you want to discard your changes?");
+      if (confirmed) {
+        discardEdits(deck.id);
+        if (!stayOnPage) navigate(`/deck/view/${deck.id}`);
+      }
+    },
+    [discardEdits, navigate, deck.id, hasEdits],
+  );
+
+  const onQuicksave = useCallback(() => {
+    onSave(true);
+  }, [onSave]);
+
+  const onQuickDiscard = useCallback(() => {
+    onDiscard(true);
+  }, [onDiscard]);
+
+  useHotKey("cmd+s", onQuicksave, [onQuicksave]);
+  useHotKey("cmd+backspace", onQuickDiscard, [onDiscard]);
 
   return (
     <div className={css["actions"]} style={cssVariables}>
-      <Button onClick={handleSave} variant="primary">
+      <Button
+        onClick={() => {
+          onSave();
+        }}
+        variant="primary"
+      >
         <Save />
         Save
       </Button>
-      <Button onClick={handleDiscard} variant="bare">
+      <Button
+        onClick={() => {
+          onDiscard();
+        }}
+        variant="bare"
+      >
         Discard edits
       </Button>
     </div>

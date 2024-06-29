@@ -20,7 +20,7 @@ export function DeckCollectionImport() {
 
   const showToast = useToast();
 
-  const handleFormSubmit = useCallback(
+  const onFormSubmit = useCallback(
     async (evt: React.FormEvent) => {
       evt.preventDefault();
 
@@ -62,7 +62,7 @@ export function DeckCollectionImport() {
         </Button>
       </PopoverTrigger>
       <PopoverContent>
-        <form className={css["import"]} onSubmit={handleFormSubmit}>
+        <form className={css["import"]} onSubmit={onFormSubmit}>
           <header className={css["deck-collection-form-header"]}>
             <h3>Import from ArkhamDB</h3>
           </header>

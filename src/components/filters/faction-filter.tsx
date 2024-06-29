@@ -25,13 +25,13 @@ export function FactionFilter({ id }: Props) {
   );
 
   const options = useStore(selectFactionOptions);
-  const handleFilterChange = useStore((state) => state.setFilterValue);
+  const onFilterChange = useStore((state) => state.setFilterValue);
 
-  const handleValueChange = useCallback(
+  const onValueChange = useCallback(
     (value: string[]) => {
-      handleFilterChange(id, value);
+      onFilterChange(id, value);
     },
-    [handleFilterChange, id],
+    [onFilterChange, id],
   );
 
   return (
@@ -40,7 +40,7 @@ export function FactionFilter({ id }: Props) {
       data-testid="filters-faction"
       full
       icons
-      onValueChange={handleValueChange}
+      onValueChange={onValueChange}
       type="multiple"
       value={filter.value}
     >

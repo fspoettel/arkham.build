@@ -34,7 +34,7 @@ export function DeckDescription({ className, content, title }: Props) {
     placement: "bottom-start",
   });
 
-  const handleMouseLeave = useCallback(
+  const onMouseLeave = useCallback(
     (evt: React.MouseEvent) => {
       const code = getCardCodeForEvent(evt);
 
@@ -60,7 +60,7 @@ export function DeckDescription({ className, content, title }: Props) {
         dangerouslySetInnerHTML={{
           __html: parseMarkdown(content),
         }}
-        onClick={handleMouseLeave}
+        onClick={onMouseLeave}
       />
 
       {cardTooltip && (

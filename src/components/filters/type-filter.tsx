@@ -30,7 +30,7 @@ export function TypeFilter({ id }: { id: number }) {
   const changes = selectMultiselectChanges(filter.value);
   const options = useStore(selectTypeOptions);
 
-  const handleApplyShortcut = useCallback(
+  const onApplyShortcut = useCallback(
     (value: string[]) => {
       setFilterValue(id, value);
     },
@@ -53,7 +53,7 @@ export function TypeFilter({ id }: { id: number }) {
         <ToggleGroup
           data-testid="filters-type-shortcut"
           full
-          onValueChange={handleApplyShortcut}
+          onValueChange={onApplyShortcut}
           type="multiple"
           value={filter.value}
         >

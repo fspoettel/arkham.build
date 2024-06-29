@@ -22,7 +22,7 @@ export function DeckCreateCardSets() {
 
   const cardSets = useStore(selectDeckCreateCardSets);
 
-  const handleCheckedChange = useCallback(
+  const onCheckedChange = useCallback(
     (id: string) => {
       toggleConfigureCardSet(id);
     },
@@ -39,7 +39,7 @@ export function DeckCreateCardSets() {
           <CardSet
             key={set.id}
             onChangeCardQuantity={onChangeCardQuantity}
-            onSelect={handleCheckedChange}
+            onSelect={onCheckedChange}
             set={set}
           />
         ) : null,

@@ -21,7 +21,7 @@ export function CollectionPack({
   onChange,
   value,
 }: Props) {
-  const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  const onInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     if (evt.target instanceof HTMLInputElement) {
       const val = Number.parseInt(evt.target.value, 10);
       if (!Number.isNaN(val)) onChange(pack.code, val);
@@ -41,7 +41,7 @@ export function CollectionPack({
             max={2}
             min={0}
             name={pack.code}
-            onChange={handleChange}
+            onChange={onInputChange}
             type="number"
             value={value}
           />

@@ -37,18 +37,18 @@ function DeckEdit() {
   useEffect(() => {
     if (changes) {
       showToast({
-        children({ handleClose }) {
+        children({ onClose }) {
           return (
             <>
               Unsaved changes were restored.
               <div>
-                <Button onClick={handleClose} size="sm">
+                <Button onClick={onClose} size="sm">
                   OK
                 </Button>
                 <Button
                   onClick={() => {
                     discardEdits(id);
-                    handleClose();
+                    onClose();
                   }}
                   size="sm"
                 >

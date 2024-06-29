@@ -14,7 +14,7 @@ import css from "./toast.module.css";
 type Toast = {
   children:
     | React.ReactNode
-    | ((props: { handleClose: () => void }) => React.ReactNode);
+    | ((props: { onClose: () => void }) => React.ReactNode);
   duration?: number;
   variant?: "success" | "error";
 };
@@ -63,7 +63,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     };
   }, [toast, removeToast]);
 
-  const handleClose = useCallback(() => {
+  const onClose = useCallback(() => {
     removeToast();
   }, [removeToast]);
 
@@ -95,7 +95,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
           {toast.variant === "error" && <CircleAlert className={css["icon"]} />}
           <div>
             {typeof toast.children === "function"
-              ? toast.children({ handleClose })
+              ? toast.children({ onClose })
               : toast.children}
           </div>
         </div>

@@ -14,6 +14,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/toast";
+import { useHotKey } from "@/utils/use-hotkey";
 import css from "./sidebar.module.css";
 
 type Props = {
@@ -62,6 +63,14 @@ export function SidebarActions({ deck }: Props) {
     setActionsOpen(false);
   }, [deck.id, duplicateDeck, setLocation, showToast]);
 
+  const onEdit = useCallback(() => {
+    setLocation(`/deck/edit/${deck.id}`);
+  }, [deck.id, setLocation]);
+
+  useHotKey("e", onEdit, [onEdit]);
+  useHotKey("cmd+d", onDuplicate, [onDuplicate]);
+  useHotKey("cmd+backspace", onDelete, [onDelete]);
+
   const isReadOnly = !!deck.next_deck;
 
   return (
@@ -74,16 +83,14 @@ export function SidebarActions({ deck }: Props) {
         </Notice>
       )}
       <div className={css["actions"]}>
-        <Link asChild href={`/deck/edit/${deck.id}`}>
-          <Button
-            as="a"
-            data-testid="view-edit"
-            disabled={isReadOnly}
-            size="full"
-          >
-            <Pencil /> Edit
-          </Button>
-        </Link>
+        <Button
+          data-testid="view-edit"
+          disabled={isReadOnly}
+          onClick={onEdit}
+          size="full"
+        >
+          <Pencil /> Edit
+        </Button>
         <Button data-testid="view-upgrade" disabled size="full">
           <i className="icon-xp-bold" /> Upgrade
         </Button>

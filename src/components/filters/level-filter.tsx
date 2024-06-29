@@ -36,7 +36,7 @@ export function LevelFilter({ id }: { id: number }) {
 
   const resetFilter = useStore((state) => state.resetFilter);
 
-  const handleChangeRange = useCallback(
+  const onChangeRange = useCallback(
     (val: [number, number] | undefined) => {
       setFilterValue(id, {
         range: val,
@@ -45,17 +45,17 @@ export function LevelFilter({ id }: { id: number }) {
     [id, setFilterValue],
   );
 
-  const handleChangeOpen = useCallback(
+  const onChangeOpen = useCallback(
     (val: boolean) => {
       if (val && !filter.value.range) {
-        handleChangeRange([0, 5]);
+        onChangeRange([0, 5]);
       }
       setFilterOpen(id, val);
     },
-    [handleChangeRange, id, filter.value.range, setFilterOpen],
+    [onChangeRange, id, filter.value.range, setFilterOpen],
   );
 
-  const handleSetExceptional = useCallback(
+  const onSetExceptional = useCallback(
     (val: boolean) => {
       setFilterValue(id, {
         exceptional: val,
@@ -64,7 +64,7 @@ export function LevelFilter({ id }: { id: number }) {
     [setFilterValue, id],
   );
 
-  const handleSetNonexceptional = useCallback(
+  const onSetNonexceptional = useCallback(
     (val: boolean) => {
       setFilterValue(id, {
         nonexceptional: val,
@@ -73,11 +73,11 @@ export function LevelFilter({ id }: { id: number }) {
     [setFilterValue, id],
   );
 
-  const handleReset = useCallback(() => {
+  const onReset = useCallback(() => {
     resetFilter(id);
   }, [resetFilter, id]);
 
-  const handleApplyLevelShortcut = useCallback(
+  const onApplyLevelShortcut = useCallback(
     (value: string) => {
       if (value === "0") {
         setFilterValue(id, {
@@ -105,7 +105,7 @@ export function LevelFilter({ id }: { id: number }) {
           <ToggleGroup
             data-testid="filters-level-shortcut"
             full
-            onValueChange={handleApplyLevelShortcut}
+            onValueChange={onApplyLevelShortcut}
             type="single"
             value={getToggleValue(filter.value.range)}
           >
@@ -118,8 +118,8 @@ export function LevelFilter({ id }: { id: number }) {
           </ToggleGroup>
         )
       }
-      onOpenChange={handleChangeOpen}
-      onReset={handleReset}
+      onOpenChange={onChangeOpen}
+      onReset={onReset}
       open={filter.open}
       title="Level"
     >
@@ -129,7 +129,7 @@ export function LevelFilter({ id }: { id: number }) {
         max={5}
         min={0}
         onValueCommit={(val) => {
-          handleChangeRange([val[0], val[1]]);
+          onChangeRange([val[0], val[1]]);
         }}
         value={filter.value.range ?? [0, 5]}
       />
@@ -138,13 +138,13 @@ export function LevelFilter({ id }: { id: number }) {
           checked={filter.value.exceptional}
           id="exceptional"
           label="Exceptional"
-          onCheckedChange={handleSetExceptional}
+          onCheckedChange={onSetExceptional}
         />
         <Checkbox
           checked={filter.value.nonexceptional}
           id="nonexceptional"
           label="Non-exceptional"
-          onCheckedChange={handleSetNonexceptional}
+          onCheckedChange={onSetNonexceptional}
         />
       </CheckboxGroup>
     </FilterContainer>
