@@ -2,6 +2,8 @@ name: Deploy to Cloudflare Pages
 
 on:
   workflow_dispatch:
+  release:
+    types: [published]
 
 jobs:
   deploy:
