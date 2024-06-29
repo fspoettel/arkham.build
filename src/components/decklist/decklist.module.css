@@ -22,7 +22,11 @@
 }
 
 .decklist-row > * {
-  flex: 0 1 calc(50% - 0.75rem);
+  flex: 1 1 calc(50% - 0.75rem);
+
+  @container (min-width: 36rem) {
+    flex: 0 1 calc(50% - 0.75rem);
+  }
 }
 
 .decklist-row > * > * {

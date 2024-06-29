@@ -1,6 +1,6 @@
 .main {
-  column-gap: 2rem;
-  row-gap: 1rem;
+  column-gap: 1.5rem;
+  row-gap: 0.5rem;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: min-content min-content min-content;
