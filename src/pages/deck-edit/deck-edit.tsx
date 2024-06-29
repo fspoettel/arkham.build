@@ -22,6 +22,8 @@ import { useDocumentTitle } from "@/utils/use-document-title";
 import { Editor } from "./editor/editor";
 import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 
+import css from "./deck-edit.module.css";
+
 function DeckEdit() {
   const { id } = useParams<{ id: string }>();
 
@@ -41,7 +43,7 @@ function DeckEdit() {
           return (
             <>
               Unsaved changes were restored.
-              <div>
+              <div className={css["restore"]}>
                 <Button onClick={onClose} size="sm">
                   OK
                 </Button>
@@ -53,7 +55,7 @@ function DeckEdit() {
                   size="sm"
                 >
                   <Undo />
-                  Revert
+                  Undo
                 </Button>
               </div>
             </>

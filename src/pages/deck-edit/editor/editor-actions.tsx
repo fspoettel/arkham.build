@@ -54,13 +54,19 @@ export function EditorActions({ deck }: Props) {
     [discardEdits, navigate, deck.id, hasEdits],
   );
 
-  const onQuicksave = useCallback(() => {
-    onSave(true);
-  }, [onSave]);
+  const onQuicksave = useCallback(
+    (evt: KeyboardEvent) => {
+      onSave(!evt.shiftKey);
+    },
+    [onSave],
+  );
 
-  const onQuickDiscard = useCallback(() => {
-    onDiscard(true);
-  }, [onDiscard]);
+  const onQuickDiscard = useCallback(
+    (evt: KeyboardEvent) => {
+      onDiscard(!evt.shiftKey);
+    },
+    [onDiscard],
+  );
 
   useHotKey("cmd+s", onQuicksave, [onQuicksave]);
   useHotKey("cmd+backspace", onQuickDiscard, [onDiscard]);
