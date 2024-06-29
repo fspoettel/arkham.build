@@ -1,8 +1,13 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.8.2/schema.json",
   "files": {
-    "ignore": ["dist/**", "coverage/**", "test-results/**"],
-    "maxSize": 100000000
+    "ignore": [
+      "dist/**",
+      "coverage/**",
+      "playwright-report/**",
+      "test-results/**"
+    ],
+    "maxSize": 10000000
   },
   "organizeImports": {
     "enabled": true
@@ -16,8 +21,20 @@
     "ignore": ["**/*.spec.ts"],
     "rules": {
       "recommended": true,
+      "correctness": {
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error",
+        "useHookAtTopLevel": "error"
+      },
       "complexity": {
         "useLiteralKeys": "off"
+      },
+      "performance": {
+        "noBarrelFile": "error",
+        "noReExportAll": "error"
+      },
+      "suspicious": {
+        "useAwait": "error"
       }
     }
   }

@@ -1,5 +1,5 @@
 import { FloatingPortal, shift } from "@floating-ui/react";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 
 import { useCardModalContext } from "@/components/card-modal/card-modal-context";
 import { CardTooltip } from "@/components/card-tooltip";

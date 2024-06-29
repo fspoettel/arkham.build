@@ -15,18 +15,18 @@
   padding-inline: var(--filters-spacing-x);
   padding-top: var(--filters-spacing-y);
   gap: 0.25rem;
+}
 
-  & * {
-    flex: 0 0 auto;
-  }
+.header > * {
+  flex: 0 0 auto;
+}
 
-  & > :first-child {
-    flex: 1 1 auto;
-  }
+.header > :first-child {
+  flex: 1 1 auto;
+}
 
-  & label {
-    width: 100%;
-  }
+.header label {
+  width: 100%;
 }
 
 .type-filter {
@@ -37,10 +37,10 @@
 .children {
   padding-inline: var(--filters-spacing-x);
   padding-top: var(--filters-spacing-y);
+}
 
-  & > * + * {
-    margin-top: var(--filters-spacing-y);
-  }
+.children > * + * {
+  margin-top: var(--filters-spacing-y);
 }
 
 .children + .header {
@@ -54,10 +54,10 @@
 
 .content {
   padding: var(--filters-spacing-y) var(--filters-spacing-x) 1rem;
+}
 
-  & > * + * {
-    margin-top: var(--filters-spacing-y);
-  }
+.content > * + * {
+  margin-top: var(--filters-spacing-y);
 }
 
 .filters.disabled .content {
@@ -66,64 +66,60 @@
 }
 
 .faction-filter {
-  padding: 0.5rem 0;
-
-  & .color-active-guardian[data-state="on"] {
-    --active-color: var(--guardian);
-  }
-
-  & .color-active-rogue[data-state="on"] {
-    --active-color: var(--rogue);
-  }
-
-  & .color-active-seeker[data-state="on"] {
-    --active-color: var(--seeker);
-  }
-
-  & .color-active-survivor[data-state="on"] {
-    --active-color: var(--survivor);
-  }
-
-  & .color-active-mystic[data-state="on"] {
-    --active-color: var(--mystic);
-  }
-
-  & .color-active-multiclass[data-state="on"] {
-    --active-color: var(--multiclass);
-  }
+  padding: 0.5rem;
 }
 
-.asset-filter {
-  & .skill-boosts {
-    padding: 0;
-    border: 0;
-    display: flex;
-    align-items: center;
-    flex-flow: row wrap;
-    gap: 0.5rem;
-  }
-
-  & .skill-boosts > * + * {
-    margin-top: 0.5rem;
-  }
-
-  & .skill-boosts-label {
-    font-size: var(--text-sm);
-  }
+.faction-filter .color-active-guardian[data-state="on"] {
+  --active-color: var(--guardian);
 }
 
-.skill-filter {
-  & > * + * {
-    margin-top: var(--filters-spacing-y);
-  }
+.faction-filter .color-active-rogue[data-state="on"] {
+  --active-color: var(--rogue);
+}
 
-  & .icons {
-    font-size: var(--icon-md);
-  }
+.faction-filter .color-active-seeker[data-state="on"] {
+  --active-color: var(--seeker);
+}
 
-  & .icon {
-    display: flex;
-    gap: 0.375rem;
-    align-items: center;
-  }
+.faction-filter .color-active-survivor[data-state="on"] {
+  --active-color: var(--survivor);
+}
+
+.faction-filter .color-active-mystic[data-state="on"] {
+  --active-color: var(--mystic);
+}
+
+.faction-filter .color-active-multiclass[data-state="on"] {
+  --active-color: var(--multiclass);
+}
+
+.asset-filter .skill-boosts {
+  padding: 0;
+  border: 0;
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+}
+
+.asset-filter .skill-boosts > * + * {
+  margin-top: 0.5rem;
+}
+
+.asset-filter .skill-boosts-label {
+  font-size: var(--text-sm);
+}
+
+.skill-filter > * + * {
+  margin-top: var(--filters-spacing-y);
+}
+
+.skill-filter .icons {
+  font-size: var(--icon-md);
+}
+
+.skill-filter .icon {
+  display: flex;
+  gap: 0.375rem;
+  align-items: center;
 }

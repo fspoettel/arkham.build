@@ -1,7 +1,6 @@
 .layout {
   --filters-width: 20rem;
   --sidebar-width-one-col: 24rem;
-  --sidebar-width-two-col: 42rem;
 
   display: grid;
 
@@ -49,7 +48,7 @@
     grid-template-columns: var(--sidebar-width-one-col) 1fr var(--filters-width);
   }
 
-  @media screen and (min-width: 100rem) {
+  @media screen and (min-width: 102rem) {
     grid-template-columns: var(--sidebar-width-max) 1fr var(--filters-width);
   }
 }

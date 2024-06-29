@@ -23,8 +23,6 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 export type Props = {
   isActive?: boolean;
   as?: "li" | "div";
-  canIndicateRemoval?: boolean;
-  canCheckOwnership?: boolean;
   card: Card;
   className?: string;
   disableKeyboard?: boolean;
@@ -32,45 +30,46 @@ export type Props = {
   figureRef?: (node: ReferenceType | null) => void;
   isForbidden?: boolean;
   isIgnored?: number;
+  isRemoved?: boolean;
   omitBorders?: boolean;
+  omitThumbnail?: boolean;
   onChangeCardQuantity?: (code: string, quantity: number) => void;
-  owned?: number;
+  ownedCount?: number;
   quantities?: {
     [code: string]: number;
   };
   referenceProps?: React.ComponentProps<"div">;
   renderAction?: (card: Card) => React.ReactNode;
   renderExtra?: (card: Card) => React.ReactNode;
-  size?: "sm";
+  size?: "sm" | "investigator";
   showInvestigatorIcons?: boolean;
 };
 
 export function ListCardInner({
-  isActive,
   as = "div",
   card,
-  canIndicateRemoval,
-  canCheckOwnership,
   className,
   disableKeyboard,
   disableModalOpen,
   figureRef,
+  isActive,
   isForbidden,
   isIgnored,
-  onChangeCardQuantity,
+  isRemoved,
   omitBorders,
-  owned,
+  omitThumbnail,
+  onChangeCardQuantity,
+  ownedCount,
+  quantities,
   referenceProps,
   renderAction,
   renderExtra,
-  quantities,
   showInvestigatorIcons,
   size,
 }: Props) {
   const modalContext = useCardModalContext();
   const quantity = quantities ? quantities[card.code] ?? 0 : 0;
 
-  const ownedCount = owned ?? 0;
   const ignoredCount = isIgnored ?? 0;
 
   const colorCls = getCardColor(card);
@@ -93,7 +92,7 @@ export function ListCardInner({
         css["listcard"],
         size && css[size],
         !omitBorders && css["borders"],
-        canIndicateRemoval && quantity === 0 && css["removed"],
+        isRemoved && quantity === 0 && css["removed"],
         isForbidden && css["forbidden"],
         isActive && css["active"],
         className,
@@ -118,7 +117,7 @@ export function ListCardInner({
       )}
 
       <figure className={css["content"]} ref={figureRef}>
-        {card.imageurl && (
+        {!omitThumbnail && card.imageurl && (
           <button
             onClick={disableModalOpen ? undefined : openModal}
             tabIndex={-1}
@@ -149,10 +148,9 @@ export function ListCardInner({
               </button>
             </h4>
 
-            {canCheckOwnership &&
-              owned != null &&
+            {ownedCount != null &&
               card.code !== "01000" &&
-              (!owned || ownedCount < quantity) && (
+              (!ownedCount || ownedCount < quantity) && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <span className={css["ownership"]}>
@@ -187,13 +185,9 @@ export function ListCardInner({
           </div>
 
           <div className={css["meta"]}>
-            {card.type_code !== "investigator" &&
-              !card.subtype_code &&
-              (card.type_code !== "skill" ||
-                card.faction2_code ||
-                card.faction3_code) && (
-                <MulticlassIcons card={card} className={css["multiclass"]} />
-              )}
+            {card.type_code !== "investigator" && !card.subtype_code && (
+              <MulticlassIcons card={card} className={css["multiclass"]} />
+            )}
 
             {!showInvestigatorIcons && card.parallel && (
               <i className="icon-parallel" />

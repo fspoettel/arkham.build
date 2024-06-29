@@ -1,6 +1,7 @@
 import { cardLevel } from "@/utils/card-utils";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 
+import { time, timeEnd } from "@/utils/time";
 import type {
   Card,
   DeckOption,
@@ -128,7 +129,7 @@ export function validateDeck(
   deck: ResolvedDeck<ResolvedCard>,
   state: StoreState,
 ): DeckValidationResult {
-  console.time("[perf] validate_deck");
+  time("validate_deck");
 
   if (!validateInvestigator(deck)) {
     return {
@@ -147,7 +148,7 @@ export function validateDeck(
     errors.push(...validateSlots(deck, state, "extraSlots"));
   }
 
-  console.timeEnd("[perf] validate_deck");
+  timeEnd("validate_deck");
   return formatReturnValue(errors);
 }
 

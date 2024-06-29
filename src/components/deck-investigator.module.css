@@ -17,8 +17,8 @@
 
 .deck-investigator-related {
   margin-top: 0.5rem;
+}
 
-  & > * + * {
-    margin-top: 0.5rem;
-  }
+.deck-investigator-related > * + * {
+  margin-top: 0.5rem;
 }

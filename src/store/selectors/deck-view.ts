@@ -2,6 +2,7 @@ import { createSelector } from "reselect";
 
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 
+import { time, timeEnd } from "@/utils/time";
 import { applyDeckEdits } from "../lib/deck-edits";
 import type { DisplayDeck } from "../lib/deck-grouping";
 import { groupDeckCardsByType } from "../lib/deck-grouping";
@@ -22,7 +23,7 @@ export const selectResolvedDeckById = createSelector(
   (metadata, lookupTables, deck, edits) => {
     if (!deck) return undefined;
 
-    console.time("[perf] select_resolved_deck");
+    time("select_resolved_deck");
 
     const resolvedDeck = resolveDeck(
       metadata,
@@ -30,8 +31,8 @@ export const selectResolvedDeckById = createSelector(
       edits ? applyDeckEdits(deck, edits, metadata) : deck,
       true,
     );
-    console.timeEnd("[perf] select_resolved_deck");
 
+    timeEnd("select_resolved_deck");
     return resolvedDeck;
   },
 );

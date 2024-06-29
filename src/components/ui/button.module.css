@@ -43,7 +43,6 @@ a.button {
 .button.full {
   display: flex;
   width: 100%;
-  padding: 0.5rem 0.75rem;
 }
 
 .button.primary {
@@ -69,7 +68,7 @@ a.button {
 
 .button.sm {
   font-size: var(--text-sm);
-  padding: 0.25rem;
+  padding: 0.25rem 0.5rem;
 }
 
 .button.lg {
@@ -78,4 +77,20 @@ a.button {
 
 .button:not(.icon-only) {
   min-width: 5ch;
+}
+
+.button.xs.icon-only {
+  padding: 0.125rem;
+}
+
+.button.icon-only {
+  padding: 0.375rem;
+}
+
+.button.sm.icon-only {
+  padding: 0.25rem;
+}
+
+.button.lg.icon-only {
+  padding: 0.75rem;
 }

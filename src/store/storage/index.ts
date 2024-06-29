@@ -4,6 +4,7 @@ import type {
   StorageValue,
 } from "zustand/middleware";
 
+import { time, timeEnd } from "@/utils/time";
 import type { StoreState } from "../slices";
 import { getInitialDataState } from "../slices/data";
 import { getInitialMetadata } from "../slices/metadata";
@@ -41,11 +42,11 @@ export const storageConfig: PersistOptions<StoreState, Val> = {
     };
   },
   onRehydrateStorage: () => {
-    console.time("[perf] hydration");
+    time("hydration");
     return (state: StoreState | undefined, error?: unknown) => {
       if (state) state.setHydrated();
       if (error) console.error(error);
-      console.timeEnd("[perf] hydration");
+      timeEnd("hydration");
     };
   },
 };

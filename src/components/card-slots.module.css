@@ -3,23 +3,23 @@
   flex-flow: row nowrap;
   list-style: none;
   gap: 0.25rem;
+}
 
-  li {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 2rem;
-    height: 2rem;
-    background: var(--nord-4);
-    color: var(--nord-3);
-    font-size: 1.375rem;
-    border-radius: 50%;
-    border: 2px solid var(--nord-3);
+.slots li {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
+  background: var(--nord-4);
+  color: var(--nord-3);
+  font-size: 1.375rem;
+  border-radius: 50%;
+  border: 2px solid var(--nord-3);
+}
 
-    & i[class*="hand_x2"] {
-      font-size: 1.125rem;
-    }
-  }
+.slots li i[class*="hand_x2"] {
+  font-size: 1.125rem;
 }
 
 .slots.small li {
@@ -29,8 +29,8 @@
   font-size: var(--icon-sm);
   background: none;
   color: var(--nord-4);
+}
 
-  & i[class*="hand_x2"] {
-    font-size: 0.875rem;
-  }
+.slots.small li i[class*="hand_x2"] {
+  font-size: 0.875rem;
 }

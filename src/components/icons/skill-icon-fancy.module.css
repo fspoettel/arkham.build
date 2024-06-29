@@ -5,32 +5,32 @@
 
   display: block;
   border-radius: var(--rounded);
+}
 
-  &.agility {
-    color: var(--agility);
-  }
+.icon.agility {
+  color: var(--agility);
+}
 
-  &.combat {
-    color: var(--combat);
-  }
+.icon.combat {
+  color: var(--combat);
+}
 
-  &.willpower {
-    color: var(--willpower);
-  }
+.icon.willpower {
+  color: var(--willpower);
+}
 
-  &.intellect {
-    color: var(--intellect);
-  }
+.icon.intellect {
+  color: var(--intellect);
+}
 
-  &.wild {
-    color: var(--wild);
-  }
+.icon.wild {
+  color: var(--wild);
+}
 
-  & > * {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
+.icon > * {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .inverted {

@@ -56,12 +56,8 @@ export function DeckCollectionImport() {
 
   return (
     <Popover onOpenChange={setOpen} open={open} placement="bottom-start">
-      <PopoverTrigger asChild onClick={() => setOpen((v) => !v)}>
-        <Button
-          as="label"
-          data-testid="import-trigger"
-          htmlFor="deck-collection-import"
-        >
+      <PopoverTrigger asChild>
+        <Button data-testid="import-trigger">
           <CloudUpload />
         </Button>
       </PopoverTrigger>

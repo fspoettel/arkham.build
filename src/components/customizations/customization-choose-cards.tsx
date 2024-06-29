@@ -5,6 +5,7 @@ import { sortByName } from "@/store/lib/sorting";
 import type { Card } from "@/store/services/queries.types";
 import type { CustomizationOption as CustomizationOptionType } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
+import { time, timeEnd } from "@/utils/time";
 
 function selectPlayerCardsForCustomizationOptions(
   state: StoreState,
@@ -12,7 +13,7 @@ function selectPlayerCardsForCustomizationOptions(
 ) {
   if (!config) return [];
 
-  console.time("[perf] select_player_cards_for_customization_options");
+  time("select_player_cards_for_customization_options");
 
   const options: Set<Card> = new Set();
 
@@ -45,7 +46,7 @@ function selectPlayerCardsForCustomizationOptions(
 
   const cards = Array.from(options).toSorted(sortByName);
 
-  console.timeEnd("[perf] select_player_cards_for_customization_options");
+  timeEnd("select_player_cards_for_customization_options");
 
   return cards;
 }

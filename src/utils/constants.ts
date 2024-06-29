@@ -10,15 +10,14 @@ export const REGEX_SUCCEED_BY =
   /succe(ssful|ed(?:s?|ed?))(:? at a skill test)? by(?! 0)/;
 
 const ACTION_TEXT: { [key: string]: string } = {
-  fight: "<b>Fight.</b>",
-  engage: "<b>Engage.</b>",
-  investigate: "<b>Investigate.</b>",
-  play: "<b>Play.</b>",
-  draw: "<b>Draw.</b>",
-  move: "<b>Move.</b>",
-  evade: "<b>Evade.</b>",
-  resource: "<b>Resource.</b>",
-  parley: "<b>Parley.</b>",
+  fight: "Fight.",
+  engage: "Engage.",
+  investigate: "Investigate.",
+  play: "Play.",
+  draw: "Draw.",
+  move: "Move.",
+  evade: "Evade.",
+  parley: "Parley.",
 } as const;
 
 export const ACTION_TEXT_ENTRIES = Object.entries(ACTION_TEXT);

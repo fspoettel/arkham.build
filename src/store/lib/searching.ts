@@ -13,6 +13,8 @@ function prepareCardFront(card: Card, search: Search) {
   if (search.includeGameText) {
     if (card.real_traits) content += `|${card.real_traits}`;
     if (card.real_text) content += `|${card.real_text}`;
+    if (card.real_customization_text)
+      content += `|${card.real_customization_text}`;
   }
 
   if (search.includeFlavor) {

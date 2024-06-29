@@ -2,7 +2,7 @@
   position: relative;
   border-style: solid;
   border-width: 1px;
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded);
   overflow: hidden;
   color: var(--nord-4);
   transition: border 0.15s ease-in-out;
@@ -27,7 +27,7 @@
 }
 
 .thumbnail {
-  width: 3rem;
+  width: 2.75rem;
 }
 
 .header,
@@ -71,7 +71,7 @@
   font-family: var(--font-family-content);
   font-style: italic;
   font-weight: 400;
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
 }
 
 .stats {
@@ -95,5 +95,5 @@
 .meta {
   grid-area: meta;
   font-size: var(--text-sm);
-  padding: 0.375rem;
+  padding: 0.25rem;
 }

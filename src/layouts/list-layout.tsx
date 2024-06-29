@@ -14,6 +14,7 @@ type Props = {
     slotRight?: React.ReactNode;
     slotLeft?: React.ReactNode;
   }) => React.ReactNode;
+  className?: string;
   filters: React.ReactNode;
   mastheadContent?: React.ReactNode;
   sidebar: React.ReactNode;
@@ -22,6 +23,7 @@ type Props = {
 
 export function ListLayout({
   children,
+  className,
   filters,
   mastheadContent,
   sidebar,
@@ -65,6 +67,7 @@ export function ListLayout({
         filtersOpen && css["filters-open"],
         sidebarOpen && css["sidebar-open"],
         "fade-in",
+        className,
       )}
       onPointerDown={onContentClick}
       style={{ "--sidebar-width-max": sidebarWidthMax } as React.CSSProperties}

@@ -11,6 +11,7 @@ import {
   REGEX_USES,
 } from "@/utils/constants";
 
+import { time, timeEnd } from "@/utils/time";
 import type { StoreState } from ".";
 import type {
   LookupTable,
@@ -86,7 +87,7 @@ export function createLookupTables(
   metadata: Metadata,
   settings: SettingsState,
 ) {
-  console.time("[perf] refresh_lookup_tables");
+  time("refresh_lookup_tables");
   const lookupTables = getInitialLookupTables();
 
   const cards = Object.values(metadata.cards);
@@ -102,7 +103,7 @@ export function createLookupTables(
 
   addPacksToLookupTables(metadata, lookupTables);
 
-  console.timeEnd("[perf] refresh_lookup_tables");
+  timeEnd("refresh_lookup_tables");
   return lookupTables;
 }
 
@@ -295,7 +296,7 @@ function indexBySucceedsBy(tables: LookupTables, card: Card) {
 }
 
 export function createRelations(metadata: Metadata, tables: LookupTables) {
-  console.time("[perf] create_relations");
+  time("create_relations");
   const cards = Object.values(metadata.cards);
 
   const bonded: Record<string, string[]> = {};
@@ -432,7 +433,7 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
     }
   }
 
-  console.timeEnd("[perf] create_relations");
+  timeEnd("create_relations");
 }
 
 function addPacksToLookupTables(

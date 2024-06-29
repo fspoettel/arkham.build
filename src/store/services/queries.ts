@@ -87,7 +87,7 @@ export async function queryCards(): Promise<AllCardResponse> {
   return data.all_card;
 }
 
-export async function queryFaq(code: string): Promise<FaqResponse> {
+export function queryFaq(code: string): Promise<FaqResponse> {
   return request(`/faq/${code}`);
 }
 

@@ -13,10 +13,10 @@
   container-type: inline-size;
   padding-bottom: 1rem;
   width: 100%;
+}
 
-  & > * + * {
-    margin-top: 1rem;
-  }
+.main > * + * {
+  margin-top: 1rem;
 }
 
 .actions {
@@ -38,8 +38,6 @@
   text-transform: uppercase;
 }
 
-.view-section-cards {
-  & > * + * {
-    margin-top: 1rem;
-  }
+.view-section-cards > * + * {
+  margin-top: 1rem;
 }

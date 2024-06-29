@@ -35,7 +35,9 @@ function InvestigatorListcardInner({ deck }: Props) {
         <ListCard
           card={deck.investigatorFront.card}
           disableModalOpen
+          omitBorders
           showInvestigatorIcons
+          size="investigator"
           tooltip={
             <DeckInvestigator
               canToggleBack={false}

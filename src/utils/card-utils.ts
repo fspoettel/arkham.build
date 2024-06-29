@@ -60,13 +60,11 @@ export function thumbnailUrl(code: string) {
 }
 
 export function parseCardTextHtml(cardText: string) {
-  console.time("[perf] parse_card_text_html");
   const parsed = cardText
     .replaceAll(/^\s?(-|–)/gm, `<i class="icon-bullet"></i>`)
     .replaceAll("\n", "<hr class='break'>")
     .replaceAll(/\[\[(.*?)\]\]/g, "<b><em>$1</em></b>")
     .replaceAll(/\[((?:\w|_)+?)\]/g, `<i class="icon-$1"></i>`);
-  console.timeEnd("[perf] parse_card_text_html");
   return parsed;
 }
 

@@ -12,10 +12,8 @@
   padding: 0.25rem;
 }
 
-.field.full {
-  & > :where(input, select, textarea) {
-    width: 100%;
-  }
+.field.full > :where(input, select, textarea) {
+  width: 100%;
 }
 
 .field.bordered {

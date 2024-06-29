@@ -3,8 +3,8 @@
   padding: 1rem;
   border-radius: var(--rounded-md);
   margin: 0 auto;
+}
 
-  & > * + * {
-    margin-top: 1.5em;
-  }
+.description > * + * {
+  margin-top: 1.5em;
 }

@@ -34,7 +34,7 @@ export const selectActiveListFilters = (state: StoreState) => {
 
 export const selectActiveListFilter = createSelector(
   selectActiveList,
-  (state: StoreState, id: number) => id,
+  (_: StoreState, id: number) => id,
   (list, id) => {
     return list ? list.filterValues[id] : undefined;
   },
@@ -58,7 +58,11 @@ export const selectAssetOptions = createSelector(
   (lookupTables) => {
     const health = Object.keys(lookupTables.health).map((x) => +x);
     const sanity = Object.keys(lookupTables.sanity).map((x) => +x);
-    const uses = Object.keys(lookupTables.uses).map((code) => ({ code }));
+
+    const uses = Object.keys(lookupTables.uses)
+      .map((code) => ({ code }))
+      .toSorted((a, b) => sortAlphabetical(a.code, b.code));
+
     const skillBoosts = SKILL_KEYS.filter((x) => x !== "wild");
 
     health.sort();
@@ -220,6 +224,7 @@ export const selectSubtypeOptions = createSelector(
   (state: StoreState) => state.metadata,
   (metadata) => {
     const types = Object.values(metadata.subtypes);
+    types.push({ code: "", name: "None" });
     types.sort((a, b) => sortAlphabetical(a.name, b.name));
     return types;
   },
@@ -389,7 +394,9 @@ export const selectSubtypeChanges = createSelector(
   (state: StoreState) => state.metadata,
   (value, metadata) => {
     if (!value) return "";
-    return value.map((id) => metadata.subtypes[id].name).join(" or ");
+    return value
+      .map((id) => metadata.subtypes[id]?.name ?? "None")
+      .join(" or ");
   },
 );
 

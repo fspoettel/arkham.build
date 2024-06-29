@@ -8,10 +8,10 @@
 .decks {
   list-style: none;
   padding: 0.25rem 0.75rem;
+}
 
-  & > * + * {
-    margin-top: 0.75rem;
-  }
+.decks > * + * {
+  margin-top: 0.75rem;
 }
 
 .deck a {
@@ -37,11 +37,25 @@
   font-family: var(--font-family-ui);
 }
 
-.placeholder {
+.placeholder-container {
   flex: 1 1 auto;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.placeholder {
+  text-align: center;
+  color: color-mix(in srgb, var(--nord-3) 70%, var(--nord-4) 30%);
+}
+
+.placeholder i {
+  font-size: var(--icon-xl);
+  margin-inline: auto;
+}
+
+.placeholder-caption {
+  font-size: var(--text-lg);
 }
 
 .actions {

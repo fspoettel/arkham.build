@@ -70,10 +70,10 @@ export function MetaEditor({ deck }: Props) {
   const onNameChange = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) => {
       if (evt.target instanceof HTMLInputElement) {
-        updateName(evt.target.value);
+        updateName(deck.id, evt.target.value);
       }
     },
-    [updateName],
+    [updateName, deck.id],
   );
 
   const onDescriptionChange = useCallback(

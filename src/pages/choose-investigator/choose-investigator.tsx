@@ -15,6 +15,7 @@ import { useGoBack } from "@/utils/use-go-back";
 
 import css from "./choose-investigator.module.css";
 
+import type { CardWithRelations } from "@/store/lib/types";
 import { SignatureLink } from "./signature-link";
 
 function DeckCreateChooseInvestigator() {
@@ -23,7 +24,6 @@ function DeckCreateChooseInvestigator() {
   const goBack = useGoBack();
   const activeListId = useStore((state) => state.activeList);
 
-  const resetFilters = useStore((state) => state.resetFilters);
   const setActiveList = useStore((state) => state.setActiveList);
 
   const cardResolver = useStore(selectCardRelationsResolver);
@@ -73,25 +73,9 @@ function DeckCreateChooseInvestigator() {
                 </Button>
               </Link>
             )}
-            renderListCardExtra={({ code }) => {
-              const resolved = cardResolver(code);
-              const signatures = resolved?.relations?.requiredCards;
-              if (!signatures?.length) return null;
-
-              const signaturesRef = useRef<HTMLUListElement>(null);
-
-              return (
-                <ul className={css["signatures"]} ref={signaturesRef}>
-                  {signatures.map(({ card }) => (
-                    <SignatureLink
-                      card={card}
-                      key={card.code}
-                      signaturesRef={signaturesRef}
-                    />
-                  ))}
-                </ul>
-              );
-            }}
+            renderListCardExtra={({ code }) => (
+              <ListcardExtra code={code} cardResolver={cardResolver} />
+            )}
             slotRight={
               <Button
                 className={css["toggle-filters"]}
@@ -110,6 +94,33 @@ function DeckCreateChooseInvestigator() {
         </nav>
       </div>
     </CardModalProvider>
+  );
+}
+
+function ListcardExtra({
+  cardResolver,
+  code,
+}: {
+  cardResolver: (code: string) => CardWithRelations | undefined;
+  code: string;
+}) {
+  const signaturesRef = useRef<HTMLUListElement>(null);
+
+  const resolved = cardResolver(code);
+  const signatures = resolved?.relations?.requiredCards;
+
+  if (!signatures?.length) return null;
+
+  return (
+    <ul className={css["signatures"]} ref={signaturesRef}>
+      {signatures.map(({ card }) => (
+        <SignatureLink
+          card={card}
+          key={card.code}
+          signaturesRef={signaturesRef}
+        />
+      ))}
+    </ul>
   );
 }
 

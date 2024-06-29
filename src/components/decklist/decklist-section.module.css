@@ -1,9 +1,13 @@
 .decklist-section {
   flex: 1 1 100%;
+}
 
-  & .decklist-section-title {
-    font-size: var(--text-base);
-    margin-bottom: 0.5rem;
-    padding-inline: 0.375rem;
-  }
+.decklist-section-title {
+  font-size: var(--text-sm);
+  margin-bottom: 0.25rem;
+  padding-inline: 0.25rem;
+}
+
+.decklist-section + .decklist-section {
+  margin-top: 0.5rem;
 }

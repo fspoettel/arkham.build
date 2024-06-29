@@ -1,16 +1,10 @@
 import {
   FloatingFocusManager,
   FloatingPortal,
-  useId,
   useMergeRefs,
   useTransitionStyles,
 } from "@floating-ui/react";
-import {
-  cloneElement,
-  forwardRef,
-  isValidElement,
-  useLayoutEffect,
-} from "react";
+import { cloneElement, forwardRef, isValidElement } from "react";
 
 import type { PopoverOptions } from "./popover.hooks";
 import { PopoverContext, usePopover, usePopoverContext } from "./popover.hooks";

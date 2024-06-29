@@ -55,7 +55,7 @@ type TriggerProps = TabsTriggerProps & {
 export function TabsTrigger({ children, className, ...rest }: TriggerProps) {
   return (
     <Trigger {...rest} asChild>
-      <Button className={clsx(css["trigger"], className)} size="full">
+      <Button className={clsx(css["trigger"], className)} size="sm">
         {children}
       </Button>
     </Trigger>

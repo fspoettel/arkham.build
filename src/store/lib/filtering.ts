@@ -462,7 +462,10 @@ export function filterSkillIcons(filterState: SkillIconsFilter) {
 
 export function filterSubtypes(enabledTypeCodes: MultiselectFilter) {
   return (card: Card) => {
-    return !!card.subtype_code && enabledTypeCodes.includes(card.subtype_code);
+    return (
+      (!!card.subtype_code && enabledTypeCodes.includes(card.subtype_code)) ||
+      (!card.subtype_code && enabledTypeCodes.includes(""))
+    );
   };
 }
 

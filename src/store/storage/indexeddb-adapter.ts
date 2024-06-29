@@ -23,7 +23,7 @@ export class IndexedDBAdapter<T extends StorageValue<Val>> {
       : undefined;
   }
 
-  async setMetadata(name: string, value: T) {
+  setMetadata(name: string, value: T) {
     const key = this.metadataKey(name);
 
     const currentDataVersion = this.getDataVersionIdentifier(
@@ -54,7 +54,7 @@ export class IndexedDBAdapter<T extends StorageValue<Val>> {
     return set(this.metadataName(name), payload);
   }
 
-  async setAppdata(name: string, value: T) {
+  setAppdata(name: string, value: T) {
     console.debug("[persist] save app data.");
 
     const payload = JSON.stringify({
