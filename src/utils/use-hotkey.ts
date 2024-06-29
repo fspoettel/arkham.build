@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from "react";
+import { inputFocused } from "./keyboard";
 
 type HotKey = {
   key: string;
@@ -14,7 +15,8 @@ export function useHotKey(
 
   useEffect(() => {
     function onKeyDown(evt: KeyboardEvent) {
-      console.log(evt);
+      if (inputFocused()) return;
+
       if (hotKeyMatches(evt, hotKey)) {
         evt.preventDefault();
         callback(evt);
