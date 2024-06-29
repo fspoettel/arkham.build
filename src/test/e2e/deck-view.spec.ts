@@ -69,5 +69,5 @@ test("delete deck", async ({ page }) => {
   await page.getByTestId("view-delete").click();
   await expect(page).toHaveURL(/\//);
   await expect(page.getByTestId("collection-deck")).not.toBeVisible();
-  await expect(page.getByText("No decks.")).toBeVisible();
+  await expect(page.getByText("Collection empty")).toBeVisible();
 });
