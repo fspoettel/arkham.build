@@ -9,7 +9,7 @@
   gap: var(--card-spacing-x);
   list-style: none;
   min-height: calc(var(--card-image-height) + 2 * var(--card-spacing-y));
-  padding: var(--card-spacing-y) 0;
+  padding: var(--card-spacing-y) 0.25rem;
 }
 
 .listcard.borders {
@@ -18,7 +18,7 @@
 
 .listcard.active {
   outline: 1px solid var(--nord-6);
-  outline-offset: -2px;
+  outline-offset: -1px;
 }
 
 .content {

@@ -139,7 +139,7 @@ export function ListCardInner({
           <div className={clsx(css["name-container"], colorCls)}>
             <h4 className={css["name"]} {...referenceProps}>
               <button
-                onClick={openModal}
+                onClick={disableModalOpen ? undefined : openModal}
                 tabIndex={-1}
                 type="button"
                 data-testid="cardlist-item-title"

@@ -52,7 +52,9 @@
 }
 
 .container.full .card.sideways {
-  grid-template-columns: 9fr 7fr;
+  @container (min-width: 33.5rem) {
+    grid-template-columns: 9fr 7fr;
+  }
 }
 
 .container.full .card.back:not(.back-has-header) {
