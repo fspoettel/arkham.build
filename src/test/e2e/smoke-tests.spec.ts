@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("card list loads", async ({ page }) => {
+test("@smoke card list loads", async ({ page }) => {
   await page.goto("/");
 
   await expect(page.getByTestId("virtuoso-item-list")).toBeVisible();
