@@ -655,9 +655,5 @@ export function makeLists(initialValues?: Partial<Record<FilterKey, unknown>>) {
 }
 
 export function getInitialOwnershipFilter(state: StoreState): OwnershipFilter {
-  if (state.settings.showAllCards) return "all";
-
-  return Object.values(state.settings.collection).some((x) => x)
-    ? ("owned" as const)
-    : ("all" as const);
+  return state.settings.showAllCards ? "all" : "owned";
 }

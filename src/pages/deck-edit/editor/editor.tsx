@@ -68,7 +68,6 @@ export function Editor({ currentTab, deck, onTabChange, validation }: Props) {
                 layout="two_column"
                 listCardSize="sm"
                 mapping="slots"
-                ownershipCounts={deck.ownershipCounts}
                 renderListCardAfter={(card, quantity) => {
                   return card.code ===
                     SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS ? (
@@ -85,7 +84,6 @@ export function Editor({ currentTab, deck, onTabChange, validation }: Props) {
                   layout="two_column"
                   listCardSize="sm"
                   mapping="bonded"
-                  ownershipCounts={deck.ownershipCounts}
                   quantities={deck.bondedSlots}
                 />
               </DecklistSection>
@@ -100,7 +98,6 @@ export function Editor({ currentTab, deck, onTabChange, validation }: Props) {
                   layout="two_column"
                   listCardSize="sm"
                   mapping="sideSlots"
-                  ownershipCounts={deck.ownershipCounts}
                   quantities={deck.sideSlots ?? undefined}
                 />
               ) : (
@@ -118,7 +115,6 @@ export function Editor({ currentTab, deck, onTabChange, validation }: Props) {
                     layout="one_column"
                     listCardSize="sm"
                     mapping="extraSlots"
-                    ownershipCounts={deck.ownershipCounts}
                     quantities={deck.extraSlots ?? undefined}
                   />
                 ) : (

@@ -5,7 +5,10 @@ import { useStore } from "@/store";
 import type { Grouping } from "@/store/lib/deck-grouping";
 import { sortByName, sortBySlots, sortTypesByOrder } from "@/store/lib/sorting";
 import { selectForbiddenCardsById } from "@/store/selectors/deck-view";
-import { selectCanCheckOwnership } from "@/store/selectors/shared";
+import {
+  selectCanCheckOwnership,
+  selectCardOwnedCount,
+} from "@/store/selectors/shared";
 import type { Card } from "@/store/services/queries.types";
 import type { Slot } from "@/store/slices/deck-edits.types";
 import { capitalize } from "@/utils/formatting";
@@ -21,7 +24,6 @@ type DecklistGroupProps = {
   ignoredCounts?: Record<string, number>;
   listCardSize?: "sm";
   mapping: string;
-  ownershipCounts: Record<string, number>;
   quantities?: Record<string, number>;
   renderListCardAfter?: (card: Card, quantity?: number) => React.ReactNode;
 };
@@ -37,7 +39,6 @@ export function DecklistGroups({
   layout,
   listCardSize,
   mapping,
-  ownershipCounts,
   quantities,
   renderListCardAfter,
 }: DecklistGroupsProps) {
@@ -59,7 +60,6 @@ export function DecklistGroups({
                   ignoredCounts={ignoredCounts}
                   listCardSize={listCardSize}
                   mapping={mapping}
-                  ownershipCounts={ownershipCounts}
                   quantities={quantities}
                   renderListCardAfter={renderListCardAfter}
                 />
@@ -84,7 +84,6 @@ export function DecklistGroups({
             cards={entry}
             ignoredCounts={ignoredCounts}
             mapping={mapping}
-            ownershipCounts={ownershipCounts}
             quantities={quantities}
             renderListCardAfter={renderListCardAfter}
           />
@@ -110,7 +109,6 @@ function DecklistGroup({
   ignoredCounts,
   listCardSize,
   mapping,
-  ownershipCounts,
   quantities,
   renderListCardAfter,
 }: DecklistGroupProps) {
@@ -120,6 +118,7 @@ function DecklistGroup({
     selectForbiddenCardsById(state, ctx.deckId, ctx.canEdit),
   );
 
+  const cardOwnedCount = useStore(selectCardOwnedCount);
   const canEdit = ctx.canEdit && mapping !== "bonded";
   const canCheckOwnership = useStore(selectCanCheckOwnership);
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
@@ -148,9 +147,7 @@ function DecklistGroup({
           key={card.code}
           omitBorders
           onChangeCardQuantity={onChangeCardQuantity}
-          ownedCount={
-            canCheckOwnership ? ownershipCounts[card.code] : undefined
-          }
+          ownedCount={canCheckOwnership ? cardOwnedCount(card) : undefined}
           quantity={quantities?.[card.code] ?? 0}
           renderAfter={renderListCardAfter}
           size={listCardSize}

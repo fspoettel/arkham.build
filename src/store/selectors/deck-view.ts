@@ -40,23 +40,12 @@ export const selectResolvedDeckById = createSelector(
 export const selectActiveDeckById = createSelector(
   (state: StoreState, id: Id, applyEdits?: boolean) =>
     selectResolvedDeckById(state, id, applyEdits),
-  (state: StoreState) => state.metadata,
-  (state: StoreState) => state.lookupTables,
-  (state: StoreState) => state.settings.collection,
-  (state: StoreState) => state.settings.showAllCards,
-  (resolvedDeck, metadata, lookupTables, collectionSetting, showAllSetting) => {
+  (resolvedDeck) => {
     if (!resolvedDeck) return undefined;
 
     const displayDeck = resolvedDeck as DisplayDeck;
-    const { groupings, bonded, ownershipCounts } = groupDeckCardsByType(
-      resolvedDeck,
-      metadata,
-      lookupTables,
-      collectionSetting,
-      showAllSetting,
-    );
+    const { groupings, bonded } = groupDeckCardsByType(resolvedDeck);
 
-    displayDeck.ownershipCounts = ownershipCounts;
     displayDeck.groups = groupings;
 
     displayDeck.bondedSlots = bonded.reduce<Record<string, number>>(

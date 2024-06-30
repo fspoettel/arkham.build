@@ -12,6 +12,8 @@ test("settings: collection", async ({ page }) => {
   ).toBeVisible();
 
   await page.getByTestId("masthead-settings").click();
+  await page.getByTestId("settings-show-all").click();
+
   await page.getByLabel("The Dunwich Legacy Investigator Expansion").click();
   await page.getByLabel("The Dunwich Legacy Campaign").click();
   await page.getByTestId("settings-save").click();
