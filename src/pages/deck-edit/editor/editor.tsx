@@ -9,11 +9,11 @@ import type { Tab } from "@/store/slices/deck-edits.types";
 
 import css from "./editor.module.css";
 
+import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import { DrawBasicWeakness } from "./draw-basic-weakness";
 import { EditorActions } from "./editor-actions";
 import { InvestigatorListcard } from "./investigator-listcard";
 import { MetaEditor } from "./meta-editor";
-import { SPECIAL_CARD_CODES } from "@/utils/constants";
-import { DrawBasicWeakness } from "./draw-basic-weakness";
 
 type Props = {
   className?: string;
