@@ -42,7 +42,7 @@ export function countExperience(card: Card, quantity: number) {
   if (card.exceptional) xp *= 2;
   if (card.taboo_xp) xp += card.taboo_xp;
 
-  return xp * (card.myriad ? Math.min(0, 1) : quantity);
+  return xp * (card.myriad ? Math.min(quantity, 1) : quantity);
 }
 
 export function cardLevel(card: Card) {
