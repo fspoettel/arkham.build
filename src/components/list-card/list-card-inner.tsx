@@ -8,6 +8,7 @@ import { getCardColor, hasSkillIcons } from "@/utils/card-utils";
 
 import css from "./list-card.module.css";
 
+import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { CardHealth } from "../card-health";
 import { CardIcon } from "../card-icon";
 import { useCardModalContext } from "../card-modal/card-modal-context";
@@ -154,9 +155,8 @@ export function ListCardInner({
               </h4>
 
               {ownedCount != null &&
-                quantity != null &&
-                card.code !== "01000" &&
-                (!ownedCount || ownedCount < quantity) && (
+                card.code !== SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS &&
+                (!ownedCount || (quantity && ownedCount < quantity)) && (
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <span className={css["ownership"]}>
