@@ -18,6 +18,7 @@ export function DrawBasicWeakness({ deckId, quantity }: Props) {
       disabled={!quantity}
       onClick={() => drawRandomBasicWeakness(deckId)}
       size="sm"
+      data-testid="draw-basic-weakness"
       variant="bare"
     >
       <Shuffle />
