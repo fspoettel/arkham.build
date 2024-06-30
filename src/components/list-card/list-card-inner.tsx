@@ -156,7 +156,8 @@ export function ListCardInner({
 
               {ownedCount != null &&
                 card.code !== SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS &&
-                (!ownedCount || (quantity && ownedCount < quantity)) && (
+                (!ownedCount ||
+                  (quantity != null && ownedCount < quantity)) && (
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <span className={css["ownership"]}>
