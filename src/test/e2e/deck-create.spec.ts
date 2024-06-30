@@ -165,7 +165,7 @@ test("select parallel investigator", async ({ page }) => {
     .getByTestId("cardlist-item-title")
     .click();
 
-  const cardModal = page.getByTestId("card-modal");
+  const cardModal = page.getByTestId("investigator-modal");
 
   await expect(locateScan(cardModal, "10001")).not.toBeVisible();
   await expect(locateScan(cardModal, "10001b")).not.toBeVisible();

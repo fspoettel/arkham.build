@@ -21,7 +21,7 @@
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "test:watch": "vitest watch",
-    "update-snapshots": "playwright test --update-snapshots && docker run -v $(pwd):/work/ mcr.microsoft.com/playwright:v1.45.0-focal bash -c 'cd work && npm run test:e2e -- --update-snapshots'"
+    "update-snapshots": "PW_TEST_HTML_REPORT_OPEN='never' playwright test --update-snapshots && docker run -v $(pwd):/work/ mcr.microsoft.com/playwright:v1.45.0-focal bash -c 'cd work && npm run test:e2e -- --update-snapshots'"
   },
   "dependencies": {
     "@floating-ui/react": "0.26.18",

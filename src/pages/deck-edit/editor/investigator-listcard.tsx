@@ -60,6 +60,7 @@ function InvestigatorListcardInner({ deck }: Props) {
               Open card page
             </Button>
           }
+          data-testid="investigator-modal"
           onClose={onCloseModal}
           size="52rem"
         >
