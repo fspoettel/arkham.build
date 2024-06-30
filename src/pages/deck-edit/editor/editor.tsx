@@ -12,6 +12,8 @@ import css from "./editor.module.css";
 import { EditorActions } from "./editor-actions";
 import { InvestigatorListcard } from "./investigator-listcard";
 import { MetaEditor } from "./meta-editor";
+import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import { DrawBasicWeakness } from "./draw-basic-weakness";
 
 type Props = {
   className?: string;
@@ -67,6 +69,12 @@ export function Editor({ currentTab, deck, onTabChange, validation }: Props) {
                 listCardSize="sm"
                 mapping="slots"
                 ownershipCounts={deck.ownershipCounts}
+                renderListCardAfter={(card, quantity) => {
+                  return card.code ===
+                    SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS ? (
+                    <DrawBasicWeakness deckId={deck.id} quantity={quantity} />
+                  ) : null;
+                }}
                 quantities={deck.slots}
               />
             </DecklistSection>

@@ -199,5 +199,6 @@ function addCardToOwned(
     metadata,
     lookupTables,
     ownershipSetting,
+    showAllSetting,
   );
 }

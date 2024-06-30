@@ -8,6 +8,9 @@ import { validateDeck } from "../lib/deck-validation";
 import { sortAlphabetical } from "../lib/sorting";
 import type { ResolvedCard, ResolvedDeck } from "../lib/types";
 import type { StoreState } from "../slices";
+import type { Id } from "../slices/data.types";
+import type { EditState } from "../slices/deck-edits.types";
+import { selectActiveDeckById } from "./deck-view";
 
 type LocalDeck = {
   deck: ResolvedDeck<ResolvedCard>;
@@ -56,3 +59,21 @@ export const selectLocalDecks = createSelector(
     return resolvedDecks;
   },
 );
+
+export function selectCurrentCardQuantity(
+  state: StoreState,
+  deckId: Id,
+  code: string,
+  key: keyof EditState["quantities"],
+) {
+  const deck = selectActiveDeckById(state, deckId, true);
+  return deck?.[key]?.[code] ?? 0;
+}
+
+export function selectCurrentInvestigatorFactionCode(
+  state: StoreState,
+  deckId: Id,
+) {
+  const deck = selectActiveDeckById(state, deckId, true);
+  return deck?.cards.investigator.card.faction_code;
+}

@@ -7,6 +7,14 @@ import type { SettingsSlice, SettingsState } from "./settings.types";
 export function getInitialSettings(): SettingsState {
   return {
     collection: {},
+    showAllCards: true,
+    tabooSetId: undefined,
+  };
+}
+
+export function getEmptySettings(): SettingsState {
+  return {
+    collection: {},
     showAllCards: false,
     tabooSetId: undefined,
   };
@@ -60,7 +68,7 @@ function parseForm(form: FormData) {
     }
 
     return acc;
-  }, getInitialSettings());
+  }, getEmptySettings());
 }
 
 function safeInt(val: string) {

@@ -3,11 +3,13 @@
   --card-spacing-x: 0.375rem;
   --card-image-height: 2rem;
 
-  align-items: center;
+  list-style: none;
+
   display: flex;
   flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
   gap: var(--card-spacing-x);
-  list-style: none;
   min-height: calc(var(--card-image-height) + 2 * var(--card-spacing-y));
   padding: var(--card-spacing-y) 0.25rem;
 }
@@ -19,6 +21,13 @@
 .listcard.active {
   outline: 1px solid var(--nord-6);
   outline-offset: -1px;
+}
+
+.listcard-main {
+  align-items: center;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: var(--card-spacing-x);
 }
 
 .content {

@@ -857,6 +857,7 @@ describe("filter: ownership", () => {
       state.metadata,
       state.lookupTables,
       config,
+      false, // TODO: test.
     );
   }
 

@@ -91,4 +91,6 @@ export type DeckEditsSlice = {
   updateDescription(deckId: Id, value: string): void;
 
   updateTags(deckId: Id, value: string): void;
+
+  drawRandomBasicWeakness(deckId: Id): void;
 };

@@ -16,15 +16,20 @@ import css from "./decklist-groups.module.css";
 import SlotIcon from "../icons/slot-icon";
 import { ListCard } from "../list-card/list-card";
 
-type Props = {
-  group: Grouping;
+type DecklistGroupProps = {
+  cards: Card[];
   ignoredCounts?: Record<string, number>;
-  quantities?: Record<string, number>;
-  layout: "one_column" | "two_column";
   listCardSize?: "sm";
   mapping: string;
   ownershipCounts: Record<string, number>;
+  quantities?: Record<string, number>;
+  renderListCardAfter?: (card: Card, quantity?: number) => React.ReactNode;
 };
+
+type DecklistGroupsProps = {
+  group: Grouping;
+  layout: "one_column" | "two_column";
+} & Omit<DecklistGroupProps, "cards">;
 
 export function DecklistGroups({
   group,
@@ -34,7 +39,8 @@ export function DecklistGroups({
   mapping,
   ownershipCounts,
   quantities,
-}: Props) {
+  renderListCardAfter,
+}: DecklistGroupsProps) {
   const assetGroup = group["asset"] ? (
     <li className={clsx(css["group"], css["asset"])}>
       <h4 className={css["group-title"]}>Asset</h4>
@@ -55,6 +61,7 @@ export function DecklistGroups({
                   mapping={mapping}
                   ownershipCounts={ownershipCounts}
                   quantities={quantities}
+                  renderListCardAfter={renderListCardAfter}
                 />
               </li>
             );
@@ -79,6 +86,7 @@ export function DecklistGroups({
             mapping={mapping}
             ownershipCounts={ownershipCounts}
             quantities={quantities}
+            renderListCardAfter={renderListCardAfter}
           />
         </li>
       );
@@ -97,15 +105,6 @@ export function DecklistGroups({
   );
 }
 
-type DecklistGroupProps = {
-  cards: Card[];
-  ignoredCounts?: Record<string, number>;
-  listCardSize?: "sm";
-  mapping: string;
-  ownershipCounts: Record<string, number>;
-  quantities?: Record<string, number>;
-};
-
 function DecklistGroup({
   cards,
   ignoredCounts,
@@ -113,6 +112,7 @@ function DecklistGroup({
   mapping,
   ownershipCounts,
   quantities,
+  renderListCardAfter,
 }: DecklistGroupProps) {
   const ctx = useDeckIdChecked();
 
@@ -151,7 +151,8 @@ function DecklistGroup({
           ownedCount={
             canCheckOwnership ? ownershipCounts[card.code] : undefined
           }
-          quantities={quantities}
+          quantity={quantities?.[card.code] ?? 0}
+          renderAfter={renderListCardAfter}
           size={listCardSize}
         />
       ))}

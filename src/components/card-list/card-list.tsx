@@ -216,7 +216,11 @@ export function CardList({
                       ? cardOwnedCount(data.cards[index])
                       : undefined
                   }
-                  quantities={quantities}
+                  quantity={
+                    quantities
+                      ? quantities[data.cards[index].code] ?? 0
+                      : undefined
+                  }
                   renderAction={renderListCardAction}
                   renderExtra={renderListCardExtra}
                 />

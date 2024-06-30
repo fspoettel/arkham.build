@@ -2,8 +2,11 @@ import type { StateCreator } from "zustand";
 
 import { capitalize } from "@/utils/formatting";
 
+import { assert } from "@/utils/assert";
+import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import type { StoreState } from ".";
-import { resolveDeck } from "../lib/resolve-deck";
+import { randomBasicWeaknessForDeck } from "../lib/random-basic-weakness";
+import { selectCurrentCardQuantity } from "../selectors/decks";
 import type { Id } from "./data.types";
 import { type DeckEditsSlice, mapTabToSlot } from "./deck-edits.types";
 
@@ -43,24 +46,14 @@ export const createDeckEditsSlice: StateCreator<
     const card = state.metadata.cards[code];
     const limit = card.deck_limit ?? card.quantity;
 
-    const slotEdits = edits.quantities[slot];
-
-    const deck = resolveDeck(
-      state.metadata,
-      state.lookupTables,
-      state.data.decks[deckId],
-      false,
-    );
-    const slots = deck[slot] ?? {};
-
-    const value = slotEdits?.[code] ?? slots?.[code] ?? 0;
+    const current = selectCurrentCardQuantity(state, deckId, code, slot);
 
     const newValue =
       mode === "increment"
-        ? Math.max(value + quantity, 0)
+        ? Math.max(current + quantity, 0)
         : Math.max(Math.min(quantity, limit), 0);
 
-    if (mode === "increment" && value + quantity > limit) return;
+    if (mode === "increment" && current + quantity > limit) return;
 
     set({
       deckEdits: {
@@ -185,6 +178,52 @@ export const createDeckEditsSlice: StateCreator<
         [deckId]: {
           ...edits,
           tags: value,
+        },
+      },
+    });
+  },
+
+  drawRandomBasicWeakness(deckId) {
+    const state = get();
+
+    assert(
+      state.data.decks[deckId],
+      "Tried to draw a random basic weakness for a deck that does not exist.",
+    );
+
+    const weakness = randomBasicWeaknessForDeck(state, deckId);
+    assert(weakness, "Could not find a random basic weakness to draw.");
+
+    const rbwQuantity = selectCurrentCardQuantity(
+      state,
+      deckId,
+      SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS,
+      "slots",
+    );
+
+    const weaknessQuantity = selectCurrentCardQuantity(
+      state,
+      deckId,
+      weakness,
+      "slots",
+    );
+
+    set({
+      deckEdits: {
+        ...state.deckEdits,
+        [deckId]: {
+          ...currentEdits(state, deckId),
+          quantities: {
+            ...currentEdits(state, deckId).quantities,
+            slots: {
+              ...currentEdits(state, deckId).quantities.slots,
+              [SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS]: Math.max(
+                rbwQuantity - 1,
+                0,
+              ),
+              [weakness]: weaknessQuantity + 1,
+            },
+          },
         },
       },
     });

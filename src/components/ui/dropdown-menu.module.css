@@ -4,7 +4,7 @@
   border-radius: var(--rounded);
   background-color: var(--nord-point-five);
   box-shadow: var(--shadow-md);
-  min-width: 10rem;
+  min-width: 12rem;
   border: 1px solid var(--nord-2);
 }
 

@@ -8,20 +8,23 @@ export const selectIsInitialized = (state: StoreState) => {
   return state.ui.initialized;
 };
 
-export const selectCanCheckOwnership = (state: StoreState) => {
-  return (
-    !state.settings.showAllCards &&
-    Object.values(state.settings.collection).filter((x) => x).length > 0
-  );
-};
+export const selectCanCheckOwnership = (state: StoreState) =>
+  !state.settings.showAllCards;
 
 export const selectCardOwnedCount = createSelector(
   (state) => state.metadata,
   (state) => state.lookupTables,
   (state) => state.settings.collection,
-  (metadata, lookupTables, collectionSetting) => {
+  (state) => state.settings.showAllCards,
+  (metadata, lookupTables, collection, showAllCards) => {
     return (card: Card) => {
-      return ownedCardCount(card, metadata, lookupTables, collectionSetting);
+      return ownedCardCount(
+        card,
+        metadata,
+        lookupTables,
+        collection,
+        showAllCards,
+      );
     };
   },
 );

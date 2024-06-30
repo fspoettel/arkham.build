@@ -181,9 +181,7 @@ export const createSharedSlice: StateCreator<
 
     const extraSlots: Record<string, number> = {};
     const meta: DeckMeta = {};
-    const slots: Record<string, number> = {
-      "01000": 1,
-    };
+    const slots: Record<string, number> = {};
 
     const { investigatorCode, investigatorFrontCode, investigatorBackCode } =
       state.deckCreate;

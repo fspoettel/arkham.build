@@ -66,7 +66,7 @@ export function Collection({ settings }: Props) {
     <>
       <Field
         bordered
-        helpText="When this is checked, the collection settings below will be ignored by default."
+        helpText="When this is checked, the collection settings below are ignored."
       >
         <Checkbox
           checked={showAllCards}
@@ -78,7 +78,7 @@ export function Collection({ settings }: Props) {
         />
       </Field>
       <Field bordered>
-        <details open>
+        <details open={!showAllCards}>
           <summary>Card collection</summary>
           <fieldset
             className={css["container"]}
