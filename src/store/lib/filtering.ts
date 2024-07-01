@@ -1,6 +1,6 @@
 import { cardLevel } from "@/utils/card-utils";
 import type { SkillKey } from "@/utils/constants";
-import { SKILL_KEYS } from "@/utils/constants";
+import { SKILL_KEYS, SPECIAL_CARD_CODES } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
 import type { Filter } from "@/utils/fp";
 import { and, not, notUnless, or } from "@/utils/fp";
@@ -27,7 +27,7 @@ import { isOptionSelect } from "./types";
 
 export function filterDuplicates(card: Card) {
   return (
-    !card.hidden && // filter hidden cards (usually backsides)
+    (!card.hidden || card.code === SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS) && // filter hidden cards (usually backsides)
     !card.alt_art_investigator && // filter novellas && parallel investigators
     !card.duplicate_of_code // filter revised_code.
   );
@@ -275,9 +275,12 @@ export function filterOwnership(
   card: Card,
   metadata: Metadata,
   lookupTables: LookupTables,
-  setting: Record<string, number | boolean>,
+  collection: Record<string, number | boolean>,
+  showAllCards: boolean,
 ) {
-  return ownedCardCount(card, metadata, lookupTables, setting) > 0;
+  return (
+    ownedCardCount(card, metadata, lookupTables, collection, showAllCards) > 0
+  );
 }
 
 /**
@@ -300,7 +303,7 @@ export function filterPackCode(
   }, {});
 
   return (card: Card) =>
-    filterOwnership(card, metadata, lookupTables, filterValue);
+    filterOwnership(card, metadata, lookupTables, filterValue, false);
 }
 
 /**

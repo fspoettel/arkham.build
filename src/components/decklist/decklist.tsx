@@ -34,7 +34,6 @@ export function Decklist({ deck }: Props) {
               group={col.data}
               layout="one_column"
               mapping={col.id}
-              ownershipCounts={deck.ownershipCounts}
               quantities={getSlotsForGrouping(deck, col)}
             />
           </DecklistSection>
@@ -50,7 +49,6 @@ export function Decklist({ deck }: Props) {
             ignoredCounts={deck.ignoreDeckLimitSlots ?? undefined}
             layout="two_column"
             mapping="slots"
-            ownershipCounts={deck.ownershipCounts}
             quantities={deck.slots}
           />
         </DecklistSection>

@@ -5,7 +5,10 @@ import { useStore } from "@/store";
 import type { Grouping } from "@/store/lib/deck-grouping";
 import { sortByName, sortBySlots, sortTypesByOrder } from "@/store/lib/sorting";
 import { selectForbiddenCardsById } from "@/store/selectors/deck-view";
-import { selectCanCheckOwnership } from "@/store/selectors/shared";
+import {
+  selectCanCheckOwnership,
+  selectCardOwnedCount,
+} from "@/store/selectors/shared";
 import type { Card } from "@/store/services/queries.types";
 import type { Slot } from "@/store/slices/deck-edits.types";
 import { capitalize } from "@/utils/formatting";
@@ -16,15 +19,19 @@ import css from "./decklist-groups.module.css";
 import SlotIcon from "../icons/slot-icon";
 import { ListCard } from "../list-card/list-card";
 
-type Props = {
-  group: Grouping;
+type DecklistGroupProps = {
+  cards: Card[];
   ignoredCounts?: Record<string, number>;
-  quantities?: Record<string, number>;
-  layout: "one_column" | "two_column";
   listCardSize?: "sm";
   mapping: string;
-  ownershipCounts: Record<string, number>;
+  quantities?: Record<string, number>;
+  renderListCardAfter?: (card: Card, quantity?: number) => React.ReactNode;
 };
+
+type DecklistGroupsProps = {
+  group: Grouping;
+  layout: "one_column" | "two_column";
+} & Omit<DecklistGroupProps, "cards">;
 
 export function DecklistGroups({
   group,
@@ -32,9 +39,9 @@ export function DecklistGroups({
   layout,
   listCardSize,
   mapping,
-  ownershipCounts,
   quantities,
-}: Props) {
+  renderListCardAfter,
+}: DecklistGroupsProps) {
   const assetGroup = group["asset"] ? (
     <li className={clsx(css["group"], css["asset"])}>
       <h4 className={css["group-title"]}>Asset</h4>
@@ -53,8 +60,8 @@ export function DecklistGroups({
                   ignoredCounts={ignoredCounts}
                   listCardSize={listCardSize}
                   mapping={mapping}
-                  ownershipCounts={ownershipCounts}
                   quantities={quantities}
+                  renderListCardAfter={renderListCardAfter}
                 />
               </li>
             );
@@ -77,8 +84,8 @@ export function DecklistGroups({
             cards={entry}
             ignoredCounts={ignoredCounts}
             mapping={mapping}
-            ownershipCounts={ownershipCounts}
             quantities={quantities}
+            renderListCardAfter={renderListCardAfter}
           />
         </li>
       );
@@ -97,22 +104,13 @@ export function DecklistGroups({
   );
 }
 
-type DecklistGroupProps = {
-  cards: Card[];
-  ignoredCounts?: Record<string, number>;
-  listCardSize?: "sm";
-  mapping: string;
-  ownershipCounts: Record<string, number>;
-  quantities?: Record<string, number>;
-};
-
 function DecklistGroup({
   cards,
   ignoredCounts,
   listCardSize,
   mapping,
-  ownershipCounts,
   quantities,
+  renderListCardAfter,
 }: DecklistGroupProps) {
   const ctx = useDeckIdChecked();
 
@@ -120,6 +118,7 @@ function DecklistGroup({
     selectForbiddenCardsById(state, ctx.deckId, ctx.canEdit),
   );
 
+  const cardOwnedCount = useStore(selectCardOwnedCount);
   const canEdit = ctx.canEdit && mapping !== "bonded";
   const canCheckOwnership = useStore(selectCanCheckOwnership);
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
@@ -148,10 +147,9 @@ function DecklistGroup({
           key={card.code}
           omitBorders
           onChangeCardQuantity={onChangeCardQuantity}
-          ownedCount={
-            canCheckOwnership ? ownershipCounts[card.code] : undefined
-          }
-          quantities={quantities}
+          ownedCount={canCheckOwnership ? cardOwnedCount(card) : undefined}
+          quantity={quantities?.[card.code] ?? 0}
+          renderAfter={renderListCardAfter}
           size={listCardSize}
         />
       ))}

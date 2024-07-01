@@ -53,11 +53,7 @@ export function CardSet({ onChangeCardQuantity, onSelect, set }: Props) {
               set.canSetQuantity ? onChangeCardQuantity : undefined
             }
             ownedCount={canCheckOwnership ? cardOwnedCount(card) : undefined}
-            quantities={
-              set.quantities
-                ? { [card.code]: set.quantities[card.code] }
-                : undefined
-            }
+            quantity={set.quantities?.[card.code] ?? 0}
           />
         ))}
       </ul>

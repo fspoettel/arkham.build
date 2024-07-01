@@ -53,6 +53,8 @@ test("select investigator", async ({ page }) => {
     "Jenny Barnes",
   );
 
+  await expect(page.getByTestId("editor-tabs-slots")).toBeVisible();
+
   for (const code of JENNY_SIGNATURES) {
     await expect(locateCardInSlots(page, code)).toBeVisible();
   }
@@ -69,6 +71,8 @@ test("select alternate signatures", async ({ page }) => {
   await page.getByLabel("Signatures").click();
 
   await page.getByTestId("create-save").click();
+
+  await expect(page.getByTestId("editor-tabs-slots")).toBeVisible();
 
   for (const code of JENNY_SIGNATURES) {
     await expect(locateCardInSlots(page, code)).not.toBeVisible();
@@ -107,6 +111,8 @@ test("select deck size (mandy)", async ({ page }) => {
 
   await page.getByTestId("create-save").click();
 
+  await expect(page.getByTestId("editor-tabs-slots")).toBeVisible();
+
   await expect(
     locateCardInSlots(page, "06008").getByTestId("quantity-value"),
   ).toContainText("2");
@@ -122,6 +128,8 @@ test("select deck size (mandy taboo)", async ({ page }) => {
   await expect(locateSignatureQuantity(page, "06008")).toContainText("3");
 
   await page.getByTestId("create-save").click();
+
+  await expect(page.getByTestId("editor-tabs-slots")).toBeVisible();
 
   await expect(
     locateCardInSlots(page, "06008").getByTestId("quantity-value"),
@@ -154,6 +162,8 @@ test("select parallel investigator", async ({ page }) => {
 
   await page.getByTestId("create-save").click();
 
+  await expect(page.getByTestId("editor-tabs-slots")).toBeVisible();
+
   await expect(page.getByTestId("listcard-90025")).toBeVisible();
   await expect(page.getByTestId("listcard-90026")).toBeVisible();
   await expect(page.getByTestId("listcard-90027")).toBeVisible();
@@ -171,4 +181,59 @@ test("select parallel investigator", async ({ page }) => {
   await expect(locateScan(cardModal, "10001b")).not.toBeVisible();
   await expect(locateScan(cardModal, "90024")).toBeVisible();
   await expect(locateScan(cardModal, "90024b")).toBeVisible();
+});
+
+async function sumCardCounts(page: Page) {
+  const elements = await page
+    .getByTestId("editor-tabs-slots")
+    .getByTestId("quantity-value")
+    .all();
+
+  let sum = 0;
+
+  for (const el of elements) {
+    const text = await el.innerText();
+    sum += parseInt(text, 10);
+  }
+
+  return sum;
+}
+
+test("draw random basic weakness", async ({ page }) => {
+  await page.goto("/");
+
+  await page.getByTestId("collection-create-deck").click();
+  await page.getByTestId("search-input").click();
+  await page.getByTestId("search-input").fill("subje");
+
+  await page
+    .getByTestId("listcard-89001")
+    .getByTestId("create-choose-investigator")
+    .click();
+
+  await page.getByTestId("create-save").click();
+
+  await expect(page.getByTestId("editor-tabs-slots")).toBeVisible();
+
+  await expect(
+    page.getByTestId("listcard-01000").getByTestId("quantity-value"),
+  ).toContainText("2");
+
+  expect(await sumCardCounts(page)).toEqual(9);
+
+  await page.getByTestId("draw-basic-weakness").click();
+
+  await expect(
+    page.getByTestId("listcard-01000").getByTestId("quantity-value"),
+  ).toContainText("1");
+
+  expect(await sumCardCounts(page)).toEqual(9);
+
+  await page.getByTestId("draw-basic-weakness").click();
+
+  await expect(
+    page.getByTestId("listcard-01000").getByTestId("quantity-value"),
+  ).toContainText("0");
+
+  expect(await sumCardCounts(page)).toEqual(9);
 });

@@ -8,6 +8,7 @@ import { getCardColor, hasSkillIcons } from "@/utils/card-utils";
 
 import css from "./list-card.module.css";
 
+import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { CardHealth } from "../card-health";
 import { CardIcon } from "../card-icon";
 import { useCardModalContext } from "../card-modal/card-modal-context";
@@ -21,28 +22,29 @@ import { QuantityOutput } from "../ui/quantity-output";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export type Props = {
-  isActive?: boolean;
   as?: "li" | "div";
   card: Card;
   className?: string;
   disableKeyboard?: boolean;
   disableModalOpen?: boolean;
   figureRef?: (node: ReferenceType | null) => void;
+  isActive?: boolean;
   isForbidden?: boolean;
   isIgnored?: number;
   isRemoved?: boolean;
   omitBorders?: boolean;
   omitThumbnail?: boolean;
+
   onChangeCardQuantity?: (code: string, quantity: number) => void;
   ownedCount?: number;
-  quantities?: {
-    [code: string]: number;
-  };
+  quantity?: number;
   referenceProps?: React.ComponentProps<"div">;
-  renderAction?: (card: Card) => React.ReactNode;
-  renderExtra?: (card: Card) => React.ReactNode;
   size?: "sm" | "investigator";
   showInvestigatorIcons?: boolean;
+
+  renderAction?: (card: Card) => React.ReactNode;
+  renderExtra?: (card: Card) => React.ReactNode;
+  renderAfter?: (card: Card, quantity?: number) => React.ReactNode;
 };
 
 export function ListCardInner({
@@ -60,15 +62,15 @@ export function ListCardInner({
   omitThumbnail,
   onChangeCardQuantity,
   ownedCount,
-  quantities,
+  quantity,
   referenceProps,
   renderAction,
   renderExtra,
+  renderAfter,
   showInvestigatorIcons,
   size,
 }: Props) {
   const modalContext = useCardModalContext();
-  const quantity = quantities ? quantities[card.code] ?? 0 : 0;
 
   const ignoredCount = isIgnored ?? 0;
 
@@ -99,133 +101,141 @@ export function ListCardInner({
       )}
       data-testid={`listcard-${card.code}`}
     >
-      {!!renderAction && renderAction(card)}
+      <div className={css["listcard-main"]}>
+        {!!renderAction && renderAction(card)}
 
-      {!!quantities && (
-        <>
-          {onChangeCardQuantity ? (
-            <QuantityInput
-              limit={card.deck_limit || card.quantity}
-              onValueChange={onQuantityChange}
-              tabIndex={disableKeyboard ? -1 : undefined}
-              value={quantity ?? 0}
-            />
-          ) : (
-            <QuantityOutput data-testid="listcard-quantity" value={quantity} />
+        {quantity != null && (
+          <>
+            {onChangeCardQuantity ? (
+              <QuantityInput
+                limit={card.deck_limit || card.quantity}
+                onValueChange={onQuantityChange}
+                tabIndex={disableKeyboard ? -1 : undefined}
+                value={quantity}
+              />
+            ) : (
+              <QuantityOutput
+                data-testid="listcard-quantity"
+                value={quantity}
+              />
+            )}
+          </>
+        )}
+
+        <figure className={css["content"]} ref={figureRef}>
+          {!omitThumbnail && card.imageurl && (
+            <button
+              onClick={disableModalOpen ? undefined : openModal}
+              tabIndex={-1}
+              type="button"
+            >
+              <div className={css["thumbnail"]} {...referenceProps}>
+                <CardThumbnail card={card} />
+              </div>
+            </button>
           )}
-        </>
-      )}
 
-      <figure className={css["content"]} ref={figureRef}>
-        {!omitThumbnail && card.imageurl && (
-          <button
-            onClick={disableModalOpen ? undefined : openModal}
-            tabIndex={-1}
-            type="button"
-          >
-            <div className={css["thumbnail"]} {...referenceProps}>
-              <CardThumbnail card={card} />
+          {card.faction_code !== "mythos" && (
+            <div className={clsx(css["icon"], colorCls)}>
+              <CardIcon card={card} />
             </div>
-          </button>
-        )}
+          )}
 
-        {card.faction_code !== "mythos" && (
-          <div className={clsx(css["icon"], colorCls)}>
-            <CardIcon card={card} />
-          </div>
-        )}
+          <figcaption className={css["caption"]}>
+            <div className={clsx(css["name-container"], colorCls)}>
+              <h4 className={css["name"]} {...referenceProps}>
+                <button
+                  onClick={disableModalOpen ? undefined : openModal}
+                  tabIndex={-1}
+                  type="button"
+                  data-testid="cardlist-item-title"
+                >
+                  {card.real_name}
+                </button>
+              </h4>
 
-        <figcaption className={css["caption"]}>
-          <div className={clsx(css["name-container"], colorCls)}>
-            <h4 className={css["name"]} {...referenceProps}>
-              <button
-                onClick={disableModalOpen ? undefined : openModal}
-                tabIndex={-1}
-                type="button"
-                data-testid="cardlist-item-title"
-              >
-                {card.real_name}
-              </button>
-            </h4>
-
-            {ownedCount != null &&
-              card.code !== "01000" &&
-              (!ownedCount || ownedCount < quantity) && (
+              {ownedCount != null &&
+                card.code !== SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS &&
+                (!ownedCount ||
+                  (quantity != null && ownedCount < quantity)) && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span className={css["ownership"]}>
+                        <FileWarning />
+                      </span>
+                    </TooltipTrigger>
+                    {!!quantity && (
+                      <TooltipContent>
+                        <p>
+                          Unavailable: {quantity - ownedCount} of {quantity}
+                        </p>
+                      </TooltipContent>
+                    )}
+                  </Tooltip>
+                )}
+              {ignoredCount > 0 && (
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className={css["ownership"]}>
-                      <FileWarning />
+                    <span className={css["ignored"]}>
+                      <Star />
                     </span>
                   </TooltipTrigger>
-                  {!!quantity && (
-                    <TooltipContent>
-                      <p>
-                        Unavailable: {quantity - ownedCount} of {quantity}
-                      </p>
-                    </TooltipContent>
-                  )}
+                  <TooltipContent>
+                    <p>
+                      {ignoredCount}{" "}
+                      {ignoredCount === 1 ? "copy does" : "copies do"} not count
+                      towards the deck limit.
+                    </p>
+                  </TooltipContent>
                 </Tooltip>
               )}
-            {ignoredCount > 0 && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span className={css["ignored"]}>
-                    <Star />
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>
-                    {ignoredCount}{" "}
-                    {ignoredCount === 1 ? "copy does" : "copies do"} not count
-                    towards the deck limit.
-                  </p>
-                </TooltipContent>
-              </Tooltip>
-            )}
-          </div>
+            </div>
 
-          <div className={css["meta"]}>
-            {card.type_code !== "investigator" && !card.subtype_code && (
-              <MulticlassIcons card={card} className={css["multiclass"]} />
-            )}
+            <div className={css["meta"]}>
+              {card.type_code !== "investigator" && !card.subtype_code && (
+                <MulticlassIcons card={card} className={css["multiclass"]} />
+              )}
 
-            {!showInvestigatorIcons && card.parallel && (
-              <i className="icon-parallel" />
-            )}
+              {!showInvestigatorIcons && card.parallel && (
+                <i className="icon-parallel" />
+              )}
 
-            {hasSkillIcons(card) && <SkillIcons card={card} />}
+              {hasSkillIcons(card) && <SkillIcons card={card} />}
 
-            {!!card.taboo_set_id && (
-              <span className={clsx(css["taboo"], "color-taboo")}>
-                {card.taboo_xp && <ExperienceDots xp={card.taboo_xp} />}
-                <i className="icon-tablet icon-layout color-taboo" />
-              </span>
-            )}
-            {!showInvestigatorIcons && card.real_subname && (
-              <h5 className={css["subname"]}>{card.real_subname}</h5>
-            )}
+              {!!card.taboo_set_id && (
+                <span className={clsx(css["taboo"], "color-taboo")}>
+                  {card.taboo_xp && <ExperienceDots xp={card.taboo_xp} />}
+                  <i className="icon-tablet icon-layout color-taboo" />
+                </span>
+              )}
+              {!showInvestigatorIcons && card.real_subname && (
+                <h5 className={css["subname"]}>{card.real_subname}</h5>
+              )}
 
-            {showInvestigatorIcons && card.type_code === "investigator" && (
-              <>
-                <CardHealth
-                  className={css["investigator-health"]}
-                  health={card.health}
-                  sanity={card.sanity}
-                />
-                <SkillIconsInvestigator
-                  card={card}
-                  className={css["investigator-skills"]}
-                  iconClassName={css["investigator-skill"]}
-                />
-              </>
-            )}
-          </div>
+              {showInvestigatorIcons && card.type_code === "investigator" && (
+                <>
+                  <CardHealth
+                    className={css["investigator-health"]}
+                    health={card.health}
+                    sanity={card.sanity}
+                  />
+                  <SkillIconsInvestigator
+                    card={card}
+                    className={css["investigator-skills"]}
+                    iconClassName={css["investigator-skill"]}
+                  />
+                </>
+              )}
+            </div>
 
-          {renderExtra && (
-            <div className={css["meta"]}>{renderExtra(card)}</div>
-          )}
-        </figcaption>
-      </figure>
+            {renderExtra && (
+              <div className={css["meta"]}>{renderExtra(card)}</div>
+            )}
+          </figcaption>
+        </figure>
+      </div>
+
+      {!!renderAfter && renderAfter(card, quantity)}
     </Element>
   );
 }

@@ -9,6 +9,8 @@ export const REGEX_BONDED = /^Bonded\s\((.*?)\)(\.|\s)/;
 export const REGEX_SUCCEED_BY =
   /succe(ssful|ed(?:s?|ed?))(:? at a skill test)? by(?! 0)/;
 
+export const REGEX_WEAKNESS_FACTION_LOCKED = /^\[(.*?)\] investigator only\./;
+
 const ACTION_TEXT: { [key: string]: string } = {
   fight: "Fight.",
   engage: "Engage.",
@@ -121,6 +123,7 @@ export const SPECIAL_CARD_CODES = {
   PARALLEL_SKIDS: "90008",
   PARALLEL_ROLAND: "90024",
   PARALLEL_WENDY: "90037",
+  RANDOM_BASIC_WEAKNESS: "01000",
   UNDERWORLD_MARKET: "09077",
   UNDERWORLD_SUPPORT: "08046",
   VENGEFUL_SHADE: "90053",

@@ -7,6 +7,14 @@ import type { SettingsSlice, SettingsState } from "./settings.types";
 export function getInitialSettings(): SettingsState {
   return {
     collection: {},
+    showAllCards: true,
+    tabooSetId: undefined,
+  };
+}
+
+export function getEmptySettings(): SettingsState {
+  return {
+    collection: {},
     showAllCards: false,
     tabooSetId: undefined,
   };
@@ -25,8 +33,7 @@ export const createSettingsSlice: StateCreator<
 
     const settings = parseForm(form);
 
-    const nextSize = Object.values(settings.collection).some((x) => x);
-    const ownership = nextSize && !settings.showAllCards ? "owned" : "all";
+    const ownership = !settings.showAllCards ? "owned" : "all";
 
     const lists = Object.entries({ ...state.lists }).reduce<
       Record<string, List>
@@ -60,7 +67,7 @@ function parseForm(form: FormData) {
     }
 
     return acc;
-  }, getInitialSettings());
+  }, getEmptySettings());
 }
 
 function safeInt(val: string) {

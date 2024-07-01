@@ -1,4 +1,5 @@
 import type { TabooSet } from "@/store/services/queries.types";
+import { createSelector } from "reselect";
 
 export function capitalize(s: string | number) {
   const str = s.toString();
@@ -6,16 +7,20 @@ export function capitalize(s: string | number) {
   return `${str[0].toUpperCase()}${str.slice(1)}`;
 }
 
-export function formatTabooSet(tabooSet: TabooSet) {
-  const formattedDate = new Date(tabooSet.date).toLocaleDateString(
-    navigator.language,
-    {
-      dateStyle: "medium",
-    },
-  );
+// `toLocaleDateString()` is slow, memoize it.
+export const formatTabooSet = createSelector(
+  (tabooSet: TabooSet) => tabooSet,
+  (tabooSet) => {
+    const formattedDate = new Date(tabooSet.date).toLocaleDateString(
+      navigator.language,
+      {
+        dateStyle: "medium",
+      },
+    );
 
-  return `${capitalize(tabooSet.name)} (${formattedDate})`;
-}
+    return `${capitalize(tabooSet.name)} (${formattedDate})`;
+  },
+);
 
 export function formatSelectionId(id: string) {
   return id.split("_").map(capitalize).join(" ");

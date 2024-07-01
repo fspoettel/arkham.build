@@ -75,12 +75,13 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
         resolveCardWithRelations(
           state.metadata,
           state.lookupTables,
-          "01000",
+          SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS,
           undefined,
         ) as ResolvedCard,
       ],
       quantities: {
-        "01000": back.card.deck_requirements?.random.length ?? 1,
+        [SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS]:
+          back.card.deck_requirements?.random.length ?? 1,
       },
     },
   ];

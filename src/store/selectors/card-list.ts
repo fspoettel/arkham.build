@@ -152,6 +152,7 @@ function makeUserFilter(
               metadata,
               lookupTables,
               settings.collection,
+              settings.showAllCards,
             );
 
             return value === "owned" ? ownership : !ownership;
