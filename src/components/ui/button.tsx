@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { forwardRef } from "react";
 
 import css from "./button.module.css";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
 
 type Props<T extends "a" | "button" | "summary" | "label"> =
   React.ComponentProps<T> & {
@@ -11,18 +12,27 @@ type Props<T extends "a" | "button" | "summary" | "label"> =
     iconOnly?: boolean;
     variant?: "primary" | "secondary" | "bare";
     size?: "xs" | "sm" | "lg" | "full" | "none";
+    tooltip?: string;
   };
 
 export const Button = forwardRef(function Button<
   T extends "a" | "button" | "summary" | "label",
 >(
-  { as, children, iconOnly, variant = "secondary", size, ...rest }: Props<T>,
+  {
+    as,
+    children,
+    iconOnly,
+    variant = "secondary",
+    size,
+    tooltip,
+    ...rest
+  }: Props<T>,
   ref: React.ForwardedRef<T>,
 ) {
   // biome-ignore lint/suspicious/noExplicitAny: safe.
   const Element: any = as ?? "button";
 
-  return (
+  const button = (
     <Element
       {...rest}
       className={clsx(
@@ -36,5 +46,16 @@ export const Button = forwardRef(function Button<
     >
       {children}
     </Element>
+  );
+
+  if (!tooltip) return button;
+
+  return (
+    <Tooltip delay={300}>
+      <TooltipTrigger asChild>{button}</TooltipTrigger>
+      <TooltipContent>
+        <span>{tooltip}</span>
+      </TooltipContent>
+    </Tooltip>
   );
 });

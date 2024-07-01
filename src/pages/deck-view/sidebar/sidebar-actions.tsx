@@ -100,7 +100,11 @@ export function SidebarActions({ deck }: Props) {
           onOpenChange={setActionsOpen}
         >
           <PopoverTrigger asChild>
-            <Button variant="bare" data-testid="view-more-actions">
+            <Button
+              variant="bare"
+              data-testid="view-more-actions"
+              tooltip="More actions"
+            >
               <Ellipsis />
             </Button>
           </PopoverTrigger>

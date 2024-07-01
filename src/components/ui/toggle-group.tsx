@@ -7,6 +7,7 @@ import { Item, Root } from "@radix-ui/react-toggle-group";
 import clsx from "clsx";
 
 import css from "./toggle-group.module.css";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
 
 type ToggleGroupProps = (ToggleGroupSingleProps | ToggleGroupMultipleProps) & {
   full?: boolean;
@@ -34,13 +35,28 @@ export function ToggleGroup({
 
 type GroupItemProps = Omit<ToggleGroupItemProps, "size"> & {
   size?: "small" | "default" | "small-type";
+  tooltip?: string;
 };
 
-export function ToggleGroupItem({ className, size, ...rest }: GroupItemProps) {
-  return (
+export function ToggleGroupItem({
+  className,
+  size,
+  tooltip,
+  ...rest
+}: GroupItemProps) {
+  const element = (
     <Item
       {...rest}
       className={clsx(css["item"], size && css[size], className)}
     />
+  );
+
+  if (!tooltip) return element;
+
+  return (
+    <Tooltip delay={300}>
+      <TooltipTrigger asChild>{element}</TooltipTrigger>
+      <TooltipContent>{tooltip}</TooltipContent>
+    </Tooltip>
   );
 }

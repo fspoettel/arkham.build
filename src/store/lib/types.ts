@@ -138,4 +138,5 @@ export type CardSet = {
   quantities?: Record<string, number>;
   selected: boolean;
   title: string;
+  help?: string;
 };

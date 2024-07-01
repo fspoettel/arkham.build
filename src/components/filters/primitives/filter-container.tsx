@@ -42,7 +42,12 @@ export function FilterContainer({
       {...rest}
       actions={
         filterString && onReset ? (
-          <Button onClick={onFilterReset} size="sm" variant="bare">
+          <Button
+            onClick={onFilterReset}
+            iconOnly
+            tooltip="Reset filter"
+            variant="bare"
+          >
             <Undo2 />
           </Button>
         ) : undefined

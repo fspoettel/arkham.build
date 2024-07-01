@@ -107,6 +107,7 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
             ownership: getInitialOwnershipFilter(state),
             ...getInitialFilterValuesForListKey(list.key),
           },
+          list.search,
         ),
       },
     });
@@ -515,6 +516,7 @@ function makeList(
   sorting: List["sorting"],
   systemFilter?: Filter,
   initialValues?: Partial<Record<FilterKey, unknown>>,
+  initialSearch?: Search,
 ): List {
   return {
     cardType,
@@ -528,7 +530,7 @@ function makeList(
     key,
     systemFilter,
     sorting,
-    search: makeSearch(),
+    search: initialSearch ?? makeSearch(),
   };
 }
 
