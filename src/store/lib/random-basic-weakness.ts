@@ -50,6 +50,8 @@ export function randomBasicWeaknessForDeck(state: StoreState, deckId: Id) {
     return acc;
   }, []);
 
+  if (!basicWeaknesses.length) return undefined;
+
   const randomIndex = randomInt(0, basicWeaknesses.length - 1);
   return basicWeaknesses[randomIndex];
 }
