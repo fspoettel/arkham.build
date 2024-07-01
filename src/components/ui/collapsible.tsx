@@ -50,7 +50,17 @@ export function Collapsible({
           )}
           <div className={css["actions"]}>
             {actions}
-            <Button variant="bare">
+            <Button
+              iconOnly
+              variant="bare"
+              tooltip={
+                open == null
+                  ? "Toggle section"
+                  : open
+                    ? "Collapse section"
+                    : "Expand section"
+              }
+            >
               {open ? <XIcon /> : <UnfoldVertical />}
             </Button>
           </div>

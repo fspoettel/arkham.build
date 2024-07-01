@@ -57,7 +57,10 @@ export function DeckCollectionImport() {
   return (
     <Popover onOpenChange={setOpen} open={open} placement="bottom-start">
       <PopoverTrigger asChild>
-        <Button data-testid="import-trigger">
+        <Button
+          data-testid="import-trigger"
+          tooltip="Import deck from ArkhamDB"
+        >
           <CloudUpload />
         </Button>
       </PopoverTrigger>

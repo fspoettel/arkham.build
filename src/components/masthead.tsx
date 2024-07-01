@@ -31,6 +31,7 @@ export function Masthead({ children, className, slotRight }: Props) {
               className={css["settings"]}
               data-testid="masthead-settings"
               variant="bare"
+              tooltip="Go to settings"
             >
               <Settings />
             </Button>

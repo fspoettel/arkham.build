@@ -26,6 +26,7 @@ import {
 } from "react";
 
 export interface TooltipOptions {
+  delay?: number;
   initialOpen?: boolean;
   placement?: Placement;
   open?: boolean;
@@ -33,6 +34,7 @@ export interface TooltipOptions {
 }
 
 export function useTooltip({
+  delay,
   initialOpen = false,
   placement = "top",
   open: controlledOpen,
@@ -62,12 +64,18 @@ export function useTooltip({
   const context = data.context;
 
   const hover = useHover(context, {
+    delay: {
+      open: delay,
+      close: 0,
+    },
     move: false,
     enabled: controlledOpen == null,
   });
+
   const focus = useFocus(context, {
     enabled: controlledOpen == null,
   });
+
   const dismiss = useDismiss(context);
   const role = useRole(context, { role: "tooltip" });
 

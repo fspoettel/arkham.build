@@ -40,7 +40,7 @@ export const TooltipTrigger = React.forwardRef<
         ref,
         ...props,
         ...(children as React.ReactElement).props,
-        "data-state": context.open ? "open" : "closed",
+        "data-tooltip-state": context.open ? "open" : "closed",
       } as React.HTMLProps<Element>),
     );
   }

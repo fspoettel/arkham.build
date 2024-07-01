@@ -12,6 +12,7 @@ import css from "./filters.module.css";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Scroller } from "../ui/scroller";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { ActionFilter } from "./action-filter";
 import { AssetFilter } from "./asset-filter";
 import { CostFilter } from "./cost-filter";
@@ -48,26 +49,30 @@ export function Filters({ className, children }: Props) {
         className,
         !filtersEnabled && css["disabled"],
       )}
-      title="Filters"
     >
       {children && <div className={css["children"]}>{children}</div>}
       <div className={css["header"]}>
-        <Checkbox
-          checked={filtersEnabled}
-          id="toggle-filters"
-          label={
-            <h3 className={css["title"]} title="Disable filters">
-              Filters
-            </h3>
-          }
-          onCheckedChange={updateFiltersEnabled}
-          title="Disable filters"
-        />
+        <Tooltip delay={300} placement="top-start">
+          <TooltipTrigger asChild>
+            <div>
+              <Checkbox
+                checked={filtersEnabled}
+                id="toggle-filters"
+                label={<h3 className={css["title"]}>Filters</h3>}
+                onCheckedChange={updateFiltersEnabled}
+              />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent>
+            {filtersEnabled ? "Disable filters" : "Enable filters"}
+          </TooltipContent>
+        </Tooltip>
         <div>
           <Button
             disabled={!filtersEnabled}
             onClick={resetFilters}
             size="sm"
+            tooltip="Reset all filters"
             variant="bare"
           >
             <i className="icon-filter-clear" /> Reset

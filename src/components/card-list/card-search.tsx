@@ -82,11 +82,7 @@ export function CardSearch({ onKeyboardNavigate, slotLeft, slotRight }: Props) {
   );
 
   return (
-    <search
-      className={css["container"]}
-      data-testid="search"
-      title="Card search"
-    >
+    <search className={css["container"]} data-testid="search">
       <div className={css["row"]}>
         {slotLeft}
         <div className={css["field"]}>

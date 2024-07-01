@@ -9,8 +9,10 @@ import {
 
 import css from "./cardset.module.css";
 
+import { CircleHelp } from "lucide-react";
 import { ListCard } from "./list-card/list-card";
 import { Checkbox } from "./ui/checkbox";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 type Props = {
   onChangeCardQuantity?: (code: string, quantity: number) => void;
@@ -40,6 +42,19 @@ export function CardSet({ onChangeCardQuantity, onSelect, set }: Props) {
           />
         ) : (
           <h2 className={css["cardset-title"]}>{set.title}</h2>
+        )}
+        {set.help && (
+          <Tooltip>
+            <TooltipTrigger>
+              <CircleHelp />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p
+                // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is produced by us.
+                dangerouslySetInnerHTML={{ __html: set.help }}
+              />
+            </TooltipContent>
+          </Tooltip>
         )}
       </header>
       <ul className={css["cardset-cards"]}>
