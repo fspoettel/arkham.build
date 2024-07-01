@@ -157,7 +157,7 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
   if (relations?.requiredCards) {
     groupings.unshift({
       id: "requiredCards",
-      canSelect: groupings.length > 1,
+      canSelect: groupings.length > 0,
       cards: relations.requiredCards,
       title: formatRelationTitle("requiredCards"),
       selected: deckCreate.sets.includes("requiredCards"),
