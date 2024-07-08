@@ -90,7 +90,7 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
         },
         {} as Record<string, number>,
       ),
-      help: `Signature cards with "Advanced" are stronger versions of an investigator's signature cards that are listed under "Deck Requirements".<br>At any point during a campaign (even at deck creation) you may optionally choose to include these instead of the original signature cards.`,
+      help: `Signature cards with "Advanced" are stronger versions of an investigator's signature cards that are listed under "Deck Requirements".<br>At any point during a campaign (including at deck creation) you may optionally choose to include these advanced signature cards <strong>instead of</strong> the original signature cards.`,
     });
   }
 
