@@ -90,7 +90,7 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
         },
         {} as Record<string, number>,
       ),
-      help: `Signature cards with "Advanced" can replace the signature cards for that given investigator that are listed under "Deckbuilding Requirements". Doing so still satisfies the requirement and the deck is valid to play.<br>If doing so, <strong>both</strong> signature cards must be replaced and if doing so for a campaign, you cannot later change to using the original signature cards.`,
+      help: `Signature cards with "Advanced" are stronger versions of an investigator's signature cards that are listed under "Deck Requirements".<br>At any point during a campaign (even at deck creation) you may optionally choose to include these instead of the original signature cards.`,
     });
   }
 
@@ -108,7 +108,7 @@ export const selectDeckCreateCardSets = (state: StoreState) => {
         },
         {} as Record<string, number>,
       ),
-      help: `Signature cards with "Replacement" can replace the signature cards for that given investigator that are listed under "Deckbuilding Requirements". Doing so still satisfies the requirement and the deck is valid to play.<br>If doing so, <strong>both</strong> signature cards must be replaced and if doing so for a campaign, you cannot later change to using the original signature cards.<br>Alternatively, the "Replacement" cards can be included in addition to the signature cards.`,
+      help: `Signature cards with "Replacement" can replace the signature cards that are listed under "Deckbuilding Requirements". Doing so still satisfies the requirement and the deck is valid to play.<br>If doing so, <strong>both</strong> signature cards must be replaced and if doing so for a campaign, you cannot later change to using the original signature cards.<br>Alternatively, the "Replacement" cards can be included in addition to the signature cards.`,
     });
   }
 
