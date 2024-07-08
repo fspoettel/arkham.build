@@ -68,6 +68,7 @@ function DeckCreateChooseInvestigator() {
                   data-testid="create-choose-investigator"
                   size="lg"
                   variant="bare"
+                  tooltip={`Create ${card.real_name} deck`}
                 >
                   <CirclePlusIcon />
                 </Button>

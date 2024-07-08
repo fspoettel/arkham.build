@@ -58,9 +58,11 @@
 }
 
 .container.full .card.back:not(.back-has-header) {
-  padding: var(--card-spacing) 0;
-  grid-template-rows: 1fr;
-  grid-template-areas: "content image";
+  @container (min-width: 33.5rem) {
+    padding: var(--card-spacing) 0;
+    grid-template-rows: 1fr;
+    grid-template-areas: "content image";
+  }
 }
 
 .container.compact .card {
