@@ -50,7 +50,6 @@ function getInitialLookupTables(): LookupTables {
       succeedBy: {},
     },
     skillBoosts: {},
-    slots: {},
     sanity: {},
     traits: {},
     uses: {},
@@ -140,7 +139,6 @@ function addCardToLookupTables(tables: LookupTables, card: Card) {
     indexBySucceedsBy(tables, card);
 
     if (card.type_code === "asset") {
-      indexBySlots(tables, card);
       indexBySkillBoosts(tables, card);
       indexByUses(tables, card);
     }
@@ -243,25 +241,6 @@ function indexBySeal(tables: LookupTables, card: Card) {
     card.real_text?.includes("Seal (")
   ) {
     setInLookupTable(card.code, tables.properties, "seal");
-  }
-}
-
-function indexBySlots(tables: LookupTables, card: Card) {
-  if (card.real_slot) {
-    const allSlots = splitMultiValue(card.real_slot);
-
-    if (allSlots.length > 1) {
-      setInLookupTable(card.code, tables.slots, card.real_slot);
-      setInLookupTable(card.code, tables.properties, "multislot");
-    }
-
-    for (const slot of allSlots) {
-      setInLookupTable(card.code, tables.slots, slot);
-    }
-  } else if (card.permanent) {
-    setInLookupTable(card.code, tables.slots, "Permanent");
-  } else {
-    setInLookupTable(card.code, tables.slots, "Other");
   }
 }
 

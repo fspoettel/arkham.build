@@ -48,8 +48,6 @@ export type LookupTables = {
     succeedBy: Mapping<1>;
   };
   skillBoosts: LookupTable<string>;
-  // cards that occupy multiple slots are added to both slot entries and a separate grouped entry. They are also added to the `properties.multislot` index.
-  slots: LookupTable<string>;
   traits: LookupTable<string>;
   uses: LookupTable<string>;
   level: LookupTable<number>;

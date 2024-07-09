@@ -272,11 +272,24 @@ const selectDeckInvestigatorFilter = createSelector(
   },
 );
 
+const selectResolvedDeckCustomizations = createSelector(
+  selectResolvedDeckById,
+  (resolvedDeck) => resolvedDeck?.customizations,
+);
+
 export const selectBaseListCards = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => selectActiveList(state)?.systemFilter,
   selectDeckInvestigatorFilter,
-  (metadata, systemFilter, deckInvestigatorFilter) => {
+  selectCanonicalTabooSetId,
+  selectResolvedDeckCustomizations,
+  (
+    metadata,
+    systemFilter,
+    deckInvestigatorFilter,
+    tabooSetId,
+    customizations,
+  ) => {
     if (isEmpty(metadata.cards)) {
       console.warn("player cards selected before store is initialized.");
       return undefined;
@@ -284,10 +297,17 @@ export const selectBaseListCards = createSelector(
 
     time("select_base_list_cards");
 
-    // apply static system filter first to cut down on no. of cards that need to be processed.
-    let filteredCards = systemFilter
-      ? Object.values(metadata.cards).filter(systemFilter)
-      : Object.values(metadata.cards);
+    let filteredCards = Object.values(metadata.cards);
+
+    // filters can be impacted by card changes, apply them now.
+    if (tabooSetId || customizations) {
+      filteredCards = filteredCards.map((c) =>
+        applyCardChanges(c, metadata, tabooSetId, customizations),
+      );
+    }
+
+    // apply system filter early to cut down on # of cards that need to be processed.
+    if (systemFilter) filteredCards = filteredCards.filter(systemFilter);
 
     if (deckInvestigatorFilter) {
       filteredCards = filteredCards.filter(deckInvestigatorFilter);
@@ -298,39 +318,17 @@ export const selectBaseListCards = createSelector(
   },
 );
 
-const selectResolvedDeckCustomizations = createSelector(
-  selectResolvedDeckById,
-  (resolvedDeck) => resolvedDeck?.customizations,
-);
-
 export const selectListCards = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.settings,
   selectActiveList,
   selectBaseListCards,
-  selectCanonicalTabooSetId,
-  selectResolvedDeckCustomizations,
-  (
-    metadata,
-    lookupTables,
-    settings,
-    activeList,
-    _filteredCards,
-    tabooSetId,
-    customizations,
-  ) => {
+  (metadata, lookupTables, settings, activeList, _filteredCards) => {
     if (!_filteredCards || !activeList) return undefined;
 
     time("select_list_cards");
     let filteredCards = _filteredCards;
-
-    // user filters can be impacted by card changes, apply them now.
-    if (tabooSetId || customizations) {
-      filteredCards = filteredCards.map((c) =>
-        applyCardChanges(c, metadata, tabooSetId, customizations),
-      );
-    }
 
     // apply search after initial filtering to cut down on search operations.
     if (activeList.search.value) {

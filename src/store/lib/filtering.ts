@@ -79,9 +79,8 @@ function filterSkillBoost(
   return (card: Card) => !!skillBoostsTable[skillBoost]?.[card.code];
 }
 
-// FIXME: consider customizable options.
-function filterSlots(slot: string, slotsTable: LookupTables["slots"]) {
-  return (card: Card) => !!slotsTable[slot]?.[card.code];
+function filterSlots(slot: string) {
+  return (card: Card) => !!card.real_slot?.includes(slot);
 }
 
 function filterHealthProp(
@@ -125,9 +124,7 @@ export function filterAssets(value: AssetFilter, lookupTables: LookupTables) {
   }
 
   if (value.slots.length) {
-    const slotFilters: Filter[] = value.slots.map((key) =>
-      filterSlots(key, lookupTables.slots),
-    );
+    const slotFilters: Filter[] = value.slots.map(filterSlots);
     filters.push(or(slotFilters));
   }
 
@@ -338,8 +335,8 @@ function filterSeal(sealTable: LookupTables["properties"]["seal"]) {
   return (card: Card) => !!sealTable[card.code];
 }
 
-function filterPermanent(slotTable: LookupTables["slots"]) {
-  return (card: Card) => !!slotTable["Permanent"]?.[card.code];
+function filterPermanent(card: Card) {
+  return !!card.permanent;
 }
 
 function filterSucceedBy(
@@ -394,7 +391,7 @@ export function filterProperties(
   }
 
   if (filterState.permanent) {
-    filters.push(filterPermanent(lookupTables.slots));
+    filters.push(filterPermanent);
   }
 
   if (filterState.seal) {
@@ -604,7 +601,7 @@ export function makeOptionFilter(
   }
 
   if (option.permanent) {
-    optionFilter.push(filterPermanent(lookupTables.slots));
+    optionFilter.push(filterPermanent);
   }
 
   if (option.trait) {
@@ -696,7 +693,7 @@ export function makeOptionFilter(
   if (option.slot) {
     filterCount += 1;
     for (const slot of option.slot) {
-      optionFilter.push(filterSlots(slot, lookupTables.slots));
+      optionFilter.push(filterSlots(slot));
     }
   }
 
