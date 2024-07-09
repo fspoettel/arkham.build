@@ -106,6 +106,7 @@
 
 .investigator-health {
   --card-text-size: var(--text-xs);
+  align-self: end;
 }
 
 .investigator-skills {
@@ -118,10 +119,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--card-spacing-x);
-  background: var(--nord-2);
+  padding: 0.25rem;
+  background: var(--nord-1);
   border-radius: var(--rounded-md);
-  font-size: calc(var(--card-text-size, var(--text-sm)) * 1.375);
 }
 
 .ownership {

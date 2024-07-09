@@ -53,7 +53,7 @@ function getInitialFilterValuesForListKey(
 ): Record<string, unknown> {
   if (key === "editor_player") {
     return {};
-    // FIXME: This should be activated with a setting, otherwise it's unintuitive.
+    // TODO: This should be activated with a setting, otherwise it's unintuitive.
     // return {
     //   level: {
     //     range: [0, 5],
