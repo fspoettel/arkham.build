@@ -44,10 +44,19 @@ export function CardListNav({ data, metadata, onSelectGroup }: Props) {
 
   if (data == null) return null;
 
+  const filteredCount = data.totalCardCount - data.cards.length;
+
   return (
     <nav className={css["nav"]}>
-      <output data-testid="cardlist-count">
-        {data?.cards.length ?? 0} cards
+      <output>
+        <span data-testid="cardlist-count">
+          {data?.cards.length ?? 0} cards
+        </span>
+        <small>
+          <em>
+            {filteredCount > 0 && ` (${filteredCount} hidden by filters)`}
+          </em>
+        </small>
       </output>
       {data && (
         <Select

@@ -59,6 +59,7 @@ export type ListState = {
   groups: CardGroup[];
   cards: Card[];
   groupCounts: number[];
+  totalCardCount: number;
 };
 
 function makeUserFilter(
@@ -283,7 +284,7 @@ export const selectBaseListCards = createSelector(
 
     time("select_base_list_cards");
 
-    // apply system filter first to cut down on # of cards that need to be processed.
+    // apply static system filter first to cut down on no. of cards that need to be processed.
     let filteredCards = systemFilter
       ? Object.values(metadata.cards).filter(systemFilter)
       : Object.values(metadata.cards);
@@ -331,15 +332,17 @@ export const selectListCards = createSelector(
       );
     }
 
-    // apply user filters.
-    const filter = makeUserFilter(metadata, lookupTables, activeList, settings);
-
-    if (filter) filteredCards = filteredCards.filter(filter);
-
-    // apply search, do this after filtering to cut down on search operations.
+    // apply search after initial filtering to cut down on search operations.
     if (activeList.search.value) {
       filteredCards = applySearch(activeList.search, filteredCards, metadata);
     }
+
+    // this is the count of cards that a search would have matched before user filters are taken into account.
+    const totalCardCount = filteredCards.length;
+
+    // apply user filters.
+    const filter = makeUserFilter(metadata, lookupTables, activeList, settings);
+    if (filter) filteredCards = filteredCards.filter(filter);
 
     const cards: Card[] = [];
     const groups: CardGroup[] = [];
@@ -363,7 +366,13 @@ export const selectListCards = createSelector(
 
     timeEnd("select_list_cards");
 
-    return { key: activeList.key, groups, cards, groupCounts } as ListState;
+    return {
+      key: activeList.key,
+      groups,
+      cards,
+      groupCounts,
+      totalCardCount,
+    } as ListState;
   },
 );
 
