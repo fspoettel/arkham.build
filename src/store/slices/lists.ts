@@ -111,7 +111,7 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
     );
 
     const filterValues = { ...list.filterValues };
-    filterValues[id] = makeFilterValue(filterValues[id].type);
+    filterValues[id] = makeFilterValue(filterValues[id].type, list.cardType);
 
     set({
       lists: {
@@ -386,7 +386,11 @@ function makeFilterObject<K extends FilterKey>(
   };
 }
 
-function makeFilterValue(type: FilterKey, initialValue?: unknown) {
+function makeFilterValue(
+  type: FilterKey,
+  cardType: List["cardType"],
+  initialValue?: unknown,
+) {
   switch (type) {
     case "asset": {
       return makeFilterObject(
@@ -446,14 +450,14 @@ function makeFilterValue(type: FilterKey, initialValue?: unknown) {
     case "subtype": {
       return makeFilterObject(
         type,
-        isSubtypeFilter(initialValue)
+        isSubtypeFilter(initialValue) && cardType === "player"
           ? initialValue
           : {
               none: true,
               weakness: true,
               basicweakness: true,
             },
-        !initialValue,
+        cardType !== "player" || !initialValue,
       );
     }
 
@@ -532,7 +536,7 @@ function makeList(
     cardType,
     filters,
     filterValues: filters.reduce<List["filterValues"]>((acc, curr, i) => {
-      acc[i] = makeFilterValue(curr, initialValues?.[curr]);
+      acc[i] = makeFilterValue(curr, cardType, initialValues?.[curr]);
       return acc;
     }, {}),
     filtersEnabled: true,

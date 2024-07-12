@@ -28,17 +28,24 @@ export function CardTypeFilter({ className }: Props) {
     <ToggleGroup
       className={className}
       defaultValue="player"
+      data-testid="toggle-card-type"
       icons
       onValueChange={onToggle}
       type="single"
       value={activeList.cardType}
     >
-      <ToggleGroupItem size="small" value="player" tooltip="Show player cards">
+      <ToggleGroupItem
+        data-testid="card-type-player"
+        size="small"
+        value="player"
+        tooltip="Show player cards"
+      >
         <i className="icon-per_investigator" />
       </ToggleGroupItem>
       <ToggleGroupItem
         size="small"
         value="encounter"
+        data-testid="card-type-encounter"
         tooltip="Show encounter cards"
       >
         <i className="icon-auto_fail" />

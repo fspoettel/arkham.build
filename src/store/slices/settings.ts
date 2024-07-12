@@ -48,8 +48,9 @@ export const createSettingsSlice: StateCreator<
         filterValue.value = ownership;
       }
 
-      if (subtypeIndex !== -1) {
+      if (subtypeIndex !== -1 && list.cardType === "player") {
         const filterValue = list.filterValues[subtypeIndex];
+        filterValue.open = !settings.hideWeaknessesByDefault;
         filterValue.value = settings.hideWeaknessesByDefault
           ? { weakness: false, basicweakness: false, none: true }
           : { none: true, weakness: true, basicweakness: true };
