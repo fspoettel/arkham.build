@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import { useStore } from "@/store";
 import type { CardSet as CardSetType } from "@/store/lib/types";
@@ -28,7 +28,7 @@ export function CardSet(props: Props) {
   return (
     <article
       data-testid={`cardset-${set.id}`}
-      className={clsx(css["cardset"], set.selected && css["selected"])}
+      className={cx(css["cardset"], set.selected && css["selected"])}
     >
       <header className={css["cardset-header"]}>
         {onSelect ? (

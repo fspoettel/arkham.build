@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import css from "./quantity-output.module.css";
 
 type Props = {
@@ -10,7 +10,7 @@ export function QuantityOutput(props: Props) {
   const { className, value, ...rest } = props;
 
   return (
-    <span className={clsx(css["container"], className)} {...rest}>
+    <span className={cx(css["container"], className)} {...rest}>
       <strong className={css["value"]} data-testid="quantity-value">
         {value}
       </strong>

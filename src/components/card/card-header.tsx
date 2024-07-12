@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import type { Card } from "@/store/services/queries.types";
 import { getCardColor } from "@/utils/card-utils";
@@ -20,7 +20,7 @@ export function CardHeader(props: Props) {
   const colorCls = getCardColor(card, "background");
 
   return (
-    <header className={clsx(css["header"], colorCls, className)}>
+    <header className={cx(css["header"], colorCls, className)}>
       <div className={css["header-row"]}>
         <CardIcon card={card} className={css["header-icon"]} inverted />
         <CardNames
@@ -34,7 +34,7 @@ export function CardHeader(props: Props) {
       </div>
       <MulticlassIcons
         card={card}
-        className={clsx(css["header-icon"], css["faction-icons"])}
+        className={cx(css["header-icon"], css["faction-icons"])}
         inverted
       />
     </header>

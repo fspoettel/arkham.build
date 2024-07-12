@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import PackIcon from "@/components/icons/pack-icon";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -26,7 +26,7 @@ export function CollectionPack(props: Props) {
 
   return (
     <li
-      className={clsx(css["pack"], pack.reprint && css["reprint"])}
+      className={cx(css["pack"], pack.reprint && css["reprint"])}
       key={pack.code}
     >
       {hasQuantity ? (

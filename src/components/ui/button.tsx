@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import { forwardRef } from "react";
 
 import css from "./button.module.css";
@@ -33,7 +33,7 @@ export const Button = forwardRef(function Button<
   const button = (
     <Element
       {...rest}
-      className={clsx(
+      className={cx(
         css["button"],
         variant && css[variant],
         size && css[size],

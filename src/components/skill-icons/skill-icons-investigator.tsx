@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import { Fragment } from "react";
 
 import type { Card } from "@/store/services/queries.types";
@@ -28,14 +28,11 @@ export function SkillIconsInvestigator(props: Props) {
   if (!entries.length) return null;
 
   return (
-    <ol className={clsx(css["skills"], className)}>
+    <ol className={cx(css["skills"], className)}>
       {entries.map(([key, val]) => {
         return (
           <Fragment key={key}>
-            <li
-              className={clsx(css["skill_numbered"], iconClassName)}
-              key={key}
-            >
+            <li className={cx(css["skill_numbered"], iconClassName)} key={key}>
               <CostIcon className={css["skill-cost"]} cost={val} />
               <SkillIconFancy className={css["skill-icon"]} skill={key} />
             </li>

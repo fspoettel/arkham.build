@@ -1,6 +1,6 @@
+import { cx } from "@/utils/cx";
 import type { CheckboxProps } from "@radix-ui/react-checkbox";
 import { Indicator, Root } from "@radix-ui/react-checkbox";
-import clsx from "clsx";
 import { Check } from "lucide-react";
 
 import css from "./checkbox.module.css";
@@ -15,16 +15,13 @@ type Props = Omit<CheckboxProps, "label"> & {
 export function Checkbox(props: Props) {
   const { className, id, hideLabel, label, ...rest } = props;
   return (
-    <div className={clsx(css["checkbox"], className)}>
+    <div className={cx(css["checkbox"], className)}>
       <Root {...rest} className={css["root"]} id={id}>
         <Indicator className={css["indicator"]}>
           <Check />
         </Indicator>
       </Root>
-      <label
-        className={clsx(css["label"], hideLabel && "sr-only")}
-        htmlFor={id}
-      >
+      <label className={cx(css["label"], hideLabel && "sr-only")} htmlFor={id}>
         {label}
       </label>
     </div>

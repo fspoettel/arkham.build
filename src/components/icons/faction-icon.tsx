@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 type Props = {
   className?: string;
@@ -6,5 +6,5 @@ type Props = {
 };
 
 export function FactionIcon(props: Props) {
-  return <i className={clsx(props.className, `icon-${props.code}`)} />;
+  return <i className={cx(props.className, `icon-${props.code}`)} />;
 }

@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import css from "./checkboxgroup.module.css";
 
@@ -13,7 +13,7 @@ export function CheckboxGroup(props: Props) {
   const { as = "fieldset", children, className, cols = 1 } = props;
   const Tag = as;
   return (
-    <Tag className={clsx(css["checkboxgroup"], css[`cols-${cols}`], className)}>
+    <Tag className={cx(css["checkboxgroup"], css[`cols-${cols}`], className)}>
       {children}
     </Tag>
   );

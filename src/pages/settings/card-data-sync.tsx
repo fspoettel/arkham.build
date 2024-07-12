@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import { Check, FileDown } from "lucide-react";
 import { useCallback, useEffect } from "react";
 
@@ -80,10 +80,7 @@ export function CardDataSync() {
 
   return (
     <>
-      <Field
-        bordered
-        className={clsx(css["sync"], upToDate && css["uptodate"])}
-      >
+      <Field bordered className={cx(css["sync"], upToDate && css["uptodate"])}>
         <Button disabled={loading || !!error} onClick={syncData} type="button">
           Sync card data
         </Button>

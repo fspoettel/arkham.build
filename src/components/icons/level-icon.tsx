@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 type Props = {
   className?: string;
@@ -13,7 +13,7 @@ export function LevelIcon(props: Props) {
 
   return (
     <i
-      className={clsx(
+      className={cx(
         className,
         inverted ? `icon-inverted_level_${iconName}` : `icon-level_${iconName}`,
         className,

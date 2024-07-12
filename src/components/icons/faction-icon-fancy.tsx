@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 type Props = {
   className?: string;
@@ -47,5 +47,5 @@ const getIconFancy = (code: string) => {
 
 export function FactionIconFancy(props: Props) {
   const iconCls = getIconFancy(props.code);
-  return iconCls ? <i className={clsx(props.className, iconCls)} /> : null;
+  return iconCls ? <i className={cx(props.className, iconCls)} /> : null;
 }

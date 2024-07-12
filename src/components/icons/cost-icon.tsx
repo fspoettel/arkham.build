@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 type Props = {
   className?: string;
@@ -20,5 +20,5 @@ export function CostIcon(props: Props) {
     );
   }
 
-  return <span className={clsx(className, `icon-${costStr}`)} style={style} />;
+  return <span className={cx(className, `icon-${costStr}`)} style={style} />;
 }

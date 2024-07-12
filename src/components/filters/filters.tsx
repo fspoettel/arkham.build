@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import { Fragment } from "react/jsx-runtime";
 
 import { useStore } from "@/store";
@@ -44,7 +44,7 @@ export function Filters(props: Props) {
 
   return (
     <search
-      className={clsx(
+      className={cx(
         css["filters"],
         props.className,
         !filtersEnabled && css["disabled"],

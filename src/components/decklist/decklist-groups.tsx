@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import { useMemo } from "react";
 
 import { useStore } from "@/store";
@@ -43,7 +43,7 @@ export function DecklistGroups({
   renderListCardAfter,
 }: DecklistGroupsProps) {
   const assetGroup = group["asset"] ? (
-    <li className={clsx(css["group"], css["asset"])}>
+    <li className={cx(css["group"], css["asset"])}>
       <h4 className={css["group-title"]}>Asset</h4>
       <ol className={css["group-children"]}>
         {Object.entries(group["asset"] as Record<string, Card[]>)
@@ -78,7 +78,7 @@ export function DecklistGroups({
       const entry = group[k] as Card[];
       if (!entry) return null;
       return (
-        <li className={clsx(css["group"])} key={k}>
+        <li className={cx(css["group"])} key={k}>
           <h4 className={css["group-title"]}>{capitalize(k)}</h4>
           <DecklistGroup
             cards={entry}

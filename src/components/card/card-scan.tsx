@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import { imageUrl } from "@/utils/card-utils";
 
@@ -13,7 +13,7 @@ type Props = {
 export function CardScan(props: Props) {
   const { code, className, sideways } = props;
   return (
-    <div className={clsx(css["scan"], className)}>
+    <div className={cx(css["scan"], className)}>
       <img
         alt={`Scan of card ${code}`}
         height={sideways ? 300 : 420}

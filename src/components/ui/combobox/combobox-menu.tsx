@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import { Check } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { GroupedVirtuosoHandle } from "react-virtuoso";
@@ -64,7 +64,7 @@ export function ComboboxMenu<T extends Coded>(props: Props<T>) {
           return (
             // biome-ignore lint/a11y/useKeyWithClickEvents: TODO.
             <div
-              className={clsx(css["menu-item"], active && css["active"])}
+              className={cx(css["menu-item"], active && css["active"])}
               id={item.code}
               onClick={() => {
                 setSelectedItem(item);

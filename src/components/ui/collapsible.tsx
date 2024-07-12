@@ -1,9 +1,9 @@
+import { cx } from "@/utils/cx";
 import type {
   CollapsibleContentProps,
   CollapsibleProps,
 } from "@radix-ui/react-collapsible";
 import { Content, Root, Trigger } from "@radix-ui/react-collapsible";
-import clsx from "clsx";
 import { UnfoldVertical, XIcon } from "lucide-react";
 
 import css from "./collapsible.module.css";
@@ -38,7 +38,7 @@ export function Collapsible(props: Props) {
   return (
     <Root
       {...rest}
-      className={clsx(css["collapsible"], variant && css[variant], className)}
+      className={cx(css["collapsible"], variant && css[variant], className)}
       onOpenChange={onOpenChange}
       open={open}
     >
@@ -81,7 +81,7 @@ type ContentProps = CollapsibleContentProps & {
 export function CollapsibleContent({ className, children }: ContentProps) {
   return (
     <Content>
-      <div className={clsx(css["content"], className)}>{children}</div>
+      <div className={cx(css["content"], className)}>{children}</div>
     </Content>
   );
 }

@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import { Info } from "lucide-react";
 
 import css from "./notice.module.css";
@@ -28,7 +28,7 @@ export function Notice(props: Props) {
   const icon = getIconForVariant(variant);
 
   return (
-    <Element className={clsx(css["notice"], variant && css[variant])}>
+    <Element className={cx(css["notice"], variant && css[variant])}>
       {!!icon && <div className={css["notice-icon"]}>{icon}</div>}
       <div className={css["notice-content"]}>{children}</div>
     </Element>

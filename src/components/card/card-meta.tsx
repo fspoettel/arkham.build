@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
 import { isCardWithRelations } from "@/store/lib/types";
@@ -87,7 +87,7 @@ export function CardMeta(props: Props) {
   const illustrator = resolvedCard.card.illustrator;
 
   return (
-    <footer className={clsx(css["meta"], css[size])}>
+    <footer className={cx(css["meta"], css[size])}>
       {size === "full" && illustrator && (
         <p className={css["meta-property"]}>
           <i className="icon-paintbrush" /> {illustrator}

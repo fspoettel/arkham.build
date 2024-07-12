@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -64,7 +64,7 @@ export function ListLayout(props: Props) {
 
   return (
     <div
-      className={clsx(
+      className={cx(
         css["layout"],
         filtersOpen && css["filters-open"],
         sidebarOpen && css["sidebar-open"],

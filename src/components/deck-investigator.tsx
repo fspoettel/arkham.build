@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 
@@ -48,7 +48,7 @@ export function DeckInvestigator(props: Props) {
         size={size}
       />
       <div
-        className={clsx(css["back-toggle"], backToggled && css["open"])}
+        className={cx(css["back-toggle"], backToggled && css["open"])}
         data-testid="deck-investigator-back-toggle"
       >
         <Button onClick={() => toggleBack((p) => !p)}>
@@ -83,7 +83,7 @@ export function DeckInvestigator(props: Props) {
   return (
     <>
       <CardContainer
-        className={clsx(css["deck-investigator"], css[size])}
+        className={cx(css["deck-investigator"], css[size])}
         data-testid="deck-investigator"
         size={size}
       >

@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import { Footer } from "@/components/footer";
 import { Masthead } from "@/components/masthead";
@@ -18,9 +18,9 @@ export function AppLayout(props: Props) {
   useDocumentTitle(title);
 
   return (
-    <div className={clsx(css["layout"], "fade-in")}>
+    <div className={cx(css["layout"], "fade-in")}>
       <Masthead className={css["header"]} />
-      <section className={clsx(css["main"], mainClassName)}>{children}</section>
+      <section className={cx(css["main"], mainClassName)}>{children}</section>
       <footer className={css["footer"]}>
         <Footer />
       </footer>

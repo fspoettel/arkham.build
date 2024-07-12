@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import { XIcon } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 
@@ -63,7 +63,7 @@ export function Modal(props: Props) {
   return (
     <div
       {...rest}
-      className={clsx(css["modal"], centerContent && css["center"], className)}
+      className={cx(css["modal"], centerContent && css["center"], className)}
       onClick={onCloseModalOutside}
       ref={modalRef}
       style={cssVariables as React.CSSProperties}
@@ -71,7 +71,7 @@ export function Modal(props: Props) {
       <div className={css["inner"]}>
         {/* biome-ignore lint/a11y/useKeyWithClickEvents: An escape handler is bound higher up. */}
         <div
-          className={clsx(css["actions"], actions && css["has-custom"])}
+          className={cx(css["actions"], actions && css["has-custom"])}
           onClick={onCloseActions}
           ref={actionRef}
         >
