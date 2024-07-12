@@ -660,16 +660,14 @@ export function getInitialOwnershipFilter(state: StoreState): OwnershipFilter {
   return state.settings.showAllCards ? "all" : "owned";
 }
 
-export function getInitialSubtypeFilter(state: StoreState): SubtypeFilter {
+export function getInitialSubtypeFilter(
+  state: StoreState,
+): SubtypeFilter | undefined {
   return state.settings.hideWeaknessesByDefault
     ? {
         none: true,
         weakness: false,
         basicweakness: false,
       }
-    : {
-        none: true,
-        weakness: true,
-        basicweakness: true,
-      };
+    : undefined;
 }

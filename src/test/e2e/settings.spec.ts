@@ -70,3 +70,26 @@ test("settings: taboo", async ({ page }) => {
     "Taboo List Mutated",
   );
 });
+
+test("settings: hide weaknesses", async ({ page }) => {
+  await page.goto("/");
+
+  await page.getByTestId("masthead-settings").click();
+  await page.getByLabel("Hide weaknesses in player").click();
+  await page.getByTestId("settings-save").click();
+  await page.getByTestId("settings-back").click();
+
+  await expect(page.getByTestId("subtype-none")).toBeChecked();
+  await expect(page.getByTestId("subtype-basicweakness")).not.toBeChecked();
+  await expect(page.getByTestId("subtype-weakness")).not.toBeChecked();
+
+  await page.reload();
+
+  await page
+    .getByTestId("subtype-filter")
+    .getByTestId("collapsible-trigger")
+    .click();
+  await expect(page.getByTestId("subtype-none")).toBeChecked();
+  await expect(page.getByTestId("subtype-basicweakness")).not.toBeChecked();
+  await expect(page.getByTestId("subtype-weakness")).not.toBeChecked();
+});

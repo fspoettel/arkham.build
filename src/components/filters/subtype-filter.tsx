@@ -53,6 +53,7 @@ export function SubtypeFilter({ id }: { id: number }) {
 
   return (
     <FilterContainer
+      data-testid="subtype-filter"
       filterString={changes}
       onOpenChange={onOpenChange}
       onReset={onReset}
@@ -64,6 +65,7 @@ export function SubtypeFilter({ id }: { id: number }) {
           <Checkbox
             checked={filter.value[code as keyof SubtypeFilterType]}
             data-key={code}
+            data-testid={`subtype-${code}`}
             id={`property-${code}`}
             key={code}
             label={name}
