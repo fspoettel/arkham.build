@@ -18,13 +18,8 @@ type Props = {
   onClickBackground?: () => void;
 };
 
-export function CardModalQuantities({
-  card,
-  canEdit,
-  deck,
-  showExtraQuantities,
-  onClickBackground,
-}: Props) {
+export function CardModalQuantities(props: Props) {
+  const { card, canEdit, deck, showExtraQuantities, onClickBackground } = props;
   const divRef = useRef<HTMLDivElement>(null);
 
   const onClick = useCallback(

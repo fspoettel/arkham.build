@@ -16,7 +16,9 @@ type Props = {
   inverted?: boolean;
 };
 
-export function CardIcon({ card, className, inverted }: Props) {
+export function CardIcon(props: Props) {
+  const { card, className, inverted } = props;
+
   if (card.subtype_code && card.type_code === "treachery") {
     return (
       <span

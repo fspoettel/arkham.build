@@ -10,7 +10,8 @@ type Props = {
   settings: SettingsState;
 };
 
-export function TabooSets({ settings }: Props) {
+export function TabooSets(props: Props) {
+  const { settings } = props;
   const tabooSets = useStore(selectTabooSetOptions);
 
   const [value, setValue] = useState(settings.tabooSetId);

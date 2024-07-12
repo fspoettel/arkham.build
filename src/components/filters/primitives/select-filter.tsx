@@ -15,16 +15,12 @@ type Props<T, V extends number | string | undefined> = {
   value: V;
 };
 
-export function SelectFilter<T, V extends number | string | undefined>({
-  changes,
-  mapValue,
-  id,
-  options,
-  renderOption,
-  open,
-  title,
-  value,
-}: Props<T, V>) {
+export function SelectFilter<T, V extends number | string | undefined>(
+  props: Props<T, V>,
+) {
+  const { changes, mapValue, id, options, renderOption, open, title, value } =
+    props;
+
   const setFilterValue = useStore((state) => state.setFilterValue);
   const setFilterOpen = useStore((state) => state.setFilterOpen);
   const resetFilter = useStore((state) => state.resetFilter);

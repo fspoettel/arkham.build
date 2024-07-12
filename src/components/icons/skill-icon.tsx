@@ -5,6 +5,8 @@ type Props = {
   skill: string;
 };
 
-export function SkillIcon({ className, skill }: Props) {
-  return skill ? <i className={clsx(`icon-${skill}`, className)} /> : null;
+export function SkillIcon(props: Props) {
+  return props.skill ? (
+    <i className={clsx(`icon-${props.skill}`, props.className)} />
+  ) : null;
 }

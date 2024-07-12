@@ -19,7 +19,8 @@ type Props = {
   iconClassName?: string;
 };
 
-export function SkillIcons({ className, card, fancy, iconClassName }: Props) {
+export function SkillIcons(props: Props) {
+  const { className, card, fancy, iconClassName } = props;
   if (card.type_code === "investigator") return null;
 
   const Icon = fancy ? SkillIconFancy : SkillIcon;

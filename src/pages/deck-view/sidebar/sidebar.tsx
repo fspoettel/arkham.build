@@ -14,7 +14,8 @@ type Props = {
   deck: DisplayDeck;
 };
 
-export function Sidebar({ className, deck }: Props) {
+export function Sidebar(props: Props) {
+  const { className, deck } = props;
   return (
     <div className={clsx(css["container"], className)}>
       <DeckInvestigator deck={deck} size="tooltip" />

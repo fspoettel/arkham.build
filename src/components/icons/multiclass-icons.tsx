@@ -12,7 +12,8 @@ type Props = {
   inverted?: boolean;
 };
 
-export function MulticlassIcons({ className, card, inverted }: Props) {
+export function MulticlassIcons(props: Props) {
+  const { className, card, inverted } = props;
   return (
     <ol className={clsx(css["container"], className)}>
       <li>

@@ -23,7 +23,8 @@ function getSlotsForGrouping(deck: DisplayDeck, grouping: NamedGrouping) {
   return undefined;
 }
 
-export function Decklist({ deck }: Props) {
+export function Decklist(props: Props) {
+  const { deck } = props;
   const cols = [deck.groups.side, deck.groups.extra, deck.groups.bonded]
     .filter((col) => !!col)
     .map(

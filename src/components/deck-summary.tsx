@@ -17,13 +17,9 @@ type Props = {
   validation?: DeckValidationResult;
 };
 
-export function DeckSummary({
-  children,
-  deck,
-  interactive,
-  showThumbnail,
-  validation,
-}: Props) {
+export function DeckSummary(props: Props) {
+  const { children, deck, interactive, showThumbnail, validation } = props;
+
   const backgroundCls = getCardColor(
     deck.cards.investigator.card,
     "background",

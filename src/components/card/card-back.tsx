@@ -22,13 +22,9 @@ type Props = {
 /**
  * Card back for cards with a non-unique back.
  */
-export function CardBack({
-  card,
-  className,
-  forceShowHeader,
-  size,
-  ...rest
-}: Props) {
+export function CardBack(props: Props) {
+  const { className, forceShowHeader, card, size, ...rest } = props;
+
   const showBackImage =
     size === "full" ||
     (card.backimageurl &&

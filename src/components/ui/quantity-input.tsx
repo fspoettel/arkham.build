@@ -12,14 +12,9 @@ type Props = {
   limit: number;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-export function QuantityInput({
-  disabled,
-  limit,
-  onValueChange,
-  tabIndex,
-  value,
-  ...rest
-}: Props) {
+export function QuantityInput(props: Props) {
+  const { disabled, limit, onValueChange, tabIndex, value, ...rest } = props;
+
   const decrementCardQuantity = () => {
     if (value <= 0) return;
     onValueChange?.(-1);

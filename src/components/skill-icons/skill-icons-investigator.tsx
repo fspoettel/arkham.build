@@ -15,11 +15,8 @@ type Props = {
   iconClassName?: string;
 };
 
-export function SkillIconsInvestigator({
-  className,
-  card,
-  iconClassName,
-}: Props) {
+export function SkillIconsInvestigator(props: Props) {
+  const { className, card, iconClassName } = props;
   if (card.type_code !== "investigator") return null;
 
   const entries = SKILL_KEYS.reduce<[string, number][]>((acc, key) => {

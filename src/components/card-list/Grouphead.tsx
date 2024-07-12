@@ -72,7 +72,8 @@ export function getGroupingKeyLabel(
   return "";
 }
 
-export function Grouphead({ grouping, metadata }: Props) {
+export function Grouphead(props: Props) {
+  const { grouping, metadata } = props;
   const keys = grouping.key.split("|");
   const types = grouping.type.split("|");
 

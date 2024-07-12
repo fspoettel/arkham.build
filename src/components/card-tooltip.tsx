@@ -10,13 +10,13 @@ type Props = {
   code: string;
 };
 
-export function CardTooltip({ code }: Props) {
+export function CardTooltip(props: Props) {
   const deckIdCtx = useDeckId();
 
   const resolvedCard = useStore((state) =>
     selectCardWithRelations(
       state,
-      code,
+      props.code,
       false,
       deckIdCtx?.deckId,
       deckIdCtx?.canEdit,

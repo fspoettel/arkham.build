@@ -18,18 +18,20 @@ type Props = Omit<SliderProps, "defaultValue"> & {
   value: [number, number];
 };
 
-export function RangeSelect({
-  className,
-  sliderClassName,
-  id,
-  label,
-  min,
-  max,
-  onValueCommit,
-  showLabel,
-  value,
-  ...rest
-}: Props) {
+export function RangeSelect(props: Props) {
+  const {
+    className,
+    sliderClassName,
+    id,
+    label,
+    min,
+    max,
+    onValueCommit,
+    showLabel,
+    value,
+    ...rest
+  } = props;
+
   const [liveValue, setLiveValue] = useState(value);
 
   useEffect(() => {

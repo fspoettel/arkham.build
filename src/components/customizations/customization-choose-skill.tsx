@@ -16,12 +16,9 @@ const itemRenderer = (item: Coded) => (
   </>
 );
 
-export function CustomizationChooseSkill({
-  disabled,
-  id,
-  onChange,
-  selections,
-}: Props) {
+export function CustomizationChooseSkill(props: Props) {
+  const { disabled, id, onChange, selections } = props;
+
   const options = SKILL_KEYS.filter((x) => x !== "wild").map((key) => ({
     code: key,
   }));

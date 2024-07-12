@@ -6,7 +6,9 @@ type Props = {
   inverted?: boolean;
 };
 
-export function LevelIcon({ className, inverted, level }: Props) {
+export function LevelIcon(props: Props) {
+  const { className, level, inverted } = props;
+
   const iconName = level == null ? "none" : Math.min(level, 5);
 
   return (

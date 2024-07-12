@@ -6,7 +6,8 @@ type Props = {
   children: React.ReactNode;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-export function DropdownMenu({ className, children, ...rest }: Props) {
+export function DropdownMenu(props: Props) {
+  const { children, className, ...rest } = props;
   return (
     <nav {...rest} className={clsx(css["dropdown"], className)}>
       {children}

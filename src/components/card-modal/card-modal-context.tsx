@@ -42,7 +42,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-export function CardModalProvider({ children }: Props) {
+export function CardModalProvider(props: Props) {
   const [state, setState] = useState<CardModalContextState>({
     isOpen: false,
     config: undefined,
@@ -62,7 +62,7 @@ export function CardModalProvider({ children }: Props) {
 
   return (
     <CardModalContext.Provider value={value}>
-      {children}
+      {props.children}
       <Dialog onOpenChange={value.setClosed} open={state.isOpen}>
         <DialogContent>
           {state.config && <CardModal {...state.config} />}

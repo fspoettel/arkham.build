@@ -14,13 +14,9 @@ type Props = {
   onChange: (code: string, val: number) => void;
 };
 
-export function CollectionPack({
-  cycle,
-  hasQuantity,
-  pack,
-  onChange,
-  value,
-}: Props) {
+export function CollectionPack(props: Props) {
+  const { cycle, hasQuantity, pack, value, onChange } = props;
+
   const onInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     if (evt.target instanceof HTMLInputElement) {
       const val = Number.parseInt(evt.target.value, 10);

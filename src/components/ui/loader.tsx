@@ -9,7 +9,9 @@ type Props = {
   delay?: number;
 };
 
-export function Loader({ delay, message, show }: Props) {
+export function Loader(props: Props) {
+  const { delay, message, show } = props;
+
   const [visible, setVisible] = useState(!delay);
 
   useEffect(() => {

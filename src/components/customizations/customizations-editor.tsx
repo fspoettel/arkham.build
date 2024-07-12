@@ -18,7 +18,9 @@ type Props = {
   canEdit?: boolean;
 };
 
-export function CustomizationsEditor({ deck, card, canEdit }: Props) {
+export function CustomizationsEditor(props: Props) {
+  const { deck, card, canEdit } = props;
+
   const deckIdCtx = useDeckId();
   const updateCustomization = useStore((state) => state.updateCustomization);
   const backgroundCls = getCardColor(card, "background");

@@ -11,7 +11,8 @@ export type Props = SliderProps & {
   thumbCount?: number;
 };
 
-export function Slider({ className, thumbCount = 1, ...rest }: Props) {
+export function Slider(props: Props) {
+  const { className, thumbCount = 1, ...rest } = props;
   return (
     <Root {...rest} className={clsx(css["slider"], className)}>
       <Track className={clsx(css["track"])}>

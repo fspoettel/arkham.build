@@ -16,7 +16,8 @@ type Props = {
   settings: SettingsState;
 };
 
-export function Collection({ settings }: Props) {
+export function Collection(props: Props) {
+  const { settings } = props;
   const cyclesWithPacks = useStore(selectCyclesAndPacks);
 
   const [showAllCards, setShowAllCards] = useState(settings.showAllCards);

@@ -10,7 +10,8 @@ type Props = {
   sideways?: boolean;
 };
 
-export function CardScan({ className, code, sideways }: Props) {
+export function CardScan(props: Props) {
+  const { code, className, sideways } = props;
   return (
     <div className={clsx(css["scan"], className)}>
       <img

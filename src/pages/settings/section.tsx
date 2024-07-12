@@ -5,13 +5,13 @@ type Props = {
   children: React.ReactNode;
 };
 
-export function Section(p: Props) {
+export function Section(props: Props) {
   return (
     <section className={css["section"]}>
       <header className={css["section-header"]}>
-        <h2 className={css["section-title"]}>{p.title}</h2>
+        <h2 className={css["section-title"]}>{props.title}</h2>
       </header>
-      <div className={css["section-content"]}>{p.children}</div>
+      <div className={css["section-content"]}>{props.children}</div>
     </section>
   );
 }

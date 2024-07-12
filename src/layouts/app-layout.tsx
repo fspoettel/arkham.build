@@ -12,7 +12,9 @@ type Props = {
   title: string;
 };
 
-export function AppLayout({ children, mainClassName, title }: Props) {
+export function AppLayout(props: Props) {
+  const { children, mainClassName, title } = props;
+
   useDocumentTitle(title);
 
   return (

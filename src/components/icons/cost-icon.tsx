@@ -6,7 +6,9 @@ type Props = {
   style?: React.CSSProperties;
 };
 
-export function CostIcon({ className, cost, style }: Props) {
+export function CostIcon(props: Props) {
+  const { className, cost, style } = props;
+
   const costStr = cost == null ? "numNull" : cost === -2 ? "x" : `num${cost}`;
 
   if (cost && typeof cost === "number" && cost >= 10) {

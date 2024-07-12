@@ -11,7 +11,8 @@ type Props = {
   tooltip?: React.ReactNode;
 } & Omit<ListCardInnerProps, "figureRef" | "referenceProps">;
 
-export function ListCard({ card, tooltip, ...rest }: Props) {
+export function ListCard(props: Props) {
+  const { card, tooltip, ...rest } = props;
   const { refs, referenceProps, isMounted, floatingStyles, transitionStyles } =
     useRestingTooltip();
 

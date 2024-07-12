@@ -8,8 +8,8 @@ type Props = {
   tags: string;
 };
 
-export function DeckTags({ tags }: Props) {
-  const trimmed = tags.trim();
+export function DeckTags(props: Props) {
+  const trimmed = props.tags.trim();
   if (!trimmed.length) return null;
 
   const tagList = trimmed.split(" ");

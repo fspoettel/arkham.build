@@ -14,7 +14,8 @@ type Props = {
   deck: DisplayDeck;
 };
 
-export function DeckNotes({ deck }: Props) {
+export function DeckNotes(props: Props) {
+  const { deck } = props;
   const modalContext = useDialogContext();
 
   const onCloseNotes = useCallback(() => {

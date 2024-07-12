@@ -22,7 +22,8 @@ type Props = {
   title: React.ReactNode;
 };
 
-export function DeckDescription({ className, content, title }: Props) {
+export function DeckDescription(props: Props) {
+  const { className, content, title } = props;
   const [cardTooltip, setCardTooltip] = useState<string>("");
 
   const { refs, floatingStyles } = useFloating({

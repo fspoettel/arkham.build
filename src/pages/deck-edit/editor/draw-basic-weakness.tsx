@@ -8,15 +8,15 @@ type Props = {
   quantity?: number;
 };
 
-export function DrawBasicWeakness({ deckId, quantity }: Props) {
+export function DrawBasicWeakness(props: Props) {
   const drawRandomBasicWeakness = useStore(
     (state) => state.drawRandomBasicWeakness,
   );
 
   return (
     <Button
-      disabled={!quantity}
-      onClick={() => drawRandomBasicWeakness(deckId)}
+      disabled={!props.quantity}
+      onClick={() => drawRandomBasicWeakness(props.deckId)}
       size="sm"
       data-testid="draw-basic-weakness"
       variant="bare"

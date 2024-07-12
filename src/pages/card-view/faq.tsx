@@ -14,12 +14,12 @@ type Props = {
   card: ResolvedCard["card"];
 };
 
-export function Faq({ card }: Props) {
+export function Faq(props: Props) {
   const [open, setOpen] = useState(false);
 
   const query = useMemo(
-    () => (open ? () => queryFaq(card.code) : undefined),
-    [card.code, open],
+    () => (open ? () => queryFaq(props.card.code) : undefined),
+    [props.card.code, open],
   );
 
   const response = useQuery(query);

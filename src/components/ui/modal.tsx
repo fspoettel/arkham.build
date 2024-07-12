@@ -16,16 +16,18 @@ type Props = {
   size?: string;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-export function Modal({
-  actions,
-  centerContent,
-  children,
-  className,
-  onClose,
-  open,
-  size = "100%",
-  ...rest
-}: Props) {
+export function Modal(props: Props) {
+  const {
+    actions,
+    centerContent,
+    children,
+    className,
+    onClose,
+    open,
+    size = "100%",
+    ...rest
+  } = props;
+
   const modalRef = useRef<HTMLDivElement>(null);
   const actionRef = useRef<HTMLDivElement>(null);
   const hasReset = useRef(false);

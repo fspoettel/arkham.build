@@ -5,7 +5,9 @@ type Props = {
   className?: string;
 };
 
-function EncounterIcon({ code, className }: Props) {
+function EncounterIcon(props: Props) {
+  const { code, className } = props;
+
   const iconId = getEncounterIcon(code);
   return iconId ? (
     <i className={clsx(`encounters-${iconId}`, className)} />

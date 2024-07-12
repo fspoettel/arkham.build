@@ -15,7 +15,9 @@ type Props = {
   deck: DisplayDeck;
 };
 
-export function EditorActions({ deck }: Props) {
+export function EditorActions(props: Props) {
+  const { deck } = props;
+
   const [, navigate] = useLocation();
   const showToast = useToast();
   const cssVariables = useAccentColor(

@@ -17,7 +17,8 @@ type Props = {
   id: number;
 };
 
-export function FactionFilter({ id }: Props) {
+export function FactionFilter(props: Props) {
+  const { id } = props;
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
     isFactionFilterObject(filter),

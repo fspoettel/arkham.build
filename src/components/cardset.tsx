@@ -20,7 +20,8 @@ type Props = {
   set: CardSetType;
 };
 
-export function CardSet({ onChangeCardQuantity, onSelect, set }: Props) {
+export function CardSet(props: Props) {
+  const { onChangeCardQuantity, onSelect, set } = props;
   const canCheckOwnership = useStore(selectCanCheckOwnership);
   const cardOwnedCount = useStore(selectCardOwnedCount);
 

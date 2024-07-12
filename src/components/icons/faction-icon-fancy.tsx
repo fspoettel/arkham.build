@@ -45,7 +45,7 @@ const getIconFancy = (code: string) => {
   }
 };
 
-export function FactionIconFancy({ className, code }: Props) {
-  const iconCls = getIconFancy(code);
-  return iconCls ? <i className={clsx(className, iconCls)} /> : null;
+export function FactionIconFancy(props: Props) {
+  const iconCls = getIconFancy(props.code);
+  return iconCls ? <i className={clsx(props.className, iconCls)} /> : null;
 }

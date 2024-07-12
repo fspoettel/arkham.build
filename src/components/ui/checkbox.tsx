@@ -12,7 +12,8 @@ type Props = Omit<CheckboxProps, "label"> & {
   label: React.ReactNode;
 };
 
-export function Checkbox({ className, id, hideLabel, label, ...rest }: Props) {
+export function Checkbox(props: Props) {
+  const { className, id, hideLabel, label, ...rest } = props;
   return (
     <div className={clsx(css["checkbox"], className)}>
       <Root {...rest} className={css["root"]} id={id}>

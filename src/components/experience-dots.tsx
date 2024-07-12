@@ -5,11 +5,11 @@ type Props = {
   xp: number;
 };
 
-export function ExperienceDots({ className, xp }: Props) {
-  const negative = xp < 0;
+export function ExperienceDots(props: Props) {
+  const negative = props.xp < 0;
   return (
-    <span className={className}>
-      {range(0, Math.abs(xp)).map(() => (negative ? "-" : "•"))}
+    <span className={props.className}>
+      {range(0, Math.abs(props.xp)).map(() => (negative ? "-" : "•"))}
     </span>
   );
 }

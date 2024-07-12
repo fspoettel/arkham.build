@@ -15,7 +15,8 @@ type Props = {
   linked?: boolean;
 };
 
-export function CardHeader({ card, className, linked }: Props) {
+export function CardHeader(props: Props) {
+  const { card, className, linked } = props;
   const colorCls = getCardColor(card, "background");
 
   return (

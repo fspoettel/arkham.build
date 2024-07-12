@@ -15,7 +15,9 @@ type Props = {
   onSelectGroup: (evt: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
-export function CardListNav({ data, metadata, onSelectGroup }: Props) {
+export function CardListNav(props: Props) {
+  const { data, metadata, onSelectGroup } = props;
+
   const jumpToOptions = useMemo(
     () =>
       data?.groups.map((group, i) => {

@@ -7,7 +7,8 @@ type Props = {
   skill: string;
 };
 
-export function SkillIconFancy({ className, skill }: Props) {
+export function SkillIconFancy(props: Props) {
+  const { className, skill } = props;
   return (
     <span className={clsx(css["icon"], css[skill], className)}>
       <i className={`icon-skill_${skill}`} />

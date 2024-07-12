@@ -14,7 +14,9 @@ type Props = {
   signaturesRef: React.RefObject<HTMLElement>;
 };
 
-export function SignatureLink({ card, signaturesRef }: Props) {
+export function SignatureLink(props: Props) {
+  const { card, signaturesRef } = props;
+
   const tooltip = useRestingTooltip({
     elements: {
       reference: signaturesRef?.current,

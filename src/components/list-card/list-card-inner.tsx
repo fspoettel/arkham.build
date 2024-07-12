@@ -47,29 +47,31 @@ export type Props = {
   renderAfter?: (card: Card, quantity?: number) => React.ReactNode;
 };
 
-export function ListCardInner({
-  as = "div",
-  card,
-  className,
-  disableKeyboard,
-  disableModalOpen,
-  figureRef,
-  isActive,
-  isForbidden,
-  isIgnored,
-  isRemoved,
-  omitBorders,
-  omitThumbnail,
-  onChangeCardQuantity,
-  ownedCount,
-  quantity,
-  referenceProps,
-  renderAction,
-  renderExtra,
-  renderAfter,
-  showInvestigatorIcons,
-  size,
-}: Props) {
+export function ListCardInner(props: Props) {
+  const {
+    as = "div",
+    card,
+    className,
+    disableKeyboard,
+    disableModalOpen,
+    figureRef,
+    isActive,
+    isForbidden,
+    isIgnored,
+    isRemoved,
+    omitBorders,
+    omitThumbnail,
+    onChangeCardQuantity,
+    ownedCount,
+    quantity,
+    referenceProps,
+    renderAction,
+    renderExtra,
+    renderAfter,
+    showInvestigatorIcons,
+    size,
+  } = props;
+
   const modalContext = useCardModalContext();
 
   const ignoredCount = isIgnored ?? 0;

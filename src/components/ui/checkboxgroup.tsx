@@ -9,12 +9,8 @@ type Props = {
   cols?: 1 | 2;
 };
 
-export function CheckboxGroup({
-  as = "fieldset",
-  children,
-  className,
-  cols = 1,
-}: Props) {
+export function CheckboxGroup(props: Props) {
+  const { as = "fieldset", children, className, cols = 1 } = props;
   const Tag = as;
   return (
     <Tag className={clsx(css["checkboxgroup"], css[`cols-${cols}`], className)}>
