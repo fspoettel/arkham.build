@@ -2,6 +2,7 @@ import clsx from "clsx";
 import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { CardTypeFilter } from "@/components/filters/card-type-filter";
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
 import { useMedia } from "@/utils/use-media";
@@ -71,7 +72,9 @@ export function ListLayout({
       onPointerDown={onContentClick}
       style={{ "--sidebar-width-max": sidebarWidthMax } as React.CSSProperties}
     >
-      <Masthead className={css["header"]}>{mastheadContent}</Masthead>
+      <Masthead className={css["header"]} slotRight={<CardTypeFilter />}>
+        {mastheadContent}
+      </Masthead>
       <div
         className={css["sidebar"]}
         data-state={sidebarOpen ? "open" : "closed"}

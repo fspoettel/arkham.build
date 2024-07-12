@@ -15,7 +15,6 @@ import { Scroller } from "../ui/scroller";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { ActionFilter } from "./action-filter";
 import { AssetFilter } from "./asset-filter";
-import { CardTypeFilter } from "./card-type-filter";
 import { CostFilter } from "./cost-filter";
 import { EncounterSetFilter } from "./encounter-set-filter";
 import { FactionFilter } from "./faction-filter";
@@ -52,9 +51,6 @@ export function Filters({ className, children }: Props) {
       )}
     >
       {children && <div className={css["children"]}>{children}</div>}
-      <div className={css["header"]}>
-        <CardTypeFilter />
-      </div>
       <div className={css["header"]}>
         <Tooltip delay={300} placement="top-start">
           <TooltipTrigger asChild>

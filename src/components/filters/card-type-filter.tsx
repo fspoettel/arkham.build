@@ -31,17 +31,10 @@ export function CardTypeFilter({ className }: Props) {
       icons
       onValueChange={onToggle}
       type="single"
-      value={`${activeList.key.split("_").at(-1)}`}
+      value={activeList.cardType}
     >
       <ToggleGroupItem size="small" value="player" tooltip="Show player cards">
         <i className="icon-per_investigator" />
-      </ToggleGroupItem>
-      <ToggleGroupItem
-        size="small"
-        value="weakness"
-        tooltip="Show player weaknesses"
-      >
-        <i className="icon-weakness" />
       </ToggleGroupItem>
       <ToggleGroupItem
         size="small"

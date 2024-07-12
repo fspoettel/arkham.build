@@ -46,10 +46,6 @@ export function filterBacksides(card: Card) {
   return !card.linked;
 }
 
-export function filterWeaknesses(card: Card) {
-  return !!card.subtype_code;
-}
-
 /**
  * Actions
  */

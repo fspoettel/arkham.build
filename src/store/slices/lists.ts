@@ -11,7 +11,6 @@ import {
   filterEncounterCards,
   filterMythosCards,
   filterType,
-  filterWeaknesses,
 } from "../lib/filtering";
 import {
   isAssetFilter,
@@ -535,51 +534,6 @@ function makeList(
   };
 }
 
-const playerCardFilters: FilterKey[] = [
-  "faction",
-  "type",
-  "level",
-  "ownership",
-  "investigator",
-  "cost",
-  "trait",
-  "subtype",
-  "asset",
-  "skillIcons",
-  "properties",
-  "action",
-  "pack",
-  "tabooSet",
-];
-
-function makeWeaknessList(
-  key: string,
-  { initialValues = {} as Partial<Record<FilterKey, unknown>> } = {},
-): List {
-  const systemFilter = [
-    filterDuplicates,
-    filterBacksides,
-    filterEncounterCards,
-    filterWeaknesses,
-  ];
-
-  return makeList(
-    key,
-    "player",
-    playerCardFilters.filter(
-      (k) =>
-        k !== "faction" &&
-        k !== "level" &&
-        k !== "investigator" &&
-        k !== "tabooSet",
-    ),
-    ["subtype", "type", "slot"],
-    ["name", "level"],
-    and(systemFilter),
-    initialValues,
-  );
-}
-
 function makePlayerCardsList(
   key: string,
   {
@@ -587,14 +541,28 @@ function makePlayerCardsList(
     showInvestigators = false,
   } = {},
 ): List {
-  const filters: FilterKey[] = [...playerCardFilters];
+  const filters: FilterKey[] = [
+    "faction",
+    "type",
+    "level",
+    "ownership",
+    "investigator",
+    "cost",
+    "trait",
+    "subtype",
+    "asset",
+    "skillIcons",
+    "properties",
+    "action",
+    "pack",
+    "tabooSet",
+  ];
 
   const systemFilter = [
     filterDuplicates,
     filterEncounterCards,
     filterMythosCards,
     filterBacksides,
-    not(filterWeaknesses),
   ];
 
   if (!showInvestigators) {
@@ -668,12 +636,6 @@ export function makeLists(initialValues?: Partial<Record<FilterKey, unknown>>) {
         ...getInitialFilterValuesForListKey("browse_player"),
       },
     }),
-    browse_weakness: makeWeaknessList("browse_weakness", {
-      initialValues: {
-        ...initialValues,
-        ...getInitialFilterValuesForListKey("browse_weakness"),
-      },
-    }),
     browse_encounter: makeEncounterCardsList("browse_encounter", {
       initialValues: {
         ...initialValues,
@@ -685,12 +647,6 @@ export function makeLists(initialValues?: Partial<Record<FilterKey, unknown>>) {
       initialValues: {
         ...initialValues,
         ...getInitialFilterValuesForListKey("editor_player"),
-      },
-    }),
-    editor_weakness: makeWeaknessList("editor_weakness", {
-      initialValues: {
-        ...initialValues,
-        ...getInitialFilterValuesForListKey("editor_weakness"),
       },
     }),
     editor_encounter: makeEncounterCardsList("editor_encounter", {
