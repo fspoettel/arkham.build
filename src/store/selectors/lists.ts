@@ -224,8 +224,8 @@ export const selectPackOptions = createSelector(
 export function selectSubtypeOptions() {
   return [
     { code: "none", name: "None" },
-    { code: "basicweakness", name: "Basic weakness" },
     { code: "weakness", name: "Weakness" },
+    { code: "basicweakness", name: "Basic weakness" },
   ];
 }
 
