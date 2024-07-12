@@ -23,7 +23,6 @@
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  justify-content: space-between;
   gap: 0.5rem;
   margin-inline: auto;
 }

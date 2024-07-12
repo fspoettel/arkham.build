@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { Redirect, useParams } from "wouter";
+import { Link, Redirect, useParams } from "wouter";
 
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
@@ -30,6 +30,13 @@ function CardView() {
       <Masthead className={css["header"]} />
       <main className={css["main"]}>
         <nav className={css["actions"]}>
+          {cardWithRelations.card.type_code === "investigator" && (
+            <Link asChild href={`/deck/create/${cardWithRelations.card.code}`}>
+              <Button as="a" data-testid="card-modal-create-deck">
+                <i className="icon-deck" /> Create deck
+              </Button>
+            </Link>
+          )}
           <Button
             as="a"
             href={`https://arkhamdb.com/card/${cardWithRelations.card.code}`}
