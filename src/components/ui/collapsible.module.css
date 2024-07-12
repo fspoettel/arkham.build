@@ -4,15 +4,15 @@
   border-radius: var(--rounded);
 
   &.active {
-    border-color: var(--nord-4);
+    border-color: var(--nord-3);
   }
 }
 
 .collapsible[data-state="open"] {
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--nord-point-five);
 
   &.active {
-    border-color: var(--nord-6);
+    border-color: var(--nord-3);
   }
 }
 

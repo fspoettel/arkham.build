@@ -19,6 +19,7 @@ import type {
   PropertiesFilter,
   SelectFilter,
   SkillIconsFilter,
+  SubtypeFilter,
 } from "../slices/lists.types";
 import { selectResolvedDeckById } from "./deck-view";
 
@@ -220,15 +221,13 @@ export const selectPackOptions = createSelector(
   },
 );
 
-export const selectSubtypeOptions = createSelector(
-  (state: StoreState) => state.metadata,
-  (metadata) => {
-    const types = Object.values(metadata.subtypes);
-    types.push({ code: "", name: "None" });
-    types.sort((a, b) => sortAlphabetical(a.name, b.name));
-    return types;
-  },
-);
+export function selectSubtypeOptions() {
+  return [
+    { code: "none", name: "None" },
+    { code: "basicweakness", name: "Basic weakness" },
+    { code: "weakness", name: "Weakness" },
+  ];
+}
 
 export const selectTabooSetOptions = (state: StoreState) => {
   const sets = Object.values(state.metadata.tabooSets);
@@ -390,12 +389,21 @@ export const selectSkillIconsChanges = (value: SkillIconsFilter) => {
 };
 
 export const selectSubtypeChanges = createSelector(
-  (_: StoreState, value: MultiselectFilter) => value,
-  (state: StoreState) => state.metadata,
-  (value, metadata) => {
-    if (!value) return "";
-    return value
-      .map((id) => metadata.subtypes[id]?.name ?? "None")
+  (_: StoreState, value: SubtypeFilter) => value,
+  selectSubtypeOptions,
+  (value) => {
+    const options = selectSubtypeOptions();
+
+    const enabled = options.filter(
+      ({ code }) => value[code as keyof SubtypeFilter],
+    );
+
+    if (enabled.length === 0) return "None";
+    if (enabled.length === options.length) return "";
+
+    return selectSubtypeOptions()
+      .filter(({ code }) => value[code as keyof SubtypeFilter])
+      .map(({ name }) => name)
       .join(" or ");
   },
 );

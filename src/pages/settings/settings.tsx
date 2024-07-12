@@ -13,6 +13,8 @@ import css from "./settings.module.css";
 
 import { CardDataSync } from "./card-data-sync";
 import { Collection } from "./collection/collection";
+import { General } from "./general";
+import { Section } from "./section";
 import { TabooSets } from "./taboo-sets";
 
 function Settings() {
@@ -44,9 +46,9 @@ function Settings() {
   return (
     <AppLayout title="Settings">
       <form className={css["settings"]} onSubmit={onSubmit} ref={formRef}>
-        <header className={css["settings-header"]}>
-          <h1 className={css["settings-title"]}>Settings</h1>
-          <div className={css["settings-header-actions"]}>
+        <header className={css["header"]}>
+          <h1 className={css["title"]}>Settings</h1>
+          <div className={css["header-actions"]}>
             <Button
               data-testid="settings-back"
               onClick={goBack}
@@ -60,16 +62,23 @@ function Settings() {
             </Button>
           </div>
         </header>
-        <div className={css["settings-container"]}>
+        <div className={css["container"]}>
           <Link asChild to="/about">
             <Button as="a">
               <Info />
               About this site
             </Button>
           </Link>
-          <CardDataSync />
-          <TabooSets settings={settings} />
-          <Collection settings={settings} />
+          <Section title="Card data">
+            <CardDataSync />
+          </Section>
+          <Section title="General settings">
+            <TabooSets settings={settings} />
+            <General settings={settings} />
+          </Section>
+          <Section title="Collection">
+            <Collection settings={settings} />
+          </Section>
         </div>
       </form>
     </AppLayout>

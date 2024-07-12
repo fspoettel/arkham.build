@@ -14,6 +14,7 @@ import type {
   MultiselectFilter,
   PropertiesFilter,
   SkillIconsFilter,
+  SubtypeFilter,
 } from "../slices/lists.types";
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
@@ -460,11 +461,12 @@ export function filterSkillIcons(filterState: SkillIconsFilter) {
  * Subtype
  */
 
-export function filterSubtypes(enabledTypeCodes: MultiselectFilter) {
+export function filterSubtypes(filter: SubtypeFilter) {
   return (card: Card) => {
     return (
-      (!!card.subtype_code && enabledTypeCodes.includes(card.subtype_code)) ||
-      (!card.subtype_code && enabledTypeCodes.includes(""))
+      (!!card.subtype_code &&
+        filter[card.subtype_code as keyof SubtypeFilter]) ||
+      (!card.subtype_code && filter["none"])
     );
   };
 }
@@ -827,13 +829,13 @@ export function filterInvestigatorWeaknessAccess(
     config?.targetDeck !== "extraSlots"
       ? [
           filterRequired(code, lookupTables.relations),
-          filterSubtypes(["basicweakness"]),
+          filterSubtypes({ basicweakness: true, weakness: false, none: false }),
           (card: Card) => card.xp == null && !card.restrictions,
         ]
       : [(c: Card) => !!card.side_deck_requirements?.card?.[c.code]];
 
   return and([
-    filterSubtypes(["basicweakness", "weakness"]),
+    filterSubtypes({ basicweakness: true, weakness: true, none: false }),
     not(filterBonded(lookupTables.relations.bonded)),
     or(ors),
   ]);

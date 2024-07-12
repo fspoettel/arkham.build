@@ -59,7 +59,7 @@ export function SkillIconsFilter({ id }: { id: number }) {
       open={filter.open}
       title="Skill Icons"
     >
-      <CheckboxGroup as="div" className={css["icons"]}>
+      <CheckboxGroup as="div" className={css["icons"]} cols={2}>
         {Object.entries(filter.value).map(([key, value]) => (
           <div className={css["icon"]} key={key}>
             <ToggleGroup

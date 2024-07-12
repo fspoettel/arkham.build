@@ -40,6 +40,12 @@ export type PropertiesFilter = {
   succeedBy: boolean;
 };
 
+export type SubtypeFilter = {
+  none: boolean;
+  weakness: boolean;
+  basicweakness: boolean;
+};
+
 export type SelectFilter = string | number | undefined;
 
 export type SkillIconsFilter = {
@@ -63,7 +69,7 @@ export type FilterMapping = {
   pack: MultiselectFilter;
   properties: PropertiesFilter;
   skillIcons: SkillIconsFilter;
-  subtype: MultiselectFilter;
+  subtype: SubtypeFilter;
   tabooSet: SelectFilter;
   trait: MultiselectFilter;
   type: MultiselectFilter;

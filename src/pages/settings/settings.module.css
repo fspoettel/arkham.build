@@ -2,12 +2,15 @@
   position: relative;
 }
 
-.settings > * + *,
-.settings-container > * + * {
+.settings > * + * {
   margin-top: 1.5rem;
 }
 
-.settings-header {
+.container > * + * {
+  margin-top: 1.5rem;
+}
+
+.header {
   background: var(--nord-point-five);
   display: flex;
   align-items: center;
@@ -20,12 +23,37 @@
   border-radius: var(--rounded);
 }
 
-.settings-header-actions {
+.header-actions {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.settings-title {
+.title {
   font-size: var(--text-2xl);
+}
+
+.section-header {
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  display: inline-block;
+  font-size: var(--text-xl);
+  border-left: 0.25rem solid currentColor;
+  padding-left: 0.5rem;
+}
+
+.section-title::after {
+  left: 100%;
+  margin-left: 1rem;
+}
+
+.section-title::before {
+  right: 100%;
+  margin-right: 1rem;
+}
+
+.section-content > * + * {
+  margin-top: 1rem;
 }

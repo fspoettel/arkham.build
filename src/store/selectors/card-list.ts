@@ -42,6 +42,7 @@ import type {
   OwnershipFilter,
   PropertiesFilter,
   SkillIconsFilter,
+  SubtypeFilter,
 } from "../slices/lists.types";
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
@@ -185,8 +186,8 @@ function makeUserFilter(
       }
 
       case "subtype": {
-        const value = filterValue.value as MultiselectFilter;
-        if (value.length) filters.push(filterSubtypes(value));
+        const value = filterValue.value as SubtypeFilter;
+        filters.push(filterSubtypes(value));
         break;
       }
 

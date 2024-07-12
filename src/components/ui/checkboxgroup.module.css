@@ -1,8 +1,12 @@
 .checkboxgroup {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   grid-gap: 0.25rem;
   justify-items: start;
   padding: 0;
   border: none;
+}
+
+.checkboxgroup.cols-2 {
+  grid-template-columns: 1fr 1fr;
 }

@@ -7,7 +7,7 @@ type Props = {
   children: React.ReactNode;
   className?: string;
   full?: boolean;
-  helpText?: string;
+  helpText?: React.ReactNode;
   padded?: boolean;
 };
 
