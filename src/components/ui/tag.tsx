@@ -8,7 +8,8 @@ type Props = {
   size?: "xs";
 };
 
-export function Tag({ as = "span", children, size }: Props) {
+export function Tag(props: Props) {
+  const { as = "span", children, size } = props;
   const Element = as;
 
   return (

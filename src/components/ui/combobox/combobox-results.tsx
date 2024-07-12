@@ -12,11 +12,9 @@ type Props<T extends { code: string }> = {
   renderResult: (item: T) => React.ReactNode;
 };
 
-export function ComboboxResults<T extends { code: string }>({
-  items,
-  onRemove,
-  renderResult,
-}: Props<T>) {
+export function ComboboxResults<T extends { code: string }>(props: Props<T>) {
+  const { items, onRemove, renderResult } = props;
+
   const onRemoveItem = useCallback(
     (item: T) => {
       onRemove(item);

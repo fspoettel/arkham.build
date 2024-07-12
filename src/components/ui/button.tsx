@@ -17,8 +17,8 @@ type Props<T extends "a" | "button" | "summary" | "label"> =
 
 export const Button = forwardRef(function Button<
   T extends "a" | "button" | "summary" | "label",
->(
-  {
+>(props: Props<T>, ref: React.ForwardedRef<T>) {
+  const {
     as,
     children,
     iconOnly,
@@ -26,9 +26,7 @@ export const Button = forwardRef(function Button<
     size,
     tooltip,
     ...rest
-  }: Props<T>,
-  ref: React.ForwardedRef<T>,
-) {
+  } = props;
   // biome-ignore lint/suspicious/noExplicitAny: safe.
   const Element: any = as ?? "button";
 

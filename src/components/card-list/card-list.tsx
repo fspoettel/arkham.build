@@ -12,7 +12,7 @@ import {
   selectCardOwnedCount,
 } from "@/store/selectors/shared";
 import type { Card } from "@/store/services/queries.types";
-import type { Id, Slots } from "@/store/slices/data.types";
+import type { Slots } from "@/store/slices/data.types";
 import { range } from "@/utils/range";
 import { useDeckId } from "@/utils/use-deck-id";
 
@@ -28,7 +28,6 @@ import { CardSearch } from "./card-search";
 
 type Props = {
   className?: string;
-  deckId?: Id;
   onChangeCardQuantity?: (code: string, quantity: number) => void;
   quantities?: Slots;
   renderListCardAction?: (card: Card) => React.ReactNode;
@@ -38,16 +37,18 @@ type Props = {
   targetDeck?: "slots" | "extraSlots" | "both";
 };
 
-export function CardList({
-  className,
-  onChangeCardQuantity,
-  quantities,
-  renderListCardAction,
-  renderListCardExtra,
-  slotLeft,
-  slotRight,
-  targetDeck,
-}: Props) {
+export function CardList(props: Props) {
+  const {
+    className,
+    onChangeCardQuantity,
+    quantities,
+    renderListCardAction,
+    renderListCardExtra,
+    slotLeft,
+    slotRight,
+    targetDeck = "slots",
+  } = props;
+
   const modalContext = useCardModalContext();
   const deckIdCtx = useDeckId();
 

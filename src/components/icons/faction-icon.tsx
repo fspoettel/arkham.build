@@ -5,6 +5,6 @@ type Props = {
   code: string;
 };
 
-export function FactionIcon({ className, code }: Props) {
-  return <i className={clsx(className, `icon-${code}`)} />;
+export function FactionIcon(props: Props) {
+  return <i className={clsx(props.className, `icon-${props.code}`)} />;
 }

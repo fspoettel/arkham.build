@@ -8,7 +8,8 @@ type Props = {
   title: string;
 };
 
-export function DecklistSection({ children, showTitle, title }: Props) {
+export function DecklistSection(props: Props) {
+  const { children, showTitle, title } = props;
   return (
     <article className={clsx(css["decklist-section"])}>
       <header className={css["decklist-section-header"]}>

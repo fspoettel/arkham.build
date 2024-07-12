@@ -12,14 +12,9 @@ type Props = {
   subname?: string;
 };
 
-export function CardNames({
-  code,
-  isUnique,
-  linked,
-  name,
-  parallel,
-  subname,
-}: Props) {
+export function CardNames(props: Props) {
+  const { code, isUnique, linked, name, parallel, subname } = props;
+
   const cardName = (
     <>
       {parallel && <i className={clsx(css["parallel"], "icon-parallel")} />}

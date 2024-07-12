@@ -10,11 +10,11 @@ type Props = {
   sanity?: number;
 };
 
-export function CardHealth({ className, health, sanity }: Props) {
+export function CardHealth(props: Props) {
   return (
-    <div className={clsx(className, css["health"])}>
-      <HealthIcon health={health} />
-      <SanityIcon sanity={sanity} />
+    <div className={clsx(props.className, css["health"])}>
+      <HealthIcon health={props.health} />
+      <SanityIcon sanity={props.sanity} />
     </div>
   );
 }

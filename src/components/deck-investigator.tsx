@@ -25,13 +25,15 @@ type Props = {
   size: "tooltip" | "full";
 };
 
-export function DeckInvestigator({
-  canToggleBack = true,
-  forceShowHeader,
-  deck,
-  showRelated,
-  size,
-}: Props) {
+export function DeckInvestigator(props: Props) {
+  const {
+    canToggleBack = true,
+    deck,
+    forceShowHeader,
+    showRelated,
+    size,
+  } = props;
+
   const [backToggled, toggleBack] = useState(false);
 
   const related = getRelatedCards(deck.cards.investigator).filter(

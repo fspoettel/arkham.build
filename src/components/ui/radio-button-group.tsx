@@ -12,7 +12,9 @@ type Props = RadioGroupProps & {
   icons?: boolean;
 };
 
-export function RadioButtonGroup({ full, icons, className, ...rest }: Props) {
+export function RadioButtonGroup(props: Props) {
+  const { full, icons, className, ...rest } = props;
+
   return (
     <Root
       {...rest}

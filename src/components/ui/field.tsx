@@ -26,14 +26,9 @@ export function FieldLabel({
   );
 }
 
-export function Field({
-  bordered,
-  children,
-  className,
-  full,
-  helpText,
-  padded,
-}: Props) {
+export function Field(props: Props) {
+  const { bordered, children, className, full, helpText, padded } = props;
+
   return (
     <div
       className={clsx(

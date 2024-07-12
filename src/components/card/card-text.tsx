@@ -15,15 +15,9 @@ type Props = {
   victory?: number;
 };
 
-export function CardText({
-  flavor,
-  size,
-  tabooText,
-  tabooXp,
-  text,
-  typeCode,
-  victory,
-}: Props) {
+export function CardText(props: Props) {
+  const { flavor, size, text, tabooText, tabooXp, typeCode, victory } = props;
+
   const isFlavorSwapped = ["agenda", "act", "story"].includes(typeCode);
   const isFlavorCardText = isFlavorSwapped || typeCode === "location";
   const showFlavor = size === "full" || isFlavorCardText;

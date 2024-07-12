@@ -23,7 +23,9 @@ type Props = {
   validation?: DeckValidationResult;
 };
 
-export function Editor({ currentTab, deck, onTabChange, validation }: Props) {
+export function Editor(props: Props) {
+  const { currentTab, onTabChange, deck, validation } = props;
+
   return (
     <div className={css["editor"]}>
       <DeckSummary deck={deck} validation={validation} />

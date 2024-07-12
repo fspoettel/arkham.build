@@ -9,10 +9,10 @@ type Props = {
   card: ResolvedCard["card"];
 };
 
-export function Customizations({ card }: Props) {
-  const backgroundCls = getCardColor(card, "background");
+export function Customizations(props: Props) {
+  const backgroundCls = getCardColor(props.card, "background");
 
-  const html = parseCardTextHtml(card.real_customization_text as string);
+  const html = parseCardTextHtml(props.card.real_customization_text as string);
 
   return (
     <article className={css["customizations"]}>

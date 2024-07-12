@@ -20,15 +20,17 @@ type Props<T extends Coded> = {
   setSelectedItem: (t: T) => void;
 };
 
-export function ComboboxMenu<T extends Coded>({
-  activeIndex,
-  items,
-  listRef,
-  renderItem,
-  selectedItems,
-  setActiveIndex,
-  setSelectedItem,
-}: Props<T>) {
+export function ComboboxMenu<T extends Coded>(props: Props<T>) {
+  const {
+    activeIndex,
+    items,
+    listRef,
+    renderItem,
+    selectedItems,
+    setActiveIndex,
+    setSelectedItem,
+  } = props;
+
   const [scrollParent, setScrollParent] = useState<HTMLElement | undefined>();
   const virtuosoRef = useRef<GroupedVirtuosoHandle>(null);
 

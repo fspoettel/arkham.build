@@ -28,16 +28,10 @@ type Props = {
   xpMax: number;
 };
 
-export function CustomizationOption({
-  card,
-  choices,
-  disabled,
-  index,
-  onChange,
-  option,
-  text,
-  xpMax,
-}: Props) {
+export function CustomizationOption(props: Props) {
+  const { card, choices, disabled, index, onChange, option, text, xpMax } =
+    props;
+
   const id = useId();
   const choice = choices?.[index];
   const xpSpent = choice?.xp_spent ?? 0;

@@ -34,7 +34,7 @@ type Props = {
   className?: string;
 };
 
-export function Filters({ className, children }: Props) {
+export function Filters(props: Props) {
   const resetFilters = useStore((state) => state.resetFilters);
   const activeList = useStore(selectActiveList);
   const filters = useStore(selectActiveListFilters);
@@ -46,11 +46,13 @@ export function Filters({ className, children }: Props) {
     <search
       className={clsx(
         css["filters"],
-        className,
+        props.className,
         !filtersEnabled && css["disabled"],
       )}
     >
-      {children && <div className={css["children"]}>{children}</div>}
+      {props.children && (
+        <div className={css["children"]}>{props.children}</div>
+      )}
       <div className={css["header"]}>
         <Tooltip delay={300} placement="top-start">
           <TooltipTrigger asChild>

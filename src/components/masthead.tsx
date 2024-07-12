@@ -12,18 +12,18 @@ type Props = {
   slotRight?: React.ReactNode;
 };
 
-export function Masthead({ children, className, slotRight }: Props) {
+export function Masthead(props: Props) {
   const [location] = useLocation();
   return (
-    <header className={clsx(className, css["masthead"])}>
+    <header className={clsx(props.className, css["masthead"])}>
       <div className={css["left"]}>
         <Link className={css["logo"]} href="/" data-testid="masthead-logo">
           <img alt="Arkham.build logo" src="/logo.svg" />
         </Link>
-        {children}
+        {props.children}
       </div>
       <nav className={css["right"]}>
-        {slotRight}
+        {props.slotRight}
         {location !== "/settings" && (
           <Link asChild href="/settings">
             <Button

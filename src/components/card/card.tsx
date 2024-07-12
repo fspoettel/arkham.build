@@ -28,15 +28,17 @@ type Props = {
  *  - `compact`: Renders a card without its backside and with a smaller card image.
  *  - `tooltip`: Renders the card as a tooltip that is shown in card lists.
  */
-export function Card({
-  canToggleBackside,
-  children,
-  className,
-  isBack,
-  resolvedCard,
-  linked,
-  size = "full",
-}: Props) {
+export function Card(props: Props) {
+  const {
+    canToggleBackside,
+    children,
+    className,
+    isBack,
+    resolvedCard,
+    linked,
+    size = "full",
+  } = props;
+
   const { back, card } = resolvedCard;
 
   const [backToggled, toggleBack] = useState(false);

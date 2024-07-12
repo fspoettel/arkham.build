@@ -19,13 +19,8 @@ const selectTraitOptions = (state: StoreState) => {
   return types;
 };
 
-export function CustomizationChooseTraits({
-  disabled,
-  id,
-  limit,
-  onChange,
-  selections,
-}: Props) {
+export function CustomizationChooseTraits(props: Props) {
+  const { disabled, id, limit, onChange, selections } = props;
   const traits = useStore(selectTraitOptions);
 
   return (

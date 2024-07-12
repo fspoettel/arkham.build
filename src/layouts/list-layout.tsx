@@ -21,14 +21,16 @@ type Props = {
   sidebarWidthMax: string;
 };
 
-export function ListLayout({
-  children,
-  className,
-  filters,
-  mastheadContent,
-  sidebar,
-  sidebarWidthMax,
-}: Props) {
+export function ListLayout(props: Props) {
+  const {
+    children,
+    className,
+    filters,
+    mastheadContent,
+    sidebar,
+    sidebarWidthMax,
+  } = props;
+
   const [filtersOpen, onToggleFilters] = useState(false);
   const [sidebarOpen, onToggleSidebar] = useState(false);
 

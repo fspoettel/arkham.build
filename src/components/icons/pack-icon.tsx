@@ -5,9 +5,11 @@ type Props = {
   className?: string;
 };
 
-function PackIcon({ code, className }: Props) {
-  const icon = getPackIcon(code);
-  return icon ? <i className={clsx(`encounters-${icon}`, className)} /> : null;
+function PackIcon(props: Props) {
+  const icon = getPackIcon(props.code);
+  return icon ? (
+    <i className={clsx(`encounters-${icon}`, props.className)} />
+  ) : null;
 }
 
 function getPackIcon(code?: string) {

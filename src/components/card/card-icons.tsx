@@ -15,7 +15,9 @@ type Props = {
   className?: string;
 };
 
-export function CardIcons({ card, className }: Props) {
+export function CardIcons(props: Props) {
+  const { card, className } = props;
+
   return (
     <div className={clsx(css["icons"], className)}>
       {card.type_code === "investigator" ? (

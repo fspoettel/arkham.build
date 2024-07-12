@@ -21,18 +21,20 @@ type Props = Omit<CollapsibleProps, "title"> & {
   variant?: "active";
 };
 
-export function Collapsible({
-  actions,
-  className,
-  children,
-  open,
-  onOpenChange,
-  sub,
-  title,
-  header,
-  variant,
-  ...rest
-}: Props) {
+export function Collapsible(props: Props) {
+  const {
+    actions,
+    className,
+    children,
+    open,
+    onOpenChange,
+    sub,
+    title,
+    header,
+    variant,
+    ...rest
+  } = props;
+
   return (
     <Root
       {...rest}

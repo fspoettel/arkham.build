@@ -16,8 +16,8 @@ type Props = {
   skipCycle?: boolean;
 };
 
-function EncounterEntry({ resolvedCard }: Props) {
-  const { card, cycle, encounterSet, pack } = resolvedCard;
+function EncounterEntry(props: Props) {
+  const { card, cycle, encounterSet, pack } = props.resolvedCard;
 
   if (!encounterSet) return null;
 
@@ -37,8 +37,10 @@ function EncounterEntry({ resolvedCard }: Props) {
   );
 }
 
-function PlayerEntry({ resolvedCard, size }: Props) {
+function PlayerEntry(props: Props) {
+  const { resolvedCard, size } = props;
   const { card, cycle, pack } = resolvedCard;
+
   const duplicates = isCardWithRelations(resolvedCard)
     ? resolvedCard.relations?.duplicates
     : [];
@@ -65,7 +67,8 @@ function PlayerEntry({ resolvedCard, size }: Props) {
   );
 }
 
-function PackEntries({ resolvedCard, size }: Props) {
+function PackEntries(props: Props) {
+  const { resolvedCard, size } = props;
   const { card, encounterSet } = resolvedCard;
   const isEncounter = encounterSet && card.encounter_code;
   return (
@@ -79,7 +82,8 @@ function PackEntries({ resolvedCard, size }: Props) {
   );
 }
 
-export function CardMeta({ size, resolvedCard }: Props) {
+export function CardMeta(props: Props) {
+  const { resolvedCard, size } = props;
   const illustrator = resolvedCard.card.illustrator;
 
   return (
@@ -94,12 +98,12 @@ export function CardMeta({ size, resolvedCard }: Props) {
   );
 }
 
-export function CardMetaBack({ illustrator }: { illustrator?: string }) {
+export function CardMetaBack(props: { illustrator?: string }) {
   return (
     <footer className={css["meta"]}>
-      {illustrator && (
+      {props.illustrator && (
         <p className={css["meta-property"]}>
-          <i className="icon-paintbrush" /> {illustrator}
+          <i className="icon-paintbrush" /> {props.illustrator}
         </p>
       )}
     </footer>

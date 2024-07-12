@@ -10,13 +10,9 @@ type Props = {
   selections: string[];
 };
 
-export function CustomizationRemoveSlot({
-  card,
-  disabled,
-  onChange,
-  id,
-  selections,
-}: Props) {
+export function CustomizationRemoveSlot(props: Props) {
+  const { card, disabled, id, onChange, selections } = props;
+
   const onValueChange = (evt: React.ChangeEvent<HTMLSelectElement>) => {
     if (evt.target instanceof HTMLSelectElement) {
       onChange([evt.target.value]);

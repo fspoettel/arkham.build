@@ -17,7 +17,9 @@ type Props = {
   validation: DeckValidationResult;
 };
 
-export function DecklistValidation({ defaultOpen, validation }: Props) {
+export function DecklistValidation(props: Props) {
+  const { defaultOpen, validation } = props;
+
   if (validation.valid) return null;
 
   return (

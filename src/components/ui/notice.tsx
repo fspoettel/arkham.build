@@ -21,7 +21,8 @@ function getIconForVariant(variant?: Variant) {
   }
 }
 
-export function Notice({ as = "div", children, variant }: Props) {
+export function Notice(props: Props) {
+  const { as = "div", children, variant } = props;
   const Element = as;
 
   const icon = getIconForVariant(variant);

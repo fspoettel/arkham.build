@@ -10,7 +10,7 @@ type Props = {
   className?: string;
 };
 
-export function CardTypeFilter({ className }: Props) {
+export function CardTypeFilter(props: Props) {
   const [pathname] = useLocation();
   const activeList = useStore(selectActiveList);
   const changeList = useStore((state) => state.changeList);
@@ -26,7 +26,7 @@ export function CardTypeFilter({ className }: Props) {
 
   return (
     <ToggleGroup
-      className={className}
+      className={props.className}
       defaultValue="player"
       data-testid="toggle-card-type"
       icons

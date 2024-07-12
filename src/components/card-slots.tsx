@@ -12,7 +12,8 @@ type Props = {
   size?: "small" | "default";
 };
 
-export function CardSlots({ className, slot, size }: Props) {
+export function CardSlots(props: Props) {
+  const { className, slot, size } = props;
   return (
     <ol className={clsx(css["slots"], size && css[size], className)}>
       {splitMultiValue(slot).map((slot) => (

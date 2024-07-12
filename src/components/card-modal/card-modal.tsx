@@ -28,7 +28,7 @@ type Props = {
   code: string;
 };
 
-export function CardModal({ code }: Props) {
+export function CardModal(props: Props) {
   const deckIdCtx = useDeckId();
   const deckId = deckIdCtx.deckId;
   const canEdit = deckIdCtx.canEdit;
@@ -45,7 +45,7 @@ export function CardModal({ code }: Props) {
   );
 
   const cardWithRelations = useStore((state) =>
-    selectCardWithRelations(state, code, true, deckId, canEdit),
+    selectCardWithRelations(state, props.code, true, deckId, canEdit),
   );
 
   const showQuantities =

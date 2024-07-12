@@ -66,14 +66,9 @@ type Props = {
   onChange: (selections: string[]) => void;
 };
 
-export function CustomizationChooseCards({
-  config,
-  disabled,
-  id,
-  limit,
-  onChange,
-  selections,
-}: Props) {
+export function CustomizationChooseCards(props: Props) {
+  const { selections, config, disabled, id, limit, onChange } = props;
+
   const cards = useStore((state) =>
     selectPlayerCardsForCustomizationOptions(state, config),
   );

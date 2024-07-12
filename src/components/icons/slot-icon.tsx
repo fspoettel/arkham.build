@@ -25,8 +25,8 @@ const getIcon = (code: string) => {
   }
 };
 
-function SlotIcon({ code }: Props) {
-  const Icon = getIcon(code);
+function SlotIcon(props: Props) {
+  const Icon = getIcon(props.code);
   return Icon ? Icon : null;
 }
 

@@ -7,7 +7,9 @@ type Props = {
   top?: React.ReactNode;
 };
 
-export function CenterLayout({ children, className, top }: Props) {
+export function CenterLayout(props: Props) {
+  const { children, className, top } = props;
+
   return (
     <div className={clsx(css["layout"], className)}>
       {top && <div className={css["top"]}>{top}</div>}

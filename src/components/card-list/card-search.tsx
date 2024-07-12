@@ -17,7 +17,8 @@ type Props = {
   slotRight?: React.ReactNode;
 };
 
-export function CardSearch({ onKeyboardNavigate, slotLeft, slotRight }: Props) {
+export function CardSearch(props: Props) {
+  const { onKeyboardNavigate, slotLeft, slotRight } = props;
   const inputRef = useRef<HTMLInputElement>(null);
 
   const setSearchValue = useStore((state) => state.setSearchValue);

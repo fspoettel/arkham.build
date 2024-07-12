@@ -47,7 +47,9 @@ const selectUpdateMetaProperty = (state: StoreState) =>
 const selectUpdateInvestigatorSide = (state: StoreState) =>
   state.updateInvestigatorSide;
 
-export function MetaEditor({ deck }: Props) {
+export function MetaEditor(props: Props) {
+  const { deck } = props;
+
   const tabooSets = useStore(selectTabooSetSelectOptions);
 
   const updateName = useStore(selectUpdateName);

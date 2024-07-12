@@ -19,18 +19,20 @@ type Props<T extends Coded> = {
   value: string[];
 };
 
-export function MultiselectFilter<T extends Coded>({
-  changes,
-  children,
-  id,
-  itemToString,
-  nameRenderer,
-  open,
-  options,
-  placeholder,
-  title,
-  value,
-}: Props<T>) {
+export function MultiselectFilter<T extends Coded>(props: Props<T>) {
+  const {
+    changes,
+    children,
+    id,
+    itemToString,
+    nameRenderer,
+    open,
+    options,
+    placeholder,
+    title,
+    value,
+  } = props;
+
   const setFilterValue = useStore((state) => state.setFilterValue);
   const setFilterOpen = useStore((state) => state.setFilterOpen);
   const resetFilter = useStore((state) => state.resetFilter);

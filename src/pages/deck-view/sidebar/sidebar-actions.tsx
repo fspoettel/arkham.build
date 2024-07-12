@@ -21,7 +21,8 @@ type Props = {
   deck: DisplayDeck;
 };
 
-export function SidebarActions({ deck }: Props) {
+export function SidebarActions(props: Props) {
+  const { deck } = props;
   const showToast = useToast();
   const [, setLocation] = useLocation();
 

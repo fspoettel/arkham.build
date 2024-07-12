@@ -69,22 +69,24 @@ type Props<T extends Coded> = {
 };
 
 // TODO: the logic here is very messy, extract to a reducer when adding group support.
-export function Combobox<T extends Coded>({
-  autoFocus,
-  className,
-  disabled,
-  id,
-  items,
-  itemToString = defaultItemToString,
-  label,
-  limit,
-  placeholder,
-  onValueChange,
-  renderItem = defaultRenderer,
-  renderResult = defaultRenderer,
-  selectedItems,
-  showLabel,
-}: Props<T>) {
+export function Combobox<T extends Coded>(props: Props<T>) {
+  const {
+    autoFocus,
+    className,
+    disabled,
+    id,
+    items,
+    itemToString = defaultItemToString,
+    label,
+    limit,
+    placeholder,
+    onValueChange,
+    renderItem = defaultRenderer,
+    renderResult = defaultRenderer,
+    selectedItems,
+    showLabel,
+  } = props;
+
   const [activeIndex, setActiveIndex] = useState<number | undefined>(undefined);
   const [isOpen, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");

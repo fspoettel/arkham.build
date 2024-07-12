@@ -8,7 +8,8 @@ type Props = {
   size: "compact" | "tooltip" | "full";
 } & React.HTMLAttributes<HTMLDivElement>;
 
-export function CardContainer({ children, className, size, ...rest }: Props) {
+export function CardContainer(props: Props) {
+  const { children, className, size, ...rest } = props;
   return (
     <div className={clsx(css["container"], css[size], className)} {...rest}>
       {children}

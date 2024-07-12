@@ -9,7 +9,8 @@ type Props = React.ComponentProps<"select"> & {
   options: SelectOption[];
 };
 
-export function Select({ emptyLabel, options, required, ...rest }: Props) {
+export function Select(props: Props) {
+  const { emptyLabel, options, required, ...rest } = props;
   return (
     <select {...rest}>
       {!required && <option value="">{emptyLabel}</option>}

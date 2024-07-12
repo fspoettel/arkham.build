@@ -17,18 +17,20 @@ type Props = {
   title: string;
 } & Omit<CollapsibleProps, "title">;
 
-export function FilterContainer({
-  alwaysShowFilterString,
-  children,
-  className,
-  filterString,
-  nonCollapsibleContent,
-  onOpenChange,
-  onReset,
-  open,
-  title,
-  ...rest
-}: Props) {
+export function FilterContainer(props: Props) {
+  const {
+    children,
+    className,
+    nonCollapsibleContent,
+    alwaysShowFilterString,
+    filterString,
+    open,
+    onOpenChange,
+    onReset,
+    title,
+    ...rest
+  } = props;
+
   const onFilterReset = useCallback(
     (evt: React.MouseEvent) => {
       evt.preventDefault();
