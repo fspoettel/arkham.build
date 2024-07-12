@@ -1,14 +1,18 @@
 /// <reference types="vitest" />
 import path from "node:path";
 import react from "@vitejs/plugin-react";
-import autoprefixer from "autoprefixer";
+import browserslist from "browserslist";
+import { browserslistToTargets } from "lightningcss";
 import webpackStats from "rollup-plugin-webpack-stats";
 import { defineConfig } from "vite";
 import svgr from "vite-plugin-svgr";
 
+const targets = "last 2 versions and not dead and >0.05%";
+
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
+    cssMinify: "lightningcss",
     rollupOptions: {
       output: {
         assetFileNames: "assets/[name].[hash][extname]",
@@ -18,8 +22,9 @@ export default defineConfig({
     },
   },
   css: {
-    postcss: {
-      plugins: [autoprefixer()],
+    transformer: "lightningcss",
+    lightningcss: {
+      targets: browserslistToTargets(browserslist(targets)),
     },
   },
   plugins: [
