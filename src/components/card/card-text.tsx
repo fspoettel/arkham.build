@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import { parseCardTextHtml } from "@/utils/card-utils";
 
@@ -41,7 +41,7 @@ export function CardText(props: Props) {
       </div>
       {(tabooText || tabooXp != null) && (
         <div
-          className={clsx("border-taboo", css["text"])}
+          className={cx("border-taboo", css["text"])}
           data-testid="card-taboo"
         >
           {tabooText && (

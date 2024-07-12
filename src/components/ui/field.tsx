@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import css from "./field.module.css";
 
@@ -20,7 +20,7 @@ export function FieldLabel({
   className?: string;
 } & React.ComponentProps<"label">) {
   return (
-    <label className={clsx(css["label"], className)} {...rest}>
+    <label className={cx(css["label"], className)} {...rest}>
       {children}
     </label>
   );
@@ -31,7 +31,7 @@ export function Field(props: Props) {
 
   return (
     <div
-      className={clsx(
+      className={cx(
         css["field"],
         className,
         bordered && css["bordered"],

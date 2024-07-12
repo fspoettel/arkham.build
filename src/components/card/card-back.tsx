@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import type { ResolvedCard } from "@/store/lib/types";
 import type { Card as CardType } from "@/store/services/queries.types";
@@ -48,7 +48,7 @@ export function CardBack(props: Props) {
 
   return (
     <article
-      className={clsx(
+      className={cx(
         css["card"],
         sideways(backCard) && css["sideways"],
         css["back"],

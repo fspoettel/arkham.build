@@ -1,3 +1,4 @@
+import { cx } from "@/utils/cx";
 import {
   FloatingFocusManager,
   FloatingPortal,
@@ -10,7 +11,6 @@ import {
   useInteractions,
 } from "@floating-ui/react";
 import uFuzzy from "@leeoniya/ufuzzy";
-import clsx from "clsx";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import type { Coded } from "@/store/services/queries.types";
@@ -171,10 +171,10 @@ export function Combobox<T extends Coded>(props: Props<T>) {
   }, [isOpen]);
 
   return (
-    <div className={clsx(css["combobox"], className)}>
+    <div className={cx(css["combobox"], className)}>
       <div className={css["control"]}>
         <label
-          className={clsx(css["control-label"], !showLabel && "sr-only")}
+          className={cx(css["control-label"], !showLabel && "sr-only")}
           htmlFor={id}
         >
           {label}

@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import css from "./decklist-section.module.css";
 
@@ -11,13 +11,10 @@ type Props = {
 export function DecklistSection(props: Props) {
   const { children, showTitle, title } = props;
   return (
-    <article className={clsx(css["decklist-section"])}>
+    <article className={cx(css["decklist-section"])}>
       <header className={css["decklist-section-header"]}>
         <h3
-          className={clsx(
-            css["decklist-section-title"],
-            !showTitle && "sr-only",
-          )}
+          className={cx(css["decklist-section-title"], !showTitle && "sr-only")}
         >
           {title}
         </h3>

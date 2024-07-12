@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import { splitMultiValue } from "@/utils/card-utils";
 
@@ -15,7 +15,7 @@ type Props = {
 export function CardSlots(props: Props) {
   const { className, slot, size } = props;
   return (
-    <ol className={clsx(css["slots"], size && css[size], className)}>
+    <ol className={cx(css["slots"], size && css[size], className)}>
       {splitMultiValue(slot).map((slot) => (
         <li key={slot}>
           <SlotIcon code={slot} />

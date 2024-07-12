@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import { Link } from "wouter";
 
 import css from "./card.module.css";
@@ -17,7 +17,7 @@ export function CardNames(props: Props) {
 
   const cardName = (
     <>
-      {parallel && <i className={clsx(css["parallel"], "icon-parallel")} />}
+      {parallel && <i className={cx(css["parallel"], "icon-parallel")} />}
       {name} <span>{isUnique && "✸"}</span>
     </>
   );

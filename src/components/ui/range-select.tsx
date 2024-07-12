@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import { useCallback, useEffect, useState } from "react";
 
 import css from "./range-select.module.css";
@@ -43,11 +43,8 @@ export function RangeSelect(props: Props) {
   }, []);
 
   return (
-    <div className={clsx(css["field"], className)}>
-      <label
-        className={clsx(css["label"], !showLabel && "sr-only")}
-        htmlFor={id}
-      >
+    <div className={cx(css["field"], className)}>
+      <label className={cx(css["label"], !showLabel && "sr-only")} htmlFor={id}>
         {label}
       </label>
       <Slider

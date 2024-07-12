@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import { CheckCircle, CircleAlert } from "lucide-react";
 import {
   createContext,
@@ -80,7 +80,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       {children}
       {toast && (
         <div
-          className={clsx(
+          className={cx(
             css["toast"],
             toast.variant && css[toast.variant],
             isExiting && css["exiting"],

@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import { ChevronLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,7 @@ function About() {
 
   return (
     <AppLayout title="About">
-      <div className={clsx("longform", css["about"])}>
+      <div className={cx("longform", css["about"])}>
         <Button onClick={goBack} variant="bare">
           <ChevronLeft /> Back
         </Button>

@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import css from "./card-health.module.css";
 
@@ -12,7 +12,7 @@ type Props = {
 
 export function CardHealth(props: Props) {
   return (
-    <div className={clsx(props.className, css["health"])}>
+    <div className={cx(props.className, css["health"])}>
       <HealthIcon health={props.health} />
       <SanityIcon sanity={props.sanity} />
     </div>

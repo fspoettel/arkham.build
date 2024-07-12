@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import type { Card } from "@/store/services/queries.types";
 import { cardLevel, getCardColor } from "@/utils/card-utils";
@@ -22,7 +22,7 @@ export function CardIcon(props: Props) {
   if (card.subtype_code && card.type_code === "treachery") {
     return (
       <span
-        className={clsx(
+        className={cx(
           css["icon_weakness"],
           className,
           inverted && css["icon_inverted"],
@@ -36,7 +36,7 @@ export function CardIcon(props: Props) {
   if (card.faction_code === "mythos") {
     return (
       <div
-        className={clsx(
+        className={cx(
           css["icon_mythos"],
           className,
           inverted && css["icon_inverted"],
@@ -50,7 +50,7 @@ export function CardIcon(props: Props) {
   if (card.type_code === "investigator") {
     return (
       <div
-        className={clsx(
+        className={cx(
           css["icon_large"],
           className,
           inverted && css["icon_inverted"],
@@ -65,7 +65,7 @@ export function CardIcon(props: Props) {
   if (card.type_code === "skill") {
     return (
       <div
-        className={clsx(
+        className={cx(
           css["icon_skill"],
           className,
           inverted && css["icon_inverted"],
@@ -85,7 +85,7 @@ export function CardIcon(props: Props) {
 
   return (
     <div
-      className={clsx(
+      className={cx(
         css["icon_cost"],
         colorCls,
         className,
@@ -93,7 +93,7 @@ export function CardIcon(props: Props) {
       )}
     >
       {card.cost && card.cost >= 10 ? (
-        <span className={clsx(css["icon-children"])}>
+        <span className={cx(css["icon-children"])}>
           <CostIcon cost={card.cost.toString().split("")[0]} />
           <CostIcon cost={card.cost.toString().split("")[1]} />
         </span>

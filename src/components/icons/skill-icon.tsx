@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 type Props = {
   className?: string;
@@ -7,6 +7,6 @@ type Props = {
 
 export function SkillIcon(props: Props) {
   return props.skill ? (
-    <i className={clsx(`icon-${props.skill}`, props.className)} />
+    <i className={cx(`icon-${props.skill}`, props.className)} />
   ) : null;
 }

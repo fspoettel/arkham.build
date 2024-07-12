@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import { useEffect, useState } from "react";
 
 import css from "./loader.module.css";
@@ -24,7 +24,7 @@ export function Loader(props: Props) {
   if (!visible) return null;
 
   return (
-    <div className={clsx(css["loader"], show && css["show"])}>
+    <div className={cx(css["loader"], show && css["show"])}>
       <div className={css["loader-inner"]}>
         <div className={css["loader-icon"]}>
           <i className="icon-auto_fail" />

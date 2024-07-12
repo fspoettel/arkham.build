@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import { ChevronLeft, CirclePlusIcon } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
@@ -48,7 +48,7 @@ function DeckCreateChooseInvestigator() {
   return (
     <CardModalProvider>
       <div
-        className={clsx(css["layout"], filtersOpen && css["filters-open"])}
+        className={cx(css["layout"], filtersOpen && css["filters-open"])}
         onPointerDown={onContentClick}
       >
         <Masthead className={css["masthead"]}>

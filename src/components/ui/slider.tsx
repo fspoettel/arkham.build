@@ -1,6 +1,6 @@
+import { cx } from "@/utils/cx";
 import type { SliderProps } from "@radix-ui/react-slider";
 import { Range, Root, Thumb, Track } from "@radix-ui/react-slider";
-import clsx from "clsx";
 
 import { range } from "@/utils/range";
 
@@ -14,9 +14,9 @@ export type Props = SliderProps & {
 export function Slider(props: Props) {
   const { className, thumbCount = 1, ...rest } = props;
   return (
-    <Root {...rest} className={clsx(css["slider"], className)}>
-      <Track className={clsx(css["track"])}>
-        <Range className={clsx(css["range"])} />
+    <Root {...rest} className={cx(css["slider"], className)}>
+      <Track className={cx(css["track"])}>
+        <Range className={cx(css["range"])} />
       </Track>
       {range(0, thumbCount).map((i) => (
         <Thumb className={css["thumb"]} key={i} />

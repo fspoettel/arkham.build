@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import { Footer } from "@/components/footer";
 import { Masthead } from "@/components/masthead";
@@ -11,7 +11,7 @@ import { DeckCreateInvestigator } from "./deck-create-investigator";
 
 export function DeckCreateInner() {
   return (
-    <div className={clsx(css["layout"], "fade-in")}>
+    <div className={cx(css["layout"], "fade-in")}>
       <Masthead className={css["layout-header"]} />
       <div className={css["layout-sidebar"]}>
         <DeckCreateEditor />

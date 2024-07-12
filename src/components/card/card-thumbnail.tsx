@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import { memo } from "react";
 
 import type { Card } from "@/store/services/queries.types";
@@ -24,7 +24,7 @@ export const CardThumbnail = memo(
 
     return (
       <div
-        className={clsx(
+        className={cx(
           css["thumbnail"],
           css[card.type_code],
           card.subtype_code && css[card.subtype_code],

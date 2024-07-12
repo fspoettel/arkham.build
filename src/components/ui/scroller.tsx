@@ -1,7 +1,7 @@
+import { cx } from "@/utils/cx";
 /* eslint-disable react/display-name */
 import type { ScrollAreaProps } from "@radix-ui/react-scroll-area";
 import { Root, Scrollbar, Thumb, Viewport } from "@radix-ui/react-scroll-area";
-import clsx from "clsx";
 import { forwardRef } from "react";
 
 import css from "./scroller.module.css";
@@ -16,13 +16,9 @@ export const Scroller = forwardRef(
   (props: Props, ref: React.ForwardedRef<HTMLDivElement>) => {
     const { children, className, viewportClassName, ...rest } = props;
     return (
-      <Root
-        {...rest}
-        className={clsx(css["scroller"], className)}
-        type="scroll"
-      >
+      <Root {...rest} className={cx(css["scroller"], className)} type="scroll">
         <Viewport
-          className={clsx(css["viewport"], viewportClassName)}
+          className={cx(css["viewport"], viewportClassName)}
           ref={ref}
           tabIndex={-1}
         >

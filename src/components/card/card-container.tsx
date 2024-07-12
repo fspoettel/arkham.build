@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import css from "./card.module.css";
 
@@ -11,7 +11,7 @@ type Props = {
 export function CardContainer(props: Props) {
   const { children, className, size, ...rest } = props;
   return (
-    <div className={clsx(css["container"], css[size], className)} {...rest}>
+    <div className={cx(css["container"], css[size], className)} {...rest}>
       {children}
     </div>
   );

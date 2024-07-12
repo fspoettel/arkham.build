@@ -1,9 +1,9 @@
+import { cx } from "@/utils/cx";
 import type {
   RadioGroupItemProps,
   RadioGroupProps,
 } from "@radix-ui/react-radio-group";
 import { Item, Root } from "@radix-ui/react-radio-group";
-import clsx from "clsx";
 
 import css from "./radio-button-group.module.css";
 
@@ -18,7 +18,7 @@ export function RadioButtonGroup(props: Props) {
   return (
     <Root
       {...rest}
-      className={clsx(
+      className={cx(
         css["radio-button-group"],
         className,
         full && css["is-full"],
@@ -38,9 +38,6 @@ export function RadioButtonGroupItem({
   ...rest
 }: GroupItemProps) {
   return (
-    <Item
-      {...rest}
-      className={clsx(css["item"], size && css[size], className)}
-    />
+    <Item {...rest} className={cx(css["item"], size && css[size], className)} />
   );
 }

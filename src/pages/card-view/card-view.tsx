@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import { Link, Redirect, useParams } from "wouter";
 
 import { Masthead } from "@/components/masthead";
@@ -26,7 +26,7 @@ function CardView() {
   }
 
   return (
-    <div className={clsx(css["layout"], "fade-in")}>
+    <div className={cx(css["layout"], "fade-in")}>
       <Masthead className={css["header"]} />
       <main className={css["main"]}>
         <nav className={css["actions"]}>

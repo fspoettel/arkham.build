@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import { Settings } from "lucide-react";
 import { Link, useLocation } from "wouter";
 
@@ -15,7 +15,7 @@ type Props = {
 export function Masthead(props: Props) {
   const [location] = useLocation();
   return (
-    <header className={clsx(props.className, css["masthead"])}>
+    <header className={cx(props.className, css["masthead"])}>
       <div className={css["left"]}>
         <Link className={css["logo"]} href="/" data-testid="masthead-logo">
           <img alt="Arkham.build logo" src="/logo.svg" />

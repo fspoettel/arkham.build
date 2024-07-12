@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
 import { sideways } from "@/utils/card-utils";
@@ -31,7 +31,7 @@ export function CardFront(props: Props) {
 
   return (
     <article
-      className={clsx(
+      className={cx(
         css["card"],
         sideways(card) && css["sideways"],
         showImage && css["has-image"],

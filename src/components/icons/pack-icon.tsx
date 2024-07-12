@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 type Props = {
   code?: string;
@@ -8,7 +8,7 @@ type Props = {
 function PackIcon(props: Props) {
   const icon = getPackIcon(props.code);
   return icon ? (
-    <i className={clsx(`encounters-${icon}`, props.className)} />
+    <i className={cx(`encounters-${icon}`, props.className)} />
   ) : null;
 }
 

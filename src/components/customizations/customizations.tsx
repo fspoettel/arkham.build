@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import type { ResolvedCard } from "@/store/lib/types";
 import { getCardColor, parseCardTextHtml } from "@/utils/card-utils";
@@ -16,7 +16,7 @@ export function Customizations(props: Props) {
 
   return (
     <article className={css["customizations"]}>
-      <header className={clsx(css["header"], backgroundCls)}>
+      <header className={cx(css["header"], backgroundCls)}>
         <h3>Customizations</h3>
       </header>
       <div className={css["text"]}>

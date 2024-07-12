@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import css from "./tag.module.css";
 
@@ -13,8 +13,6 @@ export function Tag(props: Props) {
   const Element = as;
 
   return (
-    <Element className={clsx(css["tag"], size && css[size])}>
-      {children}
-    </Element>
+    <Element className={cx(css["tag"], size && css[size])}>{children}</Element>
   );
 }

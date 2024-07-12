@@ -1,10 +1,10 @@
+import { cx } from "@/utils/cx";
 import type {
   ToggleGroupItemProps,
   ToggleGroupMultipleProps,
   ToggleGroupSingleProps,
 } from "@radix-ui/react-toggle-group";
 import { Item, Root } from "@radix-ui/react-toggle-group";
-import clsx from "clsx";
 
 import css from "./toggle-group.module.css";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
@@ -23,7 +23,7 @@ export function ToggleGroup({
   return (
     <Root
       {...rest}
-      className={clsx(
+      className={cx(
         css["togglegroup"],
         className,
         full && css["is-full"],
@@ -45,10 +45,7 @@ export function ToggleGroupItem({
   ...rest
 }: GroupItemProps) {
   const element = (
-    <Item
-      {...rest}
-      className={clsx(css["item"], size && css[size], className)}
-    />
+    <Item {...rest} className={cx(css["item"], size && css[size], className)} />
   );
 
   if (!tooltip) return element;

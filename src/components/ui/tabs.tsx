@@ -1,3 +1,4 @@
+import { cx } from "@/utils/cx";
 import type {
   TabsProps as RootProps,
   TabsContentProps,
@@ -5,7 +6,6 @@ import type {
   TabsTriggerProps,
 } from "@radix-ui/react-tabs";
 import { Content, List, Root, Trigger } from "@radix-ui/react-tabs";
-import clsx from "clsx";
 import { useMemo } from "react";
 
 import css from "./tabs.module.css";
@@ -42,7 +42,7 @@ type ListProps = TabsListProps & {
 
 export function TabsList({ children, className, ...rest }: ListProps) {
   return (
-    <List className={clsx(css["list"], className)} {...rest}>
+    <List className={cx(css["list"], className)} {...rest}>
       {children}
     </List>
   );
@@ -55,7 +55,7 @@ type TriggerProps = TabsTriggerProps & {
 export function TabsTrigger({ children, className, ...rest }: TriggerProps) {
   return (
     <Trigger {...rest} asChild>
-      <Button className={clsx(css["trigger"], className)} size="sm">
+      <Button className={cx(css["trigger"], className)} size="sm">
         {children}
       </Button>
     </Trigger>
@@ -68,7 +68,7 @@ type ContentProps = TabsContentProps & {
 
 export function TabsContent({ children, className, ...rest }: ContentProps) {
   return (
-    <Content className={clsx(css["content"], className)} {...rest}>
+    <Content className={cx(css["content"], className)} {...rest}>
       {children}
     </Content>
   );

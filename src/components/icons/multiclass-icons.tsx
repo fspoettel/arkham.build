@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import type { Card } from "@/store/services/queries.types";
 
@@ -15,10 +15,10 @@ type Props = {
 export function MulticlassIcons(props: Props) {
   const { className, card, inverted } = props;
   return (
-    <ol className={clsx(css["container"], className)}>
+    <ol className={cx(css["container"], className)}>
       <li>
         <FactionIcon
-          className={clsx(
+          className={cx(
             css["icon"],
             css[card.faction_code],
             inverted ? undefined : `color-${card.faction_code}`,
@@ -29,7 +29,7 @@ export function MulticlassIcons(props: Props) {
       {card.faction2_code && (
         <li>
           <FactionIcon
-            className={clsx(
+            className={cx(
               css["icon"],
               css[card.faction2_code],
               inverted ? undefined : `color-${card.faction2_code}`,
@@ -41,7 +41,7 @@ export function MulticlassIcons(props: Props) {
       {card.faction3_code && (
         <li>
           <FactionIcon
-            className={clsx(
+            className={cx(
               css["icon"],
               css[card.faction3_code],
               inverted ? undefined : `color-${card.faction3_code}`,

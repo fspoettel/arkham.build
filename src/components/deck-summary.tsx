@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import { CircleAlert } from "lucide-react";
 
 import type { DeckValidationResult } from "@/store/lib/deck-validation";
@@ -31,13 +31,13 @@ export function DeckSummary(props: Props) {
 
   return (
     <article
-      className={clsx(
+      className={cx(
         css["summary"],
         borderCls,
         interactive && css["interactive"],
       )}
     >
-      <header className={clsx(css["header"], backgroundCls)}>
+      <header className={cx(css["header"], backgroundCls)}>
         {showThumbnail && (
           <div className={css["thumbnail"]}>
             <CardThumbnail card={deck.cards.investigator.card} />

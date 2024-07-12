@@ -1,5 +1,5 @@
+import { cx } from "@/utils/cx";
 import type { ReferenceType } from "@floating-ui/react";
-import clsx from "clsx";
 import { FileWarning, Star } from "lucide-react";
 import { useCallback } from "react";
 
@@ -92,7 +92,7 @@ export function ListCardInner(props: Props) {
 
   return (
     <Element
-      className={clsx(
+      className={cx(
         css["listcard"],
         size && css[size],
         !omitBorders && css["borders"],
@@ -138,13 +138,13 @@ export function ListCardInner(props: Props) {
           )}
 
           {card.faction_code !== "mythos" && (
-            <div className={clsx(css["icon"], colorCls)}>
+            <div className={cx(css["icon"], colorCls)}>
               <CardIcon card={card} />
             </div>
           )}
 
           <figcaption className={css["caption"]}>
-            <div className={clsx(css["name-container"], colorCls)}>
+            <div className={cx(css["name-container"], colorCls)}>
               <h4 className={css["name"]} {...referenceProps}>
                 <button
                   onClick={disableModalOpen ? undefined : openModal}
@@ -205,7 +205,7 @@ export function ListCardInner(props: Props) {
               {hasSkillIcons(card) && <SkillIcons card={card} />}
 
               {!!card.taboo_set_id && (
-                <span className={clsx(css["taboo"], "color-taboo")}>
+                <span className={cx(css["taboo"], "color-taboo")}>
                   {card.taboo_xp && <ExperienceDots xp={card.taboo_xp} />}
                   <i className="icon-tablet icon-layout color-taboo" />
                 </span>

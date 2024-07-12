@@ -1,3 +1,4 @@
+import { cx } from "@/utils/cx";
 import {
   FloatingPortal,
   autoPlacement,
@@ -6,7 +7,6 @@ import {
   shift,
   useFloating,
 } from "@floating-ui/react";
-import clsx from "clsx";
 import { useCallback, useState } from "react";
 
 import { FLOATING_PORTAL_ID } from "@/utils/constants";
@@ -56,7 +56,7 @@ export function DeckDescription(props: Props) {
       <h1>{title}</h1>
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: TODO. */}
       <div
-        className={clsx("longform", className)}
+        className={cx("longform", className)}
         // biome-ignore lint/security/noDangerouslySetInnerHtml: we sanitize html content.
         dangerouslySetInnerHTML={{
           __html: parseMarkdown(content),

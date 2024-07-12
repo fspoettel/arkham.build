@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 import { Search, XIcon } from "lucide-react";
 import { forwardRef, useCallback } from "react";
 
@@ -33,13 +33,13 @@ export const SearchInput = forwardRef<HTMLInputElement, Props>(
     );
 
     return (
-      <div className={clsx(css["search"], className)}>
+      <div className={cx(css["search"], className)}>
         <label htmlFor={id} title="Search cards">
           <Search className={css["icon_search"]} />
         </label>
         <input
           {...rest}
-          className={clsx(css["input"], inputClassName)}
+          className={cx(css["input"], inputClassName)}
           id={id}
           onChange={onChange}
           ref={ref}

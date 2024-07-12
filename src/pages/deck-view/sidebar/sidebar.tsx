@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import { DeckInvestigator } from "@/components/deck-investigator";
 import { FactionIcon } from "@/components/icons/faction-icon";
@@ -17,7 +17,7 @@ type Props = {
 export function Sidebar(props: Props) {
   const { className, deck } = props;
   return (
-    <div className={clsx(css["container"], className)}>
+    <div className={cx(css["container"], className)}>
       <DeckInvestigator deck={deck} size="tooltip" />
       <SidebarActions deck={deck} />
 

@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import type { Card } from "@/store/services/queries.types";
 import { range } from "@/utils/range";
@@ -19,7 +19,7 @@ export function CardIcons(props: Props) {
   const { card, className } = props;
 
   return (
-    <div className={clsx(css["icons"], className)}>
+    <div className={cx(css["icons"], className)}>
       {card.type_code === "investigator" ? (
         <SkillIconsInvestigator
           card={card}

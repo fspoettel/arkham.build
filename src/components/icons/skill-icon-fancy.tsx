@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cx } from "@/utils/cx";
 
 import css from "./skill-icon-fancy.module.css";
 
@@ -10,9 +10,9 @@ type Props = {
 export function SkillIconFancy(props: Props) {
   const { className, skill } = props;
   return (
-    <span className={clsx(css["icon"], css[skill], className)}>
+    <span className={cx(css["icon"], css[skill], className)}>
       <i className={`icon-skill_${skill}`} />
-      <i className={clsx(`icon-skill_${skill}_inverted`, css["inverted"])} />
+      <i className={cx(`icon-skill_${skill}_inverted`, css["inverted"])} />
     </span>
   );
 }
