@@ -81,6 +81,11 @@ async function assertSubtypeSettingApplied(page: Page) {
     .getByTestId("card-type-encounter")
     .click();
 
+  await page
+    .getByTestId("subtype-filter")
+    .getByTestId("collapsible-trigger")
+    .click();
+
   await expect(page.getByTestId("subtype-none")).toBeChecked();
   await expect(page.getByTestId("subtype-basicweakness")).toBeChecked();
   await expect(page.getByTestId("subtype-weakness")).toBeChecked();

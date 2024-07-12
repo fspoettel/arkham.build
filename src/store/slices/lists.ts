@@ -457,7 +457,7 @@ function makeFilterValue(
               weakness: true,
               basicweakness: true,
             },
-        cardType !== "player" || !initialValue,
+        cardType === "player" ? !initialValue : false,
       );
     }
 
