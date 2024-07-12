@@ -69,7 +69,7 @@ export function PropertiesFilter({ id }: { id: number }) {
       open={filter.open}
       title="Properties"
     >
-      <CheckboxGroup>
+      <CheckboxGroup cols={2}>
         {properties.map(({ key, label }) => (
           <Checkbox
             checked={filter.value[key as keyof PropertiesFilterType]}

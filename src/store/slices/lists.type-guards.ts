@@ -7,6 +7,7 @@ import type {
   OwnershipFilter,
   PropertiesFilter,
   SkillIconsFilter,
+  SubtypeFilter,
 } from "./lists.types";
 
 export function isActionFilterObject(
@@ -144,6 +145,16 @@ export function isPropertiesFilter(value: unknown): value is PropertiesFilter {
     value != null &&
     "fast" in value &&
     Object.values(value).every((v) => typeof v === "boolean")
+  );
+}
+
+export function isSubtypeFilter(value: unknown): value is SubtypeFilter {
+  return (
+    typeof value === "object" &&
+    value != null &&
+    "none" in value &&
+    "weakness" in value &&
+    "basicweakness" in value
   );
 }
 

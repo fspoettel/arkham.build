@@ -14,6 +14,7 @@ import metadataResponse from "../fixtures/stubs/metadata.json" assert {
 
 export async function mockApiCalls(page: Page) {
   const apiUrl = process.env.VITE_API_URL ?? "https://api.arkham.build";
+
   const baseUrl = `${apiUrl}/api/v1`;
 
   const deckRegexp = new RegExp(`${baseUrl}/deck\.*`);

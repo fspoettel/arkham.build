@@ -48,3 +48,11 @@ test("filter via shortcuts", async ({ page }) => {
   await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
   await expect(page.getByTestId("listcard-08087")).toBeVisible();
 });
+
+test("subtype filter", async ({ page }) => {
+  await page.getByTestId("search-input").click();
+  await page.getByTestId("search-input").fill("king in yellow");
+  await expect(page.getByTestId("listcard-03011")).toBeVisible();
+  await page.getByTestId("subtype-weakness").click();
+  await expect(page.getByTestId("listcard-03011")).not.toBeVisible();
+});

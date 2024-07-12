@@ -20,6 +20,7 @@ import {
   isOwnershipFilter,
   isPropertiesFilter,
   isSkillIconsFilter,
+  isSubtypeFilter,
 } from "./lists.type-guards";
 import type {
   FilterKey,
@@ -27,6 +28,7 @@ import type {
   List,
   OwnershipFilter,
   Search,
+  SubtypeFilter,
 } from "./lists.types";
 import type {
   AssetFilter,
@@ -47,23 +49,6 @@ function getInitialList() {
   }
 
   return "browse_player";
-}
-function getInitialFilterValuesForListKey(
-  key: string,
-): Record<string, unknown> {
-  if (key === "editor_player") {
-    return {};
-    // TODO: This should be activated with a setting, otherwise it's unintuitive.
-    // return {
-    //   level: {
-    //     range: [0, 5],
-    //     nonexceptional: false,
-    //     exceptional: false,
-    //   },
-    // };
-  }
-
-  return {};
 }
 
 export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
@@ -105,7 +90,7 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
           list.systemFilter,
           {
             ownership: getInitialOwnershipFilter(state),
-            ...getInitialFilterValuesForListKey(list.key),
+            subtype: getInitialSubtypeFilter(state),
           },
           list.search,
         ),
@@ -126,7 +111,7 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
     );
 
     const filterValues = { ...list.filterValues };
-    filterValues[id] = makeFilterValue(filterValues[id].type);
+    filterValues[id] = makeFilterValue(filterValues[id].type, list.cardType);
 
     set({
       lists: {
@@ -194,7 +179,6 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
       case "action":
       case "encounterSet":
       case "trait":
-      case "subtype":
       case "type":
       case "pack":
       case "faction": {
@@ -258,13 +242,26 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
         break;
       }
 
+      case "subtype": {
+        const currentValue = filterValues[id].value as SubtypeFilter;
+        const value = { ...currentValue, ...payload };
+
+        assert(
+          isSubtypeFilter(value),
+          `filter ${id} value must be a map of booleans.`,
+        );
+
+        filterValues[id] = { ...filterValues[id], value };
+        break;
+      }
+
       case "properties": {
         const currentValue = filterValues[id].value as PropertiesFilter;
         const value = { ...currentValue, ...payload };
 
         assert(
           isPropertiesFilter(value),
-          `filter ${id} value must be a map of bools.`,
+          `filter ${id} value must be a map of booleans.`,
         );
 
         filterValues[id] = { ...filterValues[id], value };
@@ -389,7 +386,11 @@ function makeFilterObject<K extends FilterKey>(
   };
 }
 
-function makeFilterValue(type: FilterKey, initialValue?: unknown) {
+function makeFilterValue(
+  type: FilterKey,
+  cardType: List["cardType"],
+  initialValue?: unknown,
+) {
   switch (type) {
     case "asset": {
       return makeFilterObject(
@@ -437,13 +438,26 @@ function makeFilterValue(type: FilterKey, initialValue?: unknown) {
     case "action":
     case "encounterSet":
     case "pack":
-    case "subtype":
     case "trait":
     case "type":
     case "faction": {
       return makeFilterObject(
         type,
         isMultiSelectFilter(initialValue) ? initialValue : [],
+      );
+    }
+
+    case "subtype": {
+      return makeFilterObject(
+        type,
+        isSubtypeFilter(initialValue) && cardType === "player"
+          ? initialValue
+          : {
+              none: true,
+              weakness: true,
+              basicweakness: true,
+            },
+        cardType === "player" ? !initialValue : false,
       );
     }
 
@@ -522,7 +536,7 @@ function makeList(
     cardType,
     filters,
     filterValues: filters.reduce<List["filterValues"]>((acc, curr, i) => {
-      acc[i] = makeFilterValue(curr, initialValues?.[curr]);
+      acc[i] = makeFilterValue(curr, cardType, initialValues?.[curr]);
       return acc;
     }, {}),
     filtersEnabled: true,
@@ -547,9 +561,9 @@ function makePlayerCardsList(
     "level",
     "ownership",
     "investigator",
+    "subtype",
     "cost",
     "trait",
-    "subtype",
     "asset",
     "skillIcons",
     "properties",
@@ -631,31 +645,33 @@ export function makeLists(initialValues?: Partial<Record<FilterKey, unknown>>) {
   return {
     browse_player: makePlayerCardsList("browse_player", {
       showInvestigators: true,
-      initialValues: {
-        ...initialValues,
-        ...getInitialFilterValuesForListKey("browse_player"),
-      },
+      initialValues,
     }),
     browse_encounter: makeEncounterCardsList("browse_encounter", {
-      initialValues: {
-        ...initialValues,
-        ...getInitialFilterValuesForListKey("browse_encounter"),
-      },
+      initialValues,
     }),
     create_deck: makeInvestigatorCardsList("create_deck"),
     editor_player: makePlayerCardsList("editor_player", {
-      initialValues: {
-        ...initialValues,
-        ...getInitialFilterValuesForListKey("editor_player"),
-      },
+      initialValues,
     }),
     editor_encounter: makeEncounterCardsList("editor_encounter", {
       initialValues,
-      ...getInitialFilterValuesForListKey("editor_encounter"),
     }),
   };
 }
 
 export function getInitialOwnershipFilter(state: StoreState): OwnershipFilter {
   return state.settings.showAllCards ? "all" : "owned";
+}
+
+export function getInitialSubtypeFilter(
+  state: StoreState,
+): SubtypeFilter | undefined {
+  return state.settings.hideWeaknessesByDefault
+    ? {
+        none: true,
+        weakness: false,
+        basicweakness: false,
+      }
+    : undefined;
 }
