@@ -20,13 +20,8 @@ type Props = {
   size: "compact" | "tooltip" | "full";
 } & React.HTMLAttributes<HTMLDivElement>;
 
-export function CardFront({
-  className,
-  resolvedCard,
-  linked,
-  size,
-  ...rest
-}: Props) {
+export function CardFront(props: Props) {
+  const { className, resolvedCard, linked, size, ...rest } = props;
   const { card } = resolvedCard;
 
   const isSideways = sideways(card);

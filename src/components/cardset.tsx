@@ -20,30 +20,30 @@ type Props = {
   set: CardSetType;
 };
 
-export function CardSet({ onChangeCardQuantity, onSelect, set }: Props) {
+export function CardSet(props: Props) {
   const canCheckOwnership = useStore(selectCanCheckOwnership);
   const cardOwnedCount = useStore(selectCardOwnedCount);
 
   return (
     <article
-      data-testid={`cardset-${set.id}`}
-      className={clsx(css["cardset"], set.selected && css["selected"])}
+      data-testid={`cardset-${props.set.id}`}
+      className={clsx(css["cardset"], props.set.selected && css["selected"])}
     >
       <header className={css["cardset-header"]}>
-        {onSelect ? (
+        {props.onSelect ? (
           <Checkbox
-            checked={set.selected}
+            checked={props.set.selected}
             className={css["cardset-title"]}
             data-testid="cardset-select"
-            disabled={!onSelect || !set.canSelect}
-            id={`card-set-${set.id}`}
-            label={set.title}
-            onCheckedChange={() => onSelect?.(set.id)}
+            disabled={!props.onSelect || !props.set.canSelect}
+            id={`card-set-${props.set.id}`}
+            label={props.set.title}
+            onCheckedChange={() => props.onSelect?.(props.set.id)}
           />
         ) : (
-          <h2 className={css["cardset-title"]}>{set.title}</h2>
+          <h2 className={css["cardset-title"]}>{props.set.title}</h2>
         )}
-        {set.help && (
+        {props.set.help && (
           <Tooltip>
             <TooltipTrigger>
               <CircleHelp />
@@ -51,24 +51,24 @@ export function CardSet({ onChangeCardQuantity, onSelect, set }: Props) {
             <TooltipContent>
               <p
                 // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is produced by us.
-                dangerouslySetInnerHTML={{ __html: set.help }}
+                dangerouslySetInnerHTML={{ __html: props.set.help }}
               />
             </TooltipContent>
           </Tooltip>
         )}
       </header>
       <ul className={css["cardset-cards"]}>
-        {set.cards.map(({ card }) => (
+        {props.set.cards.map(({ card }) => (
           <ListCard
             as="li"
             card={card}
             key={card.code}
             omitBorders
             onChangeCardQuantity={
-              set.canSetQuantity ? onChangeCardQuantity : undefined
+              props.set.canSetQuantity ? props.onChangeCardQuantity : undefined
             }
             ownedCount={canCheckOwnership ? cardOwnedCount(card) : undefined}
-            quantity={set.quantities?.[card.code] ?? 0}
+            quantity={props.set.quantities?.[card.code] ?? 0}
           />
         ))}
       </ul>

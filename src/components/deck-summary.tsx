@@ -17,60 +17,54 @@ type Props = {
   validation?: DeckValidationResult;
 };
 
-export function DeckSummary({
-  children,
-  deck,
-  interactive,
-  showThumbnail,
-  validation,
-}: Props) {
+export function DeckSummary(props: Props) {
   const backgroundCls = getCardColor(
-    deck.cards.investigator.card,
+    props.deck.cards.investigator.card,
     "background",
   );
 
-  const borderCls = getCardColor(deck.cards.investigator.card, "border");
+  const borderCls = getCardColor(props.deck.cards.investigator.card, "border");
 
-  const showValidation = !!validation;
+  const showValidation = !!props.validation;
 
   return (
     <article
       className={clsx(
         css["summary"],
         borderCls,
-        interactive && css["interactive"],
+        props.interactive && css["interactive"],
       )}
     >
       <header className={clsx(css["header"], backgroundCls)}>
-        {showThumbnail && (
+        {props.showThumbnail && (
           <div className={css["thumbnail"]}>
-            <CardThumbnail card={deck.cards.investigator.card} />
+            <CardThumbnail card={props.deck.cards.investigator.card} />
           </div>
         )}
         <div className={css["header-container"]}>
           <h3 className={css["title"]} data-testid="deck-summary-title">
-            {showValidation && !validation?.valid && <CircleAlert />}
-            {deck.name}
+            {showValidation && !props.validation?.valid && <CircleAlert />}
+            {props.deck.name}
           </h3>
           <div className={css["header-row"]}>
             <h4 className={css["sub"]} data-testid="deck-summary-investigator">
-              {deck.cards.investigator.card.real_name}
+              {props.deck.cards.investigator.card.real_name}
             </h4>
             <div className={css["stats"]}>
               <strong data-testid="deck-summary-xp">
                 <i className="icon-xp-bold" />
-                {deck.stats.xpRequired} XP
+                {props.deck.stats.xpRequired} XP
               </strong>
               <strong data-testid="deck-summary-size">
-                <i className="icon-card-outline-bold" />× {deck.stats.deckSize}{" "}
-                ({deck.stats.deckSizeTotal})
+                <i className="icon-card-outline-bold" />×{" "}
+                {props.deck.stats.deckSize} ({props.deck.stats.deckSizeTotal})
               </strong>
             </div>
           </div>
         </div>
       </header>
 
-      {children && <div className={css["meta"]}>{children}</div>}
+      {props.children && <div className={css["meta"]}>{props.children}</div>}
     </article>
   );
 }

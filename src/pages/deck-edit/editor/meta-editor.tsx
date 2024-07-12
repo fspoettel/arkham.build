@@ -22,7 +22,10 @@ function getInvestigatorOptions(
 ): SelectOption[] {
   return deck.hasParallel
     ? [
-        { value: deck.cards.investigator.card.code, label: `Original ${type}` },
+        {
+          value: deck.cards.investigator.card.code,
+          label: `Original ${type}`,
+        },
         {
           value: deck.cards.investigator.relations?.parallel?.card
             .code as string,
@@ -47,7 +50,7 @@ const selectUpdateMetaProperty = (state: StoreState) =>
 const selectUpdateInvestigatorSide = (state: StoreState) =>
   state.updateInvestigatorSide;
 
-export function MetaEditor({ deck }: Props) {
+export function MetaEditor(props: Props) {
   const tabooSets = useStore(selectTabooSetSelectOptions);
 
   const updateName = useStore(selectUpdateName);
@@ -61,37 +64,37 @@ export function MetaEditor({ deck }: Props) {
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
       if (evt.target instanceof HTMLSelectElement) {
         const value = Number.parseInt(evt.target.value, 10);
-        updateTabooId(deck.id, Number.isNaN(value) ? null : value);
+        updateTabooId(props.deck.id, Number.isNaN(value) ? null : value);
       }
     },
-    [updateTabooId, deck.id],
+    [updateTabooId, props.deck.id],
   );
 
   const onNameChange = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) => {
       if (evt.target instanceof HTMLInputElement) {
-        updateName(deck.id, evt.target.value);
+        updateName(props.deck.id, evt.target.value);
       }
     },
-    [updateName, deck.id],
+    [updateName, props.deck.id],
   );
 
   const onDescriptionChange = useCallback(
     (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
       if (evt.target instanceof HTMLTextAreaElement) {
-        updateDescription(deck.id, evt.target.value);
+        updateDescription(props.deck.id, evt.target.value);
       }
     },
-    [updateDescription, deck.id],
+    [updateDescription, props.deck.id],
   );
 
   const onTagsChange = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) => {
       if (evt.target instanceof HTMLInputElement) {
-        updateTags(deck.id, evt.target.value);
+        updateTags(props.deck.id, evt.target.value);
       }
     },
-    [updateTags, deck.id],
+    [updateTags, props.deck.id],
   );
 
   const onFieldChange = useCallback(
@@ -101,7 +104,7 @@ export function MetaEditor({ deck }: Props) {
 
         if (evt.target.dataset.field && evt.target.dataset.type) {
           updateMetaProperty(
-            deck.id,
+            props.deck.id,
             evt.target.dataset.field,
             value || null,
             evt.target.dataset.type as DeckOptionSelectType,
@@ -109,7 +112,7 @@ export function MetaEditor({ deck }: Props) {
         }
       }
     },
-    [updateMetaProperty, deck.id],
+    [updateMetaProperty, props.deck.id],
   );
 
   const onInvestigatorSideChange = useCallback(
@@ -117,11 +120,11 @@ export function MetaEditor({ deck }: Props) {
       if (evt.target instanceof HTMLSelectElement) {
         const value = evt.target.value;
         if (evt.target.dataset.side) {
-          updateInvestigatorSide(deck.id, evt.target.dataset.side, value);
+          updateInvestigatorSide(props.deck.id, evt.target.dataset.side, value);
         }
       }
     },
-    [updateInvestigatorSide, deck.id],
+    [updateInvestigatorSide, props.deck.id],
   );
 
   return (
@@ -129,7 +132,7 @@ export function MetaEditor({ deck }: Props) {
       <Field full padded>
         <FieldLabel>Deck name</FieldLabel>
         <input
-          defaultValue={deck.name}
+          defaultValue={props.deck.name}
           onChange={onNameChange}
           required
           type="text"
@@ -138,22 +141,22 @@ export function MetaEditor({ deck }: Props) {
       <Field full helpText="Enter tags, separated by spaces" padded>
         <FieldLabel>Tags</FieldLabel>
         <input
-          defaultValue={deck.tags ?? ""}
+          defaultValue={props.deck.tags ?? ""}
           onChange={onTagsChange}
           type="text"
         />
       </Field>
 
-      {deck.hasParallel && (
+      {props.deck.hasParallel && (
         <>
           <Field full padded>
             <FieldLabel>Investigator Front</FieldLabel>
             <Select
               data-side="front"
               onChange={onInvestigatorSideChange}
-              options={getInvestigatorOptions(deck, "Front")}
+              options={getInvestigatorOptions(props.deck, "Front")}
               required
-              value={deck.investigatorFront.card.code}
+              value={props.deck.investigatorFront.card.code}
             />
           </Field>
           <Field full padded>
@@ -161,15 +164,15 @@ export function MetaEditor({ deck }: Props) {
             <Select
               data-side="back"
               onChange={onInvestigatorSideChange}
-              options={getInvestigatorOptions(deck, "Back")}
+              options={getInvestigatorOptions(props.deck, "Back")}
               required
-              value={deck.investigatorBack.card.code}
+              value={props.deck.investigatorBack.card.code}
             />
           </Field>
         </>
       )}
-      {deck.selections &&
-        Object.entries(deck.selections).map(([key, value]) => (
+      {props.deck.selections &&
+        Object.entries(props.deck.selections).map(([key, value]) => (
           <Field full key={key} padded>
             <FieldLabel>{formatSelectionId(key)}</FieldLabel>
             {(value.type === "deckSize" || value.type === "faction") && (
@@ -206,13 +209,13 @@ export function MetaEditor({ deck }: Props) {
           emptyLabel="None"
           onChange={onTabooChange}
           options={tabooSets}
-          value={deck.taboo_id ?? ""}
+          value={props.deck.taboo_id ?? ""}
         />
       </Field>
       <Field full padded>
         <FieldLabel>Description</FieldLabel>
         <textarea
-          defaultValue={deck.description_md ?? ""}
+          defaultValue={props.deck.description_md ?? ""}
           onChange={onDescriptionChange}
         />
       </Field>

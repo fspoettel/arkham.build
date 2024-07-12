@@ -16,15 +16,17 @@ type Props = {
   settings: SettingsState;
 };
 
-export function Collection({ settings }: Props) {
+export function Collection(props: Props) {
   const cyclesWithPacks = useStore(selectCyclesAndPacks);
 
-  const [showAllCards, setShowAllCards] = useState(settings.showAllCards);
-  const [collectionState, setCollectionState] = useState(settings.collection);
+  const [showAllCards, setShowAllCards] = useState(props.settings.showAllCards);
+  const [collectionState, setCollectionState] = useState(
+    props.settings.collection,
+  );
 
   useEffect(() => {
-    setCollectionState(settings.collection);
-  }, [settings]);
+    setCollectionState(props.settings.collection);
+  }, [props.settings]);
 
   const onCheckShowAll = useCallback((val: boolean | string) => {
     setShowAllCards(!!val);

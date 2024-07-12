@@ -7,9 +7,9 @@ type Props = {
   settings: SettingsState;
 };
 
-export function General({ settings }: Props) {
+export function General(props: Props) {
   const [hideWeaknessesByDefault, setHideWeaknessesByDefault] = useState(
-    settings.hideWeaknessesByDefault,
+    props.settings.hideWeaknessesByDefault,
   );
 
   const onCheckHideWeaknesses = (val: boolean | string) => {

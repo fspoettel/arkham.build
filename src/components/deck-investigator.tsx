@@ -25,25 +25,19 @@ type Props = {
   size: "tooltip" | "full";
 };
 
-export function DeckInvestigator({
-  canToggleBack = true,
-  forceShowHeader,
-  deck,
-  showRelated,
-  size,
-}: Props) {
+export function DeckInvestigator(props: Props) {
   const [backToggled, toggleBack] = useState(false);
 
-  const related = getRelatedCards(deck.cards.investigator).filter(
+  const related = getRelatedCards(props.deck.cards.investigator).filter(
     ([key]) => key !== "parallel",
   );
 
-  const children = canToggleBack ? (
+  const children = props.canToggleBack ? (
     <>
       <CardFront
         data-testid="deck-investigator-front"
-        resolvedCard={deck.investigatorFront}
-        size={size}
+        resolvedCard={props.deck.investigatorFront}
+        size={props.size}
       />
       <div
         className={clsx(css["back-toggle"], backToggled && css["open"])}
@@ -52,7 +46,7 @@ export function DeckInvestigator({
         <Button onClick={() => toggleBack((p) => !p)}>
           {backToggled ? <ChevronUp /> : <ChevronDown />}
           Backside{" "}
-          {deck.investigatorBack.card.parallel && (
+          {props.deck.investigatorBack.card.parallel && (
             <>
               (<span className="icon-parallel" />)
             </>
@@ -61,19 +55,23 @@ export function DeckInvestigator({
       </div>
       {backToggled && (
         <CardBack
-          card={deck.investigatorBack.card}
+          card={props.deck.investigatorBack.card}
           data-testid="deck-investigator-back"
-          size={size}
+          size={props.size}
         />
       )}
     </>
   ) : (
     <>
-      <CardFront linked resolvedCard={deck.investigatorFront} size={size} />
+      <CardFront
+        linked
+        resolvedCard={props.deck.investigatorFront}
+        size={props.size}
+      />
       <CardBack
-        card={deck.investigatorBack.card}
-        forceShowHeader={forceShowHeader}
-        size={size}
+        card={props.deck.investigatorBack.card}
+        forceShowHeader={props.forceShowHeader}
+        size={props.size}
       />
     </>
   );
@@ -81,13 +79,13 @@ export function DeckInvestigator({
   return (
     <>
       <CardContainer
-        className={clsx(css["deck-investigator"], css[size])}
+        className={clsx(css["deck-investigator"], css[props.size])}
         data-testid="deck-investigator"
-        size={size}
+        size={props.size}
       >
         {children}
       </CardContainer>
-      {showRelated && !!related.length && (
+      {props.showRelated && !!related.length && (
         <div className={css["deck-investigator-related"]}>
           {related.map(([key, value]) => {
             const cards = Array.isArray(value) ? value : [value];

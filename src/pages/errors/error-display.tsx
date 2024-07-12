@@ -6,15 +6,15 @@ type Props = {
   status: number;
 };
 
-export function ErrorDisplay({ children, message, status }: Props) {
+export function ErrorDisplay(props: Props) {
   return (
     <article className={css["error"]}>
       <div className={css["error-row"]}>
         <header className={css["error-header"]}>
-          <h1 className={css["error-status"]}>{status}</h1>
-          <h2 className={css["error-message"]}>{message}</h2>
+          <h1 className={css["error-status"]}>{props.status}</h1>
+          <h2 className={css["error-message"]}>{props.message}</h2>
         </header>
-        {children}
+        {props.children}
       </div>
     </article>
   );

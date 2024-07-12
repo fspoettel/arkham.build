@@ -21,7 +21,7 @@ type Props = {
   deck: DisplayDeck;
 };
 
-export function SidebarActions({ deck }: Props) {
+export function SidebarActions(props: Props) {
   const showToast = useToast();
   const [, setLocation] = useLocation();
 
@@ -33,7 +33,7 @@ export function SidebarActions({ deck }: Props) {
   const onDelete = useCallback(() => {
     const confirmed = confirm("Are you sure you want to delete this deck?");
     if (confirmed) {
-      deleteDeck(deck.id);
+      deleteDeck(props.deck.id);
       setLocation("~/");
       showToast({
         duration: 2000,
@@ -41,11 +41,11 @@ export function SidebarActions({ deck }: Props) {
         variant: "success",
       });
     }
-  }, [deck.id, deleteDeck, setLocation, showToast]);
+  }, [props.deck.id, deleteDeck, setLocation, showToast]);
 
   const onDuplicate = useCallback(() => {
     try {
-      const id = duplicateDeck(deck.id);
+      const id = duplicateDeck(props.deck.id);
       setLocation(`/deck/view/${id}`);
       showToast({
         duration: 2000,
@@ -61,25 +61,25 @@ export function SidebarActions({ deck }: Props) {
     }
 
     setActionsOpen(false);
-  }, [deck.id, duplicateDeck, setLocation, showToast]);
+  }, [props.deck.id, duplicateDeck, setLocation, showToast]);
 
   const onEdit = useCallback(() => {
-    setLocation(`/deck/edit/${deck.id}`);
-  }, [deck.id, setLocation]);
+    setLocation(`/deck/edit/${props.deck.id}`);
+  }, [props.deck.id, setLocation]);
 
   useHotKey("e", onEdit, [onEdit]);
   useHotKey("cmd+d", onDuplicate, [onDuplicate]);
   useHotKey("cmd+backspace", onDelete, [onDelete]);
 
-  const isReadOnly = !!deck.next_deck;
+  const isReadOnly = !!props.deck.next_deck;
 
   return (
     <>
       {isReadOnly && (
         <Notice variant="info">
           There is a{" "}
-          <Link href={`/deck/view/${deck.next_deck}`}>newer version</Link> of
-          this deck. This deck is read-only.
+          <Link href={`/deck/view/${props.deck.next_deck}`}>newer version</Link>{" "}
+          of this deck. This deck is read-only.
         </Notice>
       )}
       <div className={css["actions"]}>

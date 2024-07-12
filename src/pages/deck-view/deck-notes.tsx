@@ -14,7 +14,7 @@ type Props = {
   deck: DisplayDeck;
 };
 
-export function DeckNotes({ deck }: Props) {
+export function DeckNotes(props: Props) {
   const modalContext = useDialogContext();
 
   const onCloseNotes = useCallback(() => {
@@ -43,7 +43,10 @@ export function DeckNotes({ deck }: Props) {
           data-testid="view-notes-modal"
         >
           {modalContext.open && (
-            <DeckDescription content={deck.description_md} title={deck.name} />
+            <DeckDescription
+              content={props.deck.description_md}
+              title={props.deck.name}
+            />
           )}
         </Modal>
       </DialogContentInert>

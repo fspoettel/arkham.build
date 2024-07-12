@@ -12,10 +12,16 @@ type Props = {
   size?: "small" | "default";
 };
 
-export function CardSlots({ className, slot, size }: Props) {
+export function CardSlots(props: Props) {
   return (
-    <ol className={clsx(css["slots"], size && css[size], className)}>
-      {splitMultiValue(slot).map((slot) => (
+    <ol
+      className={clsx(
+        css["slots"],
+        props.size && css[props.size],
+        props.className,
+      )}
+    >
+      {splitMultiValue(props.slot).map((slot) => (
         <li key={slot}>
           <SlotIcon code={slot} />
         </li>

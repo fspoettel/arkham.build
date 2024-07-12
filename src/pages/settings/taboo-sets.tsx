@@ -10,14 +10,14 @@ type Props = {
   settings: SettingsState;
 };
 
-export function TabooSets({ settings }: Props) {
+export function TabooSets(props: Props) {
   const tabooSets = useStore(selectTabooSetOptions);
 
-  const [value, setValue] = useState(settings.tabooSetId);
+  const [value, setValue] = useState(props.settings.tabooSetId);
 
   useEffect(() => {
-    setValue(settings.tabooSetId);
-  }, [settings]);
+    setValue(props.settings.tabooSetId);
+  }, [props.settings]);
 
   const onChange = (evt: React.ChangeEvent<HTMLSelectElement>) => {
     if (evt.target instanceof HTMLSelectElement) {

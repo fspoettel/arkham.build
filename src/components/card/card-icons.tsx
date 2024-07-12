@@ -15,42 +15,43 @@ type Props = {
   className?: string;
 };
 
-export function CardIcons({ card, className }: Props) {
+export function CardIcons(props: Props) {
   return (
-    <div className={clsx(css["icons"], className)}>
-      {card.type_code === "investigator" ? (
+    <div className={clsx(css["icons"], props.className)}>
+      {props.card.type_code === "investigator" ? (
         <SkillIconsInvestigator
-          card={card}
+          card={props.card}
           className={css["icons-skills"]}
           iconClassName={css["icons-skill"]}
         />
       ) : (
         <SkillIcons
-          card={card}
+          card={props.card}
           className={css["icons-skills"]}
           fancy
           iconClassName={css["icons-skill"]}
         />
       )}
 
-      {card.type_code !== "enemy" && (card.health || card.sanity) && (
-        <CardHealth health={card.health} sanity={card.sanity} />
-      )}
+      {props.card.type_code !== "enemy" &&
+        (props.card.health || props.card.sanity) && (
+          <CardHealth health={props.card.health} sanity={props.card.sanity} />
+        )}
 
-      {card.type_code === "enemy" && (
+      {props.card.type_code === "enemy" && (
         <>
           <SkillIconsEnemy
-            card={card}
+            card={props.card}
             className={css["icons-skills"]}
             iconClassName={css["icons-skill"]}
           />
           <div className={css["icons-damage"]}>
-            {!!card.enemy_damage &&
-              range(0, card.enemy_damage).map((i) => (
+            {!!props.card.enemy_damage &&
+              range(0, props.card.enemy_damage).map((i) => (
                 <i className="icon-health color-health" key={i} />
               ))}
-            {!!card.enemy_horror &&
-              range(0, card.enemy_horror).map((i) => (
+            {!!props.card.enemy_horror &&
+              range(0, props.card.enemy_horror).map((i) => (
                 <i className="icon-sanity color-sanity" key={i} />
               ))}
           </div>

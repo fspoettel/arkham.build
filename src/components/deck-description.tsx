@@ -22,7 +22,7 @@ type Props = {
   title: React.ReactNode;
 };
 
-export function DeckDescription({ className, content, title }: Props) {
+export function DeckDescription(props: Props) {
   const [cardTooltip, setCardTooltip] = useState<string>("");
 
   const { refs, floatingStyles } = useFloating({
@@ -52,13 +52,13 @@ export function DeckDescription({ className, content, title }: Props) {
 
   return (
     <div className={css["description"]}>
-      <h1>{title}</h1>
+      <h1>{props.title}</h1>
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: TODO. */}
       <div
-        className={clsx("longform", className)}
+        className={clsx("longform", props.className)}
         // biome-ignore lint/security/noDangerouslySetInnerHtml: we sanitize html content.
         dangerouslySetInnerHTML={{
-          __html: parseMarkdown(content),
+          __html: parseMarkdown(props.content),
         }}
         onClick={onMouseLeave}
       />

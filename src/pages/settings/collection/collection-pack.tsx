@@ -14,58 +14,54 @@ type Props = {
   onChange: (code: string, val: number) => void;
 };
 
-export function CollectionPack({
-  cycle,
-  hasQuantity,
-  pack,
-  onChange,
-  value,
-}: Props) {
+export function CollectionPack(props: Props) {
   const onInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     if (evt.target instanceof HTMLInputElement) {
       const val = Number.parseInt(evt.target.value, 10);
-      if (!Number.isNaN(val)) onChange(pack.code, val);
+      if (!Number.isNaN(val)) props.onChange(props.pack.code, val);
     }
   };
 
   return (
     <li
-      className={clsx(css["pack"], pack.reprint && css["reprint"])}
-      key={pack.code}
+      className={clsx(css["pack"], props.pack.reprint && css["reprint"])}
+      key={props.pack.code}
     >
-      {hasQuantity ? (
+      {props.hasQuantity ? (
         <div className={css["pack-name"]}>
           <input
             className={css["pack-quantity-input"]}
-            id={`collection-${cycle.code}-${pack.code}`}
+            id={`collection-${props.cycle.code}-${props.pack.code}`}
             max={2}
             min={0}
-            name={pack.code}
+            name={props.pack.code}
             onChange={onInputChange}
             type="number"
-            value={value}
+            value={props.value}
           />
-          <PackIcon code={pack.code} />
+          <PackIcon code={props.pack.code} />
           <label
             className={css["pack-label"]}
-            htmlFor={`collection-${cycle.code}-${pack.code}`}
+            htmlFor={`collection-${props.cycle.code}-${props.pack.code}`}
           >
-            {pack.real_name}
+            {props.pack.real_name}
           </label>
         </div>
       ) : (
         <Checkbox
-          checked={!!value}
-          data-pack={pack.code}
-          id={`collection-${cycle.code}-${pack.code}`}
+          checked={!!props.value}
+          data-pack={props.pack.code}
+          id={`collection-${props.cycle.code}-${props.pack.code}`}
           label={
             <div className={css["pack-name"]}>
-              <PackIcon code={pack.code} />
-              {pack.real_name}
+              <PackIcon code={props.pack.code} />
+              {props.pack.real_name}
             </div>
           }
-          name={pack.code}
-          onCheckedChange={(checked) => onChange(pack.code, checked ? 1 : 0)}
+          name={props.pack.code}
+          onCheckedChange={(checked) =>
+            props.onChange(props.pack.code, checked ? 1 : 0)
+          }
         />
       )}
     </li>

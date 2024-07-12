@@ -8,8 +8,8 @@ type Props = {
   resolvedCard: ResolvedCard;
 };
 
-export function CardDetails({ resolvedCard }: Props) {
-  const { card, subtype, type } = resolvedCard;
+export function CardDetails(props: Props) {
+  const { card, subtype, type } = props.resolvedCard;
 
   const showType = type.code !== "investigator";
 

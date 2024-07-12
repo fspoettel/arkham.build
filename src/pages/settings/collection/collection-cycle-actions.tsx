@@ -9,14 +9,14 @@ type Props = {
   onToggleCycle: (evt: React.MouseEvent) => void;
 };
 
-export function CollectionCycleActions({ cycleCode, onToggleCycle }: Props) {
+export function CollectionCycleActions(props: Props) {
   return (
     <div className={css["cycle-actions"]}>
       <Button
         className={css["collection-cycle-toggle"]}
-        data-cycle={cycleCode}
+        data-cycle={props.cycleCode}
         data-val={1}
-        onClick={onToggleCycle}
+        onClick={props.onToggleCycle}
         size="sm"
         type="button"
         variant="bare"
@@ -25,9 +25,9 @@ export function CollectionCycleActions({ cycleCode, onToggleCycle }: Props) {
       </Button>
       <Button
         className={css["cycle-toggle"]}
-        data-cycle={cycleCode}
+        data-cycle={props.cycleCode}
         data-val={0}
-        onClick={onToggleCycle}
+        onClick={props.onToggleCycle}
         size="sm"
         type="button"
         variant="bare"

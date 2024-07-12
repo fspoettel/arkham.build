@@ -27,17 +27,19 @@ type Props = DeckContextType & {
   children: React.ReactNode;
 };
 
-export function DeckIdProvider({ deckId, canEdit, children }: Props) {
+export function DeckIdProvider(props: Props) {
   const value = useMemo(
     () => ({
-      deckId,
-      canEdit,
+      deckId: props.deckId,
+      canEdit: props.canEdit,
     }),
-    [deckId, canEdit],
+    [props.deckId, props.canEdit],
   );
 
   return (
-    <DeckIdContext.Provider value={value}>{children}</DeckIdContext.Provider>
+    <DeckIdContext.Provider value={value}>
+      {props.children}
+    </DeckIdContext.Provider>
   );
 }
 

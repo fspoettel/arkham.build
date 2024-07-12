@@ -20,20 +20,20 @@ export function InvestigatorListcard(props: Props) {
   );
 }
 
-function InvestigatorListcardInner({ deck }: Props) {
+function InvestigatorListcardInner(props: Props) {
   const modalContext = useDialogContext();
 
   const onCloseModal = useCallback(() => {
     modalContext?.setOpen(false);
   }, [modalContext]);
 
-  const isParallelBack = !!deck.investigatorBack.card.parallel;
+  const isParallelBack = !!props.deck.investigatorBack.card.parallel;
 
   return (
     <>
       <DialogTrigger>
         <ListCard
-          card={deck.investigatorFront.card}
+          card={props.deck.investigatorFront.card}
           disableModalOpen
           omitBorders
           showInvestigatorIcons
@@ -41,7 +41,7 @@ function InvestigatorListcardInner({ deck }: Props) {
           tooltip={
             <DeckInvestigator
               canToggleBack={false}
-              deck={deck}
+              deck={props.deck}
               forceShowHeader={isParallelBack}
               size="tooltip"
             />
@@ -53,7 +53,7 @@ function InvestigatorListcardInner({ deck }: Props) {
           actions={
             <Button
               as="a"
-              href={`/card/${deck.investigatorFront.card.code}`}
+              href={`/card/${props.deck.investigatorFront.card.code}`}
               tabIndex={0}
               target="_blank"
             >
@@ -66,7 +66,7 @@ function InvestigatorListcardInner({ deck }: Props) {
         >
           <DeckInvestigator
             canToggleBack={false}
-            deck={deck}
+            deck={props.deck}
             forceShowHeader={isParallelBack}
             showRelated
             size="full"

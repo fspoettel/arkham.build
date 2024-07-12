@@ -15,24 +15,24 @@ type Props = {
   linked?: boolean;
 };
 
-export function CardHeader({ card, className, linked }: Props) {
-  const colorCls = getCardColor(card, "background");
+export function CardHeader(props: Props) {
+  const colorCls = getCardColor(props.card, "background");
 
   return (
-    <header className={clsx(css["header"], colorCls, className)}>
+    <header className={clsx(css["header"], colorCls, props.className)}>
       <div className={css["header-row"]}>
-        <CardIcon card={card} className={css["header-icon"]} inverted />
+        <CardIcon card={props.card} className={css["header-icon"]} inverted />
         <CardNames
-          code={card.code}
-          isUnique={card.is_unique}
-          linked={linked}
-          name={card.real_name}
-          parallel={card.parallel}
-          subname={card.real_subname}
+          code={props.card.code}
+          isUnique={props.card.is_unique}
+          linked={props.linked}
+          name={props.card.real_name}
+          parallel={props.card.parallel}
+          subname={props.card.real_subname}
         />
       </div>
       <MulticlassIcons
-        card={card}
+        card={props.card}
         className={clsx(css["header-icon"], css["faction-icons"])}
         inverted
       />

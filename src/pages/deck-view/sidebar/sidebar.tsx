@@ -14,11 +14,11 @@ type Props = {
   deck: DisplayDeck;
 };
 
-export function Sidebar({ className, deck }: Props) {
+export function Sidebar(props: Props) {
   return (
-    <div className={clsx(css["container"], className)}>
-      <DeckInvestigator deck={deck} size="tooltip" />
-      <SidebarActions deck={deck} />
+    <div className={clsx(css["container"], props.className)}>
+      <DeckInvestigator deck={props.deck} size="tooltip" />
+      <SidebarActions deck={props.deck} />
 
       <ul className={css["details"]}>
         <li className={css["detail"]} data-testid="view-deck-size">
@@ -26,7 +26,7 @@ export function Sidebar({ className, deck }: Props) {
             <i className="icon-card-outline-bold" /> Deck size
           </div>
           <p className={css["detail-value"]}>
-            {deck.stats.deckSize} ({deck.stats.deckSizeTotal} total)
+            {props.deck.stats.deckSize} ({props.deck.stats.deckSizeTotal} total)
           </p>
         </li>
 
@@ -34,7 +34,7 @@ export function Sidebar({ className, deck }: Props) {
           <div className={css["detail-label"]}>
             <i className="icon-xp-bold" /> XP required
           </div>
-          <p className={css["detail-value"]}>{deck.stats.xpRequired}</p>
+          <p className={css["detail-value"]}>{props.deck.stats.xpRequired}</p>
         </li>
 
         <li className={css["detail"]} data-testid="view-deck-taboo">
@@ -42,9 +42,10 @@ export function Sidebar({ className, deck }: Props) {
             <i className="icon-taboo" /> Taboo
           </div>
           <p className={css["detail-value"]}>
-            {deck.tabooSet ? (
+            {props.deck.tabooSet ? (
               <span>
-                {deck.tabooSet.name} - {deck.tabooSet.date.slice(0, 4)}
+                {props.deck.tabooSet.name} -{" "}
+                {props.deck.tabooSet.date.slice(0, 4)}
               </span>
             ) : (
               "None"
@@ -52,8 +53,8 @@ export function Sidebar({ className, deck }: Props) {
           </p>
         </li>
 
-        {!!deck.selections &&
-          Object.entries(deck.selections).map(([key, selection]) => (
+        {!!props.deck.selections &&
+          Object.entries(props.deck.selections).map(([key, selection]) => (
             <li className={css["detail"]} key={key}>
               <div className={css["detail-label"]}>
                 {formatSelectionId(key)}
