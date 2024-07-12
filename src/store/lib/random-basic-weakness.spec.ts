@@ -44,6 +44,7 @@ describe("randomBasicWeaknessForDeck", () => {
           eoep: 1,
         },
         showAllCards: false,
+        hideWeaknessesByDefault: false,
         tabooSetId: undefined,
       },
     });
@@ -79,6 +80,7 @@ describe("randomBasicWeaknessForDeck", () => {
           tskp: 1,
         },
         showAllCards: false,
+        hideWeaknessesByDefault: false,
         tabooSetId: undefined,
       },
     });
