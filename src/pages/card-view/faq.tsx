@@ -1,14 +1,11 @@
 import DOMPurify from "dompurify";
-import { ChevronDown } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 
 import type { ResolvedCard } from "@/store/lib/types";
 import { queryFaq } from "@/store/services/queries";
 import { useQuery } from "@/utils/use-query";
 
-import css from "./faq.module.css";
-
-import { Button } from "../../components/ui/button";
+import { Details } from "@/components/ui/details";
 
 type Props = {
   card: ResolvedCard["card"];
@@ -16,10 +13,11 @@ type Props = {
 
 export function Faq(props: Props) {
   const [open, setOpen] = useState(false);
+  const { card } = props;
 
   const query = useMemo(
-    () => (open ? () => queryFaq(props.card.code) : undefined),
-    [props.card.code, open],
+    () => (open ? () => queryFaq(card.code) : undefined),
+    [card.code, open],
   );
 
   const response = useQuery(query);
@@ -36,13 +34,14 @@ export function Faq(props: Props) {
   }, []);
 
   return (
-    <details className={css["faq"]}>
-      <Button as="summary" onClick={() => setOpen((p) => !p)} size="full">
-        {open ? <ChevronDown /> : <span>?</span>} View FAQs
-      </Button>
-
-      {/* biome-ignore lint/a11y/useKeyWithClickEvents: TODO. */}
-      <div className={css["faq-content"]} onClick={redirectRelativeLinks}>
+    <Details
+      iconClosed={<span>?</span>}
+      onOpenChange={setOpen}
+      title="View FAQs"
+      scrollHeight="20rem"
+    >
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents: not relevant. */}
+      <div onClick={redirectRelativeLinks}>
         {response.loading && "Loading..."}
 
         {!!response.error && "Error loading FAQ entries."}
@@ -59,6 +58,6 @@ export function Faq(props: Props) {
             />
           ))}
       </div>
-    </details>
+    </Details>
   );
 }

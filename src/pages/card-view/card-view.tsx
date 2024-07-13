@@ -8,7 +8,11 @@ import { useStore } from "@/store";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
 import { useDocumentTitle } from "@/utils/use-document-title";
 
+import { CardModalProvider } from "@/components/card-modal/card-modal-context";
+import { Footer } from "@/components/footer";
 import css from "./card-view.module.css";
+import { Faq } from "./faq";
+import { UsableBy } from "./usable-by";
 
 function CardView() {
   const { code } = useParams();
@@ -25,33 +29,88 @@ function CardView() {
     return <Redirect to="/404" />;
   }
 
+  const isInvestigator = cardWithRelations.card.type_code === "investigator";
+  const parallel = cardWithRelations.relations?.parallel?.card;
+
   return (
-    <div className={cx(css["layout"], "fade-in")}>
-      <Masthead className={css["header"]} />
-      <main className={css["main"]}>
-        <nav className={css["actions"]}>
-          {cardWithRelations.card.type_code === "investigator" && (
-            <Link asChild href={`/deck/create/${cardWithRelations.card.code}`}>
-              <Button as="a" data-testid="card-modal-create-deck">
-                <i className="icon-deck" /> Create deck
+    <CardModalProvider>
+      <div className={cx(css["layout"], "fade-in")}>
+        <Masthead className={css["header"]} />
+        <main className={css["main"]}>
+          <CardViewCards
+            cardWithRelations={cardWithRelations}
+            key={cardWithRelations.card.code}
+          />
+        </main>
+        <nav className={css["sidebar"]}>
+          <div className={css["sidebar-inner"]}>
+            <SidebarSection title="Actions">
+              <Button
+                as="a"
+                href={`https://arkhamdb.com/card/${cardWithRelations.card.code}`}
+                rel="noreferrer"
+                target="_blank"
+                size="full"
+              >
+                <i className="icon-world" /> Open on ArkhamDB
               </Button>
-            </Link>
-          )}
-          <Button
-            as="a"
-            href={`https://arkhamdb.com/card/${cardWithRelations.card.code}`}
-            rel="noreferrer"
-            target="_blank"
-          >
-            <i className="icon-world" /> Open on ArkhamDB
-          </Button>
+              {isInvestigator && (
+                <Link
+                  asChild
+                  href={`/deck/create/${cardWithRelations.card.code}`}
+                >
+                  <Button
+                    as="a"
+                    data-testid="card-modal-create-deck"
+                    size="full"
+                  >
+                    <i className="icon-deck" /> Create deck
+                  </Button>
+                </Link>
+              )}
+            </SidebarSection>
+            <SidebarSection title="FAQ">
+              <Faq card={cardWithRelations.card} />
+            </SidebarSection>
+
+            {!isInvestigator && (
+              <SidebarSection title="Deckbuilding">
+                {isInvestigator && (
+                  <>
+                    <Button size="full">
+                      <i className="icon-cards" /> Cards usable by{" "}
+                      {cardWithRelations.card.real_name}
+                    </Button>
+                    {parallel && (
+                      <Button size="full">
+                        <i className="icon-cards" /> Cards usable by{" "}
+                        <i className="icon-parallel" /> {parallel.real_name}
+                      </Button>
+                    )}
+                  </>
+                )}
+                {!isInvestigator && <UsableBy card={cardWithRelations.card} />}
+              </SidebarSection>
+            )}
+          </div>
         </nav>
-        <CardViewCards
-          cardWithRelations={cardWithRelations}
-          key={cardWithRelations.card.code}
-        />
-      </main>
-    </div>
+        <Footer />
+      </div>
+    </CardModalProvider>
+  );
+}
+
+function SidebarSection(props: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className={css["sidebar-section"]}>
+      <header className={css["sidebar-section-header"]}>
+        <h2 className={css["sidebar-section-title"]}>{props.title}</h2>
+      </header>
+      <div className={css["sidebar-section-content"]}>{props.children}</div>
+    </section>
   );
 }
 

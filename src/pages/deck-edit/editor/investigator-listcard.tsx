@@ -29,11 +29,18 @@ function InvestigatorListcardInner({ deck }: Props) {
 
   const isParallelBack = !!deck.investigatorBack.card.parallel;
 
+  const card = {
+    ...deck.investigatorFront.card,
+    parallel:
+      deck.investigatorFront.card.parallel ||
+      deck.investigatorBack.card.parallel,
+  };
+
   return (
     <>
       <DialogTrigger>
         <ListCard
-          card={deck.investigatorFront.card}
+          card={card}
           disableModalOpen
           omitBorders
           showInvestigatorIcons

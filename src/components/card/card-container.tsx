@@ -11,7 +11,7 @@ type Props = {
 export function CardContainer(props: Props) {
   const { children, className, size, ...rest } = props;
   return (
-    <div className={cx(css["container"], css[size], className)} {...rest}>
+    <div {...rest} className={cx(css["container"], css[size], className)}>
       {children}
     </div>
   );

@@ -2,23 +2,22 @@ import { Redirect } from "wouter";
 
 import { Card } from "@/components/card/card";
 import { CustomizationsEditor } from "@/components/customizations/customizations-editor";
-import { Faq } from "@/pages/card-view/faq";
 import type { CardWithRelations } from "@/store/lib/types";
 import { formatRelationTitle } from "@/utils/formatting";
 
 import css from "./card-view.module.css";
 
-function CardViewSection({
-  title,
-  children,
-  id,
-}: {
+type Props = {
   title: string;
   children: React.ReactNode;
   id?: string;
-}) {
+};
+
+function CardViewSection(props: Props) {
+  const { title, children, id } = props;
+
   return (
-    <section className={css["view-section"]} id={id}>
+    <section className={css["view-section"]} id={id} data-testid={id}>
       <h2 className={css["view-section-title"]}>{title}</h2>
       <div className={css["view-section-cards"]}>{children}</div>
     </section>
@@ -55,8 +54,6 @@ export function CardViewCards({
         ) : undefined}
       </Card>
 
-      <Faq card={cardWithRelations.card} />
-
       {relations?.parallel && (
         <CardViewSection id="parallel" title={formatRelationTitle("parallel")}>
           <Card resolvedCard={relations.parallel} />
@@ -64,7 +61,7 @@ export function CardViewCards({
       )}
 
       {!!relations?.bound?.length && (
-        <CardViewSection title={formatRelationTitle("bound")}>
+        <CardViewSection id="bound" title={formatRelationTitle("bound")}>
           {relations.bound.map((c) => (
             <Card
               canToggleBackside
@@ -78,7 +75,7 @@ export function CardViewCards({
       )}
 
       {!!relations?.bonded?.length && (
-        <CardViewSection title={formatRelationTitle("bonded")}>
+        <CardViewSection id="bonded" title={formatRelationTitle("bonded")}>
           {relations.bonded.map((c) => (
             <Card
               canToggleBackside
@@ -92,7 +89,10 @@ export function CardViewCards({
       )}
 
       {!!relations?.requiredCards?.length && (
-        <CardViewSection title={formatRelationTitle("requiredCards")}>
+        <CardViewSection
+          id="required"
+          title={formatRelationTitle("requiredCards")}
+        >
           {relations.requiredCards.map((c) => (
             <Card
               canToggleBackside
@@ -106,7 +106,7 @@ export function CardViewCards({
       )}
 
       {!!relations?.advanced?.length && (
-        <CardViewSection title={formatRelationTitle("advanced")}>
+        <CardViewSection id="advanced" title={formatRelationTitle("advanced")}>
           {relations.advanced.map((c) => (
             <Card
               canToggleBackside
@@ -120,7 +120,10 @@ export function CardViewCards({
       )}
 
       {!!relations?.parallelCards?.length && (
-        <CardViewSection title={formatRelationTitle("parallelCards")}>
+        <CardViewSection
+          id="parallel-cards"
+          title={formatRelationTitle("parallelCards")}
+        >
           {relations.parallelCards.map((c) => (
             <Card
               canToggleBackside
@@ -134,7 +137,10 @@ export function CardViewCards({
       )}
 
       {!!relations?.replacement?.length && (
-        <CardViewSection title={formatRelationTitle("replacement")}>
+        <CardViewSection
+          id="replacement"
+          title={formatRelationTitle("replacement")}
+        >
           {relations.replacement.map((c) => (
             <Card
               canToggleBackside
@@ -148,7 +154,10 @@ export function CardViewCards({
       )}
 
       {!!relations?.restrictedTo && (
-        <CardViewSection title={formatRelationTitle("restricted")}>
+        <CardViewSection
+          id="restricted-to"
+          title={formatRelationTitle("restricted")}
+        >
           <Card
             canToggleBackside
             linked
@@ -159,7 +168,7 @@ export function CardViewCards({
       )}
 
       {!!relations?.level?.length && (
-        <CardViewSection title={formatRelationTitle("level")}>
+        <CardViewSection id="level" title={formatRelationTitle("level")}>
           {relations.level.map((c) => (
             <Card
               canToggleBackside

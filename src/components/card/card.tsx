@@ -74,14 +74,14 @@ export function Card(props: Props) {
   const backsideVisible = !canToggleBackside || (hasToggle && backToggled);
 
   return reversed(card) ? (
-    <CardContainer size={size}>
+    <CardContainer data-testid={`card-${resolvedCard.card.code}`} size={size}>
       {backNode}
       {children}
       {backToggle}
       {backsideVisible && front}
     </CardContainer>
   ) : (
-    <CardContainer size={size}>
+    <CardContainer data-testid={`card-${resolvedCard.card.code}`} size={size}>
       {front}
       {children}
       {backToggle}
