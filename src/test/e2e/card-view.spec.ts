@@ -67,3 +67,37 @@ test("links player cards to investigators", async ({ page }) => {
   await expect(page.getByTestId("listcard-07002")).toBeVisible();
   await expect(page.getByTestId("listcard-01001")).not.toBeVisible();
 });
+
+test("links cards usable by investigator", async ({ page }) => {
+  await page.goto("http://localhost:3000/card/01001");
+  await page.getByTestId("usable-cards").click();
+  await expect(
+    page.getByRole("heading", { name: "Cards usable by" }),
+  ).toBeVisible();
+  await page.getByTestId("search-input").click();
+
+  await page.getByTestId("search-input").fill("deduc");
+  await expect(page.getByTestId("listcard-01039")).toBeVisible();
+  await expect(page.getByTestId("listcard-02150")).toBeVisible();
+
+  await page.getByTestId("search-input").fill("followed");
+  await expect(page.getByTestId("listcard-06114")).not.toBeVisible();
+});
+
+test("links cards usable by parallel investigator", async ({ page }) => {
+  await page.goto("http://localhost:3000/card/01001");
+  await page.getByTestId("usable-cards-parallel").click();
+
+  await expect(
+    page.getByRole("heading", { name: "Cards usable by" }),
+  ).toBeVisible();
+
+  await page.getByTestId("search-input").click();
+
+  await page.getByTestId("search-input").fill("deduc");
+  await expect(page.getByTestId("listcard-01039")).not.toBeVisible();
+  await expect(page.getByTestId("listcard-02150")).not.toBeVisible();
+
+  await page.getByTestId("search-input").fill("followed");
+  await expect(page.getByTestId("listcard-06114")).toBeVisible();
+});

@@ -80,14 +80,14 @@ function CardView() {
                     asChild
                     href={`/card/${cardWithRelations.card.code}/usable_cards`}
                   >
-                    <Button size="full">
+                    <Button size="full" data-testid="usable-cards">
                       <i className="icon-cards" /> Cards usable by{" "}
                       {cardWithRelations.card.real_name}
                     </Button>
                   </Link>
                   {parallel && (
                     <Link asChild href={`/card/${parallel.code}/usable_cards`}>
-                      <Button size="full">
+                      <Button size="full" data-testid="usable-cards-parallel">
                         <i className="icon-cards" /> Cards usable by{" "}
                         <i className="icon-parallel" /> {parallel.real_name}
                       </Button>
