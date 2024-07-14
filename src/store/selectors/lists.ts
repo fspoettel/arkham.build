@@ -390,7 +390,6 @@ export const selectSkillIconsChanges = (value: SkillIconsFilter) => {
 
 export const selectSubtypeChanges = createSelector(
   (_: StoreState, value: SubtypeFilter) => value,
-  selectSubtypeOptions,
   (value) => {
     const options = selectSubtypeOptions();
 

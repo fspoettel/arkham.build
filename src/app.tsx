@@ -23,6 +23,7 @@ const DeckCreate = lazy(() => import("./pages/deck-create/deck-create"));
 const DeckView = lazy(() => import("./pages/deck-view/deck-view"));
 const Settings = lazy(() => import("./pages/settings/settings"));
 const CardView = lazy(() => import("./pages/card-view/card-view"));
+const CardViewUsable = lazy(() => import("./pages/card-view/usable-cards"));
 const About = lazy(() => import("./pages/about/about"));
 
 function App() {
@@ -50,6 +51,10 @@ function App() {
               <Switch>
                 <Route component={Browse} path="/" />
                 <Route component={CardView} path="/card/:code" />
+                <Route
+                  component={CardViewUsable}
+                  path="/card/:code/usable_cards"
+                />
                 <Route component={ChooseInvestigator} path="/deck/create" />
                 <Route component={DeckCreate} path="/deck/create/:code" />
                 <Route component={DeckView} path="/deck/view/:id" />

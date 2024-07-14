@@ -56,7 +56,7 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
   get,
 ) => ({
   activeList: getInitialList(),
-  lists: makeLists(),
+  lists: {},
 
   changeList(value, path) {
     const state = get();
@@ -127,7 +127,11 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
   setActiveList(value) {
     const state = get();
 
-    if (state.lists[value] && state.activeList !== value) {
+    if (value == null) {
+      set({
+        activeList: undefined,
+      });
+    } else if (state.lists[value] && state.activeList !== value) {
       set({
         activeList: value,
       });
@@ -361,6 +365,37 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
           filtersEnabled: value,
         },
       },
+    });
+  },
+
+  addList(key, cardType, initialValues) {
+    const state = get();
+
+    const lists = { ...state.lists };
+    assert(!lists[key], `list ${key} already exists.`);
+    assert(cardType === "player", "only player lists are supported for now.");
+
+    lists[key] = makePlayerCardsList(key, {
+      showInvestigators: true,
+      initialValues: {
+        ...initialValues,
+        ownership: getInitialOwnershipFilter(state),
+        subtype: getInitialSubtypeFilter(state),
+      },
+    });
+
+    set({
+      lists,
+    });
+  },
+
+  removeList(key) {
+    const state = get();
+    const lists = { ...state.lists };
+    delete lists[key];
+
+    set({
+      lists,
     });
   },
 });
