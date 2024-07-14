@@ -34,6 +34,10 @@ export function filterDuplicates(card: Card) {
   );
 }
 
+export function filterAlternates(card: Card) {
+  return filterDuplicates(card) || card.parallel;
+}
+
 export function filterEncounterCards(card: Card) {
   return !card.encounter_code; // filter out encounter cards (story player cards).
 }

@@ -24,7 +24,7 @@ export function CardNames(props: Props) {
 
   return (
     <div>
-      <h1 className={css["name"]}>
+      <h1 className={css["name"]} data-testid="card-name">
         {linked ? <Link href={`/card/${code}`}>{cardName}</Link> : cardName}
       </h1>
       {subname && <h2 className={css["sub"]}>{subname}</h2>}

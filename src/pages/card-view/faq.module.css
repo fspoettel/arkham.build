@@ -1,31 +1,5 @@
-.faq {
-  background: var(--nord-0);
-}
-
-.faq > * + * {
-  margin-top: 0.5rem;
-}
-
-.faq summary {
-  border: 1px solid var(--nord-1);
-  background: var(--nord-point-five);
-}
-
-.faq summary::-webkit-details-marker {
-  display: none;
-}
-
-.faq summary span {
-  display: inline-block;
-  min-width: 1rem;
-  text-align: center;
-}
-
 .faq-content {
-  border: 1px solid var(--nord-1);
-  padding: 0.5rem 1.5rem;
   font-size: var(--text-sm);
-  border-radius: var(--rounded-md);
 }
 
 .faq-content > * {

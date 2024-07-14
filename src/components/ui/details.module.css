@@ -1,0 +1,21 @@
+.details {
+  background: var(--nord-0);
+}
+
+.details > * + * {
+  margin-top: 0.5rem;
+}
+
+.details summary::-webkit-details-marker {
+  display: none;
+}
+
+.details-content {
+  border: 1px solid var(--nord-point-five);
+  padding: 0.5rem 1rem;
+  border-radius: var(--rounded-md);
+}
+
+.details-content.scrollable {
+  height: var(--scroll-height);
+}

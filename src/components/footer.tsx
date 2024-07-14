@@ -1,10 +1,15 @@
 import { Link } from "wouter";
 
+import { cx } from "@/utils/cx";
 import css from "./footer.module.css";
 
-export function Footer() {
+type Props = {
+  className?: string;
+};
+
+export function Footer(props: Props) {
   return (
-    <div className={css["footer"]}>
+    <div className={cx(css["footer"], props.className)}>
       <p>
         <a
           href="https://www.fantasyflightgames.com/en/products/arkham-horror-the-card-game/"

@@ -198,9 +198,7 @@ export function ListCardInner(props: Props) {
                 <MulticlassIcons card={card} className={css["multiclass"]} />
               )}
 
-              {!showInvestigatorIcons && card.parallel && (
-                <i className="icon-parallel" />
-              )}
+              {card.parallel && <i className="icon-parallel" />}
 
               {hasSkillIcons(card) && <SkillIcons card={card} />}
 
