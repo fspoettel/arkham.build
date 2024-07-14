@@ -133,12 +133,20 @@ export type ListsSlice = {
 
   changeList(value: string, path: string): void;
 
+  addList(
+    key: string,
+    cardType: List["cardType"],
+    initialValues?: Partial<Record<FilterKey, FilterMapping[FilterKey]>>,
+  ): void;
+
+  removeList(key: string): void;
+
   setFiltersEnabled(value: boolean): void;
 
   setFilterValue<T>(id: number, payload: T): void;
   setFilterOpen(id: number, open: boolean): void;
 
-  setActiveList(value: string): void;
+  setActiveList(value: string | undefined): void;
   setSearchValue(value: string): void;
   setSearchFlag(flag: keyof Omit<Search, "value">, value: boolean): void;
 

@@ -73,25 +73,30 @@ function CardView() {
               <Faq card={cardWithRelations.card} />
             </SidebarSection>
 
-            {!isInvestigator && (
-              <SidebarSection title="Deckbuilding">
-                {isInvestigator && (
-                  <>
-                    <Button size="full">
+            <SidebarSection title="Deckbuilding">
+              {isInvestigator && (
+                <>
+                  <Link
+                    asChild
+                    href={`/card/${cardWithRelations.card.code}/usable_cards`}
+                  >
+                    <Button size="full" data-testid="usable-cards">
                       <i className="icon-cards" /> Cards usable by{" "}
                       {cardWithRelations.card.real_name}
                     </Button>
-                    {parallel && (
-                      <Button size="full">
+                  </Link>
+                  {parallel && (
+                    <Link asChild href={`/card/${parallel.code}/usable_cards`}>
+                      <Button size="full" data-testid="usable-cards-parallel">
                         <i className="icon-cards" /> Cards usable by{" "}
                         <i className="icon-parallel" /> {parallel.real_name}
                       </Button>
-                    )}
-                  </>
-                )}
-                {!isInvestigator && <UsableBy card={cardWithRelations.card} />}
-              </SidebarSection>
-            )}
+                    </Link>
+                  )}
+                </>
+              )}
+              {!isInvestigator && <UsableBy card={cardWithRelations.card} />}
+            </SidebarSection>
           </div>
         </nav>
         <Footer />
