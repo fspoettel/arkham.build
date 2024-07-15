@@ -24,6 +24,7 @@ import type { SettingsState } from "./settings.types";
 function getInitialLookupTables(): LookupTables {
   return {
     relations: {
+      base: {},
       bound: {},
       bonded: {},
       restrictedTo: {},
@@ -361,6 +362,12 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
         tables.relations.parallel,
         card.alternate_of_code,
       );
+
+      setInLookupTable(
+        card.alternate_of_code,
+        tables.relations.base,
+        card.code,
+      );
     }
 
     if (card.duplicate_of_code) {
@@ -410,6 +417,20 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
         }
       }
     }
+  }
+
+  for (const [investigator, entry] of Object.entries(
+    tables.relations.parallel,
+  )) {
+    const parallel = Object.keys(entry)[0];
+
+    tables.relations.advanced[parallel] =
+      tables.relations.advanced[investigator];
+    tables.relations.replacement[parallel] =
+      tables.relations.replacement[investigator];
+    tables.relations.bonded[parallel] = tables.relations.bonded[investigator];
+    tables.relations.parallelCards[parallel] =
+      tables.relations.parallelCards[investigator];
   }
 
   timeEnd("create_relations");

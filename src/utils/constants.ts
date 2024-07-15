@@ -131,6 +131,7 @@ export const SPECIAL_CARD_CODES = {
 };
 
 export const CARD_SET_ORDER = [
+  "base",
   "parallel",
   "requiredCards",
   "advanced",

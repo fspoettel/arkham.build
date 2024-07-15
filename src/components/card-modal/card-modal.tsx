@@ -50,6 +50,7 @@ export function CardModal(props: Props) {
 
   const showQuantities =
     !!activeDeck && cardWithRelations?.card.type_code !== "investigator";
+
   const showExtraQuantities = activeDeck?.hasExtraDeck;
 
   const canRenderFull = useMedia("(min-width: 45rem)");

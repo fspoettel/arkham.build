@@ -27,6 +27,7 @@ export function formatSelectionId(id: string) {
 }
 
 export function formatRelationTitle(id: string) {
+  if (id === "base") return "Base investigator";
   if (id === "parallel") return "Parallel investigator";
   if (id === "parallelCards") return "Parallel cards";
   if (id === "requiredCards") return "Signatures";

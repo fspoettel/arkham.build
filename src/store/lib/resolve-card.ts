@@ -66,6 +66,13 @@ export function resolveCardWithRelations<T extends boolean>(
           card.code,
           tabooSetId,
         ),
+        base: resolveRelation(
+          metadata,
+          lookupTables,
+          "base",
+          card.code,
+          tabooSetId,
+        ),
         parallel: resolveRelation(
           metadata,
           lookupTables,

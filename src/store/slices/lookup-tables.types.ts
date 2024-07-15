@@ -8,6 +8,8 @@ export type LookupTable<
 export type LookupTables = {
   // TODO: add alternative_art investigators.
   relations: {
+    // Base version for a parallel investigator.
+    base: LookupTable<string, 1>;
     // `Hallowed Mirror` has bound `Soothing Melody`.
     bound: LookupTable<string, 1>;
     // `Soothing Melody` is bonded to `Hallowed Mirror`.

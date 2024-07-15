@@ -27,6 +27,7 @@ export type CardWithRelations = ResolvedCard & {
 
     restrictedTo?: ResolvedCard;
     parallel?: ResolvedCard;
+    base?: ResolvedCard;
 
     advanced?: ResolvedCard[];
     replacement?: ResolvedCard[];
