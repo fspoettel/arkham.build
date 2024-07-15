@@ -4,7 +4,7 @@
   gap: 0.75rem;
   max-width: min(90%, 45ch);
   position: fixed;
-  top: 1rem;
+  bottom: 1rem;
   right: 1rem;
   z-index: 100;
   background: var(--nord-1);
