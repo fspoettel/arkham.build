@@ -8,13 +8,14 @@ import { randomId } from "../lib/deck-factory";
 import {
   formatDeckAsText,
   formatDeckExport,
-} from "../lib/serialization/deck-export";
+  formatDeckImport,
+} from "../lib/serialization/deck-io";
 import {
   selectActiveDeckById,
   selectDeckValidById,
 } from "../selectors/deck-view";
 import { queryDeck } from "../services/queries";
-import type { DataSlice, Deck } from "./data.types";
+import { type DataSlice, type Deck, type Id, isDeck } from "./data.types";
 
 export function getInitialDataState() {
   return {
@@ -34,13 +35,8 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
   async importDeck(input) {
     const state = get();
 
-    const { data: deck, type } = await queryDeck(input);
-    deck.id = randomId();
-    deck.problem = undefined;
-
-    if (type === "decklist") {
-      deck.tags = deck.tags.replaceAll(", ", " ");
-    }
+    const { data, type } = await queryDeck(input);
+    const deck = formatDeckImport(data, type);
 
     set({
       data: {
@@ -52,6 +48,46 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
         history: {
           ...state.data.history,
           [deck.id]: [],
+        },
+      },
+    });
+  },
+
+  async importFromFiles(files) {
+    const decks = [];
+
+    for (const file of files) {
+      try {
+        const text = await file.text();
+        const parsed = JSON.parse(text);
+
+        assert(isDeck(parsed), `file '${file.name}' is not an arkhamdb deck`);
+        const deck = formatDeckImport(parsed, "deck");
+
+        decks.push(deck);
+      } catch (err) {
+        console.error(`could not import deck '${file.name}':`, err);
+      }
+    }
+
+    const state = get();
+
+    set({
+      data: {
+        ...state.data,
+        decks: {
+          ...state.data.decks,
+          ...decks.reduce<Record<Id, Deck>>((acc, deck) => {
+            acc[deck.id] = deck;
+            return acc;
+          }, {}),
+        },
+        history: {
+          ...state.data.history,
+          ...decks.reduce<Record<Id, string[]>>((acc, deck) => {
+            acc[deck.id] = [];
+            return acc;
+          }, {}),
         },
       },
     });
@@ -73,6 +109,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
       date_update: now,
       next_deck: null,
       previous_deck: null,
+      source: "local",
       version: "0.1",
       xp: null,
     };

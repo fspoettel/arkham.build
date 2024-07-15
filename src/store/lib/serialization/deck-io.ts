@@ -8,11 +8,39 @@ import {
   formatSelectionId,
   formatTabooSet,
 } from "@/utils/formatting";
+import { randomId } from "../deck-factory";
 import type { DisplayDeck, Grouping } from "../deck-grouping";
 import { sortByName, sortBySlots } from "../sorting";
 import type { Customizations } from "../types";
 
-export function mapValidationToProblem(
+export function formatDeckImport(deck: Deck, type: string): Deck {
+  const now = new Date().toISOString();
+
+  return {
+    ...deck,
+    id: randomId(),
+    problem: undefined,
+    date_creation: now,
+    date_update: now,
+    source: "local",
+    tags:
+      type === "decklist"
+        ? deck.tags?.replaceAll(", ", " ") ?? null
+        : deck.tags,
+  };
+}
+
+export function formatDeckExport(
+  _deck: Deck,
+  validationResult: DeckValidationResult,
+): Deck {
+  const deck = structuredClone(_deck);
+  deck.problem = mapValidationToProblem(validationResult);
+  deck.source = undefined;
+  return deck;
+}
+
+function mapValidationToProblem(
   validation: DeckValidationResult,
 ): DeckProblem | null {
   if (validation.valid) return null;
@@ -34,16 +62,6 @@ export function mapValidationToProblem(
     default:
       return "investigator";
   }
-}
-
-export function formatDeckExport(
-  _deck: Deck,
-  validationResult: DeckValidationResult,
-): Deck {
-  const deck = structuredClone(_deck);
-  deck.problem = mapValidationToProblem(validationResult);
-  deck.source = undefined;
-  return deck;
 }
 
 // This is very ugly, but not a hot path, so who cares.

@@ -291,4 +291,24 @@ export const createSharedSlice: StateCreator<
       deckEdits,
     });
   },
+
+  deleteAllDecks() {
+    const state = get();
+
+    const decks = { ...state.data.decks };
+    const history = { ...state.data.history };
+    const edits = { ...state.deckEdits };
+
+    for (const id of Object.keys(decks)) {
+      if (decks[id].source === "local") {
+        delete decks[id];
+        delete history[id];
+        delete edits[id];
+      }
+    }
+
+    set({
+      data: { ...state.data, decks, history },
+    });
+  },
 });

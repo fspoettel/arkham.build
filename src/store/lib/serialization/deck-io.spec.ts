@@ -7,7 +7,7 @@ import { getMockStore } from "@/test/get-mock-store";
 import { beforeAll, describe, expect, it } from "vitest";
 import type { StoreApi } from "zustand";
 import { DisplayDeck } from "../deck-grouping";
-import { formatDeckAsText } from "./deck-export";
+import { formatDeckAsText } from "./deck-io";
 
 describe("formatDeckAsText()", () => {
   let store: StoreApi<StoreState>;

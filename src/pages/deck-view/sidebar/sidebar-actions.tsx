@@ -1,5 +1,5 @@
 import { Copy, Download, Ellipsis, Pencil, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Link, useLocation } from "wouter";
 
 import { Button } from "@/components/ui/button";
@@ -33,7 +33,7 @@ export function SidebarActions(props: Props) {
 
   const [actionsOpen, setActionsOpen] = useState(false);
 
-  const onDelete = () => {
+  const onDelete = useCallback(() => {
     const confirmed = confirm("Are you sure you want to delete this deck?");
     if (confirmed) {
       deleteDeck(deck.id);
@@ -44,9 +44,9 @@ export function SidebarActions(props: Props) {
         variant: "success",
       });
     }
-  };
+  }, [deck.id, deleteDeck, setLocation, showToast]);
 
-  const onDuplicate = () => {
+  const onDuplicate = useCallback(() => {
     try {
       const id = duplicateDeck(deck.id);
       setLocation(`/deck/view/${id}`);
@@ -64,13 +64,13 @@ export function SidebarActions(props: Props) {
     }
 
     setActionsOpen(false);
-  };
+  }, [deck.id, duplicateDeck, setLocation, showToast]);
 
-  const onEdit = () => {
+  const onEdit = useCallback(() => {
     setLocation(`/deck/edit/${deck.id}`);
-  };
+  }, [deck.id, setLocation]);
 
-  const onExportJson = () => {
+  const onExportJson = useCallback(() => {
     try {
       exportJson(deck.id);
     } catch (err) {
@@ -81,9 +81,9 @@ export function SidebarActions(props: Props) {
         variant: "error",
       });
     }
-  };
+  }, [deck.id, exportJson, showToast]);
 
-  const onExportText = () => {
+  const onExportText = useCallback(() => {
     try {
       exportText(deck.id);
     } catch (err) {
@@ -94,7 +94,7 @@ export function SidebarActions(props: Props) {
         variant: "error",
       });
     }
-  };
+  }, [deck.id, exportText, showToast]);
 
   useHotKey("e", onEdit, [onEdit]);
   useHotKey("cmd+d", onDuplicate, [onDuplicate]);
@@ -150,7 +150,7 @@ export function SidebarActions(props: Props) {
               </Button>
               <hr />
               <Button
-                data-testid="view-export"
+                data-testid="view-export-json"
                 size="full"
                 variant="bare"
                 onClick={onExportJson}
@@ -158,7 +158,7 @@ export function SidebarActions(props: Props) {
                 <Download /> Export JSON
               </Button>
               <Button
-                data-testid="view-export"
+                data-testid="view-export-text"
                 size="full"
                 variant="bare"
                 onClick={onExportText}

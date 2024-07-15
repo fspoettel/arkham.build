@@ -2,6 +2,10 @@ import test, { expect } from "@playwright/test";
 import { importDeck, waitForImagesLoaded } from "./actions";
 import { mockApiCalls } from "./mocks";
 
+import deckResponse from "../fixtures/stubs/get_deck.json" assert {
+  type: "json",
+};
+
 test.beforeEach(async ({ page }) => {
   await mockApiCalls(page);
   await importDeck(page);
@@ -73,11 +77,35 @@ test("delete deck", async ({ page }) => {
   await expect(page.getByText("Collection empty")).toBeVisible();
 });
 
-test("duplicate-deck", async ({ page }) => {
+test("duplicate deck", async ({ page }) => {
   await page.getByTestId("view-more-actions").click();
   await page.getByTestId("view-duplicate").click();
   await expect(page.getByTestId("view-title")).toContainText("(Copy)");
   // TODO: why does `page.goto("/")` show a spinner? maybe we have a race condition with init logic.
   await page.getByTestId("masthead-logo").click();
   expect(await page.getByTestId("collection-deck").all()).toHaveLength(2);
+});
+
+test("export as json", async ({ page }) => {
+  const downloadPromise = page.waitForEvent("download");
+
+  await page.getByTestId("view-more-actions").click();
+  await page.getByTestId("view-export-json").click();
+
+  const download = await downloadPromise;
+
+  const fail = await download.failure();
+  expect(fail).toBe(null);
+});
+
+test("export as markdown", async ({ page }) => {
+  const downloadPromise = page.waitForEvent("download");
+
+  await page.getByTestId("view-more-actions").click();
+  await page.getByTestId("view-export-text").click();
+
+  const download = await downloadPromise;
+
+  const fail = await download.failure();
+  expect(fail).toBe(null);
 });
