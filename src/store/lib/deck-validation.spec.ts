@@ -25,6 +25,8 @@ import limitDunwichInvalid from "@/test/fixtures/decks/validation/limit_dunwich_
 import limitFactionSelect from "@/test/fixtures/decks/validation/limit_faction_select.json";
 import limitFactionSelectInvalid from "@/test/fixtures/decks/validation/limit_faction_select_invalid.json";
 import limitOnYourOwn from "@/test/fixtures/decks/validation/limit_onyourown.json";
+import limitOnYourOwnCustomizable from "@/test/fixtures/decks/validation/limit_onyourown_customizable.json";
+import limitOnYourOwnCustomizableInvalid from "@/test/fixtures/decks/validation/limit_onyourown_customizable_invalid.json";
 import limitOnYourOwnInvalid from "@/test/fixtures/decks/validation/limit_onyourown_invalid.json";
 import limitTrait from "@/test/fixtures/decks/validation/limit_trait.json";
 import limitTraitInvalid from "@/test/fixtures/decks/validation/limit_trait_invalid.json";
@@ -662,6 +664,30 @@ describe("deck validation", () => {
                 {
                   "code": "03198",
                   "real_name": "Madame Labranche",
+                  "target": "slots",
+                },
+              ],
+              "type": "FORBIDDEN",
+            },
+          ]
+        `);
+      });
+
+      it("handles case: on your own + summoned servitor, valid", () => {
+        const result = validate(store, limitOnYourOwnCustomizable);
+        expect(result.valid).toBeTruthy();
+      });
+
+      it("handles case: on your own + summoned servitor, invalid", () => {
+        const result = validate(store, limitOnYourOwnCustomizableInvalid);
+        expect(result.valid).toBeFalsy();
+        expect(result.errors).toMatchInlineSnapshot(`
+          [
+            {
+              "details": [
+                {
+                  "code": "09080",
+                  "real_name": "Summoned Servitor",
                   "target": "slots",
                 },
               ],
