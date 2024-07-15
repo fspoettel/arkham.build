@@ -1,11 +1,12 @@
 import DOMPurify from "dompurify";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import type { ResolvedCard } from "@/store/lib/types";
 import { queryFaq } from "@/store/services/queries";
 import { useQuery } from "@/utils/use-query";
 
 import { Details } from "@/components/ui/details";
+import { redirectArkhamDBLinks } from "@/utils/arkhamdb-links";
 
 type Props = {
   card: ResolvedCard["card"];
@@ -22,17 +23,6 @@ export function Faq(props: Props) {
 
   const response = useQuery(query);
 
-  const redirectRelativeLinks = useCallback((evt: React.MouseEvent) => {
-    evt.preventDefault();
-    if (evt.target instanceof HTMLAnchorElement) {
-      // Redirect relative links to another domain
-      const href = evt.target.getAttribute("href");
-      if (href?.startsWith("/")) {
-        window.open(`https://arkhamdb.com${href}`, "_blank");
-      }
-    }
-  }, []);
-
   return (
     <Details
       iconClosed={<span>?</span>}
@@ -41,7 +31,7 @@ export function Faq(props: Props) {
       scrollHeight="20rem"
     >
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: not relevant. */}
-      <div onClick={redirectRelativeLinks}>
+      <div onClick={redirectArkhamDBLinks}>
         {response.loading && "Loading..."}
 
         {!!response.error && "Error loading FAQ entries."}

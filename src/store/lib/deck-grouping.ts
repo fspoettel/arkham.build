@@ -4,16 +4,12 @@ import { assert } from "@/utils/assert";
 import type { Card } from "../services/queries.types";
 import type { CardWithRelations, ResolvedDeck } from "./types";
 
-type DeckCard = Card & {
-  quantity: number;
-};
-
 export type Grouping = {
-  [K in Exclude<PlayerType, "asset">]?: DeckCard[];
+  [K in Exclude<PlayerType, "asset">]?: Card[];
 } & {
-  asset?: Record<string, DeckCard[]>;
-  event?: DeckCard[];
-  skill?: DeckCard[];
+  asset?: Record<string, Card[]>;
+  event?: Card[];
+  skill?: Card[];
 };
 
 export type NamedGrouping = {

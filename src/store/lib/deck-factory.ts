@@ -1,4 +1,5 @@
 import type { Deck } from "@/store/slices/data.types";
+import { customAlphabet } from "nanoid";
 
 type Payload = {
   investigator_code: string;
@@ -6,11 +7,20 @@ type Payload = {
   slots: Record<string, number>;
 } & Partial<Omit<Deck, "id" | "date_creation" | "date_update">>;
 
+const nanoid = customAlphabet(
+  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+  15,
+);
+
+export function randomId() {
+  return nanoid();
+}
+
 export function createDeck(values: Payload): Deck {
   const timestamp = new Date().toISOString();
 
   return {
-    id: window.crypto.randomUUID(),
+    id: randomId(),
     date_creation: timestamp,
     date_update: timestamp,
     description_md: "",
@@ -21,6 +31,7 @@ export function createDeck(values: Payload): Deck {
     previous_deck: null,
     tags: "",
     version: "0.1",
+    source: "local",
     taboo_id: null,
     xp: null,
     xp_spent: null,

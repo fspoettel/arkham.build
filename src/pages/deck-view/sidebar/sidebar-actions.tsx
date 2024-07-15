@@ -1,4 +1,4 @@
-import { Copy, Ellipsis, Pencil, Trash2 } from "lucide-react";
+import { Copy, Download, Ellipsis, Pencil, Trash2 } from "lucide-react";
 import { useCallback, useState } from "react";
 import { Link, useLocation } from "wouter";
 
@@ -28,6 +28,8 @@ export function SidebarActions(props: Props) {
 
   const deleteDeck = useStore((state) => state.deleteDeck);
   const duplicateDeck = useStore((state) => state.duplicateDeck);
+  const exportJson = useStore((state) => state.exportJSON);
+  const exportText = useStore((state) => state.exportText);
 
   const [actionsOpen, setActionsOpen] = useState(false);
 
@@ -67,6 +69,32 @@ export function SidebarActions(props: Props) {
   const onEdit = useCallback(() => {
     setLocation(`/deck/edit/${deck.id}`);
   }, [deck.id, setLocation]);
+
+  const onExportJson = useCallback(() => {
+    try {
+      exportJson(deck.id);
+    } catch (err) {
+      console.error(err);
+      showToast({
+        duration: 2000,
+        children: "Failed to export json.",
+        variant: "error",
+      });
+    }
+  }, [deck.id, exportJson, showToast]);
+
+  const onExportText = useCallback(() => {
+    try {
+      exportText(deck.id);
+    } catch (err) {
+      console.error(err);
+      showToast({
+        duration: 2000,
+        children: "Failed to export markdown.",
+        variant: "error",
+      });
+    }
+  }, [deck.id, exportText, showToast]);
 
   useHotKey("e", onEdit, [onEdit]);
   useHotKey("cmd+d", onDuplicate, [onDuplicate]);
@@ -119,6 +147,23 @@ export function SidebarActions(props: Props) {
               >
                 <Copy />
                 Duplicate
+              </Button>
+              <hr />
+              <Button
+                data-testid="view-export-json"
+                size="full"
+                variant="bare"
+                onClick={onExportJson}
+              >
+                <Download /> Export JSON
+              </Button>
+              <Button
+                data-testid="view-export-text"
+                size="full"
+                variant="bare"
+                onClick={onExportText}
+              >
+                <Download /> Export Markdown
               </Button>
               <hr />
               <Button

@@ -107,7 +107,8 @@ export type SortingType =
   | "level"
   | "cycle"
   | "faction"
-  | "type";
+  | "type"
+  | "cost";
 
 export type List = {
   cardType: "player" | "encounter";

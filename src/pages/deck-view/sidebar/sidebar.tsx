@@ -3,7 +3,11 @@ import { cx } from "@/utils/cx";
 import { DeckInvestigator } from "@/components/deck-investigator";
 import { FactionIcon } from "@/components/icons/faction-icon";
 import type { DisplayDeck } from "@/store/lib/deck-grouping";
-import { capitalize, formatSelectionId } from "@/utils/formatting";
+import {
+  capitalize,
+  formatSelectionId,
+  formatTabooSet,
+} from "@/utils/formatting";
 
 import css from "./sidebar.module.css";
 
@@ -44,9 +48,7 @@ export function Sidebar(props: Props) {
           </div>
           <p className={css["detail-value"]}>
             {deck.tabooSet ? (
-              <span>
-                {deck.tabooSet.name} - {deck.tabooSet.date.slice(0, 4)}
-              </span>
+              <span>{formatTabooSet(deck.tabooSet)}</span>
             ) : (
               "None"
             )}

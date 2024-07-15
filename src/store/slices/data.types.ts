@@ -4,24 +4,35 @@ export type Slots = {
 
 export type Id = number | string;
 
+export type DeckProblem =
+  | "too_few_cards"
+  | "too_many_cards"
+  | "too_many_copies"
+  | "invalid_cards"
+  | "deck_options_limit"
+  | "investigator";
+
 export type Deck = {
-  id: Id;
-  name: string;
   date_creation: string;
   date_update: string;
-  investigator_code: string;
   description_md: string;
-  slots: Slots;
-  sideSlots: Slots | string[]; // NOTE: arkhamdb returns `[]` for empty side slots.
+  id: Id; // local decks: string, arkhamdb: int
   ignoreDeckLimitSlots: Slots | null;
-  xp: number | null;
-  xp_spent: number | null;
-  taboo_id: number | null;
+  investigator_code: string;
   meta: string;
+  name: string;
+  next_deck: Id | null;
+  previous_deck: Id | null;
+  problem?: DeckProblem | string | null;
+  sideSlots: Slots | string[]; // NOTE: arkhamdb returns `[]` for empty side slots.
+  slots: Slots;
+  taboo_id: number | null;
   tags: string;
   version: string;
-  previous_deck: Id | null;
-  next_deck: Id | null;
+  xp_spent: number | null;
+  xp: number | null;
+
+  source?: "local" | "arkhamdb"; // addition.
 };
 
 export function isDeck(x: unknown): x is Deck {
@@ -40,5 +51,10 @@ export type DataState = {
 export type DataSlice = {
   data: DataState;
   importDeck(code: string): Promise<void>;
+  importFromFiles(files: FileList): Promise<void>;
+
   duplicateDeck(id: Id): Id;
+
+  exportJSON(id: Id): void;
+  exportText(id: Id): void;
 };

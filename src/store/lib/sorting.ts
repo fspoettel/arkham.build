@@ -62,6 +62,10 @@ function sortByFaction(a: Card, b: Card) {
   );
 }
 
+function sortByCost(a: Card, b: Card) {
+  return (a.cost ?? 0) - (b.cost ?? 0);
+}
+
 function sortByType(a: Card, b: Card) {
   return (
     PLAYER_TYPE_ORDER.indexOf(a.type_code as PlayerType) -
@@ -97,6 +101,10 @@ export function makeSortFunction(
 
       case "type": {
         return sortByType;
+      }
+
+      case "cost": {
+        return sortByCost;
       }
     }
   });

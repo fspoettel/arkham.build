@@ -1,20 +1,47 @@
-import { Plus } from "lucide-react";
+import { Ellipsis, Plus, Trash2, Upload } from "lucide-react";
 import { Link } from "wouter";
 
 import { DeckSummary } from "@/components/deck-summary";
 import { DeckTags } from "@/components/deck-tags";
 import { Button } from "@/components/ui/button";
-import { Popover } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Scroller } from "@/components/ui/scroller";
 import { useStore } from "@/store";
 import { selectLocalDecks } from "@/store/selectors/decks";
 
 import css from "./deck-collection.module.css";
 
+import { DropdownMenu } from "@/components/ui/dropdown-menu";
+import { useCallback } from "react";
 import { DeckCollectionImport } from "./deck-collection-import";
 
 export function DeckCollection() {
   const decks = useStore(selectLocalDecks);
+
+  const importDecks = useStore((state) => state.importFromFiles);
+  const deleteAllDecks = useStore((state) => state.deleteAllDecks);
+
+  const onAddFiles = useCallback(
+    (evt: React.ChangeEvent<HTMLInputElement>) => {
+      const files = evt.target.files;
+      if (files?.length) importDecks(files);
+    },
+    [importDecks],
+  );
+
+  const onDeleteAll = useCallback(() => {
+    const confirmed = confirm(
+      "Are you sure you want to delete all local decks in your collection?",
+    );
+
+    if (confirmed) {
+      deleteAllDecks();
+    }
+  }, [deleteAllDecks]);
 
   return (
     <div className={css["container"]}>
@@ -33,6 +60,47 @@ export function DeckCollection() {
               <Plus />
             </Button>
           </Link>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="bare"
+                data-testid="collection-more-actions"
+                tooltip="More actions"
+              >
+                <Ellipsis />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <DropdownMenu>
+                <Button
+                  as="label"
+                  data-testid="collection-import-file"
+                  htmlFor="collection-import"
+                  size="full"
+                  variant="bare"
+                >
+                  <Upload /> Import from JSON files
+                </Button>
+                <input
+                  id="collection-import"
+                  type="file"
+                  accept="application/json"
+                  className={css["import-input"]}
+                  multiple
+                  onChange={onAddFiles}
+                />
+                <Button
+                  as="label"
+                  data-testid="collection-delete-all"
+                  onClick={onDeleteAll}
+                  size="full"
+                  variant="bare"
+                >
+                  <Trash2 /> Delete all local decks
+                </Button>
+              </DropdownMenu>
+            </PopoverContent>
+          </Popover>
         </div>
       </header>
       {decks.length ? (

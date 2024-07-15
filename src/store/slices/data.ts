@@ -2,9 +2,20 @@ import type { StateCreator } from "zustand";
 
 import { assert } from "@/utils/assert";
 
+import { download } from "@/utils/download";
 import type { StoreState } from ".";
-import { queryDeck, queryHistory } from "../services/queries";
-import type { DataSlice, Deck } from "./data.types";
+import { randomId } from "../lib/deck-factory";
+import {
+  formatDeckAsText,
+  formatDeckExport,
+  formatDeckImport,
+} from "../lib/serialization/deck-io";
+import {
+  selectActiveDeckById,
+  selectDeckValidById,
+} from "../selectors/deck-view";
+import { queryDeck } from "../services/queries";
+import { type DataSlice, type Deck, type Id, isDeck } from "./data.types";
 
 export function getInitialDataState() {
   return {
@@ -24,30 +35,8 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
   async importDeck(input) {
     const state = get();
 
-    const { data: deck, type } = await queryDeck(input);
-
-    if (type === "decklist") {
-      deck.id = window.crypto.randomUUID();
-      deck.tags = deck.tags.replaceAll(", ", " ");
-    }
-
-    assert(!state.data.decks[deck.id], `Deck ${deck.id} already exists.`);
-
-    const deckHistory =
-      type === "deck" && deck.previous_deck
-        ? await queryHistory(deck.previous_deck)
-        : [];
-
-    const historyIds = deckHistory.map(({ id }) => id);
-
-    const nextUpgrades = {
-      ...state.data.history,
-      [deck.id]: historyIds,
-    };
-
-    for (const id of historyIds) {
-      delete nextUpgrades[id];
-    }
+    const { data, type } = await queryDeck(input);
+    const deck = formatDeckImport(data, type);
 
     set({
       data: {
@@ -55,12 +44,51 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
         decks: {
           ...state.data.decks,
           [deck.id]: deck,
-          ...deckHistory.reduce<Record<string, Deck>>((acc, history) => {
-            acc[history.id] = history;
+        },
+        history: {
+          ...state.data.history,
+          [deck.id]: [],
+        },
+      },
+    });
+  },
+
+  async importFromFiles(files) {
+    const decks = [];
+
+    for (const file of files) {
+      try {
+        const text = await file.text();
+        const parsed = JSON.parse(text);
+
+        assert(isDeck(parsed), `file '${file.name}' is not an arkhamdb deck`);
+        const deck = formatDeckImport(parsed, "deck");
+
+        decks.push(deck);
+      } catch (err) {
+        console.error(`could not import deck '${file.name}':`, err);
+      }
+    }
+
+    const state = get();
+
+    set({
+      data: {
+        ...state.data,
+        decks: {
+          ...state.data.decks,
+          ...decks.reduce<Record<Id, Deck>>((acc, deck) => {
+            acc[deck.id] = deck;
             return acc;
           }, {}),
         },
-        history: nextUpgrades,
+        history: {
+          ...state.data.history,
+          ...decks.reduce<Record<Id, string[]>>((acc, deck) => {
+            acc[deck.id] = [];
+            return acc;
+          }, {}),
+        },
       },
     });
   },
@@ -75,12 +103,13 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
 
     const newDeck: Deck = {
       ...structuredClone(deck),
-      id: window.crypto.randomUUID(),
+      id: randomId(),
       name: `(Copy) ${deck.name}`,
       date_creation: now,
       date_update: now,
       next_deck: null,
       previous_deck: null,
+      source: "local",
       version: "0.1",
       xp: null,
     };
@@ -100,5 +129,34 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
     });
 
     return newDeck.id;
+  },
+
+  exportJSON(id) {
+    const state = get();
+
+    const deck = state.data.decks[id];
+    assert(deck, `Deck ${id} does not exist.`);
+
+    const validationResult = selectDeckValidById(state, id);
+
+    const deckExport = formatDeckExport(deck, validationResult);
+
+    download(
+      JSON.stringify(deckExport, null, 2),
+      `arkhambuild-${deck.id}.json`,
+      "application/json",
+    );
+  },
+  exportText(id) {
+    const state = get();
+
+    const deck = selectActiveDeckById(state, id);
+    assert(deck, `Deck ${id} does not exist.`);
+
+    download(
+      formatDeckAsText(state, deck),
+      `arkhambuild-${deck.id}.md`,
+      "text/markdown",
+    );
   },
 });
