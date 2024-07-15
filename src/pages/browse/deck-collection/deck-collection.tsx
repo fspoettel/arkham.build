@@ -16,10 +16,11 @@ import { selectLocalDecks } from "@/store/selectors/decks";
 import css from "./deck-collection.module.css";
 
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { DeckCollectionImport } from "./deck-collection-import";
 
 export function DeckCollection() {
+  const [popoverOpen, setPopoverOpen] = useState(false);
   const decks = useStore(selectLocalDecks);
 
   const importDecks = useStore((state) => state.importFromFiles);
@@ -28,7 +29,10 @@ export function DeckCollection() {
   const onAddFiles = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) => {
       const files = evt.target.files;
-      if (files?.length) importDecks(files);
+      if (files?.length) {
+        importDecks(files);
+        setPopoverOpen(false);
+      }
     },
     [importDecks],
   );
@@ -40,6 +44,7 @@ export function DeckCollection() {
 
     if (confirmed) {
       deleteAllDecks();
+      setPopoverOpen(false);
     }
   }, [deleteAllDecks]);
 
@@ -60,7 +65,7 @@ export function DeckCollection() {
               <Plus />
             </Button>
           </Link>
-          <Popover>
+          <Popover onOpenChange={setPopoverOpen} open={popoverOpen}>
             <PopoverTrigger asChild>
               <Button
                 variant="bare"
