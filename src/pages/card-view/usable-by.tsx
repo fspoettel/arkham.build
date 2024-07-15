@@ -59,8 +59,8 @@ export function UsableBy(props: Props) {
   return (
     <Details
       data-testid="usable-by"
-      iconClosed={<i className="icon-cards" />}
-      title="Usable by investigator"
+      iconClosed={<i className="icon-per_investigator" />}
+      title="Who can use this?"
       scrollHeight="24rem"
     >
       <ol>
