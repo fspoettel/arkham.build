@@ -4,7 +4,7 @@ import { assert } from "@/utils/assert";
 
 import type { StoreState } from ".";
 import { randomId } from "../lib/deck-factory";
-import { queryDeck, queryHistory } from "../services/queries";
+import { queryDeck } from "../services/queries";
 import type { DataSlice, Deck } from "./data.types";
 
 export function getInitialDataState() {
@@ -26,28 +26,10 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
     const state = get();
 
     const { data: deck, type } = await queryDeck(input);
+    deck.id = randomId();
 
     if (type === "decklist") {
-      deck.id = randomId();
       deck.tags = deck.tags.replaceAll(", ", " ");
-    }
-
-    assert(!state.data.decks[deck.id], `Deck ${deck.id} already exists.`);
-
-    const deckHistory =
-      type === "deck" && deck.previous_deck
-        ? await queryHistory(deck.previous_deck)
-        : [];
-
-    const historyIds = deckHistory.map(({ id }) => id);
-
-    const nextUpgrades = {
-      ...state.data.history,
-      [deck.id]: historyIds,
-    };
-
-    for (const id of historyIds) {
-      delete nextUpgrades[id];
     }
 
     set({
@@ -56,12 +38,11 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
         decks: {
           ...state.data.decks,
           [deck.id]: deck,
-          ...deckHistory.reduce<Record<string, Deck>>((acc, history) => {
-            acc[history.id] = history;
-            return acc;
-          }, {}),
         },
-        history: nextUpgrades,
+        history: {
+          ...state.data.history,
+          [deck.id]: [],
+        },
       },
     });
   },

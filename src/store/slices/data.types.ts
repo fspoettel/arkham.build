@@ -5,23 +5,24 @@ export type Slots = {
 export type Id = number | string;
 
 export type Deck = {
-  id: Id;
-  name: string;
   date_creation: string;
   date_update: string;
-  investigator_code: string;
   description_md: string;
-  slots: Slots;
-  sideSlots: Slots | string[]; // NOTE: arkhamdb returns `[]` for empty side slots.
+  id: Id; // local decks: string, arkhamdb: int
   ignoreDeckLimitSlots: Slots | null;
-  xp: number | null;
-  xp_spent: number | null;
-  taboo_id: number | null;
+  investigator_code: string;
   meta: string;
+  name: string;
+  next_deck: Id | null;
+  previous_deck: Id | null;
+  sideSlots: Slots | string[]; // NOTE: arkhamdb returns `[]` for empty side slots.
+  slots: Slots;
+  source: "local" | "arkhamdb";
+  taboo_id: number | null;
   tags: string;
   version: string;
-  previous_deck: Id | null;
-  next_deck: Id | null;
+  xp_spent: number | null;
+  xp: number | null;
 };
 
 export function isDeck(x: unknown): x is Deck {

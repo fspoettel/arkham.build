@@ -105,13 +105,3 @@ export async function queryDeck(input: string): Promise<DeckResponse> {
 
   return res;
 }
-
-export async function queryHistory(code: string | number): Promise<Deck[]> {
-  const res = await request<Deck[]>(`/history/${code}`);
-
-  if (!res.every(isDeck)) {
-    throw new Error("Could not import history: invalid deck format.");
-  }
-
-  return res;
-}

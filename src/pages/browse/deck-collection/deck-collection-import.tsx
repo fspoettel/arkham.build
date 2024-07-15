@@ -71,7 +71,13 @@ export function DeckCollectionImport() {
           </header>
           <Field
             full
-            helpText="Enter a public ArkhamDB deck id, deck url or deck guide url."
+            helpText={
+              <>
+                Enter a public ArkhamDB deck id, deck url or deck guide url.
+                Decks will be <strong>copied</strong> over and deck history will
+                not be imported.
+              </>
+            }
           >
             <label className="sr-only">Deck Url / ID</label>
             <input
