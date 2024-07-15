@@ -38,6 +38,7 @@ import type {
   PropertiesFilter,
   SkillIconsFilter,
 } from "./lists.types";
+import type { SettingsState } from "./settings.types";
 
 function getInitialList() {
   if (window.location.href.includes("/deck/create")) {
@@ -89,8 +90,8 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
           list.sorting,
           list.systemFilter,
           {
-            ownership: getInitialOwnershipFilter(state),
-            subtype: getInitialSubtypeFilter(state),
+            ownership: getInitialOwnershipFilter(state.settings),
+            subtype: getInitialSubtypeFilter(state.settings),
           },
           list.search,
         ),
@@ -379,8 +380,8 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
       showInvestigators: true,
       initialValues: {
         ...initialValues,
-        ownership: getInitialOwnershipFilter(state),
-        subtype: getInitialSubtypeFilter(state),
+        ownership: getInitialOwnershipFilter(state.settings),
+        subtype: getInitialSubtypeFilter(state.settings),
       },
     });
 
@@ -588,14 +589,20 @@ function makePlayerCardsList(
   {
     initialValues = {} as Partial<Record<FilterKey, unknown>>,
     showInvestigators = false,
+    showOwnership = true,
   } = {},
 ): List {
-  const filters: FilterKey[] = [
-    "faction",
-    "type",
-    "level",
-    "ownership",
-    "investigator",
+  const filters: FilterKey[] = ["faction", "type", "level"];
+
+  if (showOwnership) {
+    filters.push("ownership");
+  }
+
+  if (showInvestigators) {
+    filters.push("investigator");
+  }
+
+  filters.push(
     "subtype",
     "cost",
     "trait",
@@ -605,7 +612,7 @@ function makePlayerCardsList(
     "action",
     "pack",
     "tabooSet",
-  ];
+  );
 
   const systemFilter = [
     filterDuplicates,
@@ -613,10 +620,6 @@ function makePlayerCardsList(
     filterMythosCards,
     filterBacksides,
   ];
-
-  if (!showInvestigators) {
-    filters.splice(filters.indexOf("investigator"), 1);
-  }
 
   return makeList(
     key,
@@ -629,25 +632,44 @@ function makePlayerCardsList(
   );
 }
 
-function makeInvestigatorCardsList(key: string): List {
+function makeInvestigatorCardsList(
+  key: string,
+  {
+    initialValues = {} as Partial<Record<FilterKey, unknown>>,
+    showOwnership = true,
+  } = {},
+): List {
+  const filters: FilterKey[] = ["faction"];
+
+  if (showOwnership) {
+    filters.push("ownership");
+  }
+
   return makeList(
     key,
     "player",
-    ["faction", "ownership"],
+    filters,
     ["cycle"],
     ["position"],
     and([filterType(["investigator"]), filterDuplicates, filterEncounterCards]),
+    initialValues,
   );
 }
 
 function makeEncounterCardsList(
   key: string,
-  { initialValues = {} as Partial<Record<FilterKey, unknown>> } = {},
+  {
+    initialValues = {} as Partial<Record<FilterKey, unknown>>,
+    showOwnership = true,
+  } = {},
 ): List {
-  const filters: FilterKey[] = [
-    "faction",
-    "type",
-    "ownership",
+  const filters: FilterKey[] = ["faction", "type"];
+
+  if (showOwnership) {
+    filters.push("ownership");
+  }
+
+  filters.push(
     "cost",
     "trait",
     "subtype",
@@ -657,7 +679,7 @@ function makeEncounterCardsList(
     "action",
     "pack",
     "encounterSet",
-  ];
+  );
 
   const systemFilter = [
     filterDuplicates,
@@ -676,33 +698,51 @@ function makeEncounterCardsList(
   );
 }
 
-export function makeLists(initialValues?: Partial<Record<FilterKey, unknown>>) {
+export function makeLists(
+  settings: SettingsState,
+  _initialValues?: Partial<Record<FilterKey, unknown>>,
+) {
+  const initialValues = {
+    ..._initialValues,
+    ownership: getInitialOwnershipFilter(settings),
+    subtype: getInitialSubtypeFilter(settings),
+  };
+
   return {
     browse_player: makePlayerCardsList("browse_player", {
+      showOwnership: !settings.showAllCards,
       showInvestigators: true,
       initialValues,
     }),
     browse_encounter: makeEncounterCardsList("browse_encounter", {
+      showOwnership: !settings.showAllCards,
       initialValues,
     }),
-    create_deck: makeInvestigatorCardsList("create_deck"),
+    create_deck: makeInvestigatorCardsList("create_deck", {
+      showOwnership: !settings.showAllCards,
+      initialValues,
+    }),
     editor_player: makePlayerCardsList("editor_player", {
+      showOwnership: !settings.showAllCards,
       initialValues,
     }),
     editor_encounter: makeEncounterCardsList("editor_encounter", {
+      showOwnership: !settings.showAllCards,
       initialValues,
     }),
   };
 }
 
-export function getInitialOwnershipFilter(state: StoreState): OwnershipFilter {
-  return state.settings.showAllCards ? "all" : "owned";
+export function getInitialOwnershipFilter(
+  settings: SettingsState,
+): OwnershipFilter {
+  return settings.showAllCards ? "all" : "owned";
 }
 
 export function getInitialSubtypeFilter(
-  state: StoreState,
+  settings: SettingsState,
 ): SubtypeFilter | undefined {
-  return state.settings.hideWeaknessesByDefault
+  return settings.hideWeaknessesByDefault
     ? {
         none: true,
         weakness: false,

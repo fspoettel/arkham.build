@@ -15,11 +15,7 @@ import { mappedByCode, mappedById } from "../lib/metadata-utils";
 import { encodeExtraSlots } from "../lib/serialization/slots";
 import type { DeckMeta } from "../lib/types";
 import { selectDeckCreateCardSets } from "../selectors/deck-create";
-import {
-  getInitialOwnershipFilter,
-  getInitialSubtypeFilter,
-  makeLists,
-} from "./lists";
+import { makeLists } from "./lists";
 import { createLookupTables, createRelations } from "./lookup-tables";
 import { getInitialMetadata } from "./metadata";
 import type { Metadata } from "./metadata.types";
@@ -36,10 +32,7 @@ export const createSharedSlice: StateCreator<
 
     if (!refresh && state.metadata.dataVersion?.cards_updated_at) {
       state.refreshLookupTables({
-        lists: makeLists({
-          subtype: getInitialSubtypeFilter(state),
-          ownership: getInitialOwnershipFilter(state),
-        }),
+        lists: makeLists(state.settings),
       });
 
       return false;
@@ -142,10 +135,7 @@ export const createSharedSlice: StateCreator<
         ...state.ui,
         initialized: true,
       },
-      lists: makeLists({
-        subtype: getInitialSubtypeFilter(state),
-        ownership: getInitialOwnershipFilter(state),
-      }),
+      lists: makeLists(state.settings),
     });
 
     timeEnd("create_store_data");

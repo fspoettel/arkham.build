@@ -1,7 +1,7 @@
 import type { StateCreator } from "zustand";
 
 import type { StoreState } from ".";
-import type { List } from "./lists.types";
+import { makeLists } from "./lists";
 import type { SettingsSlice, SettingsState } from "./settings.types";
 
 export function getInitialSettings(): SettingsState {
@@ -35,32 +35,10 @@ export const createSettingsSlice: StateCreator<
 
     const settings = parseForm(form);
 
-    const ownership = !settings.showAllCards ? "owned" : "all";
-
-    const lists = Object.entries({ ...state.lists }).reduce<
-      Record<string, List>
-    >((acc, [id, list]) => {
-      const ownershipIndex = list.filters.indexOf("ownership");
-      const subtypeIndex = list.filters.indexOf("subtype");
-
-      if (ownershipIndex !== -1) {
-        const filterValue = list.filterValues[ownershipIndex];
-        filterValue.value = ownership;
-      }
-
-      if (subtypeIndex !== -1 && list.cardType === "player") {
-        const filterValue = list.filterValues[subtypeIndex];
-        filterValue.open = !settings.hideWeaknessesByDefault;
-        filterValue.value = settings.hideWeaknessesByDefault
-          ? { weakness: false, basicweakness: false, none: true }
-          : { none: true, weakness: true, basicweakness: true };
-      }
-
-      acc[id] = list;
-      return acc;
-    }, {});
-
-    state.refreshLookupTables({ settings, lists });
+    state.refreshLookupTables({
+      settings,
+      lists: makeLists(settings),
+    });
   },
 });
 
