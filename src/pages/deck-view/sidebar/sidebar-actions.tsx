@@ -1,5 +1,5 @@
-import { Copy, Ellipsis, Pencil, Trash2 } from "lucide-react";
-import { useCallback, useState } from "react";
+import { Copy, Download, Ellipsis, Pencil, Trash2 } from "lucide-react";
+import { useState } from "react";
 import { Link, useLocation } from "wouter";
 
 import { Button } from "@/components/ui/button";
@@ -28,10 +28,11 @@ export function SidebarActions(props: Props) {
 
   const deleteDeck = useStore((state) => state.deleteDeck);
   const duplicateDeck = useStore((state) => state.duplicateDeck);
+  const exportJson = useStore((state) => state.exportJSON);
 
   const [actionsOpen, setActionsOpen] = useState(false);
 
-  const onDelete = useCallback(() => {
+  const onDelete = () => {
     const confirmed = confirm("Are you sure you want to delete this deck?");
     if (confirmed) {
       deleteDeck(deck.id);
@@ -42,9 +43,9 @@ export function SidebarActions(props: Props) {
         variant: "success",
       });
     }
-  }, [deck.id, deleteDeck, setLocation, showToast]);
+  };
 
-  const onDuplicate = useCallback(() => {
+  const onDuplicate = () => {
     try {
       const id = duplicateDeck(deck.id);
       setLocation(`/deck/view/${id}`);
@@ -62,11 +63,17 @@ export function SidebarActions(props: Props) {
     }
 
     setActionsOpen(false);
-  }, [deck.id, duplicateDeck, setLocation, showToast]);
+  };
 
-  const onEdit = useCallback(() => {
+  const onEdit = () => {
     setLocation(`/deck/edit/${deck.id}`);
-  }, [deck.id, setLocation]);
+  };
+
+  const onExportJson = () => {
+    exportJson(deck.id);
+  };
+
+  const onExportText = () => {};
 
   useHotKey("e", onEdit, [onEdit]);
   useHotKey("cmd+d", onDuplicate, [onDuplicate]);
@@ -119,6 +126,23 @@ export function SidebarActions(props: Props) {
               >
                 <Copy />
                 Duplicate
+              </Button>
+              <hr />
+              <Button
+                data-testid="view-export"
+                size="full"
+                variant="bare"
+                onClick={onExportJson}
+              >
+                <Download /> Export JSON
+              </Button>
+              <Button
+                data-testid="view-export"
+                size="full"
+                variant="bare"
+                onClick={onExportText}
+              >
+                <Download /> Export markdown
               </Button>
               <hr />
               <Button
