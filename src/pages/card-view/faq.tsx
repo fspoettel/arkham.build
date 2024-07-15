@@ -6,7 +6,7 @@ import { queryFaq } from "@/store/services/queries";
 import { useQuery } from "@/utils/use-query";
 
 import { Details } from "@/components/ui/details";
-import { redirectArkhamDBLinks } from "@/utils/arkhamdb";
+import { redirectArkhamDBLinks } from "@/utils/arkhamdb-links";
 
 type Props = {
   card: ResolvedCard["card"];

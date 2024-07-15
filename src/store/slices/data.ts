@@ -2,11 +2,17 @@ import type { StateCreator } from "zustand";
 
 import { assert } from "@/utils/assert";
 
-import { formatDeckExport } from "@/utils/arkhamdb";
 import { download } from "@/utils/download";
 import type { StoreState } from ".";
 import { randomId } from "../lib/deck-factory";
-import { selectDeckValidById } from "../selectors/deck-view";
+import {
+  formatDeckAsText,
+  formatDeckExport,
+} from "../lib/serialization/deck-export";
+import {
+  selectActiveDeckById,
+  selectDeckValidById,
+} from "../selectors/deck-view";
 import { queryDeck } from "../services/queries";
 import type { DataSlice, Deck } from "./data.types";
 
@@ -30,6 +36,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
 
     const { data: deck, type } = await queryDeck(input);
     deck.id = randomId();
+    deck.problem = undefined;
 
     if (type === "decklist") {
       deck.tags = deck.tags.replaceAll(", ", " ");
@@ -103,5 +110,16 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
       "application/json",
     );
   },
-  exportText() {},
+  exportText(id) {
+    const state = get();
+
+    const deck = selectActiveDeckById(state, id);
+    assert(deck, `Deck ${id} does not exist.`);
+
+    download(
+      formatDeckAsText(state, deck),
+      `arkhambuild-${deck.id}.md`,
+      "text/markdown",
+    );
+  },
 });

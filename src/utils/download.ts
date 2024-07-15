@@ -9,7 +9,4 @@ export function download(data: string, fileName: string, type: string) {
   a.href = url;
   a.download = fileName;
   a.click();
-
-  URL.revokeObjectURL(url);
-  document.removeChild(a);
 }

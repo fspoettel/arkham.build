@@ -29,6 +29,7 @@ export function SidebarActions(props: Props) {
   const deleteDeck = useStore((state) => state.deleteDeck);
   const duplicateDeck = useStore((state) => state.duplicateDeck);
   const exportJson = useStore((state) => state.exportJSON);
+  const exportText = useStore((state) => state.exportText);
 
   const [actionsOpen, setActionsOpen] = useState(false);
 
@@ -70,10 +71,30 @@ export function SidebarActions(props: Props) {
   };
 
   const onExportJson = () => {
-    exportJson(deck.id);
+    try {
+      exportJson(deck.id);
+    } catch (err) {
+      console.error(err);
+      showToast({
+        duration: 2000,
+        children: "Failed to export json.",
+        variant: "error",
+      });
+    }
   };
 
-  const onExportText = () => {};
+  const onExportText = () => {
+    try {
+      exportText(deck.id);
+    } catch (err) {
+      console.error(err);
+      showToast({
+        duration: 2000,
+        children: "Failed to export markdown.",
+        variant: "error",
+      });
+    }
+  };
 
   useHotKey("e", onEdit, [onEdit]);
   useHotKey("cmd+d", onDuplicate, [onDuplicate]);
@@ -142,7 +163,7 @@ export function SidebarActions(props: Props) {
                 variant="bare"
                 onClick={onExportText}
               >
-                <Download /> Export markdown
+                <Download /> Export Markdown
               </Button>
               <hr />
               <Button

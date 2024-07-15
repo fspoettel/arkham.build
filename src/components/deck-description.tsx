@@ -14,7 +14,7 @@ import { parseMarkdown } from "@/utils/markdown";
 
 import css from "./deck-description.module.css";
 
-import { redirectArkhamDBLinks } from "@/utils/arkhamdb";
+import { redirectArkhamDBLinks } from "@/utils/arkhamdb-links";
 import { CardTooltip } from "./card-tooltip";
 
 type Props = {
