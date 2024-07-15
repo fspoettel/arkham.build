@@ -3,6 +3,7 @@ import type { StateCreator } from "zustand";
 import { assert } from "@/utils/assert";
 
 import type { StoreState } from ".";
+import { randomId } from "../lib/deck-factory";
 import { queryDeck, queryHistory } from "../services/queries";
 import type { DataSlice, Deck } from "./data.types";
 
@@ -27,7 +28,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
     const { data: deck, type } = await queryDeck(input);
 
     if (type === "decklist") {
-      deck.id = window.crypto.randomUUID();
+      deck.id = randomId();
       deck.tags = deck.tags.replaceAll(", ", " ");
     }
 
@@ -75,7 +76,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
 
     const newDeck: Deck = {
       ...structuredClone(deck),
-      id: window.crypto.randomUUID(),
+      id: randomId(),
       name: `(Copy) ${deck.name}`,
       date_creation: now,
       date_update: now,
