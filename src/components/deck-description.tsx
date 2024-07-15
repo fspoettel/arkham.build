@@ -14,6 +14,7 @@ import { parseMarkdown } from "@/utils/markdown";
 
 import css from "./deck-description.module.css";
 
+import { redirectArkhamDBLinks } from "@/utils/arkhamdb";
 import { CardTooltip } from "./card-tooltip";
 
 type Props = {
@@ -52,7 +53,8 @@ export function DeckDescription(props: Props) {
   );
 
   return (
-    <div className={css["description"]}>
+    // biome-ignore lint/a11y/useKeyWithClickEvents:  not relevant.
+    <div className={css["description"]} onClick={redirectArkhamDBLinks}>
       <h1>{title}</h1>
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: TODO. */}
       <div
