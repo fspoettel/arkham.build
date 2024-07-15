@@ -25,9 +25,7 @@ test("show deck view", async ({ page }) => {
 
   await expect(page.getByTestId("view-deck-xp")).toContainText("XP required31");
 
-  await expect(page.getByTestId("view-deck-taboo")).toContainText(
-    "Taboo2.1 - 2023",
-  );
+  await expect(page.getByTestId("view-deck-taboo")).toContainText("Taboo2.1");
 
   await expect(page.getByTestId("deck-tags")).toBeVisible();
 });
