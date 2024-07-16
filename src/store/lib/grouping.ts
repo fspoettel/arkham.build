@@ -1,5 +1,6 @@
 import { assert } from "@/utils/assert";
 
+import { capitalize } from "@/utils/formatting";
 import type { Card } from "../services/queries.types";
 import type { GroupingType } from "../slices/lists.types";
 import type { Metadata } from "../slices/metadata.types";
@@ -333,4 +334,59 @@ export function getGroupedCards(
   }
 
   return groups;
+}
+
+export function getGroupingKeyLabel(
+  type: string,
+  segment: string,
+  metadata: Metadata,
+) {
+  switch (type) {
+    case "subtype": {
+      if (segment === "weakness") return "Weakness";
+      if (segment === "basicweakness") return "Basic Weakness";
+      return "";
+    }
+
+    case "type": {
+      return capitalize(segment);
+    }
+
+    case "cycle": {
+      return metadata.cycles[segment]?.real_name ?? "";
+    }
+
+    case "encounter_set": {
+      return metadata.encounterSets[segment]?.name ?? "";
+    }
+
+    case "slot": {
+      if (segment === NONE) return "No Slot";
+      if (segment === "permanent") return "Permanent";
+      return capitalize(segment);
+    }
+
+    case "level": {
+      if (segment === NONE) return "No level";
+      return `Level ${segment}`;
+    }
+
+    case "cost": {
+      if (segment === NONE) return "No cost";
+      if (segment === "-2") return "Cost X";
+      return `Cost ${segment}`;
+    }
+
+    case "faction": {
+      return segment === "multiclass"
+        ? "Multiclass"
+        : metadata.factions[segment]?.name ?? "";
+    }
+
+    case "default": {
+      return segment;
+    }
+  }
+
+  return "";
 }

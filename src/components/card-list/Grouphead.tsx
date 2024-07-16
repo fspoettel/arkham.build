@@ -1,9 +1,8 @@
 import { Fragment } from "react/jsx-runtime";
 
-import { NONE } from "@/store/lib/grouping";
+import { NONE, getGroupingKeyLabel } from "@/store/lib/grouping";
 import type { CardGroup } from "@/store/selectors/card-list";
 import type { Metadata } from "@/store/slices/metadata.types";
-import { capitalize } from "@/utils/formatting";
 
 import css from "./grouphead.module.css";
 
@@ -16,61 +15,6 @@ type Props = {
   grouping: CardGroup;
   metadata: Metadata;
 };
-
-export function getGroupingKeyLabel(
-  type: string,
-  segment: string,
-  metadata: Metadata,
-) {
-  switch (type) {
-    case "subtype": {
-      if (segment === "weakness") return "Weakness";
-      if (segment === "basicweakness") return "Basic Weakness";
-      return "";
-    }
-
-    case "type": {
-      return capitalize(segment);
-    }
-
-    case "cycle": {
-      return metadata.cycles[segment]?.real_name ?? "";
-    }
-
-    case "encounter_set": {
-      return metadata.encounterSets[segment]?.name ?? "";
-    }
-
-    case "slot": {
-      if (segment === NONE) return "No Slot";
-      if (segment === "permanent") return "Permanent";
-      return capitalize(segment);
-    }
-
-    case "level": {
-      if (segment === NONE) return "No level";
-      return `Level ${segment}`;
-    }
-
-    case "cost": {
-      if (segment === NONE) return "No cost";
-      if (segment === "-2") return "Cost X";
-      return `Cost ${segment}`;
-    }
-
-    case "faction": {
-      return segment === "multiclass"
-        ? "Multiclass"
-        : metadata.factions[segment]?.name ?? "";
-    }
-
-    case "default": {
-      return segment;
-    }
-  }
-
-  return "";
-}
 
 export function Grouphead(props: Props) {
   const { grouping, metadata } = props;

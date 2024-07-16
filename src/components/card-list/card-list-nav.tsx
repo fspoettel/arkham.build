@@ -1,13 +1,12 @@
 import { useMemo } from "react";
 
-import { NONE } from "@/store/lib/grouping";
+import { NONE, getGroupingKeyLabel } from "@/store/lib/grouping";
 import type { ListState } from "@/store/selectors/card-list";
 import type { Metadata } from "@/store/slices/metadata.types";
 
 import css from "./card-list.module.css";
 
 import { Select } from "../ui/select";
-import { getGroupingKeyLabel } from "./Grouphead";
 
 type Props = {
   data: ListState | undefined;
