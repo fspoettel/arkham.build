@@ -131,6 +131,12 @@ export type ResolvedDeck<T extends ResolvedCard | CardWithRelations> = Omit<
   tabooSet?: TabooSet;
 };
 
+export function isResolvedDeck<T extends ResolvedCard | CardWithRelations>(
+  a: unknown,
+): a is ResolvedDeck<T> {
+  return (a as ResolvedDeck<CardWithRelations>)?.investigatorFront != null;
+}
+
 export type CardSet = {
   canSetQuantity?: boolean;
   canSelect?: boolean;

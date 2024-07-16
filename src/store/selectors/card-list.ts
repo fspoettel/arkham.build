@@ -4,6 +4,7 @@ import type { Filter } from "@/utils/fp";
 import { and, not, or } from "@/utils/fp";
 import { isEmpty } from "@/utils/is-empty";
 
+import { createCustomEqualSelector } from "@/utils/custom-equal-selector";
 import { time, timeEnd } from "@/utils/time";
 import { applyCardChanges } from "../lib/card-edits";
 import { getAdditionalDeckOptions } from "../lib/deck-validation";
@@ -30,6 +31,7 @@ import { getGroupedCards } from "../lib/grouping";
 import { resolveCardWithRelations } from "../lib/resolve-card";
 import { applySearch } from "../lib/searching";
 import { makeSortFunction } from "../lib/sorting";
+import { isResolvedDeck } from "../lib/types";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import type { Id } from "../slices/data.types";
@@ -215,10 +217,40 @@ function makeUserFilter(
   return filters.length ? and(filters) : undefined;
 }
 
-// TODO: There is some room for optimization here.
-// This filter does not have to be re-calculated every time the deck changes,
-// only when the investigator back changes or certain slots are changed.
-const selectDeckInvestigatorFilter = createSelector(
+// This selector uses a custom equality check that avoid re-creation on every deck change.
+// Deck access is only affected by a few subset of deck changes:
+// 1. The deck changes.
+// 2. The taboo that the deck uses changes.
+// 3. An investigator side changes.
+// 4. Cards that change deckbuilding rules (i.e. On Your Own, Versatile...) are added or removed.
+// 5. Customizations change, some options change card properties.
+const deckAccessEqualSelector = createCustomEqualSelector((a, b) => {
+  if (isResolvedDeck(a) && isResolvedDeck(b)) {
+    return (
+      a.id === b.id && // (1)
+      a.taboo_id === b.taboo_id && // 2
+      a.investigatorFront.card.code === b.investigatorFront.card.code && // 3
+      a.investigatorBack.card.code === b.investigatorBack.card.code && // 3
+      JSON.stringify(getAdditionalDeckOptions(a)) ===
+        JSON.stringify(getAdditionalDeckOptions(b)) && // 4
+      JSON.stringify(a.customizations) === JSON.stringify(b.customizations) && // 5
+      JSON.stringify(a.selections) === JSON.stringify(b.selections) // 6
+    );
+  }
+
+  // biome-ignore lint/suspicious/noDoubleEquals: we want a shallow equality check in this context.
+  return a == b;
+});
+
+// Mirrors the customization check above.
+const customizationsEqualSelector = createCustomEqualSelector((a, b) => {
+  return isResolvedDeck(a) && isResolvedDeck(b)
+    ? JSON.stringify(a.customizations) === JSON.stringify(b.customizations)
+    : // biome-ignore lint/suspicious/noDoubleEquals: we want a shallow equality check in this context.
+      a == b;
+});
+
+const selectDeckInvestigatorFilter = deckAccessEqualSelector(
   (state: StoreState) => state.lookupTables,
   selectResolvedDeckById,
   (
@@ -273,7 +305,7 @@ const selectDeckInvestigatorFilter = createSelector(
   },
 );
 
-const selectResolvedDeckCustomizations = createSelector(
+const selectResolvedDeckCustomizations = customizationsEqualSelector(
   selectResolvedDeckById,
   (resolvedDeck) => resolvedDeck?.customizations,
 );
