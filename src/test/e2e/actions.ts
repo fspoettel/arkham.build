@@ -27,6 +27,7 @@ export async function waitForImagesLoaded(locator: Page | Locator) {
     if (src && !src.includes("svg")) {
       await image.scrollIntoViewIfNeeded();
       await expect(image).toHaveJSProperty("complete", true);
+      await expect(image).not.toHaveJSProperty("naturalWidth", 0);
     }
   }
 }

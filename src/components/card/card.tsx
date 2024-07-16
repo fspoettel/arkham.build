@@ -9,20 +9,18 @@ import css from "./card.module.css";
 import { Button } from "../ui/button";
 import { CardBack } from "./card-back";
 import { CardContainer } from "./card-container";
-import { CardFront } from "./card-front";
+import { CardFace } from "./card-face";
 
 type Props = {
   canToggleBackside?: boolean;
   children?: React.ReactNode;
   className?: string;
-  isBack?: boolean;
   resolvedCard: ResolvedCard | CardWithRelations;
   linked?: boolean;
   size?: "compact" | "tooltip" | "full";
 };
 
 /**
- * Renders a card with a "simple" back-side that is tracked on the same card object.
  * Cards are available in three sizes:
  *  - `full`: Renders a full card with all metadata.
  *  - `compact`: Renders a card without its backside and with a smaller card image.
@@ -33,18 +31,18 @@ export function Card(props: Props) {
     canToggleBackside,
     children,
     className,
-    isBack,
     resolvedCard,
     linked,
     size = "full",
   } = props;
 
+  const [backVisible, toggleBack] = useState(!canToggleBackside);
+
   const { back, card } = resolvedCard;
+  const cardReversed = reversed(card);
 
-  const [backToggled, toggleBack] = useState(false);
-
-  const front = (
-    <CardFront
+  const frontNode = (
+    <CardFace
       className={className}
       linked={linked}
       resolvedCard={resolvedCard}
@@ -52,40 +50,30 @@ export function Card(props: Props) {
     />
   );
 
-  const backNode =
-    !isBack && back ? (
-      <Card isBack linked={false} resolvedCard={back} size={size} />
-    ) : !isBack && card.double_sided && !card.back_link_id ? (
-      <CardBack card={card} size={size} />
-    ) : undefined;
+  let backNode = null;
 
-  const hasToggle = !!backNode && canToggleBackside;
+  if (card.double_sided && !back) {
+    backNode = <CardBack card={card} size={size} />;
+  } else if (back) {
+    backNode = <CardFace resolvedCard={back} size={size} />;
+  }
 
-  const backToggle = hasToggle ? (
+  const backToggle = !!backNode && canToggleBackside && (
     <Button
       className={css["card-backtoggle"]}
       onClick={() => toggleBack((p) => !p)}
     >
-      {backToggled ? <ChevronUp /> : <ChevronDown />}
+      {backVisible ? <ChevronUp /> : <ChevronDown />}
       Backside
     </Button>
-  ) : undefined;
+  );
 
-  const backsideVisible = !canToggleBackside || (hasToggle && backToggled);
-
-  return reversed(card) ? (
+  return (
     <CardContainer data-testid={`card-${resolvedCard.card.code}`} size={size}>
-      {backNode}
+      {cardReversed ? backNode : frontNode}
       {children}
       {backToggle}
-      {backsideVisible && front}
-    </CardContainer>
-  ) : (
-    <CardContainer data-testid={`card-${resolvedCard.card.code}`} size={size}>
-      {front}
-      {children}
-      {backToggle}
-      {backsideVisible && backNode}
+      {backVisible && (cardReversed ? frontNode : backNode)}
     </CardContainer>
   );
 }

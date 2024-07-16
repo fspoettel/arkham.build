@@ -10,6 +10,7 @@ import { CardHeader } from "./card-header";
 import { CardIcons } from "./card-icons";
 import { CardMeta } from "./card-meta";
 import { CardScan } from "./card-scan";
+import { CardTabooText } from "./card-taboo-text";
 import { CardText } from "./card-text";
 import { CardThumbnail } from "./card-thumbnail";
 
@@ -20,10 +21,10 @@ type Props = {
   size: "compact" | "tooltip" | "full";
 } & React.HTMLAttributes<HTMLDivElement>;
 
-export function CardFront(props: Props) {
+export function CardFace(props: Props) {
   const { className, resolvedCard, linked, size, ...rest } = props;
-  const { card } = resolvedCard;
 
+  const { card } = resolvedCard;
   const isSideways = sideways(card);
 
   const showImage =
@@ -33,7 +34,7 @@ export function CardFront(props: Props) {
     <article
       className={cx(
         css["card"],
-        sideways(card) && css["sideways"],
+        isSideways && css["sideways"],
         showImage && css["has-image"],
         css[size],
         className,
@@ -51,12 +52,11 @@ export function CardFront(props: Props) {
         <CardText
           flavor={card.real_flavor}
           size={size}
-          tabooText={card.real_taboo_text_change}
-          tabooXp={card.taboo_xp}
           text={card.real_text}
           typeCode={card.type_code}
           victory={card.victory}
         />
+        <CardTabooText card={card} />
         <CardMeta resolvedCard={resolvedCard} size={size} />
       </div>
 

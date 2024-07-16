@@ -239,49 +239,39 @@
 }
 .icon-class_guardian:before {
   content: "\e919";
-  color: #394852;
 }
 .icon-class_seeker:before {
   content: "\e915";
-  color: #394852;
 }
 .icon-class_rogue:before {
   content: "\e914";
-  color: #394852;
 }
 .icon-class_mystic:before {
   content: "\e918";
-  color: #394852;
 }
 .icon-class_survivor:before {
   content: "\e916";
-  color: #394852;
 }
 .icon-multiclass:before {
   content: "\e989";
-  color: #394852;
 }
 .icon-class_neutral:before {
   content: "\e917";
-  color: #394852;
 }
 .icon-xp-bold:before {
   content: "\e9a3";
 }
 .icon-card-outline:before {
   content: "\e936";
-  color: #394852;
 }
 .icon-card-outline-bold:before {
   content: "\e9a4";
 }
 .icon-upgrade:before {
   content: "\e940";
-  color: #394852;
 }
 .icon-taboo:before {
   content: "\e93a";
-  color: #394852;
 }
 .icon-cards:before {
   content: "\e92b";

@@ -27,8 +27,6 @@ function InvestigatorListcardInner({ deck }: Props) {
     modalContext?.setOpen(false);
   }, [modalContext]);
 
-  const isParallelBack = !!deck.investigatorBack.card.parallel;
-
   const card = {
     ...deck.investigatorFront.card,
     parallel:
@@ -49,7 +47,6 @@ function InvestigatorListcardInner({ deck }: Props) {
             <DeckInvestigator
               canToggleBack={false}
               deck={deck}
-              forceShowHeader={isParallelBack}
               size="tooltip"
             />
           }
@@ -74,7 +71,6 @@ function InvestigatorListcardInner({ deck }: Props) {
           <DeckInvestigator
             canToggleBack={false}
             deck={deck}
-            forceShowHeader={isParallelBack}
             showRelated
             size="full"
           />

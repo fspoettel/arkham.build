@@ -48,11 +48,13 @@ export function CardViewCards({
 
   return (
     <>
-      <Card resolvedCard={cardWithRelations}>
-        {cardWithRelations.card.customization_options ? (
-          <CustomizationsEditor card={cardWithRelations.card} />
-        ) : undefined}
-      </Card>
+      <div data-testid="main">
+        <Card resolvedCard={cardWithRelations}>
+          {cardWithRelations.card.customization_options ? (
+            <CustomizationsEditor card={cardWithRelations.card} />
+          ) : undefined}
+        </Card>
+      </div>
 
       {relations?.parallel && (
         <CardViewSection id="parallel" title={formatRelationTitle("parallel")}>

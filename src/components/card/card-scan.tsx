@@ -8,16 +8,20 @@ type Props = {
   code: string;
   className?: string;
   sideways?: boolean;
+  suffix?: string;
 };
 
 export function CardScan(props: Props) {
-  const { code, className, sideways } = props;
+  const { code, className, sideways, suffix } = props;
+
+  const imageCode = `${code}${suffix ?? ""}`;
+
   return (
-    <div className={cx(css["scan"], className)}>
+    <div className={cx(css["scan"], className)} data-testid="card-scan">
       <img
-        alt={`Scan of card ${code}`}
+        alt={`Scan of card ${imageCode}`}
         height={sideways ? 300 : 420}
-        src={imageUrl(code)}
+        src={imageUrl(imageCode)}
         width={sideways ? 420 : 300}
       />
     </div>

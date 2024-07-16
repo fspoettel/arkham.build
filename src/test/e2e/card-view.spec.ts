@@ -1,4 +1,5 @@
 import { Page, expect, test } from "@playwright/test";
+import { waitForImagesLoaded } from "./actions";
 import { mockApiCalls } from "./mocks";
 
 test.beforeEach(async ({ page }) => {
@@ -69,7 +70,7 @@ test("links player cards to investigators", async ({ page }) => {
 });
 
 test("links cards usable by investigator", async ({ page }) => {
-  await page.goto("http://localhost:3000/card/01001");
+  await page.goto("/card/01001");
   await page.getByTestId("usable-cards").click();
   await expect(
     page.getByRole("heading", { name: "Cards usable by" }),
@@ -85,7 +86,7 @@ test("links cards usable by investigator", async ({ page }) => {
 });
 
 test("links cards usable by parallel investigator", async ({ page }) => {
-  await page.goto("http://localhost:3000/card/01001");
+  await page.goto("/card/01001");
   await page.getByTestId("usable-cards-parallel").click();
 
   await expect(
@@ -100,4 +101,116 @@ test("links cards usable by parallel investigator", async ({ page }) => {
 
   await page.getByTestId("search-input").fill("followed");
   await expect(page.getByTestId("listcard-06114")).toBeVisible();
+});
+
+test("renders customizable cards", async ({ page }) => {
+  await page.goto("/card/09042");
+  await expect(page.getByTestId("main")).toHaveScreenshot({
+    mask: [page.getByTestId("card-scan")],
+  });
+});
+
+test("renders cards present in multiple packs", async ({ page }) => {
+  await page.goto("/card/01039");
+  await expect(page.getByTestId("main")).toHaveScreenshot({
+    mask: [page.getByTestId("card-scan")],
+  });
+});
+
+test("renders player locations", async ({ page }) => {
+  await page.goto("/card/06015a");
+  await expect(page.getByTestId("main")).toHaveScreenshot({
+    mask: [page.getByTestId("card-scan")],
+  });
+});
+
+test("renders investigators", async ({ page }) => {
+  await page.goto("/card/02005");
+  await expect(page.getByTestId("main")).toHaveScreenshot({
+    mask: [page.getByTestId("card-scan")],
+  });
+});
+
+test("renders taboo", async ({ page }) => {
+  await page.goto("/settings");
+  await page.getByTestId("settings-taboo-set").selectOption("7");
+  await page.getByTestId("settings-save").click();
+
+  await page.goto("/card/03006");
+  await expect(page.getByTestId("main")).toHaveScreenshot({
+    mask: [page.getByTestId("card-scan")],
+  });
+
+  await page.goto("/card/07197");
+  await expect(page.getByTestId("main")).toHaveScreenshot({
+    mask: [page.getByTestId("card-scan")],
+  });
+
+  await page.goto("/card/07268");
+  await expect(page.getByTestId("main")).toHaveScreenshot({
+    mask: [page.getByTestId("card-scan")],
+  });
+});
+
+test("renders cards from standalone packs", async ({ page }) => {
+  await page.goto("/card/60216");
+  await expect(page.getByTestId("main")).toHaveScreenshot({
+    mask: [page.getByTestId("card-scan")],
+  });
+});
+
+test("renders parallel investigators", async ({ page }) => {
+  await page.goto("/card/02005");
+  await expect(page.getByTestId("parallel")).toHaveScreenshot({
+    mask: [page.getByTestId("card-scan")],
+  });
+});
+
+test("renders encounter cards with unique backside", async ({ page }) => {
+  await page.goto("/card/01121a");
+  await expect(page.getByTestId("main")).toHaveScreenshot({
+    mask: [page.getByTestId("card-scan")],
+  });
+});
+
+test("renders acts", async ({ page }) => {
+  await page.goto("/card/08526");
+  await expect(page.getByTestId("main")).toHaveScreenshot({
+    mask: [page.getByTestId("card-scan")],
+  });
+});
+
+test("renders agendas", async ({ page }) => {
+  await page.goto("/card/01143");
+  await expect(page.getByTestId("main")).toHaveScreenshot({
+    mask: [page.getByTestId("card-scan")],
+  });
+});
+
+test("renders enemies", async ({ page }) => {
+  await page.goto("/card/01181");
+  await expect(page.getByTestId("main")).toHaveScreenshot({
+    mask: [page.getByTestId("card-scan")],
+  });
+});
+
+test("renders stories", async ({ page }) => {
+  await page.goto("/card/03065");
+  await expect(page.getByTestId("main")).toHaveScreenshot({
+    mask: [page.getByTestId("card-scan")],
+  });
+});
+
+test("renders locations with unique fronts", async ({ page }) => {
+  await page.goto("/card/88010");
+  await expect(page.getByTestId("main")).toHaveScreenshot({
+    mask: [page.getByTestId("card-scan")],
+  });
+});
+
+test("renders cards without images", async ({ page }) => {
+  await page.goto("/card/10716");
+  await expect(page.getByTestId("main")).toHaveScreenshot({
+    mask: [page.getByTestId("card-scan")],
+  });
 });

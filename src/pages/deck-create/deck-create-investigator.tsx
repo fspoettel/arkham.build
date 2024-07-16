@@ -2,7 +2,7 @@ import { Redirect } from "wouter";
 
 import { CardBack } from "@/components/card/card-back";
 import { CardContainer } from "@/components/card/card-container";
-import { CardFront } from "@/components/card/card-front";
+import { CardFace } from "@/components/card/card-face";
 import { useStore } from "@/store";
 import {
   selectDeckCreateInvestigator,
@@ -29,7 +29,7 @@ export function DeckCreateInvestigator() {
   return (
     <div className={css["cards"]}>
       <CardContainer size="full">
-        <CardFront resolvedCard={front} size="full" />
+        <CardFace resolvedCard={front} size="full" />
         <CardBack card={back.card} size="full" />
       </CardContainer>
     </div>

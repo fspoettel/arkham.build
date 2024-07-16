@@ -13,26 +13,19 @@ import css from "./deck-investigator.module.css";
 
 import { CardBack } from "./card/card-back";
 import { CardContainer } from "./card/card-container";
-import { CardFront } from "./card/card-front";
+import { CardFace } from "./card/card-face";
 import { CardSet } from "./cardset";
 import { Button } from "./ui/button";
 
 type Props = {
   canToggleBack?: boolean;
-  forceShowHeader?: boolean;
   deck: DisplayDeck;
   showRelated?: boolean;
   size: "tooltip" | "full";
 };
 
 export function DeckInvestigator(props: Props) {
-  const {
-    canToggleBack = true,
-    deck,
-    forceShowHeader,
-    showRelated,
-    size,
-  } = props;
+  const { canToggleBack = true, deck, showRelated, size } = props;
 
   const [backToggled, toggleBack] = useState(false);
 
@@ -42,9 +35,10 @@ export function DeckInvestigator(props: Props) {
 
   const children = canToggleBack ? (
     <>
-      <CardFront
+      <CardFace
         data-testid="deck-investigator-front"
         resolvedCard={deck.investigatorFront}
+        linked
         size={size}
       />
       <div
@@ -71,12 +65,8 @@ export function DeckInvestigator(props: Props) {
     </>
   ) : (
     <>
-      <CardFront linked resolvedCard={deck.investigatorFront} size={size} />
-      <CardBack
-        card={deck.investigatorBack.card}
-        forceShowHeader={forceShowHeader}
-        size={size}
-      />
+      <CardFace linked resolvedCard={deck.investigatorFront} size={size} />
+      <CardBack card={deck.investigatorBack.card} size={size} />
     </>
   );
 

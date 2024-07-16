@@ -1,4 +1,8 @@
-import { defineConfig, devices } from "@playwright/test";
+import {
+  type PlaywrightTestConfig,
+  defineConfig,
+  devices,
+} from "@playwright/test";
 
 /**
  * Read environment variables from file.
@@ -10,7 +14,8 @@ dotenv.config();
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
+
+const config: PlaywrightTestConfig = {
   testDir: "./src/test/e2e",
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -38,15 +43,15 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
     },
 
-    {
-      name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
-    },
+    // {
+    //   name: "firefox",
+    //   use: { ...devices["Desktop Firefox"] },
+    // },
 
-    {
-      name: "webkit",
-      use: { ...devices["Desktop Safari"] },
-    },
+    // {
+    //   name: "webkit",
+    //   use: { ...devices["Desktop Safari"] },
+    // },
 
     /* Test against mobile viewports. */
     // {
@@ -77,4 +82,25 @@ export default defineConfig({
         url: "http://localhost:3000",
         reuseExistingServer: !process.env.CI,
       },
-});
+
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixelRatio: 0.05,
+    },
+  },
+};
+
+if (!process.env.CI) {
+  config.projects?.push(
+    {
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
+    },
+    {
+      name: "webkit",
+      use: { ...devices["Desktop Safari"] },
+    },
+  );
+}
+
+export default defineConfig(config);

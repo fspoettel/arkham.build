@@ -10,17 +10,20 @@ import css from "./card.module.css";
 type Props = {
   card: Card;
   className?: string;
+  suffix?: string;
 };
 
 // memoize this component with a custom equality check.
 // not doing results in a lot of aborted requests in firefox, which in turn seem to lead to cache misses.
 export const CardThumbnail = memo(
   (props: Props) => {
-    const { card, className } = props;
+    const { card, className, suffix } = props;
 
     const colorCls = getCardColor(card);
 
     if (!card.imageurl) return null;
+
+    const imageCode = `${card.code}${suffix ?? ""}`;
 
     return (
       <div
@@ -33,7 +36,7 @@ export const CardThumbnail = memo(
         )}
         key={card.code}
       >
-        <img alt={`Thumbnail: ${card.code}`} src={thumbnailUrl(card.code)} />
+        <img alt={`Thumbnail: ${imageCode}`} src={thumbnailUrl(imageCode)} />
       </div>
     );
   },

@@ -13,27 +13,40 @@ import PackIcon from "../icons/pack-icon";
 type Props = {
   resolvedCard: ResolvedCard | CardWithRelations;
   size: "tooltip" | "compact" | "full";
-  skipCycle?: boolean;
 };
 
-function EncounterEntry(props: Props) {
-  const { card, cycle, encounterSet, pack } = props.resolvedCard;
-
-  if (!encounterSet) return null;
-
-  const displayPack = cycleOrPack(cycle, pack);
+export function CardMetaBack(props: { illustrator?: string }) {
+  if (!props.illustrator) return null;
 
   return (
-    <>
+    <footer className={css["meta"]}>
       <p className={css["meta-property"]}>
-        {encounterSet.name} <EncounterIcon code={card.encounter_code} />{" "}
-        {getEncounterPositions(card.encounter_position ?? 1, card.quantity)}
+        <i className="icon-paintbrush" /> {props.illustrator}
       </p>
-      <p className={css["meta-property"]}>
-        {displayPack.real_name} <PackIcon code={displayPack.code} />{" "}
-        {card.pack_position}
-      </p>
-    </>
+    </footer>
+  );
+}
+
+export function CardMeta(props: Props) {
+  const { resolvedCard, size } = props;
+
+  const illustrator = resolvedCard.card.illustrator;
+
+  const { card } = resolvedCard;
+
+  return (
+    <footer className={cx(css["meta"], css[size])}>
+      {size === "full" && illustrator && (
+        <p className={css["meta-property"]}>
+          <i className="icon-paintbrush" /> {illustrator}
+        </p>
+      )}
+      {card.encounter_code ? (
+        <EncounterEntry resolvedCard={resolvedCard} size={size} />
+      ) : (
+        <PlayerEntry resolvedCard={resolvedCard} size={size} />
+      )}
+    </footer>
   );
 }
 
@@ -50,8 +63,7 @@ function PlayerEntry(props: Props) {
   return (
     <>
       {size === "full" &&
-        !!duplicates?.length &&
-        duplicates.map((duplicate) => (
+        duplicates?.map((duplicate) => (
           <p className={css["meta-property"]} key={duplicate.card.code}>
             {duplicate.pack.real_name} <PackIcon code={duplicate.pack.code} />{" "}
             {duplicate.card.pack_position} <i className="icon-card_outline" /> ×
@@ -67,46 +79,23 @@ function PlayerEntry(props: Props) {
   );
 }
 
-function PackEntries(props: Props) {
-  const { resolvedCard, size } = props;
-  const { card, encounterSet } = resolvedCard;
-  const isEncounter = encounterSet && card.encounter_code;
+function EncounterEntry(props: Props) {
+  const { card, cycle, encounterSet, pack } = props.resolvedCard;
+  if (!encounterSet) return null;
+
+  const displayPack = cycleOrPack(cycle, pack);
+
   return (
     <>
-      {isEncounter ? (
-        <EncounterEntry resolvedCard={resolvedCard} size={size} />
-      ) : (
-        <PlayerEntry resolvedCard={resolvedCard} size={size} />
-      )}
+      <p className={css["meta-property"]}>
+        {encounterSet.name} <EncounterIcon code={card.encounter_code} />{" "}
+        {getEncounterPositions(card.encounter_position ?? 1, card.quantity)}
+      </p>
+      <p className={css["meta-property"]}>
+        {displayPack.real_name} <PackIcon code={displayPack.code} />{" "}
+        {card.pack_position}
+      </p>
     </>
-  );
-}
-
-export function CardMeta(props: Props) {
-  const { resolvedCard, size } = props;
-  const illustrator = resolvedCard.card.illustrator;
-
-  return (
-    <footer className={cx(css["meta"], css[size])}>
-      {size === "full" && illustrator && (
-        <p className={css["meta-property"]}>
-          <i className="icon-paintbrush" /> {illustrator}
-        </p>
-      )}
-      <PackEntries resolvedCard={resolvedCard} size={size} />
-    </footer>
-  );
-}
-
-export function CardMetaBack(props: { illustrator?: string }) {
-  return (
-    <footer className={css["meta"]}>
-      {props.illustrator && (
-        <p className={css["meta-property"]}>
-          <i className="icon-paintbrush" /> {props.illustrator}
-        </p>
-      )}
-    </footer>
   );
 }
 

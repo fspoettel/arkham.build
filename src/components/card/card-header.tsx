@@ -19,18 +19,13 @@ export function CardHeader(props: Props) {
   const { card, className, linked } = props;
   const colorCls = getCardColor(card, "background");
 
+  console.log(linked);
+
   return (
     <header className={cx(css["header"], colorCls, className)}>
       <div className={css["header-row"]}>
         <CardIcon card={card} className={css["header-icon"]} inverted />
-        <CardNames
-          code={card.code}
-          isUnique={card.is_unique}
-          linked={linked}
-          name={card.real_name}
-          parallel={card.parallel}
-          subname={card.real_subname}
-        />
+        <CardNames card={card} linked={linked} />
       </div>
       <MulticlassIcons
         card={card}

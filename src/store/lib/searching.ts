@@ -5,7 +5,7 @@ import type { Card } from "@/store/services/queries.types";
 import type { Search } from "../slices/lists.types";
 import type { Metadata } from "../slices/metadata.types";
 
-function prepareCardFront(card: Card, search: Search) {
+function prepareCardFace(card: Card, search: Search) {
   let content = `|${card.real_name}`;
 
   if (card.real_subname) content += `|${card.real_subname}`;
@@ -41,12 +41,12 @@ export function applySearch(
   const uf = new uFuzzy();
 
   const searchCards = cards.map((card) => {
-    let content = prepareCardFront(card, search);
+    let content = prepareCardFace(card, search);
     if (search.includeBacks && card.real_back_text) {
       content += prepareCardBack(card, search);
     } else if (search.includeBacks && card.back_link_id) {
       const back = metadata.cards[card.back_link_id];
-      if (back) content += prepareCardFront(back, search);
+      if (back) content += prepareCardFace(back, search);
     }
 
     return content;
