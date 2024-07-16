@@ -223,7 +223,6 @@ function getPackIcon(code?: string) {
       return "read_or_die";
     case "aon":
       return "all_or_nothing";
-
     case "bad":
       return "bad_blood";
     case "btb":

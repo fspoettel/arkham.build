@@ -7,6 +7,7 @@ import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
 import { useMedia } from "@/utils/use-media";
 
+import { Filter } from "lucide-react";
 import css from "./list-layout.module.css";
 
 type Props = {
@@ -103,7 +104,7 @@ export function ListLayout(props: Props) {
               className={css["toggle-filters"]}
               onClick={() => onToggleFilters(true)}
             >
-              <i className="icon-filter" />
+              <Filter />
             </Button>
           ),
         })}

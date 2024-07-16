@@ -9,6 +9,7 @@ import {
 
 import css from "./filters.module.css";
 
+import { FilterX } from "lucide-react";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Scroller } from "../ui/scroller";
@@ -77,7 +78,7 @@ export function Filters(props: Props) {
             tooltip="Reset all filters"
             variant="bare"
           >
-            <i className="icon-filter-clear" /> Reset
+            <FilterX /> Reset
           </Button>
         </div>
       </div>

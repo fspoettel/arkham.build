@@ -157,9 +157,11 @@ function getEncounterIcon(code?: string) {
     case "shades_of_suffering":
       return "shades_of_sorrow";
 
+    case "relics_of_the_past":
+      return "rop";
+
     case "blob_that_ate_everything_else":
     case "migo_incursion_2":
-    case "relics_of_the_past":
       return null;
 
     default:

@@ -6,10 +6,9 @@
   font-display: block;
 }
 
-[class^="icon-"],
-[class*=" icon-"] {
+[class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: "icon" !important;
+  font-family: 'icon' !important;
   speak: never;
   font-style: normal;
   font-weight: normal;
@@ -22,11 +21,62 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-filter:before {
-  content: "\ea5b";
+.icon-star:before {
+  content: "\2a";
+}
+.icon-x:before {
+  content: "\58";
+}
+.icon-num0:before {
+  content: "\31";
+}
+.icon-num1:before {
+  content: "\32";
+}
+.icon-num2:before {
+  content: "\33";
+}
+.icon-num3:before {
+  content: "\34";
+}
+.icon-num4:before {
+  content: "\35";
+}
+.icon-num5:before {
+  content: "\36";
+}
+.icon-num6:before {
+  content: "\37";
+}
+.icon-num7:before {
+  content: "\38";
+}
+.icon-num8:before {
+  content: "\39";
+}
+.icon-num9:before {
+  content: "\3a";
+}
+.icon-numNull:before {
+  content: "\2d";
 }
 .icon-paintbrush:before {
   content: "\e923";
+}
+.icon-seal_e:before {
+  content: "\e904";
+}
+.icon-seal_d:before {
+  content: "\e905";
+}
+.icon-seal_c:before {
+  content: "\e906";
+}
+.icon-seal_b:before {
+  content: "\e907";
+}
+.icon-seal_a:before {
+  content: "\e908";
 }
 .icon-tarot_inverted:before {
   content: "\41";
@@ -58,40 +108,7 @@
 .icon-sanity:before {
   content: "\52";
 }
-.icon-star:before {
-  content: "\57";
-}
-.icon-x:before {
-  content: "\5a";
-}
-.icon-num1:before {
-  content: "\3a";
-}
-.icon-num2:before {
-  content: "\2c";
-}
-.icon-num3:before {
-  content: "\3e";
-}
-.icon-num4:before {
-  content: "\31";
-}
-.icon-num5:before {
-  content: "\40";
-}
-.icon-num6:before {
-  content: "\34";
-}
-.icon-num7:before {
-  content: "\25";
-}
-.icon-num8:before {
-  content: "\37";
-}
-.icon-num9:before {
-  content: "\2a";
-}
-.icon-numNull:before {
+.icon-numNull1:before {
   content: "\30";
 }
 .icon-guardian:before {
@@ -220,62 +237,57 @@
 .icon-day:before {
   content: "\e903";
 }
-.icon-num0:before {
-  content: "\7b";
-}
-.icon-name:before {
-  content: "\e913";
-}
 .icon-class_guardian:before {
   content: "\e919";
+  color: #394852;
 }
 .icon-class_seeker:before {
   content: "\e915";
+  color: #394852;
 }
 .icon-class_rogue:before {
   content: "\e914";
+  color: #394852;
 }
 .icon-class_mystic:before {
   content: "\e918";
+  color: #394852;
 }
 .icon-class_survivor:before {
   content: "\e916";
+  color: #394852;
 }
 .icon-multiclass:before {
   content: "\e989";
+  color: #394852;
 }
 .icon-class_neutral:before {
   content: "\e917";
+  color: #394852;
 }
 .icon-xp-bold:before {
   content: "\e9a3";
 }
-.icon-parallel1:before {
-  content: "\e94c";
-}
-.icon-world:before {
-  content: "\e91c";
+.icon-card-outline:before {
+  content: "\e936";
+  color: #394852;
 }
 .icon-card-outline-bold:before {
   content: "\e9a4";
 }
 .icon-upgrade:before {
   content: "\e940";
+  color: #394852;
 }
 .icon-taboo:before {
   content: "\e93a";
+  color: #394852;
 }
 .icon-cards:before {
   content: "\e92b";
 }
 .icon-deck:before {
   content: "\e92a";
-}
-.icon-filter-clear:before {
-  content: "\e98d";
-}
-.icon-tag-bold:before {
-  content: "\e9a6";
 }
 .icon-level_none:before {
   content: "\e926";

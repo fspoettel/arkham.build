@@ -7,7 +7,7 @@ import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
 import { useDocumentTitle } from "@/utils/use-document-title";
 import { useGoBack } from "@/utils/use-go-back";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Filter } from "lucide-react";
 import { useCallback, useState } from "react";
 import css from "./list-layout-no-sidebar.module.css";
 
@@ -60,7 +60,7 @@ export function ListLayoutNoSidebar(props: Props) {
                 className={css["toggle-filters"]}
                 onClick={() => onToggleFilters(true)}
               >
-                <i className="icon-filter" />
+                <Filter />
               </Button>
             }
           />
