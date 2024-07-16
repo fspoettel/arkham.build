@@ -3,19 +3,12 @@ import { createSelector } from "reselect";
 import { resolveDeck } from "@/store/lib/resolve-deck";
 
 import { time, timeEnd } from "@/utils/time";
-import type { DeckValidationResult } from "../lib/deck-validation";
-import { validateDeck } from "../lib/deck-validation";
 import { sortAlphabetical } from "../lib/sorting";
 import type { ResolvedCard, ResolvedDeck } from "../lib/types";
 import type { StoreState } from "../slices";
 import type { Id } from "../slices/data.types";
 import type { EditState } from "../slices/deck-edits.types";
 import { selectActiveDeckById } from "./deck-view";
-
-type LocalDeck = {
-  deck: ResolvedDeck<ResolvedCard>;
-  validation: DeckValidationResult;
-};
 
 export const selectLocalDecks = createSelector(
   (state: StoreState) => state.data,
@@ -26,33 +19,28 @@ export const selectLocalDecks = createSelector(
 
     const { history } = data;
 
-    const resolvedDecks = Object.keys(history).reduce<LocalDeck[]>(
-      (acc, id) => {
-        const deck = data.decks[id];
+    const resolvedDecks = Object.keys(history).reduce<
+      ResolvedDeck<ResolvedCard>[]
+    >((acc, id) => {
+      const deck = data.decks[id];
 
-        try {
-          if (deck) {
-            const resolved = resolveDeck(metadata, lookupTables, deck, false);
-            const validation = validateDeck(resolved, {
-              metadata,
-              lookupTables,
-            } as StoreState);
-            acc.push({ deck: resolved, validation });
-          } else {
-            console.warn(`Could not find deck ${id} in local storage.`);
-          }
-        } catch (err) {
-          console.error(`Error resolving deck ${id}: ${err}`);
-          return acc;
+      try {
+        if (deck) {
+          const resolved = resolveDeck(metadata, lookupTables, deck, false);
+          acc.push(resolved);
+        } else {
+          console.warn(`Could not find deck ${id} in local storage.`);
         }
-
+      } catch (err) {
+        console.error(`Error resolving deck ${id}: ${err}`);
         return acc;
-      },
-      [],
-    );
+      }
+
+      return acc;
+    }, []);
 
     resolvedDecks.sort((a, b) =>
-      sortAlphabetical(b.deck.date_update, a.deck.date_update),
+      sortAlphabetical(b.date_update, a.date_update),
     );
 
     timeEnd("select_local_decks");

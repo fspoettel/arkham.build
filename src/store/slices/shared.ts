@@ -12,9 +12,11 @@ import {
 import { time, timeEnd } from "@/utils/time";
 import type { StoreState } from ".";
 import { mappedByCode, mappedById } from "../lib/metadata-utils";
+import { mapValidationToProblem } from "../lib/serialization/deck-io";
 import { encodeExtraSlots } from "../lib/serialization/slots";
 import type { DeckMeta } from "../lib/types";
 import { selectDeckCreateCardSets } from "../selectors/deck-create";
+import { selectDeckValidById } from "../selectors/deck-view";
 import { makeLists } from "./lists";
 import { createLookupTables, createRelations } from "./lookup-tables";
 import { getInitialMetadata } from "./metadata";
@@ -146,13 +148,15 @@ export const createSharedSlice: StateCreator<
     const state = get();
 
     const edits = state.deckEdits[deckId];
-    if (!edits) return deckId;
 
     const deck = state.data.decks[deckId];
     if (!deck) return deckId;
 
     const nextDeck = applyDeckEdits(deck, edits, state.metadata, true);
     nextDeck.date_update = new Date().toISOString();
+
+    const validation = selectDeckValidById(state, deckId);
+    nextDeck.problem = mapValidationToProblem(validation);
 
     const deckEdits = { ...state.deckEdits };
     delete deckEdits[deckId];

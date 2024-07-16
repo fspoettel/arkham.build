@@ -14,7 +14,7 @@ type Props = {
   deck: ResolvedDeck<ResolvedCard>;
   interactive?: boolean;
   showThumbnail?: boolean;
-  validation?: DeckValidationResult;
+  validation?: DeckValidationResult | string | null;
 };
 
 export function DeckSummary(props: Props) {
@@ -26,8 +26,6 @@ export function DeckSummary(props: Props) {
   );
 
   const borderCls = getCardColor(deck.cards.investigator.card, "border");
-
-  const showValidation = !!validation;
 
   return (
     <article
@@ -45,7 +43,10 @@ export function DeckSummary(props: Props) {
         )}
         <div className={css["header-container"]}>
           <h3 className={css["title"]} data-testid="deck-summary-title">
-            {showValidation && !validation?.valid && <CircleAlert />}
+            {!!validation &&
+              (typeof validation === "string" || !validation?.valid) && (
+                <CircleAlert />
+              )}
             {deck.name}
           </h3>
           <div className={css["header-row"]}>

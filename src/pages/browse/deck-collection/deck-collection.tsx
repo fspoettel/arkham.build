@@ -111,7 +111,7 @@ export function DeckCollection() {
       {decks.length ? (
         <Scroller>
           <ol className={css["decks"]}>
-            {decks.map(({ deck, validation }) => (
+            {decks.map((deck) => (
               <li
                 className={css["deck"]}
                 data-testid="collection-deck"
@@ -122,7 +122,7 @@ export function DeckCollection() {
                     deck={deck}
                     interactive
                     showThumbnail
-                    validation={validation}
+                    validation={deck.problem}
                   >
                     {deck.tags && <DeckTags tags={deck.tags} />}
                   </DeckSummary>

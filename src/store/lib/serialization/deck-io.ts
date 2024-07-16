@@ -1,4 +1,7 @@
-import type { DeckValidationResult } from "@/store/lib/deck-validation";
+import {
+  type DeckValidationResult,
+  validateDeck,
+} from "@/store/lib/deck-validation";
 import type { Card, CustomizationOption } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
 import type { Deck, DeckProblem } from "@/store/slices/data.types";
@@ -10,16 +13,28 @@ import {
 } from "@/utils/formatting";
 import { randomId } from "../deck-factory";
 import type { DisplayDeck, Grouping } from "../deck-grouping";
+import { resolveDeck } from "../resolve-deck";
 import { sortByName, sortBySlots } from "../sorting";
 import type { Customizations } from "../types";
 
-export function formatDeckImport(deck: Deck, type: string): Deck {
+export function formatDeckImport(
+  state: StoreState,
+  deck: Deck,
+  type: string,
+): Deck {
   const now = new Date().toISOString();
+
+  const validation = validateDeck(
+    resolveDeck(state.metadata, state.lookupTables, deck, false),
+    state,
+  );
+
+  const problem = mapValidationToProblem(validation);
 
   return {
     ...deck,
     id: randomId(),
-    problem: undefined,
+    problem,
     date_creation: now,
     date_update: now,
     source: "local",
@@ -40,7 +55,7 @@ export function formatDeckExport(
   return deck;
 }
 
-function mapValidationToProblem(
+export function mapValidationToProblem(
   validation: DeckValidationResult,
 ): DeckProblem | null {
   if (validation.valid) return null;

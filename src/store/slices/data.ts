@@ -36,7 +36,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
     const state = get();
 
     const { data, type } = await queryDeck(input);
-    const deck = formatDeckImport(data, type);
+    const deck = formatDeckImport(state, data, type);
 
     set({
       data: {
@@ -54,6 +54,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
   },
 
   async importFromFiles(files) {
+    const state = get();
     const decks = [];
 
     for (const file of files) {
@@ -62,15 +63,13 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
         const parsed = JSON.parse(text);
 
         assert(isDeck(parsed), `file '${file.name}' is not an arkhamdb deck`);
-        const deck = formatDeckImport(parsed, "deck");
+        const deck = formatDeckImport(state, parsed, "deck");
 
         decks.push(deck);
       } catch (err) {
         console.error(`could not import deck '${file.name}':`, err);
       }
     }
-
-    const state = get();
 
     set({
       data: {
