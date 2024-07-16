@@ -51,7 +51,9 @@ function selectPlayerCardsForCustomizationOptions(
   return cards;
 }
 
-const cardRenderer = (item: Card) => <ListCardInner card={item} size="sm" />;
+const cardRenderer = (item: Card) => (
+  <ListCardInner disableModalOpen card={item} size="sm" />
+);
 
 const resultRenderer = (item: Card) => item.real_name;
 
