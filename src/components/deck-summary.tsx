@@ -2,7 +2,7 @@ import { cx } from "@/utils/cx";
 import { CircleAlert } from "lucide-react";
 
 import type { DeckValidationResult } from "@/store/lib/deck-validation";
-import type { ResolvedCard, ResolvedDeck } from "@/store/lib/types";
+import type { ResolvedDeck } from "@/store/lib/types";
 import { getCardColor } from "@/utils/card-utils";
 
 import css from "./deck-summary.module.css";
@@ -11,7 +11,7 @@ import { CardThumbnail } from "./card/card-thumbnail";
 
 type Props = {
   children?: React.ReactNode;
-  deck: ResolvedDeck<ResolvedCard>;
+  deck: ResolvedDeck;
   interactive?: boolean;
   showThumbnail?: boolean;
   validation?: DeckValidationResult | string | null;

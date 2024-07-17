@@ -17,7 +17,6 @@
   &[disabled] {
     opacity: 0.3;
     cursor: default;
-    pointer-events: none;
   }
 
   &:not([disabled=""]):hover {

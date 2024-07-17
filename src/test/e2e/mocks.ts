@@ -15,26 +15,30 @@ import metadataResponse from "../fixtures/stubs/metadata.json" assert {
 export async function mockApiCalls(page: Page) {
   const apiUrl = process.env.VITE_API_URL ?? "https://api.arkham.build";
 
-  const baseUrl = `${apiUrl}/api/v1`;
-
-  const deckRegexp = new RegExp(`${baseUrl}/deck\.*`);
+  const baseUrl = `${apiUrl}/v1`;
 
   await Promise.all([
-    page.route(`${baseUrl}/cards`, async (route) => {
+    page.route(`${baseUrl}/cache/cards`, async (route) => {
       const json = allCardsResponse;
       await route.fulfill({ json });
     }),
-    page.route(`${baseUrl}/metadata`, async (route) => {
+    page.route(`${baseUrl}/cache/metadata`, async (route) => {
       const json = metadataResponse;
       await route.fulfill({ json });
     }),
-    page.route(`${baseUrl}/version`, async (route) => {
+    page.route(`${baseUrl}/cache/version`, async (route) => {
       const json = versionsResponse;
       await route.fulfill({ json });
     }),
-    page.route(deckRegexp, async (route) => {
+    page.route(/\/public\/import/, async (route) => {
       const json = deckResponse;
       await route.fulfill({ json });
+    }),
+    page.route(/\/public\/share$/, async (route) => {
+      await route.fulfill({ body: undefined });
+    }),
+    page.route(/\/public\/share\/.*/, async (route) => {
+      await route.fulfill({ json: deckResponse.data });
     }),
   ]);
 }

@@ -71,7 +71,7 @@ import { resolveDeck } from "./resolve-deck";
 function validate(store: StoreApi<StoreState>, deck: Deck) {
   const state = store.getState();
   return validateDeck(
-    resolveDeck(state.metadata, state.lookupTables, deck, false),
+    resolveDeck(state.metadata, state.lookupTables, deck),
     state,
   );
 }

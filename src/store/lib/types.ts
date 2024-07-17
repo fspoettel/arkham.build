@@ -9,6 +9,7 @@ import type {
   Type,
 } from "../services/queries.types";
 import type { Deck } from "../slices/data.types";
+import type { Groupings } from "./deck-grouping";
 
 export type ResolvedCard = {
   card: Card;
@@ -102,20 +103,17 @@ export type Selection = OptionSelection | FactionSelection | DeckSizeSelection;
 // selections, keyed by their `id`, or if not present their `name`.
 export type Selections = Record<string, Selection>;
 
-export type ResolvedDeck<T extends ResolvedCard | CardWithRelations> = Omit<
-  Deck,
-  "sideSlots"
-> & {
+export type ResolvedDeck = Omit<Deck, "sideSlots"> & {
   metaParsed: DeckMeta;
   sideSlots: Record<string, number> | null; // arkhamdb stores `[]` when empty, normalize to `null`.
   extraSlots: Record<string, number> | null;
   customizations?: Customizations;
   cards: {
     investigator: CardWithRelations; // tracks relations.
-    slots: Record<string, T>;
-    sideSlots: Record<string, T>;
-    ignoreDeckLimitSlots: Record<string, T>;
-    extraSlots: Record<string, T>; // used by parallel jim.
+    slots: Record<string, ResolvedCard>;
+    sideSlots: Record<string, ResolvedCard>;
+    ignoreDeckLimitSlots: Record<string, ResolvedCard>;
+    extraSlots: Record<string, ResolvedCard>; // used by parallel jim.
   };
   investigatorFront: CardWithRelations;
   investigatorBack: CardWithRelations;
@@ -129,12 +127,13 @@ export type ResolvedDeck<T extends ResolvedCard | CardWithRelations> = Omit<
   hasParallel: boolean;
   selections?: Selections;
   tabooSet?: TabooSet;
+
+  groups: Groupings;
+  bondedSlots: Record<string, number>;
 };
 
-export function isResolvedDeck<T extends ResolvedCard | CardWithRelations>(
-  a: unknown,
-): a is ResolvedDeck<T> {
-  return (a as ResolvedDeck<CardWithRelations>)?.investigatorFront != null;
+export function isResolvedDeck(a: unknown): a is ResolvedDeck {
+  return (a as ResolvedDeck)?.investigatorFront != null;
 }
 
 export type CardSet = {

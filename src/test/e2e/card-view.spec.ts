@@ -1,5 +1,4 @@
 import { Page, expect, test } from "@playwright/test";
-import { waitForImagesLoaded } from "./actions";
 import { mockApiCalls } from "./mocks";
 
 test.beforeEach(async ({ page }) => {

@@ -9,24 +9,19 @@ import type {
   CardWithRelations,
   Customizations,
   DeckMeta,
-  ResolvedCard,
   ResolvedDeck,
 } from "../types";
 
-export function decodeSlots<
-  T extends boolean,
-  S extends T extends true ? CardWithRelations : ResolvedCard,
->(
+export function decodeSlots(
   deck: Deck,
-  extraSlots: ResolvedDeck<S>["extraSlots"],
+  extraSlots: ResolvedDeck["extraSlots"],
   metadata: Metadata,
   lookupTables: LookupTables,
   investigator: CardWithRelations,
   customizations: Customizations | undefined,
-  withRelations: T,
 ) {
-  const cards: ResolvedDeck<S>["cards"] = {
-    investigator: investigator as S,
+  const cards: ResolvedDeck["cards"] = {
+    investigator: investigator,
     slots: {},
     sideSlots: {},
     ignoreDeckLimitSlots: {},
@@ -44,13 +39,12 @@ export function decodeSlots<
       code,
       deck.taboo_id,
       customizations,
-      withRelations,
     );
 
     if (card) {
       deckSizeTotal += quantity;
       xpRequired += countExperience(card.card, quantity);
-      cards.slots[code] = card as S;
+      cards.slots[code] = card;
 
       if (!isSpecialCard(card.card, investigator)) {
         deckSize += Math.max(
@@ -73,7 +67,7 @@ export function decodeSlots<
       ); // SAFE! we do not need relations for side deck.
 
       if (card) {
-        cards.sideSlots[code] = card as S;
+        cards.sideSlots[code] = card;
       }
     }
   }
@@ -92,7 +86,7 @@ export function decodeSlots<
       if (card) {
         xpRequired += countExperience(card.card, quantity);
         deckSizeTotal += quantity;
-        cards.extraSlots[code] = card as S;
+        cards.extraSlots[code] = card;
       }
     }
   }

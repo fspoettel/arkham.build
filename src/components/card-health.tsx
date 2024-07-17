@@ -12,7 +12,10 @@ type Props = {
 
 export function CardHealth(props: Props) {
   return (
-    <div className={cx(props.className, css["health"])}>
+    <div
+      className={cx(props.className, css["health"])}
+      data-testid="card-health"
+    >
       <HealthIcon health={props.health} />
       <SanityIcon sanity={props.sanity} />
     </div>

@@ -4,8 +4,7 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import type { SelectOption } from "@/components/ui/select";
 import { Select } from "@/components/ui/select";
 import { useStore } from "@/store";
-import type { DisplayDeck } from "@/store/lib/deck-grouping";
-import type { CardWithRelations, ResolvedDeck } from "@/store/lib/types";
+import type { ResolvedDeck } from "@/store/lib/types";
 import { selectTabooSetSelectOptions } from "@/store/selectors/lists";
 import type { DeckOptionSelectType } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
@@ -13,11 +12,11 @@ import { debounce } from "@/utils/debounce";
 import { capitalize, formatSelectionId } from "@/utils/formatting";
 
 type Props = {
-  deck: DisplayDeck;
+  deck: ResolvedDeck;
 };
 
 function getInvestigatorOptions(
-  deck: ResolvedDeck<CardWithRelations>,
+  deck: ResolvedDeck,
   type: "Front" | "Back",
 ): SelectOption[] {
   return deck.hasParallel

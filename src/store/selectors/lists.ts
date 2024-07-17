@@ -8,9 +8,9 @@ import {
   sortByName,
   sortedEncounterSets,
 } from "../lib/sorting";
+import type { ResolvedDeck } from "../lib/types";
 import type { Card, Cycle, Pack } from "../services/queries.types";
 import type { StoreState } from "../slices";
-import type { Id } from "../slices/data.types";
 import type {
   AssetFilter,
   CostFilter,
@@ -21,7 +21,6 @@ import type {
   SkillIconsFilter,
   SubtypeFilter,
 } from "../slices/lists.types";
-import { selectResolvedDeckById } from "./deck-view";
 
 export const selectActiveList = (state: StoreState) => {
   const active = state.activeList;
@@ -419,8 +418,7 @@ export const selectTabooSetChanges = createSelector(
 
 export const selectCanonicalTabooSetId = (
   state: StoreState,
-  deckId?: Id,
-  applyEdits?: boolean,
+  resolvedDeck?: ResolvedDeck,
 ) => {
   const filters = selectActiveListFilters(state);
   const filterId = filters.findIndex((f) => f === "tabooSet");
@@ -430,9 +428,8 @@ export const selectCanonicalTabooSetId = (
     : undefined;
   if (typeof filterValue === "number") return filterValue;
 
-  if (deckId) {
-    const resolvedDeck = selectResolvedDeckById(state, deckId, applyEdits);
-    if (resolvedDeck) return resolvedDeck.tabooSet?.id;
+  if (resolvedDeck?.taboo_id) {
+    return resolvedDeck.taboo_id;
   }
 
   return state.settings.tabooSetId;

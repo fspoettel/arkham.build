@@ -1,24 +1,23 @@
 import type React from "react";
 import { createContext, useContext, useMemo } from "react";
 
-import type { Id } from "@/store/slices/data.types";
-
+import type { ResolvedDeck } from "@/store/lib/types";
 import { assert } from "./assert";
 
 interface DeckContextType {
-  deckId?: Id;
+  resolvedDeck?: ResolvedDeck;
   canEdit?: boolean;
 }
 
 type DeckContextTypeChecked = {
-  deckId: Id;
+  resolvedDeck: ResolvedDeck;
   canEdit?: boolean;
 };
 
 function isDeckContextTypeChecked(
   context: DeckContextType,
 ): context is DeckContextTypeChecked {
-  return context.deckId !== undefined;
+  return context.resolvedDeck !== undefined;
 }
 
 const DeckIdContext = createContext<DeckContextType | undefined>(undefined);
@@ -27,15 +26,15 @@ type Props = DeckContextType & {
   children: React.ReactNode;
 };
 
-export function DeckIdProvider(props: Props) {
-  const { deckId, canEdit, children } = props;
+export function ResolvedDeckProvider(props: Props) {
+  const { resolvedDeck, canEdit, children } = props;
 
   const value = useMemo(
     () => ({
-      deckId,
+      resolvedDeck,
       canEdit,
     }),
-    [deckId, canEdit],
+    [resolvedDeck, canEdit],
   );
 
   return (
@@ -43,16 +42,18 @@ export function DeckIdProvider(props: Props) {
   );
 }
 
-export function useDeckId() {
+export function useResolvedDeck() {
   const context = useContext(DeckIdContext);
-  return context ?? { deckId: undefined, canEdit: false };
+  return context ?? { resolvedDeck: undefined, canEdit: false };
 }
 
-export function useDeckIdChecked(): DeckContextTypeChecked {
-  const context = useDeckId();
+export function useResolvedDeckChecked(): DeckContextTypeChecked {
+  const context = useResolvedDeck();
+
   assert(
     isDeckContextTypeChecked(context),
     "expected to be defined in a parent DeckIdProvider",
   );
+
   return context;
 }

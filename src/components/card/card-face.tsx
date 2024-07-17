@@ -39,6 +39,7 @@ export function CardFace(props: Props) {
         css[size],
         className,
       )}
+      data-testid="card-face"
       {...rest}
     >
       <CardHeader card={card} linked={linked} />

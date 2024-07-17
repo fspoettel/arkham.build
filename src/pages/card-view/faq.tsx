@@ -6,6 +6,8 @@ import { queryFaq } from "@/store/services/queries";
 import { useQuery } from "@/utils/use-query";
 
 import { Details } from "@/components/ui/details";
+import { useStore } from "@/store";
+import { selectClientId } from "@/store/selectors/shared";
 import { redirectArkhamDBLinks } from "@/utils/arkhamdb-links";
 
 type Props = {
@@ -16,9 +18,11 @@ export function Faq(props: Props) {
   const [open, setOpen] = useState(false);
   const { card } = props;
 
+  const clientId = useStore(selectClientId);
+
   const query = useMemo(
-    () => (open ? () => queryFaq(card.code) : undefined),
-    [card.code, open],
+    () => (open ? () => queryFaq(clientId, card.code) : undefined),
+    [card.code, open, clientId],
   );
 
   const response = useQuery(query);

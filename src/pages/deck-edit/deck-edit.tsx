@@ -10,18 +10,18 @@ import { Filters } from "@/components/filters/filters";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import { useStore } from "@/store";
-import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import {
-  selectActiveDeckById,
-  selectDeckValidById,
+  selectDeckValid,
+  selectResolvedDeckById,
 } from "@/store/selectors/deck-view";
 import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
-import { DeckIdProvider } from "@/utils/use-deck-id";
 import { useDocumentTitle } from "@/utils/use-document-title";
 
 import { Editor } from "./editor/editor";
 import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 
+import type { ResolvedDeck } from "@/store/lib/types";
+import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
 import css from "./deck-edit.module.css";
 
 function DeckEdit() {
@@ -32,7 +32,7 @@ function DeckEdit() {
   const resetFilters = useStore((state) => state.resetFilters);
   const setActiveList = useStore((state) => state.setActiveList);
   const discardEdits = useStore((state) => state.discardEdits);
-  const deck = useStore((state) => selectActiveDeckById(state, id, true));
+  const deck = useStore((state) => selectResolvedDeckById(state, id, true));
   const changes = useStore((state) => state.deckEdits[id]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: we only want to run this effect once on mount.
@@ -82,22 +82,20 @@ function DeckEdit() {
   if (!deck || !activeListId?.startsWith("editor")) return null;
 
   return (
-    <DeckIdProvider canEdit deckId={deck.id}>
+    <ResolvedDeckProvider canEdit resolvedDeck={deck}>
       <CardModalProvider>
         <DeckEditInner deck={deck} />
       </CardModalProvider>
-    </DeckIdProvider>
+    </ResolvedDeckProvider>
   );
 }
 
-function DeckEditInner({ deck }: { deck: DisplayDeck }) {
+function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
   const [currentTab, setCurrentTab] = useState<Tab>("slots");
 
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
 
-  const validation = useStore((state) =>
-    selectDeckValidById(state, deck.id, true),
-  );
+  const validation = useStore((state) => selectDeckValid(state, deck));
 
   useDocumentTitle(
     deck ? `Edit: ${deck.investigatorFront.card.real_name} - ${deck.name}` : "",

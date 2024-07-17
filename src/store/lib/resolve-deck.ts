@@ -3,29 +3,21 @@ import { ALT_ART_INVESTIGATOR_MAP } from "@/utils/constants";
 import type { Deck } from "../slices/data.types";
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
+import { addGroupingsToDeck } from "./deck-grouping";
 import { resolveCardWithRelations } from "./resolve-card";
 import { decodeCustomizations } from "./serialization/customizable";
 import { decodeDeckMeta, decodeSelections } from "./serialization/deck-meta";
 import { decodeExtraSlots, decodeSlots } from "./serialization/slots";
-import type {
-  CardWithRelations,
-  DeckMeta,
-  ResolvedCard,
-  ResolvedDeck,
-} from "./types";
+import type { CardWithRelations, DeckMeta, ResolvedDeck } from "./types";
 
 /**
  * Given a decoded deck, resolve all cards and metadata for display.
  */
-export function resolveDeck<
-  T extends boolean,
-  S extends T extends true ? CardWithRelations : ResolvedCard,
->(
+export function resolveDeck(
   metadata: Metadata,
   lookupTables: LookupTables,
   deck: Deck,
-  withRelations: T,
-): ResolvedDeck<S> {
+): ResolvedDeck {
   const deckMeta = decodeDeckMeta(deck);
 
   // some decks on arkhamdb are created for the replacement investigator, normalize.
@@ -56,13 +48,13 @@ export function resolveDeck<
     investigator,
     deckMeta,
     "alternate_front",
-  ) as S;
+  );
 
   const investigatorBack = getInvestigatorForSide(
     investigator,
     deckMeta,
     "alternate_back",
-  ) as S;
+  );
 
   const hasExtraDeck = !!investigatorBack.card.side_deck_options;
   const hasParallel = !!investigator.relations?.parallel;
@@ -75,17 +67,16 @@ export function resolveDeck<
   const extraSlots = decodeExtraSlots(deckMeta);
   const customizations = decodeCustomizations(deckMeta, metadata);
 
-  const { cards, deckSize, deckSizeTotal, xpRequired } = decodeSlots<T, S>(
+  const { cards, deckSize, deckSizeTotal, xpRequired } = decodeSlots(
     deck,
     extraSlots,
     metadata,
     lookupTables,
     investigator,
     customizations,
-    withRelations,
   );
 
-  return {
+  const resolved = {
     ...deck,
     cards,
     customizations,
@@ -104,7 +95,11 @@ export function resolveDeck<
       xpRequired: xpRequired,
     },
     tabooSet: deck.taboo_id ? metadata.tabooSets[deck.taboo_id] : undefined,
-  };
+  } as ResolvedDeck;
+
+  addGroupingsToDeck(metadata, lookupTables, resolved);
+
+  return resolved as ResolvedDeck;
 }
 
 function getInvestigatorForSide(

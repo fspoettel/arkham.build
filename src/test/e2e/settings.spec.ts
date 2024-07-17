@@ -92,6 +92,7 @@ async function assertSubtypeSettingApplied(page: Page) {
 }
 
 test("settings: hide weaknesses", async ({ page }) => {
+  await mockApiCalls(page);
   await page.goto("/");
 
   await page.getByTestId("masthead-settings").click();

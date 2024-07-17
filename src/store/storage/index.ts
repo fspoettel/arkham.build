@@ -6,9 +6,11 @@ import type {
 
 import { time, timeEnd } from "@/utils/time";
 import type { StoreState } from "../slices";
+import { getInitialAppState } from "../slices/app";
 import { getInitialDataState } from "../slices/data";
 import { getInitialMetadata } from "../slices/metadata";
 import { getInitialSettings } from "../slices/settings";
+import { getInitialSharingState } from "../slices/sharing";
 import { IndexedDBAdapter } from "./indexeddb-adapter";
 import migrateV1 from "./migrations/v1";
 import type { Val } from "./storage.types";
@@ -27,18 +29,22 @@ export const storageConfig: PersistOptions<StoreState, Val> = {
   skipHydration: import.meta.env.MODE === "test",
   migrate(persisted, version) {
     const state = persisted as StoreState;
+
     if (version < 2) {
       console.debug("[persist] migrate store: ", version);
       migrateV1(state, version);
     }
+
     return state;
   },
   partialize(state: StoreState) {
     return {
+      app: state.app,
       data: state.data,
       deckEdits: state.deckEdits,
       metadata: state.metadata,
       settings: state.settings,
+      sharing: state.sharing,
     };
   },
   onRehydrateStorage: () => {
@@ -66,10 +72,12 @@ function createCustomStorage(): PersistStorage<Val> | undefined {
 
         const val: StorageValue<Val> = {
           state: {
+            app: appdata?.state?.app ?? getInitialAppState(),
             data: appdata?.state?.data ?? getInitialDataState().data,
             deckEdits: appdata?.state?.deckEdits ?? {},
             metadata: metadata?.state?.metadata ?? getInitialMetadata(),
             settings: appdata?.state?.settings ?? getInitialSettings(),
+            sharing: appdata?.state?.sharing ?? getInitialSharingState(),
           },
           version: Math.min(metadata?.version ?? 1, appdata?.version ?? 1),
         };

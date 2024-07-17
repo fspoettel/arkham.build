@@ -55,21 +55,26 @@ type FaqResponse = {
   };
 }[];
 
-async function request<T>(path: string): Promise<T> {
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1${path}`);
+async function request(
+  path: string,
+  options: RequestInit = {},
+): Promise<Response> {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/v1${path}`, options);
 
   if (res.status >= 400) {
     const err = await res.json();
     throw new Error(err.message);
   }
 
-  return await res.json();
+  return res;
 }
 
 export async function queryMetadata(): Promise<MetadataResponse> {
-  const res = await request<MetadataApiResponse>("/metadata");
+  const res = await request("/cache/metadata");
+  const { data }: MetadataApiResponse = await res.json();
+
   return {
-    ...res.data,
+    ...data,
     reprint_pack: reprintPacks,
     faction: factions,
     type: types,
@@ -77,18 +82,26 @@ export async function queryMetadata(): Promise<MetadataResponse> {
   };
 }
 
-export async function queryDataVersion(): Promise<DataVersionResponse> {
-  const { data } = await request<DataVersionApiResponse>("/version");
+export async function queryDataVersion() {
+  const res = await request("/cache/version");
+  const { data }: DataVersionApiResponse = await res.json();
   return data.all_card_updated[0];
 }
 
-export async function queryCards(): Promise<AllCardResponse> {
-  const { data } = await request<AllCardApiResponse>("/cards");
+export async function queryCards() {
+  const res = await request("/cache/cards");
+  const { data }: AllCardApiResponse = await res.json();
   return data.all_card;
 }
 
-export function queryFaq(code: string): Promise<FaqResponse> {
-  return request(`/faq/${code}`);
+export async function queryFaq(clientId: string, code: string) {
+  const res = await request(`/public/faq/${code}`, {
+    headers: {
+      "X-Client-Id": clientId,
+    },
+  });
+  const data: FaqResponse = await res.json();
+  return data;
 }
 
 type DeckResponse = {
@@ -96,12 +109,56 @@ type DeckResponse = {
   type: "deck" | "decklist";
 };
 
-export async function queryDeck(input: string): Promise<DeckResponse> {
-  const res = await request<DeckResponse>(`/deck?q=${input}`);
+export async function importDeck(clientId: string, input: string) {
+  const res = await request(`/public/import?q=${encodeURIComponent(input)}`, {
+    headers: {
+      "X-Client-Id": clientId,
+    },
+    method: "POST",
+  });
 
-  if (!isDeck(res.data)) {
+  const data: DeckResponse = await res.json();
+
+  if (!isDeck(data.data)) {
     throw new Error("Could not import deck: invalid deck format.");
   }
 
-  return res;
+  return data;
+}
+
+export async function getShare(id: string) {
+  const res = await request(`/public/share/${id}`);
+  const data: Deck = await res.json();
+  return data;
+}
+
+export async function createShare(clientId: string, deck: Deck) {
+  await request("/public/share", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Client-Id": clientId,
+    },
+    body: JSON.stringify(deck),
+  });
+}
+
+export async function updateShare(clientId: string, id: string, deck: Deck) {
+  await request(`/public/share/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Client-Id": clientId,
+    },
+    body: JSON.stringify(deck),
+  });
+}
+
+export async function deleteShare(clientId: string, id: string) {
+  await request(`/public/share/${id}`, {
+    method: "DELETE",
+    headers: {
+      "X-Client-Id": clientId,
+    },
+  });
 }

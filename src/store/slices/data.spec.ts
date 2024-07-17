@@ -34,19 +34,21 @@ describe("data slice", () => {
       store = await getMockStore();
     });
 
-    it("does not delete decks with upgrades", () => {
+    it("does not delete decks with upgrades", async () => {
       store.setState(mockState);
 
-      expect(() =>
-        store.getState().deleteDeck("2"),
-      ).toThrowErrorMatchingInlineSnapshot(
-        `[Error: assertion failed: Cannot delete a deck that has upgrades.]`,
-      );
+      try {
+        await store.getState().deleteDeck("2");
+      } catch (err) {
+        expect((err as Error).message).toMatchInlineSnapshot(
+          `"assertion failed: Cannot delete a deck that has upgrades."`,
+        );
+      }
     });
 
-    it("removes a deck from state", () => {
+    it("removes a deck from state", async () => {
       store.setState(mockState);
-      store.getState().deleteDeck("4");
+      await store.getState().deleteDeck("4");
 
       const state = store.getState();
       expect(state.data.decks["4"]).toBeUndefined();
@@ -54,9 +56,9 @@ describe("data slice", () => {
       expect(state.data.decks["1"]).toBeDefined();
     });
 
-    it("removes deck and its upgrades from state", () => {
+    it("removes deck and its upgrades from state", async () => {
       store.setState(mockState);
-      store.getState().deleteDeck("1");
+      await store.getState().deleteDeck("1");
 
       const state = store.getState();
 

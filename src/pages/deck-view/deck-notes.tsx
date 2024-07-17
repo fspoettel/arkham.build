@@ -6,12 +6,12 @@ import { Button } from "@/components/ui/button";
 import { DialogContentInert, DialogTrigger } from "@/components/ui/dialog";
 import { useDialogContext } from "@/components/ui/dialog.hooks";
 import { Modal } from "@/components/ui/modal";
-import type { DisplayDeck } from "@/store/lib/deck-grouping";
 
+import type { ResolvedDeck } from "@/store/lib/types";
 import css from "./deck-view.module.css";
 
 type Props = {
-  deck: DisplayDeck;
+  deck: ResolvedDeck;
 };
 
 export function DeckNotes(props: Props) {

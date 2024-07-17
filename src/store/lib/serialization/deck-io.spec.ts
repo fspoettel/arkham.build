@@ -1,12 +1,12 @@
-import { selectActiveDeckById } from "@/store/selectors/deck-view";
-import { StoreState } from "@/store/slices";
+import { selectResolvedDeckById } from "@/store/selectors/deck-view";
+import type { StoreState } from "@/store/slices";
 import deckCustomizable from "@/test/fixtures/decks/customizable.json";
 import deckSpirits from "@/test/fixtures/decks/extra_slots.json";
 import deckMultiFaction from "@/test/fixtures/decks/multi_faction_select.json";
 import { getMockStore } from "@/test/get-mock-store";
 import { beforeAll, describe, expect, it } from "vitest";
 import type { StoreApi } from "zustand";
-import { DisplayDeck } from "../deck-grouping";
+import type { ResolvedDeck } from "../types";
 import { formatDeckAsText } from "./deck-io";
 
 describe("formatDeckAsText()", () => {
@@ -35,8 +35,8 @@ describe("formatDeckAsText()", () => {
 
   it("formats customizable", () => {
     const state = store.getState();
-    const deck = selectActiveDeckById(state, "customizable", false);
-    const result = formatDeckAsText(store.getState(), deck as DisplayDeck);
+    const deck = selectResolvedDeckById(state, "customizable", false);
+    const result = formatDeckAsText(store.getState(), deck as ResolvedDeck);
     expect(result).toMatchInlineSnapshot(`
       "# The Adventures of Carolyn Fern
 
@@ -112,8 +112,8 @@ describe("formatDeckAsText()", () => {
 
   it("formats the spirit deck", () => {
     const state = store.getState();
-    const deck = selectActiveDeckById(state, "spirits", false);
-    const result = formatDeckAsText(store.getState(), deck as DisplayDeck);
+    const deck = selectResolvedDeckById(state, "spirits", false);
+    const result = formatDeckAsText(store.getState(), deck as ResolvedDeck);
     expect(result).toMatchInlineSnapshot(`
       "# The Jim Culver Mysteries
 
@@ -200,8 +200,8 @@ describe("formatDeckAsText()", () => {
 
   it("formats multi-faction decks", () => {
     const state = store.getState();
-    const deck = selectActiveDeckById(state, "multiFaction", false);
-    const result = formatDeckAsText(store.getState(), deck as DisplayDeck);
+    const deck = selectResolvedDeckById(state, "multiFaction", false);
+    const result = formatDeckAsText(store.getState(), deck as ResolvedDeck);
     expect(result).toMatchInlineSnapshot(`
       "# Benchmark Charlie (Quick Guide)
 

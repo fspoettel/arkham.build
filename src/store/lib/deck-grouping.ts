@@ -2,7 +2,9 @@ import type { PlayerType } from "@/utils/constants";
 
 import { assert } from "@/utils/assert";
 import type { Card } from "../services/queries.types";
-import type { CardWithRelations, ResolvedDeck } from "./types";
+import type { LookupTables } from "../slices/lookup-tables.types";
+import type { Metadata } from "../slices/metadata.types";
+import type { ResolvedDeck } from "./types";
 
 export type Grouping = {
   [K in Exclude<PlayerType, "asset">]?: Card[];
@@ -17,21 +19,20 @@ export type NamedGrouping = {
   data: Grouping;
 };
 
-type Groupings = {
-  main: NamedGrouping;
-  side?: NamedGrouping;
-  bonded?: NamedGrouping;
-  extra?: NamedGrouping;
+export type Groupings = {
+  slots: NamedGrouping;
+  sideSlots?: NamedGrouping;
+  bondedSlots?: NamedGrouping;
+  extraSlots?: NamedGrouping;
 };
 
-export type DisplayDeck = ResolvedDeck<CardWithRelations> & {
-  groups: Groupings;
-  bondedSlots: Record<string, number>;
-};
-
-export function groupDeckCardsByType(deck: ResolvedDeck<CardWithRelations>) {
+export function groupDeckCardsByType(
+  metadata: Metadata,
+  lookupTables: LookupTables,
+  deck: ResolvedDeck,
+) {
   const groupings: Groupings = {
-    main: {
+    slots: {
       id: "main",
       data: {
         asset: {},
@@ -43,7 +44,7 @@ export function groupDeckCardsByType(deck: ResolvedDeck<CardWithRelations>) {
 
   for (const { card } of Object.values(deck.cards.extraSlots)) {
     const deckCard = { ...card, quantity: deck.extraSlots?.[card.code] ?? 0 };
-    addCardToGrouping(groupings, "extra", deckCard);
+    addCardToGrouping(groupings, "extraSlots", deckCard);
   }
 
   const bonded: Card[] = [];
@@ -59,14 +60,16 @@ export function groupDeckCardsByType(deck: ResolvedDeck<CardWithRelations>) {
   for (const resolvedCard of Object.values(deck.cards.slots)) {
     const card = resolvedCard.card;
 
-    addCardToGrouping(groupings, "main", card);
+    addCardToGrouping(groupings, "slots", card);
 
     // Collect bonded cards, filtering out duplicates.
     // These can occur when e.g. two versions of `Dream Diary` are in a deck.
-    const bound = resolvedCard.relations?.bound;
+    const bound = Object.keys(
+      lookupTables.relations.bound[card.code] ?? {},
+    ).map((code) => metadata.cards[code]);
 
     if (bound?.length) {
-      for (const { card } of bound) {
+      for (const card of bound) {
         if (
           !card.code.endsWith("b") &&
           !bonded.some((c) => c.code === card.code) &&
@@ -79,12 +82,12 @@ export function groupDeckCardsByType(deck: ResolvedDeck<CardWithRelations>) {
   }
 
   for (const card of bonded) {
-    addCardToGrouping(groupings, "bonded", card);
+    addCardToGrouping(groupings, "bondedSlots", card);
   }
 
   for (const { card } of Object.values(deck.cards.sideSlots)) {
     const deckCard = { ...card, quantity: deck.sideSlots?.[card.code] ?? 0 };
-    addCardToGrouping(groupings, "side", deckCard);
+    addCardToGrouping(groupings, "sideSlots", deckCard);
   }
 
   return { groupings, bonded };
@@ -92,7 +95,7 @@ export function groupDeckCardsByType(deck: ResolvedDeck<CardWithRelations>) {
 
 function addCardToGrouping(
   groupings: Groupings,
-  key: "main" | "bonded" | "extra" | "side",
+  key: "slots" | "bondedSlots" | "extraSlots" | "sideSlots",
   card: Card,
 ) {
   groupings[key] ??= {
@@ -128,4 +131,26 @@ function addCardToGrouping(
     grouping[t] ??= [];
     grouping[t]?.push(card);
   }
+}
+
+export function addGroupingsToDeck(
+  metadata: Metadata,
+  lookupTables: LookupTables,
+  resolvedDeck: ResolvedDeck,
+) {
+  const { groupings, bonded } = groupDeckCardsByType(
+    metadata,
+    lookupTables,
+    resolvedDeck,
+  );
+
+  resolvedDeck.groups = groupings;
+
+  resolvedDeck.bondedSlots = bonded.reduce<Record<string, number>>(
+    (acc, curr) => {
+      acc[curr.code] = curr.quantity;
+      return acc;
+    },
+    {},
+  );
 }

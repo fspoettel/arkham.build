@@ -6,16 +6,16 @@ import type { Card, CustomizationOption } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
 import type { Deck, DeckProblem } from "@/store/slices/data.types";
 import { splitMultiValue } from "@/utils/card-utils";
+import { randomId } from "@/utils/crypto";
 import {
   capitalize,
   formatSelectionId,
   formatTabooSet,
 } from "@/utils/formatting";
-import { randomId } from "../deck-factory";
-import type { DisplayDeck, Grouping } from "../deck-grouping";
+import type { Grouping } from "../deck-grouping";
 import { resolveDeck } from "../resolve-deck";
 import { sortByName, sortBySlots } from "../sorting";
-import type { Customizations } from "../types";
+import type { Customizations, ResolvedDeck } from "../types";
 
 export function formatDeckImport(
   state: StoreState,
@@ -25,7 +25,7 @@ export function formatDeckImport(
   const now = new Date().toISOString();
 
   const validation = validateDeck(
-    resolveDeck(state.metadata, state.lookupTables, deck, false),
+    resolveDeck(state.metadata, state.lookupTables, deck),
     state,
   );
 
@@ -45,12 +45,8 @@ export function formatDeckImport(
   };
 }
 
-export function formatDeckExport(
-  _deck: Deck,
-  validationResult: DeckValidationResult,
-): Deck {
+export function formatDeckExport(_deck: Deck) {
   const deck = structuredClone(_deck);
-  deck.problem = mapValidationToProblem(validationResult);
   deck.source = undefined;
   return deck;
 }
@@ -80,7 +76,7 @@ export function mapValidationToProblem(
 }
 
 // This is very ugly, but not a hot path, so who cares.
-export function formatDeckAsText(state: StoreState, deck: DisplayDeck) {
+export function formatDeckAsText(state: StoreState, deck: ResolvedDeck) {
   let text = "";
 
   text += `# ${deck.name}\n\n`;
@@ -119,10 +115,10 @@ export function formatDeckAsText(state: StoreState, deck: DisplayDeck) {
     text += `Taboo†: ${formatTabooSet(deck.tabooSet)}  \n`;
   }
 
-  text += `\n## Deck\n\n${formatGrouping(state, deck.groups.main.data, deck.slots, deck.customizations)}`;
+  text += `\n## Deck\n\n${formatGrouping(state, deck.groups.slots.data, deck.slots, deck.customizations)}`;
 
-  if (deck.groups.extra && deck.extraSlots) {
-    text += `## Spirits\n\n${formatGrouping(state, deck.groups.extra.data, deck.extraSlots, {})}`;
+  if (deck.groups.extraSlots && deck.extraSlots) {
+    text += `## Spirits\n\n${formatGrouping(state, deck.groups.extraSlots.data, deck.extraSlots, {})}`;
   }
 
   return text;

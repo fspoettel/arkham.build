@@ -1,20 +1,11 @@
 import type { Deck } from "@/store/slices/data.types";
-import { customAlphabet } from "nanoid";
+import { randomId } from "@/utils/crypto";
 
 type Payload = {
   investigator_code: string;
   name: string;
   slots: Record<string, number>;
 } & Partial<Omit<Deck, "id" | "date_creation" | "date_update">>;
-
-const nanoid = customAlphabet(
-  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-  15,
-);
-
-export function randomId() {
-  return nanoid();
-}
 
 export function createDeck(values: Payload): Deck {
   const timestamp = new Date().toISOString();

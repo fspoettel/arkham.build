@@ -16,8 +16,8 @@ export type Deck = {
   date_creation: string;
   date_update: string;
   description_md: string;
-  id: Id; // local decks: string, arkhamdb: int
   ignoreDeckLimitSlots: Slots | null;
+  id: Id;
   investigator_code: string;
   meta: string;
   name: string;
@@ -26,19 +26,26 @@ export type Deck = {
   problem?: DeckProblem | string | null;
   sideSlots: Slots | string[]; // NOTE: arkhamdb returns `[]` for empty side slots.
   slots: Slots;
+  source?: "arkhamdb" | "local" | undefined;
   taboo_id: number | null;
   tags: string;
   version: string;
   xp_spent: number | null;
   xp: number | null;
-
-  source?: "local" | "arkhamdb"; // addition.
 };
 
 export function isDeck(x: unknown): x is Deck {
   return (
     typeof x === "object" && x !== null && "id" in x && "investigator_code" in x
   );
+}
+
+export function isLocalDeck(x: unknown): x is Deck & { id: string } {
+  return isDeck(x) && x.source === "local";
+}
+
+export function isArkhamDbDeck(x: unknown): x is Deck & { id: number } {
+  return isDeck(x) && x.source === "arkhamdb";
 }
 
 export type DataState = {

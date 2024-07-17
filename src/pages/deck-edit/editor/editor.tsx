@@ -3,12 +3,12 @@ import { DecklistGroups } from "@/components/decklist/decklist-groups";
 import { DecklistSection } from "@/components/decklist/decklist-section";
 import { Scroller } from "@/components/ui/scroller";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import type { DeckValidationResult } from "@/store/lib/deck-validation";
 import type { Tab } from "@/store/slices/deck-edits.types";
 
 import css from "./editor.module.css";
 
+import type { ResolvedDeck } from "@/store/lib/types";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { DrawBasicWeakness } from "./draw-basic-weakness";
 import { EditorActions } from "./editor-actions";
@@ -19,7 +19,7 @@ type Props = {
   className?: string;
   currentTab: Tab;
   onTabChange: (tab: Tab) => void;
-  deck: DisplayDeck;
+  deck: ResolvedDeck;
   validation?: DeckValidationResult;
 };
 
@@ -65,7 +65,7 @@ export function Editor(props: Props) {
           <TabsContent value="slots" data-testid="editor-tabs-slots">
             <DecklistSection title="Cards">
               <DecklistGroups
-                group={deck.groups.main.data}
+                group={deck.groups.slots.data}
                 ignoredCounts={deck.ignoreDeckLimitSlots ?? undefined}
                 layout="two_column"
                 listCardSize="sm"
@@ -79,10 +79,10 @@ export function Editor(props: Props) {
                 quantities={deck.slots}
               />
             </DecklistSection>
-            {deck.groups.bonded && deck.bondedSlots && (
+            {deck.groups.bondedSlots && deck.bondedSlots && (
               <DecklistSection showTitle title="Bonded cards">
                 <DecklistGroups
-                  group={deck.groups.bonded.data}
+                  group={deck.groups.bondedSlots.data}
                   layout="two_column"
                   listCardSize="sm"
                   mapping="bonded"
@@ -94,9 +94,9 @@ export function Editor(props: Props) {
 
           <TabsContent value="sideSlots">
             <DecklistSection title="Side Deck">
-              {deck.groups.side?.data ? (
+              {deck.groups.sideSlots?.data ? (
                 <DecklistGroups
-                  group={deck.groups.side.data}
+                  group={deck.groups.sideSlots.data}
                   layout="two_column"
                   listCardSize="sm"
                   mapping="sideSlots"
@@ -111,9 +111,9 @@ export function Editor(props: Props) {
           {deck.hasExtraDeck && (
             <TabsContent value="extraSlots">
               <DecklistSection title="Spirits">
-                {deck.groups.extra?.data ? (
+                {deck.groups.extraSlots?.data ? (
                   <DecklistGroups
-                    group={deck.groups.extra.data}
+                    group={deck.groups.extraSlots.data}
                     layout="one_column"
                     listCardSize="sm"
                     mapping="extraSlots"
