@@ -61,6 +61,7 @@ export function Card(props: Props) {
   const backToggle = !!backNode && canToggleBackside && (
     <Button
       className={css["card-backtoggle"]}
+      data-testid="card-backtoggle"
       onClick={() => toggleBack((p) => !p)}
     >
       {backVisible ? <ChevronUp /> : <ChevronDown />}

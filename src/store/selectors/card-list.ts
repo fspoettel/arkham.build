@@ -31,10 +31,9 @@ import { getGroupedCards } from "../lib/grouping";
 import { resolveCardWithRelations } from "../lib/resolve-card";
 import { applySearch } from "../lib/searching";
 import { makeSortFunction } from "../lib/sorting";
-import { isResolvedDeck } from "../lib/types";
+import { type ResolvedDeck, isResolvedDeck } from "../lib/types";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
-import type { Id } from "../slices/data.types";
 import type {
   AssetFilter,
   CostFilter,
@@ -49,7 +48,6 @@ import type {
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
 import type { SettingsState } from "../slices/settings.types";
-import { selectResolvedDeckById } from "./deck-view";
 import { selectActiveList, selectCanonicalTabooSetId } from "./lists";
 
 export type CardGroup = {
@@ -252,11 +250,10 @@ const customizationsEqualSelector = createCustomEqualSelector((a, b) => {
 
 const selectDeckInvestigatorFilter = deckAccessEqualSelector(
   (state: StoreState) => state.lookupTables,
-  selectResolvedDeckById,
+  (_: StoreState, resolvedDeck?: ResolvedDeck) => resolvedDeck,
   (
     _: StoreState,
-    __?: Id,
-    ___?: boolean,
+    __?: ResolvedDeck,
     targetDeck?: "slots" | "extraSlots" | "both",
   ) => targetDeck,
   (state: StoreState) => state.ui.showUnusableCards,
@@ -306,7 +303,7 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
 );
 
 const selectResolvedDeckCustomizations = customizationsEqualSelector(
-  selectResolvedDeckById,
+  (_: StoreState, resolvedDeck?: ResolvedDeck) => resolvedDeck,
   (resolvedDeck) => resolvedDeck?.customizations,
 );
 

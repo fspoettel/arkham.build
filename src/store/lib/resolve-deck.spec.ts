@@ -30,7 +30,7 @@ describe("resolveDeck", () => {
     it("resolves originals", () => {
       const { metadata, lookupTables } = store.getState();
       const deck = deckInvestigatorOriginal;
-      const resolved = resolveDeck(metadata, lookupTables, deck, true);
+      const resolved = resolveDeck(metadata, lookupTables, deck);
       expect(resolved.investigatorFront.card.code).toEqual(
         deck.investigator_code,
       );
@@ -42,7 +42,7 @@ describe("resolveDeck", () => {
     it("resolves parallel front", () => {
       const { metadata, lookupTables } = store.getState();
       const deck = deckInvestigatorParallelFront;
-      const resolved = resolveDeck(metadata, lookupTables, deck, true);
+      const resolved = resolveDeck(metadata, lookupTables, deck);
       expect(resolved.investigatorFront.card.code).toEqual(
         resolved.metaParsed.alternate_front,
       );
@@ -54,7 +54,7 @@ describe("resolveDeck", () => {
     it("resolves parallel back", () => {
       const { metadata, lookupTables } = store.getState();
       const deck = deckInvestigatorParallelBack;
-      const resolved = resolveDeck(metadata, lookupTables, deck, true);
+      const resolved = resolveDeck(metadata, lookupTables, deck);
       expect(resolved.investigatorFront.card.code).toEqual(
         deck.investigator_code,
       );
@@ -66,7 +66,7 @@ describe("resolveDeck", () => {
     it("resolves parallel front and back", () => {
       const { metadata, lookupTables } = store.getState();
       const deck = deckInvestigatorParallelBoth;
-      const resolved = resolveDeck(metadata, lookupTables, deck, true);
+      const resolved = resolveDeck(metadata, lookupTables, deck);
 
       expect(resolved.investigatorFront.card.code).toEqual(
         resolved.metaParsed.alternate_front,
@@ -80,7 +80,7 @@ describe("resolveDeck", () => {
     it("normalizes meta.alternate_* to the base card", () => {
       const { metadata, lookupTables } = store.getState();
       const deck = deckInvestigatorReplacements;
-      const resolved = resolveDeck(metadata, lookupTables, deck, true);
+      const resolved = resolveDeck(metadata, lookupTables, deck);
 
       expect(resolved.investigatorFront.card.code).toEqual(
         resolved.investigator_code,
@@ -94,7 +94,7 @@ describe("resolveDeck", () => {
     it("normalizes alt art investigator_code to the base card", () => {
       const { metadata, lookupTables } = store.getState();
       const deck = deckCustomizable;
-      const resolved = resolveDeck(metadata, lookupTables, deck, true);
+      const resolved = resolveDeck(metadata, lookupTables, deck);
       expect(deck.investigator_code).toEqual("98010");
       expect(resolved.investigatorFront.card.code).toEqual("05001");
     });
@@ -104,7 +104,7 @@ describe("resolveDeck", () => {
     it("parses selected faction if defined", () => {
       const { metadata, lookupTables } = store.getState();
       const deck = deckFactionSelected;
-      const resolved = resolveDeck(metadata, lookupTables, deck, false);
+      const resolved = resolveDeck(metadata, lookupTables, deck);
       expect(resolved.selections).toMatchInlineSnapshot(`
         {
           "faction_selected": {
@@ -125,7 +125,7 @@ describe("resolveDeck", () => {
     it("parses multi faction selects if defined", () => {
       const { metadata, lookupTables } = store.getState();
       const deck = deckMultiFactionSelected;
-      const resolved = resolveDeck(metadata, lookupTables, deck, false);
+      const resolved = resolveDeck(metadata, lookupTables, deck);
       expect(resolved.selections).toMatchInlineSnapshot(`
         {
           "faction_1": {
@@ -163,7 +163,7 @@ describe("resolveDeck", () => {
 
       // parallel wendy deck with "both" selected.
       const deck = deckInvestigatorParallelBack;
-      const resolved = resolveDeck(metadata, lookupTables, deck, true);
+      const resolved = resolveDeck(metadata, lookupTables, deck);
 
       expect(resolved.selections).toMatchInlineSnapshot(`
         {
@@ -231,14 +231,14 @@ describe("resolveDeck", () => {
     it("sums up total card count, excluding side deck", () => {
       const { metadata, lookupTables } = store.getState();
       const deck = deckSizeAllSpecials;
-      const resolved = resolveDeck(metadata, lookupTables, deck, true);
+      const resolved = resolveDeck(metadata, lookupTables, deck);
       expect(resolved.stats.deckSizeTotal).toEqual(15);
     });
 
     it("calculates player card count correctly when replacement specials are used", () => {
       const { metadata, lookupTables } = store.getState();
       const deck = deckSizeAllSpecials;
-      const resolved = resolveDeck(metadata, lookupTables, deck, true);
+      const resolved = resolveDeck(metadata, lookupTables, deck);
       expect(resolved.stats).toMatchObject({
         deckSize: 1,
         deckSizeTotal: 15,
@@ -248,7 +248,7 @@ describe("resolveDeck", () => {
     it("calculates player card count correctly for parallel agnes", () => {
       const { metadata, lookupTables } = store.getState();
       const deck = deckSizeParallelAgnes;
-      const resolved = resolveDeck(metadata, lookupTables, deck, true);
+      const resolved = resolveDeck(metadata, lookupTables, deck);
       expect(resolved.stats).toMatchObject({
         deckSize: 2,
         deckSizeTotal: 9,
@@ -259,7 +259,7 @@ describe("resolveDeck", () => {
       const { metadata, lookupTables } = store.getState();
       const deck = structuredClone(deckSizeParallelAgnes);
       deck.slots["02154"] = 4;
-      const resolved = resolveDeck(metadata, lookupTables, deck, true);
+      const resolved = resolveDeck(metadata, lookupTables, deck);
       expect(resolved.stats).toMatchObject({
         deckSize: 4,
         deckSizeTotal: 11,
@@ -271,7 +271,7 @@ describe("resolveDeck", () => {
     it("parses the extra deck block", () => {
       const { metadata, lookupTables } = store.getState();
       const deck = deckExtraSlots;
-      const resolved = resolveDeck(metadata, lookupTables, deck, true);
+      const resolved = resolveDeck(metadata, lookupTables, deck);
       expect(resolved.extraSlots).toMatchInlineSnapshot(`
         {
           "01018": 1,
@@ -291,7 +291,7 @@ describe("resolveDeck", () => {
     it("adds the extra cards to the total deck size", () => {
       const { metadata, lookupTables } = store.getState();
       const deck = deckExtraSlots;
-      const resolved = resolveDeck(metadata, lookupTables, deck, true);
+      const resolved = resolveDeck(metadata, lookupTables, deck);
       expect(resolved.stats.deckSizeTotal).toEqual(45);
     });
   });
@@ -300,7 +300,7 @@ describe("resolveDeck", () => {
     it("parses card customizations if present", () => {
       const { metadata, lookupTables } = store.getState();
       const deck = deckCustomizable;
-      const resolved = resolveDeck(metadata, lookupTables, deck, true);
+      const resolved = resolveDeck(metadata, lookupTables, deck);
       expect(resolved.customizations).toMatchInlineSnapshot(`
         {
           "09021": {
@@ -513,7 +513,7 @@ describe("resolveDeck", () => {
       it("calculates experience correctly (exceptional, taboos)", () => {
         const { metadata, lookupTables } = store.getState();
         const deck = deckXpRequired;
-        const resolved = resolveDeck(metadata, lookupTables, deck, true);
+        const resolved = resolveDeck(metadata, lookupTables, deck);
         expect(resolved.stats).toMatchObject({
           xpRequired: 25,
         });
@@ -522,7 +522,7 @@ describe("resolveDeck", () => {
       it("counts customizable experience", () => {
         const { metadata, lookupTables } = store.getState();
         const deck = deckCustomizable;
-        const resolved = resolveDeck(metadata, lookupTables, deck, true);
+        const resolved = resolveDeck(metadata, lookupTables, deck);
         expect(resolved.stats).toMatchObject({
           xpRequired: 47,
         });

@@ -6,10 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useDialogContext } from "@/components/ui/dialog.hooks";
 import { Modal } from "@/components/ui/modal";
-import type { DisplayDeck } from "@/store/lib/deck-grouping";
+import type { ResolvedDeck } from "@/store/lib/types";
 
 type Props = {
-  deck: DisplayDeck;
+  deck: ResolvedDeck;
 };
 
 export function InvestigatorListcard(props: Props) {

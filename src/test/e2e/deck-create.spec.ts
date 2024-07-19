@@ -31,7 +31,7 @@ test("choose investigator via modal", async ({ page }) => {
   await page.getByTestId("search-input").fill("jenny barnes");
   await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
 
-  await page.getByTestId("cardlist-item-title").click();
+  await page.getByTestId("listcard-title").click();
   await expect(page.getByTestId("card-modal")).toBeVisible();
   await page.getByTestId("card-modal-create-deck").click();
 
@@ -172,7 +172,7 @@ test("select parallel investigator", async ({ page }) => {
 
   await page
     .getByTestId("listcard-90024")
-    .getByTestId("cardlist-item-title")
+    .getByTestId("listcard-title")
     .click();
 
   const cardModal = page.getByTestId("investigator-modal");

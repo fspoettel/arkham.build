@@ -5,7 +5,6 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Notice } from "@/components/ui/notice";
 import { useStore } from "@/store";
-import type { DisplayDeck } from "@/store/lib/deck-grouping";
 
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import {
@@ -14,11 +13,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/toast";
+import type { ResolvedDeck } from "@/store/lib/types";
 import { useHotKey } from "@/utils/use-hotkey";
 import css from "./sidebar.module.css";
 
 type Props = {
-  deck: DisplayDeck;
+  deck: ResolvedDeck;
 };
 
 export function SidebarActions(props: Props) {
@@ -120,7 +120,12 @@ export function SidebarActions(props: Props) {
         >
           <Pencil /> Edit
         </Button>
-        <Button data-testid="view-upgrade" disabled size="full">
+        <Button
+          data-testid="view-upgrade"
+          disabled
+          size="full"
+          tooltip="Not implemented yet."
+        >
           <i className="icon-xp-bold" /> Upgrade
         </Button>
         <Popover

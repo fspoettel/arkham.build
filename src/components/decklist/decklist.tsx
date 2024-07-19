@@ -1,31 +1,36 @@
-import type { DisplayDeck, NamedGrouping } from "@/store/lib/deck-grouping";
+import type { NamedGrouping } from "@/store/lib/deck-grouping";
 
 import css from "./decklist.module.css";
 
+import type { ResolvedDeck } from "@/store/lib/types";
 import { DecklistGroups } from "./decklist-groups";
 import { DecklistSection } from "./decklist-section";
 
 const LABELS: Record<string, string> = {
-  main: "Cards",
-  side: "Side deck",
-  bonded: "Bonded cards",
-  extra: "Extra deck",
+  slots: "Cards",
+  sideSlots: "Side deck",
+  bondedSlots: "Bonded cards",
+  extraSlots: "Extra deck",
 };
 
 type Props = {
-  deck: DisplayDeck;
+  deck: ResolvedDeck;
 };
 
-function getSlotsForGrouping(deck: DisplayDeck, grouping: NamedGrouping) {
-  if (grouping.id === "side") return deck.sideSlots ?? undefined;
-  if (grouping.id === "extra") return deck.extraSlots ?? undefined;
-  if (grouping.id === "bonded") return deck.bondedSlots;
-  return undefined;
+function getSlotsForGrouping(deck: ResolvedDeck, grouping: NamedGrouping) {
+  if (grouping.id === "sideSlots") return deck.sideSlots ?? undefined;
+  if (grouping.id === "extraSlots") return deck.extraSlots ?? undefined;
+  if (grouping.id === "bondedSlots") return deck.bondedSlots;
+  return deck.slots;
 }
 
 export function Decklist(props: Props) {
   const { deck } = props;
-  const cols = [deck.groups.side, deck.groups.extra, deck.groups.bonded]
+  const cols = [
+    deck.groups.sideSlots,
+    deck.groups.extraSlots,
+    deck.groups.bondedSlots,
+  ]
     .filter((col) => !!col)
     .map(
       (col) =>
@@ -46,7 +51,7 @@ export function Decklist(props: Props) {
       <div className={css["decklist"]}>
         <DecklistSection title={LABELS["main"]}>
           <DecklistGroups
-            group={deck.groups.main.data}
+            group={deck.groups.slots.data}
             ignoredCounts={deck.ignoreDeckLimitSlots ?? undefined}
             layout="two_column"
             mapping="slots"

@@ -48,7 +48,6 @@ export function useQuery<T>(query: Query<T> | undefined): State<T> {
   useEffect(() => {
     if (query && !state.loading && !state.data && !state.error) {
       dispatch({ type: "LOADING" });
-
       query()
         .then((data) => {
           dispatch({ type: "SUCCESS", payload: data });

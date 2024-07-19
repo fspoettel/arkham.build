@@ -2,7 +2,6 @@ import { cx } from "@/utils/cx";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 
-import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import {
   getRelatedCardQuantity,
   getRelatedCards,
@@ -11,6 +10,7 @@ import { formatRelationTitle } from "@/utils/formatting";
 
 import css from "./deck-investigator.module.css";
 
+import type { ResolvedDeck } from "@/store/lib/types";
 import { CardBack } from "./card/card-back";
 import { CardContainer } from "./card/card-container";
 import { CardFace } from "./card/card-face";
@@ -19,7 +19,7 @@ import { Button } from "./ui/button";
 
 type Props = {
   canToggleBack?: boolean;
-  deck: DisplayDeck;
+  deck: ResolvedDeck;
   showRelated?: boolean;
   size: "tooltip" | "full";
 };

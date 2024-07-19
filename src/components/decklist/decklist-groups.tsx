@@ -4,7 +4,6 @@ import { useMemo } from "react";
 import { useStore } from "@/store";
 import type { Grouping } from "@/store/lib/deck-grouping";
 import { sortByName, sortBySlots, sortTypesByOrder } from "@/store/lib/sorting";
-import { selectForbiddenCardsById } from "@/store/selectors/deck-view";
 import {
   selectCanCheckOwnership,
   selectCardOwnedCount,
@@ -12,10 +11,11 @@ import {
 import type { Card } from "@/store/services/queries.types";
 import type { Slot } from "@/store/slices/deck-edits.types";
 import { capitalize } from "@/utils/formatting";
-import { useDeckIdChecked } from "@/utils/use-deck-id";
 
 import css from "./decklist-groups.module.css";
 
+import { selectForbiddenCards } from "@/store/selectors/deck-view";
+import { useResolvedDeckChecked } from "@/utils/use-resolved-deck";
 import SlotIcon from "../icons/slot-icon";
 import { ListCard } from "../list-card/list-card";
 
@@ -104,18 +104,20 @@ export function DecklistGroups({
   );
 }
 
-function DecklistGroup({
-  cards,
-  ignoredCounts,
-  listCardSize,
-  mapping,
-  quantities,
-  renderListCardAfter,
-}: DecklistGroupProps) {
-  const ctx = useDeckIdChecked();
+function DecklistGroup(props: DecklistGroupProps) {
+  const {
+    cards,
+    ignoredCounts,
+    listCardSize,
+    mapping,
+    quantities,
+    renderListCardAfter,
+  } = props;
+
+  const ctx = useResolvedDeckChecked();
 
   const forbiddenCards = useStore((state) =>
-    selectForbiddenCardsById(state, ctx.deckId, ctx.canEdit),
+    selectForbiddenCards(state, ctx.resolvedDeck),
   );
 
   const cardOwnedCount = useStore(selectCardOwnedCount);
@@ -127,9 +129,9 @@ function DecklistGroup({
     if (!canEdit) return undefined;
 
     return (code: string, quantity: number) => {
-      updateCardQuantity(ctx.deckId, code, quantity, mapping as Slot);
+      updateCardQuantity(ctx.resolvedDeck.id, code, quantity, mapping as Slot);
     };
-  }, [updateCardQuantity, canEdit, ctx.deckId, mapping]);
+  }, [updateCardQuantity, canEdit, ctx.resolvedDeck.id, mapping]);
 
   return (
     <ol>

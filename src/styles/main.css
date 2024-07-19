@@ -160,6 +160,12 @@ img {
   font-family: var(--font-family-ui);
 }
 
+code {
+  background-color: var(--nord-1);
+  padding: 0.25em 0.325em;
+  border-radius: var(--rounded);
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -508,11 +514,6 @@ svg {
 
 .longform li + li {
   margin-top: 0.25em;
-}
-
-.longform code {
-  background-color: var(--nord-2);
-  padding: 0.125em;
 }
 
 .longform :not(:where(h1, h2, h3, h4, h5, h6)) a {

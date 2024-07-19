@@ -18,7 +18,7 @@ function CardView() {
   const { code } = useParams();
 
   const cardWithRelations = useStore((state) =>
-    selectCardWithRelations(state, code, true, undefined, false),
+    selectCardWithRelations(state, code, true, undefined),
   );
 
   useDocumentTitle(

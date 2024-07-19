@@ -9,26 +9,35 @@ import {
   SPECIAL_CARD_CODES,
 } from "@/utils/constants";
 
+import { randomId } from "@/utils/crypto";
 import { time, timeEnd } from "@/utils/time";
 import type { StoreState } from ".";
 import { mappedByCode, mappedById } from "../lib/metadata-utils";
+import { resolveDeck } from "../lib/resolve-deck";
 import { mapValidationToProblem } from "../lib/serialization/deck-io";
 import { encodeExtraSlots } from "../lib/serialization/slots";
 import type { DeckMeta } from "../lib/types";
 import { selectDeckCreateCardSets } from "../selectors/deck-create";
-import { selectDeckValidById } from "../selectors/deck-view";
+import { selectDeckValid } from "../selectors/deck-view";
+import type { AppSlice } from "./app.types";
+import { isLocalDeck } from "./data.types";
 import { makeLists } from "./lists";
 import { createLookupTables, createRelations } from "./lookup-tables";
 import { getInitialMetadata } from "./metadata";
 import type { Metadata } from "./metadata.types";
-import type { SharedSlice } from "./shared.types";
 
-export const createSharedSlice: StateCreator<
-  StoreState,
-  [],
-  [],
-  SharedSlice
-> = (set, get) => ({
+export function getInitialAppState() {
+  return {
+    clientId: "",
+  };
+}
+
+export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
+  set,
+  get,
+) => ({
+  app: getInitialAppState(),
+
   async init(queryMetadata, queryDataVersion, queryCards, refresh = false) {
     const state = get();
 
@@ -131,6 +140,9 @@ export const createSharedSlice: StateCreator<
     }
 
     set({
+      app: {
+        clientId: state.app.clientId || randomId(),
+      },
       metadata,
       lookupTables,
       ui: {
@@ -144,37 +156,6 @@ export const createSharedSlice: StateCreator<
 
     return true;
   },
-  saveDeck(deckId) {
-    const state = get();
-
-    const edits = state.deckEdits[deckId];
-
-    const deck = state.data.decks[deckId];
-    if (!deck) return deckId;
-
-    const nextDeck = applyDeckEdits(deck, edits, state.metadata, true);
-    nextDeck.date_update = new Date().toISOString();
-
-    const validation = selectDeckValidById(state, deckId);
-    nextDeck.problem = mapValidationToProblem(validation);
-
-    const deckEdits = { ...state.deckEdits };
-    delete deckEdits[deckId];
-
-    set({
-      deckEdits,
-      data: {
-        ...state.data,
-        decks: {
-          ...state.data.decks,
-          [nextDeck.id]: nextDeck,
-        },
-      },
-    });
-
-    return nextDeck.id;
-  },
-
   createDeck() {
     const state = get();
     assert(state.deckCreate, "DeckCreate state must be initialized.");
@@ -258,8 +239,7 @@ export const createSharedSlice: StateCreator<
 
     return deck.id;
   },
-
-  deleteDeck(id) {
+  async deleteDeck(id) {
     const state = get();
     const decks = { ...state.data.decks };
 
@@ -280,13 +260,19 @@ export const createSharedSlice: StateCreator<
     }
 
     delete history[id];
+
     set({
       data: { ...state.data, decks, history },
       deckEdits,
     });
+
+    if (isLocalDeck(deck)) {
+      // TODO: surface this error.
+      await state.deleteShare(deck.id).catch(console.error);
+    }
   },
 
-  deleteAllDecks() {
+  async deleteAllDecks() {
     const state = get();
 
     const decks = { ...state.data.decks };
@@ -304,5 +290,44 @@ export const createSharedSlice: StateCreator<
     set({
       data: { ...state.data, decks, history },
     });
+
+    // TODO: surface this error.
+    await state.deleteAllShares().catch(console.error);
+  },
+  async saveDeck(deckId) {
+    const state = get();
+
+    const edits = state.deckEdits[deckId];
+
+    const deck = state.data.decks[deckId];
+    if (!deck) return deckId;
+
+    const nextDeck = applyDeckEdits(deck, edits, state.metadata, true);
+    nextDeck.date_update = new Date().toISOString();
+
+    const resolved = resolveDeck(state.metadata, state.lookupTables, nextDeck);
+
+    const validation = selectDeckValid(state, resolved);
+    nextDeck.problem = mapValidationToProblem(validation);
+
+    const deckEdits = { ...state.deckEdits };
+    delete deckEdits[deckId];
+
+    set({
+      deckEdits,
+      data: {
+        ...state.data,
+        decks: {
+          ...state.data.decks,
+          [nextDeck.id]: nextDeck,
+        },
+      },
+    });
+
+    if (isLocalDeck(deck) && state.sharing.decks[deckId]) {
+      await state.updateShare(deck.id).catch(console.error);
+    }
+
+    return nextDeck.id;
   },
 });

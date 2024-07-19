@@ -12,7 +12,7 @@ type Props<T extends "a" | "button" | "summary" | "label"> =
     iconOnly?: boolean;
     variant?: "primary" | "secondary" | "bare";
     size?: "xs" | "sm" | "lg" | "full" | "none";
-    tooltip?: string;
+    tooltip?: React.ReactNode;
   };
 
 export const Button = forwardRef(function Button<

@@ -1,19 +1,19 @@
 import { useCallback, useEffect, useRef } from "react";
 
 import { useStore } from "@/store";
-import type { DisplayDeck } from "@/store/lib/deck-grouping";
-import { selectShowIgnoreDeckLimitSlotsById } from "@/store/selectors/deck-view";
 import type { Card } from "@/store/services/queries.types";
 import type { Slot } from "@/store/slices/deck-edits.types";
 
 import css from "./card-modal.module.css";
 
+import type { ResolvedDeck } from "@/store/lib/types";
+import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { QuantityInput } from "../ui/quantity-input";
 
 type Props = {
   card: Card;
   canEdit?: boolean;
-  deck?: DisplayDeck;
+  deck?: ResolvedDeck;
   showExtraQuantities?: boolean;
   onClickBackground?: () => void;
 };
@@ -75,12 +75,6 @@ export function CardModalQuantities(props: Props) {
     updateCardQuantity(deck.id, card.code, quantity, slot);
   };
 
-  const showIgnoreDeckLimitSlots = useStore((state) =>
-    deck
-      ? selectShowIgnoreDeckLimitSlotsById(state, deck.id, false, card)
-      : false,
-  );
-
   const code = card.code;
   const limit = card.deck_limit || card.quantity;
 
@@ -93,6 +87,7 @@ export function CardModalQuantities(props: Props) {
         <article className={css["quantity"]}>
           <h3>Deck</h3>
           <QuantityInput
+            data-testid="card-modal-quantities-main"
             disabled={!canEdit}
             limit={limit + (ignoreDeckLimitQuantities?.[code] ?? 0)}
             onValueChange={(quantity) => onChangeQuantity(quantity, "slots")}
@@ -104,6 +99,7 @@ export function CardModalQuantities(props: Props) {
         <article className={css["quantity"]}>
           <h3>Side deck</h3>
           <QuantityInput
+            data-testid="card-modal-quantities-side"
             disabled={isBonded || !canEdit}
             limit={limit}
             onValueChange={(quantity) =>
@@ -118,6 +114,7 @@ export function CardModalQuantities(props: Props) {
           <h3>Bonded</h3>
           <QuantityInput
             disabled
+            data-testid="card-modal-quantities-bonded"
             limit={limit}
             value={bondedSlotQuantities[code]}
           />
@@ -127,6 +124,7 @@ export function CardModalQuantities(props: Props) {
         <article className={css["quantity"]}>
           <h3>Spirits</h3>
           <QuantityInput
+            data-testid="card-modal-quantities-extra"
             disabled={!canEdit}
             limit={limit}
             onValueChange={(quantity) =>
@@ -136,10 +134,11 @@ export function CardModalQuantities(props: Props) {
           />
         </article>
       )}
-      {!isBonded && showIgnoreDeckLimitSlots && (
+      {!isBonded && showIgnoreDeckLimitSlots(deck, card) && (
         <article className={css["quantity"]}>
           <h3>Ignore deck limit</h3>
           <QuantityInput
+            data-testid="card-modal-quantities-ignored"
             disabled={!canEdit}
             limit={limit}
             onValueChange={(quantity) =>
@@ -150,5 +149,25 @@ export function CardModalQuantities(props: Props) {
         </article>
       )}
     </div>
+  );
+}
+
+function showIgnoreDeckLimitSlots(deck: ResolvedDeck | undefined, card: Card) {
+  if (!deck) return false;
+
+  const traits = card.real_traits ?? "";
+  const investigator = deck.investigatorBack.card.code;
+
+  return (
+    // cards that are already ignored.
+    !!deck.ignoreDeckLimitSlots?.[card.code] ||
+    // parallel agnes & spells
+    (investigator === SPECIAL_CARD_CODES.PARALLEL_AGNES &&
+      traits.includes("Spell")) ||
+    // parallel skids & gambit / fortune
+    (investigator === SPECIAL_CARD_CODES.PARALLEL_SKIDS &&
+      (traits.includes("Gambit") || traits.includes("Fortunes"))) ||
+    // ace of rods
+    card.code === SPECIAL_CARD_CODES.ACE_OF_RODS
   );
 }

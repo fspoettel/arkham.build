@@ -16,7 +16,7 @@ import {
   filterInvestigatorWeaknessAccess,
   makeOptionFilter,
 } from "./filtering";
-import type { ResolvedCard, ResolvedDeck } from "./types";
+import type { ResolvedDeck } from "./types";
 
 export type DeckValidationResult = {
   valid: boolean;
@@ -99,9 +99,7 @@ function formatReturnValue(errors: Error[]) {
   return { valid: errors.length === 0, errors };
 }
 
-export function getAdditionalDeckOptions(
-  deck: Deck | ResolvedDeck<ResolvedCard>,
-) {
+export function getAdditionalDeckOptions(deck: Deck | ResolvedDeck) {
   const additionalDeckOptions: DeckOption[] = [];
 
   if (deck.slots[SPECIAL_CARD_CODES.VERSATILE]) {
@@ -126,7 +124,7 @@ export function getAdditionalDeckOptions(
 }
 
 export function validateDeck(
-  deck: ResolvedDeck<ResolvedCard>,
+  deck: ResolvedDeck,
   state: StoreState,
 ): DeckValidationResult {
   time("validate_deck");
@@ -152,7 +150,7 @@ export function validateDeck(
   return formatReturnValue(errors);
 }
 
-function validateInvestigator(deck: ResolvedDeck<ResolvedCard>) {
+function validateInvestigator(deck: ResolvedDeck) {
   const investigatorBack = deck.investigatorBack.card;
 
   if (!investigatorBack.deck_options) return false;
@@ -184,7 +182,7 @@ const SIZE_ADJUSTMENTS = {
   [SPECIAL_CARD_CODES.VERSATILE]: 5,
 };
 
-function validateDeckSize(deck: ResolvedDeck<ResolvedCard>): Error[] {
+function validateDeckSize(deck: ResolvedDeck): Error[] {
   const investigatorBack = deck.investigatorBack.card;
 
   let investigatorDeckSize = investigatorBack.deck_requirements?.size ?? 0;
@@ -226,7 +224,7 @@ function validateDeckSize(deck: ResolvedDeck<ResolvedCard>): Error[] {
     : [];
 }
 
-function validateExtraDeckSize(deck: ResolvedDeck<ResolvedCard>): Error[] {
+function validateExtraDeckSize(deck: ResolvedDeck): Error[] {
   const investigatorBack = deck.investigatorBack.card;
 
   // FIXME: this is a hack. Instead, we should not count signatures towards side deck size.
@@ -246,7 +244,7 @@ function validateExtraDeckSize(deck: ResolvedDeck<ResolvedCard>): Error[] {
 }
 
 function validateSlots(
-  deck: ResolvedDeck<ResolvedCard>,
+  deck: ResolvedDeck,
   state: StoreState,
   mode: "slots" | "extraSlots" = "slots",
 ): Error[] {
@@ -309,7 +307,7 @@ class DeckLimitsValidator implements SlotValidator {
   quantityByName: Record<string, number> = {};
   ignoreDeckLimitSlots: Record<string, number> = {};
 
-  constructor(deck: ResolvedDeck<ResolvedCard>) {
+  constructor(deck: ResolvedDeck) {
     this.ignoreDeckLimitSlots = deck.ignoreDeckLimitSlots ?? {};
 
     if (deck.slots[SPECIAL_CARD_CODES.UNDERWORLD_SUPPORT]) {
@@ -392,10 +390,7 @@ class DeckRequiredCardsValidator implements SlotValidator {
   cards: Card[] = [];
   quantities: number[] = [];
 
-  constructor(
-    deck: ResolvedDeck<ResolvedCard>,
-    mode: "slots" | "extraSlots" = "slots",
-  ) {
+  constructor(deck: ResolvedDeck, mode: "slots" | "extraSlots" = "slots") {
     const investigatorBack = deck.investigatorBack.card;
 
     const accessor =
@@ -453,7 +448,7 @@ class DeckOptionsValidator implements SlotValidator {
   weaknessFilter: (card: Card) => boolean;
 
   constructor(
-    deck: ResolvedDeck<ResolvedCard>,
+    deck: ResolvedDeck,
     state: StoreState,
     mode: "slots" | "extraSlots" = "slots",
   ) {
@@ -478,7 +473,7 @@ class DeckOptionsValidator implements SlotValidator {
   }
 
   configure(
-    deck: ResolvedDeck<ResolvedCard>,
+    deck: ResolvedDeck,
     mode: "slots" | "extraSlots",
   ): {
     config: InvestigatorAccessConfig;

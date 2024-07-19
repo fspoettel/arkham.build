@@ -1,3 +1,4 @@
+import path from "node:path";
 import { type Locator, type Page, expect } from "@playwright/test";
 
 export async function importDeck(page: Page) {
@@ -30,4 +31,40 @@ export async function waitForImagesLoaded(locator: Page | Locator) {
       await expect(image).not.toHaveJSProperty("naturalWidth", 0);
     }
   }
+}
+
+export async function importDeckFromFile(page: Page, deckPath: string) {
+  await page.goto("/");
+
+  const fileChooserPromise = page.waitForEvent("filechooser");
+
+  await page.getByTestId("collection-more-actions").click();
+  await page.getByTestId("collection-import-file").click();
+
+  const fileChooser = await fileChooserPromise;
+  await fileChooser.setFiles([
+    path.join(process.cwd(), "src/test/fixtures/decks", deckPath),
+  ]);
+}
+
+export async function shareDeck(page: Page) {
+  await importDeck(page);
+
+  const deckNode = page.getByTestId("collection-deck");
+  await deckNode.click();
+
+  await expect(page).toHaveURL(/\/deck\/view/);
+
+  await page.getByTestId("share-create").click();
+
+  await expect(page.getByTestId("share-link")).toBeVisible();
+
+  await page.waitForTimeout(1000);
+
+  await page.$eval("a[target=_blank]", (el) => {
+    el.removeAttribute("target");
+  });
+
+  await page.getByTestId("share-link").click();
+  await expect(page).toHaveURL(/\/share/);
 }

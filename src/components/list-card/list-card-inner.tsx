@@ -150,7 +150,7 @@ export function ListCardInner(props: Props) {
                   onClick={disableModalOpen ? undefined : openModal}
                   tabIndex={-1}
                   type="button"
-                  data-testid="cardlist-item-title"
+                  data-testid="listcard-title"
                 >
                   {card.real_name}
                 </button>
@@ -178,7 +178,10 @@ export function ListCardInner(props: Props) {
               {ignoredCount > 0 && (
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className={css["ignored"]}>
+                    <span
+                      className={css["ignored"]}
+                      data-testid="listcard-ignored"
+                    >
                       <Star />
                     </span>
                   </TooltipTrigger>

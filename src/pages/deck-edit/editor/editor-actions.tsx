@@ -5,14 +5,14 @@ import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import { useStore } from "@/store";
-import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import { useAccentColor } from "@/utils/use-accent-color";
 
+import type { ResolvedDeck } from "@/store/lib/types";
 import { useHotKey } from "@/utils/use-hotkey";
 import css from "./editor.module.css";
 
 type Props = {
-  deck: DisplayDeck;
+  deck: ResolvedDeck;
 };
 
 export function EditorActions(props: Props) {
@@ -29,8 +29,8 @@ export function EditorActions(props: Props) {
   const saveDeck = useStore((state) => state.saveDeck);
 
   const onSave = useCallback(
-    (stayOnPage?: boolean) => {
-      const id = saveDeck(deck.id);
+    async (stayOnPage?: boolean) => {
+      const id = await saveDeck(deck.id);
 
       if (!stayOnPage) navigate(`/deck/view/${id}`);
 

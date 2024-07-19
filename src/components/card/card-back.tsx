@@ -50,8 +50,6 @@ export function CardBack(props: Props) {
     backCard.illustrator &&
     backCard.illustrator !== card.illustrator;
 
-  console.log(card.illustrator, backCard.illustrator);
-
   return (
     <article
       className={cx(
@@ -63,6 +61,7 @@ export function CardBack(props: Props) {
         css[size],
         className,
       )}
+      data-testid="card-back"
       {...rest}
     >
       {hasHeader && <CardHeader card={backCard} />}

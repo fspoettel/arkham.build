@@ -8,13 +8,12 @@ import {
   getRelatedCards,
 } from "@/store/lib/resolve-card";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
-import { selectActiveDeckById } from "@/store/selectors/deck-view";
 import { formatRelationTitle } from "@/utils/formatting";
-import { useDeckId } from "@/utils/use-deck-id";
 import { useMedia } from "@/utils/use-media";
 
 import css from "./card-modal.module.css";
 
+import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { Card } from "../card/card";
 import { CardSet } from "../cardset";
 import { Customizations } from "../customizations/customizations";
@@ -29,9 +28,8 @@ type Props = {
 };
 
 export function CardModal(props: Props) {
-  const deckIdCtx = useDeckId();
-  const deckId = deckIdCtx.deckId;
-  const canEdit = deckIdCtx.canEdit;
+  const ctx = useResolvedDeck();
+  const canEdit = ctx.canEdit;
 
   const modalContext = useDialogContext();
 
@@ -39,19 +37,14 @@ export function CardModal(props: Props) {
     modalContext?.setOpen(false);
   }, [modalContext]);
 
-  // we need the active deck here to get contents of bondedSlots.
-  const activeDeck = useStore((state) =>
-    deckId ? selectActiveDeckById(state, deckId, canEdit) : undefined,
-  );
-
   const cardWithRelations = useStore((state) =>
-    selectCardWithRelations(state, props.code, true, deckId, canEdit),
+    selectCardWithRelations(state, props.code, true, ctx.resolvedDeck),
   );
 
   const showQuantities =
-    !!activeDeck && cardWithRelations?.card.type_code !== "investigator";
+    !!ctx.resolvedDeck && cardWithRelations?.card.type_code !== "investigator";
 
-  const showExtraQuantities = activeDeck?.hasExtraDeck;
+  const showExtraQuantities = ctx.resolvedDeck?.hasExtraDeck;
 
   const canRenderFull = useMedia("(min-width: 45rem)");
 
@@ -66,11 +59,11 @@ export function CardModal(props: Props) {
         size={canRenderFull ? "full" : "compact"}
       >
         {cardWithRelations.card.customization_options ? (
-          activeDeck ? (
+          ctx.resolvedDeck ? (
             <CustomizationsEditor
               canEdit={canEdit}
               card={cardWithRelations.card}
-              deck={activeDeck}
+              deck={ctx.resolvedDeck}
             />
           ) : (
             <Customizations card={cardWithRelations.card} />
@@ -135,7 +128,7 @@ export function CardModal(props: Props) {
             <CardModalQuantities
               canEdit={canEdit}
               card={cardWithRelations.card}
-              deck={activeDeck}
+              deck={ctx.resolvedDeck}
               onClickBackground={onCloseModal}
               showExtraQuantities={showExtraQuantities}
             />

@@ -19,8 +19,6 @@ export function CardHeader(props: Props) {
   const { card, className, linked } = props;
   const colorCls = getCardColor(card, "background");
 
-  console.log(linked);
-
   return (
     <header className={cx(css["header"], colorCls, className)}>
       <div className={css["header-row"]}>

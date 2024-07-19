@@ -2,18 +2,17 @@ import { cx } from "@/utils/cx";
 import { useCallback } from "react";
 
 import { useStore } from "@/store";
-import type { ResolvedCard, ResolvedDeck } from "@/store/lib/types";
+import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import type { CustomizationEdit } from "@/store/slices/deck-edits.types";
 import { getCardColor } from "@/utils/card-utils";
-import { useDeckId } from "@/utils/use-deck-id";
 
 import css from "./customizations.module.css";
 
 import { CustomizationOption } from "./customization-option";
 
 type Props = {
-  deck?: ResolvedDeck<ResolvedCard>;
+  deck?: ResolvedDeck;
   card: Card;
   canEdit?: boolean;
 };
@@ -21,7 +20,6 @@ type Props = {
 export function CustomizationsEditor(props: Props) {
   const { deck, card, canEdit } = props;
 
-  const deckIdCtx = useDeckId();
   const updateCustomization = useStore((state) => state.updateCustomization);
   const backgroundCls = getCardColor(card, "background");
 
@@ -32,10 +30,10 @@ export function CustomizationsEditor(props: Props) {
 
   const onChangeCustomization = useCallback(
     (index: number, edit: CustomizationEdit) => {
-      if (!deckIdCtx.deckId) return;
-      updateCustomization(deckIdCtx.deckId, card.code, index, edit);
+      if (!deck) return;
+      updateCustomization(deck.id, card.code, index, edit);
     },
-    [card.code, updateCustomization, deckIdCtx.deckId],
+    [card.code, updateCustomization, deck],
   );
 
   if (!options || !text) return null;
@@ -46,7 +44,10 @@ export function CustomizationsEditor(props: Props) {
   );
 
   return (
-    <article className={css["customizations"]}>
+    <article
+      className={css["customizations"]}
+      data-testid="customizations-editor"
+    >
       <header className={cx(css["header"], backgroundCls)}>
         <h3>Customizations</h3>
       </header>

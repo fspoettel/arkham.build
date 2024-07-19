@@ -1,8 +1,5 @@
-import { cx } from "@/utils/cx";
-
 import { DeckInvestigator } from "@/components/deck-investigator";
 import { FactionIcon } from "@/components/icons/faction-icon";
-import type { DisplayDeck } from "@/store/lib/deck-grouping";
 import {
   capitalize,
   formatSelectionId,
@@ -11,20 +8,32 @@ import {
 
 import css from "./sidebar.module.css";
 
+import { Button } from "@/components/ui/button";
+import type { ResolvedDeck } from "@/store/lib/types";
+import { cx } from "@/utils/cx";
+import { Import } from "lucide-react";
+import { Sharing } from "./sharing";
 import { SidebarActions } from "./sidebar-actions";
 
 type Props = {
   className?: string;
-  deck: DisplayDeck;
+  deck: ResolvedDeck;
+  owned?: boolean;
 };
 
 export function Sidebar(props: Props) {
-  const { className, deck } = props;
+  const { className, deck, owned } = props;
+
   return (
     <div className={cx(css["container"], className)}>
       <DeckInvestigator deck={deck} size="tooltip" />
-      <SidebarActions deck={deck} />
-
+      {owned ? (
+        <SidebarActions deck={deck} />
+      ) : (
+        <Button size="full">
+          <Import /> Import deck to collection
+        </Button>
+      )}
       <ul className={css["details"]}>
         <li className={css["detail"]} data-testid="view-deck-size">
           <div className={css["detail-label"]}>
@@ -57,15 +66,30 @@ export function Sidebar(props: Props) {
 
         {!!deck.selections &&
           Object.entries(deck.selections).map(([key, selection]) => (
-            <li className={css["detail"]} key={key}>
-              <div className={css["detail-label"]}>
+            <li
+              className={css["detail"]}
+              key={key}
+              data-testid={`selection-${key}`}
+            >
+              <div
+                className={css["detail-label"]}
+                data-testid={`selection-${key}-label`}
+              >
                 {formatSelectionId(key)}
               </div>
               {selection.type === "deckSize" && (
-                <p className={css["detail-value"]}>{selection.value}</p>
+                <p
+                  className={css["detail-value"]}
+                  data-testid={`selection-${key}-value`}
+                >
+                  {selection.value}
+                </p>
               )}
               {selection.type === "faction" && (
-                <p className={css["detail-value"]}>
+                <p
+                  className={css["detail-value"]}
+                  data-testid={`selection-${key}-value`}
+                >
                   {selection.value ? (
                     <>
                       <FactionIcon code={selection.value} />
@@ -77,13 +101,18 @@ export function Sidebar(props: Props) {
                 </p>
               )}
               {selection.type === "option" && (
-                <p className={css["detail-value"]}>
+                <p
+                  className={css["detail-value"]}
+                  data-testid={`selection-${key}-value`}
+                >
                   {selection.value?.name ?? "None"}
                 </p>
               )}
             </li>
           ))}
       </ul>
+
+      {owned && <Sharing deck={deck} />}
     </div>
   );
 }

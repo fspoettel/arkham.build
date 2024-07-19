@@ -4,11 +4,11 @@ import { resolveDeck } from "@/store/lib/resolve-deck";
 
 import { time, timeEnd } from "@/utils/time";
 import { sortAlphabetical } from "../lib/sorting";
-import type { ResolvedCard, ResolvedDeck } from "../lib/types";
+import type { ResolvedDeck } from "../lib/types";
 import type { StoreState } from "../slices";
 import type { Id } from "../slices/data.types";
 import type { EditState } from "../slices/deck-edits.types";
-import { selectActiveDeckById } from "./deck-view";
+import { selectResolvedDeckById } from "./deck-view";
 
 export const selectLocalDecks = createSelector(
   (state: StoreState) => state.data,
@@ -19,25 +19,26 @@ export const selectLocalDecks = createSelector(
 
     const { history } = data;
 
-    const resolvedDecks = Object.keys(history).reduce<
-      ResolvedDeck<ResolvedCard>[]
-    >((acc, id) => {
-      const deck = data.decks[id];
+    const resolvedDecks = Object.keys(history).reduce<ResolvedDeck[]>(
+      (acc, id) => {
+        const deck = data.decks[id];
 
-      try {
-        if (deck) {
-          const resolved = resolveDeck(metadata, lookupTables, deck, false);
-          acc.push(resolved);
-        } else {
-          console.warn(`Could not find deck ${id} in local storage.`);
+        try {
+          if (deck) {
+            const resolved = resolveDeck(metadata, lookupTables, deck);
+            acc.push(resolved);
+          } else {
+            console.warn(`Could not find deck ${id} in local storage.`);
+          }
+        } catch (err) {
+          console.error(`Error resolving deck ${id}: ${err}`);
+          return acc;
         }
-      } catch (err) {
-        console.error(`Error resolving deck ${id}: ${err}`);
-        return acc;
-      }
 
-      return acc;
-    }, []);
+        return acc;
+      },
+      [],
+    );
 
     resolvedDecks.sort((a, b) =>
       sortAlphabetical(b.date_update, a.date_update),
@@ -54,7 +55,7 @@ export function selectCurrentCardQuantity(
   code: string,
   key: keyof EditState["quantities"],
 ) {
-  const deck = selectActiveDeckById(state, deckId, true);
+  const deck = selectResolvedDeckById(state, deckId, true);
   return deck?.[key]?.[code] ?? 0;
 }
 
@@ -62,6 +63,6 @@ export function selectCurrentInvestigatorFactionCode(
   state: StoreState,
   deckId: Id,
 ) {
-  const deck = selectActiveDeckById(state, deckId, true);
+  const deck = selectResolvedDeckById(state, deckId, true);
   return deck?.cards.investigator.card.faction_code;
 }

@@ -50,6 +50,7 @@ export function CustomizationOption(props: Props) {
   return (
     <div
       className={css["customization"]}
+      data-testid={`customization-${index}`}
       style={cssVariables as React.CSSProperties}
     >
       <div className={css["checks"]}>
@@ -57,6 +58,7 @@ export function CustomizationOption(props: Props) {
           range(0, option.xp).map((i) => (
             <Checkbox
               checked={i < xpSpent}
+              data-testid={`customization-${index}-xp-${i}`}
               disabled={disabled}
               hideLabel
               id={id}

@@ -14,10 +14,10 @@ import {
 import type { Card } from "@/store/services/queries.types";
 import type { Slots } from "@/store/slices/data.types";
 import { range } from "@/utils/range";
-import { useDeckId } from "@/utils/use-deck-id";
 
 import css from "./card-list.module.css";
 
+import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { useCardModalContext } from "../card-modal/card-modal-context";
 import { Footer } from "../footer";
 import { ListCard } from "../list-card/list-card";
@@ -50,10 +50,10 @@ export function CardList(props: Props) {
   } = props;
 
   const modalContext = useCardModalContext();
-  const deckIdCtx = useDeckId();
+  const ctx = useResolvedDeck();
 
   const data = useStore((state) =>
-    selectListCards(state, deckIdCtx.deckId, deckIdCtx.canEdit, targetDeck),
+    selectListCards(state, ctx.resolvedDeck, targetDeck),
   );
 
   const search = useStore(selectActiveListSearch);

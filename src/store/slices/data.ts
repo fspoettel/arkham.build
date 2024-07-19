@@ -2,19 +2,17 @@ import type { StateCreator } from "zustand";
 
 import { assert } from "@/utils/assert";
 
+import { randomId } from "@/utils/crypto";
 import { download } from "@/utils/download";
 import type { StoreState } from ".";
-import { randomId } from "../lib/deck-factory";
 import {
   formatDeckAsText,
   formatDeckExport,
   formatDeckImport,
 } from "../lib/serialization/deck-io";
-import {
-  selectActiveDeckById,
-  selectDeckValidById,
-} from "../selectors/deck-view";
-import { queryDeck } from "../services/queries";
+import { selectResolvedDeckById } from "../selectors/deck-view";
+import { selectClientId } from "../selectors/shared";
+import { importDeck } from "../services/queries";
 import { type DataSlice, type Deck, type Id, isDeck } from "./data.types";
 
 export function getInitialDataState() {
@@ -35,7 +33,8 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
   async importDeck(input) {
     const state = get();
 
-    const { data, type } = await queryDeck(input);
+    const { data, type } = await importDeck(selectClientId(state), input);
+
     const deck = formatDeckImport(state, data, type);
 
     set({
@@ -136,9 +135,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
     const deck = state.data.decks[id];
     assert(deck, `Deck ${id} does not exist.`);
 
-    const validationResult = selectDeckValidById(state, id);
-
-    const deckExport = formatDeckExport(deck, validationResult);
+    const deckExport = formatDeckExport(deck);
 
     download(
       JSON.stringify(deckExport, null, 2),
@@ -149,7 +146,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
   exportText(id) {
     const state = get();
 
-    const deck = selectActiveDeckById(state, id);
+    const deck = selectResolvedDeckById(state, id);
     assert(deck, `Deck ${id} does not exist.`);
 
     download(

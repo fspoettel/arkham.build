@@ -6,7 +6,13 @@ import type {
 
 import type { Id } from "./data.types";
 
-export type SharedSlice = {
+export type AppState = {
+  clientId: string;
+};
+
+export type AppSlice = {
+  app: AppState;
+
   init(
     queryMetadata: () => Promise<MetadataResponse>,
     queryDataVersion: () => Promise<DataVersionResponse>,
@@ -16,8 +22,8 @@ export type SharedSlice = {
 
   createDeck(): string | number;
 
-  saveDeck(deckId: Id): void;
-  deleteDeck(id: Id): void;
+  saveDeck(deckId: Id): Promise<Id>;
 
-  deleteAllDecks(): void;
+  deleteDeck(id: Id): Promise<void>;
+  deleteAllDecks(): Promise<void>;
 };

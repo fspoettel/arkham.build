@@ -25,6 +25,7 @@ const Settings = lazy(() => import("./pages/settings/settings"));
 const CardView = lazy(() => import("./pages/card-view/card-view"));
 const CardViewUsable = lazy(() => import("./pages/card-view/usable-cards"));
 const About = lazy(() => import("./pages/about/about"));
+const Share = lazy(() => import("./pages/share/share"));
 
 function App() {
   const storeHydrated = useStore((state) => state.ui.hydrated);
@@ -61,6 +62,7 @@ function App() {
                 <Route component={DeckEdit} path="/deck/edit/:id" />
                 <Route component={Settings} path="/settings" />
                 <Route component={About} path="/about" />
+                <Route component={Share} path="/share/:id" />
                 <Route component={Error404} path="*" />
               </Switch>
               <RouteReset />
