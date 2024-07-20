@@ -4,7 +4,7 @@ import { useBrowserLocation } from "wouter/use-browser-location";
 
 import { ErrorBoundary } from "./components/error-boundary";
 import { Loader } from "./components/ui/loader";
-import { ToastProvider } from "./components/ui/toast";
+import { ToastProvider, useToast } from "./components/ui/toast";
 import { Error404 } from "./pages/errors/404";
 import { useStore } from "./store";
 import { selectIsInitialized } from "./store/selectors/shared";
@@ -28,49 +28,74 @@ const About = lazy(() => import("./pages/about/about"));
 const Share = lazy(() => import("./pages/share/share"));
 
 function App() {
+  return (
+    <Providers>
+      <AppInner />
+    </Providers>
+  );
+}
+
+function Providers(props: { children: React.ReactNode }) {
+  return (
+    <ErrorBoundary>
+      <ToastProvider>{props.children}</ToastProvider>
+    </ErrorBoundary>
+  );
+}
+
+function AppInner() {
+  const toast = useToast();
   const storeHydrated = useStore((state) => state.ui.hydrated);
   const storeInitialized = useStore(selectIsInitialized);
   const init = useStore((state) => state.init);
 
   useEffect(() => {
-    if (storeHydrated)
-      init(queryMetadata, queryDataVersion, queryCards, false).catch(
-        console.error,
-      );
-  }, [storeHydrated, init]);
+    async function initStore() {
+      if (storeHydrated) {
+        try {
+          await init(queryMetadata, queryDataVersion, queryCards, false);
+        } catch (err) {
+          toast.show({
+            children: `Failed to initialize card database: ${(err as Error)?.message}`,
+            variant: "error",
+          });
+        }
+      }
+    }
+
+    initStore().catch(console.error);
+  }, [storeHydrated, init, toast.show]);
 
   return (
-    <ErrorBoundary>
-      <ToastProvider>
-        <Loader
-          message="Initializing card database..."
-          show={storeHydrated && !storeInitialized}
-        />
-        <Suspense fallback={<Loader delay={200} show />}>
-          {storeInitialized && (
-            <Router hook={useBrowserLocation}>
-              <Switch>
-                <Route component={Browse} path="/" />
-                <Route component={CardView} path="/card/:code" />
-                <Route
-                  component={CardViewUsable}
-                  path="/card/:code/usable_cards"
-                />
-                <Route component={ChooseInvestigator} path="/deck/create" />
-                <Route component={DeckCreate} path="/deck/create/:code" />
-                <Route component={DeckView} path="/deck/view/:id" />
-                <Route component={DeckEdit} path="/deck/edit/:id" />
-                <Route component={Settings} path="/settings" />
-                <Route component={About} path="/about" />
-                <Route component={Share} path="/share/:id" />
-                <Route component={Error404} path="*" />
-              </Switch>
-              <RouteReset />
-            </Router>
-          )}
-        </Suspense>
-      </ToastProvider>
-    </ErrorBoundary>
+    <>
+      <Loader
+        message="Initializing card database..."
+        show={storeHydrated && !storeInitialized}
+      />
+      <Suspense fallback={<Loader delay={200} show />}>
+        {storeInitialized && (
+          <Router hook={useBrowserLocation}>
+            <Switch>
+              <Route component={Browse} path="/" />
+              <Route component={CardView} path="/card/:code" />
+              <Route
+                component={CardViewUsable}
+                path="/card/:code/usable_cards"
+              />
+              <Route component={ChooseInvestigator} path="/deck/create" />
+              <Route component={DeckCreate} path="/deck/create/:code" />
+              <Route component={DeckView} path="/deck/view/:id" />
+              <Route component={DeckEdit} path="/deck/edit/:id" />
+              <Route component={Settings} path="/settings" />
+              <Route component={About} path="/about" />
+              <Route component={Share} path="/share/:id" />
+              <Route component={Error404} path="*" />
+            </Switch>
+            <RouteReset />
+          </Router>
+        )}
+      </Suspense>
+    </>
   );
 }
 
