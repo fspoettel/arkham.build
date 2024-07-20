@@ -16,6 +16,7 @@ import extraSlotsTooManyCards from "@/test/fixtures/decks/validation/extra_slots
 import extraSlotsTooManyCopies from "@/test/fixtures/decks/validation/extra_slots_too_many_copies.json";
 import extraSlotsValid from "@/test/fixtures/decks/validation/extra_slots_valid.json";
 import forcedLearning from "@/test/fixtures/decks/validation/forced_learning.json";
+import lilyChenValid from "@/test/fixtures/decks/validation/lily_chen_valid.json";
 import limitCarolyn from "@/test/fixtures/decks/validation/limit_carolyn.json";
 import limitCarolynInvalid from "@/test/fixtures/decks/validation/limit_carolyn_invalid.json";
 import limitCarolynVersatile from "@/test/fixtures/decks/validation/limit_carolyn_versatile.json";
@@ -920,6 +921,13 @@ describe("deck validation", () => {
           },
         ]
       `);
+    });
+  });
+
+  describe("lily chen", () => {
+    it("handles case: lily chen, valid", () => {
+      const result = validate(store, lilyChenValid);
+      expect(result.valid).toBeTruthy();
     });
   });
 });

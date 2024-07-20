@@ -326,7 +326,7 @@ class DeckLimitsValidator implements SlotValidator {
   }
 
   add(card: Card, quantity: number) {
-    const name = `${card.real_name}${card.real_subname}`;
+    const name = `${card.real_name}${card.real_subname ?? ""}`;
 
     if (card.xp == null && card.subtype_code !== "basicweakness") {
       if (
@@ -342,7 +342,11 @@ class DeckLimitsValidator implements SlotValidator {
             real_name: card.real_name,
           };
         }
-      } else if (quantity !== (card.quantity ?? 0)) {
+        // FIXME: validate that lily chen's signatures are pairs.
+      } else if (
+        card.code !== SPECIAL_CARD_CODES.BURDEN_OF_DESTINY &&
+        quantity !== (card.quantity ?? 0)
+      ) {
         this.violations[name] = {
           code: card.code,
           limit: card.quantity,
