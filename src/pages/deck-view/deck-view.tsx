@@ -1,4 +1,4 @@
-import { Redirect, useParams } from "wouter";
+import { useParams } from "wouter";
 
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { useStore } from "@/store";
@@ -10,12 +10,15 @@ import {
 import { DeckDisplay } from "@/components/deck-display/deck-display";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
+import { Error404 } from "../errors/404";
 
 function DeckView() {
   const { id } = useParams<{ id: string }>();
   const resolvedDeck = useStore((state) => selectResolvedDeckById(state, id));
 
-  if (!resolvedDeck) return <Redirect to="/404" />;
+  if (!resolvedDeck) {
+    return <Error404 />;
+  }
 
   return (
     <ResolvedDeckProvider resolvedDeck={resolvedDeck}>

@@ -1,6 +1,6 @@
 import { Undo } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { Redirect, useParams } from "wouter";
+import { useParams } from "wouter";
 
 import { ListLayout } from "@//layouts/list-layout";
 import { CardList } from "@/components/card-list/card-list";
@@ -22,6 +22,7 @@ import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 
 import type { ResolvedDeck } from "@/store/lib/types";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
+import { Error404 } from "../errors/404";
 import css from "./deck-edit.module.css";
 
 function DeckEdit() {
@@ -76,7 +77,7 @@ function DeckEdit() {
   }, [setActiveList, resetFilters]);
 
   if (id && !deck) {
-    return <Redirect to="/404" />;
+    return <Error404 />;
   }
 
   if (!deck || !activeListId?.startsWith("editor")) return null;

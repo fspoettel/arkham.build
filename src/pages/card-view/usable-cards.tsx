@@ -2,7 +2,8 @@ import { ListLayoutNoSidebar } from "@/layouts/list-layout-no-sidebar";
 import { useStore } from "@/store";
 import type { Card } from "@/store/services/queries.types";
 import { useEffect } from "react";
-import { Redirect, useParams } from "wouter";
+import { useParams } from "wouter";
+import { Error404 } from "../errors/404";
 
 type Props = {
   code: string;
@@ -14,7 +15,7 @@ function UsableCards() {
   const card = useStore((state) => state.metadata.cards[params.code]);
 
   if (!card || card.type_code !== "investigator") {
-    return <Redirect to="/404" />;
+    return <Error404 />;
   }
 
   return <UsableCardsList card={card} />;

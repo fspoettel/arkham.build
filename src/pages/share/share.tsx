@@ -8,7 +8,8 @@ import { getShare } from "@/store/services/queries";
 import { useQuery } from "@/utils/use-query";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
 import { useCallback } from "react";
-import { Redirect, useParams } from "wouter";
+import { useParams } from "wouter";
+import { Error404 } from "../errors/404";
 
 function Share() {
   const { id } = useParams<{ id: string }>();
@@ -27,7 +28,7 @@ function Share() {
   });
 
   if (loading) return <Loader />;
-  if (error) return <Redirect to="/404" />;
+  if (error) return <Error404 />;
 
   if (!resolvedDeck) return null;
 

@@ -1,5 +1,5 @@
 import { cx } from "@/utils/cx";
-import { Link, Redirect, useParams } from "wouter";
+import { Link, useParams } from "wouter";
 
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,7 @@ import { useDocumentTitle } from "@/utils/use-document-title";
 
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { Footer } from "@/components/footer";
+import { Error404 } from "../errors/404";
 import css from "./card-view.module.css";
 import { Faq } from "./faq";
 import { UsableBy } from "./usable-by";
@@ -26,7 +27,7 @@ function CardView() {
   );
 
   if (!cardWithRelations) {
-    return <Redirect to="/404" />;
+    return <Error404 />;
   }
 
   const isInvestigator = cardWithRelations.card.type_code === "investigator";
