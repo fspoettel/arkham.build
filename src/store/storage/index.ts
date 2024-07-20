@@ -12,12 +12,13 @@ import { getInitialMetadata } from "../slices/metadata";
 import { getInitialSettings } from "../slices/settings";
 import { getInitialSharingState } from "../slices/sharing";
 import { IndexedDBAdapter } from "./indexeddb-adapter";
-import migrateV1 from "./migrations/v1";
+import v1Tov2 from "./migrations/0001-add-deck-history";
+import v2Tov3 from "./migrations/0002-add-client-id";
 import type { Val } from "./storage.types";
 
 const indexedDBAdapter = new IndexedDBAdapter();
 
-const VERSION = 2;
+const VERSION = 3;
 
 // use this flag to disable rehydration during dev.
 const SKIP_HYDRATION = false;
@@ -32,7 +33,12 @@ export const storageConfig: PersistOptions<StoreState, Val> = {
 
     if (version < 2) {
       console.debug("[persist] migrate store: ", version);
-      migrateV1(state, version);
+      v1Tov2(state, version);
+    }
+
+    if (version < 3) {
+      console.debug("[persist] migrate store: ", version);
+      v2Tov3(state, version);
     }
 
     return state;

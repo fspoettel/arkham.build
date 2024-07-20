@@ -23,8 +23,8 @@ export type AppSlice = {
 
   createDeck(): string | number;
 
-  saveDeck(deckId: Id, toastCtx: ToastContext): Promise<Id>;
+  saveDeck(deckId: Id, toast: ToastContext): Promise<Id>;
 
-  deleteDeck(id: Id, toastCtx: ToastContext): Promise<void>;
+  deleteDeck(id: Id, toast: ToastContext): Promise<void>;
   deleteAllDecks(toastCtx: ToastContext): Promise<void>;
 };
