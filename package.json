@@ -1,7 +1,7 @@
 {
   "name": "arkham.build",
   "private": true,
-  "version": "1.0.0-rc.9",
+  "version": "1.0.0",
   "type": "module",
   "engines": {
     "node": "20.x"
