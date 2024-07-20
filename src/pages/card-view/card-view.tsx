@@ -96,7 +96,10 @@ function CardView() {
                   )}
                 </>
               )}
-              {!isInvestigator && <UsableBy card={cardWithRelations.card} />}
+              {!isInvestigator &&
+                cardWithRelations.card.faction_code !== "mythos" && (
+                  <UsableBy card={cardWithRelations.card} />
+                )}
             </SidebarSection>
           </div>
         </nav>
