@@ -40,7 +40,6 @@ function getInitialLookupTables(): LookupTables {
     cost: {},
     encounterCode: {},
     factionCode: {},
-    packCode: {},
     subtypeCode: {},
     typeCode: {},
     health: {},
@@ -164,7 +163,6 @@ function indexTypeByCardTypeSelection(
 
 function indexByCodes(tables: LookupTables, card: Card) {
   setInLookupTable(card.code, tables.factionCode, card.faction_code);
-  setInLookupTable(card.code, tables.packCode, card.code);
   setInLookupTable(card.code, tables.typeCode, card.type_code);
 
   if (card.subtype_code) {

@@ -40,7 +40,6 @@ export type LookupTables = {
   actions: LookupTable<string>;
   cost: LookupTable<number>;
   factionCode: LookupTable<string>;
-  packCode: LookupTable<string>;
   health: LookupTable<number>;
   sanity: LookupTable<number>;
   properties: {
