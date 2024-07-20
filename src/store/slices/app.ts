@@ -113,6 +113,11 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
           ];
       }
 
+      // tempfix: https://github.com/Kamalisk/arkhamdb-json-data/pull/1412
+      if (card.code === "04325b" || card.code === "04326b") {
+        card.encounter_code = "shattered_aeons";
+      }
+
       // tempfix: "tags" is sometimes empty string, see: https://github.com/Kamalisk/arkhamdb-json-data/pull/1351#issuecomment-1937852236
       if (!card.tags) card.tags = undefined;
       card.parallel = cycle?.code === "parallel";
