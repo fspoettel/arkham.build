@@ -19,7 +19,7 @@ export function EditorActions(props: Props) {
   const { deck } = props;
 
   const [, navigate] = useLocation();
-  const showToast = useToast();
+  const toast = useToast();
   const cssVariables = useAccentColor(
     deck.cards.investigator.card.faction_code,
   );
@@ -30,17 +30,10 @@ export function EditorActions(props: Props) {
 
   const onSave = useCallback(
     async (stayOnPage?: boolean) => {
-      const id = await saveDeck(deck.id);
-
+      const id = await saveDeck(deck.id, toast);
       if (!stayOnPage) navigate(`/deck/view/${id}`);
-
-      showToast({
-        children: "Deck saved successfully.",
-        duration: 2000,
-        variant: "success",
-      });
     },
-    [saveDeck, navigate, showToast, deck.id],
+    [saveDeck, navigate, deck.id, toast],
   );
 
   const onDiscard = useCallback(

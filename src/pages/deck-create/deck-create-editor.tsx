@@ -37,9 +37,9 @@ export function DeckCreateEditor() {
   const onDeckCreate = () => {
     const id = createDeck();
     navigate(`/deck/edit/${id}`, { replace: true });
-    toast({
-      children: "Deck created successfully.",
-      duration: 2000,
+    toast.show({
+      children: "Deck create successful.",
+      duration: 3000,
       variant: "success",
     });
   };

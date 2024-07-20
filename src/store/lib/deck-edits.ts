@@ -25,7 +25,7 @@ export function applyDeckEdits(
   metadata: Metadata,
   alwaysDeleteEmpty = false,
 ) {
-  if (!edits) return originalDeck;
+  if (!edits) return structuredClone(originalDeck);
 
   const deck = structuredClone(originalDeck);
 

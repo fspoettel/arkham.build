@@ -31,7 +31,6 @@ function DeckView() {
 
 function DeckViewInner({ deck }: { deck: ResolvedDeck }) {
   const validation = useStore((state) => selectDeckValid(state, deck));
-  console.log(validation);
 
   return <DeckDisplay deck={deck} owned validation={validation} />;
 }

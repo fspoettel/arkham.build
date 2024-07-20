@@ -35,13 +35,13 @@ export function CardDataSync() {
 
   useEffect(() => {
     if (synced) {
-      toast({
-        children: "Card data was synced successfully.",
-        duration: 2000,
+      toast.show({
+        children: "Card data sync successful.",
+        duration: 3000,
         variant: "success",
       });
     }
-  }, [synced, toast]);
+  }, [synced, toast.show]);
 
   const enablePersistence = useCallback(() => {
     if (navigator.storage?.persist) {
@@ -49,29 +49,27 @@ export function CardDataSync() {
         .persist()
         .then((res) => {
           if (res) {
-            toast({
-              children: "Persistence enabled successfully.",
-              duration: 2000,
+            toast.show({
+              children: "Enable persistence successful.",
+              duration: 3000,
               variant: "success",
             });
           } else {
-            toast({
+            toast.show({
               children: "Persistence could not be enabled.",
-              duration: 2000,
               variant: "error",
             });
           }
         })
         .catch((err) => {
           console.error(err);
-          toast({
+          toast.show({
             children: "Persistence could not be enabled (see browser console).",
-            duration: 2000,
             variant: "error",
           });
         });
     }
-  }, [toast]);
+  }, [toast.show]);
 
   const upToDate =
     data &&

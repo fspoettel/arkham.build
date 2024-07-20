@@ -16,6 +16,7 @@ import { selectLocalDecks } from "@/store/selectors/decks";
 import css from "./deck-collection.module.css";
 
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
+import { useToast } from "@/components/ui/toast";
 import { useCallback, useState } from "react";
 import { DeckCollectionImport } from "./deck-collection-import";
 
@@ -25,6 +26,7 @@ export function DeckCollection() {
 
   const importDecks = useStore((state) => state.importFromFiles);
   const deleteAllDecks = useStore((state) => state.deleteAllDecks);
+  const toast = useToast();
 
   const onAddFiles = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,16 +39,16 @@ export function DeckCollection() {
     [importDecks],
   );
 
-  const onDeleteAll = useCallback(() => {
+  const onDeleteAll = useCallback(async () => {
     const confirmed = confirm(
       "Are you sure you want to delete all local decks in your collection?",
     );
 
     if (confirmed) {
-      deleteAllDecks();
       setPopoverOpen(false);
+      await deleteAllDecks(toast);
     }
-  }, [deleteAllDecks]);
+  }, [deleteAllDecks, toast]);
 
   return (
     <div className={css["container"]}>

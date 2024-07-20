@@ -1,12 +1,19 @@
-.toast {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  max-width: min(90%, 45ch);
+.toast-container {
   position: fixed;
   bottom: 1rem;
   right: 1rem;
   z-index: 100;
+  display: flex;
+  gap: 1rem;
+  flex-flow: column nowrap;
+  max-width: min(90%, 45ch);
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
   background: var(--nord-1);
   color: var(--nord-5);
   padding: 0.75rem;
@@ -15,6 +22,12 @@
   animation: slideIn both 150ms ease-in-out;
   border: 1px solid var(--nord-2);
   text-align: left;
+  position: relative;
+}
+
+.toast.closable {
+  padding: 1rem;
+  gap: 1rem;
 }
 
 .toast.exiting {
@@ -59,4 +72,10 @@
   to {
     transform: translateX(calc(100% + 1rem));
   }
+}
+
+.toast-dismiss {
+  position: absolute;
+  top: 0.125rem;
+  right: 0.125rem;
 }

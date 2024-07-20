@@ -20,7 +20,6 @@ import type { DeckMeta } from "../lib/types";
 import { selectDeckCreateCardSets } from "../selectors/deck-create";
 import { selectDeckValid } from "../selectors/deck-view";
 import type { AppSlice } from "./app.types";
-import { isLocalDeck } from "./data.types";
 import { makeLists } from "./lists";
 import { createLookupTables, createRelations } from "./lookup-tables";
 import { getInitialMetadata } from "./metadata";
@@ -239,7 +238,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     return deck.id;
   },
-  async deleteDeck(id) {
+  async deleteDeck(id, toast) {
     const state = get();
     const decks = { ...state.data.decks };
 
@@ -266,13 +265,39 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       deckEdits,
     });
 
-    if (isLocalDeck(deck)) {
-      // TODO: surface this error.
-      await state.deleteShare(deck.id).catch(console.error);
+    toast.show({
+      children: "Deck delete successful.",
+      duration: 3000,
+      variant: "success",
+    });
+
+    if (state.sharing.decks[deck.id]) {
+      const toastId = toast.show({
+        children: "Deleting share...",
+      });
+
+      try {
+        await state.deleteShare(deck.id as string);
+
+        toast.dismiss(toastId);
+
+        toast.show({
+          children: "Share delete successful.",
+          duration: 3000,
+          variant: "success",
+        });
+      } catch (err) {
+        toast.dismiss(toastId);
+
+        toast.show({
+          children: `Share could not be deleted: ${(err as Error)?.message}.`,
+          variant: "error",
+        });
+      }
     }
   },
 
-  async deleteAllDecks() {
+  async deleteAllDecks(toast) {
     const state = get();
 
     const decks = { ...state.data.decks };
@@ -291,10 +316,29 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       data: { ...state.data, decks, history },
     });
 
-    // TODO: surface this error.
-    await state.deleteAllShares().catch(console.error);
+    if (Object.keys(state.sharing.decks).length) {
+      const toastId = toast.show({
+        children: "Deleting shares...",
+      });
+
+      try {
+        await state.deleteAllShares();
+        toast.dismiss(toastId);
+        toast.show({
+          children: "Delete shares successful.",
+          duration: 3000,
+          variant: "success",
+        });
+      } catch (err) {
+        toast.dismiss(toastId);
+        toast.show({
+          children: `Shares could not be deleted: ${(err as Error)?.message}.`,
+          variant: "error",
+        });
+      }
+    }
   },
-  async saveDeck(deckId) {
+  async saveDeck(deckId, toast) {
     const state = get();
 
     const edits = state.deckEdits[deckId];
@@ -324,8 +368,35 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       },
     });
 
-    if (isLocalDeck(deck) && state.sharing.decks[deckId]) {
-      await state.updateShare(deck.id).catch(console.error);
+    toast.show({
+      children: "Deck save successful.",
+      duration: 3000,
+      variant: "success",
+    });
+
+    if (state.sharing.decks[nextDeck.id]) {
+      const toastId = toast.show({
+        children: "Updating share...",
+      });
+
+      try {
+        await state.updateShare(deck.id as string);
+
+        toast.dismiss(toastId);
+
+        toast.show({
+          children: "Share update successful.",
+          duration: 3000,
+          variant: "success",
+        });
+      } catch (err) {
+        toast.dismiss(toastId);
+
+        toast.show({
+          children: `Share could not be updated: ${(err as Error)?.message}. Try again later on the deck page.`,
+          variant: "error",
+        });
+      }
     }
 
     return nextDeck.id;

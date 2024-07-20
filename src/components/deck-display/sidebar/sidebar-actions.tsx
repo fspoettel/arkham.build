@@ -23,7 +23,7 @@ type Props = {
 
 export function SidebarActions(props: Props) {
   const { deck } = props;
-  const showToast = useToast();
+  const toast = useToast();
   const [, setLocation] = useLocation();
 
   const deleteDeck = useStore((state) => state.deleteDeck);
@@ -33,38 +33,32 @@ export function SidebarActions(props: Props) {
 
   const [actionsOpen, setActionsOpen] = useState(false);
 
-  const onDelete = useCallback(() => {
+  const onDelete = useCallback(async () => {
     const confirmed = confirm("Are you sure you want to delete this deck?");
     if (confirmed) {
-      deleteDeck(deck.id);
+      await deleteDeck(deck.id, toast);
       setLocation("~/");
-      showToast({
-        duration: 2000,
-        children: "Successfully deleted deck.",
-        variant: "success",
-      });
     }
-  }, [deck.id, deleteDeck, setLocation, showToast]);
+  }, [deck.id, deleteDeck, setLocation, toast]);
 
   const onDuplicate = useCallback(() => {
     try {
       const id = duplicateDeck(deck.id);
       setLocation(`/deck/view/${id}`);
-      showToast({
-        duration: 2000,
-        children: "Successfully duplicated deck.",
+      toast.show({
+        duration: 3000,
+        children: "Deck duplicate successful.",
         variant: "success",
       });
     } catch (err) {
-      showToast({
-        duration: 2000,
+      toast.show({
         children: `Failed to duplicate deck: ${(err as Error)?.message}`,
         variant: "error",
       });
     }
 
     setActionsOpen(false);
-  }, [deck.id, duplicateDeck, setLocation, showToast]);
+  }, [deck.id, duplicateDeck, setLocation, toast.show]);
 
   const onEdit = useCallback(() => {
     setLocation(`/deck/edit/${deck.id}`);
@@ -75,26 +69,25 @@ export function SidebarActions(props: Props) {
       exportJson(deck.id);
     } catch (err) {
       console.error(err);
-      showToast({
-        duration: 2000,
+      toast.show({
+        duration: 3000,
         children: "Failed to export json.",
         variant: "error",
       });
     }
-  }, [deck.id, exportJson, showToast]);
+  }, [deck.id, exportJson, toast.show]);
 
   const onExportText = useCallback(() => {
     try {
       exportText(deck.id);
     } catch (err) {
       console.error(err);
-      showToast({
-        duration: 2000,
+      toast.show({
         children: "Failed to export markdown.",
         variant: "error",
       });
     }
-  }, [deck.id, exportText, showToast]);
+  }, [deck.id, exportText, toast.show]);
 
   useHotKey("e", onEdit, [onEdit]);
   useHotKey("cmd+d", onDuplicate, [onDuplicate]);

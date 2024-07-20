@@ -18,7 +18,7 @@ export function DeckCollectionImport() {
   const [loading, setLoading] = useState(false);
   const importDeck = useStore((state) => state.importDeck);
 
-  const showToast = useToast();
+  const toast = useToast();
 
   const onFormSubmit = useCallback(
     async (evt: React.FormEvent) => {
@@ -33,17 +33,16 @@ export function DeckCollectionImport() {
         try {
           await importDeck(input ?? "");
 
-          showToast({
-            children: "Successfully imported deck.",
-            duration: 2000,
+          toast.show({
+            children: "Deck import successful.",
+            duration: 3000,
             variant: "success",
           });
 
           setOpen(false);
         } catch (err) {
-          showToast({
+          toast.show({
             children: `Error: ${err instanceof Error ? err.message : "Unknown error."}`,
-            duration: 2000,
             variant: "error",
           });
         } finally {
@@ -51,7 +50,7 @@ export function DeckCollectionImport() {
         }
       }
     },
-    [importDeck, showToast],
+    [importDeck, toast.show],
   );
 
   return (

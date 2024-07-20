@@ -24,16 +24,15 @@ export function Sharing(props: Props) {
   async function withToast(fn: () => Promise<void>, action: string) {
     try {
       await fn();
-      toast({
+      toast.show({
         children: `Share ${action} successful`,
         variant: "success",
         duration: 3000,
       });
     } catch (err) {
-      toast({
+      toast.show({
         children: `Failed to ${action} share: ${(err as Error).message}`,
         variant: "error",
-        duration: 5000,
       });
     }
   }

@@ -31,14 +31,14 @@ function Settings() {
       evt.preventDefault();
       if (evt.target instanceof HTMLFormElement) {
         updateSettings(new FormData(evt.target));
-        toast({
-          children: "Settings saved successfully.",
-          duration: 2000,
+        toast.show({
+          children: "Settings save successful.",
+          duration: 3000,
           variant: "success",
         });
       }
     },
-    [updateSettings, toast],
+    [updateSettings, toast.show],
   );
 
   if (!initialized) return null;

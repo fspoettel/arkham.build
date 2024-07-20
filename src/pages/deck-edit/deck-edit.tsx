@@ -28,7 +28,7 @@ import css from "./deck-edit.module.css";
 function DeckEdit() {
   const { id } = useParams<{ id: string }>();
 
-  const showToast = useToast();
+  const toast = useToast();
   const activeListId = useStore((state) => state.activeList);
   const resetFilters = useStore((state) => state.resetFilters);
   const setActiveList = useStore((state) => state.setActiveList);
@@ -38,8 +38,10 @@ function DeckEdit() {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: we only want to run this effect once on mount.
   useEffect(() => {
+    let toastId: string | null = null;
+
     if (changes) {
-      showToast({
+      toastId = toast.show({
         children({ onClose }) {
           return (
             <>
@@ -65,8 +67,13 @@ function DeckEdit() {
         variant: "success",
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [discardEdits, id, showToast]);
+
+    return () => {
+      if (toastId) {
+        toast.dismiss(toastId);
+      }
+    };
+  }, [discardEdits, id, toast]);
 
   useEffect(() => {
     setActiveList("editor_player");
