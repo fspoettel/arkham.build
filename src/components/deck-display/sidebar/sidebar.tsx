@@ -9,9 +9,13 @@ import {
 import css from "./sidebar.module.css";
 
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/toast";
+import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { cx } from "@/utils/cx";
 import { Import } from "lucide-react";
+import { useCallback } from "react";
+import { useLocation } from "wouter";
 import { Sharing } from "./sharing";
 import { SidebarActions } from "./sidebar-actions";
 
@@ -24,13 +28,35 @@ type Props = {
 export function Sidebar(props: Props) {
   const { className, deck, owned } = props;
 
+  const [, navigate] = useLocation();
+  const toast = useToast();
+  const importSharedDeck = useStore((state) => state.importSharedDeck);
+
+  const onImport = useCallback(() => {
+    try {
+      const id = importSharedDeck(deck);
+      toast.show({
+        children: "Deck import successful.",
+        variant: "success",
+        duration: 3000,
+      });
+
+      navigate(`/deck/view/${id}`);
+    } catch (err) {
+      toast.show({
+        children: `Failed to import deck: ${(err as Error).message}`,
+        variant: "error",
+      });
+    }
+  }, [deck, importSharedDeck, toast.show, navigate]);
+
   return (
     <div className={cx(css["container"], className)}>
       <DeckInvestigator deck={deck} size="tooltip" />
       {owned ? (
         <SidebarActions deck={deck} />
       ) : (
-        <Button size="full">
+        <Button size="full" onClick={onImport}>
           <Import /> Import deck to collection
         </Button>
       )}

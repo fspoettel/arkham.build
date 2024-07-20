@@ -15,6 +15,7 @@ export type DeckProblem =
 export type Deck = {
   date_creation: string;
   date_update: string;
+  exile_string: string | null;
   description_md: string;
   ignoreDeckLimitSlots: Slots | null;
   id: Id;
@@ -30,6 +31,7 @@ export type Deck = {
   taboo_id: number | null;
   tags: string;
   version: string;
+  xp_adjustment: number | null;
   xp_spent: number | null;
   xp: number | null;
 };

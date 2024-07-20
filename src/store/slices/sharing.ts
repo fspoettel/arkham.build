@@ -1,9 +1,13 @@
 import { assert } from "@/utils/assert";
 import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
-import { formatDeckExport } from "../lib/serialization/deck-io";
+import {
+  formatDeckExport,
+  formatDeckImport,
+} from "../lib/serialization/deck-io";
 import { selectClientId } from "../selectors/shared";
 import { createShare, deleteShare, updateShare } from "../services/queries";
+import { type Deck, isDeck } from "./data.types";
 import type { SharingSlice } from "./sharing.types";
 
 export function getInitialSharingState() {
@@ -92,5 +96,32 @@ export const createSharingSlice: StateCreator<
         decks: {},
       },
     });
+  },
+  importSharedDeck(importDeck) {
+    const state = get();
+
+    assert(
+      !state.data.decks[importDeck.id],
+      `Deck with id ${importDeck.id} already exists.`,
+    );
+
+    const deck = formatDeckImport(state, importDeck as Deck, "deck");
+    assert(isDeck(deck), "Invalid deck data.");
+
+    set({
+      data: {
+        ...state.data,
+        decks: {
+          ...state.data.decks,
+          [deck.id]: deck,
+        },
+        history: {
+          ...state.data.history,
+          [deck.id]: [],
+        },
+      },
+    });
+
+    return deck.id;
   },
 });

@@ -26,6 +26,8 @@ export function createDeck(values: Payload): Deck {
     taboo_id: null,
     xp: null,
     xp_spent: null,
+    exile_string: null,
+    xp_adjustment: null,
     ...values,
   };
 }

@@ -31,8 +31,19 @@ export function formatDeckImport(
 
   const problem = mapValidationToProblem(validation);
 
+  const cleanedDeck = Object.entries(deck).reduce<Record<string, unknown>>(
+    (acc, [key, value]) => {
+      if (isApiDeckKey(key)) {
+        acc[key] = value;
+      }
+
+      return acc;
+    },
+    {},
+  );
+
   return {
-    ...deck,
+    ...(cleanedDeck as Deck),
     id: randomId(),
     problem,
     date_creation: now,
@@ -279,4 +290,29 @@ function formatCustomizableSelection(
   }
 
   return selections.map(capitalize).join(", ");
+}
+
+export function isApiDeckKey(key: string): key is keyof Deck {
+  return [
+    "date_creation",
+    "date_update",
+    "description_md",
+    "exile_string",
+    "ignoreDeckLimitSlots",
+    "id",
+    "investigator_code",
+    "meta",
+    "name",
+    "next_deck",
+    "previous_deck",
+    "problem",
+    "sideSlots",
+    "slots",
+    "taboo_id",
+    "tags",
+    "version",
+    "xp_adjustment",
+    "xp_spent",
+    "xp",
+  ].includes(key);
 }
