@@ -23,7 +23,7 @@ function CollectionStats() {
             <Link href="/settings">Settings</Link> page.
           </p>
           <blockquote>
-            You own <strong>{ownedCount.player}</strong> player cards and{" "}
+            You own <strong>{ownedCount.player}</strong> player and{" "}
             <strong>{ownedCount.encounter}</strong> encounter cards.
           </blockquote>
         </div>
