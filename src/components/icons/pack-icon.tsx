@@ -24,9 +24,7 @@ function getPackIcon(code?: string) {
 
     case "hfa":
     case "otr":
-    case "ltr":
     case "ptr":
-    case "rop":
     case "parallel":
       return "parallel";
 
@@ -229,6 +227,10 @@ function getPackIcon(code?: string) {
       return "by_the_book";
     case "rtr":
       return "red_tide_rising";
+    case "ltr":
+      return "laid_to_rest";
+    case "rop":
+      return "rop";
 
     case "cotr":
       return "rougerauo2";

@@ -1035,6 +1035,9 @@
 .encounters-return_to_the_devourer_below:before {
   content: "\ea84";
 }
+.encounters-parallel:before {
+  content: "\e900";
+}
 .encounters-carcosa:before {
   content: "\47";
 }
