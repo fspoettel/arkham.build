@@ -143,6 +143,10 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       }
     }
 
+    if (refresh) {
+      localStorage.removeItem("deckbuilder-data-version");
+    }
+
     set({
       app: {
         clientId: state.app.clientId || randomId(),
