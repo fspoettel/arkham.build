@@ -24,8 +24,7 @@ function CollectionStats() {
           </p>
           <blockquote>
             You own <strong>{ownedCount.player}</strong> player cards and{" "}
-            <strong>{ownedCount.encounter}</strong> encounter cards. This count
-            includes reprints.
+            <strong>{ownedCount.encounter}</strong> encounter cards.
           </blockquote>
         </div>
         <Collection canShowCounts settings={settings} />

@@ -4,12 +4,15 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import css from "./collection.module.css";
 
 type Props = {
-  counts: Counts;
+  counts?: Counts;
   type: "cycle" | "pack";
 };
 
 export function CollectionCount(props: Props) {
   const { counts, type } = props;
+
+  if (!counts) return null;
+
   return (
     <div className={css["collection-counts"]}>
       <Tooltip>
