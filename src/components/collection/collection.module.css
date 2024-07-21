@@ -1,3 +1,7 @@
+.collection-label {
+  font-size: var(--text-lg);
+}
+
 .container {
   border: 0;
   padding: 0;
@@ -54,6 +58,14 @@
   gap: 0.125rem;
 }
 
+.cycle-counts {
+  margin-top: 0.5rem;
+}
+
+.cycle-counts > * + * {
+  margin-top: 0.5rem;
+}
+
 .packs {
   list-style: none;
 }
@@ -63,6 +75,11 @@
 }
 
 .pack {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+
   padding: 0.25rem;
   border-radius: var(--rounded-md);
 }
@@ -81,4 +98,19 @@
 .pack-quantity-input {
   max-width: 2.5rem;
   padding: 0.25rem;
+}
+
+.collection-counts {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: var(--text-sm);
+}
+
+.collection-count {
+  text-align: center;
+  background: var(--nord-point-five);
+  padding: 0.25rem;
+  border-radius: var(--rounded-md);
+  min-width: 6ch;
 }

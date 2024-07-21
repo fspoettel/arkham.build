@@ -616,7 +616,7 @@ function makePlayerCardsList(
 
   const systemFilter = [
     filterDuplicates,
-    filterEncounterCards,
+    not(filterEncounterCards),
     filterMythosCards,
     filterBacksides,
   ];
@@ -651,7 +651,11 @@ function makeInvestigatorCardsList(
     filters,
     ["cycle"],
     ["position"],
-    and([filterType(["investigator"]), filterDuplicates, filterEncounterCards]),
+    and([
+      filterType(["investigator"]),
+      filterDuplicates,
+      not(filterEncounterCards),
+    ]),
     initialValues,
   );
 }
@@ -683,7 +687,7 @@ function makeEncounterCardsList(
 
   const systemFilter = [
     filterDuplicates,
-    not(filterEncounterCards),
+    filterEncounterCards,
     filterBacksides,
   ];
 
