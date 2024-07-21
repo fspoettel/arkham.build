@@ -29,7 +29,7 @@ export function General(props: Props) {
     >
       <Checkbox
         checked={hideWeaknessesByDefault}
-        label="Hide weaknesses in player card lists by default"
+        label="Hide weaknesses in player card lists"
         id="hide-weaknesses-by-default"
         name="hide-weaknesses-by-default"
         onCheckedChange={onCheckHideWeaknesses}

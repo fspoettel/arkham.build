@@ -23,8 +23,8 @@
   &[disabled] {
     cursor: default;
     opacity: 1;
-    background: var(--nord-0);
-    border: 1px solid var(--nord-point-five);
+    background: var(--nord-point-five);
+    border: 1px solid var(--nord-1);
   }
 
   &[data-state="checked"] {

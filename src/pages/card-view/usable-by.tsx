@@ -10,7 +10,7 @@ import {
 import { makeSortFunction } from "@/store/lib/sorting";
 import type { Card } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
-import { or } from "@/utils/fp";
+import { not, or } from "@/utils/fp";
 import { createSelector } from "reselect";
 
 type Props = {
@@ -30,7 +30,8 @@ const selectInvestigators = createSelector(
       .map((code) => metadata.cards[code])
       .filter((investigator) => {
         const isValidInvestigator =
-          filterEncounterCards(investigator) && filterAlternates(investigator);
+          not(filterEncounterCards)(investigator) &&
+          filterAlternates(investigator);
 
         if (!isValidInvestigator) return false;
 

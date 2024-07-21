@@ -61,7 +61,7 @@ function About() {
           respective creators. All Arkham Horror: The Card Game™ images and
           graphics are copyrighted by Fantasy Flight Games.
         </p>
-        <h4>Thanks 🌟</h4>
+        <h2>Thanks 🌟</h2>
         <ul>
           <li>
             <strong>@zzorba:</strong> Access to the ArkhamCards API and icons,
@@ -78,7 +78,7 @@ function About() {
             development of the initial version.
           </li>
         </ul>
-        <h5>Icon credits</h5>
+        <h2>Icon credits</h2>
         <ul>
           <li>
             <strong>Card icons:</strong> Fantasy Flight Games

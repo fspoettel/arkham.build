@@ -26,6 +26,9 @@ const CardView = lazy(() => import("./pages/card-view/card-view"));
 const CardViewUsable = lazy(() => import("./pages/card-view/usable-cards"));
 const About = lazy(() => import("./pages/about/about"));
 const Share = lazy(() => import("./pages/share/share"));
+const CollectionStats = lazy(
+  () => import("./pages/collection-stats/collection-stats"),
+);
 
 function App() {
   return (
@@ -89,6 +92,7 @@ function AppInner() {
               <Route component={Settings} path="/settings" />
               <Route component={About} path="/about" />
               <Route component={Share} path="/share/:id" />
+              <Route component={CollectionStats} path="/collection-stats" />
               <Route component={Error404} path="*" />
             </Switch>
             <RouteReset />

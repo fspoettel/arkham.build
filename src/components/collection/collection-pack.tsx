@@ -4,9 +4,15 @@ import PackIcon from "@/components/icons/pack-icon";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Cycle, Pack } from "@/store/services/queries.types";
 
+import type { CollectionCounts } from "@/store/selectors/collection";
+import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
+import { CollectionCount } from "./collection-count";
 import css from "./collection.module.css";
 
 type Props = {
+  canEdit?: boolean;
+  canShowCounts?: boolean;
+  counts?: CollectionCounts;
   cycle: Cycle;
   hasQuantity: boolean;
   pack: Pack;
@@ -15,7 +21,16 @@ type Props = {
 };
 
 export function CollectionPack(props: Props) {
-  const { cycle, hasQuantity, pack, value, onChange } = props;
+  const {
+    canEdit,
+    canShowCounts,
+    counts,
+    cycle,
+    hasQuantity,
+    pack,
+    value,
+    onChange,
+  } = props;
 
   const onInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     if (evt.target instanceof HTMLInputElement) {
@@ -33,6 +48,7 @@ export function CollectionPack(props: Props) {
         <div className={css["pack-name"]}>
           <input
             className={css["pack-quantity-input"]}
+            disabled={!canEdit}
             id={`collection-${cycle.code}-${pack.code}`}
             max={2}
             min={0}
@@ -51,6 +67,7 @@ export function CollectionPack(props: Props) {
         </div>
       ) : (
         <Checkbox
+          disabled={!canEdit}
           checked={!!value}
           data-pack={pack.code}
           id={`collection-${cycle.code}-${pack.code}`}
@@ -64,6 +81,11 @@ export function CollectionPack(props: Props) {
           onCheckedChange={(checked) => onChange(pack.code, checked ? 1 : 0)}
         />
       )}
+      {canShowCounts &&
+        counts &&
+        CYCLES_WITH_STANDALONE_PACKS.includes(cycle.code) && (
+          <CollectionCount counts={counts.packs[pack.code]} type="pack" />
+        )}
     </li>
   );
 }

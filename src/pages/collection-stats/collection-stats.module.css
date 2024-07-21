@@ -1,0 +1,11 @@
+.layout {
+  margin-top: 1.5rem;
+}
+
+.layout > * + * {
+  margin-top: 1.5rem;
+}
+
+.content {
+  max-width: 72ch;
+}

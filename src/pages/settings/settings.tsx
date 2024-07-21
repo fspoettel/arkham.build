@@ -1,6 +1,4 @@
-import { Info } from "lucide-react";
 import { useCallback, useRef } from "react";
-import { Link } from "wouter";
 
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
@@ -11,10 +9,11 @@ import { useGoBack } from "@/utils/use-go-back";
 
 import css from "./settings.module.css";
 
+import { Collection } from "@/components/collection/collection";
 import { CardDataSync } from "./card-data-sync";
-import { Collection } from "./collection/collection";
 import { General } from "./general";
 import { Section } from "./section";
+import { ShowAllCards } from "./show-all-cards";
 import { TabooSets } from "./taboo-sets";
 
 function Settings() {
@@ -63,21 +62,16 @@ function Settings() {
           </div>
         </header>
         <div className={css["container"]}>
-          <Link asChild to="/about">
-            <Button as="a">
-              <Info />
-              About this site
-            </Button>
-          </Link>
           <Section title="Card data">
             <CardDataSync />
           </Section>
-          <Section title="General settings">
+          <Section title="General">
             <TabooSets settings={settings} />
             <General settings={settings} />
           </Section>
           <Section title="Collection">
-            <Collection settings={settings} />
+            <ShowAllCards settings={settings} />
+            <Collection canEdit settings={settings} />
           </Section>
         </div>
       </form>

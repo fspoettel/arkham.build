@@ -39,7 +39,7 @@ export function filterAlternates(card: Card) {
 }
 
 export function filterEncounterCards(card: Card) {
-  return !card.encounter_code; // filter out encounter cards (story player cards).
+  return !!card.encounter_code; // filter out encounter cards (story player cards).
 }
 
 // needs to filter out some bad data that would otherwise end up in player cards (i.e. 04325).
