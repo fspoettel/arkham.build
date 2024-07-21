@@ -24,13 +24,13 @@ export type DeckValidationResult = {
 };
 
 type ValidationError =
-  | "INVALID_INVESTIGATOR"
-  | "INVALID_DECK_OPTION"
-  | "FORBIDDEN"
-  | "TOO_MANY_CARDS"
-  | "TOO_FEW_CARDS"
   | "DECK_REQUIREMENTS_NOT_MET"
-  | "INVALID_CARD_COUNT";
+  | "FORBIDDEN"
+  | "INVALID_CARD_COUNT"
+  | "INVALID_DECK_OPTION"
+  | "INVALID_INVESTIGATOR"
+  | "TOO_FEW_CARDS"
+  | "TOO_MANY_CARDS";
 
 type BaseError = {
   type: ValidationError;
@@ -40,6 +40,8 @@ export type TooManyCardsError = {
   type: "TOO_MANY_CARDS";
   details: {
     target: "slots" | "extraSlots";
+    count: number;
+    countRequired: number;
   };
 };
 
@@ -47,6 +49,8 @@ export type TooFewCardsError = {
   type: "TOO_FEW_CARDS";
   details: {
     target: "slots" | "extraSlots";
+    count: number;
+    countRequired: number;
   };
 };
 
@@ -75,6 +79,42 @@ export type ForbiddenCardError = {
     target: "slots" | "extraSlots";
   }[];
 };
+
+export function isTooManyCardsError(error: Error): error is TooManyCardsError {
+  return error.type === "TOO_MANY_CARDS";
+}
+
+export function isDeckOptionsError(error: Error): error is DeckOptionsError {
+  return error.type === "INVALID_DECK_OPTION";
+}
+
+export function isInvalidCardCountError(
+  error: Error,
+): error is InvalidCardError {
+  return error.type === "INVALID_CARD_COUNT";
+}
+
+export function isForbiddenCardError(
+  error: Error,
+): error is ForbiddenCardError {
+  return error.type === "FORBIDDEN";
+}
+
+export function isTooFewCardsError(error: Error): error is TooFewCardsError {
+  return error.type === "TOO_FEW_CARDS";
+}
+
+export function isDeckRequirementsNotMetError(
+  error: Error,
+): error is BaseError & { type: "DECK_REQUIREMENTS_NOT_MET" } {
+  return error.type === "DECK_REQUIREMENTS_NOT_MET";
+}
+
+export function isInvalidInvestigatorError(
+  error: Error,
+): error is BaseError & { type: "INVALID_INVESTIGATOR" } {
+  return error.type === "INVALID_INVESTIGATOR";
+}
 
 type Error =
   | BaseError
@@ -217,10 +257,21 @@ function validateDeckSize(deck: ResolvedDeck): Error[] {
   const deckSize = deck.stats.deckSize;
   const targetDeckSize = investigatorDeckSize + adjustment;
 
+  const details = {
+    target: "slots" as const,
+    count: deckSize,
+    countRequired: targetDeckSize,
+  };
+
   return deckSize !== targetDeckSize
     ? deckSize > targetDeckSize
-      ? [{ type: "TOO_MANY_CARDS", details: { target: "slots" } }]
-      : [{ type: "TOO_FEW_CARDS", details: { target: "slots" } }]
+      ? [
+          {
+            type: "TOO_MANY_CARDS",
+            details,
+          },
+        ]
+      : [{ type: "TOO_FEW_CARDS", details }]
     : [];
 }
 
@@ -236,10 +287,26 @@ function validateExtraDeckSize(deck: ResolvedDeck): Error[] {
     0,
   );
 
+  const details = {
+    target: "extraSlots" as const,
+    count: deckSize,
+    countRequired: targetDeckSize,
+  };
+
   return deckSize !== targetDeckSize
     ? deckSize > targetDeckSize
-      ? [{ type: "TOO_MANY_CARDS", details: { target: "extraSlots" } }]
-      : [{ type: "TOO_FEW_CARDS", details: { target: "extraSlots" } }]
+      ? [
+          {
+            type: "TOO_MANY_CARDS",
+            details,
+          },
+        ]
+      : [
+          {
+            type: "TOO_FEW_CARDS",
+            details,
+          },
+        ]
     : [];
 }
 

@@ -112,6 +112,8 @@ describe("deck validation", () => {
         [
           {
             "details": {
+              "count": 41,
+              "countRequired": 42,
               "target": "slots",
             },
             "type": "TOO_FEW_CARDS",
@@ -598,6 +600,8 @@ describe("deck validation", () => {
           [
             {
               "details": {
+                "count": 29,
+                "countRequired": 28,
                 "target": "slots",
               },
               "type": "TOO_MANY_CARDS",
@@ -712,6 +716,8 @@ describe("deck validation", () => {
           [
             {
               "details": {
+                "count": 35,
+                "countRequired": 30,
                 "target": "slots",
               },
               "type": "TOO_MANY_CARDS",
@@ -770,6 +776,8 @@ describe("deck validation", () => {
         [
           {
             "details": {
+              "count": 11,
+              "countRequired": 10,
               "target": "extraSlots",
             },
             "type": "TOO_MANY_CARDS",
@@ -824,6 +832,8 @@ describe("deck validation", () => {
         [
           {
             "details": {
+              "count": 9,
+              "countRequired": 10,
               "target": "extraSlots",
             },
             "type": "TOO_FEW_CARDS",
@@ -859,6 +869,8 @@ describe("deck validation", () => {
         [
           {
             "details": {
+              "count": 11,
+              "countRequired": 10,
               "target": "extraSlots",
             },
             "type": "TOO_MANY_CARDS",
@@ -904,6 +916,8 @@ describe("deck validation", () => {
         [
           {
             "details": {
+              "count": 26,
+              "countRequired": 25,
               "target": "slots",
             },
             "type": "TOO_MANY_CARDS",

@@ -1,11 +1,14 @@
 import { InfoIcon } from "lucide-react";
 
-import type {
-  DeckOptionsError,
-  DeckValidationResult,
-  InvalidCardError,
-  TooFewCardsError,
-  TooManyCardsError,
+import {
+  type DeckValidationResult,
+  isDeckOptionsError,
+  isDeckRequirementsNotMetError,
+  isForbiddenCardError,
+  isInvalidCardCountError,
+  isInvalidInvestigatorError,
+  isTooFewCardsError,
+  isTooManyCardsError,
 } from "@/store/lib/deck-validation";
 
 import css from "./decklist-validation.module.css";
@@ -38,21 +41,20 @@ export function DecklistValidation(props: Props) {
           {validation.errors.map((error, i) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: no unique key available.
             <li className={css["decklist-validation-result"]} key={i}>
-              {error.type === "TOO_MANY_CARDS" &&
-                `${getName((error as TooManyCardsError).details.target)} contains too many cards.`}
-              {error.type === "TOO_FEW_CARDS" &&
-                `${getName((error as TooFewCardsError).details.target)} contains too few cards.`}
-              {error.type === "INVALID_INVESTIGATOR" &&
+              {isTooManyCardsError(error) &&
+                `${getName(error.details.target)} contains too many cards. (${error.details.count} / ${error.details.countRequired})`}
+              {isTooFewCardsError(error) &&
+                `${getName(error.details.target)} contains too few cards. (${error.details.count} / ${error.details.countRequired})`}
+              {isInvalidInvestigatorError(error) &&
                 "Investigator is invalid. Required configuration is missing or the card is not an investigator."}
-              {error.type === "DECK_REQUIREMENTS_NOT_MET" &&
+              {isDeckRequirementsNotMetError(error) &&
                 "Deck does not comply with the Investigator requirements."}
-              {error.type === "INVALID_DECK_OPTION" &&
-                (error as DeckOptionsError).details.error}
-              {error.type === "INVALID_CARD_COUNT" && (
+              {isDeckOptionsError(error) && error.details.error}
+              {isInvalidCardCountError(error) && (
                 <>
                   Deck contains invalid number of copies of the following cards:
                   <ol className={css["decklist-validation-result-cards"]}>
-                    {(error as InvalidCardError).details.map((detail) => (
+                    {error.details.map((detail) => (
                       <li key={detail.code}>
                         {detail.real_name} ({detail.quantity}/{detail.limit})
                       </li>
@@ -60,12 +62,12 @@ export function DecklistValidation(props: Props) {
                   </ol>
                 </>
               )}
-              {error.type === "FORBIDDEN" && (
+              {isForbiddenCardError(error) && (
                 <>
                   Deck contains forbidden cards (cards not permitted by
                   Investigator):
                   <ol className={css["decklist-validation-result-cards"]}>
-                    {(error as InvalidCardError).details.map((detail) => (
+                    {error.details.map((detail) => (
                       <li key={detail.code}>{detail.real_name}</li>
                     ))}
                   </ol>
