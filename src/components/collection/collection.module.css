@@ -62,6 +62,10 @@
   margin-top: 0.5rem;
 }
 
+.cycle-counts-title {
+  font-size: var(--text-sm);
+}
+
 .cycle-counts > * + * {
   margin-top: 0.5rem;
 }

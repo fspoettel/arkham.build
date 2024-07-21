@@ -150,7 +150,7 @@ export function Collection(props: Props) {
                 !CYCLES_WITH_STANDALONE_PACKS.includes(cycle.code) && (
                   <article className={css["cycle-counts"]}>
                     <header>
-                      <h4>Card count</h4>
+                      <h4 className={css["cycle-counts-title"]}>Card count</h4>
                     </header>
                     <CollectionCount
                       counts={counts.cycles[cycle.code]}
