@@ -148,7 +148,7 @@ function formatGrouping(
     if (section === "asset") {
       text += "**Asset**  \n";
 
-      const groups = Object.entries(data).toSorted((a, b) =>
+      const groups = Object.entries(data).sort((a, b) =>
         sortBySlots(a[0], b[0]),
       );
 
@@ -192,8 +192,8 @@ function formatGroupAsText(
   const labelStr = capitalize(title);
   const label = isMain ? `**${labelStr}**` : `_${labelStr}_`;
 
-  const cards = data
-    .toSorted((a, b) => sortByName(a, b))
+  const cards = [...data]
+    .sort((a, b) => sortByName(a, b))
     .map((c) => formatCardAsText(state, c, quantities, customizations))
     .join("\n");
 

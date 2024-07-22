@@ -228,7 +228,7 @@ export function getRelatedCards(
         key !== "duplicates" &&
         (Array.isArray(value) ? value.length > 0 : value),
     )
-    .toSorted((a, b) => sortRelations(a[0], b[0]));
+    .sort((a, b) => sortRelations(a[0], b[0]));
 }
 
 export function getRelatedCardQuantity(

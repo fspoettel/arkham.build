@@ -61,7 +61,7 @@ export const selectAssetOptions = createSelector(
 
     const uses = Object.keys(lookupTables.uses)
       .map((code) => ({ code }))
-      .toSorted((a, b) => sortAlphabetical(a.code, b.code));
+      .sort((a, b) => sortAlphabetical(a.code, b.code));
 
     const skillBoosts = SKILL_KEYS.filter((x) => x !== "wild");
 

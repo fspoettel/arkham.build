@@ -47,7 +47,7 @@ export function DecklistGroups({
       <h4 className={css["group-title"]}>Asset</h4>
       <ol className={css["group-children"]}>
         {Object.entries(group["asset"] as Record<string, Card[]>)
-          .toSorted(([a], [b]) => sortBySlots(a, b))
+          .sort(([a], [b]) => sortBySlots(a, b))
           .map(([key, val]) => {
             return (
               <li className={css["group-child"]} key={key}>
@@ -72,7 +72,7 @@ export function DecklistGroups({
 
   const rest = Object.keys(group)
     .filter((g) => g !== "asset")
-    .toSorted(sortTypesByOrder)
+    .sort(sortTypesByOrder)
     .map((key) => {
       const k = key as keyof Grouping;
       const entry = group[k] as Card[];
@@ -135,7 +135,7 @@ function DecklistGroup(props: DecklistGroupProps) {
 
   return (
     <ol>
-      {cards.toSorted(sortByName).map((card) => (
+      {[...cards].sort(sortByName).map((card) => (
         <ListCard
           as="li"
           card={card}

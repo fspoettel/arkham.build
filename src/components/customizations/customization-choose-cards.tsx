@@ -44,7 +44,7 @@ function selectPlayerCardsForCustomizationOptions(
     options.add(card);
   }
 
-  const cards = Array.from(options).toSorted(sortByName);
+  const cards = Array.from(options).sort(sortByName);
 
   timeEnd("select_player_cards_for_customization_options");
 
