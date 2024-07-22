@@ -151,6 +151,10 @@ hr {
   border-bottom: 1px solid var(--nord-4);
 }
 
+pre {
+  white-space: pre-wrap;
+}
+
 img,
 picture,
 video,
