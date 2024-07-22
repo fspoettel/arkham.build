@@ -33,7 +33,8 @@ export function Grouphead(props: Props) {
           type === "subtype" ||
           type === "type" ||
           type === "level" ||
-          type === "cost"
+          type === "cost" ||
+          type === "base_upgrades"
         ) {
           // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
           return <span key={i}>{keyLabel}</span>;

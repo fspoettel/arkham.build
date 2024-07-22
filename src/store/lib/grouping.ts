@@ -383,6 +383,12 @@ export function getGroupingKeyLabel(
         : metadata.factions[segment]?.name ?? "";
     }
 
+    case "base_upgrades": {
+      if (segment === LEVEL_0) return "Level 0 (or no level)";
+      if (segment === UPGRADE) return "Upgrades";
+      return "";
+    }
+
     case "default": {
       return segment;
     }
