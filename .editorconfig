@@ -18,6 +18,3 @@ indent_size = 2
 # allow trailing whitespace in markdown files
 [*.md]
 trim_trailing_whitespace = false
-
-[*.spec.ts]
-trim_trailing_whitespace = false
