@@ -11,12 +11,12 @@ import { getInitialDataState } from "../slices/data";
 import { getInitialMetadata } from "../slices/metadata";
 import { getInitialSettings } from "../slices/settings";
 import { getInitialSharingState } from "../slices/sharing";
-import { IndexedDBAdapter } from "./indexeddb-adapter";
 import v1Tov2 from "./migrations/0001-add-deck-history";
 import v2Tov3 from "./migrations/0002-add-client-id";
+import { StorageAdapter } from "./storage-adapter";
 import type { Val } from "./storage.types";
 
-const indexedDBAdapter = new IndexedDBAdapter();
+const storageAdapter = new StorageAdapter();
 
 const VERSION = 3;
 
@@ -70,8 +70,8 @@ function createCustomStorage(): PersistStorage<Val> | undefined {
 
       try {
         const [metadata, appdata] = await Promise.all([
-          indexedDBAdapter.getMetadata(name),
-          indexedDBAdapter.getAppdata(name),
+          storageAdapter.getMetadata(name),
+          storageAdapter.getAppdata(name),
         ]);
 
         if (!metadata && !appdata) return null;
@@ -90,7 +90,7 @@ function createCustomStorage(): PersistStorage<Val> | undefined {
 
         return val;
       } catch (err) {
-        indexedDBAdapter.removeIdentifier(name);
+        storageAdapter.removeIdentifier(name);
         console.error("error during hydration:", err);
         return null;
       }
@@ -98,8 +98,8 @@ function createCustomStorage(): PersistStorage<Val> | undefined {
 
     async setItem(name, value) {
       try {
-        await indexedDBAdapter.setAppdata(name, value);
-        await indexedDBAdapter.setMetadata(name, value);
+        await storageAdapter.setAppdata(name, value);
+        await storageAdapter.setMetadata(name, value);
       } catch (err) {
         console.error("could not persist store data:", err);
       }
@@ -107,8 +107,8 @@ function createCustomStorage(): PersistStorage<Val> | undefined {
 
     async removeItem(name) {
       await Promise.all([
-        indexedDBAdapter.removeAppdata(name),
-        indexedDBAdapter.removeMetadata(name),
+        storageAdapter.removeAppdata(name),
+        storageAdapter.removeMetadata(name),
       ]);
     },
   };

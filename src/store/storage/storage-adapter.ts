@@ -1,10 +1,16 @@
-import { del, get, set } from "idb-keyval";
 import type { StorageValue } from "zustand/middleware";
 
 import type { DataVersion } from "../services/queries.types";
+import { StorageBackend } from "./backend/index";
 import type { Val } from "./storage.types";
 
-export class IndexedDBAdapter<T extends StorageValue<Val>> {
+export class StorageAdapter<T extends StorageValue<Val>> {
+  backend: StorageBackend;
+
+  constructor() {
+    this.backend = new StorageBackend();
+  }
+
   appdataName(name: string) {
     return `${name}-app`;
   }
@@ -51,7 +57,7 @@ export class IndexedDBAdapter<T extends StorageValue<Val>> {
       version: value.version,
     });
 
-    return set(this.metadataName(name), payload);
+    return this.backend.set(this.metadataName(name), payload);
   }
 
   setAppdata(name: string, value: T) {
@@ -68,11 +74,11 @@ export class IndexedDBAdapter<T extends StorageValue<Val>> {
       version: value.version,
     });
 
-    return set(this.appdataName(name), payload);
+    return this.backend.set(this.appdataName(name), payload);
   }
 
   async getAppdata(name: string) {
-    const data = await get(this.appdataName(name));
+    const data = await this.backend.get(this.appdataName(name));
     if (!data) return null;
     return JSON.parse(data);
   }
@@ -80,7 +86,7 @@ export class IndexedDBAdapter<T extends StorageValue<Val>> {
   async getMetadata(name: string) {
     const key = this.metadataKey(name);
 
-    const data = await get(this.metadataName(name));
+    const data = await this.backend.get(this.metadataName(name));
 
     if (!data) {
       console.debug("[persist] no metadata found in storage.");
@@ -104,11 +110,11 @@ export class IndexedDBAdapter<T extends StorageValue<Val>> {
   }
 
   removeAppdata(name: string) {
-    return del(this.appdataName(name));
+    return this.backend.del(this.appdataName(name));
   }
 
   removeMetadata(name: string) {
-    return del(this.metadataName(name));
+    return this.backend.del(this.metadataName(name));
   }
 
   removeIdentifier(name: string) {

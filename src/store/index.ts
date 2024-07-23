@@ -12,7 +12,7 @@ import { createMetadataSlice } from "./slices/metadata";
 import { createSettingsSlice } from "./slices/settings";
 import { createSharingSlice } from "./slices/sharing";
 import { createUISlice } from "./slices/ui";
-import { storageConfig } from "./storage";
+import { storageConfig } from "./storage/persist-options";
 
 // biome-ignore lint/suspicious/noExplicitAny: safe.
 const stateCreator = (...args: [any, any, any]) => ({
