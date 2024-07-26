@@ -1,5 +1,5 @@
 import { cardLevel } from "@/utils/card-utils";
-import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import { DECK_SIZE_ADJUSTMENTS, SPECIAL_CARD_CODES } from "@/utils/constants";
 
 import { time, timeEnd } from "@/utils/time";
 import type {
@@ -36,7 +36,7 @@ type BaseError = {
   type: ValidationError;
 };
 
-export type TooManyCardsError = {
+type TooManyCardsError = {
   type: "TOO_MANY_CARDS";
   details: {
     target: "slots" | "extraSlots";
@@ -45,7 +45,7 @@ export type TooManyCardsError = {
   };
 };
 
-export type TooFewCardsError = {
+type TooFewCardsError = {
   type: "TOO_FEW_CARDS";
   details: {
     target: "slots" | "extraSlots";
@@ -54,14 +54,14 @@ export type TooFewCardsError = {
   };
 };
 
-export type DeckOptionsError = {
+type DeckOptionsError = {
   type: "INVALID_DECK_OPTION";
   details: {
     error: string;
   };
 };
 
-export type InvalidCardError = {
+type InvalidCardError = {
   type: "INVALID_CARD_COUNT";
   details: {
     real_name: string;
@@ -214,14 +214,6 @@ function validateInvestigator(deck: ResolvedDeck) {
   return valid;
 }
 
-const SIZE_ADJUSTMENTS = {
-  [SPECIAL_CARD_CODES.ANCESTRAL_KNOWLEDGE]: 5,
-  [SPECIAL_CARD_CODES.FORCED_LEARNING]: 15,
-  [SPECIAL_CARD_CODES.UNDERWORLD_MARKET]: 10,
-  [SPECIAL_CARD_CODES.UNDERWORLD_SUPPORT]: -5,
-  [SPECIAL_CARD_CODES.VERSATILE]: 5,
-};
-
 function validateDeckSize(deck: ResolvedDeck): Error[] {
   const investigatorBack = deck.investigatorBack.card;
 
@@ -247,7 +239,7 @@ function validateDeckSize(deck: ResolvedDeck): Error[] {
   );
   if (selectedOption?.size) investigatorDeckSize += selectedOption.size;
 
-  const adjustment = Object.entries(SIZE_ADJUSTMENTS).reduce<number>(
+  const adjustment = Object.entries(DECK_SIZE_ADJUSTMENTS).reduce<number>(
     (acc, [code, adjustment]) => {
       return deck.slots[code] ? acc + adjustment * deck.slots[code] : acc;
     },

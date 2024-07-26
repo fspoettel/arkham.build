@@ -85,3 +85,23 @@ export function Modal(props: Props) {
     </div>
   );
 }
+
+type ModalContentProps = {
+  children: React.ReactNode;
+  footer?: React.ReactNode;
+  title: React.ReactNode;
+} & Omit<React.HTMLAttributes<HTMLDivElement>, "title">;
+
+export function ModalContent(props: ModalContentProps) {
+  const { children, footer, title, ...rest } = props;
+
+  return (
+    <section className={css["content"]} {...rest}>
+      <header className={css["content-header"]}>
+        <h2 className={css["content-title"]}>{title}</h2>
+      </header>
+      <div className={css["content-main"]}>{children}</div>
+      {footer && <footer className={css["content-footer"]}>{footer}</footer>}
+    </section>
+  );
+}

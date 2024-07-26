@@ -42,6 +42,7 @@ export function DeckDescription(props: Props) {
 
       if (code && code !== cardTooltip) {
         evt.preventDefault();
+        evt.stopPropagation();
         refs.setReference(evt.target as HTMLAnchorElement);
         setCardTooltip(code);
       } else if (cardTooltip) {

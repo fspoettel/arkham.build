@@ -11,7 +11,6 @@ import {
   selectCanCheckOwnership,
   selectCardOwnedCount,
 } from "@/store/selectors/shared";
-import type { Card } from "@/store/services/queries.types";
 import type { Slots } from "@/store/slices/data.types";
 import { range } from "@/utils/range";
 
@@ -20,7 +19,7 @@ import css from "./card-list.module.css";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { useCardModalContext } from "../card-modal/card-modal-context";
 import { Footer } from "../footer";
-import { ListCard } from "../list-card/list-card";
+import { ListCard, type Props as ListCardProps } from "../list-card/list-card";
 import { Scroller } from "../ui/scroller";
 import { Grouphead } from "./Grouphead";
 import { CardListNav } from "./card-list-nav";
@@ -34,8 +33,10 @@ type Props = {
     limit: number,
   ) => void;
   quantities?: Slots;
-  renderListCardAction?: (card: Card) => React.ReactNode;
-  renderListCardExtra?: (card: Card) => React.ReactNode;
+  listcardSize?: ListCardProps["size"];
+  renderListCardAction?: ListCardProps["renderAction"];
+  renderListCardAfter?: ListCardProps["renderAfter"];
+  renderListCardExtra?: ListCardProps["renderExtra"];
   slotLeft?: React.ReactNode;
   slotRight?: React.ReactNode;
   targetDeck?: "slots" | "extraSlots" | "both";
@@ -44,9 +45,11 @@ type Props = {
 export function CardList(props: Props) {
   const {
     className,
+    listcardSize,
     onChangeCardQuantity,
     quantities,
     renderListCardAction,
+    renderListCardAfter,
     renderListCardExtra,
     slotLeft,
     slotRight,
@@ -226,8 +229,10 @@ export function CardList(props: Props) {
                       ? quantities[data.cards[index].code] ?? 0
                       : undefined
                   }
+                  renderAfter={renderListCardAfter}
                   renderAction={renderListCardAction}
                   renderExtra={renderListCardExtra}
+                  size={listcardSize}
                 />
               )}
               key={data.key}

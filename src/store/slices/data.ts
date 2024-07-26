@@ -10,7 +10,7 @@ import {
   formatDeckExport,
   formatDeckImport,
 } from "../lib/serialization/deck-io";
-import { selectResolvedDeckById } from "../selectors/deck-view";
+import { selectResolvedDeckById } from "../selectors/decks";
 import { selectClientId } from "../selectors/shared";
 import { importDeck } from "../services/queries";
 import { type DataSlice, type Deck, type Id, isDeck } from "./data.types";

@@ -1,5 +1,6 @@
 import { AppLayout } from "@/layouts/app-layout";
 
+import { DeckHistory } from "@/pages/deck-view/deck-history/deck-history";
 import { DeckNotes } from "@/pages/deck-view/deck-notes";
 import type { DeckValidationResult } from "@/store/lib/deck-validation";
 import type { ResolvedDeck } from "@/store/lib/types";
@@ -36,6 +37,9 @@ export function DeckDisplay(props: Props) {
         <div className={css["content"]}>
           <DecklistValidation defaultOpen validation={validation} />
           <Decklist deck={deck} />
+          {!deck.next_deck && !!deck.previous_deck && (
+            <DeckHistory deck={deck} />
+          )}
         </div>
       </main>
       {deck.description_md && (

@@ -32,9 +32,9 @@ export type Props = {
   isForbidden?: boolean;
   isIgnored?: number;
   isRemoved?: boolean;
+  limitOverride?: number;
   omitBorders?: boolean;
   omitThumbnail?: boolean;
-
   onChangeCardQuantity?: (
     code: string,
     quantity: number,
@@ -43,12 +43,11 @@ export type Props = {
   ownedCount?: number;
   quantity?: number;
   referenceProps?: React.ComponentProps<"div">;
-  size?: "sm" | "investigator";
-  showInvestigatorIcons?: boolean;
-
   renderAction?: (card: Card) => React.ReactNode;
   renderExtra?: (card: Card) => React.ReactNode;
   renderAfter?: (card: Card, quantity?: number) => React.ReactNode;
+  size?: "sm" | "investigator";
+  showInvestigatorIcons?: boolean;
 };
 
 export function ListCardInner(props: Props) {
@@ -63,6 +62,7 @@ export function ListCardInner(props: Props) {
     isForbidden,
     isIgnored,
     isRemoved,
+    limitOverride,
     omitBorders,
     omitThumbnail,
     onChangeCardQuantity,
@@ -94,7 +94,7 @@ export function ListCardInner(props: Props) {
     modalContext.setOpen({ code: card.code });
   }, [modalContext, card.code]);
 
-  const limit = card.deck_limit || card.quantity;
+  const limit = limitOverride || card.deck_limit || card.quantity;
 
   return (
     <Element

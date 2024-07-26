@@ -46,6 +46,11 @@ export function applyDeckEdits(
     deck.taboo_id = edits.tabooId;
   }
 
+  // adjust xp based on deck edits.
+  if (edits.xpAdjustment != null) {
+    deck.xp_adjustment = edits.xpAdjustment;
+  }
+
   // adjust meta based on deck edits.
   const deckMeta = decodeDeckMeta(deck);
 
@@ -74,8 +79,9 @@ export function applyDeckEdits(
   }
 
   for (const [code, quantity] of Object.entries(deck.slots)) {
-    if (!quantity && (alwaysDeleteEmpty || !originalDeck.slots[code]))
+    if (!quantity && (alwaysDeleteEmpty || !originalDeck.slots[code])) {
       delete deck.slots[code];
+    }
   }
 
   if (deck.sideSlots && !Array.isArray(deck.sideSlots)) {

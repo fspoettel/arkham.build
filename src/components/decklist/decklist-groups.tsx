@@ -3,7 +3,12 @@ import { useMemo } from "react";
 
 import { useStore } from "@/store";
 import type { Grouping } from "@/store/lib/deck-grouping";
-import { sortByName, sortBySlots, sortTypesByOrder } from "@/store/lib/sorting";
+import {
+  sortByLevel,
+  sortByName,
+  sortBySlots,
+  sortTypesByOrder,
+} from "@/store/lib/sorting";
 import {
   selectCanCheckOwnership,
   selectCardOwnedCount,
@@ -14,7 +19,7 @@ import { capitalize } from "@/utils/formatting";
 
 import css from "./decklist-groups.module.css";
 
-import { selectForbiddenCards } from "@/store/selectors/deck-view";
+import { selectForbiddenCards } from "@/store/selectors/decks";
 import { useResolvedDeckChecked } from "@/utils/use-resolved-deck";
 import SlotIcon from "../icons/slot-icon";
 import { ListCard } from "../list-card/list-card";
@@ -141,26 +146,28 @@ function DecklistGroup(props: DecklistGroupProps) {
 
   return (
     <ol>
-      {[...cards].sort(sortByName).map((card) => (
-        <ListCard
-          as="li"
-          card={card}
-          isForbidden={
-            forbiddenCards.find(
-              (x) => x.code === card.code && x.target === mapping,
-            ) != null
-          }
-          isRemoved={quantities?.[card.code] === 0}
-          isIgnored={ignoredCounts?.[card.code]}
-          key={card.code}
-          omitBorders
-          onChangeCardQuantity={onChangeCardQuantity}
-          ownedCount={canCheckOwnership ? cardOwnedCount(card) : undefined}
-          quantity={quantities?.[card.code] ?? 0}
-          renderAfter={renderListCardAfter}
-          size={listCardSize}
-        />
-      ))}
+      {[...cards]
+        .sort((a, b) => sortByName(a, b) || sortByLevel(a, b))
+        .map((card) => (
+          <ListCard
+            as="li"
+            card={card}
+            isForbidden={
+              forbiddenCards.find(
+                (x) => x.code === card.code && x.target === mapping,
+              ) != null
+            }
+            isRemoved={quantities?.[card.code] === 0}
+            isIgnored={ignoredCounts?.[card.code]}
+            key={card.code}
+            omitBorders
+            onChangeCardQuantity={onChangeCardQuantity}
+            ownedCount={canCheckOwnership ? cardOwnedCount(card) : undefined}
+            quantity={quantities?.[card.code] ?? 0}
+            renderAfter={renderListCardAfter}
+            size={listCardSize}
+          />
+        ))}
     </ol>
   );
 }

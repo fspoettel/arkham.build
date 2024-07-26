@@ -3,26 +3,25 @@ import { useCallback } from "react";
 import { useLocation } from "wouter";
 
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
-import { useAccentColor } from "@/utils/use-accent-color";
 
 import type { ResolvedDeck } from "@/store/lib/types";
+import type { Tab } from "@/store/slices/deck-edits.types";
 import { useHotKey } from "@/utils/use-hotkey";
 import css from "./editor.module.css";
+import { LatestUpgrade } from "./latest-upgrade";
 
 type Props = {
+  currentTab: Tab;
   deck: ResolvedDeck;
 };
 
 export function EditorActions(props: Props) {
-  const { deck } = props;
+  const { currentTab, deck } = props;
 
   const [, navigate] = useLocation();
   const toast = useToast();
-  const cssVariables = useAccentColor(
-    deck.cards.investigator.card.faction_code,
-  );
 
   const hasEdits = useStore((state) => !!state.deckEdits[deck.id]);
   const discardEdits = useStore((state) => state.discardEdits);
@@ -67,24 +66,27 @@ export function EditorActions(props: Props) {
   useHotKey("cmd+backspace", onQuickDiscard, [onDiscard]);
 
   return (
-    <div className={css["actions"]} style={cssVariables}>
-      <Button
-        onClick={() => {
-          onSave();
-        }}
-        variant="primary"
-      >
-        <Save />
-        Save
-      </Button>
-      <Button
-        onClick={() => {
-          onDiscard();
-        }}
-        variant="bare"
-      >
-        Discard edits
-      </Button>
-    </div>
+    <>
+      <LatestUpgrade currentTab={currentTab} deck={deck} />
+      <div className={css["actions"]}>
+        <Button
+          onClick={() => {
+            onSave();
+          }}
+          variant="primary"
+        >
+          <Save />
+          Save
+        </Button>
+        <Button
+          onClick={() => {
+            onDiscard();
+          }}
+          variant="bare"
+        >
+          Discard edits
+        </Button>
+      </div>
+    </>
   );
 }

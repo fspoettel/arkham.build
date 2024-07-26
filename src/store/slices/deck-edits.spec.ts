@@ -5,7 +5,7 @@ import deckExtraSlots from "@/test/fixtures/decks/extra_slots.json";
 import { getMockStore } from "@/test/get-mock-store";
 
 import type { StoreState } from ".";
-import { selectResolvedDeckById } from "../selectors/deck-view";
+import { selectResolvedDeckById } from "../selectors/decks";
 
 describe("deck-view slice", () => {
   let store: StoreApi<StoreState>;

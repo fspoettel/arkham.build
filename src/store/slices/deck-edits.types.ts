@@ -49,6 +49,7 @@ export type EditState = {
   tabooId?: number | null;
   investigatorFront?: string | null;
   investigatorBack?: string | null;
+  xpAdjustment?: number | null;
 };
 
 export type EditsState = {
@@ -92,6 +93,8 @@ export type DeckEditsSlice = {
   updateDescription(deckId: Id, value: string): void;
 
   updateTags(deckId: Id, value: string): void;
+
+  updateXpAdjustment(deckId: Id, value: number): void;
 
   drawRandomBasicWeakness(deckId: Id): void;
 };

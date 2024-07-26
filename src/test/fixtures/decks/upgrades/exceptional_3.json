@@ -1,0 +1,27 @@
+{
+  "id": "x8IIlYCOdfR2BgJ",
+  "date_creation": "2024-08-10T10:04:16.145Z",
+  "date_update": "2024-08-10T10:04:30.185Z",
+  "description_md": "",
+  "meta": "{}",
+  "ignoreDeckLimitSlots": {},
+  "sideSlots": {},
+  "next_deck": null,
+  "previous_deck": null,
+  "tags": "",
+  "version": "0.1",
+  "taboo_id": 7,
+  "xp": 6,
+  "xp_spent": null,
+  "exile_string": null,
+  "xp_adjustment": null,
+  "investigator_code": "01003",
+  "name": "The \"Skids\" O'Toole Job",
+  "slots": {
+    "01000": 1,
+    "01010": 1,
+    "01011": 1,
+    "08058": 1
+  },
+  "problem": "too_few_cards"
+}

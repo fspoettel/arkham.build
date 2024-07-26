@@ -9,17 +9,21 @@ import {
   SPECIAL_CARD_CODES,
 } from "@/utils/constants";
 
+import { decodeExileSlots } from "@/utils/card-utils";
 import { randomId } from "@/utils/crypto";
 import { time, timeEnd } from "@/utils/time";
 import type { StoreState } from ".";
 import { mappedByCode, mappedById } from "../lib/metadata-utils";
 import { resolveDeck } from "../lib/resolve-deck";
 import { mapValidationToProblem } from "../lib/serialization/deck-io";
-import { encodeExtraSlots } from "../lib/serialization/slots";
+import { decodeDeckMeta } from "../lib/serialization/deck-meta";
+import { decodeExtraSlots, encodeExtraSlots } from "../lib/serialization/slots";
 import type { DeckMeta } from "../lib/types";
 import { selectDeckCreateCardSets } from "../selectors/deck-create";
-import { selectDeckValid } from "../selectors/deck-view";
+import { selectDeckValid } from "../selectors/decks";
+import { selectLatestUpgrade } from "../selectors/decks";
 import type { AppSlice } from "./app.types";
+import type { Deck } from "./data.types";
 import { makeLists } from "./lists";
 import { createLookupTables, createRelations } from "./lookup-tables";
 import { getInitialMetadata } from "./metadata";
@@ -227,7 +231,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       name: state.deckCreate.title,
       slots,
       meta: JSON.stringify(meta),
-      taboo_id: state.deckCreate.tabooSetId,
+      taboo_id: state.deckCreate.tabooSetId ?? null,
       problem: "too_few_cards",
     });
 
@@ -364,6 +368,12 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     const validation = selectDeckValid(state, resolved);
     nextDeck.problem = mapValidationToProblem(validation);
 
+    const upgrade = selectLatestUpgrade(state, resolved);
+    if (upgrade) {
+      nextDeck.xp_spent = upgrade.xpSpent;
+      nextDeck.xp_adjustment = upgrade.xpAdjustment;
+    }
+
     const deckEdits = { ...state.deckEdits };
     delete deckEdits[deckId];
 
@@ -410,5 +420,124 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     }
 
     return nextDeck.id;
+  },
+
+  upgradeDeck(id, xp, exileString) {
+    const state = get();
+
+    const deck = state.data.decks[id];
+    assert(deck, `Deck ${id} does not exist.`);
+
+    const now = new Date().toISOString();
+
+    const xpCarryover =
+      (deck.xp ?? 0) + (deck.xp_adjustment ?? 0) - (deck.xp_spent ?? 0);
+
+    const newDeck: Deck = {
+      ...structuredClone(deck),
+      id: randomId(),
+      date_creation: now,
+      date_update: now,
+      next_deck: null,
+      previous_deck: deck.id,
+      source: "local",
+      version: "0.1",
+      xp: xp + xpCarryover,
+      exile_string: exileString ?? null,
+    };
+
+    if (exileString) {
+      const exiledSlots = decodeExileSlots(exileString);
+
+      const meta = decodeDeckMeta(deck);
+      const extraSlots = decodeExtraSlots(meta);
+
+      for (const [code, quantity] of Object.entries(exiledSlots)) {
+        if (newDeck.slots[code]) {
+          newDeck.slots[code] -= quantity;
+          if (newDeck.slots[code] <= 0) delete newDeck.slots[code];
+        }
+
+        if (extraSlots[code]) {
+          extraSlots[code] -= quantity;
+          if (extraSlots[code] <= 0) delete extraSlots[code];
+        }
+
+        if (meta[`cus_${code}`]) {
+          delete meta[`cus_${code}`];
+        }
+      }
+
+      newDeck.meta = JSON.stringify({
+        ...meta,
+        extra_deck: encodeExtraSlots(extraSlots),
+      });
+    }
+
+    const prevDeck: Deck = {
+      ...deck,
+      next_deck: newDeck.id,
+    };
+
+    const history = { ...state.data.history };
+    history[newDeck.id] = [deck.id, ...history[deck.id]];
+    delete history[deck.id];
+
+    const deckEdits = { ...state.deckEdits };
+    delete deckEdits[deck.id];
+
+    set({
+      deckEdits,
+      data: {
+        ...state.data,
+        decks: {
+          ...state.data.decks,
+          [deck.id]: prevDeck,
+          [newDeck.id]: newDeck,
+        },
+        history,
+      },
+    });
+
+    return newDeck.id;
+  },
+
+  deleteUpgrade(id) {
+    const state = get();
+
+    const deck = state.data.decks[id];
+    assert(deck, `Deck ${id} does not exist.`);
+
+    const previousId = deck.previous_deck;
+
+    assert(previousId, "Deck does not have a previous deck.");
+
+    const decks = { ...state.data.decks };
+    assert(decks[previousId], "Previous deck does not exist.");
+
+    const history = { ...state.data.history };
+
+    const deckHistory = history[deck.id];
+    assert(Array.isArray(deckHistory), "Deck history does not exist.");
+
+    history[previousId] = deckHistory.filter((x) => deck.previous_deck !== x);
+    delete history[deck.id];
+
+    decks[previousId] = { ...decks[previousId], next_deck: null };
+    delete decks[deck.id];
+
+    const deckEdits = { ...state.deckEdits };
+    delete deckEdits[deck.id];
+
+    set({
+      deckEdits,
+      data: {
+        ...state.data,
+        decks,
+        history,
+      },
+    });
+
+    return previousId;
   },
 });

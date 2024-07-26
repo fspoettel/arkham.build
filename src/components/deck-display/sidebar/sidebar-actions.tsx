@@ -6,13 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Notice } from "@/components/ui/notice";
 import { useStore } from "@/store";
 
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useToast } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/toast.hooks";
+import { UpgradeModal } from "@/pages/deck-view/upgrade-modal";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { useHotKey } from "@/utils/use-hotkey";
 import css from "./sidebar.module.css";
@@ -27,6 +29,7 @@ export function SidebarActions(props: Props) {
   const [, setLocation] = useLocation();
 
   const deleteDeck = useStore((state) => state.deleteDeck);
+  const deleteUpgrade = useStore((state) => state.deleteUpgrade);
   const duplicateDeck = useStore((state) => state.duplicateDeck);
   const exportJson = useStore((state) => state.exportJSON);
   const exportText = useStore((state) => state.exportText);
@@ -40,6 +43,19 @@ export function SidebarActions(props: Props) {
       setLocation("~/");
     }
   }, [deck.id, deleteDeck, setLocation, toast]);
+
+  const onDeleteUpgrade = useCallback(() => {
+    const confirmed = confirm("Are you sure you want to delete this upgrade?");
+    if (confirmed) {
+      const id = deleteUpgrade(deck.id);
+      setLocation(`/deck/view/${id}`);
+      toast.show({
+        duration: 3000,
+        children: "Upgrade delete successful.",
+        variant: "success",
+      });
+    }
+  }, [deleteUpgrade, setLocation, deck.id, toast]);
 
   const onDuplicate = useCallback(() => {
     try {
@@ -113,14 +129,20 @@ export function SidebarActions(props: Props) {
         >
           <Pencil /> Edit
         </Button>
-        <Button
-          data-testid="view-upgrade"
-          disabled
-          size="full"
-          tooltip="Not implemented yet."
-        >
-          <i className="icon-xp-bold" /> Upgrade
-        </Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              data-testid="view-upgrade"
+              disabled={isReadOnly}
+              size="full"
+            >
+              <i className="icon-xp-bold" /> Upgrade
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <UpgradeModal deck={deck} />
+          </DialogContent>
+        </Dialog>
         <Popover
           placement="bottom-start"
           open={actionsOpen}
@@ -164,6 +186,17 @@ export function SidebarActions(props: Props) {
                 <Download /> Export Markdown
               </Button>
               <hr />
+              {!!deck.previous_deck && (
+                <Button
+                  data-testid="view-delete-upgrade"
+                  disabled={isReadOnly}
+                  onClick={onDeleteUpgrade}
+                  size="full"
+                  variant="bare"
+                >
+                  <i className="icon-xp-bold" /> Delete upgrade
+                </Button>
+              )}
               <Button
                 data-testid="view-delete"
                 disabled={isReadOnly}

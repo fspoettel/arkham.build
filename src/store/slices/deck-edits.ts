@@ -180,6 +180,21 @@ export const createDeckEditsSlice: StateCreator<
     });
   },
 
+  updateXpAdjustment(deckId, value) {
+    const state = get();
+    const edits = currentEdits(state, deckId);
+
+    set({
+      deckEdits: {
+        ...state.deckEdits,
+        [deckId]: {
+          ...edits,
+          xpAdjustment: value,
+        },
+      },
+    });
+  },
+
   drawRandomBasicWeakness(deckId) {
     const state = get();
 

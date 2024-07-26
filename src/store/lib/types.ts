@@ -107,9 +107,11 @@ export type ResolvedDeck = Omit<Deck, "sideSlots"> & {
   metaParsed: DeckMeta;
   sideSlots: Record<string, number> | null; // arkhamdb stores `[]` when empty, normalize to `null`.
   extraSlots: Record<string, number> | null;
+  exileSlots: Record<string, number>;
   customizations?: Customizations;
   cards: {
     investigator: CardWithRelations; // tracks relations.
+    exileSlots: Record<string, ResolvedCard>;
     slots: Record<string, ResolvedCard>;
     sideSlots: Record<string, ResolvedCard>;
     ignoreDeckLimitSlots: Record<string, ResolvedCard>;

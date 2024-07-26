@@ -1,0 +1,29 @@
+{
+  "id": "AsBywv94oW5Jokd",
+  "date_creation": "2024-08-13T11:38:58.015Z",
+  "date_update": "2024-08-13T11:39:42.926Z",
+  "description_md": "0 XP - story cards and weaknesses are free",
+  "meta": "{}",
+  "ignoreDeckLimitSlots": {},
+  "sideSlots": {},
+  "next_deck": null,
+  "previous_deck": null,
+  "tags": "",
+  "version": "0.1",
+  "taboo_id": null,
+  "xp": 0,
+  "xp_spent": null,
+  "exile_string": "",
+  "xp_adjustment": null,
+  "investigator_code": "01002",
+  "name": "Daisy Walker Investigates",
+  "slots": {
+    "10135": 1,
+    "53015": 1,
+    "01000": 1,
+    "01008": 1,
+    "01009": 1,
+    "02040": 1
+  },
+  "problem": "too_few_cards"
+}

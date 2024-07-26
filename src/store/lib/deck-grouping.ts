@@ -24,9 +24,10 @@ export type Groupings = {
   sideSlots?: NamedGrouping;
   bondedSlots?: NamedGrouping;
   extraSlots?: NamedGrouping;
+  exileSlots?: NamedGrouping;
 };
 
-export function groupDeckCardsByType(
+function groupDeckCardsByType(
   metadata: Metadata,
   lookupTables: LookupTables,
   deck: ResolvedDeck,

@@ -1,0 +1,29 @@
+{
+  "id": "HoFVmaB8cjfcOwQ",
+  "date_creation": "2024-08-12T08:48:04.936Z",
+  "date_update": "2024-08-12T08:51:32.583Z",
+  "description_md": "",
+  "meta": "{}",
+  "ignoreDeckLimitSlots": {},
+  "sideSlots": {},
+  "next_deck": null,
+  "previous_deck": null,
+  "tags": "",
+  "version": "0.1",
+  "xp": null,
+  "xp_spent": null,
+  "exile_string": null,
+  "xp_adjustment": null,
+  "investigator_code": "01005",
+  "name": "Wendy Adams on the Road",
+  "slots": {
+    "60505": 2,
+    "01000": 1,
+    "01014": 1,
+    "01015": 1,
+    "02110": 1,
+    "01079": 2
+  },
+  "problem": "too_few_cards",
+  "taboo_id": null
+}

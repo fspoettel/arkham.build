@@ -4,12 +4,13 @@ import {
   capitalize,
   formatSelectionId,
   formatTabooSet,
+  formatXpAvailable,
 } from "@/utils/formatting";
 
 import css from "./sidebar.module.css";
 
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { cx } from "@/utils/cx";
@@ -70,12 +71,23 @@ export function Sidebar(props: Props) {
           </p>
         </li>
 
-        <li className={css["detail"]} data-testid="view-deck-xp">
-          <div className={css["detail-label"]}>
-            <i className="icon-xp-bold" /> XP required
-          </div>
-          <p className={css["detail-value"]}>{deck.stats.xpRequired}</p>
-        </li>
+        {deck.previous_deck ? (
+          <li className={css["detail"]} data-testid="view-deck-xp">
+            <div className={css["detail-label"]}>
+              <i className="icon-xp-bold" /> XP earned
+            </div>
+            <p className={css["detail-value"]}>
+              {formatXpAvailable(deck.xp, deck.xp_adjustment, deck.xp_spent)}
+            </p>
+          </li>
+        ) : (
+          <li className={css["detail"]} data-testid="view-deck-xp">
+            <div className={css["detail-label"]}>
+              <i className="icon-xp-bold" /> XP required
+            </div>
+            <p className={css["detail-value"]}>{deck.stats.xpRequired}</p>
+          </li>
+        )}
 
         <li className={css["detail"]} data-testid="view-deck-taboo">
           <div className={css["detail-label"]}>

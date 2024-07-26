@@ -39,3 +39,18 @@ export function formatRelationTitle(id: string) {
   if (id === "level") return "Other levels";
   return id;
 }
+
+export function formatXpAvailable(
+  xp: number | null,
+  adjustment: number | null,
+  spent: number | null,
+) {
+  return (
+    <span>
+      {xp}
+      {!!adjustment &&
+        `(${adjustment >= 0 ? "+" : "-"}${Math.abs(adjustment)})`}{" "}
+      XP <em>(spent: {spent ?? 0})</em>
+    </span>
+  );
+}

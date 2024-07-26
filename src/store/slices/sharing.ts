@@ -72,7 +72,7 @@ export const createSharingSlice: StateCreator<
 
     await deleteShare(selectClientId(state), id);
 
-    const decks = state.sharing.decks;
+    const decks = { ...state.sharing.decks };
     delete decks[id];
 
     set({

@@ -18,6 +18,7 @@
   background: rgba(0, 0, 0, 0.05);
   z-index: 100;
   transition: background 160ms ease-out;
+  pointer-events: none;
 }
 
 .scrollbar:hover {

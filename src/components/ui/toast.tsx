@@ -1,17 +1,10 @@
 import { cx } from "@/utils/cx";
 import { CheckCircle, CircleAlert, X } from "lucide-react";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { randomId } from "@/utils/crypto";
 import { Button } from "./button";
+import { ToastContext, type Toast as ToastType } from "./toast.hooks";
 import css from "./toast.module.css";
 
 type ToastPayload = {
@@ -22,19 +15,8 @@ type ToastPayload = {
   variant?: "success" | "error";
 };
 
-type Toast = ToastPayload & {
-  id: string;
-};
-
-export type ToastContext = {
-  show: (msg: ToastPayload) => string;
-  dismiss: (id: string) => void;
-};
-
-const ToastContext = createContext<ToastContext | undefined>(undefined);
-
 export function ToastProvider({ children }: { children: React.ReactNode }) {
-  const [toasts, setToasts] = useState<Toast[]>([]);
+  const [toasts, setToasts] = useState<ToastType[]>([]);
 
   const dismissToast = useCallback((id: string) => {
     setToasts((prev) => prev.filter((toast) => toast.id !== id));
@@ -69,7 +51,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 }
 
 function Toast(props: {
-  toast: Toast;
+  toast: ToastType;
   id: string;
   onRemove: (id: string) => void;
 }) {
@@ -148,14 +130,4 @@ function Toast(props: {
       </div>
     </div>
   );
-}
-
-export function useToast() {
-  const context = useContext(ToastContext);
-
-  if (context === undefined) {
-    throw new Error("useToast must be used within a ToastProvider");
-  }
-
-  return context;
 }

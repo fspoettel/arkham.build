@@ -7,7 +7,7 @@ import { useRestingTooltip } from "../ui/tooltip.hooks";
 import type { Props as ListCardInnerProps } from "./list-card-inner";
 import { ListCardInner } from "./list-card-inner";
 
-type Props = {
+export type Props = {
   tooltip?: React.ReactNode;
 } & Omit<ListCardInnerProps, "figureRef" | "referenceProps">;
 

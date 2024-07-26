@@ -5,7 +5,8 @@
 .signatures {
   display: flex;
   flex-flow: row wrap;
-  gap: 0.5rem;
+  width: 100%;
+  gap: 0.25rem;
   list-style: none;
   font-family: var(--font-family-content);
 }
@@ -16,4 +17,8 @@
   padding: 0.125rem 0.25rem;
   font-size: var(--text-sm);
   border-radius: var(--rounded);
+}
+
+.choose-investigator-button {
+  margin-right: 0.375rem;
 }

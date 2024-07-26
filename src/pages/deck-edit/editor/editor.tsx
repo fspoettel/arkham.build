@@ -10,6 +10,7 @@ import css from "./editor.module.css";
 
 import type { ResolvedDeck } from "@/store/lib/types";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import { useAccentColor } from "@/utils/use-accent-color";
 import { DrawBasicWeakness } from "./draw-basic-weakness";
 import { EditorActions } from "./editor-actions";
 import { InvestigatorListcard } from "./investigator-listcard";
@@ -26,8 +27,10 @@ type Props = {
 export function Editor(props: Props) {
   const { currentTab, onTabChange, deck, validation } = props;
 
+  const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
+
   return (
-    <div className={css["editor"]}>
+    <div className={css["editor"]} style={cssVariables}>
       <DeckSummary deck={deck} validation={validation} />
 
       <InvestigatorListcard deck={deck} />
@@ -130,7 +133,7 @@ export function Editor(props: Props) {
             <MetaEditor deck={deck} />
           </TabsContent>
         </Scroller>
-        <EditorActions deck={deck} />
+        <EditorActions currentTab={currentTab} deck={deck} />
       </Tabs>
     </div>
   );

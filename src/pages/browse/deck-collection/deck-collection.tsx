@@ -16,7 +16,7 @@ import { selectLocalDecks } from "@/store/selectors/decks";
 import css from "./deck-collection.module.css";
 
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
-import { useToast } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/toast.hooks";
 import { useCallback, useState } from "react";
 import { DeckCollectionImport } from "./deck-collection-import";
 

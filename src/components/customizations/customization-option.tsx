@@ -1,4 +1,4 @@
-import { useId, useMemo } from "react";
+import { useCallback, useId, useMemo } from "react";
 
 import type { Customization } from "@/store/lib/types";
 import type {
@@ -19,21 +19,30 @@ import { CustomizationRemoveSlot } from "./customization-remove-slot";
 
 type Props = {
   card: Card;
-  choices?: Record<number, Customization>;
+  choice?: Customization;
   disabled?: boolean;
   index: number;
-  onChange: (index: number, edit: CustomizationEdit) => void;
+  omitOptionText?: boolean;
+  onChange?: (index: number, edit: CustomizationEdit) => void;
   option: CustomizationOptionType;
   text: string[];
-  xpMax: number;
+  xpMax?: number;
 };
 
 export function CustomizationOption(props: Props) {
-  const { card, choices, disabled, index, onChange, option, text, xpMax } =
-    props;
+  const {
+    card,
+    choice,
+    disabled,
+    index,
+    onChange,
+    omitOptionText,
+    option,
+    text,
+    xpMax,
+  } = props;
 
   const id = useId();
-  const choice = choices?.[index];
   const xpSpent = choice?.xp_spent ?? 0;
 
   const selections = choice?.selections?.split("^").filter((x) => x) ?? [];
@@ -46,6 +55,17 @@ export function CustomizationOption(props: Props) {
   );
 
   const unlocked = xpSpent >= option.xp;
+
+  const onChangeSelection = useCallback(
+    (selections: string[]) => {
+      if (onChange) onChange(index, { selections });
+    },
+    [onChange, index],
+  );
+
+  const htmlText = omitOptionText
+    ? /(<b>.*<\/b>)/.exec(text[index])?.[1] ?? ""
+    : text[index];
 
   return (
     <div
@@ -64,13 +84,17 @@ export function CustomizationOption(props: Props) {
               id={id}
               key={i}
               label=""
-              onCheckedChange={(val) => {
-                if (val) {
-                  onChange(index, { xp_spent: i + 1 });
-                } else {
-                  onChange(index, { xp_spent: i });
-                }
-              }}
+              onCheckedChange={
+                onChange
+                  ? (val) => {
+                      if (val) {
+                        onChange(index, { xp_spent: i + 1 });
+                      } else {
+                        onChange(index, { xp_spent: i });
+                      }
+                    }
+                  : undefined
+              }
             />
           ))}
       </div>
@@ -78,15 +102,15 @@ export function CustomizationOption(props: Props) {
         <p
           // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is from trusted source.
           dangerouslySetInnerHTML={{
-            __html: parseCustomizationTextHtml(text[index]),
+            __html: parseCustomizationTextHtml(htmlText),
           }}
         />
 
         {unlocked && option.choice === "choose_skill" && (
           <CustomizationChooseSkill
-            disabled={disabled}
+            disabled={disabled || !onChange}
             id={id}
-            onChange={(selections) => onChange(index, { selections })}
+            onChange={onChangeSelection}
             selections={selections}
           />
         )}
@@ -94,19 +118,19 @@ export function CustomizationOption(props: Props) {
         {unlocked && option.choice === "remove_slot" && (
           <CustomizationRemoveSlot
             card={card}
-            disabled={disabled}
+            disabled={disabled || !onChange}
             id={id}
-            onChange={(selections) => onChange(index, { selections })}
+            onChange={onChangeSelection}
             selections={selections}
           />
         )}
 
         {unlocked && option.choice === "choose_trait" && (
           <CustomizationChooseTraits
-            disabled={disabled}
+            disabled={disabled || !onChange}
             id={id}
             limit={option.quantity ?? 1}
-            onChange={(selections) => onChange(index, { selections })}
+            onChange={onChangeSelection}
             selections={selections}
           />
         )}
@@ -114,10 +138,10 @@ export function CustomizationOption(props: Props) {
         {unlocked && option.choice === "choose_card" && option.card && (
           <CustomizationChooseCards
             config={option.card}
-            disabled={disabled}
+            disabled={disabled || !onChange}
             id={id}
             limit={option.quantity ?? 1}
-            onChange={(selections) => onChange(index, { selections })}
+            onChange={onChangeSelection}
             selections={selections}
           />
         )}

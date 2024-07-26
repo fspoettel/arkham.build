@@ -1,5 +1,6 @@
 import { ALT_ART_INVESTIGATOR_MAP } from "@/utils/constants";
 
+import { decodeExileSlots } from "@/utils/card-utils";
 import type { Deck } from "../slices/data.types";
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
@@ -64,6 +65,8 @@ export function resolveDeck(
     throw new Error(`Investigator not found: ${deck.investigator_code}`);
   }
 
+  const exileSlots = decodeExileSlots(deck.exile_string);
+
   const extraSlots = decodeExtraSlots(deckMeta);
   const customizations = decodeCustomizations(deckMeta, metadata);
 
@@ -81,6 +84,7 @@ export function resolveDeck(
     cards,
     customizations,
     extraSlots,
+    exileSlots: exileSlots,
     investigatorBack,
     investigatorFront,
     metaParsed: deckMeta,

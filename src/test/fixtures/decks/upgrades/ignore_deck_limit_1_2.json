@@ -1,0 +1,30 @@
+{
+  "id": "9bbVl4UddpK872O",
+  "date_creation": "2024-08-10T10:15:20.993Z",
+  "date_update": "2024-08-10T10:15:56.452Z",
+  "description_md": "",
+  "meta": "{\"alternate_front\":\"90017\",\"alternate_back\":\"90017\"}",
+  "ignoreDeckLimitSlots": {
+    "02154": 2
+  },
+  "sideSlots": {},
+  "next_deck": null,
+  "previous_deck": null,
+  "tags": "",
+  "version": "0.1",
+  "taboo_id": 7,
+  "xp": 10,
+  "xp_spent": null,
+  "exile_string": null,
+  "xp_adjustment": null,
+  "investigator_code": "01004",
+  "name": "The Agnes Baker Mysteries",
+  "slots": {
+    "01000": 1,
+    "01012": 1,
+    "01013": 1,
+    "02154": 2,
+    "02306": 2
+  },
+  "problem": "too_few_cards"
+}

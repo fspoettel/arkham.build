@@ -307,7 +307,7 @@ const selectResolvedDeckCustomizations = customizationsEqualSelector(
   (resolvedDeck) => resolvedDeck?.customizations,
 );
 
-export const selectBaseListCards = createSelector(
+const selectBaseListCards = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => selectActiveList(state)?.systemFilter,
   selectDeckInvestigatorFilter,
