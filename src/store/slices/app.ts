@@ -228,6 +228,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       slots,
       meta: JSON.stringify(meta),
       taboo_id: state.deckCreate.tabooSetId,
+      problem: "too_few_cards",
     });
 
     set({
