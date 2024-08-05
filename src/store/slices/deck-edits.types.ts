@@ -64,6 +64,7 @@ export type DeckEditsSlice = {
     deckId: Id,
     code: string,
     quantity: number,
+    limit: number,
     slot?: Slot,
     mode?: "increment" | "set",
   ): void;

@@ -31,7 +31,7 @@ describe("deck-view slice", () => {
 
     it("increments the quantity of a card", () => {
       const state = store.getState();
-      state.updateCardQuantity("deck-id", "01000", 1, "slots", "increment");
+      state.updateCardQuantity("deck-id", "01000", 1, 2, "slots", "increment");
       expect(
         selectResolvedDeckById(store.getState(), "deck-id", true)?.slots[
           "01000"
@@ -42,7 +42,7 @@ describe("deck-view slice", () => {
     it("decrements the quantity of a card", () => {
       const state = store.getState();
 
-      state.updateCardQuantity("deck-id", "01000", -1, "slots", "increment");
+      state.updateCardQuantity("deck-id", "01000", -1, 2, "slots", "increment");
 
       const resolved = selectResolvedDeckById(
         store.getState(),
@@ -55,7 +55,7 @@ describe("deck-view slice", () => {
 
     it("sets the quantity of a card", () => {
       const state = store.getState();
-      state.updateCardQuantity("deck-id", "01000", 5, "slots", "set");
+      state.updateCardQuantity("deck-id", "01000", 5, 5, "slots", "set");
       expect(
         selectResolvedDeckById(store.getState(), "deck-id", true)?.slots[
           "01000"
@@ -65,8 +65,8 @@ describe("deck-view slice", () => {
 
     it("does not set the quantity of a card to a negative value", () => {
       const state = store.getState();
-      state.updateCardQuantity("deck-id", "01000", -5, "slots", "set");
-      state.updateCardQuantity("deck-id", "01000", -5, "slots", "increment");
+      state.updateCardQuantity("deck-id", "01000", -5, 5, "slots", "set");
+      state.updateCardQuantity("deck-id", "01000", -5, 5, "slots", "increment");
       expect(
         selectResolvedDeckById(store.getState(), "deck-id", true)?.slots[
           "01000"
@@ -76,8 +76,8 @@ describe("deck-view slice", () => {
 
     it("does not set the quantity of a card exceeding the limit", () => {
       const state = store.getState();
-      state.updateCardQuantity("deck-id", "06021", 5, "slots", "set");
-      state.updateCardQuantity("deck-id", "06021", 5, "slots", "increment");
+      state.updateCardQuantity("deck-id", "06021", 5, 3, "slots", "set");
+      state.updateCardQuantity("deck-id", "06021", 5, 3, "slots", "increment");
       expect(
         selectResolvedDeckById(store.getState(), "deck-id", true)?.slots[
           "06021"
@@ -87,7 +87,14 @@ describe("deck-view slice", () => {
 
     it("adjusts cards in side slots", () => {
       const state = store.getState();
-      state.updateCardQuantity("deck-id", "06021", 1, "sideSlots", "increment");
+      state.updateCardQuantity(
+        "deck-id",
+        "06021",
+        1,
+        2,
+        "sideSlots",
+        "increment",
+      );
       expect(
         selectResolvedDeckById(store.getState(), "deck-id", true)?.sideSlots?.[
           "06021"

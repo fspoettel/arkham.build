@@ -110,8 +110,14 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
   );
 
   const onChangeCardQuantity = useMemo(() => {
-    return (code: string, quantity: number) => {
-      updateCardQuantity(deck.id, code, quantity, mapTabToSlot(currentTab));
+    return (code: string, quantity: number, limit: number) => {
+      updateCardQuantity(
+        deck.id,
+        code,
+        quantity,
+        limit,
+        mapTabToSlot(currentTab),
+      );
     };
   }, [updateCardQuantity, currentTab, deck.id]);
 

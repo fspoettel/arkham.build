@@ -28,7 +28,11 @@ import { CardSearch } from "./card-search";
 
 type Props = {
   className?: string;
-  onChangeCardQuantity?: (code: string, quantity: number) => void;
+  onChangeCardQuantity?: (
+    code: string,
+    quantity: number,
+    limit: number,
+  ) => void;
   quantities?: Slots;
   renderListCardAction?: (card: Card) => React.ReactNode;
   renderListCardExtra?: (card: Card) => React.ReactNode;

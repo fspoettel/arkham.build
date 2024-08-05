@@ -41,16 +41,17 @@ export function CardModalQuantities(props: Props) {
 
       if (evt.key === "ArrowRight") {
         evt.preventDefault();
-        updateCardQuantity(deck.id, card.code, 1, "slots");
+        updateCardQuantity(deck.id, card.code, 1, limit, "slots");
       } else if (evt.key === "ArrowLeft") {
         evt.preventDefault();
-        updateCardQuantity(deck.id, card.code, -1, "slots");
+        updateCardQuantity(deck.id, card.code, -1, limit, "slots");
       } else if (Number.parseInt(evt.key) >= 0) {
         evt.preventDefault();
         updateCardQuantity(
           deck.id,
           card.code,
           Number.parseInt(evt.key),
+          limit,
           "slots",
           "set",
         );
@@ -72,7 +73,7 @@ export function CardModalQuantities(props: Props) {
 
   const onChangeQuantity = (quantity: number, slot: Slot) => {
     if (!deck?.id) return;
-    updateCardQuantity(deck.id, card.code, quantity, slot);
+    updateCardQuantity(deck.id, card.code, quantity, limit, slot);
   };
 
   const code = card.code;

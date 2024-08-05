@@ -28,6 +28,7 @@ export function DecklistValidation(props: Props) {
   return (
     <Collapsible
       className={css["decklist-validation"]}
+      data-testid="decklist-validation"
       defaultOpen={defaultOpen}
       title={
         <div className={css["decklist-validation-header"]}>

@@ -35,7 +35,11 @@ export type Props = {
   omitBorders?: boolean;
   omitThumbnail?: boolean;
 
-  onChangeCardQuantity?: (code: string, quantity: number) => void;
+  onChangeCardQuantity?: (
+    code: string,
+    quantity: number,
+    limit: number,
+  ) => void;
   ownedCount?: number;
   quantity?: number;
   referenceProps?: React.ComponentProps<"div">;
@@ -80,8 +84,8 @@ export function ListCardInner(props: Props) {
   const Element = as as React.JSX.ElementType;
 
   const onQuantityChange = useCallback(
-    (val: number) => {
-      onChangeCardQuantity?.(card.code, val);
+    (val: number, limit: number) => {
+      onChangeCardQuantity?.(card.code, val, limit);
     },
     [onChangeCardQuantity, card.code],
   );
@@ -89,6 +93,8 @@ export function ListCardInner(props: Props) {
   const openModal = useCallback(() => {
     modalContext.setOpen({ code: card.code });
   }, [modalContext, card.code]);
+
+  const limit = card.deck_limit || card.quantity;
 
   return (
     <Element
@@ -110,7 +116,7 @@ export function ListCardInner(props: Props) {
           <>
             {onChangeCardQuantity ? (
               <QuantityInput
-                limit={card.deck_limit || card.quantity}
+                limit={limit}
                 onValueChange={onQuantityChange}
                 tabIndex={disableKeyboard ? -1 : undefined}
                 value={quantity}

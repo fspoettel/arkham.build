@@ -35,16 +35,13 @@ export const createDeckEditsSlice: StateCreator<
     set({ deckEdits });
   },
 
-  updateCardQuantity(deckId, code, quantity, tab, mode = "increment") {
+  updateCardQuantity(deckId, code, quantity, limit, tab, mode = "increment") {
     const state = get();
 
     const edits = currentEdits(state, deckId);
 
     const targetTab = tab || "slots";
     const slot = mapTabToSlot(targetTab);
-
-    const card = state.metadata.cards[code];
-    const limit = card.deck_limit ?? card.quantity;
 
     const current = selectCurrentCardQuantity(state, deckId, code, slot);
 

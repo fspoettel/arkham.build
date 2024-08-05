@@ -33,7 +33,11 @@ export async function waitForImagesLoaded(locator: Page | Locator) {
   }
 }
 
-export async function importDeckFromFile(page: Page, deckPath: string) {
+export async function importDeckFromFile(
+  page: Page,
+  deckPath: string,
+  { navigate }: { navigate?: "view" | "edit" } = {},
+) {
   await page.goto("/");
 
   const fileChooserPromise = page.waitForEvent("filechooser");
@@ -45,6 +49,14 @@ export async function importDeckFromFile(page: Page, deckPath: string) {
   await fileChooser.setFiles([
     path.join(process.cwd(), "src/test/fixtures/decks", deckPath),
   ]);
+
+  if (navigate) {
+    await page.getByTestId("collection-deck").click();
+  }
+
+  if (navigate === "edit") {
+    await page.getByTestId("view-edit").click();
+  }
 }
 
 export async function shareDeck(page: Page) {

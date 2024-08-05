@@ -7,7 +7,7 @@ import { Button } from "./button";
 type Props = {
   disabled?: boolean;
   tabIndex?: number;
-  onValueChange?: (value: number) => void;
+  onValueChange?: (value: number, limit: number) => void;
   value: number;
   limit: number;
 } & React.HTMLAttributes<HTMLDivElement>;
@@ -17,12 +17,12 @@ export function QuantityInput(props: Props) {
 
   const decrementCardQuantity = () => {
     if (value <= 0) return;
-    onValueChange?.(-1);
+    onValueChange?.(-1, limit);
   };
 
   const incrementCardQuantity = () => {
     if (value >= limit) return;
-    onValueChange?.(1);
+    onValueChange?.(1, limit);
   };
 
   return (

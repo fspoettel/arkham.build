@@ -1,4 +1,5 @@
 import test, { Page, expect } from "@playwright/test";
+import { importDeckFromFile } from "./actions";
 import { mockApiCalls } from "./mocks";
 
 test.beforeEach(async ({ page }) => {
@@ -59,5 +60,41 @@ test.describe("deck edit: interactions", () => {
     ).toContainText("0");
 
     expect(await sumCardCounts(page)).toEqual(9);
+  });
+
+  test("it respects customizable deck limits (honed instinct)", async ({
+    page,
+  }) => {
+    await importDeckFromFile(page, "validation/honed_instinct_valid.json", {
+      navigate: "edit",
+    });
+
+    await expect(page.getByTestId("decklist-validation")).not.toBeVisible();
+
+    // open honed instinct card modal.
+    await page
+      .getByTestId("listcard-09061")
+      .getByTestId("listcard-title")
+      .click();
+
+    // deselect last xp and close modal. (deck_limit 3 => 2)
+    await page.getByTestId("customization-6-xp-2").click();
+    await page.getByTestId("card-modal").press("Escape");
+
+    await expect(page.getByTestId("decklist-validation")).toBeVisible();
+
+    // decrement honed instinct quantity.
+    await page
+      .getByTestId("listcard-09061")
+      .getByTestId("quantity-decrement")
+      .click();
+
+    // increment a one-off to get back to 30 cards.
+    await page
+      .getByTestId("listcard-01086")
+      .getByTestId("quantity-increment")
+      .click();
+
+    await expect(page.getByTestId("decklist-validation")).not.toBeVisible();
   });
 });

@@ -16,6 +16,8 @@ import extraSlotsTooManyCards from "@/test/fixtures/decks/validation/extra_slots
 import extraSlotsTooManyCopies from "@/test/fixtures/decks/validation/extra_slots_too_many_copies.json";
 import extraSlotsValid from "@/test/fixtures/decks/validation/extra_slots_valid.json";
 import forcedLearning from "@/test/fixtures/decks/validation/forced_learning.json";
+import honedInstinctInvalid from "@/test/fixtures/decks/validation/honed_instinct_invalid_xp.json";
+import honedInstinct from "@/test/fixtures/decks/validation/honed_instinct_valid.json";
 import lilyChenValid from "@/test/fixtures/decks/validation/lily_chen_valid.json";
 import limitCarolyn from "@/test/fixtures/decks/validation/limit_carolyn.json";
 import limitCarolynInvalid from "@/test/fixtures/decks/validation/limit_carolyn_invalid.json";
@@ -761,6 +763,40 @@ describe("deck validation", () => {
         `);
       });
     });
+
+    describe("lily chen", () => {
+      it("handles case: lily chen, valid", () => {
+        const result = validate(store, lilyChenValid);
+        expect(result.valid).toBeTruthy();
+      });
+    });
+
+    describe("honed instinct", () => {
+      it("handles case: honed instinct, valid", () => {
+        const result = validate(store, honedInstinct);
+        expect(result.valid).toBeTruthy();
+      });
+
+      it("handles case: honed instinct, invalid", () => {
+        const result = validate(store, honedInstinctInvalid);
+        expect(result.valid).toBeFalsy();
+        expect(result.errors).toMatchInlineSnapshot(`
+          [
+            {
+              "details": [
+                {
+                  "code": "09061",
+                  "limit": 2,
+                  "quantity": 3,
+                  "real_name": "Honed Instinct",
+                },
+              ],
+              "type": "INVALID_CARD_COUNT",
+            },
+          ]
+        `);
+      });
+    });
   });
 
   describe("extra deck", () => {
@@ -935,13 +971,6 @@ describe("deck validation", () => {
           },
         ]
       `);
-    });
-  });
-
-  describe("lily chen", () => {
-    it("handles case: lily chen, valid", () => {
-      const result = validate(store, lilyChenValid);
-      expect(result.valid).toBeTruthy();
     });
   });
 });

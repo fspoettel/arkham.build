@@ -128,8 +128,14 @@ function DecklistGroup(props: DecklistGroupProps) {
   const onChangeCardQuantity = useMemo(() => {
     if (!canEdit) return undefined;
 
-    return (code: string, quantity: number) => {
-      updateCardQuantity(ctx.resolvedDeck.id, code, quantity, mapping as Slot);
+    return (code: string, quantity: number, limit: number) => {
+      updateCardQuantity(
+        ctx.resolvedDeck.id,
+        code,
+        quantity,
+        limit,
+        mapping as Slot,
+      );
     };
   }, [updateCardQuantity, canEdit, ctx.resolvedDeck.id, mapping]);
 
