@@ -58,6 +58,7 @@ export const createSharingSlice: StateCreator<
       sharing: {
         ...state.sharing,
         decks: {
+          ...state.sharing.decks,
           [id]: deck.date_update,
         },
       },
