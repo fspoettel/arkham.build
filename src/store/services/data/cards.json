@@ -1,0 +1,275 @@
+[
+  {
+    "backimageurl": "https://arkhamdb.com/bundles/cards/02003b.png",
+    "code": "02003",
+    "deck_limit": 1,
+    "deck_options": [
+      {
+        "level": {
+          "max": 5,
+          "min": 0
+        },
+        "faction": ["rogue", "neutral"]
+      },
+      {
+        "error": "You cannot have more than 5 cards that are not Rogue or Neutral",
+        "level": {
+          "max": 0,
+          "min": 0
+        },
+        "limit": 5
+      }
+    ],
+    "deck_requirements": {
+      "card": {
+        "02010": {
+          "98002": "98002",
+          "90085": "90085",
+          "02010": "02010"
+        },
+        "02011": {
+          "98003": "98003",
+          "90086": "90086",
+          "02011": "02011"
+        }
+      },
+      "size": 30,
+      "random": [
+        {
+          "value": "basicweakness",
+          "target": "subtype"
+        }
+      ]
+    },
+    "double_sided": true,
+    "errata_date": "2019-04-23 00:00:00.000000",
+    "exceptional": false,
+    "faction_code": "rogue",
+    "health": 8,
+    "health_per_investigator": false,
+    "id": "02003",
+    "illustrator": "Tony Foti",
+    "imageurl": "https://arkhamdb.com/bundles/cards/02003.png",
+    "is_unique": true,
+    "myriad": false,
+    "official": true,
+    "pack_code": "dwl",
+    "pack_position": 3,
+    "permanent": false,
+    "position": 3,
+    "quantity": 1,
+    "real_back_flavor": "Jenny Barnes has spent the majority of her young life in pursuit of creature comforts, fine dining, and the latest fashions. That all changed when she received a letter from her sister, Isabelle. In this letter, Isabelle confessed that mysterious forces were aligning against her and that she feared she may fall victim to some paranormal threat. It was the last letter Jenny received from her beloved sister. Jenny has since returned to the States to track down and investigate all occult occurrences she can find. Hardly a wilting flower, she has proven herself a crack shot as well as a fearless and clever investigator of the unknown. Until Isabelle's disappearance is explained, Jenny will never relent in her search.",
+    "real_back_text": "<b>Deck Size</b>: 30.\n<b>Deckbuilding Options</b>: Rogue cards ([rogue]) level 0-5, Neutral cards level 0-5, up to five other level 0 cards from any other class.\n<b>Deckbuilding Requirements</b> (do not count toward deck size): Jenny's Twin .45s, Searching for Izzie, 1 random basic weakness.",
+    "real_flavor": "\"No more 'Miss Barnes' from you. My friends call me Jenny.\"",
+    "real_name": "Jenny Barnes",
+    "real_subname": "The Dilettante",
+    "real_text": "You collect 1 additional resource during each upkeep phase.\n[elder_sign] effect: +1 for each resource you have.",
+    "real_traits": "Drifter.",
+    "sanity": 7,
+    "skill_agility": 3,
+    "skill_combat": 3,
+    "skill_intellect": 3,
+    "skill_willpower": 3,
+    "type_code": "investigator"
+  },
+  {
+    "alt_art_investigator": true,
+    "code": "98001",
+    "deck_limit": 1,
+    "deck_options": [
+      {
+        "level": {
+          "max": 5,
+          "min": 0
+        },
+        "faction": ["rogue", "neutral"]
+      },
+      {
+        "error": "You cannot have more than 5 cards that are not Rogue or Neutral",
+        "level": {
+          "max": 0,
+          "min": 0
+        },
+        "limit": 5
+      }
+    ],
+    "deck_requirements": {
+      "card": {
+        "02010": {
+          "98002": "98002",
+          "90085": "90085",
+          "02010": "02010"
+        },
+        "02011": {
+          "98003": "98003",
+          "90086": "90086",
+          "02011": "02011"
+        }
+      },
+      "size": 30,
+      "random": [
+        {
+          "value": "basicweakness",
+          "target": "subtype"
+        }
+      ]
+    },
+    "double_sided": true,
+    "errata_date": "2019-04-23 00:00:00.000000",
+    "exceptional": false,
+    "faction_code": "rogue",
+    "health": 8,
+    "health_per_investigator": false,
+    "hidden": true,
+    "id": "98001",
+    "illustrator": "Tony Foti",
+    "imageurl": "https://arkhamdb.com/bundles/cards/98001.png",
+    "is_unique": true,
+    "myriad": false,
+    "official": true,
+    "pack_code": "hoth",
+    "pack_position": 1,
+    "permanent": false,
+    "position": 1,
+    "quantity": 1,
+    "real_back_flavor": "Jenny Barnes has spent the majority of her young life in pursuit of creature comforts, fine dining, and the latest fashions. That all changed when she received a letter from her sister, Isabelle. In this letter, Isabelle confessed that mysterious forces were aligning against her and that she feared she may fall victim to some paranormal threat. It was the last letter Jenny received from her beloved sister. Jenny has since returned to the States to track down and investigate all occult occurrences she can find. Hardly a wilting flower, she has proven herself a crack shot as well as a fearless and clever investigator of the unknown. Until Isabelle's disappearance is explained, Jenny will never relent in her search.",
+    "real_back_text": "<b>Deck Size</b>: 30.\n<b>Deckbuilding Options</b>: Rogue cards ([rogue]) level 0-5, Neutral cards level 0-5, up to five other level 0 cards from any other class.\n<b>Deckbuilding Requirements</b> (do not count toward deck size): Jenny's Twin .45s, Searching for Izzie, 1 random basic weakness.",
+    "real_flavor": "\"No more 'Miss Barnes' from you. My friends call me Jenny.\"",
+    "real_name": "Jenny Barnes",
+    "real_subname": "The Dilettante",
+    "real_text": "You collect 1 additional resource during each upkeep phase.\n[elder_sign] effect: +1 for each resource you have.",
+    "real_traits": "Drifter.",
+    "sanity": 7,
+    "skill_agility": 3,
+    "skill_combat": 3,
+    "skill_intellect": 3,
+    "skill_willpower": 3,
+    "type_code": "investigator"
+  },
+  {
+    "imageurl": "local://90084b.jpg",
+    "backimageurl": "local://90084b.jpg",
+    "alt_art_investigator": true,
+    "alternate_of_code": "02003",
+    "real_back_flavor": "Jenny Barnes has spent the majority of her young life in pursuit of creature comforts, fine dining, and the latest fashions. That all changed when she received a letter from her sister, Isabelle. In this letter, Isabelle confessed that mysterious forces were aligning against her and that she feared she may fall victim to some paranormal threat. It was the last letter Jenny received from her beloved sister. Jenny has since returned to the States to track down and investigate all occult occurrences she can find. Hardly a wilting flower, she has proven herself a crack shot as well as a fearless and clever investigator of the unknown. Until Isabelle's disappearance is explained, Jenny will never relent in her search.",
+    "real_back_text": "<b>Deck Size</b>: 30.\n<b>Deckbuilding Options</b>: Rogue cards ([rogue]) level 0-3, Neutral cards level 0-5, up to 10 other non-permanent [[Talent]] cards level 0-5.\n<b>Deckbuilding Requirements</b> (do not count toward deck size): Jenny's Twin .45s, Searching for Izzie, 1 random basic weakness.",
+    "code": "90084",
+    "id": "90084",
+    "deck_limit": 1,
+    "deck_options": [
+      {
+        "faction": ["neutral"],
+        "level": {
+          "min": 0,
+          "max": 5
+        }
+      },
+      {
+        "faction": ["rogue"],
+        "level": {
+          "min": 0,
+          "max": 3
+        }
+      },
+      {
+        "trait": ["talent"],
+        "level": { "min": 0, "max": 5 },
+        "permanent": false,
+        "limit": 10
+      }
+    ],
+    "deck_requirements": {
+      "card": {
+        "02010": {
+          "98002": "98002",
+          "90085": "90085",
+          "02010": "02010"
+        },
+        "02011": {
+          "90086": "90086",
+          "98003": "98003",
+          "02011": "02011"
+        }
+      },
+      "size": 30,
+      "random": [
+        {
+          "value": "basicweakness",
+          "target": "subtype"
+        }
+      ]
+    },
+    "double_sided": true,
+    "faction_code": "rogue",
+    "real_flavor": "\"Oh honey, I'm making this up as I go along.\"",
+    "health": 8,
+    "illustrator": "Tony Foti",
+    "is_unique": true,
+    "real_name": "Jenny Barnes",
+    "official": true,
+    "pack_code": "pap",
+    "position": 84,
+    "pack_position": 84,
+    "quantity": 1,
+    "sanity": 7,
+    "skill_agility": 3,
+    "skill_intellect": 3,
+    "skill_combat": 3,
+    "skill_willpower": 3,
+    "real_subname": "The Dilettante",
+    "real_text": "[reaction] After your turn begins: Play a [[Talent]] asset, reducing its cost by 1.\n[fast] Discard a [[Talent]] asset you control: Gain resources equal to that asset's printed cost. (Limit 5 resources per round.)\n[elder_sign] effect: +0. If you succeed, gain 3 resources.",
+    "real_traits": "Drifter. Socialite.",
+    "type_code": "investigator"
+  },
+  {
+    "imageurl": "local://90085.jpg",
+    "code": "90085",
+    "id": "90085",
+    "cost": -2,
+    "deck_limit": 1,
+    "faction_code": "neutral",
+    "illustrator": "John Pacer",
+    "is_unique": true,
+    "real_name": "Jenny's Twin .45s",
+    "official": true,
+    "pack_code": "pap",
+    "position": 85,
+    "pack_position": 85,
+    "quantity": 1,
+    "restrictions": {
+      "investigator": {
+        "02003": "02003"
+      }
+    },
+    "skill_agility": 1,
+    "skill_wild": 2,
+    "real_slot": "Hand x2",
+    "real_subname": "A Perfect Fit",
+    "real_text": "Jenny Barnes deck only. Advanced. Uses (X ammo).\n[action] Spend 1 ammo: <b>Fight.</b> You get +2 [combat] for this attack. This attack deals +1 damage.\n[reaction] After you defeat an enemy using the above ability, exhaust Jenny's Twin .45s: Gain resources equal to that enemy's printed health.",
+    "real_traits": "Item. Weapon. Firearm.",
+    "type_code": "asset"
+  },
+  {
+    "imageurl": "local://90086.jpg",
+    "code": "90086",
+    "id": "90086",
+    "deck_limit": 1,
+    "faction_code": "neutral",
+    "illustrator": "Jeff Lee Johnson",
+    "real_name": "Searching for Izzie",
+    "pack_code": "pap",
+    "position": 86,
+    "pack_position": 86,
+    "official": true,
+    "quantity": 1,
+    "restrictions": {
+      "investigator": {
+        "02003": "02003"
+      }
+    },
+    "subtype_code": "weakness",
+    "real_text": "Advanced.\n<b>Revelation</b> - Attach Searching for Izzie to the location farthest from you. Attached location gets +2 shroud.\n[action] [action]: <b>Investigate</b>. If you succeed, instead of discovering clues, discard Searching for Izzie.\n<b>Forced</b> - When the game ends, if Searching for Izzie is in play: You suffer 1 mental trauma.",
+    "real_traits": "Task.",
+    "type_code": "treachery"
+  }
+]

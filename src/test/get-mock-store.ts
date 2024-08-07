@@ -1,5 +1,7 @@
 import { useStore } from "@/store";
+import cards from "@/store/services/data/cards.json";
 import factions from "@/store/services/data/factions.json";
+import packs from "@/store/services/data/packs.json";
 import reprintPacks from "@/store/services/data/reprint_packs.json";
 import subTypes from "@/store/services/data/subtypes.json";
 import types from "@/store/services/data/types.json";
@@ -15,6 +17,7 @@ import metadataStub from "@/test/fixtures/stubs/metadata.json";
 function queryStubMetadata() {
   return Promise.resolve({
     ...(metadataStub as MetadataApiResponse).data,
+    pack: metadataStub.data.pack.concat(packs),
     reprint_pack: reprintPacks,
     faction: factions,
     type: types,
@@ -30,7 +33,8 @@ function queryStubDataVersion() {
 
 function queryStubCardData() {
   const data = allCardStub;
-  return Promise.resolve((data as AllCardApiResponse).data.all_card);
+  const allCards = (data as AllCardApiResponse).data.all_card;
+  return Promise.resolve(allCards.concat(cards));
 }
 
 export async function getMockStore() {
