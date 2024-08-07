@@ -1,5 +1,8 @@
 export const FLOATING_PORTAL_ID = "floating";
 
+export const ISSUE_URL =
+  "https://github.com/fspoettel/arkham.build/issues/new/choose";
+
 export const REGEX_SKILL_BOOST = /\+\d+?\s\[(.+?)\]/g;
 
 export const REGEX_USES = /Uses\s\(\d+?\s(\w+?)\)/;
@@ -114,8 +117,10 @@ export const ALT_ART_INVESTIGATOR_MAP = {
 export const SPECIAL_CARD_CODES = {
   ACE_OF_RODS: "05040",
   ANCESTRAL_KNOWLEDGE: "07303",
+  BEWITCHING: "10079",
   BURDEN_OF_DESTINY: "08015",
   FORCED_LEARNING: "08031",
+  JOE_DIAMOND: "05002",
   MANDY: "06002",
   OCCULT_EVIDENCE: "06008",
   ON_YOUR_OWN: "53010",
@@ -125,8 +130,10 @@ export const SPECIAL_CARD_CODES = {
   PARALLEL_ROLAND: "90024",
   PARALLEL_WENDY: "90037",
   RANDOM_BASIC_WEAKNESS: "01000",
+  STICK_TO_THE_PLAN: "03264",
   UNDERWORLD_MARKET: "09077",
   UNDERWORLD_SUPPORT: "08046",
+  UNSOLVED_CASE: "05010",
   VENGEFUL_SHADE: "90053",
   VERSATILE: "06167",
 };
@@ -143,5 +150,50 @@ export const CARD_SET_ORDER = [
   "level",
 ];
 
-export const ISSUE_URL =
-  "https://github.com/fspoettel/arkham.build/issues/new/choose";
+type SeparateDeckDefinition = {
+  icon: string;
+  traits?: string[];
+  typeCodes?: string[];
+  targetSize: number;
+  requiredCards?: string[];
+  selection: "choice" | "random";
+};
+
+/**
+ * A separate deck is a deck that is constructed during the scenario setup.
+ * This excludes Parallel Jim's spirit deck, which cannot change between scenarios.
+ */
+export const CARDS_SEPARATE_DECKS: { [code: string]: SeparateDeckDefinition } =
+  {
+    [SPECIAL_CARD_CODES.ANCESTRAL_KNOWLEDGE]: {
+      typeCodes: ["skill"],
+      icon: "brain",
+      targetSize: 5,
+      selection: "random",
+    },
+    [SPECIAL_CARD_CODES.BEWITCHING]: {
+      traits: ["trick"],
+      icon: "wand-sparkles",
+      targetSize: 3,
+      selection: "choice",
+    },
+    [SPECIAL_CARD_CODES.JOE_DIAMOND]: {
+      traits: ["insight"],
+      icon: "lightbulb",
+      targetSize: 11,
+      requiredCards: [SPECIAL_CARD_CODES.UNSOLVED_CASE],
+      selection: "choice",
+    },
+    [SPECIAL_CARD_CODES.STICK_TO_THE_PLAN]: {
+      traits: ["tactic", "supply"],
+      icon: "package",
+      targetSize: 3,
+      selection: "choice",
+    },
+    [SPECIAL_CARD_CODES.UNDERWORLD_MARKET]: {
+      traits: ["illicit"],
+      icon: "store",
+      targetSize: 10,
+      selection: "choice",
+    },
+  };
