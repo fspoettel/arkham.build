@@ -207,7 +207,20 @@ export function ListCardInner(props: Props) {
                 <MulticlassIcons card={card} className={css["multiclass"]} />
               )}
 
-              {card.parallel && <i className="icon-parallel" />}
+              {card.parallel &&
+              card.type_code === "investigator" &&
+              size === "investigator" ? (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <i className="icon-parallel" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Uses a parallel side</p>
+                  </TooltipContent>
+                </Tooltip>
+              ) : (
+                card.parallel && <i className="icon-parallel" />
+              )}
 
               {hasSkillIcons(card) && <SkillIcons card={card} />}
 

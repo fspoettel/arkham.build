@@ -608,6 +608,9 @@ export function makeOptionFilter(
 
   if (option.permanent) {
     optionFilter.push(filterPermanent);
+    // explicit `false` means "forbidden", absence of `permanent` means "either allowed".
+  } else if (option.permanent === false) {
+    optionFilter.push(not(filterPermanent));
   }
 
   if (option.trait) {
