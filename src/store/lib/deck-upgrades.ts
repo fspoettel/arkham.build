@@ -61,6 +61,7 @@ function getSlotChanges(
     const nextQuantity = next?.[slotKey]?.[code] ?? 0;
     const prevQuantity = prev?.[slotKey]?.[code] ?? 0;
 
+    // XXX: holds until extra deck and main deck can contain the same exilable card.
     if (next.exileSlots[code]) {
       const exileDiff = nextQuantity - (prevQuantity - next.exileSlots[code]);
 
@@ -334,7 +335,7 @@ function countFreeLevel0Cards(
   }
 
   for (const [code, quantity] of Object.entries(next.exileSlots)) {
-    // XXX holds until spirit deck and main deck can contain the same exilable card.
+    // XXX: holds until extra deck and main deck can contain the same exilable card.
     if (prev[slotKey]?.[code]) {
       free0Cards += quantity;
     }

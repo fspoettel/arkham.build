@@ -66,8 +66,8 @@ function PlayerEntry(props: Props) {
         duplicates?.map((duplicate) => (
           <p className={css["meta-property"]} key={duplicate.card.code}>
             {duplicate.pack.real_name} <PackIcon code={duplicate.pack.code} />{" "}
-            {duplicate.card.pack_position} <i className="icon-card_outline" /> ×
-            {duplicate.card.quantity}
+            {duplicate.card.pack_position}{" "}
+            <i className="icon-card-outline-bold" /> ×{duplicate.card.quantity}
           </p>
         ))}
       <p className={css["meta-property"]}>
