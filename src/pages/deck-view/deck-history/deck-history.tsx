@@ -39,7 +39,7 @@ export function DeckHistory(props: Props) {
                   : `Upgrade #${history.length - idx}`}
               </h3>
               <p className={css["entry-stats"]}>
-                XP earned:{" "}
+                XP available:{" "}
                 {formatXpAvailable(stats.xp, stats.xpAdjustment, stats.xpSpent)}
               </p>
               <div className={css["entry-container"]}>

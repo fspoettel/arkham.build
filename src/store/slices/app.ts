@@ -443,6 +443,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       source: "local",
       version: "0.1",
       xp: xp + xpCarryover,
+      xp_spent: null,
+      xp_adjustment: null,
       exile_string: exileString ?? null,
     };
 
