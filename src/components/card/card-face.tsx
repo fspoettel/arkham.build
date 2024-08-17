@@ -5,6 +5,7 @@ import { sideways } from "@/utils/card-utils";
 
 import css from "./card.module.css";
 
+import { CARDS_WITH_LOCAL_IMAGES } from "@/utils/constants";
 import { CardDetails } from "./card-details";
 import { CardHeader } from "./card-header";
 import { CardIcons } from "./card-icons";
@@ -28,7 +29,8 @@ export function CardFace(props: Props) {
   const isSideways = sideways(card);
 
   const showImage =
-    card.imageurl && (size === "full" || card.type_code !== "story");
+    (card.imageurl || CARDS_WITH_LOCAL_IMAGES[card.code]) &&
+    (size === "full" || card.type_code !== "story");
 
   return (
     <article

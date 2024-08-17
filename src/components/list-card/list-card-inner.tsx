@@ -8,7 +8,7 @@ import { getCardColor, hasSkillIcons } from "@/utils/card-utils";
 
 import css from "./list-card.module.css";
 
-import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import { CARDS_WITH_LOCAL_IMAGES, SPECIAL_CARD_CODES } from "@/utils/constants";
 import { CardHealth } from "../card-health";
 import { CardIcon } from "../card-icon";
 import { useCardModalContext } from "../card-modal/card-modal-context";
@@ -131,17 +131,18 @@ export function ListCardInner(props: Props) {
         )}
 
         <figure className={css["content"]} ref={figureRef}>
-          {!omitThumbnail && card.imageurl && (
-            <button
-              onClick={disableModalOpen ? undefined : openModal}
-              tabIndex={-1}
-              type="button"
-            >
-              <div className={css["thumbnail"]} {...referenceProps}>
-                <CardThumbnail card={card} />
-              </div>
-            </button>
-          )}
+          {!omitThumbnail &&
+            (card.imageurl || CARDS_WITH_LOCAL_IMAGES[card.code]) && (
+              <button
+                onClick={disableModalOpen ? undefined : openModal}
+                tabIndex={-1}
+                type="button"
+              >
+                <div className={css["thumbnail"]} {...referenceProps}>
+                  <CardThumbnail card={card} />
+                </div>
+              </button>
+            )}
 
           {card.faction_code !== "mythos" && (
             <div className={cx(css["icon"], colorCls)}>

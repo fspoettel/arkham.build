@@ -197,3 +197,9 @@ export const CARDS_SEPARATE_DECKS: { [code: string]: SeparateDeckDefinition } =
       selection: "choice",
     },
   };
+
+export const CARDS_WITH_LOCAL_IMAGES: Record<string, boolean> = {
+  "90084": true,
+  "90085": true,
+  "90086": true,
+};
