@@ -56,6 +56,7 @@
   justify-content: space-between;
   align-items: center;
   line-height: 1;
+  gap: 0.125rem;
   margin-top: 0.125rem;
   z-index: 3;
 }

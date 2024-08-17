@@ -434,6 +434,22 @@ describe("filter: investigator access", () => {
       ).toBeFalsy();
     });
   });
+
+  describe("parallel jenny: non-`permanent` talents", () => {
+    it("handles non-permanent talents", () => {
+      expect(applyFilter(store.getState(), "90084", "07270")).toBeTruthy();
+      expect(applyFilter(store.getState(), "90084", "01077")).toBeTruthy();
+    });
+
+    it("handles permanent talents", () => {
+      // allowed by faction access.
+      expect(applyFilter(store.getState(), "90084", "02189")).toBeTruthy();
+      expect(applyFilter(store.getState(), "90084", "02157")).toBeTruthy();
+
+      expect(applyFilter(store.getState(), "90084", "03264")).toBeFalsy();
+      expect(applyFilter(store.getState(), "90084", "04106")).toBeFalsy();
+    });
+  });
 });
 
 describe("filter: level", () => {

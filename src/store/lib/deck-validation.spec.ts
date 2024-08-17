@@ -42,6 +42,9 @@ import mandyTabooValid from "@/test/fixtures/decks/validation/mandy_taboo.json";
 import mandyTooFewCards from "@/test/fixtures/decks/validation/mandy_too_few_cards.json";
 import mandyTooManyCards from "@/test/fixtures/decks/validation/mandy_too_many_cards.json";
 import parallelAgnesValid from "@/test/fixtures/decks/validation/parallel_agnes.json";
+import parallelJennyValid from "@/test/fixtures/decks/validation/parallel_jenny.json";
+import parallelJennyInvalidForbidden from "@/test/fixtures/decks/validation/parallel_jenny_invalid_forbidden.json";
+import parallelJennyInvalidLimit from "@/test/fixtures/decks/validation/parallel_jenny_invalid_limit.json";
 import parallelWendy from "@/test/fixtures/decks/validation/parallel_wendy.json";
 import parallelWendyInvalid from "@/test/fixtures/decks/validation/parallel_wendy_invalid.json";
 import requiredAdvanced from "@/test/fixtures/decks/validation/required_advanced.json";
@@ -792,6 +795,47 @@ describe("deck validation", () => {
                 },
               ],
               "type": "INVALID_CARD_COUNT",
+            },
+          ]
+        `);
+      });
+    });
+
+    describe("parallel jenny", () => {
+      it("handles case: valid", () => {
+        const result = validate(store, parallelJennyValid);
+        expect(result.valid).toBeTruthy();
+      });
+
+      it("handles case: invalid, over class limit", () => {
+        const result = validate(store, parallelJennyInvalidLimit);
+        expect(result.valid).toBeFalsy();
+        expect(result.errors).toMatchInlineSnapshot(`
+          [
+            {
+              "details": {
+                "error": "Too many off-class cards. (11 / 10)",
+              },
+              "type": "INVALID_DECK_OPTION",
+            },
+          ]
+        `);
+      });
+
+      it("handles case: invalid, forbidden card", () => {
+        const result = validate(store, parallelJennyInvalidForbidden);
+        expect(result.valid).toBeFalsy();
+        expect(result.errors).toMatchInlineSnapshot(`
+          [
+            {
+              "details": [
+                {
+                  "code": "60531",
+                  "real_name": "Déjà Vu",
+                  "target": "slots",
+                },
+              ],
+              "type": "FORBIDDEN",
             },
           ]
         `);
