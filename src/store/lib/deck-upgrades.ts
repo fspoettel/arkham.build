@@ -236,7 +236,7 @@ function calculateXpSpent(
 
       // if an XP card is upgraded, i.e. (1) => (5), subtract the previous upgrade's XP cost.
       if (upgradedFrom) {
-        xp -= countExperience(upgradedFrom[0], Math.abs(upgradedFrom[1]));
+        cost -= countExperience(upgradedFrom[0], Math.abs(upgradedFrom[1]));
         // upgrades can be discounted via DtRH and Arcane Research (spells).
         cost = applyDownTheRabbitHole(cost, quantity);
         cost = applyArcaneResearch(card, cost);
