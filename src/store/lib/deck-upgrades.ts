@@ -132,11 +132,11 @@ function calculateXpSpent(
     return cost;
   }
 
-  function applyArcaneResearch(card: Card, _cost: number, quantity: number) {
+  function applyArcaneResearch(card: Card, _cost: number) {
     let cost = _cost;
 
     if (card.real_traits?.includes("Spell.")) {
-      for (const _ of range(0, Math.min(modifiers.arcaneResearch, quantity))) {
+      for (const _ of range(0, modifiers.arcaneResearch)) {
         if (cost > 0) {
           cost -= 1;
           modifiers.arcaneResearch -= 1;
@@ -239,7 +239,7 @@ function calculateXpSpent(
         xp -= countExperience(upgradedFrom[0], Math.abs(upgradedFrom[1]));
         // upgrades can be discounted via DtRH and Arcane Research (spells).
         cost = applyDownTheRabbitHole(cost, quantity);
-        cost = applyArcaneResearch(card, cost, quantity);
+        cost = applyArcaneResearch(card, cost);
       } else if (level === 0) {
         cost = applyFree0Swaps(card, cost, quantity);
         // if an XP card is new and DtRH is in deck, a penalty of 1XP is applied.
@@ -265,7 +265,7 @@ function calculateXpSpent(
       let cost = entries.reduce((acc, curr) => acc + curr.xp_spent, 0);
 
       cost = applyDownTheRabbitHole(cost, cost);
-      cost = applyArcaneResearch(card, cost, cost);
+      cost = applyArcaneResearch(card, cost);
 
       xp += cost;
     }
