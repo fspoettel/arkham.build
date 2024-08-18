@@ -8,7 +8,7 @@ import { useDialogContext } from "@/components/ui/dialog.hooks";
 import { Modal } from "@/components/ui/modal";
 
 import type { ResolvedDeck } from "@/store/lib/types";
-import css from "./deck-view.module.css";
+import css from "./deck-display.module.css";
 
 type Props = {
   deck: ResolvedDeck;

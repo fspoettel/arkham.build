@@ -28,12 +28,12 @@ export function LatestUpgrade(props: Props) {
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
 
   const onIcrement = useCallback(() => {
-    updateXpAdjustment(deck.id, (latestUpgrade?.xpAdjustment ?? 0) + 1);
-  }, [deck.id, latestUpgrade?.xpAdjustment, updateXpAdjustment]);
+    updateXpAdjustment(deck.id, (latestUpgrade?.stats.xpAdjustment ?? 0) + 1);
+  }, [deck.id, latestUpgrade?.stats.xpAdjustment, updateXpAdjustment]);
 
   const onDecrement = useCallback(() => {
-    updateXpAdjustment(deck.id, (latestUpgrade?.xpAdjustment ?? 0) - 1);
-  }, [deck.id, latestUpgrade?.xpAdjustment, updateXpAdjustment]);
+    updateXpAdjustment(deck.id, (latestUpgrade?.stats.xpAdjustment ?? 0) - 1);
+  }, [deck.id, latestUpgrade?.stats.xpAdjustment, updateXpAdjustment]);
 
   const onAddExile = useCallback(
     (card: Card, quantity: number) => {
@@ -51,7 +51,7 @@ export function LatestUpgrade(props: Props) {
 
   if (!latestUpgrade) return null;
 
-  const { xpSpent, xpAdjustment, xp } = latestUpgrade;
+  const { xpSpent, xpAdjustment, xp } = latestUpgrade.stats;
 
   return (
     <div className={css["actions-upgrade"]}>

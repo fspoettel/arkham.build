@@ -1,9 +1,7 @@
 .list {
   display: flex;
   flex-flow: row wrap;
-  gap: 0.25rem;
-  padding: 1px 1px 0;
-  border-bottom: 1px solid var(--nord-point-five);
+  border-bottom: 1px solid var(--nord-1);
 }
 
 .list > * {
@@ -16,7 +14,7 @@
 }
 
 .trigger[data-state="active"] {
-  background-color: var(--nord-point-five);
+  background-color: var(--nord-1);
   border-bottom: 0.125rem solid var(--accent-color, var(--nord-10));
 }
 

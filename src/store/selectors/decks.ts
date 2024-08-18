@@ -115,21 +115,6 @@ export function selectCurrentInvestigatorFactionCode(
   return deck?.cards.investigator.card.faction_code;
 }
 
-export const selectLatestUpgrade = createSelector(
-  (_: StoreState, deck: ResolvedDeck) => deck,
-  (state: StoreState, deck: ResolvedDeck) => {
-    const prevId = deck?.previous_deck;
-    return prevId ? selectResolvedDeckById(state, prevId) : undefined;
-  },
-  (next, prev) => {
-    if (!prev || !next) return undefined;
-    time("latest_upgrade");
-    const stats = getUpgradeStats(prev, next);
-    timeEnd("latest_upgrade");
-    return stats;
-  },
-);
-
 export type SlotUpgrade = {
   diff: number;
   card: Card;
@@ -139,6 +124,95 @@ export type CustomizationUpgrade = {
   diff: Customization[];
   card: Card;
 };
+
+type HistoryEntry = UpgradeStats & {
+  differences: {
+    slots: SlotUpgrade[];
+    extraSlots: SlotUpgrade[];
+    exileSlots: SlotUpgrade[];
+    customizations: CustomizationUpgrade[];
+  };
+  id: Id;
+};
+
+export type History = HistoryEntry[];
+
+type Changes = {
+  exileSlots: Record<string, number>;
+  customizations?: Customizations;
+  stats: UpgradeStats;
+  tabooSetId: number | undefined | null;
+  id: Id;
+};
+
+function getChanges(prev: ResolvedDeck, next: ResolvedDeck): Changes {
+  return {
+    id: next.id,
+    customizations: next.customizations,
+    stats: getUpgradeStats(prev, next),
+    tabooSetId: next.taboo_id,
+    exileSlots: decodeExileSlots(next.exile_string),
+  };
+}
+
+function getHistoryEntry(
+  changes: Changes,
+  metadata: StoreState["metadata"],
+): HistoryEntry {
+  const { customizations, exileSlots, id, stats, tabooSetId } = changes;
+
+  return {
+    id,
+    ...stats,
+    differences: {
+      slots: Object.entries(stats.changes.slots)
+        .map(([code, diff]) => ({
+          diff,
+          card: applyCardChanges(
+            metadata.cards[code],
+            metadata,
+            tabooSetId,
+            customizations,
+          ),
+        }))
+        .sort(sortDiff),
+      extraSlots: Object.entries(stats.changes.extraSlots)
+        .map(([code, diff]) => ({
+          diff,
+          card: applyCardChanges(
+            metadata.cards[code],
+            metadata,
+            tabooSetId,
+            customizations,
+          ),
+        }))
+        .sort(sortDiff),
+      exileSlots: Object.entries(exileSlots)
+        .map(([code, diff]) => ({
+          diff: diff * -1,
+          card: applyCardChanges(
+            metadata.cards[code],
+            metadata,
+            tabooSetId,
+            customizations,
+          ),
+        }))
+        .sort(sortDiff),
+      customizations: Object.entries(stats.changes.customizations)
+        .filter(([, diff]) => diff.some((c) => c.xp_spent > 0))
+        .map(([code, diff]) => ({
+          diff,
+          card: applyCardChanges(
+            metadata.cards[code],
+            metadata,
+            tabooSetId,
+            customizations,
+          ),
+        }))
+        .sort((a, b) => sortByName(a.card, b.card)),
+    },
+  };
+}
 
 export const selectDeckHistory = createSelector(
   (_: StoreState, id: Id) => id,
@@ -154,12 +228,7 @@ export const selectDeckHistory = createSelector(
 
     time("deck_history");
 
-    const changes: {
-      exileSlots: Record<string, number>;
-      customizations?: Customizations;
-      stats: UpgradeStats;
-      tabooSetId: number | undefined | null;
-    }[] = [];
+    const changes: Changes[] = [];
 
     history.unshift(id);
     history.reverse();
@@ -170,70 +239,17 @@ export const selectDeckHistory = createSelector(
 
       if (!data.decks[prev] || !data.decks[next]) break;
 
-      const prevDeck = resolveDeck(metadata, lookupTables, data.decks[prev]);
-      const nextDeck = resolveDeck(metadata, lookupTables, data.decks[next]);
-
-      changes.unshift({
-        customizations: nextDeck.customizations,
-        stats: getUpgradeStats(prevDeck, nextDeck),
-        tabooSetId: nextDeck.taboo_id,
-        exileSlots: decodeExileSlots(nextDeck.exile_string),
-      });
+      changes.unshift(
+        getChanges(
+          resolveDeck(metadata, lookupTables, data.decks[prev]),
+          resolveDeck(metadata, lookupTables, data.decks[next]),
+        ),
+      );
     }
 
-    const diffs = changes.map(
-      ({ customizations, exileSlots, stats, tabooSetId }) => ({
-        ...stats,
-        differences: {
-          slots: Object.entries(stats.changes.slots)
-            .map(([code, diff]) => ({
-              diff,
-              card: applyCardChanges(
-                metadata.cards[code],
-                metadata,
-                tabooSetId,
-                customizations,
-              ),
-            }))
-            .sort(sortDiff),
-          extraSlots: Object.entries(stats.changes.extraSlots)
-            .map(([code, diff]) => ({
-              diff,
-              card: applyCardChanges(
-                metadata.cards[code],
-                metadata,
-                tabooSetId,
-                customizations,
-              ),
-            }))
-            .sort(sortDiff),
-          exileSlots: Object.entries(exileSlots)
-            .map(([code, diff]) => ({
-              diff: diff * -1,
-              card: applyCardChanges(
-                metadata.cards[code],
-                metadata,
-                tabooSetId,
-                customizations,
-              ),
-            }))
-            .sort(sortDiff),
-          customizations: Object.entries(stats.changes.customizations)
-            .filter(([, diff]) => diff.some((c) => c.xp_spent > 0))
-            .map(([code, diff]) => ({
-              diff,
-              card: applyCardChanges(
-                metadata.cards[code],
-                metadata,
-                tabooSetId,
-                customizations,
-              ),
-            }))
-            .sort((a, b) => sortByName(a.card, b.card)),
-        },
-      }),
+    const diffs: History = changes.map((change) =>
+      getHistoryEntry(change, metadata),
     );
-
     timeEnd("deck_history");
 
     return diffs;
@@ -247,3 +263,25 @@ function sortDiff(a: SlotUpgrade, b: SlotUpgrade) {
   if (!aPos && bPos) return 1;
   return sortByName(a.card, b.card);
 }
+
+export const selectLatestUpgrade = createSelector(
+  (state: StoreState) => state.metadata,
+  (_: StoreState, deck: ResolvedDeck) => deck,
+  (state: StoreState, deck: ResolvedDeck) => {
+    const prevId = deck?.previous_deck;
+    return prevId ? selectResolvedDeckById(state, prevId) : undefined;
+  },
+  (metadata, next, prev) => {
+    if (!prev || !next) return undefined;
+    time("latest_upgrade");
+    const stats = getUpgradeStats(prev, next);
+    const changes = getChanges(prev, next);
+    const differences = getHistoryEntry(changes, metadata);
+
+    timeEnd("latest_upgrade");
+    return {
+      differences,
+      stats,
+    };
+  },
+);

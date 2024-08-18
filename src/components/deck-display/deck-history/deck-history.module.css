@@ -1,8 +1,5 @@
-.container > * + * {
-  margin-top: 1rem;
-}
-
-.container ol {
+.entries,
+.entries ol {
   list-style: none;
 }
 
@@ -22,8 +19,11 @@
 
 .entry-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 1rem;
+
+  @media screen and (min-width: 45rem) {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .entry-row > * + * {

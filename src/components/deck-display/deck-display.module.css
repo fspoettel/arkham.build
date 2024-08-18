@@ -40,6 +40,10 @@
   margin-top: 1rem;
 }
 
+.tab {
+  padding: 0.5rem 0;
+}
+
 .floating {
   position: fixed;
   right: 2rem;
