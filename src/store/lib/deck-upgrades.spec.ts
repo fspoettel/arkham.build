@@ -14,6 +14,10 @@ import add0 from "@/test/fixtures/decks/upgrades/add0_1.json";
 import add02 from "@/test/fixtures/decks/upgrades/add0_2.json";
 import arcaneResearch from "@/test/fixtures/decks/upgrades/arcane_research_base_1.json";
 import arcaneResearch2 from "@/test/fixtures/decks/upgrades/arcane_research_base_2.json";
+import arcaneResearchDtrh from "@/test/fixtures/decks/upgrades/arcane_research_dtrh_1.json";
+import arcaneResearchDtrh2 from "@/test/fixtures/decks/upgrades/arcane_research_dtrh_2.json";
+import arcaneResearchSwap from "@/test/fixtures/decks/upgrades/arcane_research_swap_1.json";
+import arcaneResearchSwap2 from "@/test/fixtures/decks/upgrades/arcane_research_swap_2.json";
 import customizableDtrh from "@/test/fixtures/decks/upgrades/customizable_dtrh_1.json";
 import customizableDtrh2 from "@/test/fixtures/decks/upgrades/customizable_dtrh_2.json";
 import customizablePurchase from "@/test/fixtures/decks/upgrades/customizable_purchase_1.json";
@@ -166,6 +170,24 @@ describe("getUpgradeStats", () => {
       expect(getUpgradeStats(prev, next).xpSpent).toEqual((next.xp ?? 0) - 1);
     });
 
+    // TODO: fix this failing test.
+    it.fails("handles case: arcane research (swap + add)", () => {
+      const state = store.getState();
+      const prev = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        arcaneResearchSwap,
+      );
+
+      const next = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        arcaneResearchSwap2,
+      );
+
+      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+    });
+
     it("handles case: down the rabbit hole", () => {
       const state = store.getState();
       const prev = resolveDeck(
@@ -178,6 +200,22 @@ describe("getUpgradeStats", () => {
         state.lookupTables,
         downTheRabbitHole2,
       );
+      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+    });
+
+    it("handles case: arcane research + down the rabbit hole", () => {
+      const state = store.getState();
+      const prev = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        arcaneResearchDtrh,
+      );
+      const next = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        arcaneResearchDtrh2,
+      );
+
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
