@@ -9,8 +9,8 @@ import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Tab } from "@/store/slices/deck-edits.types";
 import { useHotKey } from "@/utils/use-hotkey";
+import { LatestUpgrade } from "../../../components/deck-display/deck-history/latest-upgrade";
 import css from "./editor.module.css";
-import { LatestUpgrade } from "./latest-upgrade";
 
 type Props = {
   currentTab: Tab;
@@ -67,7 +67,7 @@ export function EditorActions(props: Props) {
 
   return (
     <>
-      <LatestUpgrade currentTab={currentTab} deck={deck} />
+      <LatestUpgrade currentTab={currentTab} deck={deck} overflowScroll />
       <div className={css["actions"]}>
         <Button
           onClick={() => {

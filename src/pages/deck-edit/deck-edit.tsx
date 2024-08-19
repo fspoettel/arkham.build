@@ -125,7 +125,10 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
     <ListLayout
       filters={
         <Filters>
-          <DecklistValidation defaultOpen={false} validation={validation} />
+          <DecklistValidation
+            defaultOpen={validation.errors.length < 3}
+            validation={validation}
+          />
           <ShowUnusableCardsToggle />
         </Filters>
       }

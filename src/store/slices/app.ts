@@ -370,8 +370,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     const upgrade = selectLatestUpgrade(state, resolved);
     if (upgrade) {
-      nextDeck.xp_spent = upgrade.stats.xpSpent;
-      nextDeck.xp_adjustment = upgrade.stats.xpAdjustment;
+      nextDeck.xp_spent = upgrade.xpSpent;
+      nextDeck.xp_adjustment = upgrade.xpAdjustment;
     }
 
     const deckEdits = { ...state.deckEdits };

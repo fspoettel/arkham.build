@@ -81,7 +81,7 @@
   flex-flow: row wrap;
   align-items: center;
   line-height: 1;
-  gap: var(--card-spacing-x);
+  gap: calc(var(--card-spacing-x) / 1.5);
   margin-top: 0.125rem;
   font-size: var(--text-xs);
 }
@@ -148,6 +148,12 @@
 
 .listcard.removed {
   opacity: 0.3;
+}
+
+.listcard.xs {
+  --card-spacing-y: 0;
+  --card-spacing-x: 0.25rem;
+  padding-inline: none;
 }
 
 .listcard.sm {

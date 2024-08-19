@@ -31,7 +31,7 @@
 
 .decklist-row > * > * {
   border: 1px solid var(--nord-point-five);
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded);
   padding: 0.5rem;
   width: 100%;
 }

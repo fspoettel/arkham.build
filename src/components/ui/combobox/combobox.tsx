@@ -62,6 +62,7 @@ type Props<T extends Coded> = {
   limit?: number;
   onValueChange?: (value: string[]) => void;
   placeholder?: string;
+  readonly?: boolean;
   renderItem?: (item: T) => React.ReactNode;
   renderResult?: (item: T) => React.ReactNode;
   showLabel?: boolean;
@@ -81,6 +82,7 @@ export function Combobox<T extends Coded>(props: Props<T>) {
     limit,
     placeholder,
     onValueChange,
+    readonly,
     renderItem = defaultRenderer,
     renderResult = defaultRenderer,
     selectedItems,
@@ -172,73 +174,76 @@ export function Combobox<T extends Coded>(props: Props<T>) {
 
   return (
     <div className={cx(css["combobox"], className)}>
-      <div className={css["control"]}>
-        <label
-          className={cx(css["control-label"], !showLabel && "sr-only")}
-          htmlFor={id}
-        >
-          {label}
-        </label>
-        <div className={css["control-row"]}>
-          <input
-            ref={refs.setReference}
-            {...getReferenceProps({
-              id,
-              className: css["control-input"],
-              disabled: disabled || (!!limit && selectedItems.length >= limit),
-              type: "text",
-              value: inputValue,
-              placeholder: placeholder,
-              autoFocus,
-              onKeyDown(evt) {
-                if (evt.key === "Escape") {
-                  evt.preventDefault();
-                  setOpen(false);
-                  (evt.target as HTMLInputElement)?.blur();
-                } else if (evt.key === "Enter" && activeIndex != null) {
-                  evt.preventDefault();
-                  const activeItem = filteredItems[activeIndex];
-                  if (activeItem) {
-                    setSelectedItem(activeItem);
+      {!readonly && (
+        <div className={css["control"]}>
+          <label
+            className={cx(css["control-label"], !showLabel && "sr-only")}
+            htmlFor={id}
+          >
+            {label}
+          </label>
+          <div className={css["control-row"]}>
+            <input
+              ref={refs.setReference}
+              {...getReferenceProps({
+                id,
+                className: css["control-input"],
+                disabled:
+                  disabled || (!!limit && selectedItems.length >= limit),
+                type: "text",
+                value: inputValue,
+                placeholder: placeholder,
+                autoFocus,
+                onKeyDown(evt) {
+                  if (evt.key === "Escape") {
+                    evt.preventDefault();
                     setOpen(false);
+                    (evt.target as HTMLInputElement)?.blur();
+                  } else if (evt.key === "Enter" && activeIndex != null) {
+                    evt.preventDefault();
+                    const activeItem = filteredItems[activeIndex];
+                    if (activeItem) {
+                      setSelectedItem(activeItem);
+                      setOpen(false);
+                    }
+                  } else if (evt.key === "ArrowDown") {
+                    evt.preventDefault();
+                    setActiveIndex((prev) => {
+                      if (activeIndex == null || prev == null) return 0;
+                      return prev < filteredItems.length - 1 ? prev + 1 : prev;
+                    });
+                    if (!isOpen) setOpen(true);
+                  } else if (evt.key === "ArrowUp") {
+                    evt.preventDefault();
+                    setActiveIndex((prev) => {
+                      if (prev == null) return 0;
+                      return prev > 0 ? prev - 1 : prev;
+                    });
+                    if (!isOpen) setOpen(true);
+                  } else if (
+                    !isOpen &&
+                    !evt.metaKey &&
+                    !evt.altKey &&
+                    evt.key !== "Backspace" &&
+                    evt.key !== "Shift"
+                  ) {
+                    setOpen(true);
                   }
-                } else if (evt.key === "ArrowDown") {
-                  evt.preventDefault();
-                  setActiveIndex((prev) => {
-                    if (activeIndex == null || prev == null) return 0;
-                    return prev < filteredItems.length - 1 ? prev + 1 : prev;
-                  });
-                  if (!isOpen) setOpen(true);
-                } else if (evt.key === "ArrowUp") {
-                  evt.preventDefault();
-                  setActiveIndex((prev) => {
-                    if (prev == null) return 0;
-                    return prev > 0 ? prev - 1 : prev;
-                  });
-                  if (!isOpen) setOpen(true);
-                } else if (
-                  !isOpen &&
-                  !evt.metaKey &&
-                  !evt.altKey &&
-                  evt.key !== "Backspace" &&
-                  evt.key !== "Shift"
-                ) {
-                  setOpen(true);
-                }
-              },
-              onClick() {
-                setOpen(!isOpen);
-              },
-              onChange(evt) {
-                if (evt.target instanceof HTMLInputElement) {
-                  setInputValue(evt.target.value);
-                }
-              },
-            })}
-          />
+                },
+                onClick() {
+                  setOpen(!isOpen);
+                },
+                onChange(evt) {
+                  if (evt.target instanceof HTMLInputElement) {
+                    setInputValue(evt.target.value);
+                  }
+                },
+              })}
+            />
+          </div>
         </div>
-      </div>
-      {isOpen && (
+      )}
+      {!readonly && isOpen && (
         <FloatingPortal id={FLOATING_PORTAL_ID}>
           <FloatingFocusManager context={context} initialFocus={-1}>
             <div
@@ -265,7 +270,7 @@ export function Combobox<T extends Coded>(props: Props<T>) {
       {!isEmpty(selectedItems) && (
         <ComboboxResults
           items={items.filter((x) => selectedItems.includes(x.code))}
-          onRemove={removeSelectedItem}
+          onRemove={readonly ? undefined : removeSelectedItem}
           renderResult={renderResult}
         />
       )}

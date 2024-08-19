@@ -31,7 +31,10 @@ export function DeckDisplay(props: Props) {
 
   const decklist = (
     <>
-      <DecklistValidation defaultOpen validation={validation} />
+      <DecklistValidation
+        defaultOpen={validation.errors.length < 3}
+        validation={validation}
+      />
       <Decklist deck={deck} />
     </>
   );

@@ -25,6 +25,7 @@ type Props = {
   omitOptionText?: boolean;
   onChange?: (index: number, edit: CustomizationEdit) => void;
   option: CustomizationOptionType;
+  readonly?: boolean;
   text: string[];
   xpMax?: number;
 };
@@ -38,6 +39,7 @@ export function CustomizationOption(props: Props) {
     onChange,
     omitOptionText,
     option,
+    readonly,
     text,
     xpMax,
   } = props;
@@ -99,17 +101,20 @@ export function CustomizationOption(props: Props) {
           ))}
       </div>
       <div className={css["content"]}>
-        <p
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is from trusted source.
-          dangerouslySetInnerHTML={{
-            __html: parseCustomizationTextHtml(htmlText),
-          }}
-        />
+        {htmlText && (
+          <p
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is from trusted source.
+            dangerouslySetInnerHTML={{
+              __html: parseCustomizationTextHtml(htmlText),
+            }}
+          />
+        )}
 
         {unlocked && option.choice === "choose_skill" && (
           <CustomizationChooseSkill
             disabled={disabled || !onChange}
             id={id}
+            readonly={readonly}
             onChange={onChangeSelection}
             selections={selections}
           />
@@ -120,6 +125,7 @@ export function CustomizationOption(props: Props) {
             card={card}
             disabled={disabled || !onChange}
             id={id}
+            readonly={readonly}
             onChange={onChangeSelection}
             selections={selections}
           />
@@ -130,6 +136,7 @@ export function CustomizationOption(props: Props) {
             disabled={disabled || !onChange}
             id={id}
             limit={option.quantity ?? 1}
+            readonly={readonly}
             onChange={onChangeSelection}
             selections={selections}
           />
@@ -141,6 +148,7 @@ export function CustomizationOption(props: Props) {
             disabled={disabled || !onChange}
             id={id}
             limit={option.quantity ?? 1}
+            readonly={readonly}
             onChange={onChangeSelection}
             selections={selections}
           />

@@ -1,4 +1,6 @@
 .scroller {
+  display: flex;
+  flex-flow: column nowrap;
   height: 100%;
   overflow: hidden;
   --scrollbar-size: 10px;

@@ -123,9 +123,10 @@ export type SlotUpgrade = {
 export type CustomizationUpgrade = {
   diff: Customization[];
   card: Card;
+  xpMax: number;
 };
 
-type HistoryEntry = UpgradeStats & {
+export type HistoryEntry = UpgradeStats & {
   differences: {
     slots: SlotUpgrade[];
     extraSlots: SlotUpgrade[];
@@ -161,56 +162,59 @@ function getHistoryEntry(
 ): HistoryEntry {
   const { customizations, exileSlots, id, stats, tabooSetId } = changes;
 
+  const differences = {
+    slots: Object.entries(stats.changes.slots)
+      .map(([code, diff]) => ({
+        diff,
+        card: applyCardChanges(
+          metadata.cards[code],
+          metadata,
+          tabooSetId,
+          customizations,
+        ),
+      }))
+      .sort(sortDiff),
+    extraSlots: Object.entries(stats.changes.extraSlots)
+      .map(([code, diff]) => ({
+        diff,
+        card: applyCardChanges(
+          metadata.cards[code],
+          metadata,
+          tabooSetId,
+          customizations,
+        ),
+      }))
+      .sort(sortDiff),
+    exileSlots: Object.entries(exileSlots)
+      .map(([code, diff]) => ({
+        diff: diff * -1,
+        card: applyCardChanges(
+          metadata.cards[code],
+          metadata,
+          tabooSetId,
+          customizations,
+        ),
+      }))
+      .sort(sortDiff),
+    customizations: Object.entries(stats.changes.customizations)
+      .filter(([, diff]) => diff.some((c) => c.xp_spent > 0))
+      .map(([code, diff]) => ({
+        diff,
+        xpMax: diff.reduce((acc, curr) => Math.max(acc, curr.xp_spent ?? 0), 0),
+        card: applyCardChanges(
+          metadata.cards[code],
+          metadata,
+          tabooSetId,
+          customizations,
+        ),
+      }))
+      .sort((a, b) => sortByName(a.card, b.card)),
+  };
+
   return {
     id,
     ...stats,
-    differences: {
-      slots: Object.entries(stats.changes.slots)
-        .map(([code, diff]) => ({
-          diff,
-          card: applyCardChanges(
-            metadata.cards[code],
-            metadata,
-            tabooSetId,
-            customizations,
-          ),
-        }))
-        .sort(sortDiff),
-      extraSlots: Object.entries(stats.changes.extraSlots)
-        .map(([code, diff]) => ({
-          diff,
-          card: applyCardChanges(
-            metadata.cards[code],
-            metadata,
-            tabooSetId,
-            customizations,
-          ),
-        }))
-        .sort(sortDiff),
-      exileSlots: Object.entries(exileSlots)
-        .map(([code, diff]) => ({
-          diff: diff * -1,
-          card: applyCardChanges(
-            metadata.cards[code],
-            metadata,
-            tabooSetId,
-            customizations,
-          ),
-        }))
-        .sort(sortDiff),
-      customizations: Object.entries(stats.changes.customizations)
-        .filter(([, diff]) => diff.some((c) => c.xp_spent > 0))
-        .map(([code, diff]) => ({
-          diff,
-          card: applyCardChanges(
-            metadata.cards[code],
-            metadata,
-            tabooSetId,
-            customizations,
-          ),
-        }))
-        .sort((a, b) => sortByName(a.card, b.card)),
-    },
+    differences,
   };
 }
 
@@ -274,14 +278,10 @@ export const selectLatestUpgrade = createSelector(
   (metadata, next, prev) => {
     if (!prev || !next) return undefined;
     time("latest_upgrade");
-    const stats = getUpgradeStats(prev, next);
     const changes = getChanges(prev, next);
     const differences = getHistoryEntry(changes, metadata);
 
     timeEnd("latest_upgrade");
-    return {
-      differences,
-      stats,
-    };
+    return differences;
   },
 );

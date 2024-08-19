@@ -37,32 +37,24 @@ export function DeckHistory(props: Props) {
               {hasChanges && (
                 <>
                   <div className={css["entry-row"]}>
-                    {!!stats.differences.slots.length && (
-                      <SlotDiff
-                        title="Deck changes"
-                        differences={stats.differences.slots}
-                      />
-                    )}
-                    {!!stats.differences.extraSlots.length && (
-                      <SlotDiff
-                        title="Spirit deck changes"
-                        differences={stats.differences.extraSlots}
-                      />
-                    )}
+                    <SlotDiff
+                      title="Deck changes"
+                      differences={stats.differences.slots}
+                    />
+                    <SlotDiff
+                      title="Spirit deck changes"
+                      differences={stats.differences.extraSlots}
+                    />
                   </div>
                   <div className={css["entry-row"]}>
-                    {!!stats.differences.exileSlots.length && (
-                      <SlotDiff
-                        title="Exiled cards"
-                        differences={stats.differences.exileSlots}
-                      />
-                    )}
-                    {!!stats.differences.customizations.length && (
-                      <CustomizableDiff
-                        title="Customizations"
-                        differences={stats.differences.customizations}
-                      />
-                    )}
+                    <SlotDiff
+                      title="Exiled cards"
+                      differences={stats.differences.exileSlots}
+                    />
+                    <CustomizableDiff
+                      title="Customizations"
+                      differences={stats.differences.customizations}
+                    />
                   </div>
                 </>
               )}

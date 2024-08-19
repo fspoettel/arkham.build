@@ -1,0 +1,78 @@
+.diffs-container ol {
+  list-style: none;
+}
+
+.diffs > * + * {
+  margin-top: 0.25rem;
+}
+
+.diffs-container > * + * {
+  margin-top: 0.75rem;
+}
+
+.diff {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &.sm {
+    gap: 0;
+  }
+}
+
+.diff-quantity {
+  font-weight: 700;
+  border-radius: var(--rounded);
+  border: 1px solid var(--nord-1);
+  padding: 0.125rem 0.25rem;
+  font-size: var(--text-xs);
+}
+
+.diff-quantity.positive {
+  color: var(--nord-14);
+  border-color: var(--nord-14);
+}
+
+.diff-quantity.negative {
+  color: var(--nord-11);
+  border-color: var(--nord-11);
+}
+
+.diff-customizations {
+  padding-inline: 0.25rem;
+  font-size: var(--text-sm);
+  font-family: var(--font-family-content);
+}
+
+.diff-customizations > * + * {
+  margin-top: 0.25rem;
+}
+
+.diff-customization > * {
+  margin-top: 0.25rem;
+}
+
+.diffs-container.sm > * + * {
+  margin-top: 0.25rem;
+}
+
+.diffs-container.sm .diff {
+  gap: 0.125rem;
+}
+
+.diffs-container.sm .diffs-title {
+  font-size: var(--text-sm);
+}
+
+.diffs-container.sm .diff-quantity {
+  padding: 0;
+  border: 0;
+}
+
+.diffs-container.sm .diff-quantity.positive {
+  color: currentColor;
+}
+
+.diffs-container.sm .diff-quantity.negative {
+  color: currentColor;
+}

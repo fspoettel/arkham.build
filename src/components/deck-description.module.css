@@ -1,7 +1,7 @@
 .description {
   background: var(--nord-point-five);
   padding: 1rem;
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded);
   margin: 0 auto;
 }
 

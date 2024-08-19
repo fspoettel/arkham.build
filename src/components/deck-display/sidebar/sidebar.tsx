@@ -4,7 +4,6 @@ import {
   capitalize,
   formatSelectionId,
   formatTabooSet,
-  formatXpAvailable,
 } from "@/utils/formatting";
 
 import css from "./sidebar.module.css";
@@ -17,6 +16,7 @@ import { cx } from "@/utils/cx";
 import { Import } from "lucide-react";
 import { useCallback } from "react";
 import { useLocation } from "wouter";
+import { LatestUpgrade } from "../deck-history/latest-upgrade";
 import { Sharing } from "./sharing";
 import { SidebarActions } from "./sidebar-actions";
 
@@ -71,23 +71,12 @@ export function Sidebar(props: Props) {
           </p>
         </li>
 
-        {deck.previous_deck ? (
-          <li className={css["detail"]} data-testid="view-deck-xp">
-            <div className={css["detail-label"]}>
-              <i className="icon-xp-bold" /> XP earned
-            </div>
-            <p className={css["detail-value"]}>
-              {formatXpAvailable(deck.xp, deck.xp_adjustment, deck.xp_spent)}
-            </p>
-          </li>
-        ) : (
-          <li className={css["detail"]} data-testid="view-deck-xp">
-            <div className={css["detail-label"]}>
-              <i className="icon-xp-bold" /> XP required
-            </div>
-            <p className={css["detail-value"]}>{deck.stats.xpRequired}</p>
-          </li>
-        )}
+        <li className={css["detail"]} data-testid="view-deck-xp">
+          <div className={css["detail-label"]}>
+            <i className="icon-xp-bold" /> XP required
+          </div>
+          <p className={css["detail-value"]}>{deck.stats.xpRequired}</p>
+        </li>
 
         <li className={css["detail"]} data-testid="view-deck-taboo">
           <div className={css["detail-label"]}>
@@ -149,6 +138,22 @@ export function Sidebar(props: Props) {
             </li>
           ))}
       </ul>
+
+      {deck.previous_deck && (
+        <section className={css["details"]} data-testid="share">
+          <div className={cx(css["detail"], css["full"])}>
+            <header>
+              <h3 className={css["detail-label"]}>
+                <i className="icon-upgrade" />
+                Latest upgrade
+              </h3>
+            </header>
+            <div className={css["detail-value"]}>
+              <LatestUpgrade deck={deck} readonly />
+            </div>
+          </div>
+        </section>
+      )}
 
       {owned && <Sharing deck={deck} />}
     </div>

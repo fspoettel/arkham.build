@@ -14,6 +14,9 @@ type Props = Omit<CollapsibleProps, "title"> & {
   actions?: React.ReactNode;
   children: React.ReactNode;
   className?: string;
+  triggerReversed?: boolean;
+  omitBorder?: boolean;
+  omitPadding?: boolean;
   onOpenChange?: (x: boolean) => void;
   sub?: React.ReactNode;
   title: React.ReactNode;
@@ -26,10 +29,14 @@ export function Collapsible(props: Props) {
     actions,
     className,
     children,
+    disabled,
     open,
+    omitBorder,
+    omitPadding,
     onOpenChange,
     sub,
     title,
+    triggerReversed,
     header,
     variant,
     ...rest
@@ -38,14 +45,23 @@ export function Collapsible(props: Props) {
   return (
     <Root
       {...rest}
-      className={cx(css["collapsible"], variant && css[variant], className)}
+      className={cx(
+        css["collapsible"],
+        !omitPadding && css["padded"],
+        !omitBorder && css["bordered"],
+        variant && css[variant],
+        className,
+      )}
       onOpenChange={onOpenChange}
       open={open}
     >
       <Trigger asChild>
-        <div className={css["header"]} data-testid="collapsible-trigger">
+        <div
+          className={cx(css["trigger"], triggerReversed && css["reversed"])}
+          data-testid="collapsible-trigger"
+        >
           {header || (
-            <div>
+            <div className={css["header"]}>
               <h4>{title}</h4>
               <div className={css["sub"]}>{sub}</div>
             </div>
