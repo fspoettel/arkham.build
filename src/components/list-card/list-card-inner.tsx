@@ -4,7 +4,11 @@ import { FileWarning, Star } from "lucide-react";
 import { useCallback } from "react";
 
 import type { Card } from "@/store/services/queries.types";
-import { getCardColor, hasSkillIcons } from "@/utils/card-utils";
+import {
+  countExperience,
+  getCardColor,
+  hasSkillIcons,
+} from "@/utils/card-utils";
 
 import css from "./list-card.module.css";
 
@@ -19,7 +23,12 @@ import { SkillIcons } from "../skill-icons/skill-icons";
 import { SkillIconsInvestigator } from "../skill-icons/skill-icons-investigator";
 import { QuantityInput } from "../ui/quantity-input";
 import { QuantityOutput } from "../ui/quantity-output";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import {
+  DefaultTooltip,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 export type Props = {
   as?: "li" | "div";
@@ -32,9 +41,9 @@ export type Props = {
   isForbidden?: boolean;
   isIgnored?: number;
   isRemoved?: boolean;
+  limitOverride?: number;
   omitBorders?: boolean;
   omitThumbnail?: boolean;
-
   onChangeCardQuantity?: (
     code: string,
     quantity: number,
@@ -43,12 +52,11 @@ export type Props = {
   ownedCount?: number;
   quantity?: number;
   referenceProps?: React.ComponentProps<"div">;
-  size?: "sm" | "investigator";
-  showInvestigatorIcons?: boolean;
-
   renderAction?: (card: Card) => React.ReactNode;
   renderExtra?: (card: Card) => React.ReactNode;
   renderAfter?: (card: Card, quantity?: number) => React.ReactNode;
+  size?: "sm" | "investigator" | "xs";
+  showInvestigatorIcons?: boolean;
 };
 
 export function ListCardInner(props: Props) {
@@ -63,6 +71,7 @@ export function ListCardInner(props: Props) {
     isForbidden,
     isIgnored,
     isRemoved,
+    limitOverride,
     omitBorders,
     omitThumbnail,
     onChangeCardQuantity,
@@ -94,7 +103,7 @@ export function ListCardInner(props: Props) {
     modalContext.setOpen({ code: card.code });
   }, [modalContext, card.code]);
 
-  const limit = card.deck_limit || card.quantity;
+  const limit = limitOverride || card.deck_limit || card.quantity;
 
   return (
     <Element
@@ -144,7 +153,7 @@ export function ListCardInner(props: Props) {
               </button>
             )}
 
-          {card.faction_code !== "mythos" && (
+          {size !== "xs" && card.faction_code !== "mythos" && (
             <div className={cx(css["icon"], colorCls)}>
               <CardIcon card={card} />
             </div>
@@ -162,6 +171,10 @@ export function ListCardInner(props: Props) {
                   {card.real_name}
                 </button>
               </h4>
+
+              {size === "xs" && !!card.xp && (
+                <ExperienceDots xp={countExperience(card, 1)} />
+              )}
 
               {ownedCount != null &&
                 card.code !== SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS &&
@@ -203,53 +216,50 @@ export function ListCardInner(props: Props) {
               )}
             </div>
 
-            <div className={css["meta"]}>
-              {card.type_code !== "investigator" && !card.subtype_code && (
-                <MulticlassIcons card={card} className={css["multiclass"]} />
-              )}
+            {size !== "xs" && (
+              <div className={css["meta"]}>
+                {card.type_code !== "investigator" && !card.subtype_code && (
+                  <MulticlassIcons card={card} className={css["multiclass"]} />
+                )}
 
-              {card.parallel &&
-              card.type_code === "investigator" &&
-              size === "investigator" ? (
-                <Tooltip>
-                  <TooltipTrigger asChild>
+                {card.parallel &&
+                card.type_code === "investigator" &&
+                size === "investigator" ? (
+                  <DefaultTooltip tooltip="Uses a parallel side">
                     <i className="icon-parallel" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Uses a parallel side</p>
-                  </TooltipContent>
-                </Tooltip>
-              ) : (
-                card.parallel && <i className="icon-parallel" />
-              )}
+                  </DefaultTooltip>
+                ) : (
+                  card.parallel && <i className="icon-parallel" />
+                )}
 
-              {hasSkillIcons(card) && <SkillIcons card={card} />}
+                {hasSkillIcons(card) && <SkillIcons card={card} />}
 
-              {!!card.taboo_set_id && (
-                <span className={cx(css["taboo"], "color-taboo")}>
-                  {card.taboo_xp && <ExperienceDots xp={card.taboo_xp} />}
-                  <i className="icon-tablet icon-layout color-taboo" />
-                </span>
-              )}
-              {!showInvestigatorIcons && card.real_subname && (
-                <h5 className={css["subname"]}>{card.real_subname}</h5>
-              )}
+                {!!card.taboo_set_id && (
+                  <span className={cx(css["taboo"], "color-taboo")}>
+                    {card.taboo_xp && <ExperienceDots xp={card.taboo_xp} />}
+                    <i className="icon-tablet icon-layout color-taboo" />
+                  </span>
+                )}
+                {!showInvestigatorIcons && card.real_subname && (
+                  <h5 className={css["subname"]}>{card.real_subname}</h5>
+                )}
 
-              {showInvestigatorIcons && card.type_code === "investigator" && (
-                <>
-                  <CardHealth
-                    className={css["investigator-health"]}
-                    health={card.health}
-                    sanity={card.sanity}
-                  />
-                  <SkillIconsInvestigator
-                    card={card}
-                    className={css["investigator-skills"]}
-                    iconClassName={css["investigator-skill"]}
-                  />
-                </>
-              )}
-            </div>
+                {showInvestigatorIcons && card.type_code === "investigator" && (
+                  <>
+                    <CardHealth
+                      className={css["investigator-health"]}
+                      health={card.health}
+                      sanity={card.sanity}
+                    />
+                    <SkillIconsInvestigator
+                      card={card}
+                      className={css["investigator-skills"]}
+                      iconClassName={css["investigator-skill"]}
+                    />
+                  </>
+                )}
+              </div>
+            )}
 
             {renderExtra && (
               <div className={css["meta"]}>{renderExtra(card)}</div>

@@ -51,6 +51,19 @@ export function cardLevel(card: Card) {
     : card.xp;
 }
 
+/**
+ * Get the "real" card level after applying taboo.
+ * For the sake of deckbuilding, cards keep their original level + an xp change.
+ * However, for the sake of XP calculations and interactions such as "Adaptable",
+ * cards should be considered their updated level in the spirit of the taboo.
+ * This prevents weirdness such as Adaptable being able to swap in Drawing Thin for free.
+ */
+export function realCardLevel(card: Card) {
+  const level = cardLevel(card);
+  if (level == null) return level;
+  return level + (card.taboo_xp ?? 0);
+}
+
 export function imageUrl(code: string) {
   return `${import.meta.env.VITE_CARD_IMAGE_URL}/optimized/${code}.webp`;
 }
@@ -70,6 +83,19 @@ export function parseCardTextHtml(cardText: string) {
 
 export function parseCustomizationTextHtml(customizationText: string) {
   return parseCardTextHtml(customizationText).replaceAll(/□/g, "");
+}
+
+export function decodeExileSlots(s: string | null | undefined) {
+  const ids = s?.split(",").filter((x) => x);
+  if (!ids?.length) return {};
+
+  return (
+    ids.reduce<Record<string, number>>((acc, curr) => {
+      acc[curr] ??= 0;
+      acc[curr] += 1;
+      return acc;
+    }, {}) ?? {}
+  );
 }
 
 export function isSpecialCard(

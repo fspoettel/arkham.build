@@ -3,7 +3,7 @@ import { DeckDisplay } from "@/components/deck-display/deck-display";
 import { Loader } from "@/components/ui/loader";
 import { useStore } from "@/store";
 import { resolveDeck } from "@/store/lib/resolve-deck";
-import { selectDeckValid } from "@/store/selectors/deck-view";
+import { selectDeckValid } from "@/store/selectors/decks";
 import { getShare } from "@/store/services/queries";
 import { useQuery } from "@/utils/use-query";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";

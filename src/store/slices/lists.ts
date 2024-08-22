@@ -737,13 +737,11 @@ export function makeLists(
   };
 }
 
-export function getInitialOwnershipFilter(
-  settings: SettingsState,
-): OwnershipFilter {
+function getInitialOwnershipFilter(settings: SettingsState): OwnershipFilter {
   return settings.showAllCards ? "all" : "owned";
 }
 
-export function getInitialSubtypeFilter(
+function getInitialSubtypeFilter(
   settings: SettingsState,
 ): SubtypeFilter | undefined {
   return settings.hideWeaknessesByDefault

@@ -9,13 +9,14 @@ import {
 import css from "./sidebar.module.css";
 
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { cx } from "@/utils/cx";
 import { Import } from "lucide-react";
 import { useCallback } from "react";
 import { useLocation } from "wouter";
+import { LatestUpgrade } from "../deck-history/latest-upgrade";
 import { Sharing } from "./sharing";
 import { SidebarActions } from "./sidebar-actions";
 
@@ -137,6 +138,22 @@ export function Sidebar(props: Props) {
             </li>
           ))}
       </ul>
+
+      {deck.previous_deck && (
+        <section className={css["details"]} data-testid="share">
+          <div className={cx(css["detail"], css["full"])}>
+            <header>
+              <h3 className={css["detail-label"]}>
+                <i className="icon-upgrade" />
+                Latest upgrade
+              </h3>
+            </header>
+            <div className={css["detail-value"]}>
+              <LatestUpgrade deck={deck} readonly />
+            </div>
+          </div>
+        </section>
+      )}
 
       {owned && <Sharing deck={deck} />}
     </div>

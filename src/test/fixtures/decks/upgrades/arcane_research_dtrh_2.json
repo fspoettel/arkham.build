@@ -1,0 +1,32 @@
+{
+  "id": "Lgepp2YfmIv9dQU",
+  "date_creation": "2024-08-18T11:21:54.394Z",
+  "date_update": "2024-08-18T11:27:07.390Z",
+  "description_md": "should cost 3XP: the first spell is discounted by -2 from arcane research, -1 from dtrh. the second spell is discounted -1 from dtrh",
+  "meta": "{}",
+  "ignoreDeckLimitSlots": {},
+  "sideSlots": {},
+  "next_deck": null,
+  "previous_deck": null,
+  "tags": "",
+  "version": "0.1",
+  "taboo_id": 7,
+  "xp": 3,
+  "xp_spent": null,
+  "exile_string": "",
+  "xp_adjustment": null,
+  "investigator_code": "01004",
+  "name": "The Agnes Baker Mysteries",
+  "slots": {
+    "60426": 1,
+    "60431": 1,
+    "01000": 1,
+    "01012": 1,
+    "01013": 1,
+    "04109": 2,
+    "08059": 1,
+    "05032": 1,
+    "05280": 1
+  },
+  "problem": "too_few_cards"
+}

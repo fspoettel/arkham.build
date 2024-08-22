@@ -5,7 +5,7 @@ import { useStore } from "@/store";
 import {
   selectDeckValid,
   selectResolvedDeckById,
-} from "@/store/selectors/deck-view";
+} from "@/store/selectors/decks";
 
 import { DeckDisplay } from "@/components/deck-display/deck-display";
 import type { ResolvedDeck } from "@/store/lib/types";

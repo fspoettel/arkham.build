@@ -8,6 +8,7 @@ type Props = {
   id: string;
   limit: number;
   onChange: (selections: string[]) => void;
+  readonly?: boolean;
   selections: string[];
 };
 
@@ -20,7 +21,7 @@ const selectTraitOptions = (state: StoreState) => {
 };
 
 export function CustomizationChooseTraits(props: Props) {
-  const { disabled, id, limit, onChange, selections } = props;
+  const { disabled, id, limit, onChange, readonly, selections } = props;
   const traits = useStore(selectTraitOptions);
 
   return (
@@ -30,6 +31,7 @@ export function CustomizationChooseTraits(props: Props) {
       items={traits}
       label="Traits"
       limit={limit}
+      readonly={readonly}
       onValueChange={onChange}
       placeholder="Select traits..."
       selectedItems={selections}

@@ -42,3 +42,25 @@
 .actions.has-custom {
   justify-content: space-between;
 }
+
+.content {
+  background: var(--nord-0);
+  padding: 1rem;
+  border-radius: var(--rounded-md);
+}
+
+.content > * + * {
+  margin-top: 1rem;
+}
+
+.content-title {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.content-footer {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}

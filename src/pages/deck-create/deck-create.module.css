@@ -51,7 +51,7 @@
 .layout-sidebar {
   grid-area: sidebar;
   border: 1px solid var(--nord-1);
-  border-radius: var(--rounded-md);
+  border-radius: var(--rounded);
   overflow-y: auto;
   height: 100%;
 }

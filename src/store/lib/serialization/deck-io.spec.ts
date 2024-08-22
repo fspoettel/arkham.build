@@ -1,4 +1,4 @@
-import { selectResolvedDeckById } from "@/store/selectors/deck-view";
+import { selectResolvedDeckById } from "@/store/selectors/decks";
 import type { StoreState } from "@/store/slices";
 import deckCustomizable from "@/test/fixtures/decks/customizable.json";
 import deckSpirits from "@/test/fixtures/decks/extra_slots.json";

@@ -1,3 +1,7 @@
+.combobox > * + * {
+  margin-top: 0.25rem;
+}
+
 .control-label {
   font-size: var(--text-sm);
   margin-bottom: 0.125rem;
@@ -66,13 +70,11 @@
 }
 
 .results {
-  margin-top: 0.5rem;
   display: flex;
   align-items: center;
   gap: 0.25rem;
   flex-flow: row wrap;
   width: 100%;
   list-style: none;
-  margin: 0.25rem 0 0;
   padding: 0;
 }

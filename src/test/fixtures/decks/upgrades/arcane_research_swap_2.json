@@ -1,0 +1,29 @@
+{
+  "id": "85JsIN1zRplnZyr",
+  "date_creation": "2024-08-18T11:49:56.232Z",
+  "date_update": "2024-08-18T11:50:47.950Z",
+  "description_md": "this upgrade should cost 2XP:\n- 1XP for buying a second copy of Clairvoyance (0)\n- 1XP for upgrading your original copy of Clairvoyance (0) with the discount",
+  "meta": "{}",
+  "ignoreDeckLimitSlots": {},
+  "sideSlots": {},
+  "next_deck": null,
+  "previous_deck": null,
+  "tags": "",
+  "version": "0.1",
+  "taboo_id": 7,
+  "xp": 2,
+  "xp_spent": null,
+  "exile_string": "",
+  "xp_adjustment": null,
+  "investigator_code": "01004",
+  "name": "The Agnes Baker Mysteries",
+  "slots": {
+    "60408": 1,
+    "60426": 1,
+    "01000": 1,
+    "01012": 1,
+    "01013": 1,
+    "04109": 2
+  },
+  "problem": "too_few_cards"
+}

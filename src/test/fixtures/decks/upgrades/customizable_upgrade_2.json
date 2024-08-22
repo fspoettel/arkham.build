@@ -1,0 +1,27 @@
+{
+  "id": "ncVVrqOjpJx7Kwl",
+  "date_creation": "2024-08-11T09:43:42.121Z",
+  "date_update": "2024-08-11T09:45:03.754Z",
+  "description_md": "should cost 6 xp (upgrades)",
+  "meta": "{\"cus_09042\":\"0|0|07159,1|1,2|1,3|2,4|0,5|2,6|0,7|4\"}",
+  "ignoreDeckLimitSlots": {},
+  "sideSlots": {},
+  "next_deck": null,
+  "previous_deck": null,
+  "tags": "",
+  "version": "0.1",
+  "xp": 6,
+  "xp_spent": null,
+  "exile_string": null,
+  "xp_adjustment": null,
+  "investigator_code": "01002",
+  "name": "Daisy Walker Investigates",
+  "slots": {
+    "01000": 1,
+    "01008": 1,
+    "01009": 1,
+    "09042": 2
+  },
+  "problem": "too_few_cards",
+  "taboo_id": null
+}

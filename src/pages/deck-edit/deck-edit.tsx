@@ -8,12 +8,12 @@ import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { DecklistValidation } from "@/components/decklist/decklist-validation";
 import { Filters } from "@/components/filters/filters";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
 import {
   selectDeckValid,
   selectResolvedDeckById,
-} from "@/store/selectors/deck-view";
+} from "@/store/selectors/decks";
 import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
 import { useDocumentTitle } from "@/utils/use-document-title";
 
@@ -125,7 +125,10 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
     <ListLayout
       filters={
         <Filters>
-          <DecklistValidation defaultOpen={false} validation={validation} />
+          <DecklistValidation
+            defaultOpen={validation.errors.length < 3}
+            validation={validation}
+          />
           <ShowUnusableCardsToggle />
         </Filters>
       }

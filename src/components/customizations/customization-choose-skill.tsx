@@ -7,6 +7,7 @@ type Props = {
   disabled?: boolean;
   id: string;
   onChange: (value: string[]) => void;
+  readonly?: boolean;
   selections: string[];
 };
 
@@ -17,7 +18,7 @@ const itemRenderer = (item: Coded) => (
 );
 
 export function CustomizationChooseSkill(props: Props) {
-  const { disabled, id, onChange, selections } = props;
+  const { disabled, id, onChange, readonly, selections } = props;
 
   const options = SKILL_KEYS.filter((x) => x !== "wild").map((key) => ({
     code: key,
@@ -32,6 +33,7 @@ export function CustomizationChooseSkill(props: Props) {
       limit={1}
       onValueChange={onChange}
       placeholder="Choose a skill..."
+      readonly={readonly}
       renderItem={itemRenderer}
       renderResult={itemRenderer}
       selectedItems={selections}

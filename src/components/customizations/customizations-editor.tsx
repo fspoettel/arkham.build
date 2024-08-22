@@ -55,7 +55,7 @@ export function CustomizationsEditor(props: Props) {
         {options.map((option, i) => (
           <CustomizationOption
             card={card}
-            choices={choices}
+            choice={choices?.[i]}
             disabled={!canEdit}
             index={i}
             // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.

@@ -4,7 +4,8 @@ import { useBrowserLocation } from "wouter/use-browser-location";
 
 import { ErrorBoundary } from "./components/error-boundary";
 import { Loader } from "./components/ui/loader";
-import { ToastProvider, useToast } from "./components/ui/toast";
+import { ToastProvider } from "./components/ui/toast";
+import { useToast } from "./components/ui/toast.hooks";
 import { Error404 } from "./pages/errors/404";
 import { useStore } from "./store";
 import { selectIsInitialized } from "./store/selectors/shared";

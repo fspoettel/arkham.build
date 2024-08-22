@@ -420,17 +420,18 @@ export const selectCanonicalTabooSetId = (
   state: StoreState,
   resolvedDeck?: ResolvedDeck,
 ) => {
+  if (resolvedDeck?.taboo_id) {
+    return resolvedDeck.taboo_id;
+  }
+
   const filters = selectActiveListFilters(state);
   const filterId = filters.findIndex((f) => f === "tabooSet");
 
   const filterValue = filterId
     ? selectActiveListFilter(state, filterId)
     : undefined;
-  if (typeof filterValue === "number") return filterValue;
 
-  if (resolvedDeck?.taboo_id) {
-    return resolvedDeck.taboo_id;
-  }
+  if (typeof filterValue?.value === "number") return filterValue.value;
 
   return state.settings.tabooSetId;
 };

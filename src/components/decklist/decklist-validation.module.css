@@ -26,3 +26,7 @@
 .decklist-validation-result-cards {
   margin-left: 1rem;
 }
+
+.scroller {
+  max-height: min(15rem, 50dvh);
+}

@@ -1,14 +1,19 @@
 .collapsible {
-  padding: 0.5rem;
-  border: 1px solid transparent;
-  border-radius: var(--rounded);
-
   &.active {
     border-color: var(--nord-3);
   }
+
+  &.padded {
+    padding: 0.5rem;
+  }
+
+  &.bordered {
+    border: 1px solid transparent;
+    border-radius: var(--rounded);
+  }
 }
 
-.collapsible[data-state="open"] {
+.collapsible.bordered[data-state="open"] {
   border: 1px solid var(--nord-point-five);
 
   &.active {
@@ -16,15 +21,15 @@
   }
 }
 
-.collapsible > * + * {
+.collapsible.padded > * + * {
   margin-top: 0.5rem;
 }
 
-.header {
+.trigger {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  flex-flow: row nowrap;
+  gap: 0.25rem;
   cursor: pointer;
   user-select: none;
   font-size: var(--text-sm);
@@ -34,11 +39,19 @@
   margin-top: 0.5rem;
 }
 
+.header {
+  flex: 1 1 auto;
+}
+
 .actions {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
   gap: 0.125rem;
+}
+
+.trigger.reversed .actions {
+  order: -1;
 }
 
 .sub {

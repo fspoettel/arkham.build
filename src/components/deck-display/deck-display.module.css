@@ -34,10 +34,15 @@
 
 .content {
   grid-area: decklist;
+  padding: 0.375rem;
 }
 
 .content > * + * {
   margin-top: 1rem;
+}
+
+.tab {
+  padding: 0.5rem 0;
 }
 
 .floating {

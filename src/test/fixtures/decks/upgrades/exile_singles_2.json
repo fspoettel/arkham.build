@@ -1,0 +1,31 @@
+{
+  "id": "7xb47T0JPWRXXTX",
+  "date_creation": "2024-08-13T11:49:38.847Z",
+  "date_update": "2024-08-13T11:51:08.381Z",
+  "description_md": "should be 1XP: 4XP - 3XP Deja Vu",
+  "meta": "{}",
+  "ignoreDeckLimitSlots": {},
+  "sideSlots": {},
+  "next_deck": null,
+  "previous_deck": null,
+  "tags": "",
+  "version": "0.1",
+  "taboo_id": null,
+  "xp": 1,
+  "xp_spent": null,
+  "exile_string": "60520,60521,02114,05236",
+  "xp_adjustment": null,
+  "investigator_code": "01005",
+  "name": "Wendy Adams on the Road",
+  "slots": {
+    "60520": 2,
+    "60521": 2,
+    "60531": 1,
+    "01000": 1,
+    "01014": 1,
+    "01015": 1,
+    "02114": 2,
+    "05236": 2
+  },
+  "problem": "too_few_cards"
+}

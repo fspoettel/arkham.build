@@ -6,6 +6,7 @@ import {
 } from "@floating-ui/react";
 import { cloneElement, forwardRef, isValidElement } from "react";
 
+import { FLOATING_PORTAL_ID } from "@/utils/constants";
 import type { PopoverOptions } from "./popover.hooks";
 import { PopoverContext, usePopover, usePopoverContext } from "./popover.hooks";
 
@@ -81,7 +82,7 @@ export const PopoverContent = forwardRef<
   if (!isMounted) return null;
 
   return (
-    <FloatingPortal>
+    <FloatingPortal id={FLOATING_PORTAL_ID}>
       <FloatingFocusManager context={floatingContext} modal={context.modal}>
         <div
           aria-describedby={context.descriptionId}

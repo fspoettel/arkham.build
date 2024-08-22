@@ -1,15 +1,24 @@
 .list {
   display: flex;
   flex-flow: row wrap;
-  gap: 0.25rem;
-  padding: 1px;
+  border-bottom: 1px solid var(--nord-1);
 }
 
 .list > * {
   flex: 1 1 calc(100% / var(--length) - 0.5rem);
 }
 
+.trigger {
+  border-radius: 0;
+  border-bottom: 0.125rem solid transparent;
+}
+
 .trigger[data-state="active"] {
-  background: var(--nord-2);
-  border-color: var(--nord-3);
+  background-color: var(--nord-1);
+  border-bottom: 0.125rem solid var(--accent-color, var(--nord-10));
+}
+
+.trigger[data-state="active"]:hover,
+.trigger[data-state="active"]:focus {
+  border-color: var(--accent-color, var(--nord-10));
 }

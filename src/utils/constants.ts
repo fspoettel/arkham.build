@@ -115,26 +115,57 @@ export const ALT_ART_INVESTIGATOR_MAP = {
 };
 
 export const SPECIAL_CARD_CODES = {
+  /** Can be in ignore deck limit slots for TCU. */
   ACE_OF_RODS: "05040",
+  /** Changes XP calculation for upgrades. */
+  ADAPTABLE: "02110",
+  /** Adjusts deck size, has separate deck. */
   ANCESTRAL_KNOWLEDGE: "07303",
+  /** Changes XP calculation for upgrades. */
+  ARCANE_RESEARCH: "04109",
+  /** Has separate deck. */
   BEWITCHING: "10079",
+  /** Quantity scales with signature count. */
   BURDEN_OF_DESTINY: "08015",
+  /** Allows to exile arbitrary cards. */
+  BURN_AFTER_READING: "08076",
+  /** Changes XP calculation for upgrades. */
+  DEJA_VU: "60531",
+  /** Changes XP calculation for upgrades. */
+  DOWN_THE_RABBIT_HOLE: "08059",
+  /** Adjusts deck size. */
   FORCED_LEARNING: "08031",
+  /** Has separate deck. */
   JOE_DIAMOND: "05002",
+  /** Has deck size selection (and accompanying taboo). */
   MANDY: "06002",
+  /** Scales with investigator deck size selection. */
   OCCULT_EVIDENCE: "06008",
+  /** Adds deckbuilding restriction. */
   ON_YOUR_OWN: "53010",
+  /** Has option to add cards to ignore deck limit slots. */
   PARALLEL_AGNES: "90017",
+  /** Has spirit deck. */
   PARALLEL_JIM: "90049",
+  /** Has option to add cards to ignore deck limit slots. */
   PARALLEL_SKIDS: "90008",
+  /** Parallel front has deckbuilding impact. */
   PARALLEL_ROLAND: "90024",
+  /** Parallel front has deckbuilding impact. */
   PARALLEL_WENDY: "90037",
+  /** Random basic weakness placeholder. */
   RANDOM_BASIC_WEAKNESS: "01000",
+  /** Separate deck. */
   STICK_TO_THE_PLAN: "03264",
+  /** Adjusts deck size, has separate deck. */
   UNDERWORLD_MARKET: "09077",
+  /** adds deckbuilding requirements. */
   UNDERWORLD_SUPPORT: "08046",
+  /** Weakness starts in hunch deck. */
   UNSOLVED_CASE: "05010",
+  /** Weakness starts in spirit deck. */
   VENGEFUL_SHADE: "90053",
+  /** Adds deckbuilding restriction, adjusts deck size. */
   VERSATILE: "06167",
 };
 
@@ -197,6 +228,14 @@ export const CARDS_SEPARATE_DECKS: { [code: string]: SeparateDeckDefinition } =
       selection: "choice",
     },
   };
+
+export const DECK_SIZE_ADJUSTMENTS = {
+  [SPECIAL_CARD_CODES.ANCESTRAL_KNOWLEDGE]: 5,
+  [SPECIAL_CARD_CODES.FORCED_LEARNING]: 15,
+  [SPECIAL_CARD_CODES.UNDERWORLD_MARKET]: 10,
+  [SPECIAL_CARD_CODES.UNDERWORLD_SUPPORT]: -5,
+  [SPECIAL_CARD_CODES.VERSATILE]: 5,
+};
 
 export const CARDS_WITH_LOCAL_IMAGES: Record<string, boolean> = {
   "90084": true,

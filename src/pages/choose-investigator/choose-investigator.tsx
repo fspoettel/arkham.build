@@ -11,6 +11,8 @@ import css from "./choose-investigator.module.css";
 
 import { ListLayoutNoSidebar } from "@/layouts/list-layout-no-sidebar";
 import type { CardWithRelations } from "@/store/lib/types";
+import type { Card } from "@/store/services/queries.types";
+import { useAccentColor } from "@/utils/use-accent-color";
 import { SignatureLink } from "./signature-link";
 
 function DeckCreateChooseInvestigator() {
@@ -30,22 +32,11 @@ function DeckCreateChooseInvestigator() {
 
   return (
     <ListLayoutNoSidebar
-      renderListCardAction={(card) => (
-        <Link asChild to={`/deck/create/${card.code}`}>
-          <Button
-            as="a"
-            data-testid="create-choose-investigator"
-            size="lg"
-            variant="bare"
-            tooltip={`Create ${card.real_name} deck`}
-          >
-            <CirclePlusIcon />
-          </Button>
-        </Link>
-      )}
+      renderListCardAction={(card) => <ChooseInvestigatorLink card={card} />}
       renderListCardExtra={({ code }) => (
         <ListcardExtra code={code} cardResolver={cardResolver} />
       )}
+      listcardSize="investigator"
       titleString="Choose investigator"
     />
   );
@@ -75,6 +66,27 @@ function ListcardExtra({
         />
       ))}
     </ul>
+  );
+}
+
+function ChooseInvestigatorLink(props: { card: Card }) {
+  const cssVariables = useAccentColor(props.card.faction_code);
+
+  return (
+    <Link asChild to={`/deck/create/${props.card.code}`}>
+      <Button
+        as="a"
+        className={css["choose-investigator-button"]}
+        data-testid="create-choose-investigator"
+        iconOnly
+        variant="primary"
+        size="lg"
+        style={cssVariables}
+        tooltip={`Create ${props.card.real_name} deck`}
+      >
+        <CirclePlusIcon />
+      </Button>
+    </Link>
   );
 }
 

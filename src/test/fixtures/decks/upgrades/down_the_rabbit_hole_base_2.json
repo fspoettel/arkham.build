@@ -1,0 +1,29 @@
+{
+  "id": "ZPr1G4tPRy80IHX",
+  "date_creation": "2024-08-11T08:08:00.139Z",
+  "date_update": "2024-08-11T08:09:16.604Z",
+  "description_md": "XP cost is 10: 4 from upgrading initiate (-2), 6 from adding studies (+2)",
+  "meta": "{}",
+  "ignoreDeckLimitSlots": {},
+  "sideSlots": {},
+  "next_deck": null,
+  "previous_deck": null,
+  "tags": "",
+  "version": "0.1",
+  "xp": 10,
+  "xp_spent": null,
+  "exile_string": null,
+  "xp_adjustment": null,
+  "investigator_code": "01004",
+  "name": "The Agnes Baker Mysteries",
+  "slots": {
+    "50007": 2,
+    "01000": 1,
+    "01012": 1,
+    "01013": 1,
+    "08059": 1,
+    "03271": 2
+  },
+  "problem": "too_few_cards",
+  "taboo_id": null
+}

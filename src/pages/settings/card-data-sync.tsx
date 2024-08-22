@@ -4,7 +4,6 @@ import { useCallback, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
-import { useToast } from "@/components/ui/toast";
 import { useStore } from "@/store";
 import {
   queryCards,
@@ -13,6 +12,7 @@ import {
 } from "@/store/services/queries";
 import { useMutate, useQuery } from "@/utils/use-query";
 
+import { useToast } from "@/components/ui/toast.hooks";
 import css from "./card-data-sync.module.css";
 
 export function CardDataSync() {

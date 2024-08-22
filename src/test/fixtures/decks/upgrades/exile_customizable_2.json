@@ -1,0 +1,28 @@
+{
+  "id": "r3e0zorbhVdrKha",
+  "date_creation": "2024-08-13T09:59:34.999Z",
+  "date_update": "2024-08-13T10:06:43.867Z",
+  "description_md": "costs 4XP to repurchase customizable upgrades",
+  "meta": "{\"customizations\":{},\"cus_09100\":\"2|2,3|2\"}",
+  "ignoreDeckLimitSlots": {},
+  "sideSlots": {},
+  "next_deck": null,
+  "previous_deck": null,
+  "tags": "",
+  "version": "0.1",
+  "taboo_id": null,
+  "xp": 4,
+  "xp_spent": null,
+  "exile_string": "09100,09100",
+  "xp_adjustment": null,
+  "investigator_code": "01005",
+  "name": "Wendy Adams on the Road",
+  "slots": {
+    "01000": 1,
+    "01014": 1,
+    "01015": 1,
+    "08076": 2,
+    "09100": 2
+  },
+  "problem": "too_few_cards"
+}

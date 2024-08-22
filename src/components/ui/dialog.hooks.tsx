@@ -13,6 +13,27 @@ export interface DialogOptions {
   onOpenChange?: (open: boolean) => void;
 }
 
+type ContextType =
+  | (ReturnType<typeof useDialog> & {
+      setLabelId: React.Dispatch<React.SetStateAction<string | undefined>>;
+      setDescriptionId: React.Dispatch<
+        React.SetStateAction<string | undefined>
+      >;
+    })
+  | undefined;
+
+export const DialogContext = createContext<ContextType>(undefined);
+
+export const useDialogContext = () => {
+  const context = useContext(DialogContext);
+
+  if (context == null) {
+    throw new Error("Dialog components must be wrapped in <Dialog />");
+  }
+
+  return context;
+};
+
 export function useDialog({
   initialOpen = false,
   open: controlledOpen,
@@ -55,24 +76,3 @@ export function useDialog({
     [open, setOpen, interactions, data, labelId, descriptionId],
   );
 }
-
-type ContextType =
-  | (ReturnType<typeof useDialog> & {
-      setLabelId: React.Dispatch<React.SetStateAction<string | undefined>>;
-      setDescriptionId: React.Dispatch<
-        React.SetStateAction<string | undefined>
-      >;
-    })
-  | undefined;
-
-export const DialogContext = createContext<ContextType>(undefined);
-
-export const useDialogContext = () => {
-  const context = useContext(DialogContext);
-
-  if (context == null) {
-    throw new Error("Dialog components must be wrapped in <Dialog />");
-  }
-
-  return context;
-};

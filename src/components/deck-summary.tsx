@@ -83,6 +83,12 @@ export function DeckSummary(props: Props) {
                 <i className="icon-xp-bold" />
                 {deck.stats.xpRequired} XP
               </strong>
+              {!!deck.xp && (
+                <strong data-testid="deck-xp-earned">
+                  <i className="icon-upgrade" />
+                  {deck.xp + (deck.xp_adjustment ?? 0)} XP
+                </strong>
+              )}
               <strong data-testid="deck-summary-size">
                 <i className="icon-card-outline-bold" />× {deck.stats.deckSize}{" "}
                 ({deck.stats.deckSizeTotal})

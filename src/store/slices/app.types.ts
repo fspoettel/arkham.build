@@ -4,7 +4,7 @@ import type {
   MetadataResponse,
 } from "@/store/services/queries";
 
-import type { ToastContext } from "@/components/ui/toast";
+import type { ToastContextType } from "@/components/ui/toast.hooks";
 import type { Id } from "./data.types";
 
 export type AppState = {
@@ -23,8 +23,11 @@ export type AppSlice = {
 
   createDeck(): string | number;
 
-  saveDeck(deckId: Id, toast: ToastContext): Promise<Id>;
+  saveDeck(deckId: Id, toast: ToastContextType): Promise<Id>;
 
-  deleteDeck(id: Id, toast: ToastContext): Promise<void>;
-  deleteAllDecks(toastCtx: ToastContext): Promise<void>;
+  deleteUpgrade(id: Id): Id;
+  upgradeDeck(id: Id, xp: number, exileString: string): Id;
+
+  deleteDeck(id: Id, toast: ToastContextType): Promise<void>;
+  deleteAllDecks(toastCtx: ToastContextType): Promise<void>;
 };

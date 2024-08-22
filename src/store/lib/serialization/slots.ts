@@ -1,7 +1,11 @@
 import type { Deck, Slots } from "@/store/slices/data.types";
 import type { LookupTables } from "@/store/slices/lookup-tables.types";
 import type { Metadata } from "@/store/slices/metadata.types";
-import { countExperience, isSpecialCard } from "@/utils/card-utils";
+import {
+  countExperience,
+  decodeExileSlots,
+  isSpecialCard,
+} from "@/utils/card-utils";
 import { range } from "@/utils/range";
 
 import { resolveCardWithRelations } from "../resolve-card";
@@ -26,6 +30,7 @@ export function decodeSlots(
     sideSlots: {},
     ignoreDeckLimitSlots: {},
     extraSlots: {},
+    exileSlots: {},
   };
 
   let deckSize = 0;
@@ -39,12 +44,17 @@ export function decodeSlots(
       code,
       deck.taboo_id,
       customizations,
+      true,
     );
 
     if (card) {
       deckSizeTotal += quantity;
       xpRequired += countExperience(card.card, quantity);
       cards.slots[code] = card;
+
+      if (deck.ignoreDeckLimitSlots?.[code]) {
+        cards.ignoreDeckLimitSlots[code] = card;
+      }
 
       if (!isSpecialCard(card.card, investigator)) {
         deckSize += Math.max(
@@ -69,6 +79,23 @@ export function decodeSlots(
       if (card) {
         cards.sideSlots[code] = card;
       }
+    }
+  }
+
+  const exileSlots = decodeExileSlots(deck.exile_string);
+
+  for (const [code] of Object.entries(exileSlots)) {
+    const card = resolveCardWithRelations(
+      metadata,
+      lookupTables,
+      code,
+      deck.taboo_id,
+      customizations,
+      false,
+    ); // SAFE! we do not need relations for exile deck.
+
+    if (card) {
+      cards.exileSlots[code] = card;
     }
   }
 

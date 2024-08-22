@@ -45,6 +45,8 @@ jobs:
     name: End-to-End Test
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.45.1
     env:
       VITE_PAGE_NAME: ${{ vars.VITE_PAGE_NAME }}
       VITE_API_URL: ${{ vars.VITE_API_URL }}

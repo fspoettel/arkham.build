@@ -1,7 +1,6 @@
 import { useCallback, useRef } from "react";
 
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/toast";
 import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
 import { selectIsInitialized } from "@/store/selectors/shared";
@@ -10,6 +9,7 @@ import { useGoBack } from "@/utils/use-go-back";
 import css from "./settings.module.css";
 
 import { Collection } from "@/components/collection/collection";
+import { useToast } from "@/components/ui/toast.hooks";
 import { CardDataSync } from "./card-data-sync";
 import { General } from "./general";
 import { Section } from "./section";

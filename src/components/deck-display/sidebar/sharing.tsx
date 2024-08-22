@@ -1,7 +1,7 @@
 import { useStore } from "@/store";
 
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/toast.hooks";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { cx } from "@/utils/cx";
 import { Share } from "lucide-react";
@@ -49,6 +49,8 @@ export function Sharing(props: Props) {
     await withToast(() => updateShare(deck.id as string), "update");
   };
 
+  const isReadOnly = !!deck.next_deck;
+
   return (
     <section className={css["details"]} data-testid="share">
       <div className={cx(css["detail"], css["full"])}>
@@ -78,7 +80,7 @@ export function Sharing(props: Props) {
               </p>
               <nav className={css["share-actions"]}>
                 <Button
-                  disabled={deck.date_update === share}
+                  disabled={isReadOnly || deck.date_update === share}
                   onClick={onUpdateShare}
                   size="sm"
                   tooltip={
@@ -99,6 +101,7 @@ export function Sharing(props: Props) {
               <p>Not shared.</p>
               <Button
                 data-testid="share-create"
+                disabled={isReadOnly}
                 onClick={onCreateShare}
                 size="sm"
                 tooltip={

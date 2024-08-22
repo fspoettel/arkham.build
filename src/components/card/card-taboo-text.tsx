@@ -1,6 +1,7 @@
 import type { Card } from "@/store/services/queries.types";
 import { cx } from "@/utils/cx";
 
+import { parseCardTextHtml } from "@/utils/card-utils";
 import css from "./card.module.css";
 
 type Props = {
@@ -17,7 +18,12 @@ export function CardTabooText(props: Props) {
       {!!real_taboo_text_change && (
         <p>
           <i className="icon-tablet color-taboo icon-text" /> Taboo List <br />
-          Mutated
+          <span
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: trusted origin.
+            dangerouslySetInnerHTML={{
+              __html: parseCardTextHtml(real_taboo_text_change),
+            }}
+          />
         </p>
       )}
       {taboo_xp != null && (

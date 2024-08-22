@@ -53,12 +53,19 @@ export function formatDeckImport(
       type === "decklist"
         ? deck.tags?.replaceAll(", ", " ") ?? null
         : deck.tags,
+    xp: null,
+    xp_adjustment: null,
+    xp_spent: null,
   };
 }
 
 export function formatDeckExport(_deck: Deck) {
   const deck = structuredClone(_deck);
   deck.source = undefined;
+  deck.next_deck = null;
+  deck.previous_deck = null;
+  deck.xp_spent = null;
+  deck.xp_adjustment = null;
   return deck;
 }
 
@@ -292,7 +299,7 @@ function formatCustomizableSelection(
   return selections.map(capitalize).join(", ");
 }
 
-export function isApiDeckKey(key: string): key is keyof Deck {
+function isApiDeckKey(key: string): key is keyof Deck {
   return [
     "date_creation",
     "date_update",

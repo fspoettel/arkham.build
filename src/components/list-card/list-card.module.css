@@ -38,7 +38,7 @@
   z-index: 0;
   padding-right: var(--card-spacing-x);
   height: max-content;
-  width: max-content;
+  width: min(max-content, 100%);
 }
 
 .caption {
@@ -81,7 +81,7 @@
   flex-flow: row wrap;
   align-items: center;
   line-height: 1;
-  gap: var(--card-spacing-x);
+  gap: calc(var(--card-spacing-x) / 1.5);
   margin-top: 0.125rem;
   font-size: var(--text-xs);
 }
@@ -150,6 +150,12 @@
   opacity: 0.3;
 }
 
+.listcard.xs {
+  --card-spacing-y: 0;
+  --card-spacing-x: 0.25rem;
+  padding-inline: none;
+}
+
 .listcard.sm {
   --card-spacing-y: 0.375rem;
   --card-spacing-x: 0.375rem;
@@ -158,6 +164,7 @@
 
 .listcard.investigator {
   --card-spacing-y: 0.375rem;
+  --card-spacing-x: 0.5rem;
   --card-image-height: 2.5rem;
   padding-inline: 0.25rem;
 }

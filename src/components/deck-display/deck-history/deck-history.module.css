@@ -1,0 +1,31 @@
+.entries,
+.entries ol {
+  list-style: none;
+}
+
+.entries > * + * {
+  margin-top: 1rem;
+}
+
+.entry {
+  padding: 1rem;
+  border-radius: var(--rounded);
+  border: 1px solid var(--nord-1);
+}
+
+.entry > * + * {
+  margin-top: 1rem;
+}
+
+.entry-container {
+  display: grid;
+  gap: 1rem;
+
+  @media screen and (min-width: 45rem) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.entry-row > * + * {
+  margin-top: 1rem;
+}

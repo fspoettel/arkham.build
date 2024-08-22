@@ -1,0 +1,26 @@
+{
+  "id": "nhbYzsPe4sYglId",
+  "date_creation": "2024-08-13T11:37:14.292Z",
+  "date_update": "2024-08-13T11:37:18.358Z",
+  "description_md": "",
+  "meta": "{}",
+  "ignoreDeckLimitSlots": {},
+  "sideSlots": {},
+  "next_deck": null,
+  "previous_deck": null,
+  "tags": "",
+  "version": "0.1",
+  "taboo_id": null,
+  "xp": null,
+  "xp_spent": null,
+  "exile_string": null,
+  "xp_adjustment": null,
+  "investigator_code": "01002",
+  "name": "Daisy Walker Investigates",
+  "slots": {
+    "01000": 1,
+    "01008": 1,
+    "01009": 1
+  },
+  "problem": "too_few_cards"
+}

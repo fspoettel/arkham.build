@@ -13,7 +13,7 @@ export function getInitialSettings(): SettingsState {
   };
 }
 
-export function getEmptySettings(): SettingsState {
+function getEmptySettings(): SettingsState {
   return {
     collection: {},
     showAllCards: false,

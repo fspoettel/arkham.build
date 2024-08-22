@@ -65,11 +65,12 @@ type Props = {
   disabled?: boolean;
   id: string;
   limit: number;
+  readonly?: boolean;
   onChange: (selections: string[]) => void;
 };
 
 export function CustomizationChooseCards(props: Props) {
-  const { selections, config, disabled, id, limit, onChange } = props;
+  const { selections, config, disabled, id, limit, onChange, readonly } = props;
 
   const cards = useStore((state) =>
     selectPlayerCardsForCustomizationOptions(state, config),
@@ -85,6 +86,7 @@ export function CustomizationChooseCards(props: Props) {
       limit={limit}
       onValueChange={onChange}
       placeholder="Select cards..."
+      readonly={readonly}
       renderItem={cardRenderer}
       renderResult={resultRenderer}
       selectedItems={selections}

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
 import type { SelectOption } from "@/components/ui/select";
 import { Select } from "@/components/ui/select";
-import { useToast } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
 import { decodeSelections } from "@/store/lib/serialization/deck-meta";
 import type { CardWithRelations } from "@/store/lib/types";
