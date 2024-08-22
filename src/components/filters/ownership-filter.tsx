@@ -53,13 +53,13 @@ export function OwnershipFilter({ id }: { id: number }) {
         onValueChange={onValueChange}
         value={filter.value ?? ""}
       >
-        <RadioButtonGroupItem title="All" value="all">
+        <RadioButtonGroupItem tooltip="All" value="all">
           <File />
         </RadioButtonGroupItem>
-        <RadioButtonGroupItem title="Owned" value="owned">
+        <RadioButtonGroupItem tooltip="Owned" value="owned">
           <FileCheck />
         </RadioButtonGroupItem>
-        <RadioButtonGroupItem title="Unavailable" value="unowned">
+        <RadioButtonGroupItem tooltip="Unavailable" value="unowned">
           <FileWarning />
         </RadioButtonGroupItem>
       </RadioButtonGroup>

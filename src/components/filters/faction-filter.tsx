@@ -50,7 +50,7 @@ export function FactionFilter(props: Props) {
           className={css[`color-active-${faction.code}`]}
           data-testid={`filters-faction-${faction.code}`}
           key={faction.code}
-          title={faction.name}
+          tooltip={faction.name}
           value={faction.code}
         >
           <FactionIconFancy code={faction.code} />

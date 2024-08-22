@@ -84,3 +84,24 @@ export const TooltipContent = React.forwardRef<
     </FloatingPortal>
   );
 });
+
+export const DefaultTooltip = ({
+  children,
+  tooltip,
+}: {
+  // Don't accept arrays of items or nullish values
+  children: NonNullable<Exclude<React.ReactNode, Iterable<React.ReactNode>>>;
+  tooltip?: React.ReactNode;
+}) => {
+  if (!tooltip) {
+    return children;
+  }
+  return (
+    <Tooltip delay={300}>
+      <TooltipTrigger asChild>{children}</TooltipTrigger>
+      <TooltipContent>
+        <span>{tooltip}</span>
+      </TooltipContent>
+    </Tooltip>
+  );
+};
