@@ -2,7 +2,7 @@ import { cx } from "@/utils/cx";
 import { forwardRef } from "react";
 
 import css from "./button.module.css";
-import { WithDefaultTooltip } from "./tooltip";
+import { DefaultTooltip } from "./tooltip";
 
 type Props<T extends "a" | "button" | "summary" | "label"> =
   React.ComponentProps<T> & {
@@ -46,5 +46,5 @@ export const Button = forwardRef(function Button<
     </Element>
   );
 
-  return <WithDefaultTooltip tooltip={tooltip}>{button}</WithDefaultTooltip>;
+  return <DefaultTooltip tooltip={tooltip}>{button}</DefaultTooltip>;
 });

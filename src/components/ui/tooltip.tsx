@@ -85,10 +85,14 @@ export const TooltipContent = React.forwardRef<
   );
 });
 
-export const WithDefaultTooltip = ({
+export const DefaultTooltip = ({
   children,
   tooltip,
-}: { children: React.ReactNode; tooltip?: React.ReactNode }) => {
+}: {
+  // Don't accept arrays of items or nullish values
+  children: NonNullable<Exclude<React.ReactNode, Iterable<React.ReactNode>>>;
+  tooltip?: React.ReactNode;
+}) => {
   if (!tooltip) {
     return children;
   }

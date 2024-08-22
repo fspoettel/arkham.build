@@ -6,7 +6,7 @@ import type {
 import { Item, Root } from "@radix-ui/react-radio-group";
 
 import css from "./radio-button-group.module.css";
-import { WithDefaultTooltip } from "./tooltip";
+import { DefaultTooltip } from "./tooltip";
 
 type Props = RadioGroupProps & {
   full?: boolean;
@@ -41,11 +41,11 @@ export function RadioButtonGroupItem({
   ...rest
 }: GroupItemProps) {
   return (
-    <WithDefaultTooltip tooltip={tooltip}>
+    <DefaultTooltip tooltip={tooltip}>
       <Item
         {...rest}
         className={cx(css["item"], size && css[size], className)}
       />
-    </WithDefaultTooltip>
+    </DefaultTooltip>
   );
 }
