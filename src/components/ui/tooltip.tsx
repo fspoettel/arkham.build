@@ -84,3 +84,20 @@ export const TooltipContent = React.forwardRef<
     </FloatingPortal>
   );
 });
+
+export const WithDefaultTooltip = ({
+  children,
+  tooltip,
+}: { children: React.ReactNode; tooltip?: React.ReactNode }) => {
+  if (!tooltip) {
+    return children;
+  }
+  return (
+    <Tooltip delay={300}>
+      <TooltipTrigger asChild>{children}</TooltipTrigger>
+      <TooltipContent>
+        <span>{tooltip}</span>
+      </TooltipContent>
+    </Tooltip>
+  );
+};
