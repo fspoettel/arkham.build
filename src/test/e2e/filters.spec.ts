@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("filters: interactions", () => {
   test("can filter via shortcuts", async ({ page }) => {
-    await page.getByTestId("filters-faction").getByTitle("Multiclass").click();
+    await page.getByTestId("filters-faction-multiclass").click();
 
     await page
       .getByTestId("filters-type-shortcut")
@@ -35,18 +35,18 @@ test.describe("filters: interactions", () => {
   });
 
   test("can use faction filter", async ({ page }) => {
-    await page.getByTestId("filters-faction").getByTitle("Seeker").click();
+    await page.getByTestId("filters-faction-seeker").click();
     await page.getByTestId("search-input").fill("Practice Makes Perfect");
 
     await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
     await expect(page.getByTestId("listcard-06197")).toBeVisible();
 
-    await page.getByTestId("filters-faction").getByTitle("Guardian").click();
-    await page.getByTestId("filters-faction").getByTitle("Seeker").click();
+    await page.getByTestId("filters-faction-guardian").click();
+    await page.getByTestId("filters-faction-seeker").click();
 
     await expect(page.getByTestId("cardlist-count")).toContainText("0 cards");
 
-    await page.getByTestId("filters-faction").getByTitle("Seeker").click();
+    await page.getByTestId("filters-faction-seeker").click();
     await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
   });
 

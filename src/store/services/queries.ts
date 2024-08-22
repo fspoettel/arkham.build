@@ -1,6 +1,8 @@
 import type { Deck } from "../slices/data.types";
 import { isDeck } from "../slices/data.types";
+import cards from "./data/cards.json";
 import factions from "./data/factions.json";
+import packs from "./data/packs.json";
 import reprintPacks from "./data/reprint_packs.json";
 import subTypes from "./data/subtypes.json";
 import types from "./data/types.json";
@@ -75,6 +77,7 @@ export async function queryMetadata(): Promise<MetadataResponse> {
 
   return {
     ...data,
+    pack: [...data.pack, ...packs],
     reprint_pack: reprintPacks,
     faction: factions,
     type: types,
@@ -88,10 +91,10 @@ export async function queryDataVersion() {
   return data.all_card_updated[0];
 }
 
-export async function queryCards() {
+export async function queryCards(): Promise<QueryCard[]> {
   const res = await request("/cache/cards");
   const { data }: AllCardApiResponse = await res.json();
-  return data.all_card;
+  return [...data.all_card, ...cards];
 }
 
 export async function queryFaq(clientId: string, code: string) {

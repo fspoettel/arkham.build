@@ -10,6 +10,7 @@ import { useDocumentTitle } from "@/utils/use-document-title";
 
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { Footer } from "@/components/footer";
+import { Globe, MessagesSquare } from "lucide-react";
 import { Error404 } from "../errors/404";
 import css from "./card-view.module.css";
 import { Faq } from "./faq";
@@ -53,7 +54,16 @@ function CardView() {
                 target="_blank"
                 size="full"
               >
-                <i className="icon-world" /> Open on ArkhamDB
+                <Globe /> Open on ArkhamDB
+              </Button>
+              <Button
+                as="a"
+                href={`https://arkhamdb.com/card/${cardWithRelations.card.code}#reviews-header`}
+                rel="noreferrer"
+                target="_blank"
+                size="full"
+              >
+                <MessagesSquare /> View Reviews
               </Button>
               {isInvestigator && (
                 <Link

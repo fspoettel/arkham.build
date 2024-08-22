@@ -12,6 +12,13 @@
   border-radius: inherit;
 }
 
+/** Temp fix: https://github.com/radix-ui/primitives/pull/2945 */
+.viewport > div[style] {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+}
+
 .scrollbar {
   display: flex;
   user-select: none;

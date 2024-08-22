@@ -25,6 +25,7 @@ function getPackIcon(code?: string) {
     case "hfa":
     case "otr":
     case "ptr":
+    case "pap":
     case "parallel":
       return "parallel";
 

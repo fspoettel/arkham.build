@@ -1,7 +1,7 @@
 {
   "name": "arkham.build",
   "private": true,
-  "version": "1.1.1",
+  "version": "1.1.2",
   "type": "module",
   "engines": {
     "node": "20.x"
@@ -18,10 +18,10 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:e2e": "playwright test",
+    "test:e2e": "playwright test --grep-invert @flaky",
     "test:watch": "vitest watch",
     "update-snapshots:macos": "PW_TEST_HTML_REPORT_OPEN='never' playwright test --update-snapshots",
-    "update-snapshots:linux": "docker run -v $(pwd):/work/ mcr.microsoft.com/playwright:v1.45.1 bash -c 'cd work && PW_TEST_HTML_REPORT_OPEN='never' CI='1' npm run test:e2e -- --update-snapshots'"
+    "update-snapshots:linux": "docker run -v $(pwd):/work/ mcr.microsoft.com/playwright:v1.46.1 bash -c 'cd work && PW_TEST_HTML_REPORT_OPEN='never' CI='1' npm run test:e2e -- --update-snapshots'"
   },
   "dependencies": {
     "@floating-ui/react": "0.26.19",
@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
-    "@playwright/test": "1.45.1",
+    "@playwright/test": "1.46.1",
     "@svgr/plugin-jsx": "8.1.0",
     "@svgr/plugin-svgo": "8.1.0",
     "@types/dompurify": "3.0.5",

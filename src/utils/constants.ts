@@ -236,3 +236,9 @@ export const DECK_SIZE_ADJUSTMENTS = {
   [SPECIAL_CARD_CODES.UNDERWORLD_SUPPORT]: -5,
   [SPECIAL_CARD_CODES.VERSATILE]: 5,
 };
+
+export const CARDS_WITH_LOCAL_IMAGES: Record<string, boolean> = {
+  "90084": true,
+  "90085": true,
+  "90086": true,
+};

@@ -16,7 +16,7 @@
 .group_two-cols {
   display: grid;
   grid-template-areas: "asset" "rest";
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.25rem;
 
   @container (min-width: 36rem) {

@@ -20,6 +20,7 @@ export function DrawBasicWeakness(props: Props) {
       size="sm"
       data-testid="draw-basic-weakness"
       variant="bare"
+      tooltip="Draw a random basic weakness"
     >
       <Shuffle />
     </Button>

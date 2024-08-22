@@ -12,7 +12,7 @@ import {
 
 import css from "./list-card.module.css";
 
-import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import { CARDS_WITH_LOCAL_IMAGES, SPECIAL_CARD_CODES } from "@/utils/constants";
 import { CardHealth } from "../card-health";
 import { CardIcon } from "../card-icon";
 import { useCardModalContext } from "../card-modal/card-modal-context";
@@ -23,7 +23,12 @@ import { SkillIcons } from "../skill-icons/skill-icons";
 import { SkillIconsInvestigator } from "../skill-icons/skill-icons-investigator";
 import { QuantityInput } from "../ui/quantity-input";
 import { QuantityOutput } from "../ui/quantity-output";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import {
+  DefaultTooltip,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 export type Props = {
   as?: "li" | "div";
@@ -135,17 +140,18 @@ export function ListCardInner(props: Props) {
         )}
 
         <figure className={css["content"]} ref={figureRef}>
-          {!omitThumbnail && card.imageurl && (
-            <button
-              onClick={disableModalOpen ? undefined : openModal}
-              tabIndex={-1}
-              type="button"
-            >
-              <div className={css["thumbnail"]} {...referenceProps}>
-                <CardThumbnail card={card} />
-              </div>
-            </button>
-          )}
+          {!omitThumbnail &&
+            (card.imageurl || CARDS_WITH_LOCAL_IMAGES[card.code]) && (
+              <button
+                onClick={disableModalOpen ? undefined : openModal}
+                tabIndex={-1}
+                type="button"
+              >
+                <div className={css["thumbnail"]} {...referenceProps}>
+                  <CardThumbnail card={card} />
+                </div>
+              </button>
+            )}
 
           {size !== "xs" && card.faction_code !== "mythos" && (
             <div className={cx(css["icon"], colorCls)}>
@@ -216,7 +222,15 @@ export function ListCardInner(props: Props) {
                   <MulticlassIcons card={card} className={css["multiclass"]} />
                 )}
 
-                {card.parallel && <i className="icon-parallel" />}
+                {card.parallel &&
+                card.type_code === "investigator" &&
+                size === "investigator" ? (
+                  <DefaultTooltip tooltip="Uses a parallel side">
+                    <i className="icon-parallel" />
+                  </DefaultTooltip>
+                ) : (
+                  card.parallel && <i className="icon-parallel" />
+                )}
 
                 {hasSkillIcons(card) && <SkillIcons card={card} />}
 

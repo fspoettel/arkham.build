@@ -41,6 +41,7 @@ test.describe("deck create: interactions", () => {
 
   const JENNY_SIGNATURES = ["02010", "02011"];
   const JENNY_ALTERNATE_SIGNATURES = ["98002", "98003"];
+  const JENNY_ADVANCED_SIGNATURES = ["90085", "90086"];
 
   test("can select investigator", async ({ page }) => {
     await page.goto("/deck/create/02003");
@@ -68,7 +69,7 @@ test.describe("deck create: interactions", () => {
     await page.goto("/deck/create/02003");
 
     await page.getByText("Replacements").click();
-    await page.getByLabel("Signatures").click();
+    await page.getByLabel("Signatures", { exact: true }).click();
 
     await page.getByTestId("create-save").click();
 
@@ -79,6 +80,25 @@ test.describe("deck create: interactions", () => {
     }
 
     for (const code of JENNY_ALTERNATE_SIGNATURES) {
+      await expect(locateCardInSlots(page, code)).toBeVisible();
+    }
+  });
+
+  test("can select advanced signatures", async ({ page }) => {
+    await page.goto("/deck/create/02003");
+
+    await page.getByText("Signatures", { exact: true }).click();
+    await page.getByLabel("Advanced signatures", { exact: true }).click();
+
+    await page.getByTestId("create-save").click();
+
+    await expect(page.getByTestId("editor-tabs-slots")).toBeVisible();
+
+    for (const code of JENNY_SIGNATURES) {
+      await expect(locateCardInSlots(page, code)).not.toBeVisible();
+    }
+
+    for (const code of JENNY_ADVANCED_SIGNATURES) {
       await expect(locateCardInSlots(page, code)).toBeVisible();
     }
   });
