@@ -4,7 +4,7 @@
   left: 0;
   height: 100%;
   width: 100%;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.5);
   width: 100%;
   z-index: 2;
   overflow: auto;
@@ -27,6 +27,7 @@
 .actions {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   padding-bottom: 1rem;
   gap: 1rem;
 }
@@ -34,6 +35,7 @@
 .actions-row {
   display: flex;
   flex-flow: row wrap;
+  align-items: center;
   gap: 1rem;
 }
 

@@ -47,14 +47,16 @@ export function DeckSummary(props: Props) {
         {showThumbnail && (
           <div className={css["thumbnail"]}>
             <CardThumbnail card={card} />
+            {!!validation &&
+              (typeof validation === "string" || !validation?.valid) && (
+                <div className={css["validation"]}>
+                  <CircleAlert />
+                </div>
+              )}
           </div>
         )}
         <div className={css["header-container"]}>
           <h3 className={css["title"]} data-testid="deck-summary-title">
-            {!!validation &&
-              (typeof validation === "string" || !validation?.valid) && (
-                <CircleAlert />
-              )}
             {deck.name}
           </h3>
           <div className={css["header-row"]}>
