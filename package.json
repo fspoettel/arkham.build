@@ -27,7 +27,6 @@
     "@floating-ui/react": "0.26.19",
     "@leeoniya/ufuzzy": "1.0.14",
     "@radix-ui/react-checkbox": "1.1.1",
-    "@radix-ui/react-collapsible": "1.1.0",
     "@radix-ui/react-radio-group": "1.2.0",
     "@radix-ui/react-scroll-area": "1.1.0",
     "@radix-ui/react-slider": "1.2.0",

@@ -1,26 +1,27 @@
 import { cx } from "@/utils/cx";
-import type {
-  CollapsibleContentProps,
-  CollapsibleProps,
-} from "@radix-ui/react-collapsible";
-import { Content, Root, Trigger } from "@radix-ui/react-collapsible";
 import { UnfoldVertical, XIcon } from "lucide-react";
 
 import css from "./collapsible.module.css";
 
+import { useControllableState } from "@/utils/use-controllable-state";
+import { useCallback } from "react";
 import { Button } from "./button";
 
-type Props = Omit<CollapsibleProps, "title"> & {
+type Props = {
   actions?: React.ReactNode;
   children: React.ReactNode;
   className?: string;
-  triggerReversed?: boolean;
+  defaultOpen?: boolean;
+  disabled?: boolean;
+  header?: React.ReactNode;
+  nonCollapsibleContent?: React.ReactNode;
   omitBorder?: boolean;
   omitPadding?: boolean;
   onOpenChange?: (x: boolean) => void;
+  open?: boolean;
   sub?: React.ReactNode;
   title: React.ReactNode;
-  header?: React.ReactNode;
+  triggerReversed?: boolean;
   variant?: "active";
 };
 
@@ -29,7 +30,9 @@ export function Collapsible(props: Props) {
     actions,
     className,
     children,
+    defaultOpen,
     disabled,
+    nonCollapsibleContent,
     open,
     omitBorder,
     omitPadding,
@@ -42,62 +45,62 @@ export function Collapsible(props: Props) {
     ...rest
   } = props;
 
+  const [isOpen, onChange] = useControllableState({
+    defaultState: defaultOpen,
+    state: open,
+    onChange: onOpenChange,
+  });
+
+  const onToggleOpen = useCallback(() => {
+    onChange((p) => !p);
+  }, [onChange]);
+
   return (
-    <Root
+    <div
       {...rest}
       className={cx(
         css["collapsible"],
         !omitPadding && css["padded"],
         !omitBorder && css["bordered"],
         variant && css[variant],
+        isOpen && css["open"],
         className,
       )}
-      onOpenChange={onOpenChange}
-      open={open}
+      data-state={isOpen ? "open" : "closed"}
     >
-      <Trigger asChild>
-        <div
-          className={cx(css["trigger"], triggerReversed && css["reversed"])}
-          data-testid="collapsible-trigger"
-        >
-          {header || (
-            <div className={css["header"]}>
-              <h4>{title}</h4>
-              <div className={css["sub"]}>{sub}</div>
-            </div>
-          )}
-          <div className={css["actions"]}>
-            {actions}
-            <Button
-              iconOnly
-              variant="bare"
-              tooltip={
-                open == null
-                  ? "Toggle section"
-                  : open
-                    ? "Collapse section"
-                    : "Expand section"
-              }
-            >
-              {open ? <XIcon /> : <UnfoldVertical />}
-            </Button>
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents: handled by contained button.*/}
+      <div
+        className={cx(css["trigger"], triggerReversed && css["reversed"])}
+        data-testid="collapsible-trigger"
+        onClick={onToggleOpen}
+      >
+        {header || (
+          <div className={css["header"]}>
+            <h4>{title}</h4>
+            <div className={css["sub"]}>{sub}</div>
           </div>
+        )}
+        <div className={css["actions"]}>
+          {actions}
+          <Button
+            iconOnly
+            variant="bare"
+            tooltip={
+              isOpen == null
+                ? "Toggle section"
+                : isOpen
+                  ? "Collapse section"
+                  : "Expand section"
+            }
+          >
+            {isOpen ? <XIcon /> : <UnfoldVertical />}
+          </Button>
         </div>
-      </Trigger>
-      {children}
-    </Root>
-  );
-}
-
-type ContentProps = CollapsibleContentProps & {
-  className?: string;
-  children: React.ReactNode;
-};
-
-export function CollapsibleContent({ className, children }: ContentProps) {
-  return (
-    <Content>
-      <div className={cx(css["content"], className)}>{children}</div>
-    </Content>
+      </div>
+      {nonCollapsibleContent}
+      <div className={css["content"]} data-state={isOpen ? "open" : "closed"}>
+        {isOpen && children}
+      </div>
+    </div>
   );
 }

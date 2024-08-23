@@ -3,7 +3,7 @@ import { useCallback } from "react";
 
 import type { CollapsibleProps } from "@radix-ui/react-collapsible";
 import { Button } from "../../ui/button";
-import { Collapsible, CollapsibleContent } from "../../ui/collapsible";
+import { Collapsible } from "../../ui/collapsible";
 
 type Props = {
   children: React.ReactNode;
@@ -55,14 +55,14 @@ export function FilterContainer(props: Props) {
         ) : undefined
       }
       className={className}
+      nonCollapsibleContent={nonCollapsibleContent}
       onOpenChange={onOpenChange}
       open={open}
       sub={alwaysShowFilterString || !open ? filterString || "All" : undefined}
       title={title}
       variant={filterString && filterString !== "All" ? "active" : undefined}
     >
-      {nonCollapsibleContent}
-      <CollapsibleContent>{children}</CollapsibleContent>
+      {children}
     </Collapsible>
   );
 }

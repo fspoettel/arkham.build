@@ -6,7 +6,7 @@ import { CustomizableDiff } from "@/components/deck-display/deck-history/customi
 import { SlotDiff } from "@/components/deck-display/deck-history/slot-diff";
 import { ListCard } from "@/components/list-card/list-card";
 import { Button } from "@/components/ui/button";
-import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
+import { Collapsible } from "@/components/ui/collapsible";
 import {
   Popover,
   PopoverContent,
@@ -193,9 +193,9 @@ export function LatestUpgrade(props: Props) {
         </div>
       }
     >
-      <CollapsibleContent className={css["content"]}>
+      <div className={css["content"]}>
         {!overflowScroll ? contentNode : <Scroller>{contentNode}</Scroller>}
-      </CollapsibleContent>
+      </div>
     </Collapsible>
   );
 }
