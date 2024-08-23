@@ -3,7 +3,6 @@ import {
   type ReferenceType,
   type UseFloatingOptions,
   autoPlacement,
-  autoUpdate,
   flip,
   offset,
   shift,
@@ -49,7 +48,6 @@ export function useTooltip({
     placement,
     open,
     onOpenChange: setOpen,
-    whileElementsMounted: autoUpdate,
     middleware: [
       offset(5),
       flip({
@@ -107,7 +105,6 @@ export function useRestingTooltip(options?: UseFloatingOptions<ReferenceType>) {
     open: tooltipOpen,
     onOpenChange: setTooltipOpen,
     middleware: [shift(), autoPlacement(), offset(2)],
-    whileElementsMounted: autoUpdate,
     strategy: "fixed",
     placement: "bottom-start",
     ...options,
