@@ -11,6 +11,7 @@ import {
 
 import { decodeExileSlots } from "@/utils/card-utils";
 import { randomId } from "@/utils/crypto";
+import { tryEnablePersistence } from "@/utils/persistence";
 import { time, timeEnd } from "@/utils/time";
 import type { StoreState } from ".";
 import { mappedByCode, mappedById } from "../lib/metadata-utils";
@@ -353,6 +354,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     }
   },
   async saveDeck(deckId, toast) {
+    tryEnablePersistence();
+
     const state = get();
 
     const edits = state.deckEdits[deckId];
@@ -423,6 +426,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
   },
 
   upgradeDeck(id, xp, exileString) {
+    tryEnablePersistence();
+
     const state = get();
 
     const deck = state.data.decks[id];

@@ -43,34 +43,6 @@ export function CardDataSync() {
     }
   }, [synced, toast.show]);
 
-  const enablePersistence = useCallback(() => {
-    if (navigator.storage?.persist) {
-      navigator.storage
-        .persist()
-        .then((res) => {
-          if (res) {
-            toast.show({
-              children: "Enable persistence successful.",
-              duration: 3000,
-              variant: "success",
-            });
-          } else {
-            toast.show({
-              children: "Persistence could not be enabled.",
-              variant: "error",
-            });
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-          toast.show({
-            children: "Persistence could not be enabled (see browser console).",
-            variant: "error",
-          });
-        });
-    }
-  }, [toast.show]);
-
   const upToDate =
     data &&
     dataVersion &&
@@ -110,14 +82,6 @@ export function CardDataSync() {
             <dd>{dataVersion.card_count}</dd>
           </dl>
         )}
-      </Field>
-      <Field
-        bordered
-        helpText={`${import.meta.env.VITE_PAGE_NAME} uses IndexedDB to store decks and settings locally. In some circumstances, your browser may clear stored data without notice. Enabling persistence avoids this. Your browser may ask for your permission.`}
-      >
-        <Button onClick={enablePersistence} type="button">
-          Enable persistent storage
-        </Button>
       </Field>
     </>
   );
