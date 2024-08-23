@@ -1,7 +1,6 @@
 import { Undo2 } from "lucide-react";
 import { useCallback } from "react";
 
-import type { CollapsibleProps } from "@radix-ui/react-collapsible";
 import { Button } from "../../ui/button";
 import { Collapsible } from "../../ui/collapsible";
 
@@ -15,7 +14,7 @@ type Props = {
   onOpenChange: (val: boolean) => void;
   onReset?: () => void;
   title: string;
-} & Omit<CollapsibleProps, "title">;
+};
 
 export function FilterContainer(props: Props) {
   const {
