@@ -195,7 +195,11 @@ export function Combobox<T extends Coded>(props: Props<T>) {
                 placeholder: placeholder,
                 autoFocus,
                 onKeyDown(evt) {
-                  if (evt.key === "Escape") {
+                  if (evt.key === "Tab") {
+                    // use a timeout to allow focus to move natively first.
+                    // re-rendering the FloatingPortal first causes the focus to stay on input.
+                    setTimeout(() => setOpen(false));
+                  } else if (evt.key === "Escape") {
                     evt.preventDefault();
                     setOpen(false);
                     (evt.target as HTMLInputElement)?.blur();
