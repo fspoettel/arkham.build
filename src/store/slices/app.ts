@@ -391,6 +391,9 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       },
     });
 
+    // TODO: This is the only call to have the toasts here,
+    // maybe we want to decouple the request from the user-feedback?
+
     toast.show({
       children: "Deck save successful.",
       duration: 3000,

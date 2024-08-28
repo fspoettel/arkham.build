@@ -4,7 +4,6 @@ import { Link, useLocation } from "wouter";
 
 import { Button } from "@/components/ui/button";
 import { Notice } from "@/components/ui/notice";
-import { useStore } from "@/store";
 
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
@@ -13,10 +12,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useToast } from "@/components/ui/toast.hooks";
 import { UpgradeModal } from "@/pages/deck-view/upgrade-modal";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { useHotKey } from "@/utils/use-hotkey";
+import {
+  useDeleteDeck,
+  useDeleteUpgrade,
+  useDuplicateDeck,
+  useExportJson,
+  useExportText,
+} from "../hooks";
 import css from "./sidebar.module.css";
 
 type Props = {
@@ -25,85 +30,39 @@ type Props = {
 
 export function SidebarActions(props: Props) {
   const { deck } = props;
-  const toast = useToast();
   const [, setLocation] = useLocation();
-
-  const deleteDeck = useStore((state) => state.deleteDeck);
-  const deleteUpgrade = useStore((state) => state.deleteUpgrade);
-  const duplicateDeck = useStore((state) => state.duplicateDeck);
-  const exportJson = useStore((state) => state.exportJSON);
-  const exportText = useStore((state) => state.exportText);
-
   const [actionsOpen, setActionsOpen] = useState(false);
 
-  const onDelete = useCallback(async () => {
-    const confirmed = confirm("Are you sure you want to delete this deck?");
-    if (confirmed) {
-      await deleteDeck(deck.id, toast);
-      setLocation("~/");
-    }
-  }, [deck.id, deleteDeck, setLocation, toast]);
+  const requestDelete = useDeleteDeck();
+  const requestDuplicate = useDuplicateDeck();
+  const requestDeleteUpgrade = useDeleteUpgrade();
+  const requestExportJson = useExportJson();
+  const requestExportText = useExportText();
 
-  const onDeleteUpgrade = useCallback(() => {
-    const confirmed = confirm("Are you sure you want to delete this upgrade?");
-    if (confirmed) {
-      const id = deleteUpgrade(deck.id);
-      setLocation(`/deck/view/${id}`);
-      toast.show({
-        duration: 3000,
-        children: "Upgrade delete successful.",
-        variant: "success",
-      });
-    }
-  }, [deleteUpgrade, setLocation, deck.id, toast]);
+  const onDelete = () => {
+    requestDelete(deck.id);
+  };
 
-  const onDuplicate = useCallback(() => {
-    try {
-      const id = duplicateDeck(deck.id);
-      setLocation(`/deck/view/${id}`);
-      toast.show({
-        duration: 3000,
-        children: "Deck duplicate successful.",
-        variant: "success",
-      });
-    } catch (err) {
-      toast.show({
-        children: `Failed to duplicate deck: ${(err as Error)?.message}`,
-        variant: "error",
-      });
-    }
+  const onDeleteUpgrade = () => {
+    requestDeleteUpgrade(deck.id);
+  };
 
+  const onDuplicate = () => {
     setActionsOpen(false);
-  }, [deck.id, duplicateDeck, setLocation, toast.show]);
+    requestDuplicate(deck.id);
+  };
 
   const onEdit = useCallback(() => {
     setLocation(`/deck/edit/${deck.id}`);
   }, [deck.id, setLocation]);
 
-  const onExportJson = useCallback(() => {
-    try {
-      exportJson(deck.id);
-    } catch (err) {
-      console.error(err);
-      toast.show({
-        duration: 3000,
-        children: "Failed to export json.",
-        variant: "error",
-      });
-    }
-  }, [deck.id, exportJson, toast.show]);
+  const onExportJson = () => {
+    requestExportJson(deck.id);
+  };
 
-  const onExportText = useCallback(() => {
-    try {
-      exportText(deck.id);
-    } catch (err) {
-      console.error(err);
-      toast.show({
-        children: "Failed to export markdown.",
-        variant: "error",
-      });
-    }
-  }, [deck.id, exportText, toast.show]);
+  const onExportText = () => {
+    requestExportText(deck.id);
+  };
 
   useHotKey("e", onEdit, [onEdit]);
   useHotKey("cmd+d", onDuplicate, [onDuplicate]);

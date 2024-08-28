@@ -6,28 +6,22 @@
   overflow: hidden;
   color: var(--nord-4);
   transition: border 0.15s ease-in-out;
-
-  &.interactive {
-    .thumbnail {
-      filter: grayscale(0.5);
-    }
-
-    &:hover .thumbnail {
-      filter: none;
-    }
-
-    &:not(:hover) {
-      border-color: var(--nord-2);
-    }
-
-    &:not(:hover) .header {
-      background: var(--nord-point-five);
-    }
-  }
 }
 
 .thumbnail {
   width: 2.75rem;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.validation {
+  display: inline-block;
+  background: var(--health);
+  border-radius: 100%;
+  padding: 1px;
+  position: absolute;
+  bottom: 0.125rem;
+  left: 0.1875rem;
 }
 
 .header,
@@ -43,23 +37,9 @@
   transition: background 0.15s ease-in-out;
 }
 
-.thumbnail {
-  position: relative;
-  flex: 0 0 auto;
-}
-
-.validation {
-  display: inline-block;
-  background: var(--health);
-  border-radius: 100%;
-  padding: 1px;
-  position: absolute;
-  bottom: 0.125rem;
-  left: 0.1875rem;
-}
-
 .header-container {
   flex: 1 1 auto;
+  position: relative;
 }
 
 .header-row {
@@ -70,7 +50,10 @@
   line-height: 1;
   gap: 0.25rem;
   margin-top: 0.125rem;
-  z-index: 3;
+}
+
+.info-container {
+  opacity: 1;
 }
 
 .title {
@@ -110,3 +93,64 @@
   font-size: var(--text-sm);
   padding: 0.25rem;
 }
+
+.quick-actions-list {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  right: 0;
+  opacity: 0;
+  height: min-content;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.quick-action {
+  list-style: none;
+
+  &:not(:first-child) {
+    margin-left: 0.25rem;
+  }
+}
+
+.summary.interactive {
+  &:not(:hover) {
+    border-color: var(--nord-2);
+  }
+
+  &:not(:hover) .header {
+    background: var(--nord-point-five);
+  }
+}
+
+.summary-transition {
+  transition-duration: 0.5s;
+  transition-delay: 0.1s;
+}
+
+@media (pointer: fine) {
+  .summary.interactive {
+    .thumbnail {
+      filter: grayscale(0.5);
+    }
+
+    &:hover {
+      & .thumbnail {
+        filter: none;
+      }
+
+      & .quick-actions-list {
+        right: 0.375rem;
+        opacity: 1;
+        pointer-events: all;
+        visibility: visible;
+      }
+
+      & .info-container {
+        opacity: 0.75;
+      }
+    }
+  }
+}
+
