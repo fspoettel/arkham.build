@@ -111,7 +111,7 @@
 
 .investigator-skills {
   --card-text-size: var(--text-sm);
-  gap: var(--card-spacing-x);
+  gap: calc(var(--card-spacing-x) / 1.5);
   margin-top: 0.125rem;
 }
 
