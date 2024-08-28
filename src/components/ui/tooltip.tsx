@@ -96,12 +96,17 @@ export const DefaultTooltip = ({
   if (!tooltip) {
     return children;
   }
+
+  // we don't want to show tooltips on mobile.
+  // on iOS, this leads to each button with a tooltip having to be clicked twice.
+  if (window.matchMedia("(any-hover: none)").matches) {
+    return children;
+  }
+
   return (
-    <Tooltip delay={300}>
+    <Tooltip delay={200}>
       <TooltipTrigger asChild>{children}</TooltipTrigger>
-      <TooltipContent>
-        <span>{tooltip}</span>
-      </TooltipContent>
+      <TooltipContent>{tooltip}</TooltipContent>
     </Tooltip>
   );
 };

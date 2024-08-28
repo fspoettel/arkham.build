@@ -1,6 +1,6 @@
 import type { Counts } from "@/store/selectors/collection";
 
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { DefaultTooltip } from "../ui/tooltip";
 import css from "./collection.module.css";
 
 type Props = {
@@ -15,24 +15,16 @@ export function CollectionCount(props: Props) {
 
   return (
     <div className={css["collection-counts"]}>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <div className={css["collection-count"]}>
-            <i className="icon-per_investigator" /> {counts.player}
-          </div>
-        </TooltipTrigger>
-        <TooltipContent>Total number of player cards in {type}</TooltipContent>
-      </Tooltip>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <div className={css["collection-count"]}>
-            <i className="icon-auto_fail" /> {counts.encounter}
-          </div>
-        </TooltipTrigger>
-        <TooltipContent>
-          Total number of encounter cards in {type}
-        </TooltipContent>
-      </Tooltip>
+      <DefaultTooltip tooltip={`Total number of player cards in ${type}`}>
+        <span>
+          <i className="icon-per_investigator" /> {counts.player}
+        </span>
+      </DefaultTooltip>
+      <DefaultTooltip tooltip={`Total number of encounter cards in ${type}`}>
+        <div className={css["collection-count"]}>
+          <i className="icon-auto_fail" /> {counts.encounter}
+        </div>
+      </DefaultTooltip>
     </div>
   );
 }

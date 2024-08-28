@@ -23,12 +23,7 @@ import { SkillIcons } from "../skill-icons/skill-icons";
 import { SkillIconsInvestigator } from "../skill-icons/skill-icons-investigator";
 import { QuantityInput } from "../ui/quantity-input";
 import { QuantityOutput } from "../ui/quantity-output";
-import {
-  DefaultTooltip,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "../ui/tooltip";
+import { DefaultTooltip } from "../ui/tooltip";
 
 export type Props = {
   as?: "li" | "div";
@@ -180,39 +175,37 @@ export function ListCardInner(props: Props) {
                 card.code !== SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS &&
                 (!ownedCount ||
                   (quantity != null && ownedCount < quantity)) && (
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <span className={css["ownership"]}>
-                        <FileWarning />
-                      </span>
-                    </TooltipTrigger>
-                    {!!quantity && (
-                      <TooltipContent>
-                        <p>
+                  <DefaultTooltip
+                    tooltip={
+                      quantity && (
+                        <>
                           Unavailable: {quantity - ownedCount} of {quantity}
-                        </p>
-                      </TooltipContent>
-                    )}
-                  </Tooltip>
+                        </>
+                      )
+                    }
+                  >
+                    <span className={css["ownership"]}>
+                      <FileWarning />
+                    </span>
+                  </DefaultTooltip>
                 )}
               {ignoredCount > 0 && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <span
-                      className={css["ignored"]}
-                      data-testid="listcard-ignored"
-                    >
-                      <Star />
-                    </span>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>
+                <DefaultTooltip
+                  tooltip={
+                    <>
                       {ignoredCount}{" "}
                       {ignoredCount === 1 ? "copy does" : "copies do"} not count
                       towards the deck limit.
-                    </p>
-                  </TooltipContent>
-                </Tooltip>
+                    </>
+                  }
+                >
+                  <span
+                    className={css["ignored"]}
+                    data-testid="listcard-ignored"
+                  >
+                    <Star />
+                  </span>
+                </DefaultTooltip>
               )}
             </div>
 
