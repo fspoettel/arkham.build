@@ -230,6 +230,15 @@ select {
   appearance: none;
 }
 
+/* HACK! avoids iOS Safari forced zooming to inputs */
+@supports (-webkit-touch-callout: none) {
+  select:focus,
+  textarea:focus,
+  input:focus {
+    font-size: 16px;
+  }
+}
+
 button {
   outline: none;
   border: none;
