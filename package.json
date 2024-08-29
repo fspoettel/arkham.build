@@ -60,7 +60,7 @@
     "dotenv": "16.4.5",
     "happy-dom": "15.3.1",
     "lefthook": "1.7.14",
-    "rollup-plugin-webpack-stats": "1.0.1",
+    "rollup-plugin-webpack-stats": "1.0.2",
     "typescript": "5.5.4",
     "vite": "5.4.2",
     "vite-plugin-svgr": "4.2.0",
