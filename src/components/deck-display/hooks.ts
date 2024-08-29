@@ -1,16 +1,16 @@
 import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
-import type { ResolvedDeck } from "@/store/lib/types";
+import type { Id } from "@/store/slices/data.types";
 import { useCallback } from "react";
 import { useLocation } from "wouter";
 
-export const useDeleteDeck = () => {
+export function useDeleteDeck() {
   const toast = useToast();
   const [_, setLocation] = useLocation();
   const deleteDeck = useStore((state) => state.deleteDeck);
 
   return useCallback(
-    async (deckId: ResolvedDeck["id"]) => {
+    async (deckId: Id) => {
       const confirmed = confirm("Are you sure you want to delete this deck?");
       if (confirmed) {
         await deleteDeck(deckId, toast);
@@ -19,15 +19,15 @@ export const useDeleteDeck = () => {
     },
     [setLocation, toast, deleteDeck],
   );
-};
+}
 
-export const useDeleteUpgrade = () => {
+export function useDeleteUpgrade() {
   const toast = useToast();
   const [_, setLocation] = useLocation();
   const deleteUpgrade = useStore((state) => state.deleteUpgrade);
 
   return useCallback(
-    (deckId: ResolvedDeck["id"]) => {
+    (deckId: Id) => {
       const confirmed = confirm(
         "Are you sure you want to delete this upgrade?",
       );
@@ -43,15 +43,15 @@ export const useDeleteUpgrade = () => {
     },
     [deleteUpgrade, setLocation, toast],
   );
-};
+}
 
-export const useDuplicateDeck = () => {
+export function useDuplicateDeck() {
   const toast = useToast();
   const [_, setLocation] = useLocation();
   const duplicateDeck = useStore((state) => state.duplicateDeck);
 
   return useCallback(
-    (deckId: ResolvedDeck["id"]) => {
+    (deckId: Id) => {
       try {
         const id = duplicateDeck(deckId);
         setLocation(`/deck/view/${id}`);
@@ -69,14 +69,14 @@ export const useDuplicateDeck = () => {
     },
     [duplicateDeck, setLocation, toast.show],
   );
-};
+}
 
-export const useExportJson = () => {
+export function useExportJson() {
   const toast = useToast();
   const exportJson = useStore((state) => state.exportJSON);
 
   return useCallback(
-    (deckId: ResolvedDeck["id"]) => {
+    (deckId: Id) => {
       try {
         exportJson(deckId);
       } catch (err) {
@@ -90,14 +90,14 @@ export const useExportJson = () => {
     },
     [exportJson, toast.show],
   );
-};
+}
 
-export const useExportText = () => {
+export function useExportText() {
   const toast = useToast();
   const exportText = useStore((state) => state.exportText);
 
   return useCallback(
-    (deckId: ResolvedDeck["id"]) => {
+    (deckId: Id) => {
       try {
         exportText(deckId);
       } catch (err) {
@@ -110,4 +110,4 @@ export const useExportText = () => {
     },
     [exportText, toast.show],
   );
-};
+}

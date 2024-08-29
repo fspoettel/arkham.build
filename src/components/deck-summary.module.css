@@ -125,8 +125,9 @@
 }
 
 .summary-transition {
-  transition-duration: 0.5s;
-  transition-delay: 0.1s;
+  transition-duration: 0.25s;
+  transition-delay: 0.15s;
+  transition-timing-function: ease-in-out;
 }
 
 @media (pointer: fine) {

@@ -9,29 +9,33 @@ import { getCardColor } from "@/utils/card-utils";
 
 import css from "./deck-summary.module.css";
 
+import type { Id } from "@/store/slices/data.types";
 import { CardThumbnail } from "./card/card-thumbnail";
 import { Button } from "./ui/button";
 import { DefaultTooltip } from "./ui/tooltip";
 
-import {
-  useDeleteDeck,
-  useDuplicateDeck,
-} from "../components/deck-display/hooks";
-
 type Props = {
   children?: React.ReactNode;
   deck: ResolvedDeck;
+  onDeleteDeck?: (id: Id) => Promise<void>;
+  onDuplicateDeck?: (id: Id) => void;
   interactive?: boolean;
   showThumbnail?: boolean;
   validation?: DeckValidationResult | string | null;
 };
 
 export function DeckSummary(props: Props) {
-  const { children, deck, interactive, showThumbnail, validation } = props;
+  const {
+    children,
+    deck,
+    interactive,
+    onDeleteDeck,
+    onDuplicateDeck,
+    showThumbnail,
+    validation,
+  } = props;
 
   const [, setLocation] = useLocation();
-  const duplicateDeck = useDuplicateDeck();
-  const deleteDeck = useDeleteDeck();
 
   const backgroundCls = getCardColor(
     deck.cards.investigator.card,
@@ -47,23 +51,34 @@ export function DeckSummary(props: Props) {
       deck.investigatorBack.card.parallel,
   };
 
-  const onDuplicate = (event: React.MouseEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-    duplicateDeck(deck.id);
-  };
+  const onDuplicate = useCallback(
+    (evt: React.MouseEvent) => {
+      cancelEvent(evt);
+      onDuplicateDeck?.(deck.id);
+    },
+    [deck.id, onDuplicateDeck],
+  );
 
-  const onDelete = (event: React.MouseEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-    deleteDeck(deck.id);
-  };
+  const onDelete = useCallback(
+    (evt: React.MouseEvent) => {
+      cancelEvent(evt);
+      onDeleteDeck?.(deck.id);
+    },
+    [deck.id, onDeleteDeck],
+  );
 
   const onEdit = useCallback(
-    (event: React.MouseEvent) => {
-      event.preventDefault();
-      event.stopPropagation();
+    (evt: React.MouseEvent) => {
+      cancelEvent(evt);
       setLocation(`/deck/edit/${deck.id}`);
+    },
+    [deck.id, setLocation],
+  );
+
+  const onUpgrade = useCallback(
+    (evt: React.MouseEvent) => {
+      cancelEvent(evt);
+      setLocation(`/deck/view/${deck.id}#upgrade`);
     },
     [deck.id, setLocation],
   );
@@ -140,6 +155,14 @@ export function DeckSummary(props: Props) {
             <Button
               className={css["quick-action"]}
               iconOnly
+              tooltip="Upgrade"
+              onClick={onUpgrade}
+            >
+              <i className="icon-xp-bold" />
+            </Button>
+            <Button
+              className={css["quick-action"]}
+              iconOnly
               tooltip="Duplicate"
               onClick={onDuplicate}
             >
@@ -159,4 +182,9 @@ export function DeckSummary(props: Props) {
       {children && <div className={css["meta"]}>{children}</div>}
     </article>
   );
+}
+
+function cancelEvent(evt: React.MouseEvent) {
+  evt.preventDefault();
+  evt.stopPropagation();
 }

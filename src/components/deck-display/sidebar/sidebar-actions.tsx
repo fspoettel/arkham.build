@@ -30,38 +30,50 @@ type Props = {
 
 export function SidebarActions(props: Props) {
   const { deck } = props;
+
   const [, setLocation] = useLocation();
+
   const [actionsOpen, setActionsOpen] = useState(false);
 
-  const requestDelete = useDeleteDeck();
-  const requestDuplicate = useDuplicateDeck();
-  const requestDeleteUpgrade = useDeleteUpgrade();
-  const requestExportJson = useExportJson();
-  const requestExportText = useExportText();
+  const [upgradeModalOpen, setUpgradeModalOpen] = useState(
+    window.location.hash.includes("upgrade"),
+  );
 
-  const onDelete = () => {
-    requestDelete(deck.id);
-  };
+  const deleteDeck = useDeleteDeck();
+  const onDelete = useCallback(() => {
+    deleteDeck(deck.id);
+  }, [deck.id, deleteDeck]);
 
-  const onDeleteUpgrade = () => {
-    requestDeleteUpgrade(deck.id);
-  };
+  const deleteUpgrade = useDeleteUpgrade();
+  const onDeleteUpgrade = useCallback(() => {
+    deleteUpgrade(deck.id);
+  }, [deleteUpgrade, deck.id]);
 
-  const onDuplicate = () => {
+  const duplicateDeck = useDuplicateDeck();
+  const onDuplicate = useCallback(() => {
     setActionsOpen(false);
-    requestDuplicate(deck.id);
+    duplicateDeck(deck.id);
+  }, [deck.id, duplicateDeck]);
+
+  const exportJson = useExportJson();
+  const onExportJson = useCallback(() => {
+    exportJson(deck.id);
+  }, [deck.id, exportJson]);
+
+  const exportText = useExportText();
+  const onExportText = useCallback(() => {
+    exportText(deck.id);
+  }, [deck.id, exportText]);
+
+  const onUpgradeModalOpenChange = (val: boolean) => {
+    setUpgradeModalOpen(val);
+    if (!val && window.location.hash.includes("upgrade")) {
+      history.replaceState(null, "", " ");
+    }
   };
 
-  const onEdit = useCallback(() => {
+  const onEdit = () => {
     setLocation(`/deck/edit/${deck.id}`);
-  }, [deck.id, setLocation]);
-
-  const onExportJson = () => {
-    requestExportJson(deck.id);
-  };
-
-  const onExportText = () => {
-    requestExportText(deck.id);
   };
 
   useHotKey("e", onEdit, [onEdit]);
@@ -88,7 +100,7 @@ export function SidebarActions(props: Props) {
         >
           <Pencil /> Edit
         </Button>
-        <Dialog>
+        <Dialog onOpenChange={onUpgradeModalOpenChange} open={upgradeModalOpen}>
           <DialogTrigger asChild>
             <Button
               data-testid="view-upgrade"

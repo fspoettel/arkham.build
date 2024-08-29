@@ -15,6 +15,10 @@ import { selectLocalDecks } from "@/store/selectors/decks";
 
 import css from "./deck-collection.module.css";
 
+import {
+  useDeleteDeck,
+  useDuplicateDeck,
+} from "@/components/deck-display/hooks";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/toast.hooks";
 import { useCallback, useState } from "react";
@@ -49,6 +53,9 @@ export function DeckCollection() {
       await deleteAllDecks(toast);
     }
   }, [deleteAllDecks, toast]);
+
+  const deleteDeck = useDeleteDeck();
+  const duplicateDeck = useDuplicateDeck();
 
   return (
     <div className={css["container"]}>
@@ -123,6 +130,8 @@ export function DeckCollection() {
                   <DeckSummary
                     deck={deck}
                     interactive
+                    onDeleteDeck={deleteDeck}
+                    onDuplicateDeck={duplicateDeck}
                     showThumbnail
                     validation={deck.problem}
                   >
