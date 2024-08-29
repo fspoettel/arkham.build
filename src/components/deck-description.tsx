@@ -23,7 +23,7 @@ type Props = {
   title: React.ReactNode;
 };
 
-export function DeckDescription(props: Props) {
+function DeckDescription(props: Props) {
   const { className, content, title } = props;
   const [cardTooltip, setCardTooltip] = useState<string>("");
 
@@ -85,3 +85,5 @@ function getCardCodeForEvent(evt: React.MouseEvent): string | undefined {
     return /\/card\/(\d*)$/.exec(target.href)?.[1];
   }
 }
+
+export default DeckDescription;
