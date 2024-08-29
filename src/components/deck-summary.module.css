@@ -54,6 +54,7 @@
 
 .info-container {
   opacity: 1;
+  transition: all 0.375s linear;
 }
 
 .title {
@@ -100,14 +101,16 @@
   bottom: 0;
   margin: auto;
   right: 0;
-  opacity: 0;
   height: min-content;
-  pointer-events: none;
   visibility: hidden;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: var(--rounded);
+  padding: 0.375rem;
 }
 
 .quick-action {
   list-style: none;
+  opacity: 0;
 
   &:not(:first-child) {
     margin-left: 0.25rem;
@@ -124,12 +127,6 @@
   }
 }
 
-.summary-transition {
-  transition-duration: 0.25s;
-  transition-delay: 0.15s;
-  transition-timing-function: ease-in-out;
-}
-
 @media (pointer: fine) {
   .summary.interactive {
     .thumbnail {
@@ -142,14 +139,16 @@
       }
 
       & .quick-actions-list {
-        right: 0.375rem;
-        opacity: 1;
-        pointer-events: all;
         visibility: visible;
       }
 
+      & .quick-action {
+        opacity: 1;
+        transition: all 0.375s linear;
+      }
+
       & .info-container {
-        opacity: 0.75;
+        opacity: 0.3;
       }
     }
   }

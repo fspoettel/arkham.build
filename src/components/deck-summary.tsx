@@ -141,8 +141,10 @@ export function DeckSummary(props: Props) {
             </div>
           </div>
 
+          {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
           <nav
-            className={cx(css["quick-actions-list"], css["summary-transition"])}
+            className={css["quick-actions-list"]}
+            onClick={(evt) => cancelEvent(evt)}
           >
             <Button
               className={css["quick-action"]}
