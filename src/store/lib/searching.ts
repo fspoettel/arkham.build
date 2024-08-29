@@ -52,7 +52,7 @@ export function applySearch(
     return content;
   });
 
-  const results = uf.search(searchCards, search.value, 1);
+  const results = uf.search(searchCards, prepareNeedle(search.value), 0);
 
   if (!results?.[0]) return cards;
 
@@ -62,4 +62,8 @@ export function applySearch(
   }, {});
 
   return cards.filter((_, i) => matches[i]);
+}
+
+function prepareNeedle(needle: string): string {
+  return needle.replaceAll(/((?:\+|-)\d+)/g, `"$1"`);
 }
