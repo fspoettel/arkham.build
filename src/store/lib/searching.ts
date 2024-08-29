@@ -5,6 +5,13 @@ import type { Card } from "@/store/services/queries.types";
 import type { Search } from "../slices/lists.types";
 import type { Metadata } from "../slices/metadata.types";
 
+/**
+ * When searching, the maximum distance between two parts of the search to be considered a match.
+ * This makes search like `+1 [willpower]` work (for the most part).
+ * 15 chars to accomodate "[...] an additional [...]".
+ */
+const MATCHING_MAX_TOKEN_DISTANCE = 15;
+
 function prepareCardFace(card: Card, search: Search) {
   let content = `|${card.real_name}`;
 
@@ -38,7 +45,10 @@ export function applySearch(
   cards: Card[],
   metadata: Metadata,
 ): Card[] {
-  const uf = new uFuzzy();
+  const uf = new uFuzzy({
+    intraMode: 0,
+    interIns: MATCHING_MAX_TOKEN_DISTANCE,
+  });
 
   const searchCards = cards.map((card) => {
     let content = prepareCardFace(card, search);
