@@ -352,6 +352,7 @@
 
 .details-text {
   font-size: var(--card-text-size-sm);
+  font-family: var(--font-family-content);
 }
 
 .details-text > * + * {

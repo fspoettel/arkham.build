@@ -6,6 +6,7 @@ import type { Metadata } from "@/store/slices/metadata.types";
 
 import css from "./grouphead.module.css";
 
+import { cx } from "@/utils/cx";
 import { CardSlots } from "../card-slots";
 import EncounterIcon from "../icons/encounter-icon";
 import { FactionIcon } from "../icons/faction-icon";
@@ -14,15 +15,16 @@ import PackIcon from "../icons/pack-icon";
 type Props = {
   grouping: CardGroup;
   metadata: Metadata;
+  variant?: "alt";
 };
 
 export function Grouphead(props: Props) {
-  const { grouping, metadata } = props;
+  const { grouping, metadata, variant } = props;
   const keys = grouping.key.split("|");
   const types = grouping.type.split("|");
 
   return (
-    <h3 className={css["grouphead"]}>
+    <h3 className={cx(css["grouphead"], variant && css[variant])}>
       {keys.map((key, i) => {
         const type = types[i];
         const keyLabel = getGroupingKeyLabel(type, key, metadata);

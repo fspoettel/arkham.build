@@ -7,6 +7,7 @@ import { useStore } from "@/store";
 import type { ListState } from "@/store/selectors/card-list";
 import { selectListCards } from "@/store/selectors/card-list";
 import { selectActiveListSearch } from "@/store/selectors/lists";
+import { selectActiveList } from "@/store/selectors/lists";
 import {
   selectCanCheckOwnership,
   selectCardOwnedCount,
@@ -65,6 +66,12 @@ export function CardList(props: Props) {
 
   const search = useStore(selectActiveListSearch);
   const metadata = useStore((state) => state.metadata);
+
+  const showCardText = useStore(
+    (state) => selectActiveList(state)?.display.showCardText ?? false,
+  );
+
+  const setShowCardText = useStore((state) => state.setShowCardText);
 
   const [currentTop, setCurrentTop] = useState<number>(-1);
   const [scrollParent, setScrollParent] = useState<HTMLElement | undefined>();
@@ -197,6 +204,8 @@ export function CardList(props: Props) {
           data={data}
           metadata={metadata}
           onSelectGroup={onSelectGroup}
+          showCardText={showCardText}
+          onChangeShowCardText={setShowCardText}
         />
 
         <Scroller
@@ -208,7 +217,11 @@ export function CardList(props: Props) {
               context={{ currentTop }}
               customScrollParent={scrollParent}
               groupContent={(index) => (
-                <Grouphead grouping={data.groups[index]} metadata={metadata} />
+                <Grouphead
+                  grouping={data.groups[index]}
+                  metadata={metadata}
+                  variant={showCardText ? "alt" : undefined}
+                />
               )}
               groupCounts={data.groupCounts}
               isScrolling={onScrollStop}
@@ -233,9 +246,10 @@ export function CardList(props: Props) {
                   renderAction={renderListCardAction}
                   renderExtra={renderListCardExtra}
                   size={listcardSize}
+                  showCardText={showCardText}
                 />
               )}
-              key={data.key}
+              key={`${data.key}-${showCardText}`}
               rangeChanged={rangeChanged}
               ref={virtuosoRef}
             />

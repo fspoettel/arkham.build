@@ -47,7 +47,7 @@ export function CardFace(props: Props) {
       <CardHeader card={card} linked={linked} />
 
       <div className={css["pre"]}>
-        <CardDetails resolvedCard={resolvedCard} />
+        <CardDetails card={card} />
         <CardIcons card={card} />
       </div>
 

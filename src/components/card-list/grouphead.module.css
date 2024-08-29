@@ -9,6 +9,12 @@
   font-family: var(--font-family-ui);
 }
 
+.grouphead.alt {
+  background: var(--nord-0);
+  border: 1px solid var(--nord-1);
+  border-radius: var(--rounded);
+}
+
 .grouphead > *:not(.icon):not(:last-child)::after {
   content: "·";
   padding-left: 0.375rem;

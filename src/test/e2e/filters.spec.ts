@@ -57,4 +57,22 @@ test.describe("filters: interactions", () => {
     await page.getByTestId("subtype-weakness").click();
     await expect(page.getByTestId("listcard-03011")).not.toBeVisible();
   });
+
+  test("can toggle game text", async ({ page }) => {
+    await page.getByTestId("search-game-text").click();
+    await page.getByTestId("search-input").click();
+    await page.getByTestId("search-input").fill("ashcan pete");
+
+    await page.locator('[data-test-id="card-list-config"]').click();
+    await page.locator('[data-test-id="card-list-text-toggle"]').click();
+
+    await expect(page.getByTestId("card-text").first()).toBeVisible();
+    await expect(page.getByTestId("card-text").nth(1)).toBeVisible();
+
+    await page.locator('[data-test-id="card-list-config"]').click();
+    await page.locator('[data-test-id="card-list-text-toggle"]').click();
+
+    await expect(page.getByTestId("card-text").first()).not.toBeVisible();
+    await expect(page.getByTestId("card-text").nth(1)).not.toBeVisible();
+  });
 });

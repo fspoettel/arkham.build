@@ -104,6 +104,10 @@
   padding: 0.25rem;
 }
 
+.pack-checkbox {
+  width: 100%;
+}
+
 .collection-counts {
   display: inline-flex;
   align-items: center;

@@ -377,9 +377,9 @@ export const selectListCards = createSelector(
     const groupCounts: number[] = [];
 
     for (const group of getGroupedCards(
-      activeList.grouping,
+      activeList.display.grouping,
       filteredCards,
-      makeSortFunction(activeList.sorting, metadata),
+      makeSortFunction(activeList.display.sorting, metadata),
       metadata,
     )) {
       cards.push(...group.cards);

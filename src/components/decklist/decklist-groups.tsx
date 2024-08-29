@@ -90,6 +90,7 @@ export function DecklistGroups({
             ignoredCounts={ignoredCounts}
             mapping={mapping}
             quantities={quantities}
+            listCardSize={listCardSize}
             renderListCardAfter={renderListCardAfter}
           />
         </li>

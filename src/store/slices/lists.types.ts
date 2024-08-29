@@ -112,14 +112,17 @@ export type SortingType =
 
 export type List = {
   cardType: "player" | "encounter";
+  display: {
+    grouping: GroupingType[];
+    sorting: SortingType[];
+    showCardText: boolean;
+  };
   filters: FilterKey[];
   filtersEnabled: boolean;
   filterValues: {
     [id: number]: FilterObject<FilterKey>;
   };
-  grouping: GroupingType[];
   key: string;
-  sorting: SortingType[];
   systemFilter?: Filter;
   search: Search;
 };
@@ -143,6 +146,7 @@ export type ListsSlice = {
   removeList(key: string): void;
 
   setFiltersEnabled(value: boolean): void;
+  setShowCardText(value: boolean): void;
 
   setFilterValue<T>(id: number, payload: T): void;
   setFilterOpen(id: number, open: boolean): void;

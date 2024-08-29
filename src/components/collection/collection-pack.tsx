@@ -67,6 +67,7 @@ export function CollectionPack(props: Props) {
         </div>
       ) : (
         <Checkbox
+          className={css["pack-checkbox"]}
           disabled={!canEdit}
           checked={!!value}
           data-pack={pack.code}

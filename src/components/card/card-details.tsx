@@ -1,25 +1,26 @@
-import type { ResolvedCard } from "@/store/lib/types";
-
 import css from "./card.module.css";
 
+import type { Card } from "@/store/services/queries.types";
+import { capitalize } from "@/utils/formatting";
 import { CardSlots } from "../card-slots";
 
 type Props = {
-  resolvedCard: ResolvedCard;
+  card: Card;
+  omitSlotIcon?: boolean;
 };
 
 export function CardDetails(props: Props) {
-  const { card, subtype, type } = props.resolvedCard;
+  const { card, omitSlotIcon } = props;
 
-  const showType = type.code !== "investigator";
+  const showType = card.type_code !== "investigator";
 
   return (
     <div className={css["details"]}>
       <div className={css["details-text"]}>
-        {(showType || subtype || card.real_slot) && (
+        {(showType || !!card.subtype_code || card.real_slot) && (
           <p className={css["details-type"]}>
-            {showType && <span>{type.name}</span>}
-            {subtype && <span>{subtype.name}</span>}
+            {showType && <span>{capitalize(card.type_code)}</span>}
+            {card.subtype_code && <span>{capitalize(card.subtype_code)}</span>}
             {card.real_slot && <span>{card.real_slot}</span>}
           </p>
         )}
@@ -37,7 +38,7 @@ export function CardDetails(props: Props) {
           </p>
         )}
       </div>
-      {card.real_slot && (
+      {!omitSlotIcon && card.real_slot && (
         <CardSlots className={css["details-slots"]} slot={card.real_slot} />
       )}
     </div>
