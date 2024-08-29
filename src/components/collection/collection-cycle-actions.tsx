@@ -17,7 +17,7 @@ export function CollectionCycleActions(props: Props) {
         data-cycle={props.cycleCode}
         data-val={1}
         onClick={props.onToggleCycle}
-        size="sm"
+        iconOnly
         type="button"
         variant="bare"
       >
@@ -28,7 +28,7 @@ export function CollectionCycleActions(props: Props) {
         data-cycle={props.cycleCode}
         data-val={0}
         onClick={props.onToggleCycle}
-        size="sm"
+        iconOnly
         type="button"
         variant="bare"
       >

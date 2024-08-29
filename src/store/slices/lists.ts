@@ -1,6 +1,6 @@
 import type { StateCreator } from "zustand";
 
-import { assert, isDefined } from "@/utils/assert";
+import { assert } from "@/utils/assert";
 import type { Filter } from "@/utils/fp";
 import { and, not } from "@/utils/fp";
 
@@ -86,8 +86,7 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
           list.key,
           list.cardType,
           list.filters,
-          list.grouping,
-          list.sorting,
+          list.display,
           list.systemFilter,
           {
             ownership: getInitialOwnershipFilter(state.settings),
@@ -101,17 +100,14 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
 
   resetFilter(id) {
     const state = get();
-    assert(isDefined(state.activeList), "no active list is defined.");
+    assert(state.activeList, "no active list is defined.");
 
     const list = state.lists[state.activeList];
-    assert(isDefined(list), `list ${state.activeList} not defined.`);
-
-    assert(
-      isDefined(list.filterValues[id]),
-      `${state.activeList} has not filter ${id}.`,
-    );
+    assert(list, `list ${state.activeList} not defined.`);
 
     const filterValues = { ...list.filterValues };
+    assert(filterValues[id], `${state.activeList} has not filter ${id}.`);
+
     filterValues[id] = makeFilterValue(filterValues[id].type, list.cardType);
 
     set({
@@ -141,16 +137,13 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
 
   setFilterOpen(id, open) {
     const state = get();
-    assert(isDefined(state.activeList), "no active list is defined.");
+    assert(state.activeList, "no active list is defined.");
 
     const list = state.lists[state.activeList];
-    assert(isDefined(list), `list ${state.activeList} not defined.`);
+    assert(list, `list ${state.activeList} not defined.`);
 
     const filterValues = { ...list.filterValues };
-    assert(
-      isDefined(filterValues[id]),
-      `${state.activeList} has not filter ${id}.`,
-    );
+    assert(filterValues[id], `${state.activeList} has not filter ${id}.`);
 
     filterValues[id] = { ...filterValues[id], open };
 
@@ -168,17 +161,13 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
   setFilterValue(id, payload) {
     const state = get();
 
-    assert(isDefined(state.activeList), "no active list is defined.");
+    assert(state.activeList, "no active list is defined.");
 
     const list = state.lists[state.activeList];
-    assert(isDefined(list), `list ${state.activeList} not defined.`);
-
-    assert(
-      isDefined(list.filterValues[id]),
-      `${state.activeList} has not filter ${id}.`,
-    );
+    assert(list, `list ${state.activeList} not defined.`);
 
     const filterValues = { ...list.filterValues };
+    assert(filterValues[id], `${state.activeList} has not filter ${id}.`);
 
     switch (filterValues[id].type) {
       case "action":
@@ -311,10 +300,10 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
 
   setSearchFlag(flag, value) {
     const state = get();
-    assert(isDefined(state.activeList), "no active list is defined.");
+    assert(state.activeList, "no active list is defined.");
 
     const list = state.lists[state.activeList];
-    assert(isDefined(list), `list ${state.activeList} not defined.`);
+    assert(list, `list ${state.activeList} not defined.`);
 
     set({
       lists: {
@@ -332,10 +321,10 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
 
   setSearchValue(value) {
     const state = get();
-    assert(isDefined(state.activeList), "no active list is defined.");
+    assert(state.activeList, "no active list is defined.");
 
     const list = state.lists[state.activeList];
-    assert(isDefined(list), `list ${state.activeList} not defined.`);
+    assert(list, `list ${state.activeList} not defined.`);
 
     set({
       lists: {
@@ -353,10 +342,10 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
 
   setFiltersEnabled(value) {
     const state = get();
-    assert(isDefined(state.activeList), "no active list is defined.");
+    assert(state.activeList, "no active list is defined.");
 
     const list = state.lists[state.activeList];
-    assert(isDefined(list), `list ${state.activeList} not defined.`);
+    assert(list, `list ${state.activeList} not defined.`);
 
     set({
       lists: {
@@ -369,11 +358,33 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
     });
   },
 
+  setShowCardText(value) {
+    const state = get();
+    assert(state.activeList, "no active list is defined.");
+
+    const list = state.lists[state.activeList];
+    assert(list, `list ${state.activeList} not defined.`);
+
+    set({
+      lists: {
+        ...state.lists,
+        [state.activeList]: {
+          ...list,
+          display: {
+            ...list.display,
+            showCardText: value,
+          },
+        },
+      },
+    });
+  },
+
   addList(key, cardType, initialValues) {
     const state = get();
 
     const lists = { ...state.lists };
     assert(!lists[key], `list ${key} already exists.`);
+
     assert(cardType === "player", "only player lists are supported for now.");
 
     lists[key] = makePlayerCardsList(key, {
@@ -562,8 +573,7 @@ function makeList(
   key: string,
   cardType: List["cardType"],
   filters: FilterKey[],
-  grouping: List["grouping"],
-  sorting: List["sorting"],
+  display: List["display"],
   systemFilter?: Filter,
   initialValues?: Partial<Record<FilterKey, unknown>>,
   initialSearch?: Search,
@@ -576,10 +586,9 @@ function makeList(
       return acc;
     }, {}),
     filtersEnabled: true,
-    grouping,
+    display,
     key,
     systemFilter,
-    sorting,
     search: initialSearch ?? makeSearch(),
   };
 }
@@ -625,8 +634,11 @@ function makePlayerCardsList(
     key,
     "player",
     filters,
-    ["subtype", "type", "slot"],
-    ["name", "level"],
+    {
+      grouping: ["subtype", "type", "slot"],
+      sorting: ["name", "level"],
+      showCardText: false,
+    },
     and(systemFilter),
     initialValues,
   );
@@ -649,8 +661,11 @@ function makeInvestigatorCardsList(
     key,
     "player",
     filters,
-    ["cycle"],
-    ["position"],
+    {
+      grouping: ["cycle"],
+      sorting: ["position"],
+      showCardText: false,
+    },
     and([
       filterType(["investigator"]),
       filterDuplicates,
@@ -695,8 +710,11 @@ function makeEncounterCardsList(
     key,
     "encounter",
     filters,
-    ["encounter_set"],
-    ["position"],
+    {
+      grouping: ["encounter_set"],
+      sorting: ["position"],
+      showCardText: false,
+    },
     and(systemFilter),
     initialValues,
   );

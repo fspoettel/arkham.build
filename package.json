@@ -21,7 +21,7 @@
     "test:e2e": "playwright test --grep-invert @flaky",
     "test:watch": "vitest watch",
     "update-snapshots:macos": "PW_TEST_HTML_REPORT_OPEN='never' playwright test --update-snapshots",
-    "update-snapshots:linux": "docker run -v $(pwd):/work/ mcr.microsoft.com/playwright:v1.46.1 bash -c 'cd work && PW_TEST_HTML_REPORT_OPEN='never' CI='1' npm run test:e2e -- --update-snapshots'"
+    "update-snapshots:linux": "docker run -v $(pwd):/work/ mcr.microsoft.com/playwright:v1.46.1 bash -c 'cd work && npm i && PW_TEST_HTML_REPORT_OPEN='never' CI='1' npm run test:e2e -- --update-snapshots'"
   },
   "dependencies": {
     "@floating-ui/react": "0.26.23",

@@ -1,26 +1,44 @@
-.listcard {
+.listcard-wrapper {
   --card-spacing-y: 0.5rem;
   --card-spacing-x: 0.375rem;
   --card-image-height: 2rem;
 
-  list-style: none;
+  padding: var(--card-spacing-y) 0.25rem;
+  min-height: calc(var(--card-image-height) + 2 * var(--card-spacing-y));
 
+  gap: var(--card-spacing-y) var(--card-spacing-x);
+  display: grid;
+  align-items: center;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto;
+  grid-template-areas: "action card";
+  list-style: none;
+}
+
+.listcard-wrapper.card-text {
+  background-color: var(--nord-point-five);
+  padding: 0.5rem;
+  border-radius: var(--rounded-md);
+  border: 1px solid var(--nord-1);
+  margin: var(--card-spacing-y) 0;
+  display: grid;
+  align-items: center;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  grid-template-areas: "action card" "empty text";
+}
+
+.listcard-action {
+  grid-area: action;
+}
+
+.listcard {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--card-spacing-x);
-  min-height: calc(var(--card-image-height) + 2 * var(--card-spacing-y));
-  padding: var(--card-spacing-y) 0.25rem;
-}
-
-.listcard.borders {
-  border-bottom: 1px solid var(--nord-1);
-}
-
-.listcard.active {
-  outline: 1px solid var(--nord-6);
-  outline-offset: -1px;
+  grid-area: card;
 }
 
 .listcard-main {
@@ -138,33 +156,54 @@
  * Variants
  */
 
-.listcard.forbidden {
+.listcard-wrapper.forbidden {
   filter: grayscale(1);
 }
 
-.listcard.forbidden .name button:not(:hover) {
+.listcard-wrapper.forbidden .name button:not(:hover) {
   text-decoration: line-through;
 }
 
-.listcard.removed {
+.listcard-wrapper.removed {
   opacity: 0.3;
 }
 
-.listcard.xs {
+.listcard-wrapper.xs {
   --card-spacing-y: 0;
   --card-spacing-x: 0.25rem;
   padding-inline: none;
 }
 
-.listcard.sm {
+.listcard-wrapper.sm {
   --card-spacing-y: 0.375rem;
   --card-spacing-x: 0.375rem;
   padding-inline: none;
 }
 
-.listcard.investigator {
+.listcard-wrapper.investigator {
   --card-spacing-y: 0.375rem;
   --card-spacing-x: 0.5rem;
   --card-image-height: 2.5rem;
   padding-inline: 0.25rem;
+}
+
+.listcard-wrapper.borders {
+  border-bottom: 1px solid var(--nord-1);
+}
+
+.listcard-wrapper.active {
+  outline: 1px solid var(--nord-6);
+  outline-offset: -1px;
+}
+
+.listcard-text {
+  --card-text-size-sm: var(--text-xs);
+  --card-text-size: var(--text-sm);
+  --card-title-size: var(--text-base);
+  --card-spacing: 0.75rem;
+  grid-area: text;
+}
+
+.listcard-text > * + * {
+  margin-top: 0.5rem;
 }

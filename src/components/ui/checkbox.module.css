@@ -59,6 +59,7 @@
 }
 
 .label {
+  flex: 1 1 auto;
   color: currentColor;
   user-select: none;
   line-height: var(--checkbox-size);

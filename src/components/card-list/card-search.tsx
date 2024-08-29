@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useStore } from "@/store";
 import { selectActiveListSearch } from "@/store/selectors/lists";
-import { assert, isDefined } from "@/utils/assert";
+import { assert } from "@/utils/assert";
 import { debounce } from "@/utils/debounce";
 import { inputFocused } from "@/utils/keyboard";
 
@@ -25,7 +25,7 @@ export function CardSearch(props: Props) {
   const setSearchFlag = useStore((state) => state.setSearchFlag);
 
   const search = useStore(selectActiveListSearch);
-  assert(isDefined(search), "Search bar requires an active list.");
+  assert(search, "Search bar requires an active list.");
 
   const [inputValue, setInputValue] = useState(search.value ?? "");
 
