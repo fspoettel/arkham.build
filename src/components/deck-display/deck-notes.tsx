@@ -1,7 +1,6 @@
 import { BookOpenText } from "lucide-react";
-import { useCallback } from "react";
+import { Suspense, lazy, useCallback } from "react";
 
-import { DeckDescription } from "@/components/deck-description";
 import { Button } from "@/components/ui/button";
 import { DialogContentInert, DialogTrigger } from "@/components/ui/dialog";
 import { useDialogContext } from "@/components/ui/dialog.hooks";
@@ -13,6 +12,8 @@ import css from "./deck-display.module.css";
 type Props = {
   deck: ResolvedDeck;
 };
+
+const LazyDeckDescription = lazy(() => import("@/components/deck-description"));
 
 export function DeckNotes(props: Props) {
   const { deck } = props;
@@ -44,7 +45,12 @@ export function DeckNotes(props: Props) {
           data-testid="view-notes-modal"
         >
           {modalContext.open && (
-            <DeckDescription content={deck.description_md} title={deck.name} />
+            <Suspense fallback={null}>
+              <LazyDeckDescription
+                content={deck.description_md}
+                title={deck.name}
+              />
+            </Suspense>
           )}
         </Modal>
       </DialogContentInert>
