@@ -36,7 +36,7 @@
     "dompurify": "3.1.6",
     "idb-keyval": "6.2.1",
     "lucide-react": "0.436.0",
-    "marked": "12.0.2",
+    "marked": "14.1.0",
     "nanoid": "5.0.7",
     "react": "18.3.1",
     "react-dom": "18.3.1",
