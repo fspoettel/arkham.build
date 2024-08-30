@@ -162,6 +162,20 @@ test.describe("card view: display", () => {
     });
   });
 
+  test("renders locations with shroud 0", async ({ page }) => {
+    await page.goto("/card/08686");
+    await expect(page.getByTestId("main")).toHaveScreenshot({
+      mask: [page.getByTestId("card-scan")],
+    });
+  });
+
+  test("renders locations with shroud null", async ({ page }) => {
+    await page.goto("/card/08630");
+    await expect(page.getByTestId("main")).toHaveScreenshot({
+      mask: [page.getByTestId("card-scan")],
+    });
+  });
+
   test("renders player locations", async ({ page }) => {
     await page.goto("/card/06015a");
     await expect(page.getByTestId("main")).toHaveScreenshot({
