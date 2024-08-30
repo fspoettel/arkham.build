@@ -28,12 +28,16 @@ export function CardDetails(props: Props) {
           <p className={css["details-traits"]}>{card.real_traits}</p>
         )}
         {!!card.doom && <p>Doom: {card.doom}</p>}
-        {!!card.clues && (
+        {card.type_code === "location" && (
           <p>
-            {!!card.shroud && <>Shroud: {card.shroud}, </>}
-            Clues: {card.clues}{" "}
-            {!card.clues_fixed && (
-              <i className="icon-text icon-per_investigator" />
+            Shroud:{" "}
+            {card.shroud != null ? card.shroud : <i className="icon-numNull" />}
+            , Clues: {card.clues}
+            {!!card.clues && !card.clues_fixed && (
+              <>
+                {" "}
+                <i className="icon-text icon-per_investigator" />
+              </>
             )}
           </p>
         )}
