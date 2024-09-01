@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast.hooks";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { cx } from "@/utils/cx";
+import { capitalize } from "@/utils/formatting";
 import { Share } from "lucide-react";
 import css from "./sidebar.module.css";
 
@@ -22,14 +23,20 @@ export function Sharing(props: Props) {
   const updateShare = useStore((state) => state.updateShare);
 
   async function withToast(fn: () => Promise<void>, action: string) {
+    const id = toast.show({
+      children: `${capitalize(action)} share...`,
+    });
+
     try {
       await fn();
+      toast.dismiss(id);
       toast.show({
         children: `Share ${action} successful`,
         variant: "success",
         duration: 3000,
       });
     } catch (err) {
+      toast.dismiss(id);
       toast.show({
         children: `Failed to ${action} share: ${(err as Error).message}`,
         variant: "error",
