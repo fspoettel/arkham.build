@@ -789,6 +789,7 @@ function makePlayerCardsFilter(
       (card: Card) => card.subtype_code === "basicweakness",
       (card: Card) =>
         !!card.encounter_code &&
+        !!card.deck_limit &&
         !card.back_link_id &&
         !card.double_sided &&
         card.faction_code !== "mythos",
