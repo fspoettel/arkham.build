@@ -251,6 +251,8 @@ function getPackIcon(code?: string) {
       return "machinations_through_time";
     case "fof":
       return "roulette";
+    case "tmg":
+      return "gala";
     case "blbe":
       return null;
     default:

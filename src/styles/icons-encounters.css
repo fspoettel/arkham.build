@@ -732,6 +732,9 @@
 .encounters-venomous_hate:before {
   content: "\ea03";
 }
+.encounters-gala:before {
+  content: "\e901";
+}
 .encounters-novella:before {
   content: "\ea04";
 }
