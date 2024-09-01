@@ -253,7 +253,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     return deck.id;
   },
-  async deleteDeck(id, toast) {
+  async deleteDeck(id, cb) {
     const state = get();
     const decks = { ...state.data.decks };
 
@@ -266,53 +266,30 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     delete decks[id];
     const history = { ...state.data.history };
 
-    if (history[id]) {
-      for (const prevId of history[id]) {
-        delete decks[prevId];
-        delete deckEdits[prevId];
-      }
+    const historyEntries = history[id] ?? [];
+
+    for (const prevId of historyEntries) {
+      delete decks[prevId];
+      delete deckEdits[prevId];
     }
 
+    await Promise.allSettled(
+      [...history[id], deck.id].map((curr) =>
+        state.deleteShare(curr as string),
+      ),
+    );
+
     delete history[id];
+
+    cb?.();
 
     set({
       data: { ...state.data, decks, history },
       deckEdits,
     });
-
-    toast.show({
-      children: "Deck delete successful.",
-      duration: 3000,
-      variant: "success",
-    });
-
-    if (state.sharing.decks[deck.id]) {
-      const toastId = toast.show({
-        children: "Deleting share...",
-      });
-
-      try {
-        await state.deleteShare(deck.id as string);
-
-        toast.dismiss(toastId);
-
-        toast.show({
-          children: "Share delete successful.",
-          duration: 3000,
-          variant: "success",
-        });
-      } catch (err) {
-        toast.dismiss(toastId);
-
-        toast.show({
-          children: `Share could not be deleted: ${(err as Error)?.message}.`,
-          variant: "error",
-        });
-      }
-    }
   },
 
-  async deleteAllDecks(toast) {
+  async deleteAllDecks() {
     const state = get();
 
     const decks = { ...state.data.decks };
@@ -332,28 +309,10 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     });
 
     if (Object.keys(state.sharing.decks).length) {
-      const toastId = toast.show({
-        children: "Deleting shares...",
-      });
-
-      try {
-        await state.deleteAllShares();
-        toast.dismiss(toastId);
-        toast.show({
-          children: "Delete shares successful.",
-          duration: 3000,
-          variant: "success",
-        });
-      } catch (err) {
-        toast.dismiss(toastId);
-        toast.show({
-          children: `Shares could not be deleted: ${(err as Error)?.message}.`,
-          variant: "error",
-        });
-      }
+      await state.deleteAllShares().catch(console.error);
     }
   },
-  async saveDeck(deckId, toast) {
+  saveDeck(deckId) {
     tryEnablePersistence();
 
     const state = get();
@@ -390,40 +349,6 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         },
       },
     });
-
-    // TODO: This is the only call to have the toasts here,
-    // maybe we want to decouple the request from the user-feedback?
-
-    toast.show({
-      children: "Deck save successful.",
-      duration: 3000,
-      variant: "success",
-    });
-
-    if (state.sharing.decks[nextDeck.id]) {
-      const toastId = toast.show({
-        children: "Updating share...",
-      });
-
-      try {
-        await state.updateShare(deck.id as string);
-
-        toast.dismiss(toastId);
-
-        toast.show({
-          children: "Share update successful.",
-          duration: 3000,
-          variant: "success",
-        });
-      } catch (err) {
-        toast.dismiss(toastId);
-
-        toast.show({
-          children: `Share could not be updated: ${(err as Error)?.message}. Try again later on the deck page.`,
-          variant: "error",
-        });
-      }
-    }
 
     return nextDeck.id;
   },
@@ -512,7 +437,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     return newDeck.id;
   },
 
-  deleteUpgrade(id) {
+  async deleteUpgrade(id, cb) {
     const state = get();
 
     const deck = state.data.decks[id];
@@ -538,6 +463,9 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     const deckEdits = { ...state.deckEdits };
     delete deckEdits[deck.id];
+
+    await state.deleteShare(deck.id as string).catch(console.error);
+    cb?.(previousId);
 
     set({
       deckEdits,

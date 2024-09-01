@@ -47,10 +47,10 @@ export const createSharingSlice: StateCreator<
   async updateShare(id) {
     const state = get();
 
+    if (!state.sharing.decks[id]) return;
+
     const deck = state.data.decks[id];
     assert(deck, `Deck with id ${id} not found.`);
-
-    assert(state.sharing.decks[id], `Deck with id ${id} is not shared.`);
 
     await updateShare(selectClientId(state), id, formatDeckExport(deck));
 
@@ -68,7 +68,7 @@ export const createSharingSlice: StateCreator<
   async deleteShare(id) {
     const state = get();
 
-    assert(state.sharing.decks[id], `Deck with id ${id} is not shared.`);
+    if (!state.sharing.decks[id]) return;
 
     await deleteShare(selectClientId(state), id);
 
