@@ -213,6 +213,7 @@ export function MetaEditor(props: Props) {
       <Field full padded>
         <FieldLabel>Description</FieldLabel>
         <textarea
+          data-testid="editor-description"
           defaultValue={deck.description_md ?? ""}
           onChange={onDescriptionChange}
         />

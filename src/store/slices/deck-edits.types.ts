@@ -1,5 +1,6 @@
 import type { DeckOptionSelectType } from "@/store/services/queries.types";
 
+import type { DeckMeta } from "../lib/types";
 import type { Id } from "./data.types";
 
 export type Slot =
@@ -28,27 +29,32 @@ export type CustomizationEdit = {
   selections?: string[];
 };
 
+export type AttachmentQuantities = {
+  [code: string]: {
+    [code: string]: number;
+  };
+};
+
 export type EditState = {
-  customizations: {
+  customizations?: {
     [code: string]: {
       [id: number]: CustomizationEdit;
     };
   };
-  meta: {
-    [key: string]: string | null;
-  };
-  quantities: {
+  description_md?: string | null;
+  investigatorBack?: string | null;
+  investigatorFront?: string | null;
+  meta?: DeckMeta;
+  name?: string | null;
+  quantities?: {
     extraSlots?: Record<string, number>;
     ignoreDeckLimitSlots?: Record<string, number>;
     sideSlots?: Record<string, number>;
     slots?: Record<string, number>;
   };
-  name?: string | null;
-  description_md?: string | null;
-  tags?: string | null;
+  attachments?: AttachmentQuantities;
   tabooId?: number | null;
-  investigatorFront?: string | null;
-  investigatorBack?: string | null;
+  tags?: string | null;
   xpAdjustment?: number | null;
 };
 
@@ -60,6 +66,8 @@ export type DeckEditsSlice = {
   deckEdits: EditsState;
 
   discardEdits(deckId: Id): void;
+
+  drawRandomBasicWeakness(deckId: Id): void;
 
   updateCardQuantity(
     deckId: Id,
@@ -96,5 +104,11 @@ export type DeckEditsSlice = {
 
   updateXpAdjustment(deckId: Id, value: number): void;
 
-  drawRandomBasicWeakness(deckId: Id): void;
+  updateAttachment(
+    deckId: Id,
+    targetCode: string,
+    code: string,
+    quantity: number,
+    limit: number,
+  ): void;
 };

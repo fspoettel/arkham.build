@@ -1,10 +1,7 @@
 import { assert } from "@/utils/assert";
 import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
-import {
-  formatDeckExport,
-  formatDeckImport,
-} from "../lib/serialization/deck-io";
+import { formatDeckExport, formatDeckImport } from "../lib/deck-io";
 import { selectClientId } from "../selectors/shared";
 import { createShare, deleteShare, updateShare } from "../services/queries";
 import { type Deck, isDeck } from "./data.types";

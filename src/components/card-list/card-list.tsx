@@ -28,11 +28,7 @@ import { CardSearch } from "./card-search";
 
 type Props = {
   className?: string;
-  onChangeCardQuantity?: (
-    code: string,
-    quantity: number,
-    limit: number,
-  ) => void;
+  onChangeCardQuantity?: ListCardProps["onChangeCardQuantity"];
   quantities?: Slots;
   listcardSize?: ListCardProps["size"];
   renderListCardAction?: ListCardProps["renderAction"];
@@ -210,6 +206,7 @@ export function CardList(props: Props) {
 
         <Scroller
           className={css["scroller"]}
+          data-testid="card-list-scroller"
           ref={setScrollParent as unknown as React.RefObject<HTMLDivElement>}
         >
           {data && scrollParent && (

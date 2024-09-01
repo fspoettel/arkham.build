@@ -13,7 +13,7 @@ export function DeckHistory(props: Props) {
   const { history } = props;
 
   return (
-    <ol className={css["entries"]}>
+    <ol className={css["entries"]} data-testid="history">
       {history.map((stats, idx) => {
         const hasChanges =
           !!stats.differences.slots.length ||

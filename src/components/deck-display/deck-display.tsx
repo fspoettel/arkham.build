@@ -58,10 +58,10 @@ export function DeckDisplay(props: Props) {
           {hasHistory ? (
             <Tabs length={2} defaultValue="deck">
               <TabsList>
-                <TabsTrigger value="deck">
+                <TabsTrigger value="deck" data-testid="tab-deck">
                   <i className="icon-deck" /> Deck
                 </TabsTrigger>
-                <TabsTrigger value="history">
+                <TabsTrigger value="history" data-testid="tab-history">
                   <FileClock /> Upgrade history ({history.length})
                 </TabsTrigger>
               </TabsList>

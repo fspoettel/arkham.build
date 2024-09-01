@@ -12,7 +12,7 @@ export type Toast = ToastPayload & {
   id: string;
 };
 
-export type ToastContextType = {
+type ToastContextType = {
   show: (msg: ToastPayload) => string;
   dismiss: (id: string) => void;
 };

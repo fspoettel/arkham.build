@@ -67,7 +67,6 @@ const sampleDeck = {
 };
 
 const sampleEdits = {
-  meta: {},
   quantities: {
     sideSlots: {
       "05035": 0,
@@ -85,7 +84,6 @@ const sampleEdits = {
       "10104": 1,
     },
   },
-  customizations: {},
   tags: "spells multiplayer",
   name: "Parallel Agnes - Spell Recycling Engine 2.0",
   investigatorFront: "01004",
@@ -100,167 +98,400 @@ describe("deck edits", () => {
     store = await getMockStore();
   });
 
-  it("applies general edits", () => {
-    expect(
-      applyDeckEdits(
+  describe("general", () => {
+    it("applies general edits", () => {
+      expect(
+        applyDeckEdits(
+          sampleDeck,
+          sampleEdits as never,
+          store.getState().metadata,
+        ),
+      ).toMatchInlineSnapshot(`
+        {
+          "date_creation": "2024-02-20T21:59:49+00:00",
+          "date_update": "2024-03-23T09:39:43+00:00",
+          "description_md": "Another description",
+          "exile_string": null,
+          "id": "cdd24868-e3f8-408b-a74f-513a8b10e368",
+          "ignoreDeckLimitSlots": {
+            "06201": 2,
+            "10102": 2,
+          },
+          "investigator_code": "01004",
+          "investigator_name": "Agnes Baker",
+          "meta": "{"alternate_front":null,"alternate_back":"90017","extra_deck":"10103,10104"}",
+          "name": "Parallel Agnes - Spell Recycling Engine 2.0",
+          "next_deck": null,
+          "previous_deck": null,
+          "sideSlots": {
+            "02267": 1,
+            "03025": 2,
+            "04110": 1,
+            "04266": 1,
+            "05280": 1,
+            "08110": 1,
+            "10101": 2,
+            "53009": 1,
+          },
+          "slots": {
+            "01000": 1,
+            "01088": 2,
+            "02157": 1,
+            "03112": 1,
+            "03153": 1,
+            "03270": 2,
+            "03311": 1,
+            "05032": 2,
+            "06117": 2,
+            "06201": 0,
+            "07029": 1,
+            "07032": 2,
+            "08108": 1,
+            "08116": 1,
+            "08125": 1,
+            "10084": 1,
+            "10094": 2,
+            "10102": 4,
+            "53011": 2,
+            "54002": 1,
+            "60423": 1,
+            "90018": 1,
+            "90019": 1,
+          },
+          "taboo_id": 7,
+          "tags": "spells multiplayer",
+          "user_id": 36535,
+          "version": "1.0",
+          "xp": null,
+          "xp_adjustment": 0,
+          "xp_spent": null,
+        }
+      `);
+    });
+
+    it("prunes removed cards when configured to", () => {
+      const result = applyDeckEdits(
         sampleDeck,
         sampleEdits as never,
         store.getState().metadata,
-      ),
-    ).toMatchInlineSnapshot(`
-      {
-        "date_creation": "2024-02-20T21:59:49+00:00",
-        "date_update": "2024-03-23T09:39:43+00:00",
-        "description_md": "Another description",
-        "exile_string": null,
-        "id": "cdd24868-e3f8-408b-a74f-513a8b10e368",
-        "ignoreDeckLimitSlots": {
-          "06201": 2,
-          "10102": 2,
-        },
-        "investigator_code": "01004",
-        "investigator_name": "Agnes Baker",
-        "meta": "{"alternate_front":null,"alternate_back":"90017","extra_deck":"10103,10104"}",
-        "name": "Parallel Agnes - Spell Recycling Engine 2.0",
-        "next_deck": null,
-        "previous_deck": null,
-        "sideSlots": {
-          "02267": 1,
-          "03025": 2,
-          "04110": 1,
-          "04266": 1,
-          "05280": 1,
-          "08110": 1,
-          "10101": 2,
-          "53009": 1,
-        },
-        "slots": {
+        true,
+      );
+
+      expect(result.slots["06201"]).not.toBeDefined();
+      expect(result.ignoreDeckLimitSlots?.["06201"]).not.toBeDefined();
+    });
+  });
+
+  describe("customizations", () => {
+    it("applies customization edits", () => {
+      const deck = {
+        id: 3907687,
+        name: "The Adventures of Carolyn Fern",
+        date_creation: "2024-06-02T14:33:31+00:00",
+        date_update: "2024-06-02T14:35:10+00:00",
+        description_md: "",
+        user_id: null,
+        investigator_code: "98010",
+        investigator_name: "Carolyn Fern",
+        slots: {
           "01000": 1,
-          "01088": 2,
-          "02157": 1,
-          "03112": 1,
-          "03153": 1,
-          "03270": 2,
-          "03311": 1,
-          "05032": 2,
-          "06117": 2,
-          "06201": 0,
-          "07029": 1,
-          "07032": 2,
-          "08108": 1,
-          "08116": 1,
-          "08125": 1,
-          "10084": 1,
-          "10094": 2,
-          "10102": 4,
-          "53011": 2,
-          "54002": 1,
-          "60423": 1,
-          "90018": 1,
-          "90019": 1,
+          "05007": 1,
+          "05008": 1,
+          "09022": 2,
+          "09040": 2,
+          "09079": 2,
+          "09101": 2,
         },
-        "taboo_id": 7,
-        "tags": "spells multiplayer",
-        "user_id": 36535,
-        "version": "1.0",
-        "xp": null,
-        "xp_adjustment": 0,
-        "xp_spent": null,
-      }
-    `);
+        sideSlots: [],
+        ignoreDeckLimitSlots: null,
+        version: "0.1",
+        xp: null,
+        xp_spent: null,
+        xp_adjustment: 0,
+        exile_string: null,
+        taboo_id: null,
+        meta: '{"cus_09022":"0|1,1|1,2|0","cus_09101":"0|0|Illicit,3|2","cus_09079":"0|0|intellect,1|1","cus_09040":"0|1,1|1,2|1"}',
+        tags: "guardian",
+        previous_deck: null,
+        next_deck: null,
+        problem: "invalid_cards",
+      };
+
+      const edits = {
+        customizations: {
+          "09040": {
+            "0": {
+              xp_spent: 1,
+            },
+            "1": {
+              xp_spent: 0,
+            },
+            "2": {
+              xp_spent: 0,
+            },
+          },
+          "09022": {
+            "2": {
+              xp_spent: 1,
+            },
+          },
+          "09079": {
+            "2": {
+              xp_spent: 0,
+            },
+            "4": {
+              xp_spent: 2,
+              selections: ["combat"],
+            },
+          },
+          "09101": {
+            "3": {
+              xp_spent: 3,
+            },
+          },
+        },
+      };
+
+      const result = applyDeckEdits(
+        deck,
+        edits as never,
+        store.getState().metadata,
+      );
+
+      expect(result.meta).toMatchInlineSnapshot(
+        `"{"cus_09022":"0|1,1|1,2|1","cus_09101":"0|0|Illicit,3|3","cus_09079":"0|0|intellect,1|1,2|0,4|2|combat","cus_09040":"0|1,1|0,2|0"}"`,
+      );
+    });
+
+    it("keeps customizations for deleted cards by default", () => {
+      const deck = {
+        slots: {
+          "01000": 1,
+          "01006": 1,
+          "01007": 1,
+          "09022": 2,
+        },
+        meta: '{"cus_09022":"0|1,1|1"}',
+      };
+
+      const edits = {
+        quantities: {
+          slots: {
+            "09022": 0,
+          },
+        },
+      };
+
+      const result = applyDeckEdits(
+        deck as never,
+        edits as never,
+        store.getState().metadata,
+      );
+
+      expect(result.meta).toMatchInlineSnapshot(`"{"cus_09022":"0|1,1|1"}"`);
+    });
+
+    it("prunes customizations for deleted cards when configured", () => {
+      const deck = {
+        slots: {
+          "01000": 1,
+          "01006": 1,
+          "01007": 1,
+          "09022": 2,
+        },
+        meta: '{"cus_09022":"0|1,1|1"}',
+      };
+
+      const edits = {
+        quantities: {
+          slots: {
+            "09022": 0,
+          },
+        },
+      };
+
+      const result = applyDeckEdits(
+        deck as never,
+        edits as never,
+        store.getState().metadata,
+        true,
+      );
+
+      expect(result.meta).toMatchInlineSnapshot(`"{}"`);
+    });
+
+    it("does not prune customizations if deck is an upgrade", () => {
+      const deck = {
+        slots: {
+          "01000": 1,
+          "01006": 1,
+          "01007": 1,
+          "09022": 2,
+        },
+        meta: '{"cus_09022":"0|1,1|1"}',
+        previous_deck: 1234,
+      };
+
+      const edits = {
+        quantities: {
+          slots: {
+            "09022": 0,
+          },
+        },
+      };
+
+      const result = applyDeckEdits(
+        deck as never,
+        edits as never,
+        store.getState().metadata,
+        true,
+      );
+
+      expect(result.meta).toMatchInlineSnapshot(`"{"cus_09022":"0|1,1|1"}"`);
+    });
   });
 
-  it("deletes empty slots when configured to", () => {
-    const result = applyDeckEdits(
-      sampleDeck,
-      sampleEdits as never,
-      store.getState().metadata,
-      true,
-    );
+  describe("attachments", () => {
+    it("applies attachment additions", () => {
+      const deck = {
+        slots: {
+          "01000": 1,
+          "04006": 1,
+          "04007": 1,
+          "03264": 1,
+          "09077": 1,
+          "07305": 2,
+          "02109": 2,
+        },
+        meta: '{"attachments_09077":null,"attachments_03264":null}',
+      };
 
-    expect(result.slots["06201"]).not.toBeDefined();
-    expect(result.ignoreDeckLimitSlots?.["06201"]).not.toBeDefined();
-  });
-
-  it("merges customizations", () => {
-    const deck = {
-      id: 3907687,
-      name: "The Adventures of Carolyn Fern",
-      date_creation: "2024-06-02T14:33:31+00:00",
-      date_update: "2024-06-02T14:35:10+00:00",
-      description_md: "",
-      user_id: null,
-      investigator_code: "98010",
-      investigator_name: "Carolyn Fern",
-      slots: {
-        "01000": 1,
-        "05007": 1,
-        "05008": 1,
-        "09022": 2,
-        "09040": 2,
-        "09079": 2,
-        "09101": 2,
-      },
-      sideSlots: [],
-      ignoreDeckLimitSlots: null,
-      version: "0.1",
-      xp: null,
-      xp_spent: null,
-      xp_adjustment: 0,
-      exile_string: null,
-      taboo_id: null,
-      meta: '{"cus_09022":"0|1,1|1,2|0","cus_09101":"0|0|Illicit,3|2","cus_09079":"0|0|intellect,1|1","cus_09040":"0|1,1|1,2|1"}',
-      tags: "guardian",
-      previous_deck: null,
-      next_deck: null,
-      problem: "invalid_cards",
-    };
-
-    const edits = {
-      meta: {},
-      quantities: {},
-      customizations: {
-        "09040": {
-          "0": {
-            xp_spent: 1,
+      const edits = {
+        attachments: {
+          "09077": {
+            "07305": 2,
+            "02109": 1,
           },
-          "1": {
-            xp_spent: 0,
-          },
-          "2": {
-            xp_spent: 0,
+          "03264": {
+            "02109": 1,
           },
         },
-        "09022": {
-          "2": {
-            xp_spent: 1,
-          },
-        },
-        "09079": {
-          "2": {
-            xp_spent: 0,
-          },
-          "4": {
-            xp_spent: 2,
-            selections: ["combat"],
-          },
-        },
-        "09101": {
-          "3": {
-            xp_spent: 3,
-          },
-        },
-      },
-    };
+      };
 
-    const result = applyDeckEdits(
-      deck,
-      edits as never,
-      store.getState().metadata,
-    );
+      const result = applyDeckEdits(
+        deck as never,
+        edits as never,
+        store.getState().metadata,
+      );
 
-    expect(result.meta).toMatchInlineSnapshot(
-      `"{"cus_09022":"0|1,1|1,2|1","cus_09101":"0|0|Illicit,3|3","cus_09079":"0|0|intellect,1|1,2|0,4|2|combat","cus_09040":"0|1,1|0,2|0"}"`,
-    );
+      expect(result.meta).toMatchInlineSnapshot(
+        `"{"attachments_09077":"07305,07305,02109","attachments_03264":"02109"}"`,
+      );
+    });
+
+    it("applies attachment removals", () => {
+      const deck = {
+        slots: {
+          "01000": 1,
+          "04006": 1,
+          "04007": 1,
+          "03264": 1,
+          "09077": 1,
+          "07305": 2,
+          "02109": 2,
+        },
+        meta: '{"attachments_09077":"07305,07305,02109","attachments_03264":"02109"}',
+      };
+
+      const edits = {
+        attachments: {
+          "09077": {
+            "07305": 1,
+            "02109": 1,
+          },
+          "03264": {
+            "02109": 0,
+          },
+        },
+      };
+
+      const result = applyDeckEdits(
+        deck as never,
+        edits as never,
+        store.getState().metadata,
+      );
+
+      expect(result.meta).toMatchInlineSnapshot(
+        `"{"attachments_09077":"07305,02109","attachments_03264":null}"`,
+      );
+    });
+
+    it("prunes removed attachables when configured", () => {
+      const deck = {
+        slots: {
+          "01000": 1,
+          "04006": 1,
+          "04007": 1,
+          "03264": 1,
+          "09077": 1,
+          "07305": 2,
+          "02109": 2,
+        },
+        meta: '{"attachments_09077":"07305,07305,02109","attachments_03264":"02109"}',
+      };
+
+      const edits = {
+        quantities: {
+          slots: {
+            "09077": 0,
+          },
+        },
+      };
+
+      const result = applyDeckEdits(
+        deck as never,
+        edits as never,
+        store.getState().metadata,
+        true,
+      );
+
+      expect(result.meta).toMatchInlineSnapshot(
+        `"{"attachments_03264":"02109"}"`,
+      );
+    });
+
+    it("prunes removed attachments when configured", () => {
+      const deck = {
+        slots: {
+          "01000": 1,
+          "04006": 1,
+          "04007": 1,
+          "03264": 1,
+          "09077": 1,
+          "07305": 2,
+          "02109": 2,
+        },
+        meta: '{"attachments_09077":"07305,07305,02109","attachments_03264":"02109"}',
+      };
+
+      const edits = {
+        quantities: {
+          slots: {
+            "07305": 0,
+          },
+        },
+      };
+
+      const result = applyDeckEdits(
+        deck as never,
+        edits as never,
+        store.getState().metadata,
+        true,
+      );
+
+      expect(result.meta).toMatchInlineSnapshot(
+        `"{"attachments_09077":"02109","attachments_03264":"02109"}"`,
+      );
+    });
   });
 });

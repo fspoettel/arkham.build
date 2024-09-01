@@ -14,11 +14,11 @@ import { randomId } from "@/utils/crypto";
 import { tryEnablePersistence } from "@/utils/persistence";
 import { time, timeEnd } from "@/utils/time";
 import type { StoreState } from ".";
+import { mapValidationToProblem } from "../lib/deck-io";
+import { decodeDeckMeta } from "../lib/deck-meta";
 import { mappedByCode, mappedById } from "../lib/metadata-utils";
 import { resolveDeck } from "../lib/resolve-deck";
-import { mapValidationToProblem } from "../lib/serialization/deck-io";
-import { decodeDeckMeta } from "../lib/serialization/deck-meta";
-import { decodeExtraSlots, encodeExtraSlots } from "../lib/serialization/slots";
+import { decodeExtraSlots, encodeExtraSlots } from "../lib/slots";
 import type { DeckMeta } from "../lib/types";
 import { selectDeckCreateCardSets } from "../selectors/deck-create";
 import { selectDeckValid } from "../selectors/decks";
@@ -332,6 +332,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     nextDeck.problem = mapValidationToProblem(validation);
 
     const upgrade = selectLatestUpgrade(state, resolved);
+
     if (upgrade) {
       nextDeck.xp_spent = upgrade.xpSpent;
       nextDeck.xp_adjustment = upgrade.xpAdjustment;

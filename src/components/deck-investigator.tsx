@@ -11,6 +11,7 @@ import { formatRelationTitle } from "@/utils/formatting";
 import css from "./deck-investigator.module.css";
 
 import type { ResolvedDeck } from "@/store/lib/types";
+import { CardModalAttachable } from "./card-modal/card-modal-attachable";
 import { CardBack } from "./card/card-back";
 import { CardContainer } from "./card/card-container";
 import { CardFace } from "./card/card-face";
@@ -70,8 +71,12 @@ export function DeckInvestigator(props: Props) {
     </>
   );
 
+  const attachableDefinition = deck?.availableAttachments?.find(
+    (config) => config.code === deck.investigatorBack.card.code,
+  );
+
   return (
-    <>
+    <div className={css["deck-investigator-container"]}>
       <CardContainer
         className={cx(css["deck-investigator"], css[size])}
         data-testid="deck-investigator"
@@ -98,6 +103,13 @@ export function DeckInvestigator(props: Props) {
           })}
         </div>
       )}
-    </>
+      {showRelated && deck && !!attachableDefinition && (
+        <CardModalAttachable
+          card={deck.investigatorBack.card}
+          definition={attachableDefinition}
+          resolvedDeck={deck}
+        />
+      )}
+    </div>
   );
 }

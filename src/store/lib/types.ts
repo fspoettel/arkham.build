@@ -1,3 +1,4 @@
+import type { AttachableDefinition } from "@/utils/constants";
 import type {
   Card,
   Cycle,
@@ -9,6 +10,7 @@ import type {
   Type,
 } from "../services/queries.types";
 import type { Deck } from "../slices/data.types";
+import type { AttachmentQuantities } from "../slices/deck-edits.types";
 import type { Groupings } from "./deck-grouping";
 
 export type ResolvedCard = {
@@ -58,8 +60,6 @@ export type Customizations = Record<
 >;
 
 export type DeckMeta = {
-  [key in `cus_${string}`]: string | null;
-} & {
   alternate_front?: string | null;
   alternate_back?: string | null;
   option_selected?: string | null;
@@ -68,6 +68,10 @@ export type DeckMeta = {
   faction_2?: string | null;
   deck_size_selected?: string | null;
   extra_deck?: string | null;
+} & {
+  [key in `cus_${string}`]: string | null;
+} & {
+  [key in `attachments_${string}`]: string | null;
 };
 
 type DeckSizeSelection = {
@@ -104,6 +108,8 @@ export type Selection = OptionSelection | FactionSelection | DeckSizeSelection;
 export type Selections = Record<string, Selection>;
 
 export type ResolvedDeck = Omit<Deck, "sideSlots"> & {
+  attachments: AttachmentQuantities | undefined;
+  availableAttachments: AttachableDefinition[];
   metaParsed: DeckMeta;
   sideSlots: Record<string, number> | null; // arkhamdb stores `[]` when empty, normalize to `null`.
   extraSlots: Record<string, number> | null;
