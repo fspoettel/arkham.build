@@ -22,7 +22,7 @@ export function Sharing(props: Props) {
   const deleteShare = useStore((state) => state.deleteShare);
   const updateShare = useStore((state) => state.updateShare);
 
-  async function withToast(fn: () => Promise<void>, action: string) {
+  async function withToast(fn: () => Promise<unknown>, action: string) {
     const id = toast.show({
       children: `${capitalize(action)} share...`,
     });
