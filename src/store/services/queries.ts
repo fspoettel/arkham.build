@@ -1,6 +1,7 @@
 import type { Deck } from "../slices/data.types";
 import { isDeck } from "../slices/data.types";
 import cards from "./data/cards.json";
+import encounterSets from "./data/encounter_sets.json";
 import factions from "./data/factions.json";
 import packs from "./data/packs.json";
 import reprintPacks from "./data/reprint_packs.json";
@@ -77,6 +78,7 @@ export async function queryMetadata(): Promise<MetadataResponse> {
 
   return {
     ...data,
+    card_encounter_set: [...data.card_encounter_set, ...encounterSets],
     pack: [...data.pack, ...packs],
     reprint_pack: reprintPacks,
     faction: factions,
