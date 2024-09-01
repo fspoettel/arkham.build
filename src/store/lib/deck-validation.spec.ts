@@ -31,6 +31,7 @@ import limitOnYourOwn from "@/test/fixtures/decks/validation/limit_onyourown.jso
 import limitOnYourOwnCustomizable from "@/test/fixtures/decks/validation/limit_onyourown_customizable.json";
 import limitOnYourOwnCustomizableInvalid from "@/test/fixtures/decks/validation/limit_onyourown_customizable_invalid.json";
 import limitOnYourOwnInvalid from "@/test/fixtures/decks/validation/limit_onyourown_invalid.json";
+import limitOnYourOwnStory from "@/test/fixtures/decks/validation/limit_onyourown_valid_story.json";
 import limitTrait from "@/test/fixtures/decks/validation/limit_trait.json";
 import limitTraitInvalid from "@/test/fixtures/decks/validation/limit_trait_invalid.json";
 import limitVersatile from "@/test/fixtures/decks/validation/limit_versatile.json";
@@ -685,6 +686,11 @@ describe("deck validation", () => {
 
       it("handles case: on your own + summoned servitor, valid", () => {
         const result = validate(store, limitOnYourOwnCustomizable);
+        expect(result.valid).toBeTruthy();
+      });
+
+      it("handles case: on your own + story assets", () => {
+        const result = validate(store, limitOnYourOwnStory);
         expect(result.valid).toBeTruthy();
       });
 
