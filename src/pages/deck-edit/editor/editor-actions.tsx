@@ -43,15 +43,17 @@ export function EditorActions(props: Props) {
       });
 
       try {
-        await updateShare(deck.id as string);
+        const updated = await updateShare(deck.id as string);
 
         toast.dismiss(toastId);
 
-        toast.show({
-          children: "Share update successful.",
-          duration: 3000,
-          variant: "success",
-        });
+        if (updated) {
+          toast.show({
+            children: "Share update successful.",
+            duration: 3000,
+            variant: "success",
+          });
+        }
       } catch (err) {
         toast.dismiss(toastId);
 

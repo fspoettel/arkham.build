@@ -63,6 +63,8 @@ export const createSharingSlice: StateCreator<
         },
       },
     });
+
+    return id;
   },
 
   async deleteShare(id) {
