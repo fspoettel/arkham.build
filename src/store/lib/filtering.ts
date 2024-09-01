@@ -787,7 +787,11 @@ function makePlayerCardsFilter(
     ors.push(
       filterRequired(code, lookupTables.relations),
       (card: Card) => card.subtype_code === "basicweakness",
-      (card: Card) => !!card.encounter_code && card.faction_code !== "mythos",
+      (card: Card) =>
+        !!card.encounter_code &&
+        !card.back_link_id &&
+        !card.double_sided &&
+        card.faction_code !== "mythos",
     );
   }
 
