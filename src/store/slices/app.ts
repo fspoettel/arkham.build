@@ -229,6 +229,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     const deck = createDeck({
       investigator_code: state.deckCreate.investigatorCode,
+      investigator_name: back.real_name,
       name: state.deckCreate.title,
       slots,
       meta: JSON.stringify(meta),

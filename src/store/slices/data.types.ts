@@ -20,6 +20,7 @@ export type Deck = {
   ignoreDeckLimitSlots: Slots | null;
   id: Id;
   investigator_code: string;
+  investigator_name: string;
   meta: string;
   name: string;
   next_deck: Id | null;

@@ -3,6 +3,7 @@ import { randomId } from "@/utils/crypto";
 
 type Payload = {
   investigator_code: string;
+  investigator_name: string;
   name: string;
   slots: Record<string, number>;
 } & Partial<Omit<Deck, "id" | "date_creation" | "date_update">>;
