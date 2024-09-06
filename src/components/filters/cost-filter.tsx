@@ -68,6 +68,15 @@ export function CostFilter({ id }: { id: number }) {
     [setFilter, id],
   );
 
+  const onSetNoCost = useCallback(
+    (val: boolean | string) => {
+      setFilter(id, {
+        nocost: !!val,
+      });
+    },
+    [setFilter, id],
+  );
+
   const onOpenChange = useCallback(
     (val: boolean) => {
       if (val && !filter.value.range) {
@@ -119,6 +128,13 @@ export function CostFilter({ id }: { id: number }) {
           id="cost-x"
           label={<i className="icon-x" />}
           onCheckedChange={onSetX}
+        />
+        <Checkbox
+          data-testid="filters-cost-nocost"
+          checked={filter.value.nocost}
+          id="cost-nocost"
+          label="No cost"
+          onCheckedChange={onSetNoCost}
         />
       </CheckboxGroup>
     </FilterContainer>

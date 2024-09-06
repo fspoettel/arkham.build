@@ -148,8 +148,12 @@ function filterOddCost(card: Card) {
   return card.cost != null && card.cost % 2 !== 0;
 }
 
-function filterXCost(xCost: boolean) {
-  return (card: Card) => xCost && card.cost === -2;
+function filterXCost(card: Card) {
+  return card.cost === -2;
+}
+
+function filterNoCost(card: Card) {
+  return card.cost === undefined;
 }
 
 function filterCardCost(value: [number, number]) {
@@ -173,7 +177,12 @@ export function filterCost(filterState: CostFilter) {
 
   filters.push(or(moduloFilters));
 
-  const filter = or([filterXCost(filterState.x), and(filters)]);
+  const altCostFilters = [];
+
+  if (filterState.x) altCostFilters.push(filterXCost);
+  if (filterState.nocost) altCostFilters.push(filterNoCost);
+
+  const filter = or([...altCostFilters, and(filters)]);
 
   return (card: Card) => filter(card);
 }

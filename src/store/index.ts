@@ -31,5 +31,11 @@ const stateCreator = (...args: [any, any, any]) => ({
 export const useStore = create<StoreState>()(
   import.meta.env.MODE === "test"
     ? stateCreator
-    : devtools(persist(stateCreator, storageConfig)),
+    : devtools(persist(stateCreator, storageConfig), {
+        serialize: {
+          options: {
+            map: true,
+          },
+        },
+      }),
 );
