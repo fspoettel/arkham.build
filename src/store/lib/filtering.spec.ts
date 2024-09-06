@@ -677,10 +677,10 @@ describe("filter: cost", () => {
       nocost: true,
     };
 
-    expect(applyFilter(state, "09011", config)).toBeTruthy(); // X
+    expect(applyFilter(state, "09011", config)).toBeTruthy(); // An investigator card
     expect(
       applyFilter(state, "09011", { ...config, nocost: false }),
-    ).toBeFalsy(); // X
+    ).toBeFalsy();
   });
 });
 
