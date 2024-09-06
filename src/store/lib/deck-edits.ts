@@ -166,7 +166,7 @@ function applyInvestigatorSide(
   return current === deck.investigator_code ? null : current;
 }
 
-export function mergeAttachmentEdits(
+function mergeAttachmentEdits(
   edits: EditState,
   deck: Deck,
   deckMeta: DeckMeta,
@@ -188,7 +188,7 @@ export function mergeAttachmentEdits(
 
   if (pruneDeletions) {
     for (const [targetCode, entries] of Object.entries(attachments)) {
-      if (!deck.slots[targetCode]) {
+      if (!deck.slots[targetCode] && deck.investigator_code !== targetCode) {
         delete attachments[targetCode];
       }
 

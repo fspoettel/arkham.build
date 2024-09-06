@@ -26,7 +26,7 @@ export function attachmentDefinitionLimit(
   );
 }
 
-export type AttachmentsChangeHandler =
+type AttachmentsChangeHandler =
   | ((definition: AttachableDefinition, card: Card, delta: number) => void)
   | undefined;
 
