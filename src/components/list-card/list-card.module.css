@@ -6,6 +6,8 @@
   padding: var(--card-spacing-y) 0.625rem var(--card-spacing-y) 0.25rem;
   min-height: calc(var(--card-image-height) + 2 * var(--card-spacing-y));
 
+  width: 100%;
+
   gap: var(--card-spacing-y) var(--card-spacing-x);
   display: grid;
   align-items: center;

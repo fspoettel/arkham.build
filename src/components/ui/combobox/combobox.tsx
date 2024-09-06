@@ -60,6 +60,7 @@ type Props<T extends Coded> = {
   itemToString?: (item: T) => string;
   label: React.ReactNode;
   limit?: number;
+  omitItemPadding?: boolean;
   onValueChange?: (value: string[]) => void;
   placeholder?: string;
   readonly?: boolean;
@@ -81,6 +82,7 @@ export function Combobox<T extends Coded>(props: Props<T>) {
     label,
     limit,
     placeholder,
+    omitItemPadding,
     onValueChange,
     readonly,
     renderItem = defaultRenderer,
@@ -263,6 +265,7 @@ export function Combobox<T extends Coded>(props: Props<T>) {
                 activeIndex={activeIndex}
                 items={filteredItems}
                 listRef={listRef}
+                omitItemPadding={omitItemPadding}
                 renderItem={renderItem}
                 selectedItems={selectedItems}
                 setActiveIndex={setActiveIndex}
