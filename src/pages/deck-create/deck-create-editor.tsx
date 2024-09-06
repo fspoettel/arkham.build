@@ -7,7 +7,7 @@ import type { SelectOption } from "@/components/ui/select";
 import { Select } from "@/components/ui/select";
 import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
-import { decodeSelections } from "@/store/lib/serialization/deck-meta";
+import { decodeSelections } from "@/store/lib/deck-meta";
 import type { CardWithRelations } from "@/store/lib/types";
 import {
   selectDeckCreateChecked,

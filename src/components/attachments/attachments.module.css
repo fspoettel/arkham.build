@@ -1,0 +1,21 @@
+.attachments {
+  list-style: none;
+  color: var(--nord-4);
+  display: inline-flex;
+  gap: 0.25rem;
+}
+
+.attachment {
+  flex: 0 0 auto;
+}
+
+.attachment-quantity {
+  color: var(--nord-4);
+}
+
+.attachment-content {
+  display: inline-flex;
+  gap: 0.125rem;
+  min-height: 1rem;
+  font-size: var(--text-xs);
+}

@@ -9,9 +9,8 @@ import type { Tab } from "@/store/slices/deck-edits.types";
 import css from "./editor.module.css";
 
 import type { ResolvedDeck } from "@/store/lib/types";
-import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import type { Card } from "@/store/services/queries.types";
 import { useAccentColor } from "@/utils/use-accent-color";
-import { DrawBasicWeakness } from "./draw-basic-weakness";
 import { EditorActions } from "./editor-actions";
 import { InvestigatorListcard } from "./investigator-listcard";
 import { MetaEditor } from "./meta-editor";
@@ -21,11 +20,13 @@ type Props = {
   currentTab: Tab;
   onTabChange: (tab: Tab) => void;
   deck: ResolvedDeck;
+  renderListCardAfter?: (card: Card, quantity?: number) => React.ReactNode;
   validation?: DeckValidationResult;
 };
 
 export function Editor(props: Props) {
-  const { currentTab, onTabChange, deck, validation } = props;
+  const { currentTab, onTabChange, deck, renderListCardAfter, validation } =
+    props;
 
   const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
 
@@ -44,24 +45,20 @@ export function Editor(props: Props) {
         value={currentTab}
       >
         <TabsList className={css["editor-tabs-list"]}>
-          <TabsTrigger value="slots" data-testid="editor-tabs-trigger-slots">
+          <TabsTrigger value="slots" data-testid="editor-tab-slots">
             Deck
           </TabsTrigger>
-          <TabsTrigger
-            value="sideSlots"
-            data-testid="editor-tabs-trigger-sideslots"
-          >
+          <TabsTrigger value="sideSlots" data-testid="editor-tab-sideslots">
             Side
           </TabsTrigger>
           {deck.hasExtraDeck && (
-            <TabsTrigger
-              value="extraSlots"
-              data-testid="editor-tabs-trigger-extraslots"
-            >
+            <TabsTrigger value="extraSlots" data-testid="editor-tab-extraslots">
               Spirits
             </TabsTrigger>
           )}
-          <TabsTrigger value="meta">Meta</TabsTrigger>
+          <TabsTrigger value="meta" data-testid="editor-tab-meta">
+            Meta
+          </TabsTrigger>
         </TabsList>
 
         <Scroller className={css["editor-tabs-content"]}>
@@ -73,12 +70,7 @@ export function Editor(props: Props) {
                 layout="two_column"
                 listCardSize="sm"
                 mapping="slots"
-                renderListCardAfter={(card, quantity) => {
-                  return card.code ===
-                    SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS ? (
-                    <DrawBasicWeakness deckId={deck.id} quantity={quantity} />
-                  ) : null;
-                }}
+                renderListCardAfter={renderListCardAfter}
                 quantities={deck.slots}
               />
             </DecklistSection>

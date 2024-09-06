@@ -114,20 +114,19 @@ export const createDeckCreateSlice: StateCreator<
     });
   },
 
-  deckCreateChangeExtraCardQuantity(code, quantity) {
+  deckCreateChangeExtraCardQuantity(card, quantity) {
     const state = get();
     assert(state.deckCreate, "DeckCreate slice must be initialized.");
 
-    const card = state.metadata.cards[code];
     const currentQuantity =
-      state.deckCreate.extraCardQuantities[code] ?? card.quantity;
+      state.deckCreate.extraCardQuantities[card.code] ?? card.quantity;
 
     set({
       deckCreate: {
         ...state.deckCreate,
         extraCardQuantities: {
           ...state.deckCreate.extraCardQuantities,
-          [code]: currentQuantity + quantity,
+          [card.code]: currentQuantity + quantity,
         },
       },
     });

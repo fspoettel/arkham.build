@@ -1,0 +1,31 @@
+{
+  "id": "cwWpqYyWaCazAYf",
+  "date_creation": "2024-09-06T10:32:27.228Z",
+  "date_update": "2024-09-06T11:32:12.059Z",
+  "description_md": "",
+  "meta": "{\"attachments_09077\":\"07305,07305,02109\",\"attachments_03264\":\"02109\"}",
+  "ignoreDeckLimitSlots": {},
+  "sideSlots": {},
+  "next_deck": null,
+  "previous_deck": null,
+  "tags": "",
+  "version": "0.1",
+  "taboo_id": 7,
+  "xp": null,
+  "xp_spent": null,
+  "exile_string": null,
+  "xp_adjustment": null,
+  "investigator_code": "04001",
+  "investigator_name": "Leo Anderson",
+  "name": "The Adventures of Leo Anderson",
+  "slots": {
+    "01000": 1,
+    "04006": 1,
+    "04007": 1,
+    "03264": 1,
+    "09077": 1,
+    "07305": 2,
+    "02109": 2
+  },
+  "problem": "too_few_cards"
+}

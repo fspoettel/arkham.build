@@ -42,11 +42,7 @@ export type Props = {
   limitOverride?: number;
   omitBorders?: boolean;
   omitThumbnail?: boolean;
-  onChangeCardQuantity?: (
-    code: string,
-    quantity: number,
-    limit: number,
-  ) => void;
+  onChangeCardQuantity?: (card: Card, quantity: number, limit: number) => void;
   ownedCount?: number;
   quantity?: number;
   referenceProps?: React.ComponentProps<"div">;
@@ -94,9 +90,9 @@ export function ListCardInner(props: Props) {
 
   const onQuantityChange = useCallback(
     (val: number, limit: number) => {
-      onChangeCardQuantity?.(card.code, val, limit);
+      onChangeCardQuantity?.(card, val, limit);
     },
-    [onChangeCardQuantity, card.code],
+    [onChangeCardQuantity, card],
   );
 
   const openModal = useCallback(() => {

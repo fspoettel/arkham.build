@@ -55,7 +55,7 @@ a.button {
 }
 
 .button.bare {
-  color: var(--nord-5);
+  color: currentColor;
   background: none;
   border: none;
 }
@@ -96,4 +96,9 @@ a.button {
 
 .button.lg.icon-only {
   padding: 0.5rem;
+}
+
+.button.none.icon-only {
+  padding: 0;
+  font-size: inherit;
 }

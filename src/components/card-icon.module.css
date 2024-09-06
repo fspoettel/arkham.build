@@ -21,23 +21,16 @@
 
 .icon-child,
 .icon-children {
-  position: absolute;
   color: currentColor;
-  z-index: 2;
-  font-size: 0.5em;
-  line-height: 1;
   color: var(--nord-0);
-}
-
-.icon-child,
-.icon-children {
-  width: 100%;
+  font-size: 0.5em;
+  left: 0;
+  line-height: 1;
+  position: absolute;
   text-align: center;
-}
-
-.icon-child,
-.icon-children {
   top: 16.667%;
+  width: 100%;
+  z-index: 2;
 }
 
 .icon_skill .icon-child {

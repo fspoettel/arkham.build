@@ -103,6 +103,7 @@ export function EditorActions(props: Props) {
       <LatestUpgrade currentTab={currentTab} deck={deck} overflowScroll />
       <div className={css["actions"]}>
         <Button
+          data-testid="editor-save"
           onClick={() => {
             onSave();
           }}
@@ -112,6 +113,7 @@ export function EditorActions(props: Props) {
           Save
         </Button>
         <Button
+          data-testid="editor-discard"
           onClick={() => {
             onDiscard();
           }}

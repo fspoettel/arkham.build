@@ -14,6 +14,7 @@ type Props<T extends Coded> = {
   activeIndex: number | undefined;
   items: T[];
   listRef: React.MutableRefObject<HTMLElement[]>;
+  omitItemPadding?: boolean;
   renderItem: (t: T) => React.ReactNode;
   selectedItems: string[];
   setActiveIndex: (i: number) => void;
@@ -25,6 +26,7 @@ export function ComboboxMenu<T extends Coded>(props: Props<T>) {
     activeIndex,
     items,
     listRef,
+    omitItemPadding,
     renderItem,
     selectedItems,
     setActiveIndex,
@@ -64,7 +66,11 @@ export function ComboboxMenu<T extends Coded>(props: Props<T>) {
           return (
             // biome-ignore lint/a11y/useKeyWithClickEvents: TODO.
             <div
-              className={cx(css["menu-item"], active && css["active"])}
+              className={cx(
+                css["menu-item"],
+                active && css["active"],
+                !omitItemPadding && css["padded"],
+              )}
               id={item.code}
               onClick={() => {
                 setSelectedItem(item);

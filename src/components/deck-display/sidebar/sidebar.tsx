@@ -141,7 +141,10 @@ export function Sidebar(props: Props) {
 
       {deck.previous_deck && (
         <section className={css["details"]} data-testid="share">
-          <div className={cx(css["detail"], css["full"])}>
+          <div
+            className={cx(css["detail"], css["full"])}
+            data-testid="view-latest-upgrade"
+          >
             <header>
               <h3 className={css["detail-label"]}>
                 <i className="icon-upgrade" />

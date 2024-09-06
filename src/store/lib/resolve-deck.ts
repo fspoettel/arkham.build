@@ -1,14 +1,22 @@
-import { ALT_ART_INVESTIGATOR_MAP } from "@/utils/constants";
+import {
+  ALT_ART_INVESTIGATOR_MAP,
+  ATTACHABLE_CARDS,
+  type AttachableDefinition,
+} from "@/utils/constants";
 
 import { decodeExileSlots } from "@/utils/card-utils";
 import type { Deck } from "../slices/data.types";
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
 import { addGroupingsToDeck } from "./deck-grouping";
+import {
+  decodeAttachments,
+  decodeCustomizations,
+  decodeDeckMeta,
+  decodeSelections,
+} from "./deck-meta";
 import { resolveCardWithRelations } from "./resolve-card";
-import { decodeCustomizations } from "./serialization/customizable";
-import { decodeDeckMeta, decodeSelections } from "./serialization/deck-meta";
-import { decodeExtraSlots, decodeSlots } from "./serialization/slots";
+import { decodeExtraSlots, decodeSlots } from "./slots";
 import type { CardWithRelations, DeckMeta, ResolvedDeck } from "./types";
 
 /**
@@ -68,6 +76,7 @@ export function resolveDeck(
   const exileSlots = decodeExileSlots(deck.exile_string);
 
   const extraSlots = decodeExtraSlots(deckMeta);
+
   const customizations = decodeCustomizations(deckMeta, metadata);
 
   const { cards, deckSize, deckSizeTotal, xpRequired } = decodeSlots(
@@ -79,8 +88,20 @@ export function resolveDeck(
     customizations,
   );
 
+  const availableAttachments = Object.entries(ATTACHABLE_CARDS).reduce<
+    AttachableDefinition[]
+  >((acc, [code, value]) => {
+    if (investigatorBack.card.code === code || !!deck.slots[code]) {
+      acc.push(value);
+    }
+
+    return acc;
+  }, []);
+
   const resolved = {
     ...deck,
+    attachments: decodeAttachments(deckMeta),
+    availableAttachments,
     cards,
     customizations,
     extraSlots,

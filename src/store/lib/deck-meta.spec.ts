@@ -4,14 +4,14 @@ import type { StoreApi } from "zustand";
 import type { StoreState } from "@/store/slices";
 import { getMockStore } from "@/test/get-mock-store";
 
-import type { Customizations } from "../types";
-import { decodeCustomizations, encodeCustomizations } from "./customizable";
+import { decodeCustomizations, encodeCustomizations } from "./deck-meta";
+import type { Customizations } from "./types";
 
 const sampleCustomizations = JSON.parse(
   '{"cus_09079":"0|0|willpower,4|2|intellect,5|3|agility,1|1","cus_09080":"5|2|0,1|1,3|0","cus_09021":"2|2,0|1,3|2,1|1,4|2,5|0","cus_09081":"1|1,7|3","cus_09022":"0|1,1|1","cus_09042":"0|0|07159,2|1,4|2|07159^01031","cus_09101":"1|1|Practiced,0|0|Innate^Expert,2|0","cus_09061":"6|3","cus_09060":"0|0|Innate,5|2,2|2|Illicit,1|0,3|0","cus_09040":"4|2,1|1,0|1,5|4,6|5","cus_09041":"5|2,1|1"}',
 );
 
-describe("it decodes customizations", () => {
+describe("decodeCustomizations()", () => {
   let store: StoreApi<StoreState>;
 
   beforeAll(async () => {
@@ -231,7 +231,7 @@ describe("it decodes customizations", () => {
   });
 });
 
-describe("encode customizations", () => {
+describe("encodeCustomizations()", () => {
   let store: StoreApi<StoreState>;
 
   beforeAll(async () => {

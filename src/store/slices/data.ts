@@ -9,7 +9,7 @@ import {
   formatDeckAsText,
   formatDeckExport,
   formatDeckImport,
-} from "../lib/serialization/deck-io";
+} from "../lib/deck-io";
 import { selectResolvedDeckById } from "../selectors/decks";
 import { selectClientId } from "../selectors/shared";
 import { importDeck } from "../services/queries";
