@@ -54,6 +54,8 @@ function getPackIcon(code?: string) {
     case "tde":
       return "dream";
 
+    case "ticc":
+    case "ticp":
     case "tic":
       return "tic";
 

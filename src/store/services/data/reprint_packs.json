@@ -88,5 +88,23 @@
     "reprint": {
       "type": "encounter"
     }
+  },
+  {
+    "code": "ticc",
+    "cycle_code": "tic",
+    "position": -1,
+    "real_name": "The Innsmouth Conspiracy Campaign Expansion",
+    "reprint": {
+      "type": "encounter"
+    }
+  },
+  {
+    "code": "ticp",
+    "cycle_code": "tic",
+    "position": -2,
+    "real_name": "The Innsmouth Conspiracy Investigator Expansion",
+    "reprint": {
+      "type": "player"
+    }
   }
 ]
