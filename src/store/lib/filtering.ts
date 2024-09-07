@@ -153,7 +153,7 @@ function filterXCost(card: Card) {
 }
 
 function filterNoCost(card: Card) {
-  return card.cost === undefined;
+  return card.cost == null;
 }
 
 function filterCardCost(value: [number, number]) {
