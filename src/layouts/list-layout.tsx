@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useMedia } from "@/utils/use-media";
 
 import { Filter } from "lucide-react";
+import { useStore } from "../store";
 import css from "./list-layout.module.css";
 
 type Props = {
@@ -32,43 +33,51 @@ export function ListLayout(props: Props) {
     sidebarWidthMax,
   } = props;
 
-  const [filtersOpen, onToggleFilters] = useState(false);
-  const [sidebarOpen, onToggleSidebar] = useState(false);
+  const [floatingFiltersOpen, setFloatingFiltersOpen] = useState(false);
+
+  const sidebarOpen = useStore((state) => state.ui.sidebarOpen);
+  const setSidebarOpen = useStore((state) => state.setSidebarOpen);
 
   const filtersRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   const onContentClick = useCallback(
     (evt: React.PointerEvent) => {
-      if (!filtersOpen && !sidebarOpen) return;
+      if (!floatingFiltersOpen && !sidebarOpen) return;
       evt.preventDefault();
-      onToggleFilters(false);
-      onToggleSidebar(false);
+      setFloatingFiltersOpen(false);
+      setSidebarOpen(false);
     },
-    [filtersOpen, sidebarOpen],
+    [floatingFiltersOpen, sidebarOpen, setSidebarOpen],
   );
 
   const preventBubble = useCallback((e: React.PointerEvent) => {
     e.stopPropagation();
   }, []);
 
-  const sidebarVisible = useMedia("(min-width: 52rem)");
-  const filtersVisible = useMedia("(min-width: 75rem)");
+  const layoutWithSidebar = useMedia("(min-width: 52rem)");
+  const layoutWithFilters = useMedia("(min-width: 75rem)");
+
+  console.log(layoutWithSidebar, "layoutWithSidebar");
 
   useEffect(() => {
-    if (sidebarVisible) onToggleSidebar(false);
-  }, [sidebarVisible]);
+    if (layoutWithSidebar) {
+      setSidebarOpen(true);
+    } else {
+      setSidebarOpen(false);
+    }
+  }, [layoutWithSidebar, setSidebarOpen]);
 
   useEffect(() => {
-    if (filtersVisible) onToggleFilters(false);
-  }, [filtersVisible]);
+    if (layoutWithFilters) setFloatingFiltersOpen(false);
+  }, [layoutWithFilters]);
 
   return (
     <div
       className={cx(
         css["layout"],
-        filtersOpen && css["filters-open"],
-        sidebarOpen && css["sidebar-open"],
+        floatingFiltersOpen && css["filters-open"],
+        sidebarOpen && !layoutWithSidebar && css["floating-sidebar-open"],
         "fade-in",
         className,
       )}
@@ -88,13 +97,15 @@ export function ListLayout(props: Props) {
       </div>
       <div
         className={css["content"]}
-        onPointerDown={sidebarOpen || filtersOpen ? onContentClick : undefined}
+        onPointerDown={
+          sidebarOpen || floatingFiltersOpen ? onContentClick : undefined
+        }
       >
         {children({
           slotLeft: (
             <Button
               className={css["toggle-sidebar"]}
-              onClick={() => onToggleSidebar(true)}
+              onClick={() => setSidebarOpen(true)}
             >
               <i className="icon-deck" />
             </Button>
@@ -102,7 +113,7 @@ export function ListLayout(props: Props) {
           slotRight: (
             <Button
               className={css["toggle-filters"]}
-              onClick={() => onToggleFilters(true)}
+              onClick={() => setFloatingFiltersOpen(true)}
             >
               <Filter />
             </Button>
@@ -111,8 +122,8 @@ export function ListLayout(props: Props) {
       </div>
       <nav
         className={css["filters"]}
-        data-state={filtersOpen ? "open" : "closed"}
-        onPointerDown={filtersOpen ? preventBubble : undefined}
+        data-state={floatingFiltersOpen ? "open" : "closed"}
+        onPointerDown={floatingFiltersOpen ? preventBubble : undefined}
         ref={filtersRef}
       >
         {filters}

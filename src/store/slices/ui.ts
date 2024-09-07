@@ -9,6 +9,7 @@ function getInitialUIState(): UIState {
       hydrated: false,
       initialized: false,
       showUnusableCards: false,
+      sidebarOpen: false,
     },
   };
 }
@@ -23,5 +24,8 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
   },
   setShowUnusableCards(showUnusableCards: boolean) {
     set({ ui: { ...get().ui, showUnusableCards } });
+  },
+  setSidebarOpen(sidebarOpen: boolean) {
+    set({ ui: { ...get().ui, sidebarOpen } });
   },
 });

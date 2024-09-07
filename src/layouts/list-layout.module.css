@@ -27,9 +27,9 @@
     grid-template-columns: var(--sidebar-width-one-col) 1fr;
   }
 
-  &.sidebar-open:not(.filters-open) .filters::after,
-  &.filters-open:not(.sidebar-open) .sidebar::after,
-  &.sidebar-open .content::after,
+  &.floating-sidebar-open:not(.filters-open) .filters::after,
+  &.filters-open:not(.floating-sidebar-open) .sidebar::after,
+  &.floating-sidebar-open .content::after,
   &.filters-open .content::after {
     content: "";
     position: absolute;
