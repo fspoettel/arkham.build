@@ -107,7 +107,7 @@ export function CostFilter({ id }: { id: number }) {
         onValueCommit={onValueCommit}
         value={filter.value.range ?? [min, max]}
       />
-      <CheckboxGroup>
+      <CheckboxGroup cols={2}>
         <Checkbox
           data-testid="filters-cost-even"
           checked={filter.value.even}
@@ -116,18 +116,18 @@ export function CostFilter({ id }: { id: number }) {
           onCheckedChange={onSetEven}
         />
         <Checkbox
-          data-testid="filters-cost-odd"
-          checked={filter.value.odd}
-          id="cost-odd"
-          label="Odd"
-          onCheckedChange={onSetOdd}
-        />
-        <Checkbox
           data-testid="filters-cost-x"
           checked={filter.value.x}
           id="cost-x"
           label={<i className="icon-x" />}
           onCheckedChange={onSetX}
+        />
+        <Checkbox
+          data-testid="filters-cost-odd"
+          checked={filter.value.odd}
+          id="cost-odd"
+          label="Odd"
+          onCheckedChange={onSetOdd}
         />
         <Checkbox
           data-testid="filters-cost-nocost"
