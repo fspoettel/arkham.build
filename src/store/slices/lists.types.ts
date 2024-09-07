@@ -14,6 +14,7 @@ export type CostFilter = {
   even: boolean;
   odd: boolean;
   x: boolean;
+  nocost: boolean;
 };
 
 export type LevelFilter = {

@@ -465,6 +465,7 @@ function makeFilterValue(
               even: false,
               odd: false,
               x: false,
+              nocost: false,
             },
       );
     }
