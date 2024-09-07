@@ -128,6 +128,8 @@ export function applyDeckEdits(
     attachmentEdits,
   );
 
+  console.log(edits.meta);
+
   deck.meta = JSON.stringify({
     ...deckMeta,
     ...edits.meta,

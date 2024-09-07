@@ -1,5 +1,6 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
+import { LimitedCardPoolField } from "@/components/limited-card-pool";
 import { Field, FieldLabel } from "@/components/ui/field";
 import type { SelectOption } from "@/components/ui/select";
 import { Select } from "@/components/ui/select";
@@ -50,6 +51,12 @@ export function MetaEditor(props: Props) {
   const { deck } = props;
 
   const tabooSets = useStore(selectTabooSetSelectOptions);
+
+  const selectedPacks = useMemo(
+    () =>
+      deck.metaParsed.card_pool ? deck.metaParsed.card_pool?.split(",") : [],
+    [deck.metaParsed],
+  );
 
   const updateName = useStore(selectUpdateName);
   const updateDescription = useStore(selectUpdateDescription);
@@ -123,6 +130,13 @@ export function MetaEditor(props: Props) {
       }
     },
     [updateInvestigatorSide, deck.id],
+  );
+
+  const onCardPoolChange = useCallback(
+    (selectedItems: string[]) => {
+      updateMetaProperty(deck.id, "card_pool", selectedItems.join(","));
+    },
+    [updateMetaProperty, deck.id],
   );
 
   return (
@@ -210,6 +224,10 @@ export function MetaEditor(props: Props) {
           value={deck.taboo_id ?? ""}
         />
       </Field>
+      <LimitedCardPoolField
+        selectedItems={selectedPacks}
+        onValueChange={onCardPoolChange}
+      />
       <Field full padded>
         <FieldLabel>Description</FieldLabel>
         <textarea

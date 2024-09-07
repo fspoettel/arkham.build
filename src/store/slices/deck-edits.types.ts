@@ -93,7 +93,7 @@ export type DeckEditsSlice = {
     deckId: Id,
     key: string,
     value: string | null,
-    type: DeckOptionSelectType,
+    type?: DeckOptionSelectType,
   ): void;
 
   updateName(deckId: Id, value: string): void;

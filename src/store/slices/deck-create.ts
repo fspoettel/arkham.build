@@ -131,6 +131,17 @@ export const createDeckCreateSlice: StateCreator<
       },
     });
   },
+  deckCreatesetCardPool(value) {
+    const state = get();
+    assert(state.deckCreate, "DeckCreate slice must be initialized.");
+
+    set({
+      deckCreate: {
+        ...state.deckCreate,
+        cardPool: value,
+      },
+    });
+  },
 });
 
 function isCardSet(value: string): value is CardSet {

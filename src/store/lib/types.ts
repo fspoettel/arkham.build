@@ -68,6 +68,7 @@ export type DeckMeta = {
   faction_2?: string | null;
   deck_size_selected?: string | null;
   extra_deck?: string | null;
+  card_pool?: string | null;
 } & {
   [key in `cus_${string}`]: string | null;
 } & {

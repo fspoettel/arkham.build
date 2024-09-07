@@ -3,8 +3,9 @@
 }
 
 .control-label {
+  display: inline-block;
   font-size: var(--text-sm);
-  margin-bottom: 0.125rem;
+  margin-bottom: 0.25rem;
 }
 
 .control-row {

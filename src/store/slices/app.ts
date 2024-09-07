@@ -227,6 +227,11 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       meta.extra_deck = encodeExtraSlots(extraSlots);
     }
 
+    const cardPool = state.deckCreate.cardPool ?? [];
+    if (cardPool.length) {
+      meta.card_pool = cardPool.join(",");
+    }
+
     const deck = createDeck({
       investigator_code: state.deckCreate.investigatorCode,
       investigator_name: back.real_name,

@@ -52,8 +52,8 @@ export function ListLayout(props: Props) {
     e.stopPropagation();
   }, []);
 
-  const sidebarVisible = useMedia("(min-width: 52rem)");
-  const filtersVisible = useMedia("(min-width: 75rem)");
+  const sidebarVisible = useMedia("screen and (min-width: 52rem)");
+  const filtersVisible = useMedia("screen and (min-width: 75rem)");
 
   useEffect(() => {
     if (sidebarVisible) onToggleSidebar(false);
