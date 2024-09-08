@@ -9,6 +9,7 @@ import { useGoBack } from "@/utils/use-go-back";
 import css from "./settings.module.css";
 
 import { Collection } from "@/components/collection/collection";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast.hooks";
 import { CardDataSync } from "./card-data-sync";
 import { General } from "./general";
@@ -65,14 +66,24 @@ function Settings() {
           <Section title="Card data">
             <CardDataSync />
           </Section>
-          <Section title="General">
-            <TabooSets settings={settings} />
-            <General settings={settings} />
-          </Section>
-          <Section title="Collection">
-            <ShowAllCards settings={settings} />
-            <Collection canEdit settings={settings} />
-          </Section>
+          <Tabs length={2} defaultValue="general">
+            <TabsList>
+              <TabsTrigger value="general">General settings</TabsTrigger>
+              <TabsTrigger value="collection">Collection settings</TabsTrigger>
+            </TabsList>
+            <TabsContent value="general" forceMount>
+              <Section title="General">
+                <TabooSets settings={settings} />
+                <General settings={settings} />
+              </Section>
+            </TabsContent>
+            <TabsContent value="collection" forceMount>
+              <Section title="Collection">
+                <ShowAllCards settings={settings} />
+                <Collection canEdit settings={settings} />
+              </Section>
+            </TabsContent>
+          </Tabs>
         </div>
       </form>
     </AppLayout>

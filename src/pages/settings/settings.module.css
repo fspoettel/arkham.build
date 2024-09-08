@@ -33,6 +33,10 @@
   font-size: var(--text-2xl);
 }
 
+.section {
+  margin-top: 1.5rem;
+}
+
 .section-header {
   margin-bottom: 1.5rem;
 }
