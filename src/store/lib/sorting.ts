@@ -13,6 +13,16 @@ import type { Metadata } from "../slices/metadata.types";
  * Cards
  */
 
+export const SORTING_TYPES: SortingType[] = [
+  "cost",
+  "cycle",
+  "faction",
+  "level",
+  "name",
+  "position",
+  "type",
+];
+
 export type SortFunction = (a: Card, b: Card) => number;
 
 export function sortAlphabetical(a: string, b: string) {

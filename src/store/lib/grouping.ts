@@ -18,6 +18,24 @@ export const NONE = "none";
 const LEVEL_0 = "level0";
 const UPGRADE = "upgrade";
 
+export const PLAYER_GROUPING_TYPES: GroupingType[] = [
+  "base_upgrades",
+  "cost",
+  "cycle",
+  "faction",
+  "level",
+  "slot",
+  "subtype",
+  "type",
+];
+
+export const ENCOUNTER_GROUPING_TYPES: GroupingType[] = [
+  "cycle",
+  "encounter_set",
+  "subtype",
+  "type",
+];
+
 type Key = string | number;
 
 type Grouping<K extends Key = string> = {

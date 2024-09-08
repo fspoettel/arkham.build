@@ -1,0 +1,21 @@
+.items {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.25rem;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.item-content {
+  flex: 1 1 auto;
+}
+
+.item-actions {
+  display: inline-flex;
+  gap: 0.125rem;
+  flex: 0 0 auto;
+}
