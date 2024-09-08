@@ -21,6 +21,7 @@
 }
 
 .diff-quantity {
+  flex: 0 0 auto;
   font-weight: 700;
   border-radius: var(--rounded);
   border: 1px solid var(--nord-1);
