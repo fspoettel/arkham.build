@@ -305,7 +305,7 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
 
     const investigatorAccessFilter = or(ors);
 
-    const cardPool = resolvedDeck.metaParsed.card_pool?.split(",");
+    const cardPool = resolvedDeck.cardPool;
     if (!cardPool?.length) return investigatorAccessFilter;
 
     const packFilter = filterPackCode(cardPool, metadata, lookupTables);

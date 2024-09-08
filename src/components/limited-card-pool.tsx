@@ -35,7 +35,7 @@ export function LimitedCardPoolTag() {
         </ol>
       }
     >
-      <Tag as="li" size="xs">
+      <Tag as="li" size="xs" data-testid="limited-card-pool-tag">
         Limited pool
       </Tag>
     </DefaultTooltip>
@@ -73,6 +73,7 @@ export function LimitedCardPoolField(props: {
 
   return (
     <Field
+      data-testid="limited-card-pool-field"
       full
       padded
       helpText="Investigators, signature cards and story assets are not affected by this selection."

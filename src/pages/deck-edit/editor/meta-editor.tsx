@@ -5,6 +5,7 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import type { SelectOption } from "@/components/ui/select";
 import { Select } from "@/components/ui/select";
 import { useStore } from "@/store";
+import { encodeCardPool } from "@/store/lib/deck-meta";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { selectTabooSetSelectOptions } from "@/store/selectors/lists";
 import type { DeckOptionSelectType } from "@/store/services/queries.types";
@@ -52,11 +53,7 @@ export function MetaEditor(props: Props) {
 
   const tabooSets = useStore(selectTabooSetSelectOptions);
 
-  const selectedPacks = useMemo(
-    () =>
-      deck.metaParsed.card_pool ? deck.metaParsed.card_pool?.split(",") : [],
-    [deck.metaParsed],
-  );
+  const selectedPacks = useMemo(() => deck.cardPool ?? [], [deck.cardPool]);
 
   const updateName = useStore(selectUpdateName);
   const updateDescription = useStore(selectUpdateDescription);
@@ -134,7 +131,7 @@ export function MetaEditor(props: Props) {
 
   const onCardPoolChange = useCallback(
     (selectedItems: string[]) => {
-      updateMetaProperty(deck.id, "card_pool", selectedItems.join(","));
+      updateMetaProperty(deck.id, "card_pool", encodeCardPool(selectedItems));
     },
     [updateMetaProperty, deck.id],
   );

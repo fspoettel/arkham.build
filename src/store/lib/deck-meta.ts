@@ -195,3 +195,11 @@ export function encodeAttachments(attachments: AttachmentQuantities) {
     {},
   );
 }
+
+export function decodeCardPool(deckMeta: DeckMeta) {
+  return deckMeta.card_pool?.split(",");
+}
+
+export function encodeCardPool(cardPool: string[]) {
+  return cardPool.filter((x) => x).join(",");
+}
