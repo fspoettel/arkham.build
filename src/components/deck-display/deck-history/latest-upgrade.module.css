@@ -39,7 +39,7 @@
 }
 
 .container.scroll .content {
-  max-height: min(20rem, 30vh);
+  max-height: 20rem;
 }
 
 .content-row > * + * {

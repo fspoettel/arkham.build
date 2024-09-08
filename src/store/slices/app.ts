@@ -15,7 +15,7 @@ import { tryEnablePersistence } from "@/utils/persistence";
 import { time, timeEnd } from "@/utils/time";
 import type { StoreState } from ".";
 import { mapValidationToProblem } from "../lib/deck-io";
-import { decodeDeckMeta } from "../lib/deck-meta";
+import { decodeDeckMeta, encodeCardPool } from "../lib/deck-meta";
 import { mappedByCode, mappedById } from "../lib/metadata-utils";
 import { resolveDeck } from "../lib/resolve-deck";
 import { decodeExtraSlots, encodeExtraSlots } from "../lib/slots";
@@ -225,6 +225,11 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     if (Object.keys(extraSlots).length) {
       meta.extra_deck = encodeExtraSlots(extraSlots);
+    }
+
+    const cardPool = state.deckCreate.cardPool ?? [];
+    if (cardPool.length) {
+      meta.card_pool = encodeCardPool(cardPool);
     }
 
     const deck = createDeck({

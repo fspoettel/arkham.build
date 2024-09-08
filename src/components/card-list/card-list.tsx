@@ -197,11 +197,12 @@ export function CardList(props: Props) {
     >
       <div className={css["container"]}>
         <CardListNav
+          deck={ctx.resolvedDeck}
           data={data}
           metadata={metadata}
+          onChangeShowCardText={setShowCardText}
           onSelectGroup={onSelectGroup}
           showCardText={showCardText}
-          onChangeShowCardText={setShowCardText}
         />
 
         <Scroller

@@ -156,7 +156,7 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
           validation={validation}
         />
       }
-      sidebarWidthMax="45rem"
+      sidebarWidthMax="var(--sidebar-width-one-col)"
     >
       {(props) => (
         <CardList

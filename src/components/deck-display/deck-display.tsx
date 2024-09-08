@@ -9,6 +9,7 @@ import { FileClock } from "lucide-react";
 import { DeckTags } from "../deck-tags";
 import { Decklist } from "../decklist/decklist";
 import { DecklistValidation } from "../decklist/decklist-validation";
+import { LimitedCardPoolTag } from "../limited-card-pool";
 import { Dialog } from "../ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import css from "./deck-display.module.css";
@@ -50,7 +51,10 @@ export function DeckDisplay(props: Props) {
           <h1 className={css["title"]} data-testid="view-title">
             {deck.name}
           </h1>
-          <DeckTags tags={deck.tags} />
+          <div className={css["tags"]}>
+            <LimitedCardPoolTag />
+            <DeckTags tags={deck.tags} />
+          </div>
         </header>
         <Sidebar className={css["sidebar"]} deck={deck} owned={owned} />
 

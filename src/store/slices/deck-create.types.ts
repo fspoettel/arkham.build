@@ -13,6 +13,7 @@ type DeckCreateState = {
   selections: {
     [key: string]: string;
   };
+  cardPool?: string[];
 };
 
 export type DeckCreateSlice = {
@@ -31,4 +32,5 @@ export type DeckCreateSlice = {
     side: "front" | "back",
     value: string,
   ) => void;
+  deckCreatesetCardPool: (value: string[]) => void;
 };

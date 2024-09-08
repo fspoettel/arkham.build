@@ -68,6 +68,7 @@ export type DeckMeta = {
   faction_2?: string | null;
   deck_size_selected?: string | null;
   extra_deck?: string | null;
+  card_pool?: string | null;
 } & {
   [key in `cus_${string}`]: string | null;
 } & {
@@ -110,6 +111,7 @@ export type Selections = Record<string, Selection>;
 export type ResolvedDeck = Omit<Deck, "sideSlots"> & {
   attachments: AttachmentQuantities | undefined;
   availableAttachments: AttachableDefinition[];
+  cardPool?: string[];
   metaParsed: DeckMeta;
   sideSlots: Record<string, number> | null; // arkhamdb stores `[]` when empty, normalize to `null`.
   extraSlots: Record<string, number> | null;

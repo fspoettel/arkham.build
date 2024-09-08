@@ -11,6 +11,7 @@ import type { Metadata } from "../slices/metadata.types";
 import { addGroupingsToDeck } from "./deck-grouping";
 import {
   decodeAttachments,
+  decodeCardPool,
   decodeCustomizations,
   decodeDeckMeta,
   decodeSelections,
@@ -73,6 +74,8 @@ export function resolveDeck(
     throw new Error(`Investigator not found: ${deck.investigator_code}`);
   }
 
+  const cardPool = decodeCardPool(deckMeta);
+
   const exileSlots = decodeExileSlots(deck.exile_string);
 
   const extraSlots = decodeExtraSlots(deckMeta);
@@ -102,6 +105,7 @@ export function resolveDeck(
     ...deck,
     attachments: decodeAttachments(deckMeta),
     availableAttachments,
+    cardPool,
     cards,
     customizations,
     extraSlots,

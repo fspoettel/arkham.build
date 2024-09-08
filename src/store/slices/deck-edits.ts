@@ -131,7 +131,7 @@ export const createDeckEditsSlice: StateCreator<
           ...edits,
           meta: {
             ...edits.meta,
-            [key]: value,
+            [key]: value || null,
           },
         },
       },

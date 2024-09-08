@@ -1,5 +1,4 @@
-import test, { Page, expect } from "@playwright/test";
-import { importDeckFromFile } from "./actions";
+import test, { expect } from "@playwright/test";
 import { mockApiCalls } from "./mocks";
 
 test.beforeEach(async ({ page }) => {
@@ -185,5 +184,3 @@ test.describe("attachments: interactions", () => {
     ).toContainText("×2");
   });
 });
-
-test.describe("attachments: display", () => {});

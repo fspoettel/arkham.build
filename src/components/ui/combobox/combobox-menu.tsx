@@ -71,6 +71,7 @@ export function ComboboxMenu<T extends Coded>(props: Props<T>) {
                 active && css["active"],
                 !omitItemPadding && css["padded"],
               )}
+              data-testid={`combobox-menu-item-${item.code}`}
               id={item.code}
               onClick={() => {
                 setSelectedItem(item);
