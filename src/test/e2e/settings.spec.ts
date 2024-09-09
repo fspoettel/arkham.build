@@ -10,6 +10,8 @@ test.describe("settings: interactions", () => {
     ).not.toBeVisible();
 
     await page.getByTestId("masthead-settings").click();
+    await page.getByTestId("tab-collection").click();
+
     await page.getByTestId("settings-show-all").click();
 
     await page.getByLabel("The Dunwich Legacy Investigator Expansion").click();
@@ -33,7 +35,10 @@ test.describe("settings: interactions", () => {
     ).toBeVisible();
 
     await page.getByTestId("masthead-settings").click();
+
+    await page.getByTestId("tab-collection").click();
     await page.getByTestId("settings-show-all").click();
+
     await page.getByTestId("settings-save").click();
     await page.getByTestId("settings-back").click();
     await page.getByTestId("search-input").click();

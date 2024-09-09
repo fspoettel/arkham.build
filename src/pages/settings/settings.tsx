@@ -1,9 +1,8 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
-import { selectIsInitialized } from "@/store/selectors/shared";
 import { useGoBack } from "@/utils/use-go-back";
 
 import css from "./settings.module.css";
@@ -20,32 +19,32 @@ import { TabooSets } from "./taboo-sets";
 function Settings() {
   const toast = useToast();
   const goBack = useGoBack();
-  const formRef = useRef<HTMLFormElement>(null);
 
-  const initialized = useStore(selectIsInitialized);
-  const settings = useStore((state) => state.settings);
-  const updateSettings = useStore((state) => state.updateSettings);
+  const updateStoredSettings = useStore((state) => state.updateSettings);
+
+  const storedSettings = useStore((state) => state.settings);
+  const [settings, updateSettings] = useState(structuredClone(storedSettings));
+
+  useEffect(() => {
+    updateSettings(storedSettings);
+  }, [storedSettings]);
 
   const onSubmit = useCallback(
     (evt: React.FormEvent) => {
       evt.preventDefault();
-      if (evt.target instanceof HTMLFormElement) {
-        updateSettings(new FormData(evt.target));
-        toast.show({
-          children: "Settings save successful.",
-          duration: 3000,
-          variant: "success",
-        });
-      }
+      updateStoredSettings(settings);
+      toast.show({
+        children: "Settings save successful.",
+        duration: 3000,
+        variant: "success",
+      });
     },
-    [updateSettings, toast.show],
+    [updateStoredSettings, settings, toast.show],
   );
-
-  if (!initialized) return null;
 
   return (
     <AppLayout title="Settings">
-      <form className={css["settings"]} onSubmit={onSubmit} ref={formRef}>
+      <form className={css["settings"]} onSubmit={onSubmit}>
         <header className={css["header"]}>
           <h1 className={css["title"]}>Settings</h1>
           <div className={css["header-actions"]}>
@@ -68,19 +67,32 @@ function Settings() {
           </Section>
           <Tabs length={2} defaultValue="general">
             <TabsList>
-              <TabsTrigger value="general">General settings</TabsTrigger>
-              <TabsTrigger value="collection">Collection settings</TabsTrigger>
+              <TabsTrigger data-testid="tab-general" value="general">
+                General settings
+              </TabsTrigger>
+              <TabsTrigger data-testid="tab-collection" value="collection">
+                Collection settings
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="general" forceMount>
               <Section title="General">
-                <TabooSets settings={settings} />
-                <General settings={settings} />
+                <TabooSets
+                  settings={settings}
+                  updateSettings={updateSettings}
+                />
+                <General settings={settings} updateSettings={updateSettings} />
               </Section>
             </TabsContent>
             <TabsContent value="collection" forceMount>
               <Section title="Collection">
-                <ShowAllCards settings={settings} />
-                <Collection canEdit settings={settings} />
+                <ShowAllCards
+                  settings={settings}
+                  updateSettings={updateSettings}
+                />
+                <Collection
+                  settings={settings}
+                  updateSettings={updateSettings}
+                />
               </Section>
             </TabsContent>
           </Tabs>

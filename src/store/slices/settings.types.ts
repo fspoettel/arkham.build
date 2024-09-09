@@ -8,5 +8,5 @@ export type SettingsState = {
 export type SettingsSlice = {
   settings: SettingsState;
 } & {
-  updateSettings: (partial: FormData) => void;
+  updateSettings: (payload: SettingsState) => void;
 };

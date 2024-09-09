@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import { Field, FieldLabel } from "@/components/ui/field";
 import { useStore } from "@/store";
 import { selectTabooSetOptions } from "@/store/selectors/lists";
@@ -8,22 +6,17 @@ import { formatTabooSet } from "@/utils/formatting";
 
 type Props = {
   settings: SettingsState;
+  updateSettings: (settings: React.SetStateAction<SettingsState>) => void;
 };
 
 export function TabooSets(props: Props) {
-  const { settings } = props;
+  const { settings, updateSettings } = props;
   const tabooSets = useStore(selectTabooSetOptions);
-
-  const [value, setValue] = useState(settings.tabooSetId);
-
-  useEffect(() => {
-    setValue(settings.tabooSetId);
-  }, [settings]);
 
   const onChange = (evt: React.ChangeEvent<HTMLSelectElement>) => {
     if (evt.target instanceof HTMLSelectElement) {
       const value = +evt.target.value || undefined;
-      setValue(value);
+      updateSettings((settings) => ({ ...settings, tabooSetId: value }));
     }
   };
 
@@ -35,7 +28,7 @@ export function TabooSets(props: Props) {
         id="taboo-set"
         name="taboo-set"
         onChange={onChange}
-        value={value ?? ""}
+        value={settings.tabooSetId ?? ""}
       >
         <option value="">None</option>
         {tabooSets.map((set) => (

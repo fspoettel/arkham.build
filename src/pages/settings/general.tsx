@@ -1,19 +1,20 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/field";
 import type { SettingsState } from "@/store/slices/settings.types";
-import { useState } from "react";
 
 type Props = {
   settings: SettingsState;
+  updateSettings: (settings: React.SetStateAction<SettingsState>) => void;
 };
 
 export function General(props: Props) {
-  const [hideWeaknessesByDefault, setHideWeaknessesByDefault] = useState(
-    props.settings.hideWeaknessesByDefault,
-  );
+  const { settings, updateSettings } = props;
 
   const onCheckHideWeaknesses = (val: boolean | string) => {
-    setHideWeaknessesByDefault(!!val);
+    updateSettings((settings) => ({
+      ...settings,
+      hideWeaknessesByDefault: !!val,
+    }));
   };
 
   return (
@@ -28,7 +29,7 @@ export function General(props: Props) {
       }
     >
       <Checkbox
-        checked={hideWeaknessesByDefault}
+        checked={settings.hideWeaknessesByDefault}
         label="Hide weaknesses in player card lists"
         id="hide-weaknesses-by-default"
         name="hide-weaknesses-by-default"
