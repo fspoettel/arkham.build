@@ -10,11 +10,12 @@ import css from "./settings.module.css";
 import { Collection } from "@/components/collection/collection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast.hooks";
+import { Library, SlidersVertical } from "lucide-react";
 import { CardDataSync } from "./card-data-sync";
-import { General } from "./general";
+import { HideWeaknessSetting } from "./hide-weakness";
 import { Section } from "./section";
 import { ShowAllCards } from "./show-all-cards";
-import { TabooSets } from "./taboo-sets";
+import { TabooSet } from "./taboo-set";
 
 function Settings() {
   const toast = useToast();
@@ -68,20 +69,23 @@ function Settings() {
           <Tabs length={2} defaultValue="general">
             <TabsList>
               <TabsTrigger data-testid="tab-general" value="general">
+                <SlidersVertical />
                 General settings
               </TabsTrigger>
               <TabsTrigger data-testid="tab-collection" value="collection">
+                <Library />
                 Collection settings
               </TabsTrigger>
             </TabsList>
             <TabsContent value="general" forceMount>
               <Section title="General">
-                <TabooSets
+                <TabooSet settings={settings} updateSettings={updateSettings} />
+                <HideWeaknessSetting
                   settings={settings}
                   updateSettings={updateSettings}
                 />
-                <General settings={settings} updateSettings={updateSettings} />
               </Section>
+              <Section title="Sorting defaults"></Section>
             </TabsContent>
             <TabsContent value="collection" forceMount>
               <Section title="Collection">

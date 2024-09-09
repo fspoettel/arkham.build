@@ -7,7 +7,7 @@ type Props = {
   updateSettings: (settings: React.SetStateAction<SettingsState>) => void;
 };
 
-export function General(props: Props) {
+export function HideWeaknessSetting(props: Props) {
   const { settings, updateSettings } = props;
 
   const onCheckHideWeaknesses = (val: boolean | string) => {

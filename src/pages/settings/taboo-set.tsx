@@ -9,7 +9,7 @@ type Props = {
   updateSettings: (settings: React.SetStateAction<SettingsState>) => void;
 };
 
-export function TabooSets(props: Props) {
+export function TabooSet(props: Props) {
   const { settings, updateSettings } = props;
   const tabooSets = useStore(selectTabooSetOptions);
 
