@@ -63,7 +63,7 @@
 .filters {
   position: fixed;
   height: calc(100% - 1rem);
-  max-width: 85%;
+  max-width: 90%;
   top: 0.5rem;
   z-index: 3;
   background: var(--nord-0);
