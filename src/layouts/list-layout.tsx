@@ -78,6 +78,7 @@ export function ListLayout(props: Props) {
         css["layout"],
         floatingFiltersOpen && css["filters-open"],
         sidebarOpen && !layoutWithSidebar && css["floating-sidebar-open"],
+        layoutWithSidebar && !sidebarOpen && css["collapsed-sidebar"],
         "fade-in",
         className,
       )}
@@ -102,7 +103,7 @@ export function ListLayout(props: Props) {
         }
       >
         {children({
-          slotLeft: (
+          slotLeft: !sidebarOpen && (
             <Button
               className={css["toggle-sidebar"]}
               onClick={() => setSidebarOpen(true)}

@@ -1,4 +1,4 @@
-import { Ellipsis, Plus, Trash2, Upload } from "lucide-react";
+import { ChevronsLeft, Ellipsis, Plus, Trash2, Upload } from "lucide-react";
 import { Link } from "wouter";
 
 import { DeckSummary } from "@/components/deck-summary";
@@ -30,6 +30,8 @@ export function DeckCollection() {
 
   const importDecks = useStore((state) => state.importFromFiles);
   const deleteAllDecks = useStore((state) => state.deleteAllDecks);
+  const setSidebarOpen = useStore((state) => state.setSidebarOpen);
+
   const toast = useToast();
 
   const onAddFiles = useCallback(
@@ -74,6 +76,14 @@ export function DeckCollection() {
               <Plus />
             </Button>
           </Link>
+          <Button
+            as="button"
+            data-testid="sidebar-collapse"
+            tooltip="Collapse sidebar"
+            onClick={() => setSidebarOpen(false)}
+          >
+            <ChevronsLeft />
+          </Button>
           <Popover onOpenChange={setPopoverOpen} open={popoverOpen}>
             <PopoverTrigger asChild>
               <Button
