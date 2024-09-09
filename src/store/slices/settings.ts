@@ -4,11 +4,37 @@ import type { StoreState } from ".";
 import { makeLists } from "./lists";
 import type { SettingsSlice, SettingsState } from "./settings.types";
 
+export function getInitialListsSetting(): SettingsState["lists"] {
+  return {
+    player: {
+      group: ["subtype", "type", "slot"],
+      sort: ["name", "level"],
+      showCardText: false,
+    },
+    encounter: {
+      group: ["pack", "encounter_set"],
+      sort: ["position"],
+      showCardText: false,
+    },
+    investigator: {
+      group: ["cycle"],
+      sort: ["name"],
+      showCardText: false,
+    },
+    deck: {
+      group: ["type", "slot"],
+      sort: ["name", "level"],
+      showCardText: false,
+    },
+  };
+}
+
 export function getInitialSettings(): SettingsState {
   return {
     collection: {},
-    showAllCards: true,
+    lists: getInitialListsSetting(),
     hideWeaknessesByDefault: false,
+    showAllCards: true,
     tabooSetId: undefined,
   };
 }

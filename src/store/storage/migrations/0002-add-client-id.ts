@@ -4,7 +4,7 @@ import { randomId } from "@/utils/crypto";
 function migrate(_state: unknown, version: number) {
   const state = _state as StoreState;
 
-  if (version === 2) {
+  if (version < 3) {
     if (!state.app.clientId) {
       state.app ??= {} as StoreState["app"];
       state.app.clientId = randomId();
