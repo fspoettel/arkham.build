@@ -712,7 +712,7 @@ function makeEncounterCardsList(
     "encounter",
     filters,
     {
-      grouping: ["encounter_set"],
+      grouping: ["pack", "encounter_set"],
       sorting: ["position"],
       showCardText: false,
     },

@@ -266,6 +266,48 @@ function groupByCycle(cards: Card[], metadata: Metadata) {
   return toGroupingResult(results);
 }
 
+function groupByPack(cards: Card[], metadata: Metadata) {
+  const results = cards.reduce<Grouping>(
+    (acc, card) => {
+      const cardType = card.encounter_code ? "encounter" : "player";
+
+      let pack = metadata.packs[card.pack_code];
+
+      const reprintPackCode = `${pack.cycle_code}${cardType === "encounter" ? "c" : "p"}`;
+      const reprintPack = metadata.packs[reprintPackCode];
+
+      if (reprintPack?.reprint) {
+        pack = reprintPack;
+      }
+
+      if (!acc.data[pack.code]) {
+        acc.data[pack.code] = [card];
+        acc.groupings.push(pack.code);
+      } else {
+        acc.data[pack.code].push(card);
+      }
+
+      return acc;
+    },
+    { data: {}, groupings: [], type: "pack" },
+  );
+
+  omitEmptyGroupings(results);
+
+  results.groupings.sort((a, b) => {
+    const aCycle = metadata.cycles[metadata.packs[a].cycle_code];
+    const bCycle = metadata.cycles[metadata.packs[b].cycle_code];
+
+    if (aCycle.position !== bCycle.position) {
+      return aCycle.position - bCycle.position;
+    }
+
+    return metadata.packs[a].position - metadata.packs[b].position;
+  });
+
+  return toGroupingResult(results);
+}
+
 function groupBySubtypeCode(cards: Card[]) {
   const results = cards.reduce<Grouping>(
     (acc, card) => {
@@ -313,6 +355,8 @@ function applyGrouping(
       return groupByCost(cards);
     case "cycle":
       return groupByCycle(cards, metadata);
+    case "pack":
+      return groupByPack(cards, metadata);
   }
 }
 
@@ -405,6 +449,12 @@ export function getGroupingKeyLabel(
       if (segment === LEVEL_0) return "Level 0 (or no level)";
       if (segment === UPGRADE) return "Upgrades";
       return "";
+    }
+
+    case "pack": {
+      return (metadata.packs[segment]?.real_name ?? "")
+        .replace("Campaign Expansion", "")
+        .replace("Investigator Expansion", "");
     }
 
     case "default": {

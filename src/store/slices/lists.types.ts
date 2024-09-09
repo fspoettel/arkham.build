@@ -98,6 +98,7 @@ export type GroupingType =
   | "faction"
   | "base_upgrades"
   | "level"
+  | "pack"
   | "slot"
   | "subtype"
   | "type";
