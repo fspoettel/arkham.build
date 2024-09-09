@@ -68,6 +68,15 @@ export function CostFilter({ id }: { id: number }) {
     [setFilter, id],
   );
 
+  const onSetNoCost = useCallback(
+    (val: boolean | string) => {
+      setFilter(id, {
+        nocost: !!val,
+      });
+    },
+    [setFilter, id],
+  );
+
   const onOpenChange = useCallback(
     (val: boolean) => {
       if (val && !filter.value.range) {
@@ -98,13 +107,20 @@ export function CostFilter({ id }: { id: number }) {
         onValueCommit={onValueCommit}
         value={filter.value.range ?? [min, max]}
       />
-      <CheckboxGroup>
+      <CheckboxGroup cols={2}>
         <Checkbox
           data-testid="filters-cost-even"
           checked={filter.value.even}
           id="cost-even"
           label="Even"
           onCheckedChange={onSetEven}
+        />
+        <Checkbox
+          data-testid="filters-cost-x"
+          checked={filter.value.x}
+          id="cost-x"
+          label={<i className="icon-x" />}
+          onCheckedChange={onSetX}
         />
         <Checkbox
           data-testid="filters-cost-odd"
@@ -114,11 +130,11 @@ export function CostFilter({ id }: { id: number }) {
           onCheckedChange={onSetOdd}
         />
         <Checkbox
-          data-testid="filters-cost-x"
-          checked={filter.value.x}
-          id="cost-x"
-          label={<i className="icon-x" />}
-          onCheckedChange={onSetX}
+          data-testid="filters-cost-nocost"
+          checked={filter.value.nocost}
+          id="cost-nocost"
+          label="No cost"
+          onCheckedChange={onSetNoCost}
         />
       </CheckboxGroup>
     </FilterContainer>

@@ -8,13 +8,13 @@ import {
 } from "@/utils/card-utils";
 import { range } from "@/utils/range";
 
-import { resolveCardWithRelations } from "../resolve-card";
+import { resolveCardWithRelations } from "./resolve-card";
 import type {
   CardWithRelations,
   Customizations,
   DeckMeta,
   ResolvedDeck,
-} from "../types";
+} from "./types";
 
 export function decodeSlots(
   deck: Deck,
@@ -147,13 +147,18 @@ export function decodeExtraSlots(deckMeta: DeckMeta): Slots {
  * Encodes extra slots into a deck meta field.
  */
 export function encodeExtraSlots(slots: Record<string, number>) {
-  const entries = Object.entries(slots)
-    .filter(([, quantity]) => quantity > 0)
-    .map(([code, quantity]) =>
-      range(0, quantity)
-        .map(() => code)
-        .join(","),
-    );
+  const entries = Object.entries(slots).reduce<string[]>(
+    (acc, [code, quantity]) => {
+      if (quantity > 0) {
+        for (const _ in range(0, quantity)) {
+          acc.push(code);
+        }
+      }
+
+      return acc;
+    },
+    [],
+  );
 
   return entries.length ? entries.join(",") : undefined;
 }

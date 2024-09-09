@@ -7,11 +7,6 @@ import { getMockStore } from "@/test/get-mock-store";
 import type { StoreState } from ".";
 import type { Deck } from "./data.types";
 
-const mockToast = {
-  show: vi.fn(),
-  dismiss: vi.fn(),
-};
-
 describe("data slice", () => {
   let store: StoreApi<StoreState>;
 
@@ -43,7 +38,7 @@ describe("data slice", () => {
       store.setState(mockState);
 
       try {
-        await store.getState().deleteDeck("2", mockToast);
+        await store.getState().deleteDeck("2");
       } catch (err) {
         expect((err as Error).message).toMatchInlineSnapshot(
           `"assertion failed: Cannot delete a deck that has upgrades."`,
@@ -53,7 +48,7 @@ describe("data slice", () => {
 
     it("removes a deck from state", async () => {
       store.setState(mockState);
-      await store.getState().deleteDeck("4", mockToast);
+      await store.getState().deleteDeck("4");
 
       const state = store.getState();
       expect(state.data.decks["4"]).toBeUndefined();
@@ -63,7 +58,7 @@ describe("data slice", () => {
 
     it("removes deck and its upgrades from state", async () => {
       store.setState(mockState);
-      await store.getState().deleteDeck("1", mockToast);
+      await store.getState().deleteDeck("1");
 
       const state = store.getState();
 

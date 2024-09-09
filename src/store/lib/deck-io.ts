@@ -12,10 +12,10 @@ import {
   formatSelectionId,
   formatTabooSet,
 } from "@/utils/formatting";
-import type { Grouping } from "../deck-grouping";
-import { resolveDeck } from "../resolve-deck";
-import { sortByName, sortBySlots } from "../sorting";
-import type { Customizations, ResolvedDeck } from "../types";
+import type { Grouping } from "./deck-grouping";
+import { resolveDeck } from "./resolve-deck";
+import { sortByName, sortBySlots } from "./sorting";
+import type { Customizations, ResolvedDeck } from "./types";
 
 export function formatDeckImport(
   state: StoreState,

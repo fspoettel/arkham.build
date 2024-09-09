@@ -1,3 +1,5 @@
+import type { Card } from "../services/queries.types";
+
 export type CardSet = "requiredCards" | "advanced" | "replacement";
 
 type DeckCreateState = {
@@ -11,6 +13,7 @@ type DeckCreateState = {
   selections: {
     [key: string]: string;
   };
+  cardPool?: string[];
 };
 
 export type DeckCreateSlice = {
@@ -19,7 +22,7 @@ export type DeckCreateSlice = {
   initCreate: (code: string) => void;
   resetCreate: () => void;
 
-  deckCreateChangeExtraCardQuantity: (code: string, quantity: number) => void;
+  deckCreateChangeExtraCardQuantity: (card: Card, quantity: number) => void;
 
   deckCreateSetSelection(key: string, value: string): void;
   deckCreateSetTabooSet: (value: number | undefined) => void;
@@ -29,4 +32,5 @@ export type DeckCreateSlice = {
     side: "front" | "back",
     value: string,
   ) => void;
+  deckCreatesetCardPool: (value: string[]) => void;
 };

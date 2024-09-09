@@ -6,8 +6,8 @@ import deckMultiFaction from "@/test/fixtures/decks/multi_faction_select.json";
 import { getMockStore } from "@/test/get-mock-store";
 import { beforeAll, describe, expect, it } from "vitest";
 import type { StoreApi } from "zustand";
-import type { ResolvedDeck } from "../types";
 import { formatDeckAsText } from "./deck-io";
+import type { ResolvedDeck } from "./types";
 
 describe("formatDeckAsText()", () => {
   let store: StoreApi<StoreState>;

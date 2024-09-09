@@ -13,8 +13,25 @@ export function useDeleteDeck() {
     async (deckId: Id) => {
       const confirmed = confirm("Are you sure you want to delete this deck?");
       if (confirmed) {
-        await deleteDeck(deckId, toast);
-        setLocation("~/");
+        const toastId = toast.show({
+          children: "Deleting deck...",
+        });
+
+        try {
+          await deleteDeck(deckId, () => setLocation("~/"));
+          toast.dismiss(toastId);
+          toast.show({
+            children: "Deck delete successful.",
+            duration: 3000,
+            variant: "success",
+          });
+        } catch (err) {
+          toast.dismiss(toastId);
+          toast.show({
+            children: `Deck could not be deleted: ${(err as Error)?.message}.`,
+            variant: "error",
+          });
+        }
       }
     },
     [setLocation, toast, deleteDeck],
@@ -27,18 +44,30 @@ export function useDeleteUpgrade() {
   const deleteUpgrade = useStore((state) => state.deleteUpgrade);
 
   return useCallback(
-    (deckId: Id) => {
+    async (deckId: Id) => {
       const confirmed = confirm(
         "Are you sure you want to delete this upgrade?",
       );
       if (confirmed) {
-        const id = deleteUpgrade(deckId);
-        setLocation(`/deck/view/${id}`);
-        toast.show({
-          duration: 3000,
-          children: "Upgrade delete successful.",
-          variant: "success",
+        const toastId = toast.show({
+          children: "Deleting upgrade...",
         });
+
+        try {
+          await deleteUpgrade(deckId, (id) => setLocation(`/deck/view/${id}`));
+          toast.dismiss(toastId);
+          toast.show({
+            duration: 3000,
+            children: "Upgrade delete successful.",
+            variant: "success",
+          });
+        } catch (err) {
+          toast.dismiss(toastId);
+          toast.show({
+            children: `Upgrade could not be deleted: ${(err as Error)?.message}.`,
+            variant: "error",
+          });
+        }
       }
     },
     [deleteUpgrade, setLocation, toast],

@@ -1,18 +1,24 @@
 import { cx } from "@/utils/cx";
 
+import { forwardRef } from "react";
 import css from "./tag.module.css";
 
-type Props = {
-  as?: React.JSX.ElementType;
+type Props<T extends React.ElementType> = {
+  as?: T;
   children: React.ReactNode;
   size?: "xs";
 };
 
-export function Tag(props: Props) {
-  const { as = "span", children, size } = props;
-  const Element = as;
+export const Tag = forwardRef(function TagInner<T extends React.ElementType>(
+  props: Props<T>,
+  ref: React.Ref<T>,
+) {
+  const { as = "span", children, size, ...rest } = props;
+  const Element: React.ElementType = as;
 
   return (
-    <Element className={cx(css["tag"], size && css[size])}>{children}</Element>
+    <Element {...rest} className={cx(css["tag"], size && css[size])} ref={ref}>
+      {children}
+    </Element>
   );
-}
+});

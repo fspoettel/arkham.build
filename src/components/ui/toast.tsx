@@ -3,6 +3,7 @@ import { CheckCircle, CircleAlert, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { randomId } from "@/utils/crypto";
+import { useLocation } from "wouter";
 import { Button } from "./button";
 import { ToastContext, type Toast as ToastType } from "./toast.hooks";
 import css from "./toast.module.css";
@@ -58,6 +59,8 @@ function Toast(props: {
   const { toast, id, onRemove } = props;
 
   const [isExiting, setIsExiting] = useState(false);
+  const [location] = useLocation();
+  const locationRef = useRef(location);
 
   const toastRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
@@ -95,6 +98,12 @@ function Toast(props: {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, [toast, removeToast]);
+
+  useEffect(() => {
+    if (!toast.duration && locationRef.current !== location) {
+      removeToast();
+    }
+  }, [location, removeToast, toast.duration]);
 
   return (
     <div

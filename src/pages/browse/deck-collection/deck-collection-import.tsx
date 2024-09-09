@@ -1,4 +1,4 @@
-import { CloudUpload, LoaderCircle } from "lucide-react";
+import { CloudDownload, LoaderCircle } from "lucide-react";
 import { useCallback, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -60,7 +60,7 @@ export function DeckCollectionImport() {
           data-testid="import-trigger"
           tooltip="Import deck from ArkhamDB"
         >
-          <CloudUpload />
+          <CloudDownload />
         </Button>
       </PopoverTrigger>
       <PopoverContent>

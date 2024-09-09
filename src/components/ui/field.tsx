@@ -9,7 +9,7 @@ type Props = {
   full?: boolean;
   helpText?: React.ReactNode;
   padded?: boolean;
-};
+} & React.ComponentProps<"div">;
 
 export function FieldLabel({
   children,
@@ -27,10 +27,12 @@ export function FieldLabel({
 }
 
 export function Field(props: Props) {
-  const { bordered, children, className, full, helpText, padded } = props;
+  const { bordered, children, className, full, helpText, padded, ...rest } =
+    props;
 
   return (
     <div
+      {...rest}
       className={cx(
         css["field"],
         className,

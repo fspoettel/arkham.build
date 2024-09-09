@@ -88,10 +88,12 @@ export const TooltipContent = React.forwardRef<
 export const DefaultTooltip = ({
   children,
   tooltip,
+  options,
 }: {
   // Don't accept arrays of items or nullish values
   children: NonNullable<Exclude<React.ReactNode, Iterable<React.ReactNode>>>;
   tooltip?: React.ReactNode;
+  options?: TooltipOptions;
 }) => {
   if (!tooltip) {
     return children;
@@ -104,7 +106,7 @@ export const DefaultTooltip = ({
   }
 
   return (
-    <Tooltip delay={200}>
+    <Tooltip delay={200} {...options}>
       <TooltipTrigger asChild>{children}</TooltipTrigger>
       <TooltipContent>{tooltip}</TooltipContent>
     </Tooltip>

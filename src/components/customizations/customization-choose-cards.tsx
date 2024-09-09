@@ -84,6 +84,7 @@ export function CustomizationChooseCards(props: Props) {
       items={cards}
       label="Cards"
       limit={limit}
+      omitItemPadding
       onValueChange={onChange}
       placeholder="Select cards..."
       readonly={readonly}

@@ -54,6 +54,8 @@ function getPackIcon(code?: string) {
     case "tde":
       return "dream";
 
+    case "ticc":
+    case "ticp":
     case "tic":
       return "tic";
 
@@ -251,6 +253,8 @@ function getPackIcon(code?: string) {
       return "machinations_through_time";
     case "fof":
       return "roulette";
+    case "tmg":
+      return "gala";
     case "blbe":
       return null;
     default:

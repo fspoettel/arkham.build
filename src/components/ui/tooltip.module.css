@@ -10,6 +10,10 @@
   animation: fadeIn 0.2s ease-in-out;
 }
 
+.content * {
+  list-style: none;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

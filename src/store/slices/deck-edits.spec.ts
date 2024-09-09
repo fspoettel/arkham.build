@@ -1,6 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 import type { StoreApi } from "zustand";
 
+import deckAttachments from "@/test/fixtures/decks/deck_attachments.json";
 import deckExtraSlots from "@/test/fixtures/decks/extra_slots.json";
 import { getMockStore } from "@/test/get-mock-store";
 
@@ -100,6 +101,90 @@ describe("deck-view slice", () => {
           "06021"
         ],
       ).toEqual(1);
+    });
+
+    describe("attachments", () => {
+      beforeEach(() => {
+        store.setState({
+          deckEdits: {},
+          data: {
+            decks: {
+              "deck-id": deckAttachments,
+            },
+            history: {
+              "deck-id": [],
+            },
+          },
+        });
+      });
+
+      it("adjusts attachment quantities if attached card changes quantity", () => {
+        const state = store.getState();
+
+        state.updateCardQuantity(
+          "deck-id",
+          "07305",
+          -1,
+          2,
+          "slots",
+          "increment",
+        );
+
+        expect(
+          selectResolvedDeckById(store.getState(), "deck-id", true)?.meta,
+        ).toMatchInlineSnapshot(
+          `"{"attachments_09077":"07305,02109","attachments_03264":"02109"}"`,
+        );
+
+        state.updateCardQuantity(
+          "deck-id",
+          "07305",
+          -1,
+          2,
+          "slots",
+          "increment",
+        );
+
+        expect(
+          selectResolvedDeckById(store.getState(), "deck-id", true)?.meta,
+        ).toMatchInlineSnapshot(
+          `"{"attachments_09077":"02109","attachments_03264":"02109"}"`,
+        );
+      });
+
+      it("adjusts attachment quantities if attached card is attached to multiple attachables", () => {
+        const state = store.getState();
+
+        state.updateCardQuantity(
+          "deck-id",
+          "02109",
+          -1,
+          2,
+          "slots",
+          "increment",
+        );
+
+        expect(
+          selectResolvedDeckById(store.getState(), "deck-id", true)?.meta,
+        ).toMatchInlineSnapshot(
+          `"{"attachments_09077":"07305,07305,02109","attachments_03264":null}"`,
+        );
+
+        state.updateCardQuantity(
+          "deck-id",
+          "02109",
+          -1,
+          2,
+          "slots",
+          "increment",
+        );
+
+        expect(
+          selectResolvedDeckById(store.getState(), "deck-id", true)?.meta,
+        ).toMatchInlineSnapshot(
+          `"{"attachments_09077":"07305,07305","attachments_03264":null}"`,
+        );
+      });
     });
   });
 });

@@ -1,14 +1,16 @@
 import { isEmpty } from "@/utils/is-empty";
-
+import { omit } from "@/utils/omit";
 import type { Deck, Slots } from "../slices/data.types";
 import type { EditState, Slot } from "../slices/deck-edits.types";
 import type { Metadata } from "../slices/metadata.types";
 import {
+  decodeAttachments,
   decodeCustomizations,
+  decodeDeckMeta,
+  encodeAttachments,
   encodeCustomizations,
-} from "./serialization/customizable";
-import { decodeDeckMeta } from "./serialization/deck-meta";
-import { decodeExtraSlots, encodeExtraSlots } from "./serialization/slots";
+} from "./deck-meta";
+import { decodeExtraSlots, encodeExtraSlots } from "./slots";
 import type { DeckMeta } from "./types";
 
 /**
@@ -23,7 +25,7 @@ export function applyDeckEdits(
   originalDeck: Deck,
   edits: EditState | undefined,
   metadata: Metadata,
-  alwaysDeleteEmpty = false,
+  pruneDeletions = false,
 ) {
   if (!edits) return structuredClone(originalDeck);
 
@@ -52,15 +54,11 @@ export function applyDeckEdits(
   }
 
   // adjust meta based on deck edits.
-  const deckMeta = decodeDeckMeta(deck);
-
-  // adjust customizations based on deck edits.
-  Object.assign(deckMeta, mergeCustomizationEdits(edits, deckMeta, metadata));
-
-  const extraSlots = decodeExtraSlots(deckMeta);
+  const currentDeckMeta = decodeDeckMeta(deck);
+  const extraSlots = decodeExtraSlots(currentDeckMeta);
 
   // adjust quantities based on deck edits.
-  for (const [key, quantityEdits] of Object.entries(edits.quantities)) {
+  for (const [key, quantityEdits] of Object.entries(edits.quantities ?? {})) {
     for (const [code, value] of Object.entries(quantityEdits)) {
       const slotKey = key as Slot;
 
@@ -79,7 +77,7 @@ export function applyDeckEdits(
   }
 
   for (const [code, quantity] of Object.entries(deck.slots)) {
-    if (!quantity && (alwaysDeleteEmpty || !originalDeck.slots[code])) {
+    if (!quantity && (pruneDeletions || !originalDeck.slots[code])) {
       delete deck.slots[code];
     }
   }
@@ -91,17 +89,44 @@ export function applyDeckEdits(
   }
 
   for (const [code, quantity] of Object.entries(extraSlots)) {
-    if (!quantity && (alwaysDeleteEmpty || !extraSlots[code]))
+    if (!quantity && (pruneDeletions || !extraSlots[code]))
       delete extraSlots[code];
   }
 
   if (deck.ignoreDeckLimitSlots) {
     for (const [code, quantity] of Object.entries(deck.ignoreDeckLimitSlots)) {
-      if (!quantity || (alwaysDeleteEmpty && !deck.slots[code])) {
+      if (!quantity || (pruneDeletions && !deck.slots[code])) {
         delete deck.ignoreDeckLimitSlots[code];
       }
     }
   }
+
+  const customizationEdits = mergeCustomizationEdits(
+    edits,
+    deck,
+    currentDeckMeta,
+    metadata,
+    pruneDeletions,
+  );
+
+  const attachmentEdits = mergeAttachmentEdits(
+    edits,
+    deck,
+    currentDeckMeta,
+    pruneDeletions,
+  );
+
+  // adjust customizations & attachments based on deck edits.
+  const deckMeta = Object.assign(
+    structuredClone(
+      omit(
+        currentDeckMeta,
+        (k) => k.startsWith("attachments_") || k.startsWith("cus_"),
+      ),
+    ),
+    customizationEdits,
+    attachmentEdits,
+  );
 
   deck.meta = JSON.stringify({
     ...deckMeta,
@@ -141,34 +166,70 @@ function applyInvestigatorSide(
   return current === deck.investigator_code ? null : current;
 }
 
+function mergeAttachmentEdits(
+  edits: EditState,
+  deck: Deck,
+  deckMeta: DeckMeta,
+  pruneDeletions = false,
+) {
+  const attachments = decodeAttachments(deckMeta) ?? {};
+
+  for (const [targetCode, entries] of Object.entries(edits.attachments ?? {})) {
+    if (isEmpty(entries)) continue;
+
+    const attachment = { ...attachments[targetCode] };
+
+    for (const [code, quantity] of Object.entries(entries)) {
+      attachment[code] = quantity;
+    }
+
+    attachments[targetCode] = attachment;
+  }
+
+  if (pruneDeletions) {
+    for (const [targetCode, entries] of Object.entries(attachments)) {
+      if (!deck.slots[targetCode] && deck.investigator_code !== targetCode) {
+        delete attachments[targetCode];
+      }
+
+      for (const code of Object.keys(entries)) {
+        if (!deck.slots[code]) {
+          delete attachments[targetCode][code];
+        }
+      }
+    }
+  }
+
+  return encodeAttachments(attachments);
+}
+
 /**
  * Merges stored customizations in a deck with edits, returning a deck.meta JSON block.
  */
 function mergeCustomizationEdits(
   edits: EditState,
+  deck: Deck,
   deckMeta: DeckMeta,
   metadata: Metadata,
+  pruneDeletions = false,
 ) {
-  if (isEmpty(edits.customizations)) {
-    return {};
-  }
+  const prev = decodeCustomizations(deckMeta, metadata) ?? {};
 
-  const customizations = decodeCustomizations(deckMeta, metadata) ?? {};
+  const next = structuredClone(prev);
 
-  for (const [code, changes] of Object.entries(edits.customizations)) {
-    customizations[code] ??= {};
+  for (const [code, changes] of Object.entries(edits.customizations ?? {})) {
+    next[code] ??= {};
 
     for (const [id, change] of Object.entries(changes)) {
-      if (customizations[code][id]) {
-        if (change.xp_spent != null)
-          customizations[code][id].xp_spent = change.xp_spent;
+      if (next[code][id]) {
+        if (change.xp_spent != null) next[code][id].xp_spent = change.xp_spent;
         if (change.selections != null) {
-          customizations[code][id].selections = isEmpty(change.selections)
+          next[code][id].selections = isEmpty(change.selections)
             ? undefined
             : change.selections.join("^");
         }
       } else {
-        customizations[code][id] ??= {
+        next[code][id] ??= {
           index: +id,
           xp_spent: change.xp_spent ?? 0,
           selections: change.selections?.join("^") || undefined,
@@ -177,5 +238,17 @@ function mergeCustomizationEdits(
     }
   }
 
-  return encodeCustomizations(customizations);
+  if (pruneDeletions) {
+    for (const code of Object.keys(next)) {
+      if (!deck.slots[code]) {
+        if (deck.previous_deck) {
+          next[code] = prev[code];
+        } else {
+          delete next[code];
+        }
+      }
+    }
+  }
+
+  return encodeCustomizations(next);
 }

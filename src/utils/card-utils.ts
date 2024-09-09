@@ -65,11 +65,11 @@ export function realCardLevel(card: Card) {
 }
 
 export function imageUrl(code: string) {
-  return `${import.meta.env.VITE_CARD_IMAGE_URL}/optimized/${code}.webp`;
+  return `${import.meta.env.VITE_CARD_IMAGE_URL}/optimized/${code}.avif`;
 }
 
 export function thumbnailUrl(code: string) {
-  return `${import.meta.env.VITE_CARD_IMAGE_URL}/thumbnails/${code}.webp`;
+  return `${import.meta.env.VITE_CARD_IMAGE_URL}/thumbnails/${code}.avif`;
 }
 
 export function parseCardTextHtml(cardText: string) {

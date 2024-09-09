@@ -101,15 +101,15 @@ export function UpgradeModal(props: Props) {
   );
 
   const onExileChange = useCallback(
-    (code: string, quantity: number, limit: number) => {
-      const cardQuantity = (exiledQuantities[code] ?? 0) + quantity;
+    (card: Card, quantity: number, limit: number) => {
+      const cardQuantity = (exiledQuantities[card.code] ?? 0) + quantity;
 
       if (cardQuantity <= limit) {
         setExileString((prev) =>
           prev
             .split(",")
-            .filter((x) => x && x !== code)
-            .concat(range(0, cardQuantity).map(() => code))
+            .filter((x) => x && x !== card.code)
+            .concat(range(0, cardQuantity).map(() => card.code))
             .join(","),
         );
       }
@@ -132,7 +132,12 @@ export function UpgradeModal(props: Props) {
         }
         footer={
           <>
-            <Button disabled={xp === ""} onClick={onUpgrade} variant="primary">
+            <Button
+              data-testid="upgrade-submit"
+              disabled={xp === ""}
+              onClick={onUpgrade}
+              variant="primary"
+            >
               Upgrade
             </Button>
             <Button onClick={onCloseModal}>Cancel</Button>
@@ -150,6 +155,7 @@ export function UpgradeModal(props: Props) {
               min="0"
               required
               type="number"
+              data-testid="upgrade-xp"
               name="xp-gained"
               value={xp}
             />

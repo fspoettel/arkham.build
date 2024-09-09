@@ -58,8 +58,6 @@ export function ListLayout(props: Props) {
   const layoutWithSidebar = useMedia("(min-width: 52rem)");
   const layoutWithFilters = useMedia("(min-width: 75rem)");
 
-  console.log(layoutWithSidebar, "layoutWithSidebar");
-
   useEffect(() => {
     if (layoutWithSidebar) {
       setSidebarOpen(true);

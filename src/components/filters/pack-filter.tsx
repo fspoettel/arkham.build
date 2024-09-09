@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
 import { useStore } from "@/store";
 import {
@@ -10,19 +10,13 @@ import type { Pack } from "@/store/services/queries.types";
 import { isPackFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
 
-import PackIcon from "../icons/pack-icon";
+import { useResolvedDeck } from "@/utils/use-resolved-deck";
+import { PackName } from "../pack-name";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 
-function PackName({ pack }: { pack: Pack }) {
-  return (
-    <>
-      <PackIcon code={pack.code} />
-      {pack.real_name}
-    </>
-  );
-}
-
 export function PackFilter({ id }: { id: number }) {
+  const ctx = useResolvedDeck();
+
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
     isPackFilterObject(filter),
@@ -30,7 +24,18 @@ export function PackFilter({ id }: { id: number }) {
   );
 
   const changes = useStore((state) => selectPackChanges(state, filter.value));
-  const options = useStore(selectPackOptions);
+  const packOptions = useStore(selectPackOptions);
+
+  const options = useMemo(
+    () =>
+      packOptions.filter((pack) => {
+        const cardPool = ctx.resolvedDeck?.metaParsed?.card_pool;
+        return cardPool
+          ? cardPool.includes(pack.code) || filter.value.includes(pack.code)
+          : true;
+      }),
+    [filter.value, ctx.resolvedDeck, packOptions],
+  );
 
   const nameRenderer = useCallback(
     (pack: Pack) => <PackName pack={pack} />,
