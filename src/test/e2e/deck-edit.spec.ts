@@ -1,4 +1,4 @@
-import test, { Page, expect } from "@playwright/test";
+import test, { type Page, expect } from "@playwright/test";
 import { importDeckFromFile } from "./actions";
 import { mockApiCalls } from "./mocks";
 
@@ -16,14 +16,14 @@ async function sumCardCounts(page: Page) {
 
   for (const el of elements) {
     const text = await el.innerText();
-    sum += parseInt(text, 10);
+    sum += Number.parseInt(text, 10);
   }
 
   return sum;
 }
 
 test.describe("deck edit: interactions", () => {
-  test("can draw random basic weakness", async ({ page }) => {
+  test("draw random basic weakness", async ({ page }) => {
     await page.goto("/");
 
     await page.getByTestId("collection-create-deck").click();
@@ -62,9 +62,7 @@ test.describe("deck edit: interactions", () => {
     expect(await sumCardCounts(page)).toEqual(9);
   });
 
-  test("it respects customizable deck limits (honed instinct)", async ({
-    page,
-  }) => {
+  test("customizable deck limits (honed instinct)", async ({ page }) => {
     await importDeckFromFile(page, "validation/honed_instinct_valid.json", {
       navigate: "edit",
     });
@@ -96,5 +94,36 @@ test.describe("deck edit: interactions", () => {
       .click();
 
     await expect(page.getByTestId("decklist-validation")).not.toBeVisible();
+  });
+
+  test("move to main deck", async ({ page }) => {
+    await importDeckFromFile(page, "validation/honed_instinct_valid.json", {
+      navigate: "edit",
+    });
+
+    await expect(
+      page.getByTestId("editor-tabs-slots").getByTestId("listcard-02229"),
+    ).not.toBeVisible();
+
+    await page.getByTestId("editor-tab-sideslots").click();
+    await page.getByTestId("search-input").click();
+    await page.getByTestId("search-input").fill("quick");
+    await page
+      .getByTestId("listcard-02229")
+      .getByTestId("quantity-increment")
+      .click();
+    await page
+      .getByTestId("virtuoso-item-list")
+      .getByTestId("listcard-02229")
+      .getByTestId("quantity-increment")
+      .dblclick();
+    await page.getByTestId("editor-move-to-main").click();
+    await page.getByTestId("editor-tab-slots").click();
+    await expect(
+      page
+        .getByTestId("editor-tabs-slots")
+        .getByTestId("listcard-02229")
+        .getByTestId("quantity-value"),
+    ).toContainText("2");
   });
 });

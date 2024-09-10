@@ -62,9 +62,9 @@ test.describe("deck view: display", () => {
   });
 
   test("renders bonded cards in relations", async ({ page }) => {
-    await importDeckFromFile(page, "bonded.json");
-
-    await page.getByTestId("collection-deck").click();
+    await importDeckFromFile(page, "bonded.json", {
+      navigate: "view",
+    });
 
     await expect(
       page.getByTestId("listcard-06113").getByTestId("quantity-value"),
@@ -95,9 +95,9 @@ test.describe("deck view: display", () => {
   });
 
   test("renders ignore_deck_limit_slots markers", async ({ page }) => {
-    await importDeckFromFile(page, "validation/parallel_agnes.json");
-
-    await page.getByTestId("collection-deck").click();
+    await importDeckFromFile(page, "validation/parallel_agnes.json", {
+      navigate: "view",
+    });
 
     await expect(
       page.getByTestId("listcard-10102").getByTestId("quantity-value"),
@@ -128,16 +128,17 @@ test.describe("deck view: display", () => {
   });
 
   test("renders forbidden cards", async ({ page }) => {
-    await importDeckFromFile(page, "bonded.json");
-
-    await page.getByTestId("collection-deck").click();
+    await importDeckFromFile(page, "bonded.json", {
+      navigate: "view",
+    });
 
     await expect(page.getByTestId("listcard-54002")).toHaveClass(/forbidden/);
   });
 
   test("renders customizable cards with options", async ({ page }) => {
-    await importDeckFromFile(page, "validation/access_customizable.json");
-    await page.getByTestId("collection-deck").click();
+    await importDeckFromFile(page, "validation/access_customizable.json", {
+      navigate: "view",
+    });
 
     await page.getByTestId("listcard-09040").click();
 
@@ -172,8 +173,9 @@ test.describe("deck view: display", () => {
   });
 
   test("renders parallel investigators", async ({ page }) => {
-    await importDeckFromFile(page, "validation/parallel_wendy.json");
-    await page.getByTestId("collection-deck").click();
+    await importDeckFromFile(page, "validation/parallel_wendy.json", {
+      navigate: "view",
+    });
 
     await page.getByTestId("deck-investigator-back-toggle").click();
 
@@ -187,7 +189,9 @@ test.describe("deck view: display", () => {
   });
 
   test("renders option_select selections", async ({ page }) => {
-    await importDeckFromFile(page, "validation/parallel_wendy.json");
+    await importDeckFromFile(page, "validation/parallel_wendy.json", {
+      navigate: "view",
+    });
     await page.getByTestId("collection-deck").click();
 
     await page.getByTestId("deck-investigator-back-toggle").click();

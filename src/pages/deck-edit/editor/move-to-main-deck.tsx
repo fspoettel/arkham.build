@@ -19,7 +19,12 @@ export function MoveToMainDeck(props: Props) {
   }, [card, deck.id, moveToMainDeck]);
 
   return (
-    <Button iconOnly onClick={onButtonClick} tooltip="Move to deck">
+    <Button
+      data-testid="editor-move-to-main"
+      iconOnly
+      onClick={onButtonClick}
+      tooltip="Move to deck"
+    >
       <ArrowLeftToLine />
     </Button>
   );
