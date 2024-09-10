@@ -4,7 +4,7 @@ import type { SettingsState } from "@/store/slices/settings.types";
 
 type Props = {
   settings: SettingsState;
-  updateSettings: (settings: React.SetStateAction<SettingsState>) => void;
+  updateSettings: React.Dispatch<React.SetStateAction<SettingsState>>;
 };
 
 export function HideWeaknessSetting(props: Props) {

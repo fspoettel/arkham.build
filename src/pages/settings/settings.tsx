@@ -13,6 +13,7 @@ import { useToast } from "@/components/ui/toast.hooks";
 import { Library, SlidersVertical } from "lucide-react";
 import { CardDataSync } from "./card-data-sync";
 import { HideWeaknessSetting } from "./hide-weakness";
+import { ListSettings } from "./list-settings";
 import { Section } from "./section";
 import { ShowAllCards } from "./show-all-cards";
 import { TabooSet } from "./taboo-set";
@@ -85,7 +86,22 @@ function Settings() {
                   updateSettings={updateSettings}
                 />
               </Section>
-              <Section title="Sorting defaults"></Section>
+              <Section title="Lists">
+                <div className={css["lists"]}>
+                  <ListSettings
+                    listKey="player"
+                    title="Player cards"
+                    settings={settings}
+                    updateSettings={updateSettings}
+                  />
+                  <ListSettings
+                    listKey="encounter"
+                    title="Encounter cards"
+                    settings={settings}
+                    updateSettings={updateSettings}
+                  />
+                </div>
+              </Section>
             </TabsContent>
             <TabsContent value="collection" forceMount>
               <Section title="Collection">

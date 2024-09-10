@@ -5,7 +5,7 @@ import { useCallback } from "react";
 
 type Props = {
   settings: SettingsState;
-  updateSettings: (settings: React.SetStateAction<SettingsState>) => void;
+  updateSettings: React.Dispatch<React.SetStateAction<SettingsState>>;
 };
 
 export function ShowAllCards(props: Props) {

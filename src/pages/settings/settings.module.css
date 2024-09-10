@@ -61,3 +61,39 @@
 .section-content > * + * {
   margin-top: 1rem;
 }
+
+.lists {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem;
+}
+
+.list {
+  border: 1px solid var(--nord-point-five);
+  padding: 1rem;
+  min-width: 24rem;
+  border-radius: var(--rounded);
+}
+
+.list-overlay {
+  width: 24rem;
+}
+
+.list > * + * {
+  margin-top: 0.75rem;
+}
+
+.list-group > * + * {
+  margin-top: 0.75rem;
+}
+
+.list-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem;
+}
+
+.list-group-title {
+  font-size: var(--text-xs);
+}

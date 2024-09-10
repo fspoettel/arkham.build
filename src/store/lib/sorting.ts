@@ -73,7 +73,9 @@ function sortByFaction(a: Card, b: Card) {
 }
 
 function sortByCost(a: Card, b: Card) {
-  return (a.cost ?? 0) - (b.cost ?? 0);
+  const aCost = a.type_code === "investigator" ? -3 : a.cost ?? -1;
+  const bCost = b.type_code === "investigator" ? -3 : b.cost ?? -1;
+  return aCost - bCost;
 }
 
 function sortByType(a: Card, b: Card) {

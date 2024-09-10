@@ -6,7 +6,7 @@ import { formatTabooSet } from "@/utils/formatting";
 
 type Props = {
   settings: SettingsState;
-  updateSettings: (settings: React.SetStateAction<SettingsState>) => void;
+  updateSettings: React.Dispatch<React.SetStateAction<SettingsState>>;
 };
 
 export function TabooSet(props: Props) {

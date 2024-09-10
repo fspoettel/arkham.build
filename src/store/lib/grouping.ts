@@ -24,6 +24,7 @@ export const PLAYER_GROUPING_TYPES: GroupingType[] = [
   "cycle",
   "faction",
   "level",
+  "pack",
   "slot",
   "subtype",
   "type",
@@ -32,6 +33,7 @@ export const PLAYER_GROUPING_TYPES: GroupingType[] = [
 export const ENCOUNTER_GROUPING_TYPES: GroupingType[] = [
   "cycle",
   "encounter_set",
+  "pack",
   "subtype",
   "type",
 ];
@@ -446,7 +448,7 @@ export function getGroupingKeyLabel(
     }
 
     case "base_upgrades": {
-      if (segment === LEVEL_0) return "Level 0 (or no level)";
+      if (segment === LEVEL_0) return "Level 0 / Null";
       if (segment === UPGRADE) return "Upgrades";
       return "";
     }

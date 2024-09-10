@@ -15,7 +15,7 @@ import {
   selectDeckCreateInvestigatorBack,
 } from "@/store/selectors/deck-create";
 import { selectTabooSetSelectOptions } from "@/store/selectors/lists";
-import { capitalize, formatSelectionId } from "@/utils/formatting";
+import { capitalize, capitalizeSnakeCase } from "@/utils/formatting";
 import { useGoBack } from "@/utils/use-go-back";
 
 import css from "./deck-create.module.css";
@@ -152,7 +152,7 @@ export function DeckCreateEditor() {
       {selections &&
         Object.entries(selections).map(([key, value]) => (
           <Field full key={key} padded>
-            <FieldLabel>{formatSelectionId(key)}</FieldLabel>
+            <FieldLabel>{capitalizeSnakeCase(key)}</FieldLabel>
             {(value.type === "deckSize" || value.type === "faction") && (
               <Select
                 data-testid={`create-select-${key}`}

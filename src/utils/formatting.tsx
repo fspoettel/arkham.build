@@ -7,6 +7,11 @@ export function capitalize(s: string | number) {
   return `${str[0].toUpperCase()}${str.slice(1)}`;
 }
 
+export function capitalizeSnakeCase(s: string) {
+  if (!s.length) return s;
+  return s.split("_").map(capitalize).join(" ");
+}
+
 // `toLocaleDateString()` is slow, memoize it.
 export const formatTabooSet = createSelector(
   (tabooSet: TabooSet) => tabooSet,
@@ -21,10 +26,6 @@ export const formatTabooSet = createSelector(
     return `${capitalize(tabooSet.name)} (${formattedDate})`;
   },
 );
-
-export function formatSelectionId(id: string) {
-  return id.split("_").map(capitalize).join(" ");
-}
 
 export function formatRelationTitle(id: string) {
   if (id === "base") return "Base investigator";
@@ -53,4 +54,16 @@ export function formatXpAvailable(
       XP <em>(spent: {spent ?? 0})</em>
     </span>
   );
+}
+
+export function formatGroupingType(type: string) {
+  switch (type) {
+    case "base_upgrades": {
+      return "Lvl. 0 <> Upgrades";
+    }
+
+    default: {
+      return capitalizeSnakeCase(type);
+    }
+  }
 }

@@ -1,6 +1,6 @@
 import type { GroupingType, SortingType } from "./lists.types";
 
-type ListConfig = {
+export type ListConfig = {
   group: GroupingType[];
   sort: SortingType[];
   showCardText: boolean;

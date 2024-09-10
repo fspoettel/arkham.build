@@ -1,63 +1,216 @@
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { Button } from "./button";
+import {
+  DndContext,
+  type DragEndEvent,
+  DragOverlay,
+  type DragStartEvent,
+  type DraggableAttributes,
+  KeyboardSensor,
+  PointerSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  arrayMove,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
-import { useCallback } from "react";
+import { cx } from "@/utils/cx";
+import { CSS } from "@dnd-kit/utilities";
+import { GripHorizontal } from "lucide-react";
+import type React from "react";
+import { forwardRef, useCallback, useMemo, useState } from "react";
+import { Button } from "./button";
 import css from "./sortable.module.css";
 
-type Props<T> = {
+export type SortableId = string | number;
+
+export type SortableData =
+  | SortableId
+  | {
+      id: SortableId;
+    };
+
+type Props<T extends SortableData> = {
+  activeItems?: SortableId[];
   className?: string;
   items: T[];
   onSort(items: T[]): void;
+  overlayClassName?: string;
   renderItem: (item: T) => React.ReactNode;
 };
 
-export function Sortable<T>(props: Props<T>) {
-  const { items, onSort, renderItem } = props;
+export function Sortable<T extends SortableData>(props: Props<T>) {
+  const { activeItems, items, onSort, overlayClassName, renderItem } = props;
 
-  const onHandleMove = useCallback(
-    (evt: React.MouseEvent<HTMLButtonElement>) => {
-      const delta = Number(evt.currentTarget.dataset.delta);
-      const idx = Number(evt.currentTarget.dataset.index);
-      const nextIdx = idx + delta;
+  const [activeId, setActiveId] = useState<SortableId | undefined>();
 
-      const sorted = [...items];
-      [sorted[idx], sorted[nextIdx]] = [sorted[nextIdx], sorted[idx]];
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
 
-      onSort(sorted);
+  const handleDragStart = useCallback((evt: DragStartEvent) => {
+    const { active } = evt;
+    setActiveId(active.id);
+  }, []);
+
+  const handleDragEnd = useCallback(
+    (evt: DragEndEvent) => {
+      const { active, over } = evt;
+
+      console.log(active, over);
+
+      if (over && active.id !== over.id) {
+        const oldIndex = items.findIndex((x) => readId(x) === active.id);
+        const newIndex = items.findIndex((x) => readId(x) === over.id);
+
+        if (oldIndex === -1 || newIndex === -1) return;
+
+        const sorted = arrayMove(items, oldIndex, newIndex);
+        onSort(sorted);
+      }
+
+      setActiveId(undefined);
     },
     [onSort, items],
   );
 
-  return (
-    <ul className={css["items"]}>
-      {items.map((item, i) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: no natural key available.
-        <li className={css["item"]} key={i}>
-          <div className={css["item-content"]}>{renderItem(item)}</div>
-          <div className={css["item-actions"]}>
-            <Button
-              data-delta={-1}
-              data-index={i}
-              onClick={onHandleMove}
-              disabled={i === 0}
-              iconOnly
-              size="xs"
-            >
-              <ChevronUp />
-            </Button>
-            <Button
-              data-delta={1}
-              data-index={i}
-              onClick={onHandleMove}
-              disabled={i === items.length - 1}
-              iconOnly
-              size="xs"
-            >
-              <ChevronDown />
-            </Button>
-          </div>
-        </li>
-      ))}
-    </ul>
+  const dropAnimation = useMemo(
+    () => ({
+      duration: 250,
+      easing: "ease-out",
+    }),
+    [],
   );
+
+  const activeItem = findActiveItem(activeId, items);
+
+  return (
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
+      <SortableContext items={items} strategy={verticalListSortingStrategy}>
+        <ul className={css["items"]}>
+          {items.map((item) => (
+            <SortableItem
+              id={readId(item)}
+              key={readId(item)}
+              active={isActive(activeItems, item)}
+            >
+              {renderItem(item)}
+            </SortableItem>
+          ))}
+        </ul>
+      </SortableContext>
+      <DragOverlay
+        className={cx(css["overlay"], overlayClassName)}
+        wrapperElement="ul"
+        dropAnimation={dropAnimation}
+      >
+        {activeId && activeItem ? (
+          <Item active={isActive(activeItems, activeId)}>
+            {renderItem(activeItem)}
+          </Item>
+        ) : null}
+      </DragOverlay>
+    </DndContext>
+  );
+}
+
+function SortableItem(props: {
+  active?: boolean;
+  children: React.ReactNode;
+  id: SortableId;
+}) {
+  const { active, children, id } = props;
+
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  const dragHandleProps = useMemo(
+    () => ({ ...attributes, ...listeners }),
+    [attributes, listeners],
+  );
+
+  return (
+    <Item
+      active={active}
+      dragHandleProps={dragHandleProps}
+      ref={setNodeRef}
+      style={style}
+    >
+      {children}
+    </Item>
+  );
+}
+
+const Item = forwardRef(
+  (
+    props: {
+      active?: boolean;
+      children: React.ReactNode;
+      dragHandleProps?: DraggableAttributes | undefined;
+    } & React.HTMLAttributes<HTMLLIElement>,
+    ref: React.ForwardedRef<HTMLLIElement>,
+  ) => {
+    const { active, children, dragHandleProps, ...rest } = props;
+
+    return (
+      <li
+        className={cx(css["item"], active && css["active"])}
+        ref={ref}
+        {...rest}
+      >
+        <div className={css["item-handle"]}>
+          <Button
+            className={cx(
+              css["item-handle-button"],
+              !dragHandleProps && css["static"],
+            )}
+            type="button"
+            variant="bare"
+            iconOnly
+            size="lg"
+            {...dragHandleProps}
+          >
+            <GripHorizontal />
+          </Button>
+        </div>
+        <div className={css["item-content"]}>{children}</div>
+      </li>
+    );
+  },
+);
+
+function readId<T extends SortableData>(data: T) {
+  return typeof data === "object" ? data.id : (data as SortableId);
+}
+
+function isActive<T extends SortableData>(
+  activeItems: SortableId[] | undefined,
+  item: T,
+) {
+  return activeItems?.includes(readId(item)) ?? false;
+}
+
+function findActiveItem<T extends SortableData>(
+  id: SortableId | undefined,
+  items: T[],
+) {
+  if (!id) return;
+  return items.find((item) => readId(item) === id);
 }

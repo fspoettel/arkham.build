@@ -9,7 +9,7 @@ import { splitMultiValue } from "@/utils/card-utils";
 import { randomId } from "@/utils/crypto";
 import {
   capitalize,
-  formatSelectionId,
+  capitalizeSnakeCase,
   formatTabooSet,
 } from "@/utils/formatting";
 import type { Grouping } from "./deck-grouping";
@@ -123,7 +123,7 @@ export function formatDeckAsText(state: StoreState, deck: ResolvedDeck) {
             : selection.value
           : selection.value?.name ?? "None";
 
-      text += `${formatSelectionId(key)}: ${value}  \n`;
+      text += `${capitalizeSnakeCase(key)}: ${value}  \n`;
     }
   }
 
