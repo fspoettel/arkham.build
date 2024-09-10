@@ -14,6 +14,7 @@ import { useAccentColor } from "@/utils/use-accent-color";
 import { EditorActions } from "./editor-actions";
 import { InvestigatorListcard } from "./investigator-listcard";
 import { MetaEditor } from "./meta-editor";
+import { MoveToMainDeck } from "./move-to-main-deck";
 
 type Props = {
   className?: string;
@@ -95,6 +96,9 @@ export function Editor(props: Props) {
                   layout="two_column"
                   listCardSize="sm"
                   mapping="sideSlots"
+                  renderListCardAfter={(card) => (
+                    <MoveToMainDeck card={card} deck={deck} />
+                  )}
                   quantities={deck.sideSlots ?? undefined}
                 />
               ) : (

@@ -1,4 +1,4 @@
-import test, { Page, expect } from "@playwright/test";
+import test, { type Page, expect } from "@playwright/test";
 import {
   adjustDeckCardQuantity,
   adjustListCardQuantity,
@@ -96,8 +96,9 @@ test.describe("upgrades: interactions", () => {
   });
 
   test("exile cards", async ({ page }) => {
-    await importDeckFromFile(page, "./upgrades/exile_base_1.json");
-    await page.getByTestId("collection-deck").click();
+    await importDeckFromFile(page, "./upgrades/exile_base_1.json", {
+      navigate: "view",
+    });
     await page.getByTestId("view-upgrade").click();
     await page.getByTestId("upgrade-xp").click();
     await page.getByTestId("upgrade-xp").fill("5");
