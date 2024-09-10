@@ -222,6 +222,8 @@ function makeUserFilter(
 // 3. An investigator side changes.
 // 4. Cards that change deckbuilding rules (i.e. On Your Own, Versatile...) are added or removed.
 // 5. Customizations change, some options change card properties.
+// 6. Investigator option selections change.
+// 7. Deck card pool changes.
 const deckAccessEqualSelector = createCustomEqualSelector((a, b) => {
   if (isResolvedDeck(a) && isResolvedDeck(b)) {
     return (
@@ -232,7 +234,9 @@ const deckAccessEqualSelector = createCustomEqualSelector((a, b) => {
       JSON.stringify(getAdditionalDeckOptions(a)) ===
         JSON.stringify(getAdditionalDeckOptions(b)) && // 4
       JSON.stringify(a.customizations) === JSON.stringify(b.customizations) && // 5
-      JSON.stringify(a.selections) === JSON.stringify(b.selections) // 6
+      JSON.stringify(a.selections) === JSON.stringify(b.selections) && // 6
+      JSON.stringify(a.metaParsed.card_pool) ===
+        JSON.stringify(b.metaParsed.card_pool) // 7
     );
   }
 
@@ -249,6 +253,7 @@ const customizationsEqualSelector = createCustomEqualSelector((a, b) => {
 });
 
 const selectDeckInvestigatorFilter = deckAccessEqualSelector(
+  (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
   (_: StoreState, resolvedDeck?: ResolvedDeck) => resolvedDeck,
   (
@@ -257,7 +262,7 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
     targetDeck?: "slots" | "extraSlots" | "both",
   ) => targetDeck,
   (state: StoreState) => state.ui.showUnusableCards,
-  (lookupTables, resolvedDeck, targetDeck, showUnusableCards) => {
+  (metadata, lookupTables, resolvedDeck, targetDeck, showUnusableCards) => {
     if (!resolvedDeck) return undefined;
 
     const investigator = resolvedDeck.investigatorBack.card;
@@ -298,7 +303,18 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
     if (investigatorFilter) ors.push(investigatorFilter);
     if (weaknessFilter) ors.push(weaknessFilter);
 
-    return or(ors);
+    const investigatorAccessFilter = or(ors);
+
+    const cardPool = resolvedDeck.cardPool;
+    if (!cardPool?.length) return investigatorAccessFilter;
+
+    const packFilter = filterPackCode(cardPool, metadata, lookupTables);
+    if (!packFilter) return investigatorAccessFilter;
+
+    return and([
+      investigatorAccessFilter,
+      or([packFilter, (c) => c.xp == null]),
+    ]);
   },
 );
 

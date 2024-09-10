@@ -6,7 +6,9 @@ import type { Metadata } from "@/store/slices/metadata.types";
 
 import css from "./card-list.module.css";
 
+import type { ResolvedDeck } from "@/store/lib/types";
 import { SlidersVertical } from "lucide-react";
+import { LimitedCardPoolTag } from "../limited-card-pool";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { DropdownMenu } from "../ui/dropdown-menu";
@@ -15,6 +17,7 @@ import { Select } from "../ui/select";
 
 type Props = {
   data: ListState | undefined;
+  deck?: ResolvedDeck;
   metadata: Metadata;
   onSelectGroup: (evt: React.ChangeEvent<HTMLSelectElement>) => void;
   showCardText: boolean;
@@ -57,7 +60,8 @@ export function CardListNav(props: Props) {
 
   return (
     <nav className={css["nav"]}>
-      <output>
+      <output className={css["nav-stats"]}>
+        <LimitedCardPoolTag />
         <span data-testid="cardlist-count">
           {data?.cards.length ?? 0} cards
         </span>

@@ -1,5 +1,5 @@
 import { ExternalLink, MessageSquare } from "lucide-react";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { Link } from "wouter";
 
 import { useStore } from "@/store";
@@ -21,6 +21,8 @@ import { CustomizationsEditor } from "../customizations/customizations-editor";
 import { Button } from "../ui/button";
 import { useDialogContext } from "../ui/dialog.hooks";
 import { Modal } from "../ui/modal";
+import { CardModalAttachable } from "./card-modal-attachable";
+import { CardModalAttachmentQuantities } from "./card-modal-attachment-quantities";
 import { CardModalQuantities } from "./card-modal-quantities";
 
 type Props = {
@@ -29,6 +31,7 @@ type Props = {
 
 export function CardModal(props: Props) {
   const ctx = useResolvedDeck();
+
   const canEdit = ctx.canEdit;
 
   const modalContext = useDialogContext();
@@ -36,6 +39,17 @@ export function CardModal(props: Props) {
   const onCloseModal = useCallback(() => {
     modalContext?.setOpen(false);
   }, [modalContext]);
+
+  const quantitiesRef = useRef<HTMLDivElement>(null);
+
+  const onClick = useCallback(
+    (evt: React.MouseEvent) => {
+      if (evt.target === quantitiesRef.current) {
+        onCloseModal();
+      }
+    },
+    [onCloseModal],
+  );
 
   const cardWithRelations = useStore((state) =>
     selectCardWithRelations(state, props.code, true, ctx.resolvedDeck),
@@ -52,12 +66,23 @@ export function CardModal(props: Props) {
 
   const related = getRelatedCards(cardWithRelations);
 
+  const attachableDefinition = ctx.resolvedDeck?.availableAttachments.find(
+    (config) => config.code === cardWithRelations.card.code,
+  );
+
   const cardNode = (
     <>
       <Card
         resolvedCard={cardWithRelations}
         size={canRenderFull ? "full" : "compact"}
       >
+        {ctx.resolvedDeck && !!attachableDefinition && (
+          <CardModalAttachable
+            card={cardWithRelations.card}
+            definition={attachableDefinition}
+            resolvedDeck={ctx.resolvedDeck}
+          />
+        )}
         {cardWithRelations.card.customization_options ? (
           ctx.resolvedDeck ? (
             <CustomizationsEditor
@@ -133,15 +158,28 @@ export function CardModal(props: Props) {
       {showQuantities ? (
         <div className={css["container"]}>
           <div>{cardNode}</div>
-          {showQuantities && (
-            <CardModalQuantities
-              canEdit={canEdit}
-              card={cardWithRelations.card}
-              deck={ctx.resolvedDeck}
-              onClickBackground={onCloseModal}
-              showExtraQuantities={showExtraQuantities}
-            />
-          )}
+          {/* biome-ignore lint/a11y/useKeyWithClickEvents: not relevant. */}
+          <div
+            className={css["quantities"]}
+            onClick={onClick}
+            ref={quantitiesRef}
+          >
+            {showQuantities && (
+              <CardModalQuantities
+                canEdit={canEdit}
+                card={cardWithRelations.card}
+                deck={ctx.resolvedDeck}
+                onCloseModal={onCloseModal}
+                showExtraQuantities={showExtraQuantities}
+              />
+            )}
+            {!!ctx.resolvedDeck?.availableAttachments.length && (
+              <CardModalAttachmentQuantities
+                card={cardWithRelations.card}
+                resolvedDeck={ctx.resolvedDeck}
+              />
+            )}
+          </div>
         </div>
       ) : (
         cardNode

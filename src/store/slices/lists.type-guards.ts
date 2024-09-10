@@ -117,7 +117,8 @@ export function isCostFilter(value: unknown): value is CostFilter {
     "range" in value &&
     "even" in value &&
     "odd" in value &&
-    "x" in value
+    "x" in value &&
+    "nocost" in value
   );
 }
 

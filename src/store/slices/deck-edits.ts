@@ -5,19 +5,17 @@ import { capitalize } from "@/utils/formatting";
 import { assert } from "@/utils/assert";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import type { StoreState } from ".";
+import { clampAttachmentQuantity } from "../lib/attachments";
 import { randomBasicWeaknessForDeck } from "../lib/random-basic-weakness";
-import { selectCurrentCardQuantity } from "../selectors/decks";
+import {
+  selectCurrentCardQuantity,
+  selectResolvedDeckById,
+} from "../selectors/decks";
 import type { Id } from "./data.types";
 import { type DeckEditsSlice, mapTabToSlot } from "./deck-edits.types";
 
 function currentEdits(state: StoreState, deckId: Id) {
-  return (
-    state.deckEdits[deckId] ?? {
-      quantities: {},
-      meta: {},
-      customizations: {},
-    }
-  );
+  return state.deckEdits[deckId] ?? {};
 }
 
 export const createDeckEditsSlice: StateCreator<
@@ -43,7 +41,10 @@ export const createDeckEditsSlice: StateCreator<
     const targetTab = tab || "slots";
     const slot = mapTabToSlot(targetTab);
 
-    const current = selectCurrentCardQuantity(state, deckId, code, slot);
+    const deck = selectResolvedDeckById(state, deckId, true);
+    assert(deck, `Tried to edit deck that does not exist: ${deckId}`);
+
+    const current = deck[slot]?.[code] ?? 0;
 
     const newValue =
       mode === "increment"
@@ -52,7 +53,7 @@ export const createDeckEditsSlice: StateCreator<
 
     if (mode === "increment" && current + quantity > limit) return;
 
-    set({
+    const nextState = {
       deckEdits: {
         ...state.deckEdits,
         [deckId]: {
@@ -60,15 +61,26 @@ export const createDeckEditsSlice: StateCreator<
           quantities: {
             ...edits.quantities,
             [slot]: {
-              ...edits.quantities[slot],
+              ...edits.quantities?.[slot],
               [code]: newValue,
             },
           },
         },
       },
-    });
-  },
+    };
 
+    // ensure quantity of attachments is less than quantity in deck.
+    if (deck.attachments) {
+      nextState.deckEdits[deckId].attachments = clampAttachmentQuantity(
+        edits.attachments,
+        deck.attachments,
+        code,
+        newValue,
+      );
+    }
+
+    set(nextState);
+  },
   updateTabooId(deckId, value) {
     const state = get();
 
@@ -119,28 +131,25 @@ export const createDeckEditsSlice: StateCreator<
           ...edits,
           meta: {
             ...edits.meta,
-            [key]: value,
+            [key]: value || null,
           },
         },
       },
     });
   },
-
   updateInvestigatorSide(deckId, side, code) {
     const state = get();
-    const edits = currentEdits(state, deckId);
 
     set({
       deckEdits: {
         ...state.deckEdits,
         [deckId]: {
-          ...edits,
+          ...currentEdits(state, deckId),
           [`investigator${capitalize(side)}`]: code,
         },
       },
     });
   },
-
   updateCustomization(deckId, code, index, patch) {
     const state = get();
     const edits = currentEdits(state, deckId);
@@ -164,37 +173,32 @@ export const createDeckEditsSlice: StateCreator<
       },
     });
   },
-
   updateTags(deckId, value) {
     const state = get();
-    const edits = currentEdits(state, deckId);
 
     set({
       deckEdits: {
         ...state.deckEdits,
         [deckId]: {
-          ...edits,
+          ...currentEdits(state, deckId),
           tags: value,
         },
       },
     });
   },
-
   updateXpAdjustment(deckId, value) {
     const state = get();
-    const edits = currentEdits(state, deckId);
 
     set({
       deckEdits: {
         ...state.deckEdits,
         [deckId]: {
-          ...edits,
+          ...currentEdits(state, deckId),
           xpAdjustment: value,
         },
       },
     });
   },
-
   drawRandomBasicWeakness(deckId) {
     const state = get();
 
@@ -220,15 +224,17 @@ export const createDeckEditsSlice: StateCreator<
       "slots",
     );
 
+    const edits = currentEdits(state, deckId);
+
     set({
       deckEdits: {
         ...state.deckEdits,
         [deckId]: {
-          ...currentEdits(state, deckId),
+          ...edits,
           quantities: {
-            ...currentEdits(state, deckId).quantities,
+            ...edits.quantities,
             slots: {
-              ...currentEdits(state, deckId).quantities.slots,
+              ...edits.quantities?.slots,
               [SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS]: Math.max(
                 rbwQuantity - 1,
                 0,
@@ -236,6 +242,36 @@ export const createDeckEditsSlice: StateCreator<
               [weakness]: weaknessQuantity + 1,
             },
           },
+        },
+      },
+    });
+  },
+  updateAttachment(deckId, targetCode, code, quantity, limit) {
+    const state = get();
+    const edits = currentEdits(state, deckId);
+
+    const attachments = structuredClone(edits.attachments ?? {});
+
+    attachments[targetCode] ??= {};
+    attachments[targetCode][code] = quantity;
+
+    const availableQuantity = Math.max(limit - quantity, 0);
+
+    for (const [key, entries] of Object.entries(attachments)) {
+      if (key === targetCode) continue;
+
+      for (const [other, quantity] of Object.entries(entries)) {
+        if (code !== other) continue;
+        attachments[key][other] = Math.min(availableQuantity, quantity);
+      }
+    }
+
+    set({
+      deckEdits: {
+        ...state.deckEdits,
+        [deckId]: {
+          ...edits,
+          attachments,
         },
       },
     });

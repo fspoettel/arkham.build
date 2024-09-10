@@ -53,7 +53,25 @@ export function DeckCollection() {
 
     if (confirmed) {
       setPopoverOpen(false);
-      await deleteAllDecks(toast);
+
+      const toastId = toast.show({
+        children: "Deleting all decks...",
+      });
+      try {
+        await deleteAllDecks();
+        toast.dismiss(toastId);
+        toast.show({
+          children: "Decks delete successful.",
+          duration: 3000,
+          variant: "success",
+        });
+      } catch (err) {
+        toast.dismiss(toastId);
+        toast.show({
+          children: `Decks could not be deleted: ${(err as Error)?.message}.`,
+          variant: "error",
+        });
+      }
     }
   }, [deleteAllDecks, toast]);
 

@@ -181,53 +181,55 @@ export const CARD_SET_ORDER = [
   "level",
 ];
 
-type SeparateDeckDefinition = {
+export type AttachableDefinition = {
+  code: string;
   icon: string;
-  traits?: string[];
-  typeCodes?: string[];
+  limit?: number;
+  name: string;
+  requiredCards?: Record<string, number>;
   targetSize: number;
-  requiredCards?: string[];
-  selection: "choice" | "random";
+  traits?: string[];
 };
 
 /**
- * A separate deck is a deck that is constructed during the scenario setup.
+ * An attachable card is a card that has a separate deck that constructed during the scenario setup.
  * This excludes Parallel Jim's spirit deck, which cannot change between scenarios.
  */
-export const CARDS_SEPARATE_DECKS: { [code: string]: SeparateDeckDefinition } =
-  {
-    [SPECIAL_CARD_CODES.ANCESTRAL_KNOWLEDGE]: {
-      typeCodes: ["skill"],
-      icon: "brain",
-      targetSize: 5,
-      selection: "random",
+export const ATTACHABLE_CARDS: { [code: string]: AttachableDefinition } = {
+  [SPECIAL_CARD_CODES.BEWITCHING]: {
+    code: SPECIAL_CARD_CODES.BEWITCHING,
+    limit: 1,
+    name: "Bewitching",
+    traits: ["Trick."],
+    icon: "wand-sparkles",
+    targetSize: 3,
+  },
+  [SPECIAL_CARD_CODES.JOE_DIAMOND]: {
+    code: SPECIAL_CARD_CODES.JOE_DIAMOND,
+    traits: ["Insight."],
+    name: "Hunch deck",
+    icon: "lightbulb",
+    targetSize: 11,
+    requiredCards: {
+      [SPECIAL_CARD_CODES.UNSOLVED_CASE]: 1,
     },
-    [SPECIAL_CARD_CODES.BEWITCHING]: {
-      traits: ["trick"],
-      icon: "wand-sparkles",
-      targetSize: 3,
-      selection: "choice",
-    },
-    [SPECIAL_CARD_CODES.JOE_DIAMOND]: {
-      traits: ["insight"],
-      icon: "lightbulb",
-      targetSize: 11,
-      requiredCards: [SPECIAL_CARD_CODES.UNSOLVED_CASE],
-      selection: "choice",
-    },
-    [SPECIAL_CARD_CODES.STICK_TO_THE_PLAN]: {
-      traits: ["tactic", "supply"],
-      icon: "package",
-      targetSize: 3,
-      selection: "choice",
-    },
-    [SPECIAL_CARD_CODES.UNDERWORLD_MARKET]: {
-      traits: ["illicit"],
-      icon: "store",
-      targetSize: 10,
-      selection: "choice",
-    },
-  };
+  },
+  [SPECIAL_CARD_CODES.STICK_TO_THE_PLAN]: {
+    code: SPECIAL_CARD_CODES.STICK_TO_THE_PLAN,
+    limit: 1,
+    traits: ["Tactic.", "Supply."],
+    name: "Stick to the Plan",
+    icon: "package",
+    targetSize: 3,
+  },
+  [SPECIAL_CARD_CODES.UNDERWORLD_MARKET]: {
+    code: SPECIAL_CARD_CODES.UNDERWORLD_MARKET,
+    traits: ["Illicit."],
+    name: "Market deck",
+    icon: "store",
+    targetSize: 10,
+  },
+};
 
 export const DECK_SIZE_ADJUSTMENTS = {
   [SPECIAL_CARD_CODES.ANCESTRAL_KNOWLEDGE]: 5,

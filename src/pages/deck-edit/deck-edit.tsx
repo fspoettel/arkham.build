@@ -1,5 +1,5 @@
 import { Undo } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "wouter";
 
 import { ListLayout } from "@//layouts/list-layout";
@@ -20,10 +20,14 @@ import { useDocumentTitle } from "@/utils/use-document-title";
 import { Editor } from "./editor/editor";
 import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 
+import { Attachments } from "@/components/attachments/attachments";
 import type { ResolvedDeck } from "@/store/lib/types";
+import type { Card } from "@/store/services/queries.types";
+import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
 import { Error404 } from "../errors/404";
 import css from "./deck-edit.module.css";
+import { DrawBasicWeakness } from "./editor/draw-basic-weakness";
 
 function DeckEdit() {
   const { id } = useParams<{ id: string }>();
@@ -101,6 +105,17 @@ function DeckEdit() {
 function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
   const [currentTab, setCurrentTab] = useState<Tab>("slots");
 
+  const renderListCardAfter = useCallback(
+    (card: Card, quantity: number | undefined) => {
+      return card.code === SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS ? (
+        <DrawBasicWeakness deckId={deck.id} quantity={quantity} />
+      ) : (
+        <Attachments card={card} resolvedDeck={deck} />
+      );
+    },
+    [deck],
+  );
+
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
 
   const validation = useStore((state) => selectDeckValid(state, deck));
@@ -110,10 +125,10 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
   );
 
   const onChangeCardQuantity = useMemo(() => {
-    return (code: string, quantity: number, limit: number) => {
+    return (card: Card, quantity: number, limit: number) => {
       updateCardQuantity(
         deck.id,
-        code,
+        card.code,
         quantity,
         limit,
         mapTabToSlot(currentTab),
@@ -137,16 +152,18 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
           currentTab={currentTab}
           deck={deck}
           onTabChange={setCurrentTab}
+          renderListCardAfter={renderListCardAfter}
           validation={validation}
         />
       }
-      sidebarWidthMax="45rem"
+      sidebarWidthMax="var(--sidebar-width-one-col)"
     >
       {(props) => (
         <CardList
           {...props}
           onChangeCardQuantity={onChangeCardQuantity}
           quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
+          renderListCardAfter={renderListCardAfter}
           targetDeck={
             mapTabToSlot(currentTab) === "extraSlots" ? "extraSlots" : "slots"
           }

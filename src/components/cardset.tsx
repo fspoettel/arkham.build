@@ -9,13 +9,14 @@ import {
 
 import css from "./cardset.module.css";
 
+import type { Card } from "@/store/services/queries.types";
 import { CircleHelp } from "lucide-react";
 import { ListCard } from "./list-card/list-card";
 import { Checkbox } from "./ui/checkbox";
 import { DefaultTooltip } from "./ui/tooltip";
 
 type Props = {
-  onChangeCardQuantity?: (code: string, quantity: number) => void;
+  onChangeCardQuantity?: (card: Card, quantity: number) => void;
   onSelect?: (id: string) => void;
   set: CardSetType;
 };

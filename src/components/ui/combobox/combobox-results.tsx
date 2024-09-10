@@ -19,10 +19,15 @@ export function ComboboxResults<T extends { code: string }>(props: Props<T>) {
   return (
     <ul className={css["results"]}>
       {items.map((item) => (
-        <Tag key={item.code} size="xs">
+        <Tag
+          key={item.code}
+          size="xs"
+          data-testid={`combobox-result-${item.code}`}
+        >
           {renderResult(item)}
           {onRemove && (
             <Button
+              data-testid="combobox-result-remove"
               iconOnly
               onClick={() => {
                 onRemove(item);

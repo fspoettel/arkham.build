@@ -13,7 +13,7 @@ import type { Customization, Customizations, ResolvedDeck } from "../lib/types";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import type { Id } from "../slices/data.types";
-import type { EditState } from "../slices/deck-edits.types";
+import type { Slot } from "../slices/deck-edits.types";
 
 export const selectResolvedDeckById = createSelector(
   (state: StoreState) => state.metadata,
@@ -101,7 +101,7 @@ export function selectCurrentCardQuantity(
   state: StoreState,
   deckId: Id,
   code: string,
-  key: keyof EditState["quantities"],
+  key: Slot,
 ) {
   const deck = selectResolvedDeckById(state, deckId, true);
   return deck?.[key]?.[code] ?? 0;
@@ -126,7 +126,7 @@ export type CustomizationUpgrade = {
   xpMax: number;
 };
 
-export type HistoryEntry = UpgradeStats & {
+type HistoryEntry = UpgradeStats & {
   differences: {
     slots: SlotUpgrade[];
     extraSlots: SlotUpgrade[];

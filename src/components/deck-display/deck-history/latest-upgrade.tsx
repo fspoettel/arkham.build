@@ -109,12 +109,13 @@ export function LatestUpgrade(props: Props) {
         overflowScroll && css["scroll"],
         readonly && css["readonly"],
       )}
+      data-testid="latest-upgrade"
       omitBorder
       omitPadding
       triggerReversed
       title={
         <div className={css["title"]}>
-          <div className={css["row"]}>
+          <div className={css["row"]} data-testid="latest-upgrade-summary">
             <i className="icon-xp-bold" />
             <strong>{xpSpent}</strong> of{" "}
             <span className={css["quantity"]}>
@@ -127,12 +128,18 @@ export function LatestUpgrade(props: Props) {
                 <Button
                   disabled={xp + xpAdjustment <= 0}
                   size="none"
+                  data-testid="latest-upgrade-xp-decrement"
                   variant="bare"
                   onClick={onDecrement}
                 >
                   <MinusCircle />
                 </Button>
-                <Button size="none" variant="bare" onClick={onIcrement}>
+                <Button
+                  data-testid="latest-upgrade-xp-increment"
+                  size="none"
+                  variant="bare"
+                  onClick={onIcrement}
+                >
                   <PlusCircle />
                 </Button>
               </>
@@ -146,6 +153,7 @@ export function LatestUpgrade(props: Props) {
               <PopoverTrigger asChild>
                 <Button
                   iconOnly
+                  data-testid="latest-upgrade-exile"
                   onClick={(evt: React.MouseEvent<HTMLButtonElement>) => {
                     evt.stopPropagation();
                   }}
@@ -170,6 +178,7 @@ export function LatestUpgrade(props: Props) {
                             ? (card) => (
                                 <Button
                                   iconOnly
+                                  data-testid={`latest-upgrade-exile-${code}-add`}
                                   onClick={(
                                     evt: React.MouseEvent<HTMLButtonElement>,
                                   ) => {

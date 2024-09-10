@@ -32,6 +32,12 @@
   margin-top: 0.5rem;
 }
 
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
 .content {
   grid-area: decklist;
   padding: 0.375rem;

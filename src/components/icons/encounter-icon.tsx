@@ -164,6 +164,9 @@ function getEncounterIcon(code?: string) {
     case "migo_incursion_2":
       return null;
 
+    case "the_midwinter_gala":
+      return "gala";
+
     default:
       return code;
   }

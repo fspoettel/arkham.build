@@ -7,7 +7,7 @@ import type { SelectOption } from "@/components/ui/select";
 import { Select } from "@/components/ui/select";
 import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
-import { decodeSelections } from "@/store/lib/serialization/deck-meta";
+import { decodeSelections } from "@/store/lib/deck-meta";
 import type { CardWithRelations } from "@/store/lib/types";
 import {
   selectDeckCreateChecked,
@@ -21,6 +21,7 @@ import { useGoBack } from "@/utils/use-go-back";
 import css from "./deck-create.module.css";
 
 import { useAccentColor } from "../../utils/use-accent-color";
+import { DeckCreateCardPool } from "./deck-create-card-pool";
 
 export function DeckCreateEditor() {
   const deckCreate = useStore(selectDeckCreateChecked);
@@ -49,6 +50,7 @@ export function DeckCreateEditor() {
   const setTitle = useStore((state) => state.deckCreateSetTitle);
   const setTabooSet = useStore((state) => state.deckCreateSetTabooSet);
   const setSelection = useStore((state) => state.deckCreateSetSelection);
+
   const setInvestigatorCode = useStore(
     (state) => state.deckCreateSetInvestigatorCode,
   );
@@ -181,6 +183,8 @@ export function DeckCreateEditor() {
             )}
           </Field>
         ))}
+
+      <DeckCreateCardPool />
 
       <nav className={css["editor-nav"]}>
         <Button

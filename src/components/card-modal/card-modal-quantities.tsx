@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 import { useStore } from "@/store";
 import type { Card } from "@/store/services/queries.types";
@@ -15,21 +15,11 @@ type Props = {
   canEdit?: boolean;
   deck?: ResolvedDeck;
   showExtraQuantities?: boolean;
-  onClickBackground?: () => void;
+  onCloseModal(): void;
 };
 
 export function CardModalQuantities(props: Props) {
-  const { card, canEdit, deck, showExtraQuantities, onClickBackground } = props;
-  const divRef = useRef<HTMLDivElement>(null);
-
-  const onClick = useCallback(
-    (evt: React.MouseEvent) => {
-      if (evt.target === divRef.current) {
-        onClickBackground?.();
-      }
-    },
-    [onClickBackground],
-  );
+  const { card, canEdit, deck, showExtraQuantities, onCloseModal } = props;
 
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
 
@@ -55,7 +45,7 @@ export function CardModalQuantities(props: Props) {
           "slots",
           "set",
         );
-        onClickBackground?.();
+        onCloseModal();
       }
     }
 
@@ -63,7 +53,7 @@ export function CardModalQuantities(props: Props) {
     return () => {
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [canEdit, card.code, updateCardQuantity, onClickBackground, deck?.id]);
+  }, [canEdit, card.code, updateCardQuantity, onCloseModal, deck?.id]);
 
   const quantities = deck?.slots;
   const sideSlotQuantities = deck?.sideSlots;
@@ -82,11 +72,10 @@ export function CardModalQuantities(props: Props) {
   const isBonded = !!bondedSlotQuantities?.[code];
 
   return (
-    // biome-ignore lint/a11y/useKeyWithClickEvents: TODO.
-    <div className={css["quantities"]} onClick={onClick} ref={divRef}>
+    <>
       {!isBonded && (
         <article className={css["quantity"]}>
-          <h3>Deck</h3>
+          <h3 className={css["quantity-title"]}>Deck</h3>
           <QuantityInput
             data-testid="card-modal-quantities-main"
             disabled={!canEdit}
@@ -98,7 +87,7 @@ export function CardModalQuantities(props: Props) {
       )}
       {!isBonded && (
         <article className={css["quantity"]}>
-          <h3>Side deck</h3>
+          <h3 className={css["quantity-title"]}>Side deck</h3>
           <QuantityInput
             data-testid="card-modal-quantities-side"
             disabled={isBonded || !canEdit}
@@ -112,7 +101,7 @@ export function CardModalQuantities(props: Props) {
       )}
       {isBonded && (
         <article className={css["quantity"]}>
-          <h3>Bonded</h3>
+          <h3 className={css["quantity-title"]}>Bonded</h3>
           <QuantityInput
             disabled
             data-testid="card-modal-quantities-bonded"
@@ -123,7 +112,7 @@ export function CardModalQuantities(props: Props) {
       )}
       {showExtraQuantities && (
         <article className={css["quantity"]}>
-          <h3>Spirits</h3>
+          <h3 className={css["quantity-title"]}>Spirits</h3>
           <QuantityInput
             data-testid="card-modal-quantities-extra"
             disabled={!canEdit}
@@ -137,7 +126,7 @@ export function CardModalQuantities(props: Props) {
       )}
       {!isBonded && showIgnoreDeckLimitSlots(deck, card) && (
         <article className={css["quantity"]}>
-          <h3>Ignore deck limit</h3>
+          <h3 className={css["quantity-title"]}>Ignore deck limit</h3>
           <QuantityInput
             data-testid="card-modal-quantities-ignored"
             disabled={!canEdit}
@@ -149,7 +138,7 @@ export function CardModalQuantities(props: Props) {
           />
         </article>
       )}
-    </div>
+    </>
   );
 }
 

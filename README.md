@@ -4,7 +4,19 @@
 
 🗺️ [Roadmap](https://github.com/users/fspoettel/projects/5)
 
+## Metadata additions
+
+arkham.build extends the _arkhamdb deck schema_ with a few fields for additional functionality.
+
+- `meta.extra_deck`: Parallel Jim's spirit deck. Format: comma-separated list of ids `"id1,id2,id3"`.
+- `meta.attachments_{code}`: cards that are attached to a specific setup deck, for example _Joe Diamond_ or _Stick to the Plan_. Format: comma-separated list of ids `"id1,id2,id2,id3"`.
+- `meta.card_pool`: packs that can be used for this deck. Used for limited pool deckbuilding such as #campaign-playalong. Format: `"<pack_code>,<pack_code>"`. For arkham.build, new format pack codes take precedence over old format.
+
 ## Development
+
+1. Create an `.env` file from `.env.example`.
+2. `npm install`
+3. `npm run dev`
 
 ### API
 

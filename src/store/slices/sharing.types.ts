@@ -11,5 +11,5 @@ export type SharingSlice = {
   deleteShare: (id: string) => Promise<void>;
   deleteAllShares: () => Promise<void>;
   importSharedDeck: (deck: ResolvedDeck) => Id;
-  updateShare: (id: string) => Promise<void>;
+  updateShare: (id: string) => Promise<Id | undefined>;
 };

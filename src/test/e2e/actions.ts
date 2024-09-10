@@ -80,3 +80,24 @@ export async function shareDeck(page: Page) {
   await page.getByTestId("share-link").click();
   await expect(page).toHaveURL(/\/share/);
 }
+
+export function adjustDeckCardQuantity(
+  page: Page,
+  code: string,
+  mode: "increment" | "decrement",
+) {
+  const locator = locateCardInSlots(page, code);
+  return locator.getByTestId(`quantity-${mode}`).click();
+}
+
+export function adjustListCardQuantity(
+  page: Page,
+  code: string,
+  mode: "increment" | "decrement",
+) {
+  return page
+    .getByTestId("card-list-scroller")
+    .getByTestId(`listcard-${code}`)
+    .getByTestId(`quantity-${mode}`)
+    .click();
+}

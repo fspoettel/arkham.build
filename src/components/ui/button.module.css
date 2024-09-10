@@ -55,7 +55,7 @@ a.button {
 }
 
 .button.bare {
-  color: var(--nord-5);
+  color: currentColor;
   background: none;
   border: none;
 }
@@ -100,4 +100,9 @@ a.button {
 
 .button.round {
   border-radius: 100vw;
+}
+
+.button.none.icon-only {
+  padding: 0;
+  font-size: inherit;
 }
