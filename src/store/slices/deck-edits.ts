@@ -276,4 +276,40 @@ export const createDeckEditsSlice: StateCreator<
       },
     });
   },
+
+  moveToMainDeck(card, deckId) {
+    const state = get();
+
+    const deck = selectResolvedDeckById(state, deckId, true);
+
+    const quantity = deck?.sideSlots?.[card.code] ?? 0;
+    if (!quantity) return;
+
+    const edits = currentEdits(state, deckId);
+
+    const nextQuantity = Math.min(
+      (edits.quantities?.slots?.[card.code] ?? 0) + quantity,
+      card.deck_limit ?? card.quantity,
+    );
+
+    set({
+      deckEdits: {
+        ...state.deckEdits,
+        [deckId]: {
+          ...edits,
+          quantities: {
+            ...edits.quantities,
+            slots: {
+              ...edits.quantities?.slots,
+              [card.code]: nextQuantity,
+            },
+            sideSlots: {
+              ...currentEdits(state, deckId).quantities?.sideSlots,
+              [card.code]: 0,
+            },
+          },
+        },
+      },
+    });
+  },
 });
