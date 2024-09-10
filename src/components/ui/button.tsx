@@ -10,7 +10,7 @@ type Props<T extends "a" | "button" | "summary" | "label"> =
     children: React.ReactNode;
     className?: string;
     iconOnly?: boolean;
-    variant?: "primary" | "secondary" | "bare";
+    variant?: "primary" | "secondary" | "bare" | "round";
     size?: "xs" | "sm" | "lg" | "full" | "none";
     tooltip?: React.ReactNode;
   };

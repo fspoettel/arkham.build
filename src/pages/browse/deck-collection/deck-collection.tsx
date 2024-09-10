@@ -1,4 +1,4 @@
-import { ChevronsLeft, Ellipsis, Plus, Trash2, Upload } from "lucide-react";
+import { Ellipsis, Plus, Trash2, Upload } from "lucide-react";
 import { Link } from "wouter";
 
 import { DeckSummary } from "@/components/deck-summary";
@@ -15,6 +15,7 @@ import { selectLocalDecks } from "@/store/selectors/decks";
 
 import css from "./deck-collection.module.css";
 
+import { CollapseSidebarButton } from "@/components/collapse-sidebar-button";
 import {
   useDeleteDeck,
   useDuplicateDeck,
@@ -61,6 +62,13 @@ export function DeckCollection() {
 
   return (
     <div className={css["container"]}>
+      <CollapseSidebarButton
+        callback={() => {
+          setSidebarOpen(false);
+        }}
+        orientation="left"
+        className={css["collapse"]}
+      />
       <header className={css["header"]}>
         <h2 className={css["title"]}>Decks</h2>
         <div className={css["actions"]}>
@@ -76,14 +84,6 @@ export function DeckCollection() {
               <Plus />
             </Button>
           </Link>
-          <Button
-            as="button"
-            data-testid="sidebar-collapse"
-            tooltip="Collapse sidebar"
-            onClick={() => setSidebarOpen(false)}
-          >
-            <ChevronsLeft />
-          </Button>
           <Popover onOpenChange={setPopoverOpen} open={popoverOpen}>
             <PopoverTrigger asChild>
               <Button
