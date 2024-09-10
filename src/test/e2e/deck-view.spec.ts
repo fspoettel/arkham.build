@@ -192,7 +192,6 @@ test.describe("deck view: display", () => {
     await importDeckFromFile(page, "validation/parallel_wendy.json", {
       navigate: "view",
     });
-    await page.getByTestId("collection-deck").click();
 
     await page.getByTestId("deck-investigator-back-toggle").click();
 
