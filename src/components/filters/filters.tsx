@@ -10,6 +10,7 @@ import {
 import css from "./filters.module.css";
 
 import { FilterX } from "lucide-react";
+import { CollapseSidebarButton } from "../collapse-sidebar-button";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Scroller } from "../ui/scroller";
@@ -39,6 +40,7 @@ export function Filters(props: Props) {
   const resetFilters = useStore((state) => state.resetFilters);
   const activeList = useStore(selectActiveList);
   const filters = useStore(selectActiveListFilters);
+  const setFiltersOpen = useStore((state) => state.setFiltersOpen);
 
   const filtersEnabled = activeList?.filtersEnabled ?? true;
   const updateFiltersEnabled = useStore((state) => state.setFiltersEnabled);
@@ -51,6 +53,14 @@ export function Filters(props: Props) {
         !filtersEnabled && css["disabled"],
       )}
     >
+      <CollapseSidebarButton
+        callback={() => {
+          setFiltersOpen(false);
+        }}
+        orientation="right"
+        className={css["collapse"]}
+      />
+
       {props.children && (
         <div className={css["children"]}>{props.children}</div>
       )}

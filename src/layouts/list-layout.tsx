@@ -104,7 +104,7 @@ export function ListLayout(props: Props) {
               <i className="icon-deck" />
             </Button>
           ),
-          slotRight: (
+          slotRight: !filtersOpen && (
             <Button
               className={css["toggle-filters"]}
               onClick={() => setFiltersOpen(true)}

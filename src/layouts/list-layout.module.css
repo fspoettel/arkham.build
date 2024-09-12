@@ -104,12 +104,6 @@
   border-radius: var(--rounded);
 }
 
-.toggle-filters {
-  @media screen and (min-width: 75rem) {
-    display: none;
-  }
-}
-
 .footer {
   grid-area: footer;
 }

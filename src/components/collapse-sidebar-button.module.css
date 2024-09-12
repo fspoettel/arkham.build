@@ -10,6 +10,10 @@
   z-index: 4;
   cursor: pointer;
 
+  opacity: 0;
+  transition: 0.3s;
+  pointer-events: none;
+
   &.left {
     right: 0
   }
