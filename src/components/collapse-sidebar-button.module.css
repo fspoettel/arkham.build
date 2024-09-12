@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: center;
   width: 1px;
-  z-index: 9;
+  z-index: 4;
   cursor: pointer;
 
   &.left {

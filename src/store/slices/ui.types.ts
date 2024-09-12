@@ -4,6 +4,7 @@ export type UIState = {
     initialized: boolean;
     showUnusableCards: boolean;
     sidebarOpen: boolean;
+    filtersOpen: boolean;
   };
 };
 
@@ -11,4 +12,5 @@ export type UISlice = UIState & {
   setHydrated(): void;
   setShowUnusableCards(value: boolean): void;
   setSidebarOpen(set: boolean): void;
+  setFiltersOpen(set: boolean): void;
 };

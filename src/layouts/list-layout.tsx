@@ -1,6 +1,6 @@
 import { cx } from "@/utils/cx";
 import type React from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 import { CardTypeFilter } from "@/components/filters/card-type-filter";
 import { Masthead } from "@/components/masthead";
@@ -33,50 +33,46 @@ export function ListLayout(props: Props) {
     sidebarWidthMax,
   } = props;
 
-  const [floatingFiltersOpen, setFloatingFiltersOpen] = useState(false);
-
   const sidebarOpen = useStore((state) => state.ui.sidebarOpen);
   const setSidebarOpen = useStore((state) => state.setSidebarOpen);
+
+  const filtersOpen = useStore((state) => state.ui.sidebarOpen);
+  const setFiltersOpen = useStore((state) => state.setSidebarOpen);
+
+  const floatingSidebar = useMedia("(max-width: 52rem)");
+  const floatingFilters = useMedia("(max-width: 75rem)");
 
   const filtersRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   const onContentClick = useCallback(
     (evt: React.PointerEvent) => {
-      if (!floatingFiltersOpen && !sidebarOpen) return;
+      if (!filtersOpen && !sidebarOpen) return;
       evt.preventDefault();
-      setFloatingFiltersOpen(false);
+      setFiltersOpen(false);
       setSidebarOpen(false);
     },
-    [floatingFiltersOpen, sidebarOpen, setSidebarOpen],
+    [filtersOpen, sidebarOpen, setSidebarOpen, setFiltersOpen],
   );
 
   const preventBubble = useCallback((e: React.PointerEvent) => {
     e.stopPropagation();
   }, []);
 
-  const layoutWithSidebar = useMedia("(min-width: 52rem)");
-  const layoutWithFilters = useMedia("(min-width: 75rem)");
+  useEffect(() => {
+    setSidebarOpen(!floatingSidebar);
+  }, [floatingSidebar, setSidebarOpen]);
 
   useEffect(() => {
-    if (layoutWithSidebar) {
-      setSidebarOpen(true);
-    } else {
-      setSidebarOpen(false);
-    }
-  }, [layoutWithSidebar, setSidebarOpen]);
-
-  useEffect(() => {
-    if (layoutWithFilters) setFloatingFiltersOpen(false);
-  }, [layoutWithFilters]);
+    setFiltersOpen(!floatingFilters);
+  }, [floatingFilters, setFiltersOpen]);
 
   return (
     <div
       className={cx(
         css["layout"],
-        floatingFiltersOpen && css["filters-open"],
-        sidebarOpen && !layoutWithSidebar && css["floating-sidebar-open"],
-        layoutWithSidebar && !sidebarOpen && css["collapsed-sidebar"],
+        (floatingSidebar || !sidebarOpen) && css["collapsed-sidebar"],
+        (floatingFilters || !filtersOpen) && css["collapsed-filters"],
         "fade-in",
         className,
       )}
@@ -87,19 +83,14 @@ export function ListLayout(props: Props) {
         {mastheadContent}
       </Masthead>
       <div
-        className={css["sidebar"]}
+        className={cx(css["sidebar"], floatingSidebar && css["floating"])}
         data-state={sidebarOpen ? "open" : "closed"}
         onPointerDown={sidebarOpen ? preventBubble : undefined}
         ref={sidebarRef}
       >
         {sidebar}
       </div>
-      <div
-        className={css["content"]}
-        onPointerDown={
-          sidebarOpen || floatingFiltersOpen ? onContentClick : undefined
-        }
-      >
+      <div className={css["content"]} onPointerDown={onContentClick}>
         {children({
           slotLeft: !sidebarOpen && (
             <Button
@@ -112,7 +103,7 @@ export function ListLayout(props: Props) {
           slotRight: (
             <Button
               className={css["toggle-filters"]}
-              onClick={() => setFloatingFiltersOpen(true)}
+              onClick={() => setFiltersOpen(true)}
             >
               <Filter />
             </Button>
@@ -120,9 +111,9 @@ export function ListLayout(props: Props) {
         })}
       </div>
       <nav
-        className={css["filters"]}
-        data-state={floatingFiltersOpen ? "open" : "closed"}
-        onPointerDown={floatingFiltersOpen ? preventBubble : undefined}
+        className={cx(css["filters"], floatingFilters && css["floating"])}
+        data-state={filtersOpen ? "open" : "closed"}
+        onPointerDown={floatingFilters ? preventBubble : undefined}
         ref={filtersRef}
       >
         {filters}

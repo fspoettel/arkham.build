@@ -5,9 +5,11 @@
   gap: 0.75rem;
   overflow: visible;
 
-  &:hover .collapse {
-    opacity: 1;
-    pointer-events: all;
+  &:hover {
+    .collapse {
+      opacity: 1;
+      pointer-events: all;
+    }
   }
 }
 

@@ -1,6 +1,7 @@
 .layout {
   --filters-width: 20rem;
   --sidebar-width-one-col: 24rem;
+  transition: all 0.2s;
 
   display: grid;
 
@@ -15,30 +16,13 @@
   will-change: contents;
 
   grid-template-areas:
-    "header"
-    "content";
+  "header header header"
+  "sidebar content filters";
 
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto minmax(0, 1fr);
 
   @media screen and (min-width: 52rem) {
-    grid-template-areas:
-      "header header"
-      "sidebar content";
     grid-template-columns: var(--sidebar-width-one-col) 1fr;
-  }
-
-  &.floating-sidebar-open:not(.filters-open) .filters::after,
-  &.filters-open:not(.floating-sidebar-open) .sidebar::after,
-  &.floating-sidebar-open .content::after,
-  &.filters-open .content::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.2);
-    z-index: 2;
   }
 
   &.collapsed-sidebar {
@@ -47,12 +31,14 @@
     }
   }
 
-  @media screen and (min-width: 75rem) {
-    grid-template-areas:
-      "header header header"
-      "sidebar content filters";
-    grid-template-columns: var(--sidebar-width-one-col) 1fr var(--filters-width);
+  &.collapsed-filters {
+    & .content {
+      grid-column-end: filters;
+    }
+  }
 
+  @media screen and (min-width: 75rem) {
+    grid-template-columns: var(--sidebar-width-one-col) 1fr var(--filters-width);
   }
 
   @media screen and (min-width: 102rem) {
@@ -60,13 +46,37 @@
   }
 }
 
-.content,
-.filters {
-  overflow: hidden;
+.sidebar {
+  background: var(--nord-0);
+  z-index: 2;
+  grid-area: sidebar;
+  width: var(--sidebar-width-one-col);
+  height: calc(100% - 1rem);
+  position: relative;
+  transform: translateX(0);
+  transition: all 0.2s;
+
+  &[data-state="closed"] {
+    transform: translateX(calc(-100% - 0.5rem - 1em - 0.25rem));
+  }
+
+  &.floating {
+    left: 0.5rem;
+  }
 }
 
-.sidebar,
 .filters {
+  grid-area: filters;
+  right: 0.5rem;
+  width: var(--filters-width);
+  transform: translateX(0);
+
+  &[data-state="closed"] {
+    transform: translateX(calc(100% + 0.5rem));
+  }
+}
+
+.floating {
   position: fixed;
   height: calc(100% - 1rem);
   max-width: 85%;
@@ -77,56 +87,23 @@
   box-shadow: var(--shadow-md);
 
   &[data-state="open"] {
-    transition: 0.2s transform ease-in;
     transform: translateX(0);
-  }
-}
-
-.sidebar {
-  left: 0.5rem;
-  grid-area: sidebar;
-  transform: translateX(calc(-100% - 0.5rem));
-  width: var(--sidebar-width-one-col);
-  height: calc(100% - 1rem);
-
-  &[data-state="open"] {
-    transform: translateX(0);
-
-    @media screen and (min-width: 52rem) {
-      position: unset;
-      left: initial;
-      top: initial;
-      transform: none;
-      box-shadow: none;
-      max-width: 100%;
-      height: 100%;
-    }
   }
 }
 
 .content {
   grid-area: content;
-}
+  transition-delay: all 0.2s;
 
-.filters {
-  grid-area: filters;
-  right: 0.5rem;
-  width: var(--filters-width);
-
-  transform: translateX(calc(100% + 0.5rem));
-  &[data-state="open"] {
-    transform: translateX(0);
-  }
-
-  @media screen and (min-width: 75rem) {
-      display: block;
-      position: unset;
-      left: initial;
-      top: initial;
-      transform: none;
-      box-shadow: none;
-      max-width: 100%;
-      height: 100%;
+  &.floating-menu-open:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 2;
   }
 }
 
@@ -134,11 +111,6 @@
 .filters {
   border: 1px solid var(--nord-1);
   border-radius: var(--rounded);
-}
-
-.sidebar {
-  container-type: inline-size;
-  width: 100%;
 }
 
 .toggle-filters {

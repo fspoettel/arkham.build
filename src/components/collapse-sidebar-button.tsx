@@ -24,7 +24,6 @@ export function CollapseSidebarButton(props: Props) {
         onClick={callback}
         variant="round"
         iconOnly
-        size="sm"
         className={css["button"]}
       >
         {orientation === "left" ? <ChevronsLeft /> : <ChevronsRight />}
