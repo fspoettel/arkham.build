@@ -177,7 +177,7 @@ function ListSettingsList<T extends string>(props: {
         items={listItems}
         onSort={onSort}
         overlayClassName={css["list-overlay"]}
-        renderItem={(type) => (
+        renderItemContent={(type) => (
           <>
             <Checkbox
               id={`${subKey}-${listKey}-${type}`}

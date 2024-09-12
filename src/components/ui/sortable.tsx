@@ -40,11 +40,12 @@ type Props<T extends SortableData> = {
   items: T[];
   onSort(items: T[]): void;
   overlayClassName?: string;
-  renderItem: (item: T) => React.ReactNode;
+  renderItemContent: (item: T) => React.ReactNode;
 };
 
 export function Sortable<T extends SortableData>(props: Props<T>) {
-  const { activeItems, items, onSort, overlayClassName, renderItem } = props;
+  const { activeItems, items, onSort, overlayClassName, renderItemContent } =
+    props;
 
   const [activeId, setActiveId] = useState<SortableId | undefined>();
 
@@ -106,7 +107,7 @@ export function Sortable<T extends SortableData>(props: Props<T>) {
               key={readId(item)}
               active={isActive(activeItems, item)}
             >
-              {renderItem(item)}
+              {renderItemContent(item)}
             </SortableItem>
           ))}
         </ul>
@@ -118,7 +119,7 @@ export function Sortable<T extends SortableData>(props: Props<T>) {
       >
         {activeId && activeItem ? (
           <Item active={isActive(activeItems, activeId)}>
-            {renderItem(activeItem)}
+            {renderItemContent(activeItem)}
           </Item>
         ) : null}
       </DragOverlay>
