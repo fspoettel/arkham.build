@@ -36,8 +36,8 @@ export function ListLayout(props: Props) {
   const sidebarOpen = useStore((state) => state.ui.sidebarOpen);
   const setSidebarOpen = useStore((state) => state.setSidebarOpen);
 
-  const filtersOpen = useStore((state) => state.ui.sidebarOpen);
-  const setFiltersOpen = useStore((state) => state.setSidebarOpen);
+  const filtersOpen = useStore((state) => state.ui.filtersOpen);
+  const setFiltersOpen = useStore((state) => state.setFiltersOpen);
 
   const floatingSidebar = useMedia("(max-width: 52rem)");
   const floatingFilters = useMedia("(max-width: 75rem)");
@@ -47,12 +47,12 @@ export function ListLayout(props: Props) {
 
   const onContentClick = useCallback(
     (evt: React.PointerEvent) => {
-      if (!filtersOpen && !sidebarOpen) return;
+      if (!floatingFilters || (!filtersOpen && !sidebarOpen)) return;
       evt.preventDefault();
       setFiltersOpen(false);
       setSidebarOpen(false);
     },
-    [filtersOpen, sidebarOpen, setSidebarOpen, setFiltersOpen],
+    [filtersOpen, sidebarOpen, setSidebarOpen, setFiltersOpen, floatingFilters],
   );
 
   const preventBubble = useCallback((e: React.PointerEvent) => {
@@ -69,13 +69,7 @@ export function ListLayout(props: Props) {
 
   return (
     <div
-      className={cx(
-        css["layout"],
-        (floatingSidebar || !sidebarOpen) && css["collapsed-sidebar"],
-        (floatingFilters || !filtersOpen) && css["collapsed-filters"],
-        "fade-in",
-        className,
-      )}
+      className={cx(css["layout"], "fade-in", className)}
       onPointerDown={onContentClick}
       style={{ "--sidebar-width-max": sidebarWidthMax } as React.CSSProperties}
     >
@@ -90,7 +84,17 @@ export function ListLayout(props: Props) {
       >
         {sidebar}
       </div>
-      <div className={css["content"]} onPointerDown={onContentClick}>
+      <div
+        className={cx(
+          css["content"],
+          (floatingSidebar || !sidebarOpen) && css["collapsed-sidebar"],
+          (floatingFilters || !filtersOpen) && css["collapsed-filters"],
+          ((floatingSidebar && sidebarOpen) ||
+            (floatingFilters && filtersOpen)) &&
+            css["floating-menu-open"],
+        )}
+        onPointerDown={onContentClick}
+      >
         {children({
           slotLeft: !sidebarOpen && (
             <Button
