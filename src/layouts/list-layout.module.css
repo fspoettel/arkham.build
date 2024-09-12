@@ -2,6 +2,7 @@
   --filters-width: 20rem;
   --sidebar-width-one-col: 24rem;
   transition: all 0.2s;
+  --sidebar-width-two-col: 45rem;
 
   display: grid;
 
