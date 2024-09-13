@@ -19,7 +19,6 @@ export function CollapseSidebarButton(props: Props) {
     >
       <div className={cx(css["highlight"])} />
       <Button
-        as="button"
         data-testid="sidebar-collapse-button"
         tooltip="Collapse sidebar"
         onClick={onClick}
