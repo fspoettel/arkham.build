@@ -23,7 +23,7 @@ export function CollapseSidebarButton(props: Props) {
         data-testid="sidebar-collapse-button"
         tooltip="Collapse sidebar"
         onClick={onClick}
-        variant="round"
+        round
         iconOnly
         className={css["button"]}
       >

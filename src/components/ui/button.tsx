@@ -10,9 +10,10 @@ type Props<T extends "a" | "button" | "summary" | "label"> =
     children: React.ReactNode;
     className?: string;
     iconOnly?: boolean;
-    variant?: "primary" | "secondary" | "bare" | "round";
+    variant?: "primary" | "secondary" | "bare";
     size?: "xs" | "sm" | "lg" | "full" | "none";
     tooltip?: React.ReactNode;
+    round?: boolean;
   };
 
 export const Button = forwardRef(function Button<
@@ -25,6 +26,7 @@ export const Button = forwardRef(function Button<
     variant = "secondary",
     size,
     tooltip,
+    round,
     ...rest
   } = props;
   // biome-ignore lint/suspicious/noExplicitAny: safe.
@@ -38,6 +40,7 @@ export const Button = forwardRef(function Button<
         variant && css[variant],
         size && css[size],
         iconOnly && css["icon-only"],
+        round && css["round"],
         rest.className,
       )}
       ref={ref}
