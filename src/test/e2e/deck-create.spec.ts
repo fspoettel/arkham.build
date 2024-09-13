@@ -116,7 +116,7 @@ test.describe("deck create: interactions", () => {
       .click();
 
     await page.getByTestId("filters-faction-seeker").click();
-    await expect(page.getByTestId("cardlist-count")).toContainText("47 cards");
+    await expect(page.getByTestId("cardlist-count")).toContainText("48 cards");
 
     await page.getByTestId("filters-faction-seeker").click();
     await page.getByTestId("filters-faction-survivor").click();
