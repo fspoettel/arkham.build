@@ -14,9 +14,10 @@ export function CollapseSidebarButton(props: Props) {
   return (
     // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
-      className={cx(css["container"], css[orientation], className)}
+      className={cx(css["collapse-container"], css[orientation], className)}
       onClick={callback}
     >
+      <div className={cx(css["highlight"])} />
       <Button
         as="button"
         data-testid="sidebar-collapse-button"
