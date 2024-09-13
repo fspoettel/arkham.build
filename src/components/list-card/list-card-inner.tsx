@@ -241,7 +241,9 @@ export function ListCardInner(props: Props) {
                     </span>
                   )}
                   {!showInvestigatorIcons && card.real_subname && (
-                    <h5 className={css["subname"]}>{card.real_subname}</h5>
+                    <h5 className={css["subname"]} title={card.real_subname}>
+                      {card.real_subname}
+                    </h5>
                   )}
 
                   {showInvestigatorIcons &&
