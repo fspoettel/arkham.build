@@ -14,7 +14,6 @@ import { Checkbox } from "../ui/checkbox";
 import { DropdownMenu } from "../ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Select } from "../ui/select";
-import { Sortable } from "../ui/sortable";
 
 type Props = {
   data: ListState | undefined;
@@ -84,7 +83,11 @@ export function CardListNav(props: Props) {
         )}
         <Popover placement="bottom-end">
           <PopoverTrigger asChild>
-            <Button tooltip="List settings" data-test-id="card-list-config">
+            <Button
+              tooltip="List settings"
+              data-test-id="card-list-config"
+              variant="bare"
+            >
               <SlidersVertical />
             </Button>
           </PopoverTrigger>
@@ -96,11 +99,6 @@ export function CardListNav(props: Props) {
                 label="Show full card text"
                 checked={showCardText}
                 onCheckedChange={onChangeShowCardText}
-              />
-              <Sortable
-                items={[]}
-                onSort={() => {}}
-                renderItemContent={() => <div />}
               />
             </DropdownMenu>
           </PopoverContent>
