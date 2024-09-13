@@ -47,12 +47,23 @@ export function ListLayout(props: Props) {
 
   const onContentClick = useCallback(
     (evt: React.PointerEvent) => {
-      if (!floatingFilters || (!filtersOpen && !sidebarOpen)) return;
-      evt.preventDefault();
-      setFiltersOpen(false);
-      setSidebarOpen(false);
+      if (filtersOpen && floatingFilters) {
+        setFiltersOpen(false);
+        evt.preventDefault();
+      }
+      if (sidebarOpen && floatingSidebar) {
+        setSidebarOpen(false);
+        evt.preventDefault();
+      }
     },
-    [filtersOpen, sidebarOpen, setSidebarOpen, setFiltersOpen, floatingFilters],
+    [
+      filtersOpen,
+      sidebarOpen,
+      setSidebarOpen,
+      setFiltersOpen,
+      floatingFilters,
+      floatingSidebar,
+    ],
   );
 
   const preventBubble = useCallback((e: React.PointerEvent) => {
