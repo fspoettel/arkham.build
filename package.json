@@ -24,6 +24,9 @@
     "update-snapshots:linux": "docker run -v $(pwd):/work/ mcr.microsoft.com/playwright:v1.46.1 bash -c 'cd work && npm i && PW_TEST_HTML_REPORT_OPEN='never' CI='1' npm run test:e2e -- --update-snapshots'"
   },
   "dependencies": {
+    "@dnd-kit/core": "6.1.0",
+    "@dnd-kit/sortable": "8.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@floating-ui/react": "0.26.23",
     "@leeoniya/ufuzzy": "1.0.14",
     "@radix-ui/react-checkbox": "1.1.1",

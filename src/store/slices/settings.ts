@@ -2,22 +2,51 @@ import type { StateCreator } from "zustand";
 
 import type { StoreState } from ".";
 import { makeLists } from "./lists";
-import type { SettingsSlice, SettingsState } from "./settings.types";
+import type {
+  ListConfig,
+  SettingsSlice,
+  SettingsState,
+} from "./settings.types";
+
+export const PLAYER_DEFAULTS: ListConfig = {
+  group: ["subtype", "type", "slot"],
+  sort: ["name", "level"],
+  showCardText: false,
+};
+
+export const ENCOUNTER_DEFAULTS: ListConfig = {
+  group: ["pack", "encounter_set"],
+  sort: ["position"],
+  showCardText: false,
+};
+
+const INVESTIGATOR_DEFAULTS: ListConfig = {
+  group: ["cycle"],
+  sort: ["name"],
+  showCardText: false,
+};
+
+const DECK_DEFAULTS: ListConfig = {
+  group: ["type", "slot"],
+  sort: ["name", "level"],
+  showCardText: false,
+};
+
+export function getInitialListsSetting(): SettingsState["lists"] {
+  return {
+    player: structuredClone(PLAYER_DEFAULTS),
+    encounter: structuredClone(ENCOUNTER_DEFAULTS),
+    investigator: structuredClone(INVESTIGATOR_DEFAULTS),
+    deck: structuredClone(DECK_DEFAULTS),
+  };
+}
 
 export function getInitialSettings(): SettingsState {
   return {
     collection: {},
+    lists: getInitialListsSetting(),
+    hideWeaknessesByDefault: false,
     showAllCards: true,
-    hideWeaknessesByDefault: false,
-    tabooSetId: undefined,
-  };
-}
-
-function getEmptySettings(): SettingsState {
-  return {
-    collection: {},
-    showAllCards: false,
-    hideWeaknessesByDefault: false,
     tabooSetId: undefined,
   };
 }
@@ -30,10 +59,8 @@ export const createSettingsSlice: StateCreator<
 > = (_, get) => ({
   settings: getInitialSettings(),
   // TODO: extract to `shared` since this touches other state slices.
-  updateSettings(form) {
+  updateSettings(settings) {
     const state = get();
-
-    const settings = parseForm(form);
 
     state.refreshLookupTables({
       settings,
@@ -41,28 +68,3 @@ export const createSettingsSlice: StateCreator<
     });
   },
 });
-
-function parseForm(form: FormData) {
-  return Array.from(form.entries()).reduce<SettingsState>((acc, [key, val]) => {
-    if (key === "taboo-set") {
-      const s = val.toString();
-      acc.tabooSetId = s ? Number.parseInt(s, 10) : undefined;
-    } else if (key === "show-all-cards") {
-      const s = val.toString();
-      acc.showAllCards = s === "on";
-    } else if (key === "hide-weaknesses-by-default") {
-      const s = val.toString();
-      acc.hideWeaknessesByDefault = s === "on";
-    } else {
-      const s = val.toString();
-      acc.collection[key] = s === "on" ? 1 : safeInt(s);
-    }
-
-    return acc;
-  }, getEmptySettings());
-}
-
-function safeInt(val: string) {
-  const n = Number.parseInt(val, 10);
-  return Number.isNaN(n) ? 0 : n;
-}

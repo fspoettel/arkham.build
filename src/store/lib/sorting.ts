@@ -13,6 +13,16 @@ import type { Metadata } from "../slices/metadata.types";
  * Cards
  */
 
+export const SORTING_TYPES: SortingType[] = [
+  "cost",
+  "cycle",
+  "faction",
+  "level",
+  "name",
+  "position",
+  "type",
+];
+
 export type SortFunction = (a: Card, b: Card) => number;
 
 export function sortAlphabetical(a: string, b: string) {
@@ -63,7 +73,9 @@ function sortByFaction(a: Card, b: Card) {
 }
 
 function sortByCost(a: Card, b: Card) {
-  return (a.cost ?? 0) - (b.cost ?? 0);
+  const aCost = a.type_code === "investigator" ? -3 : a.cost ?? -1;
+  const bCost = b.type_code === "investigator" ? -3 : b.cost ?? -1;
+  return aCost - bCost;
 }
 
 function sortByType(a: Card, b: Card) {

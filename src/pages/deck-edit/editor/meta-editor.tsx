@@ -11,7 +11,7 @@ import { selectTabooSetSelectOptions } from "@/store/selectors/lists";
 import type { DeckOptionSelectType } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
 import { debounce } from "@/utils/debounce";
-import { capitalize, formatSelectionId } from "@/utils/formatting";
+import { capitalize, capitalizeSnakeCase } from "@/utils/formatting";
 
 type Props = {
   deck: ResolvedDeck;
@@ -183,7 +183,7 @@ export function MetaEditor(props: Props) {
       {deck.selections &&
         Object.entries(deck.selections).map(([key, value]) => (
           <Field full key={key} padded>
-            <FieldLabel>{formatSelectionId(key)}</FieldLabel>
+            <FieldLabel>{capitalizeSnakeCase(key)}</FieldLabel>
             {(value.type === "deckSize" || value.type === "faction") && (
               <Select
                 data-field={value.accessor}

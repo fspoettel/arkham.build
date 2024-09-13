@@ -95,6 +95,16 @@ export function Grouphead(props: Props) {
           );
         }
 
+        if (type === "pack") {
+          return (
+            // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
+            <Fragment key={i}>
+              <PackIcon className={css["icon"]} code={key} />
+              <span>{keyLabel}</span>
+            </Fragment>
+          );
+        }
+
         return null;
       })}
     </h3>

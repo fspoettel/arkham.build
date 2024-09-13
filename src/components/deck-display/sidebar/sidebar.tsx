@@ -2,7 +2,7 @@ import { DeckInvestigator } from "@/components/deck-investigator";
 import { FactionIcon } from "@/components/icons/faction-icon";
 import {
   capitalize,
-  formatSelectionId,
+  capitalizeSnakeCase,
   formatTabooSet,
 } from "@/utils/formatting";
 
@@ -102,7 +102,7 @@ export function Sidebar(props: Props) {
                 className={css["detail-label"]}
                 data-testid={`selection-${key}-label`}
               >
-                {formatSelectionId(key)}
+                {capitalizeSnakeCase(key)}
               </div>
               {selection.type === "deckSize" && (
                 <p

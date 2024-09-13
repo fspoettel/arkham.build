@@ -387,7 +387,7 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
 
     assert(cardType === "player", "only player lists are supported for now.");
 
-    lists[key] = makePlayerCardsList(key, {
+    lists[key] = makePlayerCardsList(key, state.settings, {
       showInvestigators: true,
       initialValues: {
         ...initialValues,
@@ -597,15 +597,15 @@ function makeList(
 
 function makePlayerCardsList(
   key: string,
+  settings: SettingsState,
   {
     initialValues = {} as Partial<Record<FilterKey, unknown>>,
     showInvestigators = false,
-    showOwnership = true,
   } = {},
 ): List {
   const filters: FilterKey[] = ["faction", "type", "level"];
 
-  if (showOwnership) {
+  if (!settings.showAllCards) {
     filters.push("ownership");
   }
 
@@ -637,25 +637,23 @@ function makePlayerCardsList(
     "player",
     filters,
     {
-      grouping: ["subtype", "type", "slot"],
-      sorting: ["name", "level"],
-      showCardText: false,
+      grouping: settings.lists.player.group,
+      sorting: settings.lists.player.sort,
+      showCardText: settings.lists.player.showCardText,
     },
     and(systemFilter),
-    initialValues,
+    mergeInitialValues(initialValues, settings),
   );
 }
 
 function makeInvestigatorCardsList(
   key: string,
-  {
-    initialValues = {} as Partial<Record<FilterKey, unknown>>,
-    showOwnership = true,
-  } = {},
+  settings: SettingsState,
+  { initialValues = {} as Partial<Record<FilterKey, unknown>> } = {},
 ): List {
   const filters: FilterKey[] = ["faction"];
 
-  if (showOwnership) {
+  if (!settings.showAllCards) {
     filters.push("ownership");
   }
 
@@ -664,29 +662,27 @@ function makeInvestigatorCardsList(
     "player",
     filters,
     {
-      grouping: ["cycle"],
-      sorting: ["position"],
-      showCardText: false,
+      grouping: settings.lists.investigator.group,
+      sorting: settings.lists.investigator.sort,
+      showCardText: settings.lists.investigator.showCardText,
     },
     and([
       filterType(["investigator"]),
       filterDuplicates,
       not(filterEncounterCards),
     ]),
-    initialValues,
+    mergeInitialValues(initialValues, settings),
   );
 }
 
 function makeEncounterCardsList(
   key: string,
-  {
-    initialValues = {} as Partial<Record<FilterKey, unknown>>,
-    showOwnership = true,
-  } = {},
+  settings: SettingsState,
+  { initialValues = {} as Partial<Record<FilterKey, unknown>> } = {},
 ): List {
   const filters: FilterKey[] = ["faction", "type"];
 
-  if (showOwnership) {
+  if (!settings.showAllCards) {
     filters.push("ownership");
   }
 
@@ -713,47 +709,47 @@ function makeEncounterCardsList(
     "encounter",
     filters,
     {
-      grouping: ["encounter_set"],
-      sorting: ["position"],
-      showCardText: false,
+      grouping: settings.lists.encounter.group,
+      sorting: settings.lists.encounter.sort,
+      showCardText: settings.lists.encounter.showCardText,
     },
     and(systemFilter),
-    initialValues,
+    mergeInitialValues(initialValues, settings),
   );
 }
 
 export function makeLists(
   settings: SettingsState,
-  _initialValues?: Partial<Record<FilterKey, unknown>>,
+  initialValues?: Partial<Record<FilterKey, unknown>>,
 ) {
-  const initialValues = {
-    ..._initialValues,
-    ownership: getInitialOwnershipFilter(settings),
-    subtype: getInitialSubtypeFilter(settings),
-  };
-
   return {
-    browse_player: makePlayerCardsList("browse_player", {
-      showOwnership: !settings.showAllCards,
+    browse_player: makePlayerCardsList("browse_player", settings, {
       showInvestigators: true,
       initialValues,
     }),
-    browse_encounter: makeEncounterCardsList("browse_encounter", {
-      showOwnership: !settings.showAllCards,
+    browse_encounter: makeEncounterCardsList("browse_encounter", settings, {
       initialValues,
     }),
-    create_deck: makeInvestigatorCardsList("create_deck", {
-      showOwnership: !settings.showAllCards,
+    create_deck: makeInvestigatorCardsList("create_deck", settings, {
       initialValues,
     }),
-    editor_player: makePlayerCardsList("editor_player", {
-      showOwnership: !settings.showAllCards,
+    editor_player: makePlayerCardsList("editor_player", settings, {
       initialValues,
     }),
-    editor_encounter: makeEncounterCardsList("editor_encounter", {
-      showOwnership: !settings.showAllCards,
+    editor_encounter: makeEncounterCardsList("editor_encounter", settings, {
       initialValues,
     }),
+  };
+}
+
+function mergeInitialValues(
+  initialValues: Partial<Record<FilterKey, unknown>>,
+  settings: SettingsState,
+) {
+  return {
+    ...initialValues,
+    ownership: getInitialOwnershipFilter(settings),
+    subtype: getInitialSubtypeFilter(settings),
   };
 }
 

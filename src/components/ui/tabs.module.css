@@ -22,3 +22,11 @@
 .trigger[data-state="active"]:focus {
   border-color: var(--accent-color, var(--nord-10));
 }
+
+.content.mounted {
+  display: none;
+
+  &[data-state="active"] {
+    display: block;
+  }
+}

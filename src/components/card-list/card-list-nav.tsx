@@ -83,7 +83,11 @@ export function CardListNav(props: Props) {
         )}
         <Popover placement="bottom-end">
           <PopoverTrigger asChild>
-            <Button tooltip="List settings" data-test-id="card-list-config">
+            <Button
+              tooltip="List settings"
+              data-test-id="card-list-config"
+              variant="bare"
+            >
               <SlidersVertical />
             </Button>
           </PopoverTrigger>

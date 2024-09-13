@@ -66,9 +66,22 @@ type ContentProps = TabsContentProps & {
   children: React.ReactNode;
 };
 
-export function TabsContent({ children, className, ...rest }: ContentProps) {
+export function TabsContent({
+  children,
+  className,
+  forceMount,
+  ...rest
+}: ContentProps) {
   return (
-    <Content className={cx(css["content"], className)} {...rest}>
+    <Content
+      className={cx(
+        css["content"],
+        className,
+        forceMount != null && css["mounted"],
+      )}
+      forceMount={forceMount}
+      {...rest}
+    >
       {children}
     </Content>
   );

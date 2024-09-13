@@ -43,6 +43,7 @@ describe("randomBasicWeaknessForDeck", () => {
         collection: {
           eoep: 1,
         },
+        lists: {} as any,
         showAllCards: false,
         hideWeaknessesByDefault: false,
         tabooSetId: undefined,
@@ -79,6 +80,7 @@ describe("randomBasicWeaknessForDeck", () => {
         collection: {
           tskp: 1,
         },
+        lists: {} as any,
         showAllCards: false,
         hideWeaknessesByDefault: false,
         tabooSetId: undefined,
