@@ -32,6 +32,9 @@
 
   @media screen and (min-width: 102rem) {
     grid-template-columns: var(--sidebar-width-max) 1fr var(--filters-width);
+    & .sidebar {
+      container-type: inline-size;
+    }
   }
 }
 
@@ -49,8 +52,6 @@
 
 .sidebar {
   grid-area: sidebar;
-  container-type: inline-size;
-
 
   &[data-state="closed"] {
     transform: translateX(calc(-100% - 0.5rem - 1em - 0.25rem));
