@@ -443,6 +443,10 @@ export function filterProperties(
     filters.push(filterSucceedBy(lookupTables.properties.succeedBy));
   }
 
+  if (filterState.specialist) {
+    filters.push((c: Card) => Array.isArray(c.restrictions?.trait));
+  }
+
   const filter = and(filters);
 
   return (card: Card) => {

@@ -528,6 +528,7 @@ function makeFilterValue(
               unique: false,
               fast: false,
               permanent: false,
+              specialist: false,
               exile: false,
               healsDamage: false,
               healsHorror: false,

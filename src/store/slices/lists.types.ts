@@ -30,15 +30,16 @@ export type OwnershipFilter = "unowned" | "owned" | "all";
 export type PropertiesFilter = {
   bonded: boolean;
   customizable: boolean;
-  seal: boolean;
-  unique: boolean;
-  fast: boolean;
-  permanent: boolean;
   exile: boolean;
+  fast: boolean;
   healsDamage: boolean;
   healsHorror: boolean;
-  victory: boolean;
+  permanent: boolean;
+  specialist: boolean;
+  seal: boolean;
   succeedBy: boolean;
+  unique: boolean;
+  victory: boolean;
 };
 
 export type SubtypeFilter = {
