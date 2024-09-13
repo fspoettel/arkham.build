@@ -124,4 +124,40 @@ test.describe("settings: interactions", () => {
 
     await assertSubtypeSettingApplied(page);
   });
+
+  test("can update list settings", async ({ page }) => {
+    await mockApiCalls(page);
+    await page.goto("/");
+    await expect(
+      page.getByTestId("virtuoso-top-item-list").getByText("Investigator"),
+    ).toBeVisible();
+    await page.getByTestId("masthead-settings").click();
+    await page.getByTestId("player-group-subtype").click();
+    await page.getByTestId("player-group-type").click();
+
+    await page
+      .getByTestId("list-settings-player-group")
+      .getByTestId("sortable-item-cost")
+      .getByTestId("sortable-drag-handle")
+      .hover();
+    await page.mouse.down();
+    await page
+      .getByTestId("list-settings-player-group")
+      .getByTestId("sortable-item-subtype")
+      .hover();
+    await page.mouse.up();
+
+    await page.waitForTimeout(1000);
+    await page
+      .getByTestId("list-settings-player-group")
+      .getByTestId("player-group-cost")
+      .click();
+
+    await page.getByTestId("settings-save").click();
+    await page.getByTestId("settings-back").click();
+
+    await expect(
+      page.getByTestId("virtuoso-top-item-list").getByText("No cost"),
+    ).toBeVisible();
+  });
 });

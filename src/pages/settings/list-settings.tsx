@@ -165,10 +165,18 @@ function ListSettingsList<T extends string>(props: {
   }, [onReset]);
 
   return (
-    <article className={css["list-group"]}>
+    <article
+      className={css["list-group"]}
+      data-testid={`list-settings-${listKey}-${subKey}`}
+    >
       <header className={css["list-group-header"]}>
         <h4 className={css["list-group-title"]}>{title}</h4>
-        <Button onClick={onResetClick} size="sm" type="button">
+        <Button
+          data-testid={`list-settings-reset-${listKey}-${subKey}`}
+          onClick={onResetClick}
+          size="sm"
+          type="button"
+        >
           Reset to default
         </Button>
       </header>
@@ -180,7 +188,8 @@ function ListSettingsList<T extends string>(props: {
         renderItemContent={(type) => (
           <>
             <Checkbox
-              id={`${subKey}-${listKey}-${type}`}
+              data-testid={`${listKey}-${subKey}-${type}`}
+              id={`${listKey}-${subKey}-${type}`}
               checked={activeItems.includes(type)}
               onCheckedChange={(checked) => onCheckChange(type, !!checked)}
               label={formatGroupingType(type)}

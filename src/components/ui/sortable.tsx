@@ -150,6 +150,7 @@ function SortableItem(props: {
   return (
     <Item
       active={active}
+      data-testid={`sortable-item-${id}`}
       dragHandleProps={dragHandleProps}
       ref={setNodeRef}
       style={style}
@@ -182,6 +183,7 @@ const Item = forwardRef(
               css["item-handle-button"],
               !dragHandleProps && css["static"],
             )}
+            data-testid="sortable-drag-handle"
             type="button"
             variant="bare"
             iconOnly
