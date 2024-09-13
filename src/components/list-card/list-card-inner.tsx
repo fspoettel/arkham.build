@@ -7,12 +7,13 @@ import type { Card } from "@/store/services/queries.types";
 import {
   countExperience,
   getCardColor,
+  hasImage,
   hasSkillIcons,
 } from "@/utils/card-utils";
 
 import css from "./list-card.module.css";
 
-import { CARDS_WITH_LOCAL_IMAGES, SPECIAL_CARD_CODES } from "@/utils/constants";
+import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { CardHealth } from "../card-health";
 import { CardIcon } from "../card-icon";
 import { useCardModalContext } from "../card-modal/card-modal-context";
@@ -139,18 +140,17 @@ export function ListCardInner(props: Props) {
       <div className={css["listcard"]}>
         <div className={css["listcard-main"]}>
           <figure className={css["content"]} ref={figureRef}>
-            {!omitThumbnail &&
-              (card.imageurl || CARDS_WITH_LOCAL_IMAGES[card.code]) && (
-                <button
-                  onClick={disableModalOpen ? undefined : openModal}
-                  tabIndex={-1}
-                  type="button"
-                >
-                  <div className={css["thumbnail"]} {...referenceProps}>
-                    <CardThumbnail card={card} />
-                  </div>
-                </button>
-              )}
+            {!omitThumbnail && hasImage(card) && (
+              <button
+                onClick={disableModalOpen ? undefined : openModal}
+                tabIndex={-1}
+                type="button"
+              >
+                <div className={css["thumbnail"]} {...referenceProps}>
+                  <CardThumbnail card={card} />
+                </div>
+              </button>
+            )}
 
             {size !== "xs" && card.faction_code !== "mythos" && (
               <div className={cx(css["icon"], colorCls)}>

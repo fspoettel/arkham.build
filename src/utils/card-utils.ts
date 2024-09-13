@@ -1,7 +1,11 @@
 import type { CardWithRelations } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 
-import { SIDEWAYS_TYPE_CODES, SKILL_KEYS } from "./constants";
+import {
+  CARDS_WITH_LOCAL_IMAGES,
+  SIDEWAYS_TYPE_CODES,
+  SKILL_KEYS,
+} from "./constants";
 
 export function splitMultiValue(s?: string) {
   if (!s) return [];
@@ -118,4 +122,8 @@ export function isSpecialCard(
     );
 
   return !!isSpecial || !!(card.permanent && !ignorePermanent);
+}
+
+export function hasImage(card: Card) {
+  return card.imageurl || CARDS_WITH_LOCAL_IMAGES.includes(card.code);
 }

@@ -1,11 +1,10 @@
 import { cx } from "@/utils/cx";
 
 import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
-import { sideways } from "@/utils/card-utils";
+import { hasImage, sideways } from "@/utils/card-utils";
 
 import css from "./card.module.css";
 
-import { CARDS_WITH_LOCAL_IMAGES } from "@/utils/constants";
 import { CardDetails } from "./card-details";
 import { CardHeader } from "./card-header";
 import { CardIcons } from "./card-icons";
@@ -29,8 +28,7 @@ export function CardFace(props: Props) {
   const isSideways = sideways(card);
 
   const showImage =
-    (card.imageurl || CARDS_WITH_LOCAL_IMAGES[card.code]) &&
-    (size === "full" || card.type_code !== "story");
+    hasImage(card) && (size === "full" || card.type_code !== "story");
 
   return (
     <article

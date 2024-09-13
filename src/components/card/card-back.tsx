@@ -2,11 +2,10 @@ import { cx } from "@/utils/cx";
 
 import type { ResolvedCard } from "@/store/lib/types";
 import type { Card as CardType } from "@/store/services/queries.types";
-import { sideways } from "@/utils/card-utils";
+import { hasImage, sideways } from "@/utils/card-utils";
 
 import css from "./card.module.css";
 
-import { CARDS_WITH_LOCAL_IMAGES } from "@/utils/constants";
 import { useMemo } from "react";
 import { CardHeader } from "./card-header";
 import { CardMetaBack } from "./card-meta";
@@ -40,7 +39,7 @@ export function CardBack(props: Props) {
   const hasHeader = card.parallel || card.type_code !== "investigator";
 
   const showImage =
-    (backCard.imageurl || CARDS_WITH_LOCAL_IMAGES[backCard.code]) &&
+    hasImage(backCard) &&
     (size === "full" ||
       (backCard.imageurl !== card.imageurl &&
         backCard.type_code !== "investigator" &&

@@ -3,9 +3,8 @@ import { cx } from "@/utils/cx";
 import { memo } from "react";
 
 import type { Card } from "@/store/services/queries.types";
-import { getCardColor, thumbnailUrl } from "@/utils/card-utils";
+import { getCardColor, hasImage, thumbnailUrl } from "@/utils/card-utils";
 
-import { CARDS_WITH_LOCAL_IMAGES } from "@/utils/constants";
 import css from "./card.module.css";
 
 type Props = {
@@ -22,7 +21,7 @@ export const CardThumbnail = memo(
 
     const colorCls = getCardColor(card);
 
-    if (!card.imageurl && !CARDS_WITH_LOCAL_IMAGES[card.code]) return null;
+    if (!hasImage(card)) return null;
 
     const imageCode = `${card.code}${suffix ?? ""}`;
 
