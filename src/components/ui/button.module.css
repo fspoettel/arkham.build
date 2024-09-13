@@ -99,7 +99,7 @@ a.button {
 }
 
 .button.round {
-  border-radius: 100vw;
+  border-radius: 100%;
 }
 
 .button.none.icon-only {
