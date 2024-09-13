@@ -80,6 +80,11 @@ function getPackIcon(code?: string) {
     case "fhvc":
       return "fhvc";
 
+    case "tdc":
+    case "tdcp":
+    case "tdcc":
+      return "tdcp";
+
     case "promo":
     case "dre":
     case "bob":

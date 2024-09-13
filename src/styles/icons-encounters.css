@@ -21,6 +21,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.encounters-tdcp:before {
+  content: "\e91b";
+}
 .encounters-fhvp:before {
   content: "\e9b9";
 }
@@ -732,6 +735,9 @@
 .encounters-venomous_hate:before {
   content: "\ea03";
 }
+.encounters-parallel:before {
+  content: "\e900";
+}
 .encounters-gala:before {
   content: "\e901";
 }
@@ -1037,9 +1043,6 @@
 }
 .encounters-return_to_the_devourer_below:before {
   content: "\ea84";
-}
-.encounters-parallel:before {
-  content: "\e900";
 }
 .encounters-carcosa:before {
   content: "\47";
