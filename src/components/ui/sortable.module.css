@@ -35,6 +35,7 @@
 
 .item-handle-button {
   cursor: grab;
+  touch-action: none;
 
   &.static {
     pointer-events: none;
