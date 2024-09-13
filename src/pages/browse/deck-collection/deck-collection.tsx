@@ -81,7 +81,7 @@ export function DeckCollection() {
   return (
     <div className={css["container"]}>
       <CollapseSidebarButton
-        callback={() => {
+        onClick={() => {
           setSidebarOpen(false);
         }}
         orientation="left"

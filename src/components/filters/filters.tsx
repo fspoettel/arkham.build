@@ -54,7 +54,7 @@ export function Filters(props: Props) {
       )}
     >
       <CollapseSidebarButton
-        callback={() => {
+        onClick={() => {
           setFiltersOpen(false);
         }}
         orientation="right"

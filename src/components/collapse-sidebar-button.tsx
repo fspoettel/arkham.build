@@ -6,23 +6,23 @@ import { Button } from "./ui/button";
 type Props = {
   className?: string;
   orientation?: "left" | "right";
-  callback: () => void;
+  onClick: () => void;
 };
 
 export function CollapseSidebarButton(props: Props) {
-  const { className, orientation = "left", callback } = props;
+  const { className, orientation = "left", onClick } = props;
   return (
     // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
       className={cx(css["collapse-container"], css[orientation], className)}
-      onClick={callback}
+      onClick={onClick}
     >
       <div className={cx(css["highlight"])} />
       <Button
         as="button"
         data-testid="sidebar-collapse-button"
         tooltip="Collapse sidebar"
-        onClick={callback}
+        onClick={onClick}
         variant="round"
         iconOnly
         className={css["button"]}
