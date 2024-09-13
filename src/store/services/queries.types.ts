@@ -150,7 +150,8 @@ export type QueryCard = {
   real_text?: string;
   real_traits?: string;
   restrictions?: {
-    investigator: Record<string, string>;
+    investigator?: Record<string, string>;
+    trait?: string[];
   };
   sanity?: number;
   shroud?: number;

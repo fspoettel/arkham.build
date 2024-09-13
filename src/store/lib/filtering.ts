@@ -1,4 +1,4 @@
-import { cardLevel } from "@/utils/card-utils";
+import { cardLevel, splitMultiValue } from "@/utils/card-utils";
 import type { SkillKey } from "@/utils/constants";
 import { SKILL_KEYS, SPECIAL_CARD_CODES } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
@@ -376,6 +376,21 @@ function filterHealsDamage(checkCustomizableOptions: boolean) {
 
 function filterHealsHorror(checkCustomizableOptions: boolean) {
   return filterTag("hh", checkCustomizableOptions);
+}
+
+/**
+ * Restrictions
+ */
+
+function filterRestrictions(card: Card, investigator: Card) {
+  if (Array.isArray(card.restrictions?.trait)) {
+    const targetTraits = card.restrictions.trait;
+    return splitMultiValue(investigator.real_traits).some((t) =>
+      targetTraits.includes(t.toLowerCase()),
+    );
+  }
+
+  return true;
 }
 
 export function filterProperties(
@@ -785,6 +800,7 @@ function makePlayerCardsFilter(
   const code = investigator.alternate_of_code ?? investigator.code;
 
   const ands: Filter[] = [
+    (card: Card) => filterRestrictions(card, investigator),
     not(filterType(["investigator", "location", "story"])),
   ];
 

@@ -66,6 +66,14 @@ describe("filter: investigator access", () => {
     });
   });
 
+  describe("card restrictions", () => {
+    it("handles case: trait restrictions", () => {
+      const state = store.getState();
+      expect(applyFilter(state, "06002", "11099")).toBeTruthy();
+      expect(applyFilter(state, "01001", "11099")).toBeFalsy();
+    });
+  });
+
   describe("class <> level filters", () => {
     it("returns true if class and level match", () => {
       const state = store.getState();
@@ -768,7 +776,7 @@ describe("filter: factions", () => {
   function applyFilter(state: StoreState, code: string, config: string[]) {
     return filterFactions(config)(state.metadata.cards[code]);
   }
-  it("handles case :multiclass", () => {
+  it("handles case: multiclass", () => {
     const state = store.getState();
     expect(applyFilter(state, "05116", ["multiclass"])).toBeTruthy();
     expect(applyFilter(state, "05116", ["multiclass", "survivor"])).toBeFalsy();

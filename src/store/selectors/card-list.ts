@@ -276,7 +276,7 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
           !lookupTables.relations.bonded[card.code] &&
           (card?.xp != null ||
             !card.restrictions ||
-            card.restrictions?.investigator[card.code]),
+            card.restrictions?.investigator?.[card.code]),
       ]);
     }
 
