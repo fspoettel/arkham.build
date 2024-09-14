@@ -13,6 +13,7 @@ import { useMedia } from "@/utils/use-media";
 
 import css from "./card-modal.module.css";
 
+import { getCanonicalCardCode } from "@/utils/card-utils";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { Card } from "../card/card";
 import { CardSet } from "../cardset";
@@ -117,6 +118,8 @@ export function CardModal(props: Props) {
     </>
   );
 
+  const canonicalCode = getCanonicalCardCode(cardWithRelations.card);
+
   return (
     <Modal
       actions={
@@ -124,7 +127,11 @@ export function CardModal(props: Props) {
           {cardWithRelations.card.type_code === "investigator" && (
             <Link
               asChild
-              href={`/deck/create/${cardWithRelations.card.code}`}
+              href={
+                cardWithRelations.card.parallel
+                  ? `/deck/create/${canonicalCode}?initial_investigator=${cardWithRelations.card.code}`
+                  : `/deck/create/${canonicalCode}`
+              }
               onClick={onCloseModal}
             >
               <Button as="a" data-testid="card-modal-create-deck">

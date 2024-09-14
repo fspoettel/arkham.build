@@ -2,6 +2,7 @@ import type { StateCreator } from "zustand";
 
 import { assert } from "@/utils/assert";
 
+import { getCanonicalCardCode } from "@/utils/card-utils";
 import type { StoreState } from ".";
 import { getDefaultDeckName } from "../lib/deck-factory";
 import type { CardSet, DeckCreateSlice } from "./deck-create.types";
@@ -14,25 +15,47 @@ export const createDeckCreateSlice: StateCreator<
 > = (set, get) => ({
   deckCreate: undefined,
 
-  initCreate(code: string) {
+  initCreate(code: string, initialInvestigatorChoice?: string) {
     const state = get();
 
-    const card = state.metadata.cards[code];
+    const investigator = state.metadata.cards[code];
+
     assert(
-      card && card.type_code === "investigator",
+      investigator && investigator.type_code === "investigator",
       "Deck configure must be initialized with an investigator card.",
     );
+
+    const canonicalCode = getCanonicalCardCode(investigator);
+
+    const choice = initialInvestigatorChoice
+      ? state.metadata.cards[initialInvestigatorChoice]
+      : undefined;
+
+    if (initialInvestigatorChoice) {
+      assert(
+        choice && choice.type_code === "investigator",
+        "Deck configure must be initialized with an investigator card.",
+      );
+
+      assert(
+        choice.real_name === investigator.real_name,
+        "Parallel investigator must have the same real name as the investigator.",
+      );
+    }
 
     set({
       deckCreate: {
         extraCardQuantities: {},
-        investigatorBackCode: code,
-        investigatorCode: code,
-        investigatorFrontCode: code,
+        investigatorBackCode: choice ? choice.code : canonicalCode,
+        investigatorCode: canonicalCode,
+        investigatorFrontCode: choice ? choice.code : canonicalCode,
         selections: {},
         sets: ["requiredCards"],
         tabooSetId: state.settings.tabooSetId ?? undefined,
-        title: getDefaultDeckName(card.real_name, card.faction_code),
+        title: getDefaultDeckName(
+          investigator.real_name,
+          investigator.faction_code,
+        ),
       },
     });
   },

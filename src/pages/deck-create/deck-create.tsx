@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams } from "wouter";
+import { useParams, useSearch } from "wouter";
 
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { useStore } from "@/store";
@@ -9,6 +9,7 @@ import { DeckCreateInner } from "./deck-create-inner";
 
 function DeckCreate() {
   const { code } = useParams<{ code: string }>();
+  const search = useSearch();
   const deckCreate = useStore((state) => state.deckCreate);
 
   const destroy = useStore((state) => state.resetCreate);
@@ -17,11 +18,16 @@ function DeckCreate() {
   useDocumentTitle("Create deck");
 
   useEffect(() => {
-    initialize(code);
+    const initialInvestigatorChoice = new URLSearchParams(search)
+      .get("initial_investigator")
+      ?.toString();
+
+    initialize(code, initialInvestigatorChoice);
+
     return () => {
       destroy();
     };
-  }, [code, initialize, destroy]);
+  }, [code, destroy, initialize, search]);
 
   return deckCreate ? (
     <CardModalProvider>

@@ -19,7 +19,7 @@ type DeckCreateState = {
 export type DeckCreateSlice = {
   deckCreate: DeckCreateState | undefined;
 
-  initCreate: (code: string) => void;
+  initCreate: (code: string, initialInvestigatorChoice?: string) => void;
   resetCreate: () => void;
 
   deckCreateChangeExtraCardQuantity: (card: Card, quantity: number) => void;

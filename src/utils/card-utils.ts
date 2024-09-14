@@ -127,3 +127,7 @@ export function isSpecialCard(
 export function hasImage(card: Card) {
   return card.imageurl || CARDS_WITH_LOCAL_IMAGES.includes(card.code);
 }
+
+export function getCanonicalCardCode(card: Card) {
+  return card.duplicate_of_code ?? card.alternate_of_code ?? card.code;
+}
