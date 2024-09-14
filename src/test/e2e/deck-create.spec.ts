@@ -206,4 +206,33 @@ test.describe("deck create: interactions", () => {
     await expect(locateScan(cardModal, "90024")).toBeVisible();
     await expect(locateScan(cardModal, "90024b")).toBeVisible();
   });
+
+  test("can initialize deck create with parallel investigator", async ({
+    page,
+  }) => {
+    await page.goto("/deck/create");
+    await page
+      .getByTestId("listcard-01003")
+      .getByTestId("listcard-title")
+      .click();
+
+    await page
+      .getByTestId("listcard-90008")
+      .getByTestId("listcard-title")
+      .click();
+    await page.getByTestId("card-modal-create-deck").click();
+
+    await expect(page.getByTestId("create-investigator-front")).toHaveValue(
+      "90008",
+    );
+
+    await expect(page.getByTestId("create-investigator-back")).toHaveValue(
+      "90008",
+    );
+
+    await expect(locateScan(page, "10003")).not.toBeVisible();
+    await expect(locateScan(page, "10003b")).not.toBeVisible();
+    await expect(locateScan(page, "90008")).toBeVisible();
+    await expect(locateScan(page, "90008b")).toBeVisible();
+  });
 });
