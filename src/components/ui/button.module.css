@@ -98,6 +98,10 @@ a.button {
   padding: 0.5rem;
 }
 
+.button.round {
+  border-radius: 100%;
+}
+
 .button.none.icon-only {
   padding: 0;
   font-size: inherit;

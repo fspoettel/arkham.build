@@ -15,6 +15,7 @@ import { selectLocalDecks } from "@/store/selectors/decks";
 
 import css from "./deck-collection.module.css";
 
+import { CollapseSidebarButton } from "@/components/collapse-sidebar-button";
 import {
   useDeleteDeck,
   useDuplicateDeck,
@@ -30,6 +31,8 @@ export function DeckCollection() {
 
   const importDecks = useStore((state) => state.importFromFiles);
   const deleteAllDecks = useStore((state) => state.deleteAllDecks);
+  const setSidebarOpen = useStore((state) => state.setSidebarOpen);
+
   const toast = useToast();
 
   const onAddFiles = useCallback(
@@ -77,6 +80,13 @@ export function DeckCollection() {
 
   return (
     <div className={css["container"]}>
+      <CollapseSidebarButton
+        onClick={() => {
+          setSidebarOpen(false);
+        }}
+        orientation="left"
+        className={css["collapse"]}
+      />
       <header className={css["header"]}>
         <h2 className={css["title"]}>Decks</h2>
         <div className={css["actions"]}>

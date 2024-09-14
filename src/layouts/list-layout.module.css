@@ -1,6 +1,7 @@
 .layout {
   --filters-width: 20rem;
   --sidebar-width-one-col: 24rem;
+  transition: all 0.2s;
   --sidebar-width-two-col: 45rem;
 
   display: grid;
@@ -16,22 +17,87 @@
   will-change: contents;
 
   grid-template-areas:
-    "header"
-    "content";
+  "header header header"
+  "sidebar content filters";
 
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto minmax(0, 1fr);
 
   @media screen and (min-width: 52rem) {
-    grid-template-areas:
-      "header header"
-      "sidebar content";
     grid-template-columns: var(--sidebar-width-one-col) 1fr;
   }
 
-  &.sidebar-open:not(.filters-open) .filters::after,
-  &.filters-open:not(.sidebar-open) .sidebar::after,
-  &.sidebar-open .content::after,
-  &.filters-open .content::after {
+  @media screen and (min-width: 75rem) {
+    grid-template-columns: var(--sidebar-width-one-col) 1fr var(--filters-width);
+  }
+
+  @media screen and (min-width: 102rem) {
+    grid-template-columns: var(--sidebar-width-max) 1fr var(--filters-width);
+    & .sidebar {
+      container-type: inline-size;
+    }
+  }
+}
+
+.sidebar,
+.filters {
+  position: relative;
+  transform: translateX(0);
+  transition: all 0.2s;
+  background: var(--nord-0);
+  z-index: 2;
+  height: calc(100% - 1rem);
+  border: 1px solid var(--nord-1);
+  border-radius: var(--rounded);
+}
+
+.sidebar {
+  grid-area: sidebar;
+
+  &[data-state="closed"] {
+    transform: translateX(calc(-100% - 0.5rem - 1em - 0.25rem));
+  }
+}
+
+.filters {
+  grid-area: filters;
+  width: var(--filters-width);
+
+  &.floating {
+    right: 0.5rem;
+  }
+
+  &[data-state="closed"] {
+    transform: translateX(calc(100% + 0.5rem + 1em + 0.25rem));
+  }
+}
+
+.floating {
+  position: fixed;
+  height: calc(100% - 1rem);
+  max-width: 85%;
+  top: 0.5rem;
+  z-index: 3;
+  background: var(--nord-0);
+  transition: 0.2s transform ease-in;
+  box-shadow: var(--shadow-md);
+
+  &[data-state="open"] {
+    transform: translateX(0);
+  }
+}
+
+.content {
+  grid-area: content;
+
+  &.collapsed-sidebar {
+    grid-column-start: sidebar;
+  }
+
+  &.collapsed-filters {
+    grid-column-end: filters;
+  }
+
+  &.floating-menu-open:before {
     content: "";
     position: absolute;
     top: 0;
@@ -40,111 +106,6 @@
     height: 100%;
     background: rgba(0, 0, 0, 0.2);
     z-index: 2;
-  }
-
-  @media screen and (min-width: 75rem) {
-    grid-template-areas:
-      "header header header"
-      "sidebar content filters";
-    grid-template-columns: var(--sidebar-width-one-col) 1fr var(--filters-width);
-  }
-
-  @media screen and (min-width: 102rem) {
-    grid-template-columns: var(--sidebar-width-max) 1fr var(--filters-width);
-  }
-}
-
-.content,
-.sidebar,
-.filters {
-  overflow: hidden;
-}
-
-.sidebar,
-.filters {
-  position: fixed;
-  height: calc(100% - 1rem);
-  max-width: 90%;
-  top: 0.5rem;
-  z-index: 3;
-  background: var(--nord-0);
-  transition: 0.2s transform ease-in;
-  box-shadow: var(--shadow-md);
-
-  &[data-state="open"] {
-    transition: 0.2s transform ease-in;
-    transform: translateX(0);
-  }
-}
-
-.sidebar {
-  left: 0.5rem;
-  grid-area: sidebar;
-  transform: translateX(calc(-100% - 0.5rem));
-  width: var(--sidebar-width-one-col);
-  height: calc(100% - 1rem);
-
-  &[data-state="open"] {
-    transform: translateX(0);
-  }
-
-  @media screen and (min-width: 52rem) {
-    position: unset;
-    left: initial;
-    top: initial;
-    transform: none;
-    box-shadow: none;
-    max-width: 100%;
-    height: 100%;
-  }
-}
-
-.content {
-  grid-area: content;
-}
-
-.filters {
-  grid-area: filters;
-  right: 0.5rem;
-  width: var(--filters-width);
-
-  transform: translateX(calc(100% + 0.5rem));
-  &[data-state="open"] {
-    transform: translateX(0);
-  }
-
-  @media screen and (min-width: 75rem) {
-    display: block;
-    position: unset;
-    left: initial;
-    top: initial;
-    transform: none;
-    box-shadow: none;
-    max-width: 100%;
-    height: 100%;
-  }
-}
-
-.sidebar,
-.filters {
-  border: 1px solid var(--nord-1);
-  border-radius: var(--rounded);
-}
-
-.sidebar {
-  container-type: inline-size;
-  width: 100%;
-}
-
-.toggle-sidebar {
-  @media screen and (min-width: 52rem) {
-    display: none;
-  }
-}
-
-.toggle-filters {
-  @media screen and (min-width: 75rem) {
-    display: none;
   }
 }
 
