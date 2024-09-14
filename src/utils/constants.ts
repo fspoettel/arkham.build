@@ -253,3 +253,6 @@ export const CARDS_WITH_LOCAL_IMAGES = [
   "11111",
   "11117",
 ];
+
+export const MQ_FLOATING_SIDEBAR = "(max-width: 52rem)";
+export const MQ_FLOATING_FILTERS = "(max-width: 75rem)";

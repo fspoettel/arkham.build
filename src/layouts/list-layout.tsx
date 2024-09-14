@@ -7,6 +7,7 @@ import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
 import { useMedia } from "@/utils/use-media";
 
+import { MQ_FLOATING_FILTERS, MQ_FLOATING_SIDEBAR } from "@/utils/constants";
 import { Filter } from "lucide-react";
 import { useStore } from "../store";
 import css from "./list-layout.module.css";
@@ -39,8 +40,8 @@ export function ListLayout(props: Props) {
   const filtersOpen = useStore((state) => state.ui.filtersOpen);
   const setFiltersOpen = useStore((state) => state.setFiltersOpen);
 
-  const floatingSidebar = useMedia("(max-width: 52rem)");
-  const floatingFilters = useMedia("(max-width: 75rem)");
+  const floatingSidebar = useMedia(MQ_FLOATING_SIDEBAR);
+  const floatingFilters = useMedia(MQ_FLOATING_FILTERS);
 
   const filtersRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -51,6 +52,7 @@ export function ListLayout(props: Props) {
         setFiltersOpen(false);
         evt.preventDefault();
       }
+
       if (sidebarOpen && floatingSidebar) {
         setSidebarOpen(false);
         evt.preventDefault();

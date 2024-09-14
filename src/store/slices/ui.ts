@@ -1,5 +1,6 @@
 import type { StateCreator } from "zustand";
 
+import { MQ_FLOATING_FILTERS, MQ_FLOATING_SIDEBAR } from "@/utils/constants";
 import type { StoreState } from ".";
 import type { UISlice, UIState } from "./ui.types";
 
@@ -9,8 +10,8 @@ function getInitialUIState(): UIState {
       hydrated: false,
       initialized: false,
       showUnusableCards: false,
-      sidebarOpen: true,
-      filtersOpen: true,
+      sidebarOpen: !window.matchMedia(MQ_FLOATING_SIDEBAR).matches,
+      filtersOpen: !window.matchMedia(MQ_FLOATING_FILTERS).matches,
     },
   };
 }
