@@ -387,7 +387,9 @@ class DeckLimitsValidator implements SlotValidator {
   add(card: Card, quantity: number) {
     const name = `${card.real_name}${card.real_subname ?? ""}`;
 
-    if (card.xp == null && card.subtype_code !== "basicweakness") {
+    if (card.xp == null) {
+      if (card.subtype_code) return;
+
       if (
         card.code === SPECIAL_CARD_CODES.OCCULT_EVIDENCE &&
         this.selectedDeckSize

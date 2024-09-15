@@ -68,6 +68,7 @@ import underworldMarket from "@/test/fixtures/decks/validation/underworld_market
 import underworldSupport from "@/test/fixtures/decks/validation/underworld_support.json";
 import underworldSupperInvalidDeckLimit from "@/test/fixtures/decks/validation/underworld_support_invalid_deck_limit.json";
 import underworldSupportInvalidSize from "@/test/fixtures/decks/validation/underworld_support_invalid_size.json";
+import underworldSupportWeaknesses from "@/test/fixtures/decks/validation/underworld_support_weaknesses.json";
 import { getMockStore } from "@/test/get-mock-store";
 
 import type { StoreState } from "../slices";
@@ -599,6 +600,11 @@ describe("deck validation", () => {
         expect(result.valid).toBeTruthy();
       });
 
+      it("handles case: underworld support, weaknesses, valid", () => {
+        const result = validate(store, underworldSupportWeaknesses);
+        expect(result.valid).toBeTruthy();
+      });
+
       it("handles case: underworld support, invalid deck size", () => {
         const result = validate(store, underworldSupportInvalidSize);
         expect(result.valid).toBeFalsy();
@@ -944,7 +950,7 @@ describe("deck validation", () => {
       `);
     });
 
-    it("handles case: extra deck too many missing signature", () => {
+    it("handles case: extra deck too many signatures", () => {
       const deck = structuredClone(extraSlotsValid);
       deck.meta = deck.meta.replace("90053", "90053,90053");
 
@@ -960,17 +966,6 @@ describe("deck validation", () => {
               "target": "extraSlots",
             },
             "type": "TOO_MANY_CARDS",
-          },
-          {
-            "details": [
-              {
-                "code": "90053",
-                "limit": 1,
-                "quantity": 2,
-                "real_name": "Vengeful Shade",
-              },
-            ],
-            "type": "INVALID_CARD_COUNT",
           },
         ]
       `);
