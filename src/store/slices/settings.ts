@@ -22,7 +22,7 @@ export const ENCOUNTER_DEFAULTS: ListConfig = {
 
 const INVESTIGATOR_DEFAULTS: ListConfig = {
   group: ["cycle"],
-  sort: ["name"],
+  sort: ["position"],
   showCardText: false,
 };
 

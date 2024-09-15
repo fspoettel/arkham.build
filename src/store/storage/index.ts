@@ -15,11 +15,12 @@ import { IndexedDBAdapter } from "./indexeddb-adapter";
 import v1Tov2 from "./migrations/0001-add-deck-history";
 import v2Tov3 from "./migrations/0002-add-client-id";
 import v3Tov4 from "./migrations/0003-add-lists-setting";
+import v4Tov5 from "./migrations/0004-fix-investigator-default";
 import type { Val } from "./storage.types";
 
 const indexedDBAdapter = new IndexedDBAdapter();
 
-const VERSION = 4;
+const VERSION = 5;
 
 // use this flag to disable rehydration during dev.
 const SKIP_HYDRATION = false;
@@ -45,6 +46,11 @@ export const storageConfig: PersistOptions<StoreState, Val> = {
     if (version < 4) {
       console.debug("[persist] migrate store: ", version);
       v3Tov4(state, version);
+    }
+
+    if (version < 5) {
+      console.debug("[persist] migrate store: ", version);
+      v4Tov5(state, version);
     }
 
     return state;
