@@ -8,6 +8,7 @@ import type {
   Customization,
   Customizations,
   DeckMeta,
+  SealedDeck,
   Selection,
   Selections,
 } from "./types";
@@ -202,4 +203,21 @@ export function decodeCardPool(deckMeta: DeckMeta) {
 
 export function encodeCardPool(cardPool: string[]) {
   return cardPool.filter((x) => x).join(",");
+}
+
+export function encodeSealedDeck(sealed: SealedDeck) {
+  return {
+    sealed_deck: sealed.cards.join(","),
+    sealed_deck_name: sealed.name,
+  };
+}
+
+export function decodeSealedDeck(deckMeta: DeckMeta) {
+  const cards = deckMeta.sealed_deck?.split(",");
+  if (!cards?.length) return undefined;
+
+  return {
+    name: deckMeta.sealed_deck_name ?? "Sealed Deck",
+    cards,
+  };
 }

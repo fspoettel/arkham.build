@@ -13,6 +13,11 @@ import type { Deck } from "../slices/data.types";
 import type { AttachmentQuantities } from "../slices/deck-edits.types";
 import type { Groupings } from "./deck-grouping";
 
+export type SealedDeck = {
+  name: string;
+  cards: string[];
+};
+
 export type ResolvedCard = {
   card: Card;
   back?: ResolvedCard;
@@ -69,6 +74,8 @@ export type DeckMeta = {
   deck_size_selected?: string | null;
   extra_deck?: string | null;
   card_pool?: string | null;
+  sealed_deck?: string | null;
+  sealed_deck_name?: string | null;
 } & {
   [key in `cus_${string}`]: string | null;
 } & {
@@ -135,6 +142,7 @@ export type ResolvedDeck = Omit<Deck, "sideSlots"> & {
   hasExtraDeck: boolean;
   hasReplacements: boolean;
   hasParallel: boolean;
+  sealedDeck?: SealedDeck;
   selections?: Selections;
   tabooSet?: TabooSet;
 

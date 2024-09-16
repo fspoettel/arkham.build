@@ -224,6 +224,7 @@ function makeUserFilter(
 // 5. Customizations change, some options change card properties.
 // 6. Investigator option selections change.
 // 7. Deck card pool changes.
+// 8. Sealed deck chanees.
 const deckAccessEqualSelector = createCustomEqualSelector((a, b) => {
   if (isResolvedDeck(a) && isResolvedDeck(b)) {
     return (
@@ -236,7 +237,8 @@ const deckAccessEqualSelector = createCustomEqualSelector((a, b) => {
       JSON.stringify(a.customizations) === JSON.stringify(b.customizations) && // 5
       JSON.stringify(a.selections) === JSON.stringify(b.selections) && // 6
       JSON.stringify(a.metaParsed.card_pool) ===
-        JSON.stringify(b.metaParsed.card_pool) // 7
+        JSON.stringify(b.metaParsed.card_pool) && // 7
+      a.metaParsed.sealed_deck === b.metaParsed.sealed_deck // 8
     );
   }
 
@@ -306,15 +308,33 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
     const investigatorAccessFilter = or(ors);
 
     const cardPool = resolvedDeck.cardPool;
-    if (!cardPool?.length) return investigatorAccessFilter;
+    const sealedDeck = resolvedDeck.sealedDeck?.cards;
 
-    const packFilter = filterPackCode(cardPool, metadata, lookupTables);
-    if (!packFilter) return investigatorAccessFilter;
+    if (!cardPool?.length && !sealedDeck) {
+      return investigatorAccessFilter;
+    }
+    const ands = [investigatorAccessFilter];
 
-    return and([
-      investigatorAccessFilter,
-      or([packFilter, (c) => c.xp == null]),
-    ]);
+    if (cardPool) {
+      const packFilter = filterPackCode(cardPool, metadata, lookupTables);
+      if (packFilter) {
+        ands.push(or([packFilter, (c) => c.xp == null]));
+      }
+    }
+
+    if (sealedDeck) {
+      const sealedMap = sealedDeck.reduce(
+        (acc, curr) => {
+          acc[curr] = true;
+          return acc;
+        },
+        {} as Record<string, boolean>,
+      );
+      const sealedFilter = (c: Card) => !!sealedMap[c.code];
+      ands.push(or([sealedFilter, (c) => c.xp == null]));
+    }
+
+    return and(ands);
   },
 );
 

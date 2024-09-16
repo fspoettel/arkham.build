@@ -1,3 +1,4 @@
+import type { SealedDeck } from "../lib/types";
 import type { Card } from "../services/queries.types";
 
 export type CardSet = "requiredCards" | "advanced" | "replacement";
@@ -14,6 +15,7 @@ type DeckCreateState = {
     [key: string]: string;
   };
   cardPool?: string[];
+  sealed?: SealedDeck;
 };
 
 export type DeckCreateSlice = {
@@ -32,5 +34,6 @@ export type DeckCreateSlice = {
     side: "front" | "back",
     value: string,
   ) => void;
-  deckCreatesetCardPool: (value: string[]) => void;
+  deckCreateSetCardPool: (value: string[]) => void;
+  deckCreateSetSealed: (payload: SealedDeck | undefined) => void;
 };

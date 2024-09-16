@@ -11,18 +11,22 @@ type Props = {
   padded?: boolean;
 } & React.ComponentProps<"div">;
 
-export function FieldLabel({
+export function FieldLabel<T extends React.ElementType>({
+  as,
   children,
   className,
   ...rest
 }: {
+  as?: T;
   children: React.ReactNode;
   className?: string;
-} & React.ComponentProps<"label">) {
+} & React.ComponentProps<T>) {
+  const Element: React.ElementType = as ?? "label";
+
   return (
-    <label className={cx(css["label"], className)} {...rest}>
+    <Element className={cx(css["label"], className)} {...rest}>
       {children}
-    </label>
+    </Element>
   );
 }
 

@@ -568,6 +568,7 @@ function filterRequired(
 }
 
 export type InvestigatorAccessConfig = {
+  additionalDeckOptions?: DeckOption[];
   // Customizable options can alter whether an investigator has access to a card.
   // Example: a card gains a trait, or the option to heal horror.
   //  -> when showing options, we want to show these cards.
@@ -577,7 +578,6 @@ export type InvestigatorAccessConfig = {
   // because all current cases work. This assumption might break in the future.
   ignoreUnselectedCustomizableOptions?: boolean;
   selections?: Selections;
-  additionalDeckOptions?: DeckOption[];
   targetDeck?: "slots" | "extraSlots" | "both";
 };
 

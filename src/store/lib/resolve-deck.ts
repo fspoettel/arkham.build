@@ -14,6 +14,7 @@ import {
   decodeCardPool,
   decodeCustomizations,
   decodeDeckMeta,
+  decodeSealedDeck,
   decodeSelections,
 } from "./deck-meta";
 import { resolveCardWithRelations } from "./resolve-card";
@@ -76,6 +77,8 @@ export function resolveDeck(
 
   const cardPool = decodeCardPool(deckMeta);
 
+  const sealedDeck = decodeSealedDeck(deckMeta);
+
   const exileSlots = decodeExileSlots(deck.exile_string);
 
   const extraSlots = decodeExtraSlots(deckMeta);
@@ -116,6 +119,7 @@ export function resolveDeck(
     hasExtraDeck,
     hasParallel,
     hasReplacements,
+    sealedDeck,
     selections: decodeSelections(investigatorBack, deckMeta),
     sideSlots: Array.isArray(deck.sideSlots) ? {} : deck.sideSlots,
     stats: {
