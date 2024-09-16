@@ -8,7 +8,7 @@ import css from "./card-list.module.css";
 
 import type { ResolvedDeck } from "@/store/lib/types";
 import { SlidersVertical } from "lucide-react";
-import { LimitedCardPoolTag } from "../limited-card-pool";
+import { LimitedCardPoolTag, SealedDeckTag } from "../limited-card-pool";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { DropdownMenu } from "../ui/dropdown-menu";
@@ -62,6 +62,8 @@ export function CardListNav(props: Props) {
     <nav className={css["nav"]}>
       <output className={css["nav-stats"]}>
         <LimitedCardPoolTag />
+        <SealedDeckTag />
+
         <span data-testid="cardlist-count">
           {data?.cards.length ?? 0} cards
         </span>

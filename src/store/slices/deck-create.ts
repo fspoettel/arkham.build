@@ -154,7 +154,7 @@ export const createDeckCreateSlice: StateCreator<
       },
     });
   },
-  deckCreatesetCardPool(value) {
+  deckCreateSetCardPool(value) {
     const state = get();
     assert(state.deckCreate, "DeckCreate slice must be initialized.");
 
@@ -162,6 +162,16 @@ export const createDeckCreateSlice: StateCreator<
       deckCreate: {
         ...state.deckCreate,
         cardPool: value,
+      },
+    });
+  },
+  deckCreateSetSealed(sealed) {
+    const state = get();
+    assert(state.deckCreate, "DeckCreate slice must be initialized.");
+    set({
+      deckCreate: {
+        ...state.deckCreate,
+        sealed,
       },
     });
   },

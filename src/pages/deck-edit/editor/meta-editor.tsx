@@ -1,12 +1,15 @@
 import { useCallback, useMemo } from "react";
 
-import { LimitedCardPoolField } from "@/components/limited-card-pool";
+import {
+  LimitedCardPoolField,
+  SealedDeckField,
+} from "@/components/limited-card-pool";
 import { Field, FieldLabel } from "@/components/ui/field";
 import type { SelectOption } from "@/components/ui/select";
 import { Select } from "@/components/ui/select";
 import { useStore } from "@/store";
-import { encodeCardPool } from "@/store/lib/deck-meta";
-import type { ResolvedDeck } from "@/store/lib/types";
+import { encodeCardPool, encodeSealedDeck } from "@/store/lib/deck-meta";
+import type { ResolvedDeck, SealedDeck } from "@/store/lib/types";
 import { selectTabooSetSelectOptions } from "@/store/selectors/lists";
 import type { DeckOptionSelectType } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
@@ -136,6 +139,19 @@ export function MetaEditor(props: Props) {
     [updateMetaProperty, deck.id],
   );
 
+  const onSealedDeckChange = useCallback(
+    (value: SealedDeck | undefined) => {
+      const encoded = value ? encodeSealedDeck(value) : undefined;
+      updateMetaProperty(deck.id, "sealed_deck", encoded?.sealed_deck ?? null);
+      updateMetaProperty(
+        deck.id,
+        "sealed_deck_name",
+        encoded?.sealed_deck_name ?? null,
+      );
+    },
+    [deck.id, updateMetaProperty],
+  );
+
   return (
     <>
       <Field full padded>
@@ -224,6 +240,10 @@ export function MetaEditor(props: Props) {
       <LimitedCardPoolField
         selectedItems={selectedPacks}
         onValueChange={onCardPoolChange}
+      />
+      <SealedDeckField
+        onValueChange={onSealedDeckChange}
+        value={deck.sealedDeck}
       />
       <Field full padded>
         <FieldLabel>Description</FieldLabel>

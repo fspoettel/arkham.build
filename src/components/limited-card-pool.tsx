@@ -1,15 +1,26 @@
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
-import { DefaultTooltip } from "./ui/tooltip";
+import {
+  DefaultTooltip,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "./ui/tooltip";
 
 import { useStore } from "@/store";
+import type { SealedDeck } from "@/store/lib/types";
 import { selectPackOptions } from "@/store/selectors/lists";
 import type { Pack } from "@/store/services/queries.types";
+import { assert } from "@/utils/assert";
+import { parseCsv } from "@/utils/parse-csv";
+import { BookLock, X } from "lucide-react";
 import { useCallback, useMemo } from "react";
 import css from "./limited-card-pool.module.css";
 import { PackName } from "./pack-name";
+import { Button } from "./ui/button";
 import { Combobox } from "./ui/combobox/combobox";
-import { Field } from "./ui/field";
+import { Field, FieldLabel } from "./ui/field";
 import { Tag } from "./ui/tag";
+import { useToast } from "./ui/toast.hooks";
 
 export function LimitedCardPoolTag() {
   const ctx = useResolvedDeck();
@@ -91,5 +102,122 @@ export function LimitedCardPoolField(props: {
         selectedItems={selectedItems}
       />
     </Field>
+  );
+}
+
+export function SealedDeckField(props: {
+  onValueChange: (payload: SealedDeck | undefined) => void;
+  value?: SealedDeck;
+}) {
+  const { onValueChange, value } = props;
+
+  const toast = useToast();
+
+  const onChangeFile = useCallback(
+    async (evt: React.ChangeEvent<HTMLInputElement>) => {
+      const { files } = evt.target;
+      if (!files || !files.length) return;
+
+      const file = files[0];
+      const fileText = await file.text();
+
+      try {
+        const parsed = parseCsv(fileText);
+        assert(
+          parsed.every(isCardRow),
+          "File is not a sealed deck definition.",
+        );
+        onValueChange({
+          name: file.name.split(".csv")[0],
+          cards: parsed.map((x) => x.code),
+        });
+      } catch (err) {
+        toast.show({
+          children:
+            (err as Error)?.message ??
+            "Unknown error while parsing sealed deck.",
+          variant: "error",
+          duration: 5000,
+        });
+      }
+    },
+    [onValueChange, toast.show],
+  );
+
+  return (
+    <Field
+      data-testid="sealed-deck-field"
+      full
+      padded
+      helpText="Upload a sealed deck definition (.csv) to use it."
+    >
+      <FieldLabel as="div">Sealed</FieldLabel>
+      <div className={css["sealed"]}>
+        <div>
+          <Button
+            as="label"
+            data-testid="sealed-deck-button"
+            htmlFor="sealed-deck-file"
+            size="sm"
+          >
+            <BookLock /> Use sealed deck
+          </Button>
+        </div>
+        <input
+          id="sealed-deck-file"
+          type="file"
+          accept="text/csv"
+          onChange={onChangeFile}
+          style={{ display: "none" }}
+        />
+        {value && (
+          <Tag size="xs">
+            {value.name} ({value.cards.length} cards)
+            <Button
+              data-testid="sealed-deck-remove"
+              onClick={() => onValueChange(undefined)}
+              iconOnly
+              size="xs"
+              variant="bare"
+            >
+              <X />
+            </Button>
+          </Tag>
+        )}
+      </div>
+    </Field>
+  );
+}
+
+type CardRow = {
+  code: string;
+};
+
+function isCardRow(x: unknown): x is CardRow {
+  return (
+    typeof x === "object" &&
+    x != null &&
+    "code" in x &&
+    typeof x.code === "string" &&
+    x.code.length > 0 &&
+    x.code.length < 10
+  );
+}
+
+export function SealedDeckTag() {
+  const ctx = useResolvedDeck();
+
+  const value = ctx.resolvedDeck?.sealedDeck;
+  if (!value) return null;
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Tag size="xs">Sealed</Tag>
+      </TooltipTrigger>
+      <TooltipContent>
+        {value.name} ({value.cards.length} cards)
+      </TooltipContent>
+    </Tooltip>
   );
 }
