@@ -37,16 +37,16 @@
   border-right-width: 1px;
   border-left-width: 0;
   border-right-color: var(--nord-2);
+  display: inline-flex;
+  gap: 0.25rem;
+  align-items: center;
+  font-size: var(--text-sm);
   line-height: 1;
   padding: 0.375rem 0.5rem;
   user-select: none;
 
   &.small {
     padding: 0.25rem 0.375rem;
-  }
-
-  &.small-type {
-    font-size: var(--text-sm);
   }
 
   &:first-child {

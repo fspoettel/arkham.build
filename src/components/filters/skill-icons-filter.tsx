@@ -70,12 +70,8 @@ export function SkillIconsFilter({ id }: { id: number }) {
               type="single"
               value={value ? value.toString() : ""}
             >
-              <ToggleGroupItem size="small-type" value="1">
-                1+
-              </ToggleGroupItem>
-              <ToggleGroupItem size="small-type" value="2">
-                2+
-              </ToggleGroupItem>
+              <ToggleGroupItem value="1">1+</ToggleGroupItem>
+              <ToggleGroupItem value="2">2+</ToggleGroupItem>
             </ToggleGroup>
             {key === "any" ? "any" : <SkillIcon skill={key} />}
           </div>

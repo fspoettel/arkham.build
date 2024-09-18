@@ -34,19 +34,15 @@ export function ToggleGroup({
 }
 
 type GroupItemProps = Omit<ToggleGroupItemProps, "size"> & {
-  size?: "small" | "default" | "small-type";
   tooltip?: string;
 };
 
 export function ToggleGroupItem({
   className,
-  size,
   tooltip,
   ...rest
 }: GroupItemProps) {
-  const element = (
-    <Item {...rest} className={cx(css["item"], size && css[size], className)} />
-  );
+  const element = <Item {...rest} className={cx(css["item"], className)} />;
 
   if (!tooltip) return element;
 

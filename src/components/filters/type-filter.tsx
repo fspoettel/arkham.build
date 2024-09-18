@@ -57,15 +57,9 @@ export function TypeFilter({ id }: { id: number }) {
           type="multiple"
           value={filter.value}
         >
-          <ToggleGroupItem size="small-type" value="asset">
-            Asset
-          </ToggleGroupItem>
-          <ToggleGroupItem size="small-type" value="event">
-            Event
-          </ToggleGroupItem>
-          <ToggleGroupItem size="small-type" value="skill">
-            Skill
-          </ToggleGroupItem>
+          <ToggleGroupItem value="asset">Asset</ToggleGroupItem>
+          <ToggleGroupItem value="event">Event</ToggleGroupItem>
+          <ToggleGroupItem value="skill">Skill</ToggleGroupItem>
         </ToggleGroup>
       )}
     </MultiselectFilter>
