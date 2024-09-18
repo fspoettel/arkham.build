@@ -1,11 +1,9 @@
-import { cx } from "@/utils/cx";
-import type React from "react";
-import { useCallback, useEffect, useRef } from "react";
-
-import { CardTypeFilter } from "@/components/filters/card-type-filter";
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
+import { cx } from "@/utils/cx";
 import { useMedia } from "@/utils/use-media";
+import type React from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 import { MQ_FLOATING_FILTERS, MQ_FLOATING_SIDEBAR } from "@/utils/constants";
 import { Filter } from "lucide-react";
@@ -86,9 +84,7 @@ export function ListLayout(props: Props) {
       onPointerDown={onContentClick}
       style={{ "--sidebar-width-max": sidebarWidthMax } as React.CSSProperties}
     >
-      <Masthead className={css["header"]} slotRight={<CardTypeFilter />}>
-        {mastheadContent}
-      </Masthead>
+      <Masthead className={css["header"]}>{mastheadContent}</Masthead>
       <div
         className={cx(css["sidebar"], floatingSidebar && css["floating"])}
         data-state={sidebarOpen ? "open" : "closed"}

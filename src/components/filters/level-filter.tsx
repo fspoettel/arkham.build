@@ -109,12 +109,8 @@ export function LevelFilter({ id }: { id: number }) {
             type="single"
             value={getToggleValue(filter.value.range)}
           >
-            <ToggleGroupItem size="small-type" value="0">
-              Level 0
-            </ToggleGroupItem>
-            <ToggleGroupItem size="small-type" value="1-5">
-              Level 1-5
-            </ToggleGroupItem>
+            <ToggleGroupItem value="0">Level 0</ToggleGroupItem>
+            <ToggleGroupItem value="1-5">Level 1-5</ToggleGroupItem>
           </ToggleGroup>
         )
       }
