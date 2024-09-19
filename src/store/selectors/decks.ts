@@ -19,7 +19,7 @@ export const selectResolvedDeckById = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
   (state: StoreState, deckId?: Id) =>
-    deckId ? state.data.decks[deckId] : undefined,
+    deckId ? state.data.deckCollection.decks[deckId] : undefined,
   (state: StoreState, deckId?: Id, applyEdits?: boolean) =>
     deckId && applyEdits ? state.deckEdits?.[deckId] : undefined,
   (metadata, lookupTables, deck, edits) => {
@@ -49,7 +49,7 @@ export const selectLocalDecks = createSelector(
 
     const resolvedDecks = Object.keys(history).reduce<ResolvedDeck[]>(
       (acc, id) => {
-        const deck = data.decks[id];
+        const deck = data.deckCollection.decks[id];
 
         try {
           if (deck) {
@@ -224,7 +224,7 @@ export const selectDeckHistory = createSelector(
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.data,
   (id, metadata, lookupTables, data) => {
-    const deck = data.decks[id];
+    const deck = data.deckCollection.decks[id];
 
     const history = data.history[id] ? [...data.history[id]] : [];
 
@@ -241,12 +241,13 @@ export const selectDeckHistory = createSelector(
       const prev = history[i];
       const next = history[i + 1];
 
-      if (!data.decks[prev] || !data.decks[next]) break;
+      if (!data.deckCollection.decks[prev] || !data.deckCollection.decks[next])
+        break;
 
       changes.unshift(
         getChanges(
-          resolveDeck(metadata, lookupTables, data.decks[prev]),
-          resolveDeck(metadata, lookupTables, data.decks[next]),
+          resolveDeck(metadata, lookupTables, data.deckCollection.decks[prev]),
+          resolveDeck(metadata, lookupTables, data.deckCollection.decks[next]),
         ),
       );
     }

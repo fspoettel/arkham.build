@@ -52,7 +52,10 @@ export function isArkhamDbDeck(x: unknown): x is Deck & { id: number } {
 }
 
 export type DataState = {
-  decks: Record<string, Deck>;
+  deckCollection: {
+    filters: string[];
+    decks: Record<string, Deck>;
+  };
   history: {
     [id: Id]: Id[];
   };

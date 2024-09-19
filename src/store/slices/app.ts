@@ -255,9 +255,12 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     set({
       data: {
         ...state.data,
-        decks: {
-          ...state.data.decks,
-          [deck.id]: deck,
+        deckCollection: {
+          filters: [...state.data.deckCollection.filters],
+          decks: {
+            ...state.data.deckCollection.decks,
+            [deck.id]: deck,
+          },
         },
         history: {
           ...state.data.history,
@@ -271,7 +274,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
   },
   async deleteDeck(id, cb) {
     const state = get();
-    const decks = { ...state.data.decks };
+    const decks = { ...state.data.deckCollection.decks };
 
     const deckEdits = { ...state.deckEdits };
     delete deckEdits[id];
@@ -300,7 +303,14 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     cb?.();
 
     set({
-      data: { ...state.data, decks, history },
+      data: {
+        ...state.data,
+        deckCollection: {
+          filters: [...state.data.deckCollection.filters],
+          decks,
+        },
+        history,
+      },
       deckEdits,
     });
   },
@@ -308,7 +318,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
   async deleteAllDecks() {
     const state = get();
 
-    const decks = { ...state.data.decks };
+    const decks = { ...state.data.deckCollection.decks };
     const history = { ...state.data.history };
     const edits = { ...state.deckEdits };
 
@@ -321,7 +331,14 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     }
 
     set({
-      data: { ...state.data, decks, history },
+      data: {
+        ...state.data,
+        deckCollection: {
+          filters: [...state.data.deckCollection.filters],
+          decks,
+        },
+        history,
+      },
     });
 
     if (Object.keys(state.sharing.decks).length) {
@@ -335,7 +352,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     const edits = state.deckEdits[deckId];
 
-    const deck = state.data.decks[deckId];
+    const deck = state.data.deckCollection.decks[deckId];
     if (!deck) return deckId;
 
     const nextDeck = applyDeckEdits(deck, edits, state.metadata, true);
@@ -360,9 +377,12 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       deckEdits,
       data: {
         ...state.data,
-        decks: {
-          ...state.data.decks,
-          [nextDeck.id]: nextDeck,
+        deckCollection: {
+          filters: [...state.data.deckCollection.filters],
+          decks: {
+            ...state.data.deckCollection.decks,
+            [nextDeck.id]: nextDeck,
+          },
         },
       },
     });
@@ -375,7 +395,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     const state = get();
 
-    const deck = state.data.decks[id];
+    const deck = state.data.deckCollection.decks[id];
     assert(deck, `Deck ${id} does not exist.`);
 
     const now = new Date().toISOString();
@@ -442,10 +462,13 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       deckEdits,
       data: {
         ...state.data,
-        decks: {
-          ...state.data.decks,
-          [deck.id]: prevDeck,
-          [newDeck.id]: newDeck,
+        deckCollection: {
+          filters: [...state.data.deckCollection.filters],
+          decks: {
+            ...state.data.deckCollection.decks,
+            [deck.id]: prevDeck,
+            [newDeck.id]: newDeck,
+          },
         },
         history,
       },
@@ -457,14 +480,14 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
   async deleteUpgrade(id, cb) {
     const state = get();
 
-    const deck = state.data.decks[id];
+    const deck = state.data.deckCollection.decks[id];
     assert(deck, `Deck ${id} does not exist.`);
 
     const previousId = deck.previous_deck;
 
     assert(previousId, "Deck does not have a previous deck.");
 
-    const decks = { ...state.data.decks };
+    const decks = { ...state.data.deckCollection.decks };
     assert(decks[previousId], "Previous deck does not exist.");
 
     const history = { ...state.data.history };
@@ -488,7 +511,10 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       deckEdits,
       data: {
         ...state.data,
-        decks,
+        deckCollection: {
+          filters: [...state.data.deckCollection.filters],
+          decks,
+        },
         history,
       },
     });

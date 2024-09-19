@@ -18,7 +18,10 @@ import { type DataSlice, type Deck, type Id, isDeck } from "./data.types";
 export function getInitialDataState() {
   return {
     data: {
-      decks: {},
+      deckCollection: {
+        filters: [],
+        decks: {},
+      },
       history: {},
     },
   };
@@ -40,9 +43,12 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
     set({
       data: {
         ...state.data,
-        decks: {
-          ...state.data.decks,
-          [deck.id]: deck,
+        deckCollection: {
+          filters: [...state.data.deckCollection.filters],
+          decks: {
+            ...state.data.deckCollection.decks,
+            [deck.id]: deck,
+          },
         },
         history: {
           ...state.data.history,
@@ -73,12 +79,15 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
     set({
       data: {
         ...state.data,
-        decks: {
-          ...state.data.decks,
-          ...decks.reduce<Record<Id, Deck>>((acc, deck) => {
-            acc[deck.id] = deck;
-            return acc;
-          }, {}),
+        deckCollection: {
+          filters: [...state.data.deckCollection.filters],
+          decks: {
+            ...state.data.deckCollection.decks,
+            ...decks.reduce<Record<Id, Deck>>((acc, deck) => {
+              acc[deck.id] = deck;
+              return acc;
+            }, {}),
+          },
         },
         history: {
           ...state.data.history,
@@ -94,7 +103,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
   duplicateDeck(id) {
     const state = get();
 
-    const deck = state.data.decks[id];
+    const deck = state.data.deckCollection.decks[id];
     assert(deck, `Deck ${id} does not exist.`);
 
     const now = new Date().toISOString();
@@ -115,9 +124,12 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
     set({
       data: {
         ...state.data,
-        decks: {
-          ...state.data.decks,
-          [newDeck.id]: newDeck,
+        deckCollection: {
+          filters: [...state.data.deckCollection.filters],
+          decks: {
+            ...state.data.deckCollection.decks,
+            [newDeck.id]: newDeck,
+          },
         },
         history: {
           ...state.data.history,
@@ -132,7 +144,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
   exportJSON(id) {
     const state = get();
 
-    const deck = state.data.decks[id];
+    const deck = state.data.deckCollection.decks[id];
     assert(deck, `Deck ${id} does not exist.`);
 
     const deckExport = formatDeckExport(deck);
