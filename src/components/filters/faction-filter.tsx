@@ -8,10 +8,7 @@ import {
 import { isFactionFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
 
-import css from "./filters.module.css";
-
-import { FactionIconFancy } from "../icons/faction-icon-fancy";
-import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+import { FactionToggle } from "../faction-toggle";
 
 type Props = {
   id: number;
@@ -19,6 +16,7 @@ type Props = {
 
 export function FactionFilter(props: Props) {
   const { id } = props;
+
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
     isFactionFilterObject(filter),
@@ -36,26 +34,10 @@ export function FactionFilter(props: Props) {
   );
 
   return (
-    <ToggleGroup
-      className={css["faction-filter"]}
-      data-testid="filters-faction"
-      full
-      icons
-      onValueChange={onValueChange}
-      type="multiple"
+    <FactionToggle
+      options={options}
       value={filter.value}
-    >
-      {options.map((faction) => (
-        <ToggleGroupItem
-          className={css[`color-active-${faction.code}`]}
-          data-testid={`filters-faction-${faction.code}`}
-          key={faction.code}
-          tooltip={faction.name}
-          value={faction.code}
-        >
-          <FactionIconFancy code={faction.code} />
-        </ToggleGroupItem>
-      ))}
-    </ToggleGroup>
+      onValueChange={onValueChange}
+    />
   );
 }
