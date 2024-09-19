@@ -167,4 +167,13 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
       "text/markdown",
     );
   },
+  addDecksFilter(type, value) {
+    const state = get();
+    let filterValues = state.data.deckCollection.filters;
+
+    switch (type) {
+      case "faction":
+        filterValues = [...filterValues, ...value];
+    }
+  },
 });

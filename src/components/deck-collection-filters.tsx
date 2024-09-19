@@ -9,11 +9,13 @@ export function DeckCollectionFilters() {
 
   return (
     <div>
-      <FactionToggle
-        options={factionOptions}
-        value={[]}
-        onValueChange={onValueChange}
-      />
+      {factionOptions.length > 1 && (
+        <FactionToggle
+          options={factionOptions}
+          value={[]}
+          onValueChange={onValueChange}
+        />
+      )}
     </div>
   );
 }

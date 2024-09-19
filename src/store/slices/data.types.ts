@@ -61,6 +61,9 @@ export type DataState = {
   };
 };
 
+export type DeckFilterTypes = "faction";
+type DeckCollectionFilter = string[];
+
 export type DataSlice = {
   data: DataState;
   importDeck(code: string): Promise<void>;
@@ -70,4 +73,6 @@ export type DataSlice = {
 
   exportJSON(id: Id): void;
   exportText(id: Id): void;
+
+  addDecksFilter(type: DeckFilterTypes, value: DeckCollectionFilter): void;
 };
