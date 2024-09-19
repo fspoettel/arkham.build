@@ -16,6 +16,7 @@ import { selectLocalDecks } from "@/store/selectors/decks";
 import css from "./deck-collection.module.css";
 
 import { CollapseSidebarButton } from "@/components/collapse-sidebar-button";
+import { DeckCollectionFilters } from "@/components/deck-collection-filters";
 import {
   useDeleteDeck,
   useDuplicateDeck,
@@ -145,6 +146,7 @@ export function DeckCollection() {
           </Popover>
         </div>
       </header>
+      <DeckCollectionFilters />
       {decks.length ? (
         <Scroller>
           <ol className={css["decks"]}>
