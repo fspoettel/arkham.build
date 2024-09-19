@@ -1,7 +1,16 @@
-import type { StoreState } from "@/store/slices";
-
 function migrate(_state: unknown, version: number) {
-  const state = _state as StoreState;
+  const state = _state as {
+    data: {
+      decks: Record<
+        string,
+        {
+          id: string;
+          next_deck: string;
+        }
+      >;
+      history: Record<string | number, (string | number)[]>;
+    };
+  };
 
   if (version < 2) {
     for (const deck of Object.values(state.data.decks)) {

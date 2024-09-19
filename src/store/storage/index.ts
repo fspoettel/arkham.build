@@ -16,6 +16,7 @@ import v1Tov2 from "./migrations/0001-add-deck-history";
 import v2Tov3 from "./migrations/0002-add-client-id";
 import v3Tov4 from "./migrations/0003-add-lists-setting";
 import v4Tov5 from "./migrations/0004-fix-investigator-default";
+import v5Tov6 from "./migrations/0005-add-deck-filters";
 import type { Val } from "./storage.types";
 
 const indexedDBAdapter = new IndexedDBAdapter();
@@ -51,6 +52,11 @@ export const storageConfig: PersistOptions<StoreState, Val> = {
     if (version < 5) {
       console.debug("[persist] migrate store: ", version);
       v4Tov5(state, version);
+    }
+
+    if (version < 6) {
+      console.debug("[persist] migrate store: ", version);
+      v5Tov6(state, version);
     }
 
     return state;
