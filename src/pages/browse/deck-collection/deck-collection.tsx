@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/popover";
 import { Scroller } from "@/components/ui/scroller";
 import { useStore } from "@/store";
-import { selectLocalDecks } from "@/store/selectors/decks";
+import { selectDecksFiltered } from "@/store/selectors/decks";
 
 import css from "./deck-collection.module.css";
 
@@ -28,7 +28,7 @@ import { DeckCollectionImport } from "./deck-collection-import";
 
 export function DeckCollection() {
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const decks = useStore(selectLocalDecks);
+  const decks = useStore(selectDecksFiltered);
 
   const importDecks = useStore((state) => state.importFromFiles);
   const deleteAllDecks = useStore((state) => state.deleteAllDecks);

@@ -52,7 +52,7 @@ export function isArkhamDbDeck(x: unknown): x is Deck & { id: number } {
 }
 
 export type DeckFilterTypes = "faction";
-type DeckCollectionFilter = string[];
+export type DeckCollectionFilter = string[];
 
 export type DataState = {
   deckCollection: {

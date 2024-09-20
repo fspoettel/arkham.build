@@ -5,6 +5,7 @@ import { decodeExileSlots } from "@/utils/card-utils";
 import { FACTION_ORDER } from "@/utils/constants";
 import { time, timeEnd } from "@/utils/time";
 
+import { and, or } from "@/utils/deck-fp";
 import { applyCardChanges } from "../lib/card-edits";
 import { applyDeckEdits } from "../lib/deck-edits";
 import { type UpgradeStats, getUpgradeStats } from "../lib/deck-upgrades";
@@ -13,8 +14,13 @@ import { sortAlphabetical, sortByName } from "../lib/sorting";
 import type { Customization, Customizations, ResolvedDeck } from "../lib/types";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
-import type { Id } from "../slices/data.types";
+import type {
+  DeckCollectionFilter,
+  DeckFilterTypes,
+  Id,
+} from "../slices/data.types";
 import type { Slot } from "../slices/deck-edits.types";
+import type { MultiselectFilter } from "../slices/lists.types";
 
 export const selectResolvedDeckById = createSelector(
   (state: StoreState) => state.metadata,
@@ -288,6 +294,31 @@ export const selectLatestUpgrade = createSelector(
   },
 );
 
+const filterDeckByFaction = (faction: string) => {
+  return (deck: ResolvedDeck) => {
+    return deck.cards.investigator.card.faction_code === faction;
+  };
+};
+
+const makeDeckFactionFilter = (values: MultiselectFilter) => {
+  return or(values.map((value) => filterDeckByFaction(value)));
+};
+
+const makeDeckFilterFunc = (
+  userFilters: Record<DeckFilterTypes, DeckCollectionFilter>,
+) => {
+  const filterFuncs = [];
+
+  for (const filter of Object.keys(userFilters)) {
+    switch (filter) {
+      case "faction":
+        filterFuncs.push(makeDeckFactionFilter(userFilters[filter]));
+    }
+  }
+
+  return and(filterFuncs);
+};
+
 export const selectDeckFilters = createSelector(
   (state: StoreState) => state.data.deckCollection.filters,
   (filters) => filters,
@@ -301,8 +332,11 @@ export const selectDeckFactionFilters = createSelector(
 export const selectDecksFiltered = createSelector(
   selectLocalDecks,
   selectDeckFilters,
-  (decks, _filters) => {
-    return decks;
+  (decks, filters) => {
+    const filterFunc = makeDeckFilterFunc(filters);
+    const filteredDecks = decks.filter(filterFunc);
+
+    return filteredDecks ?? decks;
   },
 );
 
