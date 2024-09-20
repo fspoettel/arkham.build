@@ -2,7 +2,7 @@ import { useStore } from "@/store";
 import {
   selectDeckFactionFilters,
   selectFactionsInLocalDecks,
-} from "@/store/selectors/deck-collection";
+} from "@/store/selectors/decks";
 import { FactionToggle } from "./faction-toggle";
 
 export function DeckCollectionFilters() {

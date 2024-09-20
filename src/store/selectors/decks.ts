@@ -1,9 +1,10 @@
 import { createSelector } from "reselect";
 
 import { resolveDeck } from "@/store/lib/resolve-deck";
-
 import { decodeExileSlots } from "@/utils/card-utils";
+import { FACTION_ORDER } from "@/utils/constants";
 import { time, timeEnd } from "@/utils/time";
+
 import { applyCardChanges } from "../lib/card-edits";
 import { applyDeckEdits } from "../lib/deck-edits";
 import { type UpgradeStats, getUpgradeStats } from "../lib/deck-upgrades";
@@ -284,5 +285,43 @@ export const selectLatestUpgrade = createSelector(
 
     timeEnd("latest_upgrade");
     return differences;
+  },
+);
+
+export const selectDeckFilters = createSelector(
+  (state: StoreState) => state.data.deckCollection.filters,
+  (filters) => filters,
+);
+
+export const selectDeckFactionFilters = createSelector(
+  selectDeckFilters,
+  (deckFilters) => deckFilters.faction,
+);
+
+export const selectDecksFiltered = createSelector(
+  selectLocalDecks,
+  selectDeckFilters,
+  (decks, _filters) => {
+    return decks;
+  },
+);
+
+export const selectFactionsInLocalDecks = createSelector(
+  selectLocalDecks,
+  (state: StoreState) => state.metadata.factions,
+  (decks, factionMeta) => {
+    if (!decks) return [];
+
+    const factionsSet = new Set<string>();
+
+    for (const deck of decks) {
+      factionsSet.add(deck.cards.investigator.card.faction_code);
+    }
+
+    const factions = Array.from(factionsSet).map((code) => factionMeta[code]);
+
+    return factions.sort(
+      (a, b) => FACTION_ORDER.indexOf(a.code) - FACTION_ORDER.indexOf(b.code),
+    );
   },
 );
