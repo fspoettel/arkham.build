@@ -19,7 +19,9 @@ export function getInitialDataState() {
   return {
     data: {
       deckCollection: {
-        filters: [],
+        filters: {
+          faction: [],
+        },
         decks: {},
       },
       history: {},
@@ -44,7 +46,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
       data: {
         ...state.data,
         deckCollection: {
-          filters: [...state.data.deckCollection.filters],
+          filters: { ...state.data.deckCollection.filters },
           decks: {
             ...state.data.deckCollection.decks,
             [deck.id]: deck,
@@ -80,7 +82,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
       data: {
         ...state.data,
         deckCollection: {
-          filters: [...state.data.deckCollection.filters],
+          filters: { ...state.data.deckCollection.filters },
           decks: {
             ...state.data.deckCollection.decks,
             ...decks.reduce<Record<Id, Deck>>((acc, deck) => {
@@ -125,7 +127,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
       data: {
         ...state.data,
         deckCollection: {
-          filters: [...state.data.deckCollection.filters],
+          filters: { ...state.data.deckCollection.filters },
           decks: {
             ...state.data.deckCollection.decks,
             [newDeck.id]: newDeck,
@@ -169,11 +171,26 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
   },
   addDecksFilter(type, value) {
     const state = get();
-    let filterValues = state.data.deckCollection.filters;
+    const filterValues = structuredClone(state.data.deckCollection.filters);
 
     switch (type) {
       case "faction":
-        filterValues = [...filterValues, ...value];
+        filterValues[type] = value;
     }
+
+    set({
+      data: {
+        ...state.data,
+        deckCollection: {
+          filters: filterValues,
+          decks: {
+            ...state.data.deckCollection.decks,
+          },
+        },
+        history: {
+          ...state.data.history,
+        },
+      },
+    });
   },
 });

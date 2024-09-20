@@ -51,18 +51,18 @@ export function isArkhamDbDeck(x: unknown): x is Deck & { id: number } {
   return isDeck(x) && x.source === "arkhamdb";
 }
 
+export type DeckFilterTypes = "faction";
+type DeckCollectionFilter = string[];
+
 export type DataState = {
   deckCollection: {
-    filters: string[];
+    filters: Record<DeckFilterTypes, DeckCollectionFilter>;
     decks: Record<string, Deck>;
   };
   history: {
     [id: Id]: Id[];
   };
 };
-
-export type DeckFilterTypes = "faction";
-type DeckCollectionFilter = string[];
 
 export type DataSlice = {
   data: DataState;

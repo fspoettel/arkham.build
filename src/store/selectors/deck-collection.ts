@@ -22,3 +22,13 @@ export const selectFactionsInLocalDecks = createSelector(
     );
   },
 );
+
+export const selectDeckFilters = createSelector(
+  (state: StoreState) => state.data.deckCollection.filters,
+  (filters) => filters,
+);
+
+export const selectDeckFactionFilters = createSelector(
+  selectDeckFilters,
+  (deckFilters) => deckFilters.faction,
+);

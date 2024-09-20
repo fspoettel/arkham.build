@@ -112,7 +112,7 @@ export const createSharingSlice: StateCreator<
       data: {
         ...state.data,
         deckCollection: {
-          filters: [...state.data.deckCollection.filters],
+          filters: { ...state.data.deckCollection.filters },
           decks: {
             ...state.data.deckCollection.decks,
             [deck.id]: deck,

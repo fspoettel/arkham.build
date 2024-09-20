@@ -256,7 +256,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       data: {
         ...state.data,
         deckCollection: {
-          filters: [...state.data.deckCollection.filters],
+          filters: { ...state.data.deckCollection.filters },
           decks: {
             ...state.data.deckCollection.decks,
             [deck.id]: deck,
@@ -306,7 +306,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       data: {
         ...state.data,
         deckCollection: {
-          filters: [...state.data.deckCollection.filters],
+          filters: { ...state.data.deckCollection.filters },
           decks,
         },
         history,
@@ -334,7 +334,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       data: {
         ...state.data,
         deckCollection: {
-          filters: [...state.data.deckCollection.filters],
+          filters: { ...state.data.deckCollection.filters },
           decks,
         },
         history,
@@ -378,7 +378,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       data: {
         ...state.data,
         deckCollection: {
-          filters: [...state.data.deckCollection.filters],
+          filters: { ...state.data.deckCollection.filters },
           decks: {
             ...state.data.deckCollection.decks,
             [nextDeck.id]: nextDeck,
@@ -463,7 +463,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       data: {
         ...state.data,
         deckCollection: {
-          filters: [...state.data.deckCollection.filters],
+          filters: { ...state.data.deckCollection.filters },
           decks: {
             ...state.data.deckCollection.decks,
             [deck.id]: prevDeck,
@@ -512,7 +512,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       data: {
         ...state.data,
         deckCollection: {
-          filters: [...state.data.deckCollection.filters],
+          filters: { ...state.data.deckCollection.filters },
           decks,
         },
         history,
