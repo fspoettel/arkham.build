@@ -5,7 +5,7 @@ import { decodeExileSlots } from "@/utils/card-utils";
 import { FACTION_ORDER } from "@/utils/constants";
 import { time, timeEnd } from "@/utils/time";
 
-import { and, or } from "@/utils/deck-fp";
+import { and, or } from "@/utils/fp";
 import { applyCardChanges } from "../lib/card-edits";
 import { applyDeckEdits } from "../lib/deck-edits";
 import { type UpgradeStats, getUpgradeStats } from "../lib/deck-upgrades";
