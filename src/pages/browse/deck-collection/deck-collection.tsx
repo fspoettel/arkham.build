@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/popover";
 import { Scroller } from "@/components/ui/scroller";
 import { useStore } from "@/store";
-import { selectDecksFiltered } from "@/store/selectors/decks";
 
 import css from "./deck-collection.module.css";
 
@@ -23,6 +22,7 @@ import {
 } from "@/components/deck-display/hooks";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/toast.hooks";
+import { selectDecksFiltered } from "@/store/selectors/deck-filters";
 import { useCallback, useState } from "react";
 import { DeckCollectionImport } from "./deck-collection-import";
 
