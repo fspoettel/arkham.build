@@ -2,10 +2,9 @@ import { createSelector } from "reselect";
 
 import { resolveDeck } from "@/store/lib/resolve-deck";
 import { decodeExileSlots } from "@/utils/card-utils";
-import { FACTION_ORDER } from "@/utils/constants";
+
 import { time, timeEnd } from "@/utils/time";
 
-import { and, or } from "@/utils/fp";
 import { applyCardChanges } from "../lib/card-edits";
 import { applyDeckEdits } from "../lib/deck-edits";
 import { type UpgradeStats, getUpgradeStats } from "../lib/deck-upgrades";
@@ -14,19 +13,14 @@ import { sortAlphabetical, sortByName } from "../lib/sorting";
 import type { Customization, Customizations, ResolvedDeck } from "../lib/types";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
-import type {
-  DeckCollectionFilter,
-  DeckFilterTypes,
-  Id,
-} from "../slices/data.types";
+import type { Id } from "../slices/data.types";
 import type { Slot } from "../slices/deck-edits.types";
-import type { MultiselectFilter } from "../slices/lists.types";
 
 export const selectResolvedDeckById = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
   (state: StoreState, deckId?: Id) =>
-    deckId ? state.data.deckCollection.decks[deckId] : undefined,
+    deckId ? state.data.decks[deckId] : undefined,
   (state: StoreState, deckId?: Id, applyEdits?: boolean) =>
     deckId && applyEdits ? state.deckEdits?.[deckId] : undefined,
   (metadata, lookupTables, deck, edits) => {
@@ -56,7 +50,7 @@ export const selectLocalDecks = createSelector(
 
     const resolvedDecks = Object.keys(history).reduce<ResolvedDeck[]>(
       (acc, id) => {
-        const deck = data.deckCollection.decks[id];
+        const deck = data.decks[id];
 
         try {
           if (deck) {
@@ -231,7 +225,7 @@ export const selectDeckHistory = createSelector(
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.data,
   (id, metadata, lookupTables, data) => {
-    const deck = data.deckCollection.decks[id];
+    const deck = data.decks[id];
 
     const history = data.history[id] ? [...data.history[id]] : [];
 
@@ -248,13 +242,12 @@ export const selectDeckHistory = createSelector(
       const prev = history[i];
       const next = history[i + 1];
 
-      if (!data.deckCollection.decks[prev] || !data.deckCollection.decks[next])
-        break;
+      if (!data.decks[prev] || !data.decks[next]) break;
 
       changes.unshift(
         getChanges(
-          resolveDeck(metadata, lookupTables, data.deckCollection.decks[prev]),
-          resolveDeck(metadata, lookupTables, data.deckCollection.decks[next]),
+          resolveDeck(metadata, lookupTables, data.decks[prev]),
+          resolveDeck(metadata, lookupTables, data.decks[next]),
         ),
       );
     }
@@ -291,71 +284,5 @@ export const selectLatestUpgrade = createSelector(
 
     timeEnd("latest_upgrade");
     return differences;
-  },
-);
-
-const filterDeckByFaction = (faction: string) => {
-  return (deck: ResolvedDeck) => {
-    return deck.cards.investigator.card.faction_code === faction;
-  };
-};
-
-const makeDeckFactionFilter = (values: MultiselectFilter) => {
-  return or(values.map((value) => filterDeckByFaction(value)));
-};
-
-const makeDeckFilterFunc = (
-  userFilters: Record<DeckFilterTypes, DeckCollectionFilter>,
-) => {
-  const filterFuncs = [];
-
-  for (const filter of Object.keys(userFilters)) {
-    switch (filter) {
-      case "faction":
-        filterFuncs.push(makeDeckFactionFilter(userFilters[filter]));
-    }
-  }
-
-  return and(filterFuncs);
-};
-
-export const selectDeckFilters = createSelector(
-  (state: StoreState) => state.data.deckCollection.filters,
-  (filters) => filters,
-);
-
-export const selectDeckFactionFilters = createSelector(
-  selectDeckFilters,
-  (deckFilters) => deckFilters.faction,
-);
-
-export const selectDecksFiltered = createSelector(
-  selectLocalDecks,
-  selectDeckFilters,
-  (decks, filters) => {
-    const filterFunc = makeDeckFilterFunc(filters);
-    const filteredDecks = decks.filter(filterFunc);
-
-    return filteredDecks ?? decks;
-  },
-);
-
-export const selectFactionsInLocalDecks = createSelector(
-  selectLocalDecks,
-  (state: StoreState) => state.metadata.factions,
-  (decks, factionMeta) => {
-    if (!decks) return [];
-
-    const factionsSet = new Set<string>();
-
-    for (const deck of decks) {
-      factionsSet.add(deck.cards.investigator.card.faction_code);
-    }
-
-    const factions = Array.from(factionsSet).map((code) => factionMeta[code]);
-
-    return factions.sort(
-      (a, b) => FACTION_ORDER.indexOf(a.code) - FACTION_ORDER.indexOf(b.code),
-    );
   },
 );

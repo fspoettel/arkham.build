@@ -1,5 +1,6 @@
 import type { AppSlice } from "./app.types";
 import type { DataSlice } from "./data.types";
+import type { DeckFiltersSlice } from "./deck-collection-filters.types";
 import type { DeckCreateSlice } from "./deck-create.types";
 import type { DeckEditsSlice } from "./deck-edits.types";
 import type { ListsSlice } from "./lists.types";
@@ -18,4 +19,5 @@ export type StoreState = AppSlice &
   DataSlice &
   DeckEditsSlice &
   DeckCreateSlice &
+  DeckFiltersSlice &
   SharingSlice;

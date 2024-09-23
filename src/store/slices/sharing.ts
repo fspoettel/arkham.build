@@ -26,7 +26,7 @@ export const createSharingSlice: StateCreator<
 
     assert(!state.sharing.decks[id], `Deck with id ${id} is already shared.`);
 
-    const deck = state.data.deckCollection.decks[id];
+    const deck = state.data.decks[id];
     assert(deck, `Deck with id ${id} not found.`);
 
     await createShare(selectClientId(state), formatDeckExport(deck));
@@ -46,7 +46,7 @@ export const createSharingSlice: StateCreator<
 
     if (!state.sharing.decks[id]) return;
 
-    const deck = state.data.deckCollection.decks[id];
+    const deck = state.data.decks[id];
     assert(deck, `Deck with id ${id} not found.`);
 
     await updateShare(selectClientId(state), id, formatDeckExport(deck));
@@ -101,7 +101,7 @@ export const createSharingSlice: StateCreator<
     const state = get();
 
     assert(
-      !state.data.deckCollection.decks[importDeck.id],
+      !state.data.decks[importDeck.id],
       `Deck with id ${importDeck.id} already exists.`,
     );
 
@@ -111,12 +111,9 @@ export const createSharingSlice: StateCreator<
     set({
       data: {
         ...state.data,
-        deckCollection: {
-          filters: { ...state.data.deckCollection.filters },
-          decks: {
-            ...state.data.deckCollection.decks,
-            [deck.id]: deck,
-          },
+        decks: {
+          ...state.data.decks,
+          [deck.id]: deck,
         },
         history: {
           ...state.data.history,

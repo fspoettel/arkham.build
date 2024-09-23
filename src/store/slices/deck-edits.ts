@@ -203,7 +203,7 @@ export const createDeckEditsSlice: StateCreator<
     const state = get();
 
     assert(
-      state.data.deckCollection.decks[deckId],
+      state.data.decks[deckId],
       "Tried to draw a random basic weakness for a deck that does not exist.",
     );
 
