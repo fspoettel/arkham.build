@@ -1,0 +1,10 @@
+.search-container {
+  padding: 0 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.search-input {
+  width: 100%;
+  border-radius: var(--rounded-lg);
+}
+

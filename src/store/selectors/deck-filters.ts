@@ -4,10 +4,7 @@ import { FACTION_ORDER } from "@/utils/constants";
 import { and, or } from "@/utils/fp";
 import type { ResolvedDeck } from "../lib/types";
 import type { StoreState } from "../slices";
-import type {
-  DeckCollectionFilter,
-  DeckFilterTypes,
-} from "../slices/deck-collection-filters.types";
+import type { DeckFilters } from "../slices/deck-collection-filters.types";
 import type { MultiselectFilter } from "../slices/lists.types";
 import { selectLocalDecks } from "./decks";
 
@@ -21,9 +18,7 @@ const makeDeckFactionFilter = (values: MultiselectFilter) => {
   return or(values.map((value) => filterDeckByFaction(value)));
 };
 
-const makeDeckFilterFunc = (
-  userFilters: Record<DeckFilterTypes, DeckCollectionFilter>,
-) => {
+const makeDeckFilterFunc = (userFilters: DeckFilters) => {
   const filterFuncs = [];
 
   for (const filter of Object.keys(userFilters)) {
@@ -74,5 +69,12 @@ export const selectFactionsInLocalDecks = createSelector(
     return factions.sort(
       (a, b) => FACTION_ORDER.indexOf(a.code) - FACTION_ORDER.indexOf(b.code),
     );
+  },
+);
+
+export const selectDeckSearchTerm = createSelector(
+  selectDeckFilters,
+  (filters) => {
+    return filters.search;
   },
 );

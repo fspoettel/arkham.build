@@ -1,10 +1,17 @@
-export type DeckFilterTypes = "faction";
-export type DeckCollectionFilter = string[];
+export type DeckFilters = {
+  faction: string[];
+  search: string;
+};
+type DeckFiltersKeys = keyof DeckFilters;
+type DeckFiltersValues<P extends DeckFiltersKeys> = DeckFilters[P];
 
 export type DeckFiltersState = {
-  deckFilters: Record<DeckFilterTypes, DeckCollectionFilter>;
+  deckFilters: DeckFilters;
 };
 
 export type DeckFiltersSlice = DeckFiltersState & {
-  addDecksFilter(type: DeckFilterTypes, value: DeckCollectionFilter): void;
+  addDecksFilter<F extends DeckFiltersKeys, T extends DeckFiltersValues<F>>(
+    type: F,
+    value: T,
+  ): void;
 };

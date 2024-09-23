@@ -9,6 +9,7 @@ function getInitialUIState(): DeckFiltersState {
   return {
     deckFilters: {
       faction: [],
+      search: "",
     },
   };
 }
@@ -24,10 +25,7 @@ export const createDeckFiltersSlice: StateCreator<
     const state = get();
     const filterValues = structuredClone(state.deckFilters);
 
-    switch (type) {
-      case "faction":
-        filterValues[type] = value;
-    }
+    filterValues[type] = value;
 
     set({
       deckFilters: filterValues,
