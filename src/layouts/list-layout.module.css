@@ -52,9 +52,18 @@
 
 .sidebar {
   grid-area: sidebar;
+  width: var(--sidebar-width-one-col);
+
+  .floating {
+    left: 0.5rem;
+  }
 
   &[data-state="closed"] {
     transform: translateX(calc(-100% - 0.5rem - 1em - 0.25rem));
+  }
+
+  @media screen and (min-width: 52rem) {
+    width: auto;
   }
 }
 
