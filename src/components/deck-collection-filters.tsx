@@ -7,14 +7,19 @@ import {
 import { FactionToggle } from "./faction-toggle";
 import { SearchInput } from "./ui/search-input";
 
-import { useRef } from "react";
+import { Filter } from "lucide-react";
+import { useRef, useState } from "react";
 import css from "./deck-collection-filters.module.css";
+import { Button } from "./ui/button";
+
+import { Content, Root, Trigger } from "@radix-ui/react-collapsible";
 
 export function DeckCollectionFilters() {
+  const [open, setOpen] = useState(false);
+
   const addFilter = useStore((state) => state.addDecksFilter);
 
   const onSearchChange = (value: string) => {
-    console.log("value");
     addFilter("search", value);
   };
   const searchRef = useRef<HTMLInputElement>(null);
@@ -27,7 +32,7 @@ export function DeckCollectionFilters() {
   };
 
   return (
-    <div>
+    <Root open={open} onOpenChange={setOpen}>
       <div className={css["search-container"]}>
         <SearchInput
           data-testid="deck-search-input"
@@ -37,15 +42,28 @@ export function DeckCollectionFilters() {
           placeholder="Search for decks..."
           ref={searchRef}
           value={searchValue}
+          className={css["search-outer"]}
         />
+        <Trigger asChild>
+          <Button
+            as="a"
+            data-testid="collection-create-deck"
+            tooltip="More filters"
+            variant="bare"
+          >
+            <Filter />
+          </Button>
+        </Trigger>
       </div>
-      {factionOptions.length > 1 && (
-        <FactionToggle
-          options={factionOptions}
-          value={selectedFactions}
-          onValueChange={onFactionFilterChange}
-        />
-      )}
-    </div>
+      <Content>
+        {factionOptions.length > 1 && (
+          <FactionToggle
+            options={factionOptions}
+            value={selectedFactions}
+            onValueChange={onFactionFilterChange}
+          />
+        )}
+      </Content>
+    </Root>
   );
 }
