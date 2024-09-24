@@ -1,12 +1,17 @@
 import { createSelector } from "reselect";
 
+import { assert } from "@/utils/assert";
 import { FACTION_ORDER } from "@/utils/constants";
 import { and, or } from "@/utils/fp";
+import uFuzzy from "@leeoniya/ufuzzy";
 import type { ResolvedDeck } from "../lib/types";
 import type { StoreState } from "../slices";
-import type { DeckFilters } from "../slices/deck-collection-filters.types";
+import type { DeckFiltersType } from "../slices/deck-collection-filters.types";
 import type { MultiselectFilter } from "../slices/lists.types";
 import { selectLocalDecks } from "./decks";
+
+// Arbitrarily chosen for now
+const MATCHING_MAX_TOKEN_DISTANCE_DECKS = 4;
 
 const filterDeckByFaction = (faction: string) => {
   return (deck: ResolvedDeck) => {
@@ -18,7 +23,7 @@ const makeDeckFactionFilter = (values: MultiselectFilter) => {
   return or(values.map((value) => filterDeckByFaction(value)));
 };
 
-const makeDeckFilterFunc = (userFilters: DeckFilters) => {
+const makeDeckFilterFunc = (userFilters: DeckFiltersType) => {
   const filterFuncs = [];
 
   for (const filter of Object.keys(userFilters)) {
@@ -41,12 +46,51 @@ export const selectDeckFactionFilters = createSelector(
   (deckFilters) => deckFilters.faction,
 );
 
+export const selectDeckSearchTerm = createSelector(
+  selectDeckFilters,
+  (filters) => {
+    return filters.search;
+  },
+);
+
+export const selectSearchableTextInDecks = createSelector(
+  selectLocalDecks,
+  (decks) => {
+    return decks.map((deck) => deck.name);
+  },
+);
+
 export const selectDecksFiltered = createSelector(
   selectLocalDecks,
+  selectDeckSearchTerm,
+  selectSearchableTextInDecks,
   selectDeckFilters,
-  (decks, filters) => {
+  (decks, searchTerm, searchableText, filters) => {
+    let decksToFilter: ResolvedDeck[];
+
+    if (searchTerm) {
+      const finder = new uFuzzy({
+        intraMode: 0,
+        interIns: MATCHING_MAX_TOKEN_DISTANCE_DECKS,
+      });
+
+      const results = finder.search(searchableText, searchTerm);
+
+      decksToFilter = [];
+
+      if (results[0]) {
+        for (const result of results[0]) {
+          assert(decks[result], "Searching outside of bounds");
+          decksToFilter.push(decks[result]);
+        }
+      }
+    } else {
+      decksToFilter = [...decks];
+    }
+
     const filterFunc = makeDeckFilterFunc(filters);
-    const filteredDecks = decks.filter(filterFunc);
+
+    const filteredDecks = decksToFilter.filter(filterFunc);
 
     return filteredDecks ?? decks;
   },
@@ -69,12 +113,5 @@ export const selectFactionsInLocalDecks = createSelector(
     return factions.sort(
       (a, b) => FACTION_ORDER.indexOf(a.code) - FACTION_ORDER.indexOf(b.code),
     );
-  },
-);
-
-export const selectDeckSearchTerm = createSelector(
-  selectDeckFilters,
-  (filters) => {
-    return filters.search;
   },
 );

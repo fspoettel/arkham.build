@@ -1,12 +1,12 @@
-export type DeckFilters = {
+export type DeckFiltersType = {
   faction: string[];
   search: string;
 };
-type DeckFiltersKeys = keyof DeckFilters;
-type DeckFiltersValues<P extends DeckFiltersKeys> = DeckFilters[P];
+type DeckFiltersKeys = keyof DeckFiltersType;
+type DeckFiltersValues<P extends DeckFiltersKeys> = DeckFiltersType[P];
 
 export type DeckFiltersState = {
-  deckFilters: DeckFilters;
+  deckFilters: DeckFiltersType;
 };
 
 export type DeckFiltersSlice = DeckFiltersState & {
