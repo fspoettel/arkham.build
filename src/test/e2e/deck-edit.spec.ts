@@ -118,6 +118,8 @@ test.describe("deck edit: interactions", () => {
       .getByTestId("quantity-increment")
       .dblclick();
     await page.getByTestId("editor-move-to-main").click();
+    await page.getByTestId("editor-move-to-main").click();
+
     await page.getByTestId("editor-tab-slots").click();
     await expect(
       page

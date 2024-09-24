@@ -288,8 +288,13 @@ export const createDeckEditsSlice: StateCreator<
     const edits = currentEdits(state, deckId);
 
     const nextQuantity = Math.min(
-      (edits.quantities?.slots?.[card.code] ?? 0) + quantity,
+      (deck?.slots?.[card.code] ?? 0) + 1,
       card.deck_limit ?? card.quantity,
+    );
+
+    const nextSideQuantity = Math.max(
+      (deck?.sideSlots?.[card.code] ?? 0) - 1,
+      0,
     );
 
     set({
@@ -305,7 +310,7 @@ export const createDeckEditsSlice: StateCreator<
             },
             sideSlots: {
               ...currentEdits(state, deckId).quantities?.sideSlots,
-              [card.code]: 0,
+              [card.code]: nextSideQuantity,
             },
           },
         },
