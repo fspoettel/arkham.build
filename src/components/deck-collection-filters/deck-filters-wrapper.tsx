@@ -4,13 +4,13 @@ import {
   selectDeckSearchTerm,
   selectFactionsInLocalDecks,
 } from "@/store/selectors/deck-filters";
-import { FactionToggle } from "./faction-toggle";
-import { SearchInput } from "./ui/search-input";
+import { FactionToggle } from "../faction-toggle";
+import { SearchInput } from "../ui/search-input";
 
 import { Filter } from "lucide-react";
 import { useRef, useState } from "react";
-import css from "./deck-collection-filters.module.css";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
+import css from "./deck-filters-wrapper.module.css";
 
 import { Content, Root, Trigger } from "@radix-ui/react-collapsible";
 

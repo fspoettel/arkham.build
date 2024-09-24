@@ -15,7 +15,7 @@ import { useStore } from "@/store";
 import css from "./deck-collection.module.css";
 
 import { CollapseSidebarButton } from "@/components/collapse-sidebar-button";
-import { DeckCollectionFilters } from "@/components/deck-collection-filters";
+import { DeckCollectionFilters } from "@/components/deck-collection-filters/deck-filters-wrapper";
 import {
   useDeleteDeck,
   useDuplicateDeck,
