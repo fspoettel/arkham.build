@@ -3,7 +3,7 @@ export type DeckFiltersType = {
   search: string;
   tags: string[];
 };
-type DeckFiltersKeys = keyof DeckFiltersType;
+export type DeckFiltersKeys = keyof DeckFiltersType;
 type DeckFiltersValues<P extends DeckFiltersKeys> = DeckFiltersType[P];
 
 type CollapsibleFilters = "tags";

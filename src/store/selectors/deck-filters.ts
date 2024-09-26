@@ -9,9 +9,13 @@ import type { StoreState } from "../slices";
 import type { MultiselectFilter } from "../slices/lists.types";
 import { selectLocalDecks } from "./decks";
 
+import { capitalize } from "@/utils/formatting";
+import type { DeckFiltersKeys } from "../slices/deck-collection-filters.types";
+
 // Arbitrarily chosen for now
 const MATCHING_MAX_TOKEN_DISTANCE_DECKS = 4;
 
+// Faction
 const filterDeckByFaction = (faction: string) => {
   return (deck: ResolvedDeck) => {
     return deck.cards.investigator.card.faction_code === faction;
@@ -20,6 +24,17 @@ const filterDeckByFaction = (faction: string) => {
 
 const makeDeckFactionFilter = (values: MultiselectFilter) => {
   return or(values.map((value) => filterDeckByFaction(value)));
+};
+
+//Tag
+const filterDeckByTag = (tag: string) => {
+  return (deck: ResolvedDeck) => {
+    return deck.tags.includes(tag);
+  };
+};
+
+const makeDeckTagsFilter = (values: MultiselectFilter) => {
+  return or(values.map((value) => filterDeckByTag(value)));
 };
 
 export const selectDeckFilters = (state: StoreState) =>
@@ -36,6 +51,9 @@ const selectFilteringFunc = createSelector(selectDeckFilters, (filters) => {
     switch (filter) {
       case "faction":
         filterFuncs.push(makeDeckFactionFilter(filters[filter]));
+        break;
+      case "tags":
+        filterFuncs.push(makeDeckTagsFilter(filters[filter]));
     }
   }
 
@@ -104,5 +122,43 @@ export const selectFactionsInLocalDecks = createSelector(
     return factions.sort(
       (a, b) => FACTION_ORDER.indexOf(a.code) - FACTION_ORDER.indexOf(b.code),
     );
+  },
+);
+
+export const selectTagsChanges = createSelector(
+  selectDeckFilters,
+  (filters) => {
+    const tagsFilters = filters.tags;
+    if (!tagsFilters.length) return "";
+    return tagsFilters.map(capitalize).join(" or ");
+  },
+);
+
+export const selectTagsInLocalDecks = createSelector(
+  selectLocalDecks,
+  (decks) => {
+    let tags: string[] = [];
+
+    for (const deck of decks) {
+      if (deck.tags) {
+        const tagArray = deck.tags.split(" ");
+        tags = tags.concat(tagArray);
+      }
+    }
+
+    const uniqueTags = [...new Set(tags)].map((tag) => {
+      return {
+        code: tag,
+      };
+    });
+    return uniqueTags;
+  },
+);
+
+export const selectDeckFilterValue = createSelector(
+  selectDeckFilters,
+  (_, filter: DeckFiltersKeys) => filter,
+  (filters, filter) => {
+    return filters[filter];
   },
 );

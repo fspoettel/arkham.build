@@ -1,6 +1,6 @@
 import { useStore } from "@/store";
 import {
-  selectDeckFactionFilters,
+  selectDeckFactionFilter,
   selectDeckSearchTerm,
   selectFactionsInLocalDecks,
 } from "@/store/selectors/deck-filters";
@@ -13,6 +13,7 @@ import { Button } from "../ui/button";
 import css from "./deck-filters-wrapper.module.css";
 
 import { Content, Root, Trigger } from "@radix-ui/react-collapsible";
+import { TagsFilter } from "./tags-filter";
 
 export function DeckCollectionFilters() {
   const [open, setOpen] = useState(false);
@@ -26,7 +27,7 @@ export function DeckCollectionFilters() {
   const searchValue = useStore(selectDeckSearchTerm);
 
   const factionOptions = useStore(selectFactionsInLocalDecks);
-  const selectedFactions = useStore(selectDeckFactionFilters);
+  const selectedFactions = useStore(selectDeckFactionFilter);
   const onFactionFilterChange = (value: string[]) => {
     addFilter("faction", value);
   };
@@ -63,6 +64,8 @@ export function DeckCollectionFilters() {
             onValueChange={onFactionFilterChange}
           />
         )}
+
+        <TagsFilter />
       </Content>
     </Root>
   );
