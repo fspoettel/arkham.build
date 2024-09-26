@@ -72,10 +72,18 @@ export function ListLayout(props: Props) {
 
   useEffect(() => {
     setSidebarOpen(!floatingSidebar);
+
+    return () => {
+      setSidebarOpen(!floatingSidebar);
+    };
   }, [floatingSidebar, setSidebarOpen]);
 
   useEffect(() => {
     setFiltersOpen(!floatingFilters);
+
+    return () => {
+      setFiltersOpen(!floatingFilters);
+    };
   }, [floatingFilters, setFiltersOpen]);
 
   return (
