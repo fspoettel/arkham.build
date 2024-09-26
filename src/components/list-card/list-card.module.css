@@ -103,7 +103,7 @@
 
 .meta {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   align-items: center;
   line-height: 1;
   gap: calc(var(--card-spacing-x) / 1.5);
@@ -196,7 +196,7 @@
   --card-spacing-y: 0.375rem;
   --card-spacing-x: 0.5rem;
   --card-image-height: 2.5rem;
-  padding-inline: 0.25rem;
+  padding-inline: 0;
 }
 
 .listcard-wrapper.borders {
