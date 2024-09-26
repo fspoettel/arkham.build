@@ -6,7 +6,6 @@ import { and, or } from "@/utils/fp";
 import uFuzzy from "@leeoniya/ufuzzy";
 import type { ResolvedDeck } from "../lib/types";
 import type { StoreState } from "../slices";
-import type { DeckFiltersType } from "../slices/deck-collection-filters.types";
 import type { MultiselectFilter } from "../slices/lists.types";
 import { selectLocalDecks } from "./decks";
 
@@ -23,35 +22,25 @@ const makeDeckFactionFilter = (values: MultiselectFilter) => {
   return or(values.map((value) => filterDeckByFaction(value)));
 };
 
-const makeDeckFilterFunc = (userFilters: DeckFiltersType) => {
+export const selectDeckFilters = (state: StoreState) =>
+  state.deckFilters.filters;
+export const selectDeckSearchTerm = (state: StoreState) =>
+  state.deckFilters.filters.search;
+export const selectDeckFactionFilter = (state: StoreState) =>
+  state.deckFilters.filters.faction;
+
+const selectFilteringFunc = createSelector(selectDeckFilters, (filters) => {
   const filterFuncs = [];
 
-  for (const filter of Object.keys(userFilters)) {
+  for (const filter of Object.keys(filters)) {
     switch (filter) {
       case "faction":
-        filterFuncs.push(makeDeckFactionFilter(userFilters[filter]));
+        filterFuncs.push(makeDeckFactionFilter(filters[filter]));
     }
   }
 
   return and(filterFuncs);
-};
-
-export const selectDeckFilters = createSelector(
-  (state: StoreState) => state.deckFilters.filters,
-  (filters) => filters,
-);
-
-export const selectDeckFactionFilters = createSelector(
-  selectDeckFilters,
-  (filters) => filters.faction,
-);
-
-export const selectDeckSearchTerm = createSelector(
-  selectDeckFilters,
-  (filters) => {
-    return filters.search;
-  },
-);
+});
 
 export const selectSearchableTextInDecks = createSelector(
   selectLocalDecks,
@@ -68,8 +57,8 @@ export const selectDecksFiltered = createSelector(
   selectLocalDecks,
   selectDeckSearchTerm,
   selectSearchableTextInDecks,
-  selectDeckFilters,
-  (decks, searchTerm, searchableText, filters) => {
+  selectFilteringFunc,
+  (decks, searchTerm, searchableText, filterFunc) => {
     let decksToFilter: ResolvedDeck[];
 
     if (searchTerm) {
@@ -91,8 +80,6 @@ export const selectDecksFiltered = createSelector(
     } else {
       decksToFilter = [...decks];
     }
-
-    const filterFunc = makeDeckFilterFunc(filters);
 
     const filteredDecks = decksToFilter.filter(filterFunc);
 
