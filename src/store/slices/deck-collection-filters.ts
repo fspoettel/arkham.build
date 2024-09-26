@@ -1,15 +1,18 @@
 import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
-import type {
-  DeckFiltersSlice,
-  DeckFiltersState,
-} from "./deck-collection-filters.types";
+import type { DeckFiltersSlice } from "./deck-collection-filters.types";
 
-function getInitialUIState(): DeckFiltersState {
+function getInitialUIState() {
   return {
     deckFilters: {
-      faction: [],
-      search: "",
+      filters: {
+        faction: [],
+        search: "",
+        tags: [],
+      },
+      open: {
+        tags: false,
+      },
     },
   };
 }
@@ -23,12 +26,33 @@ export const createDeckFiltersSlice: StateCreator<
   ...getInitialUIState(),
   addDecksFilter(type, value) {
     const state = get();
-    const filterValues = structuredClone(state.deckFilters);
+    const filterValues = structuredClone(state.deckFilters.filters);
 
     filterValues[type] = value;
 
     set({
-      deckFilters: filterValues,
+      deckFilters: {
+        ...state.deckFilters,
+        open: { ...state.deckFilters.open },
+        filters: filterValues,
+      },
     });
+  },
+
+  setDeckFilterOpen(filter, value) {
+    const state = get();
+
+    set({
+      deckFilters: {
+        ...state.deckFilters,
+        filters: structuredClone(state.deckFilters.filters),
+        open: { ...state.deckFilters.open, [filter]: value },
+      },
+    });
+  },
+
+  resetFilter(filter) {
+    const cleanState = getInitialUIState().deckFilters.filters[filter];
+    this.addDecksFilter(filter, cleanState);
   },
 });

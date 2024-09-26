@@ -37,13 +37,13 @@ const makeDeckFilterFunc = (userFilters: DeckFiltersType) => {
 };
 
 export const selectDeckFilters = createSelector(
-  (state: StoreState) => state.deckFilters,
+  (state: StoreState) => state.deckFilters.filters,
   (filters) => filters,
 );
 
 export const selectDeckFactionFilters = createSelector(
   selectDeckFilters,
-  (deckFilters) => deckFilters.faction,
+  (filters) => filters.faction,
 );
 
 export const selectDeckSearchTerm = createSelector(
