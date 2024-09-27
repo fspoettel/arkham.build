@@ -7,7 +7,7 @@ import {
 import { FactionToggle } from "../faction-toggle";
 import { SearchInput } from "../ui/search-input";
 
-import { Filter } from "lucide-react";
+import { Filter, Minimize2 } from "lucide-react";
 import { useRef, useState } from "react";
 import { Button } from "../ui/button";
 import css from "./deck-filters-wrapper.module.css";
@@ -33,7 +33,7 @@ export function DeckCollectionFilters() {
   };
 
   return (
-    <Root open={open} onOpenChange={setOpen}>
+    <Root open={open} onOpenChange={setOpen} className={css["filters-wrap"]}>
       <div className={css["search-container"]}>
         <SearchInput
           data-testid="deck-search-input"
@@ -49,14 +49,15 @@ export function DeckCollectionFilters() {
           <Button
             as="a"
             data-testid="collection-create-deck"
-            tooltip="More filters"
+            tooltip={open ? "Close Filters" : "More filters"}
             variant="bare"
           >
-            <Filter />
+            {open ? <Minimize2 /> : <Filter />}
           </Button>
         </Trigger>
       </div>
       <Content>
+        <div className={css["divider"]} />
         {factionOptions.length > 1 && (
           <FactionToggle
             options={factionOptions}
@@ -64,8 +65,8 @@ export function DeckCollectionFilters() {
             onValueChange={onFactionFilterChange}
           />
         )}
-
-        <TagsFilter />
+        <TagsFilter containerClass={css["filter"]} />
+        <div className={css["divider"]} />
       </Content>
     </Root>
   );

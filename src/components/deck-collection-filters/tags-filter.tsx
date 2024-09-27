@@ -11,7 +11,11 @@ import type { Coded } from "@/store/services/queries.types";
 import { capitalize } from "@/utils/formatting";
 import { FilterContainer } from "../filters/primitives/filter-container";
 
-export function TagsFilter() {
+type Props = {
+  containerClass?: string;
+};
+
+export function TagsFilter({ containerClass }: Props) {
   const changes = useStore(selectTagsChanges);
   const options = useStore(selectTagsInLocalDecks);
   const open = useStore((state) => state.deckFilters.open.tags);
@@ -36,7 +40,6 @@ export function TagsFilter() {
 
   const onChange = useCallback(
     (value: string[]) => {
-      console.log("manu nanananan");
       setFilterValue("tags", value);
     },
     [setFilterValue],
@@ -44,6 +47,7 @@ export function TagsFilter() {
 
   return (
     <FilterContainer
+      className={containerClass}
       filterString={changes}
       onOpenChange={onOpenChange}
       onReset={onReset}

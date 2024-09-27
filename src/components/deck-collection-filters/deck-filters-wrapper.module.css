@@ -1,8 +1,7 @@
 .search-container {
-  padding: 0 0.5rem;
-  margin-bottom: 0.5rem;
   display: flex;
   width: 100%;
+  padding-bottom: 0.5rem;
 }
 
 .search-input {
@@ -13,4 +12,19 @@
 .search-outer {
   flex-grow: 1;
   margin-right: 0.25rem;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--nord-1);
+  margin: 0.5rem 0;
+}
+
+.filters-wrap {
+  padding: 0.25rem 0.75rem;
+}
+
+.filter {
+  margin-top: 0.5rem;
 }
