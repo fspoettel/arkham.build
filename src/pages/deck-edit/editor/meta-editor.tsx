@@ -238,7 +238,10 @@ export function MetaEditor(props: Props) {
           value={deck.taboo_id ?? ""}
         />
       </Field>
-      <Collapsible title="Card pool settings">
+      <Collapsible
+        title="Card pool settings"
+        data-testid="meta-limited-card-pool"
+      >
         <CollapsibleContent>
           <LimitedCardPoolField
             selectedItems={selectedPacks}

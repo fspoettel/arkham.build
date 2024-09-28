@@ -55,6 +55,11 @@ test.describe("limited card pool", () => {
     await expect(page.getByTestId("listcard-09022")).not.toBeVisible();
 
     await page.getByTestId("editor-tab-meta").click();
+
+    await page
+      .getByTestId("meta-limited-card-pool")
+      .getByTestId("collapsible-trigger")
+      .click();
     await page.getByTestId("combobox-input").click();
     await page.getByTestId("combobox-input").fill("scarlet");
     await page.getByTestId("combobox-menu-item-tskp").click();
@@ -69,6 +74,10 @@ test.describe("limited card pool", () => {
     await expect(page.getByTestId("listcard-09022")).not.toBeVisible();
 
     await page.getByTestId("editor-tab-meta").click();
+    await page
+      .getByTestId("meta-limited-card-pool")
+      .getByTestId("collapsible-trigger")
+      .click();
     await page
       .getByTestId("combobox-result-tfap")
       .getByTestId("combobox-result-remove")
@@ -111,6 +120,10 @@ test.describe("limited card pool", () => {
     await uploadSealedDeck(page);
     await page.getByTestId("create-save").click();
     await page.getByTestId("editor-tab-meta").click();
+    await page
+      .getByTestId("meta-limited-card-pool")
+      .getByTestId("collapsible-trigger")
+      .click();
     await page.getByTestId("sealed-deck-remove").click();
     await page.getByTestId("search-input").click();
     await page.getByTestId("search-input").fill("art stu");
