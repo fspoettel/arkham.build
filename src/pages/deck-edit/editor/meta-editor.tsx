@@ -4,6 +4,7 @@ import {
   LimitedCardPoolField,
   SealedDeckField,
 } from "@/components/limited-card-pool";
+import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import { Field, FieldLabel } from "@/components/ui/field";
 import type { SelectOption } from "@/components/ui/select";
 import { Select } from "@/components/ui/select";
@@ -237,14 +238,18 @@ export function MetaEditor(props: Props) {
           value={deck.taboo_id ?? ""}
         />
       </Field>
-      <LimitedCardPoolField
-        selectedItems={selectedPacks}
-        onValueChange={onCardPoolChange}
-      />
-      <SealedDeckField
-        onValueChange={onSealedDeckChange}
-        value={deck.sealedDeck}
-      />
+      <Collapsible title="Card pool settings">
+        <CollapsibleContent>
+          <LimitedCardPoolField
+            selectedItems={selectedPacks}
+            onValueChange={onCardPoolChange}
+          />
+          <SealedDeckField
+            onValueChange={onSealedDeckChange}
+            value={deck.sealedDeck}
+          />
+        </CollapsibleContent>
+      </Collapsible>
       <Field full padded>
         <FieldLabel>Description</FieldLabel>
         <textarea
