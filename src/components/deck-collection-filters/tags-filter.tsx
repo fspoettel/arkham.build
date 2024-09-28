@@ -23,7 +23,7 @@ export function TagsFilter({ containerClass }: Props) {
 
   const setFilterValue = useStore((state) => state.addDecksFilter);
   const setFilterOpen = useStore((state) => state.setDeckFilterOpen);
-  const resetFilter = useStore((state) => state.resetFilter);
+  const resetFilter = useStore((state) => state.resetDeckFilter);
 
   const tagRenderer = (tag: Coded) => <>{capitalize(tag.code)}</>;
 

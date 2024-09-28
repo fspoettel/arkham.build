@@ -13,6 +13,7 @@ import { Button } from "../ui/button";
 import css from "./deck-filters-wrapper.module.css";
 
 import { Content, Root, Trigger } from "@radix-ui/react-collapsible";
+import { DeckPropertiesFilter } from "./deck-properties-filter";
 import { TagsFilter } from "./tags-filter";
 
 export function DeckCollectionFilters() {
@@ -66,6 +67,7 @@ export function DeckCollectionFilters() {
           />
         )}
         <TagsFilter containerClass={css["filter"]} />
+        <DeckPropertiesFilter containerClass={css["filter"]} />
         <div className={css["divider"]} />
       </Content>
     </Root>

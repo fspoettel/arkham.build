@@ -2,11 +2,13 @@ export type DeckFiltersType = {
   faction: string[];
   search: string;
   tags: string[];
+  properties: Record<DeckPropertyName, boolean>;
 };
+
 export type DeckFiltersKeys = keyof DeckFiltersType;
 type DeckFiltersValues<P extends DeckFiltersKeys> = DeckFiltersType[P];
 
-type CollapsibleFilters = "tags";
+type CollapsibleFilters = Exclude<DeckFiltersKeys, "faction" | "search">;
 
 export type DeckFiltersState = {
   filters: DeckFiltersType;
@@ -20,5 +22,7 @@ export type DeckFiltersSlice = {
     value: T,
   ): void;
   setDeckFilterOpen(filter: CollapsibleFilters, status: boolean): void;
-  resetFilter(filter: DeckFiltersKeys): void;
+  resetDeckFilter(filter: DeckFiltersKeys): void;
 };
+
+export type DeckPropertyName = "parallel";

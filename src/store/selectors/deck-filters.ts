@@ -10,55 +10,28 @@ import type { MultiselectFilter } from "../slices/lists.types";
 import { selectLocalDecks } from "./decks";
 
 import { capitalize } from "@/utils/formatting";
-import type { DeckFiltersKeys } from "../slices/deck-collection-filters.types";
+import type {
+  DeckFiltersKeys,
+  DeckPropertyName,
+} from "../slices/deck-collection-filters.types";
 
 // Arbitrarily chosen for now
 const MATCHING_MAX_TOKEN_DISTANCE_DECKS = 4;
 
-// Faction
-const filterDeckByFaction = (faction: string) => {
-  return (deck: ResolvedDeck) => {
-    return deck.cards.investigator.card.faction_code === faction;
-  };
-};
-
-const makeDeckFactionFilter = (values: MultiselectFilter) => {
-  return or(values.map((value) => filterDeckByFaction(value)));
-};
-
-//Tag
-const filterDeckByTag = (tag: string) => {
-  return (deck: ResolvedDeck) => {
-    return deck.tags.includes(tag);
-  };
-};
-
-const makeDeckTagsFilter = (values: MultiselectFilter) => {
-  return or(values.map((value) => filterDeckByTag(value)));
-};
-
 export const selectDeckFilters = (state: StoreState) =>
   state.deckFilters.filters;
+
+export const selectDeckFilterValue = createSelector(
+  selectDeckFilters,
+  (_, filter: DeckFiltersKeys) => filter,
+  (filters, filter) => {
+    return filters[filter];
+  },
+);
+
+// Search
 export const selectDeckSearchTerm = (state: StoreState) =>
   state.deckFilters.filters.search;
-export const selectDeckFactionFilter = (state: StoreState) =>
-  state.deckFilters.filters.faction;
-
-const selectFilteringFunc = createSelector(selectDeckFilters, (filters) => {
-  const filterFuncs = [];
-
-  for (const filter of Object.keys(filters)) {
-    switch (filter) {
-      case "faction":
-        filterFuncs.push(makeDeckFactionFilter(filters[filter]));
-        break;
-      case "tags":
-        filterFuncs.push(makeDeckTagsFilter(filters[filter]));
-    }
-  }
-
-  return and(filterFuncs);
-});
 
 export const selectSearchableTextInDecks = createSelector(
   selectLocalDecks,
@@ -70,6 +43,93 @@ export const selectSearchableTextInDecks = createSelector(
     );
   },
 );
+
+// Faction
+export const selectDeckFactionFilter = (state: StoreState) =>
+  state.deckFilters.filters.faction;
+
+const filterDeckByFaction = (faction: string) => {
+  return (deck: ResolvedDeck) => {
+    return deck.cards.investigator.card.faction_code === faction;
+  };
+};
+
+const makeDeckFactionFilter = (values: MultiselectFilter) => {
+  return or(values.map((value) => filterDeckByFaction(value)));
+};
+
+// Tag
+const filterDeckByTag = (tag: string) => {
+  return (deck: ResolvedDeck) => {
+    return deck.tags.includes(tag);
+  };
+};
+
+const makeDeckTagsFilter = (values: MultiselectFilter) => {
+  return or(values.map((value) => filterDeckByTag(value)));
+};
+
+export const selectTagsChanges = createSelector(
+  selectDeckFilters,
+  (filters) => {
+    const tagsFilters = filters.tags;
+    if (!tagsFilters.length) return "";
+    return tagsFilters.map(capitalize).join(" or ");
+  },
+);
+
+// Properties
+export const selectDeckPropertiesFilter = (state: StoreState) =>
+  state.deckFilters.filters.properties;
+
+export const selectPropertiesChanges = createSelector(
+  selectDeckPropertiesFilter,
+  (properties) => {
+    return Object.keys(properties)
+      .filter((prop) => properties[prop as DeckPropertyName])
+      .map(capitalize)
+      .join(" and ");
+  },
+);
+
+const makeDeckPropertiesFilter = (
+  properties: Record<DeckPropertyName, boolean>,
+) => {
+  const filters = [];
+  for (const property of Object.keys(properties)) {
+    if (properties[property as DeckPropertyName]) {
+      switch (property) {
+        case "parallel":
+          filters.push((deck: ResolvedDeck) =>
+            Boolean(
+              deck.investigatorFront.card.parallel ||
+                deck.investigatorBack.card.parallel,
+            ),
+          );
+      }
+    }
+  }
+  return and(filters);
+};
+
+const selectFilteringFunc = createSelector(selectDeckFilters, (filters) => {
+  const filterFuncs = [];
+
+  for (const filter of Object.keys(filters)) {
+    switch (filter) {
+      case "faction":
+        filterFuncs.push(makeDeckFactionFilter(filters[filter]));
+        break;
+      case "tags":
+        filterFuncs.push(makeDeckTagsFilter(filters[filter]));
+        break;
+      case "properties":
+        filterFuncs.push(makeDeckPropertiesFilter(filters[filter]));
+    }
+  }
+
+  return and(filterFuncs);
+});
 
 export const selectDecksFiltered = createSelector(
   selectLocalDecks,
@@ -125,15 +185,6 @@ export const selectFactionsInLocalDecks = createSelector(
   },
 );
 
-export const selectTagsChanges = createSelector(
-  selectDeckFilters,
-  (filters) => {
-    const tagsFilters = filters.tags;
-    if (!tagsFilters.length) return "";
-    return tagsFilters.map(capitalize).join(" or ");
-  },
-);
-
 export const selectTagsInLocalDecks = createSelector(
   selectLocalDecks,
   (decks) => {
@@ -152,13 +203,5 @@ export const selectTagsInLocalDecks = createSelector(
       };
     });
     return uniqueTags;
-  },
-);
-
-export const selectDeckFilterValue = createSelector(
-  selectDeckFilters,
-  (_, filter: DeckFiltersKeys) => filter,
-  (filters, filter) => {
-    return filters[filter];
   },
 );

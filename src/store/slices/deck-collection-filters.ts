@@ -9,9 +9,13 @@ function getInitialUIState() {
         faction: [],
         search: "",
         tags: [],
+        properties: {
+          parallel: false,
+        },
       },
       open: {
         tags: false,
+        properties: false,
       },
     },
   };
@@ -51,7 +55,7 @@ export const createDeckFiltersSlice: StateCreator<
     });
   },
 
-  resetFilter(filter) {
+  resetDeckFilter(filter) {
     const cleanState = getInitialUIState().deckFilters.filters[filter];
     this.addDecksFilter(filter, cleanState);
   },
