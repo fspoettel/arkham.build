@@ -26,8 +26,6 @@ export function DeckPropertiesFilter({ containerClass }: Props) {
   );
   const open = useStore((state) => state.deckFilters.open.properties);
 
-  console.log(values);
-
   const setFilterValue = useStore((state) => state.addDecksFilter);
   const setFilterOpen = useStore((state) => state.setDeckFilterOpen);
   const resetFilter = useStore((state) => state.resetDeckFilter);
@@ -45,7 +43,6 @@ export function DeckPropertiesFilter({ containerClass }: Props) {
 
   const onPropertyChange = useCallback(
     (property: DeckPropertyName, value: boolean) => {
-      console.log(property, value);
       setFilterValue("properties", { ...values, [property]: value });
     },
     [setFilterValue, values],

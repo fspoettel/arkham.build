@@ -55,7 +55,6 @@ export function TagsFilter({ containerClass }: Props) {
       title="Tags"
     >
       <Combobox
-        autoFocus
         id="tag-deck-filter"
         items={options}
         label="Tag"

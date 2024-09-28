@@ -1,6 +1,9 @@
 import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
-import type { DeckFiltersSlice } from "./deck-collection-filters.types";
+import type {
+  DeckFiltersSlice,
+  DeckValidity,
+} from "./deck-collection-filters.types";
 
 function getInitialUIState() {
   return {
@@ -12,10 +15,12 @@ function getInitialUIState() {
         properties: {
           parallel: false,
         },
+        validity: "all" as DeckValidity,
       },
       open: {
         tags: false,
         properties: false,
+        validity: false,
       },
     },
   };
@@ -56,7 +61,16 @@ export const createDeckFiltersSlice: StateCreator<
   },
 
   resetDeckFilter(filter) {
+    const state = get();
     const cleanState = getInitialUIState().deckFilters.filters[filter];
-    this.addDecksFilter(filter, cleanState);
+    const filterValues = structuredClone(state.deckFilters.filters);
+
+    set({
+      deckFilters: {
+        ...state.deckFilters,
+        open: { ...state.deckFilters.open },
+        filters: { ...filterValues, [filter]: cleanState },
+      },
+    });
   },
 });

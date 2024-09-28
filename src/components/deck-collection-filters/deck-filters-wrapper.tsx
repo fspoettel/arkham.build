@@ -15,6 +15,7 @@ import css from "./deck-filters-wrapper.module.css";
 import { Content, Root, Trigger } from "@radix-ui/react-collapsible";
 import { DeckPropertiesFilter } from "./deck-properties-filter";
 import { TagsFilter } from "./tags-filter";
+import { ValidityFilter } from "./validity-filter";
 
 export function DeckCollectionFilters() {
   const [open, setOpen] = useState(false);
@@ -68,6 +69,7 @@ export function DeckCollectionFilters() {
         )}
         <TagsFilter containerClass={css["filter"]} />
         <DeckPropertiesFilter containerClass={css["filter"]} />
+        <ValidityFilter containerClass={css["filter"]} />
         <div className={css["divider"]} />
       </Content>
     </Root>

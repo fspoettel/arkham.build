@@ -3,7 +3,10 @@ export type DeckFiltersType = {
   search: string;
   tags: string[];
   properties: Record<DeckPropertyName, boolean>;
+  validity: DeckValidity;
 };
+
+export type DeckValidity = "valid" | "invalid" | "all";
 
 export type DeckFiltersKeys = keyof DeckFiltersType;
 type DeckFiltersValues<P extends DeckFiltersKeys> = DeckFiltersType[P];
