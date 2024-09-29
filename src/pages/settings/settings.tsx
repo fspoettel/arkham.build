@@ -71,11 +71,11 @@ function Settings() {
             <TabsList>
               <TabsTrigger data-testid="tab-general" value="general">
                 <SlidersVertical />
-                General settings
+                General
               </TabsTrigger>
               <TabsTrigger data-testid="tab-collection" value="collection">
                 <Library />
-                Collection settings
+                Collection
               </TabsTrigger>
             </TabsList>
             <TabsContent value="general" forceMount>
