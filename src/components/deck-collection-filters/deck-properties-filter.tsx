@@ -1,12 +1,12 @@
-import { useCallback } from "react";
+// Currently unused, functionality preserved for 'My Decks' dedicated page.
 
 import { useStore } from "@/store";
-
 import {
   selectDeckFilterValue,
   selectPropertiesChanges,
 } from "@/store/selectors/deck-filters";
 import type { DeckPropertyName } from "@/store/slices/deck-collection-filters.types";
+import { useCallback } from "react";
 import { FilterContainer } from "../filters/primitives/filter-container";
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";

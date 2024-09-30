@@ -1,10 +1,11 @@
-import { useCallback } from "react";
+// Currently unused, functionality preserved for 'My Decks' dedicated page.
 
 import { useStore } from "@/store";
 import { selectDeckFilterValue } from "@/store/selectors/deck-filters";
 import type { DeckValidity } from "@/store/slices/deck-collection-filters.types";
 import { capitalize } from "@/utils/formatting";
 import { TicketCheck, TicketX, Tickets } from "lucide-react";
+import { useCallback } from "react";
 import { FilterContainer } from "../filters/primitives/filter-container";
 import {
   RadioButtonGroup,
