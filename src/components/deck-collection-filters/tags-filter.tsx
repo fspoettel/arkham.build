@@ -46,24 +46,26 @@ export function TagsFilter({ containerClass }: Props) {
   );
 
   return (
-    <FilterContainer
-      className={containerClass}
-      filterString={changes}
-      onOpenChange={onOpenChange}
-      onReset={onReset}
-      open={open}
-      title="Tags"
-    >
-      <Combobox
-        id="tag-deck-filter"
-        items={options}
-        label="Tag"
-        onValueChange={onChange}
-        placeholder="Select tag(s)"
-        selectedItems={value}
-        renderResult={tagRenderer}
-        renderItem={tagRenderer}
-      />
-    </FilterContainer>
+    Object.keys(options).length && (
+      <FilterContainer
+        className={containerClass}
+        filterString={changes}
+        onOpenChange={onOpenChange}
+        onReset={onReset}
+        open={open}
+        title="Tags"
+      >
+        <Combobox
+          id="tag-deck-filter"
+          items={options}
+          label="Tag"
+          onValueChange={onChange}
+          placeholder="Select tag(s)"
+          selectedItems={value}
+          renderResult={tagRenderer}
+          renderItem={tagRenderer}
+        />
+      </FilterContainer>
+    )
   );
 }

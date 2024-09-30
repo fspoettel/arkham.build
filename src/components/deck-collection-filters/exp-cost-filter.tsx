@@ -44,23 +44,25 @@ export function ExpCostFilters({ containerClass }: Props) {
   );
 
   return (
-    <FilterContainer
-      className={containerClass}
-      filterString={changes}
-      onOpenChange={onOpenChange}
-      onReset={onReset}
-      open={open}
-      title="Experience cost"
-    >
-      <RangeSelect
-        data-testid="filters-cost-range"
-        id="cost-select"
-        label="Cost"
-        max={max}
-        min={min}
-        onValueCommit={onValueCommit}
-        value={value ?? [min, max]}
-      />
-    </FilterContainer>
+    min !== max && (
+      <FilterContainer
+        className={containerClass}
+        filterString={changes}
+        onOpenChange={onOpenChange}
+        onReset={onReset}
+        open={open}
+        title="Experience cost"
+      >
+        <RangeSelect
+          data-testid="filters-cost-range"
+          id="cost-select"
+          label="Cost"
+          max={max}
+          min={min}
+          onValueCommit={onValueCommit}
+          value={value ?? [min, max]}
+        />
+      </FilterContainer>
+    )
   );
 }
