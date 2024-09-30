@@ -3,7 +3,7 @@
   justify-content: center;
   font-size: 0.625em;
   color: color-mix(in srgb, var(--nord-3) 70%, var(--nord-4) 30%);
-  padding-top: 0.5rem;
+  padding-top: 0.25rem;
 }
 
 .footer p {
