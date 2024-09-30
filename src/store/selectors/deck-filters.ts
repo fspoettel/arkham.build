@@ -13,6 +13,7 @@ import { capitalize } from "@/utils/formatting";
 import type {
   DeckFiltersKeys,
   DeckPropertyName,
+  DeckValidity,
 } from "../slices/deck-collection-filters.types";
 
 // Arbitrarily chosen for now
@@ -112,6 +113,18 @@ const makeDeckPropertiesFilter = (
   return and(filters);
 };
 
+// Validity
+const makeDeckValidityFilter = (value: Omit<DeckValidity, "all">) => {
+  switch (value) {
+    case "valid":
+      return (deck: ResolvedDeck) => deck.problem === null;
+    case "invalid":
+      return (deck: ResolvedDeck) => Boolean(deck.problem);
+    default:
+      return (_: ResolvedDeck) => true;
+  }
+};
+
 const selectFilteringFunc = createSelector(selectDeckFilters, (filters) => {
   const filterFuncs = [];
 
@@ -125,6 +138,12 @@ const selectFilteringFunc = createSelector(selectDeckFilters, (filters) => {
         break;
       case "properties":
         filterFuncs.push(makeDeckPropertiesFilter(filters[filter]));
+        break;
+      case "validity":
+        if (filters[filter] !== "all") {
+          filterFuncs.push(makeDeckValidityFilter(filters[filter]));
+        }
+        break;
     }
   }
 
