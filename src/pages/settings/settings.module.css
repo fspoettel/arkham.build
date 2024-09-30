@@ -71,7 +71,7 @@
 .list {
   border: 1px solid var(--nord-point-five);
   padding: 1rem;
-  min-width: 24rem;
+  min-width: min(24rem, 100%);
   border-radius: var(--rounded);
 }
 

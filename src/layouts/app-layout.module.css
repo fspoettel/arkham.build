@@ -17,6 +17,6 @@
 }
 
 .footer {
+  padding-top: 0.5rem;
   flex: 0 0 auto;
-  padding-bottom: 0.5rem;
 }
