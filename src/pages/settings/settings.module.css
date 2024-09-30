@@ -87,7 +87,7 @@
   margin-top: 0.75rem;
 }
 
-.list-group-header {
+.list-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
