@@ -14,6 +14,7 @@ import type {
   DeckFiltersKeys,
   DeckPropertyName,
   DeckValidity,
+  RangeMinMax,
 } from "../slices/deck-collection-filters.types";
 
 // Arbitrarily chosen for now
@@ -125,25 +126,70 @@ const makeDeckValidityFilter = (value: Omit<DeckValidity, "all">) => {
   }
 };
 
+// Exp Cost
+export const selectDecksMinMaxExpCost = createSelector(
+  selectLocalDecks,
+  (decks) => {
+    const minmax: RangeMinMax = decks.reduce<[number, number]>(
+      (acc, val) => {
+        // debugger;
+        const { xpRequired } = val.stats;
+        acc[0] = Math.min(acc[0], xpRequired);
+        acc[1] = Math.max(acc[1], xpRequired);
+        return acc;
+      },
+      [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY],
+    );
+    return minmax;
+  },
+);
+
+export const selectExpCostChanges = createSelector(
+  selectDeckFilters,
+  (filters) => {
+    const expMinMax = filters.expCost;
+    return expMinMax ? `${expMinMax[0]}-${expMinMax[1]} experience` : "";
+  },
+);
+
+export const makeDeckExpCostFilter = (minmax: [number, number]) => {
+  return (deck: ResolvedDeck) => {
+    return (
+      deck.stats.xpRequired >= minmax[0] && deck.stats.xpRequired <= minmax[1]
+    );
+  };
+};
+
 const selectFilteringFunc = createSelector(selectDeckFilters, (filters) => {
   const filterFuncs = [];
 
   for (const filter of Object.keys(filters)) {
     switch (filter) {
-      case "faction":
+      case "faction": {
         filterFuncs.push(makeDeckFactionFilter(filters[filter]));
         break;
-      case "tags":
+      }
+      case "tags": {
         filterFuncs.push(makeDeckTagsFilter(filters[filter]));
         break;
-      case "properties":
+      }
+      case "properties": {
         filterFuncs.push(makeDeckPropertiesFilter(filters[filter]));
         break;
-      case "validity":
+      }
+      case "validity": {
         if (filters[filter] !== "all") {
           filterFuncs.push(makeDeckValidityFilter(filters[filter]));
         }
         break;
+      }
+      case "expCost": {
+        const expCostFilter = filters[filter];
+        if (expCostFilter) {
+          filterFuncs.push(makeDeckExpCostFilter(expCostFilter));
+          break;
+        }
+      }
     }
   }
 

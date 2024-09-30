@@ -16,11 +16,13 @@ function getInitialUIState() {
           parallel: false,
         },
         validity: "all" as DeckValidity,
+        expCost: undefined,
       },
       open: {
         tags: false,
         properties: false,
         validity: false,
+        expCost: false,
       },
     },
   };

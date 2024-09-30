@@ -4,8 +4,10 @@ export type DeckFiltersType = {
   tags: string[];
   properties: Record<DeckPropertyName, boolean>;
   validity: DeckValidity;
+  expCost: RangeMinMax;
 };
 
+export type RangeMinMax = undefined | [number, number];
 export type DeckValidity = "valid" | "invalid" | "all";
 
 export type DeckFiltersKeys = keyof DeckFiltersType;
