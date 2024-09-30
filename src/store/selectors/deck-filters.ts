@@ -162,31 +162,38 @@ export const makeDeckExpCostFilter = (minmax: [number, number]) => {
 
 const selectFilteringFunc = createSelector(selectDeckFilters, (filters) => {
   const filterFuncs = [];
-
-  for (const filter of Object.keys(filters)) {
+  for (const filter of Object.keys(filters) as DeckFiltersKey[]) {
     switch (filter) {
       case "faction": {
-        filterFuncs.push(makeDeckFactionFilter(filters[filter]));
+        const currentFilter = filters[filter];
+        if (currentFilter.length) {
+          filterFuncs.push(makeDeckFactionFilter(currentFilter));
+        }
         break;
       }
       case "tags": {
-        filterFuncs.push(makeDeckTagsFilter(filters[filter]));
+        const currentFilter = filters[filter];
+        if (currentFilter.length) {
+          filterFuncs.push(makeDeckTagsFilter(currentFilter));
+        }
         break;
       }
       case "properties": {
-        filterFuncs.push(makeDeckPropertiesFilter(filters[filter]));
+        const currentFilter = filters[filter];
+        filterFuncs.push(makeDeckPropertiesFilter(currentFilter));
         break;
       }
       case "validity": {
-        if (filters[filter] !== "all") {
-          filterFuncs.push(makeDeckValidityFilter(filters[filter]));
+        const currentFilter = filters[filter];
+        if (currentFilter !== "all") {
+          filterFuncs.push(makeDeckValidityFilter(currentFilter));
         }
         break;
       }
       case "expCost": {
-        const expCostFilter = filters[filter];
-        if (expCostFilter) {
-          filterFuncs.push(makeDeckExpCostFilter(expCostFilter));
+        const currentFilter = filters[filter];
+        if (currentFilter) {
+          filterFuncs.push(makeDeckExpCostFilter(currentFilter));
           break;
         }
       }
@@ -225,7 +232,6 @@ export const selectDecksFiltered = createSelector(
     }
 
     const filteredDecks = decksToFilter.filter(filterFunc);
-
     return filteredDecks ?? decks;
   },
 );
