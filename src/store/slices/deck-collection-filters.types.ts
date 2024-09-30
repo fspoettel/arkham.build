@@ -10,24 +10,24 @@ export type DeckFiltersType = {
 export type RangeMinMax = undefined | [number, number];
 export type DeckValidity = "valid" | "invalid" | "all";
 
-export type DeckFiltersKeys = keyof DeckFiltersType;
-type DeckFiltersValues<P extends DeckFiltersKeys> = DeckFiltersType[P];
+export type DeckFiltersKey = keyof DeckFiltersType;
+type DeckFiltersValue<P extends DeckFiltersKey> = DeckFiltersType[P];
 
-type CollapsibleFilters = Exclude<DeckFiltersKeys, "faction" | "search">;
+type CollapsibleFilter = Exclude<DeckFiltersKey, "faction" | "search">;
 
 export type DeckFiltersState = {
   filters: DeckFiltersType;
-  open: Record<CollapsibleFilters, boolean>;
+  open: Record<CollapsibleFilter, boolean>;
 };
 
 export type DeckFiltersSlice = {
   deckFilters: DeckFiltersState;
-  addDecksFilter<F extends DeckFiltersKeys, T extends DeckFiltersValues<F>>(
+  addDecksFilter<F extends DeckFiltersKey, T extends DeckFiltersValue<F>>(
     type: F,
     value: T,
   ): void;
-  setDeckFilterOpen(filter: CollapsibleFilters, status: boolean): void;
-  resetDeckFilter(filter: DeckFiltersKeys): void;
+  setDeckFilterOpen(filter: CollapsibleFilter, status: boolean): void;
+  resetDeckFilter(filter: DeckFiltersKey): void;
 };
 
 export type DeckPropertyName = "parallel";

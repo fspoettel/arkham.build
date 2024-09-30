@@ -11,7 +11,7 @@ import { selectLocalDecks } from "./decks";
 
 import { capitalize } from "@/utils/formatting";
 import type {
-  DeckFiltersKeys,
+  DeckFiltersKey,
   DeckPropertyName,
   DeckValidity,
   RangeMinMax,
@@ -25,7 +25,7 @@ export const selectDeckFilters = (state: StoreState) =>
 
 export const selectDeckFilterValue = createSelector(
   selectDeckFilters,
-  (_, filter: DeckFiltersKeys) => filter,
+  (_, filter: DeckFiltersKey) => filter,
   (filters, filter) => {
     return filters[filter];
   },
@@ -132,7 +132,6 @@ export const selectDecksMinMaxExpCost = createSelector(
   (decks) => {
     const minmax: RangeMinMax = decks.reduce<[number, number]>(
       (acc, val) => {
-        // debugger;
         const { xpRequired } = val.stats;
         acc[0] = Math.min(acc[0], xpRequired);
         acc[1] = Math.max(acc[1], xpRequired);
