@@ -146,7 +146,7 @@ export function DeckCollection() {
           </Popover>
         </div>
       </header>
-      <DeckCollectionFilters />
+      {decks.length > 1 && <DeckCollectionFilters />}
       {decks.length ? (
         <Scroller>
           <ol className={css["decks"]}>
