@@ -15,7 +15,7 @@ export function FactionToggle(props: Props) {
 
   return (
     <ToggleGroup
-      className={css["faction-filter"]}
+      className={css["toggle"]}
       data-testid="filters-faction"
       full
       icons

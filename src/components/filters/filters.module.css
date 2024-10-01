@@ -71,33 +71,6 @@
   pointer-events: none;
 }
 
-.faction-filter {
-  padding: 0.5rem;
-}
-
-.faction-filter .color-active-guardian[data-state="on"] {
-  --active-color: var(--guardian);
-}
-
-.faction-filter .color-active-rogue[data-state="on"] {
-  --active-color: var(--rogue);
-}
-
-.faction-filter .color-active-seeker[data-state="on"] {
-  --active-color: var(--seeker);
-}
-
-.faction-filter .color-active-survivor[data-state="on"] {
-  --active-color: var(--survivor);
-}
-
-.faction-filter .color-active-mystic[data-state="on"] {
-  --active-color: var(--mystic);
-}
-
-.faction-filter .color-active-multiclass[data-state="on"] {
-  --active-color: var(--multiclass);
-}
 
 .asset-filter .skill-boosts {
   padding: 0;
