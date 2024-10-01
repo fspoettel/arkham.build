@@ -22,7 +22,7 @@
   margin-top: 0.5rem;
 }
 
-.filtersContainer {
+.filters-container {
   border-top: 1px solid var(--nord-1);
   border-bottom: 1px solid var(--nord-1);
   padding: 0.5rem 0;

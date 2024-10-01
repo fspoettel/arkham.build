@@ -38,13 +38,11 @@ export const createDeckFiltersSlice: StateCreator<
   addDecksFilter(type, value) {
     const state = get();
     const filterValues = structuredClone(state.deckFilters.filters);
-
     filterValues[type] = value;
 
     set({
       deckFilters: {
         ...state.deckFilters,
-        open: { ...state.deckFilters.open },
         filters: filterValues,
       },
     });
@@ -56,7 +54,6 @@ export const createDeckFiltersSlice: StateCreator<
     set({
       deckFilters: {
         ...state.deckFilters,
-        filters: structuredClone(state.deckFilters.filters),
         open: { ...state.deckFilters.open, [filter]: value },
       },
     });
@@ -64,14 +61,13 @@ export const createDeckFiltersSlice: StateCreator<
 
   resetDeckFilter(filter) {
     const state = get();
-    const cleanState = getInitialUIState().deckFilters.filters[filter];
-    const filterValues = structuredClone(state.deckFilters.filters);
+    const initialState = getInitialUIState().deckFilters.filters[filter];
 
     set({
       deckFilters: {
         ...state.deckFilters,
         open: { ...state.deckFilters.open },
-        filters: { ...filterValues, [filter]: cleanState },
+        filters: { ...state.deckFilters.filters, [filter]: initialState },
       },
     });
   },

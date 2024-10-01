@@ -62,7 +62,7 @@ export function DeckCollectionFilters() {
         </Trigger>
       </div>
       <Content
-        className={css["filtersContainer"]}
+        className={css["filters-container"]}
         data-testid="deck-filters-expanded"
       >
         {factionOptions.length > 1 && (

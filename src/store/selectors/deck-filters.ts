@@ -26,9 +26,7 @@ export const selectDeckFilters = (state: StoreState) =>
 export const selectDeckFilterValue = createSelector(
   selectDeckFilters,
   (_, filter: DeckFiltersKey) => filter,
-  (filters, filter) => {
-    return filters[filter];
-  },
+  (filters, filter) => filters[filter],
 );
 
 // Search

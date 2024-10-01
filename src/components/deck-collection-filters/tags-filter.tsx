@@ -46,7 +46,7 @@ export function TagsFilter({ containerClass }: Props) {
   );
 
   return (
-    Object.keys(options).length && (
+    !!Object.keys(options).length && (
       <FilterContainer
         className={containerClass}
         filterString={changes}
