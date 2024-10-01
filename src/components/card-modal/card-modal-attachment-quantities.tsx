@@ -1,7 +1,12 @@
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import type { AttachableDefinition } from "@/utils/constants";
-import { attachmentDefinitionLimit, canAttach } from "../attachments/utils";
+import {
+  attachmentDefinitionLimit,
+  canAttach,
+  canUpdateAttachment,
+  getAttachedQuantity,
+} from "../attachments/utils";
 import { QuantityInput } from "../ui/quantity-input";
 
 import { useCallback } from "react";
@@ -41,7 +46,6 @@ function AttachmentQuantity(
   },
 ) {
   const { card, definition, resolvedDeck } = props;
-
   const onAttachmentChange = useAttachmentsChangeHandler();
 
   const onValueChange = useCallback(
@@ -51,8 +55,7 @@ function AttachmentQuantity(
 
   if (!canAttach(card, definition)) return null;
 
-  const attached =
-    resolvedDeck.attachments?.[definition.code]?.[card.code] ?? 0;
+  const attached = getAttachedQuantity(card, definition, resolvedDeck);
 
   return (
     <article className={css["quantity"]} key={definition.code}>
@@ -61,7 +64,7 @@ function AttachmentQuantity(
       </h3>
       <QuantityInput
         data-testid={`card-modal-quantities-${definition.code}`}
-        disabled={!onAttachmentChange}
+        disabled={!canUpdateAttachment(card, definition, resolvedDeck)}
         limit={attachmentDefinitionLimit(
           card,
           resolvedDeck.slots[card.code] ?? 0,

@@ -8,7 +8,12 @@ import type { Card } from "@/store/services/queries.types";
 import { getCardColor } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { useCallback, useMemo } from "react";
-import { attachmentDefinitionLimit, canAttach } from "../attachments/utils";
+import {
+  attachmentDefinitionLimit,
+  canAttach,
+  canUpdateAttachment,
+  getAttachedQuantity,
+} from "../attachments/utils";
 import { useAttachmentsChangeHandler } from "../attachments/utils";
 import { ListCard } from "../list-card/list-card";
 import css from "./card-modal.module.css";
@@ -41,11 +46,9 @@ export function CardModalAttachable(props: Props) {
     [onAttachmentQuantityChange, definition],
   );
 
-  const targetAttachments = resolvedDeck.attachments?.[definition.code] ?? {};
-
   const total = Object.values({
+    ...resolvedDeck.attachments?.[definition.code],
     ...definition.requiredCards,
-    ...targetAttachments,
   }).reduce((sum, count) => sum + count, 0);
 
   const cards = useMemo(
@@ -55,10 +58,11 @@ export function CardModalAttachable(props: Props) {
           if (canAttach(curr.card, definition)) {
             acc.push({
               card: curr.card,
-              attached:
-                definition.requiredCards?.[curr.card.code] ??
-                targetAttachments[curr.card.code] ??
-                0,
+              attached: getAttachedQuantity(
+                curr.card,
+                definition,
+                resolvedDeck,
+              ),
               quantity: resolvedDeck.slots[curr.card.code] ?? 0,
             });
           }
@@ -66,13 +70,7 @@ export function CardModalAttachable(props: Props) {
           return acc;
         }, [])
         .sort((a, b) => sortFunction(a.card, b.card)),
-    [
-      resolvedDeck.cards.slots,
-      resolvedDeck.slots,
-      targetAttachments,
-      definition,
-      sortFunction,
-    ],
+    [resolvedDeck, definition, sortFunction],
   );
 
   const colorCls = getCardColor(card, "background");
@@ -100,7 +98,11 @@ export function CardModalAttachable(props: Props) {
               entry.quantity,
               definition.limit,
             )}
-            onChangeCardQuantity={onQuantityChange}
+            onChangeCardQuantity={
+              canUpdateAttachment(entry.card, definition, resolvedDeck)
+                ? onQuantityChange
+                : undefined
+            }
           />
         ))}
       </ul>

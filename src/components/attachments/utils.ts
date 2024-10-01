@@ -1,4 +1,5 @@
 import { useStore } from "@/store";
+import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import type { AttachableDefinition } from "@/utils/constants";
 import { useResolvedDeckChecked } from "@/utils/use-resolved-deck";
@@ -23,6 +24,29 @@ export function attachmentDefinitionLimit(
   return Math.min(
     attachmentLimit(card, quantityInDeck),
     attachmentDefinitionLimit ?? Number.MAX_SAFE_INTEGER,
+  );
+}
+
+export function getAttachedQuantity(
+  card: Card,
+  definition: AttachableDefinition,
+  resolvedDeck: ResolvedDeck,
+) {
+  return (
+    definition.requiredCards?.[card.code] ??
+    resolvedDeck.attachments?.[definition.code]?.[card.code] ??
+    0
+  );
+}
+
+export function canUpdateAttachment(
+  card: Card,
+  definition: AttachableDefinition,
+  resolvedDeck: ResolvedDeck,
+) {
+  return (
+    definition.requiredCards?.[card.code] == null &&
+    resolvedDeck.slots[card.code] > 0
   );
 }
 

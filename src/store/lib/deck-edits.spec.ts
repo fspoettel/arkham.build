@@ -493,5 +493,31 @@ describe("deck edits", () => {
         `"{"attachments_09077":"02109","attachments_03264":"02109"}"`,
       );
     });
+
+    it("always adds required cards", () => {
+      const deck = {
+        slots: {
+          "05002": 1,
+          "05010": 1,
+        },
+        meta: "{}",
+      };
+
+      const edits = {
+        attachments: {
+          "05002": {},
+        },
+      };
+
+      const result = applyDeckEdits(
+        deck as never,
+        edits as never,
+        store.getState().metadata,
+      );
+
+      expect(result.meta).toMatchInlineSnapshot(
+        `"{"attachments_05002":"05010"}"`,
+      );
+    });
   });
 });

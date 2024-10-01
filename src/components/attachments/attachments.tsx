@@ -6,7 +6,7 @@ import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import { Button } from "../ui/button";
 import css from "./attachments.module.css";
-import { canAttach } from "./utils";
+import { canAttach, canUpdateAttachment, getAttachedQuantity } from "./utils";
 import { useAttachmentsChangeHandler } from "./utils";
 
 type Props = {
@@ -52,9 +52,7 @@ function Attachment(
 
   const onChangeAttachmentQuantity = useAttachmentsChangeHandler();
 
-  const required = definition.requiredCards?.[card.code];
-  const attached =
-    required ?? resolvedDeck.attachments?.[definition.code]?.[card.code] ?? 0;
+  const attached = getAttachedQuantity(card, definition, resolvedDeck);
 
   const contentNode = (
     <span className={css["attachment-content"]}>
@@ -67,7 +65,10 @@ function Attachment(
 
   const quantity = resolvedDeck.slots[card.code] ?? 0;
 
-  const canEdit = !!onChangeAttachmentQuantity && quantity > 0 && !required;
+  const canEdit =
+    !!onChangeAttachmentQuantity &&
+    quantity > 0 &&
+    canUpdateAttachment(card, definition, resolvedDeck);
 
   const onChangeQuantity = (delta: number) => {
     return onChangeAttachmentQuantity?.(definition, card, delta);
