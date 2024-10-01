@@ -54,6 +54,7 @@ export function TagsFilter({ containerClass }: Props) {
         onReset={onReset}
         open={open}
         title="Tags"
+        data-testid="deck-tags-filter"
       >
         <Combobox
           id="tag-deck-filter"

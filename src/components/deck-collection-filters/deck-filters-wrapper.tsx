@@ -53,7 +53,7 @@ export function DeckCollectionFilters() {
         <Trigger asChild>
           <Button
             as="a"
-            data-testid="collection-create-deck"
+            data-testid="expand-deck-filters"
             tooltip={open ? "Close Filters" : "More filters"}
             variant="bare"
           >
@@ -61,7 +61,10 @@ export function DeckCollectionFilters() {
           </Button>
         </Trigger>
       </div>
-      <Content className={css["filtersContainer"]}>
+      <Content
+        className={css["filtersContainer"]}
+        data-testid="deck-filters-expanded"
+      >
         {factionOptions.length > 1 && (
           <FactionToggle
             options={factionOptions}
