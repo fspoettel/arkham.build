@@ -133,7 +133,7 @@ export const selectDecksMinMaxExpCost = createSelector(
         acc[1] = Math.max(acc[1], xpRequired);
         return acc;
       },
-      [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY],
+      [Number.POSITIVE_INFINITY, 0],
     );
     return minmax;
   },
@@ -223,7 +223,7 @@ export const selectDecksFiltered = createSelector(
         }
       }
     } else {
-      decksToFilter = [...decks];
+      decksToFilter = decks;
     }
 
     const filteredDecks = decksToFilter.filter(filterFunc);
