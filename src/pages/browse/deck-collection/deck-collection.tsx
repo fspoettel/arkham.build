@@ -23,11 +23,14 @@ import {
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/toast.hooks";
 import { selectDecksFiltered } from "@/store/selectors/deck-filters";
+import { selectLocalDecks } from "@/store/selectors/decks";
 import { useCallback, useState } from "react";
 import { DeckCollectionImport } from "./deck-collection-import";
 
 export function DeckCollection() {
   const [popoverOpen, setPopoverOpen] = useState(false);
+
+  const decksUnfiltered = useStore(selectLocalDecks);
   const decks = useStore(selectDecksFiltered);
 
   const importDecks = useStore((state) => state.importFromFiles);
@@ -146,7 +149,7 @@ export function DeckCollection() {
           </Popover>
         </div>
       </header>
-      {decks.length > 1 && <DeckCollectionFilters />}
+      {decksUnfiltered.length > 1 && <DeckCollectionFilters />}
       {decks.length ? (
         <Scroller>
           <ol className={css["decks"]}>

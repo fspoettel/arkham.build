@@ -33,7 +33,12 @@ export function DeckCollectionFilters() {
   };
 
   return (
-    <Root open={open} onOpenChange={setOpen} className={css["filters-wrap"]}>
+    <Root
+      open={open}
+      onOpenChange={setOpen}
+      className={css["filters-wrap"]}
+      data-testid="deck-filters-container"
+    >
       <div className={css["search-container"]}>
         <SearchInput
           data-testid="deck-search-input"
