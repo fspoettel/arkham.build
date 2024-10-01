@@ -10,6 +10,7 @@ test.describe("deck filtering", () => {
   test("filtering works properly", async ({ page }) => {
     await expect(page.getByTestId("deck-filters-container")).not.toBeVisible();
     await importDeck(page);
+    await expect(page.getByTestId("collection-deck")).toHaveCount(1);
     await expect(page.getByTestId("deck-filters-container")).not.toBeVisible();
 
     await page.goto("deck/create/01001");
