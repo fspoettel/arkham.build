@@ -200,7 +200,18 @@ function getHistoryEntry(
       .filter(([, diff]) => diff.some((c) => c.xp_spent > 0))
       .map(([code, diff]) => ({
         diff,
-        xpMax: diff.reduce((acc, curr) => Math.max(acc, curr.xp_spent ?? 0), 0),
+        xpMax: diff.reduce(
+          (acc, curr) =>
+            Math.max(
+              acc,
+              curr.xp_spent
+                ? metadata.cards[code]?.customization_options?.[curr.index]
+                    ?.xp || 0
+                : 0,
+              0,
+            ),
+          0,
+        ),
         card: applyCardChanges(
           metadata.cards[code],
           metadata,

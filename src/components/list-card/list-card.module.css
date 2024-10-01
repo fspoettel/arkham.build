@@ -196,7 +196,11 @@
   --card-spacing-y: 0.375rem;
   --card-spacing-x: 0.5rem;
   --card-image-height: 2.5rem;
-  padding-inline: 0.25rem;
+  padding-inline: 0;
+
+  & .meta {
+    flex-wrap: wrap;
+  }
 }
 
 .listcard-wrapper.borders {

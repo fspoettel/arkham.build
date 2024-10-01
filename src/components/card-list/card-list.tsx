@@ -253,7 +253,7 @@ export function CardList(props: Props) {
             />
           )}
         </Scroller>
-        <Footer />
+        <Footer className={css["footer"]} />
       </div>
     </CenterLayout>
   );

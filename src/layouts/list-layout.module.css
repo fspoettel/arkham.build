@@ -11,7 +11,6 @@
   margin-inline: auto;
   max-width: var(--layout-max-width);
   padding-inline: var(--layout-padding);
-  padding-bottom: 0.5rem;
 
   overflow: hidden;
   will-change: contents;
@@ -23,6 +22,7 @@
   grid-template-rows: auto minmax(0, 1fr);
 
   @media screen and (min-width: 52rem) {
+    padding-bottom: 0.5rem;
     grid-template-columns: var(--sidebar-width-one-col) 1fr;
   }
 
@@ -45,16 +45,26 @@
   transition: all 0.2s;
   background: var(--nord-0);
   z-index: 2;
-  height: calc(100% - 1rem);
+  height: 100%;
   border: 1px solid var(--nord-1);
   border-radius: var(--rounded);
+  overflow-x: hidden;
 }
 
 .sidebar {
   grid-area: sidebar;
+  width: var(--sidebar-width-one-col);
+
+  &.floating {
+    left: 0.25rem;
+  }
 
   &[data-state="closed"] {
-    transform: translateX(calc(-100% - 0.5rem - 1em - 0.25rem));
+    transform: translateX(calc(-100% - 0.25rem - 0.25rem));
+  }
+
+  @media screen and (min-width: 52rem) {
+    width: auto;
   }
 }
 
@@ -63,19 +73,19 @@
   width: var(--filters-width);
 
   &.floating {
-    right: 0.5rem;
+    right: 0.25rem;
   }
 
   &[data-state="closed"] {
-    transform: translateX(calc(100% + 0.5rem + 1em + 0.25rem));
+    transform: translateX(calc(100% + 0.25rem + 0.25rem));
   }
 }
 
 .floating {
   position: fixed;
-  height: calc(100% - 1rem);
+  height: calc(100% - 0.5rem);
   max-width: 85%;
-  top: 0.5rem;
+  top: 0.25rem;
   z-index: 3;
   background: var(--nord-0);
   transition: 0.2s transform ease-in;

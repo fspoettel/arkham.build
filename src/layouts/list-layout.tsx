@@ -72,10 +72,18 @@ export function ListLayout(props: Props) {
 
   useEffect(() => {
     setSidebarOpen(!floatingSidebar);
+
+    return () => {
+      setSidebarOpen(!floatingSidebar);
+    };
   }, [floatingSidebar, setSidebarOpen]);
 
   useEffect(() => {
     setFiltersOpen(!floatingFilters);
+
+    return () => {
+      setFiltersOpen(!floatingFilters);
+    };
   }, [floatingFilters, setFiltersOpen]);
 
   return (
@@ -109,6 +117,8 @@ export function ListLayout(props: Props) {
             <Button
               className={css["toggle-sidebar"]}
               onClick={() => setSidebarOpen(true)}
+              iconOnly
+              size="lg"
             >
               <i className="icon-deck" />
             </Button>
@@ -117,6 +127,8 @@ export function ListLayout(props: Props) {
             <Button
               className={css["toggle-filters"]}
               onClick={() => setFiltersOpen(true)}
+              iconOnly
+              size="lg"
             >
               <Filter />
             </Button>

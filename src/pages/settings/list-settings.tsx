@@ -40,6 +40,8 @@ function getDefaultsForList(listKey: keyof SettingsState["lists"]) {
 export function ListSettings(props: Props) {
   const { listKey, settings, title, updateSettings } = props;
 
+  const [version, setVersion] = useState(0);
+
   const resetToDefaults = useCallback(() => {
     updateSettings((settings) => ({
       ...settings,
@@ -48,30 +50,39 @@ export function ListSettings(props: Props) {
         [listKey]: getDefaultsForList(listKey),
       },
     }));
+    setVersion((v) => v + 1);
   }, [listKey, updateSettings]);
 
   return (
     <section className={css["list"]}>
       <header className={css["list-header"]}>
         <h3 className={css["list-title"]}>{title}</h3>
+        <Button
+          data-testid={`list-settings-reset-${listKey}`}
+          onClick={resetToDefaults}
+          size="sm"
+          type="button"
+        >
+          Reset to default
+        </Button>
       </header>
       <ListSettingsList
         activeItems={settings.lists[listKey].group}
-        onReset={resetToDefaults}
         items={getGroupItemsForList(listKey)}
         listKey={listKey}
         subKey="group"
         updateSettings={updateSettings}
         title="Group by"
+        version={version}
       />
       <ListSettingsList
         activeItems={settings.lists[listKey].sort}
         items={SORTING_TYPES}
         listKey={listKey}
-        onReset={resetToDefaults}
         subKey="sort"
         updateSettings={updateSettings}
         title="Sort by"
+        version={version}
       />
     </section>
   );
@@ -92,31 +103,28 @@ function sortListItems<T>(items: T[], activeItems: T[]) {
 function ListSettingsList<T extends string>(props: {
   activeItems: T[];
   items: T[];
-  onReset: () => void;
   listKey: keyof SettingsState["lists"];
   subKey: "sort" | "group";
   updateSettings: React.Dispatch<React.SetStateAction<SettingsState>>;
   title: React.ReactNode;
+  version: number;
 }) {
   const {
     activeItems,
     items,
     listKey,
-    onReset,
     subKey,
     title,
     updateSettings,
+    version,
   } = props;
 
-  const [hasReset, setHasReset] = useState(false);
   const [listItems, setListItems] = useState(sortListItems(items, activeItems));
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: We only resort when necessary
   useEffect(() => {
-    if (hasReset) {
-      setListItems(sortListItems(items, activeItems));
-      setHasReset(false);
-    }
-  }, [hasReset, items, activeItems]);
+    setListItems(sortListItems(items, activeItems));
+  }, [version]);
 
   const updateOrder = useCallback(
     (active: T[]) => {
@@ -136,7 +144,6 @@ function ListSettingsList<T extends string>(props: {
 
   const onSort = useCallback(
     (sorted: T[]) => {
-      console.log(sorted);
       setListItems(sorted);
       updateOrder(sorted.filter((g) => activeItems.includes(g)));
     },
@@ -159,11 +166,6 @@ function ListSettingsList<T extends string>(props: {
     [items, activeItems, updateOrder, listItems],
   );
 
-  const onResetClick = useCallback(() => {
-    setHasReset(true);
-    onReset();
-  }, [onReset]);
-
   return (
     <article
       className={css["list-group"]}
@@ -171,14 +173,6 @@ function ListSettingsList<T extends string>(props: {
     >
       <header className={css["list-group-header"]}>
         <h4 className={css["list-group-title"]}>{title}</h4>
-        <Button
-          data-testid={`list-settings-reset-${listKey}-${subKey}`}
-          onClick={onResetClick}
-          size="sm"
-          type="button"
-        >
-          Reset to default
-        </Button>
       </header>
       <Sortable
         activeItems={activeItems}

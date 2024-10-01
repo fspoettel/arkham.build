@@ -16,9 +16,9 @@
   justify-content: center;
   width: var(--checkbox-size);
   height: var(--checkbox-size);
-  background: var(--nord-point-five);
+  background: var(--nord-1);
   border-radius: var(--rounded);
-  border: 1px solid var(--nord-2);
+  border: 1px solid var(--nord-3);
 
   &[disabled] {
     cursor: default;
