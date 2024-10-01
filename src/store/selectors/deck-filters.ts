@@ -36,10 +36,8 @@ export const selectDeckSearchTerm = (state: StoreState) =>
 export const selectSearchableTextInDecks = createSelector(
   selectLocalDecks,
   (decks) => {
-    // deck.investigator_name doesn't work for imported decks?
     return decks.map(
-      (deck) =>
-        `${deck.name}|${deck.investigator_name || deck.cards.investigator.card.real_name}`,
+      (deck) => `${deck.name}|${deck.cards.investigator.card.real_name}`,
     );
   },
 );
