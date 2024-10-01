@@ -6,7 +6,7 @@
 
 .search-input {
   width: 100%;
-  border-radius: var(--rounded-lg);
+  border-radius: var(--rounded);
 }
 
 .search-outer {
