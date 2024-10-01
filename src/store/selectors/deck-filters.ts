@@ -227,7 +227,10 @@ export const selectDecksFiltered = createSelector(
     }
 
     const filteredDecks = decksToFilter.filter(filterFunc);
-    return filteredDecks ?? decks;
+    return {
+      decks: filteredDecks ?? decks,
+      total: decks.length,
+    };
   },
 );
 
