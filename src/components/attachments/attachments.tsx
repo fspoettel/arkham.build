@@ -63,11 +63,8 @@ function Attachment(
     </span>
   );
 
-  const quantity = resolvedDeck.slots[card.code] ?? 0;
-
   const canEdit =
     !!onChangeAttachmentQuantity &&
-    quantity > 0 &&
     canUpdateAttachment(card, definition, resolvedDeck);
 
   const onChangeQuantity = (delta: number) => {
