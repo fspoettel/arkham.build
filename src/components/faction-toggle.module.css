@@ -1,0 +1,27 @@
+.toggle {
+  padding: 0.5rem;
+}
+
+.toggle .color-active-guardian[data-state="on"] {
+  --active-color: var(--guardian);
+}
+
+.toggle .color-active-rogue[data-state="on"] {
+  --active-color: var(--rogue);
+}
+
+.toggle .color-active-seeker[data-state="on"] {
+  --active-color: var(--seeker);
+}
+
+.toggle .color-active-survivor[data-state="on"] {
+  --active-color: var(--survivor);
+}
+
+.toggle .color-active-mystic[data-state="on"] {
+  --active-color: var(--mystic);
+}
+
+.toggle .color-active-multiclass[data-state="on"] {
+  --active-color: var(--multiclass);
+}

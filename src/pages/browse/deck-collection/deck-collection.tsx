@@ -11,23 +11,24 @@ import {
 } from "@/components/ui/popover";
 import { Scroller } from "@/components/ui/scroller";
 import { useStore } from "@/store";
-import { selectLocalDecks } from "@/store/selectors/decks";
 
 import css from "./deck-collection.module.css";
 
 import { CollapseSidebarButton } from "@/components/collapse-sidebar-button";
+import { DeckCollectionFilters } from "@/components/deck-collection-filters/deck-filters-wrapper";
 import {
   useDeleteDeck,
   useDuplicateDeck,
 } from "@/components/deck-display/hooks";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/toast.hooks";
+import { selectDecksFiltered } from "@/store/selectors/deck-filters";
 import { useCallback, useState } from "react";
 import { DeckCollectionImport } from "./deck-collection-import";
 
 export function DeckCollection() {
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const decks = useStore(selectLocalDecks);
+  const deckCollection = useStore(selectDecksFiltered);
 
   const importDecks = useStore((state) => state.importFromFiles);
   const deleteAllDecks = useStore((state) => state.deleteAllDecks);
@@ -145,10 +146,11 @@ export function DeckCollection() {
           </Popover>
         </div>
       </header>
-      {decks.length ? (
+      {deckCollection.total > 1 && <DeckCollectionFilters />}
+      {deckCollection.total ? (
         <Scroller>
           <ol className={css["decks"]}>
-            {decks.map((deck) => (
+            {deckCollection.decks.map((deck) => (
               <li
                 className={css["deck"]}
                 data-testid="collection-deck"

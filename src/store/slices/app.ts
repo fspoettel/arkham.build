@@ -300,7 +300,11 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     cb?.();
 
     set({
-      data: { ...state.data, decks, history },
+      data: {
+        ...state.data,
+        decks,
+        history,
+      },
       deckEdits,
     });
   },
@@ -321,7 +325,11 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     }
 
     set({
-      data: { ...state.data, decks, history },
+      data: {
+        ...state.data,
+        decks,
+        history,
+      },
     });
 
     if (Object.keys(state.sharing.decks).length) {
