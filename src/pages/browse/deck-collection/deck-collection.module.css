@@ -7,7 +7,7 @@
 
 .decks {
   list-style: none;
-  padding: 0.25rem 0.75rem;
+  padding-inline: 0.75rem;
 }
 
 .decks > * + * {
