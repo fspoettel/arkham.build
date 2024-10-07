@@ -1,0 +1,11 @@
+.options-container {
+  margin-top: 0.5rem;
+  padding: 0.5rem 0;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.options-select {
+  margin-right: 2rem;
+}
