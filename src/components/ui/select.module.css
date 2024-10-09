@@ -7,7 +7,6 @@ select {
   background-repeat: no-repeat;
   background-position: 95% 50%;
   background-color: var(--nord-point-five);
-  appearance: none;
 
   &.compressed {
     padding: 0.25rem 0.375rem;
@@ -15,7 +14,6 @@ select {
     background-color: transparent;
     font-size: var(--text-xs);
     background-size: auto 90%;
-
   }
 
   & option {
