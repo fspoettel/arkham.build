@@ -14,6 +14,7 @@ select {
     background-color: transparent;
     font-size: var(--text-xs);
     background-size: auto 90%;
+    min-width: 8rem;
   }
 
   & option {
