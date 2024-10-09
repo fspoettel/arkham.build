@@ -37,11 +37,21 @@ export function DeckSortingOptions() {
         onValueChange={(e) => setSortOrder(e as "asc" | "desc")}
         value={sortOrder}
       >
-        <RadioButtonGroupItem tooltip="Descending" value={"desc"} size="small">
-          <ArrowDown01 />
-        </RadioButtonGroupItem>
-        <RadioButtonGroupItem tooltip="Ascending" value={"asc"} size="small">
+        <RadioButtonGroupItem
+          tooltip="Ascending"
+          value={"asc"}
+          size="small"
+          variant="bare"
+        >
           <ArrowUp01 />
+        </RadioButtonGroupItem>
+        <RadioButtonGroupItem
+          tooltip="Descending"
+          value={"desc"}
+          size="small"
+          variant="bare"
+        >
+          <ArrowDown01 />
         </RadioButtonGroupItem>
       </RadioButtonGroup>
     </div>

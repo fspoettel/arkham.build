@@ -31,6 +31,7 @@ export function RadioButtonGroup(props: Props) {
 
 type GroupItemProps = RadioGroupItemProps & {
   size?: "small" | "default";
+  variant?: "bare";
   tooltip?: React.ReactNode;
 };
 
@@ -38,13 +39,19 @@ export function RadioButtonGroupItem({
   className,
   size,
   tooltip,
+  variant,
   ...rest
 }: GroupItemProps) {
   return (
     <DefaultTooltip tooltip={tooltip}>
       <Item
         {...rest}
-        className={cx(css["item"], size && css[size], className)}
+        className={cx(
+          css["item"],
+          size && css[size],
+          variant && css[variant],
+          className,
+        )}
       />
     </DefaultTooltip>
   );
