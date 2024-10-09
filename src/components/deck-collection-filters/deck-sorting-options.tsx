@@ -4,7 +4,17 @@ import {
   RadioButtonGroup,
   RadioButtonGroupItem,
 } from "../ui/radio-button-group";
+import { Select } from "../ui/select";
 import css from "./deck-sorting-options.module.css";
+
+const SORT_CRITERIA_LIST = {
+  date_updated: "Date updated",
+  date_created: "Date created",
+  alphabetical: "Alphabetical",
+  xp: "Experience",
+} as const;
+
+type SortCriteria = keyof typeof SORT_CRITERIA_LIST;
 
 export function DeckSortingOptions() {
   const [sortCriteria, setSortCriteria] = useState<string>("date_updated");
@@ -12,18 +22,20 @@ export function DeckSortingOptions() {
 
   return (
     <div className={css["options-container"]}>
-      <select
-        className={css["options-select"]}
-        data-testid="deck-sorting-options-select"
+      <Select
+        emptyLabel="Sort by..."
+        variant="compressed"
+        data-testid="deck-sorting-options"
         name="sorting-options"
         onChange={(e) => setSortCriteria(e.target.value)}
         value={sortCriteria}
-      >
-        <option value={"date_updated"}>Date Updated</option>
-        <option value={"date_created"}>Date Created</option>
-        <option value={"alphabetical"}>Alphabetical</option>
-        <option value={"xp"}>Xp</option>
-      </select>
+        options={Object.keys(SORT_CRITERIA_LIST).map((set) => {
+          return {
+            label: SORT_CRITERIA_LIST[set as SortCriteria],
+            value: set,
+          };
+        })}
+      />
 
       <RadioButtonGroup
         icons
