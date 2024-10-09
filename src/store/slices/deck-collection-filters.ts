@@ -3,6 +3,8 @@ import type { StoreState } from ".";
 import type {
   DeckFiltersSlice,
   DeckValidity,
+  SortCriteria,
+  SortOrder,
 } from "./deck-collection-filters.types";
 
 function getInitialUIState() {
@@ -23,6 +25,10 @@ function getInitialUIState() {
         properties: false,
         validity: false,
         expCost: false,
+      },
+      sort: {
+        order: "desc" as SortOrder,
+        criteria: "deck_update" as SortCriteria,
       },
     },
   };

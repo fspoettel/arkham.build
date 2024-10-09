@@ -1,3 +1,7 @@
+import {
+  SORT_CRITERIA_LIST,
+  type SortCriteria,
+} from "@/store/slices/deck-collection-filters.types";
 import { ArrowDown01, ArrowUp01 } from "lucide-react";
 import { useState } from "react";
 import {
@@ -6,15 +10,6 @@ import {
 } from "../ui/radio-button-group";
 import { Select } from "../ui/select";
 import css from "./deck-sorting-options.module.css";
-
-const SORT_CRITERIA_LIST = {
-  date_updated: "Date updated",
-  date_created: "Date created",
-  alphabetical: "Alphabetical",
-  xp: "Experience",
-} as const;
-
-type SortCriteria = keyof typeof SORT_CRITERIA_LIST;
 
 export function DeckSortingOptions() {
   const [sortCriteria, setSortCriteria] = useState<string>("date_updated");
