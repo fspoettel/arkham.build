@@ -65,6 +65,34 @@ export const createDeckFiltersSlice: StateCreator<
     });
   },
 
+  setDeckSortOrder(order) {
+    const state = get();
+
+    set({
+      deckFilters: {
+        ...state.deckFilters,
+        sort: {
+          ...state.deckFilters.sort,
+          order: order,
+        },
+      },
+    });
+  },
+
+  setDeckSortCriteria(criteria) {
+    const state = get();
+
+    set({
+      deckFilters: {
+        ...state.deckFilters,
+        sort: {
+          ...state.deckFilters.sort,
+          criteria: criteria,
+        },
+      },
+    });
+  },
+
   resetDeckFilter(filter) {
     const state = get();
     const initialState = getInitialUIState().deckFilters.filters[filter];

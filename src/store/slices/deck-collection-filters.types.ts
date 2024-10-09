@@ -33,6 +33,8 @@ export type DeckFiltersSlice = {
     value: T,
   ): void;
   setDeckFilterOpen(filter: CollapsibleFilter, status: boolean): void;
+  setDeckSortOrder(order: SortOrder): void;
+  setDeckSortCriteria(criteria: SortCriteria): void;
   resetDeckFilter(filter: DeckFiltersKey): void;
 };
 

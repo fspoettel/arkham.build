@@ -1,9 +1,10 @@
+import { useStore } from "@/store";
+import { selectDecksSorting } from "@/store/selectors/deck-filters";
 import {
   SORT_CRITERIA_LIST,
   type SortCriteria,
 } from "@/store/slices/deck-collection-filters.types";
 import { ArrowDown01, ArrowUp01 } from "lucide-react";
-import { useState } from "react";
 import {
   RadioButtonGroup,
   RadioButtonGroupItem,
@@ -12,8 +13,9 @@ import { Select } from "../ui/select";
 import css from "./deck-sorting-options.module.css";
 
 export function DeckSortingOptions() {
-  const [sortCriteria, setSortCriteria] = useState<string>("date_updated");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const setCriteria = useStore((state) => state.setDeckSortCriteria);
+  const setOrder = useStore((state) => state.setDeckSortOrder);
+  const selectedSort = useStore(selectDecksSorting);
 
   return (
     <div className={css["options-container"]}>
@@ -22,8 +24,8 @@ export function DeckSortingOptions() {
         variant="compressed"
         data-testid="deck-sorting-options"
         name="sorting-options"
-        onChange={(e) => setSortCriteria(e.target.value)}
-        value={sortCriteria}
+        onChange={(e) => setCriteria(e.target.value as SortCriteria)}
+        value={selectedSort.criteria}
         options={Object.keys(SORT_CRITERIA_LIST).map((set) => {
           return {
             label: SORT_CRITERIA_LIST[set as SortCriteria],
@@ -34,8 +36,8 @@ export function DeckSortingOptions() {
 
       <RadioButtonGroup
         icons
-        onValueChange={(e) => setSortOrder(e as "asc" | "desc")}
-        value={sortOrder}
+        onValueChange={(e) => setOrder(e as "asc" | "desc")}
+        value={selectedSort.order}
       >
         <RadioButtonGroupItem
           tooltip="Ascending"
