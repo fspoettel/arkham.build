@@ -131,6 +131,8 @@ export const SPECIAL_CARD_CODES = {
   BURN_AFTER_READING: "08076",
   /** Changes XP calculation for upgrades. */
   DEJA_VU: "60531",
+  /** Connected to parallel roland's front. */
+  DIRECTIVE: "90025",
   /** Changes XP calculation for upgrades. */
   DOWN_THE_RABBIT_HOLE: "08059",
   /** Adjusts deck size. */
@@ -157,6 +159,8 @@ export const SPECIAL_CARD_CODES = {
   RANDOM_BASIC_WEAKNESS: "01000",
   /** Separate deck. */
   STICK_TO_THE_PLAN: "03264",
+  /** Connected to parallel wendy's front. */
+  TIDAL_MEMENTO: "90038",
   /** Adjusts deck size, has separate deck. */
   UNDERWORLD_MARKET: "09077",
   /** adds deckbuilding requirements. */

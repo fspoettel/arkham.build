@@ -411,11 +411,14 @@ class DeckLimitsValidator implements SlotValidator {
 class DeckRequiredCardsValidator implements SlotValidator {
   requirements: DeckRequirements;
   cards: Record<string, Card> = {};
+  investigatorFront: Card;
   quantities: Record<string, number> = {};
   selectedDeckSize: number | undefined;
 
   constructor(deck: ResolvedDeck, mode: "slots" | "extraSlots" = "slots") {
     const investigatorBack = deck.investigatorBack.card;
+
+    this.investigatorFront = deck.investigatorFront.card;
 
     const accessor =
       mode === "slots" ? "deck_requirements" : "side_deck_requirements";
@@ -445,32 +448,8 @@ class DeckRequiredCardsValidator implements SlotValidator {
     return [
       ...this.validateCardRequirements(),
       ...this.validateRandomRequirements(),
+      ...this.validateParallelFront(),
     ];
-  }
-
-  // TODO: the rbw check is currently hardcoded as it is the only random requirement
-  // and the json data structure does not allow us to sufficiently handle edge cases such as
-  // "The Bell Tolls", which is a "weakness" that counts as a "basicweakness".
-  validateRandomRequirements(): Error[] {
-    if (!this.requirements.random?.length) return [];
-
-    const valid =
-      Object.values(this.cards).filter(isRandomBasicWeaknessLike).length > 0;
-
-    return valid
-      ? []
-      : [
-          {
-            type: "DECK_REQUIREMENTS_NOT_MET",
-            details: [
-              {
-                code: SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS,
-                quantity: 0,
-                required: 1,
-              },
-            ],
-          },
-        ];
   }
 
   validateCardRequirements(): Error[] {
@@ -541,6 +520,79 @@ class DeckRequiredCardsValidator implements SlotValidator {
     }, []);
 
     return errors;
+  }
+
+  // TODO: the rbw check is currently hardcoded as it is the only random requirement
+  // and the json data structure does not allow us to sufficiently handle edge cases such as
+  // "The Bell Tolls", which is a "weakness" that counts as a "basicweakness".
+  validateRandomRequirements(): Error[] {
+    if (!this.requirements.random?.length) return [];
+
+    const valid =
+      Object.values(this.cards).filter(isRandomBasicWeaknessLike).length > 0;
+
+    return valid
+      ? []
+      : [
+          {
+            type: "DECK_REQUIREMENTS_NOT_MET",
+            details: [
+              {
+                code: SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS,
+                quantity: 0,
+                required: 1,
+              },
+            ],
+          },
+        ];
+  }
+
+  validateParallelFront(): Error[] {
+    if (
+      this.investigatorFront.code === SPECIAL_CARD_CODES.PARALLEL_WENDY &&
+      !this.cards[SPECIAL_CARD_CODES.TIDAL_MEMENTO]
+    ) {
+      return [
+        {
+          type: "DECK_REQUIREMENTS_NOT_MET",
+          details: [
+            {
+              code: SPECIAL_CARD_CODES.TIDAL_MEMENTO,
+              quantity: 0,
+              required: 1,
+            },
+          ],
+        },
+      ];
+    }
+
+    if (this.investigatorFront.code === SPECIAL_CARD_CODES.PARALLEL_ROLAND) {
+      const directiveQuantities = Object.values(this.cards).reduce(
+        (acc, curr) => {
+          return curr.real_name === "Directive"
+            ? acc + this.quantities[curr.code]
+            : acc;
+        },
+        0,
+      );
+
+      if (directiveQuantities !== 3) {
+        return [
+          {
+            type: "DECK_REQUIREMENTS_NOT_MET",
+            details: [
+              {
+                code: "90025",
+                quantity: directiveQuantities,
+                required: 3,
+              },
+            ],
+          },
+        ];
+      }
+    }
+
+    return [];
   }
 }
 

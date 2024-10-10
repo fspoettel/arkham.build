@@ -46,8 +46,11 @@ import parallelAgnesValid from "@/test/fixtures/decks/validation/parallel_agnes.
 import parallelJennyValid from "@/test/fixtures/decks/validation/parallel_jenny.json";
 import parallelJennyInvalidForbidden from "@/test/fixtures/decks/validation/parallel_jenny_invalid_forbidden.json";
 import parallelJennyInvalidLimit from "@/test/fixtures/decks/validation/parallel_jenny_invalid_limit.json";
+import parallelRolandInvalid from "@/test/fixtures/decks/validation/parallel_roland_invalid.json";
+import parallelRolandValid from "@/test/fixtures/decks/validation/parallel_roland_valid.json";
 import parallelWendy from "@/test/fixtures/decks/validation/parallel_wendy.json";
 import parallelWendyInvalid from "@/test/fixtures/decks/validation/parallel_wendy_invalid.json";
+import parallelWendyValidSignatures from "@/test/fixtures/decks/validation/parallel_wendy_valid_signatures.json";
 import rbwInvalidMissing from "@/test/fixtures/decks/validation/rbw_invalid_missing.json";
 import rbwValidChoice from "@/test/fixtures/decks/validation/rbw_valid_choice.json";
 import rbwValidMultistage from "@/test/fixtures/decks/validation/rbw_valid_multistage.json";
@@ -74,6 +77,7 @@ import underworldSupportInvalidSize from "@/test/fixtures/decks/validation/under
 import underworldSupportWeaknesses from "@/test/fixtures/decks/validation/underworld_support_weaknesses.json";
 import { getMockStore } from "@/test/get-mock-store";
 
+import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import type { StoreState } from "../slices";
 import type { Deck } from "../slices/data.types";
 import { validateDeck } from "./deck-validation";
@@ -814,6 +818,60 @@ describe("deck validation", () => {
                 },
               ],
               "type": "FORBIDDEN",
+            },
+          ]
+        `);
+      });
+    });
+
+    describe("parallel wendy (front)", () => {
+      it("handles case: parallel wendy, valid front", () => {
+        const result = validate(store, parallelWendyValidSignatures);
+        expect(result.valid).toBeTruthy();
+      });
+
+      it("handles case: parallel wendy, invalid front", () => {
+        const deck = structuredClone(parallelWendyValidSignatures);
+        delete (deck.slots as any)[SPECIAL_CARD_CODES.TIDAL_MEMENTO];
+        const result = validate(store, deck);
+        expect(result.valid).toBeFalsy();
+        expect(result.errors).toMatchInlineSnapshot(`
+          [
+            {
+              "details": [
+                {
+                  "code": "90038",
+                  "quantity": 0,
+                  "required": 1,
+                },
+              ],
+              "type": "DECK_REQUIREMENTS_NOT_MET",
+            },
+          ]
+        `);
+      });
+    });
+
+    describe("parallel roland (front)", () => {
+      it("handles case: parallel roland, valid", () => {
+        const result = validate(store, parallelRolandValid);
+        expect(result.valid).toBeTruthy();
+      });
+
+      it("handles case: parallel roland, invalid", () => {
+        const result = validate(store, parallelRolandInvalid);
+        expect(result.valid).toBeFalsy();
+        expect(result.errors).toMatchInlineSnapshot(`
+          [
+            {
+              "details": [
+                {
+                  "code": "90025",
+                  "quantity": 4,
+                  "required": 3,
+                },
+              ],
+              "type": "DECK_REQUIREMENTS_NOT_MET",
             },
           ]
         `);
