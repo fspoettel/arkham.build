@@ -48,7 +48,10 @@
   height: 100%;
   border: 1px solid var(--nord-1);
   border-radius: var(--rounded);
-  overflow-x: hidden;
+
+  > * {
+    overflow-x: hidden;
+  }
 }
 
 .sidebar {
@@ -60,7 +63,7 @@
   }
 
   &[data-state="closed"] {
-    transform: translateX(calc(-100% - 0.25rem - 0.25rem));
+    transform: translateX(calc(-100% - 0.5rem - 0.25rem));
   }
 
   @media screen and (min-width: 52rem) {
@@ -77,7 +80,7 @@
   }
 
   &[data-state="closed"] {
-    transform: translateX(calc(100% + 0.25rem + 0.25rem));
+    transform: translateX(calc(100% + 0.5rem + 0.25rem));
   }
 }
 
