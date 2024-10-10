@@ -249,9 +249,13 @@ function filterNonexceptional(card: Card) {
   return !card.exceptional;
 }
 
-function filterCardLevel(value: [number, number]) {
+function filterCardLevel(value: [number, number], checkCustomizable = false) {
   return (card: Card) => {
     const level = cardLevel(card);
+
+    // customizable cards can have any level, always show them when flag set.
+    if (!checkCustomizable && card.customization_options) return true;
+
     return level != null && level >= value[0] && level <= value[1];
   };
 }
@@ -630,7 +634,7 @@ export function makeOptionFilter(
     const level = option.base_level ?? option.level;
     if (level) {
       filterCount += 1;
-      optionFilter.push(filterCardLevel([level.min, level.max]));
+      optionFilter.push(filterCardLevel([level.min, level.max], true));
     }
   }
 
@@ -687,7 +691,7 @@ export function makeOptionFilter(
 
       if (select.level) {
         optionSelectFilters.push(
-          filterCardLevel([select.level.min, select.level.max]),
+          filterCardLevel([select.level.min, select.level.max], true),
         );
       }
 
