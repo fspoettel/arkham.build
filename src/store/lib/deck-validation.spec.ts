@@ -48,6 +48,9 @@ import parallelJennyInvalidForbidden from "@/test/fixtures/decks/validation/para
 import parallelJennyInvalidLimit from "@/test/fixtures/decks/validation/parallel_jenny_invalid_limit.json";
 import parallelWendy from "@/test/fixtures/decks/validation/parallel_wendy.json";
 import parallelWendyInvalid from "@/test/fixtures/decks/validation/parallel_wendy_invalid.json";
+import rbwInvalidMissing from "@/test/fixtures/decks/validation/rbw_invalid_missing.json";
+import rbwValidChoice from "@/test/fixtures/decks/validation/rbw_valid_choice.json";
+import rbwValidMultistage from "@/test/fixtures/decks/validation/rbw_valid_multistage.json";
 import requiredAdvanced from "@/test/fixtures/decks/validation/required_advanced.json";
 import requiredAdvancedInvalid from "@/test/fixtures/decks/validation/required_advanced_invalid.json";
 import requiredAdvancedOnlySignature from "@/test/fixtures/decks/validation/required_advanced_only_signature.json";
@@ -860,6 +863,35 @@ describe("deck validation", () => {
                 {
                   "code": "08015",
                   "quantity": 2,
+                  "required": 1,
+                },
+              ],
+              "type": "DECK_REQUIREMENTS_NOT_MET",
+            },
+          ]
+        `);
+      });
+
+      it("handles case: random basic weakness, valid choice", () => {
+        const result = validate(store, rbwValidChoice);
+        expect(result.valid).toBeTruthy();
+      });
+
+      it("handles case: random basic weakness, multi-stage weakness", () => {
+        const result = validate(store, rbwValidMultistage);
+        expect(result.valid).toBeTruthy();
+      });
+
+      it("handles case: random basic weakness, invalid, missing", () => {
+        const result = validate(store, rbwInvalidMissing);
+        expect(result.valid).toBeFalsy();
+        expect(result.errors).toMatchInlineSnapshot(`
+          [
+            {
+              "details": [
+                {
+                  "code": "01000",
+                  "quantity": 0,
                   "required": 1,
                 },
               ],

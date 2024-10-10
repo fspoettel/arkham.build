@@ -1,4 +1,4 @@
-import { cardLevel } from "@/utils/card-utils";
+import { cardLevel, isRandomBasicWeaknessLike } from "@/utils/card-utils";
 import { DECK_SIZE_ADJUSTMENTS, SPECIAL_CARD_CODES } from "@/utils/constants";
 
 import { time, timeEnd } from "@/utils/time";
@@ -443,8 +443,40 @@ class DeckRequiredCardsValidator implements SlotValidator {
     }
   }
 
-  // FIXME: validate that signatures are pairs.
+  // TODO: validate that signatures are pairs.
   validate(): Error[] {
+    return [
+      ...this.validateCardRequirements(),
+      ...this.validateRandomRequirements(),
+    ];
+  }
+
+  // TODO: the rbw check is currently hardcoded as it is the only random requirement
+  // and the json data structure does not allow us to sufficiently handle edge cases such as
+  // "The Bell Tolls", which is a "weakness" that counts as a "basicweakness".
+  validateRandomRequirements(): Error[] {
+    if (!this.requirements.random?.length) return [];
+
+    const valid =
+      Object.values(this.cards).filter(isRandomBasicWeaknessLike).length > 0;
+
+    return valid
+      ? []
+      : [
+          {
+            type: "DECK_REQUIREMENTS_NOT_MET",
+            details: [
+              {
+                code: SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS,
+                quantity: 0,
+                required: 1,
+              },
+            ],
+          },
+        ];
+  }
+
+  validateCardRequirements(): Error[] {
     const requirementCounts = Object.keys(this.requirements.card).reduce(
       (counts, code) => {
         counts[code] = 0;

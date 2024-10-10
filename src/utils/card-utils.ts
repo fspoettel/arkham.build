@@ -131,3 +131,12 @@ export function hasImage(card: Card) {
 export function getCanonicalCardCode(card: Card) {
   return card.duplicate_of_code ?? card.alternate_of_code ?? card.code;
 }
+
+export function isRandomBasicWeaknessLike(card: Card) {
+  return (
+    card.subtype_code === "basicweakness" ||
+    (card.subtype_code === "weakness" &&
+      !card.encounter_code &&
+      !card.restrictions)
+  );
+}
