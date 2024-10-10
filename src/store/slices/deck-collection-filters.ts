@@ -78,6 +78,8 @@ export const createDeckFiltersSlice: StateCreator<
     });
   },
 
+  // Set Order-only and Criteria-only funcs are unused for now
+  // but the functionality is most likely going to be used in My Decks page
   setDeckSortOrder(order) {
     const state = get();
 
