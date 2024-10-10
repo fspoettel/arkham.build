@@ -1,21 +1,48 @@
 import { useStore } from "@/store";
-import { selectDecksSorting } from "@/store/selectors/deck-filters";
-import {
-  SORT_CRITERIA_LIST,
-  type SortCriteria,
+import type {
+  SortCriteria,
+  SortOrder,
 } from "@/store/slices/deck-collection-filters.types";
-import { ArrowDown01, ArrowUp01 } from "lucide-react";
-import {
-  RadioButtonGroup,
-  RadioButtonGroupItem,
-} from "../ui/radio-button-group";
 import { Select } from "../ui/select";
 import css from "./deck-sorting-options.module.css";
 
+const SORTING_OPTIONS: Record<
+  string,
+  { label: string; sorting: { order: SortOrder; criteria: SortCriteria } }
+> = {
+  lastupdated: {
+    label: "Latest updated",
+    sorting: { order: -1, criteria: "date_updated" },
+  },
+  lastcreated: {
+    label: "Latest created",
+    sorting: { order: -1, criteria: "date_created" },
+  },
+  alphabeticaldesc: {
+    label: "Alphabetical (A -> Z)",
+    sorting: { order: 1, criteria: "alphabetical" },
+  },
+  alphabeticalasc: {
+    label: "Alphabetical (Z -> A)",
+    sorting: { order: -1, criteria: "alphabetical" },
+  },
+  xpdesc: {
+    label: "Most XP first",
+    sorting: { order: -1, criteria: "xp" },
+  },
+  xpasc: {
+    label: "Least XP first",
+    sorting: { order: 1, criteria: "xp" },
+  },
+};
+
 export function DeckSortingOptions() {
-  const setCriteria = useStore((state) => state.setDeckSortCriteria);
-  const setOrder = useStore((state) => state.setDeckSortOrder);
-  const selectedSort = useStore(selectDecksSorting);
+  const setSort = useStore((state) => state.setDeckSort);
+
+  const handleValueChange = (val: keyof typeof SORTING_OPTIONS) => {
+    const { order, criteria } = SORTING_OPTIONS[val].sorting;
+    setSort(order, criteria);
+  };
 
   return (
     <div className={css["options-container"]}>
@@ -24,38 +51,16 @@ export function DeckSortingOptions() {
         variant="compressed"
         data-testid="deck-sorting-options"
         name="sorting-options"
-        onChange={(e) => setCriteria(e.target.value as SortCriteria)}
-        value={selectedSort.criteria}
-        options={Object.keys(SORT_CRITERIA_LIST).map((set) => {
+        onChange={(e) =>
+          handleValueChange(e.target.value as keyof typeof SORTING_OPTIONS)
+        }
+        options={Object.keys(SORTING_OPTIONS).map((option) => {
           return {
-            label: SORT_CRITERIA_LIST[set as SortCriteria],
-            value: set,
+            value: option,
+            label: SORTING_OPTIONS[option].label,
           };
         })}
       />
-
-      <RadioButtonGroup
-        icons
-        onValueChange={(e) => setOrder(e as "asc" | "desc")}
-        value={selectedSort.order}
-      >
-        <RadioButtonGroupItem
-          tooltip="Ascending"
-          value={"asc"}
-          size="small"
-          variant="bare"
-        >
-          <ArrowUp01 />
-        </RadioButtonGroupItem>
-        <RadioButtonGroupItem
-          tooltip="Descending"
-          value={"desc"}
-          size="small"
-          variant="bare"
-        >
-          <ArrowDown01 />
-        </RadioButtonGroupItem>
-      </RadioButtonGroup>
     </div>
   );
 }

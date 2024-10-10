@@ -283,26 +283,22 @@ const genericSort = (a: string | number, b: string | number, mod: 1 | -1) => {
 };
 const makeAlphabeticalSort = (order: SortOrder) => {
   return (a: ResolvedDeck, b: ResolvedDeck) =>
-    genericSort(a.name, b.name, order === "desc" ? 1 : -1);
+    genericSort(a.name, b.name, order);
 };
 
 const makeDeckCreatedSort = (order: SortOrder) => {
   return (a: ResolvedDeck, b: ResolvedDeck) =>
-    genericSort(a.date_creation, b.date_creation, order === "desc" ? 1 : -1);
+    genericSort(a.date_creation, b.date_creation, order);
 };
 
 const makeDeckUpdatedSort = (order: SortOrder) => {
   return (a: ResolvedDeck, b: ResolvedDeck) =>
-    genericSort(a.date_update, b.date_update, order === "desc" ? 1 : -1);
+    genericSort(a.date_update, b.date_update, order);
 };
 
 const makeXPSort = (order: SortOrder) => {
   return (a: ResolvedDeck, b: ResolvedDeck) =>
-    genericSort(
-      a.stats.xpRequired,
-      b.stats.xpRequired,
-      order === "desc" ? 1 : -1,
-    );
+    genericSort(a.stats.xpRequired, b.stats.xpRequired, order);
 };
 
 export const selectDecksSortingFunc = createSelector(

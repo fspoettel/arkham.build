@@ -27,7 +27,7 @@ function getInitialUIState() {
         expCost: false,
       },
       sort: {
-        order: "desc" as SortOrder,
+        order: -1 as SortOrder,
         criteria: "deck_update" as SortCriteria,
       },
     },
@@ -61,6 +61,19 @@ export const createDeckFiltersSlice: StateCreator<
       deckFilters: {
         ...state.deckFilters,
         open: { ...state.deckFilters.open, [filter]: value },
+      },
+    });
+  },
+
+  setDeckSort(order, criteria) {
+    const state = get();
+    set({
+      deckFilters: {
+        ...state.deckFilters,
+        sort: {
+          order: order,
+          criteria: criteria,
+        },
       },
     });
   },
