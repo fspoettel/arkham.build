@@ -10,11 +10,9 @@ select {
 
   &.compressed {
     padding: 0.25rem 0.375rem;
-    border: 0;
     background-color: transparent;
     font-size: var(--text-xs);
     background-size: auto 90%;
-    min-width: 8rem;
   }
 
   & option {
