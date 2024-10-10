@@ -18,7 +18,7 @@
   user-select: none;
 
   &.bare {
-    border: 0;
+    border: transparent;
     background: none;
   }
 

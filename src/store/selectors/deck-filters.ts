@@ -278,28 +278,30 @@ export const selectDecksFiltered = createSelector(
 
 export const selectDecksSorting = (state: StoreState) => state.deckFilters.sort;
 
-const genericSort = (a: string | number, b: string | number, mod: 1 | -1) => {
+function genericSort(a: string | number, b: string | number, order: SortOrder) {
+  const mod = order === "desc" ? -1 : 1;
   return a < b ? -1 * mod : a > b ? 1 * mod : 0;
-};
-const makeAlphabeticalSort = (order: SortOrder) => {
+}
+
+function makeAlphabeticalSort(order: SortOrder) {
   return (a: ResolvedDeck, b: ResolvedDeck) =>
     genericSort(a.name, b.name, order);
-};
+}
 
-const makeDeckCreatedSort = (order: SortOrder) => {
+function makeDeckCreatedSort(order: SortOrder) {
   return (a: ResolvedDeck, b: ResolvedDeck) =>
     genericSort(a.date_creation, b.date_creation, order);
-};
+}
 
-const makeDeckUpdatedSort = (order: SortOrder) => {
+function makeDeckUpdatedSort(order: SortOrder) {
   return (a: ResolvedDeck, b: ResolvedDeck) =>
     genericSort(a.date_update, b.date_update, order);
-};
+}
 
-const makeXPSort = (order: SortOrder) => {
+function makeXPSort(order: SortOrder) {
   return (a: ResolvedDeck, b: ResolvedDeck) =>
     genericSort(a.stats.xpRequired, b.stats.xpRequired, order);
-};
+}
 
 export const selectDecksSortingFunc = createSelector(
   selectDecksSorting,

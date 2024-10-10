@@ -15,7 +15,7 @@ type DeckFiltersValue<P extends DeckFiltersKey> = DeckFiltersType[P];
 
 type CollapsibleFilter = Exclude<DeckFiltersKey, "faction" | "search">;
 
-export type SortOrder = 1 | -1;
+export type SortOrder = "asc" | "desc";
 
 export type DeckFiltersState = {
   filters: DeckFiltersType;

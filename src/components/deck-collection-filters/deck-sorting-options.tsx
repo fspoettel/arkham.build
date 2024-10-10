@@ -11,28 +11,28 @@ const SORTING_OPTIONS: Record<
   { label: string; sorting: { order: SortOrder; criteria: SortCriteria } }
 > = {
   lastupdated: {
-    label: "Latest updated",
-    sorting: { order: -1, criteria: "date_updated" },
+    label: "Updated recently",
+    sorting: { order: "desc", criteria: "date_updated" },
   },
   lastcreated: {
-    label: "Latest created",
-    sorting: { order: -1, criteria: "date_created" },
+    label: "Created recently",
+    sorting: { order: "desc", criteria: "date_created" },
   },
   alphabeticaldesc: {
     label: "Alphabetical (A -> Z)",
-    sorting: { order: 1, criteria: "alphabetical" },
+    sorting: { order: "asc", criteria: "alphabetical" },
   },
   alphabeticalasc: {
     label: "Alphabetical (Z -> A)",
-    sorting: { order: -1, criteria: "alphabetical" },
+    sorting: { order: "desc", criteria: "alphabetical" },
   },
   xpdesc: {
-    label: "Most XP first",
-    sorting: { order: -1, criteria: "xp" },
+    label: "Most XP spent",
+    sorting: { order: "desc", criteria: "xp" },
   },
   xpasc: {
-    label: "Least XP first",
-    sorting: { order: 1, criteria: "xp" },
+    label: "Least XP spent",
+    sorting: { order: "asc", criteria: "xp" },
   },
 };
 
@@ -49,7 +49,7 @@ export function DeckSortingOptions() {
     <div className={css["options-container"]}>
       <p className={css["results-label"]}>Results</p>
       <Select
-        emptyLabel="Sort by..."
+        emptyLabel="Sort by"
         variant="compressed"
         data-testid="deck-sorting-options"
         name="sorting-options"

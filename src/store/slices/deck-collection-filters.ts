@@ -27,8 +27,8 @@ function getInitialUIState() {
         expCost: false,
       },
       sort: {
-        order: -1 as SortOrder,
-        criteria: "deck_update" as SortCriteria,
+        order: "desc" as SortOrder,
+        criteria: "date_updated" as SortCriteria,
       },
     },
   };
