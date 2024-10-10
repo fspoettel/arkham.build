@@ -46,6 +46,7 @@ export function DeckSortingOptions() {
 
   return (
     <div className={css["options-container"]}>
+      <p className={css["results-label"]}>Results</p>
       <Select
         emptyLabel="Sort by..."
         variant="compressed"
