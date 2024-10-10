@@ -34,6 +34,7 @@ type Props = {
   renderListCardAction?: ListCardProps["renderAction"];
   renderListCardAfter?: ListCardProps["renderAfter"];
   renderListCardExtra?: ListCardProps["renderExtra"];
+  renderListCardMetaExtra?: ListCardProps["renderMetaExtra"];
   slotLeft?: React.ReactNode;
   slotRight?: React.ReactNode;
   targetDeck?: "slots" | "extraSlots" | "both";
@@ -48,6 +49,7 @@ export function CardList(props: Props) {
     renderListCardAction,
     renderListCardAfter,
     renderListCardExtra,
+    renderListCardMetaExtra,
     slotLeft,
     slotRight,
     targetDeck = "slots",
@@ -242,6 +244,7 @@ export function CardList(props: Props) {
                   }
                   renderAfter={renderListCardAfter}
                   renderAction={renderListCardAction}
+                  renderMetaExtra={renderListCardMetaExtra}
                   renderExtra={renderListCardExtra}
                   size={listcardSize}
                   showCardText={showCardText}

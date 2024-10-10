@@ -49,6 +49,7 @@ export type Props = {
   referenceProps?: React.ComponentProps<"div">;
   renderAction?: (card: Card) => React.ReactNode;
   renderExtra?: (card: Card) => React.ReactNode;
+  renderMetaExtra?: (card: Card, quantity?: number) => React.ReactNode;
   renderAfter?: (card: Card, quantity?: number) => React.ReactNode;
   size?: "sm" | "investigator" | "xs";
   showCardText?: boolean;
@@ -76,6 +77,7 @@ export function ListCardInner(props: Props) {
     referenceProps,
     renderAction,
     renderExtra,
+    renderMetaExtra,
     renderAfter,
     showCardText,
     showInvestigatorIcons,
@@ -240,6 +242,7 @@ export function ListCardInner(props: Props) {
                       <i className="icon-tablet icon-layout color-taboo" />
                     </span>
                   )}
+
                   {!showInvestigatorIcons && card.real_subname && (
                     <h5 className={css["subname"]} title={card.real_subname}>
                       {card.real_subname}
@@ -261,6 +264,7 @@ export function ListCardInner(props: Props) {
                         />
                       </>
                     )}
+                  {renderMetaExtra?.(card, quantity)}
                 </div>
               )}
 
