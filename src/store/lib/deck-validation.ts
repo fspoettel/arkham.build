@@ -61,13 +61,24 @@ type DeckOptionsError = {
   };
 };
 
+type DeckLimitViolation = {
+  code: string;
+  limit: number;
+  quantity: number;
+  real_name: string;
+};
+
 type InvalidCardError = {
   type: "INVALID_CARD_COUNT";
+  details: DeckLimitViolation[];
+};
+
+type DeckRequirementsNotMetError = {
+  type: "DECK_REQUIREMENTS_NOT_MET";
   details: {
-    real_name: string;
     code: string;
-    limit: number;
     quantity: number;
+    required: number;
   }[];
 };
 
@@ -106,7 +117,7 @@ export function isTooFewCardsError(error: Error): error is TooFewCardsError {
 
 export function isDeckRequirementsNotMetError(
   error: Error,
-): error is BaseError & { type: "DECK_REQUIREMENTS_NOT_MET" } {
+): error is DeckRequirementsNotMetError {
   return error.type === "DECK_REQUIREMENTS_NOT_MET";
 }
 
@@ -122,7 +133,8 @@ type Error =
   | ForbiddenCardError
   | DeckOptionsError
   | TooManyCardsError
-  | TooFewCardsError;
+  | TooFewCardsError
+  | DeckRequirementsNotMetError;
 
 function findIndexReversed<T>(
   array: T[],
@@ -352,73 +364,22 @@ interface SlotValidator {
   validate(): Error[];
 }
 
-type DeckLimitViolation = {
-  code: string;
-  limit: number;
-  quantity: number;
-  real_name: string;
-};
-
 class DeckLimitsValidator implements SlotValidator {
   limitOverride: number | undefined;
-  selectedDeckSize: number | undefined;
   violations: Record<string, DeckLimitViolation> = {};
   quantityByName: Record<string, number> = {};
   ignoreDeckLimitSlots: Record<string, number> = {};
 
   constructor(deck: ResolvedDeck) {
     this.ignoreDeckLimitSlots = deck.ignoreDeckLimitSlots ?? {};
-
     if (deck.slots[SPECIAL_CARD_CODES.UNDERWORLD_SUPPORT]) {
       this.limitOverride = 1;
-    }
-
-    const hasDeckSizeSelect = deck.investigatorBack.card.deck_options?.some(
-      (o) => o.deck_size_select,
-    );
-
-    const deckSizeSelection = deck.metaParsed.deck_size_selected;
-
-    if (hasDeckSizeSelect && deckSizeSelection) {
-      this.selectedDeckSize = Number.parseInt(deckSizeSelection, 10);
     }
   }
 
   add(card: Card, quantity: number) {
+    if (card.xp == null) return;
     const name = `${card.real_name}${card.real_subname ?? ""}`;
-
-    if (card.xp == null) {
-      if (card.subtype_code) return;
-
-      if (
-        card.code === SPECIAL_CARD_CODES.OCCULT_EVIDENCE &&
-        this.selectedDeckSize
-      ) {
-        const limit = (this.selectedDeckSize - 20) / 10;
-        if (quantity !== limit) {
-          this.violations[name] = {
-            code: card.code,
-            limit,
-            quantity,
-            real_name: card.real_name,
-          };
-        }
-        // FIXME: validate that lily chen's signatures are pairs.
-      } else if (
-        card.code !== SPECIAL_CARD_CODES.BURDEN_OF_DESTINY &&
-        quantity !== (card.quantity ?? 0)
-      ) {
-        this.violations[name] = {
-          code: card.code,
-          limit: card.quantity,
-          quantity,
-          real_name: card.real_name,
-        };
-      }
-
-      return;
-    }
-
     const limit = this.limitOverride ?? card.deck_limit ?? 0;
 
     // some copies of this card might be ignored, e.g. for parallel Agnes and TCU "Ace of Rods".
@@ -438,12 +399,12 @@ class DeckLimitsValidator implements SlotValidator {
   }
 
   validate(): Error[] {
-    const violations = Object.values(this.violations);
-    return violations.length
+    const details = Object.values(this.violations);
+    return details.length
       ? [
           {
             type: "INVALID_CARD_COUNT",
-            details: violations,
+            details: details,
           },
         ]
       : [];
@@ -451,9 +412,10 @@ class DeckLimitsValidator implements SlotValidator {
 }
 
 class DeckRequiredCardsValidator implements SlotValidator {
-  requirements: DeckRequirements["card"];
-  cards: Card[] = [];
-  quantities: number[] = [];
+  requirements: DeckRequirements;
+  cards: Record<string, Card> = {};
+  quantities: Record<string, number> = {};
+  selectedDeckSize: number | undefined;
 
   constructor(deck: ResolvedDeck, mode: "slots" | "extraSlots" = "slots") {
     const investigatorBack = deck.investigatorBack.card;
@@ -461,19 +423,29 @@ class DeckRequiredCardsValidator implements SlotValidator {
     const accessor =
       mode === "slots" ? "deck_requirements" : "side_deck_requirements";
 
-    this.requirements = (investigatorBack[accessor] as DeckRequirements).card;
+    this.requirements = investigatorBack[accessor] as DeckRequirements;
+
+    const hasDeckSizeSelect = deck.investigatorBack.card.deck_options?.some(
+      (o) => o.deck_size_select,
+    );
+
+    const deckSizeSelection = deck.metaParsed.deck_size_selected;
+
+    if (hasDeckSizeSelect && deckSizeSelection) {
+      this.selectedDeckSize = Number.parseInt(deckSizeSelection, 10);
+    }
   }
 
   add(card: Card, quantity: number) {
-    if (card.xp == null && card.subtype_code !== "basicweakness") {
-      this.cards.push(card);
-      this.quantities.push(quantity);
+    if (card.xp == null) {
+      this.cards[card.code] = card;
+      this.quantities[card.code] = quantity;
     }
   }
 
   // FIXME: validate that signatures are pairs.
   validate(): Error[] {
-    const requirementCounts = Object.keys(this.requirements).reduce(
+    const requirementCounts = Object.keys(this.requirements.card).reduce(
       (counts, code) => {
         counts[code] = 0;
         return counts;
@@ -481,11 +453,12 @@ class DeckRequiredCardsValidator implements SlotValidator {
       {} as Record<string, number>,
     );
 
-    for (let i = 0; i < this.cards.length; i += 1) {
-      const card = this.cards[i];
-      const quantity = this.quantities[i];
+    const cards = Object.values(this.cards);
+    for (let i = 0; i < cards.length; i += 1) {
+      const card = cards[i];
+      const quantity = this.quantities[card.code];
 
-      const matches = Object.entries(this.requirements).filter(
+      const matches = Object.entries(this.requirements.card).filter(
         (r) => !!r[1][card.code],
       );
 
@@ -494,11 +467,51 @@ class DeckRequiredCardsValidator implements SlotValidator {
       }
     }
 
-    const matchesRequirements = Object.entries(requirementCounts).every(
-      (x) => x[1] !== 0,
-    );
+    const errors = Object.entries(requirementCounts).reduce<
+      DeckRequirementsNotMetError[]
+    >((acc, [code, quantity]) => {
+      let requiredCount = this.cards[code]?.deck_limit ?? 1;
+      let mode = "loose";
 
-    return matchesRequirements ? [] : [{ type: "DECK_REQUIREMENTS_NOT_MET" }];
+      if (
+        this.selectedDeckSize &&
+        code === SPECIAL_CARD_CODES.OCCULT_EVIDENCE
+      ) {
+        requiredCount = (this.selectedDeckSize - 20) / 10;
+        mode = "exact";
+      } else if (code === SPECIAL_CARD_CODES.BURDEN_OF_DESTINY) {
+        mode = "exact";
+        requiredCount = Math.max(
+          1,
+          Object.values(this.cards).filter(
+            (card) =>
+              card.real_name === "Discipline" && this.quantities[card.code] > 0,
+          ).length,
+        );
+      }
+
+      const matches =
+        mode === "exact"
+          ? quantity === requiredCount
+          : quantity >= requiredCount;
+
+      if (!matches) {
+        acc.push({
+          type: "DECK_REQUIREMENTS_NOT_MET",
+          details: [
+            {
+              code,
+              quantity,
+              required: requiredCount,
+            },
+          ],
+        });
+      }
+
+      return acc;
+    }, []);
+
+    return errors;
   }
 }
 

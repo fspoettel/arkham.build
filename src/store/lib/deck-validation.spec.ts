@@ -217,6 +217,13 @@ describe("deck validation", () => {
       expect(result.errors).toMatchInlineSnapshot(`
         [
           {
+            "details": [
+              {
+                "code": "01006",
+                "quantity": 0,
+                "required": 1,
+              },
+            ],
             "type": "DECK_REQUIREMENTS_NOT_MET",
           },
         ]
@@ -229,6 +236,13 @@ describe("deck validation", () => {
       expect(result.errors).toMatchInlineSnapshot(`
         [
           {
+            "details": [
+              {
+                "code": "01007",
+                "quantity": 0,
+                "required": 1,
+              },
+            ],
             "type": "DECK_REQUIREMENTS_NOT_MET",
           },
         ]
@@ -246,6 +260,13 @@ describe("deck validation", () => {
       expect(result.errors).toMatchInlineSnapshot(`
         [
           {
+            "details": [
+              {
+                "code": "01006",
+                "quantity": 0,
+                "required": 1,
+              },
+            ],
             "type": "DECK_REQUIREMENTS_NOT_MET",
           },
         ]
@@ -268,6 +289,13 @@ describe("deck validation", () => {
       expect(result.errors).toMatchInlineSnapshot(`
         [
           {
+            "details": [
+              {
+                "code": "01007",
+                "quantity": 0,
+                "required": 1,
+              },
+            ],
             "type": "DECK_REQUIREMENTS_NOT_MET",
           },
         ]
@@ -298,12 +326,11 @@ describe("deck validation", () => {
             "details": [
               {
                 "code": "89003",
-                "limit": 3,
                 "quantity": 2,
-                "real_name": "Regurgitation",
+                "required": 3,
               },
             ],
-            "type": "INVALID_CARD_COUNT",
+            "type": "DECK_REQUIREMENTS_NOT_MET",
           },
         ]
       `);
@@ -318,12 +345,11 @@ describe("deck validation", () => {
             "details": [
               {
                 "code": "06008",
-                "limit": 2,
                 "quantity": 3,
-                "real_name": "Occult Evidence",
+                "required": 2,
               },
             ],
-            "type": "INVALID_CARD_COUNT",
+            "type": "DECK_REQUIREMENTS_NOT_MET",
           },
         ]
       `);
@@ -340,12 +366,11 @@ describe("deck validation", () => {
             "details": [
               {
                 "code": "06008",
-                "limit": 2,
                 "quantity": 1,
-                "real_name": "Occult Evidence",
+                "required": 2,
               },
             ],
-            "type": "INVALID_CARD_COUNT",
+            "type": "DECK_REQUIREMENTS_NOT_MET",
           },
         ]
       `);
@@ -370,6 +395,23 @@ describe("deck validation", () => {
       expect(result.errors).toMatchInlineSnapshot(`
         [
           {
+            "details": [
+              {
+                "code": "07014",
+                "quantity": 0,
+                "required": 1,
+              },
+            ],
+            "type": "DECK_REQUIREMENTS_NOT_MET",
+          },
+          {
+            "details": [
+              {
+                "code": "07015",
+                "quantity": 0,
+                "required": 1,
+              },
+            ],
             "type": "DECK_REQUIREMENTS_NOT_MET",
           },
         ]
@@ -784,6 +826,48 @@ describe("deck validation", () => {
         const result = validate(store, lilyChenValid);
         expect(result.valid).toBeTruthy();
       });
+
+      it("handles case: lily chen, invalid, too few weaknesses", () => {
+        const deck = structuredClone(lilyChenValid);
+        (deck.slots as any)["08013a"] = 1;
+        const result = validate(store, deck);
+        expect(result.valid).toBeFalsy();
+        expect(result.errors).toMatchInlineSnapshot(`
+          [
+            {
+              "details": [
+                {
+                  "code": "08015",
+                  "quantity": 1,
+                  "required": 2,
+                },
+              ],
+              "type": "DECK_REQUIREMENTS_NOT_MET",
+            },
+          ]
+        `);
+      });
+
+      it("handles case: lily chen, invalid, too many weaknesses", () => {
+        const deck = structuredClone(lilyChenValid);
+        (deck.slots as any)["08015"] = 2;
+        const result = validate(store, deck);
+        expect(result.valid).toBeFalsy();
+        expect(result.errors).toMatchInlineSnapshot(`
+          [
+            {
+              "details": [
+                {
+                  "code": "08015",
+                  "quantity": 2,
+                  "required": 1,
+                },
+              ],
+              "type": "DECK_REQUIREMENTS_NOT_MET",
+            },
+          ]
+        `);
+      });
     });
 
     describe("honed instinct", () => {
@@ -944,6 +1028,13 @@ describe("deck validation", () => {
       expect(result.errors).toMatchInlineSnapshot(`
         [
           {
+            "details": [
+              {
+                "code": "90053",
+                "quantity": 0,
+                "required": 1,
+              },
+            ],
             "type": "DECK_REQUIREMENTS_NOT_MET",
           },
         ]
