@@ -65,7 +65,6 @@ type DeckLimitViolation = {
   code: string;
   limit: number;
   quantity: number;
-  real_name: string;
 };
 
 type InvalidCardError = {
@@ -85,7 +84,6 @@ type DeckRequirementsNotMetError = {
 export type ForbiddenCardError = {
   type: "FORBIDDEN";
   details: {
-    real_name: string;
     code: string;
     target: "slots" | "extraSlots";
   }[];
@@ -393,7 +391,6 @@ class DeckLimitsValidator implements SlotValidator {
         code: card.code,
         limit,
         quantity: this.quantityByName[name],
-        real_name: card.real_name,
       };
     }
   }
@@ -869,7 +866,6 @@ class SideDeckLimitsValidator implements SlotValidator {
               code: card.code,
               limit: 1,
               quantity,
-              real_name: card.real_name,
             },
           ],
         });
