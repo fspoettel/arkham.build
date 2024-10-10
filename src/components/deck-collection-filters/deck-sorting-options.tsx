@@ -39,8 +39,9 @@ const SORTING_OPTIONS: Record<
 export function DeckSortingOptions() {
   const setSort = useStore((state) => state.setDeckSort);
 
-  const handleValueChange = (val: keyof typeof SORTING_OPTIONS) => {
-    const { order, criteria } = SORTING_OPTIONS[val].sorting;
+  const handleValueChange = (val: string) => {
+    const { order, criteria } =
+      SORTING_OPTIONS[val as keyof typeof SORTING_OPTIONS].sorting;
     setSort(order, criteria);
   };
 
@@ -52,9 +53,7 @@ export function DeckSortingOptions() {
         variant="compressed"
         data-testid="deck-sorting-options"
         name="sorting-options"
-        onChange={(e) =>
-          handleValueChange(e.target.value as keyof typeof SORTING_OPTIONS)
-        }
+        onChange={(e) => handleValueChange(e.target.value)}
         options={Object.keys(SORTING_OPTIONS).map((option) => {
           return {
             value: option,
