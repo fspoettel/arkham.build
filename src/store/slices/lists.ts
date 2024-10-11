@@ -92,7 +92,7 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
             ownership: getInitialOwnershipFilter(state.settings),
             subtype: getInitialSubtypeFilter(state.settings),
           },
-          list.search,
+          makeSearch(),
         ),
       },
     });
