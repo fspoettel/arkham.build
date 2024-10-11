@@ -2,34 +2,30 @@ import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
 import type {
   DeckFiltersSlice,
-  DeckValidity,
-  SortCriteria,
-  SortOrder,
+  DeckFiltersState,
 } from "./deck-collection-filters.types";
 
-function getInitialUIState() {
+function getInitialUIState(): DeckFiltersState {
   return {
-    deckFilters: {
-      filters: {
-        faction: [],
-        search: "",
-        tags: [],
-        properties: {
-          parallel: false,
-        },
-        validity: "all" as DeckValidity,
-        expCost: undefined,
+    filters: {
+      faction: [],
+      search: "",
+      tags: [],
+      properties: {
+        parallel: false,
       },
-      open: {
-        tags: false,
-        properties: false,
-        validity: false,
-        expCost: false,
-      },
-      sort: {
-        order: "desc" as SortOrder,
-        criteria: "date_updated" as SortCriteria,
-      },
+      validity: "all",
+      expCost: undefined,
+    },
+    open: {
+      tags: false,
+      properties: false,
+      validity: false,
+      expCost: false,
+    },
+    sort: {
+      order: "desc",
+      criteria: "date_updated",
     },
   };
 }
@@ -40,7 +36,7 @@ export const createDeckFiltersSlice: StateCreator<
   [],
   DeckFiltersSlice
 > = (set, get) => ({
-  ...getInitialUIState(),
+  deckFilters: getInitialUIState(),
   addDecksFilter(type, value) {
     const state = get();
     const filterValues = structuredClone(state.deckFilters.filters);
@@ -65,44 +61,14 @@ export const createDeckFiltersSlice: StateCreator<
     });
   },
 
-  setDeckSort(order, criteria) {
+  setDeckSort(payload) {
     const state = get();
-    set({
-      deckFilters: {
-        ...state.deckFilters,
-        sort: {
-          order: order,
-          criteria: criteria,
-        },
-      },
-    });
-  },
-
-  // Set Order-only and Criteria-only funcs are unused for now
-  // but the functionality is most likely going to be used in My Decks page
-  setDeckSortOrder(order) {
-    const state = get();
-
     set({
       deckFilters: {
         ...state.deckFilters,
         sort: {
           ...state.deckFilters.sort,
-          order: order,
-        },
-      },
-    });
-  },
-
-  setDeckSortCriteria(criteria) {
-    const state = get();
-
-    set({
-      deckFilters: {
-        ...state.deckFilters,
-        sort: {
-          ...state.deckFilters.sort,
-          criteria: criteria,
+          ...payload,
         },
       },
     });
@@ -110,7 +76,7 @@ export const createDeckFiltersSlice: StateCreator<
 
   resetDeckFilter(filter) {
     const state = get();
-    const initialState = getInitialUIState().deckFilters.filters[filter];
+    const initialState = getInitialUIState().filters[filter];
 
     set({
       deckFilters: {

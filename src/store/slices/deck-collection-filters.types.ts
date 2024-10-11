@@ -26,6 +26,11 @@ export type DeckFiltersState = {
   };
 };
 
+export type DeckSortPayload = {
+  order: SortOrder;
+  criteria: SortCriteria;
+};
+
 export type DeckFiltersSlice = {
   deckFilters: DeckFiltersState;
   addDecksFilter<F extends DeckFiltersKey, T extends DeckFiltersValue<F>>(
@@ -33,9 +38,7 @@ export type DeckFiltersSlice = {
     value: T,
   ): void;
   setDeckFilterOpen(filter: CollapsibleFilter, status: boolean): void;
-  setDeckSort(order: SortOrder, criteria: SortCriteria): void;
-  setDeckSortOrder(order: SortOrder): void;
-  setDeckSortCriteria(criteria: SortCriteria): void;
+  setDeckSort(payload: Partial<DeckSortPayload>): void;
   resetDeckFilter(filter: DeckFiltersKey): void;
 };
 
