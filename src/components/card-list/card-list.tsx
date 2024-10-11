@@ -22,9 +22,9 @@ import { useCardModalContext } from "../card-modal/card-modal-context";
 import { Footer } from "../footer";
 import { ListCard, type Props as ListCardProps } from "../list-card/list-card";
 import { Scroller } from "../ui/scroller";
-import { Grouphead } from "./Grouphead";
 import { CardListNav } from "./card-list-nav";
 import { CardSearch } from "./card-search";
+import { Grouphead } from "./grouphead";
 
 type Props = {
   className?: string;

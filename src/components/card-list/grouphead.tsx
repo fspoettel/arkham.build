@@ -1,5 +1,3 @@
-import { Fragment } from "react/jsx-runtime";
-
 import { NONE, getGroupingKeyLabel } from "@/store/lib/grouping";
 import type { CardGroup } from "@/store/selectors/card-list";
 import type { Metadata } from "@/store/slices/metadata.types";
@@ -45,20 +43,20 @@ export function Grouphead(props: Props) {
         if (type === "cycle") {
           return (
             // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
-            <Fragment key={i}>
+            <span key={i}>
               <PackIcon className={css["icon"]} code={key} />
               <span>{keyLabel}</span>
-            </Fragment>
+            </span>
           );
         }
 
         if (type === "encounter_set") {
           return (
             // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
-            <Fragment key={i}>
+            <span key={i}>
               <EncounterIcon className={css["icon"]} code={key} />
               <span>{keyLabel}</span>
-            </Fragment>
+            </span>
           );
         }
 
@@ -77,31 +75,30 @@ export function Grouphead(props: Props) {
 
           return (
             // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
-            <Fragment key={i}>
+            <span key={i}>
               <CardSlots className={css["icon"]} size="small" slot={key} />
               <span>{keyLabel}</span>
-            </Fragment>
+            </span>
           );
         }
 
         if (type === "faction") {
           return (
-            <>
+            // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
+            <span key={i}>
               <FactionIcon className={css["icon"]} code={key} />
-
-              {/* biome-ignore lint/suspicious/noArrayIndexKey: order is stable. */}
-              <span key={i}>{keyLabel}</span>
-            </>
+              <span>{keyLabel}</span>
+            </span>
           );
         }
 
         if (type === "pack") {
           return (
             // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
-            <Fragment key={i}>
+            <span key={i}>
               <PackIcon className={css["icon"]} code={key} />
               <span>{keyLabel}</span>
-            </Fragment>
+            </span>
           );
         }
 
