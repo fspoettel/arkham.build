@@ -15,9 +15,20 @@ type DeckFiltersValue<P extends DeckFiltersKey> = DeckFiltersType[P];
 
 type CollapsibleFilter = Exclude<DeckFiltersKey, "faction" | "search">;
 
+export type SortOrder = "asc" | "desc";
+
 export type DeckFiltersState = {
   filters: DeckFiltersType;
   open: Record<CollapsibleFilter, boolean>;
+  sort: {
+    order: SortOrder;
+    criteria: SortCriteria;
+  };
+};
+
+export type DeckSortPayload = {
+  order: SortOrder;
+  criteria: SortCriteria;
 };
 
 export type DeckFiltersSlice = {
@@ -27,7 +38,17 @@ export type DeckFiltersSlice = {
     value: T,
   ): void;
   setDeckFilterOpen(filter: CollapsibleFilter, status: boolean): void;
+  setDeckSort(payload: Partial<DeckSortPayload>): void;
   resetDeckFilter(filter: DeckFiltersKey): void;
 };
 
 export type DeckPropertyName = "parallel";
+
+export const SORT_CRITERIA_LIST = {
+  date_updated: "Date updated",
+  date_created: "Date created",
+  alphabetical: "Alphabetical",
+  xp: "Experience",
+} as const;
+
+export type SortCriteria = keyof typeof SORT_CRITERIA_LIST;

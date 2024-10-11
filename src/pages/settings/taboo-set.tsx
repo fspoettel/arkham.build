@@ -1,4 +1,5 @@
 import { Field, FieldLabel } from "@/components/ui/field";
+import { Select } from "@/components/ui/select";
 import { useStore } from "@/store";
 import { selectTabooSetOptions } from "@/store/selectors/lists";
 import type { SettingsState } from "@/store/slices/settings.types";
@@ -23,20 +24,16 @@ export function TabooSet(props: Props) {
   return (
     <Field bordered>
       <FieldLabel htmlFor="taboo-set">Default taboo list</FieldLabel>
-      <select
+      <Select
         data-testid="settings-taboo-set"
         id="taboo-set"
         name="taboo-set"
         onChange={onChange}
         value={settings.tabooSetId ?? ""}
-      >
-        <option value="">None</option>
-        {tabooSets.map((set) => (
-          <option key={set.id} value={set.id}>
-            {formatTabooSet(set)}
-          </option>
-        ))}
-      </select>
+        options={tabooSets.map((set) => {
+          return { label: formatTabooSet(set), value: set.id };
+        })}
+      />
     </Field>
   );
 }

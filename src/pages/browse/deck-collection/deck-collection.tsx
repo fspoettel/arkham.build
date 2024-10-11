@@ -22,13 +22,13 @@ import {
 } from "@/components/deck-display/hooks";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/toast.hooks";
-import { selectDecksFiltered } from "@/store/selectors/deck-filters";
+import { selectDecksDisplayList } from "@/store/selectors/deck-filters";
 import { useCallback, useState } from "react";
 import { DeckCollectionImport } from "./deck-collection-import";
 
 export function DeckCollection() {
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const deckCollection = useStore(selectDecksFiltered);
+  const deckCollection = useStore(selectDecksDisplayList);
 
   const importDecks = useStore((state) => state.importFromFiles);
   const deleteAllDecks = useStore((state) => state.deleteAllDecks);

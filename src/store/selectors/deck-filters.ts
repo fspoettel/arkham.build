@@ -15,6 +15,7 @@ import type {
   DeckPropertyName,
   DeckValidity,
   RangeMinMax,
+  SortOrder,
 } from "../slices/deck-collection-filters.types";
 
 // Arbitrarily chosen for now
@@ -198,42 +199,6 @@ const selectFilteringFunc = createSelector(selectDeckFilters, (filters) => {
   return and(filterFuncs);
 });
 
-export const selectDecksFiltered = createSelector(
-  selectLocalDecks,
-  selectDeckSearchTerm,
-  selectSearchableTextInDecks,
-  selectFilteringFunc,
-  (decks, searchTerm, searchableText, filterFunc) => {
-    let decksToFilter: ResolvedDeck[];
-
-    if (searchTerm) {
-      const finder = new uFuzzy({
-        intraMode: 0,
-        interIns: MATCHING_MAX_TOKEN_DISTANCE_DECKS,
-      });
-
-      const results = finder.search(searchableText, searchTerm);
-
-      decksToFilter = [];
-
-      if (results[0]) {
-        for (const result of results[0]) {
-          assert(decks[result], "Searching outside of bounds");
-          decksToFilter.push(decks[result]);
-        }
-      }
-    } else {
-      decksToFilter = decks;
-    }
-
-    const filteredDecks = decksToFilter.filter(filterFunc);
-    return {
-      decks: filteredDecks ?? decks,
-      total: decks.length,
-    };
-  },
-);
-
 export const selectFactionsInLocalDecks = createSelector(
   selectLocalDecks,
   (state: StoreState) => state.metadata.factions,
@@ -272,5 +237,102 @@ export const selectTagsInLocalDecks = createSelector(
       };
     });
     return uniqueTags;
+  },
+);
+
+export const selectDecksFiltered = createSelector(
+  selectLocalDecks,
+  selectDeckSearchTerm,
+  selectSearchableTextInDecks,
+  selectFilteringFunc,
+  (decks, searchTerm, searchableText, filterFunc) => {
+    let decksToFilter: ResolvedDeck[];
+
+    if (searchTerm) {
+      const finder = new uFuzzy({
+        intraMode: 0,
+        interIns: MATCHING_MAX_TOKEN_DISTANCE_DECKS,
+      });
+
+      const results = finder.search(searchableText, searchTerm);
+
+      decksToFilter = [];
+
+      if (results[0]) {
+        for (const result of results[0]) {
+          assert(decks[result], "Searching outside of bounds");
+          decksToFilter.push(decks[result]);
+        }
+      }
+    } else {
+      decksToFilter = decks;
+    }
+
+    const filteredDecks = decksToFilter.filter(filterFunc);
+    return {
+      decks: filteredDecks ?? decks,
+      total: decks.length,
+    };
+  },
+);
+
+export const selectDecksSorting = (state: StoreState) => state.deckFilters.sort;
+
+function genericSort(a: string | number, b: string | number, order: SortOrder) {
+  const mod = order === "desc" ? -1 : 1;
+  return a < b ? -1 * mod : a > b ? 1 * mod : 0;
+}
+
+function makeAlphabeticalSort(order: SortOrder) {
+  return (a: ResolvedDeck, b: ResolvedDeck) =>
+    genericSort(a.name, b.name, order);
+}
+
+function makeDeckCreatedSort(order: SortOrder) {
+  return (a: ResolvedDeck, b: ResolvedDeck) =>
+    genericSort(a.date_creation, b.date_creation, order);
+}
+
+function makeDeckUpdatedSort(order: SortOrder) {
+  return (a: ResolvedDeck, b: ResolvedDeck) =>
+    genericSort(a.date_update, b.date_update, order);
+}
+
+function makeXPSort(order: SortOrder) {
+  return (a: ResolvedDeck, b: ResolvedDeck) =>
+    genericSort(a.stats.xpRequired, b.stats.xpRequired, order);
+}
+
+export const selectDecksSortingFunc = createSelector(
+  selectDecksSorting,
+  (sortingInfo) => {
+    switch (sortingInfo.criteria) {
+      case "alphabetical": {
+        return makeAlphabeticalSort(sortingInfo.order);
+      }
+      case "date_updated": {
+        return makeDeckUpdatedSort(sortingInfo.order);
+      }
+      case "xp": {
+        return makeXPSort(sortingInfo.order);
+      }
+      case "date_created": {
+        return makeDeckCreatedSort(sortingInfo.order);
+      }
+      default: {
+        return makeDeckUpdatedSort(sortingInfo.order);
+      }
+    }
+  },
+);
+
+export const selectDecksDisplayList = createSelector(
+  selectDecksFiltered,
+  selectDecksSortingFunc,
+  (decks, sorting) => {
+    return {
+      decks: decks.decks.sort(sorting),
+      total: decks.total,
+    };
   },
 );

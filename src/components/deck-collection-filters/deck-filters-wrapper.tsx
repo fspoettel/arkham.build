@@ -13,6 +13,7 @@ import { Button } from "../ui/button";
 import css from "./deck-filters-wrapper.module.css";
 
 import { Content, Root, Trigger } from "@radix-ui/react-collapsible";
+import { DeckSortingOptions } from "./deck-sorting-options";
 import { TagsFilter } from "./tags-filter";
 
 export function DeckCollectionFilters() {
@@ -61,6 +62,7 @@ export function DeckCollectionFilters() {
           </Button>
         </Trigger>
       </div>
+      <DeckSortingOptions />
       <Content
         className={css["filters-container"]}
         data-testid="deck-filters-expanded"
