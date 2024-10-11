@@ -20,7 +20,7 @@
 
 .icon_search {
   left: 0.5rem;
-  color: var(--nord-3);
+  color: color-mix(in srgb, var(--nord-3) 70%, var(--nord-4) 30%);
 }
 
 .icon_clear {
