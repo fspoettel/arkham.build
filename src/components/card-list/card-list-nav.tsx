@@ -80,6 +80,7 @@ export function CardListNav(props: Props) {
             emptyLabel="Jump to..."
             onChange={onSelectGroup}
             options={jumpToOptions ?? []}
+            variant="compressed"
             value=""
           />
         )}
@@ -89,6 +90,7 @@ export function CardListNav(props: Props) {
               tooltip="List settings"
               data-test-id="card-list-config"
               variant="bare"
+              iconOnly
             >
               <SlidersVertical />
             </Button>
