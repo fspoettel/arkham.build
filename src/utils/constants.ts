@@ -18,7 +18,6 @@ const ACTION_TEXT: { [key: string]: string } = {
   fight: "Fight.",
   engage: "Engage.",
   investigate: "Investigate.",
-  play: "Play.",
   draw: "Draw.",
   move: "Move.",
   evade: "Evade.",

@@ -651,7 +651,7 @@ function makeInvestigatorCardsList(
   settings: SettingsState,
   { initialValues = {} as Partial<Record<FilterKey, unknown>> } = {},
 ): List {
-  const filters: FilterKey[] = ["faction"];
+  const filters: FilterKey[] = ["faction", "trait"];
 
   if (!settings.showAllCards) {
     filters.push("ownership");
@@ -668,7 +668,7 @@ function makeInvestigatorCardsList(
     },
     and([
       filterType(["investigator"]),
-      filterDuplicates,
+      (card) => filterDuplicates(card) || !!card.parallel,
       not(filterEncounterCards),
     ]),
     mergeInitialValues(initialValues, settings),

@@ -26,6 +26,7 @@ export function TabooSet(props: Props) {
       <FieldLabel htmlFor="taboo-set">Default taboo list</FieldLabel>
       <Select
         data-testid="settings-taboo-set"
+        emptyLabel="No taboo list"
         id="taboo-set"
         name="taboo-set"
         onChange={onChange}

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
 import { NONE, getGroupingKeyLabel } from "@/store/lib/grouping";
-import type { ListState } from "@/store/selectors/card-list";
+import type { ListState } from "@/store/selectors/lists";
 import type { Metadata } from "@/store/slices/metadata.types";
 
 import css from "./card-list.module.css";

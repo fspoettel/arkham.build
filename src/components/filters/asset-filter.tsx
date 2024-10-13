@@ -1,11 +1,7 @@
 import { useCallback } from "react";
 
 import { useStore } from "@/store";
-import {
-  selectActiveListFilter,
-  selectAssetChanges,
-  selectAssetOptions,
-} from "@/store/selectors/lists";
+import { selectActiveListFilter } from "@/store/selectors/lists";
 import type { Coded } from "@/store/services/queries.types";
 import { isAssetFilterObject } from "@/store/slices/lists.type-guards";
 import type { AssetFilter as AssetFilterType } from "@/store/slices/lists.types";
@@ -14,11 +10,16 @@ import { capitalize } from "@/utils/formatting";
 
 import css from "./filters.module.css";
 
+import {
+  selectAssetChanges,
+  selectAssetOptions,
+} from "@/store/selectors/lists";
 import { SkillIcon } from "../icons/skill-icon";
 import SlotIcon from "../icons/slot-icon";
 import { Checkbox } from "../ui/checkbox";
 import { Combobox } from "../ui/combobox/combobox";
 import { RangeSelect } from "../ui/range-select";
+import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
 
 function capitalizeCode(c: Coded) {
@@ -33,7 +34,7 @@ function renderSlot(c: Coded) {
   );
 }
 
-export function AssetFilter({ id }: { id: number }) {
+export function AssetFilter({ id, resolvedDeck }: FilterProps) {
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
     isAssetFilterObject(filter),
@@ -41,7 +42,7 @@ export function AssetFilter({ id }: { id: number }) {
   );
 
   const changes = selectAssetChanges(filter.value);
-  const options = useStore(selectAssetOptions);
+  const options = useStore((state) => selectAssetOptions(state, resolvedDeck));
 
   const setFilterValue = useStore((state) => state.setFilterValue);
   const setFilterOpen = useStore((state) => state.setFilterOpen);

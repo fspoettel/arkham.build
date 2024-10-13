@@ -4,10 +4,12 @@ import { GroupedVirtuoso } from "react-virtuoso";
 
 import { CenterLayout } from "@/layouts/center-layout";
 import { useStore } from "@/store";
-import type { ListState } from "@/store/selectors/card-list";
-import { selectListCards } from "@/store/selectors/card-list";
-import { selectActiveListSearch } from "@/store/selectors/lists";
-import { selectActiveList } from "@/store/selectors/lists";
+import type { ListState } from "@/store/selectors/lists";
+import {
+  selectActiveList,
+  selectActiveListSearch,
+  selectListCards,
+} from "@/store/selectors/lists";
 import {
   selectCanCheckOwnership,
   selectCardOwnedCount,

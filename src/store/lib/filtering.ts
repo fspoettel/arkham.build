@@ -35,7 +35,7 @@ export function filterDuplicates(card: Card) {
 }
 
 export function filterAlternates(card: Card) {
-  return filterDuplicates(card) || card.parallel;
+  return filterDuplicates(card) || !!card.parallel;
 }
 
 export function filterEncounterCards(card: Card) {
