@@ -56,7 +56,6 @@ import type {
 } from "../slices/lists.types";
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
-import type { SettingsState } from "../slices/settings.types";
 
 export type CardGroup = {
   type: string;
@@ -75,7 +74,6 @@ function makeUserFilter(
   metadata: Metadata,
   lookupTables: LookupTables,
   list: List,
-  settings: SettingsState,
   targetDeck?: "slots" | "extraSlots" | "both",
 ) {
   const filters: Filter[] = [];
@@ -154,21 +152,6 @@ function makeUserFilter(
       }
 
       case "ownership": {
-        const value = filterValue.value as OwnershipFilter;
-        if (value !== "all") {
-          filters.push((card: Card) => {
-            const ownership = filterOwnership(
-              card,
-              metadata,
-              lookupTables,
-              settings.collection,
-              settings.showAllCards,
-            );
-
-            return value === "owned" ? ownership : !ownership;
-          });
-        }
-
         break;
       }
 
@@ -391,13 +374,19 @@ const selectResolvedDeckCustomizations = customizationsEqualSelector(
 
 const selectBaseListCards = createSelector(
   (state: StoreState) => state.metadata,
+  (state: StoreState) => state.lookupTables,
+  (state: StoreState) => state.settings,
   (state: StoreState) => selectActiveList(state)?.systemFilter,
+  (state: StoreState) => selectActiveList(state)?.filterValues,
   selectDeckInvestigatorFilter,
   selectCanonicalTabooSetId,
   selectResolvedDeckCustomizations,
   (
     metadata,
+    lookupTables,
+    settings,
     systemFilter,
+    filterValues,
     deckInvestigatorFilter,
     tabooSetId,
     customizations,
@@ -418,11 +407,38 @@ const selectBaseListCards = createSelector(
       );
     }
 
-    // apply system filter early to cut down on # of cards that need to be processed.
-    if (systemFilter) filteredCards = filteredCards.filter(systemFilter);
+    const filters = [];
+
+    if (systemFilter) filters.push(systemFilter);
 
     if (deckInvestigatorFilter) {
-      filteredCards = filteredCards.filter(deckInvestigatorFilter);
+      filters.push(deckInvestigatorFilter);
+    }
+
+    if (filterValues) {
+      const ownershipFilter = Object.values(filterValues).find(
+        (f) => f.type === "ownership",
+      );
+
+      if (ownershipFilter) {
+        const value = ownershipFilter.value as OwnershipFilter;
+        if (value !== "all") {
+          filters.push((card: Card) => {
+            const ownership = filterOwnership(
+              card,
+              metadata,
+              lookupTables,
+              settings.collection,
+              false,
+            );
+            return value === "owned" ? ownership : !ownership;
+          });
+        }
+      }
+    }
+
+    if (filters.length) {
+      filteredCards = filteredCards.filter(and(filters));
     }
 
     timeEnd("select_base_list_cards");
@@ -433,10 +449,9 @@ const selectBaseListCards = createSelector(
 export const selectListCards = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
-  (state: StoreState) => state.settings,
   selectActiveList,
   selectBaseListCards,
-  (metadata, lookupTables, settings, activeList, _filteredCards) => {
+  (metadata, lookupTables, activeList, _filteredCards) => {
     if (!_filteredCards || !activeList) return undefined;
 
     time("select_list_cards");
@@ -451,7 +466,7 @@ export const selectListCards = createSelector(
     const totalCardCount = filteredCards.length;
 
     // apply user filters.
-    const filter = makeUserFilter(metadata, lookupTables, activeList, settings);
+    const filter = makeUserFilter(metadata, lookupTables, activeList);
     if (filter) filteredCards = filteredCards.filter(filter);
 
     const cards: Card[] = [];
