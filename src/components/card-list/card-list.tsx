@@ -239,7 +239,7 @@ export function CardList(props: Props) {
                   }
                   quantity={
                     quantities
-                      ? quantities[data.cards[index].code] ?? 0
+                      ? (quantities[data.cards[index].code] ?? 0)
                       : undefined
                   }
                   renderAfter={renderListCardAfter}

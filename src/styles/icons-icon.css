@@ -6,9 +6,11 @@
   font-display: block;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^="icon-"],
+[class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icon' !important;
+  /* biome-ignore lint/a11y/useGenericFontNames: icon font. */
+  font-family: "icon" !important;
   speak: never;
   font-style: normal;
   font-weight: normal;

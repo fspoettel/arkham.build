@@ -120,23 +120,17 @@ export function ListCardInner(props: Props) {
     >
       <div className={css["listcard-action"]}>
         {!!renderAction && renderAction(card)}
-        {quantity != null && (
-          <>
-            {onChangeCardQuantity ? (
-              <QuantityInput
-                limit={limit}
-                onValueChange={onQuantityChange}
-                tabIndex={disableKeyboard ? -1 : undefined}
-                value={quantity}
-              />
-            ) : (
-              <QuantityOutput
-                data-testid="listcard-quantity"
-                value={quantity}
-              />
-            )}
-          </>
-        )}
+        {quantity != null &&
+          (onChangeCardQuantity ? (
+            <QuantityInput
+              limit={limit}
+              onValueChange={onQuantityChange}
+              tabIndex={disableKeyboard ? -1 : undefined}
+              value={quantity}
+            />
+          ) : (
+            <QuantityOutput data-testid="listcard-quantity" value={quantity} />
+          ))}
       </div>
 
       <div className={css["listcard"]}>

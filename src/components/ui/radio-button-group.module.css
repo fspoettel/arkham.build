@@ -43,7 +43,6 @@
   &:focus-visible:not([data-state="checked"]) {
     background: var(--nord-1);
   }
-
 }
 
 .radio-button-group.is-icons .radio-button-group-item {

@@ -78,7 +78,9 @@ export function DeckCollectionImport() {
               </>
             }
           >
-            <label className="sr-only">Deck Url / ID</label>
+            <label className="sr-only" htmlFor="deck-id">
+              Deck Url / ID
+            </label>
             <input
               autoComplete="off"
               data-1p-ignore=""

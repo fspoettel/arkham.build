@@ -19,23 +19,21 @@ export function CardText(props: Props) {
   const showFlavor = flavorIsCardText || size === "full";
 
   const textNode = !!text && (
-    <>
-      <div className={css["text"]} data-testid="card-text">
-        {text && (
-          <p
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is from trusted source.
-            dangerouslySetInnerHTML={{
-              __html: parseCardTextHtml(text),
-            }}
-          />
-        )}
-        {!!victory && (
-          <p>
-            <b>Victory {victory}.</b>
-          </p>
-        )}
-      </div>
-    </>
+    <div className={css["text"]} data-testid="card-text">
+      {text && (
+        <p
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is from trusted source.
+          dangerouslySetInnerHTML={{
+            __html: parseCardTextHtml(text),
+          }}
+        />
+      )}
+      {!!victory && (
+        <p>
+          <b>Victory {victory}.</b>
+        </p>
+      )}
+    </div>
   );
 
   const flavorNode = showFlavor && !!flavor && (

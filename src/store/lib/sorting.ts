@@ -73,8 +73,8 @@ function sortByFaction(a: Card, b: Card) {
 }
 
 function sortByCost(a: Card, b: Card) {
-  const aCost = a.type_code === "investigator" ? -3 : a.cost ?? -1;
-  const bCost = b.type_code === "investigator" ? -3 : b.cost ?? -1;
+  const aCost = a.type_code === "investigator" ? -3 : (a.cost ?? -1);
+  const bCost = b.type_code === "investigator" ? -3 : (b.cost ?? -1);
   return aCost - bCost;
 }
 

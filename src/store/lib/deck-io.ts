@@ -51,7 +51,7 @@ export function formatDeckImport(
     source: "local",
     tags:
       type === "decklist"
-        ? deck.tags?.replaceAll(", ", " ") ?? null
+        ? (deck.tags?.replaceAll(", ", " ") ?? null)
         : deck.tags,
     xp: null,
     xp_adjustment: null,
@@ -121,7 +121,7 @@ export function formatDeckAsText(state: StoreState, deck: ResolvedDeck) {
           ? typeof selection.value === "string"
             ? capitalize(selection.value)
             : selection.value
-          : selection.value?.name ?? "None";
+          : (selection.value?.name ?? "None");
 
       text += `${capitalizeSnakeCase(key)}: ${value}  \n`;
     }

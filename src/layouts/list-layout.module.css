@@ -16,8 +16,8 @@
   will-change: contents;
 
   grid-template-areas:
-  "header header header"
-  "sidebar content filters";
+    "header header header"
+    "sidebar content filters";
 
   grid-template-rows: auto minmax(0, 1fr);
 

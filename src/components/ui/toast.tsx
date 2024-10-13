@@ -62,7 +62,7 @@ function Toast(props: {
   const [location] = useLocation();
   const locationRef = useRef(location);
 
-  const toastRef = useRef<HTMLDivElement>(null);
+  const toastRef = useRef<HTMLOutputElement>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   const removeToast = useCallback(() => {
@@ -106,7 +106,7 @@ function Toast(props: {
   }, [location, removeToast, toast.duration]);
 
   return (
-    <div
+    <output
       className={cx(
         css["toast"],
         toast.variant && css[toast.variant],
@@ -115,7 +115,6 @@ function Toast(props: {
       )}
       data-testid="toast"
       ref={toastRef}
-      role="status"
     >
       {toast.variant === "success" && <CheckCircle className={css["icon"]} />}
       {toast.variant === "error" && <CircleAlert className={css["icon"]} />}
@@ -137,6 +136,6 @@ function Toast(props: {
           </Button>
         )}
       </div>
-    </div>
+    </output>
   );
 }

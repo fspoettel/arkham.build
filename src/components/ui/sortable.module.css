@@ -18,7 +18,6 @@
 }
 
 .item.active {
-  border-color: var(--nord-3);
   background: var(--nord-point-five);
   border: 1px solid var(--nord-1);
 }

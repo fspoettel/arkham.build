@@ -66,7 +66,7 @@ export function CustomizationOption(props: Props) {
   );
 
   const htmlText = omitOptionText
-    ? /(<b>.*<\/b>)/.exec(text[index])?.[1] ?? ""
+    ? (/(<b>.*<\/b>)/.exec(text[index])?.[1] ?? "")
     : text[index];
 
   return (
