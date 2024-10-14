@@ -18,7 +18,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:e2e": "playwright test --grep-invert @flaky",
+    "test:e2e": "playwright test",
     "test:watch": "vitest watch",
     "update-snapshots:local": "PW_TEST_HTML_REPORT_OPEN='never' playwright test --update-snapshots",
     "update-snapshots:docker": "docker run -v $(pwd):/work/ mcr.microsoft.com/playwright:v1.48.0 bash -c 'cd work && npm i && PW_TEST_HTML_REPORT_OPEN='never' CI='1' npm run test:e2e -- --update-snapshots'"

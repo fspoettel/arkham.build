@@ -1,5 +1,5 @@
 import { Locator, Page, expect, test } from "@playwright/test";
-import { locateCardInSlots } from "./actions";
+import { fillSearch, locateCardInSlots } from "./actions";
 import { mockApiCalls } from "./mocks";
 
 test.beforeEach(async ({ page }) => {
@@ -16,27 +16,24 @@ function locateSignatureQuantity(page: Page, code: string) {
 test.describe("deck create: interactions", () => {
   test("can choose investigator", async ({ page }) => {
     await page.goto("/deck/create");
-
-    await page.getByTestId("search-input").click();
-    await page.getByTestId("search-input").fill("jenny barnes");
+    await fillSearch(page, "yorick");
     await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
 
     await page.getByTestId("create-choose-investigator").click();
-    await expect(page).toHaveURL(/\/deck\/create\/02003/);
+    await expect(page).toHaveURL(/\/deck\/create\/03005/);
   });
 
   test("can choose investigator via modal", async ({ page }) => {
     await page.goto("/deck/create");
 
-    await page.getByTestId("search-input").click();
-    await page.getByTestId("search-input").fill("jenny barnes");
+    await fillSearch(page, "yorick");
     await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
 
     await page.getByTestId("listcard-title").click();
     await expect(page.getByTestId("card-modal")).toBeVisible();
     await page.getByTestId("card-modal-create-deck").click();
 
-    await expect(page).toHaveURL(/\/deck\/create\/02003/);
+    await expect(page).toHaveURL(/\/deck\/create\/03005/);
   });
 
   const JENNY_SIGNATURES = ["02010", "02011"];

@@ -2,6 +2,7 @@ import test, { type Page, expect } from "@playwright/test";
 import {
   adjustDeckCardQuantity,
   adjustListCardQuantity,
+  fillSearch,
   importDeck,
   importDeckFromFile,
 } from "./actions";
@@ -210,8 +211,7 @@ test.describe("upgrades: views", () => {
     await upgradeDeck(page);
     await page.getByTestId("view-edit").click();
 
-    await page.getByTestId("search-input").click();
-    await page.getByTestId("search-input").fill("living ink");
+    await fillSearch(page, "living ink");
 
     await adjustListCardQuantity(page, "09079", "increment");
     await adjustListCardQuantity(page, "09079", "increment");

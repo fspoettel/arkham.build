@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { fillSearch } from "./actions";
 import { mockApiCalls } from "./mocks";
 
 test.beforeEach(async ({ page }) => {
@@ -36,7 +37,8 @@ test.describe("filters: interactions", () => {
 
   test("can use faction filter", async ({ page }) => {
     await page.getByTestId("filters-faction-seeker").click();
-    await page.getByTestId("search-input").fill("Practice Makes Perfect");
+
+    await fillSearch(page, "Practice Makes Perfect");
 
     await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
     await expect(page.getByTestId("listcard-06197")).toBeVisible();
@@ -52,7 +54,7 @@ test.describe("filters: interactions", () => {
 
   test("can use subtype filter", async ({ page }) => {
     await page.getByTestId("search-input").click();
-    await page.getByTestId("search-input").fill("king in yellow");
+    await fillSearch(page, "king in yellow");
     await expect(page.getByTestId("listcard-03011")).toBeVisible();
     await page.getByTestId("subtype-weakness").click();
     await expect(page.getByTestId("listcard-03011")).not.toBeVisible();
@@ -60,8 +62,7 @@ test.describe("filters: interactions", () => {
 
   test("can toggle game text", async ({ page }) => {
     await page.getByTestId("search-game-text").click();
-    await page.getByTestId("search-input").click();
-    await page.getByTestId("search-input").fill("ashcan pete");
+    await fillSearch(page, "ashcan pete");
 
     await page.locator('[data-test-id="card-list-config"]').click();
     await page.locator('[data-test-id="card-list-text-toggle"]').click();

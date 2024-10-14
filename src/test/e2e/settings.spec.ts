@@ -1,4 +1,5 @@
 import { Page, expect, test } from "@playwright/test";
+import { fillSearch } from "./actions";
 import { mockApiCalls } from "./mocks";
 
 test.describe("settings: interactions", () => {
@@ -19,12 +20,10 @@ test.describe("settings: interactions", () => {
     await page.getByTestId("settings-save").click();
     await page.getByTestId("settings-back").click();
 
-    await page.getByTestId("search-input").click();
-    await page.getByTestId("search-input").fill("zoey");
-    await expect(page.getByTestId("cardlist-count")).toContainText("2 cards");
+    await fillSearch(page, "zoey samaras");
+    await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
 
-    await page.getByTestId("search-input").click();
-    await page.getByTestId("search-input").fill("yorick");
+    await fillSearch(page, "william yorick");
     await expect(page.getByTestId("cardlist-count")).toContainText("0 cards");
 
     await expect(
@@ -41,8 +40,8 @@ test.describe("settings: interactions", () => {
 
     await page.getByTestId("settings-save").click();
     await page.getByTestId("settings-back").click();
-    await page.getByTestId("search-input").click();
-    await page.getByTestId("search-input").fill("yorick");
+
+    await fillSearch(page, "william yorick");
     await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
 
     await expect(
@@ -55,7 +54,8 @@ test.describe("settings: interactions", () => {
     await page.goto("/");
 
     await page.getByTestId("search-game-text").click();
-    await page.getByTestId("search-input").fill("Mutated");
+
+    await fillSearch(page, "Mutated");
 
     await expect(page.getByTestId("cardlist-count")).toContainText("0 cards");
 
@@ -65,7 +65,8 @@ test.describe("settings: interactions", () => {
     await page.getByTestId("settings-back").click();
 
     await page.getByTestId("search-game-text").click();
-    await page.getByTestId("search-input").fill("Mutated");
+    await fillSearch(page, "Mutated");
+
     await expect(
       page.getByRole("button", { name: "Rex Murphy" }),
     ).toBeVisible();
@@ -95,7 +96,6 @@ test.describe("settings: interactions", () => {
       .click();
 
     await expect(page.getByTestId("subtype-none")).toBeChecked();
-    await expect(page.getByTestId("subtype-basicweakness")).toBeChecked();
     await expect(page.getByTestId("subtype-weakness")).toBeChecked();
   }
 

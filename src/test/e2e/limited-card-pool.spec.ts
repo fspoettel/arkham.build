@@ -1,5 +1,6 @@
 import path from "node:path";
 import test, { Page, expect } from "@playwright/test";
+import { fillSearch } from "./actions";
 import { mockApiCalls } from "./mocks";
 
 test.beforeEach(async ({ page }) => {
@@ -38,20 +39,17 @@ test.describe("limited card pool", () => {
 
   test("apply card pool in deck editor", async ({ page }) => {
     await createLimitedPoolDeck(page);
-    await page.getByTestId("search-input").click();
-    await page.getByTestId("search-input").fill("machete");
+    await fillSearch(page, "machete");
     await expect(page.getByTestId("listcard-01020")).toBeVisible();
     await page.getByTestId("search").getByRole("button").click();
-    await page.getByTestId("search-input").click();
-    await page.getByTestId("search-input").fill("runic axe");
+    await fillSearch(page, "runic axe");
     await expect(page.getByTestId("listcard-09022")).not.toBeVisible();
   });
 
   test("edit card pool in deck editor", async ({ page }) => {
     await createLimitedPoolDeck(page);
 
-    await page.getByTestId("search-input").click();
-    await page.getByTestId("search-input").fill("runic axe");
+    await fillSearch(page, "runic axe");
     await expect(page.getByTestId("listcard-09022")).not.toBeVisible();
 
     await page.getByTestId("editor-tab-meta").click();
@@ -69,8 +67,7 @@ test.describe("limited card pool", () => {
   test("remove card pool in deck editor", async ({ page }) => {
     await createLimitedPoolDeck(page);
 
-    await page.getByTestId("search-input").click();
-    await page.getByTestId("search-input").fill("runic axe");
+    await fillSearch(page, "runic axe");
     await expect(page.getByTestId("listcard-09022")).not.toBeVisible();
 
     await page.getByTestId("editor-tab-meta").click();
@@ -96,10 +93,9 @@ test.describe("limited card pool", () => {
     await page.goto("/deck/create/01001");
     await uploadSealedDeck(page);
     await page.getByTestId("create-save").click();
-    await page.getByTestId("search-input").click();
-    await page.getByTestId("search-input").fill("art stu");
+    await fillSearch(page, "art student");
     await expect(page.getByTestId("listcard-02149")).toBeVisible();
-    await page.getByTestId("search-input").fill("runic");
+    await fillSearch(page, "runic axe");
     await expect(page.getByTestId("listcard-09022")).not.toBeVisible();
   });
 
@@ -108,10 +104,9 @@ test.describe("limited card pool", () => {
     await uploadSealedDeck(page);
     await page.getByTestId("sealed-deck-remove").click();
     await page.getByTestId("create-save").click();
-    await page.getByTestId("search-input").click();
-    await page.getByTestId("search-input").fill("art stu");
+    await fillSearch(page, "art student");
     await expect(page.getByTestId("listcard-02149")).toBeVisible();
-    await page.getByTestId("search-input").fill("runic");
+    await fillSearch(page, "runic axe");
     await expect(page.getByTestId("listcard-09022")).toBeVisible();
   });
 
@@ -125,10 +120,9 @@ test.describe("limited card pool", () => {
       .getByTestId("collapsible-trigger")
       .click();
     await page.getByTestId("sealed-deck-remove").click();
-    await page.getByTestId("search-input").click();
-    await page.getByTestId("search-input").fill("art stu");
+    await fillSearch(page, "art student");
     await expect(page.getByTestId("listcard-02149")).toBeVisible();
-    await page.getByTestId("search-input").fill("runic");
+    await fillSearch(page, "runic axe");
     await expect(page.getByTestId("listcard-09022")).toBeVisible();
   });
 });
