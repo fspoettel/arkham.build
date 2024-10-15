@@ -71,6 +71,8 @@ type Props<T extends Coded> = {
 };
 
 // TODO: the logic here is very messy, extract to a reducer when adding group support.
+// TODO: there is a nasty edge case here where the combobox has a selected item which
+// is not in present in the items list. In this case, the item will not be shown.
 export function Combobox<T extends Coded>(props: Props<T>) {
   const {
     autoFocus,

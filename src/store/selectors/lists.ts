@@ -151,10 +151,6 @@ function makeUserFilter(
         break;
       }
 
-      case "ownership": {
-        break;
-      }
-
       case "pack": {
         const value = filterValue.value as MultiselectFilter;
         if (value.length) {
@@ -176,12 +172,6 @@ function makeUserFilter(
         break;
       }
 
-      case "subtype": {
-        const value = filterValue.value as SubtypeFilter;
-        filters.push(filterSubtypes(value));
-        break;
-      }
-
       case "tabooSet": {
         const value = filterValue.value as number | undefined;
         if (value != null) filters.push(filterTabooSet(value, metadata));
@@ -198,6 +188,16 @@ function makeUserFilter(
       case "type": {
         const value = filterValue.value as MultiselectFilter;
         if (value.length) filters.push(filterType(value));
+        break;
+      }
+
+      // These filters are handled in the "system" filter of the list since they should
+      // be reflected in the choices available to the user.
+      // For instance, it does not make sense to show weakness or non-collection card traits
+      // as options in the trait filter.
+      // TODO: At some point, we might want to refactor the store data structure to reflect this.
+      case "subtype":
+      case "ownership": {
         break;
       }
     }
@@ -435,6 +435,17 @@ const selectBaseListCards = createSelector(
           });
         }
       }
+
+      const subtypeFilter = Object.values(filterValues).find(
+        (f) => f.type === "subtype",
+      );
+
+      if (subtypeFilter) {
+        const value = subtypeFilter.value as SubtypeFilter;
+        if (value) {
+          filters.push(filterSubtypes(value));
+        }
+      }
     }
 
     if (filters.length) {
@@ -535,7 +546,6 @@ const selectListFilterProperties = createSelector(
 
     const actions: Set<string> = new Set();
     const traits: Set<string> = new Set();
-    const subtypes: Set<string> = new Set();
     const types: Set<string> = new Set();
 
     if (cards) {
@@ -555,10 +565,6 @@ const selectListFilterProperties = createSelector(
         if (card.sanity != null && card.sanity >= 0) {
           sanity.min = Math.min(sanity.min, card.sanity);
           sanity.max = Math.max(sanity.max, card.sanity);
-        }
-
-        if (card.subtype_code) {
-          subtypes.add(card.subtype_code);
         }
 
         for (const trait of splitMultiValue(card.real_traits)) {
@@ -591,7 +597,6 @@ const selectListFilterProperties = createSelector(
       health,
       sanity,
       traits,
-      subtypes,
       types,
     };
   },
@@ -959,17 +964,13 @@ const subtypeLabels: Record<string, string> = {
   basicweakness: "Basic weakness",
 };
 
-export const selectSubtypeOptions = createSelector(
-  selectListFilterProperties,
-  ({ subtypes }) => {
-    return [
-      { code: "none", name: "None" },
-      ...Array.from(subtypes)
-        .sort()
-        .map((code) => ({ code, name: subtypeLabels[code] ?? "" })),
-    ];
-  },
-);
+export function selectSubtypeOptions() {
+  return [
+    { code: "none", name: "None" },
+    { code: "weakness", name: "Weakness" },
+    { code: "basicweakness", name: "Basic weakness" },
+  ];
+}
 
 export const selectSubtypeChanges = createSelector(
   (_: StoreState, value: SubtypeFilter) => value,
