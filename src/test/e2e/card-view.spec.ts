@@ -1,4 +1,5 @@
 import { Page, expect, test } from "@playwright/test";
+import { fillSearch } from "./actions";
 import { mockApiCalls } from "./mocks";
 
 test.beforeEach(async ({ page }) => {
@@ -207,13 +208,13 @@ test.describe("card view: interactions", () => {
     await expect(
       page.getByRole("heading", { name: "Cards usable by" }),
     ).toBeVisible();
-    await page.getByTestId("search-input").click();
 
-    await page.getByTestId("search-input").fill("deduc");
+    await fillSearch(page, "deduction");
+
     await expect(page.getByTestId("listcard-01039")).toBeVisible();
     await expect(page.getByTestId("listcard-02150")).toBeVisible();
 
-    await page.getByTestId("search-input").fill("followed");
+    await fillSearch(page, "followed");
     await expect(page.getByTestId("listcard-06114")).not.toBeVisible();
   });
 
@@ -225,13 +226,12 @@ test.describe("card view: interactions", () => {
       page.getByRole("heading", { name: "Cards usable by" }),
     ).toBeVisible();
 
-    await page.getByTestId("search-input").click();
+    await fillSearch(page, "deduction");
 
-    await page.getByTestId("search-input").fill("deduc");
     await expect(page.getByTestId("listcard-01039")).not.toBeVisible();
     await expect(page.getByTestId("listcard-02150")).not.toBeVisible();
 
-    await page.getByTestId("search-input").fill("followed");
+    await fillSearch(page, "followed");
     await expect(page.getByTestId("listcard-06114")).toBeVisible();
   });
 });

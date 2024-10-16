@@ -31,17 +31,13 @@ export type LookupTables = {
     // Revised core "First Aid (3)"is a duplicate of Pallid Mask "First Aid (3)".
     duplicates: LookupTable<string, 1>;
   };
-  typesByCardTypeSelection: LookupTable<string, 1>;
   traitsByCardTypeSelection: LookupTable<string, 1>;
   packsByCycle: LookupTable<string, 1>;
   encounterCode: LookupTable<string>;
   typeCode: LookupTable<string>;
   subtypeCode: LookupTable<string>;
   actions: LookupTable<string>;
-  cost: LookupTable<number>;
   factionCode: LookupTable<string>;
-  health: LookupTable<number>;
-  sanity: LookupTable<number>;
   properties: {
     fast: Mapping<1>;
     multislot: Mapping<1>;

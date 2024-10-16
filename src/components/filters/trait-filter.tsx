@@ -2,14 +2,15 @@ import { useStore } from "@/store";
 import {
   selectActiveListFilter,
   selectMultiselectChanges,
-  selectTraitOptions,
 } from "@/store/selectors/lists";
 import { isTraitFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
 
+import { selectTraitOptions } from "@/store/selectors/lists";
+import type { FilterProps } from "./filters.types";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 
-export function TraitFilter({ id }: { id: number }) {
+export function TraitFilter({ id, resolvedDeck }: FilterProps) {
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
     isTraitFilterObject(filter),
@@ -17,7 +18,7 @@ export function TraitFilter({ id }: { id: number }) {
   );
 
   const changes = selectMultiselectChanges(filter.value);
-  const options = useStore(selectTraitOptions);
+  const options = useStore((state) => selectTraitOptions(state, resolvedDeck));
 
   return (
     <MultiselectFilter

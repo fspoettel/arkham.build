@@ -12,9 +12,10 @@ import { assert } from "@/utils/assert";
 
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { PackName } from "../pack-name";
+import type { FilterProps } from "./filters.types";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 
-export function PackFilter({ id }: { id: number }) {
+export function PackFilter({ id }: FilterProps) {
   const ctx = useResolvedDeck();
 
   const filter = useStore((state) => selectActiveListFilter(state, id));

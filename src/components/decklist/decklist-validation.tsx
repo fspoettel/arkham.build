@@ -75,7 +75,7 @@ export function DecklistValidation(props: Props) {
                     <ol className={css["decklist-validation-result-cards"]}>
                       {error.details.map((detail) => (
                         <li key={detail.code}>
-                          {cards[detail.code].real_text}
+                          {cards[detail.code].real_name}
                         </li>
                       ))}
                     </ol>

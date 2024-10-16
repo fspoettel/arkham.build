@@ -10,9 +10,10 @@ import {
   RadioButtonGroup,
   RadioButtonGroupItem,
 } from "../ui/radio-button-group";
+import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
 
-export function OwnershipFilter({ id }: { id: number }) {
+export function OwnershipFilter({ id }: FilterProps) {
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(isOwnershipFilterObject(filter), "filter must be an ownership filter");
 

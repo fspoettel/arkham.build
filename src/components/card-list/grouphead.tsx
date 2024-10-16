@@ -1,5 +1,5 @@
 import { NONE, getGroupingKeyLabel } from "@/store/lib/grouping";
-import type { CardGroup } from "@/store/selectors/card-list";
+import type { CardGroup } from "@/store/selectors/lists";
 import type { Metadata } from "@/store/slices/metadata.types";
 
 import css from "./grouphead.module.css";

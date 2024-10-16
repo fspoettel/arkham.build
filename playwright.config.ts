@@ -90,7 +90,7 @@ const config: PlaywrightTestConfig = {
   },
 };
 
-if (!process.env.CI) {
+if (process.env.ALL_BROWSERS) {
   config.projects?.push(
     {
       name: "firefox",

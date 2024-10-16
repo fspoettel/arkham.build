@@ -101,3 +101,9 @@ export function adjustListCardQuantity(
     .getByTestId(`quantity-${mode}`)
     .click();
 }
+
+export async function fillSearch(page: Page, text: string) {
+  await page.getByTestId("search-input").click();
+  await page.getByTestId("search-input").fill(text);
+  await page.waitForTimeout(150);
+}

@@ -37,12 +37,10 @@ function getInitialLookupTables(): LookupTables {
       duplicates: {},
     },
     actions: {},
-    cost: {},
     encounterCode: {},
     factionCode: {},
     subtypeCode: {},
     typeCode: {},
-    health: {},
     properties: {
       fast: {},
       multislot: {},
@@ -50,11 +48,9 @@ function getInitialLookupTables(): LookupTables {
       succeedBy: {},
     },
     skillBoosts: {},
-    sanity: {},
     traits: {},
     uses: {},
     level: {},
-    typesByCardTypeSelection: {},
     traitsByCardTypeSelection: {},
     packsByCycle: {},
   };
@@ -126,11 +122,7 @@ function addCardToLookupTables(tables: LookupTables, card: Card) {
 
   // handle additional index based on whether we are dealing with a player card or not.
   if (card.faction_code !== "mythos") {
-    indexByCost(tables, card);
     indexByLevel(tables, card);
-
-    indexByHealth(tables, card);
-    indexBySanity(tables, card);
 
     indexByMulticlass(tables, card);
 
@@ -145,20 +137,6 @@ function addCardToLookupTables(tables: LookupTables, card: Card) {
   } else {
     // TODO: add enemy filters.
   }
-
-  if (card.encounter_code || card.faction_code === "mythos") {
-    indexTypeByCardTypeSelection(tables, card.type_code, "encounter");
-  } else {
-    indexTypeByCardTypeSelection(tables, card.type_code, "player");
-  }
-}
-
-function indexTypeByCardTypeSelection(
-  tables: LookupTables,
-  typeCode: string,
-  cardType: "encounter" | "player",
-) {
-  setInLookupTable(typeCode, tables.typesByCardTypeSelection, cardType);
 }
 
 function indexByCodes(tables: LookupTables, card: Card) {
@@ -205,10 +183,6 @@ function indexByFast(tables: LookupTables, card: Card) {
   }
 }
 
-function indexByCost(tables: LookupTables, card: Card) {
-  if (card.cost) setInLookupTable(card.code, tables.cost, card.cost);
-}
-
 function indexByLevel(tables: LookupTables, card: Card) {
   if (card.xp) setInLookupTable(card.code, tables.level, card.xp);
 }
@@ -221,16 +195,6 @@ function indexByMulticlass(tables: LookupTables, card: Card) {
   if (card.faction3_code) {
     setInLookupTable(card.code, tables.factionCode, card.faction3_code);
   }
-}
-
-function indexByHealth(tables: LookupTables, card: Card) {
-  if (card.health && card.type_code === "asset")
-    setInLookupTable(card.code, tables.health, card.health);
-}
-
-function indexBySanity(tables: LookupTables, card: Card) {
-  if (card.sanity && card.type_code === "asset")
-    setInLookupTable(card.code, tables.sanity, card.sanity);
 }
 
 // TODO: use a regex.

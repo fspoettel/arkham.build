@@ -4,7 +4,7 @@ import { Link } from "wouter";
 
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/store";
-import { selectCardRelationsResolver } from "@/store/selectors/card-list";
+import { selectCardRelationsResolver } from "@/store/selectors/lists";
 import { useDocumentTitle } from "@/utils/use-document-title";
 
 import css from "./choose-investigator.module.css";

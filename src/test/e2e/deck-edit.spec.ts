@@ -1,5 +1,5 @@
 import test, { type Page, expect } from "@playwright/test";
-import { importDeckFromFile } from "./actions";
+import { fillSearch, importDeckFromFile } from "./actions";
 import { mockApiCalls } from "./mocks";
 
 test.beforeEach(async ({ page }) => {
@@ -27,8 +27,8 @@ test.describe("deck edit: interactions", () => {
     await page.goto("/");
 
     await page.getByTestId("collection-create-deck").click();
-    await page.getByTestId("search-input").click();
-    await page.getByTestId("search-input").fill("subje");
+
+    await fillSearch(page, "subject");
 
     await page
       .getByTestId("listcard-89001")
@@ -106,8 +106,9 @@ test.describe("deck edit: interactions", () => {
     ).not.toBeVisible();
 
     await page.getByTestId("editor-tab-sideslots").click();
-    await page.getByTestId("search-input").click();
-    await page.getByTestId("search-input").fill("quick");
+
+    await fillSearch(page, "quick thinking");
+
     await page
       .getByTestId("listcard-02229")
       .getByTestId("quantity-increment")
