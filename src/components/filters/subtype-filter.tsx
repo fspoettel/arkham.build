@@ -14,7 +14,7 @@ import { CheckboxGroup } from "../ui/checkboxgroup";
 import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
 
-export function SubtypeFilter({ id, resolvedDeck }: FilterProps) {
+export function SubtypeFilter({ id }: FilterProps) {
   const filter = useStore((state) => selectActiveListFilter(state, id));
 
   assert(
@@ -26,9 +26,7 @@ export function SubtypeFilter({ id, resolvedDeck }: FilterProps) {
     selectSubtypeChanges(state, filter.value),
   );
 
-  const options = useStore((state) =>
-    selectSubtypeOptions(state, resolvedDeck),
-  );
+  const options = selectSubtypeOptions();
 
   const setFilterValue = useStore((state) => state.setFilterValue);
   const setFilterOpen = useStore((state) => state.setFilterOpen);

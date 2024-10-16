@@ -11,18 +11,10 @@ import { isEncounterSetFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
 
 import EncounterIcon from "../icons/encounter-icon";
+import type { FilterProps } from "./filters.types";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 
-function EncounterSetName({ set }: { set: EncounterSet }) {
-  return (
-    <>
-      <EncounterIcon code={set.code} />
-      {set.name}
-    </>
-  );
-}
-
-export function EncounterSetFilter({ id }: { id: number }) {
+export function EncounterSetFilter({ id }: FilterProps) {
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
     isEncounterSetFilterObject(filter),
@@ -56,5 +48,14 @@ export function EncounterSetFilter({ id }: { id: number }) {
       title="Encounter Set"
       value={filter.value}
     />
+  );
+}
+
+function EncounterSetName({ set }: { set: EncounterSet }) {
+  return (
+    <>
+      <EncounterIcon code={set.code} />
+      {set.name}
+    </>
   );
 }

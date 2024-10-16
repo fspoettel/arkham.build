@@ -11,6 +11,7 @@ import { assert } from "@/utils/assert";
 
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
+import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
 
 const properties = [
@@ -29,7 +30,7 @@ const properties = [
   },
 ];
 
-export function PropertiesFilter({ id }: { id: number }) {
+export function PropertiesFilter({ id }: FilterProps) {
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
     isPropertiesFilterObject(filter),

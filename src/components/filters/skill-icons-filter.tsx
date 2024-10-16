@@ -14,9 +14,10 @@ import css from "./filters.module.css";
 import { SkillIcon } from "../icons/skill-icon";
 import { CheckboxGroup } from "../ui/checkboxgroup";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
 
-export function SkillIconsFilter({ id }: { id: number }) {
+export function SkillIconsFilter({ id }: FilterProps) {
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
     isSkillIconsFilterObject(filter),
