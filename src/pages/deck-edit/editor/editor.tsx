@@ -8,6 +8,7 @@ import type { Tab } from "@/store/slices/deck-edits.types";
 
 import css from "./editor.module.css";
 
+import { CardUtils } from "@/components/deck-utils/deck-utils";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import { useAccentColor } from "@/utils/use-accent-color";
@@ -39,7 +40,7 @@ export function Editor(props: Props) {
 
       <Tabs
         className={css["editor-tabs"]}
-        length={deck.hasExtraDeck ? 4 : 3}
+        length={deck.hasExtraDeck ? 5 : 4}
         onValueChange={(value: string) => {
           onTabChange(value as Tab);
         }}
@@ -59,6 +60,9 @@ export function Editor(props: Props) {
           )}
           <TabsTrigger value="meta" data-testid="editor-tab-meta">
             Meta
+          </TabsTrigger>
+          <TabsTrigger value="utils" data-testid="editor-tab-meta">
+            Utils
           </TabsTrigger>
         </TabsList>
 
@@ -127,6 +131,10 @@ export function Editor(props: Props) {
 
           <TabsContent value="meta">
             <MetaEditor deck={deck} />
+          </TabsContent>
+
+          <TabsContent value="utils">
+            <CardUtils />
           </TabsContent>
         </Scroller>
         <EditorActions currentTab={currentTab} deck={deck} />

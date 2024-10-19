@@ -12,7 +12,7 @@ export type Slot =
   | "extraSlots"
   | "ignoreDeckLimitSlots";
 
-export type Tab = Slot | "meta";
+export type Tab = Slot | "meta" | "utils";
 
 export function mapTabToSlot(tab: Tab): Slot {
   switch (tab) {
