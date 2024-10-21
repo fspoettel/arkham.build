@@ -28,6 +28,14 @@ const properties = [
     key: "unique",
     label: <>Unique (&#10040;)</>,
   },
+  {
+    key: "healsDamage",
+    label: "Heals damage",
+  },
+  {
+    key: "healsHorror",
+    label: "Heals horror",
+  },
 ];
 
 export function PropertiesFilter({ id }: FilterProps) {
