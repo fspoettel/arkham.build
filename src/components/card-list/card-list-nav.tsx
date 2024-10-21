@@ -67,7 +67,7 @@ export function CardListNav(props: Props) {
         <span data-testid="cardlist-count">
           {data?.cards.length ?? 0} cards
         </span>
-        <small>
+        <small className={css["nav-stats-filter-count"]}>
           <em>
             {filteredCount > 0 && ` (${filteredCount} hidden by filters)`}
           </em>
@@ -87,6 +87,7 @@ export function CardListNav(props: Props) {
         <Popover placement="bottom-end">
           <PopoverTrigger asChild>
             <Button
+              className={css["nav-config"]}
               tooltip="List settings"
               data-test-id="card-list-config"
               variant="bare"
