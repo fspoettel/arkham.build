@@ -1,5 +1,5 @@
 import { DeckSummary } from "@/components/deck-summary";
-import { DeckTools } from "@/components/deck-tools/tools";
+import { DeckTools } from "@/components/deck-tools/deck-tools";
 // import { DeckTools } from "@/components/deck-display/deck-tools/deck-tools";
 import { DecklistGroups } from "@/components/decklist/decklist-groups";
 import { DecklistSection } from "@/components/decklist/decklist-section";
