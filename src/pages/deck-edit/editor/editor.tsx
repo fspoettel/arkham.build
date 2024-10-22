@@ -4,11 +4,9 @@ import { DecklistSection } from "@/components/decklist/decklist-section";
 import { Scroller } from "@/components/ui/scroller";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { DeckValidationResult } from "@/store/lib/deck-validation";
-import type { Tab } from "@/store/slices/deck-edits.types";
-
-import { DeckUtils } from "@/components/deck-utils/deck-utils";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
+import type { Tab } from "@/store/slices/deck-edits.types";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { EditorActions } from "./editor-actions";
 import css from "./editor.module.css";
@@ -133,7 +131,7 @@ export function Editor(props: Props) {
           </TabsContent>
 
           <TabsContent value="utils">
-            <DeckUtils deck={deck} />
+            <deckTools deck={deck} />
           </TabsContent>
         </Scroller>
         <EditorActions currentTab={currentTab} deck={deck} />

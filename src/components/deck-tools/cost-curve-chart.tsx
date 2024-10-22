@@ -33,7 +33,7 @@ export default function CostCurveChart({ data }: Props) {
 
   return (
     <div data-testid="card-health">
-      <VictoryChart height={200} theme={chartsTheme} padding={30}>
+      <VictoryChart theme={chartsTheme}>
         <VictoryAxis dependentAxis domain={[0, maxAmount]} />
         <VictoryAxis
           tickValues={tickValues}
