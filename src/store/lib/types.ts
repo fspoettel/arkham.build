@@ -115,6 +115,14 @@ export type Selection = OptionSelection | FactionSelection | DeckSizeSelection;
 // selections, keyed by their `id`, or if not present their `name`.
 export type Selections = Record<string, Selection>;
 
+export type DeckChartInfo = {
+  costCurve: ChartableData;
+};
+export type ChartableData<T extends string | number = number> = {
+  x: T;
+  y: number;
+}[];
+
 export type ResolvedDeck = Omit<Deck, "sideSlots"> & {
   attachments: AttachmentQuantities | undefined;
   availableAttachments: AttachableDefinition[];
@@ -138,6 +146,7 @@ export type ResolvedDeck = Omit<Deck, "sideSlots"> & {
     xpRequired: number;
     deckSize: number;
     deckSizeTotal: number;
+    charts: DeckChartInfo;
   };
   hasExtraDeck: boolean;
   hasReplacements: boolean;

@@ -1,4 +1,4 @@
-import type { CardWithRelations } from "@/store/lib/types";
+import type { CardWithRelations, DeckChartInfo } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 
 import {
@@ -139,4 +139,21 @@ export function isRandomBasicWeaknessLike(card: Card) {
       !card.encounter_code &&
       !card.restrictions)
   );
+}
+
+export function getCardChartableData(
+  card: Card,
+  quantity: number,
+  accumulator: DeckChartInfo,
+) {
+  // Cost curve
+  if (typeof card.cost === "number") {
+    const { cost } = card;
+
+    // Group very high cost cards together
+    const finalCost = cost > 6 ? 7 : cost;
+    if (!accumulator.costCurve[finalCost])
+      accumulator.costCurve[finalCost] = { x: finalCost, y: 0 };
+    accumulator.costCurve[finalCost].y += quantity;
+  }
 }

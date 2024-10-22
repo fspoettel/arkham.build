@@ -4,6 +4,7 @@ import type { Metadata } from "@/store/slices/metadata.types";
 import {
   countExperience,
   decodeExileSlots,
+  getCardChartableData,
   isSpecialCard,
 } from "@/utils/card-utils";
 import { range } from "@/utils/range";
@@ -12,6 +13,7 @@ import { resolveCardWithRelations } from "./resolve-card";
 import type {
   CardWithRelations,
   Customizations,
+  DeckChartInfo,
   DeckMeta,
   ResolvedDeck,
 } from "./types";
@@ -31,6 +33,10 @@ export function decodeSlots(
     ignoreDeckLimitSlots: {},
     extraSlots: {},
     exileSlots: {},
+  };
+
+  const chartInfo: DeckChartInfo = {
+    costCurve: [],
   };
 
   let deckSize = 0;
@@ -62,6 +68,8 @@ export function decodeSlots(
           0,
         );
       }
+
+      getCardChartableData(card.card, quantity, chartInfo);
     }
   }
 
@@ -118,11 +126,14 @@ export function decodeSlots(
     }
   }
 
+  refineChartInfo(chartInfo);
+
   return {
     cards,
     deckSize,
     deckSizeTotal,
     xpRequired,
+    chartInfo,
   };
 }
 
@@ -161,4 +172,10 @@ export function encodeExtraSlots(slots: Record<string, number>) {
   );
 
   return entries.length ? entries.join(",") : undefined;
+}
+
+function refineChartInfo(info: DeckChartInfo) {
+  for (const [index, costColumn] of info.costCurve.entries()) {
+    if (!costColumn) info.costCurve[index] = { x: index, y: 0 };
+  }
 }

@@ -6,13 +6,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { DeckValidationResult } from "@/store/lib/deck-validation";
 import type { Tab } from "@/store/slices/deck-edits.types";
 
-import css from "./editor.module.css";
-
-import { CardUtils } from "@/components/deck-utils/deck-utils";
+import { DeckUtils } from "@/components/deck-utils/deck-utils";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { EditorActions } from "./editor-actions";
+import css from "./editor.module.css";
 import { InvestigatorListcard } from "./investigator-listcard";
 import { MetaEditor } from "./meta-editor";
 import { MoveToMainDeck } from "./move-to-main-deck";
@@ -134,7 +133,7 @@ export function Editor(props: Props) {
           </TabsContent>
 
           <TabsContent value="utils">
-            <CardUtils />
+            <DeckUtils deck={deck} />
           </TabsContent>
         </Scroller>
         <EditorActions currentTab={currentTab} deck={deck} />

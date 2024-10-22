@@ -85,7 +85,7 @@ export function resolveDeck(
 
   const customizations = decodeCustomizations(deckMeta, metadata);
 
-  const { cards, deckSize, deckSizeTotal, xpRequired } = decodeSlots(
+  const { cards, deckSize, deckSizeTotal, xpRequired, chartInfo } = decodeSlots(
     deck,
     extraSlots,
     metadata,
@@ -126,6 +126,7 @@ export function resolveDeck(
       deckSize,
       deckSizeTotal,
       xpRequired: xpRequired,
+      charts: chartInfo,
     },
     tabooSet: deck.taboo_id ? metadata.tabooSets[deck.taboo_id] : undefined,
   } as ResolvedDeck;
