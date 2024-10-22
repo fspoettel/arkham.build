@@ -3,8 +3,10 @@ import { useMemo } from "react";
 import {
   VictoryAxis,
   VictoryChart,
+  VictoryLabel,
   VictoryLine,
   VictoryScatter,
+  VictoryTooltip,
 } from "victory";
 import { animateProps, chartsTheme } from "./chart-theme";
 import css from "./deck-tools.module.css";
@@ -17,6 +19,9 @@ function formatTickLabels(value: number) {
   return value === 7 ? "7+" : value.toString();
 }
 
+function formatTooltips(value: { datum: { y: number } }) {
+  return `${value.datum.y} card${value.datum.y !== 1 ? "s" : ""}`;
+}
 export default function CostCurveChart({ data }: Props) {
   // Must have explicit column values to avoid auto-interpolation,
   // since no card costs 1.5 resources
@@ -33,14 +38,26 @@ export default function CostCurveChart({ data }: Props) {
   return (
     <div className={css["chart-container"]}>
       <VictoryChart theme={chartsTheme}>
-        <VictoryAxis dependentAxis domain={[0, maxAmount]} />
         <VictoryAxis
           tickValues={tickValues}
           animate={animateProps}
           tickFormat={formatTickLabels}
+          style={{ grid: { stroke: "transparent" } }}
+          tickLabelComponent={<VictoryLabel dy={5} />}
+        />
+        <VictoryAxis
+          dependentAxis
+          domain={[0, maxAmount]}
+          tickLabelComponent={<VictoryLabel dx={-5} />}
         />
         <VictoryLine data={data} animate={animateProps} />
-        <VictoryScatter data={data} size={5} animate={animateProps} />
+        <VictoryScatter
+          data={data}
+          size={5}
+          animate={animateProps}
+          labels={formatTooltips}
+          labelComponent={<VictoryTooltip />}
+        />
       </VictoryChart>
     </div>
   );

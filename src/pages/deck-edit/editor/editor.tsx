@@ -26,7 +26,6 @@ type Props = {
 };
 
 export function Editor(props: Props) {
-  console.log(DeckTools);
   const { currentTab, onTabChange, deck, renderListCardAfter, validation } =
     props;
 
@@ -134,7 +133,6 @@ export function Editor(props: Props) {
           </TabsContent>
 
           <TabsContent value="utils">
-            <div>j</div>
             <DeckTools deck={deck} />
           </TabsContent>
         </Scroller>
