@@ -1,5 +1,6 @@
 import { DeckSummary } from "@/components/deck-summary";
-import { DeckTools } from "@/components/deck-tools/deck-tools";
+import { DeckTools } from "@/components/deck-tools/tools";
+// import { DeckTools } from "@/components/deck-display/deck-tools/deck-tools";
 import { DecklistGroups } from "@/components/decklist/decklist-groups";
 import { DecklistSection } from "@/components/decklist/decklist-section";
 import { Scroller } from "@/components/ui/scroller";
@@ -25,6 +26,7 @@ type Props = {
 };
 
 export function Editor(props: Props) {
+  console.log(DeckTools);
   const { currentTab, onTabChange, deck, renderListCardAfter, validation } =
     props;
 
@@ -132,6 +134,7 @@ export function Editor(props: Props) {
           </TabsContent>
 
           <TabsContent value="utils">
+            <div>j</div>
             <DeckTools deck={deck} />
           </TabsContent>
         </Scroller>

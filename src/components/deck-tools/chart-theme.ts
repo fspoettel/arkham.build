@@ -3,7 +3,6 @@ import type {
   VictoryLabelStyleObject,
   VictoryThemeDefinition,
 } from "victory";
-import "../../styles/main.css";
 
 export const animateProps: AnimatePropTypeInterface = {
   duration: 550,
