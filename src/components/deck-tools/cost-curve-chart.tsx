@@ -7,8 +7,7 @@ import {
   VictoryScatter,
 } from "victory";
 import { animateProps, chartsTheme } from "./chart-theme";
-
-import "../../styles/main.css";
+import css from "./deck-tools.module.css";
 
 type Props = {
   data: ChartableData;
@@ -32,7 +31,7 @@ export default function CostCurveChart({ data }: Props) {
   );
 
   return (
-    <div data-testid="card-health">
+    <div className={css["chart-container"]}>
       <VictoryChart theme={chartsTheme}>
         <VictoryAxis dependentAxis domain={[0, maxAmount]} />
         <VictoryAxis
