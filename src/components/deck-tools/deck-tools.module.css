@@ -1,3 +1,8 @@
 .chart-container {
   height: 300px;
+  margin-bottom: 40px;
+}
+
+.skill-icon-label {
+  font-size: 2rem;
 }
