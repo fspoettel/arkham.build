@@ -1,4 +1,8 @@
-import type { CardWithRelations, DeckChartInfo } from "@/store/lib/types";
+import type {
+  CardWithRelations,
+  SkillIcon,
+  UnformattedChartInfo,
+} from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 
 import {
@@ -144,7 +148,7 @@ export function isRandomBasicWeaknessLike(card: Card) {
 export function getCardChartableData(
   card: Card,
   quantity: number,
-  accumulator: DeckChartInfo,
+  accumulator: UnformattedChartInfo,
 ) {
   // Cost curve
   if (typeof card.cost === "number") {
@@ -155,5 +159,11 @@ export function getCardChartableData(
     if (!accumulator.costCurve[finalCost])
       accumulator.costCurve[finalCost] = { x: finalCost, y: 0 };
     accumulator.costCurve[finalCost].y += quantity;
+  }
+
+  // Skill icons
+  for (const skill of Object.keys(accumulator.skillIcons)) {
+    accumulator.skillIcons[skill as SkillIcon] +=
+      (card[skill as SkillIcon] ?? 0) * quantity;
   }
 }
