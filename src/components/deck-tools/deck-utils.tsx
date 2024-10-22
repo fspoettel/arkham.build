@@ -7,7 +7,7 @@ type Props = {
   deck: ResolvedDeck;
 };
 
-export function deckTools({ deck }: Props) {
+export function DeckTools({ deck }: Props) {
   return (
     <Suspense fallback={<div>LOADING</div>}>
       <LazyCostCurveChart data={deck.stats.charts.costCurve} />

@@ -1,4 +1,5 @@
 import { DeckSummary } from "@/components/deck-summary";
+import { DeckTools } from "@/components/deck-tools/deck-utils";
 import { DecklistGroups } from "@/components/decklist/decklist-groups";
 import { DecklistSection } from "@/components/decklist/decklist-section";
 import { Scroller } from "@/components/ui/scroller";
@@ -131,7 +132,7 @@ export function Editor(props: Props) {
           </TabsContent>
 
           <TabsContent value="utils">
-            <deckTools deck={deck} />
+            <DeckTools deck={deck} />
           </TabsContent>
         </Scroller>
         <EditorActions currentTab={currentTab} deck={deck} />
