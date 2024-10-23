@@ -22,11 +22,15 @@ The sealed deck feature expects a csv file in the format:
 
 ```csv
 code
-1
-2
-3
-4
+01039
+01090
+06197
+07032
 ```
+
+In this example, the sealed deck contains _Deduction_, _Perception_, _Practice Makes Perfect_ and _Promise of Power_, so users would only be able to add these cards to their deck in the deck builder.
+
+Although it has only one column, the file format is a csv to future-proof the format for eventual additions of more fields and to be easily usable in other software.
 
 ## Development
 
