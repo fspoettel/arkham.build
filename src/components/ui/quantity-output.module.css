@@ -9,11 +9,11 @@
   font-family: var(--font-family-ui);
   line-height: 1;
   border-radius: var(--rounded);
-  border: 1px solid var(--nord-1);
+  border: 1px solid var(--palette-1);
   padding: 0.125rem 0.25rem;
   user-select: none;
 }
 
 .x {
-  color: color-mix(in srgb, var(--nord-3) 80%, var(--nord-4) 20%);
+  color: var(--palette-three-point0-five);
 }

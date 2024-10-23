@@ -24,7 +24,7 @@
 
 .error-status {
   padding-right: 0.75rem;
-  border-right: 1px solid var(--nord-3);
+  border-right: 1px solid var(--palette-3);
   font-size: var(--text-2xl);
 }
 

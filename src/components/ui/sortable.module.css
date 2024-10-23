@@ -14,12 +14,12 @@
 }
 
 .item:hover {
-  background: var(--nord-point-five);
+  background: var(--palette-point-five);
 }
 
 .item.active {
-  background: var(--nord-point-five);
-  border: 1px solid var(--nord-1);
+  background: var(--palette-point-five);
+  border: 1px solid var(--palette-1);
 }
 
 .item-content {
@@ -46,7 +46,7 @@
 }
 
 .overlay > * {
-  background: var(--nord-point-five);
+  background: var(--palette-point-five);
   cursor: grabbing;
   border-radius: var(--rounded);
 }

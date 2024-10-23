@@ -4,7 +4,6 @@
   border-width: 1px;
   border-radius: var(--rounded);
   overflow: hidden;
-  color: var(--nord-4);
   transition: border 0.15s ease-in-out;
 }
 
@@ -17,6 +16,7 @@
 .validation {
   display: inline-block;
   background: var(--health);
+  color: var(--color-inverted);
   border-radius: 100%;
   padding: 1px;
   position: absolute;
@@ -116,17 +116,18 @@
 
 .summary.interactive {
   &:not(:hover) {
-    border-color: var(--nord-2);
+    border-color: var(--palette-2);
   }
 
   &:not(:hover) .header {
-    background: var(--nord-point-five);
+    background: var(--palette-point-five);
+    color: var(--palette-4);
+    text-shadow: none;
   }
 }
 
 .summary-transition {
   transition-duration: 0.25s;
-  transition-delay: 0.15s;
   transition-timing-function: ease-in-out;
 }
 
@@ -149,7 +150,7 @@
       }
 
       & .info-container {
-        opacity: 0.75;
+        opacity: 0.95;
       }
     }
   }

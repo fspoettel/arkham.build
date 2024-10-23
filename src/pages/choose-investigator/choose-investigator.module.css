@@ -19,7 +19,8 @@
 
 .signature button {
   text-decoration: none;
-  background-color: var(--nord-point-five);
+  background-color: var(--palette-point-five);
+  color: var(--text);
   padding: 0.125rem 0.25rem;
   font-size: var(--text-sm);
   border-radius: var(--rounded);

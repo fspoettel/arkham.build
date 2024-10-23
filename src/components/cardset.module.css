@@ -1,12 +1,12 @@
 .cardset {
-  background: var(--nord-point-five);
-  border: 1px solid var(--nord-1);
+  background: var(--palette-point-five);
+  border: 1px solid var(--palette-1);
   border-radius: var(--rounded-md);
   padding: 0.5rem;
   box-shadow: var(--shadow-md);
 
   &.selected {
-    border-color: var(--accent-color-dark, var(--nord-2));
+    border-color: var(--accent-color-dark, var(--palette-2));
   }
 }
 
@@ -23,7 +23,7 @@
 
 .cardset-title {
   font-family: var(--font-family-ui);
-  color: var(--nord-4);
+  color: var(--palette-4);
   font-size: var(--text-sm);
   font-weight: 700;
   line-height: 1;

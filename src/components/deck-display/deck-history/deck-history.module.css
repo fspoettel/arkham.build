@@ -10,7 +10,7 @@
 .entry {
   padding: 1rem;
   border-radius: var(--rounded);
-  border: 1px solid var(--nord-1);
+  border: 1px solid var(--palette-1);
 }
 
 .entry > * + * {

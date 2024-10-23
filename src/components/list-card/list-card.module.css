@@ -18,10 +18,10 @@
 }
 
 .listcard-wrapper.card-text {
-  background-color: var(--nord-point-five);
+  background-color: var(--palette-point-five);
   padding: 0.5rem;
   border-radius: var(--rounded-md);
-  border: 1px solid var(--nord-1);
+  border: 1px solid var(--palette-1);
   margin: var(--card-spacing-y) 0;
   display: grid;
   align-items: center;
@@ -150,12 +150,12 @@
   align-items: center;
   justify-content: center;
   padding: 0.25rem;
-  background: var(--nord-1);
+  background: var(--palette-1);
   border-radius: var(--rounded-md);
 }
 
 .ownership {
-  color: var(--nord-4);
+  color: var(--palette-4);
   font-weight: 700;
 }
 
@@ -204,11 +204,11 @@
 }
 
 .listcard-wrapper.borders {
-  border-bottom: 1px solid var(--nord-1);
+  border-bottom: 1px solid var(--palette-1);
 }
 
 .listcard-wrapper.active {
-  outline: 1px solid var(--nord-6);
+  outline: 1px solid var(--palette-6);
   outline-offset: -1px;
 }
 

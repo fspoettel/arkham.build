@@ -24,8 +24,8 @@
 }
 
 .filters-container {
-  border-top: 1px solid var(--nord-1);
-  border-bottom: 1px solid var(--nord-1);
+  border-top: 1px solid var(--palette-1);
+  border-bottom: 1px solid var(--palette-1);
   padding-block: 0.375rem;
   margin-top: 0.75rem;
 }

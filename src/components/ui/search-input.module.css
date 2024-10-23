@@ -2,7 +2,7 @@
   position: relative;
 
   &:focus-within .icon_search {
-    color: var(--nord-5);
+    color: var(--palette-5);
   }
 }
 
@@ -20,7 +20,7 @@
 
 .icon_search {
   left: 0.5rem;
-  color: color-mix(in srgb, var(--nord-3) 70%, var(--nord-4) 30%);
+  color: var(--palette-three-point-five);
 }
 
 .icon_clear {

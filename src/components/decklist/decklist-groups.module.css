@@ -10,7 +10,7 @@
   display: block;
   font-size: var(--text-xs);
   padding: 0.25rem 0;
-  border-bottom: 1px solid var(--nord-point-five);
+  border-bottom: 1px solid var(--palette-point-five);
 }
 
 .group_two-cols {
@@ -41,7 +41,7 @@
   gap: 0.25rem;
   margin-top: 0.125rem;
   font-family: var(--font-family-ui);
-  color: var(--nord-4);
+  color: var(--palette-4);
   font-weight: 400;
 }
 

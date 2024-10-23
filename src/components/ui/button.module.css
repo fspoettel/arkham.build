@@ -5,8 +5,9 @@
   align-items: center;
   padding: 0.375rem 0.75rem;
   border-radius: var(--rounded);
-  background: var(--nord-point-five);
-  border: 1px solid var(--nord-2);
+  background: var(--palette-point-five);
+  color: var(--text);
+  border: 1px solid var(--palette-2);
   font-family: var(--font-family-ui);
   font-size: var(--text-base);
   user-select: none;
@@ -20,17 +21,17 @@
   }
 
   &:not([disabled=""]):hover {
-    background: var(--nord-1);
-    border-color: var(--nord-2);
+    background: var(--palette-1);
+    border-color: var(--palette-2);
   }
 
   &:not([disabled=""]):active {
-    background: var(--nord-2);
-    border-color: var(--nord-3);
+    background: var(--palette-2);
+    border-color: var(--palette-3);
   }
 
   &:focus-visible {
-    outline: 1px solid var(--nord-6);
+    outline: 1px solid var(--palette-6);
   }
 }
 

@@ -23,7 +23,7 @@
 
 .loader p {
   font-size: var(--text-lg);
-  color: var(--nord-4);
+  color: var(--palette-4);
 }
 
 .loader-icon {

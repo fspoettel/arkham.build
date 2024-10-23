@@ -62,11 +62,11 @@
   z-index: 3;
   right: 0.5rem;
   width: var(--filters-width);
-  background: var(--nord-0);
+  background: var(--palette-0);
   transform: translateX(calc(100% + 0.5rem));
   transition: 0.2s transform ease-in;
   box-shadow: var(--shadow-md);
-  border: 1px solid var(--nord-1);
+  border: 1px solid var(--palette-1);
   border-radius: var(--rounded);
 
   &[data-state="open"] {

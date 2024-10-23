@@ -40,7 +40,7 @@ export class ErrorBoundary extends Component<Props, State> {
           <ErrorDisplay message="The app drew an Auto-Fail." status={500}>
             <div
               style={{
-                border: "1px solid var(--nord-1)",
+                border: "1px solid var(--palette-1)",
                 padding: "0.5rem",
                 display: "flex",
                 flexFlow: "column nowrap",
@@ -48,7 +48,9 @@ export class ErrorBoundary extends Component<Props, State> {
               }}
             >
               <div className="longform">
-                <pre style={{ background: "var(--nord-1)", padding: "0.5rem" }}>
+                <pre
+                  style={{ background: "var(--palette-1)", padding: "0.5rem" }}
+                >
                   {this.state.message ?? "Unknown error"}
                 </pre>
                 <p>Check the browser console for further details.</p>

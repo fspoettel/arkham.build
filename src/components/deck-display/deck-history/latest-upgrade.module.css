@@ -1,7 +1,7 @@
 .container {
   width: 100%;
   padding: 0.375rem 0.375rem 0;
-  border-top: 1px solid var(--nord-1);
+  border-top: 1px solid var(--palette-1);
 
   &.readonly {
     border-top: none;
@@ -23,7 +23,7 @@
 }
 
 .row svg {
-  stroke: var(--nord-1);
+  stroke: var(--palette-1);
   fill: currentColor;
 }
 
@@ -33,7 +33,7 @@
   min-height: 0;
   padding: 0.375rem;
   margin-top: 0.25rem;
-  border: 1px solid var(--nord-1);
+  border: 1px solid var(--palette-1);
   border-radius: var(--rounded);
 }
 
@@ -52,7 +52,7 @@
 }
 
 .exile {
-  background: var(--nord-point-five);
+  background: var(--palette-point-five);
   box-shadow: var(--shadow-md);
   border-radius: var(--rounded-md);
   width: 20rem;

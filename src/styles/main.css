@@ -6,11 +6,17 @@
   --font-family-content: "Noto Serif", ui-serif, Georgia, Cambria,
     "Times New Roman", Times, serif;
 
+  --white: #f9f9fb;
   --nord-0: #2e3440;
   --nord-1: #3b4252;
   --nord-point-five: #353b49;
   --nord-2: #434c5e;
   --nord-3: #4c566a;
+  --nord-three-point-five: color-mix(
+    in srgb,
+    var(--nord-3) 70%,
+    var(--nord-4) 30%
+  );
   --nord-4: #d8dee9;
   --nord-5: #e5e9f0;
   --nord-6: #eceff4;
@@ -48,6 +54,20 @@
   --icon-2xl: 1.75rem;
   --icon-3xl: 2rem;
 
+  --palette-0: var(--nord-0);
+  --palette-point-five: var(--nord-point-five);
+  --palette-1: var(--nord-1);
+  --palette-2: var(--nord-2);
+  --palette-3: var(--nord-3);
+  --palette-three-point-five: var(--nord-three-point-five);
+  --palette-4: var(--nord-4);
+  --palette-5: var(--nord-5);
+  --palette-6: var(--nord-6);
+
+  --taboo: #9869f5;
+  --health: #ae4236;
+  --sanity: #2c7fc0;
+
   --willpower: #2c7fc0;
   --intellect: #7c3c85;
   --combat: #ae4236;
@@ -63,18 +83,14 @@
   --mythos: var(--nord-4);
   --neutral: var(--nord-4);
 
-  --guardian-dark: #1072c2;
-  --seeker-dark: #db7c07;
-  --rogue-dark: #219428;
-  --mystic-dark: #7554ab;
-  --survivor-dark: #cc3038;
-  --neutral-dark: var(--nord-2);
-  --multiclass-dark: #a38c46;
-  --mythos-dark: var(--nord-2);
-
-  --taboo: #9869f5;
-  --health: #ae4236;
-  --sanity: #2c7fc0;
+  --guardian-dark: hsl(210, 55%, 45%);
+  --seeker-dark: hsl(35, 60%, 45%);
+  --rogue-dark: hsl(124, 55%, 30%);
+  --mystic-dark: hsl(247, 50%, 55%);
+  --survivor-dark: hsl(357, 50%, 50%);
+  --neutral-dark: var(--nord-3);
+  --multiclass-dark: hsl(45, 60%, 40%);
+  --mythos-dark: var(--nord-3);
 
   --rounded: 0.25rem;
   --rounded-md: 0.5rem;
@@ -83,6 +99,58 @@
 
   --layout-padding: 0.75rem;
   --layout-max-width: 115rem;
+
+  --color-inverted: var(--nord-6);
+
+  --text: var(--palette-4);
+  --color-guardian: var(--guardian);
+  --color-mystic: var(--mystic);
+  --color-rogue: var(--rogue);
+  --color-seeker: var(--seeker);
+  --color-survivor: var(--survivor);
+  --color-multiclass: var(--multiclass);
+  --text-mythos: var(--mythos);
+  --text-neutral: var(--neutral);
+
+  --background-select: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCA0LjkgMTAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQuOSAxMDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsOiNkOGRlZTk7fQo8L3N0eWxlPgo8dGl0bGU+YXJyb3dzPC90aXRsZT4KPHBvbHlnb24gY2xhc3M9InN0MCIgcG9pbnRzPSIxLjQsNC43IDIuNSwzLjIgMy41LDQuNyAiLz4KPHBvbHlnb24gY2xhc3M9InN0MCIgcG9pbnRzPSIzLjUsNS4zIDIuNSw2LjggMS40LDUuMyAiLz4KPC9zdmc+);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --palette-0: var(--white);
+    --palette-point-five: var(--nord-6);
+    --palette-1: var(--nord-5);
+    --palette-2: var(--nord-4);
+    --palette-3: color-mix(in srgb, var(--nord-3) 30%, var(--nord-4) 70%);
+    --palette-three-point-five: var(--nord-three-point-five);
+    --palette-4: var(--nord-3);
+    --palette-5: var(--nord-2);
+    --palette-6: var(--nord-1);
+
+    --text: var(--nord-0);
+    --color-guardian: var(--guardian-dark);
+    --color-mystic: var(--mystic-dark);
+    --color-rogue: var(--rogue-dark);
+    --color-seeker: var(--seeker-dark);
+    --color-survivor: var(--survivor-dark);
+    --color-multiclass: var(--multiclass-dark);
+    --text-mythos: var(--mythos-dark);
+    --text-neutral: var(--neutral-dark);
+
+    --color-inverted: var(--white);
+
+    --willpower: #165385;
+    --intellect: #7a2d6c;
+    --combat: #8d181e;
+    --agility: #0d6813;
+    --wild: #635120;
+
+    --health: #c92124;
+    --sanity: #18467c;
+    --taboo: #6e4db3;
+
+    --background-select: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCA0LjkgMTAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQuOSAxMDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsOiMyZTM0NDA7fQo8L3N0eWxlPgo8dGl0bGU+YXJyb3dzPC90aXRsZT4KPHBvbHlnb24gY2xhc3M9InN0MCIgcG9pbnRzPSIxLjQsNC43IDIuNSwzLjIgMy41LDQuNyAiLz4KPHBvbHlnb24gY2xhc3M9InN0MCIgcG9pbnRzPSIzLjUsNS4zIDIuNSw2LjggMS40LDUuMyAiLz4KPC9zdmc+);
+  }
 }
 
 *,
@@ -96,15 +164,15 @@
 }
 
 html {
-  color-scheme: only dark;
+  color-scheme: dark light;
 }
 
 body {
   font-family: var(--font-family-ui);
   font-size: var(--text-base);
   line-height: 1.45;
-  background: var(--nord-0);
-  color: var(--nord-4);
+  background: var(--palette-0);
+  color: var(--text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -140,15 +208,15 @@ ul {
 blockquote {
   margin: 0;
   padding: 0.5rem 1rem;
-  background-color: var(--nord-point-five);
-  border-left: 0.25rem solid var(--nord-4);
+  background-color: var(--palette-point-five);
+  border-left: 0.25rem solid var(--palette-4);
 }
 
 hr {
   height: 0;
   margin: 0.5rem 0;
   border-top: 0;
-  border-bottom: 1px solid var(--nord-4);
+  border-bottom: 1px solid var(--palette-4);
 }
 
 pre {
@@ -172,7 +240,7 @@ img {
 }
 
 code {
-  background-color: var(--nord-1);
+  background-color: var(--palette-1);
   padding: 0.25em 0.325em;
   border-radius: var(--rounded);
 }
@@ -191,18 +259,18 @@ select {
   font-family: var(--font-family-ui);
   line-height: 1.5;
   font-size: var(--text-sm);
-  background-color: var(--nord-point-five);
-  color: var(--nord-5);
-  border: 1px solid var(--nord-2);
+  background-color: var(--palette-point-five);
+  color: var(--palette-5);
+  border: 1px solid var(--palette-2);
   border-radius: var(--rounded);
   padding: 0.375rem;
 
   &:hover {
-    border-color: var(--nord-3);
+    border-color: var(--palette-3);
   }
 
   &:focus-visible {
-    outline: 1px solid var(--nord-6);
+    outline: 1px solid var(--palette-6);
   }
 }
 
@@ -213,7 +281,7 @@ textarea {
 
 textarea::placeholder,
 input::placeholder {
-  color: color-mix(in srgb, var(--nord-3) 70%, var(--nord-4) 30%);
+  color: var(--palette-three-point-five);
 }
 
 textarea {
@@ -234,7 +302,7 @@ button {
   outline: none;
   border: none;
   box-shadow: none;
-  background-color: var(--nord-point-five);
+  background-color: var(--palette-point-five);
   color: var(--nord-5);
   cursor: pointer;
   padding: 0;
@@ -249,11 +317,11 @@ button {
   }
 
   &:hover {
-    background: var(--nord-2);
+    background: var(--palette-2);
   }
 
   &:focus-visible {
-    outline: 1px solid var(--nord-6);
+    outline: 1px solid var(--palette-6);
   }
 }
 
@@ -270,35 +338,35 @@ button {
 }
 
 .color-guardian {
-  color: var(--guardian);
+  color: var(--color-guardian);
 }
 
 .color-mystic {
-  color: var(--mystic);
+  color: var(--color-mystic);
 }
 
 .color-rogue {
-  color: var(--rogue);
+  color: var(--color-rogue);
 }
 
 .color-seeker {
-  color: var(--seeker);
+  color: var(--color-seeker);
 }
 
 .color-survivor {
-  color: var(--survivor);
+  color: var(--color-survivor);
 }
 
 .color-multiclass {
-  color: var(--multiclass);
+  color: var(--color-multiclass);
 }
 
 .color-mythos {
-  color: var(--mythos);
+  color: var(--text-mythos);
 }
 
 .color-neutral {
-  color: var(--neutral);
+  color: var(--text-neutral);
 }
 
 .background-guardian,
@@ -311,7 +379,8 @@ button {
 .background-survivor {
   position: relative;
   z-index: 0;
-  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+  color: var(--nord-6);
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
 
   & > * {
     position: relative;
@@ -345,7 +414,7 @@ button {
 .background-mystic {
   background: var(--mystic-dark);
   &::after {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.1);
     mask-image: url("../assets/patterns/mystic.svg");
   }
 }
@@ -468,6 +537,26 @@ button {
   color: var(--nord-4);
 }
 
+.agility {
+  color: var(--agility);
+}
+
+.combat {
+  color: var(--combat);
+}
+
+.willpower {
+  color: var(--willpower);
+}
+
+.intellect {
+  color: var(--intellect);
+}
+
+.wild {
+  color: var(--wild);
+}
+
 svg {
   display: block;
   width: 1em;
@@ -562,7 +651,7 @@ svg {
 }
 
 .longform .icon-neutral {
-  color: var(--nord-4);
+  color: var(--palette-4);
 }
 
 .longform .icon-multiclass {

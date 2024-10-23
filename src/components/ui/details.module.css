@@ -1,5 +1,5 @@
 .details {
-  background: var(--nord-0);
+  background: var(--palette-0);
 }
 
 .details > * + * {
@@ -11,7 +11,7 @@
 }
 
 .details-content {
-  border: 1px solid var(--nord-point-five);
+  border: 1px solid var(--palette-point-five);
   padding: 0.5rem 1rem;
   border-radius: var(--rounded-md);
 }

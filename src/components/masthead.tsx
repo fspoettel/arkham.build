@@ -4,6 +4,8 @@ import { Link, useLocation } from "wouter";
 
 import css from "./masthead.module.css";
 
+import Logo from "../assets/icons/logo.svg?react";
+
 import { Button } from "./ui/button";
 import { DropdownMenu } from "./ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
@@ -20,7 +22,7 @@ export function Masthead(props: Props) {
     <header className={cx(props.className, css["masthead"])}>
       <div className={css["left"]}>
         <Link className={css["logo"]} href="/" data-testid="masthead-logo">
-          <img alt="Arkham.build logo" src="/logo.svg" />
+          <Logo />
         </Link>
         {props.children}
       </div>
