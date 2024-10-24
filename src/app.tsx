@@ -14,7 +14,7 @@ import {
   queryDataVersion,
   queryMetadata,
 } from "./store/services/queries";
-import { useDarkMode } from "./utils/use-dark-mode";
+import { useColorTheme } from "./utils/use-color-theme";
 
 const Browse = lazy(() => import("./pages/browse/browse"));
 const DeckEdit = lazy(() => import("./pages/deck-edit/deck-edit"));
@@ -54,7 +54,7 @@ function AppInner() {
   const storeInitialized = useStore(selectIsInitialized);
   const init = useStore((state) => state.init);
 
-  useDarkMode();
+  useColorTheme();
 
   useEffect(() => {
     async function initStore() {

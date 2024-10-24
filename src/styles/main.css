@@ -436,7 +436,7 @@ button {
 .background-mystic {
   background: var(--mystic-dark);
   &::after {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.075);
     mask-image: url("../assets/patterns/mystic.svg");
   }
 }

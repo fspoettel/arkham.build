@@ -10,12 +10,11 @@ const DEFAULT_THEME = "dark";
 
 function getPreference() {
   const pref = localStorage.getItem("color-scheme-preference");
-  console.log(pref);
   if (pref && AVAILABLE_THEMES[pref]) return pref;
   return DEFAULT_THEME;
 }
 
-export function useDarkMode() {
+export function useColorTheme() {
   const [pref, setPref] = useState(getPreference());
 
   useEffect(() => {

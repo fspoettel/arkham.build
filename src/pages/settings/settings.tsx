@@ -12,12 +12,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast.hooks";
 import { Library, SlidersVertical } from "lucide-react";
 import { CardDataSync } from "./card-data-sync";
-import { ColorScheme } from "./color-scheme";
 import { HideWeaknessSetting } from "./hide-weakness";
 import { ListSettings } from "./list-settings";
 import { Section } from "./section";
 import { ShowAllCards } from "./show-all-cards";
 import { TabooSet } from "./taboo-set";
+import { Theme } from "./theme";
 
 function Settings() {
   const toast = useToast();
@@ -81,7 +81,7 @@ function Settings() {
             </TabsList>
             <TabsContent value="general" forceMount>
               <Section title="General">
-                <ColorScheme />
+                <Theme />
                 <TabooSet settings={settings} updateSettings={updateSettings} />
                 <HideWeaknessSetting
                   settings={settings}

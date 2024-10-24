@@ -39,5 +39,5 @@
 .icon_inverted,
 .icon_inverted .icon-child,
 .icon_inverted .icon-children {
-  color: var(--nord-4);
+  color: currentColor;
 }

@@ -1,13 +1,13 @@
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Select } from "@/components/ui/select";
-import { AVAILABLE_THEMES, useDarkMode } from "@/utils/use-dark-mode";
+import { AVAILABLE_THEMES, useColorTheme } from "@/utils/use-color-theme";
 
-export function ColorScheme() {
-  const [pref, setPref] = useDarkMode();
+export function Theme() {
+  const [pref, setPref] = useColorTheme();
 
   return (
     <Field bordered>
-      <FieldLabel>Color scheme</FieldLabel>
+      <FieldLabel>Theme</FieldLabel>
       <Select
         value={pref}
         required
