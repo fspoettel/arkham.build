@@ -33,7 +33,7 @@
   gap: 0.25rem;
   font-size: var(--text-sm);
   font-family: var(--font-family-ui);
-  border-bottom: 1px solid var(--nord-1);
+  border-bottom: 1px solid var(--palette-1);
   padding: 0.25rem 0;
   font-weight: 700;
 }

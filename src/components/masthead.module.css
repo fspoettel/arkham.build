@@ -18,6 +18,10 @@
   margin-left: 0.25rem;
 }
 
+.logo svg {
+  fill: var(--palette-4);
+}
+
 .right {
   display: flex;
   align-items: center;

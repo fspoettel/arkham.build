@@ -11,7 +11,7 @@
 }
 
 .header {
-  background: var(--nord-point-five);
+  background: var(--palette-point-five);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -69,7 +69,7 @@
 }
 
 .list {
-  border: 1px solid var(--nord-point-five);
+  border: 1px solid var(--palette-point-five);
   padding: 1rem;
   min-width: min(24rem, 100%);
   border-radius: var(--rounded);

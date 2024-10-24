@@ -14,6 +14,7 @@ import {
   queryDataVersion,
   queryMetadata,
 } from "./store/services/queries";
+import { useColorTheme } from "./utils/use-color-theme";
 
 const Browse = lazy(() => import("./pages/browse/browse"));
 const DeckEdit = lazy(() => import("./pages/deck-edit/deck-edit"));
@@ -52,6 +53,8 @@ function AppInner() {
   const storeHydrated = useStore((state) => state.ui.hydrated);
   const storeInitialized = useStore(selectIsInitialized);
   const init = useStore((state) => state.init);
+
+  useColorTheme();
 
   useEffect(() => {
     async function initStore() {

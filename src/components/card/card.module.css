@@ -22,8 +22,8 @@
     "pre"
     "content";
   width: 100%;
-  background: var(--nord-point-five);
-  border: 1px solid var(--nord-1);
+  background: var(--palette-point-five);
+  border: 1px solid var(--palette-1);
   border-radius: var(--rounded-md);
   padding-bottom: var(--card-spacing);
   text-align: left;
@@ -201,6 +201,7 @@
 
 .header-icon {
   font-size: calc(var(--card-title-size) * 1.75);
+  color: currentColor;
   line-height: 1;
 }
 
@@ -249,7 +250,7 @@
   align-items: center;
   justify-content: center;
   padding: 0.25rem;
-  background: var(--nord-1);
+  background: var(--palette-2);
   border-radius: var(--rounded-md);
   font-size: calc(var(--card-text-size, var(--text-sm)) * 1.375);
 }
@@ -296,7 +297,7 @@
   padding-left: calc(var(--card-spacing, 1rem) / 1.5);
   border-left-width: 2px;
   border-left-style: solid;
-  border-color: var(--nord-4);
+  border-color: var(--palette-4);
   font-family: var(--font-family-content);
   font-size: var(--card-text-size, var(--text-sm));
   text-align: left;
@@ -311,7 +312,7 @@
 }
 
 .text b {
-  color: var(--nord-6);
+  color: var(--palette-6);
   font-weight: 700;
 }
 
@@ -323,7 +324,7 @@
 }
 
 .meta:not(.tooltip) {
-  border-top: 1px solid var(--nord-4);
+  border-top: 1px solid var(--palette-4);
   padding-top: 0.25rem;
 }
 

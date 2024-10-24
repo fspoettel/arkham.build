@@ -43,10 +43,10 @@
   position: relative;
   transform: translateX(0);
   transition: all 0.2s;
-  background: var(--nord-0);
+  background: var(--palette-0);
   z-index: 2;
   height: 100%;
-  border: 1px solid var(--nord-1);
+  border: 1px solid var(--palette-1);
   border-radius: var(--rounded);
 
   > * {
@@ -63,7 +63,7 @@
   }
 
   &[data-state="closed"] {
-    transform: translateX(calc(-100% - 0.5rem - 0.25rem));
+    transform: translateX(calc(-100% - 1.5rem));
   }
 
   @media screen and (min-width: 52rem) {
@@ -80,7 +80,7 @@
   }
 
   &[data-state="closed"] {
-    transform: translateX(calc(100% + 0.5rem + 0.25rem));
+    transform: translateX(calc(100% + 1.5rem));
   }
 }
 
@@ -90,7 +90,7 @@
   max-width: 85%;
   top: 0.25rem;
   z-index: 3;
-  background: var(--nord-0);
+  background: var(--palette-0);
   transition: 0.2s transform ease-in;
   box-shadow: var(--shadow-md);
 

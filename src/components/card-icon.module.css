@@ -21,8 +21,7 @@
 
 .icon-child,
 .icon-children {
-  color: currentColor;
-  color: var(--nord-0);
+  color: var(--palette-0);
   font-size: 0.5em;
   left: 0;
   line-height: 1;
@@ -40,5 +39,5 @@
 .icon_inverted,
 .icon_inverted .icon-child,
 .icon_inverted .icon-children {
-  color: var(--nord-4);
+  color: currentColor;
 }

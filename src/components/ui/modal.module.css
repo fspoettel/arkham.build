@@ -44,7 +44,7 @@
 }
 
 .content {
-  background: var(--nord-0);
+  background: var(--palette-0);
   padding: 1rem;
   border-radius: var(--rounded-md);
 }

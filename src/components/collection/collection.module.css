@@ -31,7 +31,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--nord-point-five);
+  background: var(--palette-point-five);
   font-size: var(--text-base);
   gap: 0.25rem;
   padding: 0.5rem;
@@ -118,7 +118,7 @@
 
 .collection-count {
   text-align: center;
-  background: var(--nord-point-five);
+  background: var(--palette-point-five);
   padding: 0.25rem;
   border-radius: var(--rounded-md);
   min-width: 6ch;

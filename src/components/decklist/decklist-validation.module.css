@@ -1,5 +1,5 @@
 .decklist-validation {
-  background: color-mix(in srgb, var(--nord-11) 5%, var(--nord-0) 95%);
+  background: rgba(255, 0, 0, 0.05);
   padding: 0.25rem;
   border: 1px solid var(--nord-11) !important;
   border-radius: 0.25rem;
