@@ -158,6 +158,10 @@ export const SPECIAL_CARD_CODES = {
   RANDOM_BASIC_WEAKNESS: "01000",
   /** Separate deck. */
   STICK_TO_THE_PLAN: "03264",
+  /** Additional XP gain, switches deck investigator with a static investigator on defeat. */
+  THE_GREAT_WORK: "11068a",
+  /** Investigator can be transformed into this. */
+  LOST_HOMUNCULUS: "11068b",
   /** Connected to parallel wendy's front. */
   TIDAL_MEMENTO: "90038",
   /** Adjusts deck size, has separate deck. */

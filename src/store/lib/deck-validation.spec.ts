@@ -75,6 +75,8 @@ import underworldSupport from "@/test/fixtures/decks/validation/underworld_suppo
 import underworldSupperInvalidDeckLimit from "@/test/fixtures/decks/validation/underworld_support_invalid_deck_limit.json";
 import underworldSupportInvalidSize from "@/test/fixtures/decks/validation/underworld_support_invalid_size.json";
 import underworldSupportWeaknesses from "@/test/fixtures/decks/validation/underworld_support_weaknesses.json";
+import ythian from "@/test/fixtures/decks/ythian.json";
+
 import { getMockStore } from "@/test/get-mock-store";
 
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
@@ -1190,6 +1192,13 @@ describe("deck validation", () => {
           },
         ]
       `);
+    });
+  });
+
+  describe("transformed investigator", () => {
+    it("skips validation for transformed investigator", () => {
+      const result = validate(store, ythian);
+      expect(result.valid).toBeTruthy();
     });
   });
 });

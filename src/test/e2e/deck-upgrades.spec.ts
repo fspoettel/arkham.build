@@ -232,6 +232,46 @@ test.describe("upgrades: views", () => {
 
     await page.getByTestId("editor-save").click();
     await page.getByTestId("tab-history").click();
+    await page.waitForTimeout(5000);
+    await expect(page.getByTestId("history")).toHaveScreenshot();
+  });
+
+  test("transformed investigator", async ({ page }) => {
+    await importDeckFromFile(page, "ythian.json", {
+      navigate: "view",
+    });
+
+    await page.getByTestId("view-upgrade").click();
+    await page.getByTestId("upgrade-xp").fill("2");
+    await page.getByTestId("upgrade-xp").click();
+    await page.getByTestId("quantity-increment").click();
+    await page.getByTestId("quantity-increment").click();
+    await page.getByTestId("upgrade-submit").click();
+    await page.getByTestId("view-edit").click();
+    await page.getByTestId("latest-upgrade-exile").click();
+    await expect(
+      page.getByTestId("latest-upgrade-exile-02115-add"),
+    ).toBeDisabled();
+  });
+
+  test("the great work", async ({ page }) => {
+    await importDeckFromFile(page, "./upgrades/the_great_work_base.json", {
+      navigate: "view",
+    });
+
+    await page.getByTestId("view-upgrade").click();
+    await page.getByTestId("upgrade-xp").fill("2");
+    await page.getByTestId("upgrade-submit").click();
+    await page.getByTestId("tab-history").click();
+    await expect(
+      page.getByTestId("history").getByRole("paragraph"),
+    ).toContainText("XP available: 3 XP (spent: 0)");
+
+    await page.getByTestId("view-upgrade").click();
+    await page.getByTestId("upgrade-xp").fill("0");
+    await page.getByText("I was usurped by the").click();
+    await page.getByTestId("upgrade-submit").click();
+    await page.getByTestId("tab-history").click();
 
     await page.waitForTimeout(5000);
     await expect(page.getByTestId("history")).toHaveScreenshot();

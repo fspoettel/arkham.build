@@ -34,6 +34,10 @@ export function DeckInvestigator(props: Props) {
     ([key]) => key !== "parallel",
   );
 
+  const hasBack =
+    deck.investigatorBack.card.double_sided ||
+    deck.investigatorBack.card.back_link_id;
+
   const children = canToggleBack ? (
     <>
       <CardFace
@@ -42,21 +46,23 @@ export function DeckInvestigator(props: Props) {
         linked
         size={size}
       />
-      <div
-        className={cx(css["back-toggle"], backToggled && css["open"])}
-        data-testid="deck-investigator-back-toggle"
-      >
-        <Button onClick={() => toggleBack((p) => !p)}>
-          {backToggled ? <ChevronUp /> : <ChevronDown />}
-          Backside{" "}
-          {deck.investigatorBack.card.parallel && (
-            <>
-              (<span className="icon-parallel" />)
-            </>
-          )}
-        </Button>
-      </div>
-      {backToggled && (
+      {hasBack && (
+        <div
+          className={cx(css["back-toggle"], backToggled && css["open"])}
+          data-testid="deck-investigator-back-toggle"
+        >
+          <Button onClick={() => toggleBack((p) => !p)}>
+            {backToggled ? <ChevronUp /> : <ChevronDown />}
+            Backside{" "}
+            {deck.investigatorBack.card.parallel && (
+              <>
+                (<span className="icon-parallel" />)
+              </>
+            )}
+          </Button>
+        </div>
+      )}
+      {hasBack && backToggled && (
         <CardBack
           card={deck.investigatorBack.card}
           data-testid="deck-investigator-back"
@@ -67,7 +73,7 @@ export function DeckInvestigator(props: Props) {
   ) : (
     <>
       <CardFace linked resolvedCard={deck.investigatorFront} size={size} />
-      <CardBack card={deck.investigatorBack.card} size={size} />
+      {hasBack && <CardBack card={deck.investigatorBack.card} size={size} />}
     </>
   );
 

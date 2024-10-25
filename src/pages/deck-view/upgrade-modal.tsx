@@ -15,6 +15,7 @@ import { range } from "@/utils/range";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { useLocation } from "wouter";
 
+import { Checkbox } from "@/components/ui/checkbox";
 import { Scroller } from "@/components/ui/scroller";
 import css from "./upgrade-modal.module.css";
 
@@ -72,6 +73,13 @@ export function UpgradeModal(props: Props) {
   const exilableCards = selectExilableCards(deck);
   const [exileString, setExileString] = useState("");
 
+  const hasGreatWork = !!deck.slots[SPECIAL_CARD_CODES.THE_GREAT_WORK];
+  const [usurped, setUsurped] = useState(false);
+
+  const onUsurpedChange = useCallback((val: boolean | string) => {
+    setUsurped(!!val);
+  }, []);
+
   const modalContext = useDialogContext();
 
   const onCloseModal = useCallback(() => {
@@ -79,7 +87,12 @@ export function UpgradeModal(props: Props) {
   }, [modalContext]);
 
   const onUpgrade = useCallback(() => {
-    const id = upgradeDeck(deck.id, xp ? +xp : 0, exileString);
+    const id = upgradeDeck({
+      id: deck.id,
+      xp: xp ? +xp : 0,
+      exileString,
+      usurped: hasGreatWork ? usurped : undefined,
+    });
 
     onCloseModal();
 
@@ -89,7 +102,17 @@ export function UpgradeModal(props: Props) {
       variant: "success",
     });
     navigate(`/deck/view/${id}`);
-  }, [deck.id, upgradeDeck, xp, onCloseModal, navigate, toast, exileString]);
+  }, [
+    deck.id,
+    upgradeDeck,
+    xp,
+    onCloseModal,
+    navigate,
+    toast,
+    exileString,
+    usurped,
+    hasGreatWork,
+  ]);
 
   const onXpChange = useCallback((evt: React.ChangeEvent<HTMLInputElement>) => {
     setXp(evt.target.value);
@@ -160,6 +183,30 @@ export function UpgradeModal(props: Props) {
               value={xp}
             />
           </Field>
+          {hasGreatWork && (
+            <Field
+              bordered
+              helpText={
+                usurped ? (
+                  <i>
+                    The Great Work will be removed from your deck alongside each
+                    of your signature cards. Your investigator will be replaced
+                    with the homunculus.
+                  </i>
+                ) : (
+                  <i>+1 XP will be automatically added to this upgrade.</i>
+                )
+              }
+            >
+              <FieldLabel htmlFor="xp-gained">The Great Work</FieldLabel>
+              <Checkbox
+                label="I was usurped by the homunculus"
+                id="the-great-work"
+                checked={usurped}
+                onCheckedChange={onUsurpedChange}
+              />
+            </Field>
+          )}
           {!!exilableCards.length && (
             <Field bordered>
               <FieldLabel htmlFor="xp-gained">Exiled Cards</FieldLabel>

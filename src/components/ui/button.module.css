@@ -20,12 +20,12 @@
     cursor: default;
   }
 
-  &:not([disabled=""]):hover {
+  &:not([disabled]):hover {
     background: var(--palette-1);
     border-color: var(--palette-2);
   }
 
-  &:not([disabled=""]):active {
+  &:not([disabled]):active {
     background: var(--palette-2);
     border-color: var(--palette-3);
   }

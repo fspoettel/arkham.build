@@ -13,6 +13,7 @@ arkham.build extends the _arkhamdb deck schema_ with a few fields for additional
 - `meta.card_pool`: packs that can be used for this deck. Used for limited pool deckbuilding such as #campaign-playalong. Format: `"<pack_code>,<pack_code>"`. For arkham.build, new format pack codes take precedence over old format.
 - `meta.sealed_deck`: card ids that are pickable for this deck. Used for sealed deckbuilding. Format: comma-separated list of ids `"id1,id2,id2,id3"`.
 - `meta.sealed_deck_name`: name of the sealed deck definition used. format: string.
+- `meta.transform_into`: code of the investigator that this deck's investigator has transformed into. I.e. `04244` for _Body of a Yithian_.
 
 ## File formats
 
