@@ -63,11 +63,11 @@
   --mythos: var(--nord-4);
   --neutral: var(--nord-4);
 
-  --guardian-dark: hsl(210, 55%, 45%);
-  --seeker-dark: hsl(35, 60%, 45%);
+  --guardian-dark: hsl(210, 65%, 45%);
+  --seeker-dark: hsl(33, 80%, 45%);
   --rogue-dark: hsl(124, 55%, 30%);
   --mystic-dark: hsl(247, 50%, 55%);
-  --survivor-dark: hsl(357, 50%, 50%);
+  --survivor-dark: hsl(357, 55%, 50%);
   --neutral-dark: var(--nord-3);
   --multiclass-dark: hsl(45, 60%, 40%);
   --mythos-dark: var(--nord-3);
@@ -336,14 +336,6 @@ button {
   &[disabled] {
     opacity: 0.3;
     cursor: default;
-  }
-
-  &:hover {
-    background: var(--palette-2);
-  }
-
-  &:focus-visible {
-    outline: 1px solid var(--palette-6);
   }
 }
 

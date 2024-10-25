@@ -10,6 +10,7 @@ import { useDocumentTitle } from "@/utils/use-document-title";
 
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { Footer } from "@/components/footer";
+import { isStaticInvestigator } from "@/utils/card-utils";
 import { Globe, MessagesSquare } from "lucide-react";
 import { Error404 } from "../errors/404";
 import css from "./card-view.module.css";
@@ -32,6 +33,9 @@ function CardView() {
   }
 
   const isInvestigator = cardWithRelations.card.type_code === "investigator";
+  const isBuildableInvestigator =
+    isInvestigator && !isStaticInvestigator(cardWithRelations.card);
+
   const parallel = cardWithRelations.relations?.parallel?.card;
 
   return (
@@ -65,7 +69,7 @@ function CardView() {
               >
                 <MessagesSquare /> View Reviews
               </Button>
-              {isInvestigator && (
+              {isBuildableInvestigator && (
                 <Link
                   asChild
                   href={`/deck/create/${cardWithRelations.card.code}`}
@@ -85,7 +89,7 @@ function CardView() {
             </SidebarSection>
 
             <SidebarSection title="Deckbuilding">
-              {isInvestigator && (
+              {isBuildableInvestigator && (
                 <>
                   <Link
                     asChild

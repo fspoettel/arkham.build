@@ -1,4 +1,8 @@
-import { cardLevel, isRandomBasicWeaknessLike } from "@/utils/card-utils";
+import {
+  cardLevel,
+  isRandomBasicWeaknessLike,
+  isStaticInvestigator,
+} from "@/utils/card-utils";
 import { DECK_SIZE_ADJUSTMENTS, SPECIAL_CARD_CODES } from "@/utils/constants";
 
 import { time, timeEnd } from "@/utils/time";
@@ -179,6 +183,13 @@ export function validateDeck(
 ): DeckValidationResult {
   time("validate_deck");
 
+  if (isStaticInvestigator(deck.investigatorBack.card)) {
+    return {
+      valid: true,
+      errors: [],
+    };
+  }
+
   if (!validateInvestigator(deck)) {
     return {
       valid: false,
@@ -203,7 +214,12 @@ export function validateDeck(
 function validateInvestigator(deck: ResolvedDeck) {
   const investigatorBack = deck.investigatorBack.card;
 
-  if (!investigatorBack.deck_options) return false;
+  if (
+    investigatorBack.type_code !== "investigator" ||
+    !investigatorBack.deck_options ||
+    !investigatorBack.deck_requirements
+  )
+    return false;
 
   let valid = true;
 

@@ -140,3 +140,10 @@ export function isRandomBasicWeaknessLike(card: Card) {
       !card.restrictions)
   );
 }
+
+/**
+ * A static investigator is one that can not build decks. (Y'thian, Lost Homunculus)
+ */
+export function isStaticInvestigator(card: Card) {
+  return card.type_code === "investigator" && !card.deck_options;
+}

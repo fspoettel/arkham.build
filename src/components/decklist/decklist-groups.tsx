@@ -26,6 +26,7 @@ import { ListCard } from "../list-card/list-card";
 
 type DecklistGroupProps = {
   cards: Card[];
+  disablePlayerCardEdits?: boolean;
   ignoredCounts?: Record<string, number>;
   listCardSize?: "sm";
   mapping: string;
@@ -39,6 +40,7 @@ type DecklistGroupsProps = {
 } & Omit<DecklistGroupProps, "cards">;
 
 export function DecklistGroups({
+  disablePlayerCardEdits,
   group,
   ignoredCounts,
   layout,
@@ -62,6 +64,7 @@ export function DecklistGroups({
                 </h5>
                 <DecklistGroup
                   cards={val}
+                  disablePlayerCardEdits={disablePlayerCardEdits}
                   ignoredCounts={ignoredCounts}
                   listCardSize={listCardSize}
                   mapping={mapping}
@@ -87,6 +90,7 @@ export function DecklistGroups({
           <h4 className={css["group-title"]}>{capitalize(k)}</h4>
           <DecklistGroup
             cards={entry}
+            disablePlayerCardEdits={disablePlayerCardEdits}
             ignoredCounts={ignoredCounts}
             mapping={mapping}
             quantities={quantities}
@@ -113,6 +117,7 @@ export function DecklistGroups({
 function DecklistGroup(props: DecklistGroupProps) {
   const {
     cards,
+    disablePlayerCardEdits,
     ignoredCounts,
     listCardSize,
     mapping,
@@ -162,7 +167,13 @@ function DecklistGroup(props: DecklistGroupProps) {
             isIgnored={ignoredCounts?.[card.code]}
             key={card.code}
             omitBorders
-            onChangeCardQuantity={onChangeCardQuantity}
+            onChangeCardQuantity={
+              !disablePlayerCardEdits ||
+              card.encounter_code ||
+              card.subtype_code
+                ? onChangeCardQuantity
+                : undefined
+            }
             ownedCount={canCheckOwnership ? cardOwnedCount(card) : undefined}
             quantity={quantities?.[card.code] ?? 0}
             renderAfter={renderListCardAfter}

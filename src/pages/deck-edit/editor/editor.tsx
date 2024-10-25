@@ -10,6 +10,7 @@ import css from "./editor.module.css";
 
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
+import { isStaticInvestigator } from "@/utils/card-utils";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { EditorActions } from "./editor-actions";
 import { InvestigatorListcard } from "./investigator-listcard";
@@ -30,6 +31,8 @@ export function Editor(props: Props) {
     props;
 
   const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
+
+  const staticInvestigator = isStaticInvestigator(deck.investigatorBack.card);
 
   return (
     <div className={css["editor"]} style={cssVariables}>
@@ -66,6 +69,7 @@ export function Editor(props: Props) {
           <TabsContent value="slots" data-testid="editor-tabs-slots">
             <DecklistSection title="Cards">
               <DecklistGroups
+                disablePlayerCardEdits={staticInvestigator}
                 group={deck.groups.slots.data}
                 ignoredCounts={deck.ignoreDeckLimitSlots ?? undefined}
                 layout="two_column"
@@ -96,9 +100,11 @@ export function Editor(props: Props) {
                   layout="two_column"
                   listCardSize="sm"
                   mapping="sideSlots"
-                  renderListCardAfter={(card) => (
-                    <MoveToMainDeck card={card} deck={deck} />
-                  )}
+                  renderListCardAfter={
+                    staticInvestigator
+                      ? undefined
+                      : (card) => <MoveToMainDeck card={card} deck={deck} />
+                  }
                   quantities={deck.sideSlots ?? undefined}
                 />
               ) : (

@@ -56,12 +56,18 @@ export function resolveDeck(
   }
 
   const investigatorFront = getInvestigatorForSide(
+    metadata,
+    lookupTables,
+    deck.taboo_id,
     investigator,
     deckMeta,
     "alternate_front",
   );
 
   const investigatorBack = getInvestigatorForSide(
+    metadata,
+    lookupTables,
+    deck.taboo_id,
     investigator,
     deckMeta,
     "alternate_back",
@@ -136,17 +142,32 @@ export function resolveDeck(
 }
 
 function getInvestigatorForSide(
+  metadata: Metadata,
+  lookupTables: LookupTables,
+  tabooId: number | undefined | null,
   investigator: CardWithRelations,
   deckMeta: DeckMeta,
   key: "alternate_front" | "alternate_back",
 ) {
-  const val = deckMeta[key];
-  const hasAlternate = val && val !== investigator.card.code;
+  if (deckMeta.transform_into) {
+    return resolveCardWithRelations(
+      metadata,
+      lookupTables,
+      deckMeta.transform_into,
+      tabooId,
+      undefined,
+      true,
+    ) as CardWithRelations;
+  }
 
+  const val = deckMeta[key];
+
+  const hasAlternate = val && val !== investigator.card.code;
   if (!hasAlternate) return investigator;
 
-  if (investigator.relations?.parallel?.card.code === val)
+  if (investigator.relations?.parallel?.card.code === val) {
     return investigator.relations?.parallel;
+  }
 
   return investigator;
 }

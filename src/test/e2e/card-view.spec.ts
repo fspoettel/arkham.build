@@ -135,14 +135,14 @@ test.describe("card view: display", () => {
     });
   });
 
-  test("renders agendas", { tag: "@flaky" }, async ({ page }) => {
+  test("renders agendas", async ({ page }) => {
     await page.goto("/card/01143");
     await expect(page.getByTestId("main")).toHaveScreenshot({
       mask: [page.getByTestId("card-scan")],
     });
   });
 
-  test("renders enemies", { tag: "@flaky" }, async ({ page }) => {
+  test("renders enemies", async ({ page }) => {
     await page.goto("/card/01181");
     await expect(page.getByTestId("main")).toHaveScreenshot({
       mask: [page.getByTestId("card-scan")],

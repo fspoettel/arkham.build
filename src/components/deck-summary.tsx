@@ -37,12 +37,8 @@ export function DeckSummary(props: Props) {
 
   const [, setLocation] = useLocation();
 
-  const backgroundCls = getCardColor(
-    deck.cards.investigator.card,
-    "background",
-  );
-
-  const borderCls = getCardColor(deck.cards.investigator.card, "border");
+  const backgroundCls = getCardColor(deck.investigatorBack.card, "background");
+  const borderCls = getCardColor(deck.investigatorBack.card, "border");
 
   const card = {
     ...deck.investigatorFront.card,

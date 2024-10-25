@@ -22,7 +22,7 @@ async function sumCardCounts(page: Page) {
   return sum;
 }
 
-test.describe("deck edit: interactions", () => {
+test.describe("deck edit", () => {
   test("draw random basic weakness", async ({ page }) => {
     await page.goto("/");
 
@@ -128,5 +128,29 @@ test.describe("deck edit: interactions", () => {
         .getByTestId("listcard-02229")
         .getByTestId("quantity-value"),
     ).toContainText("2");
+  });
+
+  test("transformed investigators", async ({ page }) => {
+    await importDeckFromFile(page, "ythian.json", {
+      navigate: "edit",
+    });
+
+    await fillSearch(page, "flashlight");
+    await expect(page.getByTestId("cardlist-count")).toContainText("0 cards");
+
+    await fillSearch(page, "maimed hand");
+    await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
+
+    await expect(
+      page.getByTestId("listcard-01087").getByTestId("quantity-value"),
+    ).toBeVisible();
+
+    await expect(
+      page.getByTestId("listcard-01087").getByTestId("quantity-increment"),
+    ).not.toBeVisible();
+
+    await expect(
+      page.getByTestId("listcard-02039").getByTestId("quantity-increment"),
+    ).toBeVisible();
   });
 });

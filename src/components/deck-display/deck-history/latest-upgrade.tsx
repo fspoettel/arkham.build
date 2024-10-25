@@ -15,6 +15,7 @@ import {
 import { Scroller } from "@/components/ui/scroller";
 import type { Card } from "@/store/services/queries.types";
 import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
+import { isStaticInvestigator } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { ArrowLeftToLine, Flame, MinusCircle, PlusCircle } from "lucide-react";
 import { useCallback } from "react";
@@ -74,6 +75,8 @@ export function LatestUpgrade(props: Props) {
     differences.extraSlots.length ||
     differences.exileSlots.length ||
     differences.customizations.length;
+
+  const staticInvestigator = isStaticInvestigator(deck.investigatorBack.card);
 
   const contentNode = (
     <div className={css["content-row"]}>
@@ -178,6 +181,7 @@ export function LatestUpgrade(props: Props) {
                             ? (card) => (
                                 <Button
                                   iconOnly
+                                  disabled={staticInvestigator}
                                   data-testid={`latest-upgrade-exile-${code}-add`}
                                   onClick={(
                                     evt: React.MouseEvent<HTMLButtonElement>,
