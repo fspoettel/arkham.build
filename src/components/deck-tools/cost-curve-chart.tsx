@@ -22,6 +22,7 @@ function formatTickLabels(value: number) {
 function formatTooltips(value: { datum: { y: number } }) {
   return `${value.datum.y} card${value.datum.y !== 1 ? "s" : ""}`;
 }
+
 export default function CostCurveChart({ data }: Props) {
   // Must have explicit column values to avoid auto-interpolation,
   // since no card costs 1.5 resources

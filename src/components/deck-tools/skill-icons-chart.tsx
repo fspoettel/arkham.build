@@ -2,9 +2,10 @@ import type { ChartableData } from "@/store/lib/types";
 import { useMemo } from "react";
 import {
   VictoryChart,
-  VictoryLabel,
   VictoryLine,
   VictoryPolarAxis,
+  VictoryScatter,
+  VictoryTooltip,
 } from "victory";
 import { SkillIconFancy } from "../icons/skill-icon-fancy";
 import { animateProps, chartsTheme } from "./chart-theme";
@@ -14,9 +15,14 @@ type Props = {
   data: ChartableData<string>;
 };
 
-function formatTickLabels(value: number) {
-  return `${value}`;
+function formatTickLabels(value: string) {
+  return value.replace("skill_", "");
 }
+
+function formatTooltips(value: { datum: { y: number } }) {
+  return `${value.datum.y} card${value.datum.y !== 1 ? "s" : ""}`;
+}
+
 type SkillIconLabelProps = {
   text?: string;
   x?: number;
@@ -25,14 +31,11 @@ type SkillIconLabelProps = {
 
 export function SkillIconLabel(props: SkillIconLabelProps) {
   const { text, x, y } = props;
-  const skillName = useMemo(() => text?.replace("skill_", ""), [text]);
-
-  console.log(props);
 
   return (
-    <foreignObject x={x} y={y} width={50} height={50}>
+    <foreignObject x={(x || 0) - 12} y={(y || 0) - 12} width={24} height={24}>
       <SkillIconFancy
-        skill={skillName || "wild"}
+        skill={text || "wild"}
         className={css["skill-icon-label"]}
       />
     </foreignObject>
@@ -47,18 +50,35 @@ export default function CostCurveChart({ data }: Props) {
 
   return (
     <div className={css["chart-container"]}>
-      <VictoryChart theme={chartsTheme} polar>
+      <VictoryChart theme={chartsTheme} polar padding={25}>
         <VictoryPolarAxis
           animate={animateProps}
           tickFormat={formatTickLabels}
           tickLabelComponent={<SkillIconLabel />}
+          style={{
+            tickLabels: {
+              padding: 20,
+            },
+          }}
         />
         <VictoryPolarAxis
           dependentAxis
-          domain={[0, maxAmount]}
-          tickLabelComponent={<VictoryLabel dx={-5} />}
+          domain={[0, maxAmount + 1]}
+          style={{ tickLabels: { fill: "none" }, axis: { stroke: "none" } }}
         />
-        <VictoryLine data={data} animate={animateProps} polar />
+        <VictoryLine data={data} animate={animateProps} />
+        <VictoryScatter
+          data={data}
+          size={5}
+          animate={animateProps}
+          labels={formatTooltips}
+          style={{
+            labels: {
+              padding: 10,
+            },
+          }}
+          labelComponent={<VictoryTooltip labelPlacement="vertical" />}
+        />
       </VictoryChart>
     </div>
   );
