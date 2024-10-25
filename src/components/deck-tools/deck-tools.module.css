@@ -1,8 +1,15 @@
 .chart-container {
   height: 300px;
   margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .skill-icon-label {
   font-size: 1.5rem;
+}
+
+.chart-title {
+  font-size: var(--text-base);
 }

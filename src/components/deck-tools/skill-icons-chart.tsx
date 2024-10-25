@@ -50,6 +50,7 @@ export default function CostCurveChart({ data }: Props) {
 
   return (
     <div className={css["chart-container"]}>
+      <h3 className="chart-title">Skill icons</h3>
       <VictoryChart theme={chartsTheme} polar padding={25}>
         <VictoryPolarAxis
           animate={animateProps}
