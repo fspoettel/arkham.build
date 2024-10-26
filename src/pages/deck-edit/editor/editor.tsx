@@ -1,6 +1,4 @@
 import { DeckSummary } from "@/components/deck-summary";
-import { DeckTools } from "@/components/deck-tools/deck-tools";
-// import { DeckTools } from "@/components/deck-display/deck-tools/deck-tools";
 import { DecklistGroups } from "@/components/decklist/decklist-groups";
 import { DecklistSection } from "@/components/decklist/decklist-section";
 import { Scroller } from "@/components/ui/scroller";
@@ -39,7 +37,7 @@ export function Editor(props: Props) {
 
       <Tabs
         className={css["editor-tabs"]}
-        length={deck.hasExtraDeck ? 5 : 4}
+        length={deck.hasExtraDeck ? 4 : 3}
         onValueChange={(value: string) => {
           onTabChange(value as Tab);
         }}
@@ -59,9 +57,6 @@ export function Editor(props: Props) {
           )}
           <TabsTrigger value="meta" data-testid="editor-tab-meta">
             Meta
-          </TabsTrigger>
-          <TabsTrigger value="utils" data-testid="editor-tab-meta">
-            Utils
           </TabsTrigger>
         </TabsList>
 
@@ -130,10 +125,6 @@ export function Editor(props: Props) {
 
           <TabsContent value="meta">
             <MetaEditor deck={deck} />
-          </TabsContent>
-
-          <TabsContent value="utils">
-            <DeckTools deck={deck} />
           </TabsContent>
         </Scroller>
         <EditorActions currentTab={currentTab} deck={deck} />

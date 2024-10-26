@@ -135,14 +135,16 @@ export function ListLayout(props: Props) {
           ),
         })}
       </div>
-      <nav
-        className={cx(css["filters"], floatingFilters && css["floating"])}
-        data-state={filtersOpen ? "open" : "closed"}
-        onPointerDown={floatingFilters ? preventBubble : undefined}
-        ref={filtersRef}
-      >
-        {filters}
-      </nav>
+      {filters ? (
+        <nav
+          className={cx(css["filters"], floatingFilters && css["floating"])}
+          data-state={filtersOpen ? "open" : "closed"}
+          onPointerDown={floatingFilters ? preventBubble : undefined}
+          ref={filtersRef}
+        >
+          {filters}
+        </nav>
+      ) : null}
     </div>
   );
 }

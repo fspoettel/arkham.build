@@ -19,8 +19,10 @@ function formatTickLabels(value: number) {
   return value === 7 ? "7+" : value.toString();
 }
 
-function formatTooltips(value: { datum: { y: number } }) {
-  return `${value.datum.y} card${value.datum.y !== 1 ? "s" : ""}`;
+function formatTooltips(value: { datum: { y: number; x: number } }) {
+  const { y, x } = value.datum;
+
+  return `Cost ${x}${x === 7 ? "+" : ""} :\n ${y} card${y !== 1 ? "s" : ""}`;
 }
 
 export default function CostCurveChart({ data }: Props) {
@@ -38,16 +40,19 @@ export default function CostCurveChart({ data }: Props) {
 
   return (
     <div className={css["chart-container"]}>
+      <h4 className={css["chart-title"]}>Resource costs</h4>
       <VictoryChart theme={chartsTheme}>
         <VictoryAxis
           tickValues={tickValues}
           animate={animateProps}
+          label="Resource cost"
           tickFormat={formatTickLabels}
           style={{ grid: { stroke: "transparent" } }}
           tickLabelComponent={<VictoryLabel dy={5} />}
         />
         <VictoryAxis
           dependentAxis
+          label="Cards"
           domain={[0, maxAmount]}
           tickLabelComponent={<VictoryLabel dx={-5} />}
         />

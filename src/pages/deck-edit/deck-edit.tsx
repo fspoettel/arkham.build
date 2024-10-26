@@ -21,6 +21,7 @@ import { Editor } from "./editor/editor";
 import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 
 import { Attachments } from "@/components/attachments/attachments";
+import { DeckTools } from "@/components/deck-tools/deck-tools";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
@@ -120,6 +121,8 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
 
   const validation = useStore((state) => selectDeckValid(state, deck));
 
+  const usingDeckTools = useStore((state) => state.ui.usingDeckTools);
+
   useDocumentTitle(
     deck ? `Edit: ${deck.investigatorFront.card.real_name} - ${deck.name}` : "",
   );
@@ -139,13 +142,15 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
   return (
     <ListLayout
       filters={
-        <Filters>
-          <DecklistValidation
-            defaultOpen={validation.errors.length < 3}
-            validation={validation}
-          />
-          <ShowUnusableCardsToggle />
-        </Filters>
+        !usingDeckTools ? (
+          <Filters>
+            <DecklistValidation
+              defaultOpen={validation.errors.length < 3}
+              validation={validation}
+            />
+            <ShowUnusableCardsToggle />
+          </Filters>
+        ) : null
       }
       sidebar={
         <Editor
@@ -158,17 +163,21 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
       }
       sidebarWidthMax="var(--sidebar-width-two-col)"
     >
-      {(props) => (
-        <CardList
-          {...props}
-          onChangeCardQuantity={onChangeCardQuantity}
-          quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
-          renderListCardAfter={renderListCardAfter}
-          targetDeck={
-            mapTabToSlot(currentTab) === "extraSlots" ? "extraSlots" : "slots"
-          }
-        />
-      )}
+      {(props) =>
+        usingDeckTools ? (
+          <DeckTools deck={deck} />
+        ) : (
+          <CardList
+            {...props}
+            onChangeCardQuantity={onChangeCardQuantity}
+            quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
+            renderListCardAfter={renderListCardAfter}
+            targetDeck={
+              mapTabToSlot(currentTab) === "extraSlots" ? "extraSlots" : "slots"
+            }
+          />
+        )
+      }
     </ListLayout>
   );
 }

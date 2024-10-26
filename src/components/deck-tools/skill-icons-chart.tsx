@@ -20,7 +20,7 @@ function formatTickLabels(value: string) {
 }
 
 function formatTooltips(value: { datum: { y: number } }) {
-  return `${value.datum.y} card${value.datum.y !== 1 ? "s" : ""}`;
+  return `${value.datum.y} symbol${value.datum.y !== 1 ? "s" : ""}`;
 }
 
 type SkillIconLabelProps = {
@@ -50,7 +50,7 @@ export default function CostCurveChart({ data }: Props) {
 
   return (
     <div className={css["chart-container"]}>
-      <h3 className="chart-title">Skill icons</h3>
+      <h4 className={css["chart-title"]}>Skill icons</h4>
       <VictoryChart theme={chartsTheme} polar padding={25}>
         <VictoryPolarAxis
           animate={animateProps}

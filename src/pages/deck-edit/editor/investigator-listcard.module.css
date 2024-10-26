@@ -1,0 +1,11 @@
+.investigator-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.trigger-container {
+  width: 100%;
+  cursor: pointer;
+}

@@ -1,5 +1,14 @@
+.charts-wrap {
+  display: flex;
+  height: 100%;
+}
+
+.tools-title {
+  margin-bottom: 2rem;
+}
+
 .chart-container {
-  height: 300px;
+  max-height: 350px;
   margin-bottom: 40px;
   display: flex;
   flex-direction: column;
@@ -11,5 +20,5 @@
 }
 
 .chart-title {
-  font-size: var(--text-base);
+  margin-bottom: 1rem;
 }

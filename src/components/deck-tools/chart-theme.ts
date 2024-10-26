@@ -7,7 +7,7 @@ import type {
 export const animateProps: AnimatePropTypeInterface = {
   duration: 550,
   easing: "expInOut",
-  onLoad: { duration: 150 },
+  onLoad: { duration: 50 },
 };
 
 const baseLabelStyles: VictoryLabelStyleObject = {
@@ -15,11 +15,12 @@ const baseLabelStyles: VictoryLabelStyleObject = {
   fill: "var(--nord-4)",
   fontSize: 12,
   opacity: 0.8,
+  lineHeight: 16,
 };
 
 export const chartsTheme: VictoryThemeDefinition = {
   chart: {
-    padding: { top: 10, right: 20, bottom: 20, left: 20 },
+    padding: { top: 10, right: 10, bottom: 40, left: 45 },
   },
   line: {
     animate: animateProps,
@@ -37,6 +38,7 @@ export const chartsTheme: VictoryThemeDefinition = {
   },
   axis: {
     style: {
+      axisLabel: { ...baseLabelStyles, padding: 25 },
       axis: { stroke: "var(--nord-2)", strokeWidth: 2 },
       grid: {
         stroke: "var(--nord-2)",
@@ -49,7 +51,7 @@ export const chartsTheme: VictoryThemeDefinition = {
   tooltip: {
     pointerLength: 0,
     style: Object.assign(baseLabelStyles, {
-      padding: 5,
+      padding: 20,
     }),
     flyoutStyle: {
       fill: "var(--nord-1)",
@@ -57,7 +59,6 @@ export const chartsTheme: VictoryThemeDefinition = {
       strokeWidth: 1,
     },
     flyoutPadding: 5,
-    flyoutHeight: 30,
-    flyoutWidth: 60,
+    flyoutWidth: 75,
   },
 };
