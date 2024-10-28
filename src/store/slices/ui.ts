@@ -34,9 +34,9 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
   setFiltersOpen(filtersOpen: boolean) {
     set({ ui: { ...get().ui, filtersOpen } });
   },
-  setUsingDeckTools(usingTools: boolean) {
+  setUsingDeckTools(usingDeckTools: boolean) {
     set({
-      ui: { ...get().ui, usingDeckTools: usingTools, filtersOpen: !usingTools },
+      ui: { ...get().ui, usingDeckTools },
     });
   },
 });

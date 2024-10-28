@@ -121,8 +121,6 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
 
   const validation = useStore((state) => selectDeckValid(state, deck));
 
-  const usingDeckTools = useStore((state) => state.ui.usingDeckTools);
-
   useDocumentTitle(
     deck ? `Edit: ${deck.investigatorFront.card.real_name} - ${deck.name}` : "",
   );
@@ -142,15 +140,13 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
   return (
     <ListLayout
       filters={
-        !usingDeckTools ? (
-          <Filters>
-            <DecklistValidation
-              defaultOpen={validation.errors.length < 3}
-              validation={validation}
-            />
-            <ShowUnusableCardsToggle />
-          </Filters>
-        ) : null
+        <Filters>
+          <DecklistValidation
+            defaultOpen={validation.errors.length < 3}
+            validation={validation}
+          />
+          <ShowUnusableCardsToggle />
+        </Filters>
       }
       sidebar={
         <Editor
@@ -161,23 +157,20 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
           validation={validation}
         />
       }
+      extras={<DeckTools deck={deck} />}
       sidebarWidthMax="var(--sidebar-width-two-col)"
     >
-      {(props) =>
-        usingDeckTools ? (
-          <DeckTools deck={deck} />
-        ) : (
-          <CardList
-            {...props}
-            onChangeCardQuantity={onChangeCardQuantity}
-            quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
-            renderListCardAfter={renderListCardAfter}
-            targetDeck={
-              mapTabToSlot(currentTab) === "extraSlots" ? "extraSlots" : "slots"
-            }
-          />
-        )
-      }
+      {(props) => (
+        <CardList
+          {...props}
+          onChangeCardQuantity={onChangeCardQuantity}
+          quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
+          renderListCardAfter={renderListCardAfter}
+          targetDeck={
+            mapTabToSlot(currentTab) === "extraSlots" ? "extraSlots" : "slots"
+          }
+        />
+      )}
     </ListLayout>
   );
 }

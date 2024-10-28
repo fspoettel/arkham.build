@@ -8,7 +8,7 @@ import { useDialogContext } from "@/components/ui/dialog.hooks";
 import { Modal } from "@/components/ui/modal";
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
-import { Wrench } from "lucide-react";
+import { Rows3, Wrench } from "lucide-react";
 import css from "./investigator-listcard.module.css";
 
 type Props = {
@@ -83,11 +83,11 @@ function InvestigatorListcardInner({ deck }: Props) {
         </Modal>
       </DialogContent>
       <Button
-        tooltip="View deck tools"
+        tooltip={usingDeckTools ? "Card list" : "View deck tools"}
         iconOnly
         onClick={() => toggleTools(!usingDeckTools)}
       >
-        <Wrench />
+        {usingDeckTools ? <Rows3 /> : <Wrench />}
       </Button>
     </div>
   );

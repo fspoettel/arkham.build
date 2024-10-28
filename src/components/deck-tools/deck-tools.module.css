@@ -1,3 +1,18 @@
+.deck-tools {
+  padding: 0.75rem;
+  grid-row: content;
+  grid-column: content / filters;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(3rem);
+
+  &.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateX(0);
+  }
+}
+
 .charts-wrap {
   display: flex;
   height: 100%;
@@ -5,6 +20,7 @@
 
 .tools-title {
   margin-bottom: 2rem;
+  line-height: inherit;
 }
 
 .chart-container {

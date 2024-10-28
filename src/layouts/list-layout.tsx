@@ -18,6 +18,7 @@ type Props = {
   className?: string;
   filters: React.ReactNode;
   mastheadContent?: React.ReactNode;
+  extras?: React.ReactNode;
   sidebar: React.ReactNode;
   sidebarWidthMax: string;
 };
@@ -29,6 +30,7 @@ export function ListLayout(props: Props) {
     filters,
     mastheadContent,
     sidebar,
+    extras,
     sidebarWidthMax,
   } = props;
 
@@ -94,7 +96,11 @@ export function ListLayout(props: Props) {
     >
       <Masthead className={css["header"]}>{mastheadContent}</Masthead>
       <div
-        className={cx(css["sidebar"], floatingSidebar && css["floating"])}
+        className={cx(
+          css["sidebar"],
+          css["layout-area"],
+          floatingSidebar && css["floating"],
+        )}
         data-state={sidebarOpen ? "open" : "closed"}
         onPointerDown={sidebarOpen ? preventBubble : undefined}
         ref={sidebarRef}
@@ -135,16 +141,19 @@ export function ListLayout(props: Props) {
           ),
         })}
       </div>
-      {filters ? (
-        <nav
-          className={cx(css["filters"], floatingFilters && css["floating"])}
-          data-state={filtersOpen ? "open" : "closed"}
-          onPointerDown={floatingFilters ? preventBubble : undefined}
-          ref={filtersRef}
-        >
-          {filters}
-        </nav>
-      ) : null}
+      <nav
+        className={cx(
+          css["filters"],
+          css["layout-area"],
+          floatingFilters && css["floating"],
+        )}
+        data-state={filtersOpen ? "open" : "closed"}
+        onPointerDown={floatingFilters ? preventBubble : undefined}
+        ref={filtersRef}
+      >
+        {filters}
+      </nav>
+      {!!extras && extras}
     </div>
   );
 }
