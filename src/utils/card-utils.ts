@@ -166,4 +166,17 @@ export function getCardChartableData(
     accumulator.skillIcons[skill as SkillIcon] +=
       (card[skill as SkillIcon] ?? 0) * quantity;
   }
+
+  accumulator.factions[
+    card.faction_code as keyof UnformattedChartInfo["factions"]
+  ]++;
+
+  if (card.faction2_code)
+    accumulator.factions[
+      card.faction2_code as keyof UnformattedChartInfo["factions"]
+    ]++;
+  if (card.faction3_code)
+    accumulator.factions[
+      card.faction3_code as keyof UnformattedChartInfo["factions"]
+    ]++;
 }

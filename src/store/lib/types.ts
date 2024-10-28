@@ -124,13 +124,23 @@ export type UnformattedChartInfo = {
     skill_willpower: number;
     skill_wild: number;
   };
+  factions: {
+    guardian: number;
+    seeker: number;
+    rogue: number;
+    mystic: number;
+    survivor: number;
+    neutral: number;
+  };
 };
 
 export type SkillIcon = keyof UnformattedChartInfo["skillIcons"];
+export type Factions = keyof UnformattedChartInfo["factions"];
 
 export type DecksChartInfo = {
   costCurve: ChartableData;
   skillIcons: ChartableData<SkillIcon>;
+  factions: ChartableData<Factions>;
 };
 
 // Victory chart's accepted data format

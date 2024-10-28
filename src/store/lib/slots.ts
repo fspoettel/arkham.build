@@ -12,9 +12,11 @@ import { range } from "@/utils/range";
 import { resolveCardWithRelations } from "./resolve-card";
 import type {
   CardWithRelations,
+  ChartableData,
   Customizations,
   DeckMeta,
   DecksChartInfo,
+  Factions,
   ResolvedDeck,
   SkillIcon,
   UnformattedChartInfo,
@@ -45,6 +47,14 @@ export function decodeSlots(
       skill_intellect: 0,
       skill_willpower: 0,
       skill_wild: 0,
+    },
+    factions: {
+      guardian: 0,
+      seeker: 0,
+      rogue: 0,
+      mystic: 0,
+      survivor: 0,
+      neutral: 0,
     },
   };
 
@@ -184,7 +194,11 @@ export function encodeExtraSlots(slots: Record<string, number>) {
 }
 
 function formatChartInfo(info: UnformattedChartInfo): DecksChartInfo {
-  const { costCurve, skillIcons: unformattedSkillIcons } = info;
+  const {
+    costCurve,
+    skillIcons: unformattedSkillIcons,
+    factions: unformattedFactions,
+  } = info;
 
   // Account for gaps in card costs.
   for (const [index, costColumn] of costCurve.entries()) {
@@ -198,5 +212,18 @@ function formatChartInfo(info: UnformattedChartInfo): DecksChartInfo {
     };
   });
 
-  return { costCurve, skillIcons };
+  const factions: ChartableData<Factions> = [];
+
+  for (const faction of Object.keys(unformattedFactions)) {
+    const val =
+      unformattedFactions[faction as keyof UnformattedChartInfo["factions"]];
+    if (val !== 0) {
+      factions.push({
+        x: faction as Factions,
+        y: val,
+      });
+    }
+  }
+
+  return { costCurve, skillIcons, factions };
 }
