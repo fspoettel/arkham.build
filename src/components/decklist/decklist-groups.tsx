@@ -19,6 +19,7 @@ import { capitalize } from "@/utils/formatting";
 
 import css from "./decklist-groups.module.css";
 
+import { getDeckLimitOverride } from "@/store/lib/resolve-deck";
 import { selectForbiddenCards } from "@/store/selectors/decks";
 import { useResolvedDeckChecked } from "@/utils/use-resolved-deck";
 import SlotIcon from "../icons/slot-icon";
@@ -165,6 +166,7 @@ function DecklistGroup(props: DecklistGroupProps) {
             }
             isRemoved={quantities?.[card.code] === 0}
             isIgnored={ignoredCounts?.[card.code]}
+            limitOverride={getDeckLimitOverride(ctx.resolvedDeck, card.code)}
             key={card.code}
             omitBorders
             onChangeCardQuantity={

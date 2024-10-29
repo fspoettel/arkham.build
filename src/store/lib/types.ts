@@ -15,7 +15,7 @@ import type { Groupings } from "./deck-grouping";
 
 export type SealedDeck = {
   name: string;
-  cards: string[];
+  cards: Record<string, number>;
 };
 
 export type ResolvedCard = {

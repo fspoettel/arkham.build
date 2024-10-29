@@ -10,8 +10,6 @@ test.beforeEach(async ({ page }) => {
 async function createLimitedPoolDeck(page: Page) {
   await page.goto("deck/create/01001");
 
-  await page.getByTestId("collapsible-trigger").getByRole("button").click();
-
   await page
     .getByTestId("limited-card-pool-field")
     .getByTestId("combobox-input")
@@ -54,10 +52,6 @@ test.describe("limited card pool", () => {
 
     await page.getByTestId("editor-tab-meta").click();
 
-    await page
-      .getByTestId("meta-limited-card-pool")
-      .getByTestId("collapsible-trigger")
-      .click();
     await page.getByTestId("combobox-input").click();
     await page.getByTestId("combobox-input").fill("scarlet");
     await page.getByTestId("combobox-menu-item-tskp").click();
@@ -71,10 +65,6 @@ test.describe("limited card pool", () => {
     await expect(page.getByTestId("listcard-09022")).not.toBeVisible();
 
     await page.getByTestId("editor-tab-meta").click();
-    await page
-      .getByTestId("meta-limited-card-pool")
-      .getByTestId("collapsible-trigger")
-      .click();
     await page
       .getByTestId("combobox-result-tfap")
       .getByTestId("combobox-result-remove")
@@ -115,21 +105,94 @@ test.describe("limited card pool", () => {
     await uploadSealedDeck(page);
     await page.getByTestId("create-save").click();
     await page.getByTestId("editor-tab-meta").click();
-    await page
-      .getByTestId("meta-limited-card-pool")
-      .getByTestId("collapsible-trigger")
-      .click();
     await page.getByTestId("sealed-deck-remove").click();
     await fillSearch(page, "art student");
     await expect(page.getByTestId("listcard-02149")).toBeVisible();
     await fillSearch(page, "runic axe");
     await expect(page.getByTestId("listcard-09022")).toBeVisible();
   });
+
+  test("applies sealed deck quantities", async ({ page }) => {
+    await page.goto("/deck/create/01001");
+    await uploadSealedDeck(page);
+    await page.getByTestId("create-save").click();
+    await page
+      .getByTestId("listcard-01020")
+      .getByTestId("quantity-increment")
+      .click();
+
+    await page
+      .getByTestId("virtuoso-item-list")
+      .getByTestId("listcard-01020")
+      .getByTestId("quantity-increment")
+      .click();
+
+    await expect(
+      page
+        .getByTestId("editor-tabs-slots")
+        .getByTestId("listcard-01020")
+        .getByTestId("quantity-value"),
+    ).toContainText("2");
+
+    await page
+      .getByTestId("virtuoso-item-list")
+      .getByTestId("listcard-02149")
+      .getByTestId("quantity-increment")
+      .click();
+
+    await expect(
+      page
+        .getByTestId("editor-tabs-slots")
+        .getByTestId("listcard-02149")
+        .getByTestId("quantity-value"),
+    ).toContainText("1");
+
+    expect(
+      page
+        .getByTestId("virtuoso-item-list")
+        .getByTestId("listcard-02149")
+        .getByTestId("quantity-increment"),
+    ).toBeDisabled();
+
+    await expect(
+      page
+        .getByTestId("editor-tabs-slots")
+        .getByTestId("listcard-02149")
+        .getByTestId("quantity-increment"),
+    ).toBeDisabled();
+
+    await page
+      .getByTestId("virtuoso-item-list")
+      .getByTestId("listcard-02149")
+      .getByTestId("listcard-title")
+      .click();
+
+    await expect(
+      page
+        .getByTestId("card-modal-quantities-main")
+        .getByTestId("quantity-increment"),
+    ).toBeDisabled();
+
+    await page.getByTestId("card-modal").press("Escape");
+
+    await page.getByTestId("editor-tab-sideslots").click();
+    await page
+      .getByTestId("listcard-02149")
+      .getByTestId("quantity-increment")
+      .click();
+    await page.getByTestId("editor-move-to-main").click();
+    await page.getByTestId("editor-tab-slots").click();
+
+    await expect(
+      page
+        .getByTestId("editor-tabs-slots")
+        .getByTestId("listcard-02149")
+        .getByTestId("quantity-value"),
+    ).toContainText("1");
+  });
 });
 
 async function uploadSealedDeck(page: Page) {
-  await page.getByTestId("collapsible-trigger").getByRole("button").click();
-
   const fileChooserPromise = page.waitForEvent("filechooser");
 
   await page.getByTestId("sealed-deck-button").click();

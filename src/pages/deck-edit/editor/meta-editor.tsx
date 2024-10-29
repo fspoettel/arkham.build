@@ -241,6 +241,7 @@ export function MetaEditor(props: Props) {
       <Collapsible
         title="Card pool settings"
         data-testid="meta-limited-card-pool"
+        defaultOpen={!!deck.sealedDeck || !!deck.metaParsed.card_pool}
       >
         <CollapsibleContent>
           <LimitedCardPoolField

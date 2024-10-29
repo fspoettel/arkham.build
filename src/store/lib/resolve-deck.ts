@@ -171,3 +171,10 @@ function getInvestigatorForSide(
 
   return investigator;
 }
+
+export function getDeckLimitOverride(
+  deck: ResolvedDeck | undefined,
+  code: string,
+): number | undefined {
+  return deck?.sealedDeck?.cards[code];
+}

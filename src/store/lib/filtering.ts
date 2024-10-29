@@ -19,7 +19,7 @@ import type {
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
 import { ownedCardCount } from "./card-ownership";
-import type { Selections } from "./types";
+import type { SealedDeck, Selections } from "./types";
 import { isOptionSelect } from "./types";
 
 /**
@@ -884,4 +884,18 @@ export function filterInvestigatorWeaknessAccess(
     not(filterBonded(lookupTables.relations.bonded)),
     or(ors),
   ]);
+}
+
+export function filterSealed(
+  sealedDeck: SealedDeck["cards"],
+  lookupTables: LookupTables,
+) {
+  return (c: Card) => {
+    if (sealedDeck[c.code]) return true;
+
+    const duplicates = lookupTables.relations.duplicates[c.code];
+    if (!duplicates) return false;
+
+    return Object.keys(duplicates).some((code) => !!sealedDeck[code]);
+  };
 }

@@ -19,6 +19,7 @@ import { range } from "@/utils/range";
 
 import css from "./card-list.module.css";
 
+import { getDeckLimitOverride } from "@/store/lib/resolve-deck";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { useCardModalContext } from "../card-modal/card-modal-context";
 import { Footer } from "../footer";
@@ -234,6 +235,10 @@ export function CardList(props: Props) {
                   isActive={index === currentTop}
                   key={data.cards[index].code}
                   onChangeCardQuantity={onChangeCardQuantity}
+                  limitOverride={getDeckLimitOverride(
+                    ctx.resolvedDeck,
+                    data.cards[index].code,
+                  )}
                   ownedCount={
                     canCheckOwnerhip
                       ? cardOwnedCount(data.cards[index])

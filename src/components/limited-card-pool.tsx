@@ -129,7 +129,13 @@ export function SealedDeckField(props: {
         );
         onValueChange({
           name: file.name.split(".csv")[0],
-          cards: parsed.map((x) => x.code),
+          cards: parsed.reduce(
+            (acc, curr) => {
+              acc[curr.code] = curr.quantity;
+              return acc;
+            },
+            {} as Record<string, number>,
+          ),
         });
       } catch (err) {
         toast.show({
@@ -149,7 +155,19 @@ export function SealedDeckField(props: {
       data-testid="sealed-deck-field"
       full
       padded
-      helpText="Upload a sealed deck definition (.csv) to use it."
+      helpText={
+        <>
+          Upload a sealed deck definition (.csv) to use it. Use{" "}
+          <a
+            href="https://www.arkhamsealed.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ArkhamSealed
+          </a>{" "}
+          to generate a sealed deck.
+        </>
+      }
     >
       <FieldLabel as="div">Sealed</FieldLabel>
       <div className={css["sealed"]}>
@@ -172,7 +190,7 @@ export function SealedDeckField(props: {
         />
         {value && (
           <Tag size="xs">
-            {value.name} ({value.cards.length} cards)
+            {value.name} ({Object.keys(value.cards).length} cards)
             <Button
               data-testid="sealed-deck-remove"
               onClick={() => onValueChange(undefined)}
@@ -191,6 +209,7 @@ export function SealedDeckField(props: {
 
 type CardRow = {
   code: string;
+  quantity: number;
 };
 
 function isCardRow(x: unknown): x is CardRow {
@@ -198,9 +217,12 @@ function isCardRow(x: unknown): x is CardRow {
     typeof x === "object" &&
     x != null &&
     "code" in x &&
+    "quantity" in x &&
     typeof x.code === "string" &&
+    typeof x.quantity === "string" &&
     x.code.length > 0 &&
-    x.code.length < 10
+    x.code.length < 10 &&
+    Number.isSafeInteger(Number.parseInt(x.quantity, 10))
   );
 }
 
@@ -216,7 +238,7 @@ export function SealedDeckTag() {
         <Tag size="xs">Sealed</Tag>
       </TooltipTrigger>
       <TooltipContent>
-        {value.name} ({value.cards.length} cards)
+        {value.name} ({Object.keys(value.cards).length} cards)
       </TooltipContent>
     </Tooltip>
   );

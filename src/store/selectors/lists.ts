@@ -24,6 +24,7 @@ import {
   filterOwnership,
   filterPackCode,
   filterProperties,
+  filterSealed,
   filterSkillIcons,
   filterSubtypes,
   filterTabooSet,
@@ -352,15 +353,9 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
     }
 
     if (sealedDeck) {
-      const sealedMap = sealedDeck.reduce(
-        (acc, curr) => {
-          acc[curr] = true;
-          return acc;
-        },
-        {} as Record<string, boolean>,
+      ands.push(
+        or([filterSealed(sealedDeck, lookupTables), (c) => c.xp == null]),
       );
-      const sealedFilter = (c: Card) => !!sealedMap[c.code];
-      ands.push(or([sealedFilter, (c) => c.xp == null]));
     }
 
     return and(ands);

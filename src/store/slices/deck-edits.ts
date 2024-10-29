@@ -7,6 +7,7 @@ import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import type { StoreState } from ".";
 import { clampAttachmentQuantity } from "../lib/attachments";
 import { randomBasicWeaknessForDeck } from "../lib/random-basic-weakness";
+import { getDeckLimitOverride } from "../lib/resolve-deck";
 import {
   selectCurrentCardQuantity,
   selectResolvedDeckById,
@@ -287,9 +288,11 @@ export const createDeckEditsSlice: StateCreator<
 
     const edits = currentEdits(state, deckId);
 
+    const limitOverride = getDeckLimitOverride(deck, card.code);
+
     const nextQuantity = Math.min(
       (deck?.slots?.[card.code] ?? 0) + 1,
-      card.deck_limit ?? card.quantity,
+      limitOverride ?? card.deck_limit ?? card.quantity,
     );
 
     const nextSideQuantity = Math.max(

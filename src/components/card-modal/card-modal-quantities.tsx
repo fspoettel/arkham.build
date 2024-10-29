@@ -6,6 +6,7 @@ import type { Slot } from "@/store/slices/deck-edits.types";
 
 import css from "./card-modal.module.css";
 
+import { getDeckLimitOverride } from "@/store/lib/resolve-deck";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { QuantityInput } from "../ui/quantity-input";
@@ -67,7 +68,9 @@ export function CardModalQuantities(props: Props) {
   };
 
   const code = card.code;
-  const limit = card.deck_limit || card.quantity;
+
+  const limit =
+    getDeckLimitOverride(deck, card.code) ?? card.deck_limit ?? card.quantity;
 
   const isBonded = !!bondedSlotQuantities?.[code];
 

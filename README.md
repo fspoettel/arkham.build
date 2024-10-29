@@ -11,7 +11,7 @@ arkham.build extends the _arkhamdb deck schema_ with a few fields for additional
 - `meta.extra_deck`: Parallel Jim's spirit deck. Format: comma-separated list of ids `"id1,id2,id3"`.
 - `meta.attachments_{code}`: cards that are attached to a specific setup deck, for example _Joe Diamond_ or _Stick to the Plan_. Format: comma-separated list of ids `"id1,id2,id2,id3"`.
 - `meta.card_pool`: packs that can be used for this deck. Used for limited pool deckbuilding such as #campaign-playalong. Format: `"<pack_code>,<pack_code>"`. For arkham.build, new format pack codes take precedence over old format.
-- `meta.sealed_deck`: card ids that are pickable for this deck. Used for sealed deckbuilding. Format: comma-separated list of ids `"id1,id2,id2,id3"`.
+- `meta.sealed_deck`: card ids that are pickable for this deck. Used for sealed deckbuilding. Format: comma-separated list of `id` / `quantity` pairs in the format `"id:2,id:1,...`.
 - `meta.sealed_deck_name`: name of the sealed deck definition used. format: string.
 - `meta.transform_into`: code of the investigator that this deck's investigator has transformed into. I.e. `04244` for _Body of a Yithian_.
 
@@ -22,16 +22,14 @@ arkham.build extends the _arkhamdb deck schema_ with a few fields for additional
 The sealed deck feature expects a csv file in the format:
 
 ```csv
-code
-01039
-01090
-06197
-07032
+code,quantity
+01039,2
+01090,2
+06197,2
+07032,2
 ```
 
-In this example, the sealed deck contains _Deduction_, _Perception_, _Practice Makes Perfect_ and _Promise of Power_, so users would only be able to add these cards to their deck in the deck builder.
-
-Although it has only one column, the file format is a csv to future-proof the format for eventual additions of more fields and to be easily usable in other software.
+In this example, the sealed deck contains two copies of _Deduction_, _Perception_, _Practice Makes Perfect_ and _Promise of Power_, so users would only be able to add these cards to their deck in the deck builder.
 
 ## Development
 
