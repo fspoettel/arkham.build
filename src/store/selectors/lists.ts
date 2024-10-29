@@ -291,7 +291,7 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
     _: StoreState,
     __?: ResolvedDeck,
     targetDeck?: "slots" | "extraSlots" | "both",
-  ) => targetDeck,
+  ) => targetDeck ?? "slots",
   (state: StoreState) => state.ui.showUnusableCards,
   (metadata, lookupTables, resolvedDeck, targetDeck, showUnusableCards) => {
     if (!resolvedDeck) return undefined;
