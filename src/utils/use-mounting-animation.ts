@@ -17,11 +17,13 @@ export function useMountTransition(
 
     if (shouldBeInDom && !inDom && !animating) {
       setInDom(true);
-    } else if (shouldBeInDom && inDom && !animating) {
+
       // after we entred the dom,
       // wait for an empty stack, add animation class
       setTimeout(() => setAnimating(true), 0);
-    } else if (!shouldBeInDom && animating) {
+    }
+
+    if (!shouldBeInDom && animating) {
       // remove animation class, wait for transition to finish, unmount after timeout
       setAnimating(false);
       const newTimeoutId = setTimeout(() => setInDom(false), unmountDelay);

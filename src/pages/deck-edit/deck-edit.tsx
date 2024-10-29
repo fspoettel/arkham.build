@@ -117,8 +117,11 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
     [deck],
   );
 
-  const updateCardQuantity = useStore((state) => state.updateCardQuantity);
+  const setUsingDeckTools = useStore((state) => state.setUsingDeckTools);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Only once on mount
+  useEffect(() => setUsingDeckTools(false), []);
 
+  const updateCardQuantity = useStore((state) => state.updateCardQuantity);
   const validation = useStore((state) => selectDeckValid(state, deck));
 
   useDocumentTitle(
