@@ -12,7 +12,14 @@ export default function FactionsChart({ data }: Props) {
       <h4 className={css["chart-title"]}>Skill icons</h4>
       <VictoryPie
         data={data}
-        style={{ data: { fill: (d) => `var(--${d.datum.xName}` } }}
+        style={{
+          data: {
+            fill: (d) => `var(--${d.datum.xName}`,
+            // For whatever reason pie does not take to the theme?
+            stroke: "var(--nord-0)",
+            strokeWidth: 2,
+          },
+        }}
       />
     </div>
   );

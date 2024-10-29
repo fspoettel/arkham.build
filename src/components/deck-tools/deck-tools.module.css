@@ -6,7 +6,7 @@
   pointer-events: none;
   transform: translateX(3rem);
 
-  &.active {
+  &.transition {
     opacity: 1;
     pointer-events: all;
     transform: translateX(0);
