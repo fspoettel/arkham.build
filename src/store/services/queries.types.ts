@@ -96,7 +96,6 @@ export type QueryCard = {
   alternate_required_code?: string;
   back_illustrator?: string;
   back_link_id?: string;
-  backimageurl?: string;
   clues?: number;
   clues_fixed?: boolean;
   code: string;
@@ -125,7 +124,6 @@ export type QueryCard = {
   hidden?: boolean;
   id: string; // {code} or {code}-{taboo_set_id}
   illustrator?: string;
-  imageurl?: string;
   is_unique?: boolean;
   linked?: boolean;
   myriad?: boolean;

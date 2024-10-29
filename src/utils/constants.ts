@@ -246,20 +246,5 @@ export const DECK_SIZE_ADJUSTMENTS = {
   [SPECIAL_CARD_CODES.VERSATILE]: 5,
 };
 
-export const CARDS_WITH_LOCAL_IMAGES = [
-  "90084",
-  "90085",
-  "90086",
-  "11024",
-  "11040",
-  "11064",
-  "11072",
-  "11092",
-  "11099",
-  "11106",
-  "11111",
-  "11117",
-];
-
 export const MQ_FLOATING_SIDEBAR = "(max-width: 52rem)";
 export const MQ_FLOATING_FILTERS = "(max-width: 75rem)";

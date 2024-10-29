@@ -2,9 +2,9 @@ import type { CardWithRelations } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 
 import {
-  CARDS_WITH_LOCAL_IMAGES,
   SIDEWAYS_TYPE_CODES,
   SKILL_KEYS,
+  SPECIAL_CARD_CODES,
 } from "./constants";
 
 export function splitMultiValue(s?: string) {
@@ -125,7 +125,7 @@ export function isSpecialCard(
 }
 
 export function hasImage(card: Card) {
-  return card.imageurl || CARDS_WITH_LOCAL_IMAGES.includes(card.code);
+  return card.code !== SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS;
 }
 
 export function getCanonicalCardCode(card: Card) {

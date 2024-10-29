@@ -30,7 +30,6 @@ export function CardBack(props: Props) {
       real_flavor: card.real_back_flavor,
       illustrator: card.back_illustrator,
       real_text: card.real_back_text,
-      imageurl: card.backimageurl,
     }),
     [card],
   );
@@ -41,8 +40,7 @@ export function CardBack(props: Props) {
   const showImage =
     hasImage(backCard) &&
     (size === "full" ||
-      (backCard.imageurl !== card.imageurl &&
-        backCard.type_code !== "investigator" &&
+      (backCard.type_code !== "investigator" &&
         backCard.type_code !== "story"));
 
   const showMeta =
