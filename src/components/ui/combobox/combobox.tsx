@@ -188,6 +188,7 @@ export function Combobox<T extends Coded>(props: Props<T>) {
           </label>
           <div className={css["control-row"]}>
             <input
+              autoComplete="off"
               data-testid="combobox-input"
               ref={refs.setReference}
               {...getReferenceProps({

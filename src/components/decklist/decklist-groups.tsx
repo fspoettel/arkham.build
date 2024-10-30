@@ -32,7 +32,7 @@ type DecklistGroupProps = {
   listCardSize?: "sm";
   mapping: string;
   quantities?: Record<string, number>;
-  renderListCardAfter?: (card: Card, quantity?: number) => React.ReactNode;
+  renderCardAfter?: (card: Card, quantity?: number) => React.ReactNode;
 };
 
 type DecklistGroupsProps = {
@@ -48,7 +48,7 @@ export function DecklistGroups({
   listCardSize,
   mapping,
   quantities,
-  renderListCardAfter,
+  renderCardAfter,
 }: DecklistGroupsProps) {
   const assetGroup = group["asset"] ? (
     <li className={cx(css["group"], css["asset"])}>
@@ -70,7 +70,7 @@ export function DecklistGroups({
                   listCardSize={listCardSize}
                   mapping={mapping}
                   quantities={quantities}
-                  renderListCardAfter={renderListCardAfter}
+                  renderCardAfter={renderCardAfter}
                 />
               </li>
             );
@@ -96,7 +96,7 @@ export function DecklistGroups({
             mapping={mapping}
             quantities={quantities}
             listCardSize={listCardSize}
-            renderListCardAfter={renderListCardAfter}
+            renderCardAfter={renderCardAfter}
           />
         </li>
       );
@@ -123,7 +123,7 @@ function DecklistGroup(props: DecklistGroupProps) {
     listCardSize,
     mapping,
     quantities,
-    renderListCardAfter,
+    renderCardAfter,
   } = props;
 
   const ctx = useResolvedDeckChecked();
@@ -178,7 +178,7 @@ function DecklistGroup(props: DecklistGroupProps) {
             }
             ownedCount={canCheckOwnership ? cardOwnedCount(card) : undefined}
             quantity={quantities?.[card.code] ?? 0}
-            renderAfter={renderListCardAfter}
+            renderAfter={renderCardAfter}
             size={listCardSize}
           />
         ))}

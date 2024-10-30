@@ -51,7 +51,7 @@ export type Props = {
   renderExtra?: (card: Card) => React.ReactNode;
   renderMetaExtra?: (card: Card, quantity?: number) => React.ReactNode;
   renderAfter?: (card: Card, quantity?: number) => React.ReactNode;
-  size?: "sm" | "investigator" | "xs";
+  size?: "xs" | "sm" | "investigator";
   showCardText?: boolean;
   showInvestigatorIcons?: boolean;
 };

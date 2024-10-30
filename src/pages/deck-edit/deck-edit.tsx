@@ -105,7 +105,7 @@ function DeckEdit() {
 function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
   const [currentTab, setCurrentTab] = useState<Tab>("slots");
 
-  const renderListCardAfter = useCallback(
+  const renderCardAfter = useCallback(
     (card: Card, quantity: number | undefined) => {
       return card.code === SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS ? (
         <DrawBasicWeakness deckId={deck.id} quantity={quantity} />
@@ -152,7 +152,7 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
           currentTab={currentTab}
           deck={deck}
           onTabChange={setCurrentTab}
-          renderListCardAfter={renderListCardAfter}
+          renderCardAfter={renderCardAfter}
           validation={validation}
         />
       }
@@ -163,7 +163,7 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
           {...props}
           onChangeCardQuantity={onChangeCardQuantity}
           quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
-          renderListCardAfter={renderListCardAfter}
+          renderCardAfter={renderCardAfter}
           targetDeck={
             mapTabToSlot(currentTab) === "extraSlots" ? "extraSlots" : "slots"
           }

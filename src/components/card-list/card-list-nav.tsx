@@ -7,12 +7,13 @@ import type { Metadata } from "@/store/slices/metadata.types";
 import css from "./card-list.module.css";
 
 import type { ResolvedDeck } from "@/store/lib/types";
+import type { ViewMode } from "@/store/slices/lists.types";
 import { SlidersVertical } from "lucide-react";
 import { LimitedCardPoolTag, SealedDeckTag } from "../limited-card-pool";
 import { Button } from "../ui/button";
-import { Checkbox } from "../ui/checkbox";
-import { DropdownMenu } from "../ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuSection } from "../ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Select } from "../ui/select";
 
 type Props = {
@@ -20,13 +21,12 @@ type Props = {
   deck?: ResolvedDeck;
   metadata: Metadata;
   onSelectGroup: (evt: React.ChangeEvent<HTMLSelectElement>) => void;
-  showCardText: boolean;
-  onChangeShowCardText(value: boolean): void;
+  onViewModeChange: (viewMode: ViewMode) => void;
+  viewMode: ViewMode;
 };
 
 export function CardListNav(props: Props) {
-  const { data, metadata, onSelectGroup, onChangeShowCardText, showCardText } =
-    props;
+  const { data, metadata, onSelectGroup, onViewModeChange, viewMode } = props;
 
   const jumpToOptions = useMemo(
     () =>
@@ -98,13 +98,14 @@ export function CardListNav(props: Props) {
           </PopoverTrigger>
           <PopoverContent>
             <DropdownMenu>
-              <Checkbox
-                id="card-list-text-toggle"
-                data-test-id="card-list-text-toggle"
-                label="Show full card text"
-                checked={showCardText}
-                onCheckedChange={onChangeShowCardText}
-              />
+              <DropdownMenuSection title="Display">
+                <RadioGroup value={viewMode} onValueChange={onViewModeChange}>
+                  <RadioGroupItem value="compact">Compact</RadioGroupItem>
+                  <RadioGroupItem value="card-text">Card text</RadioGroupItem>
+                  <RadioGroupItem value="full-cards">Full cards</RadioGroupItem>
+                  <RadioGroupItem value="scans">Scans</RadioGroupItem>
+                </RadioGroup>
+              </DropdownMenuSection>
             </DropdownMenu>
           </PopoverContent>
         </Popover>

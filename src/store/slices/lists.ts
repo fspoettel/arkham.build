@@ -357,8 +357,7 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
       },
     });
   },
-
-  setShowCardText(value) {
+  setListViewMode(viewMode) {
     const state = get();
     assert(state.activeList, "no active list is defined.");
 
@@ -372,13 +371,12 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
           ...list,
           display: {
             ...list.display,
-            showCardText: value,
+            viewMode,
           },
         },
       },
     });
   },
-
   addList(key, cardType, initialValues) {
     const state = get();
 
@@ -639,7 +637,7 @@ function makePlayerCardsList(
     {
       grouping: settings.lists.player.group,
       sorting: settings.lists.player.sort,
-      showCardText: settings.lists.player.showCardText,
+      viewMode: settings.lists.player.viewMode,
     },
     and(systemFilter),
     mergeInitialValues(initialValues, settings),
@@ -664,7 +662,7 @@ function makeInvestigatorCardsList(
     {
       grouping: settings.lists.investigator.group,
       sorting: settings.lists.investigator.sort,
-      showCardText: settings.lists.investigator.showCardText,
+      viewMode: settings.lists.investigator.viewMode,
     },
     and([
       filterType(["investigator"]),
@@ -711,7 +709,7 @@ function makeEncounterCardsList(
     {
       grouping: settings.lists.encounter.group,
       sorting: settings.lists.encounter.sort,
-      showCardText: settings.lists.encounter.showCardText,
+      viewMode: settings.lists.encounter.viewMode,
     },
     and(systemFilter),
     mergeInitialValues(initialValues, settings),

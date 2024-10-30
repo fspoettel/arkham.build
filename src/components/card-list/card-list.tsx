@@ -23,21 +23,23 @@ import { getDeckLimitOverride } from "@/store/lib/resolve-deck";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { useCardModalContext } from "../card-modal/card-modal-context";
 import { Footer } from "../footer";
-import { ListCard, type Props as ListCardProps } from "../list-card/list-card";
+import type { Props as ListCardProps } from "../list-card/list-card";
 import { Scroller } from "../ui/scroller";
+import { CardGrid } from "./card-grid";
+import { CardListItemCompact, CardListItemFull } from "./card-list-items";
 import { CardListNav } from "./card-list-nav";
 import { CardSearch } from "./card-search";
 import { Grouphead } from "./grouphead";
 
 type Props = {
   className?: string;
+  itemSize?: "xs" | "sm" | "investigator";
   onChangeCardQuantity?: ListCardProps["onChangeCardQuantity"];
   quantities?: Slots;
-  listcardSize?: ListCardProps["size"];
-  renderListCardAction?: ListCardProps["renderAction"];
-  renderListCardAfter?: ListCardProps["renderAfter"];
-  renderListCardExtra?: ListCardProps["renderExtra"];
-  renderListCardMetaExtra?: ListCardProps["renderMetaExtra"];
+  renderCardAction?: ListCardProps["renderAction"];
+  renderCardAfter?: ListCardProps["renderAfter"];
+  renderCardExtra?: ListCardProps["renderExtra"];
+  renderCardMetaExtra?: ListCardProps["renderMetaExtra"];
   slotLeft?: React.ReactNode;
   slotRight?: React.ReactNode;
   targetDeck?: "slots" | "extraSlots" | "both";
@@ -46,13 +48,13 @@ type Props = {
 export function CardList(props: Props) {
   const {
     className,
-    listcardSize,
+    itemSize,
     onChangeCardQuantity,
     quantities,
-    renderListCardAction,
-    renderListCardAfter,
-    renderListCardExtra,
-    renderListCardMetaExtra,
+    renderCardAction,
+    renderCardAfter,
+    renderCardExtra,
+    renderCardMetaExtra,
     slotLeft,
     slotRight,
     targetDeck = "slots",
@@ -68,11 +70,11 @@ export function CardList(props: Props) {
   const search = useStore(selectActiveListSearch);
   const metadata = useStore((state) => state.metadata);
 
-  const showCardText = useStore(
-    (state) => selectActiveList(state)?.display.showCardText ?? false,
+  const setListViewMode = useStore((state) => state.setListViewMode);
+  const viewMode = useStore(
+    (state) => selectActiveList(state)?.display?.viewMode ?? "compact",
   );
-
-  const setShowCardText = useStore((state) => state.setShowCardText);
+  const showAltHead = viewMode === "card-text";
 
   const [currentTop, setCurrentTop] = useState<number>(-1);
   const [scrollParent, setScrollParent] = useState<HTMLElement | undefined>();
@@ -205,9 +207,9 @@ export function CardList(props: Props) {
           deck={ctx.resolvedDeck}
           data={data}
           metadata={metadata}
-          onChangeShowCardText={setShowCardText}
           onSelectGroup={onSelectGroup}
-          showCardText={showCardText}
+          onViewModeChange={setListViewMode}
+          viewMode={viewMode}
         />
 
         <Scroller
@@ -215,7 +217,7 @@ export function CardList(props: Props) {
           data-testid="card-list-scroller"
           ref={setScrollParent as unknown as React.RefObject<HTMLDivElement>}
         >
-          {data && scrollParent && (
+          {viewMode !== "scans" && data && scrollParent && (
             <GroupedVirtuoso
               context={{ currentTop }}
               customScrollParent={scrollParent}
@@ -223,44 +225,49 @@ export function CardList(props: Props) {
                 <Grouphead
                   grouping={data.groups[index]}
                   metadata={metadata}
-                  variant={showCardText ? "alt" : undefined}
+                  variant={showAltHead ? "alt" : undefined}
                 />
               )}
               groupCounts={data.groupCounts}
               isScrolling={onScrollStop}
-              itemContent={(index, _, __, { currentTop }) => (
-                <ListCard
-                  card={data.cards[index]}
-                  disableKeyboard
-                  isActive={index === currentTop}
-                  key={data.cards[index].code}
-                  onChangeCardQuantity={onChangeCardQuantity}
-                  limitOverride={getDeckLimitOverride(
+              itemContent={(index, _, __, { currentTop }) => {
+                const itemProps = {
+                  card: data.cards[index],
+                  currentTop,
+                  index,
+                  itemSize,
+                  limitOverride: getDeckLimitOverride(
                     ctx.resolvedDeck,
                     data.cards[index].code,
-                  )}
-                  ownedCount={
-                    canCheckOwnerhip
-                      ? cardOwnedCount(data.cards[index])
-                      : undefined
-                  }
-                  quantity={
-                    quantities
-                      ? (quantities[data.cards[index].code] ?? 0)
-                      : undefined
-                  }
-                  renderAfter={renderListCardAfter}
-                  renderAction={renderListCardAction}
-                  renderMetaExtra={renderListCardMetaExtra}
-                  renderExtra={renderListCardExtra}
-                  size={listcardSize}
-                  showCardText={showCardText}
-                />
-              )}
-              key={`${data.key}-${showCardText}`}
+                  ),
+                  onChangeCardQuantity,
+                  ownedCount: canCheckOwnerhip
+                    ? cardOwnedCount(data.cards[index])
+                    : undefined,
+                  quantity: quantities
+                    ? (quantities[data.cards[index].code] ?? 0)
+                    : undefined,
+                  renderAction: renderCardAction,
+                  renderAfter: renderCardAfter,
+                  renderExtra: renderCardExtra,
+                  renderMetaExtra: renderCardMetaExtra,
+                  resolvedDeck: ctx.resolvedDeck,
+                  viewMode,
+                };
+
+                if (viewMode === "full-cards") {
+                  return <CardListItemFull {...itemProps} />;
+                }
+
+                return <CardListItemCompact {...itemProps} />;
+              }}
+              key={`${data.key}-${viewMode}`}
               rangeChanged={rangeChanged}
               ref={virtuosoRef}
             />
+          )}
+          {viewMode === "scans" && data && (
+            <CardGrid data={data} metadata={metadata} />
           )}
         </Scroller>
         <Footer className={css["footer"]} />

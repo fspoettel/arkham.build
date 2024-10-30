@@ -64,10 +64,10 @@ export type CardGroup = {
 };
 
 export type ListState = {
-  key: string;
-  groups: CardGroup[];
   cards: Card[];
   groupCounts: number[];
+  groups: CardGroup[];
+  key: string;
   totalCardCount: number;
 };
 
@@ -1000,4 +1000,21 @@ export const selectTypeOptions = createSelector(
 export const selectActiveListSearch = createSelector(
   selectActiveList,
   (list) => list?.search,
+);
+
+export const selectResolvedCardById = createSelector(
+  (state: StoreState) => state.metadata,
+  (state: StoreState) => state.lookupTables,
+  (_: StoreState, code: string) => code,
+  (_: StoreState, __: string, resolvedDeck?: ResolvedDeck) => resolvedDeck,
+  (metadata, lookupTables, code, resolvedDeck) => {
+    return resolveCardWithRelations(
+      metadata,
+      lookupTables,
+      code,
+      resolvedDeck?.taboo_id,
+      resolvedDeck?.customizations,
+      true,
+    );
+  },
 );

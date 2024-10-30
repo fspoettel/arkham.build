@@ -11,25 +11,25 @@ import type {
 export const PLAYER_DEFAULTS: ListConfig = {
   group: ["subtype", "type", "slot"],
   sort: ["name", "level"],
-  showCardText: false,
+  viewMode: "compact",
 };
 
 export const ENCOUNTER_DEFAULTS: ListConfig = {
   group: ["pack", "encounter_set"],
   sort: ["position"],
-  showCardText: false,
+  viewMode: "compact",
 };
 
 const INVESTIGATOR_DEFAULTS: ListConfig = {
   group: ["cycle"],
   sort: ["position"],
-  showCardText: false,
+  viewMode: "compact",
 };
 
 const DECK_DEFAULTS: ListConfig = {
   group: ["type", "slot"],
   sort: ["name", "level"],
-  showCardText: false,
+  viewMode: "compact",
 };
 
 export function getInitialListsSetting(): SettingsState["lists"] {

@@ -49,7 +49,7 @@ export function Decklist(props: Props) {
         ),
     );
 
-  const listcardAfterRenderer = useCallback(
+  const renderCardAfter = useCallback(
     (card: Card) => <Attachments card={card} resolvedDeck={deck} />,
     [deck],
   );
@@ -64,7 +64,7 @@ export function Decklist(props: Props) {
             layout="two_column"
             mapping="slots"
             quantities={deck.slots}
-            renderListCardAfter={listcardAfterRenderer}
+            renderCardAfter={renderCardAfter}
           />
         </DecklistSection>
 

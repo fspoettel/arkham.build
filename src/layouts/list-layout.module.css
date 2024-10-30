@@ -22,7 +22,7 @@
   grid-template-rows: auto minmax(0, 1fr);
 
   @media screen and (min-width: 52rem) {
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.25rem;
     grid-template-columns: var(--sidebar-width-one-col) 1fr;
   }
 
@@ -48,6 +48,7 @@
   height: 100%;
   border: 1px solid var(--palette-1);
   border-radius: var(--rounded);
+  contain: size layout style;
 
   > * {
     overflow-x: hidden;
@@ -101,6 +102,7 @@
 
 .content {
   grid-area: content;
+  contain: size layout style;
 
   &.collapsed-sidebar {
     grid-column-start: sidebar;

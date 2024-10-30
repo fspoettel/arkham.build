@@ -178,7 +178,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--card-spacing);
-  padding: calc(var(--card-spacing) / 1.5) var(--card-spacing);
+  padding: calc(var(--card-spacing) / 2) var(--card-spacing);
   color: var(--nord-6);
   border-radius: calc(var(--rounded-md) - 2px) calc(var(--rounded-md) - 2px) 0 0;
 }
@@ -264,6 +264,7 @@
 }
 
 .scan img {
+  background: var(--palette-1);
   border-radius: var(--rounded-lg);
   margin: 0 auto;
 
