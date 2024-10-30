@@ -1,5 +1,7 @@
 import type { ChartableData, Factions } from "@/store/lib/types";
+import { capitalize } from "@/utils/formatting";
 import { VictoryPie } from "victory";
+import { chartsTheme } from "./chart-theme";
 import css from "./deck-tools.module.css";
 
 type Props = {
@@ -12,12 +14,15 @@ export default function FactionsChart({ data }: Props) {
       <h4 className={css["chart-title"]}>Skill icons</h4>
       <VictoryPie
         data={data}
+        theme={chartsTheme}
+        labels={({ datum }) => capitalize(datum.xName)}
         style={{
+          labels: {
+            fontSize: 10,
+            padding: 10,
+          },
           data: {
             fill: (d) => `var(--${d.datum.xName}`,
-            // For whatever reason pie does not take to the theme?
-            stroke: "var(--nord-0)",
-            strokeWidth: 2,
           },
         }}
       />

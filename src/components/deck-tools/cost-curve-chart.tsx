@@ -15,8 +15,12 @@ type Props = {
   data: ChartableData;
 };
 
-function formatTickLabels(value: number) {
+function formatDomainTickLabels(value: number) {
   return value === 7 ? "7+" : value.toString();
+}
+
+function formatCodomainTickLabels(value: number) {
+  return value.toFixed(0);
 }
 
 function formatTooltips(value: { datum: { y: number; x: number } }) {
@@ -41,27 +45,30 @@ export default function CostCurveChart({ data }: Props) {
   return (
     <div className={css["chart-container"]}>
       <h4 className={css["chart-title"]}>Resource costs</h4>
-      <VictoryChart theme={chartsTheme}>
+      <VictoryChart
+        theme={chartsTheme}
+        padding={{ left: 45, top: 5, bottom: 40, right: 5 }}
+      >
         <VictoryAxis
           tickValues={tickValues}
-          animate={animateProps}
           label="Resource cost"
-          tickFormat={formatTickLabels}
+          tickFormat={formatDomainTickLabels}
           style={{ grid: { stroke: "transparent" } }}
-          tickLabelComponent={<VictoryLabel dy={5} />}
+          tickLabelComponent={<VictoryLabel />}
         />
         <VictoryAxis
           dependentAxis
           label="Cards"
           domain={[0, maxAmount]}
-          tickLabelComponent={<VictoryLabel dx={-5} />}
+          tickFormat={formatCodomainTickLabels}
+          tickLabelComponent={<VictoryLabel />}
         />
         <VictoryLine data={data} animate={animateProps} />
         <VictoryScatter
           data={data}
           size={5}
-          animate={animateProps}
           labels={formatTooltips}
+          animate={animateProps}
           labelComponent={<VictoryTooltip />}
         />
       </VictoryChart>

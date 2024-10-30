@@ -29,11 +29,18 @@ type SkillIconLabelProps = {
   y?: number;
 };
 
+const SKILL_ICON_SIZE = 24;
+
 export function SkillIconLabel(props: SkillIconLabelProps) {
   const { text, x, y } = props;
 
   return (
-    <foreignObject x={(x || 0) - 12} y={(y || 0) - 12} width={24} height={24}>
+    <foreignObject
+      x={(x ?? 0) - SKILL_ICON_SIZE / 2}
+      y={(y ?? 0) - SKILL_ICON_SIZE / 2}
+      width={SKILL_ICON_SIZE}
+      height={SKILL_ICON_SIZE}
+    >
       <SkillIconFancy
         skill={text || "wild"}
         className={css["skill-icon-label"]}
@@ -51,14 +58,13 @@ export default function CostCurveChart({ data }: Props) {
   return (
     <div className={css["chart-container"]}>
       <h4 className={css["chart-title"]}>Skill icons</h4>
-      <VictoryChart theme={chartsTheme} polar padding={25}>
+      <VictoryChart theme={chartsTheme} polar padding={{ bottom: 20, top: 20 }}>
         <VictoryPolarAxis
-          animate={animateProps}
           tickFormat={formatTickLabels}
           tickLabelComponent={<SkillIconLabel />}
           style={{
             tickLabels: {
-              padding: 20,
+              padding: 15,
             },
           }}
         />
@@ -71,7 +77,6 @@ export default function CostCurveChart({ data }: Props) {
         <VictoryScatter
           data={data}
           size={5}
-          animate={animateProps}
           labels={formatTooltips}
           style={{
             labels: {

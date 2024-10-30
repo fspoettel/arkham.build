@@ -1,8 +1,13 @@
+import { MQ_FLOATING_SIDEBAR } from "@/utils/constants";
 import type {
   AnimatePropTypeInterface,
   VictoryLabelStyleObject,
   VictoryThemeDefinition,
 } from "victory";
+
+const baseChartProps = {
+  height: window.matchMedia(MQ_FLOATING_SIDEBAR).matches ? 200 : 250,
+};
 
 export const animateProps: AnimatePropTypeInterface = {
   duration: 550,
@@ -14,16 +19,16 @@ const baseLabelStyles: VictoryLabelStyleObject = {
   fontFamily: "var(--font-family-ui)",
   fill: "var(--nord-4)",
   fontSize: 12,
-  opacity: 0.8,
   lineHeight: 16,
 };
 
 export const chartsTheme: VictoryThemeDefinition = {
   chart: {
-    padding: { top: 10, right: 10, bottom: 40, left: 45 },
+    ...baseChartProps,
+    padding: 0,
   },
   line: {
-    animate: animateProps,
+    ...baseChartProps,
     style: {
       data: {
         stroke: "var(--nord-10)",
@@ -32,20 +37,22 @@ export const chartsTheme: VictoryThemeDefinition = {
     },
   },
   scatter: {
+    ...baseChartProps,
     style: {
       data: { fill: "var(--nord-10)" },
     },
   },
   axis: {
+    ...baseChartProps,
     style: {
-      axisLabel: { ...baseLabelStyles, padding: 25 },
+      axisLabel: { ...baseLabelStyles, padding: 30 },
       axis: { stroke: "var(--nord-2)", strokeWidth: 2 },
       grid: {
         stroke: "var(--nord-2)",
         strokeDasharray: "5, 15",
         strokeWidth: 1,
       },
-      tickLabels: baseLabelStyles,
+      tickLabels: { ...baseLabelStyles, padding: 10 },
     },
   },
   tooltip: {
@@ -60,5 +67,16 @@ export const chartsTheme: VictoryThemeDefinition = {
     },
     flyoutPadding: 5,
     flyoutWidth: 75,
+  },
+  pie: {
+    ...baseChartProps,
+    padding: { bottom: 20 },
+    style: {
+      labels: { ...baseLabelStyles },
+      data: {
+        stroke: "var(--nord-0)",
+        strokeWidth: 2,
+      },
+    },
   },
 };

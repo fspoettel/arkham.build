@@ -15,7 +15,7 @@
 
 .charts-wrap {
   display: flex;
-  height: 100%;
+  flex-wrap: wrap;
 }
 
 .tools-title {
@@ -24,11 +24,14 @@
 }
 
 .chart-container {
-  max-height: 350px;
   margin-bottom: 40px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  flex-grow: 1;
+  flex-shrink: 1;
+  max-width: 50%;
+  min-width: 300px;
 }
 
 .skill-icon-label {
@@ -37,4 +40,17 @@
 
 .chart-title {
   margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 75rem) {
+  .chart-container {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 52rem) {
+  .deck-tools {
+    grid-column: sidebar / filters;
+  }
 }
