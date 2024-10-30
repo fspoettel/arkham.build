@@ -1,5 +1,5 @@
 import type { ChartableData } from "@/store/lib/types";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import {
   VictoryChart,
   VictoryLine,
@@ -10,6 +10,7 @@ import {
 import { SkillIconFancy } from "../icons/skill-icon-fancy";
 import { animateProps, chartsTheme } from "./chart-theme";
 import css from "./deck-tools.module.css";
+import { useElementSize } from "./utils";
 
 type Props = {
   data: ChartableData<string>;
@@ -55,10 +56,18 @@ export default function CostCurveChart({ data }: Props) {
     [data],
   );
 
+  const ref = useRef(null);
+  const { width } = useElementSize(ref);
+
   return (
-    <div className={css["chart-container"]}>
+    <div ref={ref} className={css["chart-container"]}>
       <h4 className={css["chart-title"]}>Skill icons</h4>
-      <VictoryChart theme={chartsTheme} polar padding={{ bottom: 20, top: 20 }}>
+      <VictoryChart
+        theme={chartsTheme}
+        polar
+        padding={{ bottom: 20, top: 20 }}
+        width={width}
+      >
         <VictoryPolarAxis
           tickFormat={formatTickLabels}
           tickLabelComponent={<SkillIconLabel />}

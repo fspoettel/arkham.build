@@ -1,8 +1,9 @@
 import type { ChartableData } from "@/store/lib/types";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import {
   VictoryAxis,
   VictoryChart,
+  VictoryContainer,
   VictoryLabel,
   VictoryLine,
   VictoryScatter,
@@ -10,6 +11,7 @@ import {
 } from "victory";
 import { animateProps, chartsTheme } from "./chart-theme";
 import css from "./deck-tools.module.css";
+import { useElementSize } from "./utils";
 
 type Props = {
   data: ChartableData;
@@ -42,12 +44,17 @@ export default function CostCurveChart({ data }: Props) {
     [data],
   );
 
+  const ref = useRef(null);
+  const { width } = useElementSize(ref);
+
   return (
-    <div className={css["chart-container"]}>
+    <div ref={ref} className={css["chart-container"]}>
       <h4 className={css["chart-title"]}>Resource costs</h4>
       <VictoryChart
         theme={chartsTheme}
         padding={{ left: 45, top: 5, bottom: 40, right: 5 }}
+        containerComponent={<VictoryContainer responsive={false} />}
+        width={width}
       >
         <VictoryAxis
           tickValues={tickValues}
@@ -63,7 +70,7 @@ export default function CostCurveChart({ data }: Props) {
           tickFormat={formatCodomainTickLabels}
           tickLabelComponent={<VictoryLabel />}
         />
-        <VictoryLine data={data} animate={animateProps} />
+        <VictoryLine data={data} animate={animateProps} width={width} />
         <VictoryScatter
           data={data}
           size={5}

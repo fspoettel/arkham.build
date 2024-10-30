@@ -72,7 +72,11 @@ export const chartsTheme: VictoryThemeDefinition = {
     ...baseChartProps,
     padding: { bottom: 20 },
     style: {
-      labels: { ...baseLabelStyles },
+      labels: {
+        ...baseLabelStyles,
+        fontSize: 10,
+        padding: 10,
+      },
       data: {
         stroke: "var(--nord-0)",
         strokeWidth: 2,
