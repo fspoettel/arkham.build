@@ -1,5 +1,3 @@
-import { useCallback, useMemo } from "react";
-
 import {
   LimitedCardPoolField,
   SealedDeckField,
@@ -16,6 +14,7 @@ import type { DeckOptionSelectType } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
 import { debounce } from "@/utils/debounce";
 import { capitalize, capitalizeSnakeCase } from "@/utils/formatting";
+import { useCallback, useMemo } from "react";
 
 type Props = {
   deck: ResolvedDeck;
@@ -241,6 +240,7 @@ export function MetaEditor(props: Props) {
       <Collapsible
         title="Card pool settings"
         data-testid="meta-limited-card-pool"
+        defaultOpen={!!deck.sealedDeck || !!deck.metaParsed.card_pool}
       >
         <CollapsibleContent>
           <LimitedCardPoolField

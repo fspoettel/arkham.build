@@ -39,7 +39,7 @@
 
 .scrollbar-thumb {
   flex: 1;
-  background: var(--nord-4);
+  background: var(--palette-4);
   border-radius: var(--scrollbar-size);
   position: relative;
   opacity: 0.5;

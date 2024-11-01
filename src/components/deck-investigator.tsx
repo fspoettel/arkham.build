@@ -1,21 +1,18 @@
-import { cx } from "@/utils/cx";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { useState } from "react";
-
 import {
   getRelatedCardQuantity,
   getRelatedCards,
 } from "@/store/lib/resolve-card";
-import { formatRelationTitle } from "@/utils/formatting";
-
-import css from "./deck-investigator.module.css";
-
 import type { ResolvedDeck } from "@/store/lib/types";
+import { cx } from "@/utils/cx";
+import { formatRelationTitle } from "@/utils/formatting";
+import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
+import { useState } from "react";
 import { CardModalAttachable } from "./card-modal/card-modal-attachable";
 import { CardBack } from "./card/card-back";
 import { CardContainer } from "./card/card-container";
 import { CardFace } from "./card/card-face";
 import { CardSet } from "./cardset";
+import css from "./deck-investigator.module.css";
 import { Button } from "./ui/button";
 
 type Props = {
@@ -34,29 +31,35 @@ export function DeckInvestigator(props: Props) {
     ([key]) => key !== "parallel",
   );
 
+  const hasBack =
+    deck.investigatorBack.card.double_sided ||
+    deck.investigatorBack.card.back_link_id;
+
   const children = canToggleBack ? (
     <>
       <CardFace
         data-testid="deck-investigator-front"
         resolvedCard={deck.investigatorFront}
-        linked
+        titleLinks="modal"
         size={size}
       />
-      <div
-        className={cx(css["back-toggle"], backToggled && css["open"])}
-        data-testid="deck-investigator-back-toggle"
-      >
-        <Button onClick={() => toggleBack((p) => !p)}>
-          {backToggled ? <ChevronUp /> : <ChevronDown />}
-          Backside{" "}
-          {deck.investigatorBack.card.parallel && (
-            <>
-              (<span className="icon-parallel" />)
-            </>
-          )}
-        </Button>
-      </div>
-      {backToggled && (
+      {hasBack && (
+        <div
+          className={cx(css["back-toggle"], backToggled && css["open"])}
+          data-testid="deck-investigator-back-toggle"
+        >
+          <Button onClick={() => toggleBack((p) => !p)}>
+            {backToggled ? <ChevronUpIcon /> : <ChevronDownIcon />}
+            Backside{" "}
+            {deck.investigatorBack.card.parallel && (
+              <>
+                (<span className="icon-parallel" />)
+              </>
+            )}
+          </Button>
+        </div>
+      )}
+      {hasBack && backToggled && (
         <CardBack
           card={deck.investigatorBack.card}
           data-testid="deck-investigator-back"
@@ -66,8 +69,12 @@ export function DeckInvestigator(props: Props) {
     </>
   ) : (
     <>
-      <CardFace linked resolvedCard={deck.investigatorFront} size={size} />
-      <CardBack card={deck.investigatorBack.card} size={size} />
+      <CardFace
+        titleLinks="modal"
+        resolvedCard={deck.investigatorFront}
+        size={size}
+      />
+      {hasBack && <CardBack card={deck.investigatorBack.card} size={size} />}
     </>
   );
 

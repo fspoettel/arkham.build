@@ -1,6 +1,3 @@
-import { beforeAll, describe, expect, it } from "vitest";
-import type { StoreApi } from "zustand";
-
 import accessCustomizableValid from "@/test/fixtures/decks/validation/access_customizable.json";
 import accessCustomizableInvalid from "@/test/fixtures/decks/validation/access_customizable_invalid.json";
 import atleastAncestralKnowledge from "@/test/fixtures/decks/validation/atleast_ancestral_knowledge.json";
@@ -75,9 +72,11 @@ import underworldSupport from "@/test/fixtures/decks/validation/underworld_suppo
 import underworldSupperInvalidDeckLimit from "@/test/fixtures/decks/validation/underworld_support_invalid_deck_limit.json";
 import underworldSupportInvalidSize from "@/test/fixtures/decks/validation/underworld_support_invalid_size.json";
 import underworldSupportWeaknesses from "@/test/fixtures/decks/validation/underworld_support_weaknesses.json";
+import ythian from "@/test/fixtures/decks/ythian.json";
 import { getMockStore } from "@/test/get-mock-store";
-
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import { beforeAll, describe, expect, it } from "vitest";
+import type { StoreApi } from "zustand";
 import type { StoreState } from "../slices";
 import type { Deck } from "../slices/data.types";
 import { validateDeck } from "./deck-validation";
@@ -1190,6 +1189,13 @@ describe("deck validation", () => {
           },
         ]
       `);
+    });
+  });
+
+  describe("transformed investigator", () => {
+    it("skips validation for transformed investigator", () => {
+      const result = validate(store, ythian);
+      expect(result.valid).toBeTruthy();
     });
   });
 });

@@ -1,20 +1,16 @@
-import { ExternalLink, MessageSquare } from "lucide-react";
-import { useCallback, useRef } from "react";
-import { Link } from "wouter";
-
 import { useStore } from "@/store";
 import {
   getRelatedCardQuantity,
   getRelatedCards,
 } from "@/store/lib/resolve-card";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
+import { getCanonicalCardCode, isStaticInvestigator } from "@/utils/card-utils";
 import { formatRelationTitle } from "@/utils/formatting";
 import { useMedia } from "@/utils/use-media";
-
-import css from "./card-modal.module.css";
-
-import { getCanonicalCardCode } from "@/utils/card-utils";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
+import { ExternalLinkIcon, MessageSquareIcon } from "lucide-react";
+import { useCallback, useRef } from "react";
+import { Link } from "wouter";
 import { Card } from "../card/card";
 import { CardSet } from "../cardset";
 import { Customizations } from "../customizations/customizations";
@@ -25,6 +21,7 @@ import { Modal } from "../ui/modal";
 import { CardModalAttachable } from "./card-modal-attachable";
 import { CardModalAttachmentQuantities } from "./card-modal-attachment-quantities";
 import { CardModalQuantities } from "./card-modal-quantities";
+import css from "./card-modal.module.css";
 
 type Props = {
   code: string;
@@ -124,27 +121,28 @@ export function CardModal(props: Props) {
     <Modal
       actions={
         <>
-          {cardWithRelations.card.type_code === "investigator" && (
-            <Link
-              asChild
-              href={
-                cardWithRelations.card.parallel
-                  ? `/deck/create/${canonicalCode}?initial_investigator=${cardWithRelations.card.code}`
-                  : `/deck/create/${canonicalCode}`
-              }
-              onClick={onCloseModal}
-            >
-              <Button as="a" data-testid="card-modal-create-deck">
-                <i className="icon-deck" /> Create deck
-              </Button>
-            </Link>
-          )}
+          {cardWithRelations.card.type_code === "investigator" &&
+            !isStaticInvestigator(cardWithRelations.card) && (
+              <Link
+                asChild
+                href={
+                  cardWithRelations.card.parallel
+                    ? `/deck/create/${canonicalCode}?initial_investigator=${cardWithRelations.card.code}`
+                    : `/deck/create/${canonicalCode}`
+                }
+                onClick={onCloseModal}
+              >
+                <Button as="a" data-testid="card-modal-create-deck">
+                  <i className="icon-deck" /> Create deck
+                </Button>
+              </Link>
+            )}
           <Button
             as="a"
             href={`/card/${cardWithRelations.card.code}`}
             target="_blank"
           >
-            <ExternalLink />
+            <ExternalLinkIcon />
             Card page
           </Button>
           <Button
@@ -153,7 +151,7 @@ export function CardModal(props: Props) {
             rel="noreferrer"
             target="_blank"
           >
-            <MessageSquare />
+            <MessageSquareIcon />
             Reviews
           </Button>
         </>

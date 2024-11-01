@@ -5,9 +5,11 @@ export function useAccentColor(factionCode: string) {
     () =>
       ({
         "--accent-color":
-          factionCode === "neutral" ? "var(--nord-3)" : `var(--${factionCode})`,
+          factionCode === "neutral"
+            ? "var(--palette-3)"
+            : `var(--color-${factionCode})`,
         "--accent-color-dark": `var(--${factionCode}-dark)`,
-        "--acent-color-contrast": "var(--nord-6)",
+        "--acent-color-contrast": "var(--palette-6)",
       }) as React.CSSProperties,
     [factionCode],
   );

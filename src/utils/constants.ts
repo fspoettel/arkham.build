@@ -18,7 +18,6 @@ const ACTION_TEXT: { [key: string]: string } = {
   fight: "Fight.",
   engage: "Engage.",
   investigate: "Investigate.",
-  play: "Play.",
   draw: "Draw.",
   move: "Move.",
   evade: "Evade.",
@@ -159,6 +158,10 @@ export const SPECIAL_CARD_CODES = {
   RANDOM_BASIC_WEAKNESS: "01000",
   /** Separate deck. */
   STICK_TO_THE_PLAN: "03264",
+  /** Additional XP gain, switches deck investigator with a static investigator on defeat. */
+  THE_GREAT_WORK: "11068a",
+  /** Investigator can be transformed into this. */
+  LOST_HOMUNCULUS: "11068b",
   /** Connected to parallel wendy's front. */
   TIDAL_MEMENTO: "90038",
   /** Adjusts deck size, has separate deck. */
@@ -242,21 +245,6 @@ export const DECK_SIZE_ADJUSTMENTS = {
   [SPECIAL_CARD_CODES.UNDERWORLD_SUPPORT]: -5,
   [SPECIAL_CARD_CODES.VERSATILE]: 5,
 };
-
-export const CARDS_WITH_LOCAL_IMAGES = [
-  "90084",
-  "90085",
-  "90086",
-  "11024",
-  "11040",
-  "11064",
-  "11072",
-  "11092",
-  "11099",
-  "11106",
-  "11111",
-  "11117",
-];
 
 export const MQ_FLOATING_SIDEBAR = "(max-width: 52rem)";
 export const MQ_FLOATING_FILTERS = "(max-width: 75rem)";

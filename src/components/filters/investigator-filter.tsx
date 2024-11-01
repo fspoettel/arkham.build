@@ -6,10 +6,10 @@ import {
 } from "@/store/selectors/lists";
 import { isInvestigatorFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
-
+import type { FilterProps } from "./filters.types";
 import { SelectFilter } from "./primitives/select-filter";
 
-export function InvestigatorFilter({ id }: { id: number }) {
+export function InvestigatorFilter({ id }: FilterProps) {
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
     isInvestigatorFilterObject(filter),

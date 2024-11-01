@@ -1,23 +1,22 @@
-import { useCallback } from "react";
-
 import { useStore } from "@/store";
 import {
   selectActiveList,
   selectActiveListFilter,
   selectMultiselectChanges,
-  selectTypeOptions,
 } from "@/store/selectors/lists";
+import { selectTypeOptions } from "@/store/selectors/lists";
 import type { Type } from "@/store/services/queries.types";
 import { isTypeFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
-
+import { useCallback } from "react";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+import type { FilterProps } from "./filters.types";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 
 const nameRenderer = (item: Type) => item.name;
 const itemToString = (item: Type) => item.name.toLowerCase();
 
-export function TypeFilter({ id }: { id: number }) {
+export function TypeFilter({ id, resolvedDeck }: FilterProps) {
   const activeList = useStore(selectActiveList);
   const filter = useStore((state) => selectActiveListFilter(state, id));
   const setFilterValue = useStore((state) => state.setFilterValue);
@@ -28,7 +27,7 @@ export function TypeFilter({ id }: { id: number }) {
   );
 
   const changes = selectMultiselectChanges(filter.value);
-  const options = useStore(selectTypeOptions);
+  const options = useStore((state) => selectTypeOptions(state, resolvedDeck));
 
   const onApplyShortcut = useCallback(
     (value: string[]) => {

@@ -1,9 +1,7 @@
-import { beforeAll, describe, expect, it } from "vitest";
-import type { StoreApi } from "zustand";
-
 import type { StoreState } from "@/store/slices";
 import { getMockStore } from "@/test/get-mock-store";
-
+import { beforeAll, describe, expect, it } from "vitest";
+import type { StoreApi } from "zustand";
 import { countExperience } from "./card-utils";
 
 describe("countExperience", () => {

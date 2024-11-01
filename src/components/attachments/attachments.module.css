@@ -1,6 +1,6 @@
 .attachments {
   list-style: none;
-  color: var(--nord-4);
+  color: var(--palette-4);
   display: inline-flex;
   gap: 0.25rem;
 }
@@ -10,7 +10,7 @@
 }
 
 .attachment-quantity {
-  color: var(--nord-4);
+  color: var(--palette-4);
 }
 
 .attachment-content {

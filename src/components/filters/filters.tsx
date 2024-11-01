@@ -1,15 +1,12 @@
-import { cx } from "@/utils/cx";
-import { Fragment } from "react/jsx-runtime";
-
 import { useStore } from "@/store";
 import {
   selectActiveList,
   selectActiveListFilters,
 } from "@/store/selectors/lists";
-
-import css from "./filters.module.css";
-
-import { FilterX } from "lucide-react";
+import { cx } from "@/utils/cx";
+import { useResolvedDeck } from "@/utils/use-resolved-deck";
+import { FilterXIcon } from "lucide-react";
+import { Fragment } from "react/jsx-runtime";
 import { CollapseSidebarButton } from "../collapse-sidebar-button";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
@@ -21,6 +18,7 @@ import { CardTypeFilter } from "./card-type-filter";
 import { CostFilter } from "./cost-filter";
 import { EncounterSetFilter } from "./encounter-set-filter";
 import { FactionFilter } from "./faction-filter";
+import css from "./filters.module.css";
 import { InvestigatorFilter } from "./investigator-filter";
 import { LevelFilter } from "./level-filter";
 import { OwnershipFilter } from "./ownership-filter";
@@ -38,13 +36,15 @@ type Props = {
 };
 
 export function Filters(props: Props) {
-  const resetFilters = useStore((state) => state.resetFilters);
+  const { resolvedDeck } = useResolvedDeck();
+
   const activeList = useStore(selectActiveList);
   const filters = useStore(selectActiveListFilters);
+  const resetFilters = useStore((state) => state.resetFilters);
   const setFiltersOpen = useStore((state) => state.setFiltersOpen);
+  const updateFiltersEnabled = useStore((state) => state.setFiltersEnabled);
 
   const filtersEnabled = activeList?.filtersEnabled ?? true;
-  const updateFiltersEnabled = useStore((state) => state.setFiltersEnabled);
 
   return (
     <search
@@ -66,7 +66,9 @@ export function Filters(props: Props) {
         <div className={css["children"]}>{props.children}</div>
       )}
 
-      <CardTypeFilter className={css["card-type-filter"]} />
+      {activeList?.key !== "create_deck" && (
+        <CardTypeFilter className={css["card-type-filter"]} />
+      )}
 
       <div className={css["header"]}>
         <Tooltip delay={300} placement="top-start">
@@ -92,7 +94,7 @@ export function Filters(props: Props) {
             tooltip="Reset all filters"
             variant="bare"
           >
-            <FilterX /> Reset
+            <FilterXIcon /> Reset
           </Button>
         </div>
       </div>
@@ -101,21 +103,34 @@ export function Filters(props: Props) {
           {filters.map((filter, id) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: index is unique key.
             <Fragment key={id}>
-              {filter === "faction" && <FactionFilter id={id} />}
+              {filter === "action" && (
+                <ActionFilter id={id} resolvedDeck={resolvedDeck} />
+              )}
+              {filter === "asset" && (
+                <AssetFilter id={id} resolvedDeck={resolvedDeck} />
+              )}
+              {filter === "cost" && (
+                <CostFilter id={id} resolvedDeck={resolvedDeck} />
+              )}
+              {filter === "encounterSet" && <EncounterSetFilter id={id} />}
+              {filter === "investigator" && <InvestigatorFilter id={id} />}
               {filter === "level" && <LevelFilter id={id} />}
               {filter === "ownership" && <OwnershipFilter id={id} />}
-              {filter === "investigator" && <InvestigatorFilter id={id} />}
               {filter === "pack" && <PackFilter id={id} />}
-              {filter === "subtype" && <SubtypeFilter id={id} />}
-              {filter === "type" && <TypeFilter id={id} />}
-              {filter === "tabooSet" && <TabooSetFilter id={id} />}
-              {filter === "trait" && <TraitFilter id={id} />}
-              {filter === "action" && <ActionFilter id={id} />}
               {filter === "properties" && <PropertiesFilter id={id} />}
               {filter === "skillIcons" && <SkillIconsFilter id={id} />}
-              {filter === "cost" && <CostFilter id={id} />}
-              {filter === "asset" && <AssetFilter id={id} />}
-              {filter === "encounterSet" && <EncounterSetFilter id={id} />}
+              {filter === "subtype" && (
+                <SubtypeFilter id={id} resolvedDeck={resolvedDeck} />
+              )}
+              {filter === "trait" && (
+                <TraitFilter id={id} resolvedDeck={resolvedDeck} />
+              )}
+              {filter === "tabooSet" && <TabooSetFilter id={id} />}
+              {filter === "type" && (
+                <TypeFilter id={id} resolvedDeck={resolvedDeck} />
+              )}
+
+              {filter === "faction" && <FactionFilter id={id} />}
             </Fragment>
           ))}
         </div>

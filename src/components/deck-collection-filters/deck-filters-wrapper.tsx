@@ -4,15 +4,13 @@ import {
   selectDeckSearchTerm,
   selectFactionsInLocalDecks,
 } from "@/store/selectors/deck-filters";
-import { FactionToggle } from "../faction-toggle";
-import { SearchInput } from "../ui/search-input";
-
-import { Filter, Minimize2 } from "lucide-react";
-import { useRef, useState } from "react";
-import { Button } from "../ui/button";
-import css from "./deck-filters-wrapper.module.css";
-
 import { Content, Root, Trigger } from "@radix-ui/react-collapsible";
+import { FilterIcon, Minimize2Icon } from "lucide-react";
+import { useRef, useState } from "react";
+import { FactionToggle } from "../faction-toggle";
+import { Button } from "../ui/button";
+import { SearchInput } from "../ui/search-input";
+import css from "./deck-filters-wrapper.module.css";
 import { DeckSortingOptions } from "./deck-sorting-options";
 import { TagsFilter } from "./tags-filter";
 
@@ -58,7 +56,7 @@ export function DeckCollectionFilters() {
             tooltip={open ? "Close Filters" : "More filters"}
             variant="bare"
           >
-            {open ? <Minimize2 /> : <Filter />}
+            {open ? <Minimize2Icon /> : <FilterIcon />}
           </Button>
         </Trigger>
       </div>

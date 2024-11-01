@@ -1,19 +1,19 @@
 import { useStore } from "@/store";
+import { selectActiveListFilter } from "@/store/selectors/lists";
 import {
-  selectActiveListFilter,
   selectSubtypeChanges,
   selectSubtypeOptions,
 } from "@/store/selectors/lists";
 import { isSubtypeFilterObject } from "@/store/slices/lists.type-guards";
-import { assert } from "@/utils/assert";
-
 import type { SubtypeFilter as SubtypeFilterType } from "@/store/slices/lists.types";
+import { assert } from "@/utils/assert";
 import { useCallback } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
+import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
 
-export function SubtypeFilter({ id }: { id: number }) {
+export function SubtypeFilter({ id }: FilterProps) {
   const filter = useStore((state) => selectActiveListFilter(state, id));
 
   assert(
@@ -25,7 +25,7 @@ export function SubtypeFilter({ id }: { id: number }) {
     selectSubtypeChanges(state, filter.value),
   );
 
-  const options = useStore(selectSubtypeOptions);
+  const options = selectSubtypeOptions();
 
   const setFilterValue = useStore((state) => state.setFilterValue);
   const setFilterOpen = useStore((state) => state.setFilterOpen);

@@ -1,7 +1,5 @@
 import { cx } from "@/utils/cx";
-
 import css from "./card-health.module.css";
-
 import { HealthIcon, SanityIcon } from "./icons/health-icons";
 
 type Props = {

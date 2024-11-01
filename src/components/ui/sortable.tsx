@@ -1,3 +1,4 @@
+import { cx } from "@/utils/cx";
 import {
   DndContext,
   type DragEndEvent,
@@ -17,10 +18,8 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-
-import { cx } from "@/utils/cx";
 import { CSS } from "@dnd-kit/utilities";
-import { GripHorizontal } from "lucide-react";
+import { GripHorizontalIcon } from "lucide-react";
 import type React from "react";
 import { forwardRef, useCallback, useMemo, useState } from "react";
 import { Button } from "./button";
@@ -64,8 +63,6 @@ export function Sortable<T extends SortableData>(props: Props<T>) {
   const handleDragEnd = useCallback(
     (evt: DragEndEvent) => {
       const { active, over } = evt;
-
-      console.log(active, over);
 
       if (over && active.id !== over.id) {
         const oldIndex = items.findIndex((x) => readId(x) === active.id);
@@ -190,7 +187,7 @@ const Item = forwardRef(
             size="lg"
             {...dragHandleProps}
           >
-            <GripHorizontal />
+            <GripHorizontalIcon />
           </Button>
         </div>
         <div className={css["item-content"]}>{children}</div>

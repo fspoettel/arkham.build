@@ -15,7 +15,7 @@ import type { Groupings } from "./deck-grouping";
 
 export type SealedDeck = {
   name: string;
-  cards: string[];
+  cards: Record<string, number>;
 };
 
 export type ResolvedCard = {
@@ -65,17 +65,18 @@ export type Customizations = Record<
 >;
 
 export type DeckMeta = {
-  alternate_front?: string | null;
   alternate_back?: string | null;
-  option_selected?: string | null;
-  faction_selected?: string | null;
-  faction_1?: string | null;
-  faction_2?: string | null;
+  alternate_front?: string | null;
+  card_pool?: string | null;
   deck_size_selected?: string | null;
   extra_deck?: string | null;
-  card_pool?: string | null;
-  sealed_deck?: string | null;
+  faction_1?: string | null;
+  faction_2?: string | null;
+  faction_selected?: string | null;
+  option_selected?: string | null;
   sealed_deck_name?: string | null;
+  sealed_deck?: string | null;
+  transform_into?: string | null;
 } & {
   [key in `cus_${string}`]: string | null;
 } & {

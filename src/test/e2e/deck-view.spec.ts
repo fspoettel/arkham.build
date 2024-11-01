@@ -188,6 +188,24 @@ test.describe("deck view: display", () => {
     ).toHaveText(/choose both and gain/);
   });
 
+  test("renders transformed investigators", async ({ page }) => {
+    await importDeckFromFile(page, "ythian.json", {
+      navigate: "view",
+    });
+
+    await expect(page.getByTestId("card-name")).toContainText(
+      "Body of a Yithian",
+    );
+
+    await expect(
+      page.getByTestId("listcard-01087").getByTestId("quantity-value"),
+    ).toBeVisible();
+
+    await expect(
+      page.getByTestId("listcard-01087").getByTestId("quantity-increment"),
+    ).not.toBeVisible();
+  });
+
   test("renders option_select selections", async ({ page }) => {
     await importDeckFromFile(page, "validation/parallel_wendy.json", {
       navigate: "view",

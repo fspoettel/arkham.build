@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  height: 100%;
+  flex-flow: column nowrap;
+  container-type: inline-size;
+}
+
+.footer {
+  @media screen and (max-width: 52rem) {
+    display: none;
+  }
+}

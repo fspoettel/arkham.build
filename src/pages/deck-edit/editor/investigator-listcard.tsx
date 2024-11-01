@@ -1,5 +1,3 @@
-import { useCallback } from "react";
-
 import { DeckInvestigator } from "@/components/deck-investigator";
 import { ListCard } from "@/components/list-card/list-card";
 import { Button } from "@/components/ui/button";
@@ -8,7 +6,8 @@ import { useDialogContext } from "@/components/ui/dialog.hooks";
 import { Modal } from "@/components/ui/modal";
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
-import { ChartArea, Rows3 } from "lucide-react";
+import { ChartAreaIcon, Rows3Icon } from "lucide-react";
+import { useCallback } from "react";
 import css from "./investigator-listcard.module.css";
 
 type Props = {
@@ -87,7 +86,7 @@ function InvestigatorListcardInner({ deck }: Props) {
         iconOnly
         onClick={() => toggleTools(!usingDeckTools)}
       >
-        {usingDeckTools ? <Rows3 /> : <ChartArea />}
+        {usingDeckTools ? <Rows3Icon /> : <ChartAreaIcon />}
       </Button>
     </div>
   );

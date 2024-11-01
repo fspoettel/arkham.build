@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { getMockStore } from "@/test/get-mock-store"; /* eslint-disable @typescript-eslint/no-explicit-any */
 import { beforeAll, describe, expect, it } from "vitest";
 import type { StoreApi } from "zustand";
-
-import { getMockStore } from "@/test/get-mock-store";
-
 import type { StoreState } from "../slices";
 import type {
   AssetFilter,

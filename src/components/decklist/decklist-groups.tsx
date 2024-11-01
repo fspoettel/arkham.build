@@ -1,36 +1,35 @@
-import { cx } from "@/utils/cx";
-import { useMemo } from "react";
-
 import { useStore } from "@/store";
 import type { Grouping } from "@/store/lib/deck-grouping";
+import { getDeckLimitOverride } from "@/store/lib/resolve-deck";
 import {
   sortByLevel,
   sortByName,
   sortBySlots,
   sortTypesByOrder,
 } from "@/store/lib/sorting";
+import { selectForbiddenCards } from "@/store/selectors/decks";
 import {
   selectCanCheckOwnership,
   selectCardOwnedCount,
 } from "@/store/selectors/shared";
 import type { Card } from "@/store/services/queries.types";
 import type { Slot } from "@/store/slices/deck-edits.types";
+import { cx } from "@/utils/cx";
 import { capitalize } from "@/utils/formatting";
-
-import css from "./decklist-groups.module.css";
-
-import { selectForbiddenCards } from "@/store/selectors/decks";
 import { useResolvedDeckChecked } from "@/utils/use-resolved-deck";
+import { useMemo } from "react";
 import SlotIcon from "../icons/slot-icon";
 import { ListCard } from "../list-card/list-card";
+import css from "./decklist-groups.module.css";
 
 type DecklistGroupProps = {
   cards: Card[];
+  disablePlayerCardEdits?: boolean;
   ignoredCounts?: Record<string, number>;
   listCardSize?: "sm";
   mapping: string;
   quantities?: Record<string, number>;
-  renderListCardAfter?: (card: Card, quantity?: number) => React.ReactNode;
+  renderCardExtra?: (card: Card, quantity?: number) => React.ReactNode;
 };
 
 type DecklistGroupsProps = {
@@ -39,13 +38,14 @@ type DecklistGroupsProps = {
 } & Omit<DecklistGroupProps, "cards">;
 
 export function DecklistGroups({
+  disablePlayerCardEdits,
   group,
   ignoredCounts,
   layout,
   listCardSize,
   mapping,
   quantities,
-  renderListCardAfter,
+  renderCardExtra,
 }: DecklistGroupsProps) {
   const assetGroup = group["asset"] ? (
     <li className={cx(css["group"], css["asset"])}>
@@ -62,11 +62,12 @@ export function DecklistGroups({
                 </h5>
                 <DecklistGroup
                   cards={val}
+                  disablePlayerCardEdits={disablePlayerCardEdits}
                   ignoredCounts={ignoredCounts}
                   listCardSize={listCardSize}
                   mapping={mapping}
                   quantities={quantities}
-                  renderListCardAfter={renderListCardAfter}
+                  renderCardExtra={renderCardExtra}
                 />
               </li>
             );
@@ -87,11 +88,12 @@ export function DecklistGroups({
           <h4 className={css["group-title"]}>{capitalize(k)}</h4>
           <DecklistGroup
             cards={entry}
+            disablePlayerCardEdits={disablePlayerCardEdits}
             ignoredCounts={ignoredCounts}
             mapping={mapping}
             quantities={quantities}
             listCardSize={listCardSize}
-            renderListCardAfter={renderListCardAfter}
+            renderCardExtra={renderCardExtra}
           />
         </li>
       );
@@ -113,11 +115,12 @@ export function DecklistGroups({
 function DecklistGroup(props: DecklistGroupProps) {
   const {
     cards,
+    disablePlayerCardEdits,
     ignoredCounts,
     listCardSize,
     mapping,
     quantities,
-    renderListCardAfter,
+    renderCardExtra,
   } = props;
 
   const ctx = useResolvedDeckChecked();
@@ -160,12 +163,19 @@ function DecklistGroup(props: DecklistGroupProps) {
             }
             isRemoved={quantities?.[card.code] === 0}
             isIgnored={ignoredCounts?.[card.code]}
+            limitOverride={getDeckLimitOverride(ctx.resolvedDeck, card.code)}
             key={card.code}
             omitBorders
-            onChangeCardQuantity={onChangeCardQuantity}
+            onChangeCardQuantity={
+              !disablePlayerCardEdits ||
+              card.encounter_code ||
+              card.subtype_code
+                ? onChangeCardQuantity
+                : undefined
+            }
             ownedCount={canCheckOwnership ? cardOwnedCount(card) : undefined}
             quantity={quantities?.[card.code] ?? 0}
-            renderAfter={renderListCardAfter}
+            renderCardExtra={renderCardExtra}
             size={listCardSize}
           />
         ))}

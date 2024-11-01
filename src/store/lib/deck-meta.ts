@@ -1,7 +1,6 @@
 import type { Deck } from "@/store/slices/data.types";
-import type { Metadata } from "@/store/slices/metadata.types";
-
 import type { AttachmentQuantities } from "@/store/slices/deck-edits.types";
+import type { Metadata } from "@/store/slices/metadata.types";
 import { range } from "@/utils/range";
 import type {
   CardWithRelations,
@@ -207,14 +206,23 @@ export function encodeCardPool(cardPool: string[]) {
 
 export function encodeSealedDeck(sealed: SealedDeck) {
   return {
-    sealed_deck: sealed.cards.join(","),
+    sealed_deck: Object.entries(sealed.cards)
+      .map(([code, quantity]) => `${code}:${quantity}`)
+      .join(","),
     sealed_deck_name: sealed.name,
   };
 }
 
 export function decodeSealedDeck(deckMeta: DeckMeta) {
-  const cards = deckMeta.sealed_deck?.split(",");
-  if (!cards?.length) return undefined;
+  const entries = deckMeta.sealed_deck?.split(",");
+
+  if (!entries?.length) return undefined;
+
+  const cards = entries.reduce<Record<string, number>>((acc, curr) => {
+    const [code, quantity] = curr.split(":");
+    acc[code] = Number.parseInt(quantity, 10);
+    return acc;
+  }, {});
 
   return {
     name: deckMeta.sealed_deck_name ?? "Sealed Deck",

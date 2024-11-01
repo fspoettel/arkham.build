@@ -1,0 +1,42 @@
+.nav {
+  display: flex;
+  flex: 0 0 auto;
+  padding: 0.375rem 1px;
+  gap: 0.375rem;
+  font-family: var(--font-family-ui);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-row {
+  display: inline-flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: ceter;
+  gap: 0.5rem;
+}
+
+.nav-jump {
+  flex: 1 1 auto;
+  width: min(12rem, 33.333%);
+  margin-right: 1px;
+}
+
+.nav-config {
+  flex: 0 0 auto;
+}
+
+.nav-stats {
+  display: inline-flex;
+  flex-flow: row wrap;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: var(--text-sm);
+}
+
+.nav-stats-filter-count {
+  display: none;
+  @media screen and (min-width: 28rem) {
+    display: block;
+  }
+}

@@ -17,17 +17,38 @@
   list-style: none;
 }
 
+.listcard-wrapper.has-after {
+  grid-template-areas:
+    "action card"
+    "empty after";
+}
+
+.listcard-after {
+  grid-area: after;
+}
+
+.listcard-after-inner {
+  display: inline-block;
+}
+
 .listcard-wrapper.card-text {
-  background-color: var(--nord-point-five);
+  background-color: var(--palette-point-five);
   padding: 0.5rem;
   border-radius: var(--rounded-md);
-  border: 1px solid var(--nord-1);
+  border: 1px solid var(--palette-1);
   margin: var(--card-spacing-y) 0;
   display: grid;
   align-items: center;
   grid-template-columns: auto 1fr;
   grid-template-rows: auto auto;
   grid-template-areas: "action card" "empty text";
+}
+
+.listcard-wrapper.card-text.has-after {
+  grid-template-areas:
+    "action card"
+    "empty text"
+    "empty after";
 }
 
 .listcard-action {
@@ -150,12 +171,12 @@
   align-items: center;
   justify-content: center;
   padding: 0.25rem;
-  background: var(--nord-1);
+  background: var(--palette-1);
   border-radius: var(--rounded-md);
 }
 
 .ownership {
-  color: var(--nord-4);
+  color: var(--palette-4);
   font-weight: 700;
 }
 
@@ -204,11 +225,11 @@
 }
 
 .listcard-wrapper.borders {
-  border-bottom: 1px solid var(--nord-1);
+  border-bottom: 1px solid var(--palette-1);
 }
 
 .listcard-wrapper.active {
-  outline: 1px solid var(--nord-6);
+  outline: 1px solid var(--palette-6);
   outline-offset: -1px;
 }
 

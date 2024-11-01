@@ -1,5 +1,4 @@
 import { createSelector } from "reselect";
-
 import { ownedCardCount } from "../lib/card-ownership";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";

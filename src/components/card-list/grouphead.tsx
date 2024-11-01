@@ -1,28 +1,27 @@
 import { NONE, getGroupingKeyLabel } from "@/store/lib/grouping";
-import type { CardGroup } from "@/store/selectors/card-list";
+import type { CardGroup } from "@/store/selectors/lists";
 import type { Metadata } from "@/store/slices/metadata.types";
-
-import css from "./grouphead.module.css";
-
 import { cx } from "@/utils/cx";
 import { CardSlots } from "../card-slots";
 import EncounterIcon from "../icons/encounter-icon";
 import { FactionIcon } from "../icons/faction-icon";
 import PackIcon from "../icons/pack-icon";
+import css from "./grouphead.module.css";
 
 type Props = {
+  className?: string;
   grouping: CardGroup;
   metadata: Metadata;
   variant?: "alt";
 };
 
 export function Grouphead(props: Props) {
-  const { grouping, metadata, variant } = props;
+  const { className, grouping, metadata, variant } = props;
   const keys = grouping.key.split("|");
   const types = grouping.type.split("|");
 
   return (
-    <h3 className={cx(css["grouphead"], variant && css[variant])}>
+    <h3 className={cx(css["grouphead"], variant && css[variant], className)}>
       {keys.map((key, i) => {
         const type = types[i];
         const keyLabel = getGroupingKeyLabel(type, key, metadata);

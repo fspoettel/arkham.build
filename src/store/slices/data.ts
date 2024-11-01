@@ -1,9 +1,7 @@
-import type { StateCreator } from "zustand";
-
 import { assert } from "@/utils/assert";
-
 import { randomId } from "@/utils/crypto";
 import { download } from "@/utils/download";
+import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
 import {
   formatDeckAsText,

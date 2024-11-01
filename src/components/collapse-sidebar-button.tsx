@@ -1,5 +1,5 @@
 import { cx } from "@/utils/cx";
-import { ChevronsLeft, ChevronsRight } from "lucide-react";
+import { ChevronsLeftIcon, ChevronsRightIcon } from "lucide-react";
 import css from "./collapse-sidebar-button.module.css";
 import { Button } from "./ui/button";
 
@@ -26,7 +26,7 @@ export function CollapseSidebarButton(props: Props) {
         iconOnly
         className={css["button"]}
       >
-        {orientation === "left" ? <ChevronsLeft /> : <ChevronsRight />}
+        {orientation === "left" ? <ChevronsLeftIcon /> : <ChevronsRightIcon />}
       </Button>
     </div>
   );

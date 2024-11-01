@@ -1,18 +1,11 @@
-import { useResolvedDeck } from "@/utils/use-resolved-deck";
-import {
-  DefaultTooltip,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "./ui/tooltip";
-
 import { useStore } from "@/store";
 import type { SealedDeck } from "@/store/lib/types";
 import { selectPackOptions } from "@/store/selectors/lists";
 import type { Pack } from "@/store/services/queries.types";
 import { assert } from "@/utils/assert";
 import { parseCsv } from "@/utils/parse-csv";
-import { BookLock, X } from "lucide-react";
+import { useResolvedDeck } from "@/utils/use-resolved-deck";
+import { BookLockIcon, XIcon } from "lucide-react";
 import { useCallback, useMemo } from "react";
 import css from "./limited-card-pool.module.css";
 import { PackName } from "./pack-name";
@@ -21,6 +14,12 @@ import { Combobox } from "./ui/combobox/combobox";
 import { Field, FieldLabel } from "./ui/field";
 import { Tag } from "./ui/tag";
 import { useToast } from "./ui/toast.hooks";
+import {
+  DefaultTooltip,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "./ui/tooltip";
 
 export function LimitedCardPoolTag() {
   const ctx = useResolvedDeck();
@@ -129,7 +128,13 @@ export function SealedDeckField(props: {
         );
         onValueChange({
           name: file.name.split(".csv")[0],
-          cards: parsed.map((x) => x.code),
+          cards: parsed.reduce(
+            (acc, curr) => {
+              acc[curr.code] = curr.quantity;
+              return acc;
+            },
+            {} as Record<string, number>,
+          ),
         });
       } catch (err) {
         toast.show({
@@ -149,7 +154,19 @@ export function SealedDeckField(props: {
       data-testid="sealed-deck-field"
       full
       padded
-      helpText="Upload a sealed deck definition (.csv) to use it."
+      helpText={
+        <>
+          Upload a sealed deck definition (.csv) to use it. Use{" "}
+          <a
+            href="https://www.arkhamsealed.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ArkhamSealed
+          </a>{" "}
+          to generate a sealed deck.
+        </>
+      }
     >
       <FieldLabel as="div">Sealed</FieldLabel>
       <div className={css["sealed"]}>
@@ -160,7 +177,7 @@ export function SealedDeckField(props: {
             htmlFor="sealed-deck-file"
             size="sm"
           >
-            <BookLock /> Use sealed deck
+            <BookLockIcon /> Use sealed deck
           </Button>
         </div>
         <input
@@ -172,7 +189,7 @@ export function SealedDeckField(props: {
         />
         {value && (
           <Tag size="xs">
-            {value.name} ({value.cards.length} cards)
+            {value.name} ({Object.keys(value.cards).length} cards)
             <Button
               data-testid="sealed-deck-remove"
               onClick={() => onValueChange(undefined)}
@@ -180,7 +197,7 @@ export function SealedDeckField(props: {
               size="xs"
               variant="bare"
             >
-              <X />
+              <XIcon />
             </Button>
           </Tag>
         )}
@@ -191,6 +208,7 @@ export function SealedDeckField(props: {
 
 type CardRow = {
   code: string;
+  quantity: number;
 };
 
 function isCardRow(x: unknown): x is CardRow {
@@ -198,9 +216,12 @@ function isCardRow(x: unknown): x is CardRow {
     typeof x === "object" &&
     x != null &&
     "code" in x &&
+    "quantity" in x &&
     typeof x.code === "string" &&
+    typeof x.quantity === "string" &&
     x.code.length > 0 &&
-    x.code.length < 10
+    x.code.length < 10 &&
+    Number.isSafeInteger(Number.parseInt(x.quantity, 10))
   );
 }
 
@@ -216,7 +237,7 @@ export function SealedDeckTag() {
         <Tag size="xs">Sealed</Tag>
       </TooltipTrigger>
       <TooltipContent>
-        {value.name} ({value.cards.length} cards)
+        {value.name} ({Object.keys(value.cards).length} cards)
       </TooltipContent>
     </Tooltip>
   );

@@ -1,10 +1,8 @@
-import { useEffect } from "react";
-import { useParams, useSearch } from "wouter";
-
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { useStore } from "@/store";
 import { useDocumentTitle } from "@/utils/use-document-title";
-
+import { useEffect } from "react";
+import { useParams, useSearch } from "wouter";
 import { DeckCreateInner } from "./deck-create-inner";
 
 function DeckCreate() {

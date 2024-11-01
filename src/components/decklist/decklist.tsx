@@ -1,13 +1,11 @@
 import type { NamedGrouping } from "@/store/lib/deck-grouping";
-
-import css from "./decklist.module.css";
-
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import { useCallback } from "react";
 import { Attachments } from "../attachments/attachments";
 import { DecklistGroups } from "./decklist-groups";
 import { DecklistSection } from "./decklist-section";
+import css from "./decklist.module.css";
 
 const LABELS: Record<string, string> = {
   slots: "Cards",
@@ -49,7 +47,7 @@ export function Decklist(props: Props) {
         ),
     );
 
-  const listcardAfterRenderer = useCallback(
+  const renderCardExtra = useCallback(
     (card: Card) => <Attachments card={card} resolvedDeck={deck} />,
     [deck],
   );
@@ -64,7 +62,7 @@ export function Decklist(props: Props) {
             layout="two_column"
             mapping="slots"
             quantities={deck.slots}
-            renderListCardAfter={listcardAfterRenderer}
+            renderCardExtra={renderCardExtra}
           />
         </DecklistSection>
 

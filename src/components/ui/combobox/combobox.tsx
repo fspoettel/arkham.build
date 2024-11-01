@@ -1,4 +1,7 @@
+import type { Coded } from "@/store/services/queries.types";
+import { FLOATING_PORTAL_ID } from "@/utils/constants";
 import { cx } from "@/utils/cx";
+import { isEmpty } from "@/utils/is-empty";
 import {
   FloatingFocusManager,
   FloatingPortal,
@@ -12,15 +15,9 @@ import {
 } from "@floating-ui/react";
 import uFuzzy from "@leeoniya/ufuzzy";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-
-import type { Coded } from "@/store/services/queries.types";
-import { FLOATING_PORTAL_ID } from "@/utils/constants";
-import { isEmpty } from "@/utils/is-empty";
-
-import css from "./combobox.module.css";
-
 import { ComboboxMenu } from "./combobox-menu";
 import { ComboboxResults } from "./combobox-results";
+import css from "./combobox.module.css";
 
 function defaultItemToString<T extends Coded>(val: T) {
   return val.code.toLowerCase();
@@ -71,6 +68,8 @@ type Props<T extends Coded> = {
 };
 
 // TODO: the logic here is very messy, extract to a reducer when adding group support.
+// TODO: there is a nasty edge case here where the combobox has a selected item which
+// is not in present in the items list. In this case, the item will not be shown.
 export function Combobox<T extends Coded>(props: Props<T>) {
   const {
     autoFocus,
@@ -186,6 +185,7 @@ export function Combobox<T extends Coded>(props: Props<T>) {
           </label>
           <div className={css["control-row"]}>
             <input
+              autoComplete="off"
               data-testid="combobox-input"
               ref={refs.setReference}
               {...getReferenceProps({

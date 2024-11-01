@@ -1,6 +1,3 @@
-import { beforeAll, describe, expect, it } from "vitest";
-import type { StoreApi } from "zustand";
-
 import deckCustomizable from "@/test/fixtures/decks/customizable.json";
 import deckSizeAllSpecials from "@/test/fixtures/decks/deck_size_all_specials.json";
 import deckSizeParallelAgnes from "@/test/fixtures/decks/deck_size_parallel_agnes.json";
@@ -14,7 +11,8 @@ import deckInvestigatorReplacements from "@/test/fixtures/decks/investigator_rep
 import deckMultiFactionSelected from "@/test/fixtures/decks/multi_faction_select.json";
 import deckXpRequired from "@/test/fixtures/decks/xp_required.json";
 import { getMockStore } from "@/test/get-mock-store";
-
+import { beforeAll, describe, expect, it } from "vitest";
+import type { StoreApi } from "zustand";
 import type { StoreState } from "../slices";
 import { resolveDeck } from "./resolve-deck";
 

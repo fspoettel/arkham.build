@@ -1,18 +1,16 @@
-import type { StateCreator } from "zustand";
-
 import { applyDeckEdits } from "@/store/lib/deck-edits";
 import { createDeck } from "@/store/lib/deck-factory";
 import type { Card } from "@/store/services/queries.types";
 import { assert } from "@/utils/assert";
+import { decodeExileSlots } from "@/utils/card-utils";
 import {
   ALT_ART_INVESTIGATOR_MAP,
   SPECIAL_CARD_CODES,
 } from "@/utils/constants";
-
-import { decodeExileSlots } from "@/utils/card-utils";
 import { randomId } from "@/utils/crypto";
 import { tryEnablePersistence } from "@/utils/persistence";
 import { time, timeEnd } from "@/utils/time";
+import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
 import { mapValidationToProblem } from "../lib/deck-io";
 import {
@@ -337,8 +335,6 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     }
   },
   saveDeck(deckId) {
-    tryEnablePersistence();
-
     const state = get();
 
     const edits = state.deckEdits[deckId];
@@ -375,12 +371,11 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       },
     });
 
+    tryEnablePersistence();
     return nextDeck.id;
   },
 
-  upgradeDeck(id, xp, exileString) {
-    tryEnablePersistence();
-
+  upgradeDeck({ id, xp, exileString, usurped }) {
     const state = get();
 
     const deck = state.data.decks[id];
@@ -400,16 +395,31 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       previous_deck: deck.id,
       source: "local",
       version: "0.1",
-      xp: xp + xpCarryover,
+      xp: xp + xpCarryover + (usurped === false ? 1 : 0),
       xp_spent: null,
       xp_adjustment: null,
       exile_string: exileString ?? null,
     };
 
+    const meta = decodeDeckMeta(deck);
+
+    if (usurped) {
+      delete newDeck.slots[SPECIAL_CARD_CODES.THE_GREAT_WORK];
+      meta.transform_into = SPECIAL_CARD_CODES.LOST_HOMUNCULUS;
+
+      for (const [code, quantity] of Object.entries(newDeck.slots)) {
+        const card = state.metadata.cards[code];
+
+        if (quantity && card.restrictions?.investigator) {
+          delete newDeck.slots[code];
+          newDeck.slots[SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS] ??= 0;
+          newDeck.slots[SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS] += quantity;
+        }
+      }
+    }
+
     if (exileString) {
       const exiledSlots = decodeExileSlots(exileString);
-
-      const meta = decodeDeckMeta(deck);
       const extraSlots = decodeExtraSlots(meta);
 
       for (const [code, quantity] of Object.entries(exiledSlots)) {
@@ -428,11 +438,10 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         }
       }
 
-      newDeck.meta = JSON.stringify({
-        ...meta,
-        extra_deck: encodeExtraSlots(extraSlots),
-      });
+      meta.extra_deck = encodeExtraSlots(extraSlots);
     }
+
+    newDeck.meta = JSON.stringify(meta);
 
     const prevDeck: Deck = {
       ...deck,
@@ -459,6 +468,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       },
     });
 
+    tryEnablePersistence();
     return newDeck.id;
   },
 

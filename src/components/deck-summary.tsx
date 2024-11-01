@@ -1,16 +1,18 @@
-import { cx } from "@/utils/cx";
-import { CircleAlert, Copy, Pencil, Trash2 } from "lucide-react";
-import { useCallback } from "react";
-import { useLocation } from "wouter";
-
 import type { DeckValidationResult } from "@/store/lib/deck-validation";
 import type { ResolvedDeck } from "@/store/lib/types";
-import { getCardColor } from "@/utils/card-utils";
-
-import css from "./deck-summary.module.css";
-
 import type { Id } from "@/store/slices/data.types";
-import { CardThumbnail } from "./card/card-thumbnail";
+import { getCardColor } from "@/utils/card-utils";
+import { cx } from "@/utils/cx";
+import {
+  CircleAlertIcon,
+  CopyIcon,
+  PencilIcon,
+  Trash2Icon,
+} from "lucide-react";
+import { useCallback } from "react";
+import { useLocation } from "wouter";
+import { CardThumbnail } from "./card-thumbnail";
+import css from "./deck-summary.module.css";
 import { Button } from "./ui/button";
 import { DefaultTooltip } from "./ui/tooltip";
 
@@ -37,12 +39,8 @@ export function DeckSummary(props: Props) {
 
   const [, setLocation] = useLocation();
 
-  const backgroundCls = getCardColor(
-    deck.cards.investigator.card,
-    "background",
-  );
-
-  const borderCls = getCardColor(deck.cards.investigator.card, "border");
+  const backgroundCls = getCardColor(deck.investigatorBack.card, "background");
+  const borderCls = getCardColor(deck.investigatorBack.card, "border");
 
   const card = {
     ...deck.investigatorFront.card,
@@ -98,7 +96,7 @@ export function DeckSummary(props: Props) {
             {!!validation &&
               (typeof validation === "string" || !validation?.valid) && (
                 <div className={css["validation"]}>
-                  <CircleAlert />
+                  <CircleAlertIcon />
                 </div>
               )}
           </div>
@@ -150,7 +148,7 @@ export function DeckSummary(props: Props) {
               tooltip="Edit"
               onClick={onEdit}
             >
-              <Pencil />
+              <PencilIcon />
             </Button>
             <Button
               className={css["quick-action"]}
@@ -166,7 +164,7 @@ export function DeckSummary(props: Props) {
               tooltip="Duplicate"
               onClick={onDuplicate}
             >
-              <Copy />
+              <CopyIcon />
             </Button>
             <Button
               className={css["quick-action"]}
@@ -174,7 +172,7 @@ export function DeckSummary(props: Props) {
               tooltip="Delete"
               onClick={onDelete}
             >
-              <Trash2 />
+              <Trash2Icon />
             </Button>
           </nav>
         </div>

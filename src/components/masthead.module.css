@@ -14,8 +14,12 @@
 }
 
 .logo {
-  font-size: var(--icon-3xl);
+  font-size: var(--icon-2xl);
   margin-left: 0.25rem;
+}
+
+.logo svg {
+  fill: var(--palette-4);
 }
 
 .right {

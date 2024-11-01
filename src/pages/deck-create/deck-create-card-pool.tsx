@@ -21,7 +21,7 @@ export function DeckCreateCardPool() {
   const selectedItems = useStore((state) => state.deckCreate?.cardPool ?? []);
 
   return (
-    <Collapsible title="Card pool settings">
+    <Collapsible title="Card pool settings" defaultOpen>
       <CollapsibleContent>
         <LimitedCardPoolField
           onValueChange={setCardPool}

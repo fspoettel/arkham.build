@@ -1,6 +1,5 @@
 .togglegroup {
   display: inline-flex;
-  color: var(--nord-0);
   justify-content: center;
 
   &.is-icons .item {
@@ -29,14 +28,15 @@
 }
 
 .item {
-  --active-color: var(--nord-6);
+  --active-color: var(--palette-6);
   border-style: solid;
-  border-color: var(--nord-2);
+  border-color: var(--palette-2);
   border-top-width: 1px;
   border-bottom-width: 1px;
   border-right-width: 1px;
   border-left-width: 0;
-  border-right-color: var(--nord-2);
+  color: currentColor;
+  border-right-color: var(--palette-2);
   display: inline-flex;
   gap: 0.25rem;
   align-items: center;
@@ -56,13 +56,13 @@
 
   &:last-child {
     border-radius: 0 var(--rounded-xl) var(--rounded-xl) 0;
-    border-right-color: var(--nord-2);
+    border-right-color: var(--palette-2);
   }
 
   &[data-state="on"] {
     color: var(--active-color);
-    background: var(--nord-2);
-    border-right-color: var(--nord-2);
+    background: var(--palette-2);
+    border-right-color: var(--palette-2);
   }
 
   &:focus-visible {
@@ -72,12 +72,12 @@
   &:hover:not([data-state="on"]),
   &:active:not([data-state="on"]),
   &:focus-visible:not([data-state="on"]) {
-    background: var(--nord-1);
+    background: var(--palette-1);
   }
 
   &:hover[data-state="on"],
   &:active[data-state="on"],
   &:focus-visible[data-state="on"] {
-    background: var(--nord-3);
+    background: var(--palette-2);
   }
 }

@@ -1,5 +1,4 @@
 import { cx } from "@/utils/cx";
-
 import css from "./decklist-section.module.css";
 
 type Props = {

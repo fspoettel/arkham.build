@@ -2,7 +2,6 @@ import type {
   Card,
   DeckOptionSelectType,
 } from "@/store/services/queries.types";
-
 import type { DeckMeta } from "../lib/types";
 import type { Id } from "./data.types";
 

@@ -1,5 +1,3 @@
-import { useCallback } from "react";
-
 import { useStore } from "@/store";
 import {
   selectActiveListFilter,
@@ -7,7 +5,7 @@ import {
 } from "@/store/selectors/lists";
 import { isFactionFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
-
+import { useCallback } from "react";
 import { FactionToggle } from "../faction-toggle";
 
 type Props = {

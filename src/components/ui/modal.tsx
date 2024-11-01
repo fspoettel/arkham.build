@@ -1,10 +1,8 @@
 import { cx } from "@/utils/cx";
 import { XIcon } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef } from "react";
-
-import css from "./modal.module.css";
-
 import { Button } from "./button";
+import css from "./modal.module.css";
 
 type Props = {
   centerContent?: boolean;

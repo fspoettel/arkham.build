@@ -5,7 +5,6 @@ import { capitalize } from "@/utils/formatting";
 import type { Filter } from "@/utils/fp";
 import { and, not, notUnless, or } from "@/utils/fp";
 import { isEmpty } from "@/utils/is-empty";
-
 import type { Card, DeckOption } from "../services/queries.types";
 import type {
   AssetFilter,
@@ -19,7 +18,7 @@ import type {
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
 import { ownedCardCount } from "./card-ownership";
-import type { Selections } from "./types";
+import type { SealedDeck, Selections } from "./types";
 import { isOptionSelect } from "./types";
 
 /**
@@ -35,7 +34,7 @@ export function filterDuplicates(card: Card) {
 }
 
 export function filterAlternates(card: Card) {
-  return filterDuplicates(card) || card.parallel;
+  return filterDuplicates(card) || !!card.parallel;
 }
 
 export function filterEncounterCards(card: Card) {
@@ -884,4 +883,18 @@ export function filterInvestigatorWeaknessAccess(
     not(filterBonded(lookupTables.relations.bonded)),
     or(ors),
   ]);
+}
+
+export function filterSealed(
+  sealedDeck: SealedDeck["cards"],
+  lookupTables: LookupTables,
+) {
+  return (c: Card) => {
+    if (sealedDeck[c.code]) return true;
+
+    const duplicates = lookupTables.relations.duplicates[c.code];
+    if (!duplicates) return false;
+
+    return Object.keys(duplicates).some((code) => !!sealedDeck[code]);
+  };
 }

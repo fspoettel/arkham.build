@@ -1,27 +1,25 @@
-import { useCallback } from "react";
-
 import { useStore } from "@/store";
-import {
-  selectActiveListFilter,
-  selectCostChanges,
-  selectCostMinMax,
-} from "@/store/selectors/lists";
+import { selectActiveListFilter } from "@/store/selectors/lists";
+import { selectCostChanges, selectCostMinMax } from "@/store/selectors/lists";
 import { isCostFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
-
+import { useCallback } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
 import { RangeSelect } from "../ui/range-select";
+import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
 
-export function CostFilter({ id }: { id: number }) {
+export function CostFilter({ id, resolvedDeck }: FilterProps) {
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
     isCostFilterObject(filter),
     `CostFilter instantiated with '${filter?.type}'`,
   );
 
-  const [min, max] = useStore(selectCostMinMax);
+  const { min, max } = useStore((state) =>
+    selectCostMinMax(state, resolvedDeck),
+  );
   const changes = selectCostChanges(filter.value);
 
   const setFilter = useStore((state) => state.setFilterValue);

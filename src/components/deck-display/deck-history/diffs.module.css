@@ -24,7 +24,7 @@
   flex: 0 0 auto;
   font-weight: 700;
   border-radius: var(--rounded);
-  border: 1px solid var(--nord-1);
+  border: 1px solid var(--palette-1);
   padding: 0.125rem 0.25rem;
   font-size: var(--text-xs);
 }

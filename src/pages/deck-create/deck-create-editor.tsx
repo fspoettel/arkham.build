@@ -1,6 +1,3 @@
-import { useCallback } from "react";
-import { useLocation } from "wouter";
-
 import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
 import type { SelectOption } from "@/components/ui/select";
@@ -17,11 +14,11 @@ import {
 import { selectTabooSetSelectOptions } from "@/store/selectors/lists";
 import { capitalize, capitalizeSnakeCase } from "@/utils/formatting";
 import { useGoBack } from "@/utils/use-go-back";
-
-import css from "./deck-create.module.css";
-
+import { useCallback } from "react";
+import { useLocation } from "wouter";
 import { useAccentColor } from "../../utils/use-accent-color";
 import { DeckCreateCardPool } from "./deck-create-card-pool";
+import css from "./deck-create.module.css";
 
 export function DeckCreateEditor() {
   const deckCreate = useStore(selectDeckCreateChecked);

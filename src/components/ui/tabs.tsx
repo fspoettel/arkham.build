@@ -7,10 +7,8 @@ import type {
 } from "@radix-ui/react-tabs";
 import { Content, List, Root, Trigger } from "@radix-ui/react-tabs";
 import { useMemo } from "react";
-
-import css from "./tabs.module.css";
-
 import { Button } from "./button";
+import css from "./tabs.module.css";
 
 type TabsProps = RootProps & {
   children: React.ReactNode;

@@ -1,10 +1,7 @@
-import { cx } from "@/utils/cx";
-
 import type { Card } from "@/store/services/queries.types";
-
-import css from "./multiclass-icons.module.css";
-
+import { cx } from "@/utils/cx";
 import { FactionIcon } from "./faction-icon";
+import css from "./multiclass-icons.module.css";
 
 type Props = {
   className?: string;

@@ -4,11 +4,10 @@ import type {
   UnformattedChartInfo,
 } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
-
 import {
-  CARDS_WITH_LOCAL_IMAGES,
   SIDEWAYS_TYPE_CODES,
   SKILL_KEYS,
+  SPECIAL_CARD_CODES,
 } from "./constants";
 
 export function splitMultiValue(s?: string) {
@@ -129,7 +128,7 @@ export function isSpecialCard(
 }
 
 export function hasImage(card: Card) {
-  return card.imageurl || CARDS_WITH_LOCAL_IMAGES.includes(card.code);
+  return card.code !== SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS;
 }
 
 export function getCanonicalCardCode(card: Card) {
@@ -179,4 +178,15 @@ export function getCardChartableData(
     accumulator.factions[
       card.faction3_code as keyof UnformattedChartInfo["factions"]
     ]++;
+}
+
+/**
+ * A static investigator is one that can not build decks. (Y'thian, Lost Homunculus)
+ */
+export function isStaticInvestigator(card: Card) {
+  return card.type_code === "investigator" && !card.deck_options;
+}
+
+export function cardLimit(card: Card, limitOverride?: number) {
+  return limitOverride ?? card.deck_limit ?? card.quantity;
 }

@@ -1,9 +1,7 @@
-import type { StateCreator } from "zustand";
-
 import { assert } from "@/utils/assert";
 import type { Filter } from "@/utils/fp";
 import { and, not } from "@/utils/fp";
-
+import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
 import {
   filterBacksides,
@@ -357,8 +355,7 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
       },
     });
   },
-
-  setShowCardText(value) {
+  setListViewMode(viewMode) {
     const state = get();
     assert(state.activeList, "no active list is defined.");
 
@@ -372,13 +369,12 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
           ...list,
           display: {
             ...list.display,
-            showCardText: value,
+            viewMode,
           },
         },
       },
     });
   },
-
   addList(key, cardType, initialValues) {
     const state = get();
 
@@ -639,7 +635,7 @@ function makePlayerCardsList(
     {
       grouping: settings.lists.player.group,
       sorting: settings.lists.player.sort,
-      showCardText: settings.lists.player.showCardText,
+      viewMode: settings.lists.player.viewMode,
     },
     and(systemFilter),
     mergeInitialValues(initialValues, settings),
@@ -651,7 +647,7 @@ function makeInvestigatorCardsList(
   settings: SettingsState,
   { initialValues = {} as Partial<Record<FilterKey, unknown>> } = {},
 ): List {
-  const filters: FilterKey[] = ["faction"];
+  const filters: FilterKey[] = ["faction", "trait"];
 
   if (!settings.showAllCards) {
     filters.push("ownership");
@@ -664,11 +660,11 @@ function makeInvestigatorCardsList(
     {
       grouping: settings.lists.investigator.group,
       sorting: settings.lists.investigator.sort,
-      showCardText: settings.lists.investigator.showCardText,
+      viewMode: settings.lists.investigator.viewMode,
     },
     and([
       filterType(["investigator"]),
-      filterDuplicates,
+      (card) => filterDuplicates(card) || !!card.parallel,
       not(filterEncounterCards),
     ]),
     mergeInitialValues(initialValues, settings),
@@ -711,7 +707,7 @@ function makeEncounterCardsList(
     {
       grouping: settings.lists.encounter.group,
       sorting: settings.lists.encounter.sort,
-      showCardText: settings.lists.encounter.showCardText,
+      viewMode: settings.lists.encounter.viewMode,
     },
     and(systemFilter),
     mergeInitialValues(initialValues, settings),

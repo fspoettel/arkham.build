@@ -1,7 +1,6 @@
 import { Suspense, lazy, useEffect } from "react";
 import { Route, Router, Switch, useLocation } from "wouter";
 import { useBrowserLocation } from "wouter/use-browser-location";
-
 import { ErrorBoundary } from "./components/error-boundary";
 import { Loader } from "./components/ui/loader";
 import { ToastProvider } from "./components/ui/toast";
@@ -14,6 +13,7 @@ import {
   queryDataVersion,
   queryMetadata,
 } from "./store/services/queries";
+import { useColorTheme } from "./utils/use-color-theme";
 
 const Browse = lazy(() => import("./pages/browse/browse"));
 const DeckEdit = lazy(() => import("./pages/deck-edit/deck-edit"));
@@ -52,6 +52,8 @@ function AppInner() {
   const storeHydrated = useStore((state) => state.ui.hydrated);
   const storeInitialized = useStore(selectIsInitialized);
   const init = useStore((state) => state.init);
+
+  useColorTheme();
 
   useEffect(() => {
     async function initStore() {

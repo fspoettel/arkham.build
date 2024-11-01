@@ -1,5 +1,3 @@
-import { useCallback } from "react";
-
 import { useStore } from "@/store";
 import {
   selectActiveListFilter,
@@ -8,15 +6,15 @@ import {
 import { isSkillIconsFilterObject } from "@/store/slices/lists.type-guards";
 import type { SkillIconsFilter as SkillIconsFilterType } from "@/store/slices/lists.types";
 import { assert } from "@/utils/assert";
-
-import css from "./filters.module.css";
-
+import { useCallback } from "react";
 import { SkillIcon } from "../icons/skill-icon";
 import { CheckboxGroup } from "../ui/checkboxgroup";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+import css from "./filters.module.css";
+import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
 
-export function SkillIconsFilter({ id }: { id: number }) {
+export function SkillIconsFilter({ id }: FilterProps) {
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
     isSkillIconsFilterObject(filter),

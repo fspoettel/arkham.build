@@ -1,5 +1,3 @@
-import { useCallback } from "react";
-
 import { Combobox } from "@/components/ui/combobox/combobox";
 import { useStore } from "@/store";
 import {
@@ -9,6 +7,7 @@ import {
 } from "@/store/selectors/deck-filters";
 import type { Coded } from "@/store/services/queries.types";
 import { capitalize } from "@/utils/formatting";
+import { useCallback } from "react";
 import { FilterContainer } from "../filters/primitives/filter-container";
 
 type Props = {

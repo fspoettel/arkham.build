@@ -1,7 +1,5 @@
-import { Minus, Plus } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
-
+import { MinusIcon, PlusIcon } from "lucide-react";
 import css from "./collection.module.css";
 
 type Props = {
@@ -21,7 +19,7 @@ export function CollectionCycleActions(props: Props) {
         type="button"
         variant="bare"
       >
-        <Plus />
+        <PlusIcon />
       </Button>
       <Button
         className={css["cycle-toggle"]}
@@ -32,7 +30,7 @@ export function CollectionCycleActions(props: Props) {
         type="button"
         variant="bare"
       >
-        <Minus />
+        <MinusIcon />
       </Button>
     </div>
   );

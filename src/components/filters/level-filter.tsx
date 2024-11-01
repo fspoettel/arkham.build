@@ -1,5 +1,3 @@
-import { useCallback } from "react";
-
 import { useStore } from "@/store";
 import {
   selectActiveListFilter,
@@ -7,11 +5,12 @@ import {
 } from "@/store/selectors/lists";
 import { isLevelFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
-
+import { useCallback } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
 import { RangeSelect } from "../ui/range-select";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
 
 function getToggleValue(value: [number, number] | undefined) {
@@ -21,7 +20,7 @@ function getToggleValue(value: [number, number] | undefined) {
   return "";
 }
 
-export function LevelFilter({ id }: { id: number }) {
+export function LevelFilter({ id }: FilterProps) {
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
     isLevelFilterObject(filter),

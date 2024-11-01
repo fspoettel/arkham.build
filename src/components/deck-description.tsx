@@ -1,4 +1,7 @@
+import { redirectArkhamDBLinks } from "@/utils/arkhamdb-links";
+import { FLOATING_PORTAL_ID } from "@/utils/constants";
 import { cx } from "@/utils/cx";
+import { parseMarkdown } from "@/utils/markdown";
 import {
   FloatingPortal,
   autoPlacement,
@@ -8,14 +11,8 @@ import {
   useFloating,
 } from "@floating-ui/react";
 import { useCallback, useState } from "react";
-
-import { FLOATING_PORTAL_ID } from "@/utils/constants";
-import { parseMarkdown } from "@/utils/markdown";
-
-import css from "./deck-description.module.css";
-
-import { redirectArkhamDBLinks } from "@/utils/arkhamdb-links";
 import { CardTooltip } from "./card-tooltip";
+import css from "./deck-description.module.css";
 
 type Props = {
   className?: string;

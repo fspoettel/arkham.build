@@ -7,10 +7,10 @@ import {
 import { isTabooSetFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
 import { formatTabooSet } from "@/utils/formatting";
-
+import type { FilterProps } from "./filters.types";
 import { SelectFilter } from "./primitives/select-filter";
 
-export function TabooSetFilter({ id }: { id: number }) {
+export function TabooSetFilter({ id }: FilterProps) {
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
     isTabooSetFilterObject(filter),

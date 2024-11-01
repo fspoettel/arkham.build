@@ -3,7 +3,6 @@ import type {
   DataVersionResponse,
   MetadataResponse,
 } from "@/store/services/queries";
-
 import type { Id } from "./data.types";
 
 export type AppState = {
@@ -25,7 +24,12 @@ export type AppSlice = {
   saveDeck(deckId: Id): Id;
 
   deleteUpgrade(id: Id, callback?: (id: Id) => void): Promise<Id>;
-  upgradeDeck(id: Id, xp: number, exileString: string): Id;
+  upgradeDeck(payload: {
+    id: Id;
+    xp: number;
+    exileString: string;
+    usurped?: boolean;
+  }): Id;
 
   deleteDeck(id: Id, callback?: () => void): Promise<void>;
 

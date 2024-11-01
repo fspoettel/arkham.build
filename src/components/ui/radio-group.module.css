@@ -1,0 +1,56 @@
+.root {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.375rem;
+}
+
+.wrapper {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: var(--text-sm);
+  text-align: left;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  width: 1em;
+  height: 1em;
+  background: var(--palette-1);
+  border: 1px solid var(--palette-3);
+  border-radius: 50%;
+  position: relative;
+}
+
+.item[data-state="checked"] {
+  background: var(--palette-2);
+}
+
+.item:hover {
+  background: var(--palette-2);
+}
+
+.indicator::after {
+  flex: 0 0 auto;
+  content: "";
+  display: block;
+  width: 0.375em;
+  height: 0.375em;
+  border-radius: 50%;
+  background: var(--text);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.label {
+  flex: 1 1 auto;
+  padding: 0.25rem 0;
+}

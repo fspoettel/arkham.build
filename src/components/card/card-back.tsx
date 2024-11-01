@@ -1,17 +1,14 @@
-import { cx } from "@/utils/cx";
-
 import type { ResolvedCard } from "@/store/lib/types";
 import type { Card as CardType } from "@/store/services/queries.types";
 import { hasImage, sideways } from "@/utils/card-utils";
-
-import css from "./card.module.css";
-
+import { cx } from "@/utils/cx";
 import { useMemo } from "react";
+import { CardScan } from "../card-scan";
+import { CardThumbnail } from "../card-thumbnail";
 import { CardHeader } from "./card-header";
 import { CardMetaBack } from "./card-meta";
-import { CardScan } from "./card-scan";
 import { CardText } from "./card-text";
-import { CardThumbnail } from "./card-thumbnail";
+import css from "./card.module.css";
 
 type Props = {
   className?: string;
@@ -30,7 +27,6 @@ export function CardBack(props: Props) {
       real_flavor: card.real_back_flavor,
       illustrator: card.back_illustrator,
       real_text: card.real_back_text,
-      imageurl: card.backimageurl,
     }),
     [card],
   );
@@ -41,8 +37,7 @@ export function CardBack(props: Props) {
   const showImage =
     hasImage(backCard) &&
     (size === "full" ||
-      (backCard.imageurl !== card.imageurl &&
-        backCard.type_code !== "investigator" &&
+      (backCard.type_code !== "investigator" &&
         backCard.type_code !== "story"));
 
   const showMeta =

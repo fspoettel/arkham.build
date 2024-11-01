@@ -1,6 +1,5 @@
-import { Link } from "wouter";
-
 import { cx } from "@/utils/cx";
+import { Link } from "wouter";
 import css from "./footer.module.css";
 
 type Props = {

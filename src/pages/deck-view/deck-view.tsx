@@ -1,15 +1,13 @@
-import { useParams } from "wouter";
-
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
+import { DeckDisplay } from "@/components/deck-display/deck-display";
 import { useStore } from "@/store";
+import type { ResolvedDeck } from "@/store/lib/types";
 import {
   selectDeckValid,
   selectResolvedDeckById,
 } from "@/store/selectors/decks";
-
-import { DeckDisplay } from "@/components/deck-display/deck-display";
-import type { ResolvedDeck } from "@/store/lib/types";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
+import { useParams } from "wouter";
 import { Error404 } from "../errors/404";
 
 function DeckView() {

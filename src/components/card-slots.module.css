@@ -11,11 +11,11 @@
   align-items: center;
   width: 2rem;
   height: 2rem;
-  background: var(--nord-4);
-  color: var(--nord-3);
+  background: var(--palette-2);
+  color: var(--palette-4);
   font-size: 1.375rem;
   border-radius: 50%;
-  border: 2px solid var(--nord-3);
+  border: 2px solid var(--palette-3);
 }
 
 .slots li i[class*="hand_x2"] {
@@ -28,7 +28,7 @@
   border: none;
   font-size: var(--icon-sm);
   background: none;
-  color: var(--nord-4);
+  color: var(--palette-4);
 }
 
 .slots.small li i[class*="hand_x2"] {

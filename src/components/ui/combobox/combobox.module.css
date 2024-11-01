@@ -25,10 +25,10 @@
 .menu {
   width: 100%;
   max-width: min(20rem, 50dvw);
-  background: var(--nord-point-five);
-  color: var(--nord-5);
+  background: var(--palette-point-five);
+  color: var(--palette-5);
   padding: 0.25rem;
-  border: 1px solid var(--nord-0);
+  border: 1px solid var(--palette-0);
   border-radius: var(--rounded);
   box-shadow: var(--shadow-sm);
   font-family: var(--font-family-ui);
@@ -56,8 +56,8 @@
   font-size: var(--text-sm);
 
   &.active {
-    background-color: var(--nord-1);
-    color: var(--nord-5);
+    background-color: var(--palette-1);
+    color: var(--palette-5);
   }
 
   &.padded {

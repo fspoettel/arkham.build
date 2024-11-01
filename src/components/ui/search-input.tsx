@@ -1,10 +1,8 @@
 import { cx } from "@/utils/cx";
-import { Search, XIcon } from "lucide-react";
+import { SearchIcon, XIcon } from "lucide-react";
 import { forwardRef, useCallback } from "react";
-
-import css from "./search-input.module.css";
-
 import { Button } from "./button";
+import css from "./search-input.module.css";
 
 type Props = React.ComponentProps<"input"> & {
   className?: string;
@@ -35,7 +33,7 @@ export const SearchInput = forwardRef<HTMLInputElement, Props>(
     return (
       <div className={cx(css["search"], className)}>
         <label htmlFor={id} title="Search cards">
-          <Search className={css["icon_search"]} />
+          <SearchIcon className={css["icon_search"]} />
         </label>
         <input
           {...rest}

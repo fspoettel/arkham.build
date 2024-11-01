@@ -1,5 +1,4 @@
 import type { Counts } from "@/store/selectors/collection";
-
 import { DefaultTooltip } from "../ui/tooltip";
 import css from "./collection.module.css";
 

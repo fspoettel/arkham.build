@@ -1,10 +1,7 @@
-import { cx } from "@/utils/cx";
-
 import type { Card } from "@/store/services/queries.types";
 import { cardLevel, getCardColor } from "@/utils/card-utils";
-
+import { cx } from "@/utils/cx";
 import css from "./card-icon.module.css";
-
 import { CostIcon } from "./icons/cost-icon";
 import EncounterIcon from "./icons/encounter-icon";
 import { FactionIcon } from "./icons/faction-icon";

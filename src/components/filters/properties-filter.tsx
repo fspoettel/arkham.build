@@ -1,5 +1,3 @@
-import { useCallback } from "react";
-
 import { useStore } from "@/store";
 import {
   selectActiveListFilter,
@@ -8,9 +6,10 @@ import {
 import { isPropertiesFilterObject } from "@/store/slices/lists.type-guards";
 import type { PropertiesFilter as PropertiesFilterType } from "@/store/slices/lists.types";
 import { assert } from "@/utils/assert";
-
+import { useCallback } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
+import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
 
 const properties = [
@@ -27,9 +26,17 @@ const properties = [
     key: "unique",
     label: <>Unique (&#10040;)</>,
   },
+  {
+    key: "healsDamage",
+    label: "Heals damage",
+  },
+  {
+    key: "healsHorror",
+    label: "Heals horror",
+  },
 ];
 
-export function PropertiesFilter({ id }: { id: number }) {
+export function PropertiesFilter({ id }: FilterProps) {
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
     isPropertiesFilterObject(filter),

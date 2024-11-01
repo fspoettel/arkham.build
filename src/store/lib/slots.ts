@@ -8,7 +8,6 @@ import {
   isSpecialCard,
 } from "@/utils/card-utils";
 import { range } from "@/utils/range";
-
 import { resolveCardWithRelations } from "./resolve-card";
 import type {
   CardWithRelations,

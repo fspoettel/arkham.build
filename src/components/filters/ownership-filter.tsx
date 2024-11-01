@@ -1,18 +1,17 @@
-import { File, FileCheck, FileWarning } from "lucide-react";
-import { useCallback } from "react";
-
 import { useStore } from "@/store";
 import { selectActiveListFilter } from "@/store/selectors/lists";
 import { isOwnershipFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
-
+import { FileCheckIcon, FileIcon, FileWarningIcon } from "lucide-react";
+import { useCallback } from "react";
 import {
   RadioButtonGroup,
   RadioButtonGroupItem,
 } from "../ui/radio-button-group";
+import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
 
-export function OwnershipFilter({ id }: { id: number }) {
+export function OwnershipFilter({ id }: FilterProps) {
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(isOwnershipFilterObject(filter), "filter must be an ownership filter");
 
@@ -54,13 +53,13 @@ export function OwnershipFilter({ id }: { id: number }) {
         value={filter.value ?? ""}
       >
         <RadioButtonGroupItem tooltip="All" value="all">
-          <File />
+          <FileIcon />
         </RadioButtonGroupItem>
         <RadioButtonGroupItem tooltip="Owned" value="owned">
-          <FileCheck />
+          <FileCheckIcon />
         </RadioButtonGroupItem>
         <RadioButtonGroupItem tooltip="Unavailable" value="unowned">
-          <FileWarning />
+          <FileWarningIcon />
         </RadioButtonGroupItem>
       </RadioButtonGroup>
     </FilterContainer>

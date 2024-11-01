@@ -1,32 +1,29 @@
-import { useMemo } from "react";
-
 import { NONE, getGroupingKeyLabel } from "@/store/lib/grouping";
-import type { ListState } from "@/store/selectors/card-list";
-import type { Metadata } from "@/store/slices/metadata.types";
-
-import css from "./card-list.module.css";
-
 import type { ResolvedDeck } from "@/store/lib/types";
-import { SlidersVertical } from "lucide-react";
+import type { ListState } from "@/store/selectors/lists";
+import type { ViewMode } from "@/store/slices/lists.types";
+import type { Metadata } from "@/store/slices/metadata.types";
+import { SlidersVerticalIcon } from "lucide-react";
+import { useMemo } from "react";
 import { LimitedCardPoolTag, SealedDeckTag } from "../limited-card-pool";
 import { Button } from "../ui/button";
-import { Checkbox } from "../ui/checkbox";
-import { DropdownMenu } from "../ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuSection } from "../ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Select } from "../ui/select";
+import css from "./card-list-nav.module.css";
 
 type Props = {
   data: ListState | undefined;
   deck?: ResolvedDeck;
   metadata: Metadata;
   onSelectGroup: (evt: React.ChangeEvent<HTMLSelectElement>) => void;
-  showCardText: boolean;
-  onChangeShowCardText(value: boolean): void;
+  onViewModeChange: (viewMode: ViewMode) => void;
+  viewMode: ViewMode;
 };
 
 export function CardListNav(props: Props) {
-  const { data, metadata, onSelectGroup, onChangeShowCardText, showCardText } =
-    props;
+  const { data, metadata, onSelectGroup, onViewModeChange, viewMode } = props;
 
   const jumpToOptions = useMemo(
     () =>
@@ -67,7 +64,7 @@ export function CardListNav(props: Props) {
         <span data-testid="cardlist-count">
           {data?.cards.length ?? 0} cards
         </span>
-        <small>
+        <small className={css["nav-stats-filter-count"]}>
           <em>
             {filteredCount > 0 && ` (${filteredCount} hidden by filters)`}
           </em>
@@ -87,23 +84,27 @@ export function CardListNav(props: Props) {
         <Popover placement="bottom-end">
           <PopoverTrigger asChild>
             <Button
+              className={css["nav-config"]}
               tooltip="List settings"
               data-test-id="card-list-config"
               variant="bare"
               iconOnly
             >
-              <SlidersVertical />
+              <SlidersVerticalIcon />
             </Button>
           </PopoverTrigger>
           <PopoverContent>
             <DropdownMenu>
-              <Checkbox
-                id="card-list-text-toggle"
-                data-test-id="card-list-text-toggle"
-                label="Show full card text"
-                checked={showCardText}
-                onCheckedChange={onChangeShowCardText}
-              />
+              <DropdownMenuSection title="Display">
+                <RadioGroup value={viewMode} onValueChange={onViewModeChange}>
+                  <RadioGroupItem value="compact">Compact</RadioGroupItem>
+                  <RadioGroupItem value="card-text">
+                    Compact with text
+                  </RadioGroupItem>
+                  <RadioGroupItem value="full-cards">Full cards</RadioGroupItem>
+                  <RadioGroupItem value="scans">Scans</RadioGroupItem>
+                </RadioGroup>
+              </DropdownMenuSection>
             </DropdownMenu>
           </PopoverContent>
         </Popover>

@@ -1,6 +1,3 @@
-import { CloudDownload, LoaderCircle } from "lucide-react";
-import { useCallback, useState } from "react";
-
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import {
@@ -10,7 +7,8 @@ import {
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
-
+import { CloudDownloadIcon, LoaderCircleIcon } from "lucide-react";
+import { useCallback, useState } from "react";
 import css from "./deck-collection.module.css";
 
 export function DeckCollectionImport() {
@@ -60,7 +58,7 @@ export function DeckCollectionImport() {
           data-testid="import-trigger"
           tooltip="Import deck from ArkhamDB"
         >
-          <CloudDownload />
+          <CloudDownloadIcon />
         </Button>
       </PopoverTrigger>
       <PopoverContent>
@@ -99,7 +97,7 @@ export function DeckCollectionImport() {
             >
               Import
             </Button>
-            {loading && <LoaderCircle className="spin" />}
+            {loading && <LoaderCircleIcon className="spin" />}
           </footer>
         </form>
       </PopoverContent>

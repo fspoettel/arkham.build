@@ -1,27 +1,27 @@
-import { useCallback } from "react";
-
 import { useStore } from "@/store";
 import {
-  selectActionOptions,
   selectActiveListFilter,
   selectMultiselectChanges,
 } from "@/store/selectors/lists";
+import { selectActionOptions } from "@/store/selectors/lists";
 import type { Coded } from "@/store/services/queries.types";
 import { isActionFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
 import { capitalize } from "@/utils/formatting";
-
+import { useCallback } from "react";
+import type { FilterProps } from "./filters.types";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 
-export function ActionFilter({ id }: { id: number }) {
+export function ActionFilter({ id, resolvedDeck }: FilterProps) {
   const filter = useStore((state) => selectActiveListFilter(state, id));
+
   assert(
     isActionFilterObject(filter),
     `ActionFilter instantiated with '${filter?.type}'`,
   );
 
   const changes = selectMultiselectChanges(filter.value);
-  const options = useStore(selectActionOptions);
+  const options = useStore((state) => selectActionOptions(state, resolvedDeck));
 
   const nameRenderer = useCallback((item: Coded) => capitalize(item.code), []);
 

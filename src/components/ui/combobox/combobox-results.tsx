@@ -1,9 +1,7 @@
 import { XIcon } from "lucide-react";
-
-import css from "./combobox.module.css";
-
 import { Button } from "../button";
 import { Tag } from "../tag";
+import css from "./combobox.module.css";
 
 type Props<T extends { code: string }> = {
   onRemove?: (item: T) => void;

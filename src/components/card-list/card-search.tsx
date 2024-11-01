@@ -1,24 +1,21 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-
 import { useStore } from "@/store";
 import { selectActiveListSearch } from "@/store/selectors/lists";
 import { assert } from "@/utils/assert";
 import { debounce } from "@/utils/debounce";
 import { inputFocused } from "@/utils/keyboard";
-
-import css from "./card-search.module.css";
-
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { SearchInput } from "../ui/search-input";
+import css from "./card-search.module.css";
 
 type Props = {
-  onKeyboardNavigate: (evt: React.KeyboardEvent) => void;
+  onInputKeyDown?: (evt: React.KeyboardEvent) => void;
   slotLeft?: React.ReactNode;
   slotRight?: React.ReactNode;
 };
 
 export function CardSearch(props: Props) {
-  const { onKeyboardNavigate, slotLeft, slotRight } = props;
+  const { onInputKeyDown, slotLeft, slotRight } = props;
   const inputRef = useRef<HTMLInputElement>(null);
 
   const setSearchValue = useStore((state) => state.setSearchValue);
@@ -92,7 +89,7 @@ export function CardSearch(props: Props) {
             id="card-search-input"
             inputClassName={css["field-input"]}
             onChangeValue={onValueChange}
-            onKeyDown={onKeyboardNavigate}
+            onKeyDown={onInputKeyDown}
             placeholder="Search for cards..."
             ref={inputRef}
             value={inputValue}

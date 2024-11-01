@@ -1,6 +1,5 @@
 import { cx } from "@/utils/cx";
 import { forwardRef } from "react";
-
 import css from "./button.module.css";
 import { DefaultTooltip } from "./tooltip";
 

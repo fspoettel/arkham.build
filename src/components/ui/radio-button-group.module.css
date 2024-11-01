@@ -1,6 +1,6 @@
 .radio-button-group {
   display: inline-flex;
-  color: var(--nord-0);
+  color: var(--palette-0);
   justify-content: center;
   gap: 0.5rem;
 }
@@ -12,7 +12,7 @@
 .item {
   border-width: 1px;
   border-style: solid;
-  border-color: var(--nord-2);
+  border-color: var(--palette-2);
   line-height: 1;
   padding: 0.5rem 0.5rem;
   user-select: none;
@@ -28,8 +28,8 @@
   }
 
   &[data-state="checked"] {
-    color: var(--nord-6);
-    background: var(--nord-2);
+    color: var(--palette-6);
+    background: var(--palette-2);
   }
 
   &:hover,
@@ -41,7 +41,7 @@
   &:hover:not([data-state="checked"]),
   &:active:not([data-state="checked"]),
   &:focus-visible:not([data-state="checked"]) {
-    background: var(--nord-1);
+    background: var(--palette-1);
   }
 }
 

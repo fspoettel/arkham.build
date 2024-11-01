@@ -1,34 +1,31 @@
-import { Undo } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useParams } from "wouter";
-
 import { ListLayout } from "@//layouts/list-layout";
-import { CardList } from "@/components/card-list/card-list";
+import { Attachments } from "@/components/attachments/attachments";
+import { CardListContainer } from "@/components/card-list/card-list-container";
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
+import { DeckTools } from "@/components/deck-tools/deck-tools";
 import { DecklistValidation } from "@/components/decklist/decklist-validation";
 import { Filters } from "@/components/filters/filters";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
+import type { ResolvedDeck } from "@/store/lib/types";
 import {
   selectDeckValid,
   selectResolvedDeckById,
 } from "@/store/selectors/decks";
-import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
-import { useDocumentTitle } from "@/utils/use-document-title";
-
-import { Editor } from "./editor/editor";
-import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
-
-import { Attachments } from "@/components/attachments/attachments";
-import { DeckTools } from "@/components/deck-tools/deck-tools";
-import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
+import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import { useDocumentTitle } from "@/utils/use-document-title";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
+import { UndoIcon } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useParams } from "wouter";
 import { Error404 } from "../errors/404";
 import css from "./deck-edit.module.css";
 import { DrawBasicWeakness } from "./editor/draw-basic-weakness";
+import { Editor } from "./editor/editor";
+import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 
 function DeckEdit() {
   const { id } = useParams<{ id: string }>();
@@ -62,7 +59,7 @@ function DeckEdit() {
                   }}
                   size="sm"
                 >
-                  <Undo />
+                  <UndoIcon />
                   Undo
                 </Button>
               </div>
@@ -106,15 +103,19 @@ function DeckEdit() {
 function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
   const [currentTab, setCurrentTab] = useState<Tab>("slots");
 
-  const renderListCardAfter = useCallback(
+  const renderCardExtra = useCallback(
     (card: Card, quantity: number | undefined) => {
       return card.code === SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS ? (
-        <DrawBasicWeakness deckId={deck.id} quantity={quantity} />
+        <DrawBasicWeakness
+          deckId={deck.id}
+          quantity={quantity}
+          targetDeck={mapTabToSlot(currentTab)}
+        />
       ) : (
         <Attachments card={card} resolvedDeck={deck} />
       );
     },
-    [deck],
+    [deck, currentTab],
   );
 
   const setUsingDeckTools = useStore((state) => state.setUsingDeckTools);
@@ -156,7 +157,7 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
           currentTab={currentTab}
           deck={deck}
           onTabChange={setCurrentTab}
-          renderListCardAfter={renderListCardAfter}
+          renderCardExtra={renderCardExtra}
           validation={validation}
         />
       }
@@ -164,11 +165,11 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
       sidebarWidthMax="var(--sidebar-width-two-col)"
     >
       {(props) => (
-        <CardList
+        <CardListContainer
           {...props}
           onChangeCardQuantity={onChangeCardQuantity}
           quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
-          renderListCardAfter={renderListCardAfter}
+          renderCardExtra={renderCardExtra}
           targetDeck={
             mapTabToSlot(currentTab) === "extraSlots" ? "extraSlots" : "slots"
           }

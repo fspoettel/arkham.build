@@ -1,8 +1,6 @@
-import type { StateCreator } from "zustand";
-
 import { assert } from "@/utils/assert";
-
 import { getCanonicalCardCode } from "@/utils/card-utils";
+import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
 import { getDefaultDeckName } from "../lib/deck-factory";
 import type { CardSet, DeckCreateSlice } from "./deck-create.types";
