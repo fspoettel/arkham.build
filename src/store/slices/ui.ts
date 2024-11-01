@@ -36,7 +36,11 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
   },
   setUsingDeckTools(usingDeckTools: boolean) {
     set({
-      ui: { ...get().ui, usingDeckTools },
+      ui: {
+        ...get().ui,
+        usingDeckTools,
+        sidebarOpen: !window.matchMedia(MQ_FLOATING_SIDEBAR).matches,
+      },
     });
   },
 });

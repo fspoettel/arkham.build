@@ -1,9 +1,10 @@
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { cx } from "@/utils/cx";
-import { useMountTransition } from "@/utils/use-mounting-animation";
+import { X } from "lucide-react";
 import { Suspense, lazy } from "react";
 import layoutCss from "../../layouts/list-layout.module.css";
+import { Button } from "../ui/button";
 import { Loader } from "../ui/loader";
 import css from "./deck-tools.module.css";
 
@@ -17,25 +18,31 @@ type Props = {
 
 export const DeckTools = ({ deck }: Props) => {
   const active = useStore((state) => state.ui.usingDeckTools);
-  // 200ms matches with the `transition: all 0.2s` prop of the layout-area class
-  const [inDom, animate] = useMountTransition(active, 200);
+  const setUsingDeckTools = useStore((state) => state.setUsingDeckTools);
 
-  return inDom ? (
+  return (
     <div
       className={cx(
         layoutCss["layout-area"],
         css["deck-tools"],
-        animate && css["transition"],
+        active && css["transition"],
       )}
     >
-      <Suspense fallback={<Loader show message="Loading tools..." />}>
+      <div className={css["tools-header"]}>
         <h3 className={css["tools-title"]}>Deck Tools</h3>
-        <div className={css["charts-wrap"]}>
-          <LazyCostCurveChart data={deck.stats.charts.costCurve} />
-          <LazySkillIconsChart data={deck.stats.charts.skillIcons} />
-          <LazyFactionsChart data={deck.stats.charts.factions} />
-        </div>
-      </Suspense>
+        <Button iconOnly size="lg" onClick={() => setUsingDeckTools(false)}>
+          <X />
+        </Button>
+      </div>
+      {active && (
+        <Suspense fallback={<Loader show message="Loading tools..." />}>
+          <div className={css["charts-wrap"]}>
+            <LazyCostCurveChart data={deck.stats.charts.costCurve} />
+            <LazySkillIconsChart data={deck.stats.charts.skillIcons} />
+            <LazyFactionsChart data={deck.stats.charts.factions} />
+          </div>
+        </Suspense>
+      )}
     </div>
-  ) : null;
+  );
 };
