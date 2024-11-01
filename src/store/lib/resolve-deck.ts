@@ -1,10 +1,9 @@
+import { decodeExileSlots } from "@/utils/card-utils";
 import {
   ALT_ART_INVESTIGATOR_MAP,
   ATTACHABLE_CARDS,
   type AttachableDefinition,
 } from "@/utils/constants";
-
-import { decodeExileSlots } from "@/utils/card-utils";
 import type { Deck } from "../slices/data.types";
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";

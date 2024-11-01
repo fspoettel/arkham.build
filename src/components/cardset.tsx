@@ -1,16 +1,13 @@
-import { cx } from "@/utils/cx";
-
 import { useStore } from "@/store";
 import type { CardSet as CardSetType } from "@/store/lib/types";
 import {
   selectCanCheckOwnership,
   selectCardOwnedCount,
 } from "@/store/selectors/shared";
-
-import css from "./cardset.module.css";
-
 import type { Card } from "@/store/services/queries.types";
-import { CircleHelp } from "lucide-react";
+import { cx } from "@/utils/cx";
+import { CircleHelpIcon } from "lucide-react";
+import css from "./cardset.module.css";
 import { ListCard } from "./list-card/list-card";
 import { Checkbox } from "./ui/checkbox";
 import { DefaultTooltip } from "./ui/tooltip";
@@ -54,7 +51,7 @@ export function CardSet(props: Props) {
               />
             }
           >
-            <CircleHelp />
+            <CircleHelpIcon />
           </DefaultTooltip>
         )}
       </header>

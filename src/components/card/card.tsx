@@ -1,22 +1,20 @@
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { useState } from "react";
-
 import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
 import { reversed } from "@/utils/card-utils";
-
-import css from "./card.module.css";
-
+import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import { CardBack } from "./card-back";
 import { CardContainer } from "./card-container";
 import { CardFace } from "./card-face";
+import css from "./card.module.css";
 
 type Props = {
   canToggleBackside?: boolean;
   children?: React.ReactNode;
   className?: string;
   resolvedCard: ResolvedCard | CardWithRelations;
-  linked?: boolean;
+  headerActions?: React.ReactNode;
+  titleLinks?: "card" | "modal";
   size?: "compact" | "tooltip" | "full";
 };
 
@@ -31,9 +29,10 @@ export function Card(props: Props) {
     canToggleBackside,
     children,
     className,
+    headerActions,
     resolvedCard,
-    linked,
     size = "full",
+    titleLinks,
   } = props;
 
   const [backVisible, toggleBack] = useState(!canToggleBackside);
@@ -44,7 +43,8 @@ export function Card(props: Props) {
   const frontNode = (
     <CardFace
       className={className}
-      linked={linked}
+      headerActions={headerActions}
+      titleLinks={titleLinks}
       resolvedCard={resolvedCard}
       size={size}
     />
@@ -64,7 +64,7 @@ export function Card(props: Props) {
       data-testid="card-backtoggle"
       onClick={() => toggleBack((p) => !p)}
     >
-      {backVisible ? <ChevronUp /> : <ChevronDown />}
+      {backVisible ? <ChevronUpIcon /> : <ChevronDownIcon />}
       Backside
     </Button>
   );
@@ -72,9 +72,9 @@ export function Card(props: Props) {
   return (
     <CardContainer data-testid={`card-${resolvedCard.card.code}`} size={size}>
       {cardReversed ? backNode : frontNode}
-      {children}
       {backToggle}
       {backVisible && (cardReversed ? frontNode : backNode)}
+      {children}
     </CardContainer>
   );
 }

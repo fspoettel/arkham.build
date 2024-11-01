@@ -1,8 +1,7 @@
 import { cx } from "@/utils/cx";
 import type { CheckboxProps } from "@radix-ui/react-checkbox";
 import { Indicator, Root } from "@radix-ui/react-checkbox";
-import { Check } from "lucide-react";
-
+import { CheckIcon } from "lucide-react";
 import css from "./checkbox.module.css";
 
 type Props = Omit<CheckboxProps, "label"> & {
@@ -18,7 +17,7 @@ export function Checkbox(props: Props) {
     <div className={cx(css["checkbox"], className)}>
       <Root {...rest} className={css["root"]} id={id}>
         <Indicator className={css["indicator"]}>
-          <Check />
+          <CheckIcon />
         </Indicator>
       </Root>
       <label className={cx(css["label"], hideLabel && "sr-only")} htmlFor={id}>

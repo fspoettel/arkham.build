@@ -1,5 +1,4 @@
 import { cx } from "@/utils/cx";
-
 import css from "./skill-icon-fancy.module.css";
 
 type Props = {

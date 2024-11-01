@@ -1,9 +1,9 @@
-import type { GroupingType, SortingType } from "./lists.types";
+import type { GroupingType, SortingType, ViewMode } from "./lists.types";
 
 export type ListConfig = {
   group: GroupingType[];
   sort: SortingType[];
-  showCardText: boolean;
+  viewMode: ViewMode;
 };
 
 export type SettingsState = {

@@ -113,12 +113,14 @@ export type SortingType =
   | "type"
   | "cost";
 
+export type ViewMode = "compact" | "card-text" | "full-cards" | "scans";
+
 export type List = {
   cardType: "player" | "encounter";
   display: {
     grouping: GroupingType[];
     sorting: SortingType[];
-    showCardText: boolean;
+    viewMode: ViewMode;
   };
   filters: FilterKey[];
   filtersEnabled: boolean;
@@ -149,7 +151,7 @@ export type ListsSlice = {
   removeList(key: string): void;
 
   setFiltersEnabled(value: boolean): void;
-  setShowCardText(value: boolean): void;
+  setListViewMode(value: ViewMode): void;
 
   setFilterValue<T>(id: number, payload: T): void;
   setFilterOpen(id: number, open: boolean): void;

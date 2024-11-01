@@ -1,24 +1,21 @@
-import { useCallback } from "react";
-
 import { useStore } from "@/store";
 import { selectActiveListFilter } from "@/store/selectors/lists";
+import {
+  selectAssetChanges,
+  selectAssetOptions,
+} from "@/store/selectors/lists";
 import type { Coded } from "@/store/services/queries.types";
 import { isAssetFilterObject } from "@/store/slices/lists.type-guards";
 import type { AssetFilter as AssetFilterType } from "@/store/slices/lists.types";
 import { assert } from "@/utils/assert";
 import { capitalize } from "@/utils/formatting";
-
-import css from "./filters.module.css";
-
-import {
-  selectAssetChanges,
-  selectAssetOptions,
-} from "@/store/selectors/lists";
+import { useCallback } from "react";
 import { SkillIcon } from "../icons/skill-icon";
 import SlotIcon from "../icons/slot-icon";
 import { Checkbox } from "../ui/checkbox";
 import { Combobox } from "../ui/combobox/combobox";
 import { RangeSelect } from "../ui/range-select";
+import css from "./filters.module.css";
 import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
 

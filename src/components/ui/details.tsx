@@ -1,5 +1,5 @@
 import { cx } from "@/utils/cx";
-import { ChevronUp } from "lucide-react";
+import { ChevronUpIcon } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "./button";
 import css from "./details.module.css";
@@ -38,7 +38,7 @@ export function Details(props: Props) {
         onClick={() => setOpen((p) => !p)}
         size="full"
       >
-        {open ? <ChevronUp /> : iconClosed} {title}
+        {open ? <ChevronUpIcon /> : iconClosed} {title}
       </Button>
 
       {scrollHeight ? (

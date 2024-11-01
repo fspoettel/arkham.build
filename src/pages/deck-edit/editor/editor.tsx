@@ -4,15 +4,13 @@ import { DecklistSection } from "@/components/decklist/decklist-section";
 import { Scroller } from "@/components/ui/scroller";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { DeckValidationResult } from "@/store/lib/deck-validation";
-import type { Tab } from "@/store/slices/deck-edits.types";
-
-import css from "./editor.module.css";
-
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
+import type { Tab } from "@/store/slices/deck-edits.types";
 import { isStaticInvestigator } from "@/utils/card-utils";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { EditorActions } from "./editor-actions";
+import css from "./editor.module.css";
 import { InvestigatorListcard } from "./investigator-listcard";
 import { MetaEditor } from "./meta-editor";
 import { MoveToMainDeck } from "./move-to-main-deck";
@@ -22,13 +20,12 @@ type Props = {
   currentTab: Tab;
   onTabChange: (tab: Tab) => void;
   deck: ResolvedDeck;
-  renderListCardAfter?: (card: Card, quantity?: number) => React.ReactNode;
+  renderCardExtra?: (card: Card, quantity?: number) => React.ReactNode;
   validation?: DeckValidationResult;
 };
 
 export function Editor(props: Props) {
-  const { currentTab, onTabChange, deck, renderListCardAfter, validation } =
-    props;
+  const { currentTab, onTabChange, deck, renderCardExtra, validation } = props;
 
   const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
 
@@ -75,7 +72,7 @@ export function Editor(props: Props) {
                 layout="two_column"
                 listCardSize="sm"
                 mapping="slots"
-                renderListCardAfter={renderListCardAfter}
+                renderCardExtra={renderCardExtra}
                 quantities={deck.slots}
               />
             </DecklistSection>
@@ -100,7 +97,7 @@ export function Editor(props: Props) {
                   layout="two_column"
                   listCardSize="sm"
                   mapping="sideSlots"
-                  renderListCardAfter={
+                  renderCardExtra={
                     staticInvestigator
                       ? undefined
                       : (card) => <MoveToMainDeck card={card} deck={deck} />

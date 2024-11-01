@@ -1,9 +1,7 @@
-import type { ErrorInfo } from "react";
-import { Component } from "react";
-
 import { ErrorDisplay } from "@/pages/errors/error-display";
 import { ISSUE_URL } from "@/utils/constants";
-
+import type { ErrorInfo } from "react";
+import { Component } from "react";
 import { Button } from "./ui/button";
 
 type Props = {

@@ -14,3 +14,20 @@ export function DropdownMenu(props: Props) {
     </nav>
   );
 }
+
+export function DropdownMenuSection(props: {
+  title: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const { children, className, title } = props;
+
+  return (
+    <section className={cx(css["section"], className)}>
+      <header className={css["header"]}>
+        <h4 className={css["title"]}>{title}</h4>
+      </header>
+      <div className={css["content"]}>{children}</div>
+    </section>
+  );
+}

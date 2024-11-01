@@ -1,5 +1,4 @@
-import { InfoIcon } from "lucide-react";
-
+import { useStore } from "@/store";
 import {
   type DeckValidationResult,
   isDeckOptionsError,
@@ -10,12 +9,10 @@ import {
   isTooFewCardsError,
   isTooManyCardsError,
 } from "@/store/lib/deck-validation";
-
-import css from "./decklist-validation.module.css";
-
-import { useStore } from "@/store";
+import { InfoIcon } from "lucide-react";
 import { Collapsible, CollapsibleContent } from "../ui/collapsible";
 import { Scroller } from "../ui/scroller";
+import css from "./decklist-validation.module.css";
 
 type Props = {
   defaultOpen?: boolean;

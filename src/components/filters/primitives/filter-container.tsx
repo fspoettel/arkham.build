@@ -1,7 +1,6 @@
-import { Undo2 } from "lucide-react";
-import { useCallback } from "react";
-
 import type { CollapsibleProps } from "@radix-ui/react-collapsible";
+import { Undo2Icon } from "lucide-react";
+import { useCallback } from "react";
 import { Button } from "../../ui/button";
 import { Collapsible, CollapsibleContent } from "../../ui/collapsible";
 
@@ -50,7 +49,7 @@ export function FilterContainer(props: Props) {
             tooltip="Reset filter"
             variant="bare"
           >
-            <Undo2 />
+            <Undo2Icon />
           </Button>
         ) : undefined
       }

@@ -1,5 +1,3 @@
-import type { StateCreator } from "zustand";
-
 import { applyTaboo } from "@/store/lib/card-edits";
 import type { Card } from "@/store/services/queries.types";
 import { splitMultiValue } from "@/utils/card-utils";
@@ -10,8 +8,8 @@ import {
   REGEX_SUCCEED_BY,
   REGEX_USES,
 } from "@/utils/constants";
-
 import { time, timeEnd } from "@/utils/time";
+import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
 import type {
   LookupTable,

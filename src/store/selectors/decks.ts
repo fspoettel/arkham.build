@@ -1,9 +1,7 @@
-import { createSelector } from "reselect";
-
 import { resolveDeck } from "@/store/lib/resolve-deck";
-
 import { decodeExileSlots } from "@/utils/card-utils";
 import { time, timeEnd } from "@/utils/time";
+import { createSelector } from "reselect";
 import { applyCardChanges } from "../lib/card-edits";
 import { applyDeckEdits } from "../lib/deck-edits";
 import { type UpgradeStats, getUpgradeStats } from "../lib/deck-upgrades";

@@ -1,26 +1,23 @@
-import { cx } from "@/utils/cx";
-import type { ReferenceType } from "@floating-ui/react";
-import { FileWarning, Star } from "lucide-react";
-import { useCallback } from "react";
-
 import type { Card } from "@/store/services/queries.types";
 import {
+  cardLimit,
   countExperience,
   getCardColor,
   hasImage,
   hasSkillIcons,
 } from "@/utils/card-utils";
-
-import css from "./list-card.module.css";
-
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import { cx } from "@/utils/cx";
+import type { ReferenceType } from "@floating-ui/react";
+import { FileWarningIcon, StarIcon } from "lucide-react";
+import { useCallback } from "react";
 import { CardHealth } from "../card-health";
 import { CardIcon } from "../card-icon";
 import { useCardModalContext } from "../card-modal/card-modal-context";
+import { CardThumbnail } from "../card-thumbnail";
 import { CardDetails } from "../card/card-details";
 import { CardIcons } from "../card/card-icons";
 import { CardText } from "../card/card-text";
-import { CardThumbnail } from "../card/card-thumbnail";
 import { ExperienceDots } from "../experience-dots";
 import { MulticlassIcons } from "../icons/multiclass-icons";
 import { SkillIcons } from "../skill-icons/skill-icons";
@@ -28,6 +25,7 @@ import { SkillIconsInvestigator } from "../skill-icons/skill-icons-investigator"
 import { QuantityInput } from "../ui/quantity-input";
 import { QuantityOutput } from "../ui/quantity-output";
 import { DefaultTooltip } from "../ui/tooltip";
+import css from "./list-card.module.css";
 
 export type Props = {
   as?: "li" | "div";
@@ -47,11 +45,11 @@ export type Props = {
   ownedCount?: number;
   quantity?: number;
   referenceProps?: React.ComponentProps<"div">;
-  renderAction?: (card: Card) => React.ReactNode;
-  renderExtra?: (card: Card) => React.ReactNode;
-  renderMetaExtra?: (card: Card, quantity?: number) => React.ReactNode;
-  renderAfter?: (card: Card, quantity?: number) => React.ReactNode;
-  size?: "sm" | "investigator" | "xs";
+  renderCardAction?: (card: Card) => React.ReactNode;
+  renderCardAfter?: (card: Card) => React.ReactNode;
+  renderCardMetaExtra?: (card: Card, quantity?: number) => React.ReactNode;
+  renderCardExtra?: (card: Card, quantity?: number) => React.ReactNode;
+  size?: "xs" | "sm" | "investigator";
   showCardText?: boolean;
   showInvestigatorIcons?: boolean;
 };
@@ -75,10 +73,10 @@ export function ListCardInner(props: Props) {
     ownedCount,
     quantity,
     referenceProps,
-    renderAction,
-    renderExtra,
-    renderMetaExtra,
-    renderAfter,
+    renderCardAction,
+    renderCardAfter,
+    renderCardExtra,
+    renderCardMetaExtra,
     showCardText,
     showInvestigatorIcons,
     size,
@@ -102,7 +100,7 @@ export function ListCardInner(props: Props) {
     modalContext.setOpen({ code: card.code });
   }, [modalContext, card.code]);
 
-  const limit = limitOverride || card.deck_limit || card.quantity;
+  const limit = cardLimit(card, limitOverride);
 
   return (
     <Element
@@ -115,11 +113,12 @@ export function ListCardInner(props: Props) {
         isForbidden && css["forbidden"],
         isActive && css["active"],
         showCardText && css["card-text"],
+        !!renderCardAfter && css["has-after"],
       )}
       data-testid={`listcard-${card.code}`}
     >
       <div className={css["listcard-action"]}>
-        {!!renderAction && renderAction(card)}
+        {!!renderCardAction && renderCardAction(card)}
         {quantity != null &&
           (onChangeCardQuantity ? (
             <QuantityInput
@@ -185,7 +184,7 @@ export function ListCardInner(props: Props) {
                       }
                     >
                       <span className={css["ownership"]}>
-                        <FileWarning />
+                        <FileWarningIcon />
                       </span>
                     </DefaultTooltip>
                   )}
@@ -203,7 +202,7 @@ export function ListCardInner(props: Props) {
                       className={css["ignored"]}
                       data-testid="listcard-ignored"
                     >
-                      <Star />
+                      <StarIcon />
                     </span>
                   </DefaultTooltip>
                 )}
@@ -258,19 +257,21 @@ export function ListCardInner(props: Props) {
                         />
                       </>
                     )}
-                  {renderMetaExtra?.(card, quantity)}
+                  {renderCardMetaExtra?.(card, quantity)}
                 </div>
-              )}
-
-              {renderExtra && (
-                <div className={css["meta"]}>{renderExtra(card)}</div>
               )}
             </figcaption>
           </figure>
         </div>
-
-        {!!renderAfter && renderAfter(card, quantity)}
+        {renderCardExtra?.(card, quantity)}
       </div>
+      {!!renderCardAfter && (
+        <div className={css["listcard-after"]}>
+          <div className={css["listcard-after-inner"]}>
+            {renderCardAfter?.(card)}
+          </div>
+        </div>
+      )}
       {showCardText && (
         <div className={css["listcard-text"]}>
           <CardDetails card={card} omitSlotIcon />

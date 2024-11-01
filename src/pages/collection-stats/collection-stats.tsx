@@ -1,6 +1,5 @@
-import { AppLayout } from "@/layouts/app-layout";
-
 import { Collection } from "@/components/collection/collection";
+import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
 import { selectTotalOwned } from "@/store/selectors/collection";
 import { cx } from "@/utils/cx";

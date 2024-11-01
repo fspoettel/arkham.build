@@ -3,10 +3,9 @@ import {
   selectActiveListFilter,
   selectMultiselectChanges,
 } from "@/store/selectors/lists";
+import { selectTraitOptions } from "@/store/selectors/lists";
 import { isTraitFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
-
-import { selectTraitOptions } from "@/store/selectors/lists";
 import type { FilterProps } from "./filters.types";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 

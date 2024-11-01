@@ -1,7 +1,5 @@
-import { FloatingPortal } from "@floating-ui/react";
-
 import { FLOATING_PORTAL_ID } from "@/utils/constants";
-
+import { FloatingPortal } from "@floating-ui/react";
 import { CardTooltip } from "../card-tooltip";
 import { useRestingTooltip } from "../ui/tooltip.hooks";
 import type { Props as ListCardInnerProps } from "./list-card-inner";

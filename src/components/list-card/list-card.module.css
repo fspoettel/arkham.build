@@ -17,6 +17,20 @@
   list-style: none;
 }
 
+.listcard-wrapper.has-after {
+  grid-template-areas:
+    "action card"
+    "empty after";
+}
+
+.listcard-after {
+  grid-area: after;
+}
+
+.listcard-after-inner {
+  display: inline-block;
+}
+
 .listcard-wrapper.card-text {
   background-color: var(--palette-point-five);
   padding: 0.5rem;
@@ -28,6 +42,13 @@
   grid-template-columns: auto 1fr;
   grid-template-rows: auto auto;
   grid-template-areas: "action card" "empty text";
+}
+
+.listcard-wrapper.card-text.has-after {
+  grid-template-areas:
+    "action card"
+    "empty text"
+    "empty after";
 }
 
 .listcard-action {

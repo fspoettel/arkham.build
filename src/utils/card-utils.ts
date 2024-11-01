@@ -1,6 +1,5 @@
 import type { CardWithRelations } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
-
 import {
   SIDEWAYS_TYPE_CODES,
   SKILL_KEYS,
@@ -146,4 +145,8 @@ export function isRandomBasicWeaknessLike(card: Card) {
  */
 export function isStaticInvestigator(card: Card) {
   return card.type_code === "investigator" && !card.deck_options;
+}
+
+export function cardLimit(card: Card, limitOverride?: number) {
+  return limitOverride ?? card.deck_limit ?? card.quantity;
 }

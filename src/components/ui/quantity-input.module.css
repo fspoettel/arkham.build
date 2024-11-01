@@ -9,7 +9,7 @@
   font-family: var(--font-family-ui);
   line-height: 1;
   border-radius: var(--rounded);
-  border: 1px solid var(--palette-1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--palette-4);
   padding: 0.125rem 0.25rem;
   user-select: none;

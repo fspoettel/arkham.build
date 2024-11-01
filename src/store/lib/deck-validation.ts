@@ -4,7 +4,6 @@ import {
   isStaticInvestigator,
 } from "@/utils/card-utils";
 import { DECK_SIZE_ADJUSTMENTS, SPECIAL_CARD_CODES } from "@/utils/constants";
-
 import { time, timeEnd } from "@/utils/time";
 import type {
   Card,

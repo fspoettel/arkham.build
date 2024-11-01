@@ -1,5 +1,3 @@
-import { useCallback, useMemo } from "react";
-
 import {
   LimitedCardPoolField,
   SealedDeckField,
@@ -16,6 +14,7 @@ import type { DeckOptionSelectType } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
 import { debounce } from "@/utils/debounce";
 import { capitalize, capitalizeSnakeCase } from "@/utils/formatting";
+import { useCallback, useMemo } from "react";
 
 type Props = {
   deck: ResolvedDeck;

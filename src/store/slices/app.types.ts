@@ -3,7 +3,6 @@ import type {
   DataVersionResponse,
   MetadataResponse,
 } from "@/store/services/queries";
-
 import type { Id } from "./data.types";
 
 export type AppState = {

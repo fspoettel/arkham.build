@@ -1,10 +1,8 @@
-import { cx } from "@/utils/cx";
-import { ChevronLeft } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { AppLayout } from "@/layouts/app-layout";
+import { cx } from "@/utils/cx";
 import { useGoBack } from "@/utils/use-go-back";
-
+import { ChevronLeftIcon } from "lucide-react";
 import css from "./about.module.css";
 
 function About() {
@@ -14,7 +12,7 @@ function About() {
     <AppLayout title="About">
       <div className={cx("longform", css["about"])}>
         <Button onClick={goBack} variant="bare">
-          <ChevronLeft /> Back
+          <ChevronLeftIcon /> Back
         </Button>
         <h1>About</h1>
         <p>

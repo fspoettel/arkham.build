@@ -1,6 +1,5 @@
 import { del, get, set } from "idb-keyval";
 import type { StorageValue } from "zustand/middleware";
-
 import type { DataVersion } from "../services/queries.types";
 import type { Val } from "./storage.types";
 

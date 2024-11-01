@@ -1,15 +1,11 @@
-import { createSelector } from "reselect";
-
 import { assert } from "@/utils/assert";
 import { FACTION_ORDER } from "@/utils/constants";
+import { capitalize } from "@/utils/formatting";
 import { and, or } from "@/utils/fp";
 import uFuzzy from "@leeoniya/ufuzzy";
+import { createSelector } from "reselect";
 import type { ResolvedDeck } from "../lib/types";
 import type { StoreState } from "../slices";
-import type { MultiselectFilter } from "../slices/lists.types";
-import { selectLocalDecks } from "./decks";
-
-import { capitalize } from "@/utils/formatting";
 import type {
   DeckFiltersKey,
   DeckPropertyName,
@@ -17,6 +13,8 @@ import type {
   RangeMinMax,
   SortOrder,
 } from "../slices/deck-collection-filters.types";
+import type { MultiselectFilter } from "../slices/lists.types";
+import { selectLocalDecks } from "./decks";
 
 // Arbitrarily chosen for now
 const MATCHING_MAX_TOKEN_DISTANCE_DECKS = 4;

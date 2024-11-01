@@ -1,9 +1,13 @@
-import type { AttachableDefinition } from "@/utils/constants";
-import { Lightbulb, Package, Store, WandSparkles } from "lucide-react";
-import { useMemo } from "react";
-
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
+import type { AttachableDefinition } from "@/utils/constants";
+import {
+  LightbulbIcon,
+  PackageIcon,
+  StoreIcon,
+  WandSparklesIcon,
+} from "lucide-react";
+import { useMemo } from "react";
 import { Button } from "../ui/button";
 import css from "./attachments.module.css";
 import { canAttach, canUpdateAttachment, getAttachedQuantity } from "./utils";
@@ -105,19 +109,19 @@ export function AttachmentIcon(props: { name: string }) {
   const { name } = props;
 
   if (name === "lightbulb") {
-    return <Lightbulb />;
+    return <LightbulbIcon />;
   }
 
   if (name === "store") {
-    return <Store />;
+    return <StoreIcon />;
   }
 
   if (name === "wand-sparkles") {
-    return <WandSparkles />;
+    return <WandSparklesIcon />;
   }
 
   if (name === "package") {
-    return <Package />;
+    return <PackageIcon />;
   }
 
   return null;

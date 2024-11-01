@@ -1,10 +1,8 @@
-import { Redirect } from "wouter";
-
 import { Card } from "@/components/card/card";
 import { CustomizationsEditor } from "@/components/customizations/customizations-editor";
 import type { CardWithRelations } from "@/store/lib/types";
 import { formatRelationTitle } from "@/utils/formatting";
-
+import { Redirect } from "wouter";
 import css from "./card-view.module.css";
 
 type Props = {
@@ -68,7 +66,7 @@ export function CardViewCards({
             <Card
               canToggleBackside
               key={c.card.code}
-              linked
+              titleLinks="card"
               resolvedCard={c}
               size="compact"
             />
@@ -82,7 +80,7 @@ export function CardViewCards({
             <Card
               canToggleBackside
               key={c.card.code}
-              linked
+              titleLinks="card"
               resolvedCard={c}
               size="compact"
             />
@@ -99,7 +97,7 @@ export function CardViewCards({
             <Card
               canToggleBackside
               key={c.card.code}
-              linked
+              titleLinks="card"
               resolvedCard={c}
               size="compact"
             />
@@ -113,7 +111,7 @@ export function CardViewCards({
             <Card
               canToggleBackside
               key={c.card.code}
-              linked
+              titleLinks="card"
               resolvedCard={c}
               size="compact"
             />
@@ -130,7 +128,7 @@ export function CardViewCards({
             <Card
               canToggleBackside
               key={c.card.code}
-              linked
+              titleLinks="card"
               resolvedCard={c}
               size="compact"
             />
@@ -147,7 +145,7 @@ export function CardViewCards({
             <Card
               canToggleBackside
               key={c.card.code}
-              linked
+              titleLinks="card"
               resolvedCard={c}
               size="compact"
             />
@@ -162,7 +160,7 @@ export function CardViewCards({
         >
           <Card
             canToggleBackside
-            linked
+            titleLinks="card"
             resolvedCard={relations.restrictedTo}
             size="compact"
           />
@@ -175,7 +173,7 @@ export function CardViewCards({
             <Card
               canToggleBackside
               key={c.card.code}
-              linked
+              titleLinks="card"
               resolvedCard={c}
               size="compact"
             />

@@ -1,12 +1,11 @@
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
+import { MQ_FLOATING_FILTERS, MQ_FLOATING_SIDEBAR } from "@/utils/constants";
 import { cx } from "@/utils/cx";
 import { useMedia } from "@/utils/use-media";
+import { FilterIcon } from "lucide-react";
 import type React from "react";
 import { useCallback, useEffect, useRef } from "react";
-
-import { MQ_FLOATING_FILTERS, MQ_FLOATING_SIDEBAR } from "@/utils/constants";
-import { Filter } from "lucide-react";
 import { useStore } from "../store";
 import css from "./list-layout.module.css";
 
@@ -86,9 +85,18 @@ export function ListLayout(props: Props) {
     };
   }, [floatingFilters, setFiltersOpen]);
 
+  const floatingMenuOpen =
+    ((floatingSidebar && sidebarOpen) || (floatingFilters && filtersOpen)) &&
+    css["floating-menu-open"];
+
   return (
     <div
-      className={cx(css["layout"], "fade-in", className)}
+      className={cx(
+        css["layout"],
+        "fade-in",
+        className,
+        floatingMenuOpen && css["floating-menu-open"],
+      )}
       onPointerDown={onContentClick}
       style={{ "--sidebar-width-max": sidebarWidthMax } as React.CSSProperties}
     >
@@ -106,9 +114,6 @@ export function ListLayout(props: Props) {
           css["content"],
           (floatingSidebar || !sidebarOpen) && css["collapsed-sidebar"],
           (floatingFilters || !filtersOpen) && css["collapsed-filters"],
-          ((floatingSidebar && sidebarOpen) ||
-            (floatingFilters && filtersOpen)) &&
-            css["floating-menu-open"],
         )}
         onPointerDown={onContentClick}
       >
@@ -130,7 +135,7 @@ export function ListLayout(props: Props) {
               iconOnly
               size="lg"
             >
-              <Filter />
+              <FilterIcon />
             </Button>
           ),
         })}

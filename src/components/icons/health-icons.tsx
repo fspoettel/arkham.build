@@ -1,8 +1,6 @@
 import { cx } from "@/utils/cx";
-
-import css from "./health-icons.module.css";
-
 import { CostIcon } from "./cost-icon";
+import css from "./health-icons.module.css";
 
 export function HealthIcon({ health }: { health?: number }) {
   return (

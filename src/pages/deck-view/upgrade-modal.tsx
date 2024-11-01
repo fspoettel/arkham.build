@@ -1,10 +1,10 @@
-import { useDialogContext } from "@/components/ui/dialog.hooks";
-import { Modal, ModalContent } from "@/components/ui/modal";
-import { useCallback, useMemo, useState } from "react";
-
 import { ListCard } from "@/components/list-card/list-card";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useDialogContext } from "@/components/ui/dialog.hooks";
 import { Field, FieldLabel } from "@/components/ui/field";
+import { Modal, ModalContent } from "@/components/ui/modal";
+import { Scroller } from "@/components/ui/scroller";
 import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
@@ -13,10 +13,8 @@ import { decodeExileSlots } from "@/utils/card-utils";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { range } from "@/utils/range";
 import { useAccentColor } from "@/utils/use-accent-color";
+import { useCallback, useMemo, useState } from "react";
 import { useLocation } from "wouter";
-
-import { Checkbox } from "@/components/ui/checkbox";
-import { Scroller } from "@/components/ui/scroller";
 import css from "./upgrade-modal.module.css";
 
 type Props = {

@@ -65,13 +65,12 @@ test.describe("filters: interactions", () => {
     await fillSearch(page, "ashcan pete");
 
     await page.locator('[data-test-id="card-list-config"]').click();
-    await page.locator('[data-test-id="card-list-text-toggle"]').click();
+    await page.getByLabel("Compact with text").click();
 
     await expect(page.getByTestId("card-text").first()).toBeVisible();
     await expect(page.getByTestId("card-text").nth(1)).toBeVisible();
 
-    await page.locator('[data-test-id="card-list-config"]').click();
-    await page.locator('[data-test-id="card-list-text-toggle"]').click();
+    await page.getByLabel("Scans").click();
 
     await expect(page.getByTestId("card-text").first()).not.toBeVisible();
     await expect(page.getByTestId("card-text").nth(1)).not.toBeVisible();

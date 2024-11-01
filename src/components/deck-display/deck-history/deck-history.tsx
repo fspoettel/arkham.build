@@ -1,6 +1,5 @@
-import { formatXpAvailable } from "@/utils/formatting";
-
 import type { History } from "@/store/selectors/decks";
+import { formatXpAvailable } from "@/utils/formatting";
 import { CustomizableDiff } from "./customizable-diff";
 import css from "./deck-history.module.css";
 import { SlotDiff } from "./slot-diff";

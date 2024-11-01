@@ -3,7 +3,6 @@ import { cx } from "@/utils/cx";
 import type { ScrollAreaProps } from "@radix-ui/react-scroll-area";
 import { Root, Scrollbar, Thumb, Viewport } from "@radix-ui/react-scroll-area";
 import { forwardRef } from "react";
-
 import css from "./scroller.module.css";
 
 type Props = ScrollAreaProps & {

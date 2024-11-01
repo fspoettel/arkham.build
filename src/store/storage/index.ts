@@ -1,10 +1,9 @@
+import { time, timeEnd } from "@/utils/time";
 import type {
   PersistOptions,
   PersistStorage,
   StorageValue,
 } from "zustand/middleware";
-
-import { time, timeEnd } from "@/utils/time";
 import type { StoreState } from "../slices";
 import { getInitialAppState } from "../slices/app";
 import { getInitialDataState } from "../slices/data";
@@ -16,11 +15,12 @@ import v1Tov2 from "./migrations/0001-add-deck-history";
 import v2Tov3 from "./migrations/0002-add-client-id";
 import v3Tov4 from "./migrations/0003-add-lists-setting";
 import v4Tov5 from "./migrations/0004-fix-investigator-default";
+import v5toV6 from "./migrations/0005-add-view-mode";
 import type { Val } from "./storage.types";
 
 const indexedDBAdapter = new IndexedDBAdapter();
 
-const VERSION = 5;
+const VERSION = 6;
 
 // use this flag to disable rehydration during dev.
 const SKIP_HYDRATION = false;
@@ -51,6 +51,11 @@ export const storageConfig: PersistOptions<StoreState, Val> = {
     if (version < 5) {
       console.debug("[persist] migrate store: ", version);
       v4Tov5(state, version);
+    }
+
+    if (version < 6) {
+      console.debug("[persist] migrate store: ", version);
+      v5toV6(state, version);
     }
 
     return state;

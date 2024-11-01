@@ -1,9 +1,7 @@
 import { useStore } from "@/store";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
-
-import css from "./card-tooltip.module.css";
-
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
+import css from "./card-tooltip.module.css";
 import { Card } from "./card/card";
 
 type Props = {

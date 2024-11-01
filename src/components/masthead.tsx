@@ -1,11 +1,13 @@
 import { cx } from "@/utils/cx";
-import { BarChart3, Ellipsis, Info, Settings } from "lucide-react";
+import {
+  BarChart3Icon,
+  EllipsisIcon,
+  InfoIcon,
+  SettingsIcon,
+} from "lucide-react";
 import { Link, useLocation } from "wouter";
-
-import css from "./masthead.module.css";
-
 import Logo from "../assets/icons/logo.svg?react";
-
+import css from "./masthead.module.css";
 import { Button } from "./ui/button";
 import { DropdownMenu } from "./ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
@@ -38,13 +40,13 @@ export function Masthead(props: Props) {
                 variant="bare"
                 tooltip="Go to settings"
               >
-                <Settings />
+                <SettingsIcon />
               </Button>
             </Link>
             <Popover>
               <PopoverTrigger asChild>
                 <Button tooltip="More actions" variant="bare">
-                  <Ellipsis />
+                  <EllipsisIcon />
                 </Button>
               </PopoverTrigger>
               <PopoverContent>
@@ -57,12 +59,12 @@ export function Masthead(props: Props) {
                       variant="bare"
                       size="full"
                     >
-                      <Info /> About this site
+                      <InfoIcon /> About this site
                     </Button>
                   </Link>
                   <Link asChild href="/collection-stats">
                     <Button as="a" variant="bare" size="full">
-                      <BarChart3 /> Collection stats
+                      <BarChart3Icon /> Collection stats
                     </Button>
                   </Link>
                 </DropdownMenu>

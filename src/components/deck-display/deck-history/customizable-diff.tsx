@@ -1,7 +1,6 @@
-import type { CustomizationUpgrade } from "@/store/selectors/decks";
-
 import { CustomizationOption } from "@/components/customizations/customization-option";
 import { ListCard } from "@/components/list-card/list-card";
+import type { CustomizationUpgrade } from "@/store/selectors/decks";
 import { cx } from "@/utils/cx";
 import css from "./diffs.module.css";
 

@@ -1,0 +1,11 @@
+.scan img {
+  background: var(--palette-1);
+  border-radius: 14px;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+
+  @media screen and (min-width: 45rem) {
+    box-shadow: var(--shadow-lg);
+  }
+}

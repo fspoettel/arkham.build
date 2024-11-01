@@ -1,6 +1,5 @@
-import type { PlayerType } from "@/utils/constants";
-
 import { assert } from "@/utils/assert";
+import type { PlayerType } from "@/utils/constants";
 import type { Card } from "../services/queries.types";
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";

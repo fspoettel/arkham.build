@@ -394,7 +394,7 @@ button {
   position: relative;
   z-index: 0;
   color: var(--nord-6);
-  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
 
   & > * {
     position: relative;

@@ -1,12 +1,9 @@
+import type { Card } from "@/store/services/queries.types";
 import { cx } from "@/utils/cx";
 import { Fragment } from "react";
-
-import type { Card } from "@/store/services/queries.types";
-
-import css from "./skill-icons.module.css";
-
 import { CostIcon } from "../icons/cost-icon";
 import { SkillIconFancy } from "../icons/skill-icon-fancy";
+import css from "./skill-icons.module.css";
 
 type Props = {
   card: Card;

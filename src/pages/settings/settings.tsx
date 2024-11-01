@@ -1,20 +1,17 @@
-import { useCallback, useEffect, useState } from "react";
-
+import { Collection } from "@/components/collection/collection";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/components/ui/toast.hooks";
 import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
 import { useGoBack } from "@/utils/use-go-back";
-
-import css from "./settings.module.css";
-
-import { Collection } from "@/components/collection/collection";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/components/ui/toast.hooks";
-import { Library, SlidersVertical } from "lucide-react";
+import { LibraryIcon, SlidersVerticalIcon } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 import { CardDataSync } from "./card-data-sync";
 import { HideWeaknessSetting } from "./hide-weakness";
 import { ListSettings } from "./list-settings";
 import { Section } from "./section";
+import css from "./settings.module.css";
 import { ShowAllCards } from "./show-all-cards";
 import { TabooSet } from "./taboo-set";
 import { Theme } from "./theme";
@@ -71,11 +68,11 @@ function Settings() {
           <Tabs length={2} defaultValue="general">
             <TabsList>
               <TabsTrigger data-testid="tab-general" value="general">
-                <SlidersVertical />
+                <SlidersVerticalIcon />
                 General
               </TabsTrigger>
               <TabsTrigger data-testid="tab-collection" value="collection">
-                <Library />
+                <LibraryIcon />
                 Collection
               </TabsTrigger>
             </TabsList>

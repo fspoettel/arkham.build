@@ -1,30 +1,27 @@
-import { Ellipsis, Plus, Trash2, Upload } from "lucide-react";
-import { Link } from "wouter";
-
-import { DeckSummary } from "@/components/deck-summary";
-import { DeckTags } from "@/components/deck-tags";
-import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Scroller } from "@/components/ui/scroller";
-import { useStore } from "@/store";
-
-import css from "./deck-collection.module.css";
-
 import { CollapseSidebarButton } from "@/components/collapse-sidebar-button";
 import { DeckCollectionFilters } from "@/components/deck-collection-filters/deck-filters-wrapper";
 import {
   useDeleteDeck,
   useDuplicateDeck,
 } from "@/components/deck-display/hooks";
+import { DeckSummary } from "@/components/deck-summary";
+import { DeckTags } from "@/components/deck-tags";
+import { Button } from "@/components/ui/button";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Scroller } from "@/components/ui/scroller";
 import { useToast } from "@/components/ui/toast.hooks";
+import { useStore } from "@/store";
 import { selectDecksDisplayList } from "@/store/selectors/deck-filters";
+import { EllipsisIcon, PlusIcon, Trash2Icon, UploadIcon } from "lucide-react";
 import { useCallback, useState } from "react";
+import { Link } from "wouter";
 import { DeckCollectionImport } from "./deck-collection-import";
+import css from "./deck-collection.module.css";
 
 export function DeckCollection() {
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -100,7 +97,7 @@ export function DeckCollection() {
               data-testid="collection-create-deck"
               tooltip="Create new deck"
             >
-              <Plus />
+              <PlusIcon />
             </Button>
           </Link>
           <Popover onOpenChange={setPopoverOpen} open={popoverOpen}>
@@ -110,7 +107,7 @@ export function DeckCollection() {
                 data-testid="collection-more-actions"
                 tooltip="More actions"
               >
-                <Ellipsis />
+                <EllipsisIcon />
               </Button>
             </PopoverTrigger>
             <PopoverContent>
@@ -122,7 +119,7 @@ export function DeckCollection() {
                   size="full"
                   variant="bare"
                 >
-                  <Upload /> Import from JSON files
+                  <UploadIcon /> Import from JSON files
                 </Button>
                 <input
                   id="collection-import"
@@ -139,7 +136,7 @@ export function DeckCollection() {
                   size="full"
                   variant="bare"
                 >
-                  <Trash2 /> Delete all local decks
+                  <Trash2Icon /> Delete all local decks
                 </Button>
               </DropdownMenu>
             </PopoverContent>

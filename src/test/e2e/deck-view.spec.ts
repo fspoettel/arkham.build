@@ -193,7 +193,7 @@ test.describe("deck view: display", () => {
       navigate: "view",
     });
 
-    await expect(page.getByTestId("card-name").getByRole("link")).toContainText(
+    await expect(page.getByTestId("card-name")).toContainText(
       "Body of a Yithian",
     );
 

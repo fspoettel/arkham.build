@@ -1,10 +1,9 @@
 // Currently unused, functionality preserved for 'My Decks' dedicated page.
-
 import { useStore } from "@/store";
 import { selectDeckFilterValue } from "@/store/selectors/deck-filters";
 import type { DeckValidity } from "@/store/slices/deck-collection-filters.types";
 import { capitalize } from "@/utils/formatting";
-import { TicketCheck, TicketX, Tickets } from "lucide-react";
+import { TicketCheckIcon, TicketXIcon, TicketsIcon } from "lucide-react";
 import { useCallback } from "react";
 import { FilterContainer } from "../filters/primitives/filter-container";
 import {
@@ -55,13 +54,13 @@ export function ValidityFilter({ containerClass }: Props) {
     >
       <RadioButtonGroup icons onValueChange={onChange} value={value}>
         <RadioButtonGroupItem tooltip="Only valid" value="valid">
-          <TicketCheck />
+          <TicketCheckIcon />
         </RadioButtonGroupItem>
         <RadioButtonGroupItem tooltip="Only invalid" value="invalid">
-          <TicketX />
+          <TicketXIcon />
         </RadioButtonGroupItem>
         <RadioButtonGroupItem tooltip="All" value="all">
-          <Tickets />
+          <TicketsIcon />
         </RadioButtonGroupItem>
       </RadioButtonGroup>
     </FilterContainer>

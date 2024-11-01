@@ -1,16 +1,12 @@
-import { cx } from "@/utils/cx";
-import { Fragment } from "react/jsx-runtime";
-
 import { useStore } from "@/store";
 import {
   selectActiveList,
   selectActiveListFilters,
 } from "@/store/selectors/lists";
-
-import css from "./filters.module.css";
-
+import { cx } from "@/utils/cx";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
-import { FilterX } from "lucide-react";
+import { FilterXIcon } from "lucide-react";
+import { Fragment } from "react/jsx-runtime";
 import { CollapseSidebarButton } from "../collapse-sidebar-button";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
@@ -22,6 +18,7 @@ import { CardTypeFilter } from "./card-type-filter";
 import { CostFilter } from "./cost-filter";
 import { EncounterSetFilter } from "./encounter-set-filter";
 import { FactionFilter } from "./faction-filter";
+import css from "./filters.module.css";
 import { InvestigatorFilter } from "./investigator-filter";
 import { LevelFilter } from "./level-filter";
 import { OwnershipFilter } from "./ownership-filter";
@@ -97,7 +94,7 @@ export function Filters(props: Props) {
             tooltip="Reset all filters"
             variant="bare"
           >
-            <FilterX /> Reset
+            <FilterXIcon /> Reset
           </Button>
         </div>
       </div>

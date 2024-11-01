@@ -1,11 +1,10 @@
-import { useStore } from "@/store";
-
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast.hooks";
+import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { cx } from "@/utils/cx";
 import { capitalize } from "@/utils/formatting";
-import { Share } from "lucide-react";
+import { ShareIcon } from "lucide-react";
 import css from "./sidebar.module.css";
 
 type Props = {
@@ -63,7 +62,7 @@ export function Sharing(props: Props) {
       <div className={cx(css["detail"], css["full"])}>
         <header>
           <h3 className={css["detail-label"]}>
-            <Share />
+            <ShareIcon />
             Public share
           </h3>
         </header>
