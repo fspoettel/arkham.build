@@ -65,8 +65,6 @@ export const chartsTheme: VictoryThemeDefinition = {
       stroke: "var(--nord-2)",
       strokeWidth: 1,
     },
-    flyoutPadding: 5,
-    flyoutWidth: 75,
   },
   pie: {
     ...baseChartProps,

@@ -28,7 +28,7 @@ function formatCodomainTickLabels(value: number) {
 function formatTooltips(value: { datum: { y: number; x: number } }) {
   const { y, x } = value.datum;
 
-  return `Cost ${x}${x === 7 ? "+" : ""} :\n ${y} card${y !== 1 ? "s" : ""}`;
+  return `${y} card${y !== 1 ? "s" : ""} of cost ${x}${x === 7 ? "+" : ""}`;
 }
 
 export default function CostCurveChart({ data }: Props) {
@@ -76,7 +76,7 @@ export default function CostCurveChart({ data }: Props) {
           size={5}
           labels={formatTooltips}
           animate={animateProps}
-          labelComponent={<VictoryTooltip />}
+          labelComponent={<VictoryTooltip flyoutWidth={125} />}
         />
       </VictoryChart>
     </div>
