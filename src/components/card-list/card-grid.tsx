@@ -204,7 +204,7 @@ function CardGroupItem(
         onClick={openModal}
         type="button"
       >
-        <CardScan lazy code={card.code} sideways={sideways(card)} />
+        <CardScan code={card.code} sideways={sideways(card)} />
       </button>
       {onChangeCardQuantity && (
         <div className={css["group-item-actions"]}>
