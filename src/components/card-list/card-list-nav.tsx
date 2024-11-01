@@ -4,7 +4,7 @@ import { NONE, getGroupingKeyLabel } from "@/store/lib/grouping";
 import type { ListState } from "@/store/selectors/lists";
 import type { Metadata } from "@/store/slices/metadata.types";
 
-import css from "./card-list.module.css";
+import css from "./card-list-nav.module.css";
 
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { ViewMode } from "@/store/slices/lists.types";
@@ -101,7 +101,9 @@ export function CardListNav(props: Props) {
               <DropdownMenuSection title="Display">
                 <RadioGroup value={viewMode} onValueChange={onViewModeChange}>
                   <RadioGroupItem value="compact">Compact</RadioGroupItem>
-                  <RadioGroupItem value="card-text">Card text</RadioGroupItem>
+                  <RadioGroupItem value="card-text">
+                    Compact with text
+                  </RadioGroupItem>
                   <RadioGroupItem value="full-cards">Full cards</RadioGroupItem>
                   <RadioGroupItem value="scans">Scans</RadioGroupItem>
                 </RadioGroup>

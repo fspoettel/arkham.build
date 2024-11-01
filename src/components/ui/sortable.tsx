@@ -65,8 +65,6 @@ export function Sortable<T extends SortableData>(props: Props<T>) {
     (evt: DragEndEvent) => {
       const { active, over } = evt;
 
-      console.log(active, over);
-
       if (over && active.id !== over.id) {
         const oldIndex = items.findIndex((x) => readId(x) === active.id);
         const newIndex = items.findIndex((x) => readId(x) === over.id);

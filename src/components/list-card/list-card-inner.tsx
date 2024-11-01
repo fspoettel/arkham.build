@@ -17,10 +17,10 @@ import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { CardHealth } from "../card-health";
 import { CardIcon } from "../card-icon";
 import { useCardModalContext } from "../card-modal/card-modal-context";
+import { CardThumbnail } from "../card-thumbnail";
 import { CardDetails } from "../card/card-details";
 import { CardIcons } from "../card/card-icons";
 import { CardText } from "../card/card-text";
-import { CardThumbnail } from "../card/card-thumbnail";
 import { ExperienceDots } from "../experience-dots";
 import { MulticlassIcons } from "../icons/multiclass-icons";
 import { SkillIcons } from "../skill-icons/skill-icons";
@@ -47,10 +47,10 @@ export type Props = {
   ownedCount?: number;
   quantity?: number;
   referenceProps?: React.ComponentProps<"div">;
-  renderAction?: (card: Card) => React.ReactNode;
-  renderExtra?: (card: Card) => React.ReactNode;
-  renderMetaExtra?: (card: Card, quantity?: number) => React.ReactNode;
-  renderAfter?: (card: Card, quantity?: number) => React.ReactNode;
+  renderCardAction?: (card: Card) => React.ReactNode;
+  renderCardAfter?: (card: Card) => React.ReactNode;
+  renderCardMetaExtra?: (card: Card, quantity?: number) => React.ReactNode;
+  renderCardExtra?: (card: Card, quantity?: number) => React.ReactNode;
   size?: "xs" | "sm" | "investigator";
   showCardText?: boolean;
   showInvestigatorIcons?: boolean;
@@ -75,10 +75,10 @@ export function ListCardInner(props: Props) {
     ownedCount,
     quantity,
     referenceProps,
-    renderAction,
-    renderExtra,
-    renderMetaExtra,
-    renderAfter,
+    renderCardAction,
+    renderCardAfter,
+    renderCardExtra,
+    renderCardMetaExtra,
     showCardText,
     showInvestigatorIcons,
     size,
@@ -115,11 +115,12 @@ export function ListCardInner(props: Props) {
         isForbidden && css["forbidden"],
         isActive && css["active"],
         showCardText && css["card-text"],
+        !!renderCardAfter && css["has-after"],
       )}
       data-testid={`listcard-${card.code}`}
     >
       <div className={css["listcard-action"]}>
-        {!!renderAction && renderAction(card)}
+        {!!renderCardAction && renderCardAction(card)}
         {quantity != null &&
           (onChangeCardQuantity ? (
             <QuantityInput
@@ -258,19 +259,21 @@ export function ListCardInner(props: Props) {
                         />
                       </>
                     )}
-                  {renderMetaExtra?.(card, quantity)}
+                  {renderCardMetaExtra?.(card, quantity)}
                 </div>
-              )}
-
-              {renderExtra && (
-                <div className={css["meta"]}>{renderExtra(card)}</div>
               )}
             </figcaption>
           </figure>
         </div>
-
-        {!!renderAfter && renderAfter(card, quantity)}
+        {renderCardExtra?.(card, quantity)}
       </div>
+      {!!renderCardAfter && (
+        <div className={css["listcard-after"]}>
+          <div className={css["listcard-after-inner"]}>
+            {renderCardAfter?.(card)}
+          </div>
+        </div>
+      )}
       {showCardText && (
         <div className={css["listcard-text"]}>
           <CardDetails card={card} omitSlotIcon />

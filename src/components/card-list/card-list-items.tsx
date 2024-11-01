@@ -6,25 +6,18 @@ import type { Card } from "@/store/services/queries.types";
 import type { ViewMode } from "@/store/slices/lists.types";
 import { Card as CardComponent } from "../card/card";
 import { ListCard } from "../list-card/list-card";
-import type { Props as ListCardProps } from "../list-card/list-card";
 
-import { sideways } from "@/utils/card-utils";
-import { CardScan } from "../card/card-scan";
-import css from "./card-list.module.css";
+import css from "./card-list-items.module.css";
+import type { CardListItemProps } from "./types";
 
-type Props = {
+type Props = CardListItemProps & {
   card: Card;
   currentTop: number;
   index: number;
   size?: "xs" | "sm" | "investigator";
   limitOverride?: ReturnType<typeof getDeckLimitOverride>;
-  onChangeCardQuantity?: (card: Card, quantity: number, limit: number) => void;
   ownedCount?: number;
   quantity?: number;
-  renderAction?: ListCardProps["renderAction"];
-  renderAfter?: ListCardProps["renderAfter"];
-  renderExtra?: ListCardProps["renderExtra"];
-  renderMetaExtra?: ListCardProps["renderMetaExtra"];
   resolvedDeck?: ResolvedDeck;
   viewMode: ViewMode;
 };
@@ -40,10 +33,10 @@ export function CardListItemCompact(props: Props) {
     ownedCount,
     quantity,
     viewMode,
-    renderAfter,
-    renderAction,
-    renderMetaExtra,
-    renderExtra,
+    renderCardExtra,
+    renderCardAction,
+    renderCardAfter,
+    renderCardMetaExtra,
   } = props;
 
   return (
@@ -56,10 +49,10 @@ export function CardListItemCompact(props: Props) {
       onChangeCardQuantity={onChangeCardQuantity}
       ownedCount={ownedCount}
       quantity={quantity}
-      renderAction={renderAction}
-      renderAfter={renderAfter}
-      renderExtra={renderExtra}
-      renderMetaExtra={renderMetaExtra}
+      renderCardAfter={renderCardAfter}
+      renderCardAction={renderCardAction}
+      renderCardExtra={renderCardExtra}
+      renderCardMetaExtra={renderCardMetaExtra}
       showCardText={viewMode === "card-text"}
       size={size}
     />
@@ -76,13 +69,11 @@ export function CardListItemFull(props: Props) {
   if (!resolvedCard) return null;
   return (
     <div className={css["card-list-item-full"]}>
-      <CardComponent resolvedCard={resolvedCard} size="full" />
+      <CardComponent
+        resolvedCard={resolvedCard}
+        size="full"
+        titleLinks="modal"
+      />
     </div>
   );
-}
-
-export function CardListItemScan(props: Props) {
-  const { card } = props;
-
-  return <CardScan code={card.code} sideways={sideways(card)} />;
 }

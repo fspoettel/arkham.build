@@ -16,7 +16,7 @@ type Props = {
   children?: React.ReactNode;
   className?: string;
   resolvedCard: ResolvedCard | CardWithRelations;
-  linked?: boolean;
+  titleLinks?: "card" | "modal";
   size?: "compact" | "tooltip" | "full";
 };
 
@@ -32,8 +32,8 @@ export function Card(props: Props) {
     children,
     className,
     resolvedCard,
-    linked,
     size = "full",
+    titleLinks,
   } = props;
 
   const [backVisible, toggleBack] = useState(!canToggleBackside);
@@ -44,7 +44,7 @@ export function Card(props: Props) {
   const frontNode = (
     <CardFace
       className={className}
-      linked={linked}
+      titleLinks={titleLinks}
       resolvedCard={resolvedCard}
       size={size}
     />
@@ -72,9 +72,9 @@ export function Card(props: Props) {
   return (
     <CardContainer data-testid={`card-${resolvedCard.card.code}`} size={size}>
       {cardReversed ? backNode : frontNode}
-      {children}
       {backToggle}
       {backVisible && (cardReversed ? frontNode : backNode)}
+      {children}
     </CardContainer>
   );
 }

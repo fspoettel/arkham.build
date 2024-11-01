@@ -5,24 +5,24 @@ import { hasImage, sideways } from "@/utils/card-utils";
 
 import css from "./card.module.css";
 
+import { CardScan } from "../card-scan";
+import { CardThumbnail } from "../card-thumbnail";
 import { CardDetails } from "./card-details";
 import { CardHeader } from "./card-header";
 import { CardIcons } from "./card-icons";
 import { CardMeta } from "./card-meta";
-import { CardScan } from "./card-scan";
 import { CardTabooText } from "./card-taboo-text";
 import { CardText } from "./card-text";
-import { CardThumbnail } from "./card-thumbnail";
 
 type Props = {
   className?: string;
   resolvedCard: CardWithRelations | ResolvedCard;
-  linked?: boolean;
+  titleLinks?: "card" | "modal";
   size: "compact" | "tooltip" | "full";
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export function CardFace(props: Props) {
-  const { className, resolvedCard, linked, size, ...rest } = props;
+  const { className, resolvedCard, titleLinks, size, ...rest } = props;
 
   const { card } = resolvedCard;
   const isSideways = sideways(card);
@@ -42,7 +42,7 @@ export function CardFace(props: Props) {
       data-testid="card-face"
       {...rest}
     >
-      <CardHeader card={card} linked={linked} />
+      <CardHeader card={card} titleLinks={titleLinks} />
 
       <div className={css["pre"]}>
         <CardDetails card={card} />

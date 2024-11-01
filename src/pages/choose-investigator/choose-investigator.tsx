@@ -33,11 +33,11 @@ function DeckCreateChooseInvestigator() {
   return (
     <ListLayoutNoSidebar
       renderCardAction={(card) => <ChooseInvestigatorLink card={card} />}
-      renderCardAfter={({ code }) => (
-        <ListcardExtra code={code} cardResolver={cardResolver} />
-      )}
       renderCardMetaExtra={(card) => (
         <p className={css["traits"]}>&middot; {card.real_traits}</p>
+      )}
+      renderCardAfter={({ code }) => (
+        <ListcardExtra code={code} cardResolver={cardResolver} />
       )}
       itemSize="investigator"
       titleString="Choose investigator"

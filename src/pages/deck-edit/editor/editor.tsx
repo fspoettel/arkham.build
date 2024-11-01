@@ -22,12 +22,12 @@ type Props = {
   currentTab: Tab;
   onTabChange: (tab: Tab) => void;
   deck: ResolvedDeck;
-  renderCardAfter?: (card: Card, quantity?: number) => React.ReactNode;
+  renderCardExtra?: (card: Card, quantity?: number) => React.ReactNode;
   validation?: DeckValidationResult;
 };
 
 export function Editor(props: Props) {
-  const { currentTab, onTabChange, deck, renderCardAfter, validation } = props;
+  const { currentTab, onTabChange, deck, renderCardExtra, validation } = props;
 
   const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
 
@@ -74,7 +74,7 @@ export function Editor(props: Props) {
                 layout="two_column"
                 listCardSize="sm"
                 mapping="slots"
-                renderCardAfter={renderCardAfter}
+                renderCardExtra={renderCardExtra}
                 quantities={deck.slots}
               />
             </DecklistSection>
@@ -99,7 +99,7 @@ export function Editor(props: Props) {
                   layout="two_column"
                   listCardSize="sm"
                   mapping="sideSlots"
-                  renderCardAfter={
+                  renderCardExtra={
                     staticInvestigator
                       ? undefined
                       : (card) => <MoveToMainDeck card={card} deck={deck} />

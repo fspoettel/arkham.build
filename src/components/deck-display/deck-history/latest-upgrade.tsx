@@ -176,7 +176,7 @@ export function LatestUpgrade(props: Props) {
                         key={code}
                         card={deck.cards.exileSlots[code].card}
                         quantity={quantity}
-                        renderAfter={
+                        renderCardExtra={
                           !readonly
                             ? (card) => (
                                 <Button

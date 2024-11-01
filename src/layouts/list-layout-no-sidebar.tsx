@@ -1,7 +1,7 @@
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { cx } from "@/utils/cx";
 
-import { CardList } from "@/components/card-list/card-list";
+import { CardListContainer } from "@/components/card-list/card-list-container";
 import { Filters } from "@/components/filters/filters";
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,7 @@ import css from "./list-layout-no-sidebar.module.css";
 type Props = {
   titleString: string;
   title?: React.ReactNode;
-} & React.ComponentProps<typeof CardList>;
+} & React.ComponentProps<typeof CardListContainer>;
 
 export function ListLayoutNoSidebar(props: Props) {
   const { title, titleString, ...rest } = props;
@@ -53,7 +53,7 @@ export function ListLayoutNoSidebar(props: Props) {
           <header className={css["header"]}>
             <h1 className={css["title"]}>{title ?? titleString}</h1>
           </header>
-          <CardList
+          <CardListContainer
             {...rest}
             slotRight={
               <Button

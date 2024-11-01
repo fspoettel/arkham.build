@@ -3,7 +3,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "wouter";
 
 import { ListLayout } from "@//layouts/list-layout";
-import { CardList } from "@/components/card-list/card-list";
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { DecklistValidation } from "@/components/decklist/decklist-validation";
 import { Filters } from "@/components/filters/filters";
@@ -21,6 +20,7 @@ import { Editor } from "./editor/editor";
 import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 
 import { Attachments } from "@/components/attachments/attachments";
+import { CardListContainer } from "@/components/card-list/card-list-container";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
@@ -105,15 +105,19 @@ function DeckEdit() {
 function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
   const [currentTab, setCurrentTab] = useState<Tab>("slots");
 
-  const renderCardAfter = useCallback(
+  const renderCardExtra = useCallback(
     (card: Card, quantity: number | undefined) => {
       return card.code === SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS ? (
-        <DrawBasicWeakness deckId={deck.id} quantity={quantity} />
+        <DrawBasicWeakness
+          deckId={deck.id}
+          quantity={quantity}
+          targetDeck={mapTabToSlot(currentTab)}
+        />
       ) : (
         <Attachments card={card} resolvedDeck={deck} />
       );
     },
-    [deck],
+    [deck, currentTab],
   );
 
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
@@ -152,18 +156,18 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
           currentTab={currentTab}
           deck={deck}
           onTabChange={setCurrentTab}
-          renderCardAfter={renderCardAfter}
+          renderCardExtra={renderCardExtra}
           validation={validation}
         />
       }
       sidebarWidthMax="var(--sidebar-width-two-col)"
     >
       {(props) => (
-        <CardList
+        <CardListContainer
           {...props}
           onChangeCardQuantity={onChangeCardQuantity}
           quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
-          renderCardAfter={renderCardAfter}
+          renderCardExtra={renderCardExtra}
           targetDeck={
             mapTabToSlot(currentTab) === "extraSlots" ? "extraSlots" : "slots"
           }

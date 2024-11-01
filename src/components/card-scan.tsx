@@ -2,7 +2,7 @@ import { cx } from "@/utils/cx";
 
 import { imageUrl } from "@/utils/card-utils";
 
-import css from "./card.module.css";
+import css from "./card-scan.module.css";
 
 type Props = {
   code: string;

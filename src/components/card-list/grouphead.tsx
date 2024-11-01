@@ -11,18 +11,19 @@ import { FactionIcon } from "../icons/faction-icon";
 import PackIcon from "../icons/pack-icon";
 
 type Props = {
+  className?: string;
   grouping: CardGroup;
   metadata: Metadata;
   variant?: "alt";
 };
 
 export function Grouphead(props: Props) {
-  const { grouping, metadata, variant } = props;
+  const { className, grouping, metadata, variant } = props;
   const keys = grouping.key.split("|");
   const types = grouping.type.split("|");
 
   return (
-    <h3 className={cx(css["grouphead"], variant && css[variant])}>
+    <h3 className={cx(css["grouphead"], variant && css[variant], className)}>
       {keys.map((key, i) => {
         const type = types[i];
         const keyLabel = getGroupingKeyLabel(type, key, metadata);

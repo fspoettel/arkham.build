@@ -2,19 +2,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { GroupedVirtuosoHandle, ListRange } from "react-virtuoso";
 import { GroupedVirtuoso } from "react-virtuoso";
 
-import { CenterLayout } from "@/layouts/center-layout";
 import { useStore } from "@/store";
 import type { ListState } from "@/store/selectors/lists";
-import {
-  selectActiveList,
-  selectActiveListSearch,
-  selectListCards,
-} from "@/store/selectors/lists";
 import {
   selectCanCheckOwnership,
   selectCardOwnedCount,
 } from "@/store/selectors/shared";
-import type { Slots } from "@/store/slices/data.types";
 import { range } from "@/utils/range";
 
 import css from "./card-list.module.css";
@@ -22,58 +15,29 @@ import css from "./card-list.module.css";
 import { getDeckLimitOverride } from "@/store/lib/resolve-deck";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { useCardModalContext } from "../card-modal/card-modal-context";
-import { Footer } from "../footer";
-import type { Props as ListCardProps } from "../list-card/list-card";
 import { Scroller } from "../ui/scroller";
-import { CardGrid } from "./card-grid";
 import { CardListItemCompact, CardListItemFull } from "./card-list-items";
-import { CardListNav } from "./card-list-nav";
-import { CardSearch } from "./card-search";
 import { Grouphead } from "./grouphead";
+import type { CardListImplementationProps } from "./types";
 
-type Props = {
-  className?: string;
-  itemSize?: "xs" | "sm" | "investigator";
-  onChangeCardQuantity?: ListCardProps["onChangeCardQuantity"];
-  quantities?: Slots;
-  renderCardAction?: ListCardProps["renderAction"];
-  renderCardAfter?: ListCardProps["renderAfter"];
-  renderCardExtra?: ListCardProps["renderExtra"];
-  renderCardMetaExtra?: ListCardProps["renderMetaExtra"];
-  slotLeft?: React.ReactNode;
-  slotRight?: React.ReactNode;
-  targetDeck?: "slots" | "extraSlots" | "both";
-};
-
-export function CardList(props: Props) {
+export function CardList(props: CardListImplementationProps) {
   const {
-    className,
+    data,
     itemSize,
+    metadata,
     onChangeCardQuantity,
     quantities,
     renderCardAction,
-    renderCardAfter,
     renderCardExtra,
     renderCardMetaExtra,
-    slotLeft,
-    slotRight,
-    targetDeck = "slots",
+    renderCardAfter,
+    search,
+    viewMode,
   } = props;
 
   const modalContext = useCardModalContext();
   const ctx = useResolvedDeck();
 
-  const data = useStore((state) =>
-    selectListCards(state, ctx.resolvedDeck, targetDeck),
-  );
-
-  const search = useStore(selectActiveListSearch);
-  const metadata = useStore((state) => state.metadata);
-
-  const setListViewMode = useStore((state) => state.setListViewMode);
-  const viewMode = useStore(
-    (state) => selectActiveList(state)?.display?.viewMode ?? "compact",
-  );
   const showAltHead = viewMode === "card-text";
 
   const [currentTop, setCurrentTop] = useState<number>(-1);
@@ -97,47 +61,31 @@ export function CardList(props: Props) {
   }, [scrollParent, onScrollChange]);
 
   const onSelectGroup = useCallback(
-    (evt: React.ChangeEvent<HTMLSelectElement>) => {
-      if (
-        data &&
-        virtuosoRef.current &&
-        evt.target instanceof HTMLSelectElement
-      ) {
-        const offset = findGroupOffset(data, evt.target.value);
-        if (offset != null) {
-          virtuosoRef.current?.scrollToIndex(offset);
-        } else {
-          virtuosoRef.current?.scrollToIndex(0);
-        }
-      }
-    },
-    [data],
-  );
+    (evt: Event) => {
+      const offset = findGroupOffset(data, (evt as CustomEvent).detail);
 
-  const onScrollStop = useCallback(
-    (scrolling: boolean) => {
-      if (!scrolling) {
-        virtuosoRef.current?.getState(() => {
-          activeGroup.current = findActiveGroup(activeRange.current, data);
-        });
+      if (offset != null) {
+        virtuosoRef.current?.scrollToIndex(offset);
+      } else {
+        virtuosoRef.current?.scrollToIndex(0);
       }
     },
     [data],
   );
 
   const onKeyboardNavigate = useCallback(
-    (evt: React.KeyboardEvent) => {
+    (evt: Event) => {
+      const key = (evt as CustomEvent).detail;
+
       if (!data?.cards.length) return;
 
-      if (evt.key === "ArrowUp" || evt.key === "ArrowDown") {
-        evt.preventDefault();
-
+      if (key === "ArrowUp" || key === "ArrowDown") {
         const keyboardIdx = activeRange.current?.startIndex
           ? Math.max(activeRange.current?.startIndex, currentTop)
           : currentTop;
 
         const idx =
-          evt.key === "ArrowUp"
+          key === "ArrowUp"
             ? Math.max(keyboardIdx - 1, 0)
             : Math.min(keyboardIdx + 1, data.cards.length - 1);
 
@@ -153,20 +101,38 @@ export function CardList(props: Props) {
         }
       }
 
-      if (evt.key === "Enter" && currentTop > -1) {
-        evt.preventDefault();
+      if (key === "Enter" && currentTop > -1) {
         modalContext.setOpen({
           code: data.cards[currentTop].code,
         });
       }
 
-      if (evt.key === "Escape") {
-        evt.preventDefault();
+      if (key === "Escape") {
         setCurrentTop(-1);
-        (evt.target as HTMLInputElement)?.blur();
       }
     },
-    [data, currentTop, modalContext],
+    [currentTop, data, modalContext.setOpen],
+  );
+
+  useEffect(() => {
+    window.addEventListener("list-keyboard-navigate", onKeyboardNavigate);
+    window.addEventListener("list-select-group", onSelectGroup);
+
+    return () => {
+      window.removeEventListener("list-keyboard-navigate", onKeyboardNavigate);
+      window.removeEventListener("list-select-group", onSelectGroup);
+    };
+  }, [onKeyboardNavigate, onSelectGroup]);
+
+  const onScrollStop = useCallback(
+    (scrolling: boolean) => {
+      if (!scrolling) {
+        virtuosoRef.current?.getState(() => {
+          activeGroup.current = findActiveGroup(activeRange.current, data);
+        });
+      }
+    },
+    [data],
   );
 
   const rangeChanged = useCallback((range: ListRange) => {
@@ -192,87 +158,61 @@ export function CardList(props: Props) {
   }, [data?.cards.length]);
 
   return (
-    <CenterLayout
-      className={className}
-      top={
-        <CardSearch
-          onKeyboardNavigate={onKeyboardNavigate}
-          slotLeft={slotLeft}
-          slotRight={slotRight}
-        />
-      }
+    <Scroller
+      className={css["scroller"]}
+      data-testid="card-list-scroller"
+      ref={setScrollParent as unknown as React.RefObject<HTMLDivElement>}
     >
-      <div className={css["container"]}>
-        <CardListNav
-          deck={ctx.resolvedDeck}
-          data={data}
-          metadata={metadata}
-          onSelectGroup={onSelectGroup}
-          onViewModeChange={setListViewMode}
-          viewMode={viewMode}
-        />
-
-        <Scroller
-          className={css["scroller"]}
-          data-testid="card-list-scroller"
-          ref={setScrollParent as unknown as React.RefObject<HTMLDivElement>}
-        >
-          {viewMode !== "scans" && data && scrollParent && (
-            <GroupedVirtuoso
-              context={{ currentTop }}
-              customScrollParent={scrollParent}
-              groupContent={(index) => (
-                <Grouphead
-                  grouping={data.groups[index]}
-                  metadata={metadata}
-                  variant={showAltHead ? "alt" : undefined}
-                />
-              )}
-              groupCounts={data.groupCounts}
-              isScrolling={onScrollStop}
-              itemContent={(index, _, __, { currentTop }) => {
-                const itemProps = {
-                  card: data.cards[index],
-                  currentTop,
-                  index,
-                  itemSize,
-                  limitOverride: getDeckLimitOverride(
-                    ctx.resolvedDeck,
-                    data.cards[index].code,
-                  ),
-                  onChangeCardQuantity,
-                  ownedCount: canCheckOwnerhip
-                    ? cardOwnedCount(data.cards[index])
-                    : undefined,
-                  quantity: quantities
-                    ? (quantities[data.cards[index].code] ?? 0)
-                    : undefined,
-                  renderAction: renderCardAction,
-                  renderAfter: renderCardAfter,
-                  renderExtra: renderCardExtra,
-                  renderMetaExtra: renderCardMetaExtra,
-                  resolvedDeck: ctx.resolvedDeck,
-                  viewMode,
-                };
-
-                if (viewMode === "full-cards") {
-                  return <CardListItemFull {...itemProps} />;
-                }
-
-                return <CardListItemCompact {...itemProps} />;
-              }}
-              key={`${data.key}-${viewMode}`}
-              rangeChanged={rangeChanged}
-              ref={virtuosoRef}
+      {viewMode !== "scans" && data && scrollParent && (
+        <GroupedVirtuoso
+          context={{ currentTop }}
+          customScrollParent={scrollParent}
+          groupContent={(index) => (
+            <Grouphead
+              grouping={data.groups[index]}
+              metadata={metadata}
+              variant={showAltHead ? "alt" : undefined}
             />
           )}
-          {viewMode === "scans" && data && (
-            <CardGrid data={data} metadata={metadata} />
-          )}
-        </Scroller>
-        <Footer className={css["footer"]} />
-      </div>
-    </CenterLayout>
+          groupCounts={data.groupCounts}
+          isScrolling={onScrollStop}
+          itemContent={(index, _, __, { currentTop }) => {
+            const itemProps = {
+              card: data.cards[index],
+              currentTop,
+              index,
+              itemSize,
+              limitOverride: getDeckLimitOverride(
+                ctx.resolvedDeck,
+                data.cards[index].code,
+              ),
+              onChangeCardQuantity,
+              ownedCount: canCheckOwnerhip
+                ? cardOwnedCount(data.cards[index])
+                : undefined,
+              quantity: quantities
+                ? (quantities[data.cards[index].code] ?? 0)
+                : undefined,
+              renderCardAction: renderCardAction,
+              renderCardExtra: renderCardExtra,
+              renderCardMetaExtra: renderCardMetaExtra,
+              renderCardAfter: renderCardAfter,
+              resolvedDeck: ctx.resolvedDeck,
+              viewMode,
+            };
+
+            if (viewMode === "full-cards") {
+              return <CardListItemFull {...itemProps} />;
+            }
+
+            return <CardListItemCompact {...itemProps} />;
+          }}
+          key={`${data.key}-${viewMode}`}
+          rangeChanged={rangeChanged}
+          ref={virtuosoRef}
+        />
+      )}
+    </Scroller>
   );
 }
 

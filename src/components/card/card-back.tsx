@@ -7,11 +7,11 @@ import { hasImage, sideways } from "@/utils/card-utils";
 import css from "./card.module.css";
 
 import { useMemo } from "react";
+import { CardScan } from "../card-scan";
+import { CardThumbnail } from "../card-thumbnail";
 import { CardHeader } from "./card-header";
 import { CardMetaBack } from "./card-meta";
-import { CardScan } from "./card-scan";
 import { CardText } from "./card-text";
-import { CardThumbnail } from "./card-thumbnail";
 
 type Props = {
   className?: string;

@@ -43,7 +43,7 @@ export function DeckInvestigator(props: Props) {
       <CardFace
         data-testid="deck-investigator-front"
         resolvedCard={deck.investigatorFront}
-        linked
+        titleLinks="modal"
         size={size}
       />
       {hasBack && (
@@ -72,7 +72,11 @@ export function DeckInvestigator(props: Props) {
     </>
   ) : (
     <>
-      <CardFace linked resolvedCard={deck.investigatorFront} size={size} />
+      <CardFace
+        titleLinks="modal"
+        resolvedCard={deck.investigatorFront}
+        size={size}
+      />
       {hasBack && <CardBack card={deck.investigatorBack.card} size={size} />}
     </>
   );

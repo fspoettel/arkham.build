@@ -86,9 +86,18 @@ export function ListLayout(props: Props) {
     };
   }, [floatingFilters, setFiltersOpen]);
 
+  const floatingMenuOpen =
+    ((floatingSidebar && sidebarOpen) || (floatingFilters && filtersOpen)) &&
+    css["floating-menu-open"];
+
   return (
     <div
-      className={cx(css["layout"], "fade-in", className)}
+      className={cx(
+        css["layout"],
+        "fade-in",
+        className,
+        floatingMenuOpen && css["floating-menu-open"],
+      )}
       onPointerDown={onContentClick}
       style={{ "--sidebar-width-max": sidebarWidthMax } as React.CSSProperties}
     >
@@ -106,9 +115,6 @@ export function ListLayout(props: Props) {
           css["content"],
           (floatingSidebar || !sidebarOpen) && css["collapsed-sidebar"],
           (floatingFilters || !filtersOpen) && css["collapsed-filters"],
-          ((floatingSidebar && sidebarOpen) ||
-            (floatingFilters && filtersOpen)) &&
-            css["floating-menu-open"],
         )}
         onPointerDown={onContentClick}
       >

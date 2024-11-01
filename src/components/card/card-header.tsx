@@ -12,18 +12,18 @@ import { CardNames } from "./card-names";
 type Props = {
   card: Card;
   className?: string;
-  linked?: boolean;
+  titleLinks?: "card" | "modal";
 };
 
 export function CardHeader(props: Props) {
-  const { card, className, linked } = props;
+  const { card, className, titleLinks } = props;
   const colorCls = getCardColor(card, "background");
 
   return (
     <header className={cx(css["header"], colorCls, className)}>
       <div className={css["header-row"]}>
         <CardIcon card={card} className={css["header-icon"]} inverted />
-        <CardNames card={card} linked={linked} />
+        <CardNames card={card} titleLinks={titleLinks} />
       </div>
       <MulticlassIcons
         card={card}

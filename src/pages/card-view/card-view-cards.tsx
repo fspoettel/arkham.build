@@ -68,7 +68,7 @@ export function CardViewCards({
             <Card
               canToggleBackside
               key={c.card.code}
-              linked
+              titleLinks="card"
               resolvedCard={c}
               size="compact"
             />
@@ -82,7 +82,7 @@ export function CardViewCards({
             <Card
               canToggleBackside
               key={c.card.code}
-              linked
+              titleLinks="card"
               resolvedCard={c}
               size="compact"
             />
@@ -99,7 +99,7 @@ export function CardViewCards({
             <Card
               canToggleBackside
               key={c.card.code}
-              linked
+              titleLinks="card"
               resolvedCard={c}
               size="compact"
             />
@@ -113,7 +113,7 @@ export function CardViewCards({
             <Card
               canToggleBackside
               key={c.card.code}
-              linked
+              titleLinks="card"
               resolvedCard={c}
               size="compact"
             />
@@ -130,7 +130,7 @@ export function CardViewCards({
             <Card
               canToggleBackside
               key={c.card.code}
-              linked
+              titleLinks="card"
               resolvedCard={c}
               size="compact"
             />
@@ -147,7 +147,7 @@ export function CardViewCards({
             <Card
               canToggleBackside
               key={c.card.code}
-              linked
+              titleLinks="card"
               resolvedCard={c}
               size="compact"
             />
@@ -162,7 +162,7 @@ export function CardViewCards({
         >
           <Card
             canToggleBackside
-            linked
+            titleLinks="card"
             resolvedCard={relations.restrictedTo}
             size="compact"
           />
@@ -175,7 +175,7 @@ export function CardViewCards({
             <Card
               canToggleBackside
               key={c.card.code}
-              linked
+              titleLinks="card"
               resolvedCard={c}
               size="compact"
             />

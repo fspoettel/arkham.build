@@ -10,7 +10,7 @@ import { getCardColor } from "@/utils/card-utils";
 import css from "./deck-summary.module.css";
 
 import type { Id } from "@/store/slices/data.types";
-import { CardThumbnail } from "./card/card-thumbnail";
+import { CardThumbnail } from "./card-thumbnail";
 import { Button } from "./ui/button";
 import { DefaultTooltip } from "./ui/tooltip";
 

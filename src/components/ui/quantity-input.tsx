@@ -2,6 +2,7 @@ import { Minus, Plus } from "lucide-react";
 
 import css from "./quantity-input.module.css";
 
+import { cx } from "@/utils/cx";
 import { Button } from "./button";
 
 type Props = {
@@ -13,7 +14,15 @@ type Props = {
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export function QuantityInput(props: Props) {
-  const { disabled, limit, onValueChange, tabIndex, value, ...rest } = props;
+  const {
+    className,
+    disabled,
+    limit,
+    onValueChange,
+    tabIndex,
+    value,
+    ...rest
+  } = props;
 
   const decrementCardQuantity = () => {
     if (value <= 0) return;
@@ -26,7 +35,7 @@ export function QuantityInput(props: Props) {
   };
 
   return (
-    <div className={css["container"]} {...rest}>
+    <div {...rest} className={cx(css["container"], className)}>
       <Button
         data-testid="quantity-decrement"
         disabled={disabled || value <= 0}

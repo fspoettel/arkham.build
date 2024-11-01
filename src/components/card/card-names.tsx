@@ -3,15 +3,18 @@ import { cx } from "@/utils/cx";
 import { Link } from "wouter";
 
 import type { Card } from "@/store/services/queries.types";
+import { useCardModalContext } from "../card-modal/card-modal-context";
 import css from "./card.module.css";
 
 type Props = {
   card: Card;
-  linked?: boolean;
+  titleLinks?: "card" | "modal";
 };
 
 export function CardNames(props: Props) {
-  const { card, linked } = props;
+  const { card, titleLinks } = props;
+
+  const cardModalContext = useCardModalContext();
 
   const cardName = (
     <>
@@ -24,11 +27,18 @@ export function CardNames(props: Props) {
   return (
     <div>
       <h1 className={css["name"]} data-testid="card-name">
-        {linked ? (
+        {titleLinks === "card" && (
           <Link href={`/card/${card.code}`}>{cardName}</Link>
-        ) : (
-          cardName
         )}
+        {titleLinks === "modal" && cardModalContext && (
+          <button
+            onClick={() => cardModalContext.setOpen({ code: card.code })}
+            type="button"
+          >
+            {cardName}
+          </button>
+        )}
+        {!titleLinks && cardName}
       </h1>
       {card.real_subname && <h2 className={css["sub"]}>{card.real_subname}</h2>}
     </div>
