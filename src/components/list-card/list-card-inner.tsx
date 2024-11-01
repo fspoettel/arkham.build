@@ -1,5 +1,6 @@
 import type { Card } from "@/store/services/queries.types";
 import {
+  cardLimit,
   countExperience,
   getCardColor,
   hasImage,
@@ -99,7 +100,7 @@ export function ListCardInner(props: Props) {
     modalContext.setOpen({ code: card.code });
   }, [modalContext, card.code]);
 
-  const limit = limitOverride || card.deck_limit || card.quantity;
+  const limit = cardLimit(card, limitOverride);
 
   return (
     <Element

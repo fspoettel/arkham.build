@@ -6,7 +6,6 @@ import {
   selectCardOwnedCount,
 } from "@/store/selectors/shared";
 import { range } from "@/utils/range";
-import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { GroupedVirtuosoHandle, ListRange } from "react-virtuoso";
 import { GroupedVirtuoso } from "react-virtuoso";
@@ -28,12 +27,12 @@ export function CardList(props: CardListImplementationProps) {
     renderCardExtra,
     renderCardMetaExtra,
     renderCardAfter,
+    resolvedDeck,
     search,
     viewMode,
   } = props;
 
   const modalContext = useCardModalContext();
-  const ctx = useResolvedDeck();
 
   const showAltHead = viewMode === "card-text";
 
@@ -180,7 +179,7 @@ export function CardList(props: CardListImplementationProps) {
               index,
               itemSize,
               limitOverride: getDeckLimitOverride(
-                ctx.resolvedDeck,
+                resolvedDeck,
                 data.cards[index].code,
               ),
               onChangeCardQuantity,
@@ -194,7 +193,7 @@ export function CardList(props: CardListImplementationProps) {
               renderCardExtra: renderCardExtra,
               renderCardMetaExtra: renderCardMetaExtra,
               renderCardAfter: renderCardAfter,
-              resolvedDeck: ctx.resolvedDeck,
+              resolvedDeck,
               viewMode,
             };
 

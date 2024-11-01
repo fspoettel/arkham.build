@@ -13,13 +13,15 @@ import css from "./card.module.css";
 
 type Props = {
   className?: string;
+  headerActions?: React.ReactNode;
   resolvedCard: CardWithRelations | ResolvedCard;
   titleLinks?: "card" | "modal";
   size: "compact" | "tooltip" | "full";
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export function CardFace(props: Props) {
-  const { className, resolvedCard, titleLinks, size, ...rest } = props;
+  const { className, headerActions, resolvedCard, titleLinks, size, ...rest } =
+    props;
 
   const { card } = resolvedCard;
   const isSideways = sideways(card);
@@ -39,7 +41,11 @@ export function CardFace(props: Props) {
       data-testid="card-face"
       {...rest}
     >
-      <CardHeader card={card} titleLinks={titleLinks} />
+      <CardHeader
+        card={card}
+        headerActions={headerActions}
+        titleLinks={titleLinks}
+      />
 
       <div className={css["pre"]}>
         <CardDetails card={card} />

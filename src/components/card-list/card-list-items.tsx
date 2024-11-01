@@ -6,6 +6,7 @@ import type { Card } from "@/store/services/queries.types";
 import type { ViewMode } from "@/store/slices/lists.types";
 import { Card as CardComponent } from "../card/card";
 import { ListCard } from "../list-card/list-card";
+import { CardActions } from "./card-actions";
 import css from "./card-list-items.module.css";
 import type { CardListItemProps } from "./types";
 
@@ -59,16 +60,35 @@ export function CardListItemCompact(props: Props) {
 }
 
 export function CardListItemFull(props: Props) {
-  const { card, resolvedDeck } = props;
+  const {
+    card,
+    onChangeCardQuantity,
+    limitOverride,
+    quantity,
+    renderCardAction,
+    renderCardExtra,
+    resolvedDeck,
+  } = props;
 
   const resolvedCard = useStore((state) =>
     selectResolvedCardById(state, card.code, resolvedDeck),
   );
 
   if (!resolvedCard) return null;
+
   return (
     <div className={css["card-list-item-full"]}>
       <CardComponent
+        headerActions={
+          <CardActions
+            card={card}
+            onChangeCardQuantity={onChangeCardQuantity}
+            limitOverride={limitOverride}
+            quantity={quantity}
+            renderCardAction={renderCardAction}
+            renderCardExtra={renderCardExtra}
+          />
+        }
         resolvedCard={resolvedCard}
         size="full"
         titleLinks="modal"

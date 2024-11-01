@@ -42,17 +42,12 @@
   position: absolute;
   bottom: 0.25rem;
   left: 0.25rem;
-  padding: 0.375rem;
-  border-radius: var(--rounded);
-  background-color: var(--palette-0);
-  box-shadow: var(--shadow-lg);
   z-index: 2;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  gap: 0.375rem;
+  border-radius: var(--rounded);
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-lg);
 }
 
 .group-item:hover .group-item-actions {
-  opacity: 1;
+  background: rgba(0, 0, 0, 0.75);
 }

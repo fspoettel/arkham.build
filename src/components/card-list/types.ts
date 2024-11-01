@@ -1,3 +1,4 @@
+import type { ResolvedDeck } from "@/store/lib/types";
 import type { ListState } from "@/store/selectors/lists";
 import type { Slots } from "@/store/slices/data.types";
 import type { Search, ViewMode } from "@/store/slices/lists.types";
@@ -24,6 +25,7 @@ export type CardListImplementationProps = Omit<
 > & {
   data: ListState;
   metadata: Metadata;
+  resolvedDeck?: ResolvedDeck;
   viewMode: ViewMode;
   search?: Search;
 };

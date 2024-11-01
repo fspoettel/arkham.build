@@ -1,4 +1,5 @@
 import { assert } from "@/utils/assert";
+import { cardLimit } from "@/utils/card-utils";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
 import type { StateCreator } from "zustand";
@@ -290,7 +291,7 @@ export const createDeckEditsSlice: StateCreator<
 
     const nextQuantity = Math.min(
       (deck?.slots?.[card.code] ?? 0) + 1,
-      limitOverride ?? card.deck_limit ?? card.quantity,
+      cardLimit(card, limitOverride),
     );
 
     const nextSideQuantity = Math.max(

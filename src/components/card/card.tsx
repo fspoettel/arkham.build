@@ -13,6 +13,7 @@ type Props = {
   children?: React.ReactNode;
   className?: string;
   resolvedCard: ResolvedCard | CardWithRelations;
+  headerActions?: React.ReactNode;
   titleLinks?: "card" | "modal";
   size?: "compact" | "tooltip" | "full";
 };
@@ -28,6 +29,7 @@ export function Card(props: Props) {
     canToggleBackside,
     children,
     className,
+    headerActions,
     resolvedCard,
     size = "full",
     titleLinks,
@@ -41,6 +43,7 @@ export function Card(props: Props) {
   const frontNode = (
     <CardFace
       className={className}
+      headerActions={headerActions}
       titleLinks={titleLinks}
       resolvedCard={resolvedCard}
       size={size}

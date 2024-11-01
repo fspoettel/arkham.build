@@ -1,3 +1,4 @@
+import { getDeckLimitOverride } from "@/store/lib/resolve-deck";
 import type {
   CardGroup as CardGroupType,
   ListState,
@@ -9,8 +10,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { type ListRange, Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 import { useCardModalContext } from "../card-modal/card-modal-context";
 import { CardScan } from "../card-scan";
-import { QuantityInput } from "../ui/quantity-input";
 import { Scroller } from "../ui/scroller";
+import { CardActions } from "./card-actions";
 import css from "./card-grid.module.css";
 import { Grouphead } from "./grouphead";
 import type { CardListImplementationProps } from "./types";
@@ -181,12 +182,13 @@ function CardGroupItem(
     CardListImplementationProps,
     | "onChangeCardQuantity"
     | "quantities"
+    | "resolvedDeck"
     | "renderCardAction"
     | "renderCardExtra"
     | "renderCardMetaExtra"
   >,
 ) {
-  const { card, onChangeCardQuantity, quantities } = props;
+  const { card, onChangeCardQuantity, resolvedDeck, quantities } = props;
 
   const modalContext = useCardModalContext();
 
@@ -194,7 +196,7 @@ function CardGroupItem(
     modalContext.setOpen({ code: card.code });
   }, [modalContext, card.code]);
 
-  const quantity = quantities?.[card.code] || 0;
+  const quantity = quantities?.[card.code] ?? 0;
 
   return (
     <div className={css["group-item"]} key={card.code}>
@@ -205,20 +207,16 @@ function CardGroupItem(
       >
         <CardScan code={card.code} sideways={sideways(card)} />
       </button>
-      {onChangeCardQuantity && (
-        <div className={css["group-item-actions"]}>
-          <QuantityInput
-            className={css["group-item-quantity"]}
-            limit={card.deck_limit || card.quantity}
-            value={quantity || 0}
-            onValueChange={(quantity, limit) =>
-              onChangeCardQuantity(card, quantity, limit)
-            }
-          />
-          {props.renderCardAction?.(card)}
-          {props.renderCardExtra?.(card, quantity)}
-        </div>
-      )}
+      <div className={css["group-item-actions"]}>
+        <CardActions
+          card={card}
+          onChangeCardQuantity={onChangeCardQuantity}
+          limitOverride={getDeckLimitOverride(resolvedDeck, card.code)}
+          quantity={quantity}
+          renderCardAction={props.renderCardAction}
+          renderCardExtra={props.renderCardExtra}
+        />
+      </div>
     </div>
   );
 }

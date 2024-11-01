@@ -89,6 +89,7 @@ export function CardListContainer(props: CardListProps) {
               data={data}
               metadata={metadata}
               search={search}
+              resolvedDeck={ctx.resolvedDeck}
               viewMode={viewMode}
             />
           ) : (
@@ -97,6 +98,7 @@ export function CardListContainer(props: CardListProps) {
               data={data}
               metadata={metadata}
               search={search}
+              resolvedDeck={ctx.resolvedDeck}
               viewMode={viewMode}
             />
           ))}

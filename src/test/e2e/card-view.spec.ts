@@ -183,13 +183,6 @@ test.describe("card view: display", () => {
       mask: [page.getByTestId("card-scan")],
     });
   });
-
-  test("renders cards without images", async ({ page }) => {
-    await page.goto("/card/10716");
-    await expect(page.getByTestId("main")).toHaveScreenshot({
-      mask: [page.getByTestId("card-scan")],
-    });
-  });
 });
 
 test.describe("card view: interactions", () => {

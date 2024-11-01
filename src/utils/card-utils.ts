@@ -146,3 +146,7 @@ export function isRandomBasicWeaknessLike(card: Card) {
 export function isStaticInvestigator(card: Card) {
   return card.type_code === "investigator" && !card.deck_options;
 }
+
+export function cardLimit(card: Card, limitOverride?: number) {
+  return limitOverride ?? card.deck_limit ?? card.quantity;
+}
