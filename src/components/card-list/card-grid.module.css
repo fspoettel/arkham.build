@@ -51,7 +51,6 @@
   flex-flow: row nowrap;
   align-items: center;
   gap: 0.375rem;
-
 }
 
 .group-item:hover .group-item-actions {

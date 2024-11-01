@@ -13,8 +13,7 @@
   align-items: center;
   grid-template-columns: max-content 1fr;
   grid-template-rows: auto;
-  grid-template-areas:
-    "action card";
+  grid-template-areas: "action card";
   list-style: none;
 }
 
