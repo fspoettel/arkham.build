@@ -23,6 +23,7 @@ export default function FactionsChart({ data }: Props) {
         theme={chartsTheme}
         labels={({ datum }) => capitalize(datum.xName)}
         width={width}
+        sortKey={"y"}
         style={{
           data: {
             fill: (d) => `var(--${d.datum.xName}`,

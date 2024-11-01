@@ -57,14 +57,13 @@ export const chartsTheme: VictoryThemeDefinition = {
   },
   tooltip: {
     pointerLength: 0,
-    style: Object.assign(baseLabelStyles, {
-      padding: 20,
-    }),
+    style: baseLabelStyles,
     flyoutStyle: {
       fill: "var(--nord-1)",
       stroke: "var(--nord-2)",
       strokeWidth: 1,
     },
+    flyoutHeight: 40,
   },
   pie: {
     ...baseChartProps,

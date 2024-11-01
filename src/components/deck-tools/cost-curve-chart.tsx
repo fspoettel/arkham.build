@@ -76,7 +76,9 @@ export default function CostCurveChart({ data }: Props) {
           size={5}
           labels={formatTooltips}
           animate={animateProps}
-          labelComponent={<VictoryTooltip flyoutWidth={125} />}
+          labelComponent={
+            <VictoryTooltip flyoutWidth={125} constrainToVisibleArea />
+          }
         />
       </VictoryChart>
     </div>

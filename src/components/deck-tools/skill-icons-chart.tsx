@@ -82,13 +82,12 @@ export default function CostCurveChart({ data }: Props) {
           data={data}
           size={5}
           labels={formatTooltips}
-          style={{
-            labels: {
-              padding: 10,
-            },
-          }}
           labelComponent={
-            <VictoryTooltip labelPlacement="vertical" flyoutWidth={100} />
+            <VictoryTooltip
+              labelPlacement="vertical"
+              flyoutWidth={100}
+              constrainToVisibleArea
+            />
           }
         />
       </VictoryChart>
