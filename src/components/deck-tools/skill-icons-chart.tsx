@@ -62,12 +62,7 @@ export default function CostCurveChart({ data }: Props) {
   return (
     <div ref={ref} className={css["chart-container"]}>
       <h4 className={css["chart-title"]}>Skill icons</h4>
-      <VictoryChart
-        theme={chartsTheme}
-        polar
-        padding={{ bottom: 20, top: 20 }}
-        width={width}
-      >
+      <VictoryChart theme={chartsTheme} polar width={width}>
         <VictoryPolarAxis
           tickFormat={formatTickLabels}
           tickLabelComponent={<SkillIconLabel />}

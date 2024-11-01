@@ -52,7 +52,7 @@ export default function CostCurveChart({ data }: Props) {
       <h4 className={css["chart-title"]}>Resource costs</h4>
       <VictoryChart
         theme={chartsTheme}
-        padding={{ left: 45, top: 5, bottom: 40, right: 5 }}
+        padding={{ left: 45, bottom: 40 }}
         containerComponent={<VictoryContainer responsive={false} />}
         width={width}
       >

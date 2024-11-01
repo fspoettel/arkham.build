@@ -70,12 +70,11 @@ export const chartsTheme: VictoryThemeDefinition = {
   },
   pie: {
     ...baseChartProps,
-    padding: { bottom: 20 },
+    padding: 0,
     style: {
       labels: {
         ...baseLabelStyles,
-        fontSize: 10,
-        padding: 10,
+        padding: 8,
       },
       data: {
         stroke: "var(--nord-0)",
