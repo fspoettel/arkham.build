@@ -1,14 +1,11 @@
-import { cx } from "@/utils/cx";
-
 import type { Card } from "@/store/services/queries.types";
+import { cx } from "@/utils/cx";
 import { range } from "@/utils/range";
-
-import css from "./card.module.css";
-
 import { CardHealth } from "../card-health";
 import { SkillIcons } from "../skill-icons/skill-icons";
 import { SkillIconsEnemy } from "../skill-icons/skill-icons-enemy";
 import { SkillIconsInvestigator } from "../skill-icons/skill-icons-investigator";
+import css from "./card.module.css";
 
 type Props = {
   card: Card;

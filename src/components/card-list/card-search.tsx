@@ -1,15 +1,12 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-
 import { useStore } from "@/store";
 import { selectActiveListSearch } from "@/store/selectors/lists";
 import { assert } from "@/utils/assert";
 import { debounce } from "@/utils/debounce";
 import { inputFocused } from "@/utils/keyboard";
-
-import css from "./card-search.module.css";
-
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { SearchInput } from "../ui/search-input";
+import css from "./card-search.module.css";
 
 type Props = {
   onInputKeyDown?: (evt: React.KeyboardEvent) => void;

@@ -1,9 +1,7 @@
-import type { StateCreator } from "zustand";
-
-import { capitalize } from "@/utils/formatting";
-
 import { assert } from "@/utils/assert";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import { capitalize } from "@/utils/formatting";
+import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
 import { clampAttachmentQuantity } from "../lib/attachments";
 import { randomBasicWeaknessForDeck } from "../lib/random-basic-weakness";

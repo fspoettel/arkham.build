@@ -1,14 +1,12 @@
-import { Save } from "lucide-react";
-import { useCallback } from "react";
-import { useLocation } from "wouter";
-
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
-
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Tab } from "@/store/slices/deck-edits.types";
 import { useHotKey } from "@/utils/use-hotkey";
+import { SaveIcon, UndoIcon } from "lucide-react";
+import { useCallback } from "react";
+import { useLocation } from "wouter";
 import { LatestUpgrade } from "../../../components/deck-display/deck-history/latest-upgrade";
 import css from "./editor.module.css";
 
@@ -109,7 +107,7 @@ export function EditorActions(props: Props) {
           }}
           variant="primary"
         >
-          <Save />
+          <SaveIcon />
           Save
         </Button>
         <Button
@@ -119,6 +117,7 @@ export function EditorActions(props: Props) {
           }}
           variant="bare"
         >
+          <UndoIcon />
           Discard edits
         </Button>
       </div>

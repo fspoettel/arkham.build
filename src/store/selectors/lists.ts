@@ -1,14 +1,12 @@
-import { createSelector } from "reselect";
-
-import type { Filter } from "@/utils/fp";
-import { and, not, or } from "@/utils/fp";
-import { isEmpty } from "@/utils/is-empty";
-
 import { splitMultiValue } from "@/utils/card-utils";
 import { ASSET_SLOT_ORDER, FACTION_ORDER, SKILL_KEYS } from "@/utils/constants";
 import { createCustomEqualSelector } from "@/utils/custom-equal-selector";
 import { capitalize, formatTabooSet } from "@/utils/formatting";
+import type { Filter } from "@/utils/fp";
+import { and, not, or } from "@/utils/fp";
+import { isEmpty } from "@/utils/is-empty";
 import { time, timeEnd } from "@/utils/time";
+import { createSelector } from "reselect";
 import { applyCardChanges } from "../lib/card-edits";
 import { getAdditionalDeckOptions } from "../lib/deck-validation";
 import {

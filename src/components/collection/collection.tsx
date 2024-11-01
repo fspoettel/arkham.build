@@ -1,18 +1,15 @@
-import { useCallback } from "react";
-
 import PackIcon from "@/components/icons/pack-icon";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { useStore } from "@/store";
+import { selectCycleCardCounts } from "@/store/selectors/collection";
 import { selectCyclesAndPacks } from "@/store/selectors/lists";
 import type { SettingsState } from "@/store/slices/settings.types";
-
-import css from "./collection.module.css";
-
-import { selectCycleCardCounts } from "@/store/selectors/collection";
 import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
+import { useCallback } from "react";
 import { CollectionCount } from "./collection-count";
 import { CollectionCycleActions } from "./collection-cycle-actions";
 import { CollectionPack } from "./collection-pack";
+import css from "./collection.module.css";
 
 type Props = {
   canShowCounts?: boolean;

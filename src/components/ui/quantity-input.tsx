@@ -1,9 +1,7 @@
-import { Minus, Plus } from "lucide-react";
-
-import css from "./quantity-input.module.css";
-
 import { cx } from "@/utils/cx";
+import { MinusIcon, PlusIcon } from "lucide-react";
 import { Button } from "./button";
+import css from "./quantity-input.module.css";
 
 type Props = {
   disabled?: boolean;
@@ -45,7 +43,7 @@ export function QuantityInput(props: Props) {
         tabIndex={tabIndex}
         variant="bare"
       >
-        <Minus />
+        <MinusIcon />
       </Button>
       <strong className={css["value"]} data-testid="quantity-value">
         {value}
@@ -59,7 +57,7 @@ export function QuantityInput(props: Props) {
         tabIndex={tabIndex}
         variant="bare"
       >
-        <Plus />
+        <PlusIcon />
       </Button>
     </div>
   );

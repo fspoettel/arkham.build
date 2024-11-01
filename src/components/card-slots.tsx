@@ -1,9 +1,6 @@
-import { cx } from "@/utils/cx";
-
 import { splitMultiValue } from "@/utils/card-utils";
-
+import { cx } from "@/utils/cx";
 import css from "./card-slots.module.css";
-
 import SlotIcon from "./icons/slot-icon";
 
 type Props = {

@@ -1,13 +1,11 @@
-import { useEffect } from "react";
-
+import { CardListContainer } from "@/components/card-list/card-list-container";
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { Filters } from "@/components/filters/filters";
 import { ListLayout } from "@/layouts/list-layout";
 import { useStore } from "@/store";
 import { selectIsInitialized } from "@/store/selectors/shared";
 import { useDocumentTitle } from "@/utils/use-document-title";
-
-import { CardListContainer } from "@/components/card-list/card-list-container";
+import { useEffect } from "react";
 import { DeckCollection } from "./deck-collection/deck-collection";
 
 function Browse() {

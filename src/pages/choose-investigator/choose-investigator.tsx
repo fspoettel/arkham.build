@@ -1,18 +1,15 @@
+import { Button } from "@/components/ui/button";
+import { ListLayoutNoSidebar } from "@/layouts/list-layout-no-sidebar";
+import { useStore } from "@/store";
+import type { CardWithRelations } from "@/store/lib/types";
+import { selectCardRelationsResolver } from "@/store/selectors/lists";
+import type { Card } from "@/store/services/queries.types";
+import { useAccentColor } from "@/utils/use-accent-color";
+import { useDocumentTitle } from "@/utils/use-document-title";
 import { CirclePlusIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { Link } from "wouter";
-
-import { Button } from "@/components/ui/button";
-import { useStore } from "@/store";
-import { selectCardRelationsResolver } from "@/store/selectors/lists";
-import { useDocumentTitle } from "@/utils/use-document-title";
-
 import css from "./choose-investigator.module.css";
-
-import { ListLayoutNoSidebar } from "@/layouts/list-layout-no-sidebar";
-import type { CardWithRelations } from "@/store/lib/types";
-import type { Card } from "@/store/services/queries.types";
-import { useAccentColor } from "@/utils/use-accent-color";
 import { SignatureLink } from "./signature-link";
 
 function DeckCreateChooseInvestigator() {

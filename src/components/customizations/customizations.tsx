@@ -1,8 +1,6 @@
-import { cx } from "@/utils/cx";
-
 import type { ResolvedCard } from "@/store/lib/types";
 import { getCardColor, parseCardTextHtml } from "@/utils/card-utils";
-
+import { cx } from "@/utils/cx";
 import css from "./customizations.module.css";
 
 type Props = {

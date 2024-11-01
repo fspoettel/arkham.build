@@ -1,29 +1,26 @@
-import { cx } from "@/utils/cx";
-import { useMemo } from "react";
-
 import { useStore } from "@/store";
 import type { Grouping } from "@/store/lib/deck-grouping";
+import { getDeckLimitOverride } from "@/store/lib/resolve-deck";
 import {
   sortByLevel,
   sortByName,
   sortBySlots,
   sortTypesByOrder,
 } from "@/store/lib/sorting";
+import { selectForbiddenCards } from "@/store/selectors/decks";
 import {
   selectCanCheckOwnership,
   selectCardOwnedCount,
 } from "@/store/selectors/shared";
 import type { Card } from "@/store/services/queries.types";
 import type { Slot } from "@/store/slices/deck-edits.types";
+import { cx } from "@/utils/cx";
 import { capitalize } from "@/utils/formatting";
-
-import css from "./decklist-groups.module.css";
-
-import { getDeckLimitOverride } from "@/store/lib/resolve-deck";
-import { selectForbiddenCards } from "@/store/selectors/decks";
 import { useResolvedDeckChecked } from "@/utils/use-resolved-deck";
+import { useMemo } from "react";
 import SlotIcon from "../icons/slot-icon";
 import { ListCard } from "../list-card/list-card";
+import css from "./decklist-groups.module.css";
 
 type DecklistGroupProps = {
   cards: Card[];

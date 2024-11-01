@@ -1,14 +1,11 @@
+import type { Coded } from "@/store/services/queries.types";
 import { cx } from "@/utils/cx";
-import { Check } from "lucide-react";
+import { CheckIcon } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { GroupedVirtuosoHandle } from "react-virtuoso";
 import { Virtuoso } from "react-virtuoso";
-
-import type { Coded } from "@/store/services/queries.types";
-
-import css from "./combobox.module.css";
-
 import { Scroller } from "../scroller";
+import css from "./combobox.module.css";
 
 type Props<T extends Coded> = {
   activeIndex: number | undefined;
@@ -87,7 +84,7 @@ export function ComboboxMenu<T extends Coded>(props: Props<T>) {
               tabIndex={active ? 0 : -1}
             >
               {selectedItems.includes(item.code) && (
-                <Check className={css["menu-item-check"]} />
+                <CheckIcon className={css["menu-item-check"]} />
               )}
               {renderItem(item)}
             </div>

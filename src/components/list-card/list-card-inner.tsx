@@ -1,8 +1,3 @@
-import { cx } from "@/utils/cx";
-import type { ReferenceType } from "@floating-ui/react";
-import { FileWarning, Star } from "lucide-react";
-import { useCallback } from "react";
-
 import type { Card } from "@/store/services/queries.types";
 import {
   countExperience,
@@ -10,10 +5,11 @@ import {
   hasImage,
   hasSkillIcons,
 } from "@/utils/card-utils";
-
-import css from "./list-card.module.css";
-
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import { cx } from "@/utils/cx";
+import type { ReferenceType } from "@floating-ui/react";
+import { FileWarningIcon, StarIcon } from "lucide-react";
+import { useCallback } from "react";
 import { CardHealth } from "../card-health";
 import { CardIcon } from "../card-icon";
 import { useCardModalContext } from "../card-modal/card-modal-context";
@@ -28,6 +24,7 @@ import { SkillIconsInvestigator } from "../skill-icons/skill-icons-investigator"
 import { QuantityInput } from "../ui/quantity-input";
 import { QuantityOutput } from "../ui/quantity-output";
 import { DefaultTooltip } from "../ui/tooltip";
+import css from "./list-card.module.css";
 
 export type Props = {
   as?: "li" | "div";
@@ -186,7 +183,7 @@ export function ListCardInner(props: Props) {
                       }
                     >
                       <span className={css["ownership"]}>
-                        <FileWarning />
+                        <FileWarningIcon />
                       </span>
                     </DefaultTooltip>
                   )}
@@ -204,7 +201,7 @@ export function ListCardInner(props: Props) {
                       className={css["ignored"]}
                       data-testid="listcard-ignored"
                     >
-                      <Star />
+                      <StarIcon />
                     </span>
                   </DefaultTooltip>
                 )}

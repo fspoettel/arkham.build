@@ -1,18 +1,11 @@
-import { useResolvedDeck } from "@/utils/use-resolved-deck";
-import {
-  DefaultTooltip,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "./ui/tooltip";
-
 import { useStore } from "@/store";
 import type { SealedDeck } from "@/store/lib/types";
 import { selectPackOptions } from "@/store/selectors/lists";
 import type { Pack } from "@/store/services/queries.types";
 import { assert } from "@/utils/assert";
 import { parseCsv } from "@/utils/parse-csv";
-import { BookLock, X } from "lucide-react";
+import { useResolvedDeck } from "@/utils/use-resolved-deck";
+import { BookLockIcon, XIcon } from "lucide-react";
 import { useCallback, useMemo } from "react";
 import css from "./limited-card-pool.module.css";
 import { PackName } from "./pack-name";
@@ -21,6 +14,12 @@ import { Combobox } from "./ui/combobox/combobox";
 import { Field, FieldLabel } from "./ui/field";
 import { Tag } from "./ui/tag";
 import { useToast } from "./ui/toast.hooks";
+import {
+  DefaultTooltip,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "./ui/tooltip";
 
 export function LimitedCardPoolTag() {
   const ctx = useResolvedDeck();
@@ -178,7 +177,7 @@ export function SealedDeckField(props: {
             htmlFor="sealed-deck-file"
             size="sm"
           >
-            <BookLock /> Use sealed deck
+            <BookLockIcon /> Use sealed deck
           </Button>
         </div>
         <input
@@ -198,7 +197,7 @@ export function SealedDeckField(props: {
               size="xs"
               variant="bare"
             >
-              <X />
+              <XIcon />
             </Button>
           </Tag>
         )}

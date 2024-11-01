@@ -5,7 +5,6 @@ import type {
   ToggleGroupSingleProps,
 } from "@radix-ui/react-toggle-group";
 import { Item, Root } from "@radix-ui/react-toggle-group";
-
 import css from "./toggle-group.module.css";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
 

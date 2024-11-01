@@ -1,13 +1,12 @@
 import { useStore } from "@/store";
 import { selectActiveListFilter } from "@/store/selectors/lists";
-import { isSubtypeFilterObject } from "@/store/slices/lists.type-guards";
-import { assert } from "@/utils/assert";
-
 import {
   selectSubtypeChanges,
   selectSubtypeOptions,
 } from "@/store/selectors/lists";
+import { isSubtypeFilterObject } from "@/store/slices/lists.type-guards";
 import type { SubtypeFilter as SubtypeFilterType } from "@/store/slices/lists.types";
+import { assert } from "@/utils/assert";
 import { useCallback } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";

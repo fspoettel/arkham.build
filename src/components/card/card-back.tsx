@@ -1,17 +1,14 @@
-import { cx } from "@/utils/cx";
-
 import type { ResolvedCard } from "@/store/lib/types";
 import type { Card as CardType } from "@/store/services/queries.types";
 import { hasImage, sideways } from "@/utils/card-utils";
-
-import css from "./card.module.css";
-
+import { cx } from "@/utils/cx";
 import { useMemo } from "react";
 import { CardScan } from "../card-scan";
 import { CardThumbnail } from "../card-thumbnail";
 import { CardHeader } from "./card-header";
 import { CardMetaBack } from "./card-meta";
 import { CardText } from "./card-text";
+import css from "./card.module.css";
 
 type Props = {
   className?: string;

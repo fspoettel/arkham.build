@@ -1,9 +1,7 @@
-import { useCallback } from "react";
-
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/field";
 import { useStore } from "@/store";
-
+import { useCallback } from "react";
 import css from "./deck-edit.module.css";
 
 export function ShowUnusableCardsToggle() {

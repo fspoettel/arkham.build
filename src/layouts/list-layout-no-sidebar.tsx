@@ -1,13 +1,12 @@
-import { CardModalProvider } from "@/components/card-modal/card-modal-context";
-import { cx } from "@/utils/cx";
-
 import { CardListContainer } from "@/components/card-list/card-list-container";
+import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { Filters } from "@/components/filters/filters";
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
+import { cx } from "@/utils/cx";
 import { useDocumentTitle } from "@/utils/use-document-title";
 import { useGoBack } from "@/utils/use-go-back";
-import { ChevronLeft, Filter } from "lucide-react";
+import { ChevronLeftIcon, FilterIcon } from "lucide-react";
 import { useCallback, useState } from "react";
 import css from "./list-layout-no-sidebar.module.css";
 
@@ -46,7 +45,7 @@ export function ListLayoutNoSidebar(props: Props) {
       >
         <Masthead className={css["masthead"]}>
           <Button onClick={goBack} variant="bare">
-            <ChevronLeft /> Back
+            <ChevronLeftIcon /> Back
           </Button>
         </Masthead>
         <main className={css["content"]}>
@@ -60,7 +59,7 @@ export function ListLayoutNoSidebar(props: Props) {
                 className={css["toggle-filters"]}
                 onClick={() => onToggleFilters(true)}
               >
-                <Filter />
+                <FilterIcon />
               </Button>
             }
           />

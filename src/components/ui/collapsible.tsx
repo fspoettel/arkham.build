@@ -4,11 +4,9 @@ import type {
   CollapsibleProps,
 } from "@radix-ui/react-collapsible";
 import { Content, Root, Trigger } from "@radix-ui/react-collapsible";
-import { UnfoldVertical, XIcon } from "lucide-react";
-
-import css from "./collapsible.module.css";
-
+import { UnfoldVerticalIcon, XIcon } from "lucide-react";
 import { Button } from "./button";
+import css from "./collapsible.module.css";
 
 type Props = Omit<CollapsibleProps, "title"> & {
   actions?: React.ReactNode;
@@ -79,7 +77,7 @@ export function Collapsible(props: Props) {
                     : "Expand section"
               }
             >
-              {open ? <XIcon /> : <UnfoldVertical />}
+              {open ? <XIcon /> : <UnfoldVerticalIcon />}
             </Button>
           </div>
         </div>

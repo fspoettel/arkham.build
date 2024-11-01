@@ -2,18 +2,17 @@ import type {
   CardGroup as CardGroupType,
   ListState,
 } from "@/store/selectors/lists";
+import type { Card } from "@/store/services/queries.types";
 import type { Metadata } from "@/store/slices/metadata.types";
 import { sideways } from "@/utils/card-utils";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { type ListRange, Virtuoso, type VirtuosoHandle } from "react-virtuoso";
-import { CardScan } from "../card-scan";
-import { Grouphead } from "./grouphead";
-
-import type { Card } from "@/store/services/queries.types";
 import { useCardModalContext } from "../card-modal/card-modal-context";
+import { CardScan } from "../card-scan";
 import { QuantityInput } from "../ui/quantity-input";
 import { Scroller } from "../ui/scroller";
 import css from "./card-grid.module.css";
+import { Grouphead } from "./grouphead";
 import type { CardListImplementationProps } from "./types";
 
 export function CardGrid(props: CardListImplementationProps) {

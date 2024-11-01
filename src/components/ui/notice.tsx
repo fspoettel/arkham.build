@@ -1,6 +1,5 @@
 import { cx } from "@/utils/cx";
-import { Info } from "lucide-react";
-
+import { InfoIcon } from "lucide-react";
 import css from "./notice.module.css";
 
 type Variant = "info";
@@ -14,7 +13,7 @@ type Props = {
 function getIconForVariant(variant?: Variant) {
   switch (variant) {
     case "info":
-      return <Info />;
+      return <InfoIcon />;
 
     default:
       return null;

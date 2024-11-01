@@ -1,5 +1,3 @@
-import { useCallback } from "react";
-
 import { DeckInvestigator } from "@/components/deck-investigator";
 import { ListCard } from "@/components/list-card/list-card";
 import { Button } from "@/components/ui/button";
@@ -7,6 +5,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useDialogContext } from "@/components/ui/dialog.hooks";
 import { Modal } from "@/components/ui/modal";
 import type { ResolvedDeck } from "@/store/lib/types";
+import { useCallback } from "react";
 
 type Props = {
   deck: ResolvedDeck;

@@ -1,15 +1,12 @@
-import { useEffect } from "react";
-
 import { useStore } from "@/store";
-import type { Card } from "@/store/services/queries.types";
-import type { Slot } from "@/store/slices/deck-edits.types";
-
-import css from "./card-modal.module.css";
-
 import { getDeckLimitOverride } from "@/store/lib/resolve-deck";
 import type { ResolvedDeck } from "@/store/lib/types";
+import type { Card } from "@/store/services/queries.types";
+import type { Slot } from "@/store/slices/deck-edits.types";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import { useEffect } from "react";
 import { QuantityInput } from "../ui/quantity-input";
+import css from "./card-modal.module.css";
 
 type Props = {
   card: Card;

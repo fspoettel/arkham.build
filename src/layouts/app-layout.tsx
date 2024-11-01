@@ -1,9 +1,7 @@
-import { cx } from "@/utils/cx";
-
 import { Footer } from "@/components/footer";
 import { Masthead } from "@/components/masthead";
+import { cx } from "@/utils/cx";
 import { useDocumentTitle } from "@/utils/use-document-title";
-
 import css from "./app-layout.module.css";
 
 type Props = {

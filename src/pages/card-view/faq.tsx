@@ -1,14 +1,12 @@
-import DOMPurify from "dompurify";
-import { useMemo, useState } from "react";
-
-import type { ResolvedCard } from "@/store/lib/types";
-import { queryFaq } from "@/store/services/queries";
-import { useQuery } from "@/utils/use-query";
-
 import { Details } from "@/components/ui/details";
 import { useStore } from "@/store";
+import type { ResolvedCard } from "@/store/lib/types";
 import { selectClientId } from "@/store/selectors/shared";
+import { queryFaq } from "@/store/services/queries";
 import { redirectArkhamDBLinks } from "@/utils/arkhamdb-links";
+import { useQuery } from "@/utils/use-query";
+import DOMPurify from "dompurify";
+import { useMemo, useState } from "react";
 
 type Props = {
   card: ResolvedCard["card"];

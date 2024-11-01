@@ -1,6 +1,5 @@
 import { FloatingPortal, useMergeRefs } from "@floating-ui/react";
 import * as React from "react";
-
 import {
   TooltipContext,
   type TooltipOptions,

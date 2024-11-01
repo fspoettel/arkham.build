@@ -1,15 +1,12 @@
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { useState } from "react";
-
 import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
 import { reversed } from "@/utils/card-utils";
-
-import css from "./card.module.css";
-
+import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import { CardBack } from "./card-back";
 import { CardContainer } from "./card-container";
 import { CardFace } from "./card-face";
+import css from "./card.module.css";
 
 type Props = {
   canToggleBackside?: boolean;
@@ -64,7 +61,7 @@ export function Card(props: Props) {
       data-testid="card-backtoggle"
       onClick={() => toggleBack((p) => !p)}
     >
-      {backVisible ? <ChevronUp /> : <ChevronDown />}
+      {backVisible ? <ChevronUpIcon /> : <ChevronDownIcon />}
       Backside
     </Button>
   );

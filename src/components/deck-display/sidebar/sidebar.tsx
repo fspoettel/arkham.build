@@ -1,24 +1,22 @@
 import { DeckInvestigator } from "@/components/deck-investigator";
 import { FactionIcon } from "@/components/icons/faction-icon";
-import {
-  capitalize,
-  capitalizeSnakeCase,
-  formatTabooSet,
-} from "@/utils/formatting";
-
-import css from "./sidebar.module.css";
-
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { cx } from "@/utils/cx";
-import { Import } from "lucide-react";
+import {
+  capitalize,
+  capitalizeSnakeCase,
+  formatTabooSet,
+} from "@/utils/formatting";
+import { ImportIcon } from "lucide-react";
 import { useCallback } from "react";
 import { useLocation } from "wouter";
 import { LatestUpgrade } from "../deck-history/latest-upgrade";
 import { Sharing } from "./sharing";
 import { SidebarActions } from "./sidebar-actions";
+import css from "./sidebar.module.css";
 
 type Props = {
   className?: string;
@@ -58,7 +56,7 @@ export function Sidebar(props: Props) {
         <SidebarActions deck={deck} />
       ) : (
         <Button size="full" onClick={onImport}>
-          <Import /> Import deck to collection
+          <ImportIcon /> Import deck to collection
         </Button>
       )}
       <ul className={css["details"]}>

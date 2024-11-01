@@ -1,7 +1,5 @@
-import { useCallback } from "react";
-
 import { useStore } from "@/store";
-
+import { useCallback } from "react";
 import { FilterContainer } from "./filter-container";
 
 type Props<T, V extends number | string | undefined> = {

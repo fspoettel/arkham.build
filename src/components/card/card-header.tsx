@@ -1,13 +1,10 @@
-import { cx } from "@/utils/cx";
-
 import type { Card } from "@/store/services/queries.types";
 import { getCardColor } from "@/utils/card-utils";
-
-import css from "./card.module.css";
-
+import { cx } from "@/utils/cx";
 import { CardIcon } from "../card-icon";
 import { MulticlassIcons } from "../icons/multiclass-icons";
 import { CardNames } from "./card-names";
+import css from "./card.module.css";
 
 type Props = {
   card: Card;

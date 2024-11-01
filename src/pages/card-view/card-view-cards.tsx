@@ -1,10 +1,8 @@
-import { Redirect } from "wouter";
-
 import { Card } from "@/components/card/card";
 import { CustomizationsEditor } from "@/components/customizations/customizations-editor";
 import type { CardWithRelations } from "@/store/lib/types";
 import { formatRelationTitle } from "@/utils/formatting";
-
+import { Redirect } from "wouter";
 import css from "./card-view.module.css";
 
 type Props = {

@@ -6,7 +6,6 @@ import type { Card } from "@/store/services/queries.types";
 import type { ViewMode } from "@/store/slices/lists.types";
 import { Card as CardComponent } from "../card/card";
 import { ListCard } from "../list-card/list-card";
-
 import css from "./card-list-items.module.css";
 import type { CardListItemProps } from "./types";
 

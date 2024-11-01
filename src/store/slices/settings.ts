@@ -1,5 +1,4 @@
 import type { StateCreator } from "zustand";
-
 import type { StoreState } from ".";
 import { makeLists } from "./lists";
 import type {

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/store";
 import type { Id } from "@/store/slices/data.types";
-import { Shuffle } from "lucide-react";
+import { ShuffleIcon } from "lucide-react";
 
 type Props = {
   deckId: Id;
@@ -23,7 +23,7 @@ export function DrawBasicWeakness(props: Props) {
       variant="bare"
       tooltip="Draw a random basic weakness"
     >
-      <Shuffle />
+      <ShuffleIcon />
     </Button>
   );
 }

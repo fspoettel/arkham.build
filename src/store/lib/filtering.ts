@@ -5,7 +5,6 @@ import { capitalize } from "@/utils/formatting";
 import type { Filter } from "@/utils/fp";
 import { and, not, notUnless, or } from "@/utils/fp";
 import { isEmpty } from "@/utils/is-empty";
-
 import type { Card, DeckOption } from "../services/queries.types";
 import type {
   AssetFilter,

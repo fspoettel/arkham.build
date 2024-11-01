@@ -1,5 +1,4 @@
 import { assert } from "@/utils/assert";
-
 import { capitalize } from "@/utils/formatting";
 import type { Card } from "../services/queries.types";
 import type { GroupingType } from "../slices/lists.types";

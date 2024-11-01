@@ -1,16 +1,14 @@
-import { useCallback } from "react";
-
 import { useStore } from "@/store";
 import {
   selectActiveListFilter,
   selectMultiselectChanges,
 } from "@/store/selectors/lists";
+import { selectActionOptions } from "@/store/selectors/lists";
 import type { Coded } from "@/store/services/queries.types";
 import { isActionFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
 import { capitalize } from "@/utils/formatting";
-
-import { selectActionOptions } from "@/store/selectors/lists";
+import { useCallback } from "react";
 import type { FilterProps } from "./filters.types";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 

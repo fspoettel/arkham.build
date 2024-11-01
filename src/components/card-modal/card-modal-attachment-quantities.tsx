@@ -1,17 +1,16 @@
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import type { AttachableDefinition } from "@/utils/constants";
+import { useCallback } from "react";
+import { AttachmentIcon } from "../attachments/attachments";
 import {
   attachmentDefinitionLimit,
   canAttach,
   canUpdateAttachment,
   getAttachedQuantity,
 } from "../attachments/utils";
-import { QuantityInput } from "../ui/quantity-input";
-
-import { useCallback } from "react";
-import { AttachmentIcon } from "../attachments/attachments";
 import { useAttachmentsChangeHandler } from "../attachments/utils";
+import { QuantityInput } from "../ui/quantity-input";
 import css from "./card-modal.module.css";
 
 type Props = {

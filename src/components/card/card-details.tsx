@@ -1,8 +1,7 @@
-import css from "./card.module.css";
-
 import type { Card } from "@/store/services/queries.types";
 import { capitalize } from "@/utils/formatting";
 import { CardSlots } from "../card-slots";
+import css from "./card.module.css";
 
 type Props = {
   card: Card;

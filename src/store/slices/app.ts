@@ -1,18 +1,16 @@
-import type { StateCreator } from "zustand";
-
 import { applyDeckEdits } from "@/store/lib/deck-edits";
 import { createDeck } from "@/store/lib/deck-factory";
 import type { Card } from "@/store/services/queries.types";
 import { assert } from "@/utils/assert";
+import { decodeExileSlots } from "@/utils/card-utils";
 import {
   ALT_ART_INVESTIGATOR_MAP,
   SPECIAL_CARD_CODES,
 } from "@/utils/constants";
-
-import { decodeExileSlots } from "@/utils/card-utils";
 import { randomId } from "@/utils/crypto";
 import { tryEnablePersistence } from "@/utils/persistence";
 import { time, timeEnd } from "@/utils/time";
+import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
 import { mapValidationToProblem } from "../lib/deck-io";
 import {

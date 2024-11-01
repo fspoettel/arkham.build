@@ -1,9 +1,7 @@
-import type { StateCreator } from "zustand";
-
 import { assert } from "@/utils/assert";
 import type { Filter } from "@/utils/fp";
 import { and, not } from "@/utils/fp";
-
+import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
 import {
   filterBacksides,

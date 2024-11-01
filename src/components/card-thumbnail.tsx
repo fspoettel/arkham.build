@@ -1,10 +1,8 @@
+import type { Card } from "@/store/services/queries.types";
+import { getCardColor, hasImage, thumbnailUrl } from "@/utils/card-utils";
 /* eslint-disable react/display-name */
 import { cx } from "@/utils/cx";
 import { memo } from "react";
-
-import type { Card } from "@/store/services/queries.types";
-import { getCardColor, hasImage, thumbnailUrl } from "@/utils/card-utils";
-
 import css from "./card-thumbnail.module.css";
 
 type Props = {

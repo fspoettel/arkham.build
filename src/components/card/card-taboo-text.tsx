@@ -1,7 +1,6 @@
 import type { Card } from "@/store/services/queries.types";
-import { cx } from "@/utils/cx";
-
 import { parseCardTextHtml } from "@/utils/card-utils";
+import { cx } from "@/utils/cx";
 import css from "./card.module.css";
 
 type Props = {

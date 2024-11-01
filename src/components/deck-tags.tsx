@@ -1,7 +1,5 @@
 import { capitalize } from "@/utils/formatting";
-
 import css from "./deck-tags.module.css";
-
 import { Tag } from "./ui/tag";
 
 type Props = {

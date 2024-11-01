@@ -1,5 +1,3 @@
-import { beforeAll, describe, expect, it } from "vitest";
-
 import from0ToUpgrade from "@/test/fixtures/decks/upgrades/0_to_upgrade_1.json";
 import from0ToUpgrade2 from "@/test/fixtures/decks/upgrades/0_to_upgrade_2.json";
 import adaptable from "@/test/fixtures/decks/upgrades/adaptable_base_1.json";
@@ -63,9 +61,9 @@ import permanent from "@/test/fixtures/decks/upgrades/permanent_1.json";
 import permanent2 from "@/test/fixtures/decks/upgrades/permanent_2.json";
 import story from "@/test/fixtures/decks/upgrades/story_1.json";
 import story2 from "@/test/fixtures/decks/upgrades/story_2.json";
-
 import { getMockStore } from "@/test/get-mock-store";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import { beforeAll, describe, expect, it } from "vitest";
 import { StoreApi } from "zustand";
 import { StoreState } from "../slices";
 import { getUpgradeStats } from "./deck-upgrades";

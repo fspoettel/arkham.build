@@ -1,3 +1,4 @@
+import { cx } from "@/utils/cx";
 import {
   Indicator,
   Item,
@@ -6,8 +7,6 @@ import {
   type RadioGroupProps,
   Root,
 } from "@radix-ui/react-radio-group";
-
-import { cx } from "@/utils/cx";
 import css from "./radio-group.module.css";
 
 export function RadioGroup(props: RadioGroupProps) {

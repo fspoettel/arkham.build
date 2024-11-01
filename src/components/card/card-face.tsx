@@ -1,10 +1,6 @@
-import { cx } from "@/utils/cx";
-
 import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
 import { hasImage, sideways } from "@/utils/card-utils";
-
-import css from "./card.module.css";
-
+import { cx } from "@/utils/cx";
 import { CardScan } from "../card-scan";
 import { CardThumbnail } from "../card-thumbnail";
 import { CardDetails } from "./card-details";
@@ -13,6 +9,7 @@ import { CardIcons } from "./card-icons";
 import { CardMeta } from "./card-meta";
 import { CardTabooText } from "./card-taboo-text";
 import { CardText } from "./card-text";
+import css from "./card.module.css";
 
 type Props = {
   className?: string;

@@ -1,6 +1,5 @@
-import type { StateCreator } from "zustand";
-
 import { MQ_FLOATING_FILTERS, MQ_FLOATING_SIDEBAR } from "@/utils/constants";
+import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
 import type { UISlice, UIState } from "./ui.types";
 

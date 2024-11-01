@@ -1,11 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-
 import "./styles/fonts.css";
 import "./styles/icons-encounters.css";
 import "./styles/icons-icon.css";
 import "./styles/main.css";
-
 import App from "./app";
 
 const rootNode = document.getElementById("root");

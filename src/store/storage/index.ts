@@ -1,10 +1,9 @@
+import { time, timeEnd } from "@/utils/time";
 import type {
   PersistOptions,
   PersistStorage,
   StorageValue,
 } from "zustand/middleware";
-
-import { time, timeEnd } from "@/utils/time";
 import type { StoreState } from "../slices";
 import { getInitialAppState } from "../slices/app";
 import { getInitialDataState } from "../slices/data";

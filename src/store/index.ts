@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-
 import type { StoreState } from "./slices";
 import { createAppSlice } from "./slices/app";
 import { createDataSlice } from "./slices/data";

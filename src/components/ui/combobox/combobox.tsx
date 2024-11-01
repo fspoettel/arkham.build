@@ -1,4 +1,7 @@
+import type { Coded } from "@/store/services/queries.types";
+import { FLOATING_PORTAL_ID } from "@/utils/constants";
 import { cx } from "@/utils/cx";
+import { isEmpty } from "@/utils/is-empty";
 import {
   FloatingFocusManager,
   FloatingPortal,
@@ -12,15 +15,9 @@ import {
 } from "@floating-ui/react";
 import uFuzzy from "@leeoniya/ufuzzy";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-
-import type { Coded } from "@/store/services/queries.types";
-import { FLOATING_PORTAL_ID } from "@/utils/constants";
-import { isEmpty } from "@/utils/is-empty";
-
-import css from "./combobox.module.css";
-
 import { ComboboxMenu } from "./combobox-menu";
 import { ComboboxResults } from "./combobox-results";
+import css from "./combobox.module.css";
 
 function defaultItemToString<T extends Coded>(val: T) {
   return val.code.toLowerCase();

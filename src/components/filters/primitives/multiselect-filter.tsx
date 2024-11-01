@@ -1,9 +1,7 @@
-import { useCallback } from "react";
-
 import { Combobox } from "@/components/ui/combobox/combobox";
 import { useStore } from "@/store";
 import type { Coded } from "@/store/services/queries.types";
-
+import { useCallback } from "react";
 import { FilterContainer } from "./filter-container";
 
 type Props<T extends Coded> = {

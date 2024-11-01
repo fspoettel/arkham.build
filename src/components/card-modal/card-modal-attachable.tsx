@@ -1,13 +1,12 @@
-import type { ResolvedDeck } from "@/store/lib/types";
-import type { AttachableDefinition } from "@/utils/constants";
-import { AttachmentIcon } from "../attachments/attachments";
-
 import { useStore } from "@/store";
 import { makeSortFunction } from "@/store/lib/sorting";
+import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import { getCardColor } from "@/utils/card-utils";
+import type { AttachableDefinition } from "@/utils/constants";
 import { cx } from "@/utils/cx";
 import { useCallback, useMemo } from "react";
+import { AttachmentIcon } from "../attachments/attachments";
 import {
   attachmentDefinitionLimit,
   canAttach,

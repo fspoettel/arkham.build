@@ -1,7 +1,3 @@
-import { useStore } from "@/store";
-import type { ResolvedDeck } from "@/store/lib/types";
-import { selectLatestUpgrade } from "@/store/selectors/decks";
-
 import { CustomizableDiff } from "@/components/deck-display/deck-history/customizable-diff";
 import { SlotDiff } from "@/components/deck-display/deck-history/slot-diff";
 import { ListCard } from "@/components/list-card/list-card";
@@ -13,11 +9,19 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Scroller } from "@/components/ui/scroller";
+import { useStore } from "@/store";
+import type { ResolvedDeck } from "@/store/lib/types";
+import { selectLatestUpgrade } from "@/store/selectors/decks";
 import type { Card } from "@/store/services/queries.types";
 import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
 import { isStaticInvestigator } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
-import { ArrowLeftToLine, Flame, MinusCircle, PlusCircle } from "lucide-react";
+import {
+  ArrowLeftToLineIcon,
+  FlameIcon,
+  MinusCircleIcon,
+  PlusCircleIcon,
+} from "lucide-react";
 import { useCallback } from "react";
 import css from "./latest-upgrade.module.css";
 
@@ -135,7 +139,7 @@ export function LatestUpgrade(props: Props) {
                   variant="bare"
                   onClick={onDecrement}
                 >
-                  <MinusCircle />
+                  <MinusCircleIcon />
                 </Button>
                 <Button
                   data-testid="latest-upgrade-xp-increment"
@@ -143,7 +147,7 @@ export function LatestUpgrade(props: Props) {
                   variant="bare"
                   onClick={onIcrement}
                 >
-                  <PlusCircle />
+                  <PlusCircleIcon />
                 </Button>
               </>
             )}
@@ -162,7 +166,7 @@ export function LatestUpgrade(props: Props) {
                   }}
                   variant="bare"
                 >
-                  <Flame /> Exile
+                  <FlameIcon /> Exile
                 </Button>
               </PopoverTrigger>
               <PopoverContent>
@@ -191,7 +195,7 @@ export function LatestUpgrade(props: Props) {
                                   }}
                                   tooltip="Add to current list"
                                 >
-                                  <ArrowLeftToLine />
+                                  <ArrowLeftToLineIcon />
                                 </Button>
                               )
                             : undefined

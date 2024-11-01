@@ -1,11 +1,8 @@
-import { Link } from "wouter";
-
 import { Button } from "@/components/ui/button";
 import { AppLayout } from "@/layouts/app-layout";
-
-import css from "./errors.module.css";
-
+import { Link } from "wouter";
 import { ErrorDisplay } from "./error-display";
+import css from "./errors.module.css";
 
 export function Error404() {
   return (

@@ -1,9 +1,7 @@
-import { useCallback } from "react";
-import { useLocation } from "wouter";
-
 import { useStore } from "@/store";
 import { selectActiveList } from "@/store/selectors/lists";
-
+import { useCallback } from "react";
+import { useLocation } from "wouter";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 type Props = {

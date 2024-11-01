@@ -1,14 +1,12 @@
 import { NONE, getGroupingKeyLabel } from "@/store/lib/grouping";
 import type { CardGroup } from "@/store/selectors/lists";
 import type { Metadata } from "@/store/slices/metadata.types";
-
-import css from "./grouphead.module.css";
-
 import { cx } from "@/utils/cx";
 import { CardSlots } from "../card-slots";
 import EncounterIcon from "../icons/encounter-icon";
 import { FactionIcon } from "../icons/faction-icon";
 import PackIcon from "../icons/pack-icon";
+import css from "./grouphead.module.css";
 
 type Props = {
   className?: string;

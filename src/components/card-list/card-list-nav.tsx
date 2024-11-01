@@ -1,20 +1,17 @@
-import { useMemo } from "react";
-
 import { NONE, getGroupingKeyLabel } from "@/store/lib/grouping";
-import type { ListState } from "@/store/selectors/lists";
-import type { Metadata } from "@/store/slices/metadata.types";
-
-import css from "./card-list-nav.module.css";
-
 import type { ResolvedDeck } from "@/store/lib/types";
+import type { ListState } from "@/store/selectors/lists";
 import type { ViewMode } from "@/store/slices/lists.types";
-import { SlidersVertical } from "lucide-react";
+import type { Metadata } from "@/store/slices/metadata.types";
+import { SlidersVerticalIcon } from "lucide-react";
+import { useMemo } from "react";
 import { LimitedCardPoolTag, SealedDeckTag } from "../limited-card-pool";
 import { Button } from "../ui/button";
 import { DropdownMenu, DropdownMenuSection } from "../ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Select } from "../ui/select";
+import css from "./card-list-nav.module.css";
 
 type Props = {
   data: ListState | undefined;
@@ -93,7 +90,7 @@ export function CardListNav(props: Props) {
               variant="bare"
               iconOnly
             >
-              <SlidersVertical />
+              <SlidersVerticalIcon />
             </Button>
           </PopoverTrigger>
           <PopoverContent>

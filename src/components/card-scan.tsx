@@ -1,7 +1,5 @@
-import { cx } from "@/utils/cx";
-
 import { imageUrl } from "@/utils/card-utils";
-
+import { cx } from "@/utils/cx";
 import css from "./card-scan.module.css";
 
 type Props = {

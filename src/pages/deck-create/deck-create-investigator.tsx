@@ -6,7 +6,6 @@ import {
   selectDeckCreateInvestigatorBack,
   selectDeckCreateInvestigatorFront,
 } from "@/store/selectors/deck-create";
-
 import css from "./deck-create.module.css";
 
 export function DeckCreateInvestigator() {

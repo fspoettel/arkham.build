@@ -1,33 +1,30 @@
-import { Undo } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useParams } from "wouter";
-
 import { ListLayout } from "@//layouts/list-layout";
+import { Attachments } from "@/components/attachments/attachments";
+import { CardListContainer } from "@/components/card-list/card-list-container";
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { DecklistValidation } from "@/components/decklist/decklist-validation";
 import { Filters } from "@/components/filters/filters";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
+import type { ResolvedDeck } from "@/store/lib/types";
 import {
   selectDeckValid,
   selectResolvedDeckById,
 } from "@/store/selectors/decks";
-import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
-import { useDocumentTitle } from "@/utils/use-document-title";
-
-import { Editor } from "./editor/editor";
-import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
-
-import { Attachments } from "@/components/attachments/attachments";
-import { CardListContainer } from "@/components/card-list/card-list-container";
-import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
+import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import { useDocumentTitle } from "@/utils/use-document-title";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
+import { UndoIcon } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useParams } from "wouter";
 import { Error404 } from "../errors/404";
 import css from "./deck-edit.module.css";
 import { DrawBasicWeakness } from "./editor/draw-basic-weakness";
+import { Editor } from "./editor/editor";
+import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 
 function DeckEdit() {
   const { id } = useParams<{ id: string }>();
@@ -61,7 +58,7 @@ function DeckEdit() {
                   }}
                   size="sm"
                 >
-                  <Undo />
+                  <UndoIcon />
                   Undo
                 </Button>
               </div>

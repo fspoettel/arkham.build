@@ -1,12 +1,7 @@
-import { Copy, Download, Ellipsis, Pencil, Trash2 } from "lucide-react";
-import { useCallback, useState } from "react";
-import { Link, useLocation } from "wouter";
-
 import { Button } from "@/components/ui/button";
-import { Notice } from "@/components/ui/notice";
-
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
+import { Notice } from "@/components/ui/notice";
 import {
   Popover,
   PopoverContent,
@@ -15,6 +10,15 @@ import {
 import { UpgradeModal } from "@/pages/deck-view/upgrade-modal";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { useHotKey } from "@/utils/use-hotkey";
+import {
+  CopyIcon,
+  DownloadIcon,
+  EllipsisIcon,
+  PencilIcon,
+  Trash2Icon,
+} from "lucide-react";
+import { useCallback, useState } from "react";
+import { Link, useLocation } from "wouter";
 import {
   useDeleteDeck,
   useDeleteUpgrade,
@@ -98,7 +102,7 @@ export function SidebarActions(props: Props) {
           onClick={onEdit}
           size="full"
         >
-          <Pencil /> Edit
+          <PencilIcon /> Edit
         </Button>
         <Dialog onOpenChange={onUpgradeModalOpenChange} open={upgradeModalOpen}>
           <DialogTrigger asChild>
@@ -125,7 +129,7 @@ export function SidebarActions(props: Props) {
               data-testid="view-more-actions"
               tooltip="More actions"
             >
-              <Ellipsis />
+              <EllipsisIcon />
             </Button>
           </PopoverTrigger>
           <PopoverContent>
@@ -136,7 +140,7 @@ export function SidebarActions(props: Props) {
                 size="full"
                 variant="bare"
               >
-                <Copy />
+                <CopyIcon />
                 Duplicate
               </Button>
               <hr />
@@ -146,7 +150,7 @@ export function SidebarActions(props: Props) {
                 variant="bare"
                 onClick={onExportJson}
               >
-                <Download /> Export JSON
+                <DownloadIcon /> Export JSON
               </Button>
               <Button
                 data-testid="view-export-text"
@@ -154,7 +158,7 @@ export function SidebarActions(props: Props) {
                 variant="bare"
                 onClick={onExportText}
               >
-                <Download /> Export Markdown
+                <DownloadIcon /> Export Markdown
               </Button>
               <hr />
               {!!deck.previous_deck && (
@@ -175,7 +179,7 @@ export function SidebarActions(props: Props) {
                 size="full"
                 variant="bare"
               >
-                <Trash2 /> Delete
+                <Trash2Icon /> Delete
               </Button>
             </DropdownMenu>
           </PopoverContent>

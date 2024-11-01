@@ -1,8 +1,7 @@
-import { cx } from "@/utils/cx";
-import { CheckCircle, CircleAlert, X } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-
 import { randomId } from "@/utils/crypto";
+import { cx } from "@/utils/cx";
+import { CheckCircleIcon, CircleAlertIcon, XIcon } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { Button } from "./button";
 import { ToastContext, type Toast as ToastType } from "./toast.hooks";
@@ -116,8 +115,10 @@ function Toast(props: {
       data-testid="toast"
       ref={toastRef}
     >
-      {toast.variant === "success" && <CheckCircle className={css["icon"]} />}
-      {toast.variant === "error" && <CircleAlert className={css["icon"]} />}
+      {toast.variant === "success" && (
+        <CheckCircleIcon className={css["icon"]} />
+      )}
+      {toast.variant === "error" && <CircleAlertIcon className={css["icon"]} />}
       <div>
         {typeof toast.children === "function"
           ? toast.children({ onClose: removeToast })
@@ -132,7 +133,7 @@ function Toast(props: {
             variant="bare"
             size="sm"
           >
-            <X />
+            <XIcon />
           </Button>
         )}
       </div>

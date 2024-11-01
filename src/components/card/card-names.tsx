@@ -1,8 +1,7 @@
 import Unique from "@/assets/icons/icon_unique.svg?react";
+import type { Card } from "@/store/services/queries.types";
 import { cx } from "@/utils/cx";
 import { Link } from "wouter";
-
-import type { Card } from "@/store/services/queries.types";
 import { useCardModalContext } from "../card-modal/card-modal-context";
 import css from "./card.module.css";
 

@@ -1,5 +1,3 @@
-import { useCallback, useMemo } from "react";
-
 import { useStore } from "@/store";
 import {
   selectActiveListFilter,
@@ -9,8 +7,8 @@ import {
 import type { Pack } from "@/store/services/queries.types";
 import { isPackFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
-
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
+import { useCallback, useMemo } from "react";
 import { PackName } from "../pack-name";
 import type { FilterProps } from "./filters.types";
 import { MultiselectFilter } from "./primitives/multiselect-filter";

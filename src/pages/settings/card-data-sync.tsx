@@ -1,18 +1,16 @@
-import { cx } from "@/utils/cx";
-import { Check, FileDown } from "lucide-react";
-import { useCallback, useEffect } from "react";
-
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
+import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
 import {
   queryCards,
   queryDataVersion,
   queryMetadata,
 } from "@/store/services/queries";
+import { cx } from "@/utils/cx";
 import { useMutate, useQuery } from "@/utils/use-query";
-
-import { useToast } from "@/components/ui/toast.hooks";
+import { CheckIcon, FileDownIcon } from "lucide-react";
+import { useCallback, useEffect } from "react";
 import css from "./card-data-sync.module.css";
 
 export function CardDataSync() {
@@ -62,12 +60,12 @@ export function CardDataSync() {
             data &&
             (upToDate ? (
               <p>
-                <Check className={css["status-icon"]} /> Card data is up to
+                <CheckIcon className={css["status-icon"]} /> Card data is up to
                 date.
               </p>
             ) : (
               <p>
-                <FileDown className={css["status-icon"]} /> New card data is
+                <FileDownIcon className={css["status-icon"]} /> New card data is
                 available.
               </p>
             ))}

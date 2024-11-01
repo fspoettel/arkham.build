@@ -1,12 +1,10 @@
-import { BookOpenText } from "lucide-react";
-import { Suspense, lazy, useCallback } from "react";
-
 import { Button } from "@/components/ui/button";
 import { DialogContentInert, DialogTrigger } from "@/components/ui/dialog";
 import { useDialogContext } from "@/components/ui/dialog.hooks";
 import { Modal } from "@/components/ui/modal";
-
 import type { ResolvedDeck } from "@/store/lib/types";
+import { BookOpenTextIcon } from "lucide-react";
+import { Suspense, lazy, useCallback } from "react";
 import css from "./deck-display.module.css";
 
 type Props = {
@@ -32,7 +30,7 @@ export function DeckNotes(props: Props) {
             data-testid="view-notes-toggle"
             size="lg"
           >
-            <BookOpenText />
+            <BookOpenTextIcon />
             Show notes
           </Button>
         </div>

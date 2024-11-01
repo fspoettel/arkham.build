@@ -1,3 +1,4 @@
+import { FLOATING_PORTAL_ID } from "@/utils/constants";
 import {
   FloatingFocusManager,
   FloatingOverlay,
@@ -6,9 +7,6 @@ import {
   useTransitionStyles,
 } from "@floating-ui/react";
 import { cloneElement, forwardRef, isValidElement } from "react";
-
-import { FLOATING_PORTAL_ID } from "@/utils/constants";
-
 import type { DialogOptions } from "./dialog.hooks";
 import { DialogContext, useDialog, useDialogContext } from "./dialog.hooks";
 

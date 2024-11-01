@@ -1,11 +1,10 @@
 import { AppLayout } from "@/layouts/app-layout";
-
 import { useStore } from "@/store";
 import type { DeckValidationResult } from "@/store/lib/deck-validation";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { selectDeckHistory } from "@/store/selectors/decks";
 import { useAccentColor } from "@/utils/use-accent-color";
-import { FileClock } from "lucide-react";
+import { FileClockIcon } from "lucide-react";
 import { DeckTags } from "../deck-tags";
 import { Decklist } from "../decklist/decklist";
 import { DecklistValidation } from "../decklist/decklist-validation";
@@ -67,7 +66,7 @@ export function DeckDisplay(props: Props) {
                   <i className="icon-deck" /> Deck
                 </TabsTrigger>
                 <TabsTrigger value="history" data-testid="tab-history">
-                  <FileClock /> Upgrade history ({history.length})
+                  <FileClockIcon /> Upgrade history ({history.length})
                 </TabsTrigger>
               </TabsList>
               <TabsContent className={css["tab"]} value="deck">

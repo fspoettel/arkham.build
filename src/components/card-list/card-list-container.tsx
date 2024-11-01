@@ -6,15 +6,14 @@ import {
   selectListCards,
 } from "@/store/selectors/lists";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
-import { Footer } from "../footer";
-import { CardListNav } from "./card-list-nav";
-import { CardSearch } from "./card-search";
-import type { CardListProps } from "./types";
-
 import { useCallback } from "react";
+import { Footer } from "../footer";
 import { CardGrid } from "./card-grid";
 import { CardList } from "./card-list";
 import css from "./card-list-container.module.css";
+import { CardListNav } from "./card-list-nav";
+import { CardSearch } from "./card-search";
+import type { CardListProps } from "./types";
 
 export function CardListContainer(props: CardListProps) {
   const { className, slotLeft, slotRight, targetDeck, ...rest } = props;

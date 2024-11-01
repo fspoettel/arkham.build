@@ -4,7 +4,6 @@ import type {
   RadioGroupProps,
 } from "@radix-ui/react-radio-group";
 import { Item, Root } from "@radix-ui/react-radio-group";
-
 import css from "./radio-button-group.module.css";
 import { DefaultTooltip } from "./tooltip";
 

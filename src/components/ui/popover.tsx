@@ -1,3 +1,4 @@
+import { FLOATING_PORTAL_ID } from "@/utils/constants";
 import {
   FloatingFocusManager,
   FloatingPortal,
@@ -5,8 +6,6 @@ import {
   useTransitionStyles,
 } from "@floating-ui/react";
 import { cloneElement, forwardRef, isValidElement } from "react";
-
-import { FLOATING_PORTAL_ID } from "@/utils/constants";
 import type { PopoverOptions } from "./popover.hooks";
 import { PopoverContext, usePopover, usePopoverContext } from "./popover.hooks";
 

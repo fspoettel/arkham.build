@@ -1,11 +1,9 @@
-import { useCallback } from "react";
-
 import { useStore } from "@/store";
 import { selectActiveListFilter } from "@/store/selectors/lists";
+import { selectCostChanges, selectCostMinMax } from "@/store/selectors/lists";
 import { isCostFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
-
-import { selectCostChanges, selectCostMinMax } from "@/store/selectors/lists";
+import { useCallback } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
 import { RangeSelect } from "../ui/range-select";

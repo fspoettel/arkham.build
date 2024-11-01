@@ -1,3 +1,4 @@
+import { cx } from "@/utils/cx";
 import {
   DndContext,
   type DragEndEvent,
@@ -17,10 +18,8 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-
-import { cx } from "@/utils/cx";
 import { CSS } from "@dnd-kit/utilities";
-import { GripHorizontal } from "lucide-react";
+import { GripHorizontalIcon } from "lucide-react";
 import type React from "react";
 import { forwardRef, useCallback, useMemo, useState } from "react";
 import { Button } from "./button";
@@ -188,7 +187,7 @@ const Item = forwardRef(
             size="lg"
             {...dragHandleProps}
           >
-            <GripHorizontal />
+            <GripHorizontalIcon />
           </Button>
         </div>
         <div className={css["item-content"]}>{children}</div>
