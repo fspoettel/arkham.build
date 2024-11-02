@@ -4,7 +4,7 @@ import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Tab } from "@/store/slices/deck-edits.types";
 import { useHotKey } from "@/utils/use-hotkey";
-import { SaveIcon, UndoIcon } from "lucide-react";
+import { SaveIcon, Undo2Icon } from "lucide-react";
 import { useCallback } from "react";
 import { useLocation } from "wouter";
 import { LatestUpgrade } from "../../../components/deck-display/deck-history/latest-upgrade";
@@ -117,7 +117,7 @@ export function EditorActions(props: Props) {
           }}
           variant="bare"
         >
-          <UndoIcon />
+          <Undo2Icon />
           Discard edits
         </Button>
       </div>
