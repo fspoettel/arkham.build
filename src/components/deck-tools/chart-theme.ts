@@ -17,7 +17,7 @@ export const animateProps: AnimatePropTypeInterface = {
 
 const baseLabelStyles: VictoryLabelStyleObject = {
   fontFamily: "var(--font-family-ui)",
-  fill: "var(--nord-4)",
+  fill: "var(--palette-4)",
   fontSize: 12,
   lineHeight: 16,
 };
@@ -46,9 +46,9 @@ export const chartsTheme: VictoryThemeDefinition = {
     ...baseChartProps,
     style: {
       axisLabel: { ...baseLabelStyles, padding: 30 },
-      axis: { stroke: "var(--nord-2)", strokeWidth: 2 },
+      axis: { stroke: "var(--palette-2)", strokeWidth: 2 },
       grid: {
-        stroke: "var(--nord-2)",
+        stroke: "var(--palette-2)",
         strokeDasharray: "5, 15",
         strokeWidth: 1,
       },
@@ -59,8 +59,8 @@ export const chartsTheme: VictoryThemeDefinition = {
     pointerLength: 0,
     style: baseLabelStyles,
     flyoutStyle: {
-      fill: "var(--nord-1)",
-      stroke: "var(--nord-2)",
+      fill: "var(--palette-1)",
+      stroke: "var(--palette-2)",
       strokeWidth: 1,
     },
     flyoutHeight: 40,
@@ -74,7 +74,7 @@ export const chartsTheme: VictoryThemeDefinition = {
         padding: 8,
       },
       data: {
-        stroke: "var(--nord-0)",
+        stroke: "var(--palette-0)",
         strokeWidth: 2,
       },
     },

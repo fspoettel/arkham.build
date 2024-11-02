@@ -25,7 +25,10 @@ export default function FactionsChart({ data }: Props) {
         sortKey={"y"}
         style={{
           data: {
-            fill: (d) => `var(--${d.datum.xName}`,
+            fill: ({ datum }) =>
+              `var(--${datum.xName === "neutral" ? "text" : "color"}-${
+                datum.xName
+              })`,
           },
         }}
       />
