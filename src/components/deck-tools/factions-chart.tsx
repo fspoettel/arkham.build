@@ -18,7 +18,6 @@ export default function FactionsChart({ data }: Props) {
     <div ref={ref} className={css["chart-container"]}>
       <h4 className={css["chart-title"]}>Factions</h4>
       <VictoryPie
-        height={200}
         data={data}
         theme={chartsTheme}
         labels={({ datum }) => capitalize(datum.xName)}
