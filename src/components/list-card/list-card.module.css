@@ -124,9 +124,9 @@
 
 .meta {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   align-items: center;
-  line-height: 1;
+  line-height: 1.25;
   gap: calc(var(--card-spacing-x) / 1.5);
   margin-top: 0.125rem;
   font-size: var(--text-xs);
