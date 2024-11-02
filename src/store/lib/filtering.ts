@@ -707,6 +707,8 @@ export function makeOptionFilter(
     optionFilter.push(or(selectFilters));
   }
 
+  // TODO: generalize tag based access.
+
   // special case: allessandra
   if (option.text?.some((s) => s.includes("Parley"))) {
     filterCount += 1;
@@ -727,6 +729,12 @@ export function makeOptionFilter(
     optionFilter.push(
       filterHealsDamage(!config?.ignoreUnselectedCustomizableOptions),
     );
+  }
+
+  // parallel mateo
+  if (option.tag?.includes("se")) {
+    filterCount += 1;
+    optionFilter.push(filterSeal(lookupTables.properties.seal));
   }
 
   // on your own

@@ -29,7 +29,7 @@ describe("applyCardChanges", () => {
     it("should return the original card if tabooSetId was not found", () => {
       const state = store.getState();
       const card = state.metadata.cards["02002"];
-      const result = applyCardChanges(card, state.metadata, 8, undefined);
+      const result = applyCardChanges(card, state.metadata, 99, undefined);
       expect(result).toEqual(card);
     });
 

@@ -284,6 +284,16 @@ describe("filter: investigator access", () => {
       const state = store.getState();
       expect(applyFilter(state, "05001", "08044")).toBeTruthy();
       expect(applyFilter(state, "09004", "08068")).toBeTruthy();
+      expect(applyFilter(state, "10009", "10114")).toBeTruthy();
+      expect(applyFilter(state, "90081", "07026")).toBeTruthy();
+    });
+
+    it("returns false if tag does not match card access rules", () => {
+      const state = store.getState();
+      expect(applyFilter(state, "05001", "07026")).toBeFalsy();
+      expect(applyFilter(state, "09004", "10035")).toBeFalsy();
+      expect(applyFilter(state, "10009", "05114")).toBeFalsy();
+      expect(applyFilter(state, "90081", "10114")).toBeFalsy();
     });
 
     it("returns true if customizable option adds access", () => {
@@ -292,6 +302,11 @@ describe("filter: investigator access", () => {
       state.metadata.cards["09040"].xp = 4;
       expect(applyFilter(state, "05001", "09040")).toBeTruthy();
       expect(applyFilter(state, "09004", "09040")).toBeTruthy();
+    });
+
+    it("returns false if tag does not match card access rules", () => {
+      const state = store.getState();
+      expect(applyFilter(state, "05001", "02032")).toBeFalsy();
     });
 
     it("returns false if customizable option adds access, but is ignored", () => {
