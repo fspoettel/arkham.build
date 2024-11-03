@@ -53,7 +53,7 @@ export function SkillIconLabel(props: SkillIconLabelProps) {
 export default function CostCurveChart({ data }: Props) {
   const maxAmount = useMemo(
     () => Math.max(...data.map((column) => column.y)) + 1,
-    [data]
+    [data],
   );
 
   const ref = useRef(null);

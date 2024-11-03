@@ -30,13 +30,15 @@ export function resolveDeck(
 ): ResolvedDeck {
   const deckMeta = decodeDeckMeta(deck);
 
+  console.log('resolvingggg');
+
   // some decks on arkhamdb are created for the replacement investigator, normalize.
   // this only seems to be the case for carolyn fern?
   const investigatorCode =
     deck.investigator_code in ALT_ART_INVESTIGATOR_MAP
       ? ALT_ART_INVESTIGATOR_MAP[
-          deck.investigator_code as keyof typeof ALT_ART_INVESTIGATOR_MAP
-        ]
+      deck.investigator_code as keyof typeof ALT_ART_INVESTIGATOR_MAP
+      ]
       : deck.investigator_code;
 
   const investigator = resolveCardWithRelations(
@@ -90,7 +92,7 @@ export function resolveDeck(
 
   const customizations = decodeCustomizations(deckMeta, metadata);
 
-  const { cards, deckSize, deckSizeTotal, xpRequired, chartInfo } = decodeSlots(
+  const { cards, deckSize, deckSizeTotal, xpRequired, chartsInfo } = decodeSlots(
     deck,
     extraSlots,
     metadata,
@@ -131,10 +133,12 @@ export function resolveDeck(
       deckSize,
       deckSizeTotal,
       xpRequired: xpRequired,
-      charts: chartInfo,
+      charts: chartsInfo,
     },
     tabooSet: deck.taboo_id ? metadata.tabooSets[deck.taboo_id] : undefined,
   } as ResolvedDeck;
+
+  console.log(resolved, '------------------------------');
 
   addGroupingsToDeck(metadata, lookupTables, resolved);
 

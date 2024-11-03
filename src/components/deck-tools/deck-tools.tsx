@@ -20,12 +20,14 @@ export const DeckTools = ({ deck }: Props) => {
   const active = useStore((state) => state.ui.usingDeckTools);
   const setUsingDeckTools = useStore((state) => state.setUsingDeckTools);
 
+  console.log(deck.stats.charts);
+
   return (
     <div
       className={cx(
         layoutCss["layout-area"],
         css["deck-tools"],
-        active && css["transition"],
+        active && css["transition"]
       )}
     >
       <div className={css["tools-header"]}>

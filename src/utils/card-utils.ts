@@ -1,7 +1,5 @@
 import type {
   CardWithRelations,
-  SkillIcon,
-  UnformattedChartInfo,
 } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import {
@@ -142,42 +140,6 @@ export function isRandomBasicWeaknessLike(card: Card) {
       !card.encounter_code &&
       !card.restrictions)
   );
-}
-
-export function getCardChartableData(
-  card: Card,
-  quantity: number,
-  accumulator: UnformattedChartInfo,
-) {
-  // Cost curve
-  if (typeof card.cost === "number") {
-    const { cost } = card;
-
-    // Group very high cost cards together
-    const finalCost = cost > 6 ? 7 : cost;
-    if (!accumulator.costCurve[finalCost])
-      accumulator.costCurve[finalCost] = { x: finalCost, y: 0 };
-    accumulator.costCurve[finalCost].y += quantity;
-  }
-
-  // Skill icons
-  for (const skill of Object.keys(accumulator.skillIcons)) {
-    accumulator.skillIcons[skill as SkillIcon] +=
-      (card[skill as SkillIcon] ?? 0) * quantity;
-  }
-
-  accumulator.factions[
-    card.faction_code as keyof UnformattedChartInfo["factions"]
-  ]++;
-
-  if (card.faction2_code)
-    accumulator.factions[
-      card.faction2_code as keyof UnformattedChartInfo["factions"]
-    ]++;
-  if (card.faction3_code)
-    accumulator.factions[
-      card.faction3_code as keyof UnformattedChartInfo["factions"]
-    ]++;
 }
 
 /**

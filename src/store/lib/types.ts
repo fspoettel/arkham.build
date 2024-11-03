@@ -1,4 +1,4 @@
-import type { AttachableDefinition } from "@/utils/constants";
+import type { AttachableDefinition, FACTION_ORDER } from "@/utils/constants";
 import type {
   Card,
   Cycle,
@@ -116,32 +116,19 @@ export type Selection = OptionSelection | FactionSelection | DeckSizeSelection;
 // selections, keyed by their `id`, or if not present their `name`.
 export type Selections = Record<string, Selection>;
 
-export type UnformattedChartInfo = {
-  costCurve: ChartableData;
-  skillIcons: {
-    skill_agility: number;
-    skill_combat: number;
-    skill_intellect: number;
-    skill_willpower: number;
-    skill_wild: number;
-  };
-  factions: {
-    guardian: number;
-    seeker: number;
-    rogue: number;
-    mystic: number;
-    survivor: number;
-    neutral: number;
-  };
-};
-
-export type SkillIcon = keyof UnformattedChartInfo["skillIcons"];
-export type Factions = keyof UnformattedChartInfo["factions"];
+export const SKILL_ICONS = ["skill_agility",
+  "skill_combat",
+  "skill_intellect",
+  "skill_willpower",
+  "skill_wild",
+] as const
+export type SkillIcon = typeof SKILL_ICONS[number];
+export type FactionName = typeof FACTION_ORDER[number];
 
 export type DecksChartInfo = {
   costCurve: ChartableData;
   skillIcons: ChartableData<SkillIcon>;
-  factions: ChartableData<Factions>;
+  factions: ChartableData<FactionName>;
 };
 
 // Victory chart's accepted data format

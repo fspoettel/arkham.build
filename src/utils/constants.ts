@@ -91,7 +91,7 @@ export const FACTION_ORDER = [
   "multiclass",
   "neutral",
   "mythos",
-];
+] as const;
 
 export const SIDEWAYS_TYPE_CODES = ["act", "agenda", "investigator"];
 

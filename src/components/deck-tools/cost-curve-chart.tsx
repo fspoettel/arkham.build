@@ -1,4 +1,5 @@
 import type { ChartableData } from "@/store/lib/types";
+import { cx } from "@/utils/cx";
 import { useMemo, useRef } from "react";
 import {
   VictoryAxis,
@@ -12,7 +13,6 @@ import {
 import { animateProps, chartsTheme } from "./chart-theme";
 import css from "./deck-tools.module.css";
 import { useElementSize } from "./utils";
-import { cx } from "@/utils/cx";
 
 type Props = {
   data: ChartableData;
@@ -38,11 +38,11 @@ export default function CostCurveChart({ data }: Props) {
   // Creates a [0...n] array of numbers
   const tickValues = useMemo(
     () => Array.from({ length: (data?.at(-1)?.x || 0) + 1 }, (_, i) => i),
-    [data]
+    [data],
   );
   const maxAmount = useMemo(
     () => Math.max(...data.map((column) => column.y)) + 1,
-    [data]
+    [data],
   );
 
   const ref = useRef(null);

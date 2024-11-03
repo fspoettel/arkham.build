@@ -4,22 +4,18 @@ import type { Metadata } from "@/store/slices/metadata.types";
 import {
   countExperience,
   decodeExileSlots,
-  getCardChartableData,
   isSpecialCard,
 } from "@/utils/card-utils";
 import { range } from "@/utils/range";
 import { resolveCardWithRelations } from "./resolve-card";
 import type {
   CardWithRelations,
-  ChartableData,
   Customizations,
   DeckMeta,
   DecksChartInfo,
-  Factions,
   ResolvedDeck,
-  SkillIcon,
-  UnformattedChartInfo,
 } from "./types";
+import { getCardChartableData } from "./deck-charts";
 
 export function decodeSlots(
   deck: Deck,
@@ -29,6 +25,10 @@ export function decodeSlots(
   investigator: CardWithRelations,
   customizations: Customizations | undefined,
 ) {
+
+  console.trace()
+  console.log('decoding slots??');
+
   const cards: ResolvedDeck["cards"] = {
     investigator: investigator,
     slots: {},
@@ -38,28 +38,29 @@ export function decodeSlots(
     exileSlots: {},
   };
 
-  const chartableInfo: UnformattedChartInfo = {
-    costCurve: [],
-    skillIcons: {
-      skill_agility: 0,
-      skill_combat: 0,
-      skill_intellect: 0,
-      skill_willpower: 0,
-      skill_wild: 0,
-    },
-    factions: {
-      guardian: 0,
-      seeker: 0,
-      rogue: 0,
-      mystic: 0,
-      survivor: 0,
-      neutral: 0,
-    },
-  };
-
   let deckSize = 0;
   let deckSizeTotal = 0;
   let xpRequired = 0;
+
+  const chartsInfo: DecksChartInfo = {
+    costCurve: [],
+    skillIcons: [
+      { x: 'skill_agility', y: 0, },
+      { x: 'skill_combat', y: 0, },
+      { x: 'skill_intellect', y: 0, },
+      { x: 'skill_willpower', y: 0, },
+      { x: 'skill_wild', y: 0, },
+    ],
+    factions: [
+      { x: 'guardian', y: 0, },
+      { x: 'seeker', y: 0, },
+      { x: 'rogue', y: 0, },
+      { x: 'mystic', y: 0, },
+      { x: 'survivor', y: 0, },
+      { x: 'neutral', y: 0, },
+    ],
+  }
+
 
   for (const [code, quantity] of Object.entries(deck.slots)) {
     const card = resolveCardWithRelations(
@@ -87,9 +88,12 @@ export function decodeSlots(
         );
       }
 
-      getCardChartableData(card.card, quantity, chartableInfo);
+      getCardChartableData(card.card, quantity, chartsInfo);
     }
   }
+
+  console.log("????????")
+
 
   if (deck.sideSlots && !Array.isArray(deck.sideSlots)) {
     for (const [code] of Object.entries(deck.sideSlots)) {
@@ -125,6 +129,8 @@ export function decodeSlots(
     }
   }
 
+
+
   if (extraSlots && !Array.isArray(extraSlots)) {
     for (const [code, quantity] of Object.entries(extraSlots)) {
       const card = resolveCardWithRelations(
@@ -144,14 +150,13 @@ export function decodeSlots(
     }
   }
 
-  const chartInfo: DecksChartInfo = formatChartInfo(chartableInfo);
 
   return {
     cards,
     deckSize,
     deckSizeTotal,
     xpRequired,
-    chartInfo,
+    chartsInfo,
   };
 }
 
@@ -190,39 +195,4 @@ export function encodeExtraSlots(slots: Record<string, number>) {
   );
 
   return entries.length ? entries.join(",") : undefined;
-}
-
-function formatChartInfo(info: UnformattedChartInfo): DecksChartInfo {
-  const {
-    costCurve,
-    skillIcons: unformattedSkillIcons,
-    factions: unformattedFactions,
-  } = info;
-
-  // Account for gaps in card costs.
-  for (const [index, costColumn] of costCurve.entries()) {
-    if (!costColumn) info.costCurve[index] = { x: index, y: 0 };
-  }
-
-  const skillIcons = Object.keys(unformattedSkillIcons).map((skill) => {
-    return {
-      x: skill as SkillIcon,
-      y: unformattedSkillIcons[skill as SkillIcon],
-    };
-  });
-
-  const factions: ChartableData<Factions> = [];
-
-  for (const faction of Object.keys(unformattedFactions)) {
-    const val =
-      unformattedFactions[faction as keyof UnformattedChartInfo["factions"]];
-    if (val !== 0) {
-      factions.push({
-        x: faction as Factions,
-        y: val,
-      });
-    }
-  }
-
-  return { costCurve, skillIcons, factions };
 }
