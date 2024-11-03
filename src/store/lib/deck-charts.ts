@@ -31,6 +31,4 @@ export function getCardChartableData(
     accumulator.factions[FACTION_ORDER.indexOf(card.faction2_code as FactionName)].y++;
   if (card.faction3_code)
     accumulator.factions[FACTION_ORDER.indexOf(card.faction3_code as FactionName)].y++;
-
-  console.log(accumulator);
 }

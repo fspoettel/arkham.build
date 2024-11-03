@@ -26,9 +26,6 @@ export function decodeSlots(
   customizations: Customizations | undefined,
 ) {
 
-  console.trace()
-  console.log('decoding slots??');
-
   const cards: ResolvedDeck["cards"] = {
     investigator: investigator,
     slots: {},
@@ -91,9 +88,6 @@ export function decodeSlots(
       getCardChartableData(card.card, quantity, chartsInfo);
     }
   }
-
-  console.log("????????")
-
 
   if (deck.sideSlots && !Array.isArray(deck.sideSlots)) {
     for (const [code] of Object.entries(deck.sideSlots)) {
