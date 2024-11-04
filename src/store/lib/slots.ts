@@ -7,13 +7,13 @@ import {
   isSpecialCard,
 } from "@/utils/card-utils";
 import { range } from "@/utils/range";
-import { getCardChartableData } from "./deck-charts";
+import { addCardToDeckCharts, emptyDeckCharts } from "./deck-charts";
 import { resolveCardWithRelations } from "./resolve-card";
 import type {
   CardWithRelations,
   Customizations,
+  DeckCharts,
   DeckMeta,
-  DecksChartInfo,
   ResolvedDeck,
 } from "./types";
 
@@ -38,24 +38,7 @@ export function decodeSlots(
   let deckSizeTotal = 0;
   let xpRequired = 0;
 
-  const chartsInfo: DecksChartInfo = {
-    costCurve: [],
-    skillIcons: [
-      { x: "skill_agility", y: 0 },
-      { x: "skill_combat", y: 0 },
-      { x: "skill_intellect", y: 0 },
-      { x: "skill_willpower", y: 0 },
-      { x: "skill_wild", y: 0 },
-    ],
-    factions: [
-      { x: "guardian", y: 0 },
-      { x: "seeker", y: 0 },
-      { x: "rogue", y: 0 },
-      { x: "mystic", y: 0 },
-      { x: "survivor", y: 0 },
-      { x: "neutral", y: 0 },
-    ],
-  };
+  const charts: DeckCharts = emptyDeckCharts();
 
   for (const [code, quantity] of Object.entries(deck.slots)) {
     const card = resolveCardWithRelations(
@@ -83,7 +66,7 @@ export function decodeSlots(
         );
       }
 
-      getCardChartableData(card.card, quantity, chartsInfo);
+      addCardToDeckCharts(card.card, quantity, charts);
     }
   }
 
@@ -145,7 +128,7 @@ export function decodeSlots(
     deckSize,
     deckSizeTotal,
     xpRequired,
-    chartsInfo,
+    charts,
   };
 }
 

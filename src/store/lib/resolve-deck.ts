@@ -89,15 +89,14 @@ export function resolveDeck(
 
   const customizations = decodeCustomizations(deckMeta, metadata);
 
-  const { cards, deckSize, deckSizeTotal, xpRequired, chartsInfo } =
-    decodeSlots(
-      deck,
-      extraSlots,
-      metadata,
-      lookupTables,
-      investigator,
-      customizations,
-    );
+  const { cards, deckSize, deckSizeTotal, xpRequired, charts } = decodeSlots(
+    deck,
+    extraSlots,
+    metadata,
+    lookupTables,
+    investigator,
+    customizations,
+  );
 
   const availableAttachments = Object.entries(ATTACHABLE_CARDS).reduce<
     AttachableDefinition[]
@@ -131,7 +130,7 @@ export function resolveDeck(
       deckSize,
       deckSizeTotal,
       xpRequired: xpRequired,
-      charts: chartsInfo,
+      charts,
     },
     tabooSet: deck.taboo_id ? metadata.tabooSets[deck.taboo_id] : undefined,
   } as ResolvedDeck;

@@ -1,7 +1,7 @@
 import type { ChartableData } from "@/store/lib/types";
 import type { FactionName } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { VictoryPie } from "victory";
 import { useElementSize } from "../../utils/use-element-size";
 import { chartsTheme } from "./chart-theme";
@@ -15,11 +15,16 @@ export function FactionsChart({ data }: Props) {
   const ref = useRef(null);
   const { width } = useElementSize(ref);
 
+  // Remove factions not in the deck so that they don't show as empty labels
+  const normalizedData = useMemo((): ChartableData<FactionName> => {
+    return data.filter((tick) => tick.y !== 0);
+  }, [data]);
+
   return (
     <div ref={ref} className={css["chart-container"]}>
       <h4 className={css["chart-title"]}>Factions</h4>
       <VictoryPie
-        data={data}
+        data={normalizedData}
         theme={chartsTheme}
         labelPlacement="perpendicular"
         labels={({ datum }) => capitalize(datum.xName)}

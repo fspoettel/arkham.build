@@ -20,8 +20,6 @@ export function SkillIconsChart({ data }: Props) {
   const ref = useRef(null);
   const { width } = useElementSize(ref);
 
-  console.log(data);
-
   return (
     <div ref={ref} className={css["chart-container"]}>
       <h4 className={css["chart-title"]}>Skill icons</h4>

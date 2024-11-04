@@ -120,7 +120,7 @@ export type Selection = OptionSelection | FactionSelection | DeckSizeSelection;
 // selections, keyed by their `id`, or if not present their `name`.
 export type Selections = Record<string, Selection>;
 
-export type DecksChartInfo = {
+export type DeckCharts = {
   costCurve: ChartableData;
   skillIcons: ChartableData<SkillIcon>;
   factions: ChartableData<FactionName>;
@@ -155,7 +155,7 @@ export type ResolvedDeck = Omit<Deck, "sideSlots"> & {
     xpRequired: number;
     deckSize: number;
     deckSizeTotal: number;
-    charts: DecksChartInfo;
+    charts: DeckCharts;
   };
   hasExtraDeck: boolean;
   hasReplacements: boolean;

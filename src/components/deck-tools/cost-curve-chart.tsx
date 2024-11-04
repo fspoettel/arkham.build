@@ -1,5 +1,6 @@
 import type { ChartableData } from "@/store/lib/types";
 import { cx } from "@/utils/cx";
+import { range } from "@/utils/range";
 import { useMemo, useRef } from "react";
 import {
   VictoryAxis,
@@ -19,6 +20,16 @@ type Props = {
 };
 
 export function CostCurveChart({ data }: Props) {
+  // Ensure that all resource costs (up to the maximum cost)
+  // have an actual entry (even if its value is 0)
+  const normalizedData = useMemo((): ChartableData => {
+    const max = Math.max(...data.filter((x) => x).map((tick) => tick?.x ?? 0));
+
+    return range(0, max + 1).map((cost) => {
+      return data[cost] ?? { x: cost, y: 0 };
+    });
+  }, [data]);
+
   // Must have explicit column values to avoid auto-interpolation,
   // since no card costs 1.5 resources
   // Creates a [0...n] array of numbers
@@ -52,9 +63,9 @@ export function CostCurveChart({ data }: Props) {
           tickFormat={formatCodomainTickLabels}
           tickLabelComponent={<VictoryLabel />}
         />
-        <VictoryLine data={data} width={width} />
+        <VictoryLine data={normalizedData} width={width} />
         <VictoryScatter
-          data={data}
+          data={normalizedData}
           size={5}
           labels={formatTooltips}
           labelComponent={
