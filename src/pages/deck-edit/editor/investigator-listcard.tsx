@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useDialogContext } from "@/components/ui/dialog.hooks";
 import { Modal } from "@/components/ui/modal";
-import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { ChartAreaIcon, Rows3Icon } from "lucide-react";
 import { useCallback } from "react";
+import { Link, useLocation } from "wouter";
 import css from "./investigator-listcard.module.css";
 
 type Props = {
@@ -25,6 +25,8 @@ export function InvestigatorListcard(props: Props) {
 function InvestigatorListcardInner({ deck }: Props) {
   const modalContext = useDialogContext();
 
+  const [location] = useLocation();
+
   const onCloseModal = useCallback(() => {
     modalContext?.setOpen(false);
   }, [modalContext]);
@@ -36,8 +38,7 @@ function InvestigatorListcardInner({ deck }: Props) {
       deck.investigatorBack.card.parallel,
   };
 
-  const deckToolsOpen = useStore((state) => state.ui.deckToolsOpen);
-  const toggleDeckTools = useStore((state) => state.setDeckToolsOpen);
+  const deckToolsOpen = location.endsWith("/tools");
 
   return (
     <div className={css["investigator-container"]}>
@@ -81,13 +82,16 @@ function InvestigatorListcardInner({ deck }: Props) {
           />
         </Modal>
       </DialogContent>
-      <Button
-        tooltip={deckToolsOpen ? "Card list" : "View deck charts"}
-        iconOnly
-        onClick={() => toggleDeckTools(!deckToolsOpen)}
-      >
-        {deckToolsOpen ? <Rows3Icon /> : <ChartAreaIcon />}
-      </Button>
+      <Link to={deckToolsOpen ? "/" : "/tools"} asChild>
+        <Button
+          as="a"
+          tooltip={deckToolsOpen ? "Card list" : "View deck charts"}
+          iconOnly
+          variant={deckToolsOpen ? "primary" : "secondary"}
+        >
+          {deckToolsOpen ? <Rows3Icon /> : <ChartAreaIcon />}
+        </Button>
+      </Link>
     </div>
   );
 }

@@ -91,7 +91,7 @@ function AppInner() {
               <Route component={ChooseInvestigator} path="/deck/create" />
               <Route component={DeckCreate} path="/deck/create/:code" />
               <Route component={DeckView} path="/deck/view/:id" />
-              <Route component={DeckEdit} path="/deck/edit/:id" />
+              <Route component={DeckEdit} nest path="/deck/edit/:id" />
               <Route component={Settings} path="/settings" />
               <Route component={About} path="/about" />
               <Route component={Share} path="/share/:id" />

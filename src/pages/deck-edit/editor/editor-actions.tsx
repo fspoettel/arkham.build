@@ -61,7 +61,7 @@ export function EditorActions(props: Props) {
         });
       }
 
-      if (!stayOnPage) navigate(`/deck/view/${id}`);
+      if (!stayOnPage) navigate(`~/deck/view/${id}`);
     },
     [saveDeck, navigate, deck.id, toast, updateShare],
   );
@@ -73,7 +73,7 @@ export function EditorActions(props: Props) {
         window.confirm("Are you sure you want to discard your changes?");
       if (confirmed) {
         discardEdits(deck.id);
-        if (!stayOnPage) navigate(`/deck/view/${deck.id}`);
+        if (!stayOnPage) navigate(`~/deck/view/${deck.id}`);
       }
     },
     [discardEdits, navigate, deck.id, hasEdits],

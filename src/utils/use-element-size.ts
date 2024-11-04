@@ -4,8 +4,8 @@ export function useElementSize(
   ref: React.MutableRefObject<HTMLElement | null>,
 ): { width: number; height: number } {
   const [size, setSize] = useState({
-    width: 0,
-    height: 0,
+    width: ref.current?.offsetWidth ?? 0,
+    height: ref.current?.offsetHeight ?? 0,
   });
 
   useEffect(() => {

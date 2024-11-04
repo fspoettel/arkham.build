@@ -22,30 +22,34 @@ export function SkillIconsChart({ data }: Props) {
 
   return (
     <div ref={ref} className={css["chart-container"]}>
-      <h4 className={css["chart-title"]}>Skill icons</h4>
-      <VictoryChart theme={chartsTheme} polar width={width}>
-        <VictoryPolarAxis
-          tickFormat={formatTickLabels}
-          tickLabelComponent={<SkillIconLabel />}
-        />
-        <VictoryPolarAxis
-          dependentAxis
-          style={{ tickLabels: { fill: "none" }, axis: { stroke: "none" } }}
-        />
-        <VictoryLine data={data} />
-        <VictoryScatter
-          data={data}
-          size={5}
-          labels={formatTooltips}
-          labelComponent={
-            <VictoryTooltip
-              labelPlacement="vertical"
-              flyoutWidth={100}
-              constrainToVisibleArea
+      {width > 0 && (
+        <>
+          <h4 className={css["chart-title"]}>Skill icons</h4>
+          <VictoryChart theme={chartsTheme} polar width={width}>
+            <VictoryPolarAxis
+              tickFormat={formatTickLabels}
+              tickLabelComponent={<SkillIconLabel />}
             />
-          }
-        />
-      </VictoryChart>
+            <VictoryPolarAxis
+              dependentAxis
+              style={{ tickLabels: { fill: "none" }, axis: { stroke: "none" } }}
+            />
+            <VictoryLine data={data} />
+            <VictoryScatter
+              data={data}
+              size={5}
+              labels={formatTooltips}
+              labelComponent={
+                <VictoryTooltip
+                  labelPlacement="vertical"
+                  flyoutWidth={100}
+                  constrainToVisibleArea
+                />
+              }
+            />
+          </VictoryChart>
+        </>
+      )}
     </div>
   );
 }

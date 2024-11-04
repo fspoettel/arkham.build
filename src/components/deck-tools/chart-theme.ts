@@ -82,7 +82,7 @@ export const chartsTheme: VictoryThemeDefinition = {
         strokeDasharray: "5, 10",
       },
       tickLabels: {
-        padding: 15,
+        padding: 20,
       },
     },
   },

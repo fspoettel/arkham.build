@@ -38,20 +38,8 @@
   }
 }
 
-.layout-area {
-  position: relative;
-  transform: translateX(0);
-  transition: all 0.2s;
-  background: var(--palette-0);
-  z-index: 2;
-  height: 100%;
-  border: 1px solid var(--palette-1);
-  border-radius: var(--rounded);
-  overflow: auto;
-
-  & > * {
-    overflow-x: hidden;
-  }
+.layout:not(.has-filters) .content {
+  grid-column-end: filters;
 }
 
 .layout.floating-menu-open:before {

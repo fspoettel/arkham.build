@@ -11,7 +11,6 @@ function getInitialUIState(): UIState {
       showUnusableCards: false,
       sidebarOpen: !window.matchMedia(MQ_FLOATING_SIDEBAR).matches,
       filtersOpen: !window.matchMedia(MQ_FLOATING_FILTERS).matches,
-      deckToolsOpen: false,
     },
   };
 }
@@ -32,14 +31,5 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
   },
   setFiltersOpen(filtersOpen: boolean) {
     set({ ui: { ...get().ui, filtersOpen } });
-  },
-  setDeckToolsOpen(deckToolsOpen: boolean) {
-    set({
-      ui: {
-        ...get().ui,
-        deckToolsOpen,
-        sidebarOpen: !window.matchMedia(MQ_FLOATING_SIDEBAR).matches,
-      },
-    });
   },
 });

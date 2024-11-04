@@ -22,23 +22,27 @@ export function FactionsChart({ data }: Props) {
 
   return (
     <div ref={ref} className={css["chart-container"]}>
-      <h4 className={css["chart-title"]}>Factions</h4>
-      <VictoryPie
-        data={normalizedData}
-        theme={chartsTheme}
-        labelPlacement="perpendicular"
-        labels={({ datum }) => capitalize(datum.xName)}
-        width={width}
-        sortKey={"y"}
-        style={{
-          data: {
-            fill: ({ datum }) =>
-              `var(--${datum.xName === "neutral" ? "text" : "color"}-${
-                datum.xName
-              })`,
-          },
-        }}
-      />
+      {width > 0 && (
+        <>
+          <h4 className={css["chart-title"]}>Factions</h4>
+          <VictoryPie
+            data={normalizedData}
+            theme={chartsTheme}
+            labelPlacement="perpendicular"
+            labels={({ datum }) => capitalize(datum.xName)}
+            width={width}
+            sortKey={"y"}
+            style={{
+              data: {
+                fill: ({ datum }) =>
+                  `var(--${datum.xName === "neutral" ? "text" : "color"}-${
+                    datum.xName
+                  })`,
+              },
+            }}
+          />
+        </>
+      )}
     </div>
   );
 }

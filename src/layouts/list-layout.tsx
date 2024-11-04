@@ -15,9 +15,8 @@ type Props = {
     slotLeft?: React.ReactNode;
   }) => React.ReactNode;
   className?: string;
-  filters: React.ReactNode;
+  filters?: React.ReactNode;
   mastheadContent?: React.ReactNode;
-  extras?: React.ReactNode;
   sidebar: React.ReactNode;
   sidebarWidthMax: string;
 };
@@ -29,7 +28,6 @@ export function ListLayout(props: Props) {
     filters,
     mastheadContent,
     sidebar,
-    extras,
     sidebarWidthMax,
   } = props;
 
@@ -98,6 +96,7 @@ export function ListLayout(props: Props) {
         "fade-in",
         className,
         floatingMenuOpen && css["floating-menu-open"],
+        filters && css["has-filters"],
       )}
       onPointerDown={onContentClick}
       style={{ "--sidebar-width-max": sidebarWidthMax } as React.CSSProperties}
@@ -134,7 +133,7 @@ export function ListLayout(props: Props) {
               <i className="icon-deck" />
             </Button>
           ),
-          slotRight: !filtersOpen && (
+          slotRight: !!filters && !filtersOpen && (
             <Button
               className={css["toggle-filters"]}
               onClick={() => setFiltersOpen(true)}
@@ -146,19 +145,16 @@ export function ListLayout(props: Props) {
           ),
         })}
       </div>
-      <nav
-        className={cx(
-          css["filters"],
-          css["layout-area"],
-          floatingFilters && css["floating"],
-        )}
-        data-state={filtersOpen ? "open" : "closed"}
-        onPointerDown={floatingFilters ? preventBubble : undefined}
-        ref={filtersRef}
-      >
-        {filters}
-      </nav>
-      {!!extras && extras}
+      {filters && (
+        <nav
+          className={cx(css["filters"], floatingFilters && css["floating"])}
+          data-state={filtersOpen ? "open" : "closed"}
+          onPointerDown={floatingFilters ? preventBubble : undefined}
+          ref={filtersRef}
+        >
+          {filters}
+        </nav>
+      )}
     </div>
   );
 }

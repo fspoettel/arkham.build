@@ -43,36 +43,40 @@ export function CostCurveChart({ data }: Props) {
 
   return (
     <div ref={ref} className={cx(css["chart-container"], css["fullsize"])}>
-      <h4 className={css["chart-title"]}>Resource costs</h4>
-      <VictoryChart
-        theme={chartsTheme}
-        padding={{ left: 45, bottom: 40, right: 5 }}
-        containerComponent={<VictoryContainer responsive={false} />}
-        width={width}
-      >
-        <VictoryAxis
-          tickValues={tickValues}
-          label="Resource cost"
-          tickFormat={formatDomainTickLabels}
-          style={{ grid: { stroke: "transparent" } }}
-          tickLabelComponent={<VictoryLabel />}
-        />
-        <VictoryAxis
-          dependentAxis
-          label="Cards"
-          tickFormat={formatCodomainTickLabels}
-          tickLabelComponent={<VictoryLabel />}
-        />
-        <VictoryLine data={normalizedData} width={width} />
-        <VictoryScatter
-          data={normalizedData}
-          size={5}
-          labels={formatTooltips}
-          labelComponent={
-            <VictoryTooltip flyoutWidth={125} constrainToVisibleArea />
-          }
-        />
-      </VictoryChart>
+      {width > 0 && (
+        <>
+          <h4 className={css["chart-title"]}>Resource costs</h4>
+          <VictoryChart
+            theme={chartsTheme}
+            padding={{ left: 45, bottom: 40, right: 5 }}
+            containerComponent={<VictoryContainer responsive={false} />}
+            width={width}
+          >
+            <VictoryAxis
+              tickValues={tickValues}
+              label="Resource cost"
+              tickFormat={formatDomainTickLabels}
+              style={{ grid: { stroke: "transparent" } }}
+              tickLabelComponent={<VictoryLabel />}
+            />
+            <VictoryAxis
+              dependentAxis
+              label="Cards"
+              tickFormat={formatCodomainTickLabels}
+              tickLabelComponent={<VictoryLabel />}
+            />
+            <VictoryLine data={normalizedData} width={width} />
+            <VictoryScatter
+              data={normalizedData}
+              size={5}
+              labels={formatTooltips}
+              labelComponent={
+                <VictoryTooltip flyoutWidth={125} constrainToVisibleArea />
+              }
+            />
+          </VictoryChart>
+        </>
+      )}
     </div>
   );
 }
