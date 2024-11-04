@@ -4,8 +4,9 @@ import type { DeckValidationResult } from "@/store/lib/deck-validation";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { selectDeckHistory } from "@/store/selectors/decks";
 import { useAccentColor } from "@/utils/use-accent-color";
-import { FileClockIcon } from "lucide-react";
+import { ChartAreaIcon, FileClockIcon } from "lucide-react";
 import { DeckTags } from "../deck-tags";
+import { DeckTools } from "../deck-tools/deck-tools";
 import { Decklist } from "../decklist/decklist";
 import { DecklistValidation } from "../decklist/decklist-validation";
 import { LimitedCardPoolTag, SealedDeckTag } from "../limited-card-pool";
@@ -59,26 +60,32 @@ export function DeckDisplay(props: Props) {
         <Sidebar className={css["sidebar"]} deck={deck} owned={owned} />
 
         <div className={css["content"]}>
-          {hasHistory ? (
-            <Tabs length={2} defaultValue="deck">
-              <TabsList>
-                <TabsTrigger value="deck" data-testid="tab-deck">
-                  <i className="icon-deck" /> Deck
-                </TabsTrigger>
+          <Tabs length={2} defaultValue="deck">
+            <TabsList>
+              <TabsTrigger value="deck" data-testid="tab-deck">
+                <i className="icon-deck" /> Deck list
+              </TabsTrigger>
+              <TabsTrigger value="tools">
+                <ChartAreaIcon /> Tools
+              </TabsTrigger>
+              {hasHistory && (
                 <TabsTrigger value="history" data-testid="tab-history">
                   <FileClockIcon /> Upgrade history ({history.length})
                 </TabsTrigger>
-              </TabsList>
-              <TabsContent className={css["tab"]} value="deck">
-                {decklist}
-              </TabsContent>
+              )}
+            </TabsList>
+            <TabsContent className={css["tab"]} value="deck">
+              {decklist}
+            </TabsContent>
+            <TabsContent className={css["tab"]} value="tools">
+              <DeckTools deck={deck} />
+            </TabsContent>
+            {hasHistory && (
               <TabsContent className={css["tab"]} value="history">
                 <DeckHistory history={history} />
               </TabsContent>
-            </Tabs>
-          ) : (
-            decklist
-          )}
+            )}
+          </Tabs>
         </div>
       </main>
       {deck.description_md && (

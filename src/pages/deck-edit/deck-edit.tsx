@@ -18,9 +18,9 @@ import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { useDocumentTitle } from "@/utils/use-document-title";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
-import { UndoIcon } from "lucide-react";
+import { Rows3Icon, UndoIcon } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Route, Switch, useParams } from "wouter";
+import { Link, Route, Switch, useParams } from "wouter";
 import { Error404 } from "../errors/404";
 import css from "./deck-edit.module.css";
 import { DrawBasicWeakness } from "./editor/draw-basic-weakness";
@@ -154,7 +154,21 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
           sidebar={sidebar}
           sidebarWidthMax="var(--sidebar-width-two-col)"
         >
-          {(props) => <DeckTools {...props} deck={deck} />}
+          {(props) => (
+            <DeckTools
+              {...props}
+              deck={deck}
+              showTitle
+              slotRight={
+                <Link to="/" asChild>
+                  <Button as="a">
+                    <Rows3Icon />
+                    Back to card list
+                  </Button>
+                </Link>
+              }
+            />
+          )}
         </ListLayout>
       </Route>
       <Route path="/">
