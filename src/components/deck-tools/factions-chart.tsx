@@ -1,4 +1,5 @@
-import type { ChartableData, FactionName } from "@/store/lib/types";
+import type { ChartableData } from "@/store/lib/types";
+import type { FactionName } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
 import { useRef } from "react";
 import { VictoryPie } from "victory";

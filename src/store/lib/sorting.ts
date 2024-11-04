@@ -1,4 +1,4 @@
-import type { PlayerType } from "@/utils/constants";
+import type { FactionName, PlayerType } from "@/utils/constants";
 import {
   ASSET_SLOT_ORDER,
   FACTION_ORDER,
@@ -7,7 +7,6 @@ import {
 import type { Card } from "../services/queries.types";
 import type { SortingType } from "../slices/lists.types";
 import type { Metadata } from "../slices/metadata.types";
-import type { FactionName } from "./types";
 
 /**
  * Cards

@@ -1,10 +1,10 @@
-import type { Card } from "../services/queries.types";
 import {
-  type DecksChartInfo,
   FACTION_NAME,
   type FactionName,
   type SkillIcon,
-} from "./types";
+} from "@/utils/constants";
+import type { Card } from "../services/queries.types";
+import type { DecksChartInfo } from "./types";
 
 export function getCardChartableData(
   card: Card,

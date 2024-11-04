@@ -1,4 +1,8 @@
-import { type AttachableDefinition, FACTION_ORDER } from "@/utils/constants";
+import type {
+  AttachableDefinition,
+  FactionName,
+  SkillIcon,
+} from "@/utils/constants";
 import type {
   Card,
   Cycle,
@@ -115,19 +119,6 @@ export type Selection = OptionSelection | FactionSelection | DeckSizeSelection;
 
 // selections, keyed by their `id`, or if not present their `name`.
 export type Selections = Record<string, Selection>;
-
-export const SKILL_ICONS = [
-  "skill_agility",
-  "skill_combat",
-  "skill_intellect",
-  "skill_willpower",
-  "skill_wild",
-] as const;
-export const FACTION_NAME = FACTION_ORDER.filter(
-  (entry) => !(entry === "multiclass" || entry === "mythos"),
-);
-export type SkillIcon = (typeof SKILL_ICONS)[number];
-export type FactionName = (typeof FACTION_NAME)[number];
 
 export type DecksChartInfo = {
   costCurve: ChartableData;

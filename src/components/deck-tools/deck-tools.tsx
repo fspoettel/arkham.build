@@ -1,9 +1,6 @@
 import { useStore } from "@/store";
-import type {
-  ChartableData,
-  FactionName,
-  ResolvedDeck,
-} from "@/store/lib/types";
+import type { ChartableData, ResolvedDeck } from "@/store/lib/types";
+import type { FactionName } from "@/utils/constants";
 import { cx } from "@/utils/cx";
 import { X } from "lucide-react";
 import { Suspense, lazy, useMemo } from "react";

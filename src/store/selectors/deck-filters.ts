@@ -1,10 +1,10 @@
 import { assert } from "@/utils/assert";
-import { FACTION_ORDER } from "@/utils/constants";
+import { FACTION_ORDER, type FactionName } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
 import { and, or } from "@/utils/fp";
 import uFuzzy from "@leeoniya/ufuzzy";
 import { createSelector } from "reselect";
-import type { FactionName, ResolvedDeck } from "../lib/types";
+import type { ResolvedDeck } from "../lib/types";
 import type { StoreState } from "../slices";
 import type {
   DeckFiltersKey,

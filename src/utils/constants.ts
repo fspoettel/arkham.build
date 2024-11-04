@@ -82,6 +82,16 @@ export const ASSET_SLOT_ORDER = [
   // - Other
 ];
 
+export const SKILL_ICONS = [
+  "skill_agility",
+  "skill_combat",
+  "skill_intellect",
+  "skill_willpower",
+  "skill_wild",
+] as const;
+
+export type SkillIcon = (typeof SKILL_ICONS)[number];
+
 export const FACTION_ORDER = [
   "guardian",
   "seeker",
@@ -92,6 +102,12 @@ export const FACTION_ORDER = [
   "neutral",
   "mythos",
 ] as const;
+
+export const FACTION_NAME = FACTION_ORDER.filter(
+  (entry) => !(entry === "multiclass" || entry === "mythos"),
+);
+
+export type FactionName = (typeof FACTION_NAME)[number];
 
 export const SIDEWAYS_TYPE_CODES = ["act", "agenda", "investigator"];
 

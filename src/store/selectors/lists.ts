@@ -1,5 +1,10 @@
 import { splitMultiValue } from "@/utils/card-utils";
-import { ASSET_SLOT_ORDER, FACTION_ORDER, SKILL_KEYS } from "@/utils/constants";
+import {
+  ASSET_SLOT_ORDER,
+  FACTION_ORDER,
+  type FactionName,
+  SKILL_KEYS,
+} from "@/utils/constants";
 import { createCustomEqualSelector } from "@/utils/custom-equal-selector";
 import { capitalize, formatTabooSet } from "@/utils/formatting";
 import type { Filter } from "@/utils/fp";
@@ -38,11 +43,7 @@ import {
   sortByName,
   sortedEncounterSets,
 } from "../lib/sorting";
-import {
-  type FactionName,
-  type ResolvedDeck,
-  isResolvedDeck,
-} from "../lib/types";
+import { type ResolvedDeck, isResolvedDeck } from "../lib/types";
 import type { Card, Cycle, Pack } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import type {
