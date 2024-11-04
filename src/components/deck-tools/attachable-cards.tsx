@@ -89,7 +89,7 @@ export function AttachableCards(props: Props) {
           quantity={entry.quantity}
           limitOverride={attachmentDefinitionLimit(
             entry.card,
-            entry.limit,
+            entry.limit ?? 0,
             definition.limit,
           )}
           onChangeCardQuantity={
