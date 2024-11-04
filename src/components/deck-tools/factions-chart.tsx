@@ -2,7 +2,7 @@ import type { ChartableData } from "@/store/lib/types";
 import type { FactionName } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
 import { useMemo, useRef } from "react";
-import { VictoryPie } from "victory";
+import { VictoryContainer, VictoryPie } from "victory";
 import { useElementSize } from "../../utils/use-element-size";
 import { chartsTheme } from "./chart-theme";
 import css from "./deck-tools.module.css";
@@ -26,6 +26,7 @@ export function FactionsChart({ data }: Props) {
         <>
           <h4 className={css["chart-title"]}>Factions</h4>
           <VictoryPie
+            containerComponent={<VictoryContainer responsive={false} />}
             data={normalizedData}
             theme={chartsTheme}
             labelPlacement="perpendicular"

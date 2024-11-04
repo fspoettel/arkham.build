@@ -2,6 +2,7 @@ import type { ChartableData } from "@/store/lib/types";
 import { useRef } from "react";
 import {
   VictoryChart,
+  VictoryContainer,
   VictoryLine,
   VictoryPolarAxis,
   VictoryScatter,
@@ -25,7 +26,12 @@ export function SkillIconsChart({ data }: Props) {
       {width > 0 && (
         <>
           <h4 className={css["chart-title"]}>Skill icons</h4>
-          <VictoryChart theme={chartsTheme} polar width={width}>
+          <VictoryChart
+            containerComponent={<VictoryContainer responsive={false} />}
+            theme={chartsTheme}
+            polar
+            width={width}
+          >
             <VictoryPolarAxis
               tickFormat={formatTickLabels}
               tickLabelComponent={<SkillIconLabel />}
