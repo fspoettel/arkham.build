@@ -1,4 +1,4 @@
-import type { ChartableData, Factions } from "@/store/lib/types";
+import type { ChartableData, FactionName } from "@/store/lib/types";
 import { capitalize } from "@/utils/formatting";
 import { useRef } from "react";
 import { VictoryPie } from "victory";
@@ -7,7 +7,7 @@ import css from "./deck-tools.module.css";
 import { useElementSize } from "./utils";
 
 type Props = {
-  data: ChartableData<Factions>;
+  data: ChartableData<FactionName>;
 };
 
 export default function FactionsChart({ data }: Props) {
