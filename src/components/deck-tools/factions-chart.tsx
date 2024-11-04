@@ -11,7 +11,7 @@ type Props = {
   data: ChartableData<FactionName>;
 };
 
-export default function FactionsChart({ data }: Props) {
+export function FactionsChart({ data }: Props) {
   const ref = useRef(null);
   const { width } = useElementSize(ref);
 

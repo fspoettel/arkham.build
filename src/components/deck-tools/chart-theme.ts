@@ -11,7 +11,7 @@ const baseChartProps = {
 export const animateProps: AnimatePropTypeInterface = {
   duration: 550,
   easing: "expInOut",
-  onLoad: { duration: 50 },
+  onLoad: { duration: 250 },
 };
 
 const baseLabelStyles: VictoryLabelStyleObject = {

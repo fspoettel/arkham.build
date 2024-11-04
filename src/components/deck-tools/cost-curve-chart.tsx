@@ -18,20 +18,7 @@ type Props = {
   data: ChartableData;
 };
 
-function formatDomainTickLabels(value: number) {
-  return value === 7 ? "7+" : value.toString();
-}
-
-function formatCodomainTickLabels(value: number) {
-  return value.toFixed(0);
-}
-
-function formatTooltips(value: { datum: { y: number; x: number } }) {
-  const { y, x } = value.datum;
-  return `${y} card${y !== 1 ? "s" : ""} of cost ${x}${x === 7 ? "+" : ""}`;
-}
-
-export default function CostCurveChart({ data }: Props) {
+export function CostCurveChart({ data }: Props) {
   // Must have explicit column values to avoid auto-interpolation,
   // since no card costs 1.5 resources
   // Creates a [0...n] array of numbers
@@ -78,4 +65,17 @@ export default function CostCurveChart({ data }: Props) {
       </VictoryChart>
     </div>
   );
+}
+
+function formatDomainTickLabels(value: number) {
+  return value === 7 ? "7+" : value.toString();
+}
+
+function formatCodomainTickLabels(value: number) {
+  return value.toFixed(0);
+}
+
+function formatTooltips(value: { datum: { y: number; x: number } }) {
+  const { y, x } = value.datum;
+  return `${y} card${y !== 1 ? "s" : ""} of cost ${x}${x === 7 ? "+" : ""}`;
 }

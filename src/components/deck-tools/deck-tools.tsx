@@ -1,38 +1,22 @@
 import { useStore } from "@/store";
-import type { ChartableData, ResolvedDeck } from "@/store/lib/types";
-import type { FactionName } from "@/utils/constants";
+import type { ResolvedDeck } from "@/store/lib/types";
 import { cx } from "@/utils/cx";
 import { X } from "lucide-react";
-import { Suspense, lazy, useMemo } from "react";
+import { Suspense, lazy } from "react";
 import layoutCss from "../../layouts/list-layout.module.css";
 import { Button } from "../ui/button";
 import { Loader } from "../ui/loader";
 import css from "./deck-tools.module.css";
 
-const LazyCostCurveChart = lazy(() => import("./cost-curve-chart"));
-const LazySkillIconsChart = lazy(() => import("./skill-icons-chart"));
-const LazyFactionsChart = lazy(() => import("./factions-chart"));
-
 type Props = {
   deck: ResolvedDeck;
 };
 
-export const DeckTools = ({ deck }: Props) => {
+const LazyChartContainer = lazy(() => import("./chart-container"));
+
+export const DeckTools = (props: Props) => {
   const active = useStore((state) => state.ui.deckToolsOpen);
   const setDeckToolsOpen = useStore((state) => state.setDeckToolsOpen);
-
-  // Ensure that all resource costs (up to the maximum cost)
-  // have an actual entry (even if its value is 0)
-  const refinedCostCurve = useMemo((): ChartableData => {
-    return deck.stats.charts.costCurve.map((tick, index) => {
-      return tick ?? { x: index, y: 0 };
-    });
-  }, [deck]);
-
-  // Remove factions not in the deck so that they don't show as empty labels
-  const refinedFactions = useMemo((): ChartableData<FactionName> => {
-    return deck.stats.charts.factions.filter((tick) => tick.y !== 0);
-  }, [deck]);
 
   return (
     <div
@@ -50,11 +34,7 @@ export const DeckTools = ({ deck }: Props) => {
       </div>
       {active && (
         <Suspense fallback={<Loader show message="Loading tools..." />}>
-          <div className={css["charts-wrap"]}>
-            <LazyCostCurveChart data={refinedCostCurve} />
-            <LazySkillIconsChart data={deck.stats.charts.skillIcons} />
-            <LazyFactionsChart data={refinedFactions} />
-          </div>
+          <LazyChartContainer deck={props.deck} />
         </Suspense>
       )}
     </div>
