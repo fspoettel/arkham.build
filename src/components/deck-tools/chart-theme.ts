@@ -48,7 +48,7 @@ export const chartsTheme: VictoryThemeDefinition = {
       axis: { stroke: "var(--palette-2)", strokeWidth: 2 },
       grid: {
         stroke: "var(--palette-2)",
-        strokeDasharray: "5, 15",
+        strokeDasharray: "5, 10",
         strokeWidth: 1,
       },
       tickLabels: { ...baseLabelStyles, padding: 10 },
@@ -62,7 +62,7 @@ export const chartsTheme: VictoryThemeDefinition = {
       stroke: "var(--palette-2)",
       strokeWidth: 1,
     },
-    flyoutHeight: 40,
+    flyoutPadding: { top: 12, bottom: 12, left: 6, right: 6 },
   },
   pie: {
     ...baseChartProps,
@@ -70,7 +70,7 @@ export const chartsTheme: VictoryThemeDefinition = {
     style: {
       labels: {
         ...baseLabelStyles,
-        padding: 8,
+        padding: 4,
       },
       data: {
         stroke: "var(--palette-0)",
@@ -79,7 +79,18 @@ export const chartsTheme: VictoryThemeDefinition = {
     },
   },
   polarAxis: {
+    ...baseChartProps,
     style: {
+      axis: {
+        fill: "transparent",
+        stroke: "var(--palette-1)",
+        strokeWidth: 2,
+      },
+      grid: {
+        fill: "none",
+        stroke: "var(--palette-2)",
+        strokeDasharray: "5, 10",
+      },
       tickLabels: {
         padding: 15,
       },

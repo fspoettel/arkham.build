@@ -21,6 +21,7 @@ export default function FactionsChart({ data }: Props) {
       <VictoryPie
         data={data}
         theme={chartsTheme}
+        labelPlacement="perpendicular"
         labels={({ datum }) => capitalize(datum.xName)}
         width={width}
         sortKey={"y"}
