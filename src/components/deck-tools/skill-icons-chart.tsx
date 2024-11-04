@@ -1,5 +1,5 @@
 import type { ChartableData } from "@/store/lib/types";
-import { useMemo, useRef } from "react";
+import { useRef } from "react";
 import {
   VictoryChart,
   VictoryLine,
@@ -50,12 +50,7 @@ export function SkillIconLabel(props: SkillIconLabelProps) {
   );
 }
 
-export default function CostCurveChart({ data }: Props) {
-  const maxAmount = useMemo(
-    () => Math.max(...data.map((column) => column.y)) + 1,
-    [data],
-  );
-
+export default function SkillIconsChart({ data }: Props) {
   const ref = useRef(null);
   const { width } = useElementSize(ref);
 
@@ -66,15 +61,9 @@ export default function CostCurveChart({ data }: Props) {
         <VictoryPolarAxis
           tickFormat={formatTickLabels}
           tickLabelComponent={<SkillIconLabel />}
-          style={{
-            tickLabels: {
-              padding: 15,
-            },
-          }}
         />
         <VictoryPolarAxis
           dependentAxis
-          domain={[0, maxAmount + 1]}
           style={{ tickLabels: { fill: "none" }, axis: { stroke: "none" } }}
         />
         <VictoryLine data={data} animate={animateProps} />

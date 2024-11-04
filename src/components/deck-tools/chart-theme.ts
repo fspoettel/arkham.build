@@ -78,4 +78,11 @@ export const chartsTheme: VictoryThemeDefinition = {
       },
     },
   },
+  polarAxis: {
+    style: {
+      tickLabels: {
+        padding: 15,
+      },
+    },
+  },
 };

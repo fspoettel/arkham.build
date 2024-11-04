@@ -42,10 +42,10 @@
   position: relative;
   transform: translateX(0);
   transition: all 0.2s;
-  background: var(--nord-0);
+  background: var(--palette-0);
   z-index: 2;
   height: 100%;
-  border: 1px solid var(--nord-1);
+  border: 1px solid var(--palette-1);
   border-radius: var(--rounded);
 
   > * {
