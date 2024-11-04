@@ -3,7 +3,7 @@
   --card-spacing-x: 0.375rem;
   --card-image-height: 2rem;
 
-  padding: var(--card-spacing-y) 1rem var(--card-spacing-y) 0.25rem;
+  padding: var(--card-spacing-y) 0.625rem var(--card-spacing-y) 0.25rem;
   min-height: calc(var(--card-image-height) + 2 * var(--card-spacing-y));
 
   width: 100%;
