@@ -1,4 +1,3 @@
-import { MQ_FLOATING_SIDEBAR } from "@/utils/constants";
 import type {
   AnimatePropTypeInterface,
   VictoryLabelStyleObject,
@@ -6,7 +5,7 @@ import type {
 } from "victory";
 
 const baseChartProps = {
-  height: window.matchMedia(MQ_FLOATING_SIDEBAR).matches ? 200 : 250,
+  height: 250,
 };
 
 export const animateProps: AnimatePropTypeInterface = {
