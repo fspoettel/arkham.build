@@ -1,4 +1,4 @@
-import type { AttachableDefinition, FACTION_ORDER } from "@/utils/constants";
+import { FACTION_ORDER, type AttachableDefinition } from "@/utils/constants";
 import type {
   Card,
   Cycle,
@@ -122,8 +122,9 @@ export const SKILL_ICONS = ["skill_agility",
   "skill_willpower",
   "skill_wild",
 ] as const
+export const FACTION_NAME = FACTION_ORDER.filter(entry => !(entry === 'multiclass' || entry === 'mythos'))
 export type SkillIcon = typeof SKILL_ICONS[number];
-export type FactionName = typeof FACTION_ORDER[number];
+export type FactionName = typeof FACTION_NAME[number];
 
 export type DecksChartInfo = {
   costCurve: ChartableData;

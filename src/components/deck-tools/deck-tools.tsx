@@ -1,8 +1,12 @@
 import { useStore } from "@/store";
-import type { ResolvedDeck } from "@/store/lib/types";
+import type {
+  ChartableData,
+  FactionName,
+  ResolvedDeck,
+} from "@/store/lib/types";
 import { cx } from "@/utils/cx";
 import { X } from "lucide-react";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useMemo } from "react";
 import layoutCss from "../../layouts/list-layout.module.css";
 import { Button } from "../ui/button";
 import { Loader } from "../ui/loader";
@@ -20,7 +24,18 @@ export const DeckTools = ({ deck }: Props) => {
   const active = useStore((state) => state.ui.usingDeckTools);
   const setUsingDeckTools = useStore((state) => state.setUsingDeckTools);
 
-  console.log(deck.stats.charts);
+  // Ensure that all resource costs (up to the maximum cost)
+  // have an actual entry (even if its value is 0)
+  const refinedCostCurve = useMemo((): ChartableData => {
+    return deck.stats.charts.costCurve.map((tick, index) => {
+      return tick ?? { x: index, y: 0 };
+    });
+  }, [deck]);
+
+  // Remove factions not in the deck so that they don't show as empty labels
+  const refinedFactions = useMemo((): ChartableData<FactionName> => {
+    return deck.stats.charts.factions.filter((tick) => tick.y !== 0);
+  }, [deck]);
 
   return (
     <div
@@ -39,9 +54,9 @@ export const DeckTools = ({ deck }: Props) => {
       {active && (
         <Suspense fallback={<Loader show message="Loading tools..." />}>
           <div className={css["charts-wrap"]}>
-            <LazyCostCurveChart data={deck.stats.charts.costCurve} />
+            <LazyCostCurveChart data={refinedCostCurve} />
             <LazySkillIconsChart data={deck.stats.charts.skillIcons} />
-            <LazyFactionsChart data={deck.stats.charts.factions} />
+            <LazyFactionsChart data={refinedFactions} />
           </div>
         </Suspense>
       )}

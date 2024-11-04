@@ -28,7 +28,6 @@ function formatCodomainTickLabels(value: number) {
 
 function formatTooltips(value: { datum: { y: number; x: number } }) {
   const { y, x } = value.datum;
-
   return `${y} card${y !== 1 ? "s" : ""} of cost ${x}${x === 7 ? "+" : ""}`;
 }
 
@@ -37,12 +36,8 @@ export default function CostCurveChart({ data }: Props) {
   // since no card costs 1.5 resources
   // Creates a [0...n] array of numbers
   const tickValues = useMemo(
-    () => Array.from({ length: (data?.at(-1)?.x || 0) + 1 }, (_, i) => i),
-    [data],
-  );
-  const maxAmount = useMemo(
-    () => Math.max(...data.map((column) => column.y)) + 1,
-    [data],
+    () => Array.from({ length: data.length }, (_, i) => i),
+    [data]
   );
 
   const ref = useRef(null);
@@ -67,7 +62,6 @@ export default function CostCurveChart({ data }: Props) {
         <VictoryAxis
           dependentAxis
           label="Cards"
-          domain={[0, maxAmount]}
           tickFormat={formatCodomainTickLabels}
           tickLabelComponent={<VictoryLabel />}
         />

@@ -1,6 +1,5 @@
-import { FACTION_ORDER } from "@/utils/constants";
 import type { Card } from "../services/queries.types";
-import type { DecksChartInfo, FactionName, SkillIcon } from "./types";
+import { FACTION_NAME, type DecksChartInfo, type FactionName, type SkillIcon } from "./types";
 
 export function getCardChartableData(
   card: Card,
@@ -26,9 +25,11 @@ export function getCardChartableData(
   }
 
   // Factions
-  accumulator.factions[FACTION_ORDER.indexOf(card.faction_code as FactionName)].y++;
-  if (card.faction2_code)
-    accumulator.factions[FACTION_ORDER.indexOf(card.faction2_code as FactionName)].y++;
-  if (card.faction3_code)
-    accumulator.factions[FACTION_ORDER.indexOf(card.faction3_code as FactionName)].y++;
+  accumulator.factions[FACTION_NAME.indexOf(card.faction_code as FactionName)].y++;
+  if (card.faction2_code) {
+    accumulator.factions[FACTION_NAME.indexOf(card.faction2_code as FactionName)].y++;
+  }
+  if (card.faction3_code) {
+    accumulator.factions[FACTION_NAME.indexOf(card.faction3_code as FactionName)].y++;
+  }
 }
