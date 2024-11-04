@@ -1,14 +1,24 @@
 .deck-tools {
   animation: fadeIn 0.5s;
+  padding-right: 1rem;
+  padding-bottom: 1rem;
+}
+
+.deck-tools > * + * {
+  margin-top: 1rem;
 }
 
 .charts-wrap {
   display: flex;
   flex-wrap: wrap;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--palette-2);
 }
 
 .tools-title {
   line-height: inherit;
+  font-size: var(--text-xl);
 }
 
 .chart-container {
@@ -32,7 +42,8 @@
 }
 
 .chart-title {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  font-size: var(--text-lg);
 }
 
 .tools-header {
@@ -40,7 +51,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
 }
 
 @media screen and (max-width: 75rem) {

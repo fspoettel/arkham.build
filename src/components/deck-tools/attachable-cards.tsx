@@ -28,7 +28,7 @@ type Entry = {
   limit: number;
 };
 
-export function CardModalAttachable(props: Props) {
+export function AttachableCards(props: Props) {
   const { card, definition, resolvedDeck } = props;
 
   const sortFunction = useStore((state) =>

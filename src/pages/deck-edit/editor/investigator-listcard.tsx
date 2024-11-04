@@ -87,7 +87,6 @@ function InvestigatorListcardInner({ deck }: Props) {
           as="a"
           tooltip={deckToolsOpen ? "Card list" : "View deck charts"}
           iconOnly
-          variant={deckToolsOpen ? "primary" : "secondary"}
         >
           {deckToolsOpen ? <Rows3Icon /> : <ChartAreaIcon />}
         </Button>

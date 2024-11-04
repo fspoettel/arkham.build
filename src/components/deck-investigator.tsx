@@ -9,12 +9,12 @@ import { cx } from "@/utils/cx";
 import { formatRelationTitle } from "@/utils/formatting";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { useState } from "react";
-import { CardModalAttachable } from "./card-modal/card-modal-attachable";
 import { CardBack } from "./card/card-back";
 import { CardContainer } from "./card/card-container";
 import { CardFace } from "./card/card-face";
 import { CardSet } from "./cardset";
 import css from "./deck-investigator.module.css";
+import { AttachableCards } from "./deck-tools/attachable-cards";
 import { LimitedCardGroup } from "./limited-card-group";
 import { ListCard } from "./list-card/list-card";
 import { Button } from "./ui/button";
@@ -100,7 +100,7 @@ export function DeckInvestigator(props: Props) {
         {children}
       </CardContainer>
       {showRelated && deck && !!attachableDefinition && (
-        <CardModalAttachable
+        <AttachableCards
           card={deck.investigatorBack.card}
           definition={attachableDefinition}
           resolvedDeck={deck}
