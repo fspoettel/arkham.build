@@ -393,6 +393,7 @@ describe("deck validation", () => {
     it("handles case: silas (replacement), invalid", () => {
       const deck = requiredSilasReplacement;
       // biome-ignore lint/suspicious/noExplicitAny: safe.
+      // biome-ignore lint/performance/noDelete: test file.
       delete (deck.slots as any)["98014"];
       const result = validate(store, requiredSilasReplacement);
       expect(result.valid).toBeFalsy();

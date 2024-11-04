@@ -90,7 +90,7 @@
   height: calc(100% - 0.5rem);
   max-width: 85%;
   top: 0.25rem;
-  z-index: 3;
+  z-index: 10;
   background: var(--palette-0);
   transition: 0.2s transform ease-in;
   box-shadow: var(--shadow-md);

@@ -4,7 +4,6 @@ import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import { getCardColor } from "@/utils/card-utils";
 import type { AttachableDefinition } from "@/utils/constants";
-import { cx } from "@/utils/cx";
 import { useCallback, useMemo } from "react";
 import { AttachmentIcon } from "../attachments/attachments";
 import {
@@ -14,8 +13,8 @@ import {
   getAttachedQuantity,
 } from "../attachments/utils";
 import { useAttachmentsChangeHandler } from "../attachments/utils";
+import { LimitedCardGroup } from "../limited-card-group";
 import { ListCard } from "../list-card/list-card";
-import css from "./card-modal.module.css";
 
 type Props = {
   card: Card;
@@ -25,11 +24,11 @@ type Props = {
 
 type Entry = {
   card: Card;
-  attached: number;
   quantity: number;
+  limit: number;
 };
 
-export function CardModalAttachable(props: Props) {
+export function AttachableCards(props: Props) {
   const { card, definition, resolvedDeck } = props;
 
   const sortFunction = useStore((state) =>
@@ -57,12 +56,12 @@ export function CardModalAttachable(props: Props) {
           if (canAttach(curr.card, definition)) {
             acc.push({
               card: curr.card,
-              attached: getAttachedQuantity(
+              quantity: getAttachedQuantity(
                 curr.card,
                 definition,
                 resolvedDeck,
               ),
-              quantity: resolvedDeck.slots[curr.card.code] ?? 0,
+              limit: resolvedDeck.slots[curr.card.code] ?? 0,
             });
           }
 
@@ -75,36 +74,37 @@ export function CardModalAttachable(props: Props) {
   const colorCls = getCardColor(card, "background");
 
   return (
-    <article className={css["attachable-container"]}>
-      <header className={cx(css["attachable-header"], colorCls)}>
-        <h3 className={css["attachable-title"]}>
+    <LimitedCardGroup
+      className={colorCls}
+      count={{
+        limit: definition.targetSize,
+        total,
+      }}
+      entries={cards}
+      renderCard={(entry) => (
+        <ListCard
+          as="li"
+          key={entry.card.code}
+          card={entry.card}
+          quantity={entry.quantity}
+          limitOverride={attachmentDefinitionLimit(
+            entry.card,
+            entry.limit ?? 0,
+            definition.limit,
+          )}
+          onChangeCardQuantity={
+            canUpdateAttachment(entry.card, definition, resolvedDeck)
+              ? onQuantityChange
+              : undefined
+          }
+        />
+      )}
+      title={
+        <>
           <AttachmentIcon name={definition.icon} />
           {definition.name}
-        </h3>
-        <div className={css["attachable-stats"]}>
-          {total} / {definition.targetSize}
-        </div>
-      </header>
-      <ul className={css["attachable-content"]}>
-        {cards.map((entry) => (
-          <ListCard
-            as="li"
-            key={entry.card.code}
-            card={entry.card}
-            quantity={entry.attached}
-            limitOverride={attachmentDefinitionLimit(
-              entry.card,
-              entry.quantity,
-              definition.limit,
-            )}
-            onChangeCardQuantity={
-              canUpdateAttachment(entry.card, definition, resolvedDeck)
-                ? onQuantityChange
-                : undefined
-            }
-          />
-        ))}
-      </ul>
-    </article>
+        </>
+      }
+    />
   );
 }

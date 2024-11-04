@@ -1,18 +1,22 @@
+import { useStore } from "@/store";
 import {
   getRelatedCardQuantity,
   getRelatedCards,
 } from "@/store/lib/resolve-card";
 import type { ResolvedDeck } from "@/store/lib/types";
+import { selectLimitedSlotOccupation } from "@/store/selectors/decks";
 import { cx } from "@/utils/cx";
 import { formatRelationTitle } from "@/utils/formatting";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { useState } from "react";
-import { CardModalAttachable } from "./card-modal/card-modal-attachable";
 import { CardBack } from "./card/card-back";
 import { CardContainer } from "./card/card-container";
 import { CardFace } from "./card/card-face";
 import { CardSet } from "./cardset";
 import css from "./deck-investigator.module.css";
+import { AttachableCards } from "./deck-tools/attachable-cards";
+import { LimitedCardGroup } from "./limited-card-group";
+import { ListCard } from "./list-card/list-card";
 import { Button } from "./ui/button";
 
 type Props = {
@@ -82,6 +86,10 @@ export function DeckInvestigator(props: Props) {
     (config) => config.code === deck.investigatorBack.card.code,
   );
 
+  const limitedSlots = useStore((state) =>
+    selectLimitedSlotOccupation(state, deck),
+  );
+
   return (
     <div className={css["deck-investigator-container"]}>
       <CardContainer
@@ -91,6 +99,31 @@ export function DeckInvestigator(props: Props) {
       >
         {children}
       </CardContainer>
+      {showRelated && deck && !!attachableDefinition && (
+        <AttachableCards
+          card={deck.investigatorBack.card}
+          definition={attachableDefinition}
+          resolvedDeck={deck}
+        />
+      )}
+      {showRelated &&
+        limitedSlots?.map((entry) => (
+          <LimitedCardGroup
+            key={entry.index}
+            count={{
+              limit: entry.option.limit ?? 0,
+              total: entry.entries.reduce(
+                (acc, { quantity }) => acc + quantity,
+                0,
+              ),
+            }}
+            entries={entry.entries}
+            renderCard={({ card, quantity }) => (
+              <ListCard card={card} key={card.code} quantity={quantity} />
+            )}
+            title={entry.option.name ?? "Limited slots"}
+          />
+        ))}
       {showRelated && !!related.length && (
         <div className={css["deck-investigator-related"]}>
           {related.map(([key, value]) => {
@@ -109,13 +142,6 @@ export function DeckInvestigator(props: Props) {
             );
           })}
         </div>
-      )}
-      {showRelated && deck && !!attachableDefinition && (
-        <CardModalAttachable
-          card={deck.investigatorBack.card}
-          definition={attachableDefinition}
-          resolvedDeck={deck}
-        />
       )}
     </div>
   );

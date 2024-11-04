@@ -6,6 +6,7 @@ import { applyCardChanges } from "../lib/card-edits";
 import { applyDeckEdits } from "../lib/deck-edits";
 import { type UpgradeStats, getUpgradeStats } from "../lib/deck-upgrades";
 import { type ForbiddenCardError, validateDeck } from "../lib/deck-validation";
+import { limitedSlotOccupation } from "../lib/limited-slots";
 import { sortAlphabetical, sortByName } from "../lib/sorting";
 import type { Customization, Customizations, ResolvedDeck } from "../lib/types";
 import type { Card } from "../services/queries.types";
@@ -292,5 +293,16 @@ export const selectLatestUpgrade = createSelector(
 
     timeEnd("latest_upgrade");
     return differences;
+  },
+);
+
+export const selectLimitedSlotOccupation = createSelector(
+  (_: StoreState, deck: ResolvedDeck) => deck,
+  (state: StoreState) => state.lookupTables,
+  (deck, lookupTables) => {
+    time("limited_slot_occupation");
+    const value = limitedSlotOccupation(deck, lookupTables);
+    timeEnd("limited_slot_occupation");
+    return value;
   },
 );

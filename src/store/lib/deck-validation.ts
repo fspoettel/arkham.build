@@ -157,6 +157,7 @@ export function getAdditionalDeckOptions(deck: Deck | ResolvedDeck) {
 
   if (deck.slots[SPECIAL_CARD_CODES.VERSATILE]) {
     additionalDeckOptions.push({
+      name: "Versatile",
       level: { min: 0, max: 0 },
       limit: deck.slots[SPECIAL_CARD_CODES.VERSATILE],
       error: "Too many off-class cards for Versatile.",
@@ -835,7 +836,7 @@ class DeckOptionsValidator implements SlotValidator {
           // card access not given by deck_option.
           if (!matches) continue;
 
-          for (let i = 0; i < quantity; i++) {
+          for (let j = 0; j < quantity; j++) {
             const matchedQuantity = optionMatched.get(card.code) ?? 0;
 
             // if the current match count exceeds the limit,

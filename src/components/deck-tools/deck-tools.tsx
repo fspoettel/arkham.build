@@ -3,7 +3,9 @@ import { cx } from "@/utils/cx";
 import { Suspense, lazy } from "react";
 import { Loader } from "../ui/loader";
 import { Scroller } from "../ui/scroller";
+import { AttachableCards } from "./attachable-cards";
 import css from "./deck-tools.module.css";
+import { LimitedSlots } from "./limited-slots";
 
 type Props = {
   deck: ResolvedDeck;
@@ -19,16 +21,28 @@ export function DeckTools(props: Props) {
 
   return (
     <Scroller>
-      <div className={cx(css["deck-tools"])}>
-        <div className={css["tools-header"]}>
+      <article className={cx(css["deck-tools"])}>
+        <header className={css["tools-header"]}>
           {slotLeft}
           {showTitle && <h3 className={css["tools-title"]}>Deck Tools</h3>}
           {slotRight}
-        </div>
+        </header>
         <Suspense fallback={<Loader show message="Loading tools..." />}>
           <LazyChartContainer deck={deck} />
+          <LimitedSlots deck={deck} />
+          {deck.availableAttachments?.map(
+            (attachment) =>
+              deck.cards.slots[attachment.code]?.card && (
+                <AttachableCards
+                  key={attachment.code}
+                  card={deck.cards.slots[attachment.code]?.card}
+                  definition={attachment}
+                  resolvedDeck={deck}
+                />
+              ),
+          )}
         </Suspense>
-      </div>
+      </article>
     </Scroller>
   );
 }

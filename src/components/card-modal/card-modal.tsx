@@ -15,10 +15,10 @@ import { Card } from "../card/card";
 import { CardSet } from "../cardset";
 import { Customizations } from "../customizations/customizations";
 import { CustomizationsEditor } from "../customizations/customizations-editor";
+import { AttachableCards } from "../deck-tools/attachable-cards";
 import { Button } from "../ui/button";
 import { useDialogContext } from "../ui/dialog.hooks";
 import { Modal } from "../ui/modal";
-import { CardModalAttachable } from "./card-modal-attachable";
 import { CardModalAttachmentQuantities } from "./card-modal-attachment-quantities";
 import { CardModalQuantities } from "./card-modal-quantities";
 import css from "./card-modal.module.css";
@@ -75,7 +75,7 @@ export function CardModal(props: Props) {
         size={canRenderFull ? "full" : "compact"}
       >
         {ctx.resolvedDeck && !!attachableDefinition && (
-          <CardModalAttachable
+          <AttachableCards
             card={cardWithRelations.card}
             definition={attachableDefinition}
             resolvedDeck={ctx.resolvedDeck}

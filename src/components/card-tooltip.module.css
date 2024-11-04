@@ -5,7 +5,7 @@
   width: max(24rem, 33.333dvw);
   max-width: 32rem;
 
-  z-index: 99999;
+  z-index: 99;
 
   @media screen and (max-width: 36rem) {
     display: none;
