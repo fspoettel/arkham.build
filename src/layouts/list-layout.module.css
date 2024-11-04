@@ -47,8 +47,9 @@
   height: 100%;
   border: 1px solid var(--palette-1);
   border-radius: var(--rounded);
+  overflow: auto;
 
-  > * {
+  & > * {
     overflow-x: hidden;
   }
 }
