@@ -37,7 +37,7 @@ export default function CostCurveChart({ data }: Props) {
   // Creates a [0...n] array of numbers
   const tickValues = useMemo(
     () => Array.from({ length: data.length }, (_, i) => i),
-    [data]
+    [data],
   );
 
   const ref = useRef(null);

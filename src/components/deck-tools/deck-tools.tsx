@@ -42,7 +42,7 @@ export const DeckTools = ({ deck }: Props) => {
       className={cx(
         layoutCss["layout-area"],
         css["deck-tools"],
-        active && css["transition"]
+        active && css["transition"],
       )}
     >
       <div className={css["tools-header"]}>

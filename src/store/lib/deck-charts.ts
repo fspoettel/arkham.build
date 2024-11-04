@@ -1,12 +1,16 @@
 import type { Card } from "../services/queries.types";
-import { FACTION_NAME, type DecksChartInfo, type FactionName, type SkillIcon } from "./types";
+import {
+  type DecksChartInfo,
+  FACTION_NAME,
+  type FactionName,
+  type SkillIcon,
+} from "./types";
 
 export function getCardChartableData(
   card: Card,
   quantity: number,
   accumulator: DecksChartInfo,
 ) {
-
   // Cost curve
   if (typeof card.cost === "number") {
     const { cost } = card;
@@ -21,15 +25,20 @@ export function getCardChartableData(
   // Skill icons
   for (const skill of accumulator.skillIcons) {
     const skillName = skill.x as SkillIcon;
-    if (card[skillName]) skill.y += card[skillName]
+    if (card[skillName]) skill.y += card[skillName];
   }
 
   // Factions
-  accumulator.factions[FACTION_NAME.indexOf(card.faction_code as FactionName)].y++;
+  accumulator.factions[FACTION_NAME.indexOf(card.faction_code as FactionName)]
+    .y++;
   if (card.faction2_code) {
-    accumulator.factions[FACTION_NAME.indexOf(card.faction2_code as FactionName)].y++;
+    accumulator.factions[
+      FACTION_NAME.indexOf(card.faction2_code as FactionName)
+    ].y++;
   }
   if (card.faction3_code) {
-    accumulator.factions[FACTION_NAME.indexOf(card.faction3_code as FactionName)].y++;
+    accumulator.factions[
+      FACTION_NAME.indexOf(card.faction3_code as FactionName)
+    ].y++;
   }
 }

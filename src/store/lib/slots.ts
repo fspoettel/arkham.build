@@ -7,6 +7,7 @@ import {
   isSpecialCard,
 } from "@/utils/card-utils";
 import { range } from "@/utils/range";
+import { getCardChartableData } from "./deck-charts";
 import { resolveCardWithRelations } from "./resolve-card";
 import type {
   CardWithRelations,
@@ -15,7 +16,6 @@ import type {
   DecksChartInfo,
   ResolvedDeck,
 } from "./types";
-import { getCardChartableData } from "./deck-charts";
 
 export function decodeSlots(
   deck: Deck,
@@ -25,7 +25,6 @@ export function decodeSlots(
   investigator: CardWithRelations,
   customizations: Customizations | undefined,
 ) {
-
   const cards: ResolvedDeck["cards"] = {
     investigator: investigator,
     slots: {},
@@ -42,22 +41,21 @@ export function decodeSlots(
   const chartsInfo: DecksChartInfo = {
     costCurve: [],
     skillIcons: [
-      { x: 'skill_agility', y: 0, },
-      { x: 'skill_combat', y: 0, },
-      { x: 'skill_intellect', y: 0, },
-      { x: 'skill_willpower', y: 0, },
-      { x: 'skill_wild', y: 0, },
+      { x: "skill_agility", y: 0 },
+      { x: "skill_combat", y: 0 },
+      { x: "skill_intellect", y: 0 },
+      { x: "skill_willpower", y: 0 },
+      { x: "skill_wild", y: 0 },
     ],
     factions: [
-      { x: 'guardian', y: 0, },
-      { x: 'seeker', y: 0, },
-      { x: 'rogue', y: 0, },
-      { x: 'mystic', y: 0, },
-      { x: 'survivor', y: 0, },
-      { x: 'neutral', y: 0, },
+      { x: "guardian", y: 0 },
+      { x: "seeker", y: 0 },
+      { x: "rogue", y: 0 },
+      { x: "mystic", y: 0 },
+      { x: "survivor", y: 0 },
+      { x: "neutral", y: 0 },
     ],
-  }
-
+  };
 
   for (const [code, quantity] of Object.entries(deck.slots)) {
     const card = resolveCardWithRelations(
@@ -123,8 +121,6 @@ export function decodeSlots(
     }
   }
 
-
-
   if (extraSlots && !Array.isArray(extraSlots)) {
     for (const [code, quantity] of Object.entries(extraSlots)) {
       const card = resolveCardWithRelations(
@@ -143,7 +139,6 @@ export function decodeSlots(
       }
     }
   }
-
 
   return {
     cards,

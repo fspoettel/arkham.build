@@ -34,8 +34,8 @@ export function resolveDeck(
   const investigatorCode =
     deck.investigator_code in ALT_ART_INVESTIGATOR_MAP
       ? ALT_ART_INVESTIGATOR_MAP[
-      deck.investigator_code as keyof typeof ALT_ART_INVESTIGATOR_MAP
-      ]
+          deck.investigator_code as keyof typeof ALT_ART_INVESTIGATOR_MAP
+        ]
       : deck.investigator_code;
 
   const investigator = resolveCardWithRelations(
@@ -89,14 +89,15 @@ export function resolveDeck(
 
   const customizations = decodeCustomizations(deckMeta, metadata);
 
-  const { cards, deckSize, deckSizeTotal, xpRequired, chartsInfo } = decodeSlots(
-    deck,
-    extraSlots,
-    metadata,
-    lookupTables,
-    investigator,
-    customizations,
-  );
+  const { cards, deckSize, deckSizeTotal, xpRequired, chartsInfo } =
+    decodeSlots(
+      deck,
+      extraSlots,
+      metadata,
+      lookupTables,
+      investigator,
+      customizations,
+    );
 
   const availableAttachments = Object.entries(ATTACHABLE_CARDS).reduce<
     AttachableDefinition[]
