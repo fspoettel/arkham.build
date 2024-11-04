@@ -5,6 +5,7 @@ type ToastPayload = {
     | React.ReactNode
     | ((props: { onClose: () => void }) => React.ReactNode);
   duration?: number;
+  persistent?: boolean;
   variant?: "success" | "error";
 };
 

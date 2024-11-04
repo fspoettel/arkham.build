@@ -99,10 +99,14 @@ function Toast(props: {
   }, [toast, removeToast]);
 
   useEffect(() => {
-    if (!toast.duration && locationRef.current !== location) {
+    if (
+      !toast.duration &&
+      locationRef.current !== location &&
+      !toast.persistent
+    ) {
       removeToast();
     }
-  }, [location, removeToast, toast.duration]);
+  }, [location, removeToast, toast.duration, toast.persistent]);
 
   return (
     <output

@@ -63,7 +63,7 @@ function Settings() {
         </header>
         <div className={css["container"]}>
           <Section title="Card data">
-            <CardDataSync />
+            <CardDataSync showDetails />
           </Section>
           <Tabs length={2} defaultValue="general">
             <TabsList>

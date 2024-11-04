@@ -103,11 +103,7 @@ export function ListLayout(props: Props) {
     >
       <Masthead className={css["header"]}>{mastheadContent}</Masthead>
       <div
-        className={cx(
-          css["sidebar"],
-          css["layout-area"],
-          floatingSidebar && css["floating"],
-        )}
+        className={cx(css["sidebar"], floatingSidebar && css["floating"])}
         data-state={sidebarOpen ? "open" : "closed"}
         onPointerDown={sidebarOpen ? preventBubble : undefined}
         ref={sidebarRef}

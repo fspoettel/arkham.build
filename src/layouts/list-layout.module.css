@@ -53,6 +53,23 @@
   z-index: 3;
 }
 
+.sidebar,
+.filters {
+  position: relative;
+  transform: translateX(0);
+  transition: all 0.2s;
+  background: var(--palette-0);
+  z-index: 2;
+  height: 100%;
+  border: 1px solid var(--palette-1);
+  border-radius: var(--rounded);
+  contain: size layout style;
+
+  & > * {
+    overflow-x: hidden;
+  }
+}
+
 .sidebar {
   grid-area: sidebar;
   width: var(--sidebar-width-one-col);
@@ -90,7 +107,7 @@
   height: calc(100% - 0.5rem);
   max-width: 85%;
   top: 0.25rem;
-  z-index: 10;
+  z-index: 3;
   background: var(--palette-0);
   transition: 0.2s transform ease-in;
   box-shadow: var(--shadow-md);

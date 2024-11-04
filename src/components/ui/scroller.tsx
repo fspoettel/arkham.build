@@ -19,13 +19,13 @@ export const Scroller = forwardRef(
 
     const touchDevice = useMedia("(hover: none)");
 
-    const scrollerType = touchDevice && type === "hover" ? "auto" : type;
+    const scrollerType = touchDevice && type === "hover" ? "scroll" : type;
 
     return (
       <Root
         {...rest}
         className={cx(css["scroller"], className)}
-        type={scrollerType ?? "hover"}
+        type={scrollerType ?? "scroll"}
       >
         <Viewport
           className={cx(css["viewport"], viewportClassName)}

@@ -13,9 +13,17 @@ import { CheckIcon, FileDownIcon } from "lucide-react";
 import { useCallback, useEffect } from "react";
 import css from "./card-data-sync.module.css";
 
-export function CardDataSync() {
+type Props = {
+  onSyncComplete?: () => void;
+  showDetails?: boolean;
+};
+
+export function CardDataSync(props: Props) {
+  const { onSyncComplete, showDetails } = props;
+
   const toast = useToast();
   const init = useStore((state) => state.init);
+
   const dataVersion = useStore((state) => state.metadata.dataVersion);
 
   const { data, error, loading } = useQuery(() => queryDataVersion());
@@ -38,8 +46,10 @@ export function CardDataSync() {
         duration: 3000,
         variant: "success",
       });
+
+      onSyncComplete?.();
     }
-  }, [synced, toast.show]);
+  }, [onSyncComplete, synced, toast.show]);
 
   const upToDate =
     data &&
@@ -48,10 +58,10 @@ export function CardDataSync() {
 
   return (
     <>
-      <Field bordered className={cx(css["sync"], upToDate && css["uptodate"])}>
-        <Button disabled={loading || !!error} onClick={syncData} type="button">
-          Sync card data
-        </Button>
+      <Field
+        bordered={showDetails}
+        className={cx(css["sync"], upToDate && css["uptodate"])}
+      >
         <div className={css["status"]}>
           {(loading || syncing) && <p>Loading latest card data...</p>}
           {(!!error || !!syncError) && <p>Could not sync card data.</p>}
@@ -70,7 +80,15 @@ export function CardDataSync() {
               </p>
             ))}
         </div>
-        {dataVersion && (
+        <Button
+          disabled={loading || !!error}
+          onClick={syncData}
+          type="button"
+          size="sm"
+        >
+          Sync card data
+        </Button>
+        {showDetails && dataVersion && (
           <dl className={css["info"]}>
             <dt>Data version:</dt>
             <dd>{dataVersion.cards_updated_at}</dd>

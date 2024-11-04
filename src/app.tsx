@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy, useEffect, useRef } from "react";
 import { Route, Router, Switch, useLocation } from "wouter";
 import { useBrowserLocation } from "wouter/use-browser-location";
 import { ErrorBoundary } from "./components/error-boundary";
@@ -6,6 +6,7 @@ import { Loader } from "./components/ui/loader";
 import { ToastProvider } from "./components/ui/toast";
 import { useToast } from "./components/ui/toast.hooks";
 import { Error404 } from "./pages/errors/404";
+import { CardDataSync } from "./pages/settings/card-data-sync";
 import { useStore } from "./store";
 import { selectIsInitialized } from "./store/selectors/shared";
 import {
@@ -99,6 +100,7 @@ function AppInner() {
               <Route component={Error404} path="*" />
             </Switch>
             <RouteReset />
+            <UpdateCheck />
           </Router>
         )}
       </Suspense>
@@ -123,6 +125,50 @@ function RouteReset() {
 
     window.scrollTo(0, 0);
   }, [pathname]);
+
+  return null;
+}
+
+function UpdateCheck() {
+  const dataVersion = useStore((state) => state.metadata.dataVersion);
+  const toast = useToast();
+  const toastId = useRef<string>();
+
+  const lock = useRef(false);
+
+  useEffect(() => {
+    async function updateCardData() {
+      if (lock.current) return;
+      lock.current = true;
+
+      const data = await queryDataVersion();
+
+      const upToDate =
+        data &&
+        dataVersion &&
+        data.cards_updated_at === dataVersion.cards_updated_at;
+
+      if (!upToDate && !toastId.current) {
+        toastId.current = toast.show({
+          children: (
+            <div>
+              <CardDataSync
+                onSyncComplete={() => {
+                  if (toastId.current) {
+                    toast.dismiss(toastId.current);
+                    toastId.current = undefined;
+                  }
+                }}
+              />
+            </div>
+          ),
+          persistent: true,
+        });
+      }
+    }
+
+    updateCardData().catch(console.error);
+  }, [dataVersion, toast.dismiss, toast.show]);
 
   return null;
 }
