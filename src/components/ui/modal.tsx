@@ -3,6 +3,7 @@ import { XIcon } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { Button } from "./button";
 import css from "./modal.module.css";
+import { Scroller } from "./scroller";
 
 type Props = {
   centerContent?: boolean;
@@ -28,6 +29,7 @@ export function Modal(props: Props) {
 
   const modalRef = useRef<HTMLDivElement>(null);
   const actionRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
   const hasReset = useRef(false);
 
   useEffect(() => {
@@ -39,7 +41,13 @@ export function Modal(props: Props) {
 
   const onCloseModalOutside = useCallback(
     (evt: React.MouseEvent) => {
-      if (evt.target === modalRef.current) onClose();
+      if (
+        evt.target instanceof HTMLElement &&
+        modalRef.current?.contains(evt.target) &&
+        !innerRef.current?.contains(evt.target)
+      ) {
+        onClose();
+      }
     },
     [onClose],
   );
@@ -66,20 +74,22 @@ export function Modal(props: Props) {
       ref={modalRef}
       style={cssVariables as React.CSSProperties}
     >
-      <div className={css["inner"]}>
-        {/* biome-ignore lint/a11y/useKeyWithClickEvents: An escape handler is bound higher up. */}
-        <div
-          className={cx(css["actions"], actions && css["has-custom"])}
-          onClick={onCloseActions}
-          ref={actionRef}
-        >
-          <nav className={css["actions-row"]}>{actions}</nav>
-          <Button iconOnly onClick={onClose}>
-            <XIcon />
-          </Button>
+      <Scroller type="always">
+        <div className={css["inner"]} ref={innerRef}>
+          {/* biome-ignore lint/a11y/useKeyWithClickEvents: An escape handler is bound higher up. */}
+          <div
+            className={cx(css["actions"], actions && css["has-custom"])}
+            onClick={onCloseActions}
+            ref={actionRef}
+          >
+            <nav className={css["actions-row"]}>{actions}</nav>
+            <Button iconOnly onClick={onClose}>
+              <XIcon />
+            </Button>
+          </div>
+          {children}
         </div>
-        {children}
-      </div>
+      </Scroller>
     </div>
   );
 }

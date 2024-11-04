@@ -23,7 +23,7 @@ export function Masthead(props: Props) {
   return (
     <header className={cx(props.className, css["masthead"])}>
       <div className={css["left"]}>
-        <Link className={css["logo"]} href="/" data-testid="masthead-logo">
+        <Link className={css["logo"]} href="~/" data-testid="masthead-logo">
           <Logo />
         </Link>
         {props.children}
