@@ -104,7 +104,7 @@ export const FACTION_ORDER = [
 ] as const;
 
 export const FACTION_NAME = FACTION_ORDER.filter(
-  (entry) => !(entry === "multiclass" || entry === "mythos"),
+  (entry) => entry !== "multiclass",
 );
 
 export type FactionName = (typeof FACTION_NAME)[number];

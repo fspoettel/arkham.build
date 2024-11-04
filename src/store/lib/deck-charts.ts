@@ -58,6 +58,7 @@ export function addCardToDeckCharts(
       FACTION_NAME.indexOf(card.faction2_code as FactionName)
     ].y += quantity;
   }
+
   if (card.faction3_code) {
     accumulator.factions[
       FACTION_NAME.indexOf(card.faction3_code as FactionName)

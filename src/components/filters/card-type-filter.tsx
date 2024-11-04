@@ -1,7 +1,6 @@
 import { useStore } from "@/store";
 import { selectActiveList } from "@/store/selectors/lists";
 import { useCallback } from "react";
-import { useLocation } from "wouter";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 type Props = {
@@ -9,15 +8,14 @@ type Props = {
 };
 
 export function CardTypeFilter(props: Props) {
-  const [pathname] = useLocation();
   const activeList = useStore(selectActiveList);
   const changeList = useStore((state) => state.changeList);
 
   const onToggle = useCallback(
     (value: string) => {
-      changeList(value, pathname);
+      changeList(value, window.location.href);
     },
-    [pathname, changeList],
+    [changeList],
   );
 
   if (!activeList) return null;
