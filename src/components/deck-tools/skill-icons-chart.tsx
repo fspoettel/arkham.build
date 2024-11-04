@@ -7,10 +7,10 @@ import {
   VictoryScatter,
   VictoryTooltip,
 } from "victory";
+import { useElementSize } from "../../utils/use-element-size";
 import { SkillIconFancy } from "../icons/skill-icon-fancy";
 import { animateProps, chartsTheme } from "./chart-theme";
 import css from "./deck-tools.module.css";
-import { useElementSize } from "./utils";
 
 type Props = {
   data: ChartableData<string>;

@@ -3,9 +3,9 @@ import type { FactionName } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
 import { useRef } from "react";
 import { VictoryPie } from "victory";
+import { useElementSize } from "../../utils/use-element-size";
 import { chartsTheme } from "./chart-theme";
 import css from "./deck-tools.module.css";
-import { useElementSize } from "./utils";
 
 type Props = {
   data: ChartableData<FactionName>;

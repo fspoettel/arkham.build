@@ -18,7 +18,7 @@ export function useElementSize(
       }
     };
 
-    window.addEventListener("resize", updateSize);
+    window.addEventListener("resize", updateSize, { passive: true });
     updateSize();
 
     return () => window.removeEventListener("resize", updateSize);
