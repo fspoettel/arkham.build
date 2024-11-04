@@ -18,8 +18,8 @@ type Props = {
 };
 
 export const DeckTools = ({ deck }: Props) => {
-  const active = useStore((state) => state.ui.usingDeckTools);
-  const setUsingDeckTools = useStore((state) => state.setUsingDeckTools);
+  const active = useStore((state) => state.ui.deckToolsOpen);
+  const setDeckToolsOpen = useStore((state) => state.setDeckToolsOpen);
 
   // Ensure that all resource costs (up to the maximum cost)
   // have an actual entry (even if its value is 0)
@@ -44,7 +44,7 @@ export const DeckTools = ({ deck }: Props) => {
     >
       <div className={css["tools-header"]}>
         <h3 className={css["tools-title"]}>Deck Tools</h3>
-        <Button iconOnly size="lg" onClick={() => setUsingDeckTools(false)}>
+        <Button iconOnly size="lg" onClick={() => setDeckToolsOpen(false)}>
           <X />
         </Button>
       </div>

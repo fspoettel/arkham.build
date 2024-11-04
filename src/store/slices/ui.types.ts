@@ -5,7 +5,7 @@ export type UIState = {
     showUnusableCards: boolean;
     sidebarOpen: boolean;
     filtersOpen: boolean;
-    usingDeckTools: boolean;
+    deckToolsOpen: boolean;
   };
 };
 
@@ -14,5 +14,5 @@ export type UISlice = UIState & {
   setShowUnusableCards(value: boolean): void;
   setSidebarOpen(set: boolean): void;
   setFiltersOpen(set: boolean): void;
-  setUsingDeckTools(set: boolean): void;
+  setDeckToolsOpen(set: boolean): void;
 };

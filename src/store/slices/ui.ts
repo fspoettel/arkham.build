@@ -11,7 +11,7 @@ function getInitialUIState(): UIState {
       showUnusableCards: false,
       sidebarOpen: !window.matchMedia(MQ_FLOATING_SIDEBAR).matches,
       filtersOpen: !window.matchMedia(MQ_FLOATING_FILTERS).matches,
-      usingDeckTools: false,
+      deckToolsOpen: false,
     },
   };
 }
@@ -33,11 +33,11 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
   setFiltersOpen(filtersOpen: boolean) {
     set({ ui: { ...get().ui, filtersOpen } });
   },
-  setUsingDeckTools(usingDeckTools: boolean) {
+  setDeckToolsOpen(deckToolsOpen: boolean) {
     set({
       ui: {
         ...get().ui,
-        usingDeckTools,
+        deckToolsOpen,
         sidebarOpen: !window.matchMedia(MQ_FLOATING_SIDEBAR).matches,
       },
     });

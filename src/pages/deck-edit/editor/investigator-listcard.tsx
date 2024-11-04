@@ -36,8 +36,8 @@ function InvestigatorListcardInner({ deck }: Props) {
       deck.investigatorBack.card.parallel,
   };
 
-  const usingDeckTools = useStore((state) => state.ui.usingDeckTools);
-  const toggleTools = useStore((state) => state.setUsingDeckTools);
+  const deckToolsOpen = useStore((state) => state.ui.deckToolsOpen);
+  const toggleDeckTools = useStore((state) => state.setDeckToolsOpen);
 
   return (
     <div className={css["investigator-container"]}>
@@ -82,11 +82,11 @@ function InvestigatorListcardInner({ deck }: Props) {
         </Modal>
       </DialogContent>
       <Button
-        tooltip={usingDeckTools ? "Card list" : "View deck charts"}
+        tooltip={deckToolsOpen ? "Card list" : "View deck charts"}
         iconOnly
-        onClick={() => toggleTools(!usingDeckTools)}
+        onClick={() => toggleDeckTools(!deckToolsOpen)}
       >
-        {usingDeckTools ? <Rows3Icon /> : <ChartAreaIcon />}
+        {deckToolsOpen ? <Rows3Icon /> : <ChartAreaIcon />}
       </Button>
     </div>
   );
