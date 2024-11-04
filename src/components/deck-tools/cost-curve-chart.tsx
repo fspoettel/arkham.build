@@ -11,7 +11,7 @@ import {
   VictoryTooltip,
 } from "victory";
 import { useElementSize } from "../../utils/use-element-size";
-import { animateProps, chartsTheme } from "./chart-theme";
+import { chartsTheme } from "./chart-theme";
 import css from "./deck-tools.module.css";
 
 type Props = {
@@ -52,12 +52,11 @@ export function CostCurveChart({ data }: Props) {
           tickFormat={formatCodomainTickLabels}
           tickLabelComponent={<VictoryLabel />}
         />
-        <VictoryLine data={data} animate={animateProps} width={width} />
+        <VictoryLine data={data} width={width} />
         <VictoryScatter
           data={data}
           size={5}
           labels={formatTooltips}
-          animate={animateProps}
           labelComponent={
             <VictoryTooltip flyoutWidth={125} constrainToVisibleArea />
           }

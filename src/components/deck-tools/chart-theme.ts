@@ -1,17 +1,7 @@
-import type {
-  AnimatePropTypeInterface,
-  VictoryLabelStyleObject,
-  VictoryThemeDefinition,
-} from "victory";
+import type { VictoryLabelStyleObject, VictoryThemeDefinition } from "victory";
 
 const baseChartProps = {
   height: 250,
-};
-
-export const animateProps: AnimatePropTypeInterface = {
-  duration: 550,
-  easing: "expInOut",
-  onLoad: { duration: 250 },
 };
 
 const baseLabelStyles: VictoryLabelStyleObject = {
