@@ -4,7 +4,7 @@ import { capitalize } from "@/utils/formatting";
 import { and, or } from "@/utils/fp";
 import uFuzzy from "@leeoniya/ufuzzy";
 import { createSelector } from "reselect";
-import type { ResolvedDeck } from "../lib/types";
+import type { FactionName, ResolvedDeck } from "../lib/types";
 import type { StoreState } from "../slices";
 import type {
   DeckFiltersKey,
@@ -212,7 +212,9 @@ export const selectFactionsInLocalDecks = createSelector(
     const factions = Array.from(factionsSet).map((code) => factionMeta[code]);
 
     return factions.sort(
-      (a, b) => FACTION_ORDER.indexOf(a.code) - FACTION_ORDER.indexOf(b.code),
+      (a, b) =>
+        FACTION_ORDER.indexOf(a.code as FactionName) -
+        FACTION_ORDER.indexOf(b.code as FactionName),
     );
   },
 );

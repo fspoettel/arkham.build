@@ -38,7 +38,11 @@ import {
   sortByName,
   sortedEncounterSets,
 } from "../lib/sorting";
-import { type ResolvedDeck, isResolvedDeck } from "../lib/types";
+import {
+  type FactionName,
+  type ResolvedDeck,
+  isResolvedDeck,
+} from "../lib/types";
 import type { Card, Cycle, Pack } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import type {
@@ -746,7 +750,9 @@ export const selectFactionOptions = createSelector(
     }
 
     factions.sort(
-      (a, b) => FACTION_ORDER.indexOf(a.code) - FACTION_ORDER.indexOf(b.code),
+      (a, b) =>
+        FACTION_ORDER.indexOf(a.code as FactionName) -
+        FACTION_ORDER.indexOf(b.code as FactionName),
     );
 
     return factions;
