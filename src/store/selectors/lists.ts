@@ -1,5 +1,10 @@
 import { splitMultiValue } from "@/utils/card-utils";
-import { ASSET_SLOT_ORDER, FACTION_ORDER, SKILL_KEYS } from "@/utils/constants";
+import {
+  ASSET_SLOT_ORDER,
+  FACTION_ORDER,
+  type FactionName,
+  SKILL_KEYS,
+} from "@/utils/constants";
 import { createCustomEqualSelector } from "@/utils/custom-equal-selector";
 import { capitalize, formatTabooSet } from "@/utils/formatting";
 import type { Filter } from "@/utils/fp";
@@ -746,7 +751,9 @@ export const selectFactionOptions = createSelector(
     }
 
     factions.sort(
-      (a, b) => FACTION_ORDER.indexOf(a.code) - FACTION_ORDER.indexOf(b.code),
+      (a, b) =>
+        FACTION_ORDER.indexOf(a.code as FactionName) -
+        FACTION_ORDER.indexOf(b.code as FactionName),
     );
 
     return factions;

@@ -7,10 +7,12 @@ import {
   isSpecialCard,
 } from "@/utils/card-utils";
 import { range } from "@/utils/range";
+import { addCardToDeckCharts, emptyDeckCharts } from "./deck-charts";
 import { resolveCardWithRelations } from "./resolve-card";
 import type {
   CardWithRelations,
   Customizations,
+  DeckCharts,
   DeckMeta,
   ResolvedDeck,
 } from "./types";
@@ -35,6 +37,8 @@ export function decodeSlots(
   let deckSize = 0;
   let deckSizeTotal = 0;
   let xpRequired = 0;
+
+  const charts: DeckCharts = emptyDeckCharts();
 
   for (const [code, quantity] of Object.entries(deck.slots)) {
     const card = resolveCardWithRelations(
@@ -61,6 +65,8 @@ export function decodeSlots(
           0,
         );
       }
+
+      addCardToDeckCharts(card.card, quantity, charts);
     }
   }
 
@@ -122,6 +128,7 @@ export function decodeSlots(
     deckSize,
     deckSizeTotal,
     xpRequired,
+    charts,
   };
 }
 

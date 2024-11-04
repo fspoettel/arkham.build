@@ -1,0 +1,67 @@
+.deck-tools {
+  animation: fadeIn 0.5s;
+}
+
+.charts-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tools-title {
+  line-height: inherit;
+}
+
+.chart-container {
+  margin-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 50%;
+
+  &.fullsize {
+    width: 100%;
+  }
+
+  & svg {
+    overflow: visible;
+  }
+}
+
+.skill-icon-label {
+  font-size: 1.5rem;
+}
+
+.chart-title {
+  margin-bottom: 1rem;
+}
+
+.tools-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+@media screen and (max-width: 75rem) {
+  .chart-container {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 52rem) {
+  .deck-tools {
+    grid-column: sidebar / filters;
+    height: calc(100% - 0.5rem);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

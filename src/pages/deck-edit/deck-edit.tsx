@@ -2,6 +2,7 @@ import { ListLayout } from "@//layouts/list-layout";
 import { Attachments } from "@/components/attachments/attachments";
 import { CardListContainer } from "@/components/card-list/card-list-container";
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
+import { DeckTools } from "@/components/deck-tools/deck-tools";
 import { DecklistValidation } from "@/components/decklist/decklist-validation";
 import { Filters } from "@/components/filters/filters";
 import { Button } from "@/components/ui/button";
@@ -19,7 +20,7 @@ import { useDocumentTitle } from "@/utils/use-document-title";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
 import { UndoIcon } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useParams } from "wouter";
+import { Route, Switch, useParams } from "wouter";
 import { Error404 } from "../errors/404";
 import css from "./deck-edit.module.css";
 import { DrawBasicWeakness } from "./editor/draw-basic-weakness";
@@ -118,7 +119,6 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
   );
 
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
-
   const validation = useStore((state) => selectDeckValid(state, deck));
 
   useDocumentTitle(
@@ -137,40 +137,56 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
     };
   }, [updateCardQuantity, currentTab, deck.id]);
 
+  const sidebar = (
+    <Editor
+      currentTab={currentTab}
+      deck={deck}
+      onTabChange={setCurrentTab}
+      renderCardExtra={renderCardExtra}
+      validation={validation}
+    />
+  );
+
   return (
-    <ListLayout
-      filters={
-        <Filters>
-          <DecklistValidation
-            defaultOpen={validation.errors.length < 3}
-            validation={validation}
-          />
-          <ShowUnusableCardsToggle />
-        </Filters>
-      }
-      sidebar={
-        <Editor
-          currentTab={currentTab}
-          deck={deck}
-          onTabChange={setCurrentTab}
-          renderCardExtra={renderCardExtra}
-          validation={validation}
-        />
-      }
-      sidebarWidthMax="var(--sidebar-width-two-col)"
-    >
-      {(props) => (
-        <CardListContainer
-          {...props}
-          onChangeCardQuantity={onChangeCardQuantity}
-          quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
-          renderCardExtra={renderCardExtra}
-          targetDeck={
-            mapTabToSlot(currentTab) === "extraSlots" ? "extraSlots" : "slots"
+    <Switch>
+      <Route path="/tools">
+        <ListLayout
+          sidebar={sidebar}
+          sidebarWidthMax="var(--sidebar-width-two-col)"
+        >
+          {(props) => <DeckTools {...props} deck={deck} />}
+        </ListLayout>
+      </Route>
+      <Route path="/">
+        <ListLayout
+          filters={
+            <Filters>
+              <DecklistValidation
+                defaultOpen={validation.errors.length < 3}
+                validation={validation}
+              />
+              <ShowUnusableCardsToggle />
+            </Filters>
           }
-        />
-      )}
-    </ListLayout>
+          sidebar={sidebar}
+          sidebarWidthMax="var(--sidebar-width-two-col)"
+        >
+          {(props) => (
+            <CardListContainer
+              {...props}
+              onChangeCardQuantity={onChangeCardQuantity}
+              quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
+              renderCardExtra={renderCardExtra}
+              targetDeck={
+                mapTabToSlot(currentTab) === "extraSlots"
+                  ? "extraSlots"
+                  : "slots"
+              }
+            />
+          )}
+        </ListLayout>
+      </Route>
+    </Switch>
   );
 }
 

@@ -15,7 +15,7 @@ type Props = {
     slotLeft?: React.ReactNode;
   }) => React.ReactNode;
   className?: string;
-  filters: React.ReactNode;
+  filters?: React.ReactNode;
   mastheadContent?: React.ReactNode;
   sidebar: React.ReactNode;
   sidebarWidthMax: string;
@@ -96,13 +96,18 @@ export function ListLayout(props: Props) {
         "fade-in",
         className,
         floatingMenuOpen && css["floating-menu-open"],
+        filters && css["has-filters"],
       )}
       onPointerDown={onContentClick}
       style={{ "--sidebar-width-max": sidebarWidthMax } as React.CSSProperties}
     >
       <Masthead className={css["header"]}>{mastheadContent}</Masthead>
       <div
-        className={cx(css["sidebar"], floatingSidebar && css["floating"])}
+        className={cx(
+          css["sidebar"],
+          css["layout-area"],
+          floatingSidebar && css["floating"],
+        )}
         data-state={sidebarOpen ? "open" : "closed"}
         onPointerDown={sidebarOpen ? preventBubble : undefined}
         ref={sidebarRef}
@@ -128,7 +133,7 @@ export function ListLayout(props: Props) {
               <i className="icon-deck" />
             </Button>
           ),
-          slotRight: !filtersOpen && (
+          slotRight: !!filters && !filtersOpen && (
             <Button
               className={css["toggle-filters"]}
               onClick={() => setFiltersOpen(true)}
@@ -140,14 +145,16 @@ export function ListLayout(props: Props) {
           ),
         })}
       </div>
-      <nav
-        className={cx(css["filters"], floatingFilters && css["floating"])}
-        data-state={filtersOpen ? "open" : "closed"}
-        onPointerDown={floatingFilters ? preventBubble : undefined}
-        ref={filtersRef}
-      >
-        {filters}
-      </nav>
+      {filters && (
+        <nav
+          className={cx(css["filters"], floatingFilters && css["floating"])}
+          data-state={filtersOpen ? "open" : "closed"}
+          onPointerDown={floatingFilters ? preventBubble : undefined}
+          ref={filtersRef}
+        >
+          {filters}
+        </nav>
+      )}
     </div>
   );
 }

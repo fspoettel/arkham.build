@@ -1,4 +1,8 @@
-import type { AttachableDefinition } from "@/utils/constants";
+import type {
+  AttachableDefinition,
+  FactionName,
+  SkillIcon,
+} from "@/utils/constants";
 import type {
   Card,
   Cycle,
@@ -116,6 +120,18 @@ export type Selection = OptionSelection | FactionSelection | DeckSizeSelection;
 // selections, keyed by their `id`, or if not present their `name`.
 export type Selections = Record<string, Selection>;
 
+export type DeckCharts = {
+  costCurve: ChartableData;
+  skillIcons: ChartableData<SkillIcon>;
+  factions: ChartableData<FactionName>;
+};
+
+// Victory chart's accepted data format
+export type ChartableData<T extends string | number = number> = {
+  x: T;
+  y: number;
+}[];
+
 export type ResolvedDeck = Omit<Deck, "sideSlots"> & {
   attachments: AttachmentQuantities | undefined;
   availableAttachments: AttachableDefinition[];
@@ -139,6 +155,7 @@ export type ResolvedDeck = Omit<Deck, "sideSlots"> & {
     xpRequired: number;
     deckSize: number;
     deckSizeTotal: number;
+    charts: DeckCharts;
   };
   hasExtraDeck: boolean;
   hasReplacements: boolean;

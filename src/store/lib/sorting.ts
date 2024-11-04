@@ -1,4 +1,4 @@
-import type { PlayerType } from "@/utils/constants";
+import type { FactionName, PlayerType } from "@/utils/constants";
 import {
   ASSET_SLOT_ORDER,
   FACTION_ORDER,
@@ -66,8 +66,8 @@ function sortByCycle(metadata: Metadata) {
 
 function sortByFaction(a: Card, b: Card) {
   return (
-    FACTION_ORDER.indexOf(a.faction_code) -
-    FACTION_ORDER.indexOf(b.faction_code)
+    FACTION_ORDER.indexOf(a.faction_code as FactionName) -
+    FACTION_ORDER.indexOf(b.faction_code as FactionName)
   );
 }
 
@@ -199,5 +199,8 @@ export function sortNumerical(a: number, b: number) {
 }
 
 export function sortByFactionOrder(a: string, b: string) {
-  return FACTION_ORDER.indexOf(a) - FACTION_ORDER.indexOf(b);
+  return (
+    FACTION_ORDER.indexOf(a as FactionName) -
+    FACTION_ORDER.indexOf(b as FactionName)
+  );
 }

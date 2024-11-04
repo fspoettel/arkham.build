@@ -32,7 +32,7 @@ export function Masthead(props: Props) {
         {props.slotRight}
         {location !== "/settings" && (
           <>
-            <Link asChild href="/settings">
+            <Link asChild href="~/settings">
               <Button
                 as="a"
                 className={css["settings"]}
@@ -51,7 +51,7 @@ export function Masthead(props: Props) {
               </PopoverTrigger>
               <PopoverContent>
                 <DropdownMenu>
-                  <Link asChild href="/about">
+                  <Link asChild href="~/about">
                     <Button
                       as="a"
                       className={css["about"]}
@@ -62,7 +62,7 @@ export function Masthead(props: Props) {
                       <InfoIcon /> About this site
                     </Button>
                   </Link>
-                  <Link asChild href="/collection-stats">
+                  <Link asChild href="~/collection-stats">
                     <Button as="a" variant="bare" size="full">
                       <BarChart3Icon /> Collection stats
                     </Button>

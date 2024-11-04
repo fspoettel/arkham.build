@@ -1,5 +1,5 @@
 import { assert } from "@/utils/assert";
-import { FACTION_ORDER } from "@/utils/constants";
+import { FACTION_ORDER, type FactionName } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
 import { and, or } from "@/utils/fp";
 import uFuzzy from "@leeoniya/ufuzzy";
@@ -212,7 +212,9 @@ export const selectFactionsInLocalDecks = createSelector(
     const factions = Array.from(factionsSet).map((code) => factionMeta[code]);
 
     return factions.sort(
-      (a, b) => FACTION_ORDER.indexOf(a.code) - FACTION_ORDER.indexOf(b.code),
+      (a, b) =>
+        FACTION_ORDER.indexOf(a.code as FactionName) -
+        FACTION_ORDER.indexOf(b.code as FactionName),
     );
   },
 );
