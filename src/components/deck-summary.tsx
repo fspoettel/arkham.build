@@ -76,7 +76,7 @@ export function DeckSummary(props: Props) {
   const onUpgrade = useCallback(
     (evt: React.MouseEvent) => {
       cancelEvent(evt);
-      setLocation(`/deck/view/${deck.id}#upgrade`);
+      setLocation(`/deck/view/${deck.id}?upgrade`);
     },
     [deck.id, setLocation],
   );

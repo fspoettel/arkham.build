@@ -18,7 +18,7 @@ import {
   Trash2Icon,
 } from "lucide-react";
 import { useCallback, useState } from "react";
-import { Link, useLocation } from "wouter";
+import { Link, useLocation, useSearch } from "wouter";
 import {
   useDeleteDeck,
   useDeleteUpgrade,
@@ -39,8 +39,9 @@ export function SidebarActions(props: Props) {
 
   const [actionsOpen, setActionsOpen] = useState(false);
 
+  const search = useSearch();
   const [upgradeModalOpen, setUpgradeModalOpen] = useState(
-    window.location.hash.includes("upgrade"),
+    search.includes("upgrade") && !deck.next_deck,
   );
 
   const deleteDeck = useDeleteDeck();

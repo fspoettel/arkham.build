@@ -13,8 +13,8 @@ import { decodeExileSlots } from "@/utils/card-utils";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { range } from "@/utils/range";
 import { useAccentColor } from "@/utils/use-accent-color";
-import { useCallback, useMemo, useState } from "react";
-import { useLocation } from "wouter";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useLocation, useSearch } from "wouter";
 import css from "./upgrade-modal.module.css";
 
 type Props = {
@@ -63,11 +63,21 @@ function selectExilableCards(deck: ResolvedDeck) {
 export function UpgradeModal(props: Props) {
   const { deck } = props;
   const [, navigate] = useLocation();
+  const search = useSearch();
   const toast = useToast();
 
   const createShare = useStore((state) => state.createShare);
   const upgradeDeck = useStore((state) => state.upgradeDeck);
-  const [xp, setXp] = useState("");
+
+  const [xp, setXp] = useState(
+    new URLSearchParams(search).get("upgrade_xp")?.toString() ?? "",
+  );
+
+  useEffect(() => {
+    const url = new URL(window.location.toString());
+    url.search = "";
+    window.history.replaceState(null, "", url.toString());
+  }, []);
 
   const exilableCards = selectExilableCards(deck);
   const [exileString, setExileString] = useState("");

@@ -57,6 +57,7 @@ export function DeckDisplay(props: Props) {
             <DeckTags tags={deck.tags} />
           </div>
         </header>
+
         <Sidebar className={css["sidebar"]} deck={deck} owned={owned} />
 
         <div className={css["content"]}>
