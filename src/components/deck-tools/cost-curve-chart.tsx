@@ -30,13 +30,16 @@ export function CostCurveChart({ data }: Props) {
     });
   }, [data]);
 
-  // Must have explicit column values to avoid auto-interpolation,
-  // since no card costs 1.5 resources
-  // Creates a [0...n] array of numbers
-  const tickValues = useMemo(
-    () => Array.from({ length: data.length }, (_, i) => i),
-    [data],
-  );
+  // Must have explicit tick values to avoid auto-interpolation,
+  // since no card costs 1.5 resources, and you can't have 0.5 cards
+  const domainTickValues = useMemo(() => getDiscreteArray(data.length), [data]);
+  const codomainTickValues = useMemo(() => {
+    const maxAmount = data.reduce(
+      (acc, value) => Math.max(value?.y ?? 0, acc),
+      0,
+    );
+    return getDiscreteArray(maxAmount + 1);
+  }, [data]);
 
   const ref = useRef(null);
   const { width } = useElementSize(ref);
@@ -53,7 +56,7 @@ export function CostCurveChart({ data }: Props) {
             width={width}
           >
             <VictoryAxis
-              tickValues={tickValues}
+              tickValues={domainTickValues}
               label="Resource cost"
               tickFormat={formatDomainTickLabels}
               style={{ grid: { stroke: "transparent" } }}
@@ -61,8 +64,8 @@ export function CostCurveChart({ data }: Props) {
             />
             <VictoryAxis
               dependentAxis
+              tickValues={codomainTickValues}
               label="Cards"
-              tickFormat={formatCodomainTickLabels}
               tickLabelComponent={<VictoryLabel />}
             />
             <VictoryLine data={normalizedData} width={width} />
@@ -85,11 +88,12 @@ function formatDomainTickLabels(value: number) {
   return value === 7 ? "7+" : value.toString();
 }
 
-function formatCodomainTickLabels(value: number) {
-  return value.toFixed(0);
-}
-
 function formatTooltips(value: { datum: { y: number; x: number } }) {
   const { y, x } = value.datum;
   return `${y} card${y !== 1 ? "s" : ""} of cost ${x}${x === 7 ? "+" : ""}`;
+}
+
+// Creates a [0...n] array of numbers
+function getDiscreteArray(length: number) {
+  return Array.from({ length: length }, (_, i) => i);
 }
