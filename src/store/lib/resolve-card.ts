@@ -118,6 +118,35 @@ export function resolveCardWithRelations<T extends boolean>(
           tabooSetId,
         ),
       };
+
+      if (card.restrictions?.investigator) {
+        const investigator = resolveCardWithRelations(
+          metadata,
+          lookupTables,
+          Object.keys(card.restrictions.investigator)[0],
+          tabooSetId,
+          customizations,
+          true,
+        );
+
+        const related = [
+          ...(investigator?.relations?.advanced ?? []),
+          ...(investigator?.relations?.requiredCards ?? []),
+          ...(investigator?.relations?.replacement ?? []),
+        ];
+
+        const matches = related
+          .filter(
+            (relatedCard) =>
+              relatedCard.card.code !== card.code &&
+              relatedCard.card.subtype_code === card.subtype_code,
+          )
+          .sort((a, b) => sortAlphabetical(a.card.real_name, b.card.real_name));
+
+        if (matches.length) {
+          cardWithRelations.relations.otherSignatures = matches;
+        }
+      }
     }
 
     cardWithRelations.relations.duplicates = resolveRelationArray(

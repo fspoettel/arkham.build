@@ -48,6 +48,9 @@ export type CardWithRelations = ResolvedCard & {
     duplicates?: ResolvedCard[];
 
     level?: ResolvedCard[];
+
+    // For signature -> signature navigation.
+    otherSignatures?: ResolvedCard[];
   };
 };
 

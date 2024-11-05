@@ -870,12 +870,12 @@ function makePlayerCardsFilter(
 }
 
 export function filterInvestigatorWeaknessAccess(
-  card: Card,
+  investigator: Card,
   lookupTables: LookupTables,
   config?: Pick<InvestigatorAccessConfig, "targetDeck">,
 ) {
   // normalize parallel investigators to root for lookups.
-  const code = card.alternate_of_code ?? card.code;
+  const code = investigator.alternate_of_code ?? investigator.code;
 
   const ors: Filter[] =
     config?.targetDeck !== "extraSlots"
@@ -884,7 +884,7 @@ export function filterInvestigatorWeaknessAccess(
           filterSubtypes({ basicweakness: true, weakness: false, none: false }),
           (card: Card) => card.xp == null && !card.restrictions,
         ]
-      : [(c: Card) => !!card.side_deck_requirements?.card?.[c.code]];
+      : [(c: Card) => !!investigator.side_deck_requirements?.card?.[c.code]];
 
   return and([
     filterSubtypes({ basicweakness: true, weakness: true, none: false }),

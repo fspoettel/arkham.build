@@ -316,7 +316,12 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
       }
     }
 
-    if (card.parallel && card.alt_art_investigator && card.alternate_of_code) {
+    if (
+      card.type_code === "investigator" &&
+      card.parallel &&
+      card.alt_art_investigator &&
+      card.alternate_of_code
+    ) {
       setInLookupTable(
         card.code,
         tables.relations.parallel,

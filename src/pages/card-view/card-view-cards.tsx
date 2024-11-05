@@ -22,6 +22,7 @@ function CardViewSection(props: Props) {
   );
 }
 
+// FIXME: This should loop over relations, same as the card modal.
 export function CardViewCards({
   cardWithRelations,
 }: {
@@ -170,6 +171,23 @@ export function CardViewCards({
       {!!relations?.level?.length && (
         <CardViewSection id="level" title={formatRelationTitle("level")}>
           {relations.level.map((c) => (
+            <Card
+              canToggleBackside
+              key={c.card.code}
+              titleLinks="card"
+              resolvedCard={c}
+              size="compact"
+            />
+          ))}
+        </CardViewSection>
+      )}
+
+      {!!relations?.otherSignatures?.length && (
+        <CardViewSection
+          id="other-signatures"
+          title={formatRelationTitle("otherSignatures")}
+        >
+          {relations.otherSignatures.map((c) => (
             <Card
               canToggleBackside
               key={c.card.code}
