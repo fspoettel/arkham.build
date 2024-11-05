@@ -41,8 +41,6 @@ export function CostCurveChart({ data }: Props) {
     return getDiscreteArray(maxAmount + 1);
   }, [data]);
 
-  console.log(codomainTickValues, "codomain Tick Values");
-
   const ref = useRef(null);
   const { width } = useElementSize(ref);
 
