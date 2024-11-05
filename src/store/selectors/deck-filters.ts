@@ -19,8 +19,7 @@ import { selectLocalDecks } from "./decks";
 // Arbitrarily chosen for now
 const MATCHING_MAX_TOKEN_DISTANCE_DECKS = 4;
 
-export const selectDeckFilters = (state: StoreState) =>
-  state.deckFilters.filters;
+const selectDeckFilters = (state: StoreState) => state.deckFilters.filters;
 
 export const selectDeckFilterValue = createSelector(
   selectDeckFilters,
@@ -32,7 +31,7 @@ export const selectDeckFilterValue = createSelector(
 export const selectDeckSearchTerm = (state: StoreState) =>
   state.deckFilters.filters.search;
 
-export const selectSearchableTextInDecks = createSelector(
+const selectSearchableTextInDecks = createSelector(
   selectLocalDecks,
   (decks) => {
     return decks.map(
@@ -240,7 +239,7 @@ export const selectTagsInLocalDecks = createSelector(
   },
 );
 
-export const selectDecksFiltered = createSelector(
+const selectDecksFiltered = createSelector(
   selectLocalDecks,
   selectDeckSearchTerm,
   selectSearchableTextInDecks,
@@ -276,7 +275,7 @@ export const selectDecksFiltered = createSelector(
   },
 );
 
-export const selectDecksSorting = (state: StoreState) => state.deckFilters.sort;
+const selectDecksSorting = (state: StoreState) => state.deckFilters.sort;
 
 function genericSort(a: string | number, b: string | number, order: SortOrder) {
   const mod = order === "desc" ? -1 : 1;
@@ -303,7 +302,7 @@ function makeXPSort(order: SortOrder) {
     genericSort(a.stats.xpRequired, b.stats.xpRequired, order);
 }
 
-export const selectDecksSortingFunc = createSelector(
+const selectDecksSortingFunc = createSelector(
   selectDecksSorting,
   (sortingInfo) => {
     switch (sortingInfo.criteria) {

@@ -44,11 +44,8 @@ export type DeckFiltersSlice = {
 
 export type DeckPropertyName = "parallel";
 
-export const SORT_CRITERIA_LIST = {
-  date_updated: "Date updated",
-  date_created: "Date created",
-  alphabetical: "Alphabetical",
-  xp: "Experience",
-} as const;
-
-export type SortCriteria = keyof typeof SORT_CRITERIA_LIST;
+export type SortCriteria =
+  | "date_updated"
+  | "date_created"
+  | "alphabetical"
+  | "xp";
