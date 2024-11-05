@@ -68,7 +68,7 @@ export function CostCurveChart({ data }: Props) {
             <VictoryLine data={normalizedData} width={width} />
             <VictoryScatter
               data={normalizedData}
-              size={5}
+              size={6}
               labels={formatTooltips}
               labelComponent={
                 <VictoryTooltip flyoutWidth={125} constrainToVisibleArea />

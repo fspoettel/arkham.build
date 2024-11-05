@@ -4,7 +4,7 @@ import {
 } from "@/store/lib/deck-validation";
 import type { Card, CustomizationOption } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
-import type { Deck, DeckProblem } from "@/store/slices/data.types";
+import type { Deck, DeckProblem, Id } from "@/store/slices/data.types";
 import { splitMultiValue } from "@/utils/card-utils";
 import { randomId } from "@/utils/crypto";
 import {
@@ -59,13 +59,14 @@ export function formatDeckImport(
   };
 }
 
-export function formatDeckExport(_deck: Deck) {
+export function formatDeckExport(
+  _deck: Deck,
+  previousDeck: Id | null = null,
+): Deck {
   const deck = structuredClone(_deck);
+  deck.previous_deck = previousDeck;
   deck.source = undefined;
   deck.next_deck = null;
-  deck.previous_deck = null;
-  deck.xp_spent = null;
-  deck.xp_adjustment = null;
   return deck;
 }
 

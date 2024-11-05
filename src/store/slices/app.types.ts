@@ -3,7 +3,7 @@ import type {
   DataVersionResponse,
   MetadataResponse,
 } from "@/store/services/queries";
-import type { Id } from "./data.types";
+import type { Deck, Id } from "./data.types";
 
 export type AppState = {
   clientId: string;
@@ -29,7 +29,7 @@ export type AppSlice = {
     xp: number;
     exileString: string;
     usurped?: boolean;
-  }): Id;
+  }): { deck: Deck; shareUpgraded: boolean };
 
   deleteDeck(id: Id, callback?: () => void): Promise<void>;
 

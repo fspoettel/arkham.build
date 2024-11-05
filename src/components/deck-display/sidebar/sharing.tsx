@@ -85,18 +85,16 @@ export function Sharing(props: Props) {
                 Deck id: <code>{deck.id}</code>
               </p>
               <nav className={css["share-actions"]}>
-                <Button
-                  disabled={isReadOnly || deck.date_update === share}
-                  onClick={onUpdateShare}
-                  size="sm"
-                  tooltip={
-                    deck.date_update === share
-                      ? "Share is up-to-date."
-                      : "Share is outdated."
-                  }
-                >
-                  Update share
-                </Button>
+                {deck.date_update !== share && (
+                  <Button
+                    disabled={isReadOnly}
+                    onClick={onUpdateShare}
+                    size="sm"
+                    tooltip="Share is outdated."
+                  >
+                    Update share
+                  </Button>
+                )}
                 <Button size="sm" onClick={onDeleteShare}>
                   Delete share
                 </Button>

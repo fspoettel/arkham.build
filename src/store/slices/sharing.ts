@@ -29,7 +29,14 @@ export const createSharingSlice: StateCreator<
     const deck = state.data.decks[id];
     assert(deck, `Deck with id ${id} not found.`);
 
-    await createShare(selectClientId(state), formatDeckExport(deck));
+    const previousDeckId = deck.previous_deck;
+    const previousDeckShared =
+      previousDeckId && !!state.sharing.decks[previousDeckId];
+
+    await createShare(
+      selectClientId(state),
+      formatDeckExport(deck, previousDeckShared ? previousDeckId : null),
+    );
 
     set({
       sharing: {

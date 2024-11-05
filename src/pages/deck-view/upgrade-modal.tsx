@@ -65,6 +65,7 @@ export function UpgradeModal(props: Props) {
   const [, navigate] = useLocation();
   const toast = useToast();
 
+  const createShare = useStore((state) => state.createShare);
   const upgradeDeck = useStore((state) => state.upgradeDeck);
   const [xp, setXp] = useState("");
 
@@ -84,8 +85,8 @@ export function UpgradeModal(props: Props) {
     modalContext?.setOpen(false);
   }, [modalContext]);
 
-  const onUpgrade = useCallback(() => {
-    const id = upgradeDeck({
+  const onUpgrade = useCallback(async () => {
+    const { deck: newDeck, shareUpgraded } = upgradeDeck({
       id: deck.id,
       xp: xp ? +xp : 0,
       exileString,
@@ -99,7 +100,20 @@ export function UpgradeModal(props: Props) {
       children: "Deck upgrade successful.",
       variant: "success",
     });
-    navigate(`/deck/view/${id}`);
+
+    navigate(`/deck/view/${newDeck.id}`);
+
+    if (shareUpgraded) {
+      try {
+        await createShare(newDeck.id as string);
+      } catch (err) {
+        toast.show({
+          duration: 3000,
+          children: `Failed to share deck: ${(err as Error).message}`,
+          variant: "error",
+        });
+      }
+    }
   }, [
     deck.id,
     upgradeDeck,
@@ -110,6 +124,7 @@ export function UpgradeModal(props: Props) {
     exileString,
     usurped,
     hasGreatWork,
+    createShare,
   ]);
 
   const onXpChange = useCallback((evt: React.ChangeEvent<HTMLInputElement>) => {

@@ -60,7 +60,7 @@ export function DeckDisplay(props: Props) {
         <Sidebar className={css["sidebar"]} deck={deck} owned={owned} />
 
         <div className={css["content"]}>
-          <Tabs length={2} defaultValue="deck">
+          <Tabs length={hasHistory ? 3 : 2} defaultValue="deck">
             <TabsList>
               <TabsTrigger value="deck" data-testid="tab-deck">
                 <i className="icon-deck" /> Deck list

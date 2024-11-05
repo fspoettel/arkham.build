@@ -464,7 +464,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     });
 
     tryEnablePersistence();
-    return newDeck.id;
+
+    return { deck: newDeck, shareUpgraded: !!state.sharing.decks[deck.id] };
   },
 
   async deleteUpgrade(id, cb) {
