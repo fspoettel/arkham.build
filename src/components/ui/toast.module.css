@@ -26,6 +26,10 @@
   position: relative;
 }
 
+.toast.closable {
+  padding: 1rem;
+}
+
 .toast.exiting {
   animation: slideOut both 150ms ease-in-out;
 }

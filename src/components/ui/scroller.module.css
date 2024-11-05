@@ -6,6 +6,10 @@
   --scrollbar-size: 10px;
 }
 
+.scroller.permanent-scrollbar {
+  padding-right: 10px;
+}
+
 .viewport {
   width: 100%;
   height: 100%;

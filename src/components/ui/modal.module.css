@@ -7,7 +7,6 @@
   background: rgba(0, 0, 0, 0.5);
   width: 100%;
   z-index: 20;
-  padding: 1rem;
   container-type: inline-size;
 
   &.center {
@@ -21,6 +20,7 @@
   max-width: 100%;
   container-type: inline-size;
   margin-inline: auto;
+  padding: 1rem;
 }
 
 .actions {

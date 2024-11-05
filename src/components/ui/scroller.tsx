@@ -24,7 +24,11 @@ export const Scroller = forwardRef(
     return (
       <Root
         {...rest}
-        className={cx(css["scroller"], className)}
+        className={cx(
+          css["scroller"],
+          scrollerType === "always" && css["permanent-scrollbar"],
+          className,
+        )}
         type={scrollerType ?? "scroll"}
       >
         <Viewport
