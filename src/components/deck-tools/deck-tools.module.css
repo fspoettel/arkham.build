@@ -14,6 +14,7 @@
   padding: 1rem;
   border-radius: 0.5rem;
   border: 1px solid var(--palette-2);
+  background-color: var(--palette-point-five);
 }
 
 .tools-title {

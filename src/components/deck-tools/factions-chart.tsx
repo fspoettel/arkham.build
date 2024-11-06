@@ -29,7 +29,7 @@ export function FactionsChart({ data }: Props) {
             containerComponent={<VictoryContainer responsive={false} />}
             data={normalizedData}
             theme={chartsTheme}
-            labelPlacement="perpendicular"
+            labelPlacement="parallel"
             labels={({ datum }) => capitalize(datum.xName)}
             width={width}
             sortKey={"y"}

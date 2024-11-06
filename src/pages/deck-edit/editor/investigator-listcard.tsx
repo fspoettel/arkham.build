@@ -85,7 +85,7 @@ function InvestigatorListcardInner({ deck }: Props) {
       <Link to={deckToolsOpen ? "/" : "/tools"} asChild>
         <Button
           as="a"
-          tooltip={deckToolsOpen ? "Card list" : "View deck charts"}
+          tooltip={deckToolsOpen ? "View card list" : "View deck tools"}
           iconOnly
         >
           {deckToolsOpen ? <Rows3Icon /> : <ChartAreaIcon />}
