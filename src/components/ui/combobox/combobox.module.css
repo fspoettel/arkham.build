@@ -12,10 +12,30 @@
   display: flex;
   align-items: center;
   gap: 0.25rem;
+  position: relative;
 }
 
 .control-input {
   flex: 1 1 100%;
+  padding-right: 1.25rem;
+}
+
+.control-indicator {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  width: 0.75rem;
+  height: 0.75rem;
+  transform: translateY(-50%);
+  color: var(--palette-three-point-five);
+}
+
+.control-row:hover .control-indicator {
+  color: var(--palette-4);
+}
+
+.control-row:focus-within .control-indicator {
+  color: var(--palette-5);
 }
 
 .control-toggle {

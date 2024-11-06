@@ -14,6 +14,7 @@ import {
   useInteractions,
 } from "@floating-ui/react";
 import uFuzzy from "@leeoniya/ufuzzy";
+import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ComboboxMenu } from "./combobox-menu";
 import { ComboboxResults } from "./combobox-results";
@@ -247,6 +248,11 @@ export function Combobox<T extends Coded>(props: Props<T>) {
                 },
               })}
             />
+            {isOpen ? (
+              <ChevronUpIcon className={css["control-indicator"]} />
+            ) : (
+              <ChevronDownIcon className={css["control-indicator"]} />
+            )}
           </div>
         </div>
       )}
