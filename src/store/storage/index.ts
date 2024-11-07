@@ -73,8 +73,8 @@ export const storageConfig: PersistOptions<StoreState, Val> = {
   onRehydrateStorage: () => {
     time("hydration");
     return (state: StoreState | undefined, error?: unknown) => {
+      if (error) console.error("Error during hydration", error);
       if (state) state.setHydrated();
-      if (error) console.error(error);
       timeEnd("hydration");
     };
   },
@@ -85,32 +85,26 @@ function createCustomStorage(): PersistStorage<Val> | undefined {
     async getItem(name) {
       if (SKIP_HYDRATION) return null;
 
-      try {
-        const [metadata, appdata] = await Promise.all([
-          indexedDBAdapter.getMetadata(name),
-          indexedDBAdapter.getAppdata(name),
-        ]);
+      const [metadata, appdata] = await Promise.all([
+        indexedDBAdapter.getMetadata(name),
+        indexedDBAdapter.getAppdata(name),
+      ]);
 
-        if (!metadata && !appdata) return null;
+      if (!metadata && !appdata) return null;
 
-        const val: StorageValue<Val> = {
-          state: {
-            app: appdata?.state?.app ?? getInitialAppState(),
-            data: appdata?.state?.data ?? getInitialDataState().data,
-            deckEdits: appdata?.state?.deckEdits ?? {},
-            metadata: metadata?.state?.metadata ?? getInitialMetadata(),
-            settings: appdata?.state?.settings ?? getInitialSettings(),
-            sharing: appdata?.state?.sharing ?? getInitialSharingState(),
-          },
-          version: Math.min(metadata?.version ?? 1, appdata?.version ?? 1),
-        };
+      const val: StorageValue<Val> = {
+        state: {
+          app: appdata?.state?.app ?? getInitialAppState(),
+          data: appdata?.state?.data ?? getInitialDataState().data,
+          deckEdits: appdata?.state?.deckEdits ?? {},
+          metadata: metadata?.state?.metadata ?? getInitialMetadata(),
+          settings: appdata?.state?.settings ?? getInitialSettings(),
+          sharing: appdata?.state?.sharing ?? getInitialSharingState(),
+        },
+        version: Math.min(metadata?.version ?? 1, appdata?.version ?? 1),
+      };
 
-        return val;
-      } catch (err) {
-        indexedDBAdapter.removeIdentifier(name);
-        console.error("error during hydration:", err);
-        return null;
-      }
+      return val;
     },
 
     async setItem(name, value) {
