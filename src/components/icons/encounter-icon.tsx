@@ -161,8 +161,10 @@ function getEncounterIcon(code?: string) {
       return "rop";
 
     case "blob_that_ate_everything_else":
+      return "blob_that_ate_everything_else";
+
     case "migo_incursion_2":
-      return null;
+      return "migo_incursion_2";
 
     case "the_midwinter_gala":
       return "gala";

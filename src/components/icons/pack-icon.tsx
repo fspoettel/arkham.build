@@ -26,6 +26,7 @@ function getPackIcon(code?: string) {
     case "otr":
     case "ptr":
     case "pap":
+    case "aof":
     case "parallel":
       return "parallel";
 
@@ -261,7 +262,8 @@ function getPackIcon(code?: string) {
     case "tmg":
       return "gala";
     case "blbe":
-      return null;
+      return "blbe";
+
     default:
       return null;
   }
