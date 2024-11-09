@@ -3,3 +3,8 @@
   height: 100%;
   flex-flow: column nowrap;
 }
+
+.image {
+  max-width: 36rem;
+  margin: 0 auto;
+}

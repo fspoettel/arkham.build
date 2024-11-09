@@ -2,9 +2,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-flow: column nowrap;
   height: 100%;
   width: 100%;
   flex: 1 1 auto;
+  gap: 1rem;
   padding: 0.5rem;
 }
 

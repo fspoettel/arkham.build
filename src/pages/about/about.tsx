@@ -91,6 +91,9 @@ function About() {
             <strong>Re-used ArkhamCards icons:</strong> Eugene Sarnetsky
           </li>
           <li>
+            <strong>404 illustration (edit):</strong> FFG & 5argon
+          </li>
+          <li>
             <strong>Other icons</strong>: lucide.dev
           </li>
         </ul>

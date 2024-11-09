@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useMedia } from "./use-media";
 
 export const AVAILABLE_THEMES: Record<string, string> = {
   dark: "Dark",
@@ -34,4 +35,16 @@ export function useColorTheme() {
   }, [pref]);
 
   return [pref, setPref] as const;
+}
+
+export function useResolvedColorTheme() {
+  const [pref] = useColorTheme();
+
+  const isDarkMode = useMedia("(prefers-color-scheme: dark)");
+
+  if (pref === "system") {
+    return isDarkMode ? "dark" : "light";
+  }
+
+  return pref;
 }
