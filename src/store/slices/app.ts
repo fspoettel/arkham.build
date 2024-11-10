@@ -376,6 +376,11 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     const deck = state.data.decks[id];
     assert(deck, `Deck ${id} does not exist.`);
 
+    assert(
+      !deck.next_deck,
+      `Deck ${id} already has an upgrade: ${deck.next_deck}.`,
+    );
+
     const now = new Date().toISOString();
 
     const xpCarryover =

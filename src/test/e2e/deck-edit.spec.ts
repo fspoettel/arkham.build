@@ -153,4 +153,79 @@ test.describe("deck edit", () => {
       page.getByTestId("listcard-02039").getByTestId("quantity-increment"),
     ).toBeVisible();
   });
+
+  test("add campaign card", async ({ page }) => {
+    await importDeckFromFile(page, "validation/honed_instinct_valid.json", {
+      navigate: "edit",
+    });
+    await page.getByTestId("card-type-encounter").click();
+    await page
+      .getByTestId("listcard-01117")
+      .getByTestId("quantity-increment")
+      .click();
+    await expect(
+      page
+        .getByTestId("editor-tabs-slots")
+        .getByTestId("listcard-01117")
+        .getByTestId("quantity-value"),
+    ).toContainText("1");
+  });
+
+  test("add advanced signature", async ({ page }) => {
+    await importDeckFromFile(page, "validation/honed_instinct_valid.json", {
+      navigate: "edit",
+    });
+
+    await page.getByTestId("search-game-text").click();
+    await fillSearch(page, "Advanced.");
+
+    await page
+      .getByTestId("listcard-90009")
+      .getByTestId("quantity-increment")
+      .click();
+
+    await page
+      .getByTestId("listcard-90010")
+      .getByTestId("quantity-increment")
+      .click();
+
+    await expect(
+      page
+        .getByTestId("editor-tabs-slots")
+        .getByTestId("listcard-90010")
+        .getByTestId("quantity-value"),
+    ).toContainText("1");
+
+    await expect(
+      page
+        .getByTestId("editor-tabs-slots")
+        .getByTestId("listcard-90009")
+        .getByTestId("quantity-value"),
+    ).toContainText("1");
+  });
+
+  test("signature -> signature relation", async ({ page }) => {
+    await importDeckFromFile(page, "validation/honed_instinct_valid.json", {
+      navigate: "edit",
+    });
+
+    await page
+      .getByTestId("listcard-01010")
+      .getByTestId("listcard-title")
+      .click();
+
+    await expect(
+      page.getByTestId("cardset-otherSignatures").getByTestId("listcard-90009"),
+    ).toBeVisible();
+
+    await page
+      .getByTestId("cardset-otherSignatures")
+      .getByTestId("listcard-90009")
+      .getByTestId("listcard-title")
+      .click();
+
+    await expect(
+      page.getByTestId("cardset-otherSignatures").getByTestId("listcard-01010"),
+    ).toBeVisible();
+  });
 });

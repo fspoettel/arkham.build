@@ -6,7 +6,7 @@ test.beforeEach(async ({ page }) => {
   await mockApiCalls(page);
 });
 
-test.describe("attachments: interactions", () => {
+test.describe("attachments", () => {
   test("attach a card", async ({ page }) => {
     await page.goto("/deck/create/04001");
     await page.getByTestId("create-save").click();
@@ -39,7 +39,7 @@ test.describe("attachments: interactions", () => {
     ).toContainText("×1");
   });
 
-  test("attach a card via the card modal", async ({ page }) => {
+  test("attach a card via its card modal", async ({ page }) => {
     await page.goto("/deck/create/04001");
     await page.getByTestId("create-save").click();
 

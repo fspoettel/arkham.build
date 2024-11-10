@@ -13,8 +13,8 @@ function locateSignatureQuantity(page: Page, code: string) {
     .getByTestId("quantity-value");
 }
 
-test.describe("deck create: interactions", () => {
-  test("can choose investigator", async ({ page }) => {
+test.describe("deck create", () => {
+  test("choose investigator", async ({ page }) => {
     await page.goto("/deck/create");
     await fillSearch(page, "yorick");
     await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
@@ -23,7 +23,7 @@ test.describe("deck create: interactions", () => {
     await expect(page).toHaveURL(/\/deck\/create\/03005/);
   });
 
-  test("can choose investigator via modal", async ({ page }) => {
+  test("choose investigator via modal", async ({ page }) => {
     await page.goto("/deck/create");
 
     await fillSearch(page, "yorick");
@@ -40,7 +40,7 @@ test.describe("deck create: interactions", () => {
   const JENNY_ALTERNATE_SIGNATURES = ["98002", "98003"];
   const JENNY_ADVANCED_SIGNATURES = ["90085", "90086"];
 
-  test("can select investigator", async ({ page }) => {
+  test("select investigator version", async ({ page }) => {
     await page.goto("/deck/create/02003");
     await page.getByTestId("create-title").fill("Jenny Test");
     await page.getByTestId("create-save").click();
@@ -62,7 +62,7 @@ test.describe("deck create: interactions", () => {
     }
   });
 
-  test("can select alternate signatures", async ({ page }) => {
+  test("select alternate signatures", async ({ page }) => {
     await page.goto("/deck/create/02003");
 
     await page.getByText("Replacements").click();
@@ -81,7 +81,7 @@ test.describe("deck create: interactions", () => {
     }
   });
 
-  test("can select advanced signatures", async ({ page }) => {
+  test("select advanced signatures", async ({ page }) => {
     await page.goto("/deck/create/02003");
 
     await page.getByText("Signatures", { exact: true }).click();
@@ -100,7 +100,7 @@ test.describe("deck create: interactions", () => {
     }
   });
 
-  test("can select faction", async ({ page }) => {
+  test("select faction", async ({ page }) => {
     await page.goto("/deck/create/06003");
     await page
       .getByTestId("create-select-faction_selected")
@@ -120,7 +120,7 @@ test.describe("deck create: interactions", () => {
     await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
   });
 
-  test("can select deck size (mandy)", async ({ page }) => {
+  test("select deck size (non-taboo mandy)", async ({ page }) => {
     await page.goto("/deck/create/06002");
     await page
       .getByTestId("create-select-deck_size_selected")
@@ -137,7 +137,7 @@ test.describe("deck create: interactions", () => {
     ).toContainText("2");
   });
 
-  test("can select deck size (mandy taboo)", async ({ page }) => {
+  test("select deck size (taboo mandy)", async ({ page }) => {
     await page.goto("/deck/create/06002");
     await page
       .getByTestId("create-select-deck_size_selected")
@@ -161,7 +161,7 @@ test.describe("deck create: interactions", () => {
     return page.getByAltText(`Scan of card ${code}`, { exact: true });
   }
 
-  test("can select parallel investigator", async ({ page }) => {
+  test("select parallel investigator", async ({ page }) => {
     await page.goto("/deck/create/01001");
 
     await expect(locateScan(page, "01001")).toBeVisible();
@@ -204,9 +204,7 @@ test.describe("deck create: interactions", () => {
     await expect(locateScan(cardModal, "90024b")).toBeVisible();
   });
 
-  test("can initialize deck create with parallel investigator", async ({
-    page,
-  }) => {
+  test("initialize create with parallel investigator", async ({ page }) => {
     await page.goto("/deck/create");
     await page
       .getByTestId("listcard-01003")

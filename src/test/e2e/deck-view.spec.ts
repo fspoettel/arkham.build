@@ -19,8 +19,8 @@ async function importStandardDeck(page: Page) {
   await expect(page).toHaveURL(/\/deck\/view/);
 }
 
-test.describe("deck view: display", () => {
-  test("renders deck metadata", async ({ page }) => {
+test.describe("deck view", () => {
+  test("render deck metadata", async ({ page }) => {
     await importStandardDeck(page);
 
     await expect(page.getByTestId("view-deck-xp")).toContainText(
@@ -38,7 +38,7 @@ test.describe("deck view: display", () => {
     );
   });
 
-  test("renders deck card list", async ({ page }) => {
+  test("render deck card list", async ({ page }) => {
     await importStandardDeck(page);
 
     await expect(page.getByTestId("view-decklist")).toBeVisible();
@@ -56,12 +56,12 @@ test.describe("deck view: display", () => {
     await expect(page.getByTestId("view-decklist")).toHaveScreenshot();
   });
 
-  test("renders deck investigator", async ({ page }) => {
+  test("render deck investigator", async ({ page }) => {
     await importStandardDeck(page);
     await expect(page.getByTestId("deck-investigator-front")).toBeVisible();
   });
 
-  test("renders bonded cards in relations", async ({ page }) => {
+  test("render bonded cards in relations", async ({ page }) => {
     await importDeckFromFile(page, "bonded.json", {
       navigate: "view",
     });
@@ -94,7 +94,7 @@ test.describe("deck view: display", () => {
     ).toHaveText("3");
   });
 
-  test("renders ignore_deck_limit_slots markers", async ({ page }) => {
+  test("render ignore_deck_limit_slots markers", async ({ page }) => {
     await importDeckFromFile(page, "validation/parallel_agnes.json", {
       navigate: "view",
     });
@@ -127,7 +127,7 @@ test.describe("deck view: display", () => {
     ).toHaveText("2");
   });
 
-  test("renders forbidden cards", async ({ page }) => {
+  test("render forbidden cards", async ({ page }) => {
     await importDeckFromFile(page, "bonded.json", {
       navigate: "view",
     });
@@ -135,7 +135,7 @@ test.describe("deck view: display", () => {
     await expect(page.getByTestId("listcard-54002")).toHaveClass(/forbidden/);
   });
 
-  test("renders customizable cards with options", async ({ page }) => {
+  test("render customizable cards with options", async ({ page }) => {
     await importDeckFromFile(page, "validation/access_customizable.json", {
       navigate: "view",
     });
@@ -172,7 +172,7 @@ test.describe("deck view: display", () => {
     );
   });
 
-  test("renders parallel investigators", async ({ page }) => {
+  test("render parallel investigators", async ({ page }) => {
     await importDeckFromFile(page, "validation/parallel_wendy.json", {
       navigate: "view",
     });
@@ -188,7 +188,7 @@ test.describe("deck view: display", () => {
     ).toHaveText(/choose both and gain/);
   });
 
-  test("renders transformed investigators", async ({ page }) => {
+  test("render transformed investigators", async ({ page }) => {
     await importDeckFromFile(page, "ythian.json", {
       navigate: "view",
     });
@@ -206,7 +206,7 @@ test.describe("deck view: display", () => {
     ).not.toBeVisible();
   });
 
-  test("renders option_select selections", async ({ page }) => {
+  test("render option_select selections", async ({ page }) => {
     await importDeckFromFile(page, "validation/parallel_wendy.json", {
       navigate: "view",
     });
@@ -221,10 +221,8 @@ test.describe("deck view: display", () => {
       page.getByTestId("selection-option_selected-value"),
     ).toHaveText("Blessed and Cursed");
   });
-});
 
-test.describe("deck view: interactions", () => {
-  test("can show deck notes", async ({ page }) => {
+  test("show deck notes", async ({ page }) => {
     await importStandardDeck(page);
 
     await page.getByTestId("view-notes-toggle").click();
@@ -234,22 +232,21 @@ test.describe("deck view: interactions", () => {
     await expect(page.getByTestId("view-notes-modal")).not.toBeVisible();
   });
 
-  test("can show deck investigator back", async ({ page }) => {
+  test("show deck investigator back", async ({ page }) => {
     await importStandardDeck(page);
-
     await expect(page.getByTestId("deck-investigator-back")).not.toBeVisible();
     await page.getByTestId("deck-investigator-back-toggle").click();
     await expect(page.getByTestId("deck-investigator-back")).toBeVisible();
   });
 
-  test("can edit deck", async ({ page }) => {
+  test("open deck editor", async ({ page }) => {
     await importStandardDeck(page);
 
     await page.getByTestId("view-edit").click();
     await expect(page).toHaveURL(/\/deck\/edit/);
   });
 
-  test("can delete deck", async ({ page }) => {
+  test("delete deck", async ({ page }) => {
     await importStandardDeck(page);
 
     page.on("dialog", (dialog) => dialog.accept());
@@ -261,7 +258,7 @@ test.describe("deck view: interactions", () => {
     await expect(page.getByText("Collection empty")).toBeVisible();
   });
 
-  test("can duplicate deck", async ({ page }) => {
+  test("duplicate deck", async ({ page }) => {
     await importStandardDeck(page);
 
     await page.getByTestId("view-more-actions").click();
@@ -273,7 +270,7 @@ test.describe("deck view: interactions", () => {
     expect(await page.getByTestId("collection-deck").all()).toHaveLength(2);
   });
 
-  test("can export as json", async ({ page }) => {
+  test("export deck (JSON)", async ({ page }) => {
     await importStandardDeck(page);
 
     const downloadPromise = page.waitForEvent("download");
@@ -287,7 +284,7 @@ test.describe("deck view: interactions", () => {
     expect(fail).toBe(null);
   });
 
-  test("can export as markdown", async ({ page }) => {
+  test("export deck (markdown)", async ({ page }) => {
     await importStandardDeck(page);
 
     const downloadPromise = page.waitForEvent("download");
@@ -301,7 +298,7 @@ test.describe("deck view: interactions", () => {
     expect(fail).toBe(null);
   });
 
-  test("can share deck", async ({ page }) => {
+  test("share deck", async ({ page }) => {
     await shareDeck(page);
 
     await expect(page.getByTestId("view-title")).toContainText(
@@ -321,7 +318,7 @@ test.describe("deck view: interactions", () => {
     await expect(page.getByTestId("deck-tags")).toBeVisible();
   });
 
-  test("can show shared deck list", async ({ page }) => {
+  test("render shared deck list", async ({ page }) => {
     await shareDeck(page);
 
     await expect(page.getByTestId("view-decklist")).toBeVisible();
@@ -337,5 +334,11 @@ test.describe("deck view: interactions", () => {
     });
 
     await expect(page.getByTestId("view-decklist")).toHaveScreenshot();
+  });
+
+  test("prefill upgrade xp from url", async ({ page }) => {
+    await importStandardDeck(page);
+    await page.goto(page.url() + `?upgrade_xp=666`);
+    await expect(page.getByTestId("upgrade-xp")).toHaveValue("666");
   });
 });

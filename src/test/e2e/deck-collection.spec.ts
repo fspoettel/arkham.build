@@ -8,8 +8,8 @@ test.beforeEach(async ({ page }) => {
   await importDeck(page);
 });
 
-test.describe("deck collection: display", () => {
-  test("renders deck summary", async ({ page }) => {
+test.describe("deck collection", () => {
+  test("render deck summary", async ({ page }) => {
     const deckNode = page.getByTestId("collection-deck");
 
     await expect(deckNode.getByTestId("deck-summary-xp")).toContainText(
@@ -34,21 +34,19 @@ test.describe("deck collection: display", () => {
     await deckNode.click();
     await expect(page).toHaveURL(/\/deck\/view/);
   });
-});
 
-test.describe("deck collection: interaction", () => {
-  test("can create a deck", async ({ page }) => {
+  test("create deck", async ({ page }) => {
     await page.getByTestId("collection-create-deck").click();
     await expect(page).toHaveURL(/\/deck\/create/);
   });
 
-  test("can import a deck", async ({ page }) => {
+  test("import deck", async ({ page }) => {
     const deckNode = page.getByTestId("collection-deck");
     await expect(deckNode).toBeVisible();
     expect(await deckNode.count()).toBe(1);
   });
 
-  test("can import decks via files", async ({ page }) => {
+  test("import decks from files", async ({ page }) => {
     const fileChooserPromise = page.waitForEvent("filechooser");
 
     await page.getByTestId("collection-more-actions").click();
@@ -63,7 +61,7 @@ test.describe("deck collection: interaction", () => {
     await expect(page.getByTestId("collection-deck")).toHaveCount(3);
   });
 
-  test("can delete all decks", async ({ page }) => {
+  test("delete all local decks", async ({ page }) => {
     page.on("dialog", (dialog) => dialog.accept());
 
     await page.getByTestId("collection-more-actions").click();
