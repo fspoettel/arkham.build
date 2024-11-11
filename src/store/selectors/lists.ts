@@ -18,6 +18,7 @@ import {
   filterActions,
   filterAssets,
   filterCost,
+  filterDuplicates,
   filterEncounterCode,
   filterFactions,
   filterInvestigatorAccess,
@@ -257,7 +258,8 @@ export const selectCanonicalTabooSetId = (
 // 5. Customizations change, some options change card properties.
 // 6. Investigator option selections change.
 // 7. Deck card pool changes.
-// 8. Sealed deck chanees.
+// 8. Sealed deck changes.
+// 9. Stored deck has changed.
 const deckAccessEqualSelector = createCustomEqualSelector((a, b) => {
   if (isResolvedDeck(a) && isResolvedDeck(b)) {
     return (
@@ -271,7 +273,8 @@ const deckAccessEqualSelector = createCustomEqualSelector((a, b) => {
       JSON.stringify(a.selections) === JSON.stringify(b.selections) && // 6
       JSON.stringify(a.metaParsed.card_pool) ===
         JSON.stringify(b.metaParsed.card_pool) && // 7
-      a.metaParsed.sealed_deck === b.metaParsed.sealed_deck // 8
+      a.metaParsed.sealed_deck === b.metaParsed.sealed_deck && // 8
+      a.date_update === b.date_update // 9
     );
   }
 
@@ -340,21 +343,20 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
 
     const investigatorAccessFilter = or(ors);
 
+    const duplicatesNotInDeckFilter = (c: Card) =>
+      filterDuplicates(c) || resolvedDeck.slots[c.code] != null;
+
+    const ands = [investigatorAccessFilter, duplicatesNotInDeckFilter];
+
     const cardPool = resolvedDeck.cardPool;
-    const sealedDeck = resolvedDeck.sealedDeck?.cards;
-
-    if (!cardPool?.length && !sealedDeck) {
-      return investigatorAccessFilter;
-    }
-    const ands = [investigatorAccessFilter];
-
-    if (cardPool) {
+    if (cardPool?.length) {
       const packFilter = filterPackCode(cardPool, metadata, lookupTables);
       if (packFilter) {
         ands.push(or([packFilter, (c) => c.xp == null]));
       }
     }
 
+    const sealedDeck = resolvedDeck.sealedDeck?.cards;
     if (sealedDeck) {
       ands.push(
         or([filterSealed(sealedDeck, lookupTables), (c) => c.xp == null]),
@@ -411,6 +413,8 @@ const selectBaseListCards = createSelector(
 
     if (deckInvestigatorFilter) {
       filters.push(deckInvestigatorFilter);
+    } else {
+      filters.push(filterDuplicates);
     }
 
     if (filterValues) {

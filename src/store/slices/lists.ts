@@ -622,7 +622,6 @@ function makePlayerCardsList(
   );
 
   const systemFilter = [
-    filterDuplicates,
     not(filterEncounterCards),
     filterMythosCards,
     filterBacksides,
@@ -694,11 +693,7 @@ function makeEncounterCardsList(
     "encounterSet",
   );
 
-  const systemFilter = [
-    filterDuplicates,
-    filterEncounterCards,
-    filterBacksides,
-  ];
+  const systemFilter = [filterEncounterCards, filterBacksides];
 
   return makeList(
     key,

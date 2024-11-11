@@ -228,4 +228,92 @@ test.describe("deck edit", () => {
       page.getByTestId("cardset-otherSignatures").getByTestId("listcard-01010"),
     ).toBeVisible();
   });
+
+  test("display duplicates in deck (revised core)", async ({ page }) => {
+    await importDeckFromFile(page, "revised_core.json", {
+      navigate: "edit",
+    });
+
+    await fillSearch(page, "deduction");
+
+    await expect(
+      page
+        .getByTestId("virtuoso-item-list")
+        .getByTestId("listcard-60219")
+        .getByTestId("quantity-value"),
+    ).toContainText("2");
+
+    await expect(
+      page
+        .getByTestId("virtuoso-item-list")
+        .getByTestId("listcard-01039")
+        .getByTestId("quantity-value"),
+    ).toContainText("2");
+
+    await expect(
+      page
+        .getByTestId("virtuoso-item-list")
+        .getByTestId("listcard-01539")
+        .getByTestId("quantity-value"),
+    ).toContainText("2");
+
+    await expect(
+      page
+        .getByTestId("editor-tabs-slots")
+        .getByTestId("listcard-60219")
+        .getByTestId("quantity-value"),
+    ).toContainText("2");
+
+    await expect(
+      page
+        .getByTestId("editor-tabs-slots")
+        .getByTestId("listcard-01039")
+        .getByTestId("quantity-value"),
+    ).toContainText("2");
+
+    await expect(
+      page
+        .getByTestId("editor-tabs-slots")
+        .getByTestId("listcard-01539")
+        .getByTestId("quantity-value"),
+    ).toContainText("2");
+
+    await page
+      .getByTestId("virtuoso-item-list")
+      .getByTestId("listcard-01539")
+      .getByTestId("quantity-decrement")
+      .click();
+
+    await page
+      .getByTestId("virtuoso-item-list")
+      .getByTestId("listcard-01539")
+      .getByTestId("quantity-decrement")
+      .click();
+
+    await page.getByTestId("editor-save").click();
+    await page.getByTestId("view-edit").click();
+
+    await fillSearch(page, "deduction");
+
+    await expect(
+      page
+        .getByTestId("editor-tabs-slots")
+        .getByTestId("listcard-60219")
+        .getByTestId("quantity-value"),
+    ).toContainText("2");
+
+    await expect(
+      page
+        .getByTestId("editor-tabs-slots")
+        .getByTestId("listcard-01039")
+        .getByTestId("quantity-value"),
+    ).toContainText("2");
+
+    await expect(
+      page
+        .getByTestId("virtuoso-item-list")
+        .getByTestId("listcard-01539")
+        .getByTestId("quantity-value"),
+    ).not.toBeVisible();
+  });
 });
