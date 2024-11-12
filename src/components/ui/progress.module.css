@@ -9,7 +9,7 @@
 .progress-value {
   transform: translateX(calc(-1 * (100% - var(--progress-value))));
   width: 100%;
-  background: var(--palette-three-point-five);
+  background: var(--nord-9);
   position: absolute;
   height: 100%;
   z-index: 2;
