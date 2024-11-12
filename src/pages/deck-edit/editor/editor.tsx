@@ -1,4 +1,4 @@
-import { DeckSummary } from "@/components/deck-summary";
+import { DeckStats } from "@/components/deck-stats";
 import { DecklistGroups } from "@/components/decklist/decklist-groups";
 import { DecklistSection } from "@/components/decklist/decklist-section";
 import { Scroller } from "@/components/ui/scroller";
@@ -7,7 +7,8 @@ import type { DeckValidationResult } from "@/store/lib/deck-validation";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import type { Tab } from "@/store/slices/deck-edits.types";
-import { isStaticInvestigator } from "@/utils/card-utils";
+import { getCardColor, isStaticInvestigator } from "@/utils/card-utils";
+import { cx } from "@/utils/cx";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { EditorActions } from "./editor-actions";
 import css from "./editor.module.css";
@@ -25,15 +26,19 @@ type Props = {
 };
 
 export function Editor(props: Props) {
-  const { currentTab, onTabChange, deck, renderCardExtra, validation } = props;
+  const { currentTab, onTabChange, deck, renderCardExtra } = props;
 
   const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
+  const backgroundCls = getCardColor(deck.investigatorBack.card, "background");
 
   const staticInvestigator = isStaticInvestigator(deck.investigatorBack.card);
 
   return (
     <div className={css["editor"]} style={cssVariables}>
-      <DeckSummary deck={deck} validation={validation} />
+      <header className={cx(css["editor-header"], backgroundCls)}>
+        <h1 className={css["editor-title"]}>{deck.name}</h1>
+        <DeckStats deck={deck} />
+      </header>
 
       <InvestigatorListcard deck={deck} />
 

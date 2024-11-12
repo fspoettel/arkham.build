@@ -15,7 +15,7 @@
 
 .trigger[data-state="active"] {
   background-color: var(--palette-1);
-  border-bottom: 0.125rem solid var(--accent-color, var(--nord-10));
+  border-bottom: 0.125rem solid var(--accent-color-dark, var(--nord-10));
 }
 
 .trigger[data-state="active"]:hover,

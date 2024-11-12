@@ -70,24 +70,6 @@
   font-size: var(--text-xs);
 }
 
-.stats {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.stats > * {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.125rem;
-  font-size: var(--text-2xs);
-}
-
-.stats svg {
-  font-size: var(--text-base);
-}
-
 .meta {
   grid-area: meta;
   font-size: var(--text-sm);

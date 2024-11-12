@@ -12,6 +12,7 @@ import {
 import { useCallback } from "react";
 import { useLocation } from "wouter";
 import { CardThumbnail } from "./card-thumbnail";
+import { DeckStats } from "./deck-stats";
 import css from "./deck-summary.module.css";
 import { Button } from "./ui/button";
 import { DefaultTooltip } from "./ui/tooltip";
@@ -102,7 +103,7 @@ export function DeckSummary(props: Props) {
           </div>
         )}
         <div className={css["header-container"]}>
-          <div className={cx(css["info-container"], css["summary-transition"])}>
+          <div className={cx(css["info-container"])}>
             <h3 className={css["title"]} data-testid="deck-summary-title">
               {deck.name}
             </h3>
@@ -120,22 +121,7 @@ export function DeckSummary(props: Props) {
                   {card.real_name}
                 </h4>
               </div>
-              <div className={css["stats"]}>
-                <strong data-testid="deck-summary-xp">
-                  <i className="icon-xp-bold" />
-                  {deck.stats.xpRequired} XP
-                </strong>
-                {!!deck.xp && (
-                  <strong data-testid="deck-xp-earned">
-                    <i className="icon-upgrade" />
-                    {deck.xp + (deck.xp_adjustment ?? 0)} XP
-                  </strong>
-                )}
-                <strong data-testid="deck-summary-size">
-                  <i className="icon-card-outline-bold" />×{" "}
-                  {deck.stats.deckSize} ({deck.stats.deckSizeTotal})
-                </strong>
-              </div>
+              <DeckStats deck={deck} />
             </div>
           </div>
 
