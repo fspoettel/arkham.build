@@ -2,6 +2,19 @@
   margin-top: 1rem;
 }
 
+.footer {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.375rem;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.footer-row > * + * {
+  margin-left: 0.375rem;
+}
+
 .exile {
   height: min(50vh, 20rem);
 }

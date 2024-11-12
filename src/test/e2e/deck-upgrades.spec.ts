@@ -22,7 +22,7 @@ async function importStandardDeck(page: Page) {
 async function upgradeDeck(page: Page) {
   await page.getByTestId("view-upgrade").click();
   await page.getByTestId("upgrade-xp").fill("5");
-  await page.getByTestId("upgrade-submit").click();
+  await page.getByTestId("upgrade-save-close").click();
   await expect(page.getByTestId("view-latest-upgrade")).toBeVisible();
 }
 
@@ -128,7 +128,7 @@ test.describe("upgrades: interactions", () => {
       .getByTestId("quantity-increment")
       .click();
 
-    await page.getByTestId("upgrade-submit").click();
+    await page.getByTestId("upgrade-save-close").click();
     await page.getByTestId("latest-upgrade").click();
     await expect(page.getByTestId("listcard-60520")).toBeVisible();
     await expect(page.getByTestId("listcard-60521")).toBeVisible();
@@ -246,7 +246,7 @@ test.describe("upgrades: views", () => {
     await page.getByTestId("upgrade-xp").click();
     await page.getByTestId("quantity-increment").click();
     await page.getByTestId("quantity-increment").click();
-    await page.getByTestId("upgrade-submit").click();
+    await page.getByTestId("upgrade-save-close").click();
     await page.getByTestId("view-edit").click();
     await page.getByTestId("latest-upgrade-exile").click();
     await expect(
@@ -261,7 +261,7 @@ test.describe("upgrades: views", () => {
 
     await page.getByTestId("view-upgrade").click();
     await page.getByTestId("upgrade-xp").fill("2");
-    await page.getByTestId("upgrade-submit").click();
+    await page.getByTestId("upgrade-save-close").click();
     await page.getByTestId("tab-history").click();
     await expect(
       page.getByTestId("history").getByRole("paragraph"),
@@ -270,7 +270,7 @@ test.describe("upgrades: views", () => {
     await page.getByTestId("view-upgrade").click();
     await page.getByTestId("upgrade-xp").fill("0");
     await page.getByText("I was usurped by the").click();
-    await page.getByTestId("upgrade-submit").click();
+    await page.getByTestId("upgrade-save-close").click();
     await page.getByTestId("tab-history").click();
 
     await page.waitForTimeout(5000);

@@ -95,47 +95,50 @@ export function UpgradeModal(props: Props) {
     modalContext?.setOpen(false);
   }, [modalContext]);
 
-  const onUpgrade = useCallback(async () => {
-    const { deck: newDeck, shareUpgraded } = upgradeDeck({
-      id: deck.id,
-      xp: xp ? +xp : 0,
-      exileString,
-      usurped: hasGreatWork ? usurped : undefined,
-    });
+  const onUpgrade = useCallback(
+    async (path = "edit") => {
+      const { deck: newDeck, shareUpgraded } = upgradeDeck({
+        id: deck.id,
+        xp: xp ? +xp : 0,
+        exileString,
+        usurped: hasGreatWork ? usurped : undefined,
+      });
 
-    onCloseModal();
+      onCloseModal();
 
-    toast.show({
-      duration: 3000,
-      children: "Deck upgrade successful.",
-      variant: "success",
-    });
+      toast.show({
+        duration: 3000,
+        children: "Deck upgrade successful.",
+        variant: "success",
+      });
 
-    navigate(`/deck/view/${newDeck.id}`);
-
-    if (shareUpgraded) {
-      try {
-        await createShare(newDeck.id as string);
-      } catch (err) {
-        toast.show({
-          duration: 3000,
-          children: `Failed to share deck: ${(err as Error).message}`,
-          variant: "error",
-        });
+      if (shareUpgraded) {
+        try {
+          await createShare(newDeck.id as string);
+        } catch (err) {
+          toast.show({
+            duration: 3000,
+            children: `Failed to share deck: ${(err as Error).message}`,
+            variant: "error",
+          });
+        }
       }
-    }
-  }, [
-    deck.id,
-    upgradeDeck,
-    xp,
-    onCloseModal,
-    navigate,
-    toast,
-    exileString,
-    usurped,
-    hasGreatWork,
-    createShare,
-  ]);
+
+      navigate(`/deck/${path}/${newDeck.id}`);
+    },
+    [
+      deck.id,
+      upgradeDeck,
+      xp,
+      onCloseModal,
+      navigate,
+      toast,
+      exileString,
+      usurped,
+      hasGreatWork,
+      createShare,
+    ],
+  );
 
   const onXpChange = useCallback((evt: React.ChangeEvent<HTMLInputElement>) => {
     setXp(evt.target.value);
@@ -177,17 +180,29 @@ export function UpgradeModal(props: Props) {
           </>
         }
         footer={
-          <>
-            <Button
-              data-testid="upgrade-submit"
-              disabled={xp === ""}
-              onClick={onUpgrade}
-              variant="primary"
-            >
-              Upgrade
+          <div className={css["footer"]}>
+            <div className={css["footer-row"]}>
+              <Button
+                data-testid="upgrade-save"
+                disabled={xp === ""}
+                onClick={() => onUpgrade("edit")}
+                variant="primary"
+              >
+                Upgrade
+              </Button>
+              <Button
+                data-testid="upgrade-save-close"
+                disabled={xp === ""}
+                onClick={() => onUpgrade("view")}
+                variant="bare"
+              >
+                Save & close
+              </Button>
+            </div>
+            <Button onClick={onCloseModal} variant="bare">
+              Cancel
             </Button>
-            <Button onClick={onCloseModal}>Cancel</Button>
-          </>
+          </div>
         }
         style={cssVariables}
       >
