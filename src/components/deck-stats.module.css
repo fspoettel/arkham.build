@@ -1,0 +1,18 @@
+.stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.stats > * {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.125rem;
+  font-size: var(--text-2xs);
+}
+
+.stats svg,
+.stats i {
+  font-size: var(--text-base);
+}
