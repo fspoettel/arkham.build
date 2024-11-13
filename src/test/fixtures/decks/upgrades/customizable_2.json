@@ -1,0 +1,32 @@
+{
+  "id": "xEcylPPK5PCBpXJ",
+  "date_creation": "2024-11-13T07:45:51.533Z",
+  "date_update": "2024-11-13T07:47:23.251Z",
+  "description_md": "1 XP: Runic Axe #2\n1 XP: Hunter's Armor\n3 XP: Modifications\n1 XP: FiLP (2nd copy is free)\n2 XP: Honed Instinct (3rd copy is free)",
+  "meta": "{\"cus_09021\":\"4|2\",\"cus_09061\":\"6|3\",\"cus_09023\":\"0|1,1|2\",\"cus_09060\":\"1|1\"}",
+  "ignoreDeckLimitSlots": {},
+  "sideSlots": {},
+  "next_deck": null,
+  "previous_deck": null,
+  "tags": "",
+  "version": "0.1",
+  "taboo_id": null,
+  "xp": 8,
+  "xp_spent": 8,
+  "exile_string": "",
+  "xp_adjustment": 0,
+  "investigator_code": "01003",
+  "investigator_name": "\"Skids\" O'Toole",
+  "name": "The \"Skids\" O'Toole Job",
+  "slots": {
+    "01000": 1,
+    "01010": 1,
+    "01011": 1,
+    "09022": 2,
+    "09021": 2,
+    "09061": 3,
+    "09060": 2,
+    "09023": 2
+  },
+  "problem": "too_few_cards"
+}

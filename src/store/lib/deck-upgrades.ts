@@ -89,7 +89,10 @@ function getCustomizableChanges(prev: ResolvedDeck, next: ResolvedDeck) {
 
       if (customization.xp_spent !== prevXp) {
         customizableDifferences[code] ??= [];
-        customizableDifferences[code].push(customization);
+        customizableDifferences[code].push({
+          ...customization,
+          xp_spent: customization.xp_spent - (prevXp ?? 0),
+        });
       }
     }
   }
@@ -200,6 +203,16 @@ function calculateXpSpent(
     const upgrades = getDirectUpgrades(diff);
 
     for (const [card, quantity] of diff.adds) {
+      // Checking boxes on a customizable cards counts as upgrades.
+      // We only handle customizable purchases as adds if the cards are new.
+      if (
+        prev.slots[card.code] &&
+        !next.exileSlots[card.code] &&
+        changes.customizations[card.code]?.some((c) => c.xp_spent)
+      ) {
+        continue;
+      }
+
       let cost = countExperience(card, quantity);
 
       const level = realCardLevel(card);

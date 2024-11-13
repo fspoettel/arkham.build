@@ -16,6 +16,8 @@ import arcaneResearchDtrh from "@/test/fixtures/decks/upgrades/arcane_research_d
 import arcaneResearchDtrh2 from "@/test/fixtures/decks/upgrades/arcane_research_dtrh_2.json";
 import arcaneResearchSwap from "@/test/fixtures/decks/upgrades/arcane_research_swap_1.json";
 import arcaneResearchSwap2 from "@/test/fixtures/decks/upgrades/arcane_research_swap_2.json";
+import customizable from "@/test/fixtures/decks/upgrades/customizable_1.json";
+import customizable2 from "@/test/fixtures/decks/upgrades/customizable_2.json";
 import customizableDtrh from "@/test/fixtures/decks/upgrades/customizable_dtrh_1.json";
 import customizableDtrh2 from "@/test/fixtures/decks/upgrades/customizable_dtrh_2.json";
 import customizablePurchase from "@/test/fixtures/decks/upgrades/customizable_purchase_1.json";
@@ -310,6 +312,21 @@ describe("getUpgradeStats", () => {
       const state = store.getState();
       const prev = resolveDeck(state.metadata, state.lookupTables, permanent);
       const next = resolveDeck(state.metadata, state.lookupTables, permanent2);
+      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+    });
+
+    it("handles case: customizable (corner cases)", () => {
+      const state = store.getState();
+      const prev = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        customizable,
+      );
+      const next = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        customizable2,
+      );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
