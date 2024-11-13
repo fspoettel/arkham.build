@@ -28,6 +28,7 @@
   height: 0.75rem;
   transform: translateY(-50%);
   color: var(--palette-three-point-five);
+  pointer-events: none;
 }
 
 .control-row:hover .control-indicator {
