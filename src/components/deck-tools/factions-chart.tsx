@@ -2,7 +2,13 @@ import type { ChartableData } from "@/store/lib/types";
 import type { FactionName } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
 import { useMemo, useRef } from "react";
-import { VictoryContainer, VictoryPie } from "victory";
+import {
+  VictoryContainer,
+  VictoryLabel,
+  type VictoryLabelProps,
+  VictoryPie,
+  VictoryTooltip,
+} from "victory";
 import { useElementSize } from "../../utils/use-element-size";
 import { chartsTheme } from "./chart-theme";
 import css from "./deck-tools.module.css";
@@ -30,6 +36,7 @@ export function FactionsChart({ data }: Props) {
             data={normalizedData}
             theme={chartsTheme}
             labelPlacement="parallel"
+            labelComponent={<CustomLabel />}
             labels={({ datum }) => capitalize(datum.xName)}
             width={width}
             sortKey={"y"}
@@ -47,3 +54,26 @@ export function FactionsChart({ data }: Props) {
     </div>
   );
 }
+
+function CustomLabel(props: VictoryLabelProps) {
+  return (
+    <g>
+      <VictoryLabel {...props} />
+      <VictoryTooltip
+        // biome-ignore lint/suspicious/noExplicitAny: wrong library typings.
+        active={(props as any).active}
+        x={props.x}
+        y={props.y}
+        orientation="bottom"
+        angle={0}
+        theme={chartsTheme}
+        labelPlacement="vertical"
+        flyoutWidth={100}
+        constrainToVisibleArea
+        text={`${props.datum?.y ?? 0} cards`}
+      />
+    </g>
+  );
+}
+
+CustomLabel.defaultEvents = VictoryTooltip.defaultEvents;
