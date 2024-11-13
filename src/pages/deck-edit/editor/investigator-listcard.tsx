@@ -41,7 +41,10 @@ function InvestigatorListcardInner({ deck }: Props) {
   const deckToolsOpen = location.endsWith("/tools");
 
   return (
-    <div className={css["investigator-container"]}>
+    <div
+      className={css["investigator-container"]}
+      data-testid="investigator-container"
+    >
       <DialogTrigger className={css["trigger-container"]}>
         <ListCard
           card={card}

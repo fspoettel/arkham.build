@@ -47,9 +47,9 @@ test.describe("deck create", () => {
 
     await expect(page).toHaveURL(/\/deck\/edit/);
 
-    await expect(page.getByTestId("deck-summary-investigator")).toContainText(
-      "Jenny Barnes",
-    );
+    await expect(
+      page.getByTestId("investigator-container").getByTestId("listcard-title"),
+    ).toContainText("Jenny Barnes");
 
     await expect(page.getByTestId("editor-tabs-slots")).toBeVisible();
 
