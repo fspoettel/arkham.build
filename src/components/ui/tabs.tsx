@@ -6,7 +6,6 @@ import type {
   TabsTriggerProps,
 } from "@radix-ui/react-tabs";
 import { Content, List, Root, Trigger } from "@radix-ui/react-tabs";
-import { useMemo } from "react";
 import { Button } from "./button";
 import css from "./tabs.module.css";
 
@@ -16,19 +15,8 @@ type TabsProps = RootProps & {
 };
 
 export function Tabs({ children, className, length, ...rest }: TabsProps) {
-  const cssVariables = useMemo(
-    () => ({
-      "--length": length,
-    }),
-    [length],
-  );
-
   return (
-    <Root
-      {...rest}
-      className={className}
-      style={cssVariables as React.CSSProperties}
-    >
+    <Root {...rest} className={className}>
       {children}
     </Root>
   );

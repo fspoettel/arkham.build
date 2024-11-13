@@ -5,7 +5,8 @@
 }
 
 .list > * {
-  flex: 1 1 calc(100% / var(--length) - 0.5rem);
+  flex: 1 1 auto;
+  text-align: left;
 }
 
 .trigger {
