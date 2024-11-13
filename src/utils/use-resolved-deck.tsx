@@ -41,9 +41,14 @@ export function ResolvedDeckProvider(props: Props) {
   );
 }
 
+const DEFAULT_DECK_CONTEXT: DeckContextType = {
+  resolvedDeck: undefined,
+  canEdit: false,
+};
+
 export function useResolvedDeck() {
   const context = useContext(DeckIdContext);
-  return context ?? { resolvedDeck: undefined, canEdit: false };
+  return context ?? DEFAULT_DECK_CONTEXT;
 }
 
 export function useResolvedDeckChecked(): DeckContextTypeChecked {

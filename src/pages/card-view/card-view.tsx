@@ -4,6 +4,7 @@ import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
 import { CardViewCards } from "@/pages/card-view/card-view-cards";
 import { useStore } from "@/store";
+import type { CardWithRelations } from "@/store/lib/types";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
 import { isStaticInvestigator } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
@@ -34,7 +35,8 @@ function CardView() {
   const isBuildableInvestigator =
     isInvestigator && !isStaticInvestigator(cardWithRelations.card);
 
-  const parallel = cardWithRelations.relations?.parallel?.card;
+  const parallel = (cardWithRelations as CardWithRelations).relations?.parallel
+    ?.card;
 
   return (
     <CardModalProvider>

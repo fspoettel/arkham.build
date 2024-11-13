@@ -6,50 +6,54 @@ import type { Card } from "@/store/services/queries.types";
 import type { CustomizationOption as CustomizationOptionType } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
 import { time, timeEnd } from "@/utils/time";
+import { createSelector } from "reselect";
 
-function selectPlayerCardsForCustomizationOptions(
-  state: StoreState,
-  config: CustomizationOptionType["card"],
-) {
-  if (!config) return [];
+const selectPlayerCardsForCustomizationOptions = createSelector(
+  (state: StoreState) => state.metadata,
+  (state: StoreState) => state.lookupTables,
+  (_: StoreState, config: CustomizationOptionType["card"] | undefined) =>
+    config,
+  (metadata, lookupTables, config) => {
+    if (!config) return [];
 
-  time("select_player_cards_for_customization_options");
+    time("select_player_cards_for_customization_options");
 
-  const options: Set<Card> = new Set();
+    const options: Set<Card> = new Set();
 
-  const traitTable = state.lookupTables.traits;
-  const typeTable = state.lookupTables.typeCode;
+    const traitTable = lookupTables.traits;
+    const typeTable = lookupTables.typeCode;
 
-  const traitTables = config.trait.map((trait) => traitTable[trait]);
-  const typeTables = config.type.map((type) => typeTable[type]);
+    const traitTables = config.trait.map((trait) => traitTable[trait]);
+    const typeTables = config.type.map((type) => typeTable[type]);
 
-  const codes = [
-    ...traitTables.flatMap(Object.keys),
-    ...typeTables.flatMap(Object.keys),
-  ];
+    const codes = [
+      ...traitTables.flatMap(Object.keys),
+      ...typeTables.flatMap(Object.keys),
+    ];
 
-  for (const code of codes) {
-    if (
-      !traitTables.some((x) => code in x) ||
-      !typeTables.every((x) => code in x)
-    ) {
-      continue;
+    for (const code of codes) {
+      if (
+        !traitTables.some((x) => code in x) ||
+        !typeTables.every((x) => code in x)
+      ) {
+        continue;
+      }
+
+      const card = metadata.cards[code];
+      if (!card || card.duplicate_of_code) {
+        continue;
+      }
+
+      options.add(card);
     }
 
-    const card = state.metadata.cards[code];
-    if (!card || card.duplicate_of_code) {
-      continue;
-    }
+    const cards = Array.from(options).sort(sortByName);
 
-    options.add(card);
-  }
+    timeEnd("select_player_cards_for_customization_options");
 
-  const cards = Array.from(options).sort(sortByName);
-
-  timeEnd("select_player_cards_for_customization_options");
-
-  return cards;
-}
+    return cards;
+  },
+);
 
 const cardRenderer = (item: Card) => (
   <ListCardInner disableModalOpen card={item} size="sm" />

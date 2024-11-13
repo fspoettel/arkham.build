@@ -2,6 +2,7 @@ import { Combobox } from "@/components/ui/combobox/combobox";
 import { useStore } from "@/store";
 import { sortAlphabetical } from "@/store/lib/sorting";
 import type { StoreState } from "@/store/slices";
+import { createSelector } from "reselect";
 
 type Props = {
   disabled?: boolean;
@@ -12,13 +13,13 @@ type Props = {
   selections: string[];
 };
 
-const selectTraitOptions = (state: StoreState) => {
-  const types = Object.keys(state.lookupTables.traits).map((code) => ({
-    code,
-  }));
-  types.sort((a, b) => sortAlphabetical(a.code, b.code));
-  return types;
-};
+const selectTraitOptions = createSelector(
+  (state: StoreState) => state.lookupTables.traits,
+  (traits) =>
+    Object.keys(traits)
+      .map((code) => ({ code }))
+      .sort((a, b) => sortAlphabetical(a.code, b.code)),
+);
 
 export function CustomizationChooseTraits(props: Props) {
   const { disabled, id, limit, onChange, readonly, selections } = props;

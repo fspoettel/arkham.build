@@ -15,6 +15,7 @@ import type { StoreState } from "@/store/slices";
 import { debounce } from "@/utils/debounce";
 import { capitalize, capitalizeSnakeCase } from "@/utils/formatting";
 import { useCallback, useMemo } from "react";
+import { createSelector } from "reselect";
 
 type Props = {
   deck: ResolvedDeck;
@@ -36,12 +37,20 @@ function getInvestigatorOptions(
     : [];
 }
 
-const selectUpdateName = (state: StoreState) => debounce(state.updateName, 100);
+const selectUpdateName = createSelector(
+  (state: StoreState) => state.updateName,
+  (updateName) => debounce(updateName, 100),
+);
 
-const selectUpdateDescription = (state: StoreState) =>
-  debounce(state.updateDescription, 100);
+const selectUpdateDescription = createSelector(
+  (state: StoreState) => state.updateDescription,
+  (updateDescription) => debounce(updateDescription, 100),
+);
 
-const selectUpdateTags = (state: StoreState) => debounce(state.updateTags, 100);
+const selectUpdateTags = createSelector(
+  (state: StoreState) => state.updateTags,
+  (updateTags) => debounce(updateTags, 100),
+);
 
 const selectUpdateTabooId = (state: StoreState) => state.updateTabooId;
 

@@ -25,7 +25,7 @@ export function LimitedCardPoolTag() {
   const ctx = useResolvedDeck();
 
   const metadata = useStore((state) => state.metadata);
-  const cardPool = ctx?.resolvedDeck?.metaParsed.card_pool;
+  const cardPool = ctx.resolvedDeck?.metaParsed.card_pool;
 
   if (!cardPool) return null;
 
