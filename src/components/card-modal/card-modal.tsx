@@ -119,6 +119,7 @@ export function CardModal(props: Props) {
 
   return (
     <Modal
+      key={cardWithRelations.card.code}
       actions={
         <>
           {cardWithRelations.card.type_code === "investigator" &&
