@@ -921,20 +921,23 @@ export const selectSkillIconsChanges = (value: SkillIconsFilter) => {
  * Taboo Set
  */
 
-export const selectTabooSetOptions = (state: StoreState) => {
-  const sets = Object.values(state.metadata.tabooSets);
-  sets.sort((a, b) => sortAlphabetical(b.date, a.date));
-  return sets;
-};
+export const selectTabooSetOptions = createSelector(
+  (state: StoreState) => state.metadata.tabooSets,
+  (tabooSets) => {
+    const sets = Object.values(tabooSets);
+    sets.sort((a, b) => sortAlphabetical(b.date, a.date));
+    return sets;
+  },
+);
 
-export const selectTabooSetSelectOptions = (state: StoreState) => {
-  const sets = Object.values(state.metadata.tabooSets);
-  sets.sort((a, b) => sortAlphabetical(b.date, a.date));
-  return sets.map((s) => ({
-    label: formatTabooSet(s),
-    value: s.id,
-  }));
-};
+export const selectTabooSetSelectOptions = createSelector(
+  selectTabooSetOptions,
+  (sets) =>
+    sets.map((s) => ({
+      label: formatTabooSet(s),
+      value: s.id,
+    })),
+);
 
 export const selectTabooSetChanges = createSelector(
   (_: StoreState, value: SelectFilter) => value,

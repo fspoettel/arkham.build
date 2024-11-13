@@ -5,11 +5,24 @@ import { useStore } from "@/store";
 import { resolveDeck } from "@/store/lib/resolve-deck";
 import { selectDeckValid } from "@/store/selectors/decks";
 import { getShare } from "@/store/services/queries";
+import type { StoreState } from "@/store/slices";
+import type { Deck } from "@/store/slices/data.types";
 import { useQuery } from "@/utils/use-query";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
 import { useCallback } from "react";
+import { createSelector } from "reselect";
 import { useParams } from "wouter";
 import { Error404 } from "../errors/404";
+
+const selectResolvedShare = createSelector(
+  (state: StoreState) => state.metadata,
+  (state: StoreState) => state.lookupTables,
+  (_: StoreState, data: Deck | undefined) => data,
+  (metadata, lookupTables, data) => {
+    if (!data) return undefined;
+    return resolveDeck(metadata, lookupTables, data);
+  },
+);
 
 function Share() {
   const { id } = useParams<{ id: string }>();
@@ -18,14 +31,8 @@ function Share() {
 
   const { data, loading, error } = useQuery(query);
 
-  const resolvedDeck = useStore((state) => {
-    if (!data) return undefined;
-    return resolveDeck(state.metadata, state.lookupTables, data);
-  });
-
-  const validation = useStore((state) => {
-    return selectDeckValid(state, resolvedDeck);
-  });
+  const resolvedDeck = useStore((state) => selectResolvedShare(state, data));
+  const validation = useStore((state) => selectDeckValid(state, resolvedDeck));
 
   if (loading) return <Loader />;
   if (error) return <Error404 />;

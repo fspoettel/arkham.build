@@ -31,8 +31,11 @@ type Entry = {
 export function AttachableCards(props: Props) {
   const { card, definition, resolvedDeck } = props;
 
-  const sortFunction = useStore((state) =>
-    makeSortFunction(["type", "name"], state.metadata),
+  const metadata = useStore((state) => state.metadata);
+
+  const sortFunction = useMemo(
+    () => makeSortFunction(["type", "name"], metadata),
+    [metadata],
   );
 
   const onAttachmentQuantityChange = useAttachmentsChangeHandler();

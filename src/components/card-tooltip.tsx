@@ -12,7 +12,7 @@ export function CardTooltip(props: Props) {
   const ctx = useResolvedDeck();
 
   const resolvedCard = useStore((state) =>
-    selectCardWithRelations(state, props.code, false, ctx?.resolvedDeck),
+    selectCardWithRelations(state, props.code, false, ctx.resolvedDeck),
   );
 
   if (!resolvedCard) return null;

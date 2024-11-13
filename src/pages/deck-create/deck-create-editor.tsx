@@ -8,8 +8,7 @@ import { decodeSelections } from "@/store/lib/deck-meta";
 import type { CardWithRelations } from "@/store/lib/types";
 import {
   selectDeckCreateChecked,
-  selectDeckCreateInvestigator,
-  selectDeckCreateInvestigatorBack,
+  selectDeckCreateInvestigators,
 } from "@/store/selectors/deck-create";
 import { selectTabooSetSelectOptions } from "@/store/selectors/lists";
 import { capitalize, capitalizeSnakeCase } from "@/utils/formatting";
@@ -22,8 +21,7 @@ import css from "./deck-create.module.css";
 
 export function DeckCreateEditor() {
   const deckCreate = useStore(selectDeckCreateChecked);
-  const investigator = useStore(selectDeckCreateInvestigator);
-  const back = useStore(selectDeckCreateInvestigatorBack);
+  const { back, investigator } = useStore(selectDeckCreateInvestigators);
 
   const createDeck = useStore((state) => state.createDeck);
 

@@ -2,7 +2,7 @@ import { CardSet } from "@/components/cardset";
 import { useStore } from "@/store";
 import {
   selectDeckCreateCardSets,
-  selectDeckCreateInvestigator,
+  selectDeckCreateInvestigators,
 } from "@/store/selectors/deck-create";
 import { useCallback } from "react";
 import { useAccentColor } from "../../utils/use-accent-color";
@@ -26,7 +26,7 @@ export function DeckCreateCardSets() {
     [toggleConfigureCardSet],
   );
 
-  const investigator = useStore(selectDeckCreateInvestigator);
+  const { investigator } = useStore(selectDeckCreateInvestigators);
   const cssVariables = useAccentColor(investigator.card.faction_code);
 
   return (
