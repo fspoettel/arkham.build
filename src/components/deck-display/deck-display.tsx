@@ -15,7 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import css from "./deck-display.module.css";
 import { DeckHistory } from "./deck-history/deck-history";
 import { DeckNotes } from "./deck-notes";
-import { Sidebar } from "./sidebar/sidebar";
+import { Sidebar } from "./sidebar";
 
 type Props = {
   deck: ResolvedDeck;
@@ -29,16 +29,6 @@ export function DeckDisplay(props: Props) {
   const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
   const history = useStore((state) => selectDeckHistory(state, deck.id));
   const hasHistory = !!history.length;
-
-  const decklist = (
-    <>
-      <DecklistValidation
-        defaultOpen={validation.errors.length < 3}
-        validation={validation}
-      />
-      <Decklist deck={deck} />
-    </>
-  );
 
   return (
     <AppLayout
@@ -76,7 +66,11 @@ export function DeckDisplay(props: Props) {
               )}
             </TabsList>
             <TabsContent className={css["tab"]} value="deck">
-              {decklist}
+              <DecklistValidation
+                defaultOpen={validation.errors.length < 3}
+                validation={validation}
+              />
+              <Decklist deck={deck} />
             </TabsContent>
             <TabsContent className={css["tab"]} value="tools">
               <DeckTools deck={deck} />

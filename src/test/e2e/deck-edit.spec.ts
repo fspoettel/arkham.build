@@ -316,4 +316,106 @@ test.describe("deck edit", () => {
         .getByTestId("quantity-value"),
     ).not.toBeVisible();
   });
+
+  test("customizable selections", async ({ page }) => {
+    await page.goto("/deck/create/03006");
+    await page.getByTestId("create-save").click();
+
+    await fillSearch(page, "Raven Quill");
+    await page
+      .getByTestId("virtuoso-item-list")
+      .getByTestId("listcard-09042")
+      .getByTestId("quantity-increment")
+      .click();
+    await page
+      .getByTestId("editor-tabs-slots")
+      .getByTestId("listcard-09042")
+      .getByTestId("listcard-title")
+      .click();
+    await page.getByTestId("combobox-input").click();
+    await page.getByTestId("combobox-input").fill("grim memoir");
+    await page.getByTestId("listcard-09044").click();
+    await page.getByTestId("combobox-input").press("Escape");
+    await page.locator("body").press("Escape");
+
+    await fillSearch(page, "honed instinct");
+    await page
+      .getByTestId("listcard-09061")
+      .getByTestId("quantity-increment")
+      .dblclick();
+    await page
+      .getByTestId("virtuoso-item-list")
+      .getByTestId("listcard-09061")
+      .getByTestId("listcard-title")
+      .click();
+    await page.getByTestId("customization-6-xp-2").click();
+    await page
+      .getByTestId("card-modal-quantities-main")
+      .getByTestId("quantity-increment")
+      .click();
+    await page.locator("body").press("Escape");
+
+    await fillSearch(page, "grizzled");
+    await page
+      .getByTestId("virtuoso-item-list")
+      .getByTestId("listcard-09101")
+      .getByTestId("quantity-increment")
+      .click();
+    await page
+      .getByTestId("virtuoso-item-list")
+      .getByTestId("listcard-09101")
+      .getByTestId("listcard-title")
+      .click();
+    await page.getByTestId("combobox-input").click();
+    await page.getByTestId("combobox-input").fill("monster");
+    await page.getByTestId("combobox-menu-item-Monster").click();
+    await page.getByTestId("combobox-input").press("Escape");
+    await page.locator("body").press("Escape");
+
+    await fillSearch(page, "friends in low places");
+    await page
+      .getByTestId("virtuoso-item-list")
+      .getByTestId("listcard-09060")
+      .getByTestId("listcard-title")
+      .click();
+    await page.getByTestId("combobox-input").click();
+    await page.getByTestId("combobox-input").fill("item");
+    await page.getByTestId("combobox-menu-item-Item").click();
+    await page.getByTestId("combobox-input").press("Escape");
+    await page.locator("body").press("Escape");
+
+    await fillSearch(page, "summoned servitor");
+    await page
+      .getByTestId("virtuoso-item-list")
+      .getByTestId("listcard-09080")
+      .getByTestId("quantity-increment")
+      .click();
+    await page
+      .getByTestId("virtuoso-item-list")
+      .getByTestId("listcard-09080")
+      .getByTestId("listcard-title")
+      .click();
+    await page.getByTestId("customization-5-xp-1").click();
+    await page.getByTestId("customization-remove-slot").selectOption("1");
+    await page.getByTestId("customization-remove-slot").press("Escape");
+    await page.locator("body").press("Escape");
+
+    await fillSearch(page, "living ink");
+    await page
+      .getByTestId("virtuoso-item-list")
+      .getByTestId("listcard-09079")
+      .getByTestId("quantity-increment")
+      .click();
+    await page
+      .getByTestId("virtuoso-item-list")
+      .getByTestId("listcard-09079")
+      .getByTestId("listcard-title")
+      .click();
+    await page.getByTestId("combobox-input").click();
+    await page.getByTestId("combobox-menu-item-intellect").click();
+    await page.getByTestId("combobox-input").press("Escape");
+    await page.locator("body").press("Escape");
+
+    await page.getByTestId("editor-save").click();
+  });
 });

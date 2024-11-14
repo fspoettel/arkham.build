@@ -43,6 +43,8 @@ export class ErrorBoundary extends Component<Props, State> {
                 display: "flex",
                 flexFlow: "column nowrap",
                 gap: "1rem",
+                maxHeight: "50vh",
+                overflowY: "auto",
               }}
             >
               <div className="longform">

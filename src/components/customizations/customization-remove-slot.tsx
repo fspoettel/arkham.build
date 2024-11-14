@@ -31,6 +31,7 @@ export function CustomizationRemoveSlot(props: Props) {
     <Select
       defaultValue={selections[0] || ""}
       disabled={disabled}
+      data-testid="customization-remove-slot"
       id={`${id}-remove-slot`}
       onChange={onValueChange}
       options={splitMultiValue(card.original_slot).map((trait, i) => ({
