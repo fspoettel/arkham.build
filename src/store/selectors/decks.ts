@@ -44,9 +44,7 @@ export const selectLocalDecks = createSelector(
   (data, metadata, lookupTables) => {
     time("select_local_decks");
 
-    const { history } = data;
-
-    const resolvedDecks = Object.keys(history).reduce<ResolvedDeck[]>(
+    const resolvedDecks = Object.keys(data.history).reduce<ResolvedDeck[]>(
       (acc, id) => {
         const deck = data.decks[id];
 
@@ -59,7 +57,6 @@ export const selectLocalDecks = createSelector(
           }
         } catch (err) {
           console.error(`Error resolving deck ${id}: ${err}`);
-          return acc;
         }
 
         return acc;

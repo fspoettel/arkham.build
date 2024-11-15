@@ -14,7 +14,14 @@ import css from "./deck-filters-wrapper.module.css";
 import { DeckSortingOptions } from "./deck-sorting-options";
 import { TagsFilter } from "./tags-filter";
 
-export function DeckCollectionFilters() {
+type Props = {
+  filteredCount: number;
+  totalCount: number;
+};
+
+export function DeckCollectionFilters(props: Props) {
+  const { filteredCount, totalCount } = props;
+
   const [open, setOpen] = useState(false);
 
   const addFilter = useStore((state) => state.addDecksFilter);
@@ -60,7 +67,10 @@ export function DeckCollectionFilters() {
           </Button>
         </Trigger>
       </div>
-      <DeckSortingOptions />
+      <DeckSortingOptions
+        filteredCount={filteredCount}
+        totalCount={totalCount}
+      />
       <Content
         className={css["filters-container"]}
         data-testid="deck-filters-expanded"

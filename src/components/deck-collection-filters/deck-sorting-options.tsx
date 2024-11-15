@@ -38,11 +38,14 @@ const SORTING_OPTIONS: {
   },
 ];
 
-function formatDeckSortOption(option: DeckSortPayload) {
-  return `${option.criteria}|${option.order}`;
-}
+type Props = {
+  filteredCount: number;
+  totalCount: number;
+};
 
-export function DeckSortingOptions() {
+export function DeckSortingOptions(props: Props) {
+  const { filteredCount, totalCount } = props;
+
   const setSort = useStore((state) => state.setDeckSort);
   const sort = useStore((state) => state.deckFilters.sort);
 
@@ -56,9 +59,13 @@ export function DeckSortingOptions() {
     }
   };
 
+  const diff = totalCount - filteredCount;
+
   return (
     <div className={css["options-container"]}>
-      <p className={css["results-label"]}>Results</p>
+      <p className={css["results-label"]}>
+        {filteredCount} decks{diff > 0 && <em>&nbsp;({diff} hidden)</em>}
+      </p>
       <div className={css["options-input"]}>
         <ArrowDownNarrowWideIcon />
         <Select
@@ -79,4 +86,8 @@ export function DeckSortingOptions() {
       </div>
     </div>
   );
+}
+
+function formatDeckSortOption(option: DeckSortPayload) {
+  return `${option.criteria}|${option.order}`;
 }

@@ -158,7 +158,12 @@ export function DeckCollection() {
           </Popover>
         </div>
       </header>
-      {deckCollection.total > 1 && <DeckCollectionFilters />}
+      {deckCollection.total > 1 && (
+        <DeckCollectionFilters
+          filteredCount={deckCollection.decks.length}
+          totalCount={deckCollection.total}
+        />
+      )}
       {deckCollection.total ? (
         <Scroller
           ref={setScrollParent as unknown as React.RefObject<HTMLDivElement>}
@@ -168,7 +173,7 @@ export function DeckCollection() {
             customScrollParent={scrollParent}
             data={deckCollection.decks}
             overscan={5}
-            totalCount={deckCollection.total}
+            totalCount={deckCollection.decks.length}
             components={VIRTUOSO_COMPONENTS}
             itemContent={(_, deck) => (
               <li
