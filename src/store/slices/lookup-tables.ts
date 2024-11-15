@@ -207,6 +207,13 @@ function indexBySeal(tables: LookupTables, card: Card) {
 
 // TODO: handle "+X skill value".
 function indexBySkillBoosts(tables: LookupTables, card: Card) {
+  if (card.customization_options?.find((o) => o.choice === "choose_skill")) {
+    setInLookupTable(card.code, tables.skillBoosts, "willpower");
+    setInLookupTable(card.code, tables.skillBoosts, "intellect");
+    setInLookupTable(card.code, tables.skillBoosts, "combat");
+    setInLookupTable(card.code, tables.skillBoosts, "agility");
+  }
+
   const matches = card.real_text?.matchAll(REGEX_SKILL_BOOST);
   if (!matches) return;
 
