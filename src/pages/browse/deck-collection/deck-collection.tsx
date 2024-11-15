@@ -18,20 +18,37 @@ import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
 import { selectDecksDisplayList } from "@/store/selectors/deck-filters";
 import { EllipsisIcon, PlusIcon, Trash2Icon, UploadIcon } from "lucide-react";
-import { useCallback, useState } from "react";
+import { forwardRef, useCallback, useState } from "react";
+import { type Components, Virtuoso } from "react-virtuoso";
 import { Link } from "wouter";
 import { DeckCollectionImport } from "./deck-collection-import";
 import css from "./deck-collection.module.css";
 
+const List: Components["List"] = forwardRef((props, ref) => {
+  // biome-ignore lint/suspicious/noExplicitAny: issue with library typings.
+  return <ol {...props} className={css["decks"]} ref={ref as any} />;
+});
+
+const VIRTUOSO_COMPONENTS = {
+  List,
+};
+
 export function DeckCollection() {
   const [popoverOpen, setPopoverOpen] = useState(false);
+
+  const [scrollParent, setScrollParent] = useState<HTMLElement | undefined>();
+
+  const toast = useToast();
+
   const deckCollection = useStore(selectDecksDisplayList);
 
   const importDecks = useStore((state) => state.importFromFiles);
   const deleteAllDecks = useStore((state) => state.deleteAllDecks);
   const setSidebarOpen = useStore((state) => state.setSidebarOpen);
 
-  const toast = useToast();
+  const onCloseSidebar = useCallback(() => {
+    setSidebarOpen(false);
+  }, [setSidebarOpen]);
 
   const onAddFiles = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,9 +96,7 @@ export function DeckCollection() {
   return (
     <div className={css["container"]}>
       <CollapseSidebarButton
-        onClick={() => {
-          setSidebarOpen(false);
-        }}
+        onClick={onCloseSidebar}
         orientation="left"
         className={css["collapse"]}
       />
@@ -145,9 +160,17 @@ export function DeckCollection() {
       </header>
       {deckCollection.total > 1 && <DeckCollectionFilters />}
       {deckCollection.total ? (
-        <Scroller>
-          <ol className={css["decks"]}>
-            {deckCollection.decks.map((deck) => (
+        <Scroller
+          ref={setScrollParent as unknown as React.RefObject<HTMLDivElement>}
+        >
+          <Virtuoso
+            className={css["scroller"]}
+            customScrollParent={scrollParent}
+            data={deckCollection.decks}
+            overscan={5}
+            totalCount={deckCollection.total}
+            components={VIRTUOSO_COMPONENTS}
+            itemContent={(_, deck) => (
               <li
                 className={css["deck"]}
                 data-testid="collection-deck"
@@ -166,8 +189,8 @@ export function DeckCollection() {
                   </DeckSummary>
                 </Link>
               </li>
-            ))}
-          </ol>
+            )}
+          />
         </Scroller>
       ) : (
         <div className={css["placeholder-container"]}>
