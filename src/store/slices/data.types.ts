@@ -1,3 +1,5 @@
+import type { Provider } from "./connections.types";
+
 export type Slots = {
   [code: string]: number;
 };
@@ -28,9 +30,10 @@ export type Deck = {
   problem?: DeckProblem | string | null;
   sideSlots: Slots | string[]; // NOTE: arkhamdb returns `[]` for empty side slots.
   slots: Slots;
-  source?: "arkhamdb" | "local" | undefined;
+  source?: Provider | undefined;
   taboo_id: number | null;
   tags: string;
+  user_id?: number | null;
   version: string;
   xp_adjustment: number | null;
   xp_spent: number | null;
@@ -44,7 +47,7 @@ export function isDeck(x: unknown): x is Deck {
 }
 
 export function isLocalDeck(x: unknown): x is Deck & { id: string } {
-  return isDeck(x) && x.source === "local";
+  return isDeck(x) && x.source !== "arkhamdb";
 }
 
 export function isArkhamDbDeck(x: unknown): x is Deck & { id: number } {

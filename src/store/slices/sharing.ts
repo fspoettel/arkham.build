@@ -1,7 +1,7 @@
 import { assert } from "@/utils/assert";
 import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
-import { formatDeckExport, formatDeckImport } from "../lib/deck-io";
+import { formatDeckImport, formatDeckShare } from "../lib/deck-io";
 import { selectClientId } from "../selectors/shared";
 import { createShare, deleteShare, updateShare } from "../services/queries";
 import { type Deck, isDeck } from "./data.types";
@@ -35,7 +35,7 @@ export const createSharingSlice: StateCreator<
 
     await createShare(
       selectClientId(state),
-      formatDeckExport(deck, previousDeckShared ? previousDeckId : null),
+      formatDeckShare(deck, previousDeckShared ? previousDeckId : null),
     );
 
     set({
@@ -48,27 +48,28 @@ export const createSharingSlice: StateCreator<
     });
   },
 
-  async updateShare(id) {
+  async updateShare(deck) {
     const state = get();
 
-    if (!state.sharing.decks[id]) return;
+    if (!state.sharing.decks[deck.id]) return;
 
-    const deck = state.data.decks[id];
-    assert(deck, `Deck with id ${id} not found.`);
-
-    await updateShare(selectClientId(state), id, formatDeckExport(deck));
+    await updateShare(
+      selectClientId(state),
+      deck.id.toString(),
+      formatDeckShare(deck),
+    );
 
     set({
       sharing: {
         ...state.sharing,
         decks: {
           ...state.sharing.decks,
-          [id]: deck.date_update,
+          [deck.id]: deck.date_update,
         },
       },
     });
 
-    return id;
+    return deck.id;
   },
 
   async deleteShare(id) {

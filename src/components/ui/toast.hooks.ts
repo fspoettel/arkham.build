@@ -1,12 +1,12 @@
 import { createContext, useContext } from "react";
 
-type ToastPayload = {
+export type ToastPayload = {
   children:
     | React.ReactNode
     | ((props: { onClose: () => void }) => React.ReactNode);
   duration?: number;
   persistent?: boolean;
-  variant?: "success" | "error";
+  variant?: "success" | "error" | "loading";
 };
 
 export type Toast = ToastPayload & {

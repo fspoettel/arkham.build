@@ -48,7 +48,6 @@ export function formatDeckImport(
     problem,
     date_creation: now,
     date_update: now,
-    source: "local",
     tags:
       type === "decklist"
         ? (deck.tags?.replaceAll(", ", " ") ?? null)
@@ -59,7 +58,7 @@ export function formatDeckImport(
   };
 }
 
-export function formatDeckExport(
+export function formatDeckShare(
   _deck: Deck,
   previousDeck: Id | null = null,
 ): Deck {

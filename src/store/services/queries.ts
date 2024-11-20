@@ -1,4 +1,4 @@
-import type { Deck } from "../slices/data.types";
+import type { Deck, Id } from "../slices/data.types";
 import { isDeck } from "../slices/data.types";
 import cards from "./data/cards.json";
 import encounterSets from "./data/encounter_sets.json";
@@ -58,6 +58,15 @@ type FaqResponse = {
   };
 }[];
 
+export class ApiError extends Error {
+  status: number;
+
+  constructor(message: string, status: number) {
+    super(message);
+    this.status = status;
+  }
+}
+
 async function request(
   path: string,
   options: RequestInit = {},
@@ -66,11 +75,15 @@ async function request(
 
   if (res.status >= 400) {
     const err = await res.json();
-    throw new Error(err.message);
+    throw new ApiError(err.message, res.status);
   }
 
   return res;
 }
+
+/**
+ * Cache API
+ */
 
 export async function queryMetadata(): Promise<MetadataResponse> {
   const res = await request("/cache/metadata");
@@ -98,6 +111,10 @@ export async function queryCards(): Promise<QueryCard[]> {
   const { data }: AllCardApiResponse = await res.json();
   return [...data.all_card, ...cards];
 }
+
+/**
+ * Public API
+ */
 
 export async function queryFaq(clientId: string, code: string) {
   const res = await request(`/public/faq/${code}`, {
@@ -166,4 +183,105 @@ export async function deleteShare(clientId: string, id: string) {
       "X-Client-Id": clientId,
     },
   });
+}
+
+/**
+ * Authenticated API
+ */
+
+export async function getSession() {
+  const res = await request("/user/session", {
+    credentials: "include",
+  });
+  const data = await res.json();
+  return data;
+}
+
+type DecksResponse = {
+  data: Deck[];
+  lastModified: string | undefined;
+};
+
+export async function getDecks(
+  lastSyncedDate?: string,
+): Promise<DecksResponse | undefined> {
+  const headers = lastSyncedDate
+    ? {
+        "If-Modified-Since": lastSyncedDate,
+      }
+    : undefined;
+
+  const res = await request("/user/decks", {
+    credentials: "include",
+    headers,
+  });
+
+  return res.status === 304
+    ? undefined
+    : {
+        data: await res.json(),
+        lastModified: res.headers.get("Last-Modified")?.toString(),
+      };
+}
+
+export async function newDeck(deck: Deck): Promise<Deck> {
+  const res = await request("/user/decks", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      investigator: deck.investigator_code,
+      name: deck.name,
+      slots: JSON.stringify(deck.slots),
+      taboo: deck.taboo_id,
+      meta: deck.meta,
+    }),
+    credentials: "include",
+    method: "POST",
+  });
+
+  return await res.json();
+}
+
+export async function updateDeck(deck: Deck): Promise<Deck> {
+  const res = await request(`/user/decks/${deck.id}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(deck),
+    credentials: "include",
+    method: "PUT",
+  });
+
+  return await res.json();
+}
+
+export async function deleteDeck(id: Id, allVersions?: boolean) {
+  const path = `/user/decks/${id}`;
+
+  await request(allVersions ? `${path}?all=true` : path, {
+    body: allVersions ? JSON.stringify({ all: true }) : undefined,
+    method: "DELETE",
+    credentials: "include",
+  });
+}
+
+export async function upgradeDeck(
+  id: Id,
+  payload: {
+    xp: number;
+    exiles?: string;
+    meta?: string;
+  },
+) {
+  const res = await request(`/user/decks/${id}/upgrade`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+    method: "POST",
+    credentials: "include",
+  });
+
+  return await res.json();
 }

@@ -1,4 +1,5 @@
 import type { AppState } from "../slices/app.types";
+import type { ConnectionsState } from "../slices/connections.types";
 import type { DataState } from "../slices/data.types";
 import type { EditsState } from "../slices/deck-edits.types";
 import type { Metadata } from "../slices/metadata.types";
@@ -14,6 +15,7 @@ type AppdataVal = {
   data: DataState;
   deckEdits: EditsState;
   settings: SettingsState;
+  connections: ConnectionsState;
   sharing: SharingState;
 };
 

@@ -13,12 +13,14 @@ import { useToast } from "@/components/ui/toast.hooks";
 import { UpgradeModal } from "@/pages/deck-view/upgrade-modal";
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
+import { selectConnections } from "@/store/selectors/connections";
 import { cx } from "@/utils/cx";
 import {
   capitalize,
   capitalizeSnakeCase,
   formatTabooSet,
 } from "@/utils/formatting";
+import { isEmpty } from "@/utils/is-empty";
 import { useHotKey } from "@/utils/use-hotkey";
 import {
   CopyIcon,
@@ -38,6 +40,7 @@ import {
   useDuplicateDeck,
   useExportJson,
   useExportText,
+  useUploadDeck,
 } from "./hooks";
 import css from "./sidebar.module.css";
 
@@ -56,7 +59,8 @@ export function Sidebar(props: Props) {
       <SidebarActions deck={deck} owned={owned} />
       <SidebarDetails deck={deck} />
       <SidebarUpgrade deck={deck} />
-      {owned && <Sharing deck={deck} />}
+      {owned && deck.source !== "arkhamdb" && <Sharing deck={deck} />}
+      {owned && deck.source === "arkhamdb" && <ArkhamDbDetails deck={deck} />}
     </div>
   );
 }
@@ -151,11 +155,8 @@ function SidebarUpgrade(props: { deck: ResolvedDeck }) {
   if (!deck.previous_deck) return null;
 
   return (
-    <section className={css["details"]} data-testid="share">
-      <div
-        className={cx(css["detail"], css["full"])}
-        data-testid="view-latest-upgrade"
-      >
+    <section className={css["details"]} data-testid="view-latest-upgrade">
+      <div className={cx(css["detail"], css["full"])}>
         <header>
           <h3 className={css["detail-label"]}>
             <i className="icon-upgrade" />
@@ -178,7 +179,9 @@ function SidebarActions(props: { deck: ResolvedDeck; owned?: boolean }) {
   const toast = useToast();
   const [, navigate] = useLocation();
 
+  const connections = useStore(selectConnections);
   const search = useSearch();
+
   const [upgradeModalOpen, setUpgradeModalOpen] = useState(
     owned && search.includes("upgrade") && !deck.next_deck,
   );
@@ -225,6 +228,7 @@ function SidebarActions(props: { deck: ResolvedDeck; owned?: boolean }) {
   }, [deck.id, navigate]);
 
   const importSharedDeck = useStore((state) => state.importSharedDeck);
+
   const onImport = useCallback(() => {
     try {
       const id = importSharedDeck(deck);
@@ -243,6 +247,11 @@ function SidebarActions(props: { deck: ResolvedDeck; owned?: boolean }) {
       });
     }
   }, [deck, importSharedDeck, toast.show, navigate]);
+
+  const uploadDeck = useUploadDeck();
+  const onUpload = useCallback(() => {
+    uploadDeck(deck.id);
+  }, [deck.id, uploadDeck]);
 
   useHotKey("e", onEdit, [onEdit]);
   useHotKey("cmd+d", onDuplicate, [onDuplicate]);
@@ -325,6 +334,22 @@ function SidebarActions(props: { deck: ResolvedDeck; owned?: boolean }) {
                   <hr />
                 </>
               )}
+              {owned &&
+                !isReadOnly &&
+                deck.source !== "arkhamdb" &&
+                !isEmpty(connections) && (
+                  <>
+                    <Button
+                      data-testid="view-upload"
+                      size="full"
+                      variant="bare"
+                      onClick={onUpload}
+                    >
+                      <i className="icon-elder_sign" /> Upload to ArkhamDB
+                    </Button>
+                    <hr />
+                  </>
+                )}
               <Button
                 data-testid="view-export-json"
                 size="full"
@@ -378,6 +403,7 @@ function Sharing(props: Props) {
   const { deck } = props;
   const toast = useToast();
 
+  const deckData = useStore((state) => state.data.decks[props.deck.id]);
   const share = useStore((state) => state.sharing.decks[props.deck.id]);
 
   const createShare = useStore((state) => state.createShare);
@@ -415,7 +441,7 @@ function Sharing(props: Props) {
   };
 
   const onUpdateShare = async () => {
-    await withToast(() => updateShare(deck.id as string), "update");
+    await withToast(() => updateShare(deckData), "update");
   };
 
   const isReadOnly = !!deck.next_deck;
@@ -465,7 +491,7 @@ function Sharing(props: Props) {
             </div>
           ) : (
             <div className={css["share-empty"]}>
-              <p>Not shared.</p>
+              <p>Deck is stored locally and not shared.</p>
               <Button
                 data-testid="share-create"
                 disabled={isReadOnly}
@@ -489,6 +515,34 @@ function Sharing(props: Props) {
               </Button>
             </div>
           )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ArkhamDbDetails(props: { deck: ResolvedDeck }) {
+  const { deck } = props;
+  return (
+    <section className={css["details"]} data-testid="share">
+      <div className={cx(css["detail"], css["full"])}>
+        <header>
+          <h3 className={css["detail-label"]}>
+            <i className="icon-elder_sign" />
+            ArkhamDB
+          </h3>
+        </header>
+        <div className={css["detail-value"]}>
+          <p>This deck is set up to sync with ArkhamDB.</p>
+          <Button
+            as="a"
+            href={`${import.meta.env.VITE_ARKHAMDB_BASE_URL}/deck/view/${deck.id}`}
+            size="sm"
+            rel="noreferrer"
+            target="_blank"
+          >
+            View on ArkhamDB
+          </Button>
         </div>
       </div>
     </section>

@@ -8,7 +8,15 @@
   gap: 0.25rem;
 }
 
+.tag.sm {
+  font-size: var(--text-xs);
+}
+
 .tag.xs {
   font-size: var(--text-xs);
   padding: 0.125rem 0.25rem;
+}
+
+.tag.inverse {
+  background: rgba(0, 0, 0, 0.1);
 }

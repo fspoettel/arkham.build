@@ -11,6 +11,8 @@ type Props = {
 export function DeckHistory(props: Props) {
   const { history } = props;
 
+  console.log(history);
+
   return (
     <ol className={css["entries"]} data-testid="history">
       {history.map((stats, idx) => {

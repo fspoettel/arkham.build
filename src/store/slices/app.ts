@@ -21,10 +21,18 @@ import {
 import { mappedByCode, mappedById } from "../lib/metadata-utils";
 import { resolveDeck } from "../lib/resolve-deck";
 import { decodeExtraSlots, encodeExtraSlots } from "../lib/slots";
+import { disconnectProviderIfUnauthorized, syncAdapters } from "../lib/sync";
 import type { DeckMeta } from "../lib/types";
 import { selectDeckCreateCardSets } from "../selectors/deck-create";
 import { selectDeckValid } from "../selectors/decks";
 import { selectLatestUpgrade } from "../selectors/decks";
+import {
+  createShare,
+  deleteDeck,
+  newDeck,
+  updateDeck,
+  upgradeDeck,
+} from "../services/queries";
 import type { AppSlice } from "./app.types";
 import type { Deck } from "./data.types";
 import { makeLists } from "./lists";
@@ -166,7 +174,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     return true;
   },
-  createDeck() {
+  async createDeck() {
     const state = get();
     assert(state.deckCreate, "DeckCreate state must be initialized.");
 
@@ -235,7 +243,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       Object.assign(meta, encodeSealedDeck(sealedDeck));
     }
 
-    const deck = createDeck({
+    let deck = createDeck({
       investigator_code: state.deckCreate.investigatorCode,
       investigator_name: back.real_name,
       name: state.deckCreate.title,
@@ -244,6 +252,17 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       taboo_id: state.deckCreate.tabooSetId ?? null,
       problem: "too_few_cards",
     });
+
+    if (state.deckCreate.provider === "arkhamdb") {
+      try {
+        const adapter = new syncAdapters["arkhamdb"](state);
+        const { id } = await newDeck(deck);
+        deck = adapter.in(await updateDeck(adapter.out({ ...deck, id })));
+      } catch (err) {
+        disconnectProviderIfUnauthorized("arkhamdb", err, set);
+        throw err;
+      }
+    }
 
     set({
       data: {
@@ -282,11 +301,20 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       delete deckEdits[prevId];
     }
 
-    await Promise.allSettled(
-      [...history[id], deck.id].map((curr) =>
-        state.deleteShare(curr as string),
-      ),
-    );
+    if (deck.source === "arkhamdb") {
+      try {
+        await deleteDeck(id, true);
+      } catch (err) {
+        disconnectProviderIfUnauthorized("arkhamdb", err, set);
+        throw err;
+      }
+    } else {
+      await Promise.allSettled(
+        [...history[id], deck.id].map((curr) =>
+          state.deleteShare(curr as string),
+        ),
+      );
+    }
 
     delete history[id];
 
@@ -310,7 +338,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     const edits = { ...state.deckEdits };
 
     for (const id of Object.keys(decks)) {
-      if (decks[id].source === "local") {
+      if (decks[id].source !== "arkhamdb") {
         delete decks[id];
         delete history[id];
         delete edits[id];
@@ -329,7 +357,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       await state.deleteAllShares().catch(console.error);
     }
   },
-  saveDeck(deckId) {
+  async saveDeck(deckId) {
     const state = get();
 
     const edits = state.deckEdits[deckId];
@@ -337,7 +365,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     const deck = state.data.decks[deckId];
     if (!deck) return deckId;
 
-    const nextDeck = applyDeckEdits(deck, edits, state.metadata, true);
+    let nextDeck = applyDeckEdits(deck, edits, state.metadata, true);
     nextDeck.date_update = new Date().toISOString();
 
     const resolved = resolveDeck(state.metadata, state.lookupTables, nextDeck);
@@ -350,6 +378,18 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     if (upgrade) {
       nextDeck.xp_spent = upgrade.xpSpent;
       nextDeck.xp_adjustment = upgrade.xpAdjustment;
+    }
+
+    if (nextDeck.source === "arkhamdb") {
+      try {
+        const adapter = new syncAdapters.arkhamdb(state);
+        nextDeck = adapter.in(await updateDeck(adapter.out(nextDeck)));
+      } catch (err) {
+        disconnectProviderIfUnauthorized("arkhamdb", err, set);
+        throw err;
+      }
+    } else {
+      await state.updateShare(nextDeck);
     }
 
     const deckEdits = { ...state.deckEdits };
@@ -370,7 +410,9 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     return nextDeck.id;
   },
 
-  upgradeDeck({ id, xp, exileString, usurped }) {
+  async upgradeDeck({ id, xp: _xp, exileString, usurped }) {
+    const xp = _xp + (usurped === false ? 1 : 0);
+
     const state = get();
 
     const deck = state.data.decks[id];
@@ -386,16 +428,15 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     const xpCarryover =
       (deck.xp ?? 0) + (deck.xp_adjustment ?? 0) - (deck.xp_spent ?? 0);
 
-    const newDeck: Deck = {
+    let newDeck: Deck = {
       ...structuredClone(deck),
       id: randomId(),
       date_creation: now,
       date_update: now,
       next_deck: null,
       previous_deck: deck.id,
-      source: "local",
       version: "0.1",
-      xp: xp + xpCarryover + (usurped === false ? 1 : 0),
+      xp: xp + xpCarryover,
       xp_spent: null,
       xp_adjustment: null,
       exile_string: exileString ?? null,
@@ -448,6 +489,23 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       next_deck: newDeck.id,
     };
 
+    if (deck.source === "arkhamdb") {
+      try {
+        const adapter = new syncAdapters.arkhamdb(state);
+        const res = await upgradeDeck(deck.id, {
+          xp,
+          exiles: exileString,
+          meta: newDeck.meta,
+        });
+        newDeck = adapter.in(res);
+      } catch (err) {
+        disconnectProviderIfUnauthorized("arkhamdb", err, set);
+        throw err;
+      }
+    } else if (state.sharing.decks[deck.id]) {
+      await createShare(newDeck.id as string, newDeck);
+    }
+
     const history = { ...state.data.history };
     history[newDeck.id] = [deck.id, ...history[deck.id]];
     delete history[deck.id];
@@ -470,7 +528,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     tryEnablePersistence();
 
-    return { deck: newDeck, shareUpgraded: !!state.sharing.decks[deck.id] };
+    return newDeck;
   },
 
   async deleteUpgrade(id, cb) {
@@ -500,7 +558,17 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     const deckEdits = { ...state.deckEdits };
     delete deckEdits[deck.id];
 
-    await state.deleteShare(deck.id as string).catch(console.error);
+    if (deck.source === "arkhamdb") {
+      try {
+        await deleteDeck(deck.id, false);
+      } catch (err) {
+        disconnectProviderIfUnauthorized("arkhamdb", err, set);
+        throw err;
+      }
+    } else {
+      await state.deleteShare(deck.id as string).catch(console.error);
+    }
+
     cb?.(previousId);
 
     set({

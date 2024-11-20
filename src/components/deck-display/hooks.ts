@@ -6,7 +6,7 @@ import { useLocation } from "wouter";
 
 export function useDeleteDeck() {
   const toast = useToast();
-  const [_, setLocation] = useLocation();
+  const [_, navigate] = useLocation();
   const deleteDeck = useStore((state) => state.deleteDeck);
 
   return useCallback(
@@ -18,7 +18,7 @@ export function useDeleteDeck() {
         });
 
         try {
-          await deleteDeck(deckId, () => setLocation("~/"));
+          await deleteDeck(deckId, () => navigate("~/"));
           toast.dismiss(toastId);
           toast.show({
             children: "Deck delete successful.",
@@ -34,13 +34,13 @@ export function useDeleteDeck() {
         }
       }
     },
-    [setLocation, toast, deleteDeck],
+    [navigate, toast, deleteDeck],
   );
 }
 
 export function useDeleteUpgrade() {
   const toast = useToast();
-  const [_, setLocation] = useLocation();
+  const [_, navigate] = useLocation();
   const deleteUpgrade = useStore((state) => state.deleteUpgrade);
 
   return useCallback(
@@ -54,7 +54,7 @@ export function useDeleteUpgrade() {
         });
 
         try {
-          await deleteUpgrade(deckId, (id) => setLocation(`/deck/view/${id}`));
+          await deleteUpgrade(deckId, (id) => navigate(`/deck/view/${id}`));
           toast.dismiss(toastId);
           toast.show({
             duration: 3000,
@@ -70,20 +70,20 @@ export function useDeleteUpgrade() {
         }
       }
     },
-    [deleteUpgrade, setLocation, toast],
+    [deleteUpgrade, navigate, toast],
   );
 }
 
 export function useDuplicateDeck() {
   const toast = useToast();
-  const [_, setLocation] = useLocation();
+  const [_, navigate] = useLocation();
   const duplicateDeck = useStore((state) => state.duplicateDeck);
 
   return useCallback(
     (deckId: Id) => {
       try {
         const id = duplicateDeck(deckId);
-        setLocation(`/deck/view/${id}`);
+        navigate(`/deck/view/${id}`);
         toast.show({
           duration: 3000,
           children: "Deck duplicate successful.",
@@ -96,7 +96,7 @@ export function useDuplicateDeck() {
         });
       }
     },
-    [duplicateDeck, setLocation, toast.show],
+    [duplicateDeck, navigate, toast.show],
   );
 }
 
@@ -138,5 +138,37 @@ export function useExportText() {
       }
     },
     [exportText, toast.show],
+  );
+}
+
+export function useUploadDeck() {
+  const toast = useToast();
+  const [_, navigate] = useLocation();
+  const uploadDeck = useStore((state) => state.uploadDeck);
+
+  return useCallback(
+    async (deckId: Id) => {
+      const toastId = toast.show({
+        children: "Uploading deck...",
+      });
+
+      try {
+        const id = await uploadDeck(deckId, "arkhamdb");
+        toast.dismiss(toastId);
+        toast.show({
+          children: "Deck upload successful.",
+          duration: 3000,
+          variant: "success",
+        });
+        navigate(`/deck/view/${id}`);
+      } catch (err) {
+        toast.dismiss(toastId);
+        toast.show({
+          children: `Deck could not be uploaded: ${(err as Error)?.message}.`,
+          variant: "error",
+        });
+      }
+    },
+    [toast, uploadDeck, navigate],
   );
 }

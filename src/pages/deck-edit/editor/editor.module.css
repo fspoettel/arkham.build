@@ -35,6 +35,7 @@
   flex: 1 1 auto;
   font-size: var(--text-sm);
   min-height: var(--text-sm);
+  hyphens: auto;
 }
 
 .editor-tabs {

@@ -54,7 +54,7 @@
 }
 
 .loader-message {
-  height: 1em;
+  min-height: 1em;
 }
 
 @keyframes fadeInOut {

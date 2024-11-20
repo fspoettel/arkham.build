@@ -3,6 +3,7 @@ import type { ResolvedDeck } from "@/store/lib/types";
 import type { Id } from "@/store/slices/data.types";
 import { getCardColor } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
+import { formatProviderName } from "@/utils/formatting";
 import {
   CircleAlertIcon,
   CopyIcon,
@@ -15,6 +16,7 @@ import { CardThumbnail } from "./card-thumbnail";
 import { DeckStats } from "./deck-stats";
 import css from "./deck-summary.module.css";
 import { Button } from "./ui/button";
+import { Tag } from "./ui/tag";
 import { DefaultTooltip } from "./ui/tooltip";
 
 type Props = {
@@ -104,9 +106,17 @@ export function DeckSummary(props: Props) {
         )}
         <div className={css["header-container"]}>
           <div className={cx(css["info-container"])}>
-            <h3 className={css["title"]} data-testid="deck-summary-title">
-              {deck.name}
-            </h3>
+            <div className={css["header-row"]}>
+              <h3 className={css["title"]} data-testid="deck-summary-title">
+                {deck.name}
+              </h3>
+              <Tag size="sm" variant="inverse">
+                {deck.source === "arkhamdb" && (
+                  <i className="icon-elder_sign" />
+                )}
+                {formatProviderName(deck.source ?? "local")}
+              </Tag>
+            </div>
             <div className={css["header-row"]}>
               <div className={css["header-row"]}>
                 {card.parallel && (

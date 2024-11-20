@@ -19,19 +19,18 @@ export type AppSlice = {
     refresh?: boolean,
   ): Promise<boolean>;
 
-  createDeck(): string | number;
+  createDeck(): Promise<Id>;
 
-  saveDeck(deckId: Id): Id;
+  saveDeck(deckId: Id): Promise<Id>;
 
-  deleteUpgrade(id: Id, callback?: (id: Id) => void): Promise<Id>;
   upgradeDeck(payload: {
     id: Id;
     xp: number;
     exileString: string;
     usurped?: boolean;
-  }): { deck: Deck; shareUpgraded: boolean };
+  }): Promise<Deck>;
 
   deleteDeck(id: Id, callback?: () => void): Promise<void>;
-
   deleteAllDecks(): Promise<void>;
+  deleteUpgrade(id: Id, callback?: (id: Id) => void): Promise<Id>;
 };

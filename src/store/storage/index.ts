@@ -6,6 +6,7 @@ import type {
 } from "zustand/middleware";
 import type { StoreState } from "../slices";
 import { getInitialAppState } from "../slices/app";
+import { getInitialConnectionsState } from "../slices/connections";
 import { getInitialDataState } from "../slices/data";
 import { getInitialMetadata } from "../slices/metadata";
 import { getInitialSettings } from "../slices/settings";
@@ -63,6 +64,7 @@ export const storageConfig: PersistOptions<StoreState, Val> = {
   partialize(state: StoreState) {
     return {
       app: state.app,
+      connections: state.connections,
       data: state.data,
       deckEdits: state.deckEdits,
       metadata: state.metadata,
@@ -95,6 +97,8 @@ function createCustomStorage(): PersistStorage<Val> | undefined {
       const val: StorageValue<Val> = {
         state: {
           app: appdata?.state?.app ?? getInitialAppState(),
+          connections:
+            appdata?.state?.connections ?? getInitialConnectionsState(),
           data: appdata?.state?.data ?? getInitialDataState().data,
           deckEdits: appdata?.state?.deckEdits ?? {},
           metadata: metadata?.state?.metadata ?? getInitialMetadata(),

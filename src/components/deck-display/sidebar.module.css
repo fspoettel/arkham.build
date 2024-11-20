@@ -44,8 +44,9 @@
 
 .detail-value {
   display: flex;
+  flex-flow: column nowrap;
   align-items: baseline;
-  padding: 0.25rem 0;
+  padding: 0.375rem 0;
   font-size: var(--text-base);
   gap: 0.25rem;
 }

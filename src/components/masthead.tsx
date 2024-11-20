@@ -20,6 +20,7 @@ type Props = {
 
 export function Masthead(props: Props) {
   const [location] = useLocation();
+
   return (
     <header className={cx(props.className, css["masthead"])}>
       <div className={css["left"]}>

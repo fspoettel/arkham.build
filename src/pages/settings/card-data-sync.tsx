@@ -28,16 +28,17 @@ export function CardDataSync(props: Props) {
 
   const { data, error, loading } = useQuery(queryDataVersion);
 
+  const initStore = useCallback(
+    () => init(queryMetadata, queryDataVersion, queryCards),
+    [init],
+  );
+
   const {
     data: synced,
     error: syncError,
     loading: syncing,
     mutate,
-  } = useMutate(() => init(queryMetadata, queryDataVersion, queryCards, true));
-
-  const syncData = useCallback(async () => {
-    await mutate().catch(console.error);
-  }, [mutate]);
+  } = useMutate(initStore);
 
   useEffect(() => {
     if (synced) {
@@ -82,7 +83,7 @@ export function CardDataSync(props: Props) {
         </div>
         <Button
           disabled={loading || !!error}
-          onClick={syncData}
+          onClick={mutate}
           type="button"
           size="sm"
         >
