@@ -39,7 +39,7 @@ describe("data slice", () => {
         await store.getState().deleteDeck("2");
       } catch (err) {
         expect((err as Error).message).toMatchInlineSnapshot(
-          `"assertion failed: Cannot delete a deck that has upgrades."`,
+          `"Cannot delete a deck that has upgrades."`,
         );
       }
     });
