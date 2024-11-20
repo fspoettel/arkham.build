@@ -10,6 +10,7 @@ import {
   filterMythosCards,
   filterType,
 } from "../lib/filtering";
+import type { Card } from "../services/queries.types";
 import {
   isAssetFilter,
   isCostFilter,
@@ -80,18 +81,14 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
     set({
       lists: {
         ...state.lists,
-        [state.activeList]: makeList(
-          list.key,
-          list.cardType,
-          list.filters,
-          list.display,
-          list.systemFilter,
-          {
+        [state.activeList]: makeList({
+          ...list,
+          initialValues: {
             ownership: getInitialOwnershipFilter(state.settings),
             subtype: getInitialSubtypeFilter(state.settings),
           },
-          makeSearch(),
-        ),
+          initialSearch: makeSearch(),
+        }),
       },
     });
   },
@@ -567,17 +564,30 @@ function makeFilterValue(
   }
 }
 
-function makeList(
-  key: string,
-  cardType: List["cardType"],
-  filters: FilterKey[],
-  display: List["display"],
-  systemFilter?: Filter,
-  initialValues?: Partial<Record<FilterKey, unknown>>,
-  initialSearch?: Search,
-): List {
+type MakeListOptions = {
+  key: string;
+  cardType: List["cardType"];
+  filters: FilterKey[];
+  display: List["display"];
+  duplicateFilter: Filter;
+  systemFilter?: Filter;
+  initialValues?: Partial<Record<FilterKey, unknown>>;
+  initialSearch?: Search;
+};
+
+function makeList({
+  key,
+  cardType,
+  filters,
+  display,
+  duplicateFilter,
+  systemFilter,
+  initialValues,
+  initialSearch,
+}: MakeListOptions): List {
   return {
     cardType,
+    duplicateFilter,
     filters,
     filterValues: filters.reduce<List["filterValues"]>((acc, curr, i) => {
       acc[i] = makeFilterValue(curr, cardType, initialValues?.[curr]);
@@ -627,18 +637,19 @@ function makePlayerCardsList(
     filterBacksides,
   ];
 
-  return makeList(
+  return makeList({
     key,
-    "player",
+    cardType: "player",
     filters,
-    {
+    display: {
       grouping: settings.lists.player.group,
       sorting: settings.lists.player.sort,
       viewMode: settings.lists.player.viewMode,
     },
-    and(systemFilter),
-    mergeInitialValues(initialValues, settings),
-  );
+    duplicateFilter: filterDuplicates,
+    systemFilter: and(systemFilter),
+    initialValues: mergeInitialValues(initialValues, settings),
+  });
 }
 
 function makeInvestigatorCardsList(
@@ -652,22 +663,22 @@ function makeInvestigatorCardsList(
     filters.push("ownership");
   }
 
-  return makeList(
+  return makeList({
     key,
-    "player",
+    cardType: "player",
     filters,
-    {
+    display: {
       grouping: settings.lists.investigator.group,
       sorting: settings.lists.investigator.sort,
       viewMode: settings.lists.investigator.viewMode,
     },
-    and([
+    duplicateFilter: (c: Card) => filterDuplicates(c) || !!c.parallel,
+    systemFilter: and([
       filterType(["investigator"]),
-      (card) => filterDuplicates(card) || !!card.parallel,
       not(filterEncounterCards),
     ]),
-    mergeInitialValues(initialValues, settings),
-  );
+    initialValues: mergeInitialValues(initialValues, settings),
+  });
 }
 
 function makeEncounterCardsList(
@@ -695,18 +706,19 @@ function makeEncounterCardsList(
 
   const systemFilter = [filterEncounterCards, filterBacksides];
 
-  return makeList(
+  return makeList({
     key,
-    "encounter",
+    cardType: "encounter",
     filters,
-    {
+    display: {
       grouping: settings.lists.encounter.group,
       sorting: settings.lists.encounter.sort,
       viewMode: settings.lists.encounter.viewMode,
     },
-    and(systemFilter),
-    mergeInitialValues(initialValues, settings),
-  );
+    duplicateFilter: filterDuplicates,
+    systemFilter: and(systemFilter),
+    initialValues: mergeInitialValues(initialValues, settings),
+  });
 }
 
 export function makeLists(

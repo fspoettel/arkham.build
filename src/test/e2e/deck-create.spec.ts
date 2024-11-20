@@ -23,6 +23,12 @@ test.describe("deck create", () => {
     await expect(page).toHaveURL(/\/deck\/create\/03005/);
   });
 
+  test("choose parallel investigator", async ({ page }) => {
+    await page.goto("/deck/create");
+    await fillSearch(page, "roland");
+    await expect(page.getByTestId("listcard-90024")).toBeVisible();
+  });
+
   test("choose investigator via modal", async ({ page }) => {
     await page.goto("/deck/create");
 

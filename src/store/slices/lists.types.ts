@@ -128,6 +128,12 @@ export type List = {
     [id: number]: FilterObject<FilterKey>;
   };
   key: string;
+  // Filter that controls which duplicates (parallels, revised core) should be filtered for a list.
+  // This has historically been part of the system filter, but was moved out to allow for more flexibility
+  // when handling duplicates, i.e. keeping those in decks.
+  // This needs to be configurable in order to show parallel investigators in the choose investigator list.
+  duplicateFilter: Filter;
+  // Applied before any kind of other filtering is applied to card list.
   systemFilter?: Filter;
   search: Search;
 };

@@ -18,7 +18,6 @@ import {
   filterActions,
   filterAssets,
   filterCost,
-  filterDuplicates,
   filterEncounterCode,
   filterFactions,
   filterInvestigatorAccess,
@@ -300,7 +299,15 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
     targetDeck?: "slots" | "extraSlots" | "both",
   ) => targetDeck ?? "slots",
   (state: StoreState) => state.ui.showUnusableCards,
-  (metadata, lookupTables, resolvedDeck, targetDeck, showUnusableCards) => {
+  (state: StoreState) => selectActiveList(state)?.duplicateFilter,
+  (
+    metadata,
+    lookupTables,
+    resolvedDeck,
+    targetDeck,
+    showUnusableCards,
+    duplicateFilter,
+  ) => {
     if (!resolvedDeck) return undefined;
 
     const investigator = resolvedDeck.investigatorBack.card;
@@ -344,7 +351,7 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
     const investigatorAccessFilter = or(ors);
 
     const duplicatesNotInDeckFilter = (c: Card) =>
-      filterDuplicates(c) || resolvedDeck.slots[c.code] != null;
+      duplicateFilter?.(c) || resolvedDeck.slots[c.code] != null;
 
     const ands = [investigatorAccessFilter, duplicatesNotInDeckFilter];
 
@@ -377,6 +384,7 @@ const selectBaseListCards = createSelector(
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.settings,
   (state: StoreState) => selectActiveList(state)?.systemFilter,
+  (state: StoreState) => selectActiveList(state)?.duplicateFilter,
   (state: StoreState) => selectActiveList(state)?.filterValues,
   selectDeckInvestigatorFilter,
   selectCanonicalTabooSetId,
@@ -386,6 +394,7 @@ const selectBaseListCards = createSelector(
     lookupTables,
     settings,
     systemFilter,
+    duplicateFilter,
     filterValues,
     deckInvestigatorFilter,
     tabooSetId,
@@ -413,8 +422,8 @@ const selectBaseListCards = createSelector(
 
     if (deckInvestigatorFilter) {
       filters.push(deckInvestigatorFilter);
-    } else {
-      filters.push(filterDuplicates);
+    } else if (duplicateFilter) {
+      filters.push(duplicateFilter);
     }
 
     if (filterValues) {
