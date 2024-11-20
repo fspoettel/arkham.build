@@ -46,10 +46,10 @@
   display: flex;
   justify-content: space-between;
   flex-flow: row nowrap;
-  align-items: baseline;
+  align-items: center;
   line-height: 1;
   gap: 0.25rem;
-  margin-top: 0.25rem;
+  margin-top: 0.125rem;
 
   &.wrap {
     flex-wrap: wrap;
