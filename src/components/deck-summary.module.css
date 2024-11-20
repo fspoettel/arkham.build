@@ -45,11 +45,11 @@
 .header-row {
   display: flex;
   justify-content: space-between;
-  flex-flow: row wrap;
-  align-items: center;
+  flex-flow: row nowrap;
+  align-items: baseline;
   line-height: 1;
   gap: 0.25rem;
-  margin-top: 0.125rem;
+  margin-top: 0.25rem;
 }
 
 .info-container {
@@ -61,6 +61,7 @@
   gap: 0.25rem;
   font-family: var(--font-family-ui);
   font-size: var(--text-sm);
+  hyphens: auto;
 }
 
 .sub {

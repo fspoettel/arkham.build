@@ -23,7 +23,6 @@ export function createDeck(values: Payload): Deck {
     previous_deck: null,
     tags: "",
     version: "0.1",
-    source: "local",
     taboo_id: null,
     xp: null,
     xp_spent: null,

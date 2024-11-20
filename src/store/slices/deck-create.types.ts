@@ -10,6 +10,7 @@ type DeckCreateState = {
   investigatorFrontCode: string;
   investigatorBackCode: string;
   extraCardQuantities: Record<string, number>;
+  provider: string;
   sets: CardSet[];
   selections: {
     [key: string]: string;
@@ -26,6 +27,7 @@ export type DeckCreateSlice = {
 
   deckCreateChangeExtraCardQuantity: (card: Card, quantity: number) => void;
 
+  deckCreateSetProvider(provider: string): void;
   deckCreateSetSelection(key: string, value: string): void;
   deckCreateSetTabooSet: (value: number | undefined) => void;
   deckCreateSetTitle: (value: string) => void;

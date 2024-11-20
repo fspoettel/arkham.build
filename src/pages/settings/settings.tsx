@@ -8,6 +8,7 @@ import { useGoBack } from "@/utils/use-go-back";
 import { LibraryIcon, SlidersVerticalIcon } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { CardDataSync } from "./card-data-sync";
+import { Connections } from "./connections";
 import { HideWeaknessSetting } from "./hide-weakness";
 import { ListSettings } from "./list-settings";
 import { Section } from "./section";
@@ -62,9 +63,14 @@ function Settings() {
           </div>
         </header>
         <div className={css["container"]}>
-          <Section title="Card data">
-            <CardDataSync showDetails />
-          </Section>
+          <div className={css["row"]}>
+            <Section title="Connected accounts">
+              <Connections />
+            </Section>
+            <Section title="Card data">
+              <CardDataSync showDetails />
+            </Section>
+          </div>
           <Tabs length={2} defaultValue="general">
             <TabsList>
               <TabsTrigger data-testid="tab-general" value="general">

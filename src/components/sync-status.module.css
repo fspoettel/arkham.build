@@ -1,0 +1,27 @@
+.sync {
+  position: relative;
+  margin-right: 0.1875rem;
+}
+
+.sync:where(.healthy, .unhealthy)::after {
+  position: absolute;
+  content: "";
+  top: -0.1875rem;
+  right: -0.1875rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+}
+
+.sync.healthy::after {
+  background: var(--nord-14);
+}
+
+.sync.unhealthy::after {
+  background: var(--nord-11);
+}
+
+.sync svg {
+  font-size: var(--text-2xs);
+}

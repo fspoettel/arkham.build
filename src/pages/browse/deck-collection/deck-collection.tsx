@@ -6,6 +6,7 @@ import {
 } from "@/components/deck-display/hooks";
 import { DeckSummary } from "@/components/deck-summary";
 import { DeckTags } from "@/components/deck-tags";
+import { SyncStatus } from "@/components/sync-status";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import {
@@ -16,7 +17,9 @@ import {
 import { Scroller } from "@/components/ui/scroller";
 import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
+import { selectConnections } from "@/store/selectors/connections";
 import { selectDecksDisplayList } from "@/store/selectors/deck-filters";
+import { isEmpty } from "@/utils/is-empty";
 import { EllipsisIcon, PlusIcon, Trash2Icon, UploadIcon } from "lucide-react";
 import { forwardRef, useCallback, useState } from "react";
 import { type Components, Virtuoso } from "react-virtuoso";
@@ -41,6 +44,7 @@ export function DeckCollection() {
   const toast = useToast();
 
   const deckCollection = useStore(selectDecksDisplayList);
+  const hasConnections = !isEmpty(useStore(selectConnections));
 
   const importDecks = useStore((state) => state.importFromFiles);
   const deleteAllDecks = useStore((state) => state.deleteAllDecks);
@@ -103,9 +107,12 @@ export function DeckCollection() {
       <header className={css["header"]}>
         <h2 className={css["title"]}>Decks</h2>
         <div className={css["actions"]}>
-          <Popover>
-            <DeckCollectionImport />
-          </Popover>
+          <SyncStatus />
+          {!hasConnections && (
+            <Popover>
+              <DeckCollectionImport />
+            </Popover>
+          )}
           <Link asChild to="/deck/create">
             <Button
               as="a"

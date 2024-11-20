@@ -5,6 +5,7 @@ export type UIState = {
     showUnusableCards: boolean;
     sidebarOpen: boolean;
     filtersOpen: boolean;
+    syncing: boolean;
   };
 };
 

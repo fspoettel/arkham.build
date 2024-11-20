@@ -282,6 +282,16 @@ function genericSort(a: string | number, b: string | number, order: SortOrder) {
   return a < b ? -1 * mod : a > b ? 1 * mod : 0;
 }
 
+function dateSort(a: string, b: string, order: SortOrder) {
+  const mod = order === "desc" ? -1 : 1;
+
+  return new Date(a) < new Date(b)
+    ? -1 * mod
+    : new Date(a) > new Date(b)
+      ? 1 * mod
+      : 0;
+}
+
 function makeAlphabeticalSort(order: SortOrder) {
   return (a: ResolvedDeck, b: ResolvedDeck) =>
     genericSort(a.name, b.name, order);
@@ -289,12 +299,12 @@ function makeAlphabeticalSort(order: SortOrder) {
 
 function makeDeckCreatedSort(order: SortOrder) {
   return (a: ResolvedDeck, b: ResolvedDeck) =>
-    genericSort(a.date_creation, b.date_creation, order);
+    dateSort(a.date_creation, b.date_creation, order);
 }
 
 function makeDeckUpdatedSort(order: SortOrder) {
   return (a: ResolvedDeck, b: ResolvedDeck) =>
-    genericSort(a.date_update, b.date_update, order);
+    dateSort(a.date_update, b.date_update, order);
 }
 
 function makeXPSort(order: SortOrder) {

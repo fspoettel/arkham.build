@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import type { StoreState } from "./slices";
 import { createAppSlice } from "./slices/app";
+import { createConnectionsSlice } from "./slices/connections";
 import { createDataSlice } from "./slices/data";
 import { createDeckFiltersSlice } from "./slices/deck-collection-filters";
 import { createDeckCreateSlice } from "./slices/deck-create";
@@ -27,6 +28,7 @@ const stateCreator = (...args: [any, any, any]) => ({
   ...createDeckCreateSlice(...args),
   ...createSharingSlice(...args),
   ...createDeckFiltersSlice(...args),
+  ...createConnectionsSlice(...args),
 });
 
 export const useStore = create<StoreState>()(

@@ -11,6 +11,7 @@ function getInitialUIState(): UIState {
       showUnusableCards: false,
       sidebarOpen: !window.matchMedia(MQ_FLOATING_SIDEBAR).matches,
       filtersOpen: !window.matchMedia(MQ_FLOATING_FILTERS).matches,
+      syncing: false,
     },
   };
 }

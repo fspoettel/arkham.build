@@ -5,6 +5,7 @@ import { ErrorBoundary } from "./components/error-boundary";
 import { Loader } from "./components/ui/loader";
 import { ToastProvider } from "./components/ui/toast";
 import { useToast } from "./components/ui/toast.hooks";
+import { Connect } from "./pages/connect/connect";
 import { Error404 } from "./pages/errors/404";
 import { CardDataSync } from "./pages/settings/card-data-sync";
 import { useStore } from "./store";
@@ -97,10 +98,11 @@ function AppInner() {
               <Route component={About} path="/about" />
               <Route component={Share} path="/share/:id" />
               <Route component={CollectionStats} path="/collection-stats" />
+              <Route component={Connect} path="/connect" />
               <Route component={Error404} path="*" />
             </Switch>
             <RouteReset />
-            <UpdateCheck />
+            <AppTasks />
           </Router>
         )}
       </Suspense>
@@ -129,13 +131,18 @@ function RouteReset() {
   return null;
 }
 
-function UpdateCheck() {
+function AppTasks() {
   const dataVersion = useStore((state) => state.metadata.dataVersion);
+
+  const sync = useStore((state) => state.sync);
+
   const toast = useToast();
+  const [location] = useLocation();
   const toastId = useRef<string>();
 
   const lock = useRef(false);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: only on first load.
   useEffect(() => {
     async function updateCardData() {
       if (lock.current) return;
@@ -167,8 +174,17 @@ function UpdateCheck() {
       }
     }
 
-    updateCardData().catch(console.error);
+    if (location !== "/settings") {
+      updateCardData().catch(console.error);
+    }
   }, [dataVersion, toast.dismiss, toast.show]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: only on first load.
+  useEffect(() => {
+    if (location === "/") {
+      sync().catch(console.error);
+    }
+  }, [sync]);
 
   return null;
 }

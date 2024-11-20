@@ -1,19 +1,20 @@
 import { randomId } from "@/utils/crypto";
 import { cx } from "@/utils/cx";
-import { CheckCircleIcon, CircleAlertIcon, XIcon } from "lucide-react";
+import {
+  CheckCircleIcon,
+  CircleAlertIcon,
+  LoaderCircleIcon,
+  XIcon,
+} from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { Button } from "./button";
-import { ToastContext, type Toast as ToastType } from "./toast.hooks";
+import {
+  ToastContext,
+  type ToastPayload,
+  type Toast as ToastType,
+} from "./toast.hooks";
 import css from "./toast.module.css";
-
-type ToastPayload = {
-  children:
-    | React.ReactNode
-    | ((props: { onClose: () => void }) => React.ReactNode);
-  duration?: number;
-  variant?: "success" | "error";
-};
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<ToastType[]>([]);
@@ -123,6 +124,7 @@ function Toast(props: {
         <CheckCircleIcon className={css["icon"]} />
       )}
       {toast.variant === "error" && <CircleAlertIcon className={css["icon"]} />}
+      {toast.variant === "loading" && <LoaderCircleIcon className="spin" />}
       <div>
         {typeof toast.children === "function"
           ? toast.children({ onClose: removeToast })

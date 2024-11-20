@@ -47,6 +47,7 @@ export const createDeckCreateSlice: StateCreator<
         investigatorBackCode: choice ? choice.code : canonicalCode,
         investigatorCode: canonicalCode,
         investigatorFrontCode: choice ? choice.code : canonicalCode,
+        provider: "",
         selections: {},
         sets: ["requiredCards"],
         tabooSetId: state.settings.tabooSetId ?? undefined,
@@ -170,6 +171,16 @@ export const createDeckCreateSlice: StateCreator<
       deckCreate: {
         ...state.deckCreate,
         sealed,
+      },
+    });
+  },
+  deckCreateSetProvider(provider) {
+    const state = get();
+    assert(state.deckCreate, "DeckCreate slice must be initialized.");
+    set({
+      deckCreate: {
+        ...state.deckCreate,
+        provider,
       },
     });
   },

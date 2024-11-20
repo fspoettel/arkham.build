@@ -13,16 +13,18 @@ export function capitalizeSnakeCase(s: string) {
 }
 
 // `toLocaleDateString()` is slow, memoize it.
+export const formatDate = createSelector(
+  (date: string | number) => date,
+  (date) =>
+    new Date(date).toLocaleDateString(navigator.language, {
+      dateStyle: "medium",
+    }),
+);
+
 export const formatTabooSet = createSelector(
   (tabooSet: TabooSet) => tabooSet,
   (tabooSet) => {
-    const formattedDate = new Date(tabooSet.date).toLocaleDateString(
-      navigator.language,
-      {
-        dateStyle: "medium",
-      },
-    );
-
+    const formattedDate = formatDate(tabooSet.date);
     return `${capitalize(tabooSet.name)} (${formattedDate})`;
   },
 );
@@ -65,6 +67,41 @@ export function formatGroupingType(type: string) {
 
     default: {
       return capitalizeSnakeCase(type);
+    }
+  }
+}
+
+export function formatProviderName(name: string) {
+  switch (name) {
+    case "arkhamdb": {
+      return "ArkhamDB";
+    }
+
+    default: {
+      return capitalize(name);
+    }
+  }
+}
+
+export function formatTimeAgo(date: Date) {
+  const formatter = new Intl.RelativeTimeFormat("en");
+
+  const ranges = [
+    ["years", 3600 * 24 * 365],
+    ["months", 3600 * 24 * 30],
+    ["weeks", 3600 * 24 * 7],
+    ["days", 3600 * 24],
+    ["hours", 3600],
+    ["minutes", 60],
+    ["seconds", 1],
+  ] as const;
+
+  const secondsElapsed = (date.getTime() - Date.now()) / 1000;
+
+  for (const [rangeType, rangeVal] of ranges) {
+    if (rangeVal < Math.abs(secondsElapsed)) {
+      const delta = secondsElapsed / rangeVal;
+      return formatter.format(Math.round(delta), rangeType);
     }
   }
 }

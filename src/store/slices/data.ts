@@ -5,8 +5,8 @@ import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
 import {
   formatDeckAsText,
-  formatDeckExport,
   formatDeckImport,
+  formatDeckShare,
 } from "../lib/deck-io";
 import { selectResolvedDeckById } from "../selectors/decks";
 import { selectClientId } from "../selectors/shared";
@@ -106,7 +106,6 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
       exile_string: null,
       next_deck: null,
       previous_deck: null,
-      source: "local",
       version: "0.1",
       xp: null,
       xp_adjustment: null,
@@ -136,7 +135,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
     const deck = state.data.decks[id];
     assert(deck, `Deck ${id} does not exist.`);
 
-    const deckExport = formatDeckExport(deck);
+    const deckExport = formatDeckShare(deck);
 
     download(
       JSON.stringify(deckExport, null, 2),

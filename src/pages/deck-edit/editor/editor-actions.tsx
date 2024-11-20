@@ -24,46 +24,35 @@ export function EditorActions(props: Props) {
   const hasEdits = useStore((state) => !!state.deckEdits[deck.id]);
   const discardEdits = useStore((state) => state.discardEdits);
   const saveDeck = useStore((state) => state.saveDeck);
-  const updateShare = useStore((state) => state.updateShare);
 
   const onSave = useCallback(
     async (stayOnPage?: boolean) => {
-      const id = saveDeck(deck.id);
-
-      toast.show({
-        children: "Deck save successful.",
-        duration: 3000,
-        variant: "success",
-      });
-
       const toastId = toast.show({
-        children: "Updating share...",
+        children: "Updating deck",
+        variant: "loading",
       });
 
       try {
-        const updated = await updateShare(deck.id as string);
-
+        const id = await saveDeck(deck.id);
         toast.dismiss(toastId);
 
-        if (updated) {
-          toast.show({
-            children: "Share update successful.",
-            duration: 3000,
-            variant: "success",
-          });
-        }
+        toast.show({
+          children: "Deck save successful.",
+          duration: 3000,
+          variant: "success",
+        });
+
+        if (!stayOnPage) navigate(`~/deck/view/${id}`);
       } catch (err) {
         toast.dismiss(toastId);
 
         toast.show({
-          children: `Share could not be updated: ${(err as Error)?.message}. Try again later on the deck page.`,
+          children: `Deck save failed: ${(err as Error)?.message || "Unknown error"}.`,
           variant: "error",
         });
       }
-
-      if (!stayOnPage) navigate(`~/deck/view/${id}`);
     },
-    [saveDeck, navigate, deck.id, toast, updateShare],
+    [saveDeck, navigate, deck.id, toast],
   );
 
   const onDiscard = useCallback(

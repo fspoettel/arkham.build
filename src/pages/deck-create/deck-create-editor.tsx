@@ -6,12 +6,18 @@ import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
 import { decodeSelections } from "@/store/lib/deck-meta";
 import type { CardWithRelations } from "@/store/lib/types";
+import { selectConnections } from "@/store/selectors/connections";
 import {
   selectDeckCreateChecked,
   selectDeckCreateInvestigators,
 } from "@/store/selectors/deck-create";
 import { selectTabooSetSelectOptions } from "@/store/selectors/lists";
-import { capitalize, capitalizeSnakeCase } from "@/utils/formatting";
+import {
+  capitalize,
+  capitalizeSnakeCase,
+  formatProviderName,
+} from "@/utils/formatting";
+import { isEmpty } from "@/utils/is-empty";
 import { useGoBack } from "@/utils/use-go-back";
 import { useCallback } from "react";
 import { useLocation } from "wouter";
@@ -22,6 +28,7 @@ import css from "./deck-create.module.css";
 export function DeckCreateEditor() {
   const deckCreate = useStore(selectDeckCreateChecked);
   const { back, investigator } = useStore(selectDeckCreateInvestigators);
+  const connections = useStore(selectConnections);
 
   const createDeck = useStore((state) => state.createDeck);
 
@@ -30,21 +37,36 @@ export function DeckCreateEditor() {
 
   const goBack = useGoBack();
 
-  const onDeckCreate = () => {
-    const id = createDeck();
-    navigate(`/deck/edit/${id}`, { replace: true });
-    toast.show({
-      children: "Deck create successful.",
-      duration: 3000,
-      variant: "success",
+  const onDeckCreate = useCallback(async () => {
+    const toastId = toast.show({
+      children: "Creating deck",
+      variant: "loading",
     });
-  };
+
+    try {
+      const id = await createDeck();
+      navigate(`/deck/edit/${id}`, { replace: true });
+      toast.dismiss(toastId);
+      toast.show({
+        children: "Deck create successful.",
+        duration: 3000,
+        variant: "success",
+      });
+    } catch (err) {
+      toast.dismiss(toastId);
+      toast.show({
+        children: `Deck create failed: ${(err as Error)?.message || "Unknown error"}`,
+        variant: "error",
+      });
+    }
+  }, [toast, createDeck, navigate]);
 
   const tabooSets = useStore(selectTabooSetSelectOptions);
 
   const setTitle = useStore((state) => state.deckCreateSetTitle);
   const setTabooSet = useStore((state) => state.deckCreateSetTabooSet);
   const setSelection = useStore((state) => state.deckCreateSetSelection);
+  const setProvider = useStore((state) => state.deckCreateSetProvider);
 
   const setInvestigatorCode = useStore(
     (state) => state.deckCreateSetInvestigatorCode,
@@ -96,10 +118,28 @@ export function DeckCreateEditor() {
 
   return (
     <div className={css["editor"]} style={cssVariables}>
+      {!isEmpty(connections) && (
+        <Field full padded>
+          <FieldLabel htmlFor="provider">Storage provider</FieldLabel>
+          <Select
+            name="provider"
+            emptyLabel="Local"
+            options={connections.map((connection) => ({
+              label: formatProviderName(connection.provider),
+              value: connection.provider,
+            }))}
+            onChange={(evt) => {
+              setProvider(evt.target.value);
+            }}
+            value={deckCreate.provider}
+          />
+        </Field>
+      )}
       <Field full padded>
-        <FieldLabel>Title</FieldLabel>
+        <FieldLabel htmlFor="title">Title</FieldLabel>
         <input
           data-testid="create-title"
+          name="title"
           onChange={onInputChange}
           type="text"
           value={deckCreate.title}
@@ -107,10 +147,11 @@ export function DeckCreateEditor() {
       </Field>
 
       <Field full padded>
-        <FieldLabel>Taboo Set</FieldLabel>
+        <FieldLabel htmlFor="taboo">Taboo Set</FieldLabel>
         <Select
           data-testid="create-taboo"
           emptyLabel="None"
+          name="taboo"
           onChange={onTabooSetChange}
           options={tabooSets}
           value={deckCreate.tabooSetId ?? ""}
@@ -120,10 +161,13 @@ export function DeckCreateEditor() {
       {investigator.relations?.parallel && (
         <>
           <Field full padded>
-            <FieldLabel>Investigator Front</FieldLabel>
+            <FieldLabel htmlFor="investigator-front">
+              Investigator Front
+            </FieldLabel>
             <Select
               data-side="front"
               data-testid="create-investigator-front"
+              name="investigator-front"
               onChange={onInvestigatorChange}
               options={getInvestigatorOptions(investigator, "Front")}
               required
@@ -131,10 +175,13 @@ export function DeckCreateEditor() {
             />
           </Field>
           <Field full padded>
-            <FieldLabel>Investigator Back</FieldLabel>
+            <FieldLabel htmlFor="investigator-back">
+              Investigator Back
+            </FieldLabel>
             <Select
               data-side="back"
               data-testid="create-investigator-back"
+              name="investigator-back"
               onChange={onInvestigatorChange}
               options={getInvestigatorOptions(investigator, "Back")}
               required
