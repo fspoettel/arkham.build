@@ -155,11 +155,8 @@ function SidebarUpgrade(props: { deck: ResolvedDeck }) {
   if (!deck.previous_deck) return null;
 
   return (
-    <section className={css["details"]} data-testid="latest-upgrade">
-      <div
-        className={cx(css["detail"], css["full"])}
-        data-testid="view-latest-upgrade"
-      >
+    <section className={css["details"]} data-testid="view-latest-upgrade">
+      <div className={cx(css["detail"], css["full"])}>
         <header>
           <h3 className={css["detail-label"]}>
             <i className="icon-upgrade" />
