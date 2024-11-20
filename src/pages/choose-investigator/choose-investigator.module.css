@@ -6,9 +6,7 @@
   font-family: var(--font-family-content);
   font-style: italic;
   font-size: var(--text-sm);
-  white-space: nowrap;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
+  font-weight: 700;
 }
 
 .signatures {
