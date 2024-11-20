@@ -103,11 +103,14 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
       name: `(Copy) ${deck.name}`,
       date_creation: now,
       date_update: now,
+      exile_string: null,
       next_deck: null,
       previous_deck: null,
       source: "local",
       version: "0.1",
       xp: null,
+      xp_adjustment: null,
+      xp_spent: null,
     };
 
     set({
