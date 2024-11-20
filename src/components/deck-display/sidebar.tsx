@@ -255,8 +255,10 @@ function SidebarActions(props: { deck: ResolvedDeck; owned?: boolean }) {
       {isReadOnly && (
         <Notice variant="info">
           There is a{" "}
-          <Link href={`/deck/view/${deck.next_deck}`}>newer version</Link> of
-          this deck. This deck is read-only.
+          <Link href={`${owned ? "/deck/view/" : "/share/"}${deck.next_deck}`}>
+            newer version
+          </Link>{" "}
+          of this deck. This deck is read-only.
         </Notice>
       )}
       <div className={css["actions"]}>

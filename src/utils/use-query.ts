@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer } from "react";
+import { useCallback, useEffect, useReducer, useRef } from "react";
 
 type StateLoading = {
   error: undefined;
@@ -23,7 +23,8 @@ type State<T> = StateLoading | StateError | StateSuccess<T>;
 type Action<T> =
   | { type: "LOADING" }
   | { type: "SUCCESS"; payload: T }
-  | { type: "ERROR"; payload: unknown };
+  | { type: "ERROR"; payload: unknown }
+  | { type: "RESET" };
 
 function reducer<T>(_: State<T>, action: Action<T>): State<T> {
   switch (action.type) {
@@ -33,6 +34,8 @@ function reducer<T>(_: State<T>, action: Action<T>): State<T> {
       return { error: undefined, loading: false, data: action.payload };
     case "ERROR":
       return { data: undefined, loading: false, error: action.payload };
+    case "RESET":
+      return { error: undefined, data: undefined, loading: false };
   }
 }
 
@@ -45,19 +48,31 @@ export function useQuery<T>(query: Query<T> | undefined): State<T> {
     data: undefined,
   } as State<T>);
 
-  useEffect(() => {
-    if (query && !state.loading && !state.data && !state.error) {
-      dispatch({ type: "LOADING" });
-      query()
-        .then((data) => {
-          dispatch({ type: "SUCCESS", payload: data });
-        })
-        .catch((error) => {
-          console.error(error);
-          dispatch({ type: "ERROR", payload: error });
-        });
+  const lock = useRef(false);
+
+  const doQuery = useCallback(async () => {
+    if (!query) {
+      dispatch({ type: "RESET" });
     }
-  }, [query, state]);
+
+    if (!lock.current && query) {
+      lock.current = true;
+      dispatch({ type: "LOADING" });
+
+      try {
+        const data = await query();
+        dispatch({ type: "SUCCESS", payload: data });
+      } catch (err) {
+        dispatch({ type: "ERROR", payload: err });
+      } finally {
+        lock.current = false;
+      }
+    }
+  }, [query]);
+
+  useEffect(() => {
+    doQuery();
+  }, [doQuery]);
 
   return state;
 }
@@ -73,15 +88,13 @@ export function useMutate<T>(query: Query<T>): State<T> & {
 
   const mutate = useCallback(async () => {
     dispatch({ type: "LOADING" });
-
-    await query()
-      .then((data) => {
-        dispatch({ type: "SUCCESS", payload: data });
-      })
-      .catch((error) => {
-        dispatch({ type: "ERROR", payload: error });
-        throw error;
-      });
+    try {
+      const data = await query();
+      dispatch({ type: "SUCCESS", payload: data });
+    } catch (err) {
+      dispatch({ type: "ERROR", payload: err });
+      throw err;
+    }
   }, [query]);
 
   return {

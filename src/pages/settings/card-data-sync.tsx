@@ -26,7 +26,7 @@ export function CardDataSync(props: Props) {
 
   const dataVersion = useStore((state) => state.metadata.dataVersion);
 
-  const { data, error, loading } = useQuery(() => queryDataVersion());
+  const { data, error, loading } = useQuery(queryDataVersion);
 
   const {
     data: synced,
