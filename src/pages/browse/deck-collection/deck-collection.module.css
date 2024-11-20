@@ -3,15 +3,14 @@
   height: 100%;
   flex-flow: column nowrap;
   gap: 0.75rem;
+  min-height: 0;
 }
 
-.decks {
-  list-style: none;
+.scroller {
+  flex: 1 1 auto;
   padding-inline: 0.75rem;
-}
-
-.decks > * + * {
-  margin-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  margin-top: -0.75rem;
 }
 
 .deck a {
@@ -20,6 +19,10 @@
   &:focus-visible {
     outline: 1px solid var(--palette-4);
   }
+}
+
+.deck {
+  padding-top: 0.75rem;
 }
 
 .header {
@@ -83,4 +86,8 @@
 
 .import-input {
   display: none;
+}
+
+.filters {
+  flex: 0 0 auto;
 }

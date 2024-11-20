@@ -15,12 +15,12 @@ import { useLocation } from "wouter";
 import { CardThumbnail } from "./card-thumbnail";
 import { DeckStats } from "./deck-stats";
 import css from "./deck-summary.module.css";
+import { DeckTags } from "./deck-tags";
 import { Button } from "./ui/button";
 import { Tag } from "./ui/tag";
 import { DefaultTooltip } from "./ui/tooltip";
 
 type Props = {
-  children?: React.ReactNode;
   deck: ResolvedDeck;
   onDeleteDeck?: (id: Id) => Promise<void>;
   onDuplicateDeck?: (id: Id) => void;
@@ -31,7 +31,6 @@ type Props = {
 
 export function DeckSummary(props: Props) {
   const {
-    children,
     deck,
     interactive,
     onDeleteDeck,
@@ -106,18 +105,10 @@ export function DeckSummary(props: Props) {
         )}
         <div className={css["header-container"]}>
           <div className={cx(css["info-container"])}>
-            <div className={css["header-row"]}>
-              <h3 className={css["title"]} data-testid="deck-summary-title">
-                {deck.name}
-              </h3>
-              <Tag size="sm" variant="inverse">
-                {deck.source === "arkhamdb" && (
-                  <i className="icon-elder_sign" />
-                )}
-                {formatProviderName(deck.source ?? "local")}
-              </Tag>
-            </div>
-            <div className={css["header-row"]}>
+            <h3 className={css["title"]} data-testid="deck-summary-title">
+              {deck.name}
+            </h3>
+            <div className={cx(css["header-row"], css["wrap"])}>
               <div className={css["header-row"]}>
                 {card.parallel && (
                   <DefaultTooltip tooltip="Uses a parallel side">
@@ -173,7 +164,14 @@ export function DeckSummary(props: Props) {
           </nav>
         </div>
       </header>
-      {children && <div className={css["meta"]}>{children}</div>}
+      <div className={css["meta"]}>
+        <DeckTags tags={deck.tags}>
+          <Tag as="li" size="sm">
+            {deck.source === "arkhamdb" && <i className="icon-elder_sign" />}
+            {formatProviderName(deck.source ?? "local")}
+          </Tag>
+        </DeckTags>
+      </div>
     </article>
   );
 }

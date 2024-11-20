@@ -5,7 +5,6 @@ import {
   useDuplicateDeck,
 } from "@/components/deck-display/hooks";
 import { DeckSummary } from "@/components/deck-summary";
-import { DeckTags } from "@/components/deck-tags";
 import { SyncStatus } from "@/components/sync-status";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
@@ -21,20 +20,11 @@ import { selectConnections } from "@/store/selectors/connections";
 import { selectDecksDisplayList } from "@/store/selectors/deck-filters";
 import { isEmpty } from "@/utils/is-empty";
 import { EllipsisIcon, PlusIcon, Trash2Icon, UploadIcon } from "lucide-react";
-import { forwardRef, useCallback, useState } from "react";
-import { type Components, Virtuoso } from "react-virtuoso";
+import { useCallback, useState } from "react";
+import { Virtuoso } from "react-virtuoso";
 import { Link } from "wouter";
 import { DeckCollectionImport } from "./deck-collection-import";
 import css from "./deck-collection.module.css";
-
-const List: Components["List"] = forwardRef((props, ref) => {
-  // biome-ignore lint/suspicious/noExplicitAny: issue with library typings.
-  return <ol {...props} className={css["decks"]} ref={ref as any} />;
-});
-
-const VIRTUOSO_COMPONENTS = {
-  List,
-};
 
 export function DeckCollection() {
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -166,24 +156,25 @@ export function DeckCollection() {
         </div>
       </header>
       {deckCollection.total > 1 && (
-        <DeckCollectionFilters
-          filteredCount={deckCollection.decks.length}
-          totalCount={deckCollection.total}
-        />
+        <div className={css["filters"]}>
+          <DeckCollectionFilters
+            filteredCount={deckCollection.decks.length}
+            totalCount={deckCollection.total}
+          />
+        </div>
       )}
       {deckCollection.total ? (
         <Scroller
+          className={css["scroller"]}
           ref={setScrollParent as unknown as React.RefObject<HTMLDivElement>}
         >
           <Virtuoso
-            className={css["scroller"]}
             customScrollParent={scrollParent}
             data={deckCollection.decks}
             overscan={5}
-            totalCount={deckCollection.decks.length}
-            components={VIRTUOSO_COMPONENTS}
+            totalCount={deckCollection.total}
             itemContent={(_, deck) => (
-              <li
+              <div
                 className={css["deck"]}
                 data-testid="collection-deck"
                 key={deck.id}
@@ -196,11 +187,9 @@ export function DeckCollection() {
                     onDuplicateDeck={duplicateDeck}
                     showThumbnail
                     validation={deck.problem}
-                  >
-                    {deck.tags && <DeckTags tags={deck.tags} />}
-                  </DeckSummary>
+                  />
                 </Link>
-              </li>
+              </div>
             )}
           />
         </Scroller>

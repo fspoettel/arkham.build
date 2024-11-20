@@ -64,8 +64,12 @@
 
 .row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
+  grid-template-columns: 1fr;
+
+  @media screen and (min-width: 45rem) {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .lists {

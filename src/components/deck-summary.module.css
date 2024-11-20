@@ -50,6 +50,10 @@
   line-height: 1;
   gap: 0.25rem;
   margin-top: 0.25rem;
+
+  &.wrap {
+    flex-wrap: wrap;
+  }
 }
 
 .info-container {
