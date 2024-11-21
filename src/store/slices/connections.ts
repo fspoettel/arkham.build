@@ -216,8 +216,8 @@ export const createConnectionsSlice: StateCreator<
     const adapter = new syncAdapters[provider](state);
 
     assert(
-      !deck.previous_deck && !deck.next_deck,
-      "Deck contains a previous or next upgrade. Please 'Duplicate' the deck before trying to upload again",
+      !deck.previous_deck || !deck.next_deck,
+      `Deck ${deck.next_deck ? "has" : "is"} an upgrade. Please 'Duplicate' the deck in order to upload it`,
     );
 
     try {
