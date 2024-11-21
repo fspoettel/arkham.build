@@ -174,7 +174,7 @@ function AppTasks() {
       }
     }
 
-    if (location !== "/settings") {
+    if (location !== "/settings" && location !== "/connect") {
       updateCardData().catch(console.error);
     }
   }, [dataVersion, toast.dismiss, toast.show]);
