@@ -35,7 +35,7 @@ export class ErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       return (
         <main style={{ height: "100dvh", width: "100%" }}>
-          <ErrorDisplay message="The app drew an Auto-Fail." status={500}>
+          <ErrorDisplay message="The app drew an Auto-fail." status={500}>
             <div
               style={{
                 border: "1px solid var(--palette-1)",
