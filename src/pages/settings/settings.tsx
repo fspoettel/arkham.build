@@ -7,6 +7,7 @@ import { useStore } from "@/store";
 import { useGoBack } from "@/utils/use-go-back";
 import { LibraryIcon, SlidersVerticalIcon } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { useSearch } from "wouter";
 import { CardDataSync } from "./card-data-sync";
 import { Connections } from "./connections";
 import { HideWeaknessSetting } from "./hide-weakness";
@@ -18,8 +19,9 @@ import { TabooSet } from "./taboo-set";
 import { Theme } from "./theme";
 
 function Settings() {
+  const search = useSearch();
   const toast = useToast();
-  const goBack = useGoBack();
+  const goBack = useGoBack(search.includes("login_state") ? "/" : undefined);
 
   const updateStoredSettings = useStore((state) => state.updateSettings);
 

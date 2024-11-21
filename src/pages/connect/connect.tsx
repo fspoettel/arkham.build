@@ -36,8 +36,17 @@ export function Connect() {
       });
     }
 
-    navigate("~/settings");
-  }, [loginState, error, toast, session, navigate, createConnection, provider]);
+    navigate(`~/settings?${search}`, { replace: true });
+  }, [
+    loginState,
+    error,
+    toast,
+    session,
+    navigate,
+    createConnection,
+    provider,
+    search,
+  ]);
 
   return (
     <AppLayout title={`Connecting ${provider}...`}>
