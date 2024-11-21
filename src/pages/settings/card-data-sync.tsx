@@ -10,7 +10,7 @@ import {
 import { cx } from "@/utils/cx";
 import { useMutate, useQuery } from "@/utils/use-query";
 import { CheckIcon, FileDownIcon } from "lucide-react";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import css from "./card-data-sync.module.css";
 
 type Props = {
@@ -33,24 +33,19 @@ export function CardDataSync(props: Props) {
     [init],
   );
 
-  const {
-    data: synced,
-    error: syncError,
-    loading: syncing,
-    mutate,
-  } = useMutate(initStore);
+  const { error: syncError, loading: syncing, mutate } = useMutate(initStore);
 
-  useEffect(() => {
-    if (synced) {
-      toast.show({
-        children: "Card data sync successful.",
-        duration: 3000,
-        variant: "success",
-      });
+  const onSync = useCallback(async () => {
+    await mutate().catch(console.error);
 
-      onSyncComplete?.();
-    }
-  }, [onSyncComplete, synced, toast.show]);
+    toast.show({
+      children: "Card data sync successful.",
+      duration: 3000,
+      variant: "success",
+    });
+
+    onSyncComplete?.();
+  }, [mutate, onSyncComplete, toast.show]);
 
   const upToDate =
     data &&
@@ -83,7 +78,7 @@ export function CardDataSync(props: Props) {
         </div>
         <Button
           disabled={loading || !!error}
-          onClick={mutate}
+          onClick={onSync}
           type="button"
           size="sm"
         >
