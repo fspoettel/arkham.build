@@ -31,11 +31,7 @@ export function DeckDisplay(props: Props) {
   const hasHistory = !!history.length;
 
   return (
-    <AppLayout
-      title={
-        deck ? `${deck.investigatorFront.card.real_name} - ${deck.name}` : ""
-      }
-    >
+    <AppLayout title={deck ? deck.name : ""}>
       <main className={css["main"]} style={cssVariables}>
         <header className={css["header"]}>
           <h1 className={css["title"]} data-testid="view-title">

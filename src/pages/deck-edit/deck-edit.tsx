@@ -121,9 +121,7 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
   const validation = useStore((state) => selectDeckValid(state, deck));
 
-  useDocumentTitle(
-    deck ? `Edit: ${deck.investigatorFront.card.real_name} - ${deck.name}` : "",
-  );
+  useDocumentTitle(deck ? `Edit: ${deck.name}` : "");
 
   const onChangeCardQuantity = useMemo(() => {
     return (card: Card, quantity: number, limit: number) => {
