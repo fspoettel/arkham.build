@@ -58,7 +58,7 @@ export function Sidebar(props: Props) {
       <DeckInvestigator deck={deck} size="tooltip" />
       <SidebarActions deck={deck} owned={owned} />
       <SidebarDetails deck={deck} />
-      <SidebarUpgrade deck={deck} />
+      {owned && <SidebarUpgrade deck={deck} />}
       {owned && deck.source !== "arkhamdb" && <Sharing deck={deck} />}
       {owned && deck.source === "arkhamdb" && <ArkhamDbDetails deck={deck} />}
     </div>
