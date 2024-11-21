@@ -93,6 +93,11 @@
   margin-top: 0.75rem;
 }
 
+.list-group {
+  border-top: 1px solid var(--palette-point-five);
+  padding-top: 0.75rem;
+}
+
 .list-group > * + * {
   margin-top: 0.75rem;
 }
@@ -105,5 +110,5 @@
 }
 
 .list-group-title {
-  font-size: var(--text-xs);
+  font-size: var(--text-base);
 }

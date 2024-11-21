@@ -18,7 +18,10 @@ export function Connections() {
         return (
           <article className={css["connection"]} key={provider}>
             <header className={css["header"]}>
-              <h3>ArkhamDB</h3>
+              <h3 className={css["title"]}>
+                <i className="icon-elder_sign" />
+                ArkhamDB
+              </h3>
               {connection?.status && (
                 <ConnectionStatusOutput connection={connection} />
               )}
