@@ -40,16 +40,21 @@ export function Collection(props: Props) {
     (evt: React.MouseEvent) => {
       if (evt.currentTarget instanceof HTMLButtonElement) {
         const code = evt.currentTarget.dataset.cycle;
+        const reprint = evt.currentTarget.dataset.reprint === "true";
+
         const val = Number.parseInt(
           evt.currentTarget.dataset.val as string,
           10,
         );
 
         const cycle = cyclesWithPacks.find((c) => c.code === code);
+
         if (cycle) {
-          const update = cycle.packs.reduce<SettingsState["collection"]>(
+          const packs = reprint ? cycle.reprintPacks : cycle.packs;
+
+          const update = packs.reduce<SettingsState["collection"]>(
             (acc, curr) => {
-              if (!curr.reprint) acc[curr.code] = val;
+              acc[curr.code] = val;
               return acc;
             },
             {},
@@ -103,7 +108,16 @@ export function Collection(props: Props) {
 
               {!!cycle.reprintPacks.length && (
                 <div>
-                  <div className={css["cycle-subheader"]}>New format</div>
+                  <div className={css["cycle-subheader"]}>
+                    New format
+                    {canEdit && cycle.code !== "core" && (
+                      <CollectionCycleActions
+                        cycleCode={cycle.code}
+                        onToggleCycle={onToggleCycle}
+                        reprint
+                      />
+                    )}
+                  </div>
                   <ol className={css["packs"]}>
                     {cycle.reprintPacks.map((pack) => (
                       <CollectionPack

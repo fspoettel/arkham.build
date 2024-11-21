@@ -5,16 +5,20 @@ import css from "./collection.module.css";
 type Props = {
   cycleCode: string;
   onToggleCycle: (evt: React.MouseEvent) => void;
+  reprint?: boolean;
 };
 
 export function CollectionCycleActions(props: Props) {
+  const { cycleCode, onToggleCycle, reprint } = props;
+
   return (
     <div className={css["cycle-actions"]}>
       <Button
         className={css["collection-cycle-toggle"]}
-        data-cycle={props.cycleCode}
+        data-cycle={cycleCode}
+        data-reprint={reprint ? "true" : "false"}
         data-val={1}
-        onClick={props.onToggleCycle}
+        onClick={onToggleCycle}
         iconOnly
         type="button"
         variant="bare"
@@ -23,9 +27,10 @@ export function CollectionCycleActions(props: Props) {
       </Button>
       <Button
         className={css["cycle-toggle"]}
-        data-cycle={props.cycleCode}
+        data-cycle={cycleCode}
         data-val={0}
-        onClick={props.onToggleCycle}
+        data-reprint={reprint ? "true" : "false"}
+        onClick={onToggleCycle}
         iconOnly
         type="button"
         variant="bare"
