@@ -39,7 +39,7 @@ export function DeckSummary(props: Props) {
     validation,
   } = props;
 
-  const [, setLocation] = useLocation();
+  const [, navigate] = useLocation();
 
   const backgroundCls = getCardColor(deck.investigatorBack.card, "background");
   const borderCls = getCardColor(deck.investigatorBack.card, "border");
@@ -70,17 +70,17 @@ export function DeckSummary(props: Props) {
   const onEdit = useCallback(
     (evt: React.MouseEvent) => {
       cancelEvent(evt);
-      setLocation(`/deck/edit/${deck.id}`);
+      navigate(`/deck/edit/${deck.id}`);
     },
-    [deck.id, setLocation],
+    [deck.id, navigate],
   );
 
   const onUpgrade = useCallback(
     (evt: React.MouseEvent) => {
       cancelEvent(evt);
-      setLocation(`/deck/view/${deck.id}?upgrade`);
+      navigate(`/deck/view/${deck.id}?upgrade`);
     },
-    [deck.id, setLocation],
+    [deck.id, navigate],
   );
 
   return (

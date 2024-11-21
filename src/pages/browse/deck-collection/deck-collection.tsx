@@ -199,6 +199,21 @@ export function DeckCollection() {
             <i className="icon-deck" />
             <figcaption className={css["placeholder-caption"]}>
               Collection empty
+              <nav className={css["placeholder-actions"]}>
+                <Link href="/deck/create" asChild>
+                  <Button variant="bare">
+                    <PlusIcon />
+                    Create deck
+                  </Button>
+                </Link>
+
+                <Link href="/settings" asChild>
+                  <Button variant="bare">
+                    <i className="icon-elder_sign" />
+                    Connect ArkhamDB
+                  </Button>
+                </Link>
+              </nav>
             </figcaption>
           </figure>
         </div>
