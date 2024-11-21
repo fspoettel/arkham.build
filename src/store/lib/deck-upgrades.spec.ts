@@ -59,6 +59,8 @@ import ignoreDeckLimit21 from "@/test/fixtures/decks/upgrades/ignore_deck_limit_
 import ignoreDeckLimit22 from "@/test/fixtures/decks/upgrades/ignore_deck_limit_2_2.json";
 import myriad from "@/test/fixtures/decks/upgrades/myriad_1.json";
 import myriad2 from "@/test/fixtures/decks/upgrades/myriad_2.json";
+import negativeQuantity from "@/test/fixtures/decks/upgrades/negative_quantity_1.json";
+import negativeQuantity2 from "@/test/fixtures/decks/upgrades/negative_quantity_2.json";
 import permanent from "@/test/fixtures/decks/upgrades/permanent_1.json";
 import permanent2 from "@/test/fixtures/decks/upgrades/permanent_2.json";
 import story from "@/test/fixtures/decks/upgrades/story_1.json";
@@ -556,6 +558,44 @@ describe("getUpgradeStats", () => {
       );
 
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(extraDeckExile2.xp);
+    });
+
+    it("handles case: negative quantity", () => {
+      const state = store.getState();
+      const prev = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        negativeQuantity,
+      );
+
+      const next = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        negativeQuantity2,
+      );
+
+      expect(getUpgradeStats(prev, next)).toMatchInlineSnapshot(`
+        {
+          "changes": {
+            "customizations": {},
+            "extraSlots": {},
+            "slots": {
+              "01088": 1,
+              "01096": -1,
+              "01546": -2,
+              "02189": 1,
+              "03191": 2,
+              "03195": 2,
+              "60219": -2,
+              "60311": -1,
+            },
+          },
+          "xp": 5,
+          "xpAdjustment": 4,
+          "xpAvailable": 0,
+          "xpSpent": 9,
+        }
+      `);
     });
   });
 });

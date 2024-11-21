@@ -61,6 +61,11 @@ function getSlotChanges(
     const nextQuantity = next?.[slotKey]?.[code] ?? 0;
     const prevQuantity = prev?.[slotKey]?.[code] ?? 0;
 
+    // There is some bad data in some arkhamdb decks where rbw has a negative quantity.
+    if (prevQuantity < 0 || nextQuantity < 0) {
+      continue;
+    }
+
     // XXX: holds until extra deck and main deck can contain the same exilable card.
     if (next.exileSlots[code]) {
       const exileDiff = nextQuantity - (prevQuantity - next.exileSlots[code]);
