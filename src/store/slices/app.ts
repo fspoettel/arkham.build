@@ -306,7 +306,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         await deleteDeck(id, true);
       } catch (err) {
         disconnectProviderIfUnauthorized("arkhamdb", err, set);
-        throw err;
+        // when deleting, we ignore the remote error and continue to delete
       }
     } else {
       await Promise.allSettled(
