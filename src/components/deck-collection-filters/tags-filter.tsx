@@ -56,6 +56,7 @@ export function TagsFilter({ containerClass }: Props) {
         data-testid="deck-tags-filter"
       >
         <Combobox
+          autoFocus
           id="tag-deck-filter"
           items={options}
           label="Tag"

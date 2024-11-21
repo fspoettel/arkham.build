@@ -20,8 +20,8 @@
   border-radius: 100%;
   padding: 1px;
   position: absolute;
-  bottom: 0.125rem;
-  left: 0.1875rem;
+  bottom: -0.125rem;
+  right: -0.125rem;
 }
 
 .header,
@@ -120,12 +120,12 @@
 
 @media (pointer: fine) {
   .summary.interactive {
-    .thumbnail {
+    .thumbnail img {
       filter: grayscale(0.5);
     }
 
     &:hover {
-      & .thumbnail {
+      & .thumbnail img {
         filter: none;
       }
 

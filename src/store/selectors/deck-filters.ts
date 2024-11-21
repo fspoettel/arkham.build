@@ -4,6 +4,7 @@ import { capitalize } from "@/utils/formatting";
 import { and, or } from "@/utils/fp";
 import uFuzzy from "@leeoniya/ufuzzy";
 import { createSelector } from "reselect";
+import { sortAlphabetical } from "../lib/sorting";
 import type { ResolvedDeck } from "../lib/types";
 import type { StoreState } from "../slices";
 import type {
@@ -235,7 +236,8 @@ export const selectTagsInLocalDecks = createSelector(
         code: tag,
       };
     });
-    return uniqueTags;
+
+    return uniqueTags.sort((a, b) => sortAlphabetical(a.code, b.code));
   },
 );
 
