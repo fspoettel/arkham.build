@@ -107,6 +107,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
       next_deck: null,
       previous_deck: null,
       version: "0.1",
+      source: undefined,
       xp: null,
       xp_adjustment: null,
       xp_spent: null,
