@@ -2,10 +2,9 @@ import { Loader } from "@/components/ui/loader";
 import { useToast } from "@/components/ui/toast.hooks";
 import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
-import { getSession } from "@/store/services/queries";
 import type { Provider } from "@/store/slices/connections.types";
-import { useQuery } from "@/utils/use-query";
-import { useEffect } from "react";
+import { formatProviderName } from "@/utils/formatting";
+import { useEffect, useRef } from "react";
 import { useLocation, useSearch } from "wouter";
 
 export function Connect() {
@@ -15,42 +14,54 @@ export function Connect() {
   const params = new URLSearchParams(search);
 
   const createConnection = useStore((state) => state.createConnection);
-
-  const session = useQuery(getSession);
+  const sync = useStore((state) => state.sync);
 
   const provider = params.get("provider")?.toString() || "arkhamdb";
   const loginState = params.get("login_state")?.toString();
   const error = params.get("error")?.toString();
 
-  useEffect(() => {
-    if (session.loading) return;
+  const lock = useRef(false);
 
-    if (!error && !session.error && loginState === "success") {
-      createConnection(provider as Provider, {});
-    } else {
-      const errorMessage =
-        error || (session.error as Error)?.message || "Unknown error";
-      toast.show({
-        children: `Error occured during connection: ${errorMessage}`,
-        variant: "error",
-      });
+  useEffect(() => {
+    async function initializeConnection() {
+      if (lock.current) return;
+
+      try {
+        if (loginState === "success") {
+          createConnection(provider as Provider, {});
+          lock.current = true;
+          await sync();
+        } else {
+          const errorMessage = error || "Unknown error";
+          toast.show({
+            children: `Error occured during connection: ${errorMessage}`,
+            variant: "error",
+          });
+        }
+      } finally {
+        navigate(`~/settings?${search}`, { replace: true });
+      }
     }
 
-    navigate(`~/settings?${search}`, { replace: true });
+    initializeConnection().catch(console.error);
   }, [
     loginState,
     error,
     toast,
-    session,
     navigate,
     createConnection,
     provider,
     search,
+    sync,
   ]);
+
+  const message = lock
+    ? `Syncing ${formatProviderName(provider)}...`
+    : `Connecting ${provider}...`;
 
   return (
     <AppLayout title={`Connecting ${provider}...`}>
-      <Loader show message={`Connecting ${provider}...`} />
+      <Loader show message={message} />
     </AppLayout>
   );
 }
