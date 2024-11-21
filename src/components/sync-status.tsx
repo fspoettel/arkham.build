@@ -25,10 +25,7 @@ export function SyncStatus() {
 
   return (
     <Button
-      className={cx(
-        css["sync"],
-        !syncing && (healthy ? css["healthy"] : css["unhealthy"]),
-      )}
+      className={cx(css["sync"], !syncing && !healthy && css["unhealthy"])}
       onClick={() => sync()}
       tooltip={
         !syncing ? (
