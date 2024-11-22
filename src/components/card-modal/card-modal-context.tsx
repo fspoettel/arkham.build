@@ -17,11 +17,13 @@ type CardModalContextState =
     };
 
 type CardModalContext = {
+  isOpen: boolean;
   setClosed: () => void;
   setOpen: (config: CardModalContextConfig) => void;
 };
 
 const CardModalContext = createContext<CardModalContext>({
+  isOpen: false,
   setClosed: () => {},
   setOpen: () => {},
 });
@@ -49,6 +51,7 @@ export function CardModalProvider(props: Props) {
 
   const value: CardModalContext = useMemo(
     () => ({
+      isOpen: state.isOpen,
       setClosed: () => {
         setState((prev) => ({ isOpen: false, config: prev.config }));
       },
@@ -56,7 +59,7 @@ export function CardModalProvider(props: Props) {
         setState({ config, isOpen: true });
       },
     }),
-    [],
+    [state.isOpen],
   );
 
   return (

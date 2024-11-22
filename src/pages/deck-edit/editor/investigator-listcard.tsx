@@ -1,3 +1,4 @@
+import { useCardModalContext } from "@/components/card-modal/card-modal-context";
 import { DeckInvestigator } from "@/components/deck-investigator";
 import { ListCard } from "@/components/list-card/list-card";
 import { Button } from "@/components/ui/button";
@@ -6,7 +7,7 @@ import { useDialogContext } from "@/components/ui/dialog.hooks";
 import { Modal } from "@/components/ui/modal";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { ChartAreaIcon, Rows3Icon } from "lucide-react";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import css from "./investigator-listcard.module.css";
 
@@ -24,8 +25,15 @@ export function InvestigatorListcard(props: Props) {
 
 function InvestigatorListcardInner({ deck }: Props) {
   const modalContext = useDialogContext();
+  const cardModalContext = useCardModalContext();
 
   const [location] = useLocation();
+
+  useEffect(() => {
+    if (cardModalContext.isOpen) {
+      modalContext?.setOpen(false);
+    }
+  }, [cardModalContext.isOpen, modalContext.setOpen]);
 
   const onCloseModal = useCallback(() => {
     modalContext?.setOpen(false);
