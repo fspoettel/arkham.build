@@ -6,7 +6,6 @@ import type { ResolvedDeck } from "@/store/lib/types";
 import { selectDeckHistory } from "@/store/selectors/decks";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { ChartAreaIcon, FileClockIcon } from "lucide-react";
-import { useCallback } from "react";
 import { DeckTags } from "../deck-tags";
 import { DeckTools } from "../deck-tools/deck-tools";
 import { Decklist } from "../decklist/decklist";
@@ -32,19 +31,6 @@ export function DeckDisplay(props: Props) {
   const history = useStore((state) => selectDeckHistory(state, deck.id));
   const hasHistory = !!history.length;
 
-  const renderTag = useCallback((tag: string) => {
-    if (tag === "ArkhamDB") {
-      return (
-        <>
-          <i className="icon-elder_sign" />
-          <span>{tag}</span>
-        </>
-      );
-    }
-
-    return tag;
-  }, []);
-
   return (
     <AppLayout title={deck ? deck.name : ""}>
       <main className={css["main"]} style={cssVariables}>
@@ -53,10 +39,7 @@ export function DeckDisplay(props: Props) {
             {deck.name}
           </h1>
           <div className={css["tags"]}>
-            <DeckTags
-              renderTag={renderTag}
-              tags={extendedDeckTags(deck, false)}
-            />
+            <DeckTags tags={extendedDeckTags(deck, false)} />
             <LimitedCardPoolTag />
             <SealedDeckTag />
           </div>

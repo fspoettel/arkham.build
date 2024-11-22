@@ -6,7 +6,7 @@ import {
   selectTagsInLocalDecks,
 } from "@/store/selectors/deck-filters";
 import type { Coded } from "@/store/services/queries.types";
-import { capitalize } from "@/utils/formatting";
+import { capitalize, formatProviderName } from "@/utils/formatting";
 import { useCallback } from "react";
 import { FilterContainer } from "../filters/primitives/filter-container";
 
@@ -14,7 +14,13 @@ type Props = {
   containerClass?: string;
 };
 
-const tagRenderer = (tag: Coded) => <>{capitalize(tag.code)}</>;
+const tagRenderer = (tag: Coded) => (
+  <>
+    {tag.code === "arkhamdb"
+      ? formatProviderName(tag.code)
+      : capitalize(tag.code)}
+  </>
+);
 
 export function DeckTagsFilter({ containerClass }: Props) {
   const changes = useStore(selectTagsChanges);

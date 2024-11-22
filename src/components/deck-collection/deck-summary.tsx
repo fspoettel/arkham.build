@@ -82,19 +82,6 @@ export function DeckSummary(props: Props) {
     [deck.id, navigate],
   );
 
-  const renderTag = useCallback((tag: string) => {
-    if (tag === "ArkhamDB") {
-      return (
-        <>
-          <i className="icon-elder_sign" />
-          <span>{tag}</span>
-        </>
-      );
-    }
-
-    return tag;
-  }, []);
-
   const tags = useMemo(() => extendedDeckTags(deck, true), [deck]);
 
   return (
@@ -179,7 +166,7 @@ export function DeckSummary(props: Props) {
         </div>
       </header>
       <div className={css["meta"]}>
-        <DeckTags renderTag={renderTag} tags={tags} />
+        <DeckTags tags={tags} />
       </div>
     </article>
   );

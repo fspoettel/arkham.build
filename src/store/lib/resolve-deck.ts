@@ -194,20 +194,20 @@ export function extendedDeckTags(deck: ResolvedDeck, includeCardPool = false) {
   const tags = [];
 
   if (deck.source === "arkhamdb") {
-    tags.push("ArkhamDB");
+    tags.push("arkhamdb");
   } else if (deck.shared) {
-    tags.push("Shared");
+    tags.push("shared");
   } else {
-    tags.push("Private");
+    tags.push("private");
   }
 
   if (includeCardPool) {
     if (deck.metaParsed.card_pool) {
-      tags.push("Limited Pool");
+      tags.push("limited pool");
     }
 
     if (deck.metaParsed.sealed_deck) {
-      tags.push("Sealed");
+      tags.push("sealed");
     }
   }
   tags.push(...deckTags(deck));
