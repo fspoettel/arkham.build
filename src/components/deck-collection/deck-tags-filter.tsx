@@ -6,7 +6,7 @@ import {
   selectTagsInLocalDecks,
 } from "@/store/selectors/deck-filters";
 import type { Coded } from "@/store/services/queries.types";
-import { capitalize, formatProviderName } from "@/utils/formatting";
+import { capitalizeWords, formatProviderName } from "@/utils/formatting";
 import { useCallback } from "react";
 import { FilterContainer } from "../filters/primitives/filter-container";
 
@@ -18,7 +18,7 @@ const tagRenderer = (tag: Coded) => (
   <>
     {tag.code === "arkhamdb"
       ? formatProviderName(tag.code)
-      : capitalize(tag.code)}
+      : capitalizeWords(tag.code)}
   </>
 );
 

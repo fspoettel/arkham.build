@@ -5,12 +5,12 @@ export function capitalize(s: string | number) {
   const str = s.toString();
   if (!str.length) return str;
 
-  return str
-    .split(" ")
-    .map((word) => {
-      return `${word[0].toUpperCase()}${word.slice(1)}`;
-    })
-    .join(" ");
+  return `${str[0].toUpperCase()}${str.slice(1)}`;
+}
+
+export function capitalizeWords(s: string) {
+  if (!s.length) return s;
+  return s.split(" ").map(capitalize).join(" ");
 }
 
 export function capitalizeSnakeCase(s: string) {

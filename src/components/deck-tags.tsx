@@ -1,4 +1,4 @@
-import { capitalize, formatProviderName } from "@/utils/formatting";
+import { capitalizeWords, formatProviderName } from "@/utils/formatting";
 import { LockKeyholeIcon, ShareIcon } from "lucide-react";
 import css from "./deck-tags.module.css";
 import { Tag } from "./ui/tag";
@@ -24,7 +24,7 @@ const tagRenderer = (tag: string) => {
     <>
       {icon}
       <span>
-        {tag === "arkhamdb" ? formatProviderName(str) : capitalize(str)}
+        {tag === "arkhamdb" ? formatProviderName(str) : capitalizeWords(str)}
       </span>
     </>
   );
