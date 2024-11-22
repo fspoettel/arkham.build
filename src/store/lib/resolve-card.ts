@@ -2,7 +2,7 @@ import { CARD_SET_ORDER } from "@/utils/constants";
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
 import { applyCardChanges } from "./card-edits";
-import { sortAlphabetical } from "./sorting";
+import { makeSortFunction, sortAlphabetical } from "./sorting";
 import type { CardWithRelations, Customizations, ResolvedCard } from "./types";
 
 /**
@@ -103,7 +103,7 @@ export function resolveCardWithRelations<T extends boolean>(
       };
     } else {
       cardWithRelations.relations = {
-        restrictedTo: resolveRelation(
+        restrictedTo: resolveRelationArray(
           metadata,
           lookupTables,
           "restrictedTo",
@@ -228,18 +228,9 @@ function resolveRelationArray(
       }, [])
     : [];
 
-  relations.sort(({ card: a }, { card: b }) => {
-    if (a.subtype_code !== b.subtype_code) {
-      return a.subtype_code ? 1 : -1;
-    }
+  const sortFn = makeSortFunction(["type", "name", "level", "cycle"], metadata);
 
-    if (a.xp === b.xp) {
-      return sortAlphabetical(a.real_subname ?? "", b.real_subname ?? "");
-    }
-
-    return (a.xp ?? 0) - (b.xp ?? 0);
-  });
-
+  relations.sort(({ card: a }, { card: b }) => sortFn(a, b));
   return relations;
 }
 

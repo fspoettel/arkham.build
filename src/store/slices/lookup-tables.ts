@@ -403,6 +403,12 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
     tables.relations.bonded[parallel] = tables.relations.bonded[investigator];
     tables.relations.parallelCards[parallel] =
       tables.relations.parallelCards[investigator];
+
+    for (const [key, value] of Object.entries(tables.relations.restrictedTo)) {
+      if (value[investigator]) {
+        setInLookupTable(parallel, tables.relations.restrictedTo, key);
+      }
+    }
   }
 
   timeEnd("create_relations");

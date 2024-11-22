@@ -159,12 +159,15 @@ export function CardViewCards({
           id="restricted-to"
           title={formatRelationTitle("restricted")}
         >
-          <Card
-            canToggleBackside
-            titleLinks="card"
-            resolvedCard={relations.restrictedTo}
-            size="compact"
-          />
+          {relations.restrictedTo.map((c) => (
+            <Card
+              canToggleBackside
+              key={c.card.code}
+              titleLinks="card"
+              resolvedCard={c}
+              size="compact"
+            />
+          ))}
         </CardViewSection>
       )}
 
