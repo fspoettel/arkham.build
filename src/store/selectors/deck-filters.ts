@@ -4,6 +4,7 @@ import { capitalize } from "@/utils/formatting";
 import { and, or } from "@/utils/fp";
 import uFuzzy from "@leeoniya/ufuzzy";
 import { createSelector } from "reselect";
+import { extendedDeckTags } from "../lib/resolve-deck";
 import { sortAlphabetical } from "../lib/sorting";
 import type { ResolvedDeck } from "../lib/types";
 import type { StoreState } from "../slices";
@@ -57,9 +58,7 @@ const makeDeckFactionFilter = (values: MultiselectFilter) => {
 
 // Tag
 const filterDeckByTag = (tag: string) => {
-  return (deck: ResolvedDeck) => {
-    return deck.tags.includes(tag);
-  };
+  return (deck: ResolvedDeck) => extendedDeckTags(deck, true).includes(tag);
 };
 
 const makeDeckTagsFilter = (values: MultiselectFilter) => {
@@ -222,13 +221,10 @@ export const selectFactionsInLocalDecks = createSelector(
 export const selectTagsInLocalDecks = createSelector(
   selectLocalDecks,
   (decks) => {
-    let tags: string[] = [];
+    const tags: string[] = [];
 
     for (const deck of decks) {
-      if (deck.tags) {
-        const tagArray = deck.tags.split(" ");
-        tags = tags.concat(tagArray);
-      }
+      tags.push(...extendedDeckTags(deck, true));
     }
 
     const uniqueTags = [...new Set(tags)].map((tag) => {
@@ -237,7 +233,9 @@ export const selectTagsInLocalDecks = createSelector(
       };
     });
 
-    return uniqueTags.sort((a, b) => sortAlphabetical(a.code, b.code));
+    return uniqueTags.sort((a, b) =>
+      sortAlphabetical(a.code.toLowerCase(), b.code.toLowerCase()),
+    );
   },
 );
 

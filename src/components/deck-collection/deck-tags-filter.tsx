@@ -16,7 +16,7 @@ type Props = {
 
 const tagRenderer = (tag: Coded) => <>{capitalize(tag.code)}</>;
 
-export function TagsFilter({ containerClass }: Props) {
+export function DeckTagsFilter({ containerClass }: Props) {
   const changes = useStore(selectTagsChanges);
   const options = useStore(selectTagsInLocalDecks);
   const open = useStore((state) => state.deckFilters.open.tags);

@@ -83,8 +83,18 @@ describe("getUpgradeStats", () => {
   describe("xp calculation", () => {
     it("handles case: add level 0", () => {
       const state = store.getState();
-      const prev = resolveDeck(state.metadata, state.lookupTables, add0);
-      const next = resolveDeck(state.metadata, state.lookupTables, add02);
+      const prev = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        state.sharing,
+        add0,
+      );
+      const next = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        state.sharing,
+        add02,
+      );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
@@ -93,11 +103,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         from0ToUpgrade,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         from0ToUpgrade2,
       );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
@@ -108,11 +120,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         fromToUpgrade,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         fromToUpgrade2,
       );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
@@ -120,15 +134,35 @@ describe("getUpgradeStats", () => {
 
     it("handles case: story assets", () => {
       const state = store.getState();
-      const prev = resolveDeck(state.metadata, state.lookupTables, story);
-      const next = resolveDeck(state.metadata, state.lookupTables, story2);
+      const prev = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        state.sharing,
+        story,
+      );
+      const next = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        state.sharing,
+        story2,
+      );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: myriad", () => {
       const state = store.getState();
-      const prev = resolveDeck(state.metadata, state.lookupTables, myriad);
-      const next = resolveDeck(state.metadata, state.lookupTables, myriad2);
+      const prev = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        state.sharing,
+        myriad,
+      );
+      const next = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        state.sharing,
+        myriad2,
+      );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
@@ -137,16 +171,19 @@ describe("getUpgradeStats", () => {
       const first = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         exceptional,
       );
       const second = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         exceptional2,
       );
       const third = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         exceptional3,
       );
       expect(getUpgradeStats(first, second).xpSpent).toEqual(second.xp);
@@ -158,11 +195,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         arcaneResearch,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         arcaneResearch2,
       );
 
@@ -178,12 +217,14 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         arcaneResearchSwap,
       );
 
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         arcaneResearchSwap2,
       );
 
@@ -195,11 +236,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         downTheRabbitHole,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         downTheRabbitHole2,
       );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
@@ -210,11 +253,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         arcaneResearchDtrh,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         arcaneResearchDtrh2,
       );
 
@@ -226,11 +271,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         ignoreDeckLimit1,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         ignoreDeckLimit2,
       );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
@@ -241,11 +288,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         ignoreDeckLimit21,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         ignoreDeckLimit22,
       );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
@@ -253,8 +302,18 @@ describe("getUpgradeStats", () => {
 
     it("handles case: adaptable", () => {
       const state = store.getState();
-      const prev = resolveDeck(state.metadata, state.lookupTables, adaptable);
-      const next = resolveDeck(state.metadata, state.lookupTables, adaptable2);
+      const prev = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        state.sharing,
+        adaptable,
+      );
+      const next = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        state.sharing,
+        adaptable2,
+      );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
@@ -263,11 +322,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         adaptableMyriad,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         adaptableMyriad2,
       );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
@@ -278,11 +339,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         adaptableMyriadDtrh,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         adaptableMyriadDtrh2,
       );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
@@ -293,11 +356,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         adaptableTaboo,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         adaptableTaboo2,
       );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
@@ -305,15 +370,35 @@ describe("getUpgradeStats", () => {
 
     it("handles case: deck size adjustment", () => {
       const state = store.getState();
-      const prev = resolveDeck(state.metadata, state.lookupTables, deckSize);
-      const next = resolveDeck(state.metadata, state.lookupTables, deckSize2);
+      const prev = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        state.sharing,
+        deckSize,
+      );
+      const next = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        state.sharing,
+        deckSize2,
+      );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: permanent", () => {
       const state = store.getState();
-      const prev = resolveDeck(state.metadata, state.lookupTables, permanent);
-      const next = resolveDeck(state.metadata, state.lookupTables, permanent2);
+      const prev = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        state.sharing,
+        permanent,
+      );
+      const next = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        state.sharing,
+        permanent2,
+      );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
@@ -322,11 +407,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         customizable,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         customizable2,
       );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
@@ -337,11 +424,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         customizablePurchase,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         customizablePurchase2,
       );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
@@ -352,11 +441,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         customizableUpgrade,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         customizableUpgrade2,
       );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
@@ -367,11 +458,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         customizableDtrh,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         customizableDtrh2,
       );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
@@ -382,10 +475,16 @@ describe("getUpgradeStats", () => {
 
     it("handles case: exile, repurchase", () => {
       const state = store.getState();
-      const prev = resolveDeck(state.metadata, state.lookupTables, exileBase1);
+      const prev = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        state.sharing,
+        exileBase1,
+      );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         exileRepurchase2,
       );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
@@ -393,10 +492,16 @@ describe("getUpgradeStats", () => {
 
     it("handles case: exile, level 0 swaps", () => {
       const state = store.getState();
-      const prev = resolveDeck(state.metadata, state.lookupTables, exileBase1);
+      const prev = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        state.sharing,
+        exileBase1,
+      );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         exileLevel02,
       );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
@@ -407,11 +512,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         exileBurnAfterReading1,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         exileBurnAfterReading2,
       );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
@@ -422,11 +529,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         exileDejavu1,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         exileDejavu2,
       );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
@@ -437,11 +546,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         exileDejavu1,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         exileDejavu2a,
       );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
@@ -452,11 +563,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         exileCustomizable,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         exileCustomizable2,
       );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
@@ -467,11 +580,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         exileCustomizable,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         exileCustomizable2a,
       );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
@@ -482,11 +597,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         exileSingles,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         exileSingles2,
       );
 
@@ -498,12 +615,14 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         exileAdaptable1,
       );
 
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         exileAdaptable2,
       );
 
@@ -515,11 +634,13 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         extraDeckBase,
       );
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         extraDeckVersatile2,
       );
 
@@ -531,12 +652,14 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         extraDeckBase,
       );
 
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         extraDeckUpgrade2,
       );
 
@@ -548,12 +671,14 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         extraDeckExile,
       );
 
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         extraDeckExile2,
       );
 
@@ -565,12 +690,14 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         negativeQuantity,
       );
 
       const next = resolveDeck(
         state.metadata,
         state.lookupTables,
+        state.sharing,
         negativeQuantity2,
       );
 

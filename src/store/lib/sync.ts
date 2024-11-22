@@ -19,7 +19,12 @@ class ArkhamDbAdapter implements SyncAdapter {
     const deck = structuredClone(_deck);
 
     const validation = validateDeck(
-      resolveDeck(this.state.metadata, this.state.lookupTables, deck),
+      resolveDeck(
+        this.state.metadata,
+        this.state.lookupTables,
+        this.state.sharing,
+        deck,
+      ),
       this.state,
     );
 

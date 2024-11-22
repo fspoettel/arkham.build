@@ -1,24 +1,23 @@
 import type { DeckValidationResult } from "@/store/lib/deck-validation";
+import { extendedDeckTags } from "@/store/lib/resolve-deck";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Id } from "@/store/slices/data.types";
 import { getCardColor } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
-import { formatProviderName } from "@/utils/formatting";
 import {
   CircleAlertIcon,
   CopyIcon,
   PencilIcon,
   Trash2Icon,
 } from "lucide-react";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useLocation } from "wouter";
-import { CardThumbnail } from "./card-thumbnail";
-import { DeckStats } from "./deck-stats";
+import { CardThumbnail } from "../card-thumbnail";
+import { DeckStats } from "../deck-stats";
+import { DeckTags } from "../deck-tags";
+import { Button } from "../ui/button";
+import { DefaultTooltip } from "../ui/tooltip";
 import css from "./deck-summary.module.css";
-import { DeckTags } from "./deck-tags";
-import { Button } from "./ui/button";
-import { Tag } from "./ui/tag";
-import { DefaultTooltip } from "./ui/tooltip";
 
 type Props = {
   deck: ResolvedDeck;
@@ -82,6 +81,21 @@ export function DeckSummary(props: Props) {
     },
     [deck.id, navigate],
   );
+
+  const renderTag = useCallback((tag: string) => {
+    if (tag === "ArkhamDB") {
+      return (
+        <>
+          <i className="icon-elder_sign" />
+          <span>{tag}</span>
+        </>
+      );
+    }
+
+    return tag;
+  }, []);
+
+  const tags = useMemo(() => extendedDeckTags(deck, true), [deck]);
 
   return (
     <article
@@ -165,12 +179,7 @@ export function DeckSummary(props: Props) {
         </div>
       </header>
       <div className={css["meta"]}>
-        <DeckTags tags={deck.tags}>
-          <Tag as="li" size="sm">
-            {deck.source === "arkhamdb" && <i className="icon-elder_sign" />}
-            {formatProviderName(deck.source ?? "local")}
-          </Tag>
-        </DeckTags>
+        <DeckTags renderTag={renderTag} tags={tags} />
       </div>
     </article>
   );

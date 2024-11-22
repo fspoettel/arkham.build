@@ -165,6 +165,7 @@ export type ResolvedDeck = Omit<Deck, "sideSlots"> & {
   hasParallel: boolean;
   sealedDeck?: SealedDeck;
   selections?: Selections;
+  shared: boolean;
   tabooSet?: TabooSet;
 
   groups: Groupings;

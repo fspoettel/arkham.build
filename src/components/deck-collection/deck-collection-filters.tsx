@@ -10,9 +10,9 @@ import { useRef, useState } from "react";
 import { FactionToggle } from "../faction-toggle";
 import { Button } from "../ui/button";
 import { SearchInput } from "../ui/search-input";
-import css from "./deck-filters-wrapper.module.css";
+import css from "./deck-collection-filters.module.css";
 import { DeckSortingOptions } from "./deck-sorting-options";
-import { TagsFilter } from "./tags-filter";
+import { DeckTagsFilter } from "./deck-tags-filter";
 
 type Props = {
   filteredCount: number;
@@ -82,7 +82,7 @@ export function DeckCollectionFilters(props: Props) {
             onValueChange={onFactionFilterChange}
           />
         )}
-        <TagsFilter containerClass={css["filter"]} />
+        <DeckTagsFilter containerClass={css["filter"]} />
       </Content>
     </Root>
   );

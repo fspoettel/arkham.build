@@ -25,7 +25,7 @@ export function formatDeckImport(
   const now = new Date().toISOString();
 
   const validation = validateDeck(
-    resolveDeck(state.metadata, state.lookupTables, deck),
+    resolveDeck(state.metadata, state.lookupTables, state.sharing, deck),
     state,
   );
 

@@ -1,10 +1,9 @@
 import { CollapseSidebarButton } from "@/components/collapse-sidebar-button";
-import { DeckCollectionFilters } from "@/components/deck-collection-filters/deck-filters-wrapper";
+import { DeckSummary } from "@/components/deck-collection/deck-summary";
 import {
   useDeleteDeck,
   useDuplicateDeck,
 } from "@/components/deck-display/hooks";
-import { DeckSummary } from "@/components/deck-summary";
 import { SyncStatus } from "@/components/sync-status";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
@@ -23,6 +22,7 @@ import { EllipsisIcon, PlusIcon, Trash2Icon, UploadIcon } from "lucide-react";
 import { useCallback, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { Link } from "wouter";
+import { DeckCollectionFilters } from "./deck-collection-filters";
 import { DeckCollectionImport } from "./deck-collection-import";
 import css from "./deck-collection.module.css";
 

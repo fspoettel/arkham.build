@@ -17,11 +17,12 @@ import type { Slot } from "../slices/deck-edits.types";
 export const selectResolvedDeckById = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
+  (state: StoreState) => state.sharing,
   (state: StoreState, deckId?: Id) =>
     deckId ? state.data.decks[deckId] : undefined,
   (state: StoreState, deckId?: Id, applyEdits?: boolean) =>
     deckId && applyEdits ? state.deckEdits?.[deckId] : undefined,
-  (metadata, lookupTables, deck, edits) => {
+  (metadata, lookupTables, sharing, deck, edits) => {
     if (!deck) return undefined;
 
     time("select_resolved_deck");
@@ -29,6 +30,7 @@ export const selectResolvedDeckById = createSelector(
     const resolvedDeck = resolveDeck(
       metadata,
       lookupTables,
+      sharing,
       edits ? applyDeckEdits(deck, edits, metadata) : deck,
     );
 
@@ -41,7 +43,8 @@ export const selectLocalDecks = createSelector(
   (state: StoreState) => state.data,
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
-  (data, metadata, lookupTables) => {
+  (state: StoreState) => state.sharing,
+  (data, metadata, lookupTables, sharing) => {
     time("select_local_decks");
 
     const resolvedDecks = Object.keys(data.history).reduce<ResolvedDeck[]>(
@@ -50,7 +53,7 @@ export const selectLocalDecks = createSelector(
 
         try {
           if (deck) {
-            const resolved = resolveDeck(metadata, lookupTables, deck);
+            const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
             acc.push(resolved);
           } else {
             console.warn(`Could not find deck ${id} in local storage.`);
@@ -230,7 +233,8 @@ export const selectDeckHistory = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.data,
-  (id, metadata, lookupTables, data) => {
+  (state: StoreState) => state.sharing,
+  (id, metadata, lookupTables, data, sharing) => {
     const deck = data.decks[id];
 
     const history = data.history[id] ? [...data.history[id]] : [];
@@ -252,8 +256,8 @@ export const selectDeckHistory = createSelector(
 
       changes.unshift(
         getChanges(
-          resolveDeck(metadata, lookupTables, data.decks[prev]),
-          resolveDeck(metadata, lookupTables, data.decks[next]),
+          resolveDeck(metadata, lookupTables, sharing, data.decks[prev]),
+          resolveDeck(metadata, lookupTables, sharing, data.decks[next]),
         ),
       );
     }

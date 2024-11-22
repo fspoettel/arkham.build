@@ -368,7 +368,12 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     let nextDeck = applyDeckEdits(deck, edits, state.metadata, true);
     nextDeck.date_update = new Date().toISOString();
 
-    const resolved = resolveDeck(state.metadata, state.lookupTables, nextDeck);
+    const resolved = resolveDeck(
+      state.metadata,
+      state.lookupTables,
+      state.sharing,
+      nextDeck,
+    );
 
     const validation = selectDeckValid(state, resolved);
     nextDeck.problem = mapValidationToProblem(validation);

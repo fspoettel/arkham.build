@@ -7,6 +7,7 @@ import {
 import type { Deck } from "../slices/data.types";
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
+import type { SharingState } from "../slices/sharing.types";
 import { addGroupingsToDeck } from "./deck-grouping";
 import {
   decodeAttachments,
@@ -26,6 +27,7 @@ import type { CardWithRelations, DeckMeta, ResolvedDeck } from "./types";
 export function resolveDeck(
   metadata: Metadata,
   lookupTables: LookupTables,
+  sharing: SharingState,
   deck: Deck,
 ): ResolvedDeck {
   const deckMeta = decodeDeckMeta(deck);
@@ -126,6 +128,7 @@ export function resolveDeck(
     sealedDeck,
     selections: decodeSelections(investigatorBack, deckMeta),
     sideSlots: Array.isArray(deck.sideSlots) ? {} : deck.sideSlots,
+    shared: !!sharing.decks[deck.id],
     stats: {
       deckSize,
       deckSizeTotal,
@@ -176,4 +179,37 @@ export function getDeckLimitOverride(
   code: string,
 ): number | undefined {
   return deck?.sealedDeck?.cards[code];
+}
+
+export function deckTags(deck: ResolvedDeck) {
+  return (
+    deck.tags
+      ?.trim()
+      .split(" ")
+      .filter((x) => x) ?? []
+  );
+}
+
+export function extendedDeckTags(deck: ResolvedDeck, includeCardPool = false) {
+  const tags = [];
+
+  if (deck.source === "arkhamdb") {
+    tags.push("ArkhamDB");
+  } else if (deck.shared) {
+    tags.push("Shared");
+  } else {
+    tags.push("Private");
+  }
+
+  if (includeCardPool) {
+    if (deck.metaParsed.card_pool) {
+      tags.push("Limited Pool");
+    }
+
+    if (deck.metaParsed.sealed_deck) {
+      tags.push("Sealed");
+    }
+  }
+  tags.push(...deckTags(deck));
+  return tags;
 }

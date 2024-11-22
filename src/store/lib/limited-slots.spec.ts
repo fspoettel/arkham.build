@@ -29,7 +29,12 @@ describe("limitedSlotOccupation()", () => {
 
     expect(
       limitedSlotOccupation(
-        resolveDeck(state.metadata, state.lookupTables, limitCarolyn),
+        resolveDeck(
+          state.metadata,
+          state.lookupTables,
+          state.sharing,
+          limitCarolyn,
+        ),
         state.lookupTables,
       )?.map(toSnapShot),
     ).toMatchInlineSnapshot(`
@@ -43,7 +48,12 @@ describe("limitedSlotOccupation()", () => {
 
     expect(
       limitedSlotOccupation(
-        resolveDeck(state.metadata, state.lookupTables, limitCarolynInvalid),
+        resolveDeck(
+          state.metadata,
+          state.lookupTables,
+          state.sharing,
+          limitCarolynInvalid,
+        ),
         state.lookupTables,
       )?.map(toSnapShot),
     ).toMatchInlineSnapshot(`
@@ -61,7 +71,12 @@ describe("limitedSlotOccupation()", () => {
 
     expect(
       limitedSlotOccupation(
-        resolveDeck(state.metadata, state.lookupTables, limitCarolynVersatile),
+        resolveDeck(
+          state.metadata,
+          state.lookupTables,
+          state.sharing,
+          limitCarolynVersatile,
+        ),
         state.lookupTables,
       )?.map(toSnapShot),
     ).toMatchInlineSnapshot(`
@@ -82,6 +97,7 @@ describe("limitedSlotOccupation()", () => {
         resolveDeck(
           state.metadata,
           state.lookupTables,
+          state.sharing,
           limitCarolynVersatileInvalid,
         ),
         state.lookupTables,

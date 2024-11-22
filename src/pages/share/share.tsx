@@ -17,10 +17,11 @@ import { Error404 } from "../errors/404";
 const selectResolvedShare = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
+  (state: StoreState) => state.sharing,
   (_: StoreState, data: Deck | undefined) => data,
-  (metadata, lookupTables, data) => {
+  (metadata, lookupTables, sharing, data) => {
     if (!data) return undefined;
-    return resolveDeck(metadata, lookupTables, data);
+    return resolveDeck(metadata, lookupTables, sharing, data);
   },
 );
 

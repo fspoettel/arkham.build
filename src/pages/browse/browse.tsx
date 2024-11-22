@@ -1,12 +1,12 @@
 import { CardListContainer } from "@/components/card-list/card-list-container";
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
+import { DeckCollection } from "@/components/deck-collection/deck-collection";
 import { Filters } from "@/components/filters/filters";
 import { ListLayout } from "@/layouts/list-layout";
 import { useStore } from "@/store";
 import { selectIsInitialized } from "@/store/selectors/shared";
 import { useDocumentTitle } from "@/utils/use-document-title";
 import { useEffect } from "react";
-import { DeckCollection } from "./deck-collection/deck-collection";
 
 function Browse() {
   const activeListId = useStore((state) => state.activeList);

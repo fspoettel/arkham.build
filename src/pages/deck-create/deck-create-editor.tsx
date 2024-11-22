@@ -123,7 +123,7 @@ export function DeckCreateEditor() {
           <FieldLabel htmlFor="provider">Storage provider</FieldLabel>
           <Select
             name="provider"
-            emptyLabel="Local"
+            emptyLabel="Private"
             options={connections.map((connection) => ({
               label: formatProviderName(connection.provider),
               value: connection.provider,
