@@ -14,7 +14,7 @@ type TabsProps = RootProps & {
   length: number;
 };
 
-export function Tabs({ children, className, length, ...rest }: TabsProps) {
+export function Tabs({ children, className, ...rest }: TabsProps) {
   return (
     <Root {...rest} className={className}>
       {children}

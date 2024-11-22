@@ -1,5 +1,5 @@
-import { Locator, Page, expect, test } from "@playwright/test";
-import { importDeck, locateCardInSlots } from "./actions";
+import { expect, test } from "@playwright/test";
+import { importDeck } from "./actions";
 import { mockApiCalls } from "./mocks";
 
 test.beforeEach(async ({ page }) => {

@@ -117,7 +117,7 @@ const makeDeckValidityFilter = (value: Omit<DeckValidity, "all">) => {
     case "invalid":
       return (deck: ResolvedDeck) => Boolean(deck.problem);
     default:
-      return (_: ResolvedDeck) => true;
+      return () => true;
   }
 };
 

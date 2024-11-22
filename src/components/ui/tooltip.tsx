@@ -1,5 +1,5 @@
 import { FloatingPortal, useMergeRefs } from "@floating-ui/react";
-import * as React from "react";
+import { cloneElement, forwardRef, isValidElement, memo } from "react";
 import {
   TooltipContext,
   type TooltipOptions,
@@ -8,7 +8,7 @@ import {
 } from "./tooltip.hooks";
 import css from "./tooltip.module.css";
 
-export function Tooltip({
+export const Tooltip = memo(function Tooltip({
   children,
   ...options
 }: { children: React.ReactNode } & TooltipOptions) {
@@ -21,9 +21,9 @@ export function Tooltip({
       {children}
     </TooltipContext.Provider>
   );
-}
+});
 
-export const TooltipTrigger = React.forwardRef<
+export const TooltipTrigger = forwardRef<
   HTMLElement,
   React.HTMLProps<HTMLElement> & { asChild?: boolean }
 >(function TooltipTrigger({ children, asChild = false, ...props }, propRef) {
@@ -33,8 +33,8 @@ export const TooltipTrigger = React.forwardRef<
   const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
 
   // `asChild` allows the user to pass any element as the anchor
-  if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(
+  if (asChild && isValidElement(children)) {
+    return cloneElement(
       children as React.ReactElement,
       context.getReferenceProps({
         ref,
@@ -56,7 +56,7 @@ export const TooltipTrigger = React.forwardRef<
   );
 });
 
-export const TooltipContent = React.forwardRef<
+export const TooltipContent = forwardRef<
   HTMLDivElement,
   React.HTMLProps<HTMLElement>
   // eslint-disable-next-line react/prop-types
@@ -92,7 +92,9 @@ type DefaultTooltipProps = {
   options?: TooltipOptions;
 };
 
-export function DefaultTooltip(props: DefaultTooltipProps) {
+export const DefaultTooltip = memo(function DefaultTooltip(
+  props: DefaultTooltipProps,
+) {
   const { children, tooltip, options } = props;
 
   if (!tooltip) {
@@ -111,4 +113,4 @@ export function DefaultTooltip(props: DefaultTooltipProps) {
       <TooltipContent>{tooltip}</TooltipContent>
     </Tooltip>
   );
-}
+});

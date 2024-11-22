@@ -50,7 +50,7 @@ export const createConnectionsSlice: StateCreator<
 
       delete patch.connections.data[provider];
 
-      for (const deckId in state.data.decks) {
+      for (const deckId of Object.keys(state.data.decks)) {
         const deck = state.data.decks[deckId];
         if (deck.source === provider) {
           delete patch.data.decks[deckId];

@@ -2,6 +2,7 @@ import { Combobox } from "@/components/ui/combobox/combobox";
 import type { Coded } from "@/store/services/queries.types";
 import { SKILL_KEYS } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
+import { useMemo } from "react";
 
 type Props = {
   disabled?: boolean;
@@ -20,9 +21,13 @@ const itemRenderer = (item: Coded) => (
 export function CustomizationChooseSkill(props: Props) {
   const { disabled, id, onChange, readonly, selections } = props;
 
-  const options = SKILL_KEYS.filter((x) => x !== "wild").map((key) => ({
-    code: key,
-  }));
+  const options = useMemo(
+    () =>
+      SKILL_KEYS.filter((x) => x !== "wild").map((key) => ({
+        code: key,
+      })),
+    [],
+  );
 
   return (
     <Combobox

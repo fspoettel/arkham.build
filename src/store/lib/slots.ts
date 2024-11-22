@@ -156,7 +156,7 @@ export function encodeExtraSlots(slots: Record<string, number>) {
   const entries = Object.entries(slots).reduce<string[]>(
     (acc, [code, quantity]) => {
       if (quantity > 0) {
-        for (const _ in range(0, quantity)) {
+        for (const _ of range(0, quantity)) {
           acc.push(code);
         }
       }

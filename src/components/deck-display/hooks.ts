@@ -6,7 +6,7 @@ import { useLocation } from "wouter";
 
 export function useDeleteDeck() {
   const toast = useToast();
-  const [_, navigate] = useLocation();
+  const [, navigate] = useLocation();
   const deleteDeck = useStore((state) => state.deleteDeck);
 
   return useCallback(
@@ -40,7 +40,7 @@ export function useDeleteDeck() {
 
 export function useDeleteUpgrade() {
   const toast = useToast();
-  const [_, navigate] = useLocation();
+  const [, navigate] = useLocation();
   const deleteUpgrade = useStore((state) => state.deleteUpgrade);
 
   return useCallback(
@@ -76,7 +76,7 @@ export function useDeleteUpgrade() {
 
 export function useDuplicateDeck() {
   const toast = useToast();
-  const [_, navigate] = useLocation();
+  const [, navigate] = useLocation();
   const duplicateDeck = useStore((state) => state.duplicateDeck);
 
   return useCallback(
@@ -143,7 +143,7 @@ export function useExportText() {
 
 export function useUploadDeck() {
   const toast = useToast();
-  const [_, navigate] = useLocation();
+  const [, navigate] = useLocation();
   const uploadDeck = useStore((state) => state.uploadDeck);
 
   return useCallback(

@@ -11,9 +11,7 @@ describe("randomBasicWeaknessForDeck", () => {
   beforeAll(async () => {
     store = await getMockStore();
 
-    const state = store.getState();
-
-    let mockState: Partial<StoreState> = {
+    const mockState: Partial<StoreState> = {
       deckEdits: {},
       data: {
         decks: {

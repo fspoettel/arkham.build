@@ -3,7 +3,7 @@ import { selectActiveListFilter } from "@/store/selectors/lists";
 import { selectCostChanges, selectCostMinMax } from "@/store/selectors/lists";
 import { isCostFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
 import { RangeSelect } from "../ui/range-select";
@@ -87,6 +87,11 @@ export function CostFilter({ id, resolvedDeck }: FilterProps) {
     [min, max, id, filter.value.range, setFilter, setFilterOpen],
   );
 
+  const rangeValue = useMemo(
+    () => (filter.value.range as [number, number]) ?? [min, max],
+    [filter.value.range, min, max],
+  );
+
   return (
     <FilterContainer
       data-testid="filters-cost"
@@ -103,7 +108,7 @@ export function CostFilter({ id, resolvedDeck }: FilterProps) {
         max={max}
         min={min}
         onValueCommit={onValueCommit}
-        value={filter.value.range ?? [min, max]}
+        value={rangeValue}
       />
       <CheckboxGroup cols={2}>
         <Checkbox

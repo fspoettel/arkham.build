@@ -177,7 +177,7 @@ export function encodeAttachments(attachments: AttachmentQuantities) {
       const entries = Object.entries(attachments).reduce<string[]>(
         (acc, [code, quantity]) => {
           if (quantity > 0) {
-            for (const _ in range(0, quantity)) {
+            for (const _ of range(0, quantity)) {
               acc.push(code);
             }
           }

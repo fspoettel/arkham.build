@@ -4,8 +4,10 @@ import {
   selectInvestigatorChanges,
   selectInvestigatorOptions,
 } from "@/store/selectors/lists";
+import type { Card } from "@/store/services/queries.types";
 import { isInvestigatorFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
+import { useCallback } from "react";
 import type { FilterProps } from "./filters.types";
 import { SelectFilter } from "./primitives/select-filter";
 
@@ -21,18 +23,23 @@ export function InvestigatorFilter({ id }: FilterProps) {
     selectInvestigatorChanges(state, filter.value),
   );
 
+  const renderOption = useCallback(
+    (card: Card) => (
+      <option key={card.code} value={card.code}>
+        {card.real_name}
+        {card.parallel && " (Parallel)"}
+      </option>
+    ),
+    [],
+  );
+
   return (
     <SelectFilter
       changes={changes}
       id={id}
       open={filter.open}
       options={options}
-      renderOption={(card) => (
-        <option key={card.code} value={card.code}>
-          {card.real_name}
-          {card.parallel && " (Parallel)"}
-        </option>
-      )}
+      renderOption={renderOption}
       title="Investigator"
       value={filter.value}
     />

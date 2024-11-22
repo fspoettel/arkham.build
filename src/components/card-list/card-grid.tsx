@@ -58,9 +58,6 @@ export function CardGrid(props: CardListImplementationProps) {
 
       if (!data?.cards.length) return;
 
-      if (key === "ArrowUp" || key === "ArrowDown") {
-      }
-
       if (key === "Enter" && currentTop > -1) {
         modalContext.setOpen({
           code: data.cards[currentTop].code,

@@ -27,7 +27,6 @@ export function Collapsible(props: Props) {
     actions,
     className,
     children,
-    disabled,
     open,
     omitBorder,
     omitPadding,
