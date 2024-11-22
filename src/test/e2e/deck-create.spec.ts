@@ -72,14 +72,13 @@ test.describe("deck create", () => {
     await page.goto("/deck/create/02003");
 
     await page.getByText("Replacements").click();
-    await page.getByLabel("Signatures", { exact: true }).click();
 
     await page.getByTestId("create-save").click();
 
     await expect(page.getByTestId("editor-tabs-slots")).toBeVisible();
 
     for (const code of JENNY_SIGNATURES) {
-      await expect(locateCardInSlots(page, code)).not.toBeVisible();
+      await expect(locateCardInSlots(page, code)).toBeVisible();
     }
 
     for (const code of JENNY_ALTERNATE_SIGNATURES) {
@@ -90,7 +89,6 @@ test.describe("deck create", () => {
   test("select advanced signatures", async ({ page }) => {
     await page.goto("/deck/create/02003");
 
-    await page.getByText("Signatures", { exact: true }).click();
     await page.getByLabel("Advanced signatures", { exact: true }).click();
 
     await page.getByTestId("create-save").click();

@@ -120,19 +120,26 @@ export const createDeckCreateSlice: StateCreator<
   },
 
   deckCreateToggleCardSet(value) {
-    const state = get();
-    assert(state.deckCreate, "DeckCreate slice must be initialized.");
-    assert(isCardSet(value), "Invalid card set value.");
+    set((state) => {
+      assert(state.deckCreate, "DeckCreate slice must be initialized.");
+      assert(isCardSet(value), "Invalid card set value.");
 
-    const sets = state.deckCreate.sets.includes(value)
-      ? state.deckCreate.sets.filter((set) => set !== value)
-      : [...state.deckCreate.sets, value];
+      const nextSets: CardSet[] = state.deckCreate.sets.filter((set) => {
+        const mutuallyExclusive =
+          (set === "advanced" && value === "requiredCards") ||
+          (set === "requiredCards" && value === "advanced");
 
-    set({
-      deckCreate: {
-        ...state.deckCreate,
-        sets,
-      },
+        return !mutuallyExclusive;
+      });
+
+      return {
+        deckCreate: {
+          ...state.deckCreate,
+          sets: nextSets.includes(value)
+            ? nextSets.filter((set) => set !== value)
+            : [...nextSets, value],
+        },
+      };
     });
   },
 
