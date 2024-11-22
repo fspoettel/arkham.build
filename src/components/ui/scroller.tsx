@@ -9,7 +9,6 @@ import css from "./scroller.module.css";
 type Props = ScrollAreaProps & {
   className?: string;
   children: React.ReactNode;
-  scrollerType?: "scroll" | "hover";
   viewportClassName?: string;
 };
 

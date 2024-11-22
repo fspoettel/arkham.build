@@ -167,6 +167,7 @@ export function DeckCollection() {
         <Scroller
           className={css["scroller"]}
           ref={setScrollParent as unknown as React.RefObject<HTMLDivElement>}
+          type="hover"
         >
           <Virtuoso
             customScrollParent={scrollParent}

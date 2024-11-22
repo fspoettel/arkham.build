@@ -98,7 +98,7 @@ export function Filters(props: Props) {
           </Button>
         </div>
       </div>
-      <Scroller>
+      <Scroller type="hover">
         <div className={css["content"]}>
           {filters.map((filter, id) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: index is unique key.
