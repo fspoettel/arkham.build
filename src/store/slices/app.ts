@@ -428,11 +428,10 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       `Deck ${id} already has an upgrade: ${deck.next_deck}.`,
     );
 
-    const now = new Date().toISOString();
-
     const xpCarryover =
       (deck.xp ?? 0) + (deck.xp_adjustment ?? 0) - (deck.xp_spent ?? 0);
 
+    const now = new Date().toISOString();
     let newDeck: Deck = {
       ...structuredClone(deck),
       id: randomId(),
@@ -489,10 +488,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     newDeck.meta = JSON.stringify(meta);
 
-    const prevDeck: Deck = {
-      ...deck,
-      next_deck: newDeck.id,
-    };
+    const isShared = !!state.sharing.decks[deck.id];
 
     if (deck.source === "arkhamdb") {
       try {
@@ -507,8 +503,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         disconnectProviderIfUnauthorized("arkhamdb", err, set);
         throw err;
       }
-    } else if (state.sharing.decks[deck.id]) {
-      await createShare(newDeck.id as string, newDeck);
+    } else if (isShared) {
+      await createShare(state.app.clientId, newDeck);
     }
 
     const history = { ...state.data.history };
@@ -518,16 +514,28 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     const deckEdits = { ...state.deckEdits };
     delete deckEdits[deck.id];
 
+    const sharedDecks = { ...state.sharing.decks };
+    if (isShared) {
+      sharedDecks[newDeck.id] = newDeck.date_update;
+    }
+
     set({
       deckEdits,
       data: {
         ...state.data,
         decks: {
           ...state.data.decks,
-          [deck.id]: prevDeck,
+          [deck.id]: {
+            ...deck,
+            next_deck: newDeck.id,
+          },
           [newDeck.id]: newDeck,
         },
         history,
+      },
+      sharing: {
+        ...state.sharing,
+        decks: sharedDecks,
       },
     });
 
