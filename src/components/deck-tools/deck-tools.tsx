@@ -1,6 +1,6 @@
 import type { ResolvedDeck } from "@/store/lib/types";
 import { cx } from "@/utils/cx";
-import { Suspense, lazy } from "react";
+import { Fragment, Suspense, lazy } from "react";
 import { Loader } from "../ui/loader";
 import { Scroller } from "../ui/scroller";
 import { AttachableCards } from "./attachable-cards";
@@ -30,17 +30,24 @@ export function DeckTools(props: Props) {
         <Suspense fallback={<Loader show message="Loading tools..." />}>
           <LazyChartContainer deck={deck} />
           <LimitedSlots deck={deck} />
-          {deck.availableAttachments?.map(
-            (attachment) =>
-              deck.cards.slots[attachment.code]?.card && (
+          {deck.availableAttachments?.map((attachment) => (
+            <Fragment key={attachment.code}>
+              {deck.cards.slots[attachment.code]?.card && (
                 <AttachableCards
-                  key={attachment.code}
                   card={deck.cards.slots[attachment.code]?.card}
                   definition={attachment}
                   resolvedDeck={deck}
                 />
-              ),
-          )}
+              )}
+              {deck.investigatorBack.card.code === attachment.code && (
+                <AttachableCards
+                  card={deck.investigatorBack.card}
+                  definition={attachment}
+                  resolvedDeck={deck}
+                />
+              )}
+            </Fragment>
+          ))}
         </Suspense>
       </article>
     </Scroller>
