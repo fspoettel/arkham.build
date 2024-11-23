@@ -27,7 +27,7 @@
   border: 1px solid var(--palette-1);
   border-radius: var(--rounded-md);
   overflow: hidden;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.75rem;
   background-color: var(--palette-point-five);
   box-shadow: var(--shadow);
 }
@@ -95,7 +95,7 @@
   gap: 0.125rem;
 }
 
-.cycle-actions > *  {
+.cycle-actions > * {
   flex: 0 0 auto;
 }
 
