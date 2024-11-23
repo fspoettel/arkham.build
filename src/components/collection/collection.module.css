@@ -23,19 +23,53 @@
   }
 }
 
+.cycle {
+  border: 1px solid var(--palette-1);
+  border-radius: var(--rounded-md);
+  overflow: hidden;
+  padding-bottom: 0.5rem;
+  background-color: var(--palette-point-five);
+  box-shadow: var(--shadow);
+}
+
 .cycle > * + * {
-  margin-top: 0.375rem;
+  margin-top: 0.5rem;
+  padding-inline: 0.5rem;
 }
 
 .cycle-header {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  background: var(--palette-point-five);
-  font-size: var(--text-base);
+  font-size: var(--text-lg);
   gap: 0.25rem;
-  padding: 0.5rem;
-  border-radius: var(--rounded-md);
+  position: relative;
+  aspect-ratio: 16/ 9;
+}
+
+.cycle-header-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  padding: 0.5rem 0.75rem;
+  backdrop-filter: blur(0.25rem);
+  color: var(--nord-5);
+}
+
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.position {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 .cycle-subheader {
@@ -50,12 +84,17 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  width: 100%;
 }
 
 .cycle-actions {
   display: flex;
   align-items: center;
   gap: 0.125rem;
+}
+
+.cycle-actions > *  {
+  flex: 0 0 auto;
 }
 
 .cycle-counts {

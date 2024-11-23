@@ -92,18 +92,27 @@ export function Collection(props: Props) {
           {cyclesWithPacks.map((cycle) => (
             <li className={css["cycle"]} key={cycle.code}>
               <div className={css["cycle-header"]}>
-                <div className={css["cycle-label"]}>
-                  <PackIcon code={cycle.code} />
-                  {cycle.real_name}
+                <img
+                  loading="lazy"
+                  alt={`Cycle ${cycle.real_name} backdrop`}
+                  className={css["backdrop"]}
+                  src={`/assets/cycles/${cycle.code}.avif`}
+                />
+
+                <div className={css["cycle-header-container"]}>
+                  <div className={css["cycle-label"]}>
+                    <PackIcon code={cycle.code} />
+                    {cycle.real_name}
+                  </div>
+                  {canEdit &&
+                    !cycle.reprintPacks.length &&
+                    cycle.code !== "core" && (
+                      <CollectionCycleActions
+                        cycleCode={cycle.code}
+                        onToggleCycle={onToggleCycle}
+                      />
+                    )}
                 </div>
-                {canEdit &&
-                  !cycle.reprintPacks.length &&
-                  cycle.code !== "core" && (
-                    <CollectionCycleActions
-                      cycleCode={cycle.code}
-                      onToggleCycle={onToggleCycle}
-                    />
-                  )}
               </div>
 
               {!!cycle.reprintPacks.length && (
