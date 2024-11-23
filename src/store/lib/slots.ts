@@ -59,7 +59,7 @@ export function decodeSlots(
         cards.ignoreDeckLimitSlots[code] = card;
       }
 
-      if (!isSpecialCard(card.card, investigator)) {
+      if (!isSpecialCard(card.card)) {
         deckSize += Math.max(
           quantity - (deck.ignoreDeckLimitSlots?.[code] ?? 0),
           0,

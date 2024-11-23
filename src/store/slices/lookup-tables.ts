@@ -298,7 +298,12 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
       for (const key of Object.keys(card.restrictions.investigator)) {
         const investigator = metadata.cards[key];
 
-        if (investigator?.alt_art_investigator) {
+        if (investigator.duplicate_of_code) {
+          setInLookupTable(
+            investigator.duplicate_of_code,
+            tables.relations.restrictedTo,
+            card.code,
+          );
           continue;
         }
 

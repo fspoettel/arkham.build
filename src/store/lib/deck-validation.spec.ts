@@ -48,6 +48,7 @@ import parallelRolandValid from "@/test/fixtures/decks/validation/parallel_rolan
 import parallelWendy from "@/test/fixtures/decks/validation/parallel_wendy.json";
 import parallelWendyInvalid from "@/test/fixtures/decks/validation/parallel_wendy_invalid.json";
 import parallelWendyValidSignatures from "@/test/fixtures/decks/validation/parallel_wendy_valid_signatures.json";
+import promoMarie from "@/test/fixtures/decks/validation/promo_marie.json";
 import rbwInvalidMissing from "@/test/fixtures/decks/validation/rbw_invalid_missing.json";
 import rbwValidChoice from "@/test/fixtures/decks/validation/rbw_valid_choice.json";
 import rbwValidMultistage from "@/test/fixtures/decks/validation/rbw_valid_multistage.json";
@@ -1197,6 +1198,34 @@ describe("deck validation", () => {
     it("skips validation for transformed investigator", () => {
       const result = validate(store, ythian);
       expect(result.valid).toBeTruthy();
+    });
+  });
+
+  describe("promo marie", () => {
+    it("handles case: promo marie, valid", () => {
+      const result = validate(store, promoMarie);
+      expect(result.valid).toBeTruthy();
+    });
+
+    it("handles case: promo marie, invalid", () => {
+      const deck = structuredClone(promoMarie);
+      deck.slots["99002"] = 0;
+      const result = validate(store, deck);
+      expect(result.valid).toBeFalsy();
+      expect(result.errors).toMatchInlineSnapshot(`
+        [
+          {
+            "details": [
+              {
+                "code": "05018",
+                "quantity": 0,
+                "required": 1,
+              },
+            ],
+            "type": "DECK_REQUIREMENTS_NOT_MET",
+          },
+        ]
+      `);
     });
   });
 });

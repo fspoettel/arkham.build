@@ -127,6 +127,7 @@ export const ALT_ART_INVESTIGATOR_MAP = {
   "98010": "05001",
   "98013": "07005",
   "98016": "07004",
+  "99001": "05006",
 };
 
 export const SPECIAL_CARD_CODES = {

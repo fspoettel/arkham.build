@@ -32,7 +32,6 @@ export function resolveDeck(
 ): ResolvedDeck {
   const deckMeta = decodeDeckMeta(deck);
   // some decks on arkhamdb are created for the replacement investigator, normalize.
-  // this only seems to be the case for carolyn fern?
   const investigatorCode =
     deck.investigator_code in ALT_ART_INVESTIGATOR_MAP
       ? ALT_ART_INVESTIGATOR_MAP[
