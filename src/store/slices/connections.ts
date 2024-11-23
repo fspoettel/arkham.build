@@ -2,6 +2,7 @@ import type { StateCreator } from "zustand";
 
 import { assert } from "@/utils/assert";
 import type { StoreState } from ".";
+import { resolveDeck } from "../lib/resolve-deck";
 import { disconnectProviderIfUnauthorized, syncAdapters } from "../lib/sync";
 import { ApiError, getDecks, newDeck, updateDeck } from "../services/queries";
 import type {
@@ -209,6 +210,19 @@ export const createConnectionsSlice: StateCreator<
 
     const deck = structuredClone(state.data.decks[id]);
     assert(deck, `Deck with id ${id} was not found.`);
+
+    const resolved = resolveDeck(
+      state.metadata,
+      state.lookupTables,
+      state.sharing,
+      deck,
+    );
+
+    assert(
+      Object.values(resolved.cards.slots).every((c) => !c.card.preview) &&
+        Object.values(resolved.cards.extraSlots).every((c) => !c.card.preview),
+      "Deck contains preview cards. Please remove them before uploading to ArkhamDB",
+    );
 
     const connection = state.connections.data[provider];
     assert(connection, `Connection for ${provider} was not found.`);
