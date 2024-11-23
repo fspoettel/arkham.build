@@ -10,8 +10,18 @@
 }
 
 .trigger {
+  container-type: inline-size;
   border-radius: 0;
   border-bottom: 0.125rem solid transparent;
+  min-height: 1rem;
+}
+
+.trigger span {
+  @container (max-width: 15ch) {
+    display: inline-block;
+    padding: 1.5rem;
+    display: none;
+  }
 }
 
 .trigger[data-state="active"] {

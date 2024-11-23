@@ -548,7 +548,7 @@ button {
 }
 
 .fg-neutral {
-  color: var(--nord-4);
+  color: var(--palette-4);
 }
 
 .agility {
@@ -599,7 +599,7 @@ svg {
 }
 
 .longform :where(h1, h2) {
-  font-size: 1.7411em;
+  font-size: 1.6411em;
 }
 
 .longform h3 {

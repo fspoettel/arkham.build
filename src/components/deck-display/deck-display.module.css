@@ -48,18 +48,25 @@
   margin-top: 1rem;
 }
 
-.tab {
-  padding: 0.5rem 0;
+.tabs {
+  display: flex;
+  flex-flow: column nowrap;
+  flex: 1 1 auto;
+  height: 100%;
+  min-height: 0;
+  position: relative;
 }
 
-.floating {
-  position: fixed;
-  right: 2rem;
-  bottom: 1rem;
+.list {
+  position: sticky;
+  top: 0;
+  background-color: var(--palette-0);
   z-index: 2;
 }
 
-.floating-element {
-  border-radius: var(--rounded-xl);
-  box-shadow: var(--shadow);
+.tab {
+  flex: 1 1 auto;
+  padding: 0.5rem 0;
+  height: 100%;
+  min-height: 0;
 }

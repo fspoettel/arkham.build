@@ -5,6 +5,15 @@
   margin: 0 auto;
 }
 
+.description h1 {
+  text-align: center;
+}
+
+.description > * {
+  max-width: 90ch;
+  margin: 0 auto;
+}
+
 .description > * + * {
   margin-top: 1.5em;
 }

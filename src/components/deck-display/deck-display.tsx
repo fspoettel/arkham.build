@@ -5,17 +5,17 @@ import { extendedDeckTags } from "@/store/lib/resolve-deck";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { selectDeckHistory } from "@/store/selectors/decks";
 import { useAccentColor } from "@/utils/use-accent-color";
-import { ChartAreaIcon, FileClockIcon } from "lucide-react";
+import { BookOpenTextIcon, ChartAreaIcon, FileClockIcon } from "lucide-react";
+import { Suspense, lazy, useCallback, useEffect, useRef } from "react";
 import { DeckTags } from "../deck-tags";
 import { DeckTools } from "../deck-tools/deck-tools";
 import { Decklist } from "../decklist/decklist";
 import { DecklistValidation } from "../decklist/decklist-validation";
 import { LimitedCardPoolTag, SealedDeckTag } from "../limited-card-pool";
-import { Dialog } from "../ui/dialog";
+import { Loader } from "../ui/loader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import css from "./deck-display.module.css";
 import { DeckHistory } from "./deck-history/deck-history";
-import { DeckNotes } from "./deck-notes";
 import { Sidebar } from "./sidebar";
 
 type Props = {
@@ -24,12 +24,41 @@ type Props = {
   validation: DeckValidationResult;
 };
 
+const LazyDeckDescription = lazy(() => import("@/components/deck-description"));
+
 export function DeckDisplay(props: Props) {
   const { deck, owned, validation } = props;
 
   const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
   const history = useStore((state) => selectDeckHistory(state, deck.id));
   const hasHistory = !!history.length;
+
+  const tabRef = useRef("deck");
+  const scrollPosition = useRef(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (tabRef.current === "notes") {
+        scrollPosition.current = window.scrollY;
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  const onTabChange = useCallback((val: string) => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: val === "notes" ? scrollPosition.current : 0,
+      });
+    });
+
+    tabRef.current = val;
+  }, []);
 
   return (
     <AppLayout title={deck ? deck.name : ""}>
@@ -48,17 +77,39 @@ export function DeckDisplay(props: Props) {
         <Sidebar className={css["sidebar"]} deck={deck} owned={owned} />
 
         <div className={css["content"]}>
-          <Tabs length={hasHistory ? 3 : 2} defaultValue="deck">
-            <TabsList>
-              <TabsTrigger value="deck" data-testid="tab-deck">
-                <i className="icon-deck" /> Deck list
+          <Tabs
+            className={css["tabs"]}
+            length={hasHistory ? 3 : 2}
+            defaultValue="deck"
+            onValueChange={onTabChange}
+          >
+            <TabsList className={css["list"]}>
+              <TabsTrigger value="deck" data-testid="tab-deck" tooltip="Deck">
+                <i className="icon-deck" />
+                <span>Deck</span>
               </TabsTrigger>
-              <TabsTrigger value="tools">
-                <ChartAreaIcon /> Tools
+              {deck.description_md && (
+                <TabsTrigger
+                  value="notes"
+                  data-testid="tab-notes"
+                  tooltip="Notes"
+                >
+                  <BookOpenTextIcon />
+                  <span>Notes</span>
+                </TabsTrigger>
+              )}
+              <TabsTrigger value="tools" tooltip="Tools">
+                <ChartAreaIcon />
+                <span>Tools</span>
               </TabsTrigger>
               {hasHistory && (
-                <TabsTrigger value="history" data-testid="tab-history">
-                  <FileClockIcon /> Upgrade history ({history.length})
+                <TabsTrigger
+                  value="history"
+                  data-testid="tab-history"
+                  tooltip={`Upgrades (${history.length})`}
+                >
+                  <FileClockIcon />
+                  <span>Upgrades ({history.length})</span>
                 </TabsTrigger>
               )}
             </TabsList>
@@ -72,6 +123,16 @@ export function DeckDisplay(props: Props) {
             <TabsContent className={css["tab"]} value="tools">
               <DeckTools deck={deck} />
             </TabsContent>
+            {deck.description_md && (
+              <TabsContent className={css["tab"]} value="notes">
+                <Suspense fallback={<Loader show message="Loading notes..." />}>
+                  <LazyDeckDescription
+                    content={deck.description_md}
+                    title={deck.name}
+                  />
+                </Suspense>
+              </TabsContent>
+            )}
             {hasHistory && (
               <TabsContent className={css["tab"]} value="history">
                 <DeckHistory history={history} />
@@ -80,11 +141,6 @@ export function DeckDisplay(props: Props) {
           </Tabs>
         </div>
       </main>
-      {deck.description_md && (
-        <Dialog>
-          <DeckNotes deck={deck} />
-        </Dialog>
-      )}
     </AppLayout>
   );
 }

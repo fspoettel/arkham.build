@@ -16,7 +16,7 @@ type TabsProps = RootProps & {
 
 export function Tabs({ children, className, ...rest }: TabsProps) {
   return (
-    <Root {...rest} className={className}>
+    <Root {...rest} className={cx(css["tabs"], className)}>
       {children}
     </Root>
   );
@@ -36,12 +36,22 @@ export function TabsList({ children, className, ...rest }: ListProps) {
 
 type TriggerProps = TabsTriggerProps & {
   children: React.ReactNode;
+  tooltip?: React.ReactNode;
 };
 
-export function TabsTrigger({ children, className, ...rest }: TriggerProps) {
+export function TabsTrigger({
+  children,
+  className,
+  tooltip,
+  ...rest
+}: TriggerProps) {
   return (
     <Trigger {...rest} asChild>
-      <Button className={cx(css["trigger"], className)} variant="bare">
+      <Button
+        className={cx(css["trigger"], className)}
+        variant="bare"
+        tooltip={tooltip}
+      >
         {children}
       </Button>
     </Trigger>

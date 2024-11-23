@@ -53,10 +53,11 @@ function DeckDescription(props: Props) {
   return (
     // biome-ignore lint/a11y/useKeyWithClickEvents:  not relevant.
     <div className={css["description"]} onClick={redirectArkhamDBLinks}>
-      <h1>{title}</h1>
+      <h1 data-testid="description-title">{title}</h1>
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: TODO. */}
       <div
         className={cx("longform", className)}
+        data-testid="description-content"
         // biome-ignore lint/security/noDangerouslySetInnerHtml: we sanitize html content.
         dangerouslySetInnerHTML={{
           __html: parseMarkdown(content),
