@@ -804,7 +804,7 @@ function makePlayerCardsFilter(
   requiredAccessor: "deck_requirements" | "side_deck_requirements",
   config?: InvestigatorAccessConfig,
 ) {
-  const options = investigator[optionsAccessor];
+  let options = investigator[optionsAccessor];
   const requirements = investigator[requiredAccessor]?.card;
 
   if (!requirements || !options) {
@@ -813,6 +813,15 @@ function makePlayerCardsFilter(
 
   // normalize parallel investigators to root for lookups.
   const code = investigator.alternate_of_code ?? investigator.code;
+
+  // special case: suzi's additional deck options allow any xp card.
+  if (code === SPECIAL_CARD_CODES.SUZI) {
+    options = [...options];
+    options.splice(1, 0, {
+      level: { max: 5, min: 0 },
+      faction: ["neutral", "guardian", "mystic", "rogue", "seeker", "survivor"],
+    });
+  }
 
   const ands: Filter[] = [
     (card: Card) => filterRestrictions(card, investigator),

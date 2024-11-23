@@ -65,6 +65,7 @@ import requiredReplacementsInAddition from "@/test/fixtures/decks/validation/req
 import requiredReplacementsInvalid from "@/test/fixtures/decks/validation/required_replacements_invalid.json";
 import requiredSilasReplacement from "@/test/fixtures/decks/validation/required_silas_replacement.json";
 import requiredSilasStandard from "@/test/fixtures/decks/validation/required_silas_standard.json";
+import suzi from "@/test/fixtures/decks/validation/suzi.json";
 import tooFew from "@/test/fixtures/decks/validation/too_few_cards.json";
 import tooMany from "@/test/fixtures/decks/validation/too_many_cards.json";
 import tooManyCopies from "@/test/fixtures/decks/validation/too_many_copies.json";
@@ -1201,7 +1202,7 @@ describe("deck validation", () => {
     });
   });
 
-  describe("promo marie", () => {
+  describe("promos", () => {
     it("handles case: promo marie, valid", () => {
       const result = validate(store, promoMarie);
       expect(result.valid).toBeTruthy();
@@ -1223,6 +1224,42 @@ describe("deck validation", () => {
               },
             ],
             "type": "DECK_REQUIREMENTS_NOT_MET",
+          },
+        ]
+      `);
+    });
+  });
+
+  describe("suzi", () => {
+    it("handles case: suzi, valid", () => {
+      const result = validate(store, suzi);
+      expect(result.valid).toBeTruthy();
+    });
+
+    it("handles case: suzi, invalid", () => {
+      const deck: Deck = structuredClone(suzi);
+      deck.slots["02158"] = 1;
+      deck.slots["05159"] = 0;
+      deck.slots["02188"] = 2;
+      const result = validate(store, deck);
+      expect(result.valid).toBeFalsy();
+      expect(result.errors).toMatchInlineSnapshot(`
+        [
+          {
+            "details": {
+              "error": "You must have at least 7 cards from each class",
+            },
+            "type": "INVALID_DECK_OPTION",
+          },
+          {
+            "details": [
+              {
+                "code": "02158",
+                "real_name": "Charisma",
+                "target": "slots",
+              },
+            ],
+            "type": "FORBIDDEN",
           },
         ]
       `);

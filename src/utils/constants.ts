@@ -179,6 +179,8 @@ export const SPECIAL_CARD_CODES = {
   THE_GREAT_WORK: "11068a",
   /** Investigator can be transformed into this. */
   LOST_HOMUNCULUS: "11068b",
+  /** Additional deck building not reflected in deck options. */
+  SUZI: "89001",
   /** Connected to parallel wendy's front. */
   TIDAL_MEMENTO: "90038",
   /** Adjusts deck size, has separate deck. */
