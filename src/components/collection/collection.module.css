@@ -44,16 +44,18 @@
   font-size: var(--text-lg);
   gap: 0.25rem;
   position: relative;
-  aspect-ratio: 16/ 9;
+  aspect-ratio: 16 / 9;
 }
 
 .cycle-header-container {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.4);
   padding: 0.5rem 0.75rem;
-  backdrop-filter: blur(0.25rem);
+  backdrop-filter: blur(0.125rem);
+  background-blend-mode: lighten;
+  text-shadow: 1px 1px 0 var(--nord-0);
   color: var(--nord-5);
 }
 
@@ -157,7 +159,7 @@
 
 .collection-count {
   text-align: center;
-  background: var(--palette-point-five);
+  background: var(--palette-1);
   padding: 0.25rem;
   border-radius: var(--rounded-md);
   min-width: 6ch;

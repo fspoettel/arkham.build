@@ -15,9 +15,9 @@ export function CollectionCount(props: Props) {
   return (
     <div className={css["collection-counts"]}>
       <DefaultTooltip tooltip={`Total number of player cards in ${type}`}>
-        <span>
+        <div className={css["collection-count"]}>
           <i className="icon-per_investigator" /> {counts.player}
-        </span>
+        </div>
       </DefaultTooltip>
       <DefaultTooltip tooltip={`Total number of encounter cards in ${type}`}>
         <div className={css["collection-count"]}>
