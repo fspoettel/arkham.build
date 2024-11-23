@@ -21,10 +21,8 @@
   border: 1px solid var(--palette-3);
 
   &[disabled] {
-    cursor: default;
+    cursor: not-allowed;
     opacity: 1;
-    background: var(--palette-point-five);
-    border: 1px solid var(--palette-1);
   }
 
   &[data-state="checked"] {
