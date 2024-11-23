@@ -5,8 +5,9 @@ import { capitalize } from "@/utils/formatting";
 import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
 import { clampAttachmentQuantity } from "../lib/attachments";
+import { applyDeckEdits } from "../lib/deck-edits";
 import { randomBasicWeaknessForDeck } from "../lib/random-basic-weakness";
-import { getDeckLimitOverride } from "../lib/resolve-deck";
+import { getDeckLimitOverride, resolveDeck } from "../lib/resolve-deck";
 import {
   selectCurrentCardQuantity,
   selectResolvedDeckById,
@@ -250,7 +251,14 @@ export const createDeckEditsSlice: StateCreator<
     const state = get();
     const edits = currentEdits(state, deckId);
 
-    const attachments = structuredClone(edits.attachments ?? {});
+    const deck = resolveDeck(
+      state.metadata,
+      state.lookupTables,
+      state.sharing,
+      applyDeckEdits(state.data.decks[deckId], edits, state.metadata, false),
+    );
+
+    const attachments = structuredClone(deck.attachments ?? {});
 
     attachments[targetCode] ??= {};
     attachments[targetCode][code] = quantity;
