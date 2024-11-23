@@ -217,10 +217,6 @@ function filterFaction(faction: string) {
 }
 
 export function filterFactions(factions: string[]) {
-  if (factions.length === 1 && factions[0] === "multiclass") {
-    return filterMulticlass;
-  }
-
   const ands: Filter[] = [];
   const ors: Filter[] = [];
 
@@ -448,6 +444,10 @@ export function filterProperties(
 
   if (filterState.specialist) {
     filters.push((c: Card) => Array.isArray(c.restrictions?.trait));
+  }
+
+  if (filterState.multiClass) {
+    filters.push(filterMulticlass);
   }
 
   const filter = and(filters);

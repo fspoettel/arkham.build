@@ -32,6 +32,7 @@ export type PropertiesFilter = {
   customizable: boolean;
   exile: boolean;
   fast: boolean;
+  multiClass: boolean;
   healsDamage: boolean;
   healsHorror: boolean;
   permanent: boolean;

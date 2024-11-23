@@ -1,5 +1,5 @@
 import {
-  FACTION_NAME,
+  FACTION_ORDER,
   type FactionName,
   type SkillIcon,
 } from "@/utils/constants";
@@ -50,18 +50,18 @@ export function addCardToDeckCharts(
 
   // Factions
   accumulator.factions[
-    FACTION_NAME.indexOf(card.faction_code as FactionName)
+    FACTION_ORDER.indexOf(card.faction_code as FactionName)
   ].y += quantity;
 
   if (card.faction2_code) {
     accumulator.factions[
-      FACTION_NAME.indexOf(card.faction2_code as FactionName)
+      FACTION_ORDER.indexOf(card.faction2_code as FactionName)
     ].y += quantity;
   }
 
   if (card.faction3_code) {
     accumulator.factions[
-      FACTION_NAME.indexOf(card.faction3_code as FactionName)
+      FACTION_ORDER.indexOf(card.faction3_code as FactionName)
     ].y += quantity;
   }
 }

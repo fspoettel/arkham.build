@@ -753,13 +753,7 @@ export const selectFactionOptions = createSelector(
       cardType === "player" ? f.is_primary : !f.is_primary,
     );
 
-    if (cardType === "player") {
-      factions.push({
-        code: "multiclass",
-        name: "Multiclass",
-        is_primary: true,
-      });
-    } else {
+    if (cardType !== "player") {
       factions.push(factionMeta["neutral"]);
     }
 

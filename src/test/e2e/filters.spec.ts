@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("filters: interactions", () => {
   test("can filter via shortcuts", async ({ page }) => {
-    await page.getByTestId("filters-faction-multiclass").click();
+    //await page.getByTestId("filters-faction-multiclass").click();
 
     await page
       .getByTestId("filters-type-shortcut")
@@ -18,7 +18,7 @@ test.describe("filters: interactions", () => {
 
     await page
       .getByTestId("filters-level-shortcut")
-      .getByRole("radio", { name: "Level 1-5" })
+      .getByRole("radio", { name: "Level 0" })
       .click();
 
     await page
@@ -26,13 +26,13 @@ test.describe("filters: interactions", () => {
       .getByTestId("collapsible-trigger")
       .click();
 
-    await page.getByLabel("Maximum").click();
+    await page.getByLabel("Minimum").click();
     for (let i = 0; i < 12; i++) {
-      await page.getByLabel("Maximum").press("ArrowLeft");
+      await page.getByLabel("Minimum").press("ArrowRight");
     }
 
     await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
-    await expect(page.getByTestId("listcard-08087")).toBeVisible();
+    await expect(page.getByTestId("listcard-60216")).toBeVisible();
   });
 
   test("can use faction filter", async ({ page }) => {

@@ -7,6 +7,7 @@ import { isPropertiesFilterObject } from "@/store/slices/lists.type-guards";
 import type { PropertiesFilter as PropertiesFilterType } from "@/store/slices/lists.types";
 import { assert } from "@/utils/assert";
 import { useCallback } from "react";
+import { FactionIconFancy } from "../icons/faction-icon-fancy";
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
 import type { FilterProps } from "./filters.types";
@@ -14,18 +15,9 @@ import { FilterContainer } from "./primitives/filter-container";
 
 const properties = [
   { key: "bonded", label: "Bonded" },
-  { key: "fast", label: "Fast" },
   { key: "customizable", label: "Customizable" },
-  { key: "permanent", label: "Permanent" },
   { key: "exile", label: "Exile" },
-  { key: "seal", label: "Seal" },
-  { key: "victory", label: "Victory" },
-  { key: "specialist", label: "Specialist" },
-  { key: "succeedBy", label: "Succeed By" },
-  {
-    key: "unique",
-    label: <>Unique (&#10040;)</>,
-  },
+  { key: "fast", label: "Fast" },
   {
     key: "healsDamage",
     label: "Heals damage",
@@ -34,6 +26,23 @@ const properties = [
     key: "healsHorror",
     label: "Heals horror",
   },
+  {
+    key: "multiClass",
+    label: (
+      <>
+        Multi-Class (<FactionIconFancy code="multiclass" />)
+      </>
+    ),
+  },
+  { key: "permanent", label: "Permanent" },
+  { key: "seal", label: "Seal" },
+  { key: "specialist", label: "Specialist" },
+  { key: "succeedBy", label: "Succeed By" },
+  {
+    key: "unique",
+    label: <>Unique (&#10040;)</>,
+  },
+  { key: "victory", label: "Victory" },
 ];
 
 export function PropertiesFilter({ id }: FilterProps) {

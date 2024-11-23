@@ -98,16 +98,11 @@ export const FACTION_ORDER = [
   "rogue",
   "mystic",
   "survivor",
-  "multiclass",
   "neutral",
   "mythos",
 ] as const;
 
-export const FACTION_NAME = FACTION_ORDER.filter(
-  (entry) => entry !== "multiclass",
-);
-
-export type FactionName = (typeof FACTION_NAME)[number];
+export type FactionName = (typeof FACTION_ORDER)[number];
 
 export const SIDEWAYS_TYPE_CODES = ["act", "agenda", "investigator"];
 
