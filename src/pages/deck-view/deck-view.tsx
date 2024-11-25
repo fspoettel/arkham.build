@@ -74,7 +74,7 @@ function ArkhamDbDeckView({ id }: { id: string }) {
     <DeckViewInner
       context="arkhamdb"
       deck={decks[0]}
-      history={getDeckHistory(decks, metadata)}
+      history={getDeckHistory(decks.toReversed(), metadata)}
     />
   );
 }
