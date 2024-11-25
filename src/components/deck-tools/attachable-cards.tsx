@@ -9,7 +9,6 @@ import { AttachmentIcon } from "../attachments/attachments";
 import {
   attachmentDefinitionLimit,
   canAttach,
-  canUpdateAttachment,
   getAttachedQuantity,
 } from "../attachments/utils";
 import { useAttachmentsChangeHandler } from "../attachments/utils";
@@ -96,12 +95,7 @@ export function AttachableCards(props: Props) {
             entry.limit ?? 0,
             definition.limit,
           )}
-          onChangeCardQuantity={
-            !readonly &&
-            canUpdateAttachment(entry.card, definition, resolvedDeck)
-              ? onQuantityChange
-              : undefined
-          }
+          onChangeCardQuantity={!readonly ? onQuantityChange : undefined}
         />
       )}
       title={

@@ -1,7 +1,7 @@
 import { ListCard } from "@/components/list-card/list-card";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useDialogContext } from "@/components/ui/dialog.hooks";
+import { useDialogContextChecked } from "@/components/ui/dialog.hooks";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Modal, ModalContent } from "@/components/ui/modal";
 import { Scroller } from "@/components/ui/scroller";
@@ -88,7 +88,7 @@ export function UpgradeModal(props: Props) {
     setUsurped(!!val);
   }, []);
 
-  const modalContext = useDialogContext();
+  const modalContext = useDialogContextChecked();
 
   const onCloseModal = useCallback(() => {
     modalContext?.setOpen(false);

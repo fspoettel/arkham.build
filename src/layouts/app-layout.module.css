@@ -1,11 +1,13 @@
 .layout {
   display: flex;
   flex-flow: column nowrap;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: auto;
   margin-inline: auto;
   max-width: var(--layout-max-width);
   padding-inline: var(--layout-padding);
   padding-bottom: 0.5rem;
+  scrollbar-gutter: stable;
 }
 
 .header {

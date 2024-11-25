@@ -8,7 +8,11 @@ import {
 } from "@floating-ui/react";
 import { cloneElement, forwardRef, isValidElement } from "react";
 import type { DialogOptions } from "./dialog.hooks";
-import { DialogContext, useDialog, useDialogContext } from "./dialog.hooks";
+import {
+  DialogContext,
+  useDialog,
+  useDialogContextChecked,
+} from "./dialog.hooks";
 
 export function Dialog({
   children,
@@ -31,7 +35,7 @@ export const DialogTrigger = forwardRef<
   HTMLElement,
   React.HTMLProps<HTMLElement> & DialogTriggerProps
 >(function DialogTrigger({ children, asChild = false, ...props }, propRef) {
-  const context = useDialogContext();
+  const context = useDialogContextChecked();
   // biome-ignore lint/suspicious/noExplicitAny: safe.
   const childrenRef = (children as any).ref;
   const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
@@ -64,7 +68,7 @@ export const DialogContent = forwardRef<
   HTMLDivElement,
   React.HTMLProps<HTMLElement>
 >(function DialogContent(props, propRef) {
-  const { context: floatingContext, ...context } = useDialogContext();
+  const { context: floatingContext, ...context } = useDialogContextChecked();
   const { isMounted, styles } = useTransitionStyles(floatingContext);
   const ref = useMergeRefs([
     context.refs.setFloating,
@@ -98,7 +102,7 @@ export const DialogContentInert = forwardRef<
   HTMLDivElement,
   React.HTMLProps<HTMLElement>
 >(function DialogContent(props, propRef) {
-  const { context: floatingContext, ...context } = useDialogContext();
+  const { context: floatingContext, ...context } = useDialogContextChecked();
   const { isMounted, styles } = useTransitionStyles(floatingContext);
 
   const ref = useMergeRefs([
