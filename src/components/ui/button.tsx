@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 import css from "./button.module.css";
 import { DefaultTooltip } from "./tooltip";
 
-type Props<T extends "a" | "button" | "summary" | "label"> =
+export type Props<T extends "a" | "button" | "summary" | "label"> =
   React.ComponentProps<T> & {
     as?: T;
     children: React.ReactNode;

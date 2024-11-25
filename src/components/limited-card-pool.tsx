@@ -12,6 +12,7 @@ import { PackName } from "./pack-name";
 import { Button } from "./ui/button";
 import { Combobox } from "./ui/combobox/combobox";
 import { Field, FieldLabel } from "./ui/field";
+import { FileInput } from "./ui/file-input";
 import { Tag } from "./ui/tag";
 import { useToast } from "./ui/toast.hooks";
 import {
@@ -171,22 +172,15 @@ export function SealedDeckField(props: {
       <FieldLabel as="div">Sealed</FieldLabel>
       <div className={css["sealed"]}>
         <div>
-          <Button
-            as="label"
-            data-testid="sealed-deck-button"
-            htmlFor="sealed-deck-file"
+          <FileInput
+            id="sealed-deck"
+            accept="text/csv"
+            onChange={onChangeFile}
             size="sm"
           >
             <BookLockIcon /> Use sealed deck
-          </Button>
+          </FileInput>
         </div>
-        <input
-          id="sealed-deck-file"
-          type="file"
-          accept="text/csv"
-          onChange={onChangeFile}
-          style={{ display: "none" }}
-        />
         {value && (
           <Tag size="xs">
             {value.name} ({Object.keys(value.cards).length} cards)

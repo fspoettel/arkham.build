@@ -22,6 +22,7 @@ import { EllipsisIcon, PlusIcon, Trash2Icon, UploadIcon } from "lucide-react";
 import { useCallback, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { Link } from "wouter";
+import { FileInput } from "../ui/file-input";
 import { DeckCollectionFilters } from "./deck-collection-filters";
 import { DeckCollectionImport } from "./deck-collection-import";
 import css from "./deck-collection.module.css";
@@ -124,25 +125,17 @@ export function DeckCollection() {
             </PopoverTrigger>
             <PopoverContent>
               <DropdownMenu>
-                <Button
-                  as="label"
-                  data-testid="collection-import-file"
-                  htmlFor="collection-import"
+                <FileInput
+                  accept="application/json"
+                  id="collection-import"
+                  multiple
+                  onChange={onAddFiles}
                   size="full"
                   variant="bare"
                 >
                   <UploadIcon /> Import from JSON files
-                </Button>
-                <input
-                  id="collection-import"
-                  type="file"
-                  accept="application/json"
-                  className={css["import-input"]}
-                  multiple
-                  onChange={onAddFiles}
-                />
+                </FileInput>
                 <Button
-                  as="label"
                   data-testid="collection-delete-all"
                   onClick={onDeleteAll}
                   size="full"
