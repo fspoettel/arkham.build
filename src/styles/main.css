@@ -6,7 +6,7 @@
   --font-family-content: "Noto Serif", ui-serif, Georgia, Cambria,
     "Times New Roman", Times, serif;
 
-  --white: #f9f9fb;
+  --white: #f6f6fb;
   --nord-0: #2e3440;
   --nord-1: #3b4252;
   --nord-point-five: #353b49;
@@ -180,6 +180,18 @@ html {
   color-scheme: only dark;
 }
 
+html.theme-system {
+  color-scheme: dark light;
+}
+
+html.theme-dark {
+  color-scheme: only dark;
+}
+
+html.theme-light {
+  color-scheme: only light;
+}
+
 body {
   font-family: var(--font-family-ui);
   font-size: var(--text-base);
@@ -188,18 +200,6 @@ body {
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-body.theme-system {
-  color-scheme: dark light;
-}
-
-body.theme-dark {
-  color-scheme: only dark;
-}
-
-body.theme-light {
-  color-scheme: only light;
 }
 
 #root {
