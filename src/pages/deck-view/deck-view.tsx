@@ -1,36 +1,108 @@
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
-import { DeckDisplay } from "@/components/deck-display/deck-display";
+import {
+  DeckDisplay,
+  type DeckDisplayProps,
+} from "@/components/deck-display/deck-display";
+import { Loader } from "@/components/ui/loader";
 import { useStore } from "@/store";
+import { resolveDeck } from "@/store/lib/resolve-deck";
 import type { ResolvedDeck } from "@/store/lib/types";
 import {
+  getDeckHistory,
+  selectDeckHistory,
   selectDeckValid,
   selectResolvedDeckById,
 } from "@/store/selectors/decks";
+import { selectClientId } from "@/store/selectors/shared";
+import { queryDeck } from "@/store/services/queries";
+import { useQuery } from "@/utils/use-query";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
+import { useMemo } from "react";
 import { useParams } from "wouter";
 import { Error404 } from "../errors/404";
 
 function DeckView() {
   const { id } = useParams<{ id: string }>();
+
   const resolvedDeck = useStore((state) => selectResolvedDeckById(state, id));
 
-  if (!resolvedDeck) {
-    return <Error404 />;
-  }
-
-  return (
-    <ResolvedDeckProvider resolvedDeck={resolvedDeck}>
-      <CardModalProvider>
-        <DeckViewInner deck={resolvedDeck} />
-      </CardModalProvider>
-    </ResolvedDeckProvider>
+  return resolvedDeck ? (
+    <LocalDeckView deck={resolvedDeck} />
+  ) : (
+    <ArkhamDbDeckView id={id} />
   );
 }
 
-function DeckViewInner({ deck }: { deck: ResolvedDeck }) {
+function ArkhamDbDeckView({ id }: { id: string }) {
+  const clientId = useStore(selectClientId);
+
+  const idInt = Number.parseInt(id, 10);
+
+  const query = useMemo(() => {
+    const queryType = window.location.href.includes("/decklist/view")
+      ? "decklist"
+      : "deck";
+
+    return Number.isFinite(idInt)
+      ? () => queryDeck(clientId, queryType, idInt)
+      : undefined;
+  }, [clientId, idInt]);
+
+  const { data, error, loading } = useQuery(query);
+
+  const metadata = useStore((state) => state.metadata);
+  const lookupTables = useStore((state) => state.lookupTables);
+  const sharing = useStore((state) => state.sharing);
+
+  if (Number.isNaN(idInt)) {
+    return <Error404 />;
+  }
+
+  if (loading) {
+    return <Loader show message="Fetching deck..." />;
+  }
+
+  if (error || !data?.length) {
+    return <Error404 />;
+  }
+
+  const decks = data.map((deck) =>
+    resolveDeck(metadata, lookupTables, sharing, deck),
+  );
+
+  return (
+    <DeckViewInner
+      context="arkhamdb"
+      deck={decks[0]}
+      history={getDeckHistory(decks, metadata)}
+    />
+  );
+}
+
+function LocalDeckView({ deck }: { deck: ResolvedDeck }) {
+  const history = useStore((state) => selectDeckHistory(state, deck.id));
+  return <DeckViewInner context="local" deck={deck} history={history} />;
+}
+
+function DeckViewInner({
+  context,
+  deck,
+  history,
+}: Omit<DeckDisplayProps, "validation">) {
   const validation = useStore((state) => selectDeckValid(state, deck));
 
-  return <DeckDisplay deck={deck} owned validation={validation} />;
+  return (
+    <ResolvedDeckProvider resolvedDeck={deck}>
+      <CardModalProvider>
+        <DeckDisplay
+          context={context}
+          deck={deck}
+          history={history}
+          validation={validation}
+        />
+      </CardModalProvider>
+    </ResolvedDeckProvider>
+  );
 }
 
 export default DeckView;

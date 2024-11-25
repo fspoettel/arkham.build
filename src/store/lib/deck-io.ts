@@ -52,6 +52,8 @@ export function formatDeckImport(
       type === "decklist"
         ? (deck.tags?.replaceAll(", ", " ") ?? null)
         : deck.tags,
+    previous_deck: null,
+    next_deck: null,
     xp: null,
     xp_adjustment: null,
     xp_spent: null,

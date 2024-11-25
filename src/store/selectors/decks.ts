@@ -228,6 +228,21 @@ function getHistoryEntry(
   };
 }
 
+export function getDeckHistory(
+  decks: ResolvedDeck[],
+  metadata: StoreState["metadata"],
+) {
+  const changes: Changes[] = [];
+
+  for (let i = 0; i < decks.length - 1; i++) {
+    const prev = decks[i];
+    const next = decks[i + 1];
+    changes.unshift(getChanges(prev, next));
+  }
+
+  return changes.map((change) => getHistoryEntry(change, metadata));
+}
+
 export const selectDeckHistory = createSelector(
   (_: StoreState, id: Id) => id,
   (state: StoreState) => state.metadata,
@@ -243,31 +258,18 @@ export const selectDeckHistory = createSelector(
 
     time("deck_history");
 
-    const changes: Changes[] = [];
-
     history.unshift(id);
     history.reverse();
 
-    for (let i = 0; i < history.length - 1; i++) {
-      const prev = history[i];
-      const next = history[i + 1];
-
-      if (!data.decks[prev] || !data.decks[next]) break;
-
-      changes.unshift(
-        getChanges(
-          resolveDeck(metadata, lookupTables, sharing, data.decks[prev]),
-          resolveDeck(metadata, lookupTables, sharing, data.decks[next]),
-        ),
-      );
-    }
-
-    const diffs: History = changes.map((change) =>
-      getHistoryEntry(change, metadata),
+    const resolvedDecks = history.map((deckId) =>
+      resolveDeck(metadata, lookupTables, sharing, data.decks[deckId]),
     );
+
+    const deckHistory = getDeckHistory(resolvedDecks, metadata);
+
     timeEnd("deck_history");
 
-    return diffs;
+    return deckHistory;
   },
 );
 

@@ -126,6 +126,16 @@ export async function queryFaq(clientId: string, code: string) {
   return data;
 }
 
+export async function queryDeck(clientId: string, type: string, id: number) {
+  const res = await request(`/public/arkhamdb/${type}/${id}`, {
+    headers: {
+      "X-Client-Id": clientId,
+    },
+  });
+  const data: Deck[] = await res.json();
+  return data;
+}
+
 type DeckResponse = {
   data: Deck;
   type: "deck" | "decklist";

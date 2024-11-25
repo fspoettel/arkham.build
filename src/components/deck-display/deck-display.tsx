@@ -1,9 +1,8 @@
 import { AppLayout } from "@/layouts/app-layout";
-import { useStore } from "@/store";
 import type { DeckValidationResult } from "@/store/lib/deck-validation";
-import { extendedDeckTags } from "@/store/lib/resolve-deck";
+import { deckTags, extendedDeckTags } from "@/store/lib/resolve-deck";
 import type { ResolvedDeck } from "@/store/lib/types";
-import { selectDeckHistory } from "@/store/selectors/decks";
+import type { History } from "@/store/selectors/decks";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { BookOpenTextIcon, ChartAreaIcon, FileClockIcon } from "lucide-react";
 import { Suspense, lazy, useCallback, useEffect, useRef } from "react";
@@ -17,21 +16,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import css from "./deck-display.module.css";
 import { DeckHistory } from "./deck-history/deck-history";
 import { Sidebar } from "./sidebar";
+import type { DeckDisplayContext } from "./types";
 
-type Props = {
+export type DeckDisplayProps = {
   deck: ResolvedDeck;
-  owned: boolean;
+  context: DeckDisplayContext;
+  history?: History;
   validation: DeckValidationResult;
 };
 
 const LazyDeckDescription = lazy(() => import("@/components/deck-description"));
 
-export function DeckDisplay(props: Props) {
-  const { deck, owned, validation } = props;
+export function DeckDisplay(props: DeckDisplayProps) {
+  const { context, deck, history, validation } = props;
 
   const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
-  const history = useStore((state) => selectDeckHistory(state, deck.id));
-  const hasHistory = !!history.length;
+  const hasHistory = !!history?.length;
 
   const tabRef = useRef("deck");
   const scrollPosition = useRef(0);
@@ -68,13 +68,19 @@ export function DeckDisplay(props: Props) {
             {deck.name}
           </h1>
           <div className={css["tags"]}>
-            <DeckTags tags={extendedDeckTags(deck, false)} />
+            <DeckTags
+              tags={
+                context === "local"
+                  ? extendedDeckTags(deck, false)
+                  : deckTags(deck)
+              }
+            />
             <LimitedCardPoolTag />
             <SealedDeckTag />
           </div>
         </header>
 
-        <Sidebar className={css["sidebar"]} deck={deck} owned={owned} />
+        <Sidebar className={css["sidebar"]} deck={deck} context={context} />
 
         <div className={css["content"]}>
           <Tabs

@@ -44,8 +44,8 @@ function Share() {
     <ResolvedDeckProvider resolvedDeck={resolvedDeck}>
       <CardModalProvider>
         <DeckDisplay
+          context="share"
           deck={resolvedDeck}
-          owned={false}
           validation={validation}
         />
       </CardModalProvider>

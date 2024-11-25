@@ -43,24 +43,28 @@ import {
   useUploadDeck,
 } from "./hooks";
 import css from "./sidebar.module.css";
+import type { DeckDisplayContext } from "./types";
 
 type Props = {
   className?: string;
+  context: DeckDisplayContext;
   deck: ResolvedDeck;
-  owned?: boolean;
 };
 
 export function Sidebar(props: Props) {
-  const { className, deck, owned } = props;
+  const { className, context, deck } = props;
 
   return (
     <div className={cx(css["container"], className)}>
       <DeckInvestigator deck={deck} size="tooltip" />
-      <SidebarActions deck={deck} owned={owned} />
+      <SidebarActions deck={deck} context={context} />
       <SidebarDetails deck={deck} />
-      {owned && <SidebarUpgrade deck={deck} />}
-      {owned && deck.source !== "arkhamdb" && <Sharing deck={deck} />}
-      {owned && deck.source === "arkhamdb" && <ArkhamDbDetails deck={deck} />}
+      {context === "local" && <SidebarUpgrade deck={deck} />}
+      {context === "local" && deck.source !== "arkhamdb" && (
+        <Sharing deck={deck} />
+      )}
+      {context === "arkhamdb" ||
+        (deck.source === "arkhamdb" && <ArkhamDbDetails deck={deck} />)}
     </div>
   );
 }
@@ -171,8 +175,11 @@ function SidebarUpgrade(props: { deck: ResolvedDeck }) {
   );
 }
 
-function SidebarActions(props: { deck: ResolvedDeck; owned?: boolean }) {
-  const { deck, owned } = props;
+function SidebarActions(props: {
+  context: DeckDisplayContext;
+  deck: ResolvedDeck;
+}) {
+  const { context, deck } = props;
 
   const [actionsOpen, setActionsOpen] = useState(false);
 
@@ -183,7 +190,7 @@ function SidebarActions(props: { deck: ResolvedDeck; owned?: boolean }) {
   const search = useSearch();
 
   const [upgradeModalOpen, setUpgradeModalOpen] = useState(
-    owned && search.includes("upgrade") && !deck.next_deck,
+    context === "local" && search.includes("upgrade") && !deck.next_deck,
   );
 
   const deleteDeck = useDeleteDeck();
@@ -264,14 +271,16 @@ function SidebarActions(props: { deck: ResolvedDeck; owned?: boolean }) {
       {isReadOnly && (
         <Notice variant="info">
           There is a{" "}
-          <Link href={`${owned ? "/deck/view/" : "/share/"}${deck.next_deck}`}>
+          <Link
+            href={`${context !== "share" ? "/deck/view/" : "/share/"}${deck.next_deck}`}
+          >
             newer version
           </Link>{" "}
-          of this deck. This deck is read-only.
+          of this deck. {context === "local" && "This deck is read-only."}
         </Notice>
       )}
       <div className={css["actions"]}>
-        {owned ? (
+        {context === "local" ? (
           <>
             <Button
               data-testid="view-edit"
@@ -320,7 +329,7 @@ function SidebarActions(props: { deck: ResolvedDeck; owned?: boolean }) {
           </PopoverTrigger>
           <PopoverContent>
             <DropdownMenu>
-              {owned && (
+              {context === "local" && (
                 <>
                   <Button
                     data-testid="view-duplicate"
@@ -334,7 +343,7 @@ function SidebarActions(props: { deck: ResolvedDeck; owned?: boolean }) {
                   <hr />
                 </>
               )}
-              {owned &&
+              {context === "local" &&
                 !isReadOnly &&
                 deck.source !== "arkhamdb" &&
                 !isEmpty(connections) && (
@@ -366,7 +375,7 @@ function SidebarActions(props: { deck: ResolvedDeck; owned?: boolean }) {
               >
                 <DownloadIcon /> Export Markdown
               </Button>
-              {owned && (
+              {context === "local" && (
                 <>
                   <hr />
                   {!!deck.previous_deck && (
@@ -399,7 +408,7 @@ function SidebarActions(props: { deck: ResolvedDeck; owned?: boolean }) {
   );
 }
 
-function Sharing(props: Props) {
+function Sharing(props: { deck: ResolvedDeck }) {
   const { deck } = props;
   const toast = useToast();
 
