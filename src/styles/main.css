@@ -114,6 +114,9 @@
   --health: #ae4236;
   --sanity: #2c7fc0;
 
+  --color-scrollbar-thumb: #969ba5;
+  --color-scrollbar: rgba(0, 0, 0, 0.05);
+
   --background-select: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCA0LjkgMTAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQuOSAxMDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsOiNkOGRlZTk7fQo8L3N0eWxlPgo8dGl0bGU+YXJyb3dzPC90aXRsZT4KPHBvbHlnb24gY2xhc3M9InN0MCIgcG9pbnRzPSIxLjQsNC43IDIuNSwzLjIgMy41LDQuNyAiLz4KPHBvbHlnb24gY2xhc3M9InN0MCIgcG9pbnRzPSIzLjUsNS4zIDIuNSw2LjggMS40LDUuMyAiLz4KPC9zdmc+);
 }
 
@@ -337,6 +340,11 @@ button {
     opacity: 0.3;
     cursor: default;
   }
+}
+
+* {
+  scrollbar-color: var(--color-scrollbar-thumb) var(--color-scrollbar);
+  scrollbar-width: thin;
 }
 
 .color-health {

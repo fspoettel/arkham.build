@@ -21,13 +21,9 @@
   user-select: none;
   touch-action: none;
   padding: 2px;
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--color-scrollbar);
   z-index: 4;
   transition: background 160ms ease-out;
-}
-
-.scrollbar:hover {
-  background: rgba(0, 0, 0, 0.15);
 }
 
 .scrollbar[data-orientation="vertical"] {
@@ -36,14 +32,9 @@
 
 .scrollbar-thumb {
   flex: 1;
-  background: var(--palette-5);
+  background: var(--color-scrollbar-thumb);
   border-radius: var(--scrollbar-size);
   position: relative;
-  opacity: 0.5;
-}
-
-.scrollbar:hover .scrollbar-thumb {
-  opacity: 1;
 }
 
 .scrollbar-thumb::before {
