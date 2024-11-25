@@ -50,7 +50,7 @@ test.describe("deck collection", () => {
     const fileChooserPromise = page.waitForEvent("filechooser");
 
     await page.getByTestId("collection-more-actions").click();
-    await page.getByTestId("collection-import-file").click();
+    await page.getByTestId("collection-import-button").click();
 
     const fileChooser = await fileChooserPromise;
     await fileChooser.setFiles([

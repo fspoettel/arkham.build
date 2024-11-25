@@ -589,6 +589,11 @@ svg {
   fill: currentColor;
 }
 
+.icon-inline {
+  display: inline;
+  vertical-align: baseline;
+}
+
 .break {
   display: block;
   height: 0.75rem;

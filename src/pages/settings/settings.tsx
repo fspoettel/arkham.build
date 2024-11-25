@@ -5,9 +5,14 @@ import { useToast } from "@/components/ui/toast.hooks";
 import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
 import { useGoBack } from "@/utils/use-go-back";
-import { LibraryIcon, SlidersVerticalIcon } from "lucide-react";
+import {
+  DatabaseBackupIcon,
+  LibraryIcon,
+  SlidersVerticalIcon,
+} from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useSearch } from "wouter";
+import { BackupRestore } from "./backup-restore";
 import { CardDataSync } from "./card-data-sync";
 import { Connections } from "./connections";
 import { HideWeaknessSetting } from "./hide-weakness";
@@ -73,15 +78,19 @@ function Settings() {
               <CardDataSync showDetails />
             </Section>
           </div>
-          <Tabs length={2} defaultValue="general">
+          <Tabs defaultValue="general">
             <TabsList>
               <TabsTrigger data-testid="tab-general" value="general">
                 <SlidersVerticalIcon />
-                General
+                <span>General</span>
               </TabsTrigger>
               <TabsTrigger data-testid="tab-collection" value="collection">
                 <LibraryIcon />
-                Collection
+                <span>Collection</span>
+              </TabsTrigger>
+              <TabsTrigger data-testid="tab-backup" value="backup">
+                <DatabaseBackupIcon />
+                <span>Backup & Restore</span>
               </TabsTrigger>
             </TabsList>
             <TabsContent value="general" forceMount>
@@ -120,6 +129,11 @@ function Settings() {
                   settings={settings}
                   updateSettings={updateSettings}
                 />
+              </Section>
+            </TabsContent>
+            <TabsContent value="backup" forceMount>
+              <Section title="Backup & Restore">
+                <BackupRestore />
               </Section>
             </TabsContent>
           </Tabs>

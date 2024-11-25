@@ -8,10 +8,12 @@ import {
   SPECIAL_CARD_CODES,
 } from "@/utils/constants";
 import { randomId } from "@/utils/crypto";
+import { download } from "@/utils/download";
 import { tryEnablePersistence } from "@/utils/persistence";
 import { time, timeEnd } from "@/utils/time";
 import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
+import { prepareBackup, restoreBackup } from "../lib/backup";
 import { mapValidationToProblem } from "../lib/deck-io";
 import {
   decodeDeckMeta,
@@ -594,5 +596,15 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     });
 
     return previousId;
+  },
+  backup() {
+    download(
+      prepareBackup(get()),
+      `arkham-build-${new Date().toISOString()}.json`,
+      "application/json",
+    );
+  },
+  async restore(buffer) {
+    set(await restoreBackup(get(), buffer));
   },
 });

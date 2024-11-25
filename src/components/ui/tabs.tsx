@@ -11,7 +11,6 @@ import css from "./tabs.module.css";
 
 type TabsProps = RootProps & {
   children: React.ReactNode;
-  length: number;
 };
 
 export function Tabs({ children, className, ...rest }: TabsProps) {

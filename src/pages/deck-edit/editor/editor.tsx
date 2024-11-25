@@ -44,7 +44,6 @@ export function Editor(props: Props) {
 
       <Tabs
         className={css["editor-tabs"]}
-        length={deck.hasExtraDeck ? 4 : 3}
         onValueChange={(value: string) => {
           onTabChange(value as Tab);
         }}

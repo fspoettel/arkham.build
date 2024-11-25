@@ -33,4 +33,7 @@ export type AppSlice = {
   deleteDeck(id: Id, callback?: () => void): Promise<void>;
   deleteAllDecks(): Promise<void>;
   deleteUpgrade(id: Id, callback?: (id: Id) => void): Promise<Id>;
+
+  backup(): void;
+  restore(file: File): Promise<void>;
 };

@@ -21,10 +21,53 @@ import type { Val } from "./storage.types";
 
 const indexedDBAdapter = new IndexedDBAdapter();
 
-const VERSION = 6;
+export const VERSION = 6;
 
 // use this flag to disable rehydration during dev.
 const SKIP_HYDRATION = false;
+
+export function migrate(persisted: StoreState, version: number): StoreState {
+  const state = structuredClone(persisted);
+
+  if (version < 2) {
+    console.debug("[persist] migrate store: ", version);
+    v1Tov2(state, version);
+  }
+
+  if (version < 3) {
+    console.debug("[persist] migrate store: ", version);
+    v2Tov3(state, version);
+  }
+
+  if (version < 4) {
+    console.debug("[persist] migrate store: ", version);
+    v3Tov4(state, version);
+  }
+
+  if (version < 5) {
+    console.debug("[persist] migrate store: ", version);
+    v4Tov5(state, version);
+  }
+
+  if (version < 6) {
+    console.debug("[persist] migrate store: ", version);
+    v5toV6(state, version);
+  }
+
+  return state;
+}
+
+export function partialize(state: StoreState) {
+  return {
+    connections: state.connections,
+    data: state.data,
+    deckEdits: state.deckEdits,
+    metadata: state.metadata,
+    settings: state.settings,
+    sharing: state.sharing,
+    app: state.app,
+  } as StoreState;
+}
 
 export const storageConfig: PersistOptions<StoreState, Val> = {
   name: "deckbuilder",
@@ -32,46 +75,9 @@ export const storageConfig: PersistOptions<StoreState, Val> = {
   version: VERSION,
   skipHydration: import.meta.env.MODE === "test",
   migrate(persisted, version) {
-    const state = persisted as StoreState;
-
-    if (version < 2) {
-      console.debug("[persist] migrate store: ", version);
-      v1Tov2(state, version);
-    }
-
-    if (version < 3) {
-      console.debug("[persist] migrate store: ", version);
-      v2Tov3(state, version);
-    }
-
-    if (version < 4) {
-      console.debug("[persist] migrate store: ", version);
-      v3Tov4(state, version);
-    }
-
-    if (version < 5) {
-      console.debug("[persist] migrate store: ", version);
-      v4Tov5(state, version);
-    }
-
-    if (version < 6) {
-      console.debug("[persist] migrate store: ", version);
-      v5toV6(state, version);
-    }
-
-    return state;
+    return migrate(persisted as StoreState, version);
   },
-  partialize(state: StoreState) {
-    return {
-      app: state.app,
-      connections: state.connections,
-      data: state.data,
-      deckEdits: state.deckEdits,
-      metadata: state.metadata,
-      settings: state.settings,
-      sharing: state.sharing,
-    };
-  },
+  partialize,
   onRehydrateStorage: () => {
     time("hydration");
     return (state: StoreState | undefined, error?: unknown) => {
