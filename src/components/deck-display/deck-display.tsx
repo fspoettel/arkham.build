@@ -89,30 +89,22 @@ export function DeckDisplay(props: DeckDisplayProps) {
             onValueChange={onTabChange}
           >
             <TabsList className={css["list"]}>
-              <TabsTrigger value="deck" data-testid="tab-deck" tooltip="Deck">
+              <TabsTrigger value="deck" data-testid="tab-deck">
                 <i className="icon-deck" />
                 <span>Deck</span>
               </TabsTrigger>
               {deck.description_md && (
-                <TabsTrigger
-                  value="notes"
-                  data-testid="tab-notes"
-                  tooltip="Notes"
-                >
+                <TabsTrigger value="notes" data-testid="tab-notes">
                   <BookOpenTextIcon />
                   <span>Notes</span>
                 </TabsTrigger>
               )}
-              <TabsTrigger value="tools" tooltip="Tools">
+              <TabsTrigger value="tools">
                 <ChartAreaIcon />
                 <span>Tools</span>
               </TabsTrigger>
               {hasHistory && (
-                <TabsTrigger
-                  value="history"
-                  data-testid="tab-history"
-                  tooltip={`Upgrades (${history.length})`}
-                >
+                <TabsTrigger value="history" data-testid="tab-history">
                   <FileClockIcon />
                   <span>Upgrades ({history.length})</span>
                 </TabsTrigger>

@@ -17,12 +17,19 @@ import { selectClientId } from "@/store/selectors/shared";
 import { queryDeck } from "@/store/services/queries";
 import { useQuery } from "@/utils/use-query";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useParams } from "wouter";
 import { Error404 } from "../errors/404";
 
 function DeckView() {
   const { id } = useParams<{ id: string }>();
+
+  useEffect(() => {
+    document.documentElement.classList.add("scrollbar-stable");
+    return () => {
+      document.documentElement.classList.remove("scrollbar-stable");
+    };
+  }, []);
 
   const resolvedDeck = useStore((state) => selectResolvedDeckById(state, id));
 
