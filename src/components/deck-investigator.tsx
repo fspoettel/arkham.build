@@ -22,12 +22,13 @@ import { Button } from "./ui/button";
 type Props = {
   canToggleBack?: boolean;
   deck: ResolvedDeck;
+  readonly?: boolean;
   showRelated?: boolean;
   size: "tooltip" | "full";
 };
 
 export function DeckInvestigator(props: Props) {
-  const { canToggleBack = true, deck, showRelated, size } = props;
+  const { canToggleBack = true, deck, readonly, showRelated, size } = props;
 
   const [backToggled, toggleBack] = useState(false);
 
@@ -103,6 +104,7 @@ export function DeckInvestigator(props: Props) {
         <AttachableCards
           card={deck.investigatorBack.card}
           definition={attachableDefinition}
+          readonly={readonly}
           resolvedDeck={deck}
         />
       )}

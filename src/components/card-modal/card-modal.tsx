@@ -78,6 +78,7 @@ export function CardModal(props: Props) {
           <AttachableCards
             card={cardWithRelations.card}
             definition={attachableDefinition}
+            readonly={!canEdit}
             resolvedDeck={ctx.resolvedDeck}
           />
         )}

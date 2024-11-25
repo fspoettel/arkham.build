@@ -64,6 +64,7 @@ function InvestigatorListcardInner({ deck }: Props) {
             <DeckInvestigator
               canToggleBack={false}
               deck={deck}
+              readonly
               size="tooltip"
             />
           }

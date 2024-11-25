@@ -9,6 +9,7 @@ import { LimitedSlots } from "./limited-slots";
 
 type Props = {
   deck: ResolvedDeck;
+  readonly?: boolean;
   showTitle?: boolean;
   slotLeft?: React.ReactNode;
   slotRight?: React.ReactNode;
@@ -17,7 +18,7 @@ type Props = {
 const LazyChartContainer = lazy(() => import("./chart-container"));
 
 export function DeckTools(props: Props) {
-  const { deck, showTitle, slotLeft, slotRight } = props;
+  const { deck, readonly, showTitle, slotLeft, slotRight } = props;
 
   return (
     <Scroller>
@@ -36,6 +37,7 @@ export function DeckTools(props: Props) {
                 <AttachableCards
                   card={deck.cards.slots[attachment.code]?.card}
                   definition={attachment}
+                  readonly={readonly}
                   resolvedDeck={deck}
                 />
               )}
@@ -43,6 +45,7 @@ export function DeckTools(props: Props) {
                 <AttachableCards
                   card={deck.investigatorBack.card}
                   definition={attachment}
+                  readonly={readonly}
                   resolvedDeck={deck}
                 />
               )}

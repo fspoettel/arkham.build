@@ -19,6 +19,7 @@ import { ListCard } from "../list-card/list-card";
 type Props = {
   card: Card;
   definition: AttachableDefinition;
+  readonly?: boolean;
   resolvedDeck: ResolvedDeck;
 };
 
@@ -29,7 +30,7 @@ type Entry = {
 };
 
 export function AttachableCards(props: Props) {
-  const { card, definition, resolvedDeck } = props;
+  const { card, definition, readonly, resolvedDeck } = props;
 
   const metadata = useStore((state) => state.metadata);
 
@@ -96,6 +97,7 @@ export function AttachableCards(props: Props) {
             definition.limit,
           )}
           onChangeCardQuantity={
+            !readonly &&
             canUpdateAttachment(entry.card, definition, resolvedDeck)
               ? onQuantityChange
               : undefined

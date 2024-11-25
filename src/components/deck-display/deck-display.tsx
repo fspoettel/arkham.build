@@ -85,7 +85,6 @@ export function DeckDisplay(props: DeckDisplayProps) {
         <div className={css["content"]}>
           <Tabs
             className={css["tabs"]}
-            length={hasHistory ? 3 : 2}
             defaultValue="deck"
             onValueChange={onTabChange}
           >
@@ -127,7 +126,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
               <Decklist deck={deck} />
             </TabsContent>
             <TabsContent className={css["tab"]} value="tools">
-              <DeckTools deck={deck} />
+              <DeckTools deck={deck} readonly />
             </TabsContent>
             {deck.description_md && (
               <TabsContent className={css["tab"]} value="notes">
