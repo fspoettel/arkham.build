@@ -2,6 +2,7 @@ import { Card } from "@/components/card/card";
 import { CustomizationsEditor } from "@/components/customizations/customizations-editor";
 import type { CardWithRelations } from "@/store/lib/types";
 import { formatRelationTitle } from "@/utils/formatting";
+import { isEmpty } from "@/utils/is-empty";
 import { Redirect } from "wouter";
 import css from "./card-view.module.css";
 
@@ -55,13 +56,13 @@ export function CardViewCards({
         </Card>
       </div>
 
-      {relations?.parallel && (
+      {!isEmpty(relations?.parallel) && (
         <CardViewSection id="parallel" title={formatRelationTitle("parallel")}>
           <Card resolvedCard={relations.parallel} />
         </CardViewSection>
       )}
 
-      {!!relations?.bound?.length && (
+      {!isEmpty(relations?.bound) && (
         <CardViewSection id="bound" title={formatRelationTitle("bound")}>
           {relations.bound.map((c) => (
             <Card
@@ -75,7 +76,7 @@ export function CardViewCards({
         </CardViewSection>
       )}
 
-      {!!relations?.bonded?.length && (
+      {!isEmpty(relations?.bonded) && (
         <CardViewSection id="bonded" title={formatRelationTitle("bonded")}>
           {relations.bonded.map((c) => (
             <Card
@@ -89,7 +90,7 @@ export function CardViewCards({
         </CardViewSection>
       )}
 
-      {!!relations?.requiredCards?.length && (
+      {!isEmpty(relations?.requiredCards) && (
         <CardViewSection
           id="required"
           title={formatRelationTitle("requiredCards")}
@@ -106,7 +107,7 @@ export function CardViewCards({
         </CardViewSection>
       )}
 
-      {!!relations?.advanced?.length && (
+      {!isEmpty(relations?.advanced) && (
         <CardViewSection id="advanced" title={formatRelationTitle("advanced")}>
           {relations.advanced.map((c) => (
             <Card
@@ -120,7 +121,7 @@ export function CardViewCards({
         </CardViewSection>
       )}
 
-      {!!relations?.parallelCards?.length && (
+      {!isEmpty(relations?.parallelCards) && (
         <CardViewSection
           id="parallel-cards"
           title={formatRelationTitle("parallelCards")}
@@ -137,7 +138,7 @@ export function CardViewCards({
         </CardViewSection>
       )}
 
-      {!!relations?.replacement?.length && (
+      {!isEmpty(relations?.replacement) && (
         <CardViewSection
           id="replacement"
           title={formatRelationTitle("replacement")}
@@ -154,7 +155,7 @@ export function CardViewCards({
         </CardViewSection>
       )}
 
-      {!!relations?.restrictedTo && (
+      {!isEmpty(relations?.restrictedTo) && (
         <CardViewSection
           id="restricted-to"
           title={formatRelationTitle("restricted")}
@@ -171,7 +172,7 @@ export function CardViewCards({
         </CardViewSection>
       )}
 
-      {!!relations?.level?.length && (
+      {!isEmpty(relations?.level) && (
         <CardViewSection id="level" title={formatRelationTitle("level")}>
           {relations.level.map((c) => (
             <Card
@@ -185,7 +186,7 @@ export function CardViewCards({
         </CardViewSection>
       )}
 
-      {!!relations?.otherSignatures?.length && (
+      {!isEmpty(relations?.otherSignatures) && (
         <CardViewSection
           id="other-signatures"
           title={formatRelationTitle("otherSignatures")}

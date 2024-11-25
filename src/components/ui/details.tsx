@@ -46,6 +46,7 @@ export function Details(props: Props) {
           data-testid="details-content"
           className={cx(css["details-content"], css["scrollable"])}
           style={cssVariables as React.CSSProperties}
+          type="always"
         >
           {children}
         </Scroller>
