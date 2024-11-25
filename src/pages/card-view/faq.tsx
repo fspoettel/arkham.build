@@ -34,7 +34,8 @@ export function Faq(props: Props) {
     >
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: not relevant. */}
       <div onClick={redirectArkhamDBLinks}>
-        {response.loading && "Loading..."}
+        {(response.state === "initial" || response.state === "loading") &&
+          "Loading..."}
 
         {!!response.error && "Error loading FAQ entries."}
 

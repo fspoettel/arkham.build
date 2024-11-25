@@ -1,24 +1,30 @@
 import { useCallback, useEffect, useReducer, useRef } from "react";
 
+type StateInitial = {
+  error: undefined;
+  data: undefined;
+  state: "initial";
+};
+
 type StateLoading = {
   error: undefined;
   data: undefined;
-  loading: true;
+  state: "loading";
 };
 
 type StateSuccess<T> = {
   error: undefined;
   data: T;
-  loading: false;
+  state: "success";
 };
 
 type StateError = {
   error: unknown;
   data: undefined;
-  loading: false;
+  state: "error";
 };
 
-type State<T> = StateLoading | StateError | StateSuccess<T>;
+type State<T> = StateLoading | StateError | StateSuccess<T> | StateInitial;
 
 type Action<T> =
   | { type: "LOADING" }
@@ -29,13 +35,13 @@ type Action<T> =
 function reducer<T>(_: State<T>, action: Action<T>): State<T> {
   switch (action.type) {
     case "LOADING":
-      return { error: undefined, data: undefined, loading: true };
+      return { error: undefined, data: undefined, state: "loading" };
     case "SUCCESS":
-      return { error: undefined, loading: false, data: action.payload };
+      return { error: undefined, state: "success", data: action.payload };
     case "ERROR":
-      return { data: undefined, loading: false, error: action.payload };
+      return { data: undefined, state: "error", error: action.payload };
     case "RESET":
-      return { error: undefined, data: undefined, loading: false };
+      return { error: undefined, data: undefined, state: "initial" };
   }
 }
 
@@ -43,7 +49,7 @@ type Query<T> = () => Promise<T>;
 
 export function useQuery<T>(query: Query<T> | undefined): State<T> {
   const [state, dispatch] = useReducer(reducer<T>, {
-    loading: false,
+    state: "initial",
     error: undefined,
     data: undefined,
   } as State<T>);
@@ -81,7 +87,7 @@ export function useMutate<T>(query: Query<T>): State<T> & {
   mutate: () => Promise<void>;
 } {
   const [state, dispatch] = useReducer(reducer<T>, {
-    loading: false,
+    state: "initial",
     error: undefined,
     data: undefined,
   } as State<T>);

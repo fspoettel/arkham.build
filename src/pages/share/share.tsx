@@ -30,12 +30,12 @@ function Share() {
 
   const query = useCallback(() => getShare(id), [id]);
 
-  const { data, loading, error } = useQuery(query);
+  const { data, state, error } = useQuery(query);
 
   const resolvedDeck = useStore((state) => selectResolvedShare(state, data));
   const validation = useStore((state) => selectDeckValid(state, resolvedDeck));
 
-  if (loading) return <Loader />;
+  if (state === "initial" || state === "loading") return <Loader />;
   if (error) return <Error404 />;
 
   if (!resolvedDeck) return null;

@@ -26,14 +26,14 @@ export function CardDataSync(props: Props) {
 
   const dataVersion = useStore((state) => state.metadata.dataVersion);
 
-  const { data, error, loading } = useQuery(queryDataVersion);
+  const { data, error, state } = useQuery(queryDataVersion);
 
   const initStore = useCallback(
     () => init(queryMetadata, queryDataVersion, queryCards),
     [init],
   );
 
-  const { error: syncError, loading: syncing, mutate } = useMutate(initStore);
+  const { error: syncError, state: syncState, mutate } = useMutate(initStore);
 
   const onSync = useCallback(async () => {
     await mutate().catch(console.error);
@@ -52,6 +52,8 @@ export function CardDataSync(props: Props) {
     dataVersion &&
     data.cards_updated_at === dataVersion.cards_updated_at;
 
+  const loading = state === "loading" || syncState === "loading";
+
   return (
     <>
       <Field
@@ -59,10 +61,9 @@ export function CardDataSync(props: Props) {
         className={cx(css["sync"], upToDate && css["uptodate"])}
       >
         <div className={css["status"]}>
-          {(loading || syncing) && <p>Loading latest card data...</p>}
+          {loading && <p>Loading latest card data...</p>}
           {(!!error || !!syncError) && <p>Could not sync card data.</p>}
           {!loading &&
-            !syncing &&
             data &&
             (upToDate ? (
               <p>

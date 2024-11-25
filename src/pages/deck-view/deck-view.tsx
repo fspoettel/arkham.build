@@ -48,7 +48,7 @@ function ArkhamDbDeckView({ id }: { id: string }) {
       : undefined;
   }, [clientId, idInt]);
 
-  const { data, error, loading } = useQuery(query);
+  const { data, state } = useQuery(query);
 
   const metadata = useStore((state) => state.metadata);
   const lookupTables = useStore((state) => state.lookupTables);
@@ -58,11 +58,11 @@ function ArkhamDbDeckView({ id }: { id: string }) {
     return <Error404 />;
   }
 
-  if (loading) {
+  if (state === "loading" || state === "initial") {
     return <Loader show message="Fetching deck..." />;
   }
 
-  if (error || !data?.length) {
+  if (state === "error") {
     return <Error404 />;
   }
 
