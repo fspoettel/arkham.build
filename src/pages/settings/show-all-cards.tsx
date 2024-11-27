@@ -1,14 +1,9 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/field";
-import type { SettingsState } from "@/store/slices/settings.types";
 import { useCallback } from "react";
+import type { SettingProps } from "./types";
 
-type Props = {
-  settings: SettingsState;
-  updateSettings: React.Dispatch<React.SetStateAction<SettingsState>>;
-};
-
-export function ShowAllCards(props: Props) {
+export function ShowAllCardsSetting(props: SettingProps) {
   const { settings, updateSettings } = props;
 
   const onCheckShowAll = useCallback(

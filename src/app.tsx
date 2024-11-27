@@ -9,6 +9,7 @@ import { Connect } from "./pages/connect/connect";
 import { Error404 } from "./pages/errors/404";
 import { CardDataSync } from "./pages/settings/card-data-sync";
 import { useStore } from "./store";
+import { selectSettings } from "./store/selectors/settings";
 import { selectIsInitialized } from "./store/selectors/shared";
 import {
   queryCards,
@@ -53,6 +54,7 @@ function AppInner() {
   const toast = useToast();
   const storeHydrated = useStore((state) => state.ui.hydrated);
   const storeInitialized = useStore(selectIsInitialized);
+  const settings = useStore(selectSettings);
   const init = useStore((state) => state.init);
 
   useColorTheme();
@@ -73,6 +75,12 @@ function AppInner() {
 
     initStore().catch(console.error);
   }, [storeHydrated, init, toast.show]);
+
+  useEffect(() => {
+    if (storeHydrated) {
+      document.documentElement.style.fontSize = `${settings.fontSize}%`;
+    }
+  }, [storeHydrated, settings.fontSize]);
 
   return (
     <>

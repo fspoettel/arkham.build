@@ -1,9 +1,10 @@
-import { Collection } from "@/components/collection/collection";
+import { CollectionSettings } from "@/components/collection/collection";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast.hooks";
 import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
+import { selectSettings } from "@/store/selectors/settings";
 import { useGoBack } from "@/utils/use-go-back";
 import {
   DatabaseBackupIcon,
@@ -15,13 +16,14 @@ import { useSearch } from "wouter";
 import { BackupRestore } from "./backup-restore";
 import { CardDataSync } from "./card-data-sync";
 import { Connections } from "./connections";
+import { FontSizeSetting } from "./font-size";
 import { HideWeaknessSetting } from "./hide-weakness";
 import { ListSettings } from "./list-settings";
 import { Section } from "./section";
 import css from "./settings.module.css";
-import { ShowAllCards } from "./show-all-cards";
-import { TabooSet } from "./taboo-set";
-import { Theme } from "./theme";
+import { ShowAllCardsSetting } from "./show-all-cards";
+import { TabooSetSetting } from "./taboo-set";
+import { ThemeSetting } from "./theme";
 
 function Settings() {
   const search = useSearch();
@@ -30,7 +32,7 @@ function Settings() {
 
   const updateStoredSettings = useStore((state) => state.updateSettings);
 
-  const storedSettings = useStore((state) => state.settings);
+  const storedSettings = useStore(selectSettings);
   const [settings, updateSettings] = useState(structuredClone(storedSettings));
 
   useEffect(() => {
@@ -95,9 +97,16 @@ function Settings() {
             </TabsList>
             <TabsContent value="general" forceMount>
               <Section title="General">
-                <Theme />
-                <TabooSet settings={settings} updateSettings={updateSettings} />
+                <ThemeSetting />
+                <TabooSetSetting
+                  settings={settings}
+                  updateSettings={updateSettings}
+                />
                 <HideWeaknessSetting
+                  settings={settings}
+                  updateSettings={updateSettings}
+                />
+                <FontSizeSetting
                   settings={settings}
                   updateSettings={updateSettings}
                 />
@@ -121,11 +130,11 @@ function Settings() {
             </TabsContent>
             <TabsContent value="collection" forceMount>
               <Section title="Collection">
-                <ShowAllCards
+                <ShowAllCardsSetting
                   settings={settings}
                   updateSettings={updateSettings}
                 />
-                <Collection
+                <CollectionSettings
                   settings={settings}
                   updateSettings={updateSettings}
                 />

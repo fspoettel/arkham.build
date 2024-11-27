@@ -2,7 +2,7 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import { Select } from "@/components/ui/select";
 import { AVAILABLE_THEMES, useColorTheme } from "@/utils/use-color-theme";
 
-export function Theme() {
+export function ThemeSetting() {
   const [pref, setPref] = useColorTheme();
 
   return (
