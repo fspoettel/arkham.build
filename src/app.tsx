@@ -181,12 +181,14 @@ function AppTasks() {
     }
   }, [dataVersion, toast.dismiss, toast.show]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: only on first load.
+  const syncLock = useRef(false);
+
   useEffect(() => {
-    if (location === "/") {
+    if (location === "/" && !syncLock.current) {
+      syncLock.current = true;
       sync().catch(console.error);
     }
-  }, [sync]);
+  }, [sync, location]);
 
   return null;
 }
