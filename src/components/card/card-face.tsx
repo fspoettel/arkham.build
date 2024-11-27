@@ -15,7 +15,7 @@ type Props = {
   className?: string;
   headerActions?: React.ReactNode;
   resolvedCard: CardWithRelations | ResolvedCard;
-  titleLinks?: "card" | "modal";
+  titleLinks?: "card" | "card-modal" | "dialog";
   size: "compact" | "tooltip" | "full";
 } & React.HTMLAttributes<HTMLDivElement>;
 

@@ -19,6 +19,24 @@ async function importStandardDeck(page: Page) {
   await expect(page).toHaveURL(/\/deck\/view/);
 }
 
+function prepareScreenshot(page: Page) {
+  return page.evaluate(() => {
+    [
+      document.querySelector("[data-testid='toast']"),
+      document.querySelector("[data-testid=tabs-list]"),
+    ].forEach((el) => {
+      if (el instanceof HTMLElement) el.style.display = "none";
+    });
+
+    const layout = document.querySelector("[data-testid='app-layout']");
+    if (layout instanceof HTMLElement) {
+      layout.style.height = "auto";
+      layout.style.overflow = "visible";
+      layout.style.minHeight = "100vh";
+    }
+  });
+}
+
 test.describe("deck view", () => {
   test("render deck metadata", async ({ page }) => {
     await importStandardDeck(page);
@@ -44,15 +62,7 @@ test.describe("deck view", () => {
     await expect(page.getByTestId("view-decklist")).toBeVisible();
     await waitForImagesLoaded(page);
 
-    await page.evaluate(() => {
-      [
-        document.querySelector("[data-testid=toast]"),
-        document.querySelector("[data-testid=view-notes-toggle]"),
-      ].forEach((el) => {
-        if (el instanceof HTMLElement) el.style.visibility = "hidden";
-      });
-    });
-
+    await prepareScreenshot(page);
     await expect(page.getByTestId("view-decklist")).toHaveScreenshot();
   });
 
@@ -140,7 +150,10 @@ test.describe("deck view", () => {
       navigate: "view",
     });
 
-    await page.getByTestId("listcard-09040").click();
+    await page
+      .getByTestId("listcard-09040")
+      .getByTestId("listcard-title")
+      .click();
 
     await expect(
       page.getByTestId("card-modal").getByTestId("card-text"),
@@ -322,16 +335,7 @@ test.describe("deck view", () => {
 
     await expect(page.getByTestId("view-decklist")).toBeVisible();
     await waitForImagesLoaded(page);
-
-    await page.evaluate(() => {
-      [
-        document.querySelector("[data-testid=toast]"),
-        document.querySelector("[data-testid=view-notes-toggle]"),
-      ].forEach((el) => {
-        if (el instanceof HTMLElement) el.style.visibility = "hidden";
-      });
-    });
-
+    await prepareScreenshot(page);
     await expect(page.getByTestId("view-decklist")).toHaveScreenshot();
   });
 
@@ -339,5 +343,105 @@ test.describe("deck view", () => {
     await importStandardDeck(page);
     await page.goto(page.url() + `?upgrade_xp=666`);
     await expect(page.getByTestId("upgrade-xp")).toHaveValue("666");
+  });
+
+  test("open card modal", async ({ page }) => {
+    await importStandardDeck(page);
+    await page
+      .getByTestId("listcard-10104")
+      .getByTestId("listcard-title")
+      .click();
+    await expect(page.getByTestId("card-modal")).toBeVisible();
+  });
+
+  test("open deck investigator modal", async ({ page }) => {
+    await importStandardDeck(page);
+    await page
+      .getByTestId("deck-investigator-front")
+      .getByTestId("card-name")
+      .click();
+    await expect(page.getByTestId("investigator-modal")).toBeVisible();
+  });
+
+  test("open card modal from deck investigator", async ({ page }) => {
+    await importStandardDeck(page);
+    await page
+      .getByTestId("deck-investigator-front")
+      .getByTestId("card-name")
+      .click();
+    await page
+      .getByTestId("cardset-requiredCards")
+      .getByTestId("listcard-10013")
+      .getByTestId("listcard-title")
+      .click();
+    await expect(page.getByTestId("investigator-modal")).not.toBeVisible();
+    await expect(page.getByTestId("card-modal")).toBeVisible();
+  });
+
+  test("limited slots in deck investigator", async ({ page }) => {
+    await importDeckFromFile(page, "validation/limit_dunwich.json", {
+      navigate: "view",
+    });
+
+    await page
+      .getByTestId("deck-investigator-front")
+      .getByTestId("card-name")
+      .click();
+
+    await expect(page.getByTestId("limited-card-group")).toBeVisible();
+  });
+
+  test("limited slots in deck tools", async ({ page }) => {
+    await importDeckFromFile(page, "validation/limit_dunwich.json", {
+      navigate: "view",
+    });
+    await page.getByRole("tab", { name: "Tools" }).click();
+
+    await expect(page.getByTestId("limited-card-group")).toBeVisible();
+  });
+
+  test("mixed parallel sides in modal", async ({ page }) => {
+    await importDeckFromFile(page, "validation/parallel_wendy.json", {
+      navigate: "edit",
+    });
+    await page.getByTestId("editor-tab-meta").click();
+
+    await page.getByTestId("meta-investigator-front").selectOption("01005");
+
+    await page.getByTestId("editor-save").click();
+
+    await page
+      .getByTestId("deck-investigator-front")
+      .getByTestId("card-name")
+      .click();
+
+    expect(
+      await page
+        .getByTestId("card-face")
+        .getByTestId("card-scan")
+        .getByRole("img")
+        .getAttribute("src"),
+    ).toContain("01005");
+
+    expect(
+      await page
+        .getByTestId("card-back")
+        .getByTestId("card-scan")
+        .getByRole("img")
+        .getAttribute("src"),
+    ).toContain("90037");
+  });
+
+  test("attachable cards in modal", async ({ page }) => {
+    await importDeckFromFile(page, "hunch_deck.json", {
+      navigate: "view",
+    });
+
+    await page
+      .getByTestId("deck-investigator-front")
+      .getByTestId("card-name")
+      .click();
+
+    await expect(page.getByTestId("limited-card-group")).toHaveScreenshot();
   });
 });

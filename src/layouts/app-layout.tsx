@@ -16,7 +16,7 @@ export function AppLayout(props: Props) {
   useDocumentTitle(title);
 
   return (
-    <div className={cx(css["layout"], "fade-in")}>
+    <div className={cx(css["layout"], "fade-in")} data-testid="app-layout">
       <Masthead className={css["header"]} />
       <section className={cx(css["main"], mainClassName)}>{children}</section>
       <footer className={css["footer"]}>

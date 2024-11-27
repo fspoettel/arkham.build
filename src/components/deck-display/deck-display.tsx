@@ -11,6 +11,7 @@ import { DeckTools } from "../deck-tools/deck-tools";
 import { Decklist } from "../decklist/decklist";
 import { DecklistValidation } from "../decklist/decklist-validation";
 import { LimitedCardPoolTag, SealedDeckTag } from "../limited-card-pool";
+import { Dialog } from "../ui/dialog";
 import { Loader } from "../ui/loader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import css from "./deck-display.module.css";
@@ -80,7 +81,9 @@ export function DeckDisplay(props: DeckDisplayProps) {
           </div>
         </header>
 
-        <Sidebar className={css["sidebar"]} deck={deck} context={context} />
+        <Dialog>
+          <Sidebar className={css["sidebar"]} deck={deck} context={context} />
+        </Dialog>
 
         <div className={css["content"]}>
           <Tabs

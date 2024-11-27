@@ -24,7 +24,7 @@ type ContextType =
 
 export const DialogContext = createContext<ContextType>(undefined);
 
-export const useDialogContext = () => {
+export const useDialogContextChecked = () => {
   const context = useContext(DialogContext);
 
   if (context == null) {
@@ -32,6 +32,10 @@ export const useDialogContext = () => {
   }
 
   return context;
+};
+
+export const useDialogContext = () => {
+  return useContext(DialogContext);
 };
 
 export function useDialog({

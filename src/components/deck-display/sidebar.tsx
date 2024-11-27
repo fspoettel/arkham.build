@@ -1,4 +1,4 @@
-import { DeckInvestigator } from "@/components/deck-investigator";
+import { DeckInvestigator } from "@/components/deck-investigator/deck-investigator";
 import { FactionIcon } from "@/components/icons/faction-icon";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
@@ -31,8 +31,11 @@ import {
   ShareIcon,
   Trash2Icon,
 } from "lucide-react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useLocation, useSearch } from "wouter";
+import { useCardModalContext } from "../card-modal/card-modal-context";
+import { DeckInvestigatorModal } from "../deck-investigator/deck-investigator-modal";
+import { useDialogContextChecked } from "../ui/dialog.hooks";
 import { LatestUpgrade } from "./deck-history/latest-upgrade";
 import {
   useDeleteDeck,
@@ -54,9 +57,26 @@ type Props = {
 export function Sidebar(props: Props) {
   const { className, context, deck } = props;
 
+  const dialogContext = useDialogContextChecked();
+  const cardModalContext = useCardModalContext();
+
+  useEffect(() => {
+    if (cardModalContext.isOpen) {
+      dialogContext?.setOpen(false);
+    }
+  }, [cardModalContext.isOpen, dialogContext.setOpen]);
+
   return (
     <div className={cx(css["container"], className)}>
-      <DeckInvestigator deck={deck} size="tooltip" />
+      <DeckInvestigator deck={deck} size="tooltip" titleLinks="dialog" />
+      <DialogContent>
+        <DeckInvestigatorModal
+          deck={deck}
+          onCloseModal={() => dialogContext?.setOpen(false)}
+          readonly
+        />
+      </DialogContent>
+
       <SidebarActions deck={deck} context={context} />
       <SidebarDetails deck={deck} />
       {context === "local" && <SidebarUpgrade deck={deck} />}

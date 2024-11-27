@@ -347,10 +347,6 @@ button {
   scrollbar-width: thin;
 }
 
-.scrollbar-stable {
-  scrollbar-gutter: stable;
-}
-
 .color-health {
   color: var(--health);
 }

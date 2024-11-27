@@ -127,9 +127,9 @@
   flex-flow: row wrap;
   align-items: center;
   line-height: 1.25;
+  font-size: var(--text-sm);
   gap: calc(var(--card-spacing-x) / 1.5);
   margin-top: 0.125rem;
-  font-size: var(--text-xs);
   min-width: 0;
 }
 

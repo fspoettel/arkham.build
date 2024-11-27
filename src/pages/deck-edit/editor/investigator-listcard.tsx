@@ -1,10 +1,10 @@
 import { useCardModalContext } from "@/components/card-modal/card-modal-context";
-import { DeckInvestigator } from "@/components/deck-investigator";
+import { DeckInvestigator } from "@/components/deck-investigator/deck-investigator";
+import { DeckInvestigatorModal } from "@/components/deck-investigator/deck-investigator-modal";
 import { ListCard } from "@/components/list-card/list-card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { useDialogContext } from "@/components/ui/dialog.hooks";
-import { Modal } from "@/components/ui/modal";
+import { useDialogContextChecked } from "@/components/ui/dialog.hooks";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { ChartAreaIcon, Rows3Icon } from "lucide-react";
 import { useCallback, useEffect } from "react";
@@ -24,10 +24,10 @@ export function InvestigatorListcard(props: Props) {
 }
 
 function InvestigatorListcardInner({ deck }: Props) {
-  const modalContext = useDialogContext();
-  const cardModalContext = useCardModalContext();
-
   const [location] = useLocation();
+
+  const cardModalContext = useCardModalContext();
+  const modalContext = useDialogContextChecked();
 
   useEffect(() => {
     if (cardModalContext.isOpen) {
@@ -71,28 +71,7 @@ function InvestigatorListcardInner({ deck }: Props) {
         />
       </DialogTrigger>
       <DialogContent>
-        <Modal
-          actions={
-            <Button
-              as="a"
-              href={`/card/${deck.investigatorFront.card.code}`}
-              tabIndex={0}
-              target="_blank"
-            >
-              Open card page
-            </Button>
-          }
-          data-testid="investigator-modal"
-          onClose={onCloseModal}
-          size="52rem"
-        >
-          <DeckInvestigator
-            canToggleBack={false}
-            deck={deck}
-            showRelated
-            size="full"
-          />
-        </Modal>
+        <DeckInvestigatorModal deck={deck} onCloseModal={onCloseModal} />
       </DialogContent>
       <Link to={deckToolsOpen ? "/" : "/tools"} asChild>
         <Button

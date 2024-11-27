@@ -186,6 +186,7 @@ export function MetaEditor(props: Props) {
           <Field full padded>
             <FieldLabel>Investigator Front</FieldLabel>
             <Select
+              data-testid="meta-investigator-front"
               data-side="front"
               onChange={onInvestigatorSideChange}
               options={getInvestigatorOptions(deck, "Front")}
@@ -196,6 +197,7 @@ export function MetaEditor(props: Props) {
           <Field full padded>
             <FieldLabel>Investigator Back</FieldLabel>
             <Select
+              data-testid="meta-investigator-back"
               data-side="back"
               onChange={onInvestigatorSideChange}
               options={getInvestigatorOptions(deck, "Back")}

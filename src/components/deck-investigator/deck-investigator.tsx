@@ -9,15 +9,15 @@ import { cx } from "@/utils/cx";
 import { formatRelationTitle } from "@/utils/formatting";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { useState } from "react";
-import { CardBack } from "./card/card-back";
-import { CardContainer } from "./card/card-container";
-import { CardFace } from "./card/card-face";
-import { CardSet } from "./cardset";
+import { CardBack } from "../card/card-back";
+import { CardContainer } from "../card/card-container";
+import { CardFace } from "../card/card-face";
+import { CardSet } from "../cardset";
+import { AttachableCards } from "../deck-tools/attachable-cards";
+import { LimitedCardGroup } from "../limited-card-group";
+import { ListCard } from "../list-card/list-card";
+import { Button } from "../ui/button";
 import css from "./deck-investigator.module.css";
-import { AttachableCards } from "./deck-tools/attachable-cards";
-import { LimitedCardGroup } from "./limited-card-group";
-import { ListCard } from "./list-card/list-card";
-import { Button } from "./ui/button";
 
 type Props = {
   canToggleBack?: boolean;
@@ -25,10 +25,18 @@ type Props = {
   readonly?: boolean;
   showRelated?: boolean;
   size: "tooltip" | "full";
+  titleLinks?: "dialog" | "card-modal" | "card";
 };
 
 export function DeckInvestigator(props: Props) {
-  const { canToggleBack = true, deck, readonly, showRelated, size } = props;
+  const {
+    canToggleBack = true,
+    deck,
+    readonly,
+    showRelated,
+    size,
+    titleLinks,
+  } = props;
 
   const [backToggled, toggleBack] = useState(false);
 
@@ -45,7 +53,7 @@ export function DeckInvestigator(props: Props) {
       <CardFace
         data-testid="deck-investigator-front"
         resolvedCard={deck.investigatorFront}
-        titleLinks="modal"
+        titleLinks={titleLinks ?? "card-modal"}
         size={size}
       />
       {hasBack && (
@@ -75,7 +83,7 @@ export function DeckInvestigator(props: Props) {
   ) : (
     <>
       <CardFace
-        titleLinks="modal"
+        titleLinks="card-modal"
         resolvedCard={deck.investigatorFront}
         size={size}
       />

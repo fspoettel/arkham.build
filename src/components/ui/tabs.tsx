@@ -27,7 +27,11 @@ type ListProps = TabsListProps & {
 
 export function TabsList({ children, className, ...rest }: ListProps) {
   return (
-    <List className={cx(css["list"], className)} {...rest}>
+    <List
+      data-testid="tabs-list"
+      className={cx(css["list"], className)}
+      {...rest}
+    >
       {children}
     </List>
   );

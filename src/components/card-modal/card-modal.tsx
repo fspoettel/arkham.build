@@ -17,7 +17,7 @@ import { Customizations } from "../customizations/customizations";
 import { CustomizationsEditor } from "../customizations/customizations-editor";
 import { AttachableCards } from "../deck-tools/attachable-cards";
 import { Button } from "../ui/button";
-import { useDialogContext } from "../ui/dialog.hooks";
+import { useDialogContextChecked } from "../ui/dialog.hooks";
 import { Modal } from "../ui/modal";
 import { CardModalAttachmentQuantities } from "./card-modal-attachment-quantities";
 import { CardModalQuantities } from "./card-modal-quantities";
@@ -32,7 +32,7 @@ export function CardModal(props: Props) {
 
   const canEdit = ctx.canEdit;
 
-  const modalContext = useDialogContext();
+  const modalContext = useDialogContextChecked();
 
   const onCloseModal = useCallback(() => {
     modalContext?.setOpen(false);

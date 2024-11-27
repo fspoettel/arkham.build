@@ -91,7 +91,7 @@ export function CardListItemFull(props: Props) {
         }
         resolvedCard={resolvedCard}
         size="full"
-        titleLinks="modal"
+        titleLinks="card-modal"
       />
     </div>
   );
