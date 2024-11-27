@@ -33,4 +33,13 @@
 
 .content {
   padding: 0.375rem;
+
+  & *:first-child {
+    padding-top: 0;
+  }
+
+  & > *:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
 }

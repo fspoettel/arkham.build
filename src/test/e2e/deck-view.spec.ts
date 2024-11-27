@@ -150,7 +150,10 @@ test.describe("deck view", () => {
       navigate: "view",
     });
 
-    await page.getByTestId("listcard-09040").click();
+    await page
+      .getByTestId("listcard-09040")
+      .getByTestId("listcard-title")
+      .click();
 
     await expect(
       page.getByTestId("card-modal").getByTestId("card-text"),

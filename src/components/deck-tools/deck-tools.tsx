@@ -29,8 +29,8 @@ export function DeckTools(props: Props) {
           {slotRight}
         </header>
         <Suspense fallback={<Loader show message="Loading tools..." />}>
-          <LazyChartContainer deck={deck} />
           <LimitedSlots deck={deck} />
+          <LazyChartContainer deck={deck} />
           {deck.availableAttachments?.map((attachment) => (
             <Fragment key={attachment.code}>
               {deck.cards.slots[attachment.code]?.card && (
