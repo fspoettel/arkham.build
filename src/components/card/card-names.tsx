@@ -8,7 +8,7 @@ import css from "./card.module.css";
 
 type Props = {
   card: Card;
-  titleLinks?: "card" | "modal" | "dialog";
+  titleLinks?: "card" | "card-modal" | "dialog";
 };
 
 export function CardNames(props: Props) {
@@ -31,7 +31,7 @@ export function CardNames(props: Props) {
         {titleLinks === "card" && (
           <Link href={`/card/${card.code}`}>{cardName}</Link>
         )}
-        {titleLinks === "modal" && cardModalContext && (
+        {titleLinks === "card-modal" && cardModalContext && (
           <button
             onClick={() => cardModalContext.setOpen({ code: card.code })}
             type="button"

@@ -10,7 +10,7 @@ type Props = {
   card: Card;
   className?: string;
   headerActions?: React.ReactNode;
-  titleLinks?: "card" | "modal" | "dialog";
+  titleLinks?: "card" | "card-modal" | "dialog";
 };
 
 export function CardHeader(props: Props) {

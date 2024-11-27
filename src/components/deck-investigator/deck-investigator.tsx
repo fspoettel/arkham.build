@@ -25,7 +25,7 @@ type Props = {
   readonly?: boolean;
   showRelated?: boolean;
   size: "tooltip" | "full";
-  titleLinks?: "dialog" | "modal" | "card";
+  titleLinks?: "dialog" | "card-modal" | "card";
 };
 
 export function DeckInvestigator(props: Props) {
@@ -53,7 +53,7 @@ export function DeckInvestigator(props: Props) {
       <CardFace
         data-testid="deck-investigator-front"
         resolvedCard={deck.investigatorFront}
-        titleLinks={titleLinks ?? "modal"}
+        titleLinks={titleLinks ?? "card-modal"}
         size={size}
       />
       {hasBack && (
@@ -83,7 +83,7 @@ export function DeckInvestigator(props: Props) {
   ) : (
     <>
       <CardFace
-        titleLinks="modal"
+        titleLinks="card-modal"
         resolvedCard={deck.investigatorFront}
         size={size}
       />
