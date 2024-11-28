@@ -143,6 +143,7 @@ export function cardLimit(card: Card, limitOverride?: number) {
 export function formatLocalCard(card: Record<string, any>): QueryCard {
   return {
     ...card,
+    back_link_id: card.back_link,
     id: card.code,
     preview: true,
     official: true,

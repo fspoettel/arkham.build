@@ -67,19 +67,15 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
           const cards = curr.metadata.cards;
 
           for (const card of localCards) {
-            if (!cards[card.code]) cards[card.code] = formatLocalCard(card);
+            cards[card.code] = formatLocalCard(card);
           }
 
           for (const pack of localPacks) {
-            if (!curr.metadata.packs[pack.code]) {
-              curr.metadata.packs[pack.code] = pack;
-            }
+            curr.metadata.packs[pack.code] = pack;
           }
 
           for (const cycle of localCycles) {
-            if (!curr.metadata.cycles[cycle.code]) {
-              curr.metadata.cycles[cycle.code] = cycle;
-            }
+            curr.metadata.cycles[cycle.code] = cycle;
           }
 
           return {
