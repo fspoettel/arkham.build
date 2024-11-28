@@ -220,7 +220,7 @@ export const createConnectionsSlice: StateCreator<
     );
 
     assert(
-      !canPublishDeck(resolved),
+      canPublishDeck(resolved),
       "Deck contains preview cards. Please remove them before uploading to ArkhamDB",
     );
 

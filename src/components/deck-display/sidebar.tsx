@@ -61,11 +61,28 @@ export function Sidebar(props: Props) {
   const dialogContext = useDialogContextChecked();
   const cardModalContext = useCardModalContext();
 
+  const connections = useStore(selectConnections);
+
+  const uploadDeck = useUploadDeck();
+  const onUpload = useCallback(() => {
+    uploadDeck(deck.id);
+  }, [deck.id, uploadDeck]);
+
   useEffect(() => {
     if (cardModalContext.isOpen) {
       dialogContext?.setOpen(false);
     }
   }, [cardModalContext.isOpen, dialogContext.setOpen]);
+
+  const isReadOnly = !!deck.next_deck;
+
+  const canUploadToArkhamDb =
+    context === "local" &&
+    !isReadOnly &&
+    deck.source !== "arkhamdb" &&
+    !isEmpty(connections);
+
+  const onArkhamDBUpload = canUploadToArkhamDb ? onUpload : undefined;
 
   return (
     <div className={cx(css["container"], className)}>
@@ -78,11 +95,15 @@ export function Sidebar(props: Props) {
         />
       </DialogContent>
 
-      <SidebarActions deck={deck} context={context} />
+      <SidebarActions
+        onArkhamDBUpload={onArkhamDBUpload}
+        deck={deck}
+        context={context}
+      />
       <SidebarDetails deck={deck} />
       {context === "local" && <SidebarUpgrade deck={deck} />}
       {context === "local" && deck.source !== "arkhamdb" && (
-        <Sharing deck={deck} />
+        <Sharing onArkhamDBUpload={onArkhamDBUpload} deck={deck} />
       )}
       {context === "arkhamdb" ||
         (deck.source === "arkhamdb" && <ArkhamDbDetails deck={deck} />)}
@@ -199,15 +220,15 @@ function SidebarUpgrade(props: { deck: ResolvedDeck }) {
 function SidebarActions(props: {
   context: DeckDisplayContext;
   deck: ResolvedDeck;
+  onArkhamDBUpload?: () => void;
 }) {
-  const { context, deck } = props;
+  const { context, deck, onArkhamDBUpload } = props;
 
   const [actionsOpen, setActionsOpen] = useState(false);
 
   const toast = useToast();
   const [, navigate] = useLocation();
 
-  const connections = useStore(selectConnections);
   const search = useSearch();
 
   const [upgradeModalOpen, setUpgradeModalOpen] = useState(
@@ -275,11 +296,6 @@ function SidebarActions(props: {
       });
     }
   }, [deck, importSharedDeck, toast.show, navigate]);
-
-  const uploadDeck = useUploadDeck();
-  const onUpload = useCallback(() => {
-    uploadDeck(deck.id);
-  }, [deck.id, uploadDeck]);
 
   useHotKey("e", onEdit, [onEdit]);
   useHotKey("cmd+d", onDuplicate, [onDuplicate]);
@@ -364,22 +380,19 @@ function SidebarActions(props: {
                   <hr />
                 </>
               )}
-              {context === "local" &&
-                !isReadOnly &&
-                deck.source !== "arkhamdb" &&
-                !isEmpty(connections) && (
-                  <>
-                    <Button
-                      data-testid="view-upload"
-                      size="full"
-                      variant="bare"
-                      onClick={onUpload}
-                    >
-                      <i className="icon-elder_sign" /> Upload to ArkhamDB
-                    </Button>
-                    <hr />
-                  </>
-                )}
+              {onArkhamDBUpload && (
+                <>
+                  <Button
+                    data-testid="view-upload"
+                    size="full"
+                    variant="bare"
+                    onClick={onArkhamDBUpload}
+                  >
+                    <i className="icon-elder_sign" /> Upload to ArkhamDB
+                  </Button>
+                  <hr />
+                </>
+              )}
               <Button
                 data-testid="view-export-json"
                 size="full"
@@ -429,8 +442,8 @@ function SidebarActions(props: {
   );
 }
 
-function Sharing(props: { deck: ResolvedDeck }) {
-  const { deck } = props;
+function Sharing(props: { onArkhamDBUpload?: () => void; deck: ResolvedDeck }) {
+  const { deck, onArkhamDBUpload } = props;
   const toast = useToast();
 
   const deckData = useStore((state) => state.data.decks[props.deck.id]);
@@ -525,28 +538,40 @@ function Sharing(props: { deck: ResolvedDeck }) {
             </div>
           ) : (
             <div className={css["share-empty"]}>
-              <p>Deck is stored locally and not shared.</p>
-              <Button
-                data-testid="share-create"
-                disabled={isReadOnly}
-                onClick={onCreateShare}
-                size="sm"
-                tooltip={
-                  <>
-                    Sharing creates a publicly accessible, read-only link to the
-                    deck. Anyone with the link can view the deck, but not edit
-                    it.
-                    <br />
-                    Shares can be removed at any time. Removing a share does not
-                    affect the deck itself.
-                    <br />
-                    <strong>Note:</strong> For security reasons, deck notes are
-                    not part of the share.
-                  </>
-                }
-              >
-                Share deck
-              </Button>
+              <p>Deck is stored locally.</p>
+              <div className={css["share-actions"]}>
+                <Button
+                  data-testid="share-create"
+                  disabled={isReadOnly}
+                  onClick={onCreateShare}
+                  size="sm"
+                  tooltip={
+                    <>
+                      Sharing creates a publicly accessible, read-only link to
+                      the deck. Anyone with the link can view the deck, but not
+                      edit it.
+                      <br />
+                      Shares can be removed at any time. Removing a share does
+                      not affect the deck itself.
+                      <br />
+                      <strong>Note:</strong> For security reasons, deck notes
+                      are not part of the share.
+                    </>
+                  }
+                >
+                  <ShareIcon />
+                  Create public share
+                </Button>
+                {onArkhamDBUpload && (
+                  <Button
+                    data-testid="view-upload"
+                    onClick={onArkhamDBUpload}
+                    size="sm"
+                  >
+                    <i className="icon-elder_sign" /> Upload to ArkhamDB
+                  </Button>
+                )}
+              </div>
             </div>
           )}
         </div>

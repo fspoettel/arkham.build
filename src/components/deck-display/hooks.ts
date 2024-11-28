@@ -160,7 +160,7 @@ export function useUploadDeck() {
           duration: 3000,
           variant: "success",
         });
-        navigate(`/deck/view/${id}`);
+        navigate(`/deck/view/${id}`, { replace: true });
       } catch (err) {
         toast.dismiss(toastId);
         toast.show({

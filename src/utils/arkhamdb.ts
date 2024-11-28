@@ -20,5 +20,5 @@ export function canPublishDeck(deck: ResolvedDeck) {
     investigatorFront: deck.investigatorFront.card,
   }).some((c) => c.preview);
 
-  return hasPreviews;
+  return !hasPreviews;
 }
