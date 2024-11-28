@@ -1,0 +1,5 @@
+.button {
+  display: inline-flex;
+  vertical-align: middle;
+  margin-left: 2px;
+}

@@ -35,6 +35,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Link, useLocation, useSearch } from "wouter";
 import { useCardModalContext } from "../card-modal/card-modal-context";
 import { DeckInvestigatorModal } from "../deck-investigator/deck-investigator-modal";
+import { CopyToClipboard } from "../ui/copy-to-clipboard";
 import { useDialogContextChecked } from "../ui/dialog.hooks";
 import { LatestUpgrade } from "./deck-history/latest-upgrade";
 import {
@@ -498,9 +499,13 @@ function Sharing(props: { deck: ResolvedDeck }) {
                   link
                 </a>
                 .
+                <CopyToClipboard
+                  text={`${window.location.origin}/share/${deck.id}`}
+                />
               </p>
               <p>
-                Deck id: <code>{deck.id}</code>
+                Deck ID: <code>{deck.id}</code>
+                <CopyToClipboard text={`${deck.id}`} />
               </p>
               <nav className={css["share-actions"]}>
                 {deck.date_update !== share && (
@@ -563,6 +568,10 @@ function ArkhamDbDetails(props: { deck: ResolvedDeck }) {
         </header>
         <div className={css["detail-value"]}>
           <p>This deck is set up to sync with ArkhamDB.</p>
+          <p>
+            Deck ID: <code>{deck.id}</code>
+            <CopyToClipboard text={`${deck.id}`} />
+          </p>
           <Button
             as="a"
             href={`${import.meta.env.VITE_ARKHAMDB_BASE_URL}/deck/view/${deck.id}`}
