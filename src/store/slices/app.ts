@@ -43,6 +43,8 @@ import { getInitialMetadata } from "./metadata";
 import type { Metadata } from "./metadata.types";
 
 import localCards from "@/store/services/data/cards.json";
+import localCycles from "@/store/services/data/cycles.json";
+import localPacks from "@/store/services/data/packs.json";
 
 export function getInitialAppState() {
   return {
@@ -66,6 +68,18 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
           for (const card of localCards) {
             if (!cards[card.code]) cards[card.code] = formatLocalCard(card);
+          }
+
+          for (const pack of localPacks) {
+            if (!curr.metadata.packs[pack.code]) {
+              curr.metadata.packs[pack.code] = pack;
+            }
+          }
+
+          for (const cycle of localCycles) {
+            if (!curr.metadata.cycles[cycle.code]) {
+              curr.metadata.cycles[cycle.code] = cycle;
+            }
           }
 
           return {
@@ -179,6 +193,18 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       for (const card of localCards) {
         if (!metadata.cards[card.code]) {
           metadata.cards[card.code] = formatLocalCard(card);
+        }
+      }
+
+      for (const pack of localPacks) {
+        if (!metadata.packs[pack.code]) {
+          metadata.packs[pack.code] = pack;
+        }
+      }
+
+      for (const cycle of localCycles) {
+        if (!metadata.cycles[cycle.code]) {
+          metadata.cycles[cycle.code] = cycle;
         }
       }
     }

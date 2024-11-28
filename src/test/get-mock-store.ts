@@ -13,6 +13,7 @@ import type {
 import allCardStub from "@/test/fixtures/stubs/all_card.json";
 import dataVersionStub from "@/test/fixtures/stubs/data_version.json";
 import metadataStub from "@/test/fixtures/stubs/metadata.json";
+import { formatLocalCard } from "@/utils/card-utils";
 
 function queryStubMetadata() {
   return Promise.resolve({
@@ -34,7 +35,7 @@ function queryStubDataVersion() {
 function queryStubCardData() {
   const data = allCardStub;
   const allCards = (data as AllCardApiResponse).data.all_card;
-  return Promise.resolve(allCards.concat(cards));
+  return Promise.resolve(allCards.concat(cards.map(formatLocalCard)));
 }
 
 export async function getMockStore() {
