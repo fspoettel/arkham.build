@@ -3,7 +3,7 @@ import { useStore } from "@/store";
 import type { ResolvedCard } from "@/store/lib/types";
 import { selectClientId } from "@/store/selectors/shared";
 import { queryFaq } from "@/store/services/queries";
-import { redirectArkhamDBLinks } from "@/utils/arkhamdb-links";
+import { redirectArkhamDBLinks } from "@/utils/arkhamdb";
 import { useQuery } from "@/utils/use-query";
 import DOMPurify from "dompurify";
 import { useMemo, useState } from "react";

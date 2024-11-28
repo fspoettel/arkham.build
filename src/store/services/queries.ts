@@ -1,12 +1,12 @@
+import encounterSets from "@/store/services/data/encounter_sets.json";
+import packs from "@/store/services/data/packs.json";
 import type { Deck, Id } from "../slices/data.types";
 import { isDeck } from "../slices/data.types";
-import cards from "./data/cards.json";
-import encounterSets from "./data/encounter_sets.json";
 import factions from "./data/factions.json";
-import packs from "./data/packs.json";
 import reprintPacks from "./data/reprint_packs.json";
 import subTypes from "./data/subtypes.json";
 import types from "./data/types.json";
+
 import type {
   Cycle,
   DataVersion,
@@ -109,7 +109,7 @@ export async function queryDataVersion() {
 export async function queryCards(): Promise<QueryCard[]> {
   const res = await request("/cache/cards");
   const { data }: AllCardApiResponse = await res.json();
-  return [...data.all_card, ...cards];
+  return data.all_card;
 }
 
 /**

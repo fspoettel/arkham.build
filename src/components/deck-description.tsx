@@ -1,4 +1,4 @@
-import { redirectArkhamDBLinks } from "@/utils/arkhamdb-links";
+import { redirectArkhamDBLinks } from "@/utils/arkhamdb";
 import { FLOATING_PORTAL_ID } from "@/utils/constants";
 import { cx } from "@/utils/cx";
 import { parseMarkdown } from "@/utils/markdown";

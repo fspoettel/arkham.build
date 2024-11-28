@@ -2,7 +2,7 @@ import { applyDeckEdits } from "@/store/lib/deck-edits";
 import { createDeck } from "@/store/lib/deck-factory";
 import type { Card } from "@/store/services/queries.types";
 import { assert } from "@/utils/assert";
-import { decodeExileSlots } from "@/utils/card-utils";
+import { decodeExileSlots, formatLocalCard } from "@/utils/card-utils";
 import {
   ALT_ART_INVESTIGATOR_MAP,
   SPECIAL_CARD_CODES,
@@ -42,6 +42,8 @@ import { createLookupTables, createRelations } from "./lookup-tables";
 import { getInitialMetadata } from "./metadata";
 import type { Metadata } from "./metadata.types";
 
+import localCards from "@/store/services/data/cards.json";
+
 export function getInitialAppState() {
   return {
     clientId: "",
@@ -58,6 +60,20 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     const state = get();
 
     if (!refresh && state.metadata.dataVersion?.cards_updated_at) {
+      if (localCards.length) {
+        set((curr) => {
+          const cards = curr.metadata.cards;
+
+          for (const card of localCards) {
+            if (!cards[card.code]) cards[card.code] = formatLocalCard(card);
+          }
+
+          return {
+            metadata: { ...curr.metadata, cards },
+          };
+        });
+      }
+
       state.refreshLookupTables({
         lists: makeLists(state.settings),
       });
@@ -157,6 +173,14 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     if (refresh) {
       localStorage.removeItem("deckbuilder-data-version");
+    }
+
+    if (localCards.length) {
+      for (const card of localCards) {
+        if (!metadata.cards[card.code]) {
+          metadata.cards[card.code] = formatLocalCard(card);
+        }
+      }
     }
 
     set({

@@ -90,6 +90,11 @@ export type CustomizationOption = {
   xp: number;
 };
 
+export type DeckRestrictions = {
+  investigator?: Record<string, Record<string, string>>;
+  trait?: string[];
+};
+
 export type QueryCard = {
   alt_art_investigator?: boolean;
   alternate_of_code?: string;
@@ -147,10 +152,7 @@ export type QueryCard = {
   real_taboo_text_change?: string;
   real_text?: string;
   real_traits?: string;
-  restrictions?: {
-    investigator?: Record<string, string>;
-    trait?: string[];
-  };
+  restrictions?: DeckRestrictions;
   sanity?: number;
   shroud?: number;
   side_deck_options?: DeckOption[];
