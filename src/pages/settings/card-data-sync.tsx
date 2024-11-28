@@ -29,7 +29,7 @@ export function CardDataSync(props: Props) {
   const { data, error, state } = useQuery(queryDataVersion);
 
   const initStore = useCallback(
-    () => init(queryMetadata, queryDataVersion, queryCards),
+    () => init(queryMetadata, queryDataVersion, queryCards, true),
     [init],
   );
 
