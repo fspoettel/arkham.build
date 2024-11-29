@@ -97,7 +97,6 @@ function Settings() {
             </TabsList>
             <TabsContent value="general" forceMount>
               <Section title="General">
-                <ThemeSetting />
                 <TabooSetSetting
                   settings={settings}
                   updateSettings={updateSettings}
@@ -106,6 +105,7 @@ function Settings() {
                   settings={settings}
                   updateSettings={updateSettings}
                 />
+                <ThemeSetting />
                 <FontSizeSetting
                   settings={settings}
                   updateSettings={updateSettings}
