@@ -1,4 +1,4 @@
-import { Collection } from "@/components/collection/collection";
+import { CollectionSettings } from "@/components/collection/collection";
 import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
 import { selectTotalOwned } from "@/store/selectors/collection";
@@ -26,7 +26,7 @@ function CollectionStats() {
             <strong>{ownedCount.encounter}</strong> encounter cards.
           </blockquote>
         </div>
-        <Collection canShowCounts settings={settings} />
+        <CollectionSettings canShowCounts settings={settings} />
       </div>
     </AppLayout>
   );

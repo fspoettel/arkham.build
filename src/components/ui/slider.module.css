@@ -18,14 +18,12 @@
   background-color: var(--color-track);
   position: relative;
   flex-grow: 1;
-  border-radius: 9999px;
   height: var(--track-height);
 }
 
 .range {
   position: absolute;
   background-color: var(--color-range);
-  border-radius: 50%;
   height: 100%;
 }
 

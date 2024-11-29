@@ -44,6 +44,7 @@ export function getInitialSettings(): SettingsState {
   return {
     collection: {},
     lists: getInitialListsSetting(),
+    fontSize: 100,
     hideWeaknessesByDefault: false,
     showAllCards: true,
     tabooSetId: undefined,

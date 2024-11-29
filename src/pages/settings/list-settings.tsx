@@ -12,12 +12,11 @@ import { formatGroupingType } from "@/utils/formatting";
 import type React from "react";
 import { useCallback, useEffect, useState } from "react";
 import css from "./settings.module.css";
+import type { SettingProps } from "./types";
 
-type Props = {
+type Props = SettingProps & {
   listKey: keyof SettingsState["lists"];
-  settings: SettingsState;
   title: React.ReactNode;
-  updateSettings: React.Dispatch<React.SetStateAction<SettingsState>>;
 };
 
 function getGroupItemsForList(listKey: keyof SettingsState["lists"]) {

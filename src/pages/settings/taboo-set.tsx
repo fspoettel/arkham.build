@@ -2,15 +2,10 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import { Select } from "@/components/ui/select";
 import { useStore } from "@/store";
 import { selectTabooSetOptions } from "@/store/selectors/lists";
-import type { SettingsState } from "@/store/slices/settings.types";
 import { formatTabooSet } from "@/utils/formatting";
+import type { SettingProps } from "./types";
 
-type Props = {
-  settings: SettingsState;
-  updateSettings: React.Dispatch<React.SetStateAction<SettingsState>>;
-};
-
-export function TabooSet(props: Props) {
+export function TabooSetSetting(props: SettingProps) {
   const { settings, updateSettings } = props;
   const tabooSets = useStore(selectTabooSetOptions);
 

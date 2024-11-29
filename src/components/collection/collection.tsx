@@ -17,7 +17,7 @@ type Props = {
   updateSettings?: (settings: React.SetStateAction<SettingsState>) => void;
 };
 
-export function Collection(props: Props) {
+export function CollectionSettings(props: Props) {
   const { canShowCounts, settings, updateSettings } = props;
   const cyclesWithPacks = useStore(selectCyclesAndPacks);
 

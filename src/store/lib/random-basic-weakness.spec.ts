@@ -45,6 +45,7 @@ describe("randomBasicWeaknessForDeck", () => {
         showAllCards: false,
         hideWeaknessesByDefault: false,
         tabooSetId: undefined,
+        fontSize: 100,
       },
     });
 
@@ -82,6 +83,7 @@ describe("randomBasicWeaknessForDeck", () => {
         showAllCards: false,
         hideWeaknessesByDefault: false,
         tabooSetId: undefined,
+        fontSize: 100,
       },
     });
 

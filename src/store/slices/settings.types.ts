@@ -8,6 +8,7 @@ export type ListConfig = {
 
 export type SettingsState = {
   collection: Record<string, number>; // track as "quantity" owned to accomodate the core set.
+  fontSize: number;
   hideWeaknessesByDefault: boolean;
   lists: {
     encounter: ListConfig;

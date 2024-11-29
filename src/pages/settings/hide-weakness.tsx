@@ -1,13 +1,8 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/field";
-import type { SettingsState } from "@/store/slices/settings.types";
+import type { SettingProps } from "./types";
 
-type Props = {
-  settings: SettingsState;
-  updateSettings: React.Dispatch<React.SetStateAction<SettingsState>>;
-};
-
-export function HideWeaknessSetting(props: Props) {
+export function HideWeaknessSetting(props: SettingProps) {
   const { settings, updateSettings } = props;
 
   const onCheckHideWeaknesses = (val: boolean | string) => {
