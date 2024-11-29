@@ -138,6 +138,7 @@ export type ChartableData<T extends string | number = number> = {
 export type ResolvedDeck = Omit<Deck, "sideSlots"> & {
   attachments: AttachmentQuantities | undefined;
   availableAttachments: AttachableDefinition[];
+  bondedSlots: Record<string, number>;
   cardPool?: string[];
   metaParsed: DeckMeta;
   sideSlots: Record<string, number> | null; // arkhamdb stores `[]` when empty, normalize to `null`.
@@ -145,31 +146,30 @@ export type ResolvedDeck = Omit<Deck, "sideSlots"> & {
   exileSlots: Record<string, number>;
   customizations?: Customizations;
   cards: {
-    investigator: CardWithRelations; // tracks relations.
     exileSlots: Record<string, ResolvedCard>;
-    slots: Record<string, ResolvedCard>;
-    sideSlots: Record<string, ResolvedCard>;
-    ignoreDeckLimitSlots: Record<string, ResolvedCard>;
     extraSlots: Record<string, ResolvedCard>; // used by parallel jim.
+    ignoreDeckLimitSlots: Record<string, ResolvedCard>;
+    investigator: CardWithRelations; // tracks relations.
+    sideSlots: Record<string, ResolvedCard>;
+    slots: Record<string, ResolvedCard>;
   };
+  groups: Groupings;
   investigatorFront: CardWithRelations;
   investigatorBack: CardWithRelations;
+  hasExtraDeck: boolean;
+  hasReplacements: boolean;
+  hasParallel: boolean;
+  originalDeck: Deck;
+  sealedDeck?: SealedDeck;
+  selections?: Selections;
+  shared: boolean;
   stats: {
     xpRequired: number;
     deckSize: number;
     deckSizeTotal: number;
     charts: DeckCharts;
   };
-  hasExtraDeck: boolean;
-  hasReplacements: boolean;
-  hasParallel: boolean;
-  sealedDeck?: SealedDeck;
-  selections?: Selections;
-  shared: boolean;
   tabooSet?: TabooSet;
-
-  groups: Groupings;
-  bondedSlots: Record<string, number>;
 };
 
 export function isResolvedDeck(a: unknown): a is ResolvedDeck {

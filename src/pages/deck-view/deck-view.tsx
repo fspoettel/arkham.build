@@ -72,7 +72,7 @@ function ArkhamDbDeckView({ id }: { id: string }) {
 
   return (
     <DeckViewInner
-      context="arkhamdb"
+      origin="arkhamdb"
       deck={decks[0]}
       history={getDeckHistory(decks.toReversed(), metadata)}
     />
@@ -81,11 +81,11 @@ function ArkhamDbDeckView({ id }: { id: string }) {
 
 function LocalDeckView({ deck }: { deck: ResolvedDeck }) {
   const history = useStore((state) => selectDeckHistory(state, deck.id));
-  return <DeckViewInner context="local" deck={deck} history={history} />;
+  return <DeckViewInner origin="local" deck={deck} history={history} />;
 }
 
 function DeckViewInner({
-  context,
+  origin,
   deck,
   history,
 }: Omit<DeckDisplayProps, "validation">) {
@@ -95,7 +95,7 @@ function DeckViewInner({
     <ResolvedDeckProvider resolvedDeck={deck}>
       <CardModalProvider>
         <DeckDisplay
-          context={context}
+          origin={origin}
           deck={deck}
           history={history}
           validation={validation}

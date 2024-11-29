@@ -67,7 +67,4 @@ export type DataSlice = {
   importFromFiles(files: FileList): Promise<void>;
 
   duplicateDeck(id: Id): Id;
-
-  exportJSON(id: Id): void;
-  exportText(id: Id): void;
 };

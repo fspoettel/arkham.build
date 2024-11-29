@@ -124,6 +124,7 @@ export function resolveDeck(
     hasExtraDeck,
     hasParallel,
     hasReplacements,
+    originalDeck: deck,
     sealedDeck,
     selections: decodeSelections(investigatorBack, deckMeta),
     sideSlots: Array.isArray(deck.sideSlots) ? {} : deck.sideSlots,

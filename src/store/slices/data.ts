@@ -1,14 +1,8 @@
 import { assert } from "@/utils/assert";
 import { randomId } from "@/utils/crypto";
-import { download } from "@/utils/download";
 import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
-import {
-  formatDeckAsText,
-  formatDeckImport,
-  formatDeckShare,
-} from "../lib/deck-io";
-import { selectResolvedDeckById } from "../selectors/decks";
+import { formatDeckImport } from "../lib/deck-io";
 import { selectClientId } from "../selectors/shared";
 import { importDeck } from "../services/queries";
 import { type DataSlice, type Deck, type Id, isDeck } from "./data.types";
@@ -128,32 +122,5 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
     });
 
     return newDeck.id;
-  },
-
-  exportJSON(id) {
-    const state = get();
-
-    const deck = state.data.decks[id];
-    assert(deck, `Deck ${id} does not exist.`);
-
-    const deckExport = formatDeckShare(deck);
-
-    download(
-      JSON.stringify(deckExport, null, 2),
-      `arkhambuild-${deck.id}.json`,
-      "application/json",
-    );
-  },
-  exportText(id) {
-    const state = get();
-
-    const deck = selectResolvedDeckById(state, id);
-    assert(deck, `Deck ${id} does not exist.`);
-
-    download(
-      formatDeckAsText(state, deck),
-      `arkhambuild-${deck.id}.md`,
-      "text/markdown",
-    );
   },
 });
