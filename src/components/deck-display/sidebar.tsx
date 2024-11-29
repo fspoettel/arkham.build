@@ -47,16 +47,16 @@ import {
   useUploadDeck,
 } from "./hooks";
 import css from "./sidebar.module.css";
-import type { DeckDisplayContext } from "./types";
+import type { DeckOrigin } from "./types";
 
 type Props = {
   className?: string;
-  context: DeckDisplayContext;
+  origin: DeckOrigin;
   deck: ResolvedDeck;
 };
 
 export function Sidebar(props: Props) {
-  const { className, context, deck } = props;
+  const { className, origin, deck } = props;
 
   const dialogContext = useDialogContextChecked();
   const cardModalContext = useCardModalContext();
@@ -77,7 +77,7 @@ export function Sidebar(props: Props) {
   const isReadOnly = !!deck.next_deck;
 
   const canUploadToArkhamDb =
-    context === "local" &&
+    origin === "local" &&
     !isReadOnly &&
     deck.source !== "arkhamdb" &&
     !isEmpty(connections);
@@ -98,14 +98,14 @@ export function Sidebar(props: Props) {
       <SidebarActions
         onArkhamDBUpload={onArkhamDBUpload}
         deck={deck}
-        context={context}
+        origin={origin}
       />
       <SidebarDetails deck={deck} />
-      {context === "local" && <SidebarUpgrade deck={deck} />}
-      {context === "local" && deck.source !== "arkhamdb" && (
+      {origin === "local" && <SidebarUpgrade deck={deck} />}
+      {origin === "local" && deck.source !== "arkhamdb" && (
         <Sharing onArkhamDBUpload={onArkhamDBUpload} deck={deck} />
       )}
-      {context === "arkhamdb" ||
+      {origin === "arkhamdb" ||
         (deck.source === "arkhamdb" && <ArkhamDbDetails deck={deck} />)}
     </div>
   );
@@ -218,11 +218,11 @@ function SidebarUpgrade(props: { deck: ResolvedDeck }) {
 }
 
 function SidebarActions(props: {
-  context: DeckDisplayContext;
+  origin: DeckOrigin;
   deck: ResolvedDeck;
   onArkhamDBUpload?: () => void;
 }) {
-  const { context, deck, onArkhamDBUpload } = props;
+  const { origin, deck, onArkhamDBUpload } = props;
 
   const [actionsOpen, setActionsOpen] = useState(false);
 
@@ -232,7 +232,7 @@ function SidebarActions(props: {
   const search = useSearch();
 
   const [upgradeModalOpen, setUpgradeModalOpen] = useState(
-    context === "local" && search.includes("upgrade") && !deck.next_deck,
+    origin === "local" && search.includes("upgrade") && !deck.next_deck,
   );
 
   const deleteDeck = useDeleteDeck();
@@ -248,16 +248,14 @@ function SidebarActions(props: {
   );
 
   const exportJson = useExportJson();
+
   const onExportJson = useCallback(
-    () => exportJson(deck.id),
-    [deck.id, exportJson],
+    () => exportJson(deck.originalDeck),
+    [deck, exportJson],
   );
 
   const exportText = useExportText();
-  const onExportText = useCallback(
-    () => exportText(deck.id),
-    [deck.id, exportText],
-  );
+  const onExportText = useCallback(() => exportText(deck), [deck, exportText]);
 
   const duplicateDeck = useDuplicateDeck();
   const onDuplicate = useCallback(() => {
@@ -309,15 +307,15 @@ function SidebarActions(props: {
         <Notice variant="info">
           There is a{" "}
           <Link
-            href={`${context !== "share" ? "/deck/view/" : "/share/"}${deck.next_deck}`}
+            href={`${origin !== "share" ? "/deck/view/" : "/share/"}${deck.next_deck}`}
           >
             newer version
           </Link>{" "}
-          of this deck. {context === "local" && "This deck is read-only."}
+          of this deck. {origin === "local" && "This deck is read-only."}
         </Notice>
       )}
       <div className={css["actions"]}>
-        {context === "local" ? (
+        {origin === "local" ? (
           <>
             <Button
               data-testid="view-edit"
@@ -366,7 +364,7 @@ function SidebarActions(props: {
           </PopoverTrigger>
           <PopoverContent>
             <DropdownMenu>
-              {context === "local" && (
+              {origin === "local" && (
                 <>
                   <Button
                     data-testid="view-duplicate"
@@ -409,7 +407,7 @@ function SidebarActions(props: {
               >
                 <DownloadIcon /> Export Markdown
               </Button>
-              {context === "local" && (
+              {origin === "local" && (
                 <>
                   <hr />
                   {!!deck.previous_deck && (

@@ -17,11 +17,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import css from "./deck-display.module.css";
 import { DeckHistory } from "./deck-history/deck-history";
 import { Sidebar } from "./sidebar";
-import type { DeckDisplayContext } from "./types";
+import type { DeckOrigin } from "./types";
 
 export type DeckDisplayProps = {
   deck: ResolvedDeck;
-  context: DeckDisplayContext;
+  origin: DeckOrigin;
   history?: History;
   validation: DeckValidationResult;
 };
@@ -29,7 +29,7 @@ export type DeckDisplayProps = {
 const LazyDeckDescription = lazy(() => import("@/components/deck-description"));
 
 export function DeckDisplay(props: DeckDisplayProps) {
-  const { context, deck, history, validation } = props;
+  const { origin, deck, history, validation } = props;
 
   const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
   const hasHistory = !!history?.length;
@@ -71,7 +71,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
           <div className={css["tags"]}>
             <DeckTags
               tags={
-                context === "local"
+                origin === "local"
                   ? extendedDeckTags(deck, false)
                   : deckTags(deck)
               }
@@ -82,7 +82,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
         </header>
 
         <Dialog>
-          <Sidebar className={css["sidebar"]} deck={deck} context={context} />
+          <Sidebar className={css["sidebar"]} deck={deck} origin={origin} />
         </Dialog>
 
         <div className={css["content"]}>
