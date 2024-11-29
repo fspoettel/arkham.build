@@ -17,11 +17,13 @@ export function AppLayout(props: Props) {
 
   return (
     <div className={cx(css["layout"], "fade-in")} data-testid="app-layout">
-      <Masthead className={css["header"]} />
-      <section className={cx(css["main"], mainClassName)}>{children}</section>
-      <footer className={css["footer"]}>
-        <Footer />
-      </footer>
+      <div className={css["layout-inner"]}>
+        <Masthead className={css["header"]} />
+        <section className={cx(css["main"], mainClassName)}>{children}</section>
+        <footer className={css["footer"]}>
+          <Footer />
+        </footer>
+      </div>
     </div>
   );
 }
