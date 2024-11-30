@@ -1,7 +1,11 @@
-.deck-tools {
-  animation: fadeIn 0.5s;
+.scroller {
   padding-right: 1rem;
   padding-bottom: 1rem;
+}
+
+.deck-tools {
+  animation: fadeIn 0.5s;
+  min-height: 15rem;
 }
 
 .deck-tools > * + * {

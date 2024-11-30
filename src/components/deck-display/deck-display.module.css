@@ -69,4 +69,5 @@
   padding: 0.5rem 0;
   height: 100%;
   min-height: 0;
+  min-height: 15rem;
 }

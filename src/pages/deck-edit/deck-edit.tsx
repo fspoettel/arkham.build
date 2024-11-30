@@ -157,6 +157,7 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
               {...props}
               deck={deck}
               showTitle
+              scrollable
               slotRight={
                 <Link to="/" asChild>
                   <Button as="a">

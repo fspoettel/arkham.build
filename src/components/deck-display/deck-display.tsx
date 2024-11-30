@@ -34,6 +34,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
   const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
   const hasHistory = !!history?.length;
 
+  const contentRef = useRef<HTMLDivElement>(null);
   const tabRef = useRef("deck");
   const scrollPosition = useRef(0);
 
@@ -54,7 +55,10 @@ export function DeckDisplay(props: DeckDisplayProps) {
   const onTabChange = useCallback((val: string) => {
     setTimeout(() => {
       window.scrollTo({
-        top: val === "notes" ? scrollPosition.current : 0,
+        top:
+          val === "notes"
+            ? scrollPosition.current
+            : (contentRef.current?.offsetTop ?? 0),
       });
     });
 
@@ -85,7 +89,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
           <Sidebar className={css["sidebar"]} deck={deck} origin={origin} />
         </Dialog>
 
-        <div className={css["content"]}>
+        <div className={css["content"]} ref={contentRef}>
           <Tabs
             className={css["tabs"]}
             defaultValue="deck"
