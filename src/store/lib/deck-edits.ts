@@ -193,6 +193,7 @@ function mergeAttachmentEdits(
     for (const [targetCode, entries] of Object.entries(attachments)) {
       if (!deck.slots[targetCode] && deck.investigator_code !== targetCode) {
         delete attachments[targetCode];
+        continue;
       }
 
       for (const code of Object.keys(entries)) {

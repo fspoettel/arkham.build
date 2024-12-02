@@ -517,5 +517,85 @@ describe("deck edits", () => {
         `"{"attachments_05002":"05010"}"`,
       );
     });
+
+    it("handles corner case when both attachable and attachment are removed", () => {
+      const deck = {
+        meta: '{"card_pool":"rcore,core,dwlp,ptcp,tcup,tdep,ticp,eoep,tskp,rtnotz,rtdwl,rtptc,rttfa,rttcu,nat,har,win,jac,ste,tfap","attachments_09077":"51005,07305,07305,09075,09075,03195,03195,09073,04108"}',
+        slots: {
+          "51005": 2,
+          "52005": 2,
+          "60316": 2,
+          "60326": 2,
+          "01000": 1,
+          "09009": 1,
+          "09010": 1,
+          "03031": 1,
+          "09075": 2,
+          "03195": 2,
+          "09067": 2,
+          "09074": 2,
+          "06026": 3,
+          "09077": 1,
+          "09073": 1,
+          "07305": 2,
+          "04203": 1,
+          "09065": 2,
+          "03233": 2,
+          "02229": 2,
+          "04155": 2,
+          "08111": 2,
+          "06281": 2,
+          "04108": 2,
+          "04233": 2,
+        },
+      };
+
+      const edits = {
+        quantities: {
+          slots: {
+            "09077": 0,
+            "03195": 0,
+          },
+        },
+      };
+
+      const result = applyDeckEdits(
+        deck as never,
+        edits as never,
+        store.getState().metadata,
+        true,
+      );
+
+      expect(result).toMatchInlineSnapshot(`
+        {
+          "meta": "{"card_pool":"rcore,core,dwlp,ptcp,tcup,tdep,ticp,eoep,tskp,rtnotz,rtdwl,rtptc,rttfa,rttcu,nat,har,win,jac,ste,tfap"}",
+          "slots": {
+            "01000": 1,
+            "02229": 2,
+            "03031": 1,
+            "03233": 2,
+            "04108": 2,
+            "04155": 2,
+            "04203": 1,
+            "04233": 2,
+            "06026": 3,
+            "06281": 2,
+            "07305": 2,
+            "08111": 2,
+            "09009": 1,
+            "09010": 1,
+            "09065": 2,
+            "09067": 2,
+            "09073": 1,
+            "09074": 2,
+            "09075": 2,
+            "51005": 2,
+            "52005": 2,
+            "60316": 2,
+            "60326": 2,
+          },
+        }
+      `);
+    });
   });
 });
