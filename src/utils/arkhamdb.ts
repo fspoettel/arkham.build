@@ -11,7 +11,7 @@ export function redirectArkhamDBLinks(evt: React.MouseEvent) {
       if (!href) return;
 
       let url: string;
-      if (href.startsWith("/card")) {
+      if (href.startsWith("/card") && !href.includes("#review-")) {
         url = href;
       } else if (href.startsWith("/")) {
         url = `https://arkhamdb.com${href}`;
