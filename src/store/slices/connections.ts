@@ -1,6 +1,6 @@
 import type { StateCreator } from "zustand";
 
-import { canPublishDeck } from "@/utils/arkhamdb";
+import { assertCanPublishDeck } from "@/utils/arkhamdb";
 import { assert } from "@/utils/assert";
 import type { StoreState } from ".";
 import { resolveDeck } from "../lib/resolve-deck";
@@ -219,10 +219,7 @@ export const createConnectionsSlice: StateCreator<
       deck,
     );
 
-    assert(
-      canPublishDeck(resolved),
-      "Deck contains preview cards. Please remove them before uploading to ArkhamDB",
-    );
+    assertCanPublishDeck(resolved);
 
     const connection = state.connections.data[provider];
     assert(connection, `Connection for ${provider} was not found.`);

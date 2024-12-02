@@ -45,6 +45,7 @@ import type { Metadata } from "./metadata.types";
 import localCards from "@/store/services/data/cards.json";
 import localCycles from "@/store/services/data/cycles.json";
 import localPacks from "@/store/services/data/packs.json";
+import { assertCanPublishDeck } from "@/utils/arkhamdb";
 
 export function getInitialAppState() {
   return {
@@ -302,6 +303,15 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     });
 
     if (state.deckCreate.provider === "arkhamdb") {
+      const resolved = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        state.sharing,
+        deck,
+      );
+
+      assertCanPublishDeck(resolved);
+
       try {
         const adapter = new syncAdapters["arkhamdb"](state);
         const { id } = await newDeck(deck);
@@ -434,6 +444,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     }
 
     if (nextDeck.source === "arkhamdb") {
+      assertCanPublishDeck(resolved);
+
       try {
         const adapter = new syncAdapters.arkhamdb(state);
         nextDeck = adapter.in(await updateDeck(adapter.out(nextDeck)));

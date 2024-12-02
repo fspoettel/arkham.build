@@ -12,13 +12,23 @@ export function redirectArkhamDBLinks(evt: React.MouseEvent) {
   }
 }
 
-export function canPublishDeck(deck: ResolvedDeck) {
-  const hasPreviews = Object.values({
+export function assertCanPublishDeck(deck: ResolvedDeck) {
+  const previews = Object.values({
     ...deck.cards.slots,
     ...deck.cards.extraSlots,
-    investigatorBack: deck.investigatorBack.card,
-    investigatorFront: deck.investigatorFront.card,
-  }).some((c) => c.preview);
+    investigatorBack: deck.investigatorBack,
+    investigatorFront: deck.investigatorFront,
+  }).filter((c) => c.card.preview);
 
-  return !hasPreviews;
+  if (previews.length) {
+    const names = previews
+      .map(
+        (c) =>
+          `${c.card.real_name}${c.card.xp != null ? ` (${c.card.xp})` : ""}`,
+      )
+      .join(", ");
+    throw new Error(
+      `Deck contains preview cards: ${names}. Please remove them before uploading to ArkhamDB`,
+    );
+  }
 }
