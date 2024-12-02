@@ -18,7 +18,7 @@ export function CardTooltip(props: Props) {
   if (!resolvedCard) return null;
 
   return (
-    <div className={css["tooltip"]}>
+    <div className={css["tooltip"]} data-testid="card-tooltip">
       <Card resolvedCard={resolvedCard} size="tooltip" />
     </div>
   );

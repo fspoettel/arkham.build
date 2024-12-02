@@ -226,6 +226,10 @@ small {
   font-size: var(--text-xs);
 }
 
+.small {
+  font-size: var(--text-xs);
+}
+
 ol,
 ul {
   padding: 0;

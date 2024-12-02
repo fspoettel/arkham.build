@@ -2,13 +2,25 @@ import type { ResolvedDeck } from "@/store/lib/types";
 
 export function redirectArkhamDBLinks(evt: React.MouseEvent) {
   evt.preventDefault();
-  if (evt.target instanceof HTMLAnchorElement) {
-    const href = evt.target.getAttribute("href");
-    if (!href) return;
 
-    const url = href.startsWith("/") ? `https://arkhamdb.com${href}` : href;
+  if (evt.target instanceof HTMLElement) {
+    const anchor = evt.target?.closest("a") as HTMLAnchorElement;
 
-    window.open(url, "_blank");
+    if (anchor != null) {
+      const href = anchor.getAttribute("href");
+      if (!href) return;
+
+      let url: string;
+      if (href.startsWith("/card") && !href.includes("#review-")) {
+        url = href;
+      } else if (href.startsWith("/")) {
+        url = `https://arkhamdb.com${href}`;
+      } else {
+        url = href;
+      }
+
+      window.open(url, "_blank");
+    }
   }
 }
 

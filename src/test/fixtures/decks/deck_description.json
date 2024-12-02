@@ -1,0 +1,27 @@
+{
+  "id": "70G71LwyNSC5VRd",
+  "date_creation": "2024-12-02T11:39:07.464Z",
+  "date_update": "2024-12-02T11:43:15.710Z",
+  "description_md": "Link to a card: [.32 Colt](/card/03020)  \nLink to a ruling: [ruling](/card/60132#review-5227)  \nLink to a decklist: [decklist](/decklist/view/51880/old-yorick-shot-guns-1.0)  \nLink with nested flow content: [**True Grit**](/card/03021)  \nLink with nested image: [![card](https://assets.arkham.build/optimized/03022.avif)](/card/03022)  \n",
+  "meta": "{}",
+  "ignoreDeckLimitSlots": {},
+  "sideSlots": {},
+  "next_deck": null,
+  "previous_deck": null,
+  "tags": "",
+  "version": "0.1",
+  "taboo_id": 8,
+  "xp": null,
+  "xp_spent": null,
+  "exile_string": null,
+  "xp_adjustment": null,
+  "investigator_code": "01001",
+  "investigator_name": "Roland Banks",
+  "name": "deck notes test",
+  "slots": {
+    "01000": 1,
+    "01006": 1,
+    "01007": 1
+  },
+  "problem": "too_few_cards"
+}
