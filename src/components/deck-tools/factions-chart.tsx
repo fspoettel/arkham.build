@@ -10,7 +10,7 @@ import {
   VictoryTooltip,
 } from "victory";
 import { useElementSize } from "../../utils/use-element-size";
-import { chartsTheme } from "./chart-theme";
+import { chartsTheme, containerTheme } from "./chart-theme";
 import css from "./deck-tools.module.css";
 
 type Props = {
@@ -32,7 +32,9 @@ export function FactionsChart({ data }: Props) {
         <>
           <h4 className={css["chart-title"]}>Factions</h4>
           <VictoryPie
-            containerComponent={<VictoryContainer responsive={false} />}
+            containerComponent={
+              <VictoryContainer responsive={false} style={containerTheme} />
+            }
             data={normalizedData}
             theme={chartsTheme}
             labelPlacement="parallel"

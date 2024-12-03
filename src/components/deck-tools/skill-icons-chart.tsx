@@ -10,7 +10,7 @@ import {
 } from "victory";
 import { useElementSize } from "../../utils/use-element-size";
 import { SkillIconFancy } from "../icons/skill-icon-fancy";
-import { chartsTheme } from "./chart-theme";
+import { chartsTheme, containerTheme } from "./chart-theme";
 import css from "./deck-tools.module.css";
 
 type Props = {
@@ -27,7 +27,9 @@ export function SkillIconsChart({ data }: Props) {
         <>
           <h4 className={css["chart-title"]}>Skill icons</h4>
           <VictoryChart
-            containerComponent={<VictoryContainer responsive={false} />}
+            containerComponent={
+              <VictoryContainer style={containerTheme} responsive={false} />
+            }
             theme={chartsTheme}
             polar
             width={width}

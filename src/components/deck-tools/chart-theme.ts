@@ -11,6 +11,10 @@ const baseLabelStyles: VictoryLabelStyleObject = {
   lineHeight: 16,
 };
 
+export const containerTheme = {
+  touchAction: "auto",
+};
+
 export const chartsTheme: VictoryThemeDefinition = {
   chart: {
     ...baseChartProps,

@@ -12,7 +12,7 @@ import {
   VictoryTooltip,
 } from "victory";
 import { useElementSize } from "../../utils/use-element-size";
-import { chartsTheme } from "./chart-theme";
+import { chartsTheme, containerTheme } from "./chart-theme";
 import css from "./deck-tools.module.css";
 
 type Props = {
@@ -52,7 +52,9 @@ export function CostCurveChart({ data }: Props) {
           <VictoryChart
             theme={chartsTheme}
             padding={{ left: 45, bottom: 40, right: 5 }}
-            containerComponent={<VictoryContainer responsive={false} />}
+            containerComponent={
+              <VictoryContainer responsive={false} style={containerTheme} />
+            }
             width={width}
           >
             <VictoryAxis
