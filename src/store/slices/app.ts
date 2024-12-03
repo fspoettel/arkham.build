@@ -64,24 +64,25 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     if (!refresh && state.metadata.dataVersion?.cards_updated_at) {
       if (localCards.length) {
-        set((curr) => {
-          const cards = curr.metadata.cards;
+        const cards = state.metadata.cards;
 
-          for (const card of localCards) {
-            cards[card.code] = formatLocalCard(card);
-          }
+        for (const card of localCards) {
+          cards[card.code] = formatLocalCard(card);
+        }
 
-          for (const pack of localPacks) {
-            curr.metadata.packs[pack.code] = pack;
-          }
+        for (const pack of localPacks) {
+          state.metadata.packs[pack.code] = pack;
+        }
 
-          for (const cycle of localCycles) {
-            curr.metadata.cycles[cycle.code] = cycle;
-          }
+        for (const cycle of localCycles) {
+          state.metadata.cycles[cycle.code] = cycle;
+        }
 
-          return {
-            metadata: { ...curr.metadata, cards },
-          };
+        set({
+          metadata: {
+            ...state.metadata,
+            cards,
+          },
         });
       }
 

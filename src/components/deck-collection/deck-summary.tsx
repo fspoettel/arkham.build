@@ -1,6 +1,8 @@
+import { useStore } from "@/store";
 import type { DeckValidationResult } from "@/store/lib/deck-validation";
 import { extendedDeckTags } from "@/store/lib/resolve-deck";
 import type { ResolvedDeck } from "@/store/lib/types";
+import { selectConnectionLockForDeck } from "@/store/selectors/shared";
 import type { Id } from "@/store/slices/data.types";
 import { getCardColor } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
@@ -42,6 +44,10 @@ export function DeckSummary(props: Props) {
 
   const backgroundCls = getCardColor(deck.investigatorBack.card, "background");
   const borderCls = getCardColor(deck.investigatorBack.card, "border");
+
+  const connectionLock = useStore((state) =>
+    selectConnectionLockForDeck(state, deck),
+  );
 
   const card = {
     ...deck.investigatorFront.card,
@@ -157,8 +163,9 @@ export function DeckSummary(props: Props) {
             <Button
               className={css["quick-action"]}
               iconOnly
-              tooltip="Delete"
+              disabled={!!connectionLock}
               onClick={onDelete}
+              tooltip={connectionLock ? connectionLock : "Delete"}
             >
               <Trash2Icon />
             </Button>

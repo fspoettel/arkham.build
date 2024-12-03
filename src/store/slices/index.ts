@@ -5,6 +5,7 @@ import type { DeckFiltersSlice } from "./deck-collection-filters.types";
 import type { DeckCreateSlice } from "./deck-create.types";
 import type { DeckEditsSlice } from "./deck-edits.types";
 import type { ListsSlice } from "./lists.types";
+import type { LocksSlice } from "./locks.types";
 import type { LookupTablesSlice } from "./lookup-tables.types";
 import type { MetadataSlice } from "./metadata.types";
 import type { SettingsSlice } from "./settings.types";
@@ -22,4 +23,5 @@ export type StoreState = AppSlice &
   DeckCreateSlice &
   DeckFiltersSlice &
   ConnectionsSlice &
-  SharingSlice;
+  SharingSlice &
+  LocksSlice;

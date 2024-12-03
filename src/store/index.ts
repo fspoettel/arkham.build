@@ -8,12 +8,14 @@ import { createDeckFiltersSlice } from "./slices/deck-collection-filters";
 import { createDeckCreateSlice } from "./slices/deck-create";
 import { createDeckEditsSlice } from "./slices/deck-edits";
 import { createListsSlice } from "./slices/lists";
+import { createLocksSlice } from "./slices/locks";
 import { createLookupTablesSlice } from "./slices/lookup-tables";
 import { createMetadataSlice } from "./slices/metadata";
 import { createSettingsSlice } from "./slices/settings";
 import { createSharingSlice } from "./slices/sharing";
 import { createUISlice } from "./slices/ui";
-import { storageConfig } from "./storage";
+import { partialize, storageConfig } from "./storage";
+import { shared } from "./storage/sync-store-across-tabs";
 
 // biome-ignore lint/suspicious/noExplicitAny: safe.
 const stateCreator = (...args: [any, any, any]) => ({
@@ -29,10 +31,23 @@ const stateCreator = (...args: [any, any, any]) => ({
   ...createSharingSlice(...args),
   ...createDeckFiltersSlice(...args),
   ...createConnectionsSlice(...args),
+  ...createLocksSlice(...args),
 });
 
 export const useStore = create<StoreState>()(
   import.meta.env.MODE === "test"
     ? stateCreator
-    : devtools(persist(stateCreator, storageConfig)),
+    : devtools(
+        shared(persist(stateCreator, storageConfig), {
+          partialize(state) {
+            return {
+              ...partialize(state),
+              locks: state.locks,
+            };
+          },
+          merge(state, receivedState) {
+            return { ...state, ...receivedState };
+          },
+        }),
+      ),
 );

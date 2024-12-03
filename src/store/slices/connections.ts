@@ -28,7 +28,9 @@ export const createConnectionsSlice: StateCreator<
   connections: getInitialConnectionsState(),
 
   createConnection(provider, user) {
-    set((state) => ({
+    const state = get();
+
+    set({
       connections: {
         ...state.connections,
         data: {
@@ -41,54 +43,53 @@ export const createConnectionsSlice: StateCreator<
           },
         },
       },
-    }));
+    });
   },
   removeConnection(provider) {
-    set((state) => {
-      const patch = {
-        connections: structuredClone(state.connections),
-        data: structuredClone(state.data),
-      };
+    const state = get();
 
-      delete patch.connections.data[provider];
+    const patch = {
+      connections: structuredClone(state.connections),
+      data: structuredClone(state.data),
+    };
 
-      for (const deckId of Object.keys(state.data.decks)) {
-        const deck = state.data.decks[deckId];
-        if (deck.source === provider) {
-          delete patch.data.decks[deckId];
-          delete patch.data.history[deckId];
-        }
+    delete patch.connections.data[provider];
+
+    for (const deckId of Object.keys(state.data.decks)) {
+      const deck = state.data.decks[deckId];
+      if (deck.source === provider) {
+        delete patch.data.decks[deckId];
+        delete patch.data.history[deckId];
       }
+    }
 
-      return patch;
-    });
+    set(patch);
   },
   async sync() {
     const state = get();
 
-    assert(
-      state.ui.syncing === false,
-      "Cannot sync while another sync is in progress.",
-    );
-
-    set((curr) => ({
-      ui: {
-        ...curr.ui,
-        syncing: true,
+    set({
+      connections: {
+        ...state.connections,
+        lastSyncedAt: Date.now(),
       },
-    }));
+      locks: {
+        ...state.locks,
+        sync: true,
+      },
+    });
 
     try {
       for (const provider of Object.keys(state.connections.data)) {
         await state.syncProvider(provider as Provider);
       }
     } finally {
-      set((curr) => ({
-        ui: {
-          ...curr.ui,
-          syncing: false,
+      set({
+        locks: {
+          ...get().locks,
+          sync: false,
         },
-      }));
+      });
     }
   },
   async syncProvider(provider) {
@@ -107,91 +108,89 @@ export const createConnectionsSlice: StateCreator<
       if (res) {
         const { data: apiDecks, lastModified } = res;
 
-        set((curr) => {
-          const data = { ...curr.data };
+        const data = { ...state.data };
 
-          const apiDeckIds = new Set(apiDecks.map((deck) => deck.id));
+        const apiDeckIds = new Set(apiDecks.map((deck) => deck.id));
 
-          for (const deck of Object.values(state.data.decks)) {
-            if (deck.source === provider && !apiDeckIds.has(deck.id)) {
-              delete data.decks[deck.id];
-            }
+        for (const deck of Object.values(state.data.decks)) {
+          if (deck.source === provider && !apiDeckIds.has(deck.id)) {
+            delete data.decks[deck.id];
           }
+        }
 
-          for (const deck of apiDecks) {
-            data.decks[deck.id] = adapater.in(deck);
-          }
+        for (const deck of apiDecks) {
+          data.decks[deck.id] = adapater.in(deck);
+        }
 
-          const history = Object.values(data.decks)
-            .filter((deck) => !deck.next_deck)
-            .reduce(
-              (acc, deck) => {
-                acc[deck.id] = [];
-                if (!deck.previous_deck) return acc;
+        const history = Object.values(data.decks)
+          .filter((deck) => !deck.next_deck)
+          .reduce(
+            (acc, deck) => {
+              acc[deck.id] = [];
+              if (!deck.previous_deck) return acc;
 
-                let current = deck;
-                const history = [];
+              let current = deck;
+              const history = [];
 
-                while (
-                  current.previous_deck &&
-                  data.decks[current.previous_deck]
-                ) {
-                  current = data.decks[current.previous_deck];
-                  history.push(current.id);
-                }
-
-                acc[deck.id] = history;
-                return acc;
-              },
-              {} as Record<Id, Id[]>,
-            );
-
-          data.history = history;
-
-          const user = apiDecks.length
-            ? {
-                id: apiDecks[0].user_id ?? undefined,
+              while (
+                current.previous_deck &&
+                data.decks[current.previous_deck]
+              ) {
+                current = data.decks[current.previous_deck];
+                history.push(current.id);
               }
-            : curr.connections.data[provider]?.user;
 
-          return {
-            data,
-            connections: {
-              lastSyncedAt: Date.now(),
-              data: {
-                ...curr.connections.data,
-                [provider]: {
-                  ...curr.connections.data[provider],
-                  status: "connected",
-                  user,
-                  syncDetails: {
-                    status: "success",
-                    errors: [],
-                    lastModified,
-                    itemsSynced: apiDecks.length,
-                    itemsTotal: apiDecks.length,
-                  },
+              acc[deck.id] = history;
+              return acc;
+            },
+            {} as Record<Id, Id[]>,
+          );
+
+        data.history = history;
+
+        const user = apiDecks.length
+          ? {
+              id: apiDecks[0].user_id ?? undefined,
+            }
+          : state.connections.data[provider]?.user;
+
+        set({
+          data,
+          connections: {
+            lastSyncedAt: Date.now(),
+            data: {
+              ...state.connections.data,
+              [provider]: {
+                ...state.connections.data[provider],
+                status: "connected",
+                user,
+                syncDetails: {
+                  status: "success",
+                  errors: [],
+                  lastModified,
+                  itemsSynced: apiDecks.length,
+                  itemsTotal: apiDecks.length,
                 },
               },
             },
-          };
+          },
         });
       } else {
-        set((curr) => ({
+        set({
           connections: {
-            ...curr.connections,
+            ...state.connections,
             lastSyncedAt: Date.now(),
           },
-        }));
+        });
       }
     } catch (err) {
-      set((curr) => ({
+      set({
         connections: {
           lastSyncedAt: Date.now(),
           data: {
-            ...curr.connections.data,
+            ...state.connections.data,
             [provider]: {
-              ...curr.connections.data[provider],
+              ...state.connections.data[provider],
               status:
                 err instanceof ApiError && err.status === 401
                   ? "disconnected"
@@ -203,7 +202,7 @@ export const createConnectionsSlice: StateCreator<
             },
           },
         },
-      }));
+      });
     }
   },
   async uploadDeck(id, provider) {
@@ -237,19 +236,19 @@ export const createConnectionsSlice: StateCreator<
         await updateDeck(adapter.out({ ...deck, id })),
       );
 
-      set((curr) => ({
+      set({
         data: {
-          ...curr.data,
+          ...state.data,
           decks: {
-            ...curr.data.decks,
+            ...state.data.decks,
             [nextDeck.id]: nextDeck,
           },
           history: {
-            ...curr.data.history,
+            ...state.data.history,
             [nextDeck.id]: [],
           },
         },
-      }));
+      });
 
       await state.deleteDeck(deck.id);
 

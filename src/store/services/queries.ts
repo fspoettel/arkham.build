@@ -7,6 +7,7 @@ import reprintPacks from "./data/reprint_packs.json";
 import subTypes from "./data/subtypes.json";
 import types from "./data/types.json";
 
+import { useStore } from "..";
 import type {
   Cycle,
   DataVersion,
@@ -199,10 +200,30 @@ export async function deleteShare(clientId: string, id: string) {
  * Authenticated API
  */
 
-export async function getSession() {
-  const res = await request("/user/session", {
-    credentials: "include",
+function authenticatedRequest(
+  path: string,
+  options?: RequestInit,
+): Promise<Response> {
+  const state = useStore.getState();
+
+  return navigator.locks.request("arkhamdb", async () => {
+    state.setLock("arkhamdb", true);
+
+    try {
+      const res = await request(path, {
+        ...options,
+        credentials: "include",
+      });
+
+      return res;
+    } finally {
+      state.setLock("arkhamdb", false);
+    }
   });
+}
+
+export async function getSession() {
+  const res = await authenticatedRequest("/user/session");
   const data = await res.json();
   return data;
 }
@@ -221,10 +242,7 @@ export async function getDecks(
       }
     : undefined;
 
-  const res = await request("/user/decks", {
-    credentials: "include",
-    headers,
-  });
+  const res = await authenticatedRequest("/user/decks", { headers });
 
   return res.status === 304
     ? undefined
@@ -235,7 +253,7 @@ export async function getDecks(
 }
 
 export async function newDeck(deck: Deck): Promise<Deck> {
-  const res = await request("/user/decks", {
+  const res = await authenticatedRequest("/user/decks", {
     headers: {
       "Content-Type": "application/json",
     },
@@ -246,7 +264,6 @@ export async function newDeck(deck: Deck): Promise<Deck> {
       taboo: deck.taboo_id,
       meta: deck.meta,
     }),
-    credentials: "include",
     method: "POST",
   });
 
@@ -254,12 +271,11 @@ export async function newDeck(deck: Deck): Promise<Deck> {
 }
 
 export async function updateDeck(deck: Deck): Promise<Deck> {
-  const res = await request(`/user/decks/${deck.id}`, {
+  const res = await authenticatedRequest(`/user/decks/${deck.id}`, {
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(deck),
-    credentials: "include",
     method: "PUT",
   });
 
@@ -269,10 +285,9 @@ export async function updateDeck(deck: Deck): Promise<Deck> {
 export async function deleteDeck(id: Id, allVersions?: boolean) {
   const path = `/user/decks/${id}`;
 
-  await request(allVersions ? `${path}?all=true` : path, {
+  await authenticatedRequest(allVersions ? `${path}?all=true` : path, {
     body: allVersions ? JSON.stringify({ all: true }) : undefined,
     method: "DELETE",
-    credentials: "include",
   });
 }
 
@@ -284,13 +299,12 @@ export async function upgradeDeck(
     meta?: string;
   },
 ) {
-  const res = await request(`/user/decks/${id}/upgrade`, {
+  const res = await authenticatedRequest(`/user/decks/${id}/upgrade`, {
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
     method: "POST",
-    credentials: "include",
   });
 
   return await res.json();

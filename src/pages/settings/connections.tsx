@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/store";
 import { selectAvailableConnections } from "@/store/selectors/connections";
+import { selectConnectionLock } from "@/store/selectors/shared";
 import type { Connection, Provider } from "@/store/slices/connections.types";
 import { cx } from "@/utils/cx";
 import { capitalize, formatDate } from "@/utils/formatting";
@@ -70,6 +71,8 @@ function ConnectionDetails(props: {
   const { connection, lastSyncedAt } = props;
   const removeConnection = useStore((state) => state.removeConnection);
 
+  const connectionLock = useStore(selectConnectionLock);
+
   return (
     <>
       <details className={css["details"]}>
@@ -122,6 +125,7 @@ function ConnectionDetails(props: {
       <div className={css["actions"]}>
         <Button
           as="a"
+          disabled={!!connectionLock}
           href={`${import.meta.env.VITE_API_URL}/auth/signin?provider=${connection.provider}`}
           type="button"
         >
@@ -129,6 +133,7 @@ function ConnectionDetails(props: {
         </Button>
         <Button
           type="button"
+          disabled={!!connectionLock}
           onClick={() => removeConnection(connection.provider as Provider)}
         >
           Disconnect

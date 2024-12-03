@@ -14,6 +14,10 @@ import { UpgradeModal } from "@/pages/deck-view/upgrade-modal";
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { selectConnections } from "@/store/selectors/connections";
+import {
+  selectConnectionLock,
+  selectConnectionLockForDeck,
+} from "@/store/selectors/shared";
 import { cx } from "@/utils/cx";
 import {
   capitalize,
@@ -226,6 +230,10 @@ function SidebarActions(props: {
 
   const [actionsOpen, setActionsOpen] = useState(false);
 
+  const connectionLock = useStore((state) =>
+    selectConnectionLockForDeck(state, deck),
+  );
+
   const toast = useToast();
   const [, navigate] = useLocation();
 
@@ -382,7 +390,9 @@ function SidebarActions(props: {
                 <>
                   <Button
                     data-testid="view-upload"
+                    disabled={!!connectionLock}
                     size="full"
+                    tooltip={connectionLock}
                     variant="bare"
                     onClick={onArkhamDBUpload}
                   >
@@ -413,9 +423,10 @@ function SidebarActions(props: {
                   {!!deck.previous_deck && (
                     <Button
                       data-testid="view-delete-upgrade"
-                      disabled={isReadOnly}
+                      disabled={isReadOnly || !!connectionLock}
                       onClick={onDeleteUpgrade}
                       size="full"
+                      tooltip={connectionLock}
                       variant="bare"
                     >
                       <i className="icon-xp-bold" /> Delete upgrade
@@ -423,9 +434,10 @@ function SidebarActions(props: {
                   )}
                   <Button
                     data-testid="view-delete"
-                    disabled={isReadOnly}
+                    disabled={isReadOnly || !!connectionLock}
                     onClick={onDelete}
                     size="full"
+                    tooltip={connectionLock}
                     variant="bare"
                   >
                     <Trash2Icon /> Delete
@@ -446,6 +458,8 @@ function Sharing(props: { onArkhamDBUpload?: () => void; deck: ResolvedDeck }) {
 
   const deckData = useStore((state) => state.data.decks[props.deck.id]);
   const share = useStore((state) => state.sharing.decks[props.deck.id]);
+
+  const connectionLock = useStore(selectConnectionLock);
 
   const createShare = useStore((state) => state.createShare);
   const deleteShare = useStore((state) => state.deleteShare);
@@ -563,7 +577,9 @@ function Sharing(props: { onArkhamDBUpload?: () => void; deck: ResolvedDeck }) {
                 {onArkhamDBUpload && (
                   <Button
                     data-testid="view-upload"
+                    disabled={!!connectionLock}
                     onClick={onArkhamDBUpload}
+                    tooltip={connectionLock}
                     size="sm"
                   >
                     <i className="icon-elder_sign" /> Upload to ArkhamDB

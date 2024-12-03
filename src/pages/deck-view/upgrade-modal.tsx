@@ -8,6 +8,7 @@ import { Scroller } from "@/components/ui/scroller";
 import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
+import { selectConnectionLockForDeck } from "@/store/selectors/shared";
 import type { Card } from "@/store/services/queries.types";
 import { decodeExileSlots } from "@/utils/card-utils";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
@@ -66,6 +67,9 @@ export function UpgradeModal(props: Props) {
   const search = useSearch();
   const toast = useToast();
 
+  const connectionLock = useStore((state) =>
+    selectConnectionLockForDeck(state, deck),
+  );
   const upgradeDeck = useStore((state) => state.upgradeDeck);
 
   const [xp, setXp] = useState(
@@ -184,16 +188,18 @@ export function UpgradeModal(props: Props) {
             <div className={css["footer-row"]}>
               <Button
                 data-testid="upgrade-save"
-                disabled={xp === ""}
+                disabled={xp === "" || !!connectionLock}
                 onClick={() => onUpgrade("edit")}
+                tooltip={connectionLock}
                 variant="primary"
               >
                 Upgrade
               </Button>
               <Button
                 data-testid="upgrade-save-close"
-                disabled={xp === ""}
+                disabled={xp === "" || !!connectionLock}
                 onClick={() => onUpgrade("view")}
+                tooltip={connectionLock}
                 variant="bare"
               >
                 Save & close

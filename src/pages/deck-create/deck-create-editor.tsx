@@ -12,6 +12,7 @@ import {
   selectDeckCreateInvestigators,
 } from "@/store/selectors/deck-create";
 import { selectTabooSetSelectOptions } from "@/store/selectors/lists";
+import { selectConnectionLock } from "@/store/selectors/shared";
 import {
   capitalize,
   capitalizeSnakeCase,
@@ -62,6 +63,8 @@ export function DeckCreateEditor() {
   }, [toast, createDeck, navigate]);
 
   const tabooSets = useStore(selectTabooSetSelectOptions);
+  const connectionLock = useStore(selectConnectionLock);
+  const provider = useStore((state) => state.deckCreate?.provider);
 
   const setTitle = useStore((state) => state.deckCreateSetTitle);
   const setTabooSet = useStore((state) => state.deckCreateSetTabooSet);
@@ -231,7 +234,13 @@ export function DeckCreateEditor() {
       <nav className={css["editor-nav"]}>
         <Button
           data-testid="create-save"
+          disabled={connectionLock && provider === "arkhamdb"}
           onClick={onDeckCreate}
+          tooltip={
+            connectionLock && provider === "arkhamdb"
+              ? connectionLock
+              : undefined
+          }
           variant="primary"
         >
           Create deck

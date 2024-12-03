@@ -1,5 +1,6 @@
 import { createSelector } from "reselect";
 import { ownedCardCount } from "../lib/card-ownership";
+import type { ResolvedDeck } from "../lib/types";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 
@@ -29,5 +30,22 @@ export const selectCardOwnedCount = createSelector(
         showAllCards,
       );
     };
+  },
+);
+
+export const selectConnectionLock = createSelector(
+  (state: StoreState) => state.locks,
+  (locks) => {
+    return locks.sync || locks.arkhamdb
+      ? "Another ArkhamDB operation is in progress, please wait..."
+      : undefined;
+  },
+);
+
+export const selectConnectionLockForDeck = createSelector(
+  selectConnectionLock,
+  (_: StoreState, deck: ResolvedDeck) => deck,
+  (lock, deck) => {
+    return lock && deck.source === "arkhamdb" ? lock : undefined;
   },
 );

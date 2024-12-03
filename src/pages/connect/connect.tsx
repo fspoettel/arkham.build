@@ -2,6 +2,7 @@ import { Loader } from "@/components/ui/loader";
 import { useToast } from "@/components/ui/toast.hooks";
 import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
+import { useSync } from "@/store/hooks/use-sync";
 import type { Provider } from "@/store/slices/connections.types";
 import { formatProviderName } from "@/utils/formatting";
 import { useEffect, useRef } from "react";
@@ -14,7 +15,7 @@ export function Connect() {
   const params = new URLSearchParams(search);
 
   const createConnection = useStore((state) => state.createConnection);
-  const sync = useStore((state) => state.sync);
+  const sync = useSync();
 
   const provider = params.get("provider")?.toString() || "arkhamdb";
   const loginState = params.get("login_state")?.toString();
