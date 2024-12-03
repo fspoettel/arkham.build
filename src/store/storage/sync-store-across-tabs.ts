@@ -80,17 +80,7 @@ const sharedImpl: SharedImpl = (f, options) => (set, get, store) => {
   /**
    * The broadcast channel is not supported in SSR
    */
-  if (
-    typeof window === "undefined" &&
-    !(
-      // @ts-expect-error WorkerGlobalScope is not defined in the types
-      (
-        typeof WorkerGlobalScope !== "undefined" &&
-        // @ts-expect-error WorkerGlobalScope is not defined in the types
-        self instanceof WorkerGlobalScope
-      )
-    )
-  ) {
+  if (typeof window === "undefined") {
     console.warn(
       "BroadcastChannel is not supported in this environment. The store will not be shared.",
     );
