@@ -28,7 +28,7 @@ export function Footer(props: Props) {
           Fantasy Flight Games (FFG)
         </a>
         . This site is not produced, endorsed by or affiliated with FFG.{" "}
-        <Link href="/about" tabIndex={-1}>
+        <Link href="~/about" tabIndex={-1}>
           About.
         </Link>
       </p>
