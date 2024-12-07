@@ -4,7 +4,6 @@ import {
   useDeleteDeck,
   useDuplicateDeck,
 } from "@/components/deck-display/hooks";
-import { SyncStatus } from "@/components/sync-status";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import {
@@ -98,7 +97,6 @@ export function DeckCollection() {
       <header className={css["header"]}>
         <h2 className={css["title"]}>Decks</h2>
         <div className={css["actions"]}>
-          <SyncStatus />
           {!hasConnections && (
             <Popover>
               <DeckCollectionImport />

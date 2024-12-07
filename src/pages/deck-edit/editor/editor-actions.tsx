@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
+import { selectConnectionLockForDeck } from "@/store/selectors/shared";
 import type { Tab } from "@/store/slices/deck-edits.types";
 import { useHotKey } from "@/utils/use-hotkey";
 import { SaveIcon, Undo2Icon } from "lucide-react";
@@ -22,6 +23,9 @@ export function EditorActions(props: Props) {
   const toast = useToast();
 
   const hasEdits = useStore((state) => !!state.deckEdits[deck.id]);
+  const connectionLock = useStore((state) =>
+    selectConnectionLockForDeck(state, deck),
+  );
   const discardEdits = useStore((state) => state.discardEdits);
   const saveDeck = useStore((state) => state.saveDeck);
 
@@ -85,6 +89,8 @@ export function EditorActions(props: Props) {
   useHotKey("cmd+s", onQuicksave, [onQuicksave]);
   useHotKey("cmd+backspace", onQuickDiscard, [onDiscard]);
 
+  const readonly = !!deck.next_deck;
+
   return (
     <>
       <LatestUpgrade currentTab={currentTab} deck={deck} overflowScroll />
@@ -94,6 +100,14 @@ export function EditorActions(props: Props) {
           onClick={() => {
             onSave();
           }}
+          disabled={!!connectionLock || readonly}
+          tooltip={
+            connectionLock
+              ? connectionLock
+              : readonly
+                ? "This deck has an upgrade and is read-only."
+                : undefined
+          }
           variant="primary"
         >
           <SaveIcon />

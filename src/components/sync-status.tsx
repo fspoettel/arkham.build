@@ -9,13 +9,15 @@ import { isEmpty } from "@/utils/is-empty";
 import { RefreshCcwIcon } from "lucide-react";
 import { Button } from "./ui/button";
 
+import { useSync } from "@/store/hooks/use-sync";
 import css from "./sync-status.module.css";
 
 export function SyncStatus() {
   const connections = useStore(selectConnections);
   const healthy = useStore(selectSyncHealthy);
-  const sync = useStore((state) => state.sync);
-  const syncing = useStore((state) => state.ui.syncing);
+
+  const sync = useSync();
+  const syncing = useStore((state) => state.remoting.sync);
 
   const collectionLabels = connections
     .map((p) => formatProviderName(p.provider))
@@ -26,6 +28,7 @@ export function SyncStatus() {
   return (
     <Button
       className={cx(css["sync"], !syncing && !healthy && css["unhealthy"])}
+      disabled={syncing}
       onClick={() => sync()}
       tooltip={
         !syncing ? (

@@ -8,6 +8,7 @@ import {
 import { Link, useLocation } from "wouter";
 import Logo from "../assets/icons/logo.svg?react";
 import css from "./masthead.module.css";
+import { SyncStatus } from "./sync-status";
 import { Button } from "./ui/button";
 import { DropdownMenu } from "./ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
@@ -33,6 +34,7 @@ export function Masthead(props: Props) {
         {props.slotRight}
         {location !== "/settings" && (
           <>
+            <SyncStatus />
             <Link asChild href="~/settings">
               <Button
                 as="a"

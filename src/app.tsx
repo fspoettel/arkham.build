@@ -9,6 +9,7 @@ import { Connect } from "./pages/connect/connect";
 import { Error404 } from "./pages/errors/404";
 import { CardDataSync } from "./pages/settings/card-data-sync";
 import { useStore } from "./store";
+import { useSync } from "./store/hooks/use-sync";
 import { selectSettings } from "./store/selectors/settings";
 import { selectIsInitialized } from "./store/selectors/shared";
 import {
@@ -143,20 +144,19 @@ function RouteReset() {
 
 function AppTasks() {
   const dataVersion = useStore((state) => state.metadata.dataVersion);
+  const lastSyncedAt = useStore((state) => state.connections.lastSyncedAt);
 
-  const sync = useStore((state) => state.sync);
-
+  const sync = useSync();
   const toast = useToast();
   const [location] = useLocation();
   const toastId = useRef<string>();
 
-  const lock = useRef(false);
+  const cardDataLock = useRef(false);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: only on first load.
   useEffect(() => {
     async function updateCardData() {
-      if (lock.current) return;
-      lock.current = true;
+      if (cardDataLock.current) return;
+      cardDataLock.current = true;
 
       const data = await queryDataVersion();
 
@@ -184,19 +184,28 @@ function AppTasks() {
       }
     }
 
-    if (location !== "/settings" && location !== "/connect") {
+    if (
+      location !== "/settings" &&
+      location !== "/connect" &&
+      !cardDataLock.current
+    ) {
       updateCardData().catch(console.error);
     }
-  }, [dataVersion, toast.dismiss, toast.show]);
+  }, [dataVersion, toast.dismiss, toast.show, location]);
 
-  const syncLock = useRef(false);
+  const autoSyncLock = useRef(false);
 
   useEffect(() => {
-    if (location === "/" && !syncLock.current) {
-      syncLock.current = true;
+    if (
+      location !== "/settings" &&
+      location !== "/connect" &&
+      (!lastSyncedAt || Date.now() - lastSyncedAt > 30 * 60 * 1000) &&
+      !autoSyncLock.current
+    ) {
+      autoSyncLock.current = true;
       sync().catch(console.error);
     }
-  }, [sync, location]);
+  }, [sync, location, lastSyncedAt]);
 
   return null;
 }
