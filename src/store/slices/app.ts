@@ -447,12 +447,16 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     if (nextDeck.source === "arkhamdb") {
       assertCanPublishDeck(resolved);
 
+      state.setRemoting("arkhamdb", true);
+
       try {
         const adapter = new syncAdapters.arkhamdb(state);
         nextDeck = adapter.in(await updateDeck(adapter.out(nextDeck)));
       } catch (err) {
         disconnectProviderIfUnauthorized("arkhamdb", err, set);
         throw err;
+      } finally {
+        state.setRemoting("arkhamdb", false);
       }
     } else {
       await state.updateShare(nextDeck);
@@ -552,6 +556,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     const isShared = !!state.sharing.decks[deck.id];
 
     if (deck.source === "arkhamdb") {
+      state.setRemoting("arkhamdb", true);
       try {
         const adapter = new syncAdapters.arkhamdb(state);
         const res = await upgradeDeck(deck.id, {
@@ -563,6 +568,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       } catch (err) {
         disconnectProviderIfUnauthorized("arkhamdb", err, set);
         throw err;
+      } finally {
+        state.setRemoting("arkhamdb", false);
       }
     } else if (isShared) {
       await createShare(state.app.clientId, newDeck);
@@ -633,11 +640,15 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     delete deckEdits[deck.id];
 
     if (deck.source === "arkhamdb") {
+      state.setRemoting("arkhamdb", true);
+
       try {
         await deleteDeck(deck.id, false);
       } catch (err) {
         disconnectProviderIfUnauthorized("arkhamdb", err, set);
         throw err;
+      } finally {
+        state.setRemoting("arkhamdb", false);
       }
     } else {
       await state.deleteShare(deck.id as string).catch(console.error);

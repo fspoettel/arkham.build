@@ -73,8 +73,8 @@ export const createConnectionsSlice: StateCreator<
         ...state.connections,
         lastSyncedAt: Date.now(),
       },
-      locks: {
-        ...state.locks,
+      remoting: {
+        ...state.remoting,
         sync: true,
       },
     });
@@ -85,8 +85,8 @@ export const createConnectionsSlice: StateCreator<
       }
     } finally {
       set({
-        locks: {
-          ...get().locks,
+        remoting: {
+          ...get().remoting,
           sync: false,
         },
       });
@@ -203,6 +203,7 @@ export const createConnectionsSlice: StateCreator<
           },
         },
       });
+      throw err;
     }
   },
   async uploadDeck(id, provider) {
@@ -230,6 +231,8 @@ export const createConnectionsSlice: StateCreator<
       `Deck ${deck.next_deck ? "has" : "is"} an upgrade. Please 'Duplicate' the deck in order to upload it`,
     );
 
+    state.setRemoting("arkhamdb", true);
+
     try {
       const { id } = await newDeck(deck);
       const nextDeck = adapter.in(
@@ -256,6 +259,8 @@ export const createConnectionsSlice: StateCreator<
     } catch (err) {
       disconnectProviderIfUnauthorized("arkhamdb", err, set);
       throw err;
+    } finally {
+      state.setRemoting("arkhamdb", false);
     }
   },
 });

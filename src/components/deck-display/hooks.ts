@@ -162,6 +162,7 @@ export function useUploadDeck() {
     async (deckId: Id) => {
       const toastId = toast.show({
         children: "Uploading deck...",
+        variant: "loading",
       });
 
       try {

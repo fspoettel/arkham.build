@@ -7,7 +7,6 @@ import reprintPacks from "./data/reprint_packs.json";
 import subTypes from "./data/subtypes.json";
 import types from "./data/types.json";
 
-import { useStore } from "..";
 import type {
   Cycle,
   DataVersion,
@@ -204,21 +203,13 @@ function authenticatedRequest(
   path: string,
   options?: RequestInit,
 ): Promise<Response> {
-  const state = useStore.getState();
-
   return navigator.locks.request("arkhamdb", async () => {
-    state.setLock("arkhamdb", true);
+    const res = await request(path, {
+      ...options,
+      credentials: "include",
+    });
 
-    try {
-      const res = await request(path, {
-        ...options,
-        credentials: "include",
-      });
-
-      return res;
-    } finally {
-      state.setLock("arkhamdb", false);
-    }
+    return res;
   });
 }
 

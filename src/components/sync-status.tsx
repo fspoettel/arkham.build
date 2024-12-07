@@ -17,7 +17,7 @@ export function SyncStatus() {
   const healthy = useStore(selectSyncHealthy);
 
   const sync = useSync();
-  const syncing = useStore((state) => state.locks.sync);
+  const syncing = useStore((state) => state.remoting.sync);
 
   const collectionLabels = connections
     .map((p) => formatProviderName(p.provider))

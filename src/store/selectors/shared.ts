@@ -34,9 +34,9 @@ export const selectCardOwnedCount = createSelector(
 );
 
 export const selectConnectionLock = createSelector(
-  (state: StoreState) => state.locks,
-  (locks) => {
-    return locks.sync || locks.arkhamdb
+  (state: StoreState) => state.remoting,
+  (remoting) => {
+    return remoting.sync || remoting.arkhamdb
       ? "Another ArkhamDB operation is in progress, please wait..."
       : undefined;
   },
@@ -45,7 +45,7 @@ export const selectConnectionLock = createSelector(
 export const selectConnectionLockForDeck = createSelector(
   selectConnectionLock,
   (_: StoreState, deck: ResolvedDeck) => deck,
-  (lock, deck) => {
-    return lock && deck.source === "arkhamdb" ? lock : undefined;
+  (remoting, deck) => {
+    return remoting && deck.source === "arkhamdb" ? remoting : undefined;
   },
 );

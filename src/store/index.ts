@@ -8,9 +8,9 @@ import { createDeckFiltersSlice } from "./slices/deck-collection-filters";
 import { createDeckCreateSlice } from "./slices/deck-create";
 import { createDeckEditsSlice } from "./slices/deck-edits";
 import { createListsSlice } from "./slices/lists";
-import { createLocksSlice } from "./slices/locks";
 import { createLookupTablesSlice } from "./slices/lookup-tables";
 import { createMetadataSlice } from "./slices/metadata";
+import { createRemotingSlice } from "./slices/remoting";
 import { createSettingsSlice } from "./slices/settings";
 import { createSharingSlice } from "./slices/sharing";
 import { createUISlice } from "./slices/ui";
@@ -31,7 +31,7 @@ const stateCreator = (...args: [any, any, any]) => ({
   ...createSharingSlice(...args),
   ...createDeckFiltersSlice(...args),
   ...createConnectionsSlice(...args),
-  ...createLocksSlice(...args),
+  ...createRemotingSlice(...args),
 });
 
 export const useStore = create<StoreState>()(
@@ -42,7 +42,7 @@ export const useStore = create<StoreState>()(
           partialize(state) {
             return {
               ...partialize(state),
-              locks: state.locks,
+              remoting: state.remoting,
             };
           },
           merge(state, receivedState) {

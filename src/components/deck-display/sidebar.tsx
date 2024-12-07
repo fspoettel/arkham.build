@@ -230,7 +230,9 @@ function SidebarActions(props: {
 
   const [actionsOpen, setActionsOpen] = useState(false);
 
-  const connectionLock = useStore((state) =>
+  const connectionLock = useStore(selectConnectionLock);
+
+  const deckConnectionLock = useStore((state) =>
     selectConnectionLockForDeck(state, deck),
   );
 
@@ -423,10 +425,10 @@ function SidebarActions(props: {
                   {!!deck.previous_deck && (
                     <Button
                       data-testid="view-delete-upgrade"
-                      disabled={isReadOnly || !!connectionLock}
+                      disabled={isReadOnly || !!deckConnectionLock}
                       onClick={onDeleteUpgrade}
                       size="full"
-                      tooltip={connectionLock}
+                      tooltip={deckConnectionLock}
                       variant="bare"
                     >
                       <i className="icon-xp-bold" /> Delete upgrade
@@ -434,10 +436,10 @@ function SidebarActions(props: {
                   )}
                   <Button
                     data-testid="view-delete"
-                    disabled={isReadOnly || !!connectionLock}
+                    disabled={isReadOnly || !!deckConnectionLock}
                     onClick={onDelete}
                     size="full"
-                    tooltip={connectionLock}
+                    tooltip={deckConnectionLock}
                     variant="bare"
                   >
                     <Trash2Icon /> Delete
