@@ -2,8 +2,8 @@ import { Page, expect, test } from "@playwright/test";
 import { fillSearch } from "./actions";
 import { mockApiCalls } from "./mocks";
 
-test.describe("settings: interactions", () => {
-  test("can update collection settings", async ({ page }) => {
+test.describe("settings", () => {
+  test("update collection settings", async ({ page }) => {
     await mockApiCalls(page);
     await page.goto("/");
     await expect(
@@ -49,7 +49,7 @@ test.describe("settings: interactions", () => {
     ).not.toBeVisible();
   });
 
-  test("can update default taboo", async ({ page }) => {
+  test("update default taboo", async ({ page }) => {
     await mockApiCalls(page);
     await page.goto("/");
 
@@ -99,7 +99,7 @@ test.describe("settings: interactions", () => {
     await expect(page.getByTestId("subtype-weakness")).toBeChecked();
   }
 
-  test("can update 'hide weaknesses' setting", async ({ page }) => {
+  test("update 'hide weaknesses' setting", async ({ page }) => {
     await mockApiCalls(page);
     await page.goto("/");
 
@@ -125,7 +125,7 @@ test.describe("settings: interactions", () => {
     await assertSubtypeSettingApplied(page);
   });
 
-  test("can update list settings", async ({ page }) => {
+  test("update list settings", async ({ page }) => {
     await mockApiCalls(page);
     await page.goto("/");
     await expect(
@@ -159,5 +159,19 @@ test.describe("settings: interactions", () => {
     await expect(
       page.getByTestId("virtuoso-top-item-list").getByText("No cost"),
     ).toBeVisible();
+  });
+
+  test("update 'show previews' setting", async ({ page }) => {
+    await mockApiCalls(page);
+    await page.goto("/");
+    await fillSearch(page, "nose to the grind stone");
+    await expect(page.getByTestId("cardlist-count")).toContainText("0 cards");
+    await page.getByTestId("masthead-settings").click();
+    await page.getByTestId("tab-collection").click();
+    await page.getByTestId("settings-show-previews").click();
+    await page.getByTestId("settings-save").click();
+    await page.getByTestId("settings-back").click();
+    await fillSearch(page, "nose to the grind stone");
+    await expect(page.getByTestId("listcard-11111")).toBeVisible();
   });
 });

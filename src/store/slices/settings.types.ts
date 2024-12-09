@@ -16,6 +16,7 @@ export type SettingsState = {
     player: ListConfig;
     deck: ListConfig;
   };
+  showPreviews: boolean;
   showAllCards: boolean;
   tabooSetId: number | undefined;
 };

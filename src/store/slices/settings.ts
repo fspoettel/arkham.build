@@ -47,6 +47,7 @@ export function getInitialSettings(): SettingsState {
     fontSize: 100,
     hideWeaknessesByDefault: false,
     showAllCards: true,
+    showPreviews: false,
     tabooSetId: undefined,
   };
 }

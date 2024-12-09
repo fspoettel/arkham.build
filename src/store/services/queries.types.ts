@@ -198,6 +198,7 @@ export type Pack = {
   code: string;
   real_name: string;
   position: number;
+  release_date?: string;
   size?: number;
   cycle_code: string;
   reprint?: {

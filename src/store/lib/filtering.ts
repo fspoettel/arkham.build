@@ -50,6 +50,10 @@ export function filterBacksides(card: Card) {
   return !card.linked;
 }
 
+export function filterPreviews(card: Card) {
+  return !!card.preview;
+}
+
 /**
  * Actions
  */

@@ -22,6 +22,7 @@ import { ListSettings } from "./list-settings";
 import { Section } from "./section";
 import css from "./settings.module.css";
 import { ShowAllCardsSetting } from "./show-all-cards";
+import { ShowPreviewsSetting } from "./show-previews";
 import { TabooSetSetting } from "./taboo-set";
 import { ThemeSetting } from "./theme";
 
@@ -130,6 +131,10 @@ function Settings() {
             </TabsContent>
             <TabsContent value="collection" forceMount>
               <Section title="Collection">
+                <ShowPreviewsSetting
+                  settings={settings}
+                  updateSettings={updateSettings}
+                />
                 <ShowAllCardsSetting
                   settings={settings}
                   updateSettings={updateSettings}

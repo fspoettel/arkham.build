@@ -8,6 +8,7 @@ import {
   filterDuplicates,
   filterEncounterCards,
   filterMythosCards,
+  filterPreviews,
   filterType,
 } from "../lib/filtering";
 import type { Card } from "../services/queries.types";
@@ -637,6 +638,10 @@ function makePlayerCardsList(
     filterMythosCards,
     filterBacksides,
   ];
+
+  if (!settings.showPreviews) {
+    systemFilter.push(not(filterPreviews));
+  }
 
   return makeList({
     key,

@@ -60,6 +60,7 @@ import type {
 } from "../slices/lists.types";
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
+import { selectSettings } from "./settings";
 
 export type CardGroup = {
   type: string;
@@ -836,25 +837,38 @@ type CycleWithPacks = (Cycle & {
 export const selectCyclesAndPacks = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
-  (metadata, lookupTables) => {
-    const cycles: CycleWithPacks = Object.entries(
-      lookupTables.packsByCycle,
-    ).map(([cycleCode, packTable]) => {
-      const cycle = metadata.cycles[cycleCode];
+  selectSettings,
+  (metadata, lookupTables, settings) => {
+    const cycles = Object.entries(lookupTables.packsByCycle).reduce(
+      (acc, [cycleCode, packTable]) => {
+        const cycle = metadata.cycles[cycleCode];
 
-      const packs: Pack[] = [];
-      const reprintPacks: Pack[] = [];
+        const packs: Pack[] = [];
+        const reprintPacks: Pack[] = [];
 
-      for (const code of Object.keys(packTable)) {
-        const pack = metadata.packs[code];
-        (pack.reprint ? reprintPacks : packs).push(pack);
-      }
+        for (const code of Object.keys(packTable)) {
+          const pack = metadata.packs[code];
+          (pack.reprint ? reprintPacks : packs).push(pack);
+        }
 
-      reprintPacks.sort((a, b) => a.position - b.position);
-      packs.sort((a, b) => a.position - b.position);
+        reprintPacks.sort((a, b) => a.position - b.position);
+        packs.sort((a, b) => a.position - b.position);
 
-      return { ...cycle, packs, reprintPacks };
-    });
+        const canShowCycle =
+          settings.showPreviews ||
+          packs.every(
+            (pack) =>
+              !pack.release_date || new Date(pack.release_date) <= new Date(),
+          );
+
+        if (canShowCycle) {
+          acc.push({ ...cycle, packs, reprintPacks });
+        }
+
+        return acc;
+      },
+      [] as CycleWithPacks,
+    );
 
     cycles.sort((a, b) => a.position - b.position);
 
