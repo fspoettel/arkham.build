@@ -149,6 +149,8 @@ export function formatLocalCard(card: Record<string, any>): QueryCard {
     ...card,
     back_link_id: card.back_link,
     id: card.code,
+    exceptional: card.text?.includes("Exceptional."),
+    myriad: card.text?.includes("Myriad."),
     preview: true,
     official: true,
     real_flavor: card.flavor,
