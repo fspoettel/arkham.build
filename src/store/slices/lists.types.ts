@@ -21,6 +21,7 @@ export type LevelFilter = {
   range: undefined | [number, number];
   exceptional: boolean;
   nonexceptional: boolean;
+  affordableOnly: undefined | boolean;
 };
 
 export type MultiselectFilter = string[];
