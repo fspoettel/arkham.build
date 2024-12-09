@@ -169,11 +169,6 @@ const sharedImpl: SharedImpl = (f, options) => (set, get, store) => {
     }
 
     /**
-     * Remove unsupported types, preserving BigInt with replacer and reviver
-     */
-    state = JSON.parse(JSON.stringify(state));
-
-    /**
      * Send the states to all the other tabs
      */
     channel.postMessage({ action: "change", state } as Message);
