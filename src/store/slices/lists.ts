@@ -473,6 +473,7 @@ function makeFilterValue(
               range: undefined,
               exceptional: false,
               nonexceptional: false,
+              affordableOnly: undefined,
             },
       );
     }
