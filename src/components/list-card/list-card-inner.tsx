@@ -5,6 +5,7 @@ import {
   getCardColor,
   hasImage,
   hasSkillIcons,
+  parseCardTextHtml,
 } from "@/utils/card-utils";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { cx } from "@/utils/cx";
@@ -161,9 +162,11 @@ export function ListCardInner(props: Props) {
                     tabIndex={-1}
                     type="button"
                     data-testid="listcard-title"
-                  >
-                    {card.real_name}
-                  </button>
+                    // biome-ignore lint/security/noDangerouslySetInnerHtml: safe and necessary.
+                    dangerouslySetInnerHTML={{
+                      __html: parseCardTextHtml(card.real_name),
+                    }}
+                  />
                 </h4>
 
                 {size === "xs" && !!card.xp && (
@@ -237,9 +240,14 @@ export function ListCardInner(props: Props) {
                   )}
 
                   {!showInvestigatorIcons && card.real_subname && (
-                    <h5 className={css["subname"]} title={card.real_subname}>
-                      {card.real_subname}
-                    </h5>
+                    <h5
+                      className={css["subname"]}
+                      title={card.real_subname}
+                      // biome-ignore lint/security/noDangerouslySetInnerHtml: safe and necessary.
+                      dangerouslySetInnerHTML={{
+                        __html: parseCardTextHtml(card.real_subname),
+                      }}
+                    />
                   )}
 
                   {showInvestigatorIcons &&

@@ -1,5 +1,6 @@
 import Unique from "@/assets/icons/icon_unique.svg?react";
 import type { Card } from "@/store/services/queries.types";
+import { parseCardTitle } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { Link } from "wouter";
 import { useCardModalContext } from "../card-modal/card-modal-context";
@@ -20,7 +21,12 @@ export function CardNames(props: Props) {
   const cardName = (
     <>
       {card.parallel && <i className={cx(css["parallel"], "icon-parallel")} />}
-      {card.real_name}{" "}
+      <span
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: safe and necessary.
+        dangerouslySetInnerHTML={{
+          __html: parseCardTitle(card.real_name),
+        }}
+      />{" "}
       <span className={css["unique"]}>{card.is_unique && <Unique />}</span>
     </>
   );
@@ -46,7 +52,15 @@ export function CardNames(props: Props) {
         )}
         {!titleLinks && cardName}
       </h1>
-      {card.real_subname && <h2 className={css["sub"]}>{card.real_subname}</h2>}
+      {card.real_subname && (
+        <h2
+          className={css["sub"]}
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: safe and necessary.
+          dangerouslySetInnerHTML={{
+            __html: parseCardTitle(card.real_subname),
+          }}
+        />
+      )}
     </div>
   );
 }

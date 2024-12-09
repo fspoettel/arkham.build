@@ -144,6 +144,10 @@
   min-width: 0;
 }
 
+.subname > * {
+  vertical-align: middle;
+}
+
 .taboo {
   display: inline-flex;
   align-items: center;
