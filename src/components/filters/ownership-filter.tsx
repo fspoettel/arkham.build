@@ -3,34 +3,19 @@ import { selectActiveListFilter } from "@/store/selectors/lists";
 import { isOwnershipFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
 import { FileCheckIcon, FileIcon, FileWarningIcon } from "lucide-react";
-import { useCallback } from "react";
 import {
   RadioButtonGroup,
   RadioButtonGroupItem,
 } from "../ui/radio-button-group";
 import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
+import { useFilterCallbacks } from "./primitives/filter-hooks";
 
 export function OwnershipFilter({ id }: FilterProps) {
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(isOwnershipFilterObject(filter), "filter must be an ownership filter");
 
-  const setFilterValue = useStore((state) => state.setFilterValue);
-  const setFilterOpen = useStore((state) => state.setFilterOpen);
-
-  const onOpenChange = useCallback(
-    (open: boolean) => {
-      setFilterOpen(id, open);
-    },
-    [id, setFilterOpen],
-  );
-
-  const onValueChange = useCallback(
-    (value: string) => {
-      setFilterValue(id, value);
-    },
-    [id, setFilterValue],
-  );
+  const { onChange, onOpenChange } = useFilterCallbacks(id);
 
   const changes =
     filter.value === "all"
@@ -49,7 +34,7 @@ export function OwnershipFilter({ id }: FilterProps) {
     >
       <RadioButtonGroup
         icons
-        onValueChange={onValueChange}
+        onValueChange={onChange}
         value={filter.value ?? ""}
       >
         <RadioButtonGroupItem tooltip="All" value="all">

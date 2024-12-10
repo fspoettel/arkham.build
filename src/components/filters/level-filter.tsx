@@ -12,6 +12,7 @@ import { RangeSelect } from "../ui/range-select";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
+import { useFilterCallbacks } from "./primitives/filter-hooks";
 
 function getToggleValue(value: [number, number] | undefined) {
   if (!value) return "";
@@ -29,70 +30,62 @@ export function LevelFilter({ id }: FilterProps) {
 
   const changes = selectLevelChanges(filter.value);
 
-  const setFilterValue = useStore((state) => state.setFilterValue);
-
-  const setFilterOpen = useStore((state) => state.setFilterOpen);
-
-  const resetFilter = useStore((state) => state.resetFilter);
+  const { onReset, onChange, onOpenChange } = useFilterCallbacks(id);
 
   const onChangeRange = useCallback(
     (val: [number, number] | undefined) => {
-      setFilterValue(id, {
+      onChange({
         range: val,
       });
     },
-    [id, setFilterValue],
+    [onChange],
   );
 
-  const onChangeOpen = useCallback(
+  const onToggleOpen = useCallback(
     (val: boolean) => {
       if (val && !filter.value.range) {
         onChangeRange([0, 5]);
       }
-      setFilterOpen(id, val);
+      onOpenChange(val);
     },
-    [onChangeRange, id, filter.value.range, setFilterOpen],
+    [onChangeRange, filter.value.range, onOpenChange],
   );
 
   const onSetExceptional = useCallback(
     (val: boolean) => {
-      setFilterValue(id, {
+      onChange({
         exceptional: val,
       });
     },
-    [setFilterValue, id],
+    [onChange],
   );
 
   const onSetNonexceptional = useCallback(
     (val: boolean) => {
-      setFilterValue(id, {
+      onChange({
         nonexceptional: val,
       });
     },
-    [setFilterValue, id],
+    [onChange],
   );
-
-  const onReset = useCallback(() => {
-    resetFilter(id);
-  }, [resetFilter, id]);
 
   const onApplyLevelShortcut = useCallback(
     (value: string) => {
       if (value === "0") {
-        setFilterValue(id, {
+        onChange({
           range: [0, 0],
         });
       } else if (value === "1-5") {
-        setFilterValue(id, {
+        onChange({
           range: [1, 5],
         });
       } else {
-        setFilterValue(id, {
+        onChange({
           range: undefined,
         });
       }
     },
-    [id, setFilterValue],
+    [onChange],
   );
 
   return (
@@ -113,7 +106,7 @@ export function LevelFilter({ id }: FilterProps) {
           </ToggleGroup>
         )
       }
-      onOpenChange={onChangeOpen}
+      onOpenChange={onToggleOpen}
       onReset={onReset}
       open={filter.open}
       title="Level"

@@ -3,6 +3,7 @@ import type {
   CostFilter,
   FilterKey,
   FilterObject,
+  InvestigatorSkillsFilter,
   LevelFilter,
   OwnershipFilter,
   PropertiesFilter,
@@ -132,6 +133,14 @@ export function isLevelFilter(value: unknown): value is LevelFilter {
   );
 }
 
+export function isRangeFilter(value: unknown): value is [number, number] {
+  return (
+    Array.isArray(value) &&
+    value.length === 2 &&
+    value.every((v) => typeof v === "number")
+  );
+}
+
 export function isMultiSelectFilter(value: unknown): value is string[] {
   return Array.isArray(value);
 }
@@ -164,5 +173,15 @@ export function isSkillIconsFilter(value: unknown): value is SkillIconsFilter {
     typeof value === "object" &&
     value != null &&
     Object.values(value).every((v) => typeof v === "number" || v == null)
+  );
+}
+
+export function isInvestigatorSkillsFilter(
+  value: unknown,
+): value is InvestigatorSkillsFilter {
+  return (
+    typeof value === "object" &&
+    value != null &&
+    Object.values(value).every((v) => v == null || isRangeFilter)
   );
 }

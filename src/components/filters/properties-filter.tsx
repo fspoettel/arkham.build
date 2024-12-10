@@ -12,6 +12,7 @@ import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
 import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
+import { useFilterCallbacks } from "./primitives/filter-hooks";
 
 const properties = [
   { key: "bonded", label: "Bonded" },
@@ -54,28 +55,15 @@ export function PropertiesFilter({ id }: FilterProps) {
 
   const changes = selectPropertiesChanges(filter.value);
 
-  const setFilterValue = useStore((state) => state.setFilterValue);
-  const setFilterOpen = useStore((state) => state.setFilterOpen);
-  const resetFilter = useStore((state) => state.resetFilter);
-
-  const onReset = useCallback(() => {
-    resetFilter(id);
-  }, [resetFilter, id]);
-
-  const onOpenChange = useCallback(
-    (val: boolean) => {
-      setFilterOpen(id, val);
-    },
-    [setFilterOpen, id],
-  );
+  const { onReset, onChange, onOpenChange } = useFilterCallbacks(id);
 
   const onPropertyChange = useCallback(
     (key: keyof PropertiesFilterType, value: boolean) => {
-      setFilterValue(id, {
+      onChange({
         [key]: value,
       });
     },
-    [setFilterValue, id],
+    [onChange],
   );
 
   return (

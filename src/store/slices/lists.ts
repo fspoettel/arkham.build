@@ -15,10 +15,12 @@ import type { Card } from "../services/queries.types";
 import {
   isAssetFilter,
   isCostFilter,
+  isInvestigatorSkillsFilter,
   isLevelFilter,
   isMultiSelectFilter,
   isOwnershipFilter,
   isPropertiesFilter,
+  isRangeFilter,
   isSkillIconsFilter,
   isSubtypeFilter,
 } from "./lists.type-guards";
@@ -477,6 +479,29 @@ function makeFilterValue(
       );
     }
 
+    case "health":
+    case "sanity": {
+      return makeFilterObject(
+        type,
+        isRangeFilter(initialValue) ? initialValue : undefined,
+      );
+    }
+
+    case "investigatorSkills": {
+      return makeFilterObject(
+        type,
+        isInvestigatorSkillsFilter(initialValue)
+          ? initialValue
+          : {
+              agility: undefined,
+              combat: undefined,
+              intellect: undefined,
+              willpower: undefined,
+            },
+      );
+    }
+
+    case "investigatorCardAccess":
     case "action":
     case "encounterSet":
     case "pack":
@@ -663,7 +688,14 @@ function makeInvestigatorCardsList(
   settings: SettingsState,
   { initialValues = {} as Partial<Record<FilterKey, unknown>> } = {},
 ): List {
-  const filters: FilterKey[] = ["faction", "trait"];
+  const filters: FilterKey[] = [
+    "faction",
+    "investigatorSkills",
+    "trait",
+    "health",
+    "sanity",
+    "investigatorCardAccess",
+  ];
 
   if (!settings.showAllCards) {
     filters.push("ownership");

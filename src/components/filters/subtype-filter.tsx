@@ -12,6 +12,7 @@ import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
 import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
+import { useFilterCallbacks } from "./primitives/filter-hooks";
 
 export function SubtypeFilter({ id }: FilterProps) {
   const filter = useStore((state) => selectActiveListFilter(state, id));
@@ -27,28 +28,15 @@ export function SubtypeFilter({ id }: FilterProps) {
 
   const options = selectSubtypeOptions();
 
-  const setFilterValue = useStore((state) => state.setFilterValue);
-  const setFilterOpen = useStore((state) => state.setFilterOpen);
-  const resetFilter = useStore((state) => state.resetFilter);
-
-  const onReset = useCallback(() => {
-    resetFilter(id);
-  }, [resetFilter, id]);
-
-  const onOpenChange = useCallback(
-    (val: boolean) => {
-      setFilterOpen(id, val);
-    },
-    [setFilterOpen, id],
-  );
+  const { onReset, onOpenChange, onChange } = useFilterCallbacks(id);
 
   const onValueChange = useCallback(
     (key: keyof SubtypeFilterType, value: boolean) => {
-      setFilterValue(id, {
+      onChange({
         [key]: value,
       });
     },
-    [setFilterValue, id],
+    [onChange],
   );
 
   return (

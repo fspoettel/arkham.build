@@ -13,6 +13,7 @@ import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import css from "./filters.module.css";
 import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
+import { useFilterCallbacks } from "./primitives/filter-hooks";
 
 export function SkillIconsFilter({ id }: FilterProps) {
   const filter = useStore((state) => selectActiveListFilter(state, id));
@@ -23,28 +24,15 @@ export function SkillIconsFilter({ id }: FilterProps) {
 
   const changes = selectSkillIconsChanges(filter.value);
 
-  const setFilterValue = useStore((state) => state.setFilterValue);
-  const setFilterOpen = useStore((state) => state.setFilterOpen);
-  const resetFilter = useStore((state) => state.resetFilter);
-
-  const onReset = useCallback(() => {
-    resetFilter(id);
-  }, [resetFilter, id]);
-
-  const onOpenChange = useCallback(
-    (val: boolean) => {
-      setFilterOpen(id, val);
-    },
-    [setFilterOpen, id],
-  );
+  const { onReset, onOpenChange, onChange } = useFilterCallbacks(id);
 
   const onToggleChange = useCallback(
     (key: keyof SkillIconsFilterType, val: string) => {
-      setFilterValue(id, {
+      onChange({
         [key]: val ? +val : undefined,
       });
     },
-    [setFilterValue, id],
+    [onChange],
   );
 
   return (
