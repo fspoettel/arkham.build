@@ -60,17 +60,34 @@ export type SkillIconsFilter = {
   any: number | undefined;
 };
 
+export type HealthFilter = [number, number] | undefined;
+
+export type SanityFilter = [number, number] | undefined;
+
+export type InvestigatorSkillsFilter = {
+  agility: [number, number] | undefined;
+  combat: [number, number] | undefined;
+  intellect: [number, number] | undefined;
+  willpower: [number, number] | undefined;
+};
+
+export type InvestigatorCardAccessFilter = string[] | undefined;
+
 export type FilterMapping = {
   action: MultiselectFilter;
   asset: AssetFilter;
   cost: CostFilter;
   encounterSet: MultiselectFilter;
   faction: MultiselectFilter;
+  health: HealthFilter;
   investigator: SelectFilter;
+  investigatorCardAccess: InvestigatorCardAccessFilter;
+  investigatorSkills: InvestigatorSkillsFilter;
   level: LevelFilter;
   ownership: OwnershipFilter;
   pack: MultiselectFilter;
   properties: PropertiesFilter;
+  sanity: SanityFilter;
   skillIcons: SkillIconsFilter;
   subtype: SubtypeFilter;
   tabooSet: SelectFilter;

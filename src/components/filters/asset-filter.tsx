@@ -18,6 +18,7 @@ import { RangeSelect } from "../ui/range-select";
 import css from "./filters.module.css";
 import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
+import { useFilterCallbacks } from "./primitives/filter-hooks";
 
 function capitalizeCode(c: Coded) {
   return capitalize(c.code);
@@ -41,33 +42,21 @@ export function AssetFilter({ id, resolvedDeck }: FilterProps) {
   const changes = selectAssetChanges(filter.value);
   const options = useStore((state) => selectAssetOptions(state, resolvedDeck));
 
-  const setFilterValue = useStore((state) => state.setFilterValue);
-  const setFilterOpen = useStore((state) => state.setFilterOpen);
-  const resetFilter = useStore((state) => state.resetFilter);
-
-  const onOpenChange = useCallback(
-    (value: boolean) => {
-      setFilterOpen(id, value);
-    },
-    [setFilterOpen, id],
-  );
-
-  const onReset = useCallback(() => {
-    resetFilter(id);
-  }, [resetFilter, id]);
+  const { onReset, onChange, onOpenChange } =
+    useFilterCallbacks<Partial<AssetFilterType>>(id);
 
   const onChangeUses = useCallback(
     (value: string[]) => {
-      setFilterValue(id, { uses: value });
+      onChange({ uses: value });
     },
-    [setFilterValue, id],
+    [onChange],
   );
 
   const onChangeSlot = useCallback(
     (value: string[]) => {
-      setFilterValue(id, { slots: value });
+      onChange({ slots: value });
     },
-    [setFilterValue, id],
+    [onChange],
   );
 
   const onChangeRange = useCallback(
@@ -75,9 +64,9 @@ export function AssetFilter({ id, resolvedDeck }: FilterProps) {
       key: K,
       value: AssetFilterType[K],
     ) {
-      setFilterValue(id, { [key]: value });
+      onChange({ [key]: value });
     },
-    [setFilterValue, id],
+    [onChange],
   );
 
   const onSkillBoostChange = useCallback(
@@ -93,17 +82,17 @@ export function AssetFilter({ id, resolvedDeck }: FilterProps) {
           }
         }
 
-        setFilterValue(id, { skillBoosts: next });
+        onChange({ skillBoosts: next });
       }
     },
-    [setFilterValue, id, filter.value.skillBoosts],
+    [onChange, filter.value.skillBoosts],
   );
 
   const onHealthXChange = useCallback(
     (value: boolean) => {
-      setFilterValue(id, { healthX: value });
+      onChange({ healthX: value });
     },
-    [setFilterValue, id],
+    [onChange],
   );
 
   return (

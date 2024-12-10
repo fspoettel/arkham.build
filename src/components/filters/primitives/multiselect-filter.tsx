@@ -1,8 +1,7 @@
 import { Combobox } from "@/components/ui/combobox/combobox";
-import { useStore } from "@/store";
 import type { Coded } from "@/store/services/queries.types";
-import { useCallback } from "react";
 import { FilterContainer } from "./filter-container";
+import { useFilterCallbacks } from "./filter-hooks";
 
 type Props<T extends Coded> = {
   changes?: string;
@@ -31,27 +30,7 @@ export function MultiselectFilter<T extends Coded>(props: Props<T>) {
     value,
   } = props;
 
-  const setFilterValue = useStore((state) => state.setFilterValue);
-  const setFilterOpen = useStore((state) => state.setFilterOpen);
-  const resetFilter = useStore((state) => state.resetFilter);
-
-  const onReset = useCallback(() => {
-    resetFilter(id);
-  }, [resetFilter, id]);
-
-  const onOpenChange = useCallback(
-    (val: boolean) => {
-      setFilterOpen(id, val);
-    },
-    [setFilterOpen, id],
-  );
-
-  const onChange = useCallback(
-    (value: string[]) => {
-      setFilterValue(id, value);
-    },
-    [id, setFilterValue],
-  );
+  const { onReset, onOpenChange, onChange } = useFilterCallbacks<string[]>(id);
 
   return (
     <FilterContainer
