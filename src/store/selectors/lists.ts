@@ -80,6 +80,7 @@ function makeUserFilter(
   lookupTables: LookupTables,
   list: List,
   targetDeck?: "slots" | "extraSlots" | "both",
+  resolvedDeck?: ResolvedDeck,
 ) {
   const filters: Filter[] = [];
 
@@ -152,7 +153,18 @@ function makeUserFilter(
 
       case "level": {
         const value = filterValue.value as LevelFilter;
-        if (value.range) filters.push(filterLevel(value));
+
+        let availableXp = resolvedDeck?.xp;
+        if (typeof availableXp === "number") {
+          availableXp +=
+            (resolvedDeck?.xp_adjustment ?? 0) -
+            (resolvedDeck?.stats.xpRequired ?? 0);
+
+          if (availableXp < 0) availableXp = 0;
+        }
+
+        if (value.range || value.affordableOnly)
+          filters.push(filterLevel(value, availableXp));
         break;
       }
 
@@ -472,9 +484,10 @@ const selectBaseListCards = createSelector(
 export const selectListCards = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
+  (_state: StoreState, resolvedDeck?: ResolvedDeck) => resolvedDeck,
   selectActiveList,
   selectBaseListCards,
-  (metadata, lookupTables, activeList, _filteredCards) => {
+  (metadata, lookupTables, resolvedDeck, activeList, _filteredCards) => {
     if (!_filteredCards || !activeList) return undefined;
 
     time("select_list_cards");
@@ -489,7 +502,13 @@ export const selectListCards = createSelector(
     const totalCardCount = filteredCards.length;
 
     // apply user filters.
-    const filter = makeUserFilter(metadata, lookupTables, activeList);
+    const filter = makeUserFilter(
+      metadata,
+      lookupTables,
+      activeList,
+      undefined,
+      resolvedDeck,
+    );
     if (filter) filteredCards = filteredCards.filter(filter);
 
     const cards: Card[] = [];
@@ -817,12 +836,17 @@ export const selectInvestigatorChanges = createSelector(
  */
 
 export const selectLevelChanges = (value: LevelFilter) => {
-  if (!value.range) return undefined;
-  let s = `${value.range[0]}`;
-  if (value.range[1] !== value.range[0]) s = `${s}-${value.range[1]}`;
-  if (value.exceptional) s = `${s}, exceptional`;
-  if (value.nonexceptional) s = `${s}, nonexceptional`;
-  return s;
+  if (!value.range && !value.affordableOnly) return undefined;
+  const s: string[] = [];
+  if (value.range) {
+    if (value.range[1] !== value.range[0])
+      s.push(`${value.range[0]}-${value.range[1]}`);
+    else s.push(`${value.range[0]}`);
+  }
+  if (value.exceptional) s.push("exceptional");
+  if (value.nonexceptional) s.push("non-exceptional");
+  if (value.affordableOnly) s.push("affordable only");
+  return s.join(", ");
 };
 
 /**
