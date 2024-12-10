@@ -13,6 +13,7 @@ import { isEmpty } from "@/utils/is-empty";
 import { time, timeEnd } from "@/utils/time";
 import { createSelector } from "reselect";
 import { applyCardChanges } from "../lib/card-edits";
+import { getUpgradeStats } from "../lib/deck-upgrades";
 import { getAdditionalDeckOptions } from "../lib/deck-validation";
 import {
   filterActions,
@@ -474,7 +475,8 @@ export const selectListCards = createSelector(
   (state: StoreState) => state.lookupTables,
   selectActiveList,
   selectBaseListCards,
-  (metadata, lookupTables, activeList, _filteredCards) => {
+  (_: StoreState, resolvedDeck?: ResolvedDeck) => resolvedDeck,
+  (metadata, lookupTables, activeList, _filteredCards, resolvedDeck) => {
     if (!_filteredCards || !activeList) return undefined;
 
     time("select_list_cards");
@@ -491,6 +493,37 @@ export const selectListCards = createSelector(
     // apply user filters.
     const filter = makeUserFilter(metadata, lookupTables, activeList);
     if (filter) filteredCards = filteredCards.filter(filter);
+
+    time("simulate_affordable_filter");
+
+    for (const card of filteredCards) {
+      if (resolvedDeck) {
+        const next = {
+          ...resolvedDeck,
+          slots: {
+            ...resolvedDeck.slots,
+            [card.code]: (resolvedDeck.slots[card.code] || 0) + 1,
+          },
+          cards: {
+            ...resolvedDeck.cards,
+            slots: {
+              ...resolvedDeck.cards.slots,
+              [card.code]: resolveCardWithRelations(
+                metadata,
+                lookupTables,
+                card.code,
+                resolvedDeck.taboo_id,
+                resolvedDeck.customizations,
+                false,
+              ),
+            },
+          },
+        };
+
+        getUpgradeStats(resolvedDeck, next);
+      }
+    }
+    timeEnd("simulate_affordable_filter");
 
     const cards: Card[] = [];
     const groups: CardGroup[] = [];
