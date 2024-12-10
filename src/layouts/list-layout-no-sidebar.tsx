@@ -3,11 +3,13 @@ import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { Filters } from "@/components/filters/filters";
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
+import { useStore } from "@/store";
 import { cx } from "@/utils/cx";
 import { useDocumentTitle } from "@/utils/use-document-title";
 import { useGoBack } from "@/utils/use-go-back";
+import { useMedia } from "@/utils/use-media";
 import { ChevronLeftIcon, FilterIcon } from "lucide-react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect } from "react";
 import css from "./list-layout-no-sidebar.module.css";
 
 type Props = {
@@ -15,30 +17,53 @@ type Props = {
   title?: React.ReactNode;
 } & React.ComponentProps<typeof CardListContainer>;
 
+/**
+ * TODO: TECH DEBT
+ * This component should be removed and folded into a refactored ListLayout component.
+ */
 export function ListLayoutNoSidebar(props: Props) {
   const { title, titleString, ...rest } = props;
 
-  const [filtersOpen, onToggleFilters] = useState(false);
+  const filtersOpen = useStore((state) => state.ui.filtersOpen);
+  const setFiltersOpen = useStore((state) => state.setFiltersOpen);
+
+  const floatingFilters = useMedia("(max-width: 52rem)");
 
   useDocumentTitle(titleString);
 
   const goBack = useGoBack();
 
+  const preventBubble = useCallback((e: React.PointerEvent) => {
+    e.stopPropagation();
+  }, []);
+
   const onContentClick = useCallback(
     (evt: React.PointerEvent) => {
-      if (!filtersOpen) return;
-      evt.preventDefault();
-      onToggleFilters(false);
+      if (filtersOpen && floatingFilters) {
+        evt.preventDefault();
+        setFiltersOpen(false);
+      }
     },
-    [filtersOpen],
+    [filtersOpen, floatingFilters, setFiltersOpen],
   );
+
+  const floatingMenuOpen =
+    floatingFilters && filtersOpen && css["floating-menu-open"];
+
+  useEffect(() => {
+    setFiltersOpen(!floatingFilters);
+
+    return () => {
+      setFiltersOpen(!floatingFilters);
+    };
+  }, [floatingFilters, setFiltersOpen]);
 
   return (
     <CardModalProvider>
       <div
         className={cx(
           css["layout"],
-          filtersOpen && css["filters-open"],
+          floatingMenuOpen && css["floating-menu-open"],
           "fade-in",
         )}
         onPointerDown={onContentClick}
@@ -48,25 +73,35 @@ export function ListLayoutNoSidebar(props: Props) {
             <ChevronLeftIcon /> Back
           </Button>
         </Masthead>
-        <main className={css["content"]}>
+        <main
+          className={cx(
+            css["content"],
+            !filtersOpen && css["collapsed-filters"],
+          )}
+        >
           <header className={css["header"]}>
             <h1 className={css["title"]}>{title ?? titleString}</h1>
           </header>
           <CardListContainer
             {...rest}
             slotRight={
-              <Button
-                className={css["toggle-filters"]}
-                onClick={() => onToggleFilters(true)}
-              >
-                <FilterIcon />
-              </Button>
+              !filtersOpen && (
+                <Button
+                  className={css["toggle-filters"]}
+                  onClick={() => setFiltersOpen(true)}
+                  iconOnly
+                  size="lg"
+                >
+                  <FilterIcon />
+                </Button>
+              )
             }
           />
         </main>
         <nav
-          className={css["filters"]}
+          className={cx(css["filters"], floatingFilters && css["floating"])}
           data-state={filtersOpen ? "open" : "closed"}
+          onPointerDown={floatingFilters ? preventBubble : undefined}
         >
           <Filters />
         </nav>
