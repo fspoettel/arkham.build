@@ -104,6 +104,8 @@ export function ListCardInner(props: Props) {
 
   const limit = cardLimit(card, limitOverride);
 
+  const xp = countExperience(card, 1);
+
   return (
     <Element
       className={cx(
@@ -170,9 +172,7 @@ export function ListCardInner(props: Props) {
                   />
                 </h4>
 
-                {size === "xs" && !!card.xp && (
-                  <ExperienceDots xp={countExperience(card, 1)} />
-                )}
+                {size === "xs" && !!xp && <ExperienceDots xp={xp} />}
 
                 {ownedCount != null &&
                   card.code !== SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS &&
