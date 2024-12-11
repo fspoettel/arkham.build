@@ -13,7 +13,6 @@ type Props = {
 
 export function SkillIconsEnemy(props: Props) {
   const { className, card, iconClassName } = props;
-  if (card.type_code !== "enemy") return null;
 
   const entries: [string, number | undefined][] = [
     ["combat", card.enemy_fight],

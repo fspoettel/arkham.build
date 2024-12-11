@@ -36,7 +36,7 @@ export function sideways(card: Card) {
 export function reversed(card: Card) {
   return (
     card.double_sided &&
-    card.type_code === "location" &&
+    isLocationLike(card) &&
     !card.back_link_id &&
     card.encounter_code
   );
@@ -113,6 +113,14 @@ export function isSpecialCard(card: Card, ignorePermanent = false) {
   const isSpecial = card.encounter_code || card.subtype_code || card.xp == null;
 
   return !!isSpecial || !!(card.permanent && !ignorePermanent);
+}
+
+export function isEnemyLike(card: Card) {
+  return !!(card.enemy_damage || card.enemy_horror);
+}
+
+export function isLocationLike(card: Card) {
+  return !!(card.shroud || card.clues || card.clues_fixed);
 }
 
 export function hasImage(card: Card) {

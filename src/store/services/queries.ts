@@ -2,21 +2,15 @@ import encounterSets from "@/store/services/data/encounter_sets.json";
 import packs from "@/store/services/data/packs.json";
 import type { Deck, Id } from "../slices/data.types";
 import { isDeck } from "../slices/data.types";
-import factions from "./data/factions.json";
 import reprintPacks from "./data/reprint_packs.json";
-import subTypes from "./data/subtypes.json";
-import types from "./data/types.json";
 
 import type {
   Cycle,
   DataVersion,
   EncounterSet,
-  Faction,
   Pack,
   QueryCard,
-  SubType,
   TabooSet,
-  Type,
 } from "./queries.types";
 
 export type MetadataApiResponse = {
@@ -25,11 +19,8 @@ export type MetadataApiResponse = {
 
 export type MetadataResponse = {
   cycle: Cycle[];
-  faction: Faction[];
   pack: Pack[];
   reprint_pack: Pack[];
-  subtype: SubType[];
-  type: Type[];
   card_encounter_set: EncounterSet[];
   taboo_set: TabooSet[];
 };
@@ -94,9 +85,6 @@ export async function queryMetadata(): Promise<MetadataResponse> {
     card_encounter_set: [...data.card_encounter_set, ...encounterSets],
     pack: [...data.pack, ...packs],
     reprint_pack: reprintPacks,
-    faction: factions,
-    type: types,
-    subtype: subTypes,
   };
 }
 

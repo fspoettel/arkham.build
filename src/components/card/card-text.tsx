@@ -15,6 +15,7 @@ export function CardText(props: Props) {
   const swapFlavor = ["agenda", "act", "story"].includes(typeCode);
 
   const flavorIsCardText = swapFlavor || typeCode === "location";
+
   const showFlavor = flavorIsCardText || size === "full";
 
   const textNode = !!text && (

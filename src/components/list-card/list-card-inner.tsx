@@ -5,6 +5,7 @@ import {
   getCardColor,
   hasImage,
   hasSkillIcons,
+  isEnemyLike,
   parseCardTextHtml,
 } from "@/utils/card-utils";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
@@ -283,8 +284,9 @@ export function ListCardInner(props: Props) {
       {showCardText && (
         <div className={css["listcard-text"]}>
           <CardDetails card={card} omitSlotIcon />
-          {(card.type_code === "investigator" ||
-            card.type_code === "enemy") && <CardIcons card={card} />}
+          {(card.type_code === "investigator" || isEnemyLike(card)) && (
+            <CardIcons card={card} />
+          )}
           <CardText
             text={card.real_text}
             size="tooltip"

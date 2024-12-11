@@ -27,7 +27,7 @@ export function CardDetails(props: Props) {
           <p className={css["details-traits"]}>{card.real_traits}</p>
         )}
         {!!card.doom && <p>Doom: {card.doom}</p>}
-        {card.type_code === "location" && (
+        {(card.clues || card.clues_fixed || card.shroud) && (
           <p>
             Shroud:{" "}
             {card.shroud != null ? card.shroud : <i className="icon-numNull" />}

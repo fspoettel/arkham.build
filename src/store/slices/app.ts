@@ -44,7 +44,10 @@ import type { Metadata } from "./metadata.types";
 
 import localCards from "@/store/services/data/cards.json";
 import localCycles from "@/store/services/data/cycles.json";
+import factions from "@/store/services/data/factions.json";
 import localPacks from "@/store/services/data/packs.json";
+import subTypes from "@/store/services/data/subtypes.json";
+import types from "@/store/services/data/types.json";
 import { assertCanPublishDeck } from "@/utils/arkhamdb";
 
 export function getInitialAppState() {
@@ -63,6 +66,13 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     const state = get();
 
     if (!refresh && state.metadata.dataVersion?.cards_updated_at) {
+      const metadata = {
+        ...state.metadata,
+        factions: mappedByCode(factions),
+        subtypes: mappedByCode(subTypes),
+        types: mappedByCode(types),
+      };
+
       if (localCards.length) {
         const cards = state.metadata.cards;
 
@@ -71,23 +81,17 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         }
 
         for (const pack of localPacks) {
-          state.metadata.packs[pack.code] = pack;
+          metadata.packs[pack.code] = pack;
         }
 
         for (const cycle of localCycles) {
-          state.metadata.cycles[cycle.code] = cycle;
+          metadata.cycles[cycle.code] = cycle;
         }
-
-        set({
-          metadata: {
-            ...state.metadata,
-            cards,
-          },
-        });
       }
 
       state.refreshLookupTables({
         lists: makeLists(state.settings),
+        metadata,
       });
 
       return false;
@@ -113,9 +117,9 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         ...mappedByCode(metadataResponse.reprint_pack),
       },
       encounterSets: mappedByCode(metadataResponse.card_encounter_set),
-      factions: mappedByCode(metadataResponse.faction),
-      subtypes: mappedByCode(metadataResponse.subtype),
-      types: mappedByCode(metadataResponse.type),
+      factions: mappedByCode(factions),
+      subtypes: mappedByCode(subTypes),
+      types: mappedByCode(types),
       tabooSets: mappedById(metadataResponse.taboo_set),
     };
 

@@ -1,4 +1,5 @@
 import type { Card } from "@/store/services/queries.types";
+import { isEnemyLike } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { range } from "@/utils/range";
 import { CardHealth } from "../card-health";
@@ -32,11 +33,11 @@ export function CardIcons(props: Props) {
         />
       )}
 
-      {card.type_code !== "enemy" && (card.health || card.sanity) && (
+      {!isEnemyLike(card) && (card.health || card.sanity) && (
         <CardHealth health={card.health} sanity={card.sanity} />
       )}
 
-      {card.type_code === "enemy" && (
+      {isEnemyLike(card) && (
         <>
           <SkillIconsEnemy
             card={card}
