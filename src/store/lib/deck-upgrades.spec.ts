@@ -57,6 +57,8 @@ import ignoreDeckLimit1 from "@/test/fixtures/decks/upgrades/ignore_deck_limit_1
 import ignoreDeckLimit2 from "@/test/fixtures/decks/upgrades/ignore_deck_limit_1_2.json";
 import ignoreDeckLimit21 from "@/test/fixtures/decks/upgrades/ignore_deck_limit_2_1.json";
 import ignoreDeckLimit22 from "@/test/fixtures/decks/upgrades/ignore_deck_limit_2_2.json";
+import ignoreDeckLimitCampaign1 from "@/test/fixtures/decks/upgrades/ignore_deck_limit_campaign_1.json";
+import ignoreDeckLimitCampaign2 from "@/test/fixtures/decks/upgrades/ignore_deck_limit_campaign_2.json";
 import myriad from "@/test/fixtures/decks/upgrades/myriad_1.json";
 import myriad2 from "@/test/fixtures/decks/upgrades/myriad_2.json";
 import negativeQuantity from "@/test/fixtures/decks/upgrades/negative_quantity_1.json";
@@ -279,6 +281,23 @@ describe("getUpgradeStats", () => {
         state.lookupTables,
         state.sharing,
         ignoreDeckLimit2,
+      );
+      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+    });
+
+    it("handles case: ignore deck limit (story asset)", () => {
+      const state = store.getState();
+      const prev = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        state.sharing,
+        ignoreDeckLimitCampaign1,
+      );
+      const next = resolveDeck(
+        state.metadata,
+        state.lookupTables,
+        state.sharing,
+        ignoreDeckLimitCampaign2,
       );
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
     });

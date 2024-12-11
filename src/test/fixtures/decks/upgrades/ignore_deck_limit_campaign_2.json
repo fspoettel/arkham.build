@@ -1,0 +1,30 @@
+{
+  "id": "pTkJSnipJ3Q4ytT",
+  "date_creation": "2024-12-11T20:52:09.406Z",
+  "date_update": "2024-12-11T20:52:43.388Z",
+  "description_md": "1 XP: the first copy of Ace of Rods is ignored, the second one is not.",
+  "meta": "{}",
+  "ignoreDeckLimitSlots": {
+    "05040": 1
+  },
+  "sideSlots": {},
+  "next_deck": null,
+  "previous_deck": null,
+  "tags": "",
+  "version": "0.1",
+  "taboo_id": 8,
+  "xp": 1,
+  "xp_spent": 2,
+  "exile_string": "",
+  "xp_adjustment": 0,
+  "investigator_code": "01001",
+  "investigator_name": "Roland Banks",
+  "name": "The Adventures of Roland Banks",
+  "slots": {
+    "01000": 1,
+    "01006": 1,
+    "01007": 1,
+    "05040": 2
+  },
+  "problem": "too_few_cards"
+}

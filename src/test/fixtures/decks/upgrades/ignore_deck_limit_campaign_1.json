@@ -1,0 +1,27 @@
+{
+  "id": "jTQoF0XRO0MjMw2",
+  "date_creation": "2024-12-11T20:51:27.983Z",
+  "date_update": "2024-12-11T20:51:33.930Z",
+  "description_md": "",
+  "meta": "{}",
+  "ignoreDeckLimitSlots": {},
+  "sideSlots": {},
+  "next_deck": null,
+  "previous_deck": null,
+  "tags": "",
+  "version": "0.1",
+  "taboo_id": 8,
+  "xp": null,
+  "xp_spent": null,
+  "exile_string": null,
+  "xp_adjustment": null,
+  "investigator_code": "01001",
+  "investigator_name": "Roland Banks",
+  "name": "The Adventures of Roland Banks",
+  "slots": {
+    "01000": 1,
+    "01006": 1,
+    "01007": 1
+  },
+  "problem": "too_few_cards"
+}

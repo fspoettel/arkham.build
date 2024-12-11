@@ -207,7 +207,7 @@ function calculateXpSpent(
 
     const upgrades = getDirectUpgrades(diff);
 
-    for (const [card, quantity] of diff.adds) {
+    for (const [card, _quantity] of diff.adds) {
       // Checking boxes on a customizable cards counts as upgrades.
       // We only handle customizable purchases as adds if the cards are new.
       if (
@@ -218,7 +218,19 @@ function calculateXpSpent(
         continue;
       }
 
-      let cost = countExperience(card, quantity);
+      let quantity = _quantity;
+
+      // some player cards can be given as story assets, these copies are free.
+      if (
+        card.code === SPECIAL_CARD_CODES.ACE_OF_RODS &&
+        next.ignoreDeckLimitSlots?.[card.code]
+      ) {
+        quantity -= next.ignoreDeckLimitSlots?.[card.code];
+
+        if (quantity <= 0) {
+          continue;
+        }
+      }
 
       const level = realCardLevel(card);
 
@@ -226,6 +238,8 @@ function calculateXpSpent(
       if (level == null) {
         continue;
       }
+
+      let cost = countExperience(card, quantity);
 
       // level 0 cards cost a minimum of to purchase.
       // copy 2 to n of a myriad is free.
@@ -239,7 +253,6 @@ function calculateXpSpent(
       }
 
       // ignored cards (||Agnes, ||Skids) require full XP cost to purchase.
-      // TODO: handle TCU <> Ace of Rods
       if (
         investigatorCanIgnore &&
         Object.values(next.cards.ignoreDeckLimitSlots).some(
