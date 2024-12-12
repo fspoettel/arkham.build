@@ -248,6 +248,13 @@ function filterNonexceptional(card: Card) {
   return !card.exceptional;
 }
 
+function filterAffordable(xp: number): (card: Card) => boolean {
+  return (card: Card) => {
+    const level = cardLevel(card);
+    return xp >= (level ?? 0) * (card.exceptional ? 2 : 1);
+  };
+}
+
 function filterCardLevel(value: [number, number], checkCustomizable = false) {
   return (card: Card) => {
     const level = cardLevel(card);
@@ -259,7 +266,7 @@ function filterCardLevel(value: [number, number], checkCustomizable = false) {
   };
 }
 
-export function filterLevel(filterState: LevelFilter) {
+export function filterLevel(filterState: LevelFilter, xp?: number | null) {
   const filters = [];
 
   if (filterState.range) {
@@ -272,6 +279,10 @@ export function filterLevel(filterState: LevelFilter) {
     } else {
       filters.push(filterNonexceptional);
     }
+  }
+
+  if (filterState.affordableOnly) {
+    filters.push(filterAffordable(xp ?? 0));
   }
 
   const filter = and(filters);

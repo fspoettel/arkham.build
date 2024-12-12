@@ -5,7 +5,8 @@ import {
 } from "@/store/selectors/lists";
 import { isLevelFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
-import { useCallback } from "react";
+import { useResolvedDeck } from "@/utils/use-resolved-deck";
+import { forwardRef, useCallback } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
 import { RangeSelect } from "../ui/range-select";
@@ -34,6 +35,8 @@ export function LevelFilter({ id }: FilterProps) {
   const setFilterOpen = useStore((state) => state.setFilterOpen);
 
   const resetFilter = useStore((state) => state.resetFilter);
+
+  const resolvedDeck = useResolvedDeck();
 
   const onChangeRange = useCallback(
     (val: [number, number] | undefined) => {
@@ -72,6 +75,15 @@ export function LevelFilter({ id }: FilterProps) {
     [setFilterValue, id],
   );
 
+  const onSetAffordfableOnly = useCallback(
+    (val: boolean) => {
+      setFilterValue(id, {
+        affordableOnly: val,
+      });
+    },
+    [setFilterValue, id],
+  );
+
   const onReset = useCallback(() => {
     resetFilter(id);
   }, [resetFilter, id]);
@@ -101,16 +113,23 @@ export function LevelFilter({ id }: FilterProps) {
       filterString={changes}
       nonCollapsibleContent={
         !filter.open && (
-          <ToggleGroup
-            data-testid="filters-level-shortcut"
-            full
-            onValueChange={onApplyLevelShortcut}
-            type="single"
-            value={getToggleValue(filter.value.range)}
-          >
-            <ToggleGroupItem value="0">Level 0</ToggleGroupItem>
-            <ToggleGroupItem value="1-5">Level 1-5</ToggleGroupItem>
-          </ToggleGroup>
+          <>
+            <AffordableOnlyCheckbox
+              visible={!!resolvedDeck.resolvedDeck}
+              checked={filter.value.affordableOnly ?? false}
+              onCheckedChange={onSetAffordfableOnly}
+            />
+            <ToggleGroup
+              data-testid="filters-level-shortcut"
+              full
+              onValueChange={onApplyLevelShortcut}
+              type="single"
+              value={getToggleValue(filter.value.range)}
+            >
+              <ToggleGroupItem value="0">Level 0</ToggleGroupItem>
+              <ToggleGroupItem value="1-5">Level 1-5</ToggleGroupItem>
+            </ToggleGroup>
+          </>
         )
       }
       onOpenChange={onChangeOpen}
@@ -141,7 +160,38 @@ export function LevelFilter({ id }: FilterProps) {
           label="Non-exceptional"
           onCheckedChange={onSetNonexceptional}
         />
+        <AffordableOnlyCheckbox
+          visible={!!resolvedDeck.resolvedDeck}
+          checked={filter.value.affordableOnly ?? false}
+          onCheckedChange={onSetAffordfableOnly}
+        />
       </CheckboxGroup>
     </FilterContainer>
   );
 }
+
+const AffordableOnlyCheckbox = forwardRef(
+  (
+    {
+      visible,
+      checked,
+      onCheckedChange,
+    }: {
+      visible: boolean;
+      checked: boolean;
+      onCheckedChange: (val: boolean) => void;
+    },
+    _ref,
+  ) => {
+    return (
+      visible && (
+        <Checkbox
+          checked={checked}
+          id="affordableOnly"
+          label="Affordable Only"
+          onCheckedChange={onCheckedChange}
+        />
+      )
+    );
+  },
+);
