@@ -7,10 +7,8 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/");
 });
 
-test.describe("filters: interactions", () => {
-  test("can filter via shortcuts", async ({ page }) => {
-    //await page.getByTestId("filters-faction-multiclass").click();
-
+test.describe("filters", () => {
+  test("filter via shortcuts", async ({ page }) => {
     await page
       .getByTestId("filters-type-shortcut")
       .getByRole("button", { name: "Event" })
@@ -35,7 +33,7 @@ test.describe("filters: interactions", () => {
     await expect(page.getByTestId("listcard-60216")).toBeVisible();
   });
 
-  test("can use faction filter", async ({ page }) => {
+  test("filter factions", async ({ page }) => {
     await page.getByTestId("filters-faction-seeker").click();
 
     await fillSearch(page, "Practice Makes Perfect");
@@ -52,7 +50,7 @@ test.describe("filters: interactions", () => {
     await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
   });
 
-  test("can use subtype filter", async ({ page }) => {
+  test("filter subtypes", async ({ page }) => {
     await page.getByTestId("search-input").click();
     await fillSearch(page, "king in yellow");
     await expect(page.getByTestId("listcard-03011")).toBeVisible();
@@ -60,7 +58,9 @@ test.describe("filters: interactions", () => {
     await expect(page.getByTestId("listcard-03011")).not.toBeVisible();
   });
 
-  test("can toggle game text", async ({ page }) => {
+  test("filter types", async ({ page }) => {});
+
+  test("toggle game text", async ({ page }) => {
     await page.getByTestId("search-game-text").click();
     await fillSearch(page, "ashcan pete");
 
@@ -74,5 +74,97 @@ test.describe("filters: interactions", () => {
 
     await expect(page.getByTestId("card-text").first()).not.toBeVisible();
     await expect(page.getByTestId("card-text").nth(1)).not.toBeVisible();
+  });
+
+  test("filter investigator stats shortcut", async ({ page }) => {
+    await page.getByTestId("collection-create-deck").click();
+
+    await page
+      .getByTestId("filter-investigator-skills-shortcut-intellect")
+      .click();
+
+    await page
+      .getByTestId("filter-investigator-skills-shortcut-agility")
+      .click();
+
+    await expect(page.getByTestId("listcard-07003")).toBeVisible();
+
+    await page
+      .getByTestId("filter-investigator-skills-shortcut-combat")
+      .click();
+
+    await expect(page.getByTestId("listcard-07003")).not.toBeVisible();
+  });
+
+  test("filter investigator stats", async ({ page }) => {
+    await page.getByTestId("collection-create-deck").click();
+    await page.getByRole("heading", { name: "Stats" }).click();
+
+    await fillSearch(page, "preston");
+    await expect(page.getByTestId("listcard-05003")).toBeVisible();
+
+    for (const key of ["willpower", "intellect", "combat", "agility"]) {
+      await page
+        .getByTestId(`filter-investigator-skills-${key}`)
+        .getByLabel("Maximum")
+        .click();
+
+      for (let i = 0; i < 5; i++) {
+        await page
+          .getByTestId(`filter-investigator-skills-${key}`)
+          .getByLabel("Maximum")
+          .press("ArrowLeft");
+      }
+    }
+
+    await expect(page.getByTestId("listcard-05003")).not.toBeVisible();
+
+    await fillSearch(page, "calvin");
+    await expect(page.getByTestId("listcard-04005")).toBeVisible();
+  });
+
+  test("filter investigator health", async ({ page }) => {
+    await page.getByTestId("collection-create-deck").click();
+    await fillSearch(page, "skids");
+    await page.getByRole("heading", { name: "Health" }).click();
+    await page.getByLabel("Minimum").click();
+    await expect(page.getByTestId("listcard-01003")).toBeVisible();
+    await page.getByLabel("Minimum").press("ArrowRight");
+    await page.getByLabel("Minimum").press("ArrowRight");
+    await page.getByLabel("Minimum").press("ArrowRight");
+    await page.getByLabel("Minimum").press("ArrowRight");
+    await expect(page.getByTestId("listcard-01003")).not.toBeVisible();
+  });
+
+  test("filter investigator sanity", async ({ page }) => {
+    await page.getByTestId("collection-create-deck").click();
+    await page.getByRole("heading", { name: "Sanity" }).click();
+    await fillSearch(page, "agnes");
+    await page.getByLabel("Minimum").click();
+    await expect(page.getByTestId("listcard-01004")).toBeVisible();
+    await page.getByLabel("Minimum").press("ArrowRight");
+    await page.getByLabel("Minimum").press("ArrowRight");
+    await page.getByLabel("Minimum").press("ArrowRight");
+    await page.getByLabel("Minimum").press("ArrowRight");
+    await expect(page.getByTestId("listcard-01004")).not.toBeVisible();
+  });
+
+  test("filter investigator card access", async ({ page }) => {
+    await page.getByTestId("collection-create-deck").click();
+    await fillSearch(page, "mateo");
+    await page.getByRole("heading", { name: "Card access" }).click();
+    await page.getByTestId("combobox-input").click();
+    await page.getByTestId("combobox-input").fill("purif");
+    await page.getByTestId("combobox-menu-item-10029").click();
+    await page.getByTestId("combobox-input").fill("eye of cha");
+    await page.getByTestId("combobox-menu-item-07227").click();
+    await page.getByTestId("combobox-input").fill("keep fa");
+    await page.getByTestId("combobox-menu-item-10124").click();
+
+    await expect(page.getByTestId("listcard-04004")).toBeVisible();
+
+    await page.getByTestId("combobox-input").fill("dark horse");
+    await page.getByTestId("combobox-menu-item-10127").click();
+    await expect(page.getByTestId("listcard-04004")).not.toBeVisible();
   });
 });

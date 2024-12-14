@@ -9,6 +9,7 @@ import type { Card, DeckOption } from "../services/queries.types";
 import type {
   AssetFilter,
   CostFilter,
+  InvestigatorSkillsFilter,
   LevelFilter,
   MultiselectFilter,
   PropertiesFilter,
@@ -68,8 +69,7 @@ export function filterActions(
     filters.push((c: Card) => !!actionTable[key][c.code]);
   }
 
-  const filter = or(filters);
-  return (card: Card) => filter(card);
+  return or(filters);
 }
 
 /**
@@ -91,18 +91,15 @@ function filterSlots(slot: string) {
   return (card: Card) => !!card.real_slot?.includes(slot);
 }
 
-function filterHealthProp(
+export function filterHealthProp(
   minMax: [number, number],
   healthX: boolean,
   key: "health" | "sanity",
 ) {
   return (card: Card) => {
     if (card.health === -2) return healthX;
-
     const health = card[key] ?? 0;
-    return (
-      card.type_code === "asset" && health >= minMax[0] && health <= minMax[1]
-    );
+    return health >= minMax[0] && health <= minMax[1];
   };
 }
 
@@ -185,9 +182,7 @@ export function filterCost(filterState: CostFilter) {
   if (filterState.x) altCostFilters.push(filterXCost);
   if (filterState.nocost) altCostFilters.push(filterNoCost);
 
-  const filter = or([...altCostFilters, and(filters)]);
-
-  return (card: Card) => filter(card);
+  return or([...altCostFilters, and(filters)]);
 }
 
 /**
@@ -201,8 +196,7 @@ export function filterEncounterCode(filterState: MultiselectFilter) {
     filters.push((c: Card) => c.encounter_code === key);
   }
 
-  const filter = or(filters);
-  return (card: Card) => filter(card);
+  return or(filters);
 }
 
 /**
@@ -232,8 +226,7 @@ export function filterFactions(factions: string[]) {
     }
   }
 
-  const filter = and([or(ors), ...ands]);
-  return (card: Card) => filter(card);
+  return and([or(ors), ...ands]);
 }
 
 /**
@@ -274,11 +267,7 @@ export function filterLevel(filterState: LevelFilter) {
     }
   }
 
-  const filter = and(filters);
-
-  return (card: Card) => {
-    return filter(card);
-  };
+  return and(filters);
 }
 
 /**
@@ -388,6 +377,7 @@ function filterHealsHorror(checkCustomizableOptions: boolean) {
 function filterRestrictions(card: Card, investigator: Card) {
   if (Array.isArray(card.restrictions?.trait)) {
     const targetTraits = card.restrictions.trait;
+
     return splitMultiValue(investigator.real_traits).some((t) =>
       targetTraits.includes(t.toLowerCase()),
     );
@@ -454,11 +444,7 @@ export function filterProperties(
     filters.push(filterMulticlass);
   }
 
-  const filter = and(filters);
-
-  return (card: Card) => {
-    return filter(card);
-  };
+  return and(filters);
 }
 
 /**
@@ -469,6 +455,12 @@ function filterSkill(skill: SkillKey, amount: number) {
   return (card: Card) =>
     card.type_code !== "investigator" &&
     (card[`skill_${skill}`] ?? 0) >= amount;
+}
+
+function filterSkillRange(skill: SkillKey, range: [number, number]) {
+  return (card: Card) =>
+    (card[`skill_${skill}`] ?? 0) >= range[0] &&
+    (card[`skill_${skill}`] ?? 0) <= range[1];
 }
 
 export function filterSkillIcons(filterState: SkillIconsFilter) {
@@ -491,9 +483,19 @@ export function filterSkillIcons(filterState: SkillIconsFilter) {
     ? and([or(anyFilter), and(iconFilter)])
     : and(iconFilter);
 
-  return (card: Card) => {
-    return filter(card);
-  };
+  return filter;
+}
+
+export function filterInvestigatorSkills(
+  filterState: InvestigatorSkillsFilter,
+) {
+  const filters = Object.entries(filterState).reduce((acc, [skill, value]) => {
+    if (!value) return acc;
+    acc.push(filterSkillRange(skill as SkillKey, value));
+    return acc;
+  }, [] as Filter[]);
+
+  return and(filters);
 }
 
 /**
@@ -547,8 +549,7 @@ export function filterTraits(
     });
   }
 
-  const filter = or(filters);
-  return (card: Card) => filter(card);
+  return or(filters);
 }
 
 /**

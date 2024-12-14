@@ -100,6 +100,10 @@
   }
 }
 
+.content .header {
+  padding-bottom: 1rem;
+}
+
 .footer {
   grid-area: footer;
 }

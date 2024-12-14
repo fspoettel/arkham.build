@@ -1,5 +1,3 @@
-import { ListCardInner } from "@/components/list-card/list-card-inner";
-import { Combobox } from "@/components/ui/combobox/combobox";
 import { useStore } from "@/store";
 import { sortByName } from "@/store/lib/sorting";
 import type { Card } from "@/store/services/queries.types";
@@ -7,6 +5,7 @@ import type { CustomizationOption as CustomizationOptionType } from "@/store/ser
 import type { StoreState } from "@/store/slices";
 import { time, timeEnd } from "@/utils/time";
 import { createSelector } from "reselect";
+import { CardsCombobox } from "../cards-combobox";
 
 const selectPlayerCardsForCustomizationOptions = createSelector(
   (state: StoreState) => state.metadata,
@@ -55,14 +54,6 @@ const selectPlayerCardsForCustomizationOptions = createSelector(
   },
 );
 
-const cardRenderer = (item: Card) => (
-  <ListCardInner disableModalOpen card={item} size="sm" />
-);
-
-const resultRenderer = (item: Card) => item.real_name;
-
-const itemToString = (item: Card) => item.real_name.toLowerCase();
-
 type Props = {
   selections: string[];
   config: CustomizationOptionType["card"];
@@ -81,19 +72,14 @@ export function CustomizationChooseCards(props: Props) {
   );
 
   return (
-    <Combobox
+    <CardsCombobox
       disabled={disabled}
       id={`${id}-choose-cards`}
-      itemToString={itemToString}
       items={cards}
       label="Cards"
       limit={limit}
-      omitItemPadding
       onValueChange={onChange}
-      placeholder="Select cards..."
       readonly={readonly}
-      renderItem={cardRenderer}
-      renderResult={resultRenderer}
       selectedItems={selections}
     />
   );

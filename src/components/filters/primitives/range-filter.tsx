@@ -5,9 +5,9 @@ import { useFilterCallbacks } from "./filter-hooks";
 type Props = {
   id: number;
   changes?: string;
+  "data-testid"?: string;
   min: number;
   max: number;
-  onChange: (val: [number, number]) => void;
   open: boolean;
   title: string;
   value: [number, number] | undefined;
@@ -27,6 +27,7 @@ export function RangeFilter(props: Props) {
       title={title}
     >
       <RangeSelect
+        data-testid={props["data-testid"]}
         id={`range-filter-${id}`}
         max={max}
         min={min}

@@ -79,9 +79,6 @@ export function ListLayoutNoSidebar(props: Props) {
             !filtersOpen && css["collapsed-filters"],
           )}
         >
-          <header className={css["header"]}>
-            <h1 className={css["title"]}>{title ?? titleString}</h1>
-          </header>
           <CardListContainer
             {...rest}
             slotRight={
@@ -95,6 +92,11 @@ export function ListLayoutNoSidebar(props: Props) {
                   <FilterIcon />
                 </Button>
               )
+            }
+            topContent={
+              <header className={css["header"]}>
+                <h1 className={css["title"]}>{title ?? titleString}</h1>
+              </header>
             }
           />
         </main>
