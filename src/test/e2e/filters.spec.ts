@@ -58,7 +58,18 @@ test.describe("filters", () => {
     await expect(page.getByTestId("listcard-03011")).not.toBeVisible();
   });
 
-  test("filter types", async ({ page }) => {});
+  test("filter types", async ({ page }) => {
+    await page.getByTestId("card-type-encounter").click();
+    await fillSearch(page, "young deep one");
+    await page.getByRole("heading", { name: "Type", exact: true }).click();
+    await page.getByTestId("combobox-input").fill("enemy");
+    await page.getByTestId("combobox-input").click();
+    await page.getByTestId("combobox-menu-item-enemy").click();
+    await page.getByTestId("combobox-menu-item-asset").click();
+    await expect(page.getByTestId("listcard-01181")).toBeVisible();
+    await page.getByTestId("combobox-menu-item-enemy").click();
+    await expect(page.getByTestId("listcard-01181")).not.toBeVisible();
+  });
 
   test("toggle game text", async ({ page }) => {
     await page.getByTestId("search-game-text").click();
