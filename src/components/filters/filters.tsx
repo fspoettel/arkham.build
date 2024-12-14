@@ -19,11 +19,15 @@ import { CostFilter } from "./cost-filter";
 import { EncounterSetFilter } from "./encounter-set-filter";
 import { FactionFilter } from "./faction-filter";
 import css from "./filters.module.css";
+import { HealthFilter } from "./health-filter";
+import { InvestigatorCardAccessFilter } from "./investigator-card-access-filter";
 import { InvestigatorFilter } from "./investigator-filter";
+import { InvestigatorSkillsFilter } from "./investigator-skills-filter";
 import { LevelFilter } from "./level-filter";
 import { OwnershipFilter } from "./ownership-filter";
 import { PackFilter } from "./pack-filter";
 import { PropertiesFilter } from "./properties-filter";
+import { SanityFilter } from "./sanity-filter";
 import { SkillIconsFilter } from "./skill-icons-filter";
 import { SubtypeFilter } from "./subtype-filter";
 import { TabooSetFilter } from "./taboo-set-filter";
@@ -131,6 +135,15 @@ export function Filters(props: Props) {
               )}
 
               {filter === "faction" && <FactionFilter id={id} />}
+
+              {filter === "investigatorSkills" && (
+                <InvestigatorSkillsFilter id={id} />
+              )}
+              {filter === "investigatorCardAccess" && (
+                <InvestigatorCardAccessFilter id={id} />
+              )}
+              {filter === "health" && <HealthFilter id={id} />}
+              {filter === "sanity" && <SanityFilter id={id} />}
             </Fragment>
           ))}
         </div>

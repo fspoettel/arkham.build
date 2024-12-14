@@ -101,6 +101,30 @@ export function isTraitFilterObject(
   return !!filter && filter.type === "trait";
 }
 
+export function isSanityFilterObject(
+  filter?: FilterObject<FilterKey>,
+): filter is FilterObject<"sanity"> {
+  return !!filter && filter.type === "sanity";
+}
+
+export function isHealthFilterObject(
+  filter?: FilterObject<FilterKey>,
+): filter is FilterObject<"health"> {
+  return !!filter && filter.type === "health";
+}
+
+export function isInvestigatorSkillsFilterObject(
+  filter?: FilterObject<FilterKey>,
+): filter is FilterObject<"investigatorSkills"> {
+  return !!filter && filter.type === "investigatorSkills";
+}
+
+export function isInvestigatorCardAccessFilterObject(
+  filter?: FilterObject<FilterKey>,
+): filter is FilterObject<"investigatorCardAccess"> {
+  return !!filter && filter.type === "investigatorCardAccess";
+}
+
 export function isAssetFilter(value: unknown): value is AssetFilter {
   return (
     typeof value === "object" &&

@@ -4,6 +4,7 @@ import {
   FACTION_ORDER,
   type FactionName,
   SKILL_KEYS,
+  type SkillKey,
 } from "@/utils/constants";
 import { createCustomEqualSelector } from "@/utils/custom-equal-selector";
 import { capitalize, formatTabooSet } from "@/utils/formatting";
@@ -17,10 +18,15 @@ import { getAdditionalDeckOptions } from "../lib/deck-validation";
 import {
   filterActions,
   filterAssets,
+  filterBacksides,
   filterCost,
+  filterDuplicates,
+  filterEncounterCards,
   filterEncounterCode,
   filterFactions,
+  filterHealthProp,
   filterInvestigatorAccess,
+  filterInvestigatorSkills,
   filterInvestigatorWeaknessAccess,
   filterLevel,
   filterMythosCards,
@@ -49,6 +55,7 @@ import type { StoreState } from "../slices";
 import type {
   AssetFilter,
   CostFilter,
+  InvestigatorSkillsFilter,
   LevelFilter,
   List,
   MultiselectFilter,
@@ -193,6 +200,41 @@ function makeUserFilter(
       case "type": {
         const value = filterValue.value as MultiselectFilter;
         if (value.length) filters.push(filterType(value));
+        break;
+      }
+
+      case "health":
+      case "sanity": {
+        const value = filterValue.value as [number, number] | undefined;
+        if (value) {
+          filters.push(filterHealthProp(value, false, filterValue.type));
+        }
+        break;
+      }
+
+      case "investigatorSkills": {
+        const value = filterValue.value as InvestigatorSkillsFilter;
+        filters.push(filterInvestigatorSkills(value));
+        break;
+      }
+
+      case "investigatorCardAccess": {
+        const value = filterValue.value as MultiselectFilter;
+        if (value.length) {
+          const filter = (card: Card) => {
+            if (card.type_code !== "investigator") return false;
+
+            const filter = filterInvestigatorAccess(card, lookupTables, {
+              ignoreUnselectedCustomizableOptions: false,
+              targetDeck,
+            });
+
+            if (!filter) return false;
+            return value.every((code) => filter(metadata.cards[code]));
+          };
+
+          filters.push(filter);
+        }
         break;
       }
 
@@ -552,9 +594,17 @@ const selectListFilterProperties = createSelector(
   (actionTable, cards) => {
     time("select_card_list_properties");
 
-    const cost = { min: 0, max: 0 };
-    const health = { min: 0, max: 0 };
-    const sanity = { min: 0, max: 0 };
+    const cost = { min: Number.MAX_SAFE_INTEGER, max: 0 };
+    const health = { min: Number.MAX_SAFE_INTEGER, max: 0 };
+    const sanity = { min: Number.MAX_SAFE_INTEGER, max: 0 };
+
+    const skills = SKILL_KEYS.reduce(
+      (acc, key) => {
+        acc[key as SkillKey] = { min: Number.MAX_SAFE_INTEGER, max: 0 };
+        return acc;
+      },
+      {} as Record<SkillKey, { min: number; max: number }>,
+    );
 
     const actions: Set<string> = new Set();
     const traits: Set<string> = new Set();
@@ -577,6 +627,17 @@ const selectListFilterProperties = createSelector(
         if (card.sanity != null && card.sanity >= 0) {
           sanity.min = Math.min(sanity.min, card.sanity);
           sanity.max = Math.max(sanity.max, card.sanity);
+        }
+
+        for (const _skill of Object.keys(skills)) {
+          const skill = _skill as SkillKey;
+
+          const value = card[`skill_${skill}`];
+
+          if (skills[skill] && value != null && value >= 0) {
+            skills[skill].min = Math.min(skills[skill].min, value);
+            skills[skill].max = Math.max(skills[skill].max, value);
+          }
         }
 
         for (const trait of splitMultiValue(card.real_traits)) {
@@ -608,6 +669,7 @@ const selectListFilterProperties = createSelector(
       cost,
       health,
       sanity,
+      skills,
       traits,
       types,
     };
@@ -631,6 +693,13 @@ export const selectMultiselectChanges = (value: MultiselectFilter) => {
   if (!value) return "";
   return value.map(capitalize).join(" or ");
 };
+
+function formatHealthChanges(value: [number, number] | undefined, key: string) {
+  if (!value) return "";
+  let s = `${value[0]}`;
+  if (value[1] !== value[0]) s = `${s}-${value[1]}`;
+  return `${key}: ${s}`;
+}
 
 /**
  * Asset
@@ -673,27 +742,8 @@ export const selectAssetChanges = (value: AssetFilter) => {
       : `${acc} or ${capitalize(key)}`;
   }, "");
 
-  let healthFilter = "";
-
-  if (value.health) {
-    let s = `${value.health[0]}`;
-    if (value.health[1] !== value.health[0]) {
-      s = `${s}-${value.health[1]}`;
-    }
-    healthFilter = `Health: ${s}`;
-  }
-
-  let sanityFilter = "";
-
-  if (value.sanity) {
-    let s = `${value.sanity[0]}`;
-
-    if (value.sanity[1] !== value.sanity[0]) {
-      s = `${s}-${value.sanity[1]}`;
-    }
-
-    sanityFilter = `Sanity: ${s}`;
-  }
+  const healthFilter = formatHealthChanges(value.health, "Health");
+  const sanityFilter = formatHealthChanges(value.sanity, "Sanity");
 
   return [slot, uses, skillBoosts, sanityFilter, healthFilter]
     .filter((x) => x)
@@ -769,6 +819,19 @@ export const selectFactionOptions = createSelector(
 );
 
 /**
+ * Health
+ */
+
+export const selectHealthMinMax = createSelector(
+  selectListFilterProperties,
+  ({ health }) => health,
+);
+
+export const selectHealthChanges = (value: [number, number] | undefined) => {
+  return formatHealthChanges(value, "Health");
+};
+
+/**
  * Investigator
  */
 
@@ -811,6 +874,59 @@ export const selectInvestigatorChanges = createSelector(
       : value.toString();
   },
 );
+
+/**
+ * Investigator Card Access
+ */
+
+export const selectCardOptions = createSelector(
+  (state: StoreState) => state.metadata,
+  (metadata) => {
+    const sortFn = makeSortFunction(["name", "level"], metadata);
+
+    return Object.values(metadata.cards)
+      .filter((card) => {
+        return (
+          !filterEncounterCards(card) &&
+          filterMythosCards(card) &&
+          filterDuplicates(card) &&
+          filterBacksides(card) &&
+          card.type_code !== "investigator" &&
+          !card.subtype_code
+        );
+      })
+      .sort(sortFn);
+  },
+);
+
+export const selectInvestigatorCardAccessChanges = (
+  value: MultiselectFilter,
+) => {
+  if (!value.length) return "";
+  return `${value.length} cards`;
+};
+
+/**
+ * Investigator Skill Icons
+ */
+
+export const selectSkillIconsMinMax = createSelector(
+  selectListFilterProperties,
+  ({ skills }) => skills,
+);
+
+export const selectInvestigatorSkillIconsChanges = (
+  value?: InvestigatorSkillsFilter,
+) => {
+  if (!value) return "";
+
+  return Object.entries(value).reduce((acc, [key, val]) => {
+    if (!val) return acc;
+
+    const s = `${val[0]}-${val[1]} ${capitalize(key)}`;
+    return acc ? `${acc} and ${s}` : s;
+  }, "");
+};
 
 /**
  * Level
@@ -923,6 +1039,44 @@ export const selectPropertiesChanges = (value: PropertiesFilter) => {
 };
 
 /**
+ * Sanity
+ */
+
+export const selectSanityMinMax = createSelector(
+  selectListFilterProperties,
+  ({ sanity }) => sanity,
+);
+
+export const selectSanityChanges = (value: [number, number] | undefined) => {
+  return formatHealthChanges(value, "Sanity");
+};
+/**
+ * Search
+ */
+
+export const selectActiveListSearch = createSelector(
+  selectActiveList,
+  (list) => list?.search,
+);
+
+export const selectResolvedCardById = createSelector(
+  (state: StoreState) => state.metadata,
+  (state: StoreState) => state.lookupTables,
+  (_: StoreState, code: string) => code,
+  (_: StoreState, __: string, resolvedDeck?: ResolvedDeck) => resolvedDeck,
+  (metadata, lookupTables, code, resolvedDeck) => {
+    return resolveCardWithRelations(
+      metadata,
+      lookupTables,
+      code,
+      resolvedDeck?.taboo_id,
+      resolvedDeck?.customizations,
+      true,
+    );
+  },
+);
+
+/**
  * Skill Icons
  */
 
@@ -933,6 +1087,37 @@ export const selectSkillIconsChanges = (value: SkillIconsFilter) => {
     return acc ? `${acc} and ${s}` : s;
   }, "");
 };
+
+/**
+ * Subtype
+ */
+
+const subtypeLabels: Record<string, string> = {
+  none: "None",
+  weakness: "Weakness",
+  basicweakness: "Basic weakness",
+};
+
+export function selectSubtypeOptions() {
+  return [
+    { code: "none", name: "None" },
+    { code: "weakness", name: "Weakness" },
+    { code: "basicweakness", name: "Basic weakness" },
+  ];
+}
+
+export const selectSubtypeChanges = createSelector(
+  (_: StoreState, value: SubtypeFilter) => value,
+  (value) => {
+    const options = Object.entries(value);
+    const enabled = options.filter(([, value]) => !!value);
+
+    if (enabled.length === 0) return "None";
+    if (enabled.length === options.length) return "";
+
+    return enabled.map(([key]) => subtypeLabels[key]).join(" or ");
+  },
+);
 
 /**
  * Taboo Set
@@ -979,37 +1164,6 @@ export const selectTraitOptions = createSelector(
 );
 
 /**
- * Subtype
- */
-
-const subtypeLabels: Record<string, string> = {
-  none: "None",
-  weakness: "Weakness",
-  basicweakness: "Basic weakness",
-};
-
-export function selectSubtypeOptions() {
-  return [
-    { code: "none", name: "None" },
-    { code: "weakness", name: "Weakness" },
-    { code: "basicweakness", name: "Basic weakness" },
-  ];
-}
-
-export const selectSubtypeChanges = createSelector(
-  (_: StoreState, value: SubtypeFilter) => value,
-  (value) => {
-    const options = Object.entries(value);
-    const enabled = options.filter(([, value]) => !!value);
-
-    if (enabled.length === 0) return "None";
-    if (enabled.length === options.length) return "";
-
-    return enabled.map(([key]) => subtypeLabels[key]).join(" or ");
-  },
-);
-
-/**
  * Type
  */
 
@@ -1020,30 +1174,4 @@ export const selectTypeOptions = createSelector(
     Array.from(types)
       .sort()
       .map((code) => typeTable[code]),
-);
-
-/**
- * Search
- */
-
-export const selectActiveListSearch = createSelector(
-  selectActiveList,
-  (list) => list?.search,
-);
-
-export const selectResolvedCardById = createSelector(
-  (state: StoreState) => state.metadata,
-  (state: StoreState) => state.lookupTables,
-  (_: StoreState, code: string) => code,
-  (_: StoreState, __: string, resolvedDeck?: ResolvedDeck) => resolvedDeck,
-  (metadata, lookupTables, code, resolvedDeck) => {
-    return resolveCardWithRelations(
-      metadata,
-      lookupTables,
-      code,
-      resolvedDeck?.taboo_id,
-      resolvedDeck?.customizations,
-      true,
-    );
-  },
 );

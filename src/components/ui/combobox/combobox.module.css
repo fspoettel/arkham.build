@@ -75,6 +75,7 @@
   cursor: pointer;
   position: relative;
   font-size: var(--text-sm);
+  padding: 0 0 0 2rem;
 
   &.active {
     background-color: var(--palette-1);

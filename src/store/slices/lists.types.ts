@@ -1,3 +1,4 @@
+import type { SkillKey } from "@/utils/constants";
 import type { Filter } from "@/utils/fp";
 
 export type AssetFilter = {
@@ -64,12 +65,10 @@ export type HealthFilter = [number, number] | undefined;
 
 export type SanityFilter = [number, number] | undefined;
 
-export type InvestigatorSkillsFilter = {
-  agility: [number, number] | undefined;
-  combat: [number, number] | undefined;
-  intellect: [number, number] | undefined;
-  willpower: [number, number] | undefined;
-};
+export type InvestigatorSkillsFilter = Record<
+  Exclude<SkillKey, "wild">,
+  [number, number] | undefined
+>;
 
 export type InvestigatorCardAccessFilter = string[] | undefined;
 

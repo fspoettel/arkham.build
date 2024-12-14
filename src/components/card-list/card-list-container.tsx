@@ -15,8 +15,13 @@ import { CardListNav } from "./card-list-nav";
 import { CardSearch } from "./card-search";
 import type { CardListProps } from "./types";
 
-export function CardListContainer(props: CardListProps) {
-  const { className, slotLeft, slotRight, targetDeck, ...rest } = props;
+type Props = CardListProps & {
+  topContent?: React.ReactNode;
+};
+
+export function CardListContainer(props: Props) {
+  const { className, slotLeft, slotRight, targetDeck, topContent, ...rest } =
+    props;
 
   const ctx = useResolvedDeck();
 
@@ -66,11 +71,14 @@ export function CardListContainer(props: CardListProps) {
     <CenterLayout
       className={className}
       top={
-        <CardSearch
-          onInputKeyDown={onKeyboardNavigate}
-          slotLeft={slotLeft}
-          slotRight={slotRight}
-        />
+        <>
+          {topContent}
+          <CardSearch
+            onInputKeyDown={onKeyboardNavigate}
+            slotLeft={slotLeft}
+            slotRight={slotRight}
+          />
+        </>
       }
     >
       <div className={css["container"]}>

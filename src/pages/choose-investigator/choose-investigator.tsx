@@ -2,7 +2,10 @@ import { Button } from "@/components/ui/button";
 import { ListLayoutNoSidebar } from "@/layouts/list-layout-no-sidebar";
 import { useStore } from "@/store";
 import type { CardWithRelations } from "@/store/lib/types";
-import { selectCardRelationsResolver } from "@/store/selectors/lists";
+import {
+  selectActiveList,
+  selectCardRelationsResolver,
+} from "@/store/selectors/lists";
 import type { Card } from "@/store/services/queries.types";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { useDocumentTitle } from "@/utils/use-document-title";
@@ -19,6 +22,8 @@ function DeckCreateChooseInvestigator() {
 
   const cardResolver = useStore(selectCardRelationsResolver);
 
+  const activeList = useStore(selectActiveList);
+
   useDocumentTitle("Choose investigator");
 
   useEffect(() => {
@@ -30,9 +35,13 @@ function DeckCreateChooseInvestigator() {
   return (
     <ListLayoutNoSidebar
       renderCardAction={(card) => <ChooseInvestigatorLink card={card} />}
-      renderCardMetaExtra={(card) => (
-        <p className={css["traits"]}>&middot; {card.real_traits}</p>
-      )}
+      renderCardMetaExtra={
+        activeList?.display.viewMode === "compact"
+          ? (card) => (
+              <p className={css["traits"]}>&middot; {card.real_traits}</p>
+            )
+          : undefined
+      }
       renderCardAfter={({ code }) => (
         <ListcardExtra code={code} cardResolver={cardResolver} />
       )}

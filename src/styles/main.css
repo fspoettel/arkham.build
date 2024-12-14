@@ -222,12 +222,14 @@ a {
   text-decoration: underline;
 }
 
-small {
+small,
+.small {
   font-size: var(--text-xs);
 }
 
-.small {
-  font-size: var(--text-xs);
+em,
+.em {
+  font-style: italic;
 }
 
 ol,
