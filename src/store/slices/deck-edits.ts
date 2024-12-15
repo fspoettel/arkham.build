@@ -49,10 +49,8 @@ export const createDeckEditsSlice: StateCreator<
 
     const newValue =
       mode === "increment"
-        ? Math.max(current + quantity, 0)
+        ? Math.min(Math.max(current + quantity, 0), limit)
         : Math.max(Math.min(quantity, limit), 0);
-
-    if (mode === "increment" && current + quantity > limit) return;
 
     const nextState = {
       deckEdits: {
