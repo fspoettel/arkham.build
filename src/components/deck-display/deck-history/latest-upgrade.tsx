@@ -179,7 +179,7 @@ export function LatestUpgrade(props: Props) {
                     <FlameIcon /> Exile
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent>
+                <PopoverContent onClick={(evt) => evt.stopPropagation()}>
                   <article className={css["exile"]}>
                     <header>
                       <h3>Exiled cards</h3>
