@@ -14,7 +14,6 @@ export const selectCardWithRelations = createSelector(
     state: StoreState,
     __: string,
     ___,
-    ____,
     resolvedDeck: ResolvedDeck | undefined,
   ) => selectCanonicalTabooSetId(state, resolvedDeck),
   (

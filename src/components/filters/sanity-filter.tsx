@@ -10,7 +10,7 @@ import type { FilterProps } from "./filters.types";
 import { RangeFilter } from "./primitives/range-filter";
 
 export function SanityFilter(props: FilterProps) {
-  const { id } = props;
+  const { id, resolvedDeck } = props;
 
   const filter = useStore((state) => selectActiveListFilter(state, id));
 
@@ -21,7 +21,9 @@ export function SanityFilter(props: FilterProps) {
 
   const changes = selectSanityChanges(filter?.value);
 
-  const { min, max } = useStore(selectSanityMinMax);
+  const { min, max } = useStore((state) =>
+    selectSanityMinMax(state, resolvedDeck),
+  );
 
   return (
     <RangeFilter

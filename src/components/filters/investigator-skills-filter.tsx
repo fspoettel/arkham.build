@@ -23,14 +23,16 @@ const INVESTIGATOR_SKILL_KEYS: SkillKey[] = SKILL_KEYS.filter(
 );
 
 export function InvestigatorSkillsFilter(props: FilterProps) {
-  const { id } = props;
+  const { id, resolvedDeck } = props;
 
   const { onReset, onChange, onOpenChange } =
     useFilterCallbacks<InvestigatorSkillsFilterType>(id);
 
   const filter = useStore((state) => selectActiveListFilter(state, id));
 
-  const skillsMinMax = useStore(selectSkillIconsMinMax);
+  const skillsMinMax = useStore((state) =>
+    selectSkillIconsMinMax(state, resolvedDeck),
+  );
 
   assert(
     isInvestigatorSkillsFilterObject(filter),

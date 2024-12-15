@@ -137,13 +137,17 @@ export function Filters(props: Props) {
               {filter === "faction" && <FactionFilter id={id} />}
 
               {filter === "investigatorSkills" && (
-                <InvestigatorSkillsFilter id={id} />
+                <InvestigatorSkillsFilter id={id} resolvedDeck={resolvedDeck} />
               )}
               {filter === "investigatorCardAccess" && (
                 <InvestigatorCardAccessFilter id={id} />
               )}
-              {filter === "health" && <HealthFilter id={id} />}
-              {filter === "sanity" && <SanityFilter id={id} />}
+              {filter === "health" && (
+                <HealthFilter id={id} resolvedDeck={resolvedDeck} />
+              )}
+              {filter === "sanity" && (
+                <SanityFilter id={id} resolvedDeck={resolvedDeck} />
+              )}
             </Fragment>
           ))}
         </div>
