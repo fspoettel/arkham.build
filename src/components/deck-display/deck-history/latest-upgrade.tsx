@@ -15,7 +15,7 @@ import type { ResolvedDeck } from "@/store/lib/types";
 import { selectLatestUpgrade } from "@/store/selectors/decks";
 import type { Card } from "@/store/services/queries.types";
 import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
-import { isStaticInvestigator } from "@/utils/card-utils";
+import { cardLimit, isStaticInvestigator } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { useAccentColor } from "@/utils/use-accent-color";
 import {
@@ -73,6 +73,21 @@ export function LatestUpgrade(props: Props) {
       );
     },
     [currentTab, deck.id, updateCardQuantity],
+  );
+
+  const canAddExile = useCallback(
+    (card: Card) => {
+      if (currentTab && currentTab !== "meta") {
+        const slot = deck[mapTabToSlot(currentTab)];
+        if (slot) {
+          const result = (slot[card.code] ?? 0) < cardLimit(card);
+          console.log(slot[card.code], cardLimit(card), result);
+          return result;
+        }
+      }
+      return false;
+    },
+    [currentTab, deck],
   );
 
   if (!latestUpgrade) return null;
@@ -196,7 +211,9 @@ export function LatestUpgrade(props: Props) {
                                 ? (card) => (
                                     <Button
                                       iconOnly
-                                      disabled={staticInvestigator}
+                                      disabled={
+                                        staticInvestigator || !canAddExile(card)
+                                      }
                                       data-testid={`latest-upgrade-exile-${code}-add`}
                                       onClick={(
                                         evt: React.MouseEvent<HTMLButtonElement>,
