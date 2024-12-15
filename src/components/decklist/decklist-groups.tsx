@@ -158,7 +158,9 @@ function DecklistGroup(props: DecklistGroupProps) {
             card={card}
             isForbidden={
               forbiddenCards.find(
-                (x) => x.code === card.code && x.target === mapping,
+                (x) =>
+                  (x.code === card.code || x.code === card.duplicate_of_code) &&
+                  x.target === mapping,
               ) != null
             }
             isRemoved={quantities?.[card.code] === 0}

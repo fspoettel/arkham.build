@@ -359,8 +359,8 @@ function validateSlots(
       continue;
     }
 
-    // TODO: move this out of the validator.
     // normalize duplicates to base version before checking access.
+    // right now, this is mostly still required for promo marie.
     const normalized = card.duplicate_of_code
       ? state.metadata.cards[card.duplicate_of_code]
       : card;
