@@ -66,6 +66,7 @@ function AppInner() {
         try {
           await init(queryMetadata, queryDataVersion, queryCards, false);
         } catch (err) {
+          console.error(err);
           toast.show({
             children: `Failed to initialize card database: ${(err as Error)?.message}`,
             variant: "error",

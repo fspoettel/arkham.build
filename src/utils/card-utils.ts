@@ -151,16 +151,18 @@ export function cardLimit(card: Card, limitOverride?: number) {
   return limitOverride ?? card.deck_limit ?? card.quantity;
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: safe, we control the data.
-export function formatLocalCard(card: Record<string, any>): QueryCard {
+export function formatLocalCard(
+  // biome-ignore lint/suspicious/noExplicitAny: safe, we control the data.
+  card: Record<string, any>,
+): QueryCard {
   return {
     ...card,
     back_link_id: card.back_link,
     id: card.code,
     exceptional: card.text?.includes("Exceptional."),
     myriad: card.text?.includes("Myriad."),
-    preview: true,
     official: true,
+    preview: true,
     real_flavor: card.flavor,
     real_name: card.name,
     real_text: card.text,
@@ -184,7 +186,10 @@ function decodeRestrictions(str: string): DeckRestrictions | undefined {
 
     if (key === "investigator") {
       acc.investigator ??= {};
-      acc.investigator[val] = { [val]: val };
+      const values = val.split(":");
+      for (const val of values) {
+        acc.investigator[val] = { [val]: val };
+      }
     }
 
     if (key === "trait") {
@@ -213,7 +218,16 @@ function decodeDeckRequirements(str: string): DeckRequirements | undefined {
 
     if (key === "card") {
       acc.card ??= {};
-      acc.card[val] = { [val]: val };
+
+      const values = val.split(":");
+
+      acc.card[values[0]] = values.reduce<Record<string, string>>(
+        (acc, curr) => {
+          acc[curr] = curr;
+          return acc;
+        },
+        {},
+      );
     }
 
     return acc;
