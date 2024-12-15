@@ -29,6 +29,7 @@
 
 .listcard-after-inner {
   display: inline-block;
+  width: 100%; /* TODO Sy: Do this in a non-hacky way, I almost certainly broke something */
 }
 
 .listcard-wrapper.card-text {

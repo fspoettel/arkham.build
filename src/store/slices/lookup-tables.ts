@@ -51,6 +51,10 @@ function getInitialLookupTables(): LookupTables {
     level: {},
     traitsByCardTypeSelection: {},
     packsByCycle: {},
+    deckInclusions: {},
+    sideDeckInclusions: {},
+    countsByInvestigator: {},
+    sideCountsByInvestigator: {},
   };
 }
 
@@ -98,7 +102,7 @@ export function createLookupTables(
   }
 
   createRelations(metadata, lookupTables);
-
+  addDecksToLookupTables(metadata, lookupTables);
   addPacksToLookupTables(metadata, lookupTables);
 
   timeEnd("refresh_lookup_tables");
@@ -430,5 +434,41 @@ function addPacksToLookupTables(
 ) {
   for (const pack of Object.values(metadata.packs)) {
     setInLookupTable(pack.code, lookupTables.packsByCycle, pack.cycle_code);
+  }
+}
+
+// TODO make not horrifyingly slow or move to backend
+function addDecksToLookupTables(
+  metadata: Metadata,
+  lookupTables: LookupTables,
+) {
+  if (!metadata.decklists) return;
+  for (const deck of Object.values(metadata.decklists)) {
+    for (const code of Object.keys(deck.slots)) {
+      lookupTables.deckInclusions[code] = {
+        ...lookupTables.deckInclusions[code],
+        [deck.id]: 1 as const,
+      };
+      lookupTables.countsByInvestigator[deck.investigator_code] = {
+        ...lookupTables.countsByInvestigator[deck.investigator_code],
+        [code]:
+          (lookupTables.countsByInvestigator[deck.investigator_code]?.[code] ??
+            0) + 1,
+      };
+    }
+    if (Array.isArray(deck.sideSlots)) continue;
+    for (const code of Object.keys(deck.sideSlots)) {
+      lookupTables.sideDeckInclusions[code] = {
+        ...lookupTables.sideDeckInclusions[code],
+        [deck.id]: 1 as const,
+      };
+      lookupTables.sideCountsByInvestigator[deck.investigator_code] = {
+        ...lookupTables.sideCountsByInvestigator[deck.investigator_code],
+        [code]:
+          (lookupTables.sideCountsByInvestigator[deck.investigator_code]?.[
+            code
+          ] ?? 0) + 1,
+      };
+    }
   }
 }

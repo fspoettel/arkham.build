@@ -1,9 +1,14 @@
+import type { Id } from "./data.types";
+
 type Mapping<V extends string | number> = Record<string, V>;
 
 export type LookupTable<
   T extends string | number,
   V extends string | number = 1,
 > = Record<T, Mapping<V>>;
+
+export type DeckInclusionTable = Record<string, Record<Id, 1>>;
+export type DeckInclusionCountTable = Record<string, Record<string, number>>;
 
 export type LookupTables = {
   // TODO: add alternative_art investigators.
@@ -48,6 +53,10 @@ export type LookupTables = {
   traits: LookupTable<string>;
   uses: LookupTable<string>;
   level: LookupTable<number>;
+  deckInclusions: DeckInclusionTable;
+  sideDeckInclusions: DeckInclusionTable;
+  countsByInvestigator: DeckInclusionCountTable;
+  sideCountsByInvestigator: DeckInclusionCountTable;
 };
 
 export type LookupTablesSlice = {

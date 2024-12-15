@@ -288,3 +288,32 @@ export async function upgradeDeck(
 
   return await res.json();
 }
+
+// TODO Sy: Remove this once we have a proper API
+async function spoofedRequest(
+  path: string,
+  options: RequestInit = {},
+): Promise<Response> {
+  const res = await fetch(`http://localhost:9191${path}`, options);
+
+  if (res.status >= 400) {
+    const err = await res.json();
+    throw new ApiError(err.message, res.status);
+  }
+
+  return res;
+}
+
+export type AllDecklistApiResponse = {
+  data: {
+    all_decklist: Deck[];
+  };
+};
+
+export type AllDecklistResponse = Deck[];
+
+export async function queryDecklists() {
+  const res = await spoofedRequest("/cache/decklists");
+  const { data }: AllDecklistApiResponse = await res.json();
+  return data.all_decklist;
+}

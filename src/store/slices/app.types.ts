@@ -1,5 +1,6 @@
 import type {
   AllCardResponse,
+  AllDecklistResponse,
   DataVersionResponse,
   MetadataResponse,
 } from "@/store/services/queries";
@@ -16,6 +17,7 @@ export type AppSlice = {
     queryMetadata: () => Promise<MetadataResponse>,
     queryDataVersion: () => Promise<DataVersionResponse>,
     queryCards: () => Promise<AllCardResponse>,
+    queryDecklists: () => Promise<AllDecklistResponse>,
     refresh?: boolean,
   ): Promise<boolean>;
 

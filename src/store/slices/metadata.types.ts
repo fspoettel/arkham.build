@@ -10,6 +10,7 @@ import type {
   TabooSet,
   Type,
 } from "@/store/services/queries.types";
+import type { Deck, Id } from "./data.types";
 
 export type Metadata = {
   cards: Record<string, Card>;
@@ -22,6 +23,9 @@ export type Metadata = {
   types: Record<string, Type>;
   tabooSets: Record<string, TabooSet>;
   taboos: Record<string, Taboo>;
+  decklists: Record<string, Deck>;
+  deckInclusions: Record<string, Id>;
+  sideDeckInclusions: Record<string, Id>;
 };
 
 export type MetadataSlice = {

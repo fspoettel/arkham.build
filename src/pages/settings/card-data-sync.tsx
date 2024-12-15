@@ -5,6 +5,7 @@ import { useStore } from "@/store";
 import {
   queryCards,
   queryDataVersion,
+  queryDecklists,
   queryMetadata,
 } from "@/store/services/queries";
 import { cx } from "@/utils/cx";
@@ -29,7 +30,8 @@ export function CardDataSync(props: Props) {
   const { data, error, state } = useQuery(queryDataVersion);
 
   const initStore = useCallback(
-    () => init(queryMetadata, queryDataVersion, queryCards, true),
+    () =>
+      init(queryMetadata, queryDataVersion, queryCards, queryDecklists, true),
     [init],
   );
 
