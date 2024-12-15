@@ -282,6 +282,8 @@ export function filterOwnership(
   showAllCards: boolean,
 ) {
   return (
+    // FIXME: remove this after tdc release
+    card.pack_code === "tdcp" ||
     ownedCardCount(card, metadata, lookupTables, collection, showAllCards) > 0
   );
 }
