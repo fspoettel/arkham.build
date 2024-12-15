@@ -7,6 +7,7 @@ import { DecklistValidation } from "@/components/decklist/decklist-validation";
 import { Filters } from "@/components/filters/filters";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast.hooks";
+import { ListLayoutContextProvider } from "@/layouts/list-layout-context";
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import {
@@ -148,56 +149,60 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
   return (
     <Switch>
       <Route path="/tools">
-        <ListLayout
-          sidebar={sidebar}
-          sidebarWidthMax="var(--sidebar-width-two-col)"
-        >
-          {(props) => (
-            <DeckTools
-              {...props}
-              deck={deck}
-              showTitle
-              scrollable
-              slotRight={
-                <Link to="/" asChild>
-                  <Button as="a">
-                    <Rows3Icon />
-                    Back to card list
-                  </Button>
-                </Link>
-              }
-            />
-          )}
-        </ListLayout>
+        <ListLayoutContextProvider>
+          <ListLayout
+            sidebar={sidebar}
+            sidebarWidthMax="var(--sidebar-width-two-col)"
+          >
+            {(props) => (
+              <DeckTools
+                {...props}
+                deck={deck}
+                showTitle
+                scrollable
+                slotRight={
+                  <Link to="/" asChild>
+                    <Button as="a">
+                      <Rows3Icon />
+                      Back to card list
+                    </Button>
+                  </Link>
+                }
+              />
+            )}
+          </ListLayout>
+        </ListLayoutContextProvider>
       </Route>
       <Route path="/">
-        <ListLayout
-          filters={
-            <Filters>
-              <DecklistValidation
-                defaultOpen={validation.errors.length < 3}
-                validation={validation}
+        <ListLayoutContextProvider>
+          <ListLayout
+            filters={
+              <Filters>
+                <DecklistValidation
+                  defaultOpen={validation.errors.length < 3}
+                  validation={validation}
+                />
+                <ShowUnusableCardsToggle />
+              </Filters>
+            }
+            sidebar={sidebar}
+            sidebarWidthMax="var(--sidebar-width-two-col)"
+          >
+            {(props) => (
+              <CardListContainer
+                {...props}
+                onChangeCardQuantity={onChangeCardQuantity}
+                quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
+                renderCardExtra={renderCardExtra}
+                targetDeck={
+                  mapTabToSlot(currentTab) === "extraSlots"
+                    ? "extraSlots"
+                    : "slots"
+                }
               />
-              <ShowUnusableCardsToggle />
-            </Filters>
-          }
-          sidebar={sidebar}
-          sidebarWidthMax="var(--sidebar-width-two-col)"
-        >
-          {(props) => (
-            <CardListContainer
-              {...props}
-              onChangeCardQuantity={onChangeCardQuantity}
-              quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
-              renderCardExtra={renderCardExtra}
-              targetDeck={
-                mapTabToSlot(currentTab) === "extraSlots"
-                  ? "extraSlots"
-                  : "slots"
-              }
-            />
-          )}
-        </ListLayout>
+            )}
+          </ListLayout>
+        </ListLayoutContextProvider>
       </Route>
     </Switch>
   );

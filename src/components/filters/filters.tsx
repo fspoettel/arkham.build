@@ -1,3 +1,4 @@
+import { useListLayoutContext } from "@/layouts/list-layout-context.hooks";
 import { useStore } from "@/store";
 import {
   selectActiveList,
@@ -45,7 +46,7 @@ export function Filters(props: Props) {
   const activeList = useStore(selectActiveList);
   const filters = useStore(selectActiveListFilters);
   const resetFilters = useStore((state) => state.resetFilters);
-  const setFiltersOpen = useStore((state) => state.setFiltersOpen);
+  const { setFiltersOpen } = useListLayoutContext();
   const updateFiltersEnabled = useStore((state) => state.setFiltersEnabled);
 
   const filtersEnabled = activeList?.filtersEnabled ?? true;

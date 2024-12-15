@@ -3,6 +3,7 @@ import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { DeckCollection } from "@/components/deck-collection/deck-collection";
 import { Filters } from "@/components/filters/filters";
 import { ListLayout } from "@/layouts/list-layout";
+import { ListLayoutContextProvider } from "@/layouts/list-layout-context";
 import { useStore } from "@/store";
 import { selectIsInitialized } from "@/store/selectors/shared";
 import { useDocumentTitle } from "@/utils/use-document-title";
@@ -23,13 +24,15 @@ function Browse() {
 
   return (
     <CardModalProvider>
-      <ListLayout
-        filters={<Filters />}
-        sidebar={<DeckCollection />}
-        sidebarWidthMax="var(--sidebar-width-one-col)"
-      >
-        {(props) => <CardListContainer {...props} />}
-      </ListLayout>
+      <ListLayoutContextProvider>
+        <ListLayout
+          filters={<Filters />}
+          sidebar={<DeckCollection />}
+          sidebarWidthMax="var(--sidebar-width-one-col)"
+        >
+          {(props) => <CardListContainer {...props} />}
+        </ListLayout>
+      </ListLayoutContextProvider>
     </CardModalProvider>
   );
 }

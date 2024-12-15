@@ -3,13 +3,13 @@ import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { Filters } from "@/components/filters/filters";
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
-import { useStore } from "@/store";
 import { cx } from "@/utils/cx";
 import { useDocumentTitle } from "@/utils/use-document-title";
 import { useGoBack } from "@/utils/use-go-back";
 import { useMedia } from "@/utils/use-media";
 import { ChevronLeftIcon, FilterIcon } from "lucide-react";
 import { useCallback, useEffect } from "react";
+import { useListLayoutContext } from "./list-layout-context.hooks";
 import css from "./list-layout-no-sidebar.module.css";
 
 type Props = {
@@ -24,8 +24,7 @@ type Props = {
 export function ListLayoutNoSidebar(props: Props) {
   const { title, titleString, ...rest } = props;
 
-  const filtersOpen = useStore((state) => state.ui.filtersOpen);
-  const setFiltersOpen = useStore((state) => state.setFiltersOpen);
+  const { filtersOpen, setFiltersOpen } = useListLayoutContext();
 
   const floatingFilters = useMedia("(max-width: 52rem)");
 

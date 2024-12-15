@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { ListLayoutContextProvider } from "@/layouts/list-layout-context";
 import { ListLayoutNoSidebar } from "@/layouts/list-layout-no-sidebar";
 import { useStore } from "@/store";
 import type { CardWithRelations } from "@/store/lib/types";
@@ -33,21 +34,23 @@ function DeckCreateChooseInvestigator() {
   if (activeListId !== "create_deck") return null;
 
   return (
-    <ListLayoutNoSidebar
-      renderCardAction={(card) => <ChooseInvestigatorLink card={card} />}
-      renderCardMetaExtra={
-        activeList?.display.viewMode === "compact"
-          ? (card) => (
-              <p className={css["traits"]}>&middot; {card.real_traits}</p>
-            )
-          : undefined
-      }
-      renderCardAfter={({ code }) => (
-        <ListcardExtra code={code} cardResolver={cardResolver} />
-      )}
-      itemSize="investigator"
-      titleString="Choose investigator"
-    />
+    <ListLayoutContextProvider>
+      <ListLayoutNoSidebar
+        renderCardAction={(card) => <ChooseInvestigatorLink card={card} />}
+        renderCardMetaExtra={
+          activeList?.display.viewMode === "compact"
+            ? (card) => (
+                <p className={css["traits"]}>&middot; {card.real_traits}</p>
+              )
+            : undefined
+        }
+        renderCardAfter={({ code }) => (
+          <ListcardExtra code={code} cardResolver={cardResolver} />
+        )}
+        itemSize="investigator"
+        titleString="Choose investigator"
+      />
+    </ListLayoutContextProvider>
   );
 }
 
