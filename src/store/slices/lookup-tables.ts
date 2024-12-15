@@ -316,12 +316,7 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
 
         if (card.real_text?.includes("Advanced.")) {
           setInLookupTable(card.code, tables.relations.advanced, key);
-        } else if (
-          // special case: gloria currently only has replacement cards, prefer them as required.
-          card.real_text?.includes("Replacement.") &&
-          card.code !== "98020" &&
-          card.code !== "98021"
-        ) {
+        } else if (card.real_text?.includes("Replacement.")) {
           setInLookupTable(card.code, tables.relations.replacement, key);
         } else {
           if (card.parallel) {

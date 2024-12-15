@@ -1,9 +1,4 @@
-import type {
-  Card,
-  DeckRequirements,
-  DeckRestrictions,
-  QueryCard,
-} from "@/store/services/queries.types";
+import type { Card } from "@/store/services/queries.types";
 import {
   SIDEWAYS_TYPE_CODES,
   SKILL_KEYS,
@@ -149,87 +144,4 @@ export function isStaticInvestigator(card: Card) {
 
 export function cardLimit(card: Card, limitOverride?: number) {
   return limitOverride ?? card.deck_limit ?? card.quantity;
-}
-
-export function formatLocalCard(
-  // biome-ignore lint/suspicious/noExplicitAny: safe, we control the data.
-  card: Record<string, any>,
-): QueryCard {
-  return {
-    ...card,
-    back_link_id: card.back_link,
-    id: card.code,
-    exceptional: card.text?.includes("Exceptional."),
-    myriad: card.text?.includes("Myriad."),
-    official: true,
-    preview: true,
-    real_flavor: card.flavor,
-    real_name: card.name,
-    real_text: card.text,
-    real_traits: card.traits,
-    real_subname: card.subname,
-    real_slot: card.slot,
-    real_back_flavor: card.back_flavor,
-    real_back_text: card.back_text,
-    real_back_name: card.back_name,
-    real_back_traits: card.back_traits,
-    pack_position: card.position,
-    deck_requirements: decodeDeckRequirements(card.deck_requirements),
-    restrictions: decodeRestrictions(card.restrictions),
-  } as QueryCard;
-}
-
-function decodeRestrictions(str: string): DeckRestrictions | undefined {
-  return str?.split(", ").reduce((acc: DeckRestrictions, curr: string) => {
-    const key = curr.substring(0, curr.indexOf(":"));
-    const val = curr.substring(curr.indexOf(":") + 1);
-
-    if (key === "investigator") {
-      acc.investigator ??= {};
-      const values = val.split(":");
-      for (const val of values) {
-        acc.investigator[val] = { [val]: val };
-      }
-    }
-
-    if (key === "trait") {
-      acc.trait ??= [];
-      acc.trait.push(val);
-    }
-
-    return acc;
-  }, {} as DeckRestrictions);
-}
-
-function decodeDeckRequirements(str: string): DeckRequirements | undefined {
-  return str?.split(", ").reduce((acc: DeckRequirements, curr: string) => {
-    const key = curr.substring(0, curr.indexOf(":"));
-    const val = curr.substring(curr.indexOf(":") + 1);
-
-    if (key === "size") {
-      acc.size = Number.parseInt(val, 10);
-    }
-
-    if (key === "random") {
-      const [target, value] = val.split(":");
-      acc.random ??= [];
-      acc.random.push({ target, value });
-    }
-
-    if (key === "card") {
-      acc.card ??= {};
-
-      const values = val.split(":");
-
-      acc.card[values[0]] = values.reduce<Record<string, string>>(
-        (acc, curr) => {
-          acc[curr] = curr;
-          return acc;
-        },
-        {},
-      );
-    }
-
-    return acc;
-  }, {} as DeckRequirements);
 }
