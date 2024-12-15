@@ -730,9 +730,20 @@ class DeckOptionsValidator implements SlotValidator {
     ];
 
     if (this.forbidden.length) {
+      // since we normalize cards to their base version, a deck that contains
+      // several different versions will report the same, normalize card multiple times.
+      // dedupe here to avoid downstream issues.
+      const uniques = this.forbidden.reduce<Record<string, Card>>(
+        (acc, curr) => {
+          acc[curr.code] = curr;
+          return acc;
+        },
+        {},
+      );
+
       errors.push({
         type: "FORBIDDEN" as const,
-        details: this.forbidden.map((card) => ({
+        details: Object.values(uniques).map((card) => ({
           code: card.code,
           real_name: card.real_name,
           target:
