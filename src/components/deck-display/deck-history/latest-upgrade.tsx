@@ -81,7 +81,6 @@ export function LatestUpgrade(props: Props) {
         const slot = deck[mapTabToSlot(currentTab)];
         if (slot) {
           const result = (slot[card.code] ?? 0) < cardLimit(card);
-          console.log(slot[card.code], cardLimit(card), result);
           return result;
         }
       }
