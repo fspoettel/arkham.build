@@ -3,6 +3,7 @@ import {
   ASSET_SLOT_ORDER,
   FACTION_ORDER,
   type FactionName,
+  PREVIEW_PACKS,
   SKILL_KEYS,
   type SkillKey,
 } from "@/utils/constants";
@@ -478,11 +479,24 @@ const selectBaseListCards = createSelector(
         const value = ownershipFilter.value as OwnershipFilter;
         if (value !== "all") {
           filters.push((card: Card) => {
+            const collection = settings.showPreviews
+              ? {
+                  ...settings.collection,
+                  ...PREVIEW_PACKS.reduce(
+                    (acc, code) => {
+                      acc[code] = 1;
+                      return acc;
+                    },
+                    {} as Record<string, number>,
+                  ),
+                }
+              : settings.collection;
+
             const ownership = filterOwnership(
               card,
               metadata,
               lookupTables,
-              settings.collection,
+              collection,
               false,
             );
             return value === "owned" ? ownership : !ownership;
