@@ -1,4 +1,4 @@
-import { cardLevel, splitMultiValue } from "@/utils/card-utils";
+import { cardLevel, cardUses, splitMultiValue } from "@/utils/card-utils";
 import type { SkillKey } from "@/utils/constants";
 import { SKILL_KEYS, SPECIAL_CARD_CODES } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
@@ -76,8 +76,8 @@ export function filterActions(
  * Asset
  */
 
-function filterUses(uses: string, usesTable: LookupTables["uses"]) {
-  return (card: Card) => !!usesTable[uses]?.[card.code];
+function filterUses(uses: string) {
+  return (card: Card) => cardUses(card) === uses;
 }
 
 function filterSkillBoost(
@@ -122,9 +122,7 @@ export function filterAssets(value: AssetFilter, lookupTables: LookupTables) {
   }
 
   if (value.uses.length) {
-    const usesFilters: Filter[] = value.uses.map((key) =>
-      filterUses(key, lookupTables.uses),
-    );
+    const usesFilters: Filter[] = value.uses.map((key) => filterUses(key));
     filters.push(or(usesFilters));
   }
 
@@ -526,14 +524,13 @@ export function filterTabooSet(tabooSetId: number, metadata: Metadata) {
 
 export function filterTraits(
   filterState: MultiselectFilter,
-  traitTable: LookupTables["traits"],
   checkCustomizableOptions?: boolean,
 ) {
   const filters: Filter[] = [];
 
   for (const key of filterState) {
     filters.push((card: Card) => {
-      const hasTrait = !!traitTable[key][card.code];
+      const hasTrait = !!card.real_traits?.includes(key);
 
       if (
         hasTrait ||
@@ -591,7 +588,6 @@ export type InvestigatorAccessConfig = {
 
 export function makeOptionFilter(
   option: DeckOption,
-  lookupTables: LookupTables,
   config?: InvestigatorAccessConfig,
 ) {
   // unknown rules or duplicate rules.
@@ -656,7 +652,6 @@ export function makeOptionFilter(
       filterTraits(
         // traits are stored lowercased for whatever reason.
         option.trait.map(capitalize),
-        lookupTables.traits,
         !config?.ignoreUnselectedCustomizableOptions,
       ),
     );
@@ -668,7 +663,7 @@ export function makeOptionFilter(
     const usesFilters: Filter[] = [];
 
     for (const uses of option.uses) {
-      usesFilters.push(filterUses(uses, lookupTables.uses));
+      usesFilters.push(filterUses(uses));
     }
 
     optionFilter.push(or(usesFilters));
@@ -700,9 +695,7 @@ export function makeOptionFilter(
       }
 
       if (select.trait) {
-        optionSelectFilters.push(
-          filterTraits(select.trait.map(capitalize), lookupTables.traits),
-        );
+        optionSelectFilters.push(filterTraits(select.trait.map(capitalize)));
       }
 
       selectFilters.push(and(optionSelectFilters));
@@ -739,7 +732,10 @@ export function makeOptionFilter(
   // parallel mateo
   if (option.tag?.includes("se")) {
     filterCount += 1;
-    optionFilter.push(filterSeal(lookupTables.properties.seal));
+
+    optionFilter.push(
+      filterTag("se", !config?.ignoreUnselectedCustomizableOptions),
+    );
   }
 
   // on your own
@@ -853,7 +849,7 @@ function makePlayerCardsFilter(
   const filters: Filter[] = [];
 
   for (const option of options) {
-    const filter = makeOptionFilter(option, lookupTables, config);
+    const filter = makeOptionFilter(option, config);
 
     if (!filter) continue;
 
@@ -869,7 +865,7 @@ function makePlayerCardsFilter(
 
   if (config?.targetDeck !== "extraSlots" && config?.additionalDeckOptions) {
     for (const option of config.additionalDeckOptions) {
-      const filter = makeOptionFilter(option, lookupTables, config);
+      const filter = makeOptionFilter(option, config);
       if (!filter) continue;
 
       if (option.not) {

@@ -1,12 +1,11 @@
 import { applyTaboo } from "@/store/lib/card-edits";
 import type { Card } from "@/store/services/queries.types";
-import { splitMultiValue } from "@/utils/card-utils";
+import { cardUses, splitMultiValue } from "@/utils/card-utils";
 import {
   ACTION_TEXT_ENTRIES,
   REGEX_BONDED,
   REGEX_SKILL_BOOST,
   REGEX_SUCCEED_BY,
-  REGEX_USES,
 } from "@/utils/constants";
 import { time, timeEnd } from "@/utils/time";
 import type { StateCreator } from "zustand";
@@ -230,14 +229,9 @@ function indexBySkillBoosts(tables: LookupTables, card: Card) {
 }
 
 function indexByUses(tables: LookupTables, card: Card) {
-  const match = card.real_text?.match(REGEX_USES);
-
-  if (match && match.length > 0) {
-    setInLookupTable(
-      card.code,
-      tables.uses,
-      match[1] === "charge" ? "charges" : match[1],
-    );
+  const uses = cardUses(card);
+  if (uses) {
+    setInLookupTable(card.code, tables.uses, uses);
   }
 }
 
