@@ -45,6 +45,7 @@ export function CardList(props: CardListImplementationProps) {
   const activeGroup = useRef<string | undefined>(undefined);
   const canCheckOwnerhip = useStore(selectCanCheckOwnership);
   const cardOwnedCount = useStore(selectCardOwnedCount);
+  const isGrouped = grouped !== false;
 
   const onScrollChange = useCallback(() => {
     setCurrentTop(-1);
@@ -122,8 +123,8 @@ export function CardList(props: CardListImplementationProps) {
   }, [onKeyboardNavigate, onSelectGroup]);
 
   const onScrollStop = useCallback(
-    (scrolling: boolean, grouped: boolean) => {
-      if (!scrolling && grouped !== false) {
+    (scrolling: boolean) => {
+      if (!scrolling) {
         virtuosoRef.current?.getState(() => {
           activeGroup.current = findActiveGroup(activeRange.current, data);
         });
@@ -161,7 +162,7 @@ export function CardList(props: CardListImplementationProps) {
       ref={setScrollParent as unknown as React.RefObject<HTMLDivElement>}
       type="always"
     >
-      {viewMode !== "scans" && data && scrollParent && grouped !== false && (
+      {viewMode !== "scans" && data && scrollParent && isGrouped && (
         <GroupedVirtuoso
           context={{ currentTop }}
           customScrollParent={scrollParent}
@@ -212,7 +213,7 @@ export function CardList(props: CardListImplementationProps) {
       )}
       {
         // TODO Sy: deduplicate
-        viewMode !== "scans" && data && scrollParent && grouped !== true && (
+        viewMode !== "scans" && data && scrollParent && !isGrouped && (
           <Virtuoso
             context={{ currentTop }}
             customScrollParent={scrollParent}
@@ -248,9 +249,7 @@ export function CardList(props: CardListImplementationProps) {
 
               return <CardListItemCompact {...itemProps} />;
             }}
-            isScrolling={onScrollStop}
             rangeChanged={rangeChanged}
-            ref={virtuosoRef}
           />
         )
       }
