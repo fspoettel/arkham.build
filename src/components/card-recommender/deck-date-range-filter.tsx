@@ -14,7 +14,6 @@ export function DeckDateRangeFilter() {
   const [min, max] = deckDateTickRange();
   const onValueCommit = useCallback(
     (value: [number, number]) => {
-      console.log(value);
       setFilterValue(value);
     },
     [setFilterValue],
