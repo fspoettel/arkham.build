@@ -79,6 +79,24 @@ test.describe("limited card pool", () => {
     await expect(page.getByTestId("limited-card-pool-tag")).toBeVisible();
   });
 
+  test("does not show preview cards in limited pool mode", async ({ page }) => {
+    await page.goto("/settings");
+    await page.getByTestId("tab-collection").click();
+    await page.getByTestId("settings-show-previews").click();
+    await page.getByTestId("settings-save").click();
+    await page.getByTestId("masthead-logo").click();
+    await createLimitedPoolDeck(page);
+    await fillSearch(page, "crowbar");
+    await expect(page.getByTestId("cardlist-count")).toContainText("0 cards");
+    await page.getByTestId("editor-tab-meta").click();
+    await page.getByTestId("combobox-input").click();
+    await page.getByTestId("combobox-input").fill("drown");
+    await page.getByTestId("combobox-menu-item-tdcp").click();
+    await expect(page.getByTestId("listcard-11021")).toBeVisible();
+  });
+});
+
+test.describe("sealed deck", () => {
   test("can create sealed deck", async ({ page }) => {
     await page.goto("/deck/create/01001");
     await uploadSealedDeck(page);
