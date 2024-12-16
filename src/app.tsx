@@ -15,7 +15,6 @@ import { selectIsInitialized } from "./store/selectors/shared";
 import {
   queryCards,
   queryDataVersion,
-  queryDecklists,
   queryMetadata,
 } from "./store/services/queries";
 import { useColorTheme } from "./utils/use-color-theme";
@@ -65,13 +64,7 @@ function AppInner() {
     async function initStore() {
       if (storeHydrated) {
         try {
-          await init(
-            queryMetadata,
-            queryDataVersion,
-            queryCards,
-            queryDecklists,
-            false,
-          );
+          await init(queryMetadata, queryDataVersion, queryCards, false);
         } catch (err) {
           toast.show({
             children: `Failed to initialize card database: ${(err as Error)?.message}`,

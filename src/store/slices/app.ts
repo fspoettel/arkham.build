@@ -62,15 +62,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 ) => ({
   app: getInitialAppState(),
 
-  async init(
-    queryMetadata,
-    queryDataVersion,
-    queryCards,
-    queryDecklists,
-    refresh = false,
-  ) {
+  async init(queryMetadata, queryDataVersion, queryCards, refresh = false) {
     const state = get();
-
     if (!refresh && state.metadata.dataVersion?.cards_updated_at) {
       const metadata = {
         ...state.metadata,
@@ -104,13 +97,11 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     }
 
     time("query_data");
-    const [metadataResponse, dataVersionResponse, cards, decklists] =
-      await Promise.all([
-        queryMetadata(),
-        queryDataVersion(),
-        queryCards(),
-        queryDecklists(),
-      ]);
+    const [metadataResponse, dataVersionResponse, cards] = await Promise.all([
+      queryMetadata(),
+      queryDataVersion(),
+      queryCards(),
+    ]);
     timeEnd("query_data");
 
     time("create_store_data");
@@ -129,7 +120,6 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       subtypes: mappedByCode(subTypes),
       types: mappedByCode(types),
       tabooSets: mappedById(metadataResponse.taboo_set),
-      decklists: {},
     };
 
     if (metadata.packs["rcore"]) {
@@ -187,10 +177,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       }
     }
 
-    metadata.decklists = decklists.reduce<Record<string, Deck>>((acc, curr) => {
-      acc[curr.id] = curr;
-      return acc;
-    }, {});
+    console.log(cards);
 
     const lookupTables = createLookupTables(metadata, state.settings);
     createRelations(metadata, lookupTables);

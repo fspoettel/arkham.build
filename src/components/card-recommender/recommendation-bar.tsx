@@ -1,5 +1,4 @@
-import type { Recommendation } from "@/store/lib/card-recommendations";
-import type { Card } from "@/store/services/queries.types";
+import type { Card, Recommendation } from "@/store/services/queries.types";
 import { getCardColor } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { DefaultTooltip } from "../ui/tooltip";
@@ -33,7 +32,7 @@ export function RecommendationBar(props: RecommendationBarProps) {
   return (
     <div className={cx(css["recommendation-bar-container"])}>
       <DefaultTooltip
-        tooltip={recData.message}
+        tooltip={recData.explanation}
         options={{ placement: "bottom" }}
       >
         <div

@@ -30,7 +30,7 @@ export function RecommenderRelativityToggle(
       </ToggleGroupItem>
       <ToggleGroupItem
         value={"true"}
-        tooltip={`Count how many ${props.investigator} decks each card is used in compared to other investigators`}
+        tooltip={`Count how many ${props.investigator} decks each card is used in compared to other investigators who have access to it`}
       >
         Relative
       </ToggleGroupItem>

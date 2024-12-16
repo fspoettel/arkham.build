@@ -17,6 +17,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-family: var(--font-family-ui);
+}
+
+.recommender-header span {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
 }
 
 .scroller {
@@ -84,7 +90,7 @@
   font-family: var(--font-family-ui);
 }
 
-.toolbar div {
+.toggle-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -96,6 +102,13 @@
   }
 }
 
+.date-range-selector {
+  flex-grow: 0.5;
+}
+
+.date-range-selector div input {
+  width: calc(7ch + 0.5rem)!important; /*TODO Sy: do nicely*/
+}
 
 @keyframes fadeIn {
   from {
