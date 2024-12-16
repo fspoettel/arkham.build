@@ -111,11 +111,11 @@ export function isSpecialCard(card: Card, ignorePermanent = false) {
 }
 
 export function isEnemyLike(card: Card) {
-  return !!(card.enemy_damage || card.enemy_horror);
+  return card.type_code === "enemy" || card.type_code === "enemy_location";
 }
 
 export function isLocationLike(card: Card) {
-  return !!(card.shroud || card.clues || card.clues_fixed);
+  return card.type_code === "location" || card.type_code === "enemy_location";
 }
 
 export function hasImage(card: Card) {
