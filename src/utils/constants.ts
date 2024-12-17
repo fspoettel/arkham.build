@@ -9,7 +9,7 @@ export const REGEX_SKILL_BOOST = /\+\d+?\s\[(.+?)\]/g;
 
 export const REGEX_USES = /Uses\s\(\d+?\s(\w+?)\)/;
 
-export const REGEX_BONDED = /^Bonded\s\((.*?)\)(\.|\s)/;
+export const REGEX_BONDED = /Bonded\s\((.*?)\)(\.|\s)/;
 
 export const REGEX_SUCCEED_BY =
   /succe(ssful|ed(?:s?|ed?))(:? at a skill test)? by(?! 0)/;

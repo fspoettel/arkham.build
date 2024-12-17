@@ -441,9 +441,10 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
 function makeSearch(): Search {
   return {
     value: "",
-    includeGameText: false,
-    includeFlavor: false,
     includeBacks: false,
+    includeFlavor: false,
+    includeGameText: false,
+    includeName: true,
   };
 }
 

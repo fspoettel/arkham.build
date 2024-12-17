@@ -79,6 +79,13 @@ export function CardSearch(props: Props) {
     [setSearchFlag],
   );
 
+  const onToggleCardName = useCallback(
+    (val: boolean | string) => {
+      setSearchFlag("includeName", !!val);
+    },
+    [setSearchFlag],
+  );
+
   return (
     <search className={css["container"]} data-testid="search">
       <div className={css["row"]}>
@@ -98,7 +105,13 @@ export function CardSearch(props: Props) {
         {slotRight}
       </div>
       <div className={css["flags"]}>
-        <Checkbox checked disabled id="search-card-name" label="Name" />
+        <Checkbox
+          checked={search.includeName}
+          data-testid="search-card-name"
+          id="search-card-name"
+          label="Name"
+          onCheckedChange={onToggleCardName}
+        />
         <Checkbox
           checked={search.includeGameText}
           data-testid="search-game-text"

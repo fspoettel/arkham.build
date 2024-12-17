@@ -178,4 +178,20 @@ test.describe("filters", () => {
     await page.getByTestId("combobox-menu-item-10127").click();
     await expect(page.getByTestId("listcard-04004")).not.toBeVisible();
   });
+
+  test("toggle search name", async ({ page }) => {
+    await fillSearch(page, "charge");
+    await page.getByRole("heading", { name: "Asset", exact: true }).click();
+    await page.getByPlaceholder("Select slot(s)").click();
+    await page.getByPlaceholder("Select slot(s)").fill("taro");
+    await page.getByTestId("combobox-menu-item-Tarot").click();
+    await expect(page.getByTestId("listcard-54005")).toBeVisible();
+    await page.getByTestId("search-game-text").click();
+    await page.getByTestId("search-card-name").click();
+    await expect(page.getByTestId("listcard-54005")).not.toBeVisible();
+    await page.getByTestId("combobox-result-remove").click();
+    await page.getByPlaceholder("Select slot(s)").click();
+    await page.getByTestId("combobox-menu-item-Hand x2").click();
+    await expect(page.getByTestId("listcard-09022")).toBeVisible();
+  });
 });
