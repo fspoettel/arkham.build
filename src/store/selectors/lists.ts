@@ -3,6 +3,7 @@ import {
   ASSET_SLOT_ORDER,
   FACTION_ORDER,
   type FactionName,
+  NO_SLOT_STRING,
   PREVIEW_PACKS,
   SKILL_KEYS,
   type SkillKey,
@@ -735,7 +736,10 @@ export const selectAssetOptions = createSelector(
       health: filterProps.health,
       sanity: filterProps.sanity,
       uses,
-      slots: ASSET_SLOT_ORDER.map((code) => ({ code })),
+      slots: [
+        { code: NO_SLOT_STRING },
+        ...ASSET_SLOT_ORDER.map((code) => ({ code })),
+      ],
       skillBoosts,
     };
   },

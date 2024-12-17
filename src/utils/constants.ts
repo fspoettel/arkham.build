@@ -269,3 +269,5 @@ export const MQ_FLOATING_FILTERS = "(max-width: 75rem)";
 export const PREVIEW_PACKS = localPacks
   .filter((p) => p.release_date && new Date() < new Date(p.release_date))
   .map((pack) => pack.code);
+
+export const NO_SLOT_STRING = "No slot";

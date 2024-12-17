@@ -1,6 +1,10 @@
 import { cardLevel, splitMultiValue } from "@/utils/card-utils";
 import type { SkillKey } from "@/utils/constants";
-import { SKILL_KEYS, SPECIAL_CARD_CODES } from "@/utils/constants";
+import {
+  NO_SLOT_STRING,
+  SKILL_KEYS,
+  SPECIAL_CARD_CODES,
+} from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
 import type { Filter } from "@/utils/fp";
 import { and, not, notUnless, or } from "@/utils/fp";
@@ -88,7 +92,11 @@ function filterSkillBoost(
 }
 
 function filterSlots(slot: string) {
-  return (card: Card) => !!card.real_slot?.includes(slot);
+  return (card: Card) => {
+    return slot === NO_SLOT_STRING
+      ? card.type_code === "asset" && !card.real_slot
+      : !!card.real_slot?.includes(slot);
+  };
 }
 
 export function filterHealthProp(
