@@ -32,7 +32,6 @@ describe("filter: investigator access", () => {
   ) {
     return filterInvestigatorAccess(
       state.metadata.cards[code],
-      state.lookupTables,
       config,
     )?.(state.metadata.cards[target]);
   }

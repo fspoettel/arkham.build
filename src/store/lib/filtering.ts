@@ -335,8 +335,8 @@ function filterVictory(card: Card) {
   return !!card.victory;
 }
 
-function filterSeal(sealTable: LookupTables["properties"]["seal"]) {
-  return (card: Card) => !!sealTable[card.code];
+function filterSeal(card: Card) {
+  return !!card.tags?.includes("se");
 }
 
 function filterPermanent(card: Card) {
@@ -415,7 +415,7 @@ export function filterProperties(
   }
 
   if (filterState.seal) {
-    filters.push(filterSeal(lookupTables.properties.seal));
+    filters.push(filterSeal);
   }
 
   if (filterState.victory) {
@@ -561,15 +561,18 @@ export function filterType(enabledTypeCodes: MultiselectFilter) {
  * Investigator access
  */
 
-function filterRequired(
-  code: string,
-  relationsTable: LookupTables["relations"],
-) {
-  return (card: Card) =>
-    !!relationsTable.advanced[code]?.[card.code] ||
-    !!relationsTable.requiredCards[code]?.[card.code] ||
-    !!relationsTable.parallelCards[code]?.[card.code] ||
-    !!relationsTable.replacement[code]?.[card.code];
+export function filterRequired(investigator: Card) {
+  return (card: Card) => {
+    if (!card.restrictions?.investigator) return false;
+
+    return (
+      !!card.restrictions.investigator[investigator.code] ||
+      (!!investigator.duplicate_of_code &&
+        !!card.restrictions.investigator[investigator.duplicate_of_code]) ||
+      (!!investigator.alternate_of_code &&
+        !!card.restrictions.investigator[investigator.alternate_of_code])
+    );
+  };
 }
 
 export type InvestigatorAccessConfig = {
@@ -755,7 +758,6 @@ export function makeOptionFilter(
 
 export function filterInvestigatorAccess(
   investigator: Card,
-  lookupTables: LookupTables,
   config?: InvestigatorAccessConfig,
 ): Filter | undefined {
   const mode = config?.targetDeck ?? "slots";
@@ -764,7 +766,6 @@ export function filterInvestigatorAccess(
     mode !== "extraSlots"
       ? makePlayerCardsFilter(
           investigator,
-          lookupTables,
           "deck_options",
           "deck_requirements",
           config,
@@ -775,7 +776,6 @@ export function filterInvestigatorAccess(
     mode !== "slots"
       ? makePlayerCardsFilter(
           investigator,
-          lookupTables,
           "side_deck_options",
           "side_deck_requirements",
           config,
@@ -800,7 +800,6 @@ export function filterInvestigatorAccess(
 
 function makePlayerCardsFilter(
   investigator: Card,
-  lookupTables: LookupTables,
   optionsAccessor: "deck_options" | "side_deck_options",
   requiredAccessor: "deck_requirements" | "side_deck_requirements",
   config?: InvestigatorAccessConfig,
@@ -835,7 +834,7 @@ function makePlayerCardsFilter(
     ors.push((card: Card) => card.code in requirements);
   } else {
     ors.push(
-      filterRequired(code, lookupTables.relations),
+      filterRequired(investigator),
       (card: Card) => card.subtype_code === "basicweakness",
       (card: Card) =>
         !!card.encounter_code &&
@@ -884,13 +883,10 @@ export function filterInvestigatorWeaknessAccess(
   lookupTables: LookupTables,
   config?: Pick<InvestigatorAccessConfig, "targetDeck">,
 ) {
-  // normalize parallel investigators to root for lookups.
-  const code = investigator.alternate_of_code ?? investigator.code;
-
   const ors: Filter[] =
     config?.targetDeck !== "extraSlots"
       ? [
-          filterRequired(code, lookupTables.relations),
+          filterRequired(investigator),
           filterSubtypes({ basicweakness: true, weakness: false, none: false }),
           (card: Card) => card.xp == null && !card.restrictions,
         ]

@@ -41,7 +41,6 @@ function getInitialLookupTables(): LookupTables {
     properties: {
       fast: {},
       multislot: {},
-      seal: {},
       succeedBy: {},
     },
     skillBoosts: {},
@@ -128,8 +127,6 @@ function addCardToLookupTables(tables: LookupTables, card: Card) {
 
     indexByMulticlass(tables, card);
 
-    indexBySeal(tables, card);
-
     indexBySucceedsBy(tables, card);
 
     if (card.type_code === "asset") {
@@ -196,16 +193,6 @@ function indexByMulticlass(tables: LookupTables, card: Card) {
 
   if (card.faction3_code) {
     setInLookupTable(card.code, tables.factionCode, card.faction3_code);
-  }
-}
-
-// TODO: use a regex.
-function indexBySeal(tables: LookupTables, card: Card) {
-  if (
-    card?.real_text?.includes(" seal ") ||
-    card.real_text?.includes("Seal (")
-  ) {
-    setInLookupTable(card.code, tables.properties, "seal");
   }
 }
 

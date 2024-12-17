@@ -1,5 +1,4 @@
 import type { Card, DeckOption } from "../services/queries.types";
-import type { LookupTables } from "../slices/lookup-tables.types";
 import { getAdditionalDeckOptions } from "./deck-validation";
 import { makeOptionFilter } from "./filtering";
 import type { ResolvedDeck } from "./types";
@@ -8,11 +7,7 @@ type Mapping = {
   [key: number]: Record<string, number>;
 };
 
-function mapCardsToDeckOptions(
-  deck: ResolvedDeck,
-  deckOptions: DeckOption[],
-  lookupTables: LookupTables,
-) {
+function mapCardsToDeckOptions(deck: ResolvedDeck, deckOptions: DeckOption[]) {
   // number of options with a limit clause.
   // in contrast to the deck validation logic,
   // we append unmatched cards to the last option.
@@ -38,7 +33,7 @@ function mapCardsToDeckOptions(
       limitOptionIndex += 1;
     }
 
-    const filter = makeOptionFilter(option, lookupTables, {
+    const filter = makeOptionFilter(option, {
       ignoreUnselectedCustomizableOptions: true,
       selections: deck.selections,
       targetDeck: "slots",
@@ -95,7 +90,6 @@ export type LimitedSlotOccupation = {
 
 export function limitedSlotOccupation(
   deck: ResolvedDeck,
-  lookupTables: LookupTables,
 ): undefined | LimitedSlotOccupation[] {
   const deckOptions = [
     ...(deck.investigatorBack.card.deck_options ?? []),
@@ -108,7 +102,7 @@ export function limitedSlotOccupation(
 
   if (!limitedSlotIndexes?.length) return undefined;
 
-  const mapping = mapCardsToDeckOptions(deck, deckOptions, lookupTables);
+  const mapping = mapCardsToDeckOptions(deck, deckOptions);
 
   return limitedSlotIndexes.map(({ index, option }) => {
     const matches = mapping?.[index] ?? {};

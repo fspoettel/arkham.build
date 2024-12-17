@@ -136,13 +136,9 @@ function makeUserFilter(
 
         if (value) {
           const filter = [];
-          const accessFilter = filterInvestigatorAccess(
-            metadata.cards[value],
-            lookupTables,
-            {
-              targetDeck,
-            },
-          );
+          const accessFilter = filterInvestigatorAccess(metadata.cards[value], {
+            targetDeck,
+          });
           const weaknessFilter = filterInvestigatorWeaknessAccess(
             metadata.cards[value],
             lookupTables,
@@ -193,8 +189,7 @@ function makeUserFilter(
 
       case "trait": {
         const value = filterValue.value as MultiselectFilter;
-        if (value.length)
-          filters.push(filterTraits(value, lookupTables.traits));
+        if (value.length) filters.push(filterTraits(value));
         break;
       }
 
@@ -225,7 +220,7 @@ function makeUserFilter(
           const filter = (card: Card) => {
             if (card.type_code !== "investigator") return false;
 
-            const filter = filterInvestigatorAccess(card, lookupTables, {
+            const filter = filterInvestigatorAccess(card, {
               ignoreUnselectedCustomizableOptions: false,
               targetDeck,
             });
@@ -371,15 +366,11 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
 
     const ors = [];
 
-    const investigatorFilter = filterInvestigatorAccess(
-      investigator,
-      lookupTables,
-      {
-        additionalDeckOptions: getAdditionalDeckOptions(resolvedDeck),
-        selections: resolvedDeck.selections,
-        targetDeck,
-      },
-    );
+    const investigatorFilter = filterInvestigatorAccess(investigator, {
+      additionalDeckOptions: getAdditionalDeckOptions(resolvedDeck),
+      selections: resolvedDeck.selections,
+      targetDeck,
+    });
 
     const weaknessFilter = filterInvestigatorWeaknessAccess(
       investigator,

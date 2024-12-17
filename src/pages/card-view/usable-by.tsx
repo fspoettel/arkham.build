@@ -35,7 +35,7 @@ const selectInvestigators = createSelector(
 
         if (!isValidInvestigator) return false;
 
-        const access = filterInvestigatorAccess(investigator, lookupTables);
+        const access = filterInvestigatorAccess(investigator);
         if (!access) return false;
 
         const weaknessAccess = filterInvestigatorWeaknessAccess(

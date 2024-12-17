@@ -635,11 +635,7 @@ class DeckOptionsValidator implements SlotValidator {
     this.config = config;
     this.deckOptions = deckOptions;
 
-    this.playerCardFilter = filterInvestigatorAccess(
-      investigatorBack,
-      state.lookupTables,
-      config,
-    );
+    this.playerCardFilter = filterInvestigatorAccess(investigatorBack, config);
 
     this.weaknessFilter = filterInvestigatorWeaknessAccess(
       investigatorBack,
@@ -828,11 +824,7 @@ class DeckOptionsValidator implements SlotValidator {
       const option = options[i];
       if (option.atleast || option.not) continue;
 
-      const filter = makeOptionFilter(
-        option as DeckOption,
-        this.lookupTables,
-        this.config,
-      );
+      const filter = makeOptionFilter(option as DeckOption, this.config);
 
       let matchCount = 0;
 
