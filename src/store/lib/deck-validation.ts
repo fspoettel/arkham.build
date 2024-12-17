@@ -637,10 +637,7 @@ class DeckOptionsValidator implements SlotValidator {
 
     this.playerCardFilter = filterInvestigatorAccess(investigatorBack, config);
 
-    this.weaknessFilter = filterInvestigatorWeaknessAccess(
-      investigatorBack,
-      state.lookupTables,
-    );
+    this.weaknessFilter = filterInvestigatorWeaknessAccess(investigatorBack);
   }
 
   configure(

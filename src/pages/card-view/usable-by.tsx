@@ -38,10 +38,7 @@ const selectInvestigators = createSelector(
         const access = filterInvestigatorAccess(investigator);
         if (!access) return false;
 
-        const weaknessAccess = filterInvestigatorWeaknessAccess(
-          investigator,
-          lookupTables,
-        );
+        const weaknessAccess = filterInvestigatorWeaknessAccess(investigator);
 
         return or([access, weaknessAccess])(card);
       });

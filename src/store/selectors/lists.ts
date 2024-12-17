@@ -141,7 +141,6 @@ function makeUserFilter(
           });
           const weaknessFilter = filterInvestigatorWeaknessAccess(
             metadata.cards[value],
-            lookupTables,
             { targetDeck },
           );
 
@@ -372,13 +371,9 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
       targetDeck,
     });
 
-    const weaknessFilter = filterInvestigatorWeaknessAccess(
-      investigator,
-      lookupTables,
-      {
-        targetDeck,
-      },
-    );
+    const weaknessFilter = filterInvestigatorWeaknessAccess(investigator, {
+      targetDeck,
+    });
 
     if (investigatorFilter) ors.push(investigatorFilter);
     if (weaknessFilter) ors.push(weaknessFilter);

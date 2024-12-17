@@ -1,6 +1,10 @@
 import { cardLevel, cardUses, splitMultiValue } from "@/utils/card-utils";
 import type { SkillKey } from "@/utils/constants";
-import { SKILL_KEYS, SPECIAL_CARD_CODES } from "@/utils/constants";
+import {
+  REGEX_BONDED,
+  SKILL_KEYS,
+  SPECIAL_CARD_CODES,
+} from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
 import type { Filter } from "@/utils/fp";
 import { and, not, notUnless, or } from "@/utils/fp";
@@ -311,8 +315,9 @@ export function filterPackCode(
  * Properties
  */
 
-function filterBonded(bondedTable: LookupTables["relations"]["bonded"]) {
-  return (card: Card) => !!bondedTable[card.code];
+function filterBonded(card: Card) {
+  const firstLine = card.real_text?.split("\n").at(0);
+  return !!firstLine && REGEX_BONDED.test(firstLine);
 }
 
 function filterCustomizable(card: Card) {
@@ -391,7 +396,7 @@ export function filterProperties(
   const filters: Filter[] = [];
 
   if (filterState.bonded) {
-    filters.push(filterBonded(lookupTables.relations.bonded));
+    filters.push(filterBonded);
   }
 
   if (filterState.customizable) {
@@ -880,7 +885,6 @@ function makePlayerCardsFilter(
 
 export function filterInvestigatorWeaknessAccess(
   investigator: Card,
-  lookupTables: LookupTables,
   config?: Pick<InvestigatorAccessConfig, "targetDeck">,
 ) {
   const ors: Filter[] =
@@ -894,7 +898,7 @@ export function filterInvestigatorWeaknessAccess(
 
   return and([
     filterSubtypes({ basicweakness: true, weakness: true, none: false }),
-    not(filterBonded(lookupTables.relations.bonded)),
+    not(filterBonded),
     or(ors),
   ]);
 }
