@@ -41,7 +41,6 @@ export type LookupTables = {
   properties: {
     fast: Mapping<1>;
     multislot: Mapping<1>;
-    seal: Mapping<1>; // TODO: link the tokens?
     succeedBy: Mapping<1>;
   };
   skillBoosts: LookupTable<string>;

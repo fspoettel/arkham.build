@@ -1,4 +1,4 @@
-import { getMockStore } from "@/test/get-mock-store"; /* eslint-disable @typescript-eslint/no-explicit-any */
+import { getMockStore } from "@/test/get-mock-store";
 import { beforeAll, describe, expect, it } from "vitest";
 import type { StoreApi } from "zustand";
 import type { StoreState } from "../slices";
@@ -32,7 +32,6 @@ describe("filter: investigator access", () => {
   ) {
     return filterInvestigatorAccess(
       state.metadata.cards[code],
-      state.lookupTables,
       config,
     )?.(state.metadata.cards[target]);
   }
@@ -969,10 +968,9 @@ describe("filter: investigator weakness access", () => {
   });
 
   function applyFilter(state: StoreState, code: string, target: string) {
-    return filterInvestigatorWeaknessAccess(
-      state.metadata.cards[code],
-      state.lookupTables,
-    )?.(state.metadata.cards[target]);
+    return filterInvestigatorWeaknessAccess(state.metadata.cards[code])?.(
+      state.metadata.cards[target],
+    );
   }
 
   it("handles case: weakness is required by investigator", () => {

@@ -1,5 +1,6 @@
 import type { Card } from "@/store/services/queries.types";
 import {
+  REGEX_USES,
   SIDEWAYS_TYPE_CODES,
   SKILL_KEYS,
   SPECIAL_CARD_CODES,
@@ -144,4 +145,15 @@ export function isStaticInvestigator(card: Card) {
 
 export function cardLimit(card: Card, limitOverride?: number) {
   return limitOverride ?? card.deck_limit ?? card.quantity;
+}
+
+export function cardUses(card: Card) {
+  const firstLine = card.real_text?.split("\n").at(0);
+  const match = firstLine?.match(REGEX_USES);
+
+  if (match?.length) {
+    return match[1] === "charge" ? "charges" : match[1];
+  }
+
+  return undefined;
 }

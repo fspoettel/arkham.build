@@ -88,7 +88,7 @@ function decodeRestrictions(str: string): DeckRestrictions | undefined {
       acc.investigator ??= {};
       const values = val.split(":");
       for (const val of values) {
-        acc.investigator[val] = { [val]: val };
+        acc.investigator[val] = val;
       }
     }
 

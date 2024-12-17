@@ -35,7 +35,6 @@ describe("limitedSlotOccupation()", () => {
           state.sharing,
           limitCarolyn,
         ),
-        state.lookupTables,
       )?.map(toSnapShot),
     ).toMatchInlineSnapshot(`
       [
@@ -54,7 +53,6 @@ describe("limitedSlotOccupation()", () => {
           state.sharing,
           limitCarolynInvalid,
         ),
-        state.lookupTables,
       )?.map(toSnapShot),
     ).toMatchInlineSnapshot(`
       [
@@ -77,7 +75,6 @@ describe("limitedSlotOccupation()", () => {
           state.sharing,
           limitCarolynVersatile,
         ),
-        state.lookupTables,
       )?.map(toSnapShot),
     ).toMatchInlineSnapshot(`
       [
@@ -100,7 +97,6 @@ describe("limitedSlotOccupation()", () => {
           state.sharing,
           limitCarolynVersatileInvalid,
         ),
-        state.lookupTables,
       )?.map(toSnapShot),
     ).toMatchInlineSnapshot(`
       [
