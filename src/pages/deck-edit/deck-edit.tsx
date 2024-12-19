@@ -2,6 +2,7 @@ import { ListLayout } from "@//layouts/list-layout";
 import { Attachments } from "@/components/attachments/attachments";
 import { CardListContainer } from "@/components/card-list/card-list-container";
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
+import { CardRecommender } from "@/components/card-recommender/card-recommender";
 import { DeckTools } from "@/components/deck-tools/deck-tools";
 import { DecklistValidation } from "@/components/decklist/decklist-validation";
 import { Filters } from "@/components/filters/filters";
@@ -172,6 +173,35 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
             )}
           </ListLayout>
         </ListLayoutContextProvider>
+      </Route>
+      <Route path="/recommendations">
+        <ListLayout
+          filters={
+            <Filters>
+              <DecklistValidation
+                defaultOpen={validation.errors.length < 3}
+                validation={validation}
+              />
+              <ShowUnusableCardsToggle />
+            </Filters>
+          }
+          sidebar={sidebar}
+          sidebarWidthMax="var(--sidebar-width-two-col)"
+        >
+          {(props) => (
+            <CardRecommender
+              {...props}
+              onChangeCardQuantity={onChangeCardQuantity}
+              quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
+              renderCardExtra={renderCardExtra}
+              targetDeck={
+                mapTabToSlot(currentTab) === "extraSlots"
+                  ? "extraSlots"
+                  : "slots"
+              }
+            />
+          )}
+        </ListLayout>
       </Route>
       <Route path="/">
         <ListLayoutContextProvider>

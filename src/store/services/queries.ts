@@ -10,6 +10,7 @@ import type {
   EncounterSet,
   Pack,
   QueryCard,
+  Recommendations,
   TabooSet,
 } from "./queries.types";
 
@@ -287,4 +288,71 @@ export async function upgradeDeck(
   });
 
   return await res.json();
+}
+
+// TODO Sy: Remove this once we have a proper API
+async function spoofedRequest(
+  path: string,
+  options: RequestInit = {},
+): Promise<Response> {
+  const res = await fetch(`http://localhost:9191${path}`, options);
+
+  if (res.status >= 400) {
+    const err = await res.json();
+    throw new ApiError(err.message, res.status);
+  }
+
+  return res;
+}
+
+export type RecommendationAnalysisAlgorithm =
+  | "absolute percentage"
+  | "percentile rank";
+
+export type RecommendationRequest = {
+  investigator_code: string;
+  analyze_side_decks: boolean;
+  analysis_algorithm: RecommendationAnalysisAlgorithm;
+  required_cards: string[];
+  excluded_cards: string[];
+  cards_to_recommend: string[];
+  date_range: [string, string];
+};
+
+type RecommendationApiResponse = {
+  data: {
+    recommendations: Recommendations;
+  };
+};
+
+export async function getRecommendations(
+  investigatorCode: string,
+  analyzeSideDecks: boolean,
+  relativeAnalysis: boolean,
+  requiredCards: string[],
+  excludedCards: string[],
+  cardsToRecommend: string[],
+  dateRange: [string, string],
+) {
+  const req: RecommendationRequest = {
+    investigator_code: investigatorCode,
+    analyze_side_decks: analyzeSideDecks,
+    analysis_algorithm: relativeAnalysis
+      ? "percentile rank"
+      : "absolute percentage",
+    required_cards: requiredCards,
+    excluded_cards: excludedCards,
+    cards_to_recommend: cardsToRecommend,
+    date_range: dateRange,
+  };
+  console.log(req);
+  const res = await spoofedRequest("/recommendations", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(req),
+  });
+  const { data }: RecommendationApiResponse = await res.json();
+  return data.recommendations;
 }
