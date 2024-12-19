@@ -84,6 +84,11 @@ export type ListState = {
   totalCardCount: number;
 };
 
+export type RecommendationListState = {
+  cards: [Card, number][];
+  totalCardCount: number;
+};
+
 function makeUserFilter(
   metadata: Metadata,
   lookupTables: LookupTables,

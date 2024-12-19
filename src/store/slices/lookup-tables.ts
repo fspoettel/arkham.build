@@ -98,7 +98,6 @@ export function createLookupTables(
   }
 
   createRelations(metadata, lookupTables);
-
   addPacksToLookupTables(metadata, lookupTables);
 
   timeEnd("refresh_lookup_tables");
