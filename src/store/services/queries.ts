@@ -291,11 +291,14 @@ export async function upgradeDeck(
 }
 
 // TODO Sy: Remove this once we have a proper API
-async function spoofedRequest(
+async function recommendationRequest(
   path: string,
   options: RequestInit = {},
 ): Promise<Response> {
-  const res = await fetch(`http://localhost:9191${path}`, options);
+  const res = await fetch(
+    `${import.meta.env.VITE_RECOMMENDATION_API_URL}${path}`,
+    options,
+  );
 
   if (res.status >= 400) {
     const err = await res.json();
@@ -343,7 +346,7 @@ export async function getRecommendations(
     date_range: dateRange,
   };
 
-  const res = await spoofedRequest("/recommendations", {
+  const res = await recommendationRequest("/recommendations", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
