@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ListLayoutContextProvider } from "@/layouts/list-layout-context";
+import { ListLayoutContextProvider } from "@/layouts/list-layout-context-provider";
 import { ListLayoutNoSidebar } from "@/layouts/list-layout-no-sidebar";
 import { useStore } from "@/store";
 import type { CardWithRelations } from "@/store/lib/types";

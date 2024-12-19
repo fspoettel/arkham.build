@@ -9,7 +9,7 @@ import { useGoBack } from "@/utils/use-go-back";
 import { useMedia } from "@/utils/use-media";
 import { ChevronLeftIcon, FilterIcon } from "lucide-react";
 import { useCallback, useEffect } from "react";
-import { useListLayoutContext } from "./list-layout-context.hooks";
+import { useListLayoutContext } from "./list-layout-context";
 import css from "./list-layout-no-sidebar.module.css";
 
 type Props = {

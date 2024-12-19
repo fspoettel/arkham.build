@@ -1,4 +1,4 @@
-import { useListLayoutContext } from "@/layouts/list-layout-context.hooks";
+import { useListLayoutContext } from "@/layouts/list-layout-context";
 import { useStore } from "@/store";
 import {
   selectActiveList,

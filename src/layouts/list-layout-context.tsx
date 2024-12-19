@@ -1,5 +1,5 @@
-import { MQ_FLOATING_FILTERS, MQ_FLOATING_SIDEBAR } from "@/utils/constants";
-import { createContext, useMemo, useState } from "react";
+import { useContext } from "react";
+import { createContext } from "react";
 
 type Context = {
   sidebarOpen: boolean;
@@ -15,32 +15,12 @@ export const ListLayoutContext = createContext<Context>({
   setFiltersOpen: () => {},
 });
 
-export function ListLayoutContextProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const [sidebarOpen, setSidebarOpen] = useState(
-    !window.matchMedia(MQ_FLOATING_SIDEBAR).matches,
-  );
-
-  const [filtersOpen, setFiltersOpen] = useState(
-    !window.matchMedia(MQ_FLOATING_FILTERS).matches,
-  );
-
-  const contextValue = useMemo(
-    () => ({
-      sidebarOpen,
-      filtersOpen,
-      setSidebarOpen,
-      setFiltersOpen,
-    }),
-    [sidebarOpen, filtersOpen],
-  );
-
-  return (
-    <ListLayoutContext.Provider value={contextValue}>
-      {children}
-    </ListLayoutContext.Provider>
-  );
+export function useListLayoutContext() {
+  const context = useContext(ListLayoutContext);
+  if (!context) {
+    throw new Error(
+      "useListLayoutContext must be used within a ListLayoutContextProvider",
+    );
+  }
+  return context;
 }

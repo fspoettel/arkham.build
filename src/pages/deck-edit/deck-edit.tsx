@@ -7,7 +7,7 @@ import { DecklistValidation } from "@/components/decklist/decklist-validation";
 import { Filters } from "@/components/filters/filters";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast.hooks";
-import { ListLayoutContextProvider } from "@/layouts/list-layout-context";
+import { ListLayoutContextProvider } from "@/layouts/list-layout-context-provider";
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import {

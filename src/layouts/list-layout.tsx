@@ -6,7 +6,7 @@ import { useMedia } from "@/utils/use-media";
 import { FilterIcon } from "lucide-react";
 import type React from "react";
 import { useCallback, useEffect, useRef } from "react";
-import { useListLayoutContext } from "./list-layout-context.hooks";
+import { useListLayoutContext } from "./list-layout-context";
 import css from "./list-layout.module.css";
 
 type Props = {

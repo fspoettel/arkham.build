@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/popover";
 import { Scroller } from "@/components/ui/scroller";
 import { useToast } from "@/components/ui/toast.hooks";
-import { useListLayoutContext } from "@/layouts/list-layout-context.hooks";
+import { useListLayoutContext } from "@/layouts/list-layout-context";
 import { useStore } from "@/store";
 import { selectConnections } from "@/store/selectors/connections";
 import { selectDecksDisplayList } from "@/store/selectors/deck-filters";

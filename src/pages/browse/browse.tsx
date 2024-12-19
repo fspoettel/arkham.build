@@ -3,7 +3,7 @@ import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { DeckCollection } from "@/components/deck-collection/deck-collection";
 import { Filters } from "@/components/filters/filters";
 import { ListLayout } from "@/layouts/list-layout";
-import { ListLayoutContextProvider } from "@/layouts/list-layout-context";
+import { ListLayoutContextProvider } from "@/layouts/list-layout-context-provider";
 import { useStore } from "@/store";
 import { selectIsInitialized } from "@/store/selectors/shared";
 import { useDocumentTitle } from "@/utils/use-document-title";
