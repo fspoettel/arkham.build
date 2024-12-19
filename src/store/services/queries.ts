@@ -310,11 +310,10 @@ export type RecommendationAnalysisAlgorithm =
   | "percentile rank";
 
 export type RecommendationRequest = {
-  investigator_code: string;
+  canonical_investigator_code: string;
   analyze_side_decks: boolean;
   analysis_algorithm: RecommendationAnalysisAlgorithm;
   required_cards: string[];
-  excluded_cards: string[];
   cards_to_recommend: string[];
   date_range: [string, string];
 };
@@ -326,26 +325,24 @@ type RecommendationApiResponse = {
 };
 
 export async function getRecommendations(
-  investigatorCode: string,
+  canonicalInvestigatorCode: string,
   analyzeSideDecks: boolean,
   relativeAnalysis: boolean,
   requiredCards: string[],
-  excludedCards: string[],
   cardsToRecommend: string[],
   dateRange: [string, string],
 ) {
   const req: RecommendationRequest = {
-    investigator_code: investigatorCode,
+    canonical_investigator_code: canonicalInvestigatorCode,
     analyze_side_decks: analyzeSideDecks,
     analysis_algorithm: relativeAnalysis
       ? "percentile rank"
       : "absolute percentage",
     required_cards: requiredCards,
-    excluded_cards: excludedCards,
     cards_to_recommend: cardsToRecommend,
     date_range: dateRange,
   };
-  console.log(req);
+
   const res = await spoofedRequest("/recommendations", {
     method: "POST",
     headers: {

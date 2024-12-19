@@ -1,6 +1,7 @@
 import { ErrorDisplay } from "@/pages/errors/error-display";
 import { useStore } from "@/store";
 import { filterSubtypes } from "@/store/lib/filtering";
+import type { ResolvedDeck } from "@/store/lib/types";
 import { type ListState, selectListCards } from "@/store/selectors/lists";
 import { getRecommendations } from "@/store/services/queries";
 import type { Card, Recommendation } from "@/store/services/queries.types";
@@ -22,6 +23,10 @@ import { DeckDateRangeFilter } from "./deck-date-range-filter";
 import { IncludeSideDeckToggle } from "./include-side-deck-toggle";
 import { RecommendationBar } from "./recommendation-bar";
 import { RecommenderRelativityToggle } from "./recommender-relativity-toggle";
+
+function canonicalizeInvestigatorCode(deck: ResolvedDeck) {
+  return `${deck.metaParsed?.alternate_front ?? deck.investigator_code}-${deck.metaParsed?.alternate_back ?? deck.investigator_code}`;
+}
 
 export function CardRecommender(props: CardListProps) {
   const {
@@ -68,11 +73,10 @@ export function CardRecommender(props: CardListProps) {
       .map((card) => card.code);
     return () =>
       getRecommendations(
-        resolvedDeck.investigator_code,
+        canonicalizeInvestigatorCode(resolvedDeck),
         includeSideDeck,
         isRelative,
         coreCards[resolvedDeck.id] || [],
-        [], //TODO Sy: implement
         toRecommend,
         dateRangeStrings,
       );
