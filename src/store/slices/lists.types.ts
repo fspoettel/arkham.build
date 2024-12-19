@@ -104,9 +104,10 @@ export type FilterObject<K extends FilterKey> = {
 
 export type Search = {
   value: string;
-  includeGameText: boolean;
-  includeFlavor: boolean;
   includeBacks: boolean;
+  includeFlavor: boolean;
+  includeGameText: boolean;
+  includeName: boolean;
 };
 
 export type GroupingType =

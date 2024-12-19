@@ -9,7 +9,7 @@ export const REGEX_SKILL_BOOST = /\+\d+?\s\[(.+?)\]/g;
 
 export const REGEX_USES = /Uses\s\(\d+?\s(\w+?)\)/;
 
-export const REGEX_BONDED = /^Bonded\s\((.*?)\)(\.|\s)/;
+export const REGEX_BONDED = /Bonded\s\((.*?)\)(\.|\s)/;
 
 export const REGEX_SUCCEED_BY =
   /succe(ssful|ed(?:s?|ed?))(:? at a skill test)? by(?! 0)/;
@@ -269,3 +269,5 @@ export const MQ_FLOATING_FILTERS = "(max-width: 75rem)";
 export const PREVIEW_PACKS = localPacks
   .filter((p) => p.release_date && new Date() < new Date(p.release_date))
   .map((pack) => pack.code);
+
+export const NO_SLOT_STRING = "No slot";

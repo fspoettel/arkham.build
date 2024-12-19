@@ -11,31 +11,45 @@ import type { Metadata } from "../slices/metadata.types";
 const MATCHING_MAX_TOKEN_DISTANCE = 18;
 
 function prepareCardFace(card: Card, search: Search) {
-  let content = `|${card.real_name}`;
+  const needle: string[] = [];
 
-  if (card.real_subname) content += `|${card.real_subname}`;
+  if (search.includeName) {
+    if (card.real_name) needle.push(card.real_name);
+    if (card.real_subname) needle.push(card.real_subname);
+  }
 
   if (search.includeGameText) {
-    if (card.real_traits) content += `|${card.real_traits}`;
-    if (card.real_text) content += `|${card.real_text}`;
-    if (card.real_customization_text)
-      content += `|${card.real_customization_text}`;
+    if (card.real_traits) needle.push(card.real_traits);
+    if (card.real_text) needle.push(card.real_text);
+    if (card.real_customization_text) {
+      needle.push(card.real_customization_text);
+    }
   }
 
   if (search.includeFlavor) {
-    if (card.real_flavor) content += `|${card.real_flavor}`;
+    if (card.real_flavor) needle.push(card.real_flavor);
   }
 
-  return content;
+  return needle.join("|");
 }
 
 function prepareCardBack(card: Card, search: Search) {
-  let content = `|${card.real_back_name}`;
-  if (search.includeGameText)
-    if (card.real_back_text) content += `|${card.real_back_text}`;
-  if (search.includeFlavor && card.real_back_flavor)
-    content += `|${card.real_back_flavor}`;
-  return content;
+  const needle = [];
+
+  if (search.includeName) {
+    needle.push(card.real_back_name);
+  }
+
+  if (search.includeGameText) {
+    if (card.real_back_traits) needle.push(card.real_back_traits);
+    if (card.real_back_text) needle.push(card.real_back_text);
+  }
+
+  if (search.includeFlavor && card.real_back_flavor) {
+    needle.push(card.real_back_flavor);
+  }
+
+  return needle.join("|");
 }
 
 export function applySearch(
@@ -50,6 +64,7 @@ export function applySearch(
 
   const searchCards = cards.map((card) => {
     let content = prepareCardFace(card, search);
+
     if (search.includeBacks && card.real_back_text) {
       content += prepareCardBack(card, search);
     } else if (search.includeBacks && card.back_link_id) {

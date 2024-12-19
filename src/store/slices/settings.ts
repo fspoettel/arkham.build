@@ -9,7 +9,7 @@ import type {
 
 export const PLAYER_DEFAULTS: ListConfig = {
   group: ["subtype", "type", "slot"],
-  sort: ["name", "level"],
+  sort: ["name", "level", "position"],
   viewMode: "compact",
 };
 
