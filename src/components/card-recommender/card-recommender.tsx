@@ -1,13 +1,11 @@
 import { ErrorDisplay } from "@/pages/errors/error-display";
 import { useStore } from "@/store";
-import { filterSubtypes } from "@/store/lib/filtering";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { type ListState, selectListCards } from "@/store/selectors/lists";
 import { getRecommendations } from "@/store/services/queries";
 import type { Card, Recommendation } from "@/store/services/queries.types";
 import { deckTickToString } from "@/store/slices/recommender";
 import { cx } from "@/utils/cx";
-import { not } from "@/utils/fp";
 import { useQuery } from "@/utils/use-query";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { Rows3Icon } from "lucide-react";
@@ -59,17 +57,9 @@ export function CardRecommender(props: CardListProps) {
       string,
       string,
     ];
-    // We don't want to recommend weaknesses
+    // We don't want to recommend signatures, story cards, or weaknesses
     const toRecommend = listState.cards
-      .filter(
-        not(
-          filterSubtypes({
-            basicweakness: true,
-            weakness: true,
-            none: false,
-          }),
-        ),
-      )
+      .filter((card) => card.xp != null)
       .map((card) => card.code);
     return () =>
       getRecommendations(
