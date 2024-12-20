@@ -46,6 +46,7 @@ export type CardWithRelations = ResolvedCard & {
     requiredCards?: ResolvedCard[];
     parallelCards?: ResolvedCard[];
     duplicates?: ResolvedCard[];
+    otherVersions?: ResolvedCard[];
 
     level?: ResolvedCard[];
 
@@ -159,6 +160,7 @@ export type ResolvedDeck = Omit<Deck, "sideSlots"> & {
   hasExtraDeck: boolean;
   hasReplacements: boolean;
   hasParallel: boolean;
+  otherInvestigatorVersion?: ResolvedCard;
   originalDeck: Deck;
   sealedDeck?: SealedDeck;
   selections?: Selections;

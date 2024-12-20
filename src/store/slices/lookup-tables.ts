@@ -32,6 +32,7 @@ function getInitialLookupTables(): LookupTables {
       replacement: {},
       level: {},
       duplicates: {},
+      otherVersions: {},
     },
     actions: {},
     encounterCode: {},
@@ -233,12 +234,15 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
   const cards = Object.values(metadata.cards);
 
   const bonded: Record<string, string[]> = {};
+
   const upgrades: Record<
     string,
     { code: string; subname?: string; xp: number }[]
   > = {};
 
   const backs: Record<string, string> = {};
+
+  const investigatorsByName: Record<string, string[]> = {};
 
   // first pass: identify target cards.
   for (const card of cards) {
@@ -268,6 +272,16 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
 
     if (card.back_link_id) {
       backs[card.back_link_id] = card.code;
+    }
+
+    if (
+      card.type_code === "investigator" &&
+      !card.duplicate_of_code &&
+      !card.alt_art_investigator &&
+      !card.alternate_of_code
+    ) {
+      investigatorsByName[card.real_name] ??= [];
+      investigatorsByName[card.real_name].push(card.code);
     }
   }
 
@@ -372,6 +386,22 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
         if (bondedCode !== card.code && !card.real_text?.startsWith("Bonded")) {
           setInLookupTable(bondedCode, tables.relations.bound, card.code);
           setInLookupTable(card.code, tables.relations.bonded, bondedCode);
+        }
+      }
+    }
+
+    // Index multi-class investigators.
+    if (
+      card.type_code === "investigator" &&
+      investigatorsByName[card.real_name]?.length > 1
+    ) {
+      for (const investigator of investigatorsByName[card.real_name]) {
+        if (investigator !== card.code) {
+          setInLookupTable(
+            investigator,
+            tables.relations.otherVersions,
+            card.code,
+          );
         }
       }
     }

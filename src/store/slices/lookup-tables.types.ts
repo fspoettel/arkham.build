@@ -30,6 +30,8 @@ export type LookupTables = {
     level: LookupTable<string, 1>;
     // Revised core "First Aid (3)"is a duplicate of Pallid Mask "First Aid (3)".
     duplicates: LookupTable<string, 1>;
+    // Agatha Crane exists both as a mystic and a seeker card.
+    otherVersions: LookupTable<string, 1>;
   };
   traitsByCardTypeSelection: LookupTable<string, 1>;
   packsByCycle: LookupTable<string, 1>;

@@ -1,3 +1,4 @@
+import { ListCard } from "@/components/list-card/list-card";
 import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
 import type { SelectOption } from "@/components/ui/select";
@@ -13,6 +14,7 @@ import {
 } from "@/store/selectors/deck-create";
 import { selectTabooSetSelectOptions } from "@/store/selectors/lists";
 import { selectConnectionLock } from "@/store/selectors/shared";
+import type { Card } from "@/store/services/queries.types";
 import {
   capitalize,
   capitalizeSnakeCase,
@@ -20,6 +22,7 @@ import {
 } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { useGoBack } from "@/utils/use-go-back";
+import { ArrowRightLeftIcon } from "lucide-react";
 import { useCallback } from "react";
 import { useLocation } from "wouter";
 import { useAccentColor } from "../../utils/use-accent-color";
@@ -99,7 +102,7 @@ export function DeckCreateEditor() {
       if (evt.target instanceof HTMLSelectElement) {
         const side = evt.target.getAttribute("data-side") as "front" | "back";
         const value = evt.target.value;
-        setInvestigatorCode(side, value);
+        setInvestigatorCode(value, side);
       }
     },
     [setInvestigatorCode],
@@ -114,6 +117,16 @@ export function DeckCreateEditor() {
       }
     },
     [setSelection],
+  );
+
+  const investigatorActionRenderer = useCallback(
+    (card: Card) => (
+      <Button size="sm" onClick={() => setInvestigatorCode(card.code)}>
+        <ArrowRightLeftIcon />
+        Switch
+      </Button>
+    ),
+    [setInvestigatorCode],
   );
 
   const selections = decodeSelections(back, deckCreate.selections);
@@ -228,6 +241,18 @@ export function DeckCreateEditor() {
             )}
           </Field>
         ))}
+
+      {!isEmpty(investigator.relations?.otherVersions) && (
+        <Field>
+          <FieldLabel>Other versions</FieldLabel>
+          <ListCard
+            card={investigator.relations.otherVersions[0].card}
+            size="sm"
+            omitBorders
+            renderCardExtra={investigatorActionRenderer}
+          />
+        </Field>
+      )}
 
       <DeckCreateCardPool />
 

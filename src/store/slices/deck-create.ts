@@ -89,9 +89,22 @@ export const createDeckCreateSlice: StateCreator<
     });
   },
 
-  deckCreateSetInvestigatorCode(side: "front" | "back", value: string) {
+  deckCreateSetInvestigatorCode(value: string, side?: "front" | "back") {
     const state = get();
+
     assert(state.deckCreate, "DeckCreate slice must be initialized.");
+
+    if (!side) {
+      set({
+        deckCreate: {
+          ...state.deckCreate,
+          investigatorCode: value,
+          investigatorFrontCode: value,
+          investigatorBackCode: value,
+        },
+      });
+      return;
+    }
 
     const path =
       side === "front" ? "investigatorFrontCode" : "investigatorBackCode";
