@@ -47,6 +47,7 @@ export function formatRelationTitle(id: string) {
   if (id === "restrictedTo") return "Restricted";
   if (id === "level") return "Other levels";
   if (id === "otherSignatures") return "Related signatures";
+  if (id === "otherVersions") return "Other versions";
   return id;
 }
 

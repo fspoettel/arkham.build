@@ -1,6 +1,7 @@
 import { Card } from "@/components/card/card";
 import { CustomizationsEditor } from "@/components/customizations/customizations-editor";
-import type { CardWithRelations } from "@/store/lib/types";
+import { getRelatedCards } from "@/store/lib/resolve-card";
+import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
 import { formatRelationTitle } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { Redirect } from "wouter";
@@ -23,14 +24,11 @@ function CardViewSection(props: Props) {
   );
 }
 
-// FIXME: This should loop over relations, same as the card modal.
 export function CardViewCards({
   cardWithRelations,
 }: {
   cardWithRelations: CardWithRelations;
 }) {
-  const { relations } = cardWithRelations;
-
   const canonicalCode =
     cardWithRelations.card.duplicate_of_code ??
     cardWithRelations.card.alternate_of_code;
@@ -46,6 +44,8 @@ export function CardViewCards({
     );
   }
 
+  const related = getRelatedCards(cardWithRelations);
+
   return (
     <>
       <div data-testid="main">
@@ -56,152 +56,24 @@ export function CardViewCards({
         </Card>
       </div>
 
-      {!isEmpty(relations?.parallel) && (
-        <CardViewSection id="parallel" title={formatRelationTitle("parallel")}>
-          <Card resolvedCard={relations.parallel} />
-        </CardViewSection>
-      )}
-
-      {!isEmpty(relations?.bound) && (
-        <CardViewSection id="bound" title={formatRelationTitle("bound")}>
-          {relations.bound.map((c) => (
-            <Card
-              canToggleBackside
-              key={c.card.code}
-              titleLinks="card"
-              resolvedCard={c}
-              size="compact"
-            />
-          ))}
-        </CardViewSection>
-      )}
-
-      {!isEmpty(relations?.bonded) && (
-        <CardViewSection id="bonded" title={formatRelationTitle("bonded")}>
-          {relations.bonded.map((c) => (
-            <Card
-              canToggleBackside
-              key={c.card.code}
-              titleLinks="card"
-              resolvedCard={c}
-              size="compact"
-            />
-          ))}
-        </CardViewSection>
-      )}
-
-      {!isEmpty(relations?.requiredCards) && (
-        <CardViewSection
-          id="required"
-          title={formatRelationTitle("requiredCards")}
-        >
-          {relations.requiredCards.map((c) => (
-            <Card
-              canToggleBackside
-              key={c.card.code}
-              titleLinks="card"
-              resolvedCard={c}
-              size="compact"
-            />
-          ))}
-        </CardViewSection>
-      )}
-
-      {!isEmpty(relations?.advanced) && (
-        <CardViewSection id="advanced" title={formatRelationTitle("advanced")}>
-          {relations.advanced.map((c) => (
-            <Card
-              canToggleBackside
-              key={c.card.code}
-              titleLinks="card"
-              resolvedCard={c}
-              size="compact"
-            />
-          ))}
-        </CardViewSection>
-      )}
-
-      {!isEmpty(relations?.parallelCards) && (
-        <CardViewSection
-          id="parallel-cards"
-          title={formatRelationTitle("parallelCards")}
-        >
-          {relations.parallelCards.map((c) => (
-            <Card
-              canToggleBackside
-              key={c.card.code}
-              titleLinks="card"
-              resolvedCard={c}
-              size="compact"
-            />
-          ))}
-        </CardViewSection>
-      )}
-
-      {!isEmpty(relations?.replacement) && (
-        <CardViewSection
-          id="replacement"
-          title={formatRelationTitle("replacement")}
-        >
-          {relations.replacement.map((c) => (
-            <Card
-              canToggleBackside
-              key={c.card.code}
-              titleLinks="card"
-              resolvedCard={c}
-              size="compact"
-            />
-          ))}
-        </CardViewSection>
-      )}
-
-      {!isEmpty(relations?.restrictedTo) && (
-        <CardViewSection
-          id="restricted-to"
-          title={formatRelationTitle("restricted")}
-        >
-          {relations.restrictedTo.map((c) => (
-            <Card
-              canToggleBackside
-              key={c.card.code}
-              titleLinks="card"
-              resolvedCard={c}
-              size="compact"
-            />
-          ))}
-        </CardViewSection>
-      )}
-
-      {!isEmpty(relations?.level) && (
-        <CardViewSection id="level" title={formatRelationTitle("level")}>
-          {relations.level.map((c) => (
-            <Card
-              canToggleBackside
-              key={c.card.code}
-              titleLinks="card"
-              resolvedCard={c}
-              size="compact"
-            />
-          ))}
-        </CardViewSection>
-      )}
-
-      {!isEmpty(relations?.otherSignatures) && (
-        <CardViewSection
-          id="other-signatures"
-          title={formatRelationTitle("otherSignatures")}
-        >
-          {relations.otherSignatures.map((c) => (
-            <Card
-              canToggleBackside
-              key={c.card.code}
-              titleLinks="card"
-              resolvedCard={c}
-              size="compact"
-            />
-          ))}
-        </CardViewSection>
-      )}
+      {!isEmpty(related) &&
+        related.map(([key, value]) => (
+          <CardViewSection key={key} id={key} title={formatRelationTitle(key)}>
+            {key === "parallel" && (
+              <Card resolvedCard={value as CardWithRelations} />
+            )}
+            {key !== "parallel" &&
+              (value as ResolvedCard[]).map((c) => (
+                <Card
+                  canToggleBackside
+                  key={c.card.code}
+                  titleLinks="card"
+                  resolvedCard={c}
+                  size="compact"
+                />
+              ))}
+          </CardViewSection>
+        ))}
     </>
   );
 }

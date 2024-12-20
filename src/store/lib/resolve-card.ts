@@ -100,6 +100,13 @@ export function resolveCardWithRelations<T extends boolean>(
           card.code,
           tabooSetId,
         ),
+        otherVersions: resolveRelationArray(
+          metadata,
+          lookupTables,
+          "otherVersions",
+          card.code,
+          tabooSetId,
+        ),
       };
     } else {
       cardWithRelations.relations = {
