@@ -349,8 +349,8 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
   ) => {
     if (!resolvedDeck) return undefined;
 
-    const investigator = resolvedDeck.investigatorBack.card;
-    if (!investigator) return undefined;
+    const investigatorBack = resolvedDeck.investigatorBack.card;
+    if (!investigatorBack) return undefined;
 
     if (showUnusableCards) {
       return and([
@@ -366,13 +366,14 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
 
     const ors = [];
 
-    const investigatorFilter = filterInvestigatorAccess(investigator, {
+    const investigatorFilter = filterInvestigatorAccess(investigatorBack, {
       additionalDeckOptions: getAdditionalDeckOptions(resolvedDeck),
+      investigatorFront: resolvedDeck.investigatorFront.card,
       selections: resolvedDeck.selections,
       targetDeck,
     });
 
-    const weaknessFilter = filterInvestigatorWeaknessAccess(investigator, {
+    const weaknessFilter = filterInvestigatorWeaknessAccess(investigatorBack, {
       targetDeck,
     });
 

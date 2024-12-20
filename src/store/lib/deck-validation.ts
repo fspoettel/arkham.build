@@ -690,6 +690,7 @@ class DeckOptionsValidator implements SlotValidator {
       config: {
         selections: deck.selections,
         ignoreUnselectedCustomizableOptions: true,
+        investigatorFront: deck.investigatorFront.card,
         additionalDeckOptions,
         targetDeck: mode === "slots" ? "slots" : "extraSlots",
       },

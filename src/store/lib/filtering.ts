@@ -595,6 +595,9 @@ export type InvestigatorAccessConfig = {
   // NOTE: this currently does not consider the "level" of the customizable option for access
   // because all current cases work. This assumption might break in the future.
   ignoreUnselectedCustomizableOptions?: boolean;
+  // Some || investigators have different traits on their front.
+  // In order for trait-based access like specialist to work, we need to consider both sides.
+  investigatorFront?: Card;
   selections?: Selections;
   targetDeck?: "slots" | "extraSlots" | "both";
 };
@@ -767,10 +770,21 @@ export function makeOptionFilter(
 }
 
 export function filterInvestigatorAccess(
-  investigator: Card,
+  investigatorBack: Card,
   config?: InvestigatorAccessConfig,
 ): Filter | undefined {
   const mode = config?.targetDeck ?? "slots";
+
+  let investigator = investigatorBack;
+  if (
+    config?.investigatorFront &&
+    config.investigatorFront.code !== investigatorBack.code
+  ) {
+    investigator = {
+      ...investigatorBack,
+      real_traits: config.investigatorFront.real_traits,
+    };
+  }
 
   const deckFilter =
     mode !== "extraSlots"

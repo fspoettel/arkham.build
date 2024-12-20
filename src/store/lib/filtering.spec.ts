@@ -469,6 +469,27 @@ describe("filter: investigator access", () => {
       expect(applyFilter(store.getState(), "90084", "04106")).toBeFalsy();
     });
   });
+
+  describe("trait changes from parallel fronts", () => {
+    it("uses parallel front traits for checking trait-based access", () => {
+      const state = store.getState();
+
+      const wendyAdams = state.metadata.cards["01005"];
+      const parallelWendyAdams = state.metadata.cards["90037"];
+      const forbiddenSutra = state.metadata.cards["11103"];
+
+      expect(filterInvestigatorAccess(wendyAdams)?.(forbiddenSutra)).toEqual(
+        false,
+      );
+
+      const filter = filterInvestigatorAccess(wendyAdams, {
+        investigatorFront: parallelWendyAdams,
+      });
+
+      expect(filter?.(forbiddenSutra)).toBeTruthy();
+      expect(filter?.(state.metadata.cards["10034"])).toEqual(false);
+    });
+  });
 });
 
 describe("filter: level", () => {
