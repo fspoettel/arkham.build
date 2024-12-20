@@ -17,6 +17,144 @@
     "patch": true
   },
   {
+    "back_flavor": "With degrees in Mathematics and Psychology, Agatha Crane has always placed a premium on evidence-based science. In her youth, she cared little for ghost stories, but mounting evidence has led Agatha to conclude that there is an unmistakable truth to the tales of monsters and magic that permeate Arkham's history. If these things are real, then they must obey consistent rules. As she will explain to anyone who listens for long enough—and as her husband Wilbur has heard many times—this new field of study is called \"parapsychology.\" With tried-and-true scientific methods, Agatha seeks to bridge the gap between the mystic and the rational, between occultism and science.",
+    "back_text": "<b>Deck Size</b>: 35.\n<b>Deckbuilding Options</b>: Seeker cards ([seeker]) level 0-5, Neutral cards level 0-5, [[Insight]] events level 0-3, up to 10 other level 0 Mystic ([mystic]) cards.\n<b>Deckbuilding Requirements</b> (do not count toward deck size): Ocula Obscura, Glimpse the Void, 1 random basic weakness.",
+    "code": "11007",
+    "deck_limit": 1,
+    "deck_options": [
+      {
+        "faction": ["seeker", "neutral"],
+        "level": {
+          "min": 0,
+          "max": 5
+        }
+      },
+      {
+        "trait": ["insight"],
+        "type": ["event"],
+        "level": {
+          "min": 0,
+          "max": 3
+        }
+      },
+      {
+        "faction": ["mystic"],
+        "level": {
+          "min": 0,
+          "max": 0
+        },
+        "limit": 10
+      }
+    ],
+    "deck_requirements": "size:30, card:11009, card:11010, random:subtype:basicweakness",
+    "double_sided": true,
+    "faction_code": "seeker",
+    "health": 6,
+    "illustrator": "Magali Villeneuve",
+    "is_unique": true,
+    "name": "Agatha Crane",
+    "pack_code": "tdcp",
+    "position": 7,
+    "quantity": 1,
+    "sanity": 8,
+    "skill_agility": 3,
+    "skill_combat": 1,
+    "skill_intellect": 4,
+    "skill_willpower": 4,
+    "subname": "The Parapsychologist",
+    "text": "[reaction] When your turn ends, if you sealed, canceled, or ignored 1 or more chaos tokens this round: Play a [[Spell]] or [[Insight]] event from your discard pile. After that event resolves, remove it from the game.\n[elder_sign] effect: +2. You may cancel this token and draw another in its place. If you do, draw 1 card.",
+    "traits": "Miskatonic. Scholar.",
+    "type_code": "investigator"
+  },
+  {
+    "back_flavor": "With degrees in Mathematics and Psychology, Agatha Crane has always placed a premium on evidence-based science. In her youth, she cared little for ghost stories, but mounting evidence has led Agatha to conclude that there is an unmistakable truth to the tales of monsters and magic that permeate Arkham's history. If these things are real, then they must obey consistent rules. As she will explain to anyone who listens for long enough—and as her husband Wilbur has heard many times—this new field of study is called \"parapsychology.\" With tried-and-true scientific methods, Agatha seeks to bridge the gap between the mystic and the rational, between occultism and science.",
+    "back_text": "<b>Deck Size</b>: 35.\n<b>Deckbuilding Options</b>: Mystic cards ([mystic]) level 0-5, Neutral cards level 0-5, [[Spell]] events level 0-3, up to 10 other level 0 Seeker ([seeker]) cards.\n<b>Deckbuilding Requirements</b> (do not count toward deck size): Ocula Obscura, Glimpse the Void, 1 random basic weakness.",
+    "code": "11008",
+    "deck_limit": 1,
+    "deck_options": [
+      {
+        "faction": ["mystic", "neutral"],
+        "level": {
+          "min": 0,
+          "max": 5
+        }
+      },
+      {
+        "trait": ["spell"],
+        "type": ["event"],
+        "level": {
+          "min": 0,
+          "max": 3
+        }
+      },
+      {
+        "faction": ["seeker"],
+        "level": {
+          "min": 0,
+          "max": 0
+        },
+        "limit": 10
+      }
+    ],
+    "deck_requirements": "size:30, card:11009, card:11010, random:subtype:basicweakness",
+    "double_sided": true,
+    "faction_code": "mystic",
+    "health": 6,
+    "illustrator": "Magali Villeneuve",
+    "is_unique": true,
+    "name": "Agatha Crane",
+    "pack_code": "tdcp",
+    "position": 8,
+    "preview": true,
+    "quantity": 1,
+    "sanity": 8,
+    "skill_agility": 3,
+    "skill_combat": 1,
+    "skill_intellect": 4,
+    "skill_willpower": 4,
+    "subname": "The Parapsychologist",
+    "text": "[reaction] When your turn ends, if you sealed, canceled, or ignored 1 or more chaos tokens this round: Play a [[Spell]] or [[Insight]] event from your discard pile. After that event resolves, remove it from the game.\n[elder_sign] effect: +2. You may cancel this token and draw another in its place. If you do, draw 1 card.",
+    "traits": "Miskatonic. Scholar.",
+    "type_code": "investigator"
+  },
+  {
+    "code": "11009",
+    "cost": 3,
+    "faction_code": "neutral",
+    "illustrator": "Rob Laskey",
+    "is_unique": true,
+    "name": "Ocula Obscura",
+    "pack_code": "tdcp",
+    "position": 9,
+    "preview": true,
+    "quantity": 1,
+    "restrictions": "investigator:11007, investigator:11008",
+    "skill_intellect": 1,
+    "skill_wild": 1,
+    "skill_willpower": 1,
+    "slot": "Accessory",
+    "subname": "Esoteric Eyepiece",
+    "text": "Agatha Crane deck only.\n[reaction] After you succeed at a skill test, if no tokens are sealed here: Seal a non-symbol token revealed during this skill test on Ocula Obscura. (Limit once per phase.)\n<b>Forced</b> - When you would reveal a token from the chaos bag: Resolve the token sealed here instead, then release that token.",
+    "traits": "Item. Tool. Science.",
+    "type_code": "asset"
+  },
+  {
+    "code": "11010",
+    "deck_limit": 1,
+    "faction_code": "neutral",
+    "illustrator": "Billy Norrby",
+    "name": "Glimpse the Void",
+    "pack_code": "tdcp",
+    "position": 10,
+    "preview": true,
+    "quantity": 1,
+    "restrictions": "investigator:11007, investigator:11008",
+    "subtype_code": "weakness",
+    "text": "<b>Revelation</b> - Put Glimpse the Void into play in your threat area.\nThe first time you reveal 1 or more chaos tokens during each skill test, you must reveal 1 additional chaos token <i>(and resolve its effects)</i>.\n[action]: Shuffle Glimpse the Void into your deck.",
+    "traits": "Blunder. Insight.",
+    "type_code": "treachery"
+  },
+  {
     "back_flavor": "As a young girl, Gloria was haunted by terrible visions. After years of visiting doctors, she learned to exorcise these visions by writing stories. Her weird and disturbing fiction somehow spoke to the public and made her a bestselling writer. But while visiting Arkham, she had the most powerful vision she's ever experienced. The sky tore open, a monstrous form pouring out of the very air itself. Gloria knew, somehow, that this vision was real, and that it would come to pass unless she did something about it.",
     "back_text": "<b>Deck Size</b>: 30.\n<b>Secondary Class Choice</b>: At deck creation, choose Guardian ([guardian]), Seeker ([seeker]), or Rogue ([rogue]).\n<b>Deckbuilding Options</b>: Mystic cards ([mystic]) level 0-5, Neutral cards level 0-5, up to 10 level 0-1 events and/or skills of your chosen secondary class.\n<b>Deckbuilding Requirements</b> (do not count toward deck size): 3 copies of Psychic Sensitivity, 3 copies of Prophecy of the End (shuffled into the encounter deck), 1 random basic weakness.",
     "code": "11014",
@@ -43,6 +181,7 @@
     "name": "Gloria Goldberg",
     "pack_code": "tdcp",
     "position": 14,
+    "preview": true,
     "quantity": 1,
     "sanity": 9,
     "skill_agility": 1,
@@ -60,10 +199,10 @@
     "deck_limit": 3,
     "faction_code": "neutral",
     "illustrator": "Tiziano Baracchi",
-    "preview": true,
     "name": "Psychic Sensitivity",
     "pack_code": "tdcp",
     "position": 15,
+    "preview": true,
     "quantity": 3,
     "restrictions": "investigator:11014:98019",
     "skill_wild": 1,
