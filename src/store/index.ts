@@ -14,7 +14,7 @@ import { createRemotingSlice } from "./slices/remoting";
 import { createSettingsSlice } from "./slices/settings";
 import { createSharingSlice } from "./slices/sharing";
 import { createUISlice } from "./slices/ui";
-import { partialize, storageConfig } from "./storage";
+import { storageConfig } from "./storage";
 import { shared } from "./storage/sync-store-across-tabs";
 
 // biome-ignore lint/suspicious/noExplicitAny: safe.
@@ -41,7 +41,12 @@ export const useStore = create<StoreState>()(
         shared(persist(stateCreator, storageConfig), {
           partialize(state) {
             return {
-              ...partialize(state),
+              connections: state.connections,
+              data: state.data,
+              deckEdits: state.deckEdits,
+              settings: state.settings,
+              sharing: state.sharing,
+              app: state.app,
               remoting: state.remoting,
             };
           },
