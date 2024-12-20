@@ -1,12 +1,11 @@
 import { applyTaboo } from "@/store/lib/card-edits";
 import type { Card } from "@/store/services/queries.types";
-import { splitMultiValue } from "@/utils/card-utils";
+import { cardUses, splitMultiValue } from "@/utils/card-utils";
 import {
   ACTION_TEXT_ENTRIES,
   REGEX_BONDED,
   REGEX_SKILL_BOOST,
   REGEX_SUCCEED_BY,
-  REGEX_USES,
 } from "@/utils/constants";
 import { time, timeEnd } from "@/utils/time";
 import type { StateCreator } from "zustand";
@@ -42,7 +41,6 @@ function getInitialLookupTables(): LookupTables {
     properties: {
       fast: {},
       multislot: {},
-      seal: {},
       succeedBy: {},
     },
     skillBoosts: {},
@@ -129,8 +127,6 @@ function addCardToLookupTables(tables: LookupTables, card: Card) {
 
     indexByMulticlass(tables, card);
 
-    indexBySeal(tables, card);
-
     indexBySucceedsBy(tables, card);
 
     if (card.type_code === "asset") {
@@ -200,16 +196,6 @@ function indexByMulticlass(tables: LookupTables, card: Card) {
   }
 }
 
-// TODO: use a regex.
-function indexBySeal(tables: LookupTables, card: Card) {
-  if (
-    card?.real_text?.includes(" seal ") ||
-    card.real_text?.includes("Seal (")
-  ) {
-    setInLookupTable(card.code, tables.properties, "seal");
-  }
-}
-
 // TODO: handle "+X skill value".
 function indexBySkillBoosts(tables: LookupTables, card: Card) {
   if (card.customization_options?.find((o) => o.choice === "choose_skill")) {
@@ -230,14 +216,9 @@ function indexBySkillBoosts(tables: LookupTables, card: Card) {
 }
 
 function indexByUses(tables: LookupTables, card: Card) {
-  const match = card.real_text?.match(REGEX_USES);
-
-  if (match && match.length > 0) {
-    setInLookupTable(
-      card.code,
-      tables.uses,
-      match[1] === "charge" ? "charges" : match[1],
-    );
+  const uses = cardUses(card);
+  if (uses) {
+    setInLookupTable(card.code, tables.uses, uses);
   }
 }
 

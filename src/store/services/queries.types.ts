@@ -91,14 +91,13 @@ export type CustomizationOption = {
 };
 
 export type DeckRestrictions = {
-  investigator?: Record<string, Record<string, string>>;
+  investigator?: Record<string, string>;
   trait?: string[];
 };
 
 export type QueryCard = {
   alt_art_investigator?: boolean;
   alternate_of_code?: string;
-  alternate_required_code?: string;
   back_illustrator?: string;
   back_link_id?: string;
   clues?: number;

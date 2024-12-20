@@ -301,10 +301,9 @@ export const selectLatestUpgrade = createSelector(
 
 export const selectLimitedSlotOccupation = createSelector(
   (_: StoreState, deck: ResolvedDeck) => deck,
-  (state: StoreState) => state.lookupTables,
-  (deck, lookupTables) => {
+  (deck) => {
     time("limited_slot_occupation");
-    const value = limitedSlotOccupation(deck, lookupTables);
+    const value = limitedSlotOccupation(deck);
     timeEnd("limited_slot_occupation");
     return value;
   },
