@@ -1,8 +1,8 @@
 import { cardLevel, cardUses, splitMultiValue } from "@/utils/card-utils";
 import type { SkillKey } from "@/utils/constants";
 import {
-  REGEX_BONDED,
   NO_SLOT_STRING,
+  REGEX_BONDED,
   SKILL_KEYS,
   SPECIAL_CARD_CODES,
 } from "@/utils/constants";
