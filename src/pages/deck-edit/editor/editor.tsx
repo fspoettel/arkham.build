@@ -40,7 +40,8 @@ export function Editor(props: Props) {
   const [location] = useLocation();
   const renderCoreCardCheckbox =
     location === "/recommendations"
-      ? (card: Card) => <CoreCardCheckbox card={card} deck={deck} />
+      ? (card: Card) =>
+          card.xp == null ? <></> : <CoreCardCheckbox card={card} deck={deck} />
       : undefined;
   const renderMoveToMainDeck = staticInvestigator
     ? undefined
