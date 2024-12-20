@@ -222,7 +222,7 @@ export const ATTACHABLE_CARDS: { [code: string]: AttachableDefinition } = {
     limit: 1,
     name: "Bewitching",
     traits: ["Trick."],
-    icon: "wand-sparkles",
+    icon: "wand",
     targetSize: 3,
   },
   [SPECIAL_CARD_CODES.JOE_DIAMOND]: {
