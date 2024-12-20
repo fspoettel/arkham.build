@@ -1,10 +1,8 @@
 .card-recommender {
   animation: fadeIn 0.5s;
   height: 100%;
-}
-
-.card-recommender>*+* {
-  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .recommender-title {
@@ -13,6 +11,7 @@
 }
 
 .recommender-header {
+  flex: 0 0 auto;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -82,11 +81,13 @@
 .container {
   display: flex;
   flex-flow: column nowrap;
-  height: 100%;
+  overflow: hidden;
+  flex: 1 1 auto;
   container-type: inline-size;
 }
 
 .toolbar {
+  margin-top: 10px;
   font-family: var(--font-family-ui);
 }
 
@@ -97,6 +98,7 @@
 }
 
 .footer {
+  flex: 0 0 auto;
   @media screen and (max-width: 52rem) {
     display: none;
   }
