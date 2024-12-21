@@ -1,6 +1,5 @@
 import { ErrorDisplay } from "@/pages/errors/error-display";
 import { useStore } from "@/store";
-import type { ResolvedDeck } from "@/store/lib/types";
 import { type ListState, selectListCards } from "@/store/selectors/lists";
 import { getRecommendations } from "@/store/services/queries";
 import type { Card, Recommendation } from "@/store/services/queries.types";
@@ -21,10 +20,6 @@ import { DeckDateRangeFilter } from "./deck-date-range-filter";
 import { IncludeSideDeckToggle } from "./include-side-deck-toggle";
 import { RecommendationBar } from "./recommendation-bar";
 import { RecommenderRelativityToggle } from "./recommender-relativity-toggle";
-
-function canonicalizeInvestigatorCode(deck: ResolvedDeck) {
-  return `${deck.metaParsed?.alternate_front ?? deck.investigator_code}-${deck.metaParsed?.alternate_back ?? deck.investigator_code}`;
-}
 
 export function CardRecommender(props: CardListProps) {
   const {
@@ -50,7 +45,7 @@ export function CardRecommender(props: CardListProps) {
 
   const coreCards = useStore((state) => state.recommender.coreCards);
   const recommendationQuery = useMemo(() => {
-    if (!resolvedDeck || !listState) {
+    if (!resolvedDeck?.id || !listState) {
       return () => Promise.resolve({ recommendations: [], decks_analyzed: 0 });
     }
     const dateRangeStrings = dateRange.map(deckTickToString) as [
@@ -61,9 +56,10 @@ export function CardRecommender(props: CardListProps) {
     const toRecommend = listState.cards
       .filter((card) => card.xp != null)
       .map((card) => card.code);
+    const canonicalizedInvestigatorCode = `${resolvedDeck?.metaParsed.alternate_back ?? resolvedDeck?.investigator_code}-${resolvedDeck?.metaParsed.alternate_front ?? resolvedDeck?.investigator_code}`;
     return () =>
       getRecommendations(
-        canonicalizeInvestigatorCode(resolvedDeck),
+        canonicalizedInvestigatorCode,
         includeSideDeck,
         isRelative,
         coreCards[resolvedDeck.id] || [],
@@ -71,13 +67,17 @@ export function CardRecommender(props: CardListProps) {
         dateRangeStrings,
       );
   }, [
-    resolvedDeck,
+    resolvedDeck?.id,
+    resolvedDeck?.investigator_code,
+    resolvedDeck?.metaParsed.alternate_back,
+    resolvedDeck?.metaParsed.alternate_front,
     includeSideDeck,
     isRelative,
     listState,
     dateRange,
     coreCards,
   ]);
+
   const { data, state } = useQuery(recommendationQuery);
 
   if (resolvedDeck && metadata && listState) {
