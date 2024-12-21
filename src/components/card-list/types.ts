@@ -28,6 +28,7 @@ export type CardListImplementationProps = Omit<
   resolvedDeck?: ResolvedDeck;
   viewMode: ViewMode;
   search?: Search;
+  grouped?: boolean;
 };
 
 export type CardListItemProps = Pick<

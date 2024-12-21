@@ -1,0 +1,123 @@
+.card-recommender {
+  animation: fadeIn 0.5s;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.recommender-title {
+  line-height: inherit;
+  font-size: var(--text-xl);
+}
+
+.recommender-header {
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-family-ui);
+}
+
+.recommender-header span {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.scroller {
+  flex: 1 1 auto;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+}
+
+.recommendation-bar-container {
+  width: calc(100% - 4em);
+  display: inline-block;
+}
+
+.recommendation-bar {
+  height: 10px;
+  width: 100%;
+  background-color: currentColor;
+  display: inline-block;
+  margin-right: 4px;
+  animation: 0.2s grow forwards;
+  transform-origin: left;
+}
+
+@keyframes grow {
+  0% {
+    transform: scaleX(0%);
+  }
+  100% {
+    transform: scaleX(100%);
+  }
+}
+
+.recommendation-bar span {
+  padding-left: 3px;
+  top: -5px;
+  float: right;
+  position: relative;
+  font-family: var(--font-family-content);
+}
+
+.label-padding-0 {
+  left: 1.5em;
+}
+
+.label-padding-1digit {
+  left: 2em;
+}
+
+.label-padding-2digit {
+  left: 2.5em;
+}
+
+.label-padding-3digit {
+  left: 3em;
+}
+
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+  overflow: hidden;
+  flex: 1 1 auto;
+  container-type: inline-size;
+}
+
+.toolbar {
+  margin-top: 10px;
+  font-family: var(--font-family-ui);
+}
+
+.toggle-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer {
+  flex: 0 0 auto;
+  @media screen and (max-width: 52rem) {
+    display: none;
+  }
+}
+
+.date-range-selector {
+  flex-grow: 0.5;
+}
+
+.date-range-selector div input {
+  width: calc(7ch + 0.5rem)!important; /*TODO Sy: do nicely*/
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

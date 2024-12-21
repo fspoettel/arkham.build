@@ -10,6 +10,7 @@ import { createDeckEditsSlice } from "./slices/deck-edits";
 import { createListsSlice } from "./slices/lists";
 import { createLookupTablesSlice } from "./slices/lookup-tables";
 import { createMetadataSlice } from "./slices/metadata";
+import { createRecommenderSlice } from "./slices/recommender";
 import { createRemotingSlice } from "./slices/remoting";
 import { createSettingsSlice } from "./slices/settings";
 import { createSharingSlice } from "./slices/sharing";
@@ -32,6 +33,7 @@ const stateCreator = (...args: [any, any, any]) => ({
   ...createDeckFiltersSlice(...args),
   ...createConnectionsSlice(...args),
   ...createRemotingSlice(...args),
+  ...createRecommenderSlice(...args),
 });
 
 export const useStore = create<StoreState>()(
