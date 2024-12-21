@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useDialogContextChecked } from "@/components/ui/dialog.hooks";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import type { ResolvedDeck } from "@/store/lib/types";
-import { ChartAreaIcon, MessageCircleHeartIcon, Rows3Icon } from "lucide-react";
+import { ChartAreaIcon, Rows3Icon, WandSparklesIcon } from "lucide-react";
 import { useCallback, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import css from "./investigator-listcard.module.css";
@@ -113,7 +113,7 @@ function InvestigatorListcardInner({ deck }: Props) {
             value="recommendations"
             tooltip="View card recommendations"
           >
-            <MessageCircleHeartIcon />
+            <WandSparklesIcon />
           </ToggleGroupItem>
         </Link>
       </ToggleGroup>
