@@ -88,6 +88,7 @@ function makeUserFilter(
   metadata: Metadata,
   lookupTables: LookupTables,
   list: List,
+  resolvedDeck?: ResolvedDeck,
   targetDeck?: "slots" | "extraSlots" | "both",
 ) {
   const filters: Filter[] = [];
@@ -138,6 +139,10 @@ function makeUserFilter(
         if (value) {
           const filter = [];
           const accessFilter = filterInvestigatorAccess(metadata.cards[value], {
+            customizable: {
+              properties: "all",
+              level: "all",
+            },
             targetDeck,
           });
           const weaknessFilter = filterInvestigatorWeaknessAccess(
@@ -156,7 +161,26 @@ function makeUserFilter(
 
       case "level": {
         const value = filterValue.value as LevelFilter;
-        if (value.range) filters.push(filterLevel(value));
+
+        if (value.range) {
+          if (resolvedDeck) {
+            filters.push(
+              filterLevel(value, resolvedDeck?.investigatorBack?.card),
+            );
+          } else {
+            const filterIndex = list.filters.findIndex(
+              (f) => f === "investigator",
+            );
+            const filterValue = filterIndex
+              ? list.filterValues[filterIndex]?.value
+              : undefined;
+            const investigator = filterValue
+              ? metadata.cards[filterValue as string]
+              : undefined;
+            filters.push(filterLevel(value, investigator));
+          }
+        }
+
         break;
       }
 
@@ -221,8 +245,11 @@ function makeUserFilter(
             if (card.type_code !== "investigator") return false;
 
             const filter = filterInvestigatorAccess(card, {
-              ignoreUnselectedCustomizableOptions: false,
-              targetDeck,
+              customizable: {
+                properties: "all",
+                level: "all",
+              },
+              targetDeck: "both",
             });
 
             if (!filter) return false;
@@ -368,6 +395,10 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
 
     const investigatorFilter = filterInvestigatorAccess(investigatorBack, {
       additionalDeckOptions: getAdditionalDeckOptions(resolvedDeck),
+      customizable: {
+        properties: "all",
+        level: "all",
+      },
       investigatorFront: resolvedDeck.investigatorFront.card,
       selections: resolvedDeck.selections,
       targetDeck,
@@ -518,7 +549,20 @@ export const selectListCards = createSelector(
   (state: StoreState) => state.lookupTables,
   selectActiveList,
   selectBaseListCards,
-  (metadata, lookupTables, activeList, _filteredCards) => {
+  (_: StoreState, resolvedDeck?: ResolvedDeck) => resolvedDeck,
+  (
+    _: StoreState,
+    __: ResolvedDeck,
+    targetDeck: "slots" | "extraSlots" | "both",
+  ) => targetDeck,
+  (
+    metadata,
+    lookupTables,
+    activeList,
+    _filteredCards,
+    resolvedDeck,
+    targetDeck,
+  ) => {
     if (!_filteredCards || !activeList) return undefined;
 
     time("select_list_cards");
@@ -533,7 +577,14 @@ export const selectListCards = createSelector(
     const totalCardCount = filteredCards.length;
 
     // apply user filters.
-    const filter = makeUserFilter(metadata, lookupTables, activeList);
+    const filter = makeUserFilter(
+      metadata,
+      lookupTables,
+      activeList,
+      resolvedDeck,
+      targetDeck,
+    );
+
     if (filter) filteredCards = filteredCards.filter(filter);
 
     const cards: Card[] = [];

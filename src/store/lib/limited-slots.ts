@@ -34,7 +34,10 @@ function mapCardsToDeckOptions(deck: ResolvedDeck, deckOptions: DeckOption[]) {
     }
 
     const filter = makeOptionFilter(option, {
-      ignoreUnselectedCustomizableOptions: true,
+      customizable: {
+        properties: "actual",
+        level: "all",
+      },
       selections: deck.selections,
       targetDeck: "slots",
     });

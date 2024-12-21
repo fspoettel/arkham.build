@@ -7,6 +7,7 @@ import {
 import type { Card } from "@/store/services/queries.types";
 import { isInvestigatorFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
+import { capitalize } from "@/utils/formatting";
 import { useCallback } from "react";
 import type { FilterProps } from "./filters.types";
 import { SelectFilter } from "./primitives/select-filter";
@@ -23,14 +24,19 @@ export function InvestigatorFilter({ id }: FilterProps) {
     selectInvestigatorChanges(state, filter.value),
   );
 
+  const otherVersionsTable = useStore(
+    (state) => state.lookupTables.relations.otherVersions,
+  );
+
   const renderOption = useCallback(
     (card: Card) => (
       <option key={card.code} value={card.code}>
         {card.real_name}
         {card.parallel && " (Parallel)"}
+        {otherVersionsTable[card.code] && ` (${capitalize(card.faction_code)})`}
       </option>
     ),
-    [],
+    [otherVersionsTable],
   );
 
   return (

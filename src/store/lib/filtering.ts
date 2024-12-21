@@ -10,6 +10,7 @@ import { capitalize } from "@/utils/formatting";
 import type { Filter } from "@/utils/fp";
 import { and, not, notUnless, or } from "@/utils/fp";
 import { isEmpty } from "@/utils/is-empty";
+import { range } from "@/utils/range";
 import type { Card, DeckOption } from "../services/queries.types";
 import type {
   AssetFilter,
@@ -248,22 +249,68 @@ function filterNonexceptional(card: Card) {
   return !card.exceptional;
 }
 
-function filterCardLevel(value: [number, number], checkCustomizable = false) {
+function isLevelInRange(
+  level: number | null | undefined,
+  value: [number, number],
+) {
+  return level != null && level >= value[0] && level <= value[1];
+}
+
+function checkLevelRange(value: [number, number], card: Card, filter?: Filter) {
+  return range(value[0], Math.max(value[1], 1)).some(
+    (level) =>
+      isLevelInRange(level, value) &&
+      filter?.({ ...card, xp: level, customization_xp: 0 }),
+  );
+}
+
+type FilterCardLevelOptions = {
+  customizable?: CustomizableFilterOptions;
+  investigator?: Card;
+  targetDeck?: "slots" | "extraSlots" | "both";
+};
+
+function filterCardLevel(
+  value: [number, number],
+  options?: FilterCardLevelOptions,
+) {
   return (card: Card) => {
     const level = cardLevel(card);
 
-    // customizable cards can have any level, always show them when flag set.
-    if (!checkCustomizable && card.customization_options) return true;
+    if (
+      !card.customization_options ||
+      options?.customizable?.level === "actual"
+    ) {
+      return isLevelInRange(level, value);
+    }
 
-    return level != null && level >= value[0] && level <= value[1];
+    if (!options?.investigator) return true;
+
+    const filter = filterInvestigatorAccess(options.investigator, {
+      customizable: {
+        level: "actual",
+        properties: "all",
+      },
+      targetDeck: options.targetDeck,
+    });
+
+    return checkLevelRange(value, card, filter);
   };
 }
 
-export function filterLevel(filterState: LevelFilter) {
+export function filterLevel(filterState: LevelFilter, investigator?: Card) {
   const filters = [];
 
   if (filterState.range) {
-    filters.push(filterCardLevel(filterState.range));
+    filters.push(
+      filterCardLevel(filterState.range, {
+        investigator,
+        customizable: {
+          level: "all",
+          properties: "all",
+        },
+      }),
+    );
   }
 
   if (filterState.exceptional !== filterState.nonexceptional) {
@@ -359,23 +406,27 @@ function filterSucceedBy(
   return (card: Card) => !!succeedByTable[card.code];
 }
 
-function filterTag(tag: string, checkCustomizableOptions: boolean) {
+function filterTag(tag: string, includeUnselectedCustomizationTags: boolean) {
   return (card: Card) => {
     const hasTag = !!card.tags?.includes(tag);
 
-    if (hasTag || !checkCustomizableOptions || !card.customization_options)
+    if (
+      hasTag ||
+      !includeUnselectedCustomizationTags ||
+      !card.customization_options
+    )
       return hasTag;
 
     return !!card.customization_options?.some((o) => o.tags?.includes(tag));
   };
 }
 
-function filterHealsDamage(checkCustomizableOptions: boolean) {
-  return filterTag("hd", checkCustomizableOptions);
+function filterHealsDamage(includeUnselectedCustomizationTags: boolean) {
+  return filterTag("hd", includeUnselectedCustomizationTags);
 }
 
-function filterHealsHorror(checkCustomizableOptions: boolean) {
-  return filterTag("hh", checkCustomizableOptions);
+function filterHealsHorror(includeUnselectedCustomizationTags: boolean) {
+  return filterTag("hh", includeUnselectedCustomizationTags);
 }
 
 /**
@@ -534,7 +585,7 @@ export function filterTabooSet(tabooSetId: number, metadata: Metadata) {
 
 export function filterTraits(
   filterState: MultiselectFilter,
-  checkCustomizableOptions?: boolean,
+  includeUnselectedCustomizationTraits?: boolean,
 ) {
   const filters: Filter[] = [];
 
@@ -545,7 +596,7 @@ export function filterTraits(
       if (
         hasTrait ||
         !card.customization_options ||
-        !checkCustomizableOptions
+        !includeUnselectedCustomizationTraits
       ) {
         return hasTrait;
       }
@@ -585,16 +636,19 @@ export function filterRequired(investigator: Card) {
   };
 }
 
+// Customizable options can alter whether an investigator has access to a card.
+// Example: a card gains a trait, or the option to heal horror.
+// Example: checking options alters the card's level.
+//  -> when showing options, we want to show these cards if an investigator has access to at least one possible configuration of the card.
+//  -> when validating decks, we only consider the currently applied customizations.
+type CustomizableFilterOptions = {
+  level: "actual" | "all";
+  properties: "actual" | "all";
+};
+
 export type InvestigatorAccessConfig = {
   additionalDeckOptions?: DeckOption[];
-  // Customizable options can alter whether an investigator has access to a card.
-  // Example: a card gains a trait, or the option to heal horror.
-  //  -> when showing options, we want to show these cards.
-  //  -> when validating decks, we only want to consider actually applied options.
-  // This works because we apply the current card changes before we pass cards to the filter.
-  // NOTE: this currently does not consider the "level" of the customizable option for access
-  // because all current cases work. This assumption might break in the future.
-  ignoreUnselectedCustomizableOptions?: boolean;
+  customizable?: CustomizableFilterOptions;
   // Some || investigators have different traits on their front.
   // In order for trait-based access like specialist to work, we need to consider both sides.
   investigatorFront?: Card;
@@ -650,7 +704,11 @@ export function makeOptionFilter(
     const level = option.base_level ?? option.level;
     if (level) {
       filterCount += 1;
-      optionFilter.push(filterCardLevel([level.min, level.max], true));
+      optionFilter.push(
+        filterCardLevel([level.min, level.max], {
+          customizable: config?.customizable,
+        }),
+      );
     }
   }
 
@@ -668,7 +726,7 @@ export function makeOptionFilter(
       filterTraits(
         // traits are stored lowercased for whatever reason.
         option.trait.map(capitalize),
-        !config?.ignoreUnselectedCustomizableOptions,
+        config?.customizable?.properties === "all",
       ),
     );
   }
@@ -706,7 +764,9 @@ export function makeOptionFilter(
 
       if (select.level) {
         optionSelectFilters.push(
-          filterCardLevel([select.level.min, select.level.max], true),
+          filterCardLevel([select.level.min, select.level.max], {
+            customizable: config?.customizable,
+          }),
         );
       }
 
@@ -733,7 +793,7 @@ export function makeOptionFilter(
   if (option.tag?.includes("hh")) {
     filterCount += 1;
     optionFilter.push(
-      filterHealsHorror(!config?.ignoreUnselectedCustomizableOptions),
+      filterHealsHorror(config?.customizable?.properties === "all"),
     );
   }
 
@@ -741,7 +801,7 @@ export function makeOptionFilter(
   if (option.tag?.includes("hd")) {
     filterCount += 1;
     optionFilter.push(
-      filterHealsDamage(!config?.ignoreUnselectedCustomizableOptions),
+      filterHealsDamage(config?.customizable?.properties === "all"),
     );
   }
 
@@ -750,7 +810,7 @@ export function makeOptionFilter(
     filterCount += 1;
 
     optionFilter.push(
-      filterTag("se", !config?.ignoreUnselectedCustomizableOptions),
+      filterTag("se", config?.customizable?.properties === "all"),
     );
   }
 

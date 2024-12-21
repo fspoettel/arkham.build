@@ -40,7 +40,11 @@ export function SelectFilter<T, V extends number | string | undefined>(
       open={open}
       title={title}
     >
-      <select onChange={onValueChange} value={value ?? ""}>
+      <select
+        onChange={onValueChange}
+        data-testid={`filter-${title}-input`}
+        value={value ?? ""}
+      >
         <option value="">All cards</option>
         {options.map(renderOption)}
       </select>

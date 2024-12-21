@@ -194,4 +194,96 @@ test.describe("filters", () => {
     await page.getByTestId("combobox-menu-item-Hand x2").click();
     await expect(page.getByTestId("listcard-09022")).toBeVisible();
   });
+
+  test("filter level: customizable (no investigator selection)", async ({
+    page,
+  }) => {
+    await fillSearch(page, "runic axe");
+    await expect(page.getByTestId("listcard-09022")).toBeVisible();
+    await page.getByRole("radio", { name: "Level 0" }).click();
+    await expect(page.getByTestId("listcard-09022")).toBeVisible();
+    await page.getByRole("radio", { name: "Level 1-" }).click();
+    await expect(page.getByTestId("listcard-09022")).toBeVisible();
+  });
+
+  test("filter level: customizable (investigator selection)", async ({
+    page,
+  }) => {
+    await fillSearch(page, "runic axe");
+    await expect(page.getByTestId("listcard-09022")).toBeVisible();
+    await page.getByRole("heading", { name: "Investigator" }).click();
+    await page.getByTestId("filter-Investigator-input").selectOption("04002");
+    await expect(page.getByTestId("listcard-09022")).toBeVisible();
+    await page.getByRole("radio", { name: "Level 1-" }).click();
+    await expect(page.getByTestId("listcard-09022")).toBeVisible();
+    await page.getByRole("radio", { name: "Level 0" }).click();
+    await expect(page.getByTestId("listcard-09022")).toBeVisible();
+    await fillSearch(page, "honed instinct");
+    await expect(page.getByTestId("listcard-09061")).not.toBeVisible();
+  });
+
+  test("filter level: customizable (deck editing)", async ({ page }) => {
+    await page.goto("/deck/create/04002");
+    await page.getByTestId("create-save").click();
+    await fillSearch(page, "runic axe");
+    await expect(page.getByTestId("listcard-09022")).toBeVisible();
+    await page.getByRole("radio", { name: "Level 0" }).click();
+
+    await expect(page.getByTestId("listcard-09022")).toBeVisible();
+    await page.getByRole("radio", { name: "Level 1-" }).click();
+    await expect(page.getByTestId("listcard-09022")).toBeVisible();
+    await page.getByRole("heading", { name: "Level" }).click();
+    await page.getByLabel("Minimum").click();
+    await page.getByLabel("Minimum").press("ArrowRight");
+    await page.getByLabel("Minimum").press("ArrowRight");
+    await page.getByLabel("Minimum").press("ArrowRight");
+    await page.getByLabel("Minimum").press("ArrowRight");
+    await expect(page.getByTestId("listcard-09022")).not.toBeVisible();
+    await page.getByLabel("Minimum").press("ArrowRight");
+    await expect(page.getByTestId("listcard-09022")).not.toBeVisible();
+    await page.getByLabel("Minimum").press("ArrowLeft");
+
+    await page
+      .getByTestId("listcard-09022")
+      .getByTestId("listcard-title")
+      .click();
+    await page.getByTestId("customization-0-xp-0").click();
+    await page.getByTestId("customization-5-xp-2").press("Escape");
+
+    await page
+      .getByTestId("listcard-09022")
+      .getByTestId("quantity-increment")
+      .click();
+    await page
+      .getByTestId("virtuoso-item-list")
+      .getByTestId("quantity-increment")
+      .click();
+
+    await expect(
+      page.getByTestId("editor-tabs-slots").getByTestId("listcard-09022"),
+    ).toBeVisible();
+    await expect(
+      page.getByTestId("virtuoso-item-list").getByTestId("listcard-09022"),
+    ).toBeVisible();
+    await page
+      .getByTestId("virtuoso-item-list")
+      .getByTestId("listcard-title")
+      .click();
+    await page.getByTestId("customization-7-xp-3").click();
+    await page.getByTestId("customization-6-xp-2").click();
+    await page.getByTestId("customization-5-xp-2").click();
+    await page.getByTestId("customization-5-xp-2").press("Escape");
+
+    await expect(
+      page.getByTestId("virtuoso-item-list").getByTestId("listcard-09022"),
+    ).toBeVisible();
+
+    await expect(
+      page.getByTestId("editor-tabs-slots").getByTestId("listcard-09022"),
+    ).toBeVisible();
+
+    await page.getByRole("button", { name: "Reset" }).click();
+    await fillSearch(page, "honed instinct");
+    await expect(page.getByTestId("listcard-09061")).not.toBeVisible();
+  });
 });

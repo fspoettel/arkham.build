@@ -1,6 +1,7 @@
 import { getMockStore } from "@/test/get-mock-store";
 import { beforeAll, describe, expect, it } from "vitest";
 import type { StoreApi } from "zustand";
+import { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import type {
   AssetFilter,
@@ -169,14 +170,24 @@ describe("filter: investigator access", () => {
 
     it("returns true if a customizable option adds access via a trait", () => {
       const state = store.getState();
-      expect(applyFilter(state, "04002", "09022")).toBeTruthy();
+      expect(
+        applyFilter(state, "04002", "09022", {
+          customizable: {
+            properties: "all",
+            level: "actual",
+          },
+        }),
+      ).toBeTruthy();
     });
 
     it("returns false if customizable access is ignored", () => {
       const state = store.getState();
       expect(
         applyFilter(state, "04002", "09022", {
-          ignoreUnselectedCustomizableOptions: true,
+          customizable: {
+            properties: "actual",
+            level: "actual",
+          },
         }),
       ).toBeFalsy();
     });
@@ -299,8 +310,23 @@ describe("filter: investigator access", () => {
       const state = store.getState();
       state.metadata.cards["09040"].faction_code = "rogue";
       state.metadata.cards["09040"].xp = 4;
-      expect(applyFilter(state, "05001", "09040")).toBeTruthy();
-      expect(applyFilter(state, "09004", "09040")).toBeTruthy();
+      expect(
+        applyFilter(state, "05001", "09040", {
+          customizable: {
+            properties: "all",
+            level: "actual",
+          },
+        }),
+      ).toBeTruthy();
+
+      expect(
+        applyFilter(state, "09004", "09040", {
+          customizable: {
+            properties: "all",
+            level: "actual",
+          },
+        }),
+      ).toBeTruthy();
     });
 
     it("returns false if tag does not match card access rules", () => {
@@ -314,12 +340,18 @@ describe("filter: investigator access", () => {
       state.metadata.cards["09040"].xp = 4;
       expect(
         applyFilter(state, "05001", "09040", {
-          ignoreUnselectedCustomizableOptions: true,
+          customizable: {
+            properties: "actual",
+            level: "actual",
+          },
         }),
       ).toBeFalsy();
       expect(
         applyFilter(state, "09004", "09040", {
-          ignoreUnselectedCustomizableOptions: true,
+          customizable: {
+            properties: "actual",
+            level: "actual",
+          },
         }),
       ).toBeFalsy();
     });
@@ -499,8 +531,13 @@ describe("filter: level", () => {
     store = await getMockStore();
   });
 
-  function applyFilter(state: StoreState, code: string, config: LevelFilter) {
-    return filterLevel(config)(state.metadata.cards[code]);
+  function applyFilter(
+    state: StoreState,
+    code: string,
+    config: LevelFilter,
+    investigator?: Card,
+  ) {
+    return filterLevel(config, investigator)(state.metadata.cards[code]);
   }
 
   it("handles case: no range", () => {
@@ -591,6 +628,43 @@ describe("filter: level", () => {
 
     expect(applyFilter(state, "60505", config)).toBeTruthy();
     expect(applyFilter(state, "07268", config)).toBeFalsy();
+  });
+
+  it("handles case: customizable access", () => {
+    const state = store.getState();
+
+    const investigator = state.metadata.cards["04002"];
+
+    expect(applyFilter(state, "09022", { range: [0, 0] } as any)).toBeTruthy();
+    expect(applyFilter(state, "09022", { range: [5, 5] } as any)).toBeTruthy();
+
+    expect(
+      applyFilter(state, "09022", { range: [0, 0] } as any, investigator),
+    ).toBeTruthy();
+
+    expect(
+      applyFilter(state, "09022", { range: [0, 4] } as any, investigator),
+    ).toBeTruthy();
+
+    expect(
+      applyFilter(state, "09022", { range: [4, 4] } as any, investigator),
+    ).toBeTruthy();
+
+    expect(
+      applyFilter(state, "09022", { range: [5, 5] } as any, investigator),
+    ).toBeFalsy();
+  });
+
+  it("handles case: customizable exceeds level", () => {
+    const state = store.getState();
+
+    expect(
+      filterLevel({ range: [0, 5] } as any)({
+        ...state.metadata.cards["09022"],
+        xp: 0,
+        customization_xp: 12,
+      }),
+    ).toBeTruthy();
   });
 });
 

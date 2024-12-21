@@ -21,7 +21,7 @@ export function Error404() {
         }
         status={404}
       >
-        <Link asChild to="/">
+        <Link asChild to="~/">
           <Button as="a" variant="bare">
             Home
           </Button>
