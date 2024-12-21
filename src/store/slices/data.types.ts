@@ -66,5 +66,5 @@ export type DataSlice = {
   importDeck(code: string): Promise<void>;
   importFromFiles(files: FileList): Promise<void>;
 
-  duplicateDeck(id: Id): Id;
+  duplicateDeck(id: Id, options?: { applyEdits: boolean }): Id;
 };

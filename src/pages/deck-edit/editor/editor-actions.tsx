@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
+import { PreviewPublishError } from "@/store/lib/errors";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { selectConnectionLockForDeck } from "@/store/selectors/shared";
 import type { Tab } from "@/store/slices/deck-edits.types";
@@ -28,6 +29,12 @@ export function EditorActions(props: Props) {
   );
   const discardEdits = useStore((state) => state.discardEdits);
   const saveDeck = useStore((state) => state.saveDeck);
+  const duplicateDeck = useStore((state) => state.duplicateDeck);
+
+  const onduplicateWithEdits = useCallback(() => {
+    const id = duplicateDeck(deck.id, { applyEdits: true });
+    navigate(`~/deck/view/${id}`);
+  }, [duplicateDeck, deck.id, navigate]);
 
   const onSave = useCallback(
     async (stayOnPage?: boolean) => {
@@ -51,12 +58,28 @@ export function EditorActions(props: Props) {
         toast.dismiss(toastId);
 
         toast.show({
-          children: `Deck save failed: ${(err as Error)?.message || "Unknown error"}.`,
+          children: (
+            <>
+              <p>
+                Deck save failed: {(err as Error)?.message || "Unknown error"}.
+              </p>
+              {err instanceof PreviewPublishError && (
+                <Button
+                  className={css["error-action"]}
+                  onClick={onduplicateWithEdits}
+                  size="sm"
+                  tooltip="Create a local copy of this deck. This will apply all outstanding edits and allow you to save them. Upgrades and deck history will not be carried over."
+                >
+                  Create local copy
+                </Button>
+              )}
+            </>
+          ),
           variant: "error",
         });
       }
     },
-    [saveDeck, navigate, deck.id, toast],
+    [saveDeck, navigate, deck.id, toast, onduplicateWithEdits],
   );
 
   const onDiscard = useCallback(
