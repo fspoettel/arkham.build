@@ -7,8 +7,18 @@ export function useVisibilityChange(
 
   useEffect(() => {
     const handler = () => cb(document.visibilityState);
+    const focusHandler = () => cb("visible");
+    const blurHandler = () => cb("hidden");
+
     document.addEventListener("visibilitychange", handler);
 
-    return () => document.removeEventListener("visibilitychange", handler);
+    window.addEventListener("focus", focusHandler);
+    window.addEventListener("blur", blurHandler);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handler);
+      window.removeEventListener("focus", focusHandler);
+      window.removeEventListener("blur", blurHandler);
+    };
   }, [cb]);
 }
