@@ -278,11 +278,7 @@ export function ListCardInner(props: Props) {
         {renderCardExtra?.(card, quantity)}
       </div>
       {!!renderCardAfter && (
-        <div className={css["listcard-after"]}>
-          <div className={css["listcard-after-inner"]}>
-            {renderCardAfter?.(card)}
-          </div>
-        </div>
+        <div className={css["listcard-after"]}>{renderCardAfter?.(card)}</div>
       )}
       {showCardText && (
         <div className={css["listcard-text"]}>

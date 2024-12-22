@@ -57,15 +57,17 @@ function ListcardExtra({
   if (!signatures?.length) return null;
 
   return (
-    <ul className={css["signatures"]} ref={signaturesRef}>
-      {signatures.map(({ card }) => (
-        <SignatureLink
-          card={card}
-          key={card.code}
-          signaturesRef={signaturesRef}
-        />
-      ))}
-    </ul>
+    <div className={css["signatures-container"]}>
+      <ul className={css["signatures"]} ref={signaturesRef}>
+        {signatures.map(({ card }) => (
+          <SignatureLink
+            card={card}
+            key={card.code}
+            signaturesRef={signaturesRef}
+          />
+        ))}
+      </ul>
+    </div>
   );
 }
 

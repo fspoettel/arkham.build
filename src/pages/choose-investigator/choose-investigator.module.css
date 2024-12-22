@@ -9,6 +9,10 @@
   font-weight: 700;
 }
 
+.signatures-container {
+  display: inline-block;
+}
+
 .signatures {
   display: flex;
   flex-flow: row wrap;
