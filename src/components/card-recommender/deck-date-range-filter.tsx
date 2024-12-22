@@ -30,6 +30,7 @@ export function DeckDateRangeFilter() {
       onValueChange={onValueCommit}
       onValueCommit={onValueCommit}
       value={value}
+      labelClassName={cx(css["date-range-label"])}
       renderLabel={deckTickToString}
       showLabel
     />

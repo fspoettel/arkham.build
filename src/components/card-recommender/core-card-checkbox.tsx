@@ -1,8 +1,10 @@
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
+import { cx } from "@/utils/cx";
 import { useCallback } from "react";
 import { Checkbox } from "../ui/checkbox";
+import css from "./card-recommender.module.css";
 
 export type CoreCardCheckboxProps = {
   card: Card;
@@ -31,7 +33,8 @@ export function CoreCardCheckbox(props: CoreCardCheckboxProps) {
       label="Core"
       checked={checked}
       onCheckedChange={onCheck}
-      id="core-card-checkbox"
+      className={cx(css["core-card-checkbox"])}
+      actAsButton={true}
     />
   );
 }

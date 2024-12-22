@@ -64,3 +64,11 @@
   font-family: var(--font-family-ui);
   font-size: var(--text-sm);
 }
+
+.button {
+  cursor: pointer;
+}
+
+.button * {
+  cursor: inherit;
+}

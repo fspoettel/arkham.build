@@ -49,6 +49,7 @@
   0% {
     transform: scaleX(0%);
   }
+
   100% {
     transform: scaleX(100%);
   }
@@ -99,6 +100,7 @@
 
 .footer {
   flex: 0 0 auto;
+
   @media screen and (max-width: 52rem) {
     display: none;
   }
@@ -108,9 +110,18 @@
   flex-grow: 0.5;
 }
 
-.date-range-selector div input {
-  width: calc(7ch + 0.5rem)!important; /*TODO Sy: do nicely*/
+
+/*TODO Sy: do nicely*/
+.date-range-label {
+  width: calc(7ch + 0.5rem) !important;
+  &:first-child {
+    margin-left: 0rem !important;
+  }
+  &:last-child {
+    margin-right: 0rem !important;
+  }
 }
+
 
 @keyframes fadeIn {
   from {
@@ -120,4 +131,20 @@
   to {
     opacity: 1;
   }
+}
+
+.core-card-checkbox {
+  margin-top: 0.125rem;
+  padding: 0.125rem;
+  background: var(--palette-point-five);
+  border: 1px solid var(--palette-1);
+  border-radius: var(--rounded);
+}
+
+.core-card-checkbox button {
+  margin-left: 0.125rem;
+}
+
+.core-card-checkbox label {
+  font-size: var(--text-xs);
 }

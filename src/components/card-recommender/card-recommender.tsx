@@ -8,9 +8,10 @@ import { cx } from "@/utils/cx";
 import { useQuery } from "@/utils/use-query";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { Rows3Icon } from "lucide-react";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { Link } from "wouter";
 import { CardList } from "../card-list/card-list";
+import { CardSearch } from "../card-list/card-search";
 import type { CardListProps } from "../card-list/types";
 import { Footer } from "../footer";
 import { Button } from "../ui/button";
@@ -29,6 +30,8 @@ export function CardRecommender(props: CardListProps) {
     renderCardAction,
     renderCardExtra,
     renderCardMetaExtra,
+    slotLeft,
+    slotRight,
   } = props;
 
   const ctx = useResolvedDeck();
@@ -79,6 +82,27 @@ export function CardRecommender(props: CardListProps) {
   ]);
 
   const { data, state } = useQuery(recommendationQuery);
+
+  const onKeyboardNavigate = useCallback((evt: React.KeyboardEvent) => {
+    if (
+      evt.key === "ArrowDown" ||
+      evt.key === "ArrowUp" ||
+      evt.key === "Enter" ||
+      evt.key === "Escape"
+    ) {
+      evt.preventDefault();
+
+      const customEvent = new CustomEvent("list-keyboard-navigate", {
+        detail: evt.key,
+      });
+
+      window.dispatchEvent(customEvent);
+
+      if (evt.key === "Escape" && evt.target instanceof HTMLElement) {
+        evt.target.blur();
+      }
+    }
+  }, []);
 
   if (resolvedDeck && metadata && listState) {
     if (state === "loading" || state === "initial") {
@@ -145,6 +169,11 @@ export function CardRecommender(props: CardListProps) {
         </header>
         <div className={cx(css["container"])}>
           <div className={cx(css["toolbar"])}>
+            <CardSearch
+              onInputKeyDown={onKeyboardNavigate}
+              slotLeft={slotLeft}
+              slotRight={slotRight}
+            />
             <DeckDateRangeFilter />
             <div className={cx(css["toggle-container"])}>
               <IncludeSideDeckToggle />

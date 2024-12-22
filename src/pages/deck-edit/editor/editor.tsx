@@ -47,15 +47,6 @@ export function Editor(props: Props) {
     ? undefined
     : (card: Card) => <MoveToMainDeck card={card} deck={deck} />;
 
-  const composeRenderers =
-    (a: Renderer | undefined, b: Renderer | undefined) =>
-    (card: Card, quantity?: number) => (
-      <>
-        {a?.(card, quantity)}
-        {b?.(card, quantity)}
-      </>
-    );
-
   return (
     <div className={css["editor"]} style={cssVariables}>
       <header className={cx(css["editor-header"], backgroundCls)}>
@@ -99,10 +90,8 @@ export function Editor(props: Props) {
                 layout="two_column"
                 listCardSize="sm"
                 mapping="slots"
-                renderCardExtra={composeRenderers(
-                  renderCoreCardCheckbox,
-                  renderCardExtra,
-                )}
+                renderCardBefore={renderCoreCardCheckbox}
+                renderCardExtra={renderCardExtra}
                 quantities={deck.slots}
               />
             </DecklistSection>
@@ -113,7 +102,7 @@ export function Editor(props: Props) {
                   layout="two_column"
                   listCardSize="sm"
                   mapping="bonded"
-                  renderCardExtra={renderCoreCardCheckbox}
+                  renderCardBefore={renderCoreCardCheckbox}
                   quantities={deck.bondedSlots}
                 />
               </DecklistSection>
@@ -128,10 +117,8 @@ export function Editor(props: Props) {
                   layout="two_column"
                   listCardSize="sm"
                   mapping="sideSlots"
-                  renderCardExtra={composeRenderers(
-                    renderCoreCardCheckbox,
-                    renderMoveToMainDeck,
-                  )}
+                  renderCardBefore={renderCoreCardCheckbox}
+                  renderCardExtra={renderMoveToMainDeck}
                   quantities={deck.sideSlots ?? undefined}
                 />
               ) : (
