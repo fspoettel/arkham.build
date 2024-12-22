@@ -106,19 +106,13 @@
   }
 }
 
-.date-range-selector {
-  flex-grow: 0.5;
-}
-
-
-/*TODO Sy: do nicely*/
-.date-range-label {
-  width: calc(7ch + 0.5rem) !important;
+.toolbar .date-range-selector div .date-range-label {
+  width: calc(7ch + 0.5rem);
   &:first-child {
-    margin-left: 0rem !important;
+    margin-left: 0rem;
   }
   &:last-child {
-    margin-right: 0rem !important;
+    margin-right: 0rem;
   }
 }
 

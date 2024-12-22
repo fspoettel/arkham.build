@@ -290,7 +290,6 @@ export async function upgradeDeck(
   return await res.json();
 }
 
-// TODO Sy: Remove this once we have a proper API
 async function recommendationRequest(
   path: string,
   options: RequestInit = {},
