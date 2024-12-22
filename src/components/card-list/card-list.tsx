@@ -155,6 +155,35 @@ export function CardList(props: CardListImplementationProps) {
     }
   }, [data?.cards.length]);
 
+  const generateItemContent = (index: number, currentTop: number) => {
+    const itemProps = {
+      card: data.cards[index],
+      currentTop,
+      index,
+      itemSize,
+      limitOverride: getDeckLimitOverride(resolvedDeck, data.cards[index].code),
+      onChangeCardQuantity,
+      ownedCount: canCheckOwnerhip
+        ? cardOwnedCount(data.cards[index])
+        : undefined,
+      quantity: quantities
+        ? (quantities[data.cards[index].code] ?? 0)
+        : undefined,
+      renderCardAction: renderCardAction,
+      renderCardExtra: renderCardExtra,
+      renderCardMetaExtra: renderCardMetaExtra,
+      renderCardAfter: renderCardAfter,
+      resolvedDeck,
+      viewMode,
+    };
+
+    if (viewMode === "full-cards") {
+      return <CardListItemFull {...itemProps} />;
+    }
+
+    return <CardListItemCompact {...itemProps} />;
+  };
+
   return (
     <Scroller
       className={css["scroller"]}
@@ -176,83 +205,24 @@ export function CardList(props: CardListImplementationProps) {
           groupCounts={data.groupCounts}
           isScrolling={onScrollStop}
           itemContent={(index, _, __, { currentTop }) => {
-            const itemProps = {
-              card: data.cards[index],
-              currentTop,
-              index,
-              itemSize,
-              limitOverride: getDeckLimitOverride(
-                resolvedDeck,
-                data.cards[index].code,
-              ),
-              onChangeCardQuantity,
-              ownedCount: canCheckOwnerhip
-                ? cardOwnedCount(data.cards[index])
-                : undefined,
-              quantity: quantities
-                ? (quantities[data.cards[index].code] ?? 0)
-                : undefined,
-              renderCardAction: renderCardAction,
-              renderCardExtra: renderCardExtra,
-              renderCardMetaExtra: renderCardMetaExtra,
-              renderCardAfter: renderCardAfter,
-              resolvedDeck,
-              viewMode,
-            };
-
-            if (viewMode === "full-cards") {
-              return <CardListItemFull {...itemProps} />;
-            }
-
-            return <CardListItemCompact {...itemProps} />;
+            return generateItemContent(index, currentTop);
           }}
           key={`${data.key}-${viewMode}`}
           rangeChanged={rangeChanged}
           ref={virtuosoRef}
         />
       )}
-      {
-        // TODO Sy: deduplicate
-        viewMode !== "scans" && data && scrollParent && !isGrouped && (
-          <Virtuoso
-            context={{ currentTop }}
-            customScrollParent={scrollParent}
-            data={data.cards}
-            itemContent={(index, _, { currentTop }) => {
-              const itemProps = {
-                card: data.cards[index],
-                currentTop,
-                index,
-                itemSize,
-                limitOverride: getDeckLimitOverride(
-                  resolvedDeck,
-                  data.cards[index].code,
-                ),
-                onChangeCardQuantity,
-                ownedCount: canCheckOwnerhip
-                  ? cardOwnedCount(data.cards[index])
-                  : undefined,
-                quantity: quantities
-                  ? (quantities[data.cards[index].code] ?? 0)
-                  : undefined,
-                renderCardAction: renderCardAction,
-                renderCardExtra: renderCardExtra,
-                renderCardMetaExtra: renderCardMetaExtra,
-                renderCardAfter: renderCardAfter,
-                resolvedDeck,
-                viewMode,
-              };
-
-              if (viewMode === "full-cards") {
-                return <CardListItemFull {...itemProps} />;
-              }
-
-              return <CardListItemCompact {...itemProps} />;
-            }}
-            rangeChanged={rangeChanged}
-          />
-        )
-      }
+      {viewMode !== "scans" && data && scrollParent && !isGrouped && (
+        <Virtuoso
+          context={{ currentTop }}
+          customScrollParent={scrollParent}
+          data={data.cards}
+          itemContent={(index, _, { currentTop }) => {
+            return generateItemContent(index, currentTop);
+          }}
+          rangeChanged={rangeChanged}
+        />
+      )}
     </Scroller>
   );
 }
