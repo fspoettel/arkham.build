@@ -10,24 +10,14 @@ type Props = Omit<CheckboxProps, "label"> & {
   hideLabel?: boolean;
   id?: string;
   label: React.ReactNode;
-  actAsButton?: boolean;
 };
 
 export function Checkbox(props: Props) {
-  const { className, id, hideLabel, label, actAsButton, ...rest } = props;
+  const { className, id, hideLabel, label, ...rest } = props;
   const checkboxRef = useRef<HTMLButtonElement>(null);
-  const handleClick = () => {
-    if (checkboxRef.current) {
-      checkboxRef.current.click();
-    }
-  };
 
   return (
-    // biome-ignore lint/a11y/useKeyWithClickEvents:  handled by children.
-    <div
-      className={cx(css["checkbox"], className, actAsButton && css["button"])}
-      onClick={actAsButton ? handleClick : undefined}
-    >
+    <div className={cx(css["checkbox"], className)}>
       <Root {...rest} className={css["root"]} id={id} ref={checkboxRef}>
         <Indicator className={css["indicator"]}>
           <CheckIcon />

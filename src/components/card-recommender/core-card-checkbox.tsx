@@ -2,7 +2,7 @@ import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import { cx } from "@/utils/cx";
-import { useCallback } from "react";
+import { useCallback, useId } from "react";
 import { Checkbox } from "../ui/checkbox";
 import css from "./card-recommender.module.css";
 
@@ -27,6 +27,7 @@ export function CoreCardCheckbox(props: CoreCardCheckboxProps) {
     },
     [addCoreCard, removeCoreCard, props.card.code, props.deck.id],
   );
+  const id = useId();
 
   return (
     <Checkbox
@@ -34,7 +35,7 @@ export function CoreCardCheckbox(props: CoreCardCheckboxProps) {
       checked={checked}
       onCheckedChange={onCheck}
       className={cx(css["core-card-checkbox"])}
-      actAsButton={true}
+      id={id}
     />
   );
 }
