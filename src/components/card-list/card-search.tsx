@@ -61,6 +61,7 @@ export function CardSearch(props: Props) {
   const onToggleGameText = useCallback(
     (val: boolean | string) => {
       setSearchFlag("includeGameText", !!val);
+      inputRef.current?.focus();
     },
     [setSearchFlag],
   );
@@ -68,6 +69,7 @@ export function CardSearch(props: Props) {
   const onToggleFlavor = useCallback(
     (val: boolean | string) => {
       setSearchFlag("includeFlavor", !!val);
+      inputRef.current?.focus();
     },
     [setSearchFlag],
   );
@@ -75,6 +77,7 @@ export function CardSearch(props: Props) {
   const onToggleBacks = useCallback(
     (val: boolean | string) => {
       setSearchFlag("includeBacks", !!val);
+      inputRef.current?.focus();
     },
     [setSearchFlag],
   );

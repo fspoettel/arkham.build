@@ -27,8 +27,12 @@
 }
 
 .flags {
+  display: none;
   flex: 0 0 auto;
-  display: flex;
   flex-flow: row wrap;
   gap: 0.5rem;
+}
+
+.container:focus-within .flags {
+  display: flex;
 }

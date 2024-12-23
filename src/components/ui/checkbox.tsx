@@ -2,7 +2,7 @@ import { cx } from "@/utils/cx";
 import type { CheckboxProps } from "@radix-ui/react-checkbox";
 import { Indicator, Root } from "@radix-ui/react-checkbox";
 import { CheckIcon } from "lucide-react";
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 import css from "./checkbox.module.css";
 
 type Props = Omit<CheckboxProps, "label"> & {
@@ -16,6 +16,10 @@ export function Checkbox(props: Props) {
   const { className, id, hideLabel, label, ...rest } = props;
   const checkboxRef = useRef<HTMLButtonElement>(null);
 
+  const preventDefault = useCallback((evt: React.MouseEvent) => {
+    evt.preventDefault();
+  }, []);
+
   return (
     <div className={cx(css["checkbox"], className)}>
       <Root {...rest} className={css["root"]} id={id} ref={checkboxRef}>
@@ -23,7 +27,11 @@ export function Checkbox(props: Props) {
           <CheckIcon />
         </Indicator>
       </Root>
-      <label className={cx(css["label"], hideLabel && "sr-only")} htmlFor={id}>
+      <label
+        className={cx(css["label"], hideLabel && "sr-only")}
+        onPointerDown={preventDefault}
+        htmlFor={id}
+      >
         {label}
       </label>
     </div>
