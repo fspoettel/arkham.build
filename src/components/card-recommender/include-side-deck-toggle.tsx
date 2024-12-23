@@ -1,5 +1,4 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import { Field } from "@/components/ui/field";
 import { useStore } from "@/store";
 import { useCallback } from "react";
 import css from "./card-recommender.module.css";
@@ -16,13 +15,12 @@ export function IncludeSideDeckToggle() {
   );
 
   return (
-    <Field bordered className={css["include-side-deck-filter"]}>
-      <Checkbox
-        checked={checked}
-        id="include-side-deck"
-        label="Analyze side decks"
-        onCheckedChange={onValueChange}
-      />
-    </Field>
+    <Checkbox
+      className={css["include-side-deck-filter"]}
+      checked={checked}
+      id="include-side-deck"
+      label="Analyze side decks"
+      onCheckedChange={onValueChange}
+    />
   );
 }

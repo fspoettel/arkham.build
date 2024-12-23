@@ -177,8 +177,6 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       }
     }
 
-    console.log(cards);
-
     const lookupTables = createLookupTables(metadata, state.settings);
     createRelations(metadata, lookupTables);
 

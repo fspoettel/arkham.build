@@ -11,7 +11,7 @@ import type { Tab } from "@/store/slices/deck-edits.types";
 import { getCardColor, isStaticInvestigator } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { useAccentColor } from "@/utils/use-accent-color";
-import { useLocation } from "wouter";
+import { useMemo } from "react";
 import { EditorActions } from "./editor-actions";
 import css from "./editor.module.css";
 import { InvestigatorListcard } from "./investigator-listcard";
@@ -23,6 +23,7 @@ type Renderer = (card: Card, quantity?: number) => React.ReactNode;
 type Props = {
   className?: string;
   currentTab: Tab;
+  currentTool: string;
   onTabChange: (tab: Tab) => void;
   deck: ResolvedDeck;
   renderCardExtra?: Renderer;
@@ -30,22 +31,33 @@ type Props = {
 };
 
 export function Editor(props: Props) {
-  const { currentTab, onTabChange, deck, renderCardExtra } = props;
+  const { currentTab, currentTool, onTabChange, deck, renderCardExtra } = props;
 
   const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
   const backgroundCls = getCardColor(deck.investigatorBack.card, "background");
 
   const staticInvestigator = isStaticInvestigator(deck.investigatorBack.card);
 
-  const [location] = useLocation();
-  const renderCoreCardCheckbox =
-    location === "/recommendations"
-      ? (card: Card) =>
-          card.xp == null ? <></> : <CoreCardCheckbox card={card} deck={deck} />
-      : undefined;
-  const renderMoveToMainDeck = staticInvestigator
-    ? undefined
-    : (card: Card) => <MoveToMainDeck card={card} deck={deck} />;
+  const renderCoreCardCheckbox = useMemo(
+    () =>
+      currentTool === "recommendations"
+        ? (card: Card) =>
+            card.xp == null ? (
+              <></>
+            ) : (
+              <CoreCardCheckbox card={card} deck={deck} />
+            )
+        : undefined,
+    [currentTool, deck],
+  );
+
+  const renderMoveToMainDeck = useMemo(
+    () =>
+      staticInvestigator
+        ? undefined
+        : (card: Card) => <MoveToMainDeck card={card} deck={deck} />,
+    [deck, staticInvestigator],
+  );
 
   return (
     <div className={css["editor"]} style={cssVariables}>

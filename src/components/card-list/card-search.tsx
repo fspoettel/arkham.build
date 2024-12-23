@@ -12,10 +12,11 @@ type Props = {
   onInputKeyDown?: (evt: React.KeyboardEvent) => void;
   slotLeft?: React.ReactNode;
   slotRight?: React.ReactNode;
+  slotFlags?: React.ReactNode;
 };
 
 export function CardSearch(props: Props) {
-  const { onInputKeyDown, slotLeft, slotRight } = props;
+  const { onInputKeyDown, slotFlags, slotLeft, slotRight } = props;
   const inputRef = useRef<HTMLInputElement>(null);
 
   const setSearchValue = useStore((state) => state.setSearchValue);
@@ -101,6 +102,7 @@ export function CardSearch(props: Props) {
         {slotRight}
       </div>
       <div className={css["flags"]}>
+        {slotFlags}
         <Checkbox checked disabled id="search-card-name" label="Name" />
         <Checkbox
           checked={search.includeGameText}

@@ -11,6 +11,7 @@ import { Footer } from "../footer";
 import { CardGrid } from "./card-grid";
 import { CardList } from "./card-list";
 import css from "./card-list-container.module.css";
+import { CardlistCount } from "./card-list-count";
 import { CardListNav } from "./card-list-nav";
 import { CardSearch } from "./card-search";
 import type { CardListProps } from "./types";
@@ -70,6 +71,7 @@ export function CardListContainer(props: CardListProps) {
           onInputKeyDown={onKeyboardNavigate}
           slotLeft={slotLeft}
           slotRight={slotRight}
+          slotFlags={<CardlistCount data={data} />}
         />
       }
     >

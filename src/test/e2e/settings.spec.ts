@@ -21,10 +21,14 @@ test.describe("settings", () => {
     await page.getByTestId("settings-back").click();
 
     await fillSearch(page, "zoey samaras");
-    await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
+    await expect(page.getByTestId("cardlist-count").first()).toContainText(
+      "1 cards",
+    );
 
     await fillSearch(page, "william yorick");
-    await expect(page.getByTestId("cardlist-count")).toContainText("0 cards");
+    await expect(page.getByTestId("cardlist-count").first()).toContainText(
+      "0 cards",
+    );
 
     await expect(
       page
@@ -42,7 +46,9 @@ test.describe("settings", () => {
     await page.getByTestId("settings-back").click();
 
     await fillSearch(page, "william yorick");
-    await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
+    await expect(page.getByTestId("cardlist-count").first()).toContainText(
+      "1 cards",
+    );
 
     await expect(
       page.locator("div").filter({ hasText: /^Ownership$/ }),
@@ -53,17 +59,21 @@ test.describe("settings", () => {
     await mockApiCalls(page);
     await page.goto("/");
 
+    await page.getByTestId("search-input").focus();
     await page.getByTestId("search-game-text").click();
 
     await fillSearch(page, "Mutated");
 
-    await expect(page.getByTestId("cardlist-count")).toContainText("0 cards");
+    await expect(page.getByTestId("cardlist-count").first()).toContainText(
+      "0 cards",
+    );
 
     await page.getByTestId("masthead-settings").click();
     await page.getByTestId("settings-taboo-set").selectOption("7");
     await page.getByTestId("settings-save").click();
     await page.getByTestId("settings-back").click();
 
+    await page.getByTestId("search-input").focus();
     await page.getByTestId("search-game-text").click();
     await fillSearch(page, "Mutated");
 
@@ -165,7 +175,9 @@ test.describe("settings", () => {
     await mockApiCalls(page);
     await page.goto("/");
     await fillSearch(page, "nose to the grind stone");
-    await expect(page.getByTestId("cardlist-count")).toContainText("0 cards");
+    await expect(page.getByTestId("cardlist-count").first()).toContainText(
+      "0 cards",
+    );
     await page.getByTestId("masthead-settings").click();
     await page.getByTestId("tab-collection").click();
     await page.getByTestId("settings-show-previews").click();

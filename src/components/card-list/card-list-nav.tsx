@@ -1,3 +1,4 @@
+import { CardlistCount } from "@/components/card-list/card-list-count";
 import { NONE, getGroupingKeyLabel } from "@/store/lib/grouping";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { ListState } from "@/store/selectors/lists";
@@ -53,22 +54,12 @@ export function CardListNav(props: Props) {
 
   if (data == null) return null;
 
-  const filteredCount = data.totalCardCount - data.cards.length;
-
   return (
     <nav className={css["nav"]}>
       <output className={css["nav-stats"]}>
         <LimitedCardPoolTag />
         <SealedDeckTag />
-
-        <span data-testid="cardlist-count">
-          {data?.cards.length ?? 0} cards
-        </span>
-        <small className={css["nav-stats-filter-count"]}>
-          <em>
-            {filteredCount > 0 && ` (${filteredCount} hidden by filters)`}
-          </em>
-        </small>
+        <CardlistCount data={data} />
       </output>
       <div className={css["nav-row"]}>
         {data && (

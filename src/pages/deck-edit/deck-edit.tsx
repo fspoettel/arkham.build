@@ -110,6 +110,7 @@ function DeckEdit() {
 
 function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
   const [currentTab, setCurrentTab] = useState<Tab>("slots");
+  const [currentTool, setCurrentTool] = useState<string>("card-list");
 
   const renderCardExtra = useCallback(
     (card: Card, quantity: number | undefined) => {
@@ -159,6 +160,7 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
       sidebar={
         <Editor
           currentTab={currentTab}
+          currentTool={currentTool}
           deck={deck}
           onTabChange={setCurrentTab}
           renderCardExtra={renderCardExtra}
@@ -168,7 +170,11 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
       sidebarWidthMax="var(--sidebar-width-two-col)"
     >
       {(props) => (
-        <Tabs className={css["tabs"]} defaultValue="card-list">
+        <Tabs
+          onValueChange={setCurrentTool}
+          className={css["tabs"]}
+          value={currentTool}
+        >
           <TabsList className={css["tabs-list"]} style={accentColor}>
             <TabsTrigger value="card-list">
               <Rows3Icon />

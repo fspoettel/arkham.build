@@ -24,7 +24,7 @@ export function DeckDateRangeFilter() {
       className={cx(css["date-range-selector"])}
       data-testid="deck-date-range"
       id="deck-date-range-select"
-      label="Publication Date"
+      label="Publication date"
       max={max}
       min={min}
       onValueChange={onValueCommit}

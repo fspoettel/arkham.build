@@ -1,6 +1,7 @@
 import type { Card, Recommendation } from "@/store/services/queries.types";
 import { getCardColor } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
+import { useMemo } from "react";
 import { DefaultTooltip } from "../ui/tooltip";
 import css from "./card-recommender.module.css";
 
@@ -16,18 +17,13 @@ export function RecommendationBar(props: RecommendationBarProps) {
   const recommendation = recData.recommendation;
   const wholeRec = Math.floor(recommendation);
 
-  const paddingFor = (wholeRec: number) => {
-    if (wholeRec === 0) {
-      return css["label-padding-0"];
-    }
-    if (wholeRec < 10) {
-      return css["label-padding-1digit"];
-    }
-    if (wholeRec < 100) {
-      return css["label-padding-2digit"];
-    }
-    return css["label-padding-3digit"];
-  };
+  const cssVariables = useMemo(
+    () =>
+      ({
+        "--width": `${Math.max(0, recommendation)}%`,
+      }) as React.CSSProperties,
+    [recommendation],
+  );
 
   return (
     <div className={cx(css["recommendation-bar-container"])}>
@@ -37,9 +33,9 @@ export function RecommendationBar(props: RecommendationBarProps) {
       >
         <div
           className={cx(css["recommendation-bar"], getCardColor(props.card))}
-          style={{ width: `${Math.max(0, recommendation)}%` }}
+          style={cssVariables}
         >
-          <span className={paddingFor(wholeRec)}>{wholeRec}%</span>
+          <span className={css["recommendation-bar-label"]}>{wholeRec}%</span>
         </div>
       </DefaultTooltip>
     </div>

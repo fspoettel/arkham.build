@@ -31,7 +31,9 @@ test.describe("filters: interactions", () => {
       await page.getByLabel("Minimum").press("ArrowRight");
     }
 
-    await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
+    await expect(page.getByTestId("cardlist-count").first()).toContainText(
+      "1 cards",
+    );
     await expect(page.getByTestId("listcard-60216")).toBeVisible();
   });
 
@@ -40,16 +42,22 @@ test.describe("filters: interactions", () => {
 
     await fillSearch(page, "Practice Makes Perfect");
 
-    await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
+    await expect(page.getByTestId("cardlist-count").first()).toContainText(
+      "1 cards",
+    );
     await expect(page.getByTestId("listcard-06197")).toBeVisible();
 
     await page.getByTestId("filters-faction-guardian").click();
     await page.getByTestId("filters-faction-seeker").click();
 
-    await expect(page.getByTestId("cardlist-count")).toContainText("0 cards");
+    await expect(page.getByTestId("cardlist-count").first()).toContainText(
+      "0 cards",
+    );
 
     await page.getByTestId("filters-faction-seeker").click();
-    await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
+    await expect(page.getByTestId("cardlist-count").first()).toContainText(
+      "1 cards",
+    );
   });
 
   test("can use subtype filter", async ({ page }) => {
@@ -61,8 +69,11 @@ test.describe("filters: interactions", () => {
   });
 
   test("can toggle game text", async ({ page }) => {
+    await page.getByTestId("search-input").focus();
     await page.getByTestId("search-game-text").click();
     await fillSearch(page, "ashcan pete");
+
+    await page.getByTestId("search-input").blur();
 
     await page.locator('[data-test-id="card-list-config"]').click();
     await page.getByLabel("Compact with text").click();
