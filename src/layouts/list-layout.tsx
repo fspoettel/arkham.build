@@ -6,7 +6,7 @@ import { useMedia } from "@/utils/use-media";
 import { FilterIcon } from "lucide-react";
 import type React from "react";
 import { useCallback, useEffect, useRef } from "react";
-import { useStore } from "../store";
+import { useListLayoutContext } from "./list-layout-context";
 import css from "./list-layout.module.css";
 
 type Props = {
@@ -31,11 +31,8 @@ export function ListLayout(props: Props) {
     sidebarWidthMax,
   } = props;
 
-  const sidebarOpen = useStore((state) => state.ui.sidebarOpen);
-  const setSidebarOpen = useStore((state) => state.setSidebarOpen);
-
-  const filtersOpen = useStore((state) => state.ui.filtersOpen);
-  const setFiltersOpen = useStore((state) => state.setFiltersOpen);
+  const { filtersOpen, sidebarOpen, setFiltersOpen, setSidebarOpen } =
+    useListLayoutContext();
 
   const floatingSidebar = useMedia(MQ_FLOATING_SIDEBAR);
   const floatingFilters = useMedia(MQ_FLOATING_FILTERS);

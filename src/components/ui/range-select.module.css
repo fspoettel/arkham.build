@@ -3,6 +3,9 @@
 }
 
 .label {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
   font-size: var(--text-sm);
 }
 

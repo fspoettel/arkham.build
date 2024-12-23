@@ -9,6 +9,7 @@ import { Filters } from "@/components/filters/filters";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast.hooks";
+import { ListLayoutContextProvider } from "@/layouts/list-layout-context-provider";
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import {
@@ -147,80 +148,82 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
   }, [updateCardQuantity, currentTab, deck.id]);
 
   return (
-    <ListLayout
-      filters={
-        <Filters>
-          <DecklistValidation
-            defaultOpen={validation.errors.length < 3}
+    <ListLayoutContextProvider>
+      <ListLayout
+        filters={
+          <Filters>
+            <DecklistValidation
+              defaultOpen={validation.errors.length < 3}
+              validation={validation}
+            />
+            <ShowUnusableCardsToggle />
+          </Filters>
+        }
+        sidebar={
+          <Editor
+            currentTab={currentTab}
+            currentTool={currentTool}
+            deck={deck}
+            onTabChange={setCurrentTab}
+            renderCardExtra={renderCardExtra}
             validation={validation}
           />
-          <ShowUnusableCardsToggle />
-        </Filters>
-      }
-      sidebar={
-        <Editor
-          currentTab={currentTab}
-          currentTool={currentTool}
-          deck={deck}
-          onTabChange={setCurrentTab}
-          renderCardExtra={renderCardExtra}
-          validation={validation}
-        />
-      }
-      sidebarWidthMax="var(--sidebar-width-two-col)"
-    >
-      {(props) => (
-        <Tabs
-          onValueChange={setCurrentTool}
-          className={css["tabs"]}
-          value={currentTool}
-        >
-          <TabsList className={css["tabs-list"]} style={accentColor}>
-            <TabsTrigger value="card-list">
-              <Rows3Icon />
-              <span>Card list</span>
-            </TabsTrigger>
-            <TabsTrigger value="recommendations">
-              <WandSparklesIcon />
-              <span>Recommendations</span>
-            </TabsTrigger>
-            <TabsTrigger value="deck-tools">
-              <ChartAreaIcon />
-              <span>Deck tools</span>
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="card-list" asChild>
-            <CardListContainer
-              {...props}
-              onChangeCardQuantity={onChangeCardQuantity}
-              quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
-              renderCardExtra={renderCardExtra}
-              targetDeck={
-                mapTabToSlot(currentTab) === "extraSlots"
-                  ? "extraSlots"
-                  : "slots"
-              }
-            />
-          </TabsContent>
-          <TabsContent asChild value="deck-tools">
-            <DeckTools {...props} deck={deck} scrollable />
-          </TabsContent>
-          <TabsContent asChild value="recommendations">
-            <CardRecommender
-              {...props}
-              onChangeCardQuantity={onChangeCardQuantity}
-              quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
-              renderCardExtra={renderCardExtra}
-              targetDeck={
-                mapTabToSlot(currentTab) === "extraSlots"
-                  ? "extraSlots"
-                  : "slots"
-              }
-            />
-          </TabsContent>
-        </Tabs>
-      )}
-    </ListLayout>
+        }
+        sidebarWidthMax="var(--sidebar-width-two-col)"
+      >
+        {(props) => (
+          <Tabs
+            onValueChange={setCurrentTool}
+            className={css["tabs"]}
+            value={currentTool}
+          >
+            <TabsList className={css["tabs-list"]} style={accentColor}>
+              <TabsTrigger value="card-list">
+                <Rows3Icon />
+                <span>Card list</span>
+              </TabsTrigger>
+              <TabsTrigger value="recommendations">
+                <WandSparklesIcon />
+                <span>Recommendations</span>
+              </TabsTrigger>
+              <TabsTrigger value="deck-tools">
+                <ChartAreaIcon />
+                <span>Deck tools</span>
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="card-list" asChild>
+              <CardListContainer
+                {...props}
+                onChangeCardQuantity={onChangeCardQuantity}
+                quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
+                renderCardExtra={renderCardExtra}
+                targetDeck={
+                  mapTabToSlot(currentTab) === "extraSlots"
+                    ? "extraSlots"
+                    : "slots"
+                }
+              />
+            </TabsContent>
+            <TabsContent asChild value="deck-tools">
+              <DeckTools {...props} deck={deck} scrollable />
+            </TabsContent>
+            <TabsContent asChild value="recommendations">
+              <CardRecommender
+                {...props}
+                onChangeCardQuantity={onChangeCardQuantity}
+                quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
+                renderCardExtra={renderCardExtra}
+                targetDeck={
+                  mapTabToSlot(currentTab) === "extraSlots"
+                    ? "extraSlots"
+                    : "slots"
+                }
+              />
+            </TabsContent>
+          </Tabs>
+        )}
+      </ListLayout>
+    </ListLayoutContextProvider>
   );
 }
 

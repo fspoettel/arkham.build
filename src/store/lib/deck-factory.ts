@@ -53,3 +53,23 @@ export function getDefaultDeckName(name: string, faction: string) {
       return `${name} Does It All`;
   }
 }
+
+export function cloneDeck(deck: Deck): Deck {
+  const now = new Date().toISOString();
+
+  return {
+    ...structuredClone(deck),
+    id: randomId(),
+    name: `(Copy) ${deck.name}`,
+    date_creation: now,
+    date_update: now,
+    exile_string: null,
+    next_deck: null,
+    previous_deck: null,
+    version: "0.1",
+    source: undefined,
+    xp: null,
+    xp_adjustment: null,
+    xp_spent: null,
+  };
+}

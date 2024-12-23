@@ -9,6 +9,7 @@ import { CheckboxGroup } from "../ui/checkboxgroup";
 import { RangeSelect } from "../ui/range-select";
 import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
+import { useFilterCallbacks } from "./primitives/filter-hooks";
 
 export function CostFilter({ id, resolvedDeck }: FilterProps) {
   const filter = useStore((state) => selectActiveListFilter(state, id));
@@ -22,69 +23,63 @@ export function CostFilter({ id, resolvedDeck }: FilterProps) {
   );
   const changes = selectCostChanges(filter.value);
 
-  const setFilter = useStore((state) => state.setFilterValue);
-  const resetFilter = useStore((state) => state.resetFilter);
-  const setFilterOpen = useStore((state) => state.setFilterOpen);
-
-  const resetActiveCost = useCallback(() => {
-    resetFilter(id);
-  }, [resetFilter, id]);
+  const { onReset, onChange, onOpenChange } = useFilterCallbacks(id);
 
   const onValueCommit = useCallback(
     (val: number[]) => {
-      setFilter(id, {
+      onChange({
         range: [val[0], val[1]],
       });
     },
-    [setFilter, id],
+    [onChange],
   );
 
   const onSetEven = useCallback(
     (val: boolean | string) => {
-      setFilter(id, {
+      onChange({
         even: !!val,
       });
     },
-    [setFilter, id],
+    [onChange],
   );
 
   const onSetOdd = useCallback(
     (val: boolean | string) => {
-      setFilter(id, {
+      onChange({
         odd: !!val,
       });
     },
-    [setFilter, id],
+    [onChange],
   );
 
   const onSetX = useCallback(
     (val: boolean | string) => {
-      setFilter(id, {
+      onChange({
         x: !!val,
       });
     },
-    [setFilter, id],
+    [onChange],
   );
 
   const onSetNoCost = useCallback(
     (val: boolean | string) => {
-      setFilter(id, {
+      onChange({
         nocost: !!val,
       });
     },
-    [setFilter, id],
+    [onChange],
   );
 
-  const onOpenChange = useCallback(
+  const onToggleOpen = useCallback(
     (val: boolean) => {
       if (val && !filter.value.range) {
-        setFilter(id, {
+        onChange({
           range: [min, max],
         });
       }
-      setFilterOpen(id, val);
+      onOpenChange(val);
     },
-    [min, max, id, filter.value.range, setFilter, setFilterOpen],
+    [min, max, filter.value.range, onOpenChange, onChange],
   );
 
   const rangeValue = useMemo(
@@ -96,8 +91,8 @@ export function CostFilter({ id, resolvedDeck }: FilterProps) {
     <FilterContainer
       data-testid="filters-cost"
       filterString={changes}
-      onOpenChange={onOpenChange}
-      onReset={resetActiveCost}
+      onOpenChange={onToggleOpen}
+      onReset={onReset}
       open={filter.open}
       title="Cost"
     >

@@ -2,7 +2,7 @@ import { applyDeckEdits } from "@/store/lib/deck-edits";
 import { createDeck } from "@/store/lib/deck-factory";
 import type { Card } from "@/store/services/queries.types";
 import { assert } from "@/utils/assert";
-import { decodeExileSlots, formatLocalCard } from "@/utils/card-utils";
+import { decodeExileSlots } from "@/utils/card-utils";
 import {
   ALT_ART_INVESTIGATOR_MAP,
   SPECIAL_CARD_CODES,
@@ -42,13 +42,11 @@ import { createLookupTables, createRelations } from "./lookup-tables";
 import { getInitialMetadata } from "./metadata";
 import type { Metadata } from "./metadata.types";
 
-import localCards from "@/store/services/data/cards.json";
-import localCycles from "@/store/services/data/cycles.json";
 import factions from "@/store/services/data/factions.json";
-import localPacks from "@/store/services/data/packs.json";
 import subTypes from "@/store/services/data/subtypes.json";
 import types from "@/store/services/data/types.json";
 import { assertCanPublishDeck } from "@/utils/arkhamdb";
+import { applyLocalData } from "../lib/local-data";
 
 export function getInitialAppState() {
   return {
@@ -66,27 +64,11 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     const state = get();
     if (!refresh && state.metadata.dataVersion?.cards_updated_at) {
       const metadata = {
-        ...state.metadata,
+        ...applyLocalData(state.metadata),
         factions: mappedByCode(factions),
         subtypes: mappedByCode(subTypes),
         types: mappedByCode(types),
       };
-
-      if (localCards.length) {
-        const cards = state.metadata.cards;
-
-        for (const card of localCards) {
-          cards[card.code] = formatLocalCard(card);
-        }
-
-        for (const pack of localPacks) {
-          metadata.packs[pack.code] = pack;
-        }
-
-        for (const cycle of localCycles) {
-          metadata.cycles[cycle.code] = cycle;
-        }
-      }
 
       state.refreshLookupTables({
         lists: makeLists(state.settings),
@@ -105,7 +87,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     timeEnd("query_data");
 
     time("create_store_data");
-    const metadata: Metadata = {
+    const metadata: Metadata = applyLocalData({
       ...getInitialMetadata(),
       dataVersion: dataVersionResponse,
       cards: {},
@@ -120,7 +102,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       subtypes: mappedByCode(subTypes),
       types: mappedByCode(types),
       tabooSets: mappedById(metadataResponse.taboo_set),
-    };
+    });
 
     if (metadata.packs["rcore"]) {
       metadata.packs["rcore"].reprint = {
@@ -188,26 +170,6 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     if (refresh) {
       localStorage.removeItem("deckbuilder-data-version");
-    }
-
-    if (localCards.length) {
-      for (const card of localCards) {
-        if (!metadata.cards[card.code]) {
-          metadata.cards[card.code] = formatLocalCard(card);
-        }
-      }
-
-      for (const pack of localPacks) {
-        if (!metadata.packs[pack.code]) {
-          metadata.packs[pack.code] = pack;
-        }
-      }
-
-      for (const cycle of localCycles) {
-        if (!metadata.cycles[cycle.code]) {
-          metadata.cycles[cycle.code] = cycle;
-        }
-      }
     }
 
     set({

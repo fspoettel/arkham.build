@@ -72,7 +72,7 @@ export function Collapsible(props: Props) {
                 open == null
                   ? "Toggle section"
                   : open
-                    ? "Collapse section"
+                    ? "Close section"
                     : "Expand section"
               }
             >

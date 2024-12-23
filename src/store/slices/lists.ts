@@ -15,10 +15,12 @@ import type { Card } from "../services/queries.types";
 import {
   isAssetFilter,
   isCostFilter,
+  isInvestigatorSkillsFilter,
   isLevelFilter,
   isMultiSelectFilter,
   isOwnershipFilter,
   isPropertiesFilter,
+  isRangeFilter,
   isSkillIconsFilter,
   isSubtypeFilter,
 } from "./lists.type-guards";
@@ -270,6 +272,16 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
         break;
       }
 
+      case "health":
+      case "sanity": {
+        assert(
+          isRangeFilter(payload),
+          `filter ${id} value must be an array of two numbers.`,
+        );
+        filterValues[id] = { ...filterValues[id], value: payload };
+        break;
+      }
+
       case "skillIcons": {
         assert(
           isSkillIconsFilter(payload),
@@ -279,6 +291,24 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
         const value = { ...currentValue, ...payload };
 
         filterValues[id] = { ...filterValues[id], value };
+        break;
+      }
+
+      case "investigatorSkills": {
+        assert(
+          isInvestigatorSkillsFilter(payload),
+          `filter ${id} value must be an object.`,
+        );
+        filterValues[id] = { ...filterValues[id], value: payload };
+        break;
+      }
+
+      case "investigatorCardAccess": {
+        assert(
+          isMultiSelectFilter(payload),
+          `filter ${id} value must be an array.`,
+        );
+        filterValues[id] = { ...filterValues[id], value: payload };
         break;
       }
     }
@@ -353,6 +383,7 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
       },
     });
   },
+
   setListViewMode(viewMode) {
     const state = get();
     assert(state.activeList, "no active list is defined.");
@@ -373,6 +404,7 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
       },
     });
   },
+
   addList(key, cardType, initialValues) {
     const state = get();
 
@@ -409,9 +441,10 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
 function makeSearch(): Search {
   return {
     value: "",
-    includeGameText: false,
-    includeFlavor: false,
     includeBacks: false,
+    includeFlavor: false,
+    includeGameText: false,
+    includeName: true,
   };
 }
 
@@ -477,6 +510,29 @@ function makeFilterValue(
       );
     }
 
+    case "health":
+    case "sanity": {
+      return makeFilterObject(
+        type,
+        isRangeFilter(initialValue) ? initialValue : undefined,
+      );
+    }
+
+    case "investigatorSkills": {
+      return makeFilterObject(
+        type,
+        isInvestigatorSkillsFilter(initialValue)
+          ? initialValue
+          : {
+              agility: undefined,
+              combat: undefined,
+              intellect: undefined,
+              willpower: undefined,
+            },
+      );
+    }
+
+    case "investigatorCardAccess":
     case "action":
     case "encounterSet":
     case "pack":
@@ -663,7 +719,14 @@ function makeInvestigatorCardsList(
   settings: SettingsState,
   { initialValues = {} as Partial<Record<FilterKey, unknown>> } = {},
 ): List {
-  const filters: FilterKey[] = ["faction", "trait"];
+  const filters: FilterKey[] = [
+    "faction",
+    "investigatorSkills",
+    "trait",
+    "health",
+    "sanity",
+    "investigatorCardAccess",
+  ];
 
   if (!settings.showAllCards) {
     filters.push("ownership");

@@ -1,3 +1,4 @@
+import type { SkillKey } from "@/utils/constants";
 import type { Filter } from "@/utils/fp";
 
 export type AssetFilter = {
@@ -60,17 +61,32 @@ export type SkillIconsFilter = {
   any: number | undefined;
 };
 
+export type HealthFilter = [number, number] | undefined;
+
+export type SanityFilter = [number, number] | undefined;
+
+export type InvestigatorSkillsFilter = Record<
+  Exclude<SkillKey, "wild">,
+  [number, number] | undefined
+>;
+
+export type InvestigatorCardAccessFilter = string[] | undefined;
+
 export type FilterMapping = {
   action: MultiselectFilter;
   asset: AssetFilter;
   cost: CostFilter;
   encounterSet: MultiselectFilter;
   faction: MultiselectFilter;
+  health: HealthFilter;
   investigator: SelectFilter;
+  investigatorCardAccess: InvestigatorCardAccessFilter;
+  investigatorSkills: InvestigatorSkillsFilter;
   level: LevelFilter;
   ownership: OwnershipFilter;
   pack: MultiselectFilter;
   properties: PropertiesFilter;
+  sanity: SanityFilter;
   skillIcons: SkillIconsFilter;
   subtype: SubtypeFilter;
   tabooSet: SelectFilter;
@@ -88,9 +104,10 @@ export type FilterObject<K extends FilterKey> = {
 
 export type Search = {
   value: string;
-  includeGameText: boolean;
-  includeFlavor: boolean;
   includeBacks: boolean;
+  includeFlavor: boolean;
+  includeGameText: boolean;
+  includeName: boolean;
 };
 
 export type GroupingType =

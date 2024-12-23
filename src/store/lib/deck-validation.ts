@@ -359,8 +359,8 @@ function validateSlots(
       continue;
     }
 
-    // TODO: move this out of the validator.
     // normalize duplicates to base version before checking access.
+    // right now, this is mostly still required for promo marie.
     const normalized = card.duplicate_of_code
       ? state.metadata.cards[card.duplicate_of_code]
       : card;
@@ -635,16 +635,9 @@ class DeckOptionsValidator implements SlotValidator {
     this.config = config;
     this.deckOptions = deckOptions;
 
-    this.playerCardFilter = filterInvestigatorAccess(
-      investigatorBack,
-      state.lookupTables,
-      config,
-    );
+    this.playerCardFilter = filterInvestigatorAccess(investigatorBack, config);
 
-    this.weaknessFilter = filterInvestigatorWeaknessAccess(
-      investigatorBack,
-      state.lookupTables,
-    );
+    this.weaknessFilter = filterInvestigatorWeaknessAccess(investigatorBack);
   }
 
   configure(
@@ -696,7 +689,11 @@ class DeckOptionsValidator implements SlotValidator {
     return {
       config: {
         selections: deck.selections,
-        ignoreUnselectedCustomizableOptions: true,
+        customizable: {
+          level: "actual",
+          properties: "actual",
+        },
+        investigatorFront: deck.investigatorFront.card,
         additionalDeckOptions,
         targetDeck: mode === "slots" ? "slots" : "extraSlots",
       },
@@ -730,9 +727,20 @@ class DeckOptionsValidator implements SlotValidator {
     ];
 
     if (this.forbidden.length) {
+      // since we normalize cards to their base version, a deck that contains
+      // several different versions will report the same, normalize card multiple times.
+      // dedupe here to avoid downstream issues.
+      const uniques = this.forbidden.reduce<Record<string, Card>>(
+        (acc, curr) => {
+          acc[curr.code] = curr;
+          return acc;
+        },
+        {},
+      );
+
       errors.push({
         type: "FORBIDDEN" as const,
-        details: this.forbidden.map((card) => ({
+        details: Object.values(uniques).map((card) => ({
           code: card.code,
           real_name: card.real_name,
           target:
@@ -817,11 +825,7 @@ class DeckOptionsValidator implements SlotValidator {
       const option = options[i];
       if (option.atleast || option.not) continue;
 
-      const filter = makeOptionFilter(
-        option as DeckOption,
-        this.lookupTables,
-        this.config,
-      );
+      const filter = makeOptionFilter(option as DeckOption, this.config);
 
       let matchCount = 0;
 

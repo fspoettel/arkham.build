@@ -1,4 +1,4 @@
-import { Page, expect, test } from "@playwright/test";
+import { type Page, expect, test } from "@playwright/test";
 import { fillSearch } from "./actions";
 import { mockApiCalls } from "./mocks";
 
@@ -21,17 +21,17 @@ test.describe("card view: display", () => {
 
     await cardVisible(page, "90024", "parallel");
 
-    await cardVisible(page, "01006", "required");
-    await cardVisible(page, "01007", "required");
+    await cardVisible(page, "01006", "requiredCards");
+    await cardVisible(page, "01007", "requiredCards");
 
     await cardVisible(page, "90030", "advanced");
     await cardVisible(page, "90031", "advanced");
 
-    await cardVisible(page, "90025", "parallel-cards");
-    await cardVisible(page, "90026", "parallel-cards");
-    await cardVisible(page, "90027", "parallel-cards");
-    await cardVisible(page, "90028", "parallel-cards");
-    await cardVisible(page, "90029", "parallel-cards");
+    await cardVisible(page, "90025", "parallelCards");
+    await cardVisible(page, "90026", "parallelCards");
+    await cardVisible(page, "90027", "parallelCards");
+    await cardVisible(page, "90028", "parallelCards");
+    await cardVisible(page, "90029", "parallelCards");
 
     await cardVisible(page, "98005", "replacement");
     await cardVisible(page, "98006", "replacement");
@@ -51,7 +51,7 @@ test.describe("card view: display", () => {
     await page.getByTestId("card-98005").getByTestId("card-name").click();
 
     await cardVisible(page, "98005");
-    await cardVisible(page, "01001", "restricted-to");
+    await cardVisible(page, "01001", "restrictedTo");
   });
 
   test("renders upgrade/bonded relations on player cards", async ({ page }) => {

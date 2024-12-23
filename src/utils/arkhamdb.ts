@@ -1,3 +1,4 @@
+import { PreviewPublishError } from "@/store/lib/errors";
 import type { ResolvedDeck } from "@/store/lib/types";
 
 export function redirectArkhamDBLinks(evt: React.MouseEvent) {
@@ -33,14 +34,6 @@ export function assertCanPublishDeck(deck: ResolvedDeck) {
   }).filter((c) => c.card.preview);
 
   if (previews.length) {
-    const names = previews
-      .map(
-        (c) =>
-          `${c.card.real_name}${c.card.xp != null ? ` (${c.card.xp})` : ""}`,
-      )
-      .join(", ");
-    throw new Error(
-      `Deck contains preview cards: ${names}. Please remove them before uploading to ArkhamDB`,
-    );
+    throw new PreviewPublishError(previews);
   }
 }

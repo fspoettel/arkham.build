@@ -1,3 +1,4 @@
+import { ListLayoutContextProvider } from "@/layouts/list-layout-context-provider";
 import { ListLayoutNoSidebar } from "@/layouts/list-layout-no-sidebar";
 import { useStore } from "@/store";
 import type { Card } from "@/store/services/queries.types";
@@ -46,22 +47,24 @@ function UsableCardsList(props: { card: Card }) {
   if (!activeList) return null;
 
   return (
-    <ListLayoutNoSidebar
-      titleString={`Cards usable by ${card.parallel ? "Parallel " : ""}${card.real_name}`}
-      title={
-        <>
-          Cards usable by{" "}
-          {card.parallel ? (
-            <>
-              <i className="icon-parallel" />{" "}
-            </>
-          ) : (
-            ""
-          )}
-          {card.real_name}
-        </>
-      }
-    />
+    <ListLayoutContextProvider>
+      <ListLayoutNoSidebar
+        titleString={`Cards usable by ${card.parallel ? "Parallel " : ""}${card.real_name}`}
+        title={
+          <>
+            Cards usable by{" "}
+            {card.parallel ? (
+              <>
+                <i className="icon-parallel" />{" "}
+              </>
+            ) : (
+              ""
+            )}
+            {card.real_name}
+          </>
+        }
+      />
+    </ListLayoutContextProvider>
   );
 }
 

@@ -1,7 +1,8 @@
 import { assert } from "@/utils/assert";
-import { randomId } from "@/utils/crypto";
 import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
+import { applyDeckEdits } from "../lib/deck-edits";
+import { cloneDeck } from "../lib/deck-factory";
 import { formatDeckImport } from "../lib/deck-io";
 import { selectClientId } from "../selectors/shared";
 import { importDeck } from "../services/queries";
@@ -83,29 +84,17 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
     });
   },
 
-  duplicateDeck(id) {
+  duplicateDeck(id, options) {
     const state = get();
 
     const deck = state.data.decks[id];
     assert(deck, `Deck ${id} does not exist.`);
 
-    const now = new Date().toISOString();
-
-    const newDeck: Deck = {
-      ...structuredClone(deck),
-      id: randomId(),
-      name: `(Copy) ${deck.name}`,
-      date_creation: now,
-      date_update: now,
-      exile_string: null,
-      next_deck: null,
-      previous_deck: null,
-      version: "0.1",
-      source: undefined,
-      xp: null,
-      xp_adjustment: null,
-      xp_spent: null,
-    };
+    const newDeck = options?.applyEdits
+      ? cloneDeck(
+          applyDeckEdits(deck, state.deckEdits[id], state.metadata, true),
+        )
+      : cloneDeck(deck);
 
     set({
       data: {

@@ -33,8 +33,8 @@ export type DeckCreateSlice = {
   deckCreateSetTitle: (value: string) => void;
   deckCreateToggleCardSet: (value: string) => void;
   deckCreateSetInvestigatorCode: (
-    side: "front" | "back",
     value: string,
+    side?: "front" | "back",
   ) => void;
   deckCreateSetCardPool: (value: string[]) => void;
   deckCreateSetSealed: (payload: SealedDeck | undefined) => void;

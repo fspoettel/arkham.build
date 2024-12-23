@@ -28,7 +28,7 @@ export function CardText(props: Props) {
           }}
         />
       )}
-      {!!victory && (
+      {victory != null && (
         <p>
           <b>Victory {victory}.</b>
         </p>

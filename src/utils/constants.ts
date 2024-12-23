@@ -1,3 +1,5 @@
+import localPacks from "@/store/services/data/packs.json";
+
 export const FLOATING_PORTAL_ID = "floating";
 
 export const ISSUE_URL =
@@ -7,7 +9,7 @@ export const REGEX_SKILL_BOOST = /\+\d+?\s\[(.+?)\]/g;
 
 export const REGEX_USES = /Uses\s\(\d+?\s(\w+?)\)/;
 
-export const REGEX_BONDED = /^Bonded\s\((.*?)\)(\.|\s)/;
+export const REGEX_BONDED = /Bonded\s\((.*?)\)(\.|\s)/;
 
 export const REGEX_SUCCEED_BY =
   /succe(ssful|ed(?:s?|ed?))(:? at a skill test)? by(?! 0)/;
@@ -122,6 +124,7 @@ export const ALT_ART_INVESTIGATOR_MAP = {
   "98010": "05001",
   "98013": "07005",
   "98016": "07004",
+  "98019": "11014",
   "99001": "05006",
 };
 
@@ -193,6 +196,7 @@ export const SPECIAL_CARD_CODES = {
 export const CARD_SET_ORDER = [
   "base",
   "parallel",
+  "otherVersions",
   "requiredCards",
   "advanced",
   "replacement",
@@ -262,3 +266,9 @@ export const DECK_SIZE_ADJUSTMENTS = {
 
 export const MQ_FLOATING_SIDEBAR = "(max-width: 52rem)";
 export const MQ_FLOATING_FILTERS = "(max-width: 75rem)";
+
+export const PREVIEW_PACKS = localPacks
+  .filter((p) => p.release_date && new Date() < new Date(p.release_date))
+  .map((pack) => pack.code);
+
+export const NO_SLOT_STRING = "No slot";

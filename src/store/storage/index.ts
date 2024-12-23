@@ -30,27 +30,27 @@ export function migrate(persisted: StoreState, version: number): StoreState {
   const state = structuredClone(persisted);
 
   if (version < 2) {
-    console.debug("[persist] migrate store: ", version);
+    console.debug("[persist] migrate store: ", 2);
     v1Tov2(state, version);
   }
 
   if (version < 3) {
-    console.debug("[persist] migrate store: ", version);
+    console.debug("[persist] migrate store: ", 3);
     v2Tov3(state, version);
   }
 
   if (version < 4) {
-    console.debug("[persist] migrate store: ", version);
+    console.debug("[persist] migrate store: ", 4);
     v3Tov4(state, version);
   }
 
   if (version < 5) {
-    console.debug("[persist] migrate store: ", version);
+    console.debug("[persist] migrate store: ", 5);
     v4Tov5(state, version);
   }
 
   if (version < 6) {
-    console.debug("[persist] migrate store: ", version);
+    console.debug("[persist] migrate store: ", 6);
     v5toV6(state, version);
   }
 

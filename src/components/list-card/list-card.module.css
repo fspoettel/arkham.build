@@ -23,6 +23,15 @@
     "empty after";
 }
 
+.listcard-wrapper.removed {
+  opacity: 0.33;
+
+  &:hover {
+    opacity: 1;
+    transition: opacity 0.2s;
+  }
+}
+
 .listcard-after {
   grid-area: after;
 }

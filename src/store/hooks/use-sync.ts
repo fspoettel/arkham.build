@@ -1,13 +1,21 @@
 import { useToast } from "@/components/ui/toast.hooks";
+import { isEmpty } from "@/utils/is-empty";
 import { useCallback } from "react";
 import { useStore } from "..";
+import { selectConnections, selectSyncHealthy } from "../selectors/connections";
 
 export function useSync() {
   const toast = useToast();
 
   const sync = useStore((state) => state.sync);
 
+  const connections = useStore(selectConnections);
+  const connectionsEmpty = isEmpty(connections);
+  const syncHealthy = useStore(selectSyncHealthy);
+
   const onSync = useCallback(async () => {
+    if (!syncHealthy || connectionsEmpty) return;
+
     const toastId = toast.show({
       children: "Syncing with ArkhamDB...",
       variant: "loading",
@@ -32,7 +40,7 @@ export function useSync() {
       });
       throw err;
     }
-  }, [sync, toast]);
+  }, [connectionsEmpty, sync, syncHealthy, toast]);
 
   return onSync;
 }

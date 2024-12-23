@@ -12,23 +12,27 @@ type Props = {
 export function CollapseSidebarButton(props: Props) {
   const { className, orientation = "left", onClick } = props;
   return (
-    // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-    <div
-      className={cx(css["collapse-container"], css[orientation], className)}
-      onClick={onClick}
-    >
-      <div className={cx(css["highlight"])} />
-      <Button
-        data-testid="sidebar-collapse-button"
-        tooltip="Collapse sidebar"
-        onClick={onClick}
-        round
-        iconOnly
-        tabIndex={-1}
-        className={css["button"]}
-      >
-        {orientation === "left" ? <ChevronsLeftIcon /> : <ChevronsRightIcon />}
-      </Button>
+    <div className={cx(css["collapse-container"], css[orientation], className)}>
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents: not relevant. */}
+      <div className={css["collapse-inner"]} onClick={onClick}>
+        <div className={cx(css["highlight"])} />
+        <Button
+          data-testid="sidebar-collapse-button"
+          tooltip="Collapse sidebar"
+          onClick={onClick}
+          iconOnly
+          round
+          tabIndex={-1}
+          size="sm"
+          className={css["button"]}
+        >
+          {orientation === "left" ? (
+            <ChevronsLeftIcon />
+          ) : (
+            <ChevronsRightIcon />
+          )}
+        </Button>
+      </div>
     </div>
   );
 }

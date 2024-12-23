@@ -49,7 +49,7 @@ function fuzzyMatch<T extends Coded>(
   return items.filter((_, i) => matches[i]);
 }
 
-type Props<T extends Coded> = {
+export type Props<T extends Coded> = {
   autoFocus?: boolean;
   className?: string;
   disabled?: boolean;
@@ -138,11 +138,11 @@ export function Combobox<T extends Coded>(props: Props<T>) {
 
       onValueChange?.(next);
 
-      const ref = refs.reference.current;
-
       if (limit && next.length >= limit) {
         setOpen(false);
       }
+
+      const ref = refs.reference.current;
 
       if (ref instanceof HTMLInputElement) {
         setInputValue("");

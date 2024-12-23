@@ -3,7 +3,10 @@ import {
   ASSET_SLOT_ORDER,
   FACTION_ORDER,
   type FactionName,
+  NO_SLOT_STRING,
+  PREVIEW_PACKS,
   SKILL_KEYS,
+  type SkillKey,
 } from "@/utils/constants";
 import { createCustomEqualSelector } from "@/utils/custom-equal-selector";
 import { capitalize, formatTabooSet } from "@/utils/formatting";
@@ -17,10 +20,15 @@ import { getAdditionalDeckOptions } from "../lib/deck-validation";
 import {
   filterActions,
   filterAssets,
+  filterBacksides,
   filterCost,
+  filterDuplicates,
+  filterEncounterCards,
   filterEncounterCode,
   filterFactions,
+  filterHealthProp,
   filterInvestigatorAccess,
+  filterInvestigatorSkills,
   filterInvestigatorWeaknessAccess,
   filterLevel,
   filterMythosCards,
@@ -49,6 +57,7 @@ import type { StoreState } from "../slices";
 import type {
   AssetFilter,
   CostFilter,
+  InvestigatorSkillsFilter,
   LevelFilter,
   List,
   MultiselectFilter,
@@ -84,6 +93,7 @@ function makeUserFilter(
   metadata: Metadata,
   lookupTables: LookupTables,
   list: List,
+  resolvedDeck?: ResolvedDeck,
   targetDeck?: "slots" | "extraSlots" | "both",
 ) {
   const filters: Filter[] = [];
@@ -133,16 +143,15 @@ function makeUserFilter(
 
         if (value) {
           const filter = [];
-          const accessFilter = filterInvestigatorAccess(
-            metadata.cards[value],
-            lookupTables,
-            {
-              targetDeck,
+          const accessFilter = filterInvestigatorAccess(metadata.cards[value], {
+            customizable: {
+              properties: "all",
+              level: "all",
             },
-          );
+            targetDeck,
+          });
           const weaknessFilter = filterInvestigatorWeaknessAccess(
             metadata.cards[value],
-            lookupTables,
             { targetDeck },
           );
 
@@ -157,7 +166,26 @@ function makeUserFilter(
 
       case "level": {
         const value = filterValue.value as LevelFilter;
-        if (value.range) filters.push(filterLevel(value));
+
+        if (value.range) {
+          if (resolvedDeck) {
+            filters.push(
+              filterLevel(value, resolvedDeck?.investigatorBack?.card),
+            );
+          } else {
+            const filterIndex = list.filters.findIndex(
+              (f) => f === "investigator",
+            );
+            const filterValue = filterIndex
+              ? list.filterValues[filterIndex]?.value
+              : undefined;
+            const investigator = filterValue
+              ? metadata.cards[filterValue as string]
+              : undefined;
+            filters.push(filterLevel(value, investigator));
+          }
+        }
+
         break;
       }
 
@@ -190,14 +218,51 @@ function makeUserFilter(
 
       case "trait": {
         const value = filterValue.value as MultiselectFilter;
-        if (value.length)
-          filters.push(filterTraits(value, lookupTables.traits));
+        if (value.length) filters.push(filterTraits(value));
         break;
       }
 
       case "type": {
         const value = filterValue.value as MultiselectFilter;
         if (value.length) filters.push(filterType(value));
+        break;
+      }
+
+      case "health":
+      case "sanity": {
+        const value = filterValue.value as [number, number] | undefined;
+        if (value) {
+          filters.push(filterHealthProp(value, false, filterValue.type));
+        }
+        break;
+      }
+
+      case "investigatorSkills": {
+        const value = filterValue.value as InvestigatorSkillsFilter;
+        filters.push(filterInvestigatorSkills(value));
+        break;
+      }
+
+      case "investigatorCardAccess": {
+        const value = filterValue.value as MultiselectFilter;
+        if (value.length) {
+          const filter = (card: Card) => {
+            if (card.type_code !== "investigator") return false;
+
+            const filter = filterInvestigatorAccess(card, {
+              customizable: {
+                properties: "all",
+                level: "all",
+              },
+              targetDeck: "both",
+            });
+
+            if (!filter) return false;
+            return value.every((code) => filter(metadata.cards[code]));
+          };
+
+          filters.push(filter);
+        }
         break;
       }
 
@@ -316,8 +381,8 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
   ) => {
     if (!resolvedDeck) return undefined;
 
-    const investigator = resolvedDeck.investigatorBack.card;
-    if (!investigator) return undefined;
+    const investigatorBack = resolvedDeck.investigatorBack.card;
+    if (!investigatorBack) return undefined;
 
     if (showUnusableCards) {
       return and([
@@ -333,23 +398,20 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
 
     const ors = [];
 
-    const investigatorFilter = filterInvestigatorAccess(
-      investigator,
-      lookupTables,
-      {
-        additionalDeckOptions: getAdditionalDeckOptions(resolvedDeck),
-        selections: resolvedDeck.selections,
-        targetDeck,
+    const investigatorFilter = filterInvestigatorAccess(investigatorBack, {
+      additionalDeckOptions: getAdditionalDeckOptions(resolvedDeck),
+      customizable: {
+        properties: "all",
+        level: "all",
       },
-    );
+      investigatorFront: resolvedDeck.investigatorFront.card,
+      selections: resolvedDeck.selections,
+      targetDeck,
+    });
 
-    const weaknessFilter = filterInvestigatorWeaknessAccess(
-      investigator,
-      lookupTables,
-      {
-        targetDeck,
-      },
-    );
+    const weaknessFilter = filterInvestigatorWeaknessAccess(investigatorBack, {
+      targetDeck,
+    });
 
     if (investigatorFilter) ors.push(investigatorFilter);
     if (weaknessFilter) ors.push(weaknessFilter);
@@ -441,11 +503,24 @@ const selectBaseListCards = createSelector(
         const value = ownershipFilter.value as OwnershipFilter;
         if (value !== "all") {
           filters.push((card: Card) => {
+            const collection = settings.showPreviews
+              ? {
+                  ...settings.collection,
+                  ...PREVIEW_PACKS.reduce(
+                    (acc, code) => {
+                      acc[code] = 1;
+                      return acc;
+                    },
+                    {} as Record<string, number>,
+                  ),
+                }
+              : settings.collection;
+
             const ownership = filterOwnership(
               card,
               metadata,
               lookupTables,
-              settings.collection,
+              collection,
               false,
             );
             return value === "owned" ? ownership : !ownership;
@@ -479,7 +554,20 @@ export const selectListCards = createSelector(
   (state: StoreState) => state.lookupTables,
   selectActiveList,
   selectBaseListCards,
-  (metadata, lookupTables, activeList, _filteredCards) => {
+  (_: StoreState, resolvedDeck?: ResolvedDeck) => resolvedDeck,
+  (
+    _: StoreState,
+    __: ResolvedDeck,
+    targetDeck: "slots" | "extraSlots" | "both",
+  ) => targetDeck,
+  (
+    metadata,
+    lookupTables,
+    activeList,
+    _filteredCards,
+    resolvedDeck,
+    targetDeck,
+  ) => {
     if (!_filteredCards || !activeList) return undefined;
 
     time("select_list_cards");
@@ -494,7 +582,14 @@ export const selectListCards = createSelector(
     const totalCardCount = filteredCards.length;
 
     // apply user filters.
-    const filter = makeUserFilter(metadata, lookupTables, activeList);
+    const filter = makeUserFilter(
+      metadata,
+      lookupTables,
+      activeList,
+      resolvedDeck,
+      targetDeck,
+    );
+
     if (filter) filteredCards = filteredCards.filter(filter);
 
     const cards: Card[] = [];
@@ -557,9 +652,17 @@ const selectListFilterProperties = createSelector(
   (actionTable, cards) => {
     time("select_card_list_properties");
 
-    const cost = { min: 0, max: 0 };
-    const health = { min: 0, max: 0 };
-    const sanity = { min: 0, max: 0 };
+    const cost = { min: Number.MAX_SAFE_INTEGER, max: 0 };
+    const health = { min: Number.MAX_SAFE_INTEGER, max: 0 };
+    const sanity = { min: Number.MAX_SAFE_INTEGER, max: 0 };
+
+    const skills = SKILL_KEYS.reduce(
+      (acc, key) => {
+        acc[key as SkillKey] = { min: Number.MAX_SAFE_INTEGER, max: 0 };
+        return acc;
+      },
+      {} as Record<SkillKey, { min: number; max: number }>,
+    );
 
     const actions: Set<string> = new Set();
     const traits: Set<string> = new Set();
@@ -582,6 +685,17 @@ const selectListFilterProperties = createSelector(
         if (card.sanity != null && card.sanity >= 0) {
           sanity.min = Math.min(sanity.min, card.sanity);
           sanity.max = Math.max(sanity.max, card.sanity);
+        }
+
+        for (const _skill of Object.keys(skills)) {
+          const skill = _skill as SkillKey;
+
+          const value = card[`skill_${skill}`];
+
+          if (skills[skill] && value != null && value >= 0) {
+            skills[skill].min = Math.min(skills[skill].min, value);
+            skills[skill].max = Math.max(skills[skill].max, value);
+          }
         }
 
         for (const trait of splitMultiValue(card.real_traits)) {
@@ -613,6 +727,7 @@ const selectListFilterProperties = createSelector(
       cost,
       health,
       sanity,
+      skills,
       traits,
       types,
     };
@@ -637,6 +752,13 @@ export const selectMultiselectChanges = (value: MultiselectFilter) => {
   return value.map(capitalize).join(" or ");
 };
 
+function formatHealthChanges(value: [number, number] | undefined, key: string) {
+  if (!value) return "";
+  let s = `${value[0]}`;
+  if (value[1] !== value[0]) s = `${s}-${value[1]}`;
+  return `${key}: ${s}`;
+}
+
 /**
  * Asset
  */
@@ -657,7 +779,10 @@ export const selectAssetOptions = createSelector(
       health: filterProps.health,
       sanity: filterProps.sanity,
       uses,
-      slots: ASSET_SLOT_ORDER.map((code) => ({ code })),
+      slots: [
+        { code: NO_SLOT_STRING },
+        ...ASSET_SLOT_ORDER.map((code) => ({ code })),
+      ],
       skillBoosts,
     };
   },
@@ -678,27 +803,8 @@ export const selectAssetChanges = (value: AssetFilter) => {
       : `${acc} or ${capitalize(key)}`;
   }, "");
 
-  let healthFilter = "";
-
-  if (value.health) {
-    let s = `${value.health[0]}`;
-    if (value.health[1] !== value.health[0]) {
-      s = `${s}-${value.health[1]}`;
-    }
-    healthFilter = `Health: ${s}`;
-  }
-
-  let sanityFilter = "";
-
-  if (value.sanity) {
-    let s = `${value.sanity[0]}`;
-
-    if (value.sanity[1] !== value.sanity[0]) {
-      s = `${s}-${value.sanity[1]}`;
-    }
-
-    sanityFilter = `Sanity: ${s}`;
-  }
+  const healthFilter = formatHealthChanges(value.health, "Health");
+  const sanityFilter = formatHealthChanges(value.sanity, "Sanity");
 
   return [slot, uses, skillBoosts, sanityFilter, healthFilter]
     .filter((x) => x)
@@ -774,6 +880,19 @@ export const selectFactionOptions = createSelector(
 );
 
 /**
+ * Health
+ */
+
+export const selectHealthMinMax = createSelector(
+  selectListFilterProperties,
+  ({ health }) => health,
+);
+
+export const selectHealthChanges = (value: [number, number] | undefined) => {
+  return formatHealthChanges(value, "Health");
+};
+
+/**
  * Investigator
  */
 
@@ -816,6 +935,59 @@ export const selectInvestigatorChanges = createSelector(
       : value.toString();
   },
 );
+
+/**
+ * Investigator Card Access
+ */
+
+export const selectCardOptions = createSelector(
+  (state: StoreState) => state.metadata,
+  (metadata) => {
+    const sortFn = makeSortFunction(["name", "level"], metadata);
+
+    return Object.values(metadata.cards)
+      .filter((card) => {
+        return (
+          !filterEncounterCards(card) &&
+          filterMythosCards(card) &&
+          filterDuplicates(card) &&
+          filterBacksides(card) &&
+          card.type_code !== "investigator" &&
+          !card.subtype_code
+        );
+      })
+      .sort(sortFn);
+  },
+);
+
+export const selectInvestigatorCardAccessChanges = (
+  value: MultiselectFilter,
+) => {
+  if (!value.length) return "";
+  return `${value.length} cards`;
+};
+
+/**
+ * Investigator Skill Icons
+ */
+
+export const selectSkillIconsMinMax = createSelector(
+  selectListFilterProperties,
+  ({ skills }) => skills,
+);
+
+export const selectInvestigatorSkillIconsChanges = (
+  value?: InvestigatorSkillsFilter,
+) => {
+  if (!value) return "";
+
+  return Object.entries(value).reduce((acc, [key, val]) => {
+    if (!val) return acc;
+
+    const s = `${val[0]}-${val[1]} ${capitalize(key)}`;
+    return acc ? `${acc} and ${s}` : s;
+  }, "");
+};
 
 /**
  * Level
@@ -928,6 +1100,44 @@ export const selectPropertiesChanges = (value: PropertiesFilter) => {
 };
 
 /**
+ * Sanity
+ */
+
+export const selectSanityMinMax = createSelector(
+  selectListFilterProperties,
+  ({ sanity }) => sanity,
+);
+
+export const selectSanityChanges = (value: [number, number] | undefined) => {
+  return formatHealthChanges(value, "Sanity");
+};
+/**
+ * Search
+ */
+
+export const selectActiveListSearch = createSelector(
+  selectActiveList,
+  (list) => list?.search,
+);
+
+export const selectResolvedCardById = createSelector(
+  (state: StoreState) => state.metadata,
+  (state: StoreState) => state.lookupTables,
+  (_: StoreState, code: string) => code,
+  (_: StoreState, __: string, resolvedDeck?: ResolvedDeck) => resolvedDeck,
+  (metadata, lookupTables, code, resolvedDeck) => {
+    return resolveCardWithRelations(
+      metadata,
+      lookupTables,
+      code,
+      resolvedDeck?.taboo_id,
+      resolvedDeck?.customizations,
+      true,
+    );
+  },
+);
+
+/**
  * Skill Icons
  */
 
@@ -938,6 +1148,37 @@ export const selectSkillIconsChanges = (value: SkillIconsFilter) => {
     return acc ? `${acc} and ${s}` : s;
   }, "");
 };
+
+/**
+ * Subtype
+ */
+
+const subtypeLabels: Record<string, string> = {
+  none: "None",
+  weakness: "Weakness",
+  basicweakness: "Basic weakness",
+};
+
+export function selectSubtypeOptions() {
+  return [
+    { code: "none", name: "None" },
+    { code: "weakness", name: "Weakness" },
+    { code: "basicweakness", name: "Basic weakness" },
+  ];
+}
+
+export const selectSubtypeChanges = createSelector(
+  (_: StoreState, value: SubtypeFilter) => value,
+  (value) => {
+    const options = Object.entries(value);
+    const enabled = options.filter(([, value]) => !!value);
+
+    if (enabled.length === 0) return "None";
+    if (enabled.length === options.length) return "";
+
+    return enabled.map(([key]) => subtypeLabels[key]).join(" or ");
+  },
+);
 
 /**
  * Taboo Set
@@ -984,37 +1225,6 @@ export const selectTraitOptions = createSelector(
 );
 
 /**
- * Subtype
- */
-
-const subtypeLabels: Record<string, string> = {
-  none: "None",
-  weakness: "Weakness",
-  basicweakness: "Basic weakness",
-};
-
-export function selectSubtypeOptions() {
-  return [
-    { code: "none", name: "None" },
-    { code: "weakness", name: "Weakness" },
-    { code: "basicweakness", name: "Basic weakness" },
-  ];
-}
-
-export const selectSubtypeChanges = createSelector(
-  (_: StoreState, value: SubtypeFilter) => value,
-  (value) => {
-    const options = Object.entries(value);
-    const enabled = options.filter(([, value]) => !!value);
-
-    if (enabled.length === 0) return "None";
-    if (enabled.length === options.length) return "";
-
-    return enabled.map(([key]) => subtypeLabels[key]).join(" or ");
-  },
-);
-
-/**
  * Type
  */
 
@@ -1025,30 +1235,4 @@ export const selectTypeOptions = createSelector(
     Array.from(types)
       .sort()
       .map((code) => typeTable[code]),
-);
-
-/**
- * Search
- */
-
-export const selectActiveListSearch = createSelector(
-  selectActiveList,
-  (list) => list?.search,
-);
-
-export const selectResolvedCardById = createSelector(
-  (state: StoreState) => state.metadata,
-  (state: StoreState) => state.lookupTables,
-  (_: StoreState, code: string) => code,
-  (_: StoreState, __: string, resolvedDeck?: ResolvedDeck) => resolvedDeck,
-  (metadata, lookupTables, code, resolvedDeck) => {
-    return resolveCardWithRelations(
-      metadata,
-      lookupTables,
-      code,
-      resolvedDeck?.taboo_id,
-      resolvedDeck?.customizations,
-      true,
-    );
-  },
 );

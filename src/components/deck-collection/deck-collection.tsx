@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/popover";
 import { Scroller } from "@/components/ui/scroller";
 import { useToast } from "@/components/ui/toast.hooks";
+import { useListLayoutContext } from "@/layouts/list-layout-context";
 import { useStore } from "@/store";
 import { selectConnections } from "@/store/selectors/connections";
 import { selectDecksDisplayList } from "@/store/selectors/deck-filters";
@@ -38,7 +39,7 @@ export function DeckCollection() {
 
   const importDecks = useStore((state) => state.importFromFiles);
   const deleteAllDecks = useStore((state) => state.deleteAllDecks);
-  const setSidebarOpen = useStore((state) => state.setSidebarOpen);
+  const { setSidebarOpen } = useListLayoutContext();
 
   const onCloseSidebar = useCallback(() => {
     setSidebarOpen(false);

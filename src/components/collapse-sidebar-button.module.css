@@ -1,30 +1,48 @@
 .collapse-container {
+  --size: 0.625rem;
   height: 100%;
   position: absolute;
   top: 0;
-  display: flex;
-  align-items: center;
   z-index: 4;
   cursor: pointer;
   opacity: 0;
   transition: all 0.2s;
+  width: var(--size);
+  transition-behavior: allow-discrete;
 
   &.right {
-    /* Half the size of the button: .5 svg width + padding + border */
-    left: calc(0px - 0.5em - 0.375rem - 1px);
+    left: calc(1px + var(--size) * -1);
   }
 
   &.left {
-    right: calc(0px - 0.5em - 0.375rem - 1px);
+    right: calc(1px + var(--size) * -1);
   }
 
   & svg {
     max-width: fit-content;
   }
 
+  &:not(:hover) > * {
+    display: none;
+  }
+
   &:hover {
     opacity: 1;
   }
+}
+
+@starting-style {
+  .collapse-container {
+    opacity: 0;
+  }
+}
+
+.collapse-inner {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .highlight {
@@ -38,12 +56,28 @@
   width: 1px;
   transition: 0.3s;
   position: absolute;
-  left: 0;
-  right: 0;
   margin: auto;
   z-index: -1;
 }
 
+.left .highlight {
+  left: 1px;
+}
+
+.right .highlight {
+  right: 1px;
+}
+
 .button {
   box-shadow: -1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  left: 0;
+}
+
+.left .button {
+  transform: translateX(calc(-50% + 2px));
+}
+
+.right .button {
+  transform: translateX(calc(-50% + var(--size) - 1px));
 }

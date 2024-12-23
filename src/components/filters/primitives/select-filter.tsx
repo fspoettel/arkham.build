@@ -1,6 +1,6 @@
-import { useStore } from "@/store";
 import { useCallback } from "react";
 import { FilterContainer } from "./filter-container";
+import { useFilterCallbacks } from "./filter-hooks";
 
 type Props<T, V extends number | string | undefined> = {
   id: number;
@@ -19,30 +19,17 @@ export function SelectFilter<T, V extends number | string | undefined>(
   const { changes, mapValue, id, options, renderOption, open, title, value } =
     props;
 
-  const setFilterValue = useStore((state) => state.setFilterValue);
-  const setFilterOpen = useStore((state) => state.setFilterOpen);
-  const resetFilter = useStore((state) => state.resetFilter);
+  const { onReset, onOpenChange, onChange } = useFilterCallbacks<V>(id);
 
-  const onReset = useCallback(() => {
-    resetFilter(id);
-  }, [resetFilter, id]);
-
-  const onOpenChange = useCallback(
-    (val: boolean) => {
-      setFilterOpen(id, val);
-    },
-    [setFilterOpen, id],
-  );
-
-  const onChange = useCallback(
+  const onValueChange = useCallback(
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
       if (evt.target instanceof HTMLSelectElement) {
         const val = evt.target.value;
-        const mapped = mapValue ? mapValue(val) : val;
-        setFilterValue(id, mapped);
+        const mapped = mapValue ? mapValue(val) : (val as V);
+        onChange(mapped);
       }
     },
-    [id, setFilterValue, mapValue],
+    [mapValue, onChange],
   );
 
   return (
@@ -53,7 +40,11 @@ export function SelectFilter<T, V extends number | string | undefined>(
       open={open}
       title={title}
     >
-      <select onChange={onChange} value={value ?? ""}>
+      <select
+        onChange={onValueChange}
+        data-testid={`filter-${title}-input`}
+        value={value ?? ""}
+      >
         <option value="">All cards</option>
         {options.map(renderOption)}
       </select>

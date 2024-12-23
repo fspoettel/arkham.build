@@ -1,14 +1,21 @@
-import { cardLevel, splitMultiValue } from "@/utils/card-utils";
+import { cardLevel, cardUses, splitMultiValue } from "@/utils/card-utils";
 import type { SkillKey } from "@/utils/constants";
-import { SKILL_KEYS, SPECIAL_CARD_CODES } from "@/utils/constants";
+import {
+  NO_SLOT_STRING,
+  REGEX_BONDED,
+  SKILL_KEYS,
+  SPECIAL_CARD_CODES,
+} from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
 import type { Filter } from "@/utils/fp";
 import { and, not, notUnless, or } from "@/utils/fp";
 import { isEmpty } from "@/utils/is-empty";
+import { range } from "@/utils/range";
 import type { Card, DeckOption } from "../services/queries.types";
 import type {
   AssetFilter,
   CostFilter,
+  InvestigatorSkillsFilter,
   LevelFilter,
   MultiselectFilter,
   PropertiesFilter,
@@ -68,16 +75,15 @@ export function filterActions(
     filters.push((c: Card) => !!actionTable[key][c.code]);
   }
 
-  const filter = or(filters);
-  return (card: Card) => filter(card);
+  return or(filters);
 }
 
 /**
  * Asset
  */
 
-function filterUses(uses: string, usesTable: LookupTables["uses"]) {
-  return (card: Card) => !!usesTable[uses]?.[card.code];
+function filterUses(uses: string) {
+  return (card: Card) => cardUses(card) === uses;
 }
 
 function filterSkillBoost(
@@ -88,21 +94,22 @@ function filterSkillBoost(
 }
 
 function filterSlots(slot: string) {
-  return (card: Card) => !!card.real_slot?.includes(slot);
+  return (card: Card) => {
+    return slot === NO_SLOT_STRING
+      ? card.type_code === "asset" && !card.real_slot
+      : !!card.real_slot?.includes(slot);
+  };
 }
 
-function filterHealthProp(
+export function filterHealthProp(
   minMax: [number, number],
   healthX: boolean,
   key: "health" | "sanity",
 ) {
   return (card: Card) => {
     if (card.health === -2) return healthX;
-
     const health = card[key] ?? 0;
-    return (
-      card.type_code === "asset" && health >= minMax[0] && health <= minMax[1]
-    );
+    return health >= minMax[0] && health <= minMax[1];
   };
 }
 
@@ -125,9 +132,7 @@ export function filterAssets(value: AssetFilter, lookupTables: LookupTables) {
   }
 
   if (value.uses.length) {
-    const usesFilters: Filter[] = value.uses.map((key) =>
-      filterUses(key, lookupTables.uses),
-    );
+    const usesFilters: Filter[] = value.uses.map((key) => filterUses(key));
     filters.push(or(usesFilters));
   }
 
@@ -185,9 +190,7 @@ export function filterCost(filterState: CostFilter) {
   if (filterState.x) altCostFilters.push(filterXCost);
   if (filterState.nocost) altCostFilters.push(filterNoCost);
 
-  const filter = or([...altCostFilters, and(filters)]);
-
-  return (card: Card) => filter(card);
+  return or([...altCostFilters, and(filters)]);
 }
 
 /**
@@ -201,8 +204,7 @@ export function filterEncounterCode(filterState: MultiselectFilter) {
     filters.push((c: Card) => c.encounter_code === key);
   }
 
-  const filter = or(filters);
-  return (card: Card) => filter(card);
+  return or(filters);
 }
 
 /**
@@ -232,8 +234,7 @@ export function filterFactions(factions: string[]) {
     }
   }
 
-  const filter = and([or(ors), ...ands]);
-  return (card: Card) => filter(card);
+  return and([or(ors), ...ands]);
 }
 
 /**
@@ -248,22 +249,68 @@ function filterNonexceptional(card: Card) {
   return !card.exceptional;
 }
 
-function filterCardLevel(value: [number, number], checkCustomizable = false) {
+function isLevelInRange(
+  level: number | null | undefined,
+  value: [number, number],
+) {
+  return level != null && level >= value[0] && level <= value[1];
+}
+
+function checkLevelRange(value: [number, number], card: Card, filter?: Filter) {
+  return range(value[0], Math.max(value[1], 1)).some(
+    (level) =>
+      isLevelInRange(level, value) &&
+      filter?.({ ...card, xp: level, customization_xp: 0 }),
+  );
+}
+
+type FilterCardLevelOptions = {
+  customizable?: CustomizableFilterOptions;
+  investigator?: Card;
+  targetDeck?: "slots" | "extraSlots" | "both";
+};
+
+function filterCardLevel(
+  value: [number, number],
+  options?: FilterCardLevelOptions,
+) {
   return (card: Card) => {
     const level = cardLevel(card);
 
-    // customizable cards can have any level, always show them when flag set.
-    if (!checkCustomizable && card.customization_options) return true;
+    if (
+      !card.customization_options ||
+      options?.customizable?.level === "actual"
+    ) {
+      return isLevelInRange(level, value);
+    }
 
-    return level != null && level >= value[0] && level <= value[1];
+    if (!options?.investigator) return true;
+
+    const filter = filterInvestigatorAccess(options.investigator, {
+      customizable: {
+        level: "actual",
+        properties: "all",
+      },
+      targetDeck: options.targetDeck,
+    });
+
+    return checkLevelRange(value, card, filter);
   };
 }
 
-export function filterLevel(filterState: LevelFilter) {
+export function filterLevel(filterState: LevelFilter, investigator?: Card) {
   const filters = [];
 
   if (filterState.range) {
-    filters.push(filterCardLevel(filterState.range));
+    filters.push(
+      filterCardLevel(filterState.range, {
+        investigator,
+        customizable: {
+          level: "all",
+          properties: "all",
+        },
+      }),
+    );
   }
 
   if (filterState.exceptional !== filterState.nonexceptional) {
@@ -274,11 +321,7 @@ export function filterLevel(filterState: LevelFilter) {
     }
   }
 
-  const filter = and(filters);
-
-  return (card: Card) => {
-    return filter(card);
-  };
+  return and(filters);
 }
 
 /**
@@ -324,8 +367,9 @@ export function filterPackCode(
  * Properties
  */
 
-function filterBonded(bondedTable: LookupTables["relations"]["bonded"]) {
-  return (card: Card) => !!bondedTable[card.code];
+function filterBonded(card: Card) {
+  const firstLine = card.real_text?.split("\n").at(0);
+  return !!firstLine && REGEX_BONDED.test(firstLine);
 }
 
 function filterCustomizable(card: Card) {
@@ -348,8 +392,8 @@ function filterVictory(card: Card) {
   return !!card.victory;
 }
 
-function filterSeal(sealTable: LookupTables["properties"]["seal"]) {
-  return (card: Card) => !!sealTable[card.code];
+function filterSeal(card: Card) {
+  return !!card.tags?.includes("se");
 }
 
 function filterPermanent(card: Card) {
@@ -362,23 +406,27 @@ function filterSucceedBy(
   return (card: Card) => !!succeedByTable[card.code];
 }
 
-function filterTag(tag: string, checkCustomizableOptions: boolean) {
+function filterTag(tag: string, includeUnselectedCustomizationTags: boolean) {
   return (card: Card) => {
     const hasTag = !!card.tags?.includes(tag);
 
-    if (hasTag || !checkCustomizableOptions || !card.customization_options)
+    if (
+      hasTag ||
+      !includeUnselectedCustomizationTags ||
+      !card.customization_options
+    )
       return hasTag;
 
     return !!card.customization_options?.some((o) => o.tags?.includes(tag));
   };
 }
 
-function filterHealsDamage(checkCustomizableOptions: boolean) {
-  return filterTag("hd", checkCustomizableOptions);
+function filterHealsDamage(includeUnselectedCustomizationTags: boolean) {
+  return filterTag("hd", includeUnselectedCustomizationTags);
 }
 
-function filterHealsHorror(checkCustomizableOptions: boolean) {
-  return filterTag("hh", checkCustomizableOptions);
+function filterHealsHorror(includeUnselectedCustomizationTags: boolean) {
+  return filterTag("hh", includeUnselectedCustomizationTags);
 }
 
 /**
@@ -388,6 +436,7 @@ function filterHealsHorror(checkCustomizableOptions: boolean) {
 function filterRestrictions(card: Card, investigator: Card) {
   if (Array.isArray(card.restrictions?.trait)) {
     const targetTraits = card.restrictions.trait;
+
     return splitMultiValue(investigator.real_traits).some((t) =>
       targetTraits.includes(t.toLowerCase()),
     );
@@ -403,7 +452,7 @@ export function filterProperties(
   const filters: Filter[] = [];
 
   if (filterState.bonded) {
-    filters.push(filterBonded(lookupTables.relations.bonded));
+    filters.push(filterBonded);
   }
 
   if (filterState.customizable) {
@@ -427,7 +476,7 @@ export function filterProperties(
   }
 
   if (filterState.seal) {
-    filters.push(filterSeal(lookupTables.properties.seal));
+    filters.push(filterSeal);
   }
 
   if (filterState.victory) {
@@ -454,11 +503,7 @@ export function filterProperties(
     filters.push(filterMulticlass);
   }
 
-  const filter = and(filters);
-
-  return (card: Card) => {
-    return filter(card);
-  };
+  return and(filters);
 }
 
 /**
@@ -469,6 +514,12 @@ function filterSkill(skill: SkillKey, amount: number) {
   return (card: Card) =>
     card.type_code !== "investigator" &&
     (card[`skill_${skill}`] ?? 0) >= amount;
+}
+
+function filterSkillRange(skill: SkillKey, range: [number, number]) {
+  return (card: Card) =>
+    (card[`skill_${skill}`] ?? 0) >= range[0] &&
+    (card[`skill_${skill}`] ?? 0) <= range[1];
 }
 
 export function filterSkillIcons(filterState: SkillIconsFilter) {
@@ -491,9 +542,19 @@ export function filterSkillIcons(filterState: SkillIconsFilter) {
     ? and([or(anyFilter), and(iconFilter)])
     : and(iconFilter);
 
-  return (card: Card) => {
-    return filter(card);
-  };
+  return filter;
+}
+
+export function filterInvestigatorSkills(
+  filterState: InvestigatorSkillsFilter,
+) {
+  const filters = Object.entries(filterState).reduce((acc, [skill, value]) => {
+    if (!value) return acc;
+    acc.push(filterSkillRange(skill as SkillKey, value));
+    return acc;
+  }, [] as Filter[]);
+
+  return and(filters);
 }
 
 /**
@@ -524,19 +585,18 @@ export function filterTabooSet(tabooSetId: number, metadata: Metadata) {
 
 export function filterTraits(
   filterState: MultiselectFilter,
-  traitTable: LookupTables["traits"],
-  checkCustomizableOptions?: boolean,
+  includeUnselectedCustomizationTraits?: boolean,
 ) {
   const filters: Filter[] = [];
 
   for (const key of filterState) {
     filters.push((card: Card) => {
-      const hasTrait = !!traitTable[key][card.code];
+      const hasTrait = !!card.real_traits?.includes(key);
 
       if (
         hasTrait ||
         !card.customization_options ||
-        !checkCustomizableOptions
+        !includeUnselectedCustomizationTraits
       ) {
         return hasTrait;
       }
@@ -547,8 +607,7 @@ export function filterTraits(
     });
   }
 
-  const filter = or(filters);
-  return (card: Card) => filter(card);
+  return or(filters);
 }
 
 /**
@@ -563,34 +622,42 @@ export function filterType(enabledTypeCodes: MultiselectFilter) {
  * Investigator access
  */
 
-function filterRequired(
-  code: string,
-  relationsTable: LookupTables["relations"],
-) {
-  return (card: Card) =>
-    !!relationsTable.advanced[code]?.[card.code] ||
-    !!relationsTable.requiredCards[code]?.[card.code] ||
-    !!relationsTable.parallelCards[code]?.[card.code] ||
-    !!relationsTable.replacement[code]?.[card.code];
+export function filterRequired(investigator: Card) {
+  return (card: Card) => {
+    if (!card.restrictions?.investigator) return false;
+
+    return (
+      !!card.restrictions.investigator[investigator.code] ||
+      (!!investigator.duplicate_of_code &&
+        !!card.restrictions.investigator[investigator.duplicate_of_code]) ||
+      (!!investigator.alternate_of_code &&
+        !!card.restrictions.investigator[investigator.alternate_of_code])
+    );
+  };
 }
+
+// Customizable options can alter whether an investigator has access to a card.
+// Example: a card gains a trait, or the option to heal horror.
+// Example: checking options alters the card's level.
+//  -> when showing options, we want to show these cards if an investigator has access to at least one possible configuration of the card.
+//  -> when validating decks, we only consider the currently applied customizations.
+type CustomizableFilterOptions = {
+  level: "actual" | "all";
+  properties: "actual" | "all";
+};
 
 export type InvestigatorAccessConfig = {
   additionalDeckOptions?: DeckOption[];
-  // Customizable options can alter whether an investigator has access to a card.
-  // Example: a card gains a trait, or the option to heal horror.
-  //  -> when showing options, we want to show these cards.
-  //  -> when validating decks, we only want to consider actually applied options.
-  // This works because we apply the current card changes before we pass cards to the filter.
-  // NOTE: this currently does not consider the "level" of the customizable option for access
-  // because all current cases work. This assumption might break in the future.
-  ignoreUnselectedCustomizableOptions?: boolean;
+  customizable?: CustomizableFilterOptions;
+  // Some || investigators have different traits on their front.
+  // In order for trait-based access like specialist to work, we need to consider both sides.
+  investigatorFront?: Card;
   selections?: Selections;
   targetDeck?: "slots" | "extraSlots" | "both";
 };
 
 export function makeOptionFilter(
   option: DeckOption,
-  lookupTables: LookupTables,
   config?: InvestigatorAccessConfig,
 ) {
   // unknown rules or duplicate rules.
@@ -637,7 +704,11 @@ export function makeOptionFilter(
     const level = option.base_level ?? option.level;
     if (level) {
       filterCount += 1;
-      optionFilter.push(filterCardLevel([level.min, level.max], true));
+      optionFilter.push(
+        filterCardLevel([level.min, level.max], {
+          customizable: config?.customizable,
+        }),
+      );
     }
   }
 
@@ -655,8 +726,7 @@ export function makeOptionFilter(
       filterTraits(
         // traits are stored lowercased for whatever reason.
         option.trait.map(capitalize),
-        lookupTables.traits,
-        !config?.ignoreUnselectedCustomizableOptions,
+        config?.customizable?.properties === "all",
       ),
     );
   }
@@ -667,7 +737,7 @@ export function makeOptionFilter(
     const usesFilters: Filter[] = [];
 
     for (const uses of option.uses) {
-      usesFilters.push(filterUses(uses, lookupTables.uses));
+      usesFilters.push(filterUses(uses));
     }
 
     optionFilter.push(or(usesFilters));
@@ -694,14 +764,14 @@ export function makeOptionFilter(
 
       if (select.level) {
         optionSelectFilters.push(
-          filterCardLevel([select.level.min, select.level.max], true),
+          filterCardLevel([select.level.min, select.level.max], {
+            customizable: config?.customizable,
+          }),
         );
       }
 
       if (select.trait) {
-        optionSelectFilters.push(
-          filterTraits(select.trait.map(capitalize), lookupTables.traits),
-        );
+        optionSelectFilters.push(filterTraits(select.trait.map(capitalize)));
       }
 
       selectFilters.push(and(optionSelectFilters));
@@ -723,7 +793,7 @@ export function makeOptionFilter(
   if (option.tag?.includes("hh")) {
     filterCount += 1;
     optionFilter.push(
-      filterHealsHorror(!config?.ignoreUnselectedCustomizableOptions),
+      filterHealsHorror(config?.customizable?.properties === "all"),
     );
   }
 
@@ -731,14 +801,17 @@ export function makeOptionFilter(
   if (option.tag?.includes("hd")) {
     filterCount += 1;
     optionFilter.push(
-      filterHealsDamage(!config?.ignoreUnselectedCustomizableOptions),
+      filterHealsDamage(config?.customizable?.properties === "all"),
     );
   }
 
   // parallel mateo
   if (option.tag?.includes("se")) {
     filterCount += 1;
-    optionFilter.push(filterSeal(lookupTables.properties.seal));
+
+    optionFilter.push(
+      filterTag("se", config?.customizable?.properties === "all"),
+    );
   }
 
   // on your own
@@ -757,17 +830,26 @@ export function makeOptionFilter(
 }
 
 export function filterInvestigatorAccess(
-  investigator: Card,
-  lookupTables: LookupTables,
+  investigatorBack: Card,
   config?: InvestigatorAccessConfig,
 ): Filter | undefined {
   const mode = config?.targetDeck ?? "slots";
+
+  let investigator = investigatorBack;
+  if (
+    config?.investigatorFront &&
+    config.investigatorFront.code !== investigatorBack.code
+  ) {
+    investigator = {
+      ...investigatorBack,
+      real_traits: config.investigatorFront.real_traits,
+    };
+  }
 
   const deckFilter =
     mode !== "extraSlots"
       ? makePlayerCardsFilter(
           investigator,
-          lookupTables,
           "deck_options",
           "deck_requirements",
           config,
@@ -778,7 +860,6 @@ export function filterInvestigatorAccess(
     mode !== "slots"
       ? makePlayerCardsFilter(
           investigator,
-          lookupTables,
           "side_deck_options",
           "side_deck_requirements",
           config,
@@ -803,7 +884,6 @@ export function filterInvestigatorAccess(
 
 function makePlayerCardsFilter(
   investigator: Card,
-  lookupTables: LookupTables,
   optionsAccessor: "deck_options" | "side_deck_options",
   requiredAccessor: "deck_requirements" | "side_deck_requirements",
   config?: InvestigatorAccessConfig,
@@ -838,7 +918,7 @@ function makePlayerCardsFilter(
     ors.push((card: Card) => card.code in requirements);
   } else {
     ors.push(
-      filterRequired(code, lookupTables.relations),
+      filterRequired(investigator),
       (card: Card) => card.subtype_code === "basicweakness",
       (card: Card) =>
         !!card.encounter_code &&
@@ -852,7 +932,7 @@ function makePlayerCardsFilter(
   const filters: Filter[] = [];
 
   for (const option of options) {
-    const filter = makeOptionFilter(option, lookupTables, config);
+    const filter = makeOptionFilter(option, config);
 
     if (!filter) continue;
 
@@ -868,7 +948,7 @@ function makePlayerCardsFilter(
 
   if (config?.targetDeck !== "extraSlots" && config?.additionalDeckOptions) {
     for (const option of config.additionalDeckOptions) {
-      const filter = makeOptionFilter(option, lookupTables, config);
+      const filter = makeOptionFilter(option, config);
       if (!filter) continue;
 
       if (option.not) {
@@ -884,16 +964,12 @@ function makePlayerCardsFilter(
 
 export function filterInvestigatorWeaknessAccess(
   investigator: Card,
-  lookupTables: LookupTables,
   config?: Pick<InvestigatorAccessConfig, "targetDeck">,
 ) {
-  // normalize parallel investigators to root for lookups.
-  const code = investigator.alternate_of_code ?? investigator.code;
-
   const ors: Filter[] =
     config?.targetDeck !== "extraSlots"
       ? [
-          filterRequired(code, lookupTables.relations),
+          filterRequired(investigator),
           filterSubtypes({ basicweakness: true, weakness: false, none: false }),
           (card: Card) => card.xp == null && !card.restrictions,
         ]
@@ -901,7 +977,7 @@ export function filterInvestigatorWeaknessAccess(
 
   return and([
     filterSubtypes({ basicweakness: true, weakness: true, none: false }),
-    not(filterBonded(lookupTables.relations.bonded)),
+    not(filterBonded),
     or(ors),
   ]);
 }
