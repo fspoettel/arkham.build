@@ -8,7 +8,7 @@ import { cx } from "@/utils/cx";
 import { useQuery } from "@/utils/use-query";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { Rows3Icon } from "lucide-react";
-import { type MutableRefObject, useCallback, useRef } from "react";
+import { type MutableRefObject, forwardRef, useCallback, useRef } from "react";
 import { Link } from "wouter";
 import { CardList } from "../card-list/card-list";
 import { CardSearch } from "../card-list/card-search";
@@ -59,7 +59,10 @@ function useMemoSubset<T, S extends unknown[]>(
   return state.current?.value as T;
 }
 
-export function CardRecommender(props: CardListProps) {
+export const CardRecommender = forwardRef(function CardRecommender(
+  props: CardListProps,
+  ref: React.ForwardedRef<HTMLDivElement>,
+) {
   const {
     itemSize,
     onChangeCardQuantity,
@@ -187,7 +190,7 @@ export function CardRecommender(props: CardListProps) {
     );
 
     return (
-      <article className={cx(css["card-recommender"])}>
+      <article className={cx(css["card-recommender"])} ref={ref}>
         <div className={cx(css["container"])}>
           <div className={cx(css["toolbar"])}>
             <CardSearch
@@ -241,4 +244,4 @@ export function CardRecommender(props: CardListProps) {
       <Footer />
     </article>
   );
-}
+});

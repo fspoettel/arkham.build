@@ -6,7 +6,7 @@ import {
   selectListCards,
 } from "@/store/selectors/lists";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
-import { useCallback } from "react";
+import { forwardRef, useCallback } from "react";
 import { Footer } from "../footer";
 import { CardGrid } from "./card-grid";
 import { CardList } from "./card-list";
@@ -20,7 +20,10 @@ type Props = CardListProps & {
   topContent?: React.ReactNode;
 };
 
-export function CardListContainer(props: Props) {
+export const CardListContainer = forwardRef(function CardListContainer(
+  props: Props,
+  ref: React.ForwardedRef<HTMLDivElement>,
+) {
   const { className, slotLeft, slotRight, targetDeck, topContent, ...rest } =
     props;
 
@@ -71,6 +74,7 @@ export function CardListContainer(props: Props) {
   return (
     <CenterLayout
       className={className}
+      ref={ref}
       top={
         <>
           {topContent}
@@ -116,4 +120,4 @@ export function CardListContainer(props: Props) {
       </div>
     </CenterLayout>
   );
-}
+});

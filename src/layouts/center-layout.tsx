@@ -1,4 +1,5 @@
 import { cx } from "@/utils/cx";
+import { forwardRef } from "react";
 import css from "./center-layout.module.css";
 
 type Props = {
@@ -7,13 +8,16 @@ type Props = {
   top?: React.ReactNode;
 };
 
-export function CenterLayout(props: Props) {
+export const CenterLayout = forwardRef(function CenterLayout(
+  props: Props,
+  ref: React.ForwardedRef<HTMLDivElement>,
+) {
   const { children, className, top } = props;
 
   return (
-    <div className={cx(css["layout"], className)}>
+    <div className={cx(css["layout"], className)} ref={ref}>
       {top && <div className={css["top"]}>{top}</div>}
       <div className={css["main"]}>{children}</div>
     </div>
   );
-}
+});
