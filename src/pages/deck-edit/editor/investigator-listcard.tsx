@@ -4,11 +4,8 @@ import { DeckInvestigatorModal } from "@/components/deck-investigator/deck-inves
 import { ListCard } from "@/components/list-card/list-card";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useDialogContextChecked } from "@/components/ui/dialog.hooks";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import type { ResolvedDeck } from "@/store/lib/types";
-import { ChartAreaIcon, Rows3Icon, WandSparklesIcon } from "lucide-react";
 import { useCallback, useEffect } from "react";
-import { Link, useLocation } from "wouter";
 import css from "./investigator-listcard.module.css";
 
 type Props = {
@@ -24,8 +21,6 @@ export function InvestigatorListcard(props: Props) {
 }
 
 function InvestigatorListcardInner({ deck }: Props) {
-  const [location] = useLocation();
-
   const cardModalContext = useCardModalContext();
   const modalContext = useDialogContextChecked();
 
@@ -45,17 +40,6 @@ function InvestigatorListcardInner({ deck }: Props) {
       deck.investigatorFront.card.parallel ||
       deck.investigatorBack.card.parallel,
   };
-
-  const openView = (() => {
-    switch (location) {
-      case "/":
-        return "card-list";
-      case "/tools":
-        return "deck-tools";
-      case "/recommendations":
-        return "recommendations";
-    }
-  })();
 
   return (
     <div
@@ -82,41 +66,6 @@ function InvestigatorListcardInner({ deck }: Props) {
       <DialogContent>
         <DeckInvestigatorModal deck={deck} onCloseModal={onCloseModal} />
       </DialogContent>
-      <ToggleGroup
-        defaultValue="card-list"
-        data-testid="toggle-investigator-card-view"
-        icons
-        type="single"
-        value={openView}
-      >
-        <Link to="/" asChild>
-          <ToggleGroupItem
-            data-testid="investigator-card-view-card-list"
-            value="card-list"
-            tooltip="View card list"
-          >
-            <Rows3Icon />
-          </ToggleGroupItem>
-        </Link>
-        <Link to="/tools" asChild>
-          <ToggleGroupItem
-            data-testid="investigator-card-view-deck-tools"
-            value="deck-tools"
-            tooltip="View deck tools"
-          >
-            <ChartAreaIcon />
-          </ToggleGroupItem>
-        </Link>
-        <Link to="/recommendations" asChild>
-          <ToggleGroupItem
-            data-testid="investigator-card-view-recommendations"
-            value="recommendations"
-            tooltip="View card recommendations"
-          >
-            <WandSparklesIcon />
-          </ToggleGroupItem>
-        </Link>
-      </ToggleGroup>
     </div>
   );
 }
