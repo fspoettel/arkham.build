@@ -52,7 +52,7 @@ export const createDeckEditsSlice: StateCreator<
         ? Math.min(Math.max(current + quantity, 0), limit)
         : Math.max(Math.min(quantity, limit), 0);
 
-    const nextState = {
+    const nextState: Partial<StoreState> = {
       deckEdits: {
         ...state.deckEdits,
         [deckId]: {
@@ -69,13 +69,29 @@ export const createDeckEditsSlice: StateCreator<
     };
 
     // ensure quantity of attachments is less than quantity in deck.
-    if (deck.attachments) {
+    if (nextState.deckEdits && deck.attachments) {
       nextState.deckEdits[deckId].attachments = clampAttachmentQuantity(
         edits.attachments,
         deck.attachments,
         code,
         newValue,
       );
+    }
+
+    // remove recommendation core card entry after card is remove from deck.
+    if (
+      newValue === 0 &&
+      state.recommender?.coreCards[deckId]?.includes(code)
+    ) {
+      nextState.recommender = {
+        ...state.recommender,
+        coreCards: {
+          ...state.recommender.coreCards,
+          [deckId]: state.recommender.coreCards[deckId].filter(
+            (c) => c !== code,
+          ),
+        },
+      };
     }
 
     set(nextState);

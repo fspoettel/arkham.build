@@ -74,6 +74,7 @@ export const createRecommenderSlice: StateCreator<
     const state = get();
 
     const currentState = state.recommender.coreCards[deckId] ?? [];
+    if (currentState.includes(value)) return;
 
     set({
       recommender: {
@@ -89,6 +90,7 @@ export const createRecommenderSlice: StateCreator<
     const state = get();
 
     const currentState = state.recommender.coreCards[deckId] ?? [];
+    if (!currentState.includes(value)) return;
 
     set({
       recommender: {
