@@ -8,7 +8,7 @@ import {
 import { range } from "@/utils/range";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { GroupedVirtuosoHandle, ListRange } from "react-virtuoso";
-import { GroupedVirtuoso } from "react-virtuoso";
+import { GroupedVirtuoso, Virtuoso } from "react-virtuoso";
 import { useCardModalContext } from "../card-modal/card-modal-context";
 import { Scroller } from "../ui/scroller";
 import { CardListItemCompact, CardListItemFull } from "./card-list-items";
@@ -23,6 +23,7 @@ export function CardList(props: CardListImplementationProps) {
     metadata,
     onChangeCardQuantity,
     quantities,
+    listMode,
     renderCardAction,
     renderCardExtra,
     renderCardMetaExtra,
@@ -153,6 +154,35 @@ export function CardList(props: CardListImplementationProps) {
     }
   }, [data?.cards.length]);
 
+  const makeItemContent = (index: number, currentTop: number) => {
+    const itemProps = {
+      card: data.cards[index],
+      currentTop,
+      index,
+      itemSize,
+      limitOverride: getDeckLimitOverride(resolvedDeck, data.cards[index].code),
+      onChangeCardQuantity,
+      ownedCount: canCheckOwnerhip
+        ? cardOwnedCount(data.cards[index])
+        : undefined,
+      quantity: quantities
+        ? (quantities[data.cards[index].code] ?? 0)
+        : undefined,
+      renderCardAction: renderCardAction,
+      renderCardExtra: renderCardExtra,
+      renderCardMetaExtra: renderCardMetaExtra,
+      renderCardAfter: renderCardAfter,
+      resolvedDeck,
+      viewMode,
+    };
+
+    if (viewMode === "full-cards") {
+      return <CardListItemFull {...itemProps} />;
+    }
+
+    return <CardListItemCompact {...itemProps} />;
+  };
+
   return (
     <Scroller
       className={css["scroller"]}
@@ -160,55 +190,42 @@ export function CardList(props: CardListImplementationProps) {
       ref={setScrollParent as unknown as React.RefObject<HTMLDivElement>}
       type="always"
     >
-      {viewMode !== "scans" && data && scrollParent && (
-        <GroupedVirtuoso
-          context={{ currentTop }}
-          customScrollParent={scrollParent}
-          groupContent={(index) => (
-            <Grouphead
-              grouping={data.groups[index]}
-              metadata={metadata}
-              variant={showAltHead ? "alt" : undefined}
-            />
-          )}
-          groupCounts={data.groupCounts}
-          isScrolling={onScrollStop}
-          itemContent={(index, _, __, { currentTop }) => {
-            const itemProps = {
-              card: data.cards[index],
-              currentTop,
-              index,
-              itemSize,
-              limitOverride: getDeckLimitOverride(
-                resolvedDeck,
-                data.cards[index].code,
-              ),
-              onChangeCardQuantity,
-              ownedCount: canCheckOwnerhip
-                ? cardOwnedCount(data.cards[index])
-                : undefined,
-              quantity: quantities
-                ? (quantities[data.cards[index].code] ?? 0)
-                : undefined,
-              renderCardAction: renderCardAction,
-              renderCardExtra: renderCardExtra,
-              renderCardMetaExtra: renderCardMetaExtra,
-              renderCardAfter: renderCardAfter,
-              resolvedDeck,
-              viewMode,
-            };
-
-            if (viewMode === "full-cards") {
-              return <CardListItemFull {...itemProps} />;
+      {viewMode !== "scans" &&
+        data &&
+        scrollParent &&
+        (listMode === "single" ? (
+          <Virtuoso
+            context={{ currentTop }}
+            customScrollParent={scrollParent}
+            data={data.cards}
+            isScrolling={onScrollStop}
+            itemContent={(index, _, { currentTop }) =>
+              makeItemContent(index, currentTop)
             }
-
-            return <CardListItemCompact {...itemProps} />;
-          }}
-          key={`${data.key}-${viewMode}`}
-          rangeChanged={rangeChanged}
-          ref={virtuosoRef}
-        />
-      )}
+            rangeChanged={rangeChanged}
+            ref={virtuosoRef}
+          />
+        ) : (
+          <GroupedVirtuoso
+            context={{ currentTop }}
+            customScrollParent={scrollParent}
+            groupContent={(index) => (
+              <Grouphead
+                grouping={data.groups[index]}
+                metadata={metadata}
+                variant={showAltHead ? "alt" : undefined}
+              />
+            )}
+            groupCounts={data.groupCounts}
+            isScrolling={onScrollStop}
+            itemContent={(index, _, __, { currentTop }) =>
+              makeItemContent(index, currentTop)
+            }
+            key={`${data.key}-${viewMode}`}
+            rangeChanged={rangeChanged}
+            ref={virtuosoRef}
+          />
+        ))}
     </Scroller>
   );
 }

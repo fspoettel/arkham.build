@@ -12,10 +12,11 @@ type Props = {
   onInputKeyDown?: (evt: React.KeyboardEvent) => void;
   slotLeft?: React.ReactNode;
   slotRight?: React.ReactNode;
+  slotFlags?: React.ReactNode;
 };
 
 export function CardSearch(props: Props) {
-  const { onInputKeyDown, slotLeft, slotRight } = props;
+  const { onInputKeyDown, slotFlags, slotLeft, slotRight } = props;
   const inputRef = useRef<HTMLInputElement>(null);
 
   const setSearchValue = useStore((state) => state.setSearchValue);
@@ -61,6 +62,7 @@ export function CardSearch(props: Props) {
   const onToggleGameText = useCallback(
     (val: boolean | string) => {
       setSearchFlag("includeGameText", !!val);
+      inputRef.current?.focus();
     },
     [setSearchFlag],
   );
@@ -68,6 +70,7 @@ export function CardSearch(props: Props) {
   const onToggleFlavor = useCallback(
     (val: boolean | string) => {
       setSearchFlag("includeFlavor", !!val);
+      inputRef.current?.focus();
     },
     [setSearchFlag],
   );
@@ -75,6 +78,7 @@ export function CardSearch(props: Props) {
   const onToggleBacks = useCallback(
     (val: boolean | string) => {
       setSearchFlag("includeBacks", !!val);
+      inputRef.current?.focus();
     },
     [setSearchFlag],
   );
@@ -82,6 +86,7 @@ export function CardSearch(props: Props) {
   const onToggleCardName = useCallback(
     (val: boolean | string) => {
       setSearchFlag("includeName", !!val);
+      inputRef.current?.focus();
     },
     [setSearchFlag],
   );
@@ -105,6 +110,7 @@ export function CardSearch(props: Props) {
         {slotRight}
       </div>
       <div className={css["flags"]}>
+        {slotFlags}
         <Checkbox
           checked={search.includeName}
           data-testid="search-card-name"

@@ -1,6 +1,6 @@
 import type { ResolvedDeck } from "@/store/lib/types";
 import { cx } from "@/utils/cx";
-import { Fragment, Suspense, lazy } from "react";
+import { Fragment, Suspense, forwardRef, lazy } from "react";
 import { Loader } from "../ui/loader";
 import { Scroller } from "../ui/scroller";
 import { AttachableCards } from "./attachable-cards";
@@ -18,11 +18,14 @@ type Props = {
 
 const LazyChartContainer = lazy(() => import("./chart-container"));
 
-export function DeckTools(props: Props) {
+export const DeckTools = forwardRef(function DeckTools(
+  props: Props,
+  ref: React.ForwardedRef<HTMLDivElement>,
+) {
   const { deck, readonly, scrollable, showTitle, slotLeft, slotRight } = props;
 
   const node = (
-    <article className={cx(css["deck-tools"])}>
+    <article className={cx(css["deck-tools"])} ref={ref}>
       <header className={css["tools-header"]}>
         {slotLeft}
         {showTitle && <h3 className={css["tools-title"]}>Deck Tools</h3>}
@@ -60,4 +63,4 @@ export function DeckTools(props: Props) {
   ) : (
     node
   );
-}
+});

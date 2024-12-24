@@ -29,7 +29,9 @@ test.describe("filters", () => {
       await page.getByLabel("Minimum").press("ArrowRight");
     }
 
-    await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
+    await expect(page.getByTestId("cardlist-count").first()).toContainText(
+      "1 cards",
+    );
     await expect(page.getByTestId("listcard-60216")).toBeVisible();
   });
 
@@ -38,16 +40,22 @@ test.describe("filters", () => {
 
     await fillSearch(page, "Practice Makes Perfect");
 
-    await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
+    await expect(page.getByTestId("cardlist-count").first()).toContainText(
+      "1 cards",
+    );
     await expect(page.getByTestId("listcard-06197")).toBeVisible();
 
     await page.getByTestId("filters-faction-guardian").click();
     await page.getByTestId("filters-faction-seeker").click();
 
-    await expect(page.getByTestId("cardlist-count")).toContainText("0 cards");
+    await expect(page.getByTestId("cardlist-count").first()).toContainText(
+      "0 cards",
+    );
 
     await page.getByTestId("filters-faction-seeker").click();
-    await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
+    await expect(page.getByTestId("cardlist-count").first()).toContainText(
+      "1 cards",
+    );
   });
 
   test("filter subtypes", async ({ page }) => {
@@ -72,8 +80,11 @@ test.describe("filters", () => {
   });
 
   test("toggle game text", async ({ page }) => {
+    await page.getByTestId("search-input").focus();
     await page.getByTestId("search-game-text").click();
     await fillSearch(page, "ashcan pete");
+
+    await page.getByTestId("search-input").blur();
 
     await page.locator('[data-test-id="card-list-config"]').click();
     await page.getByLabel("Compact with text").click();
@@ -186,6 +197,7 @@ test.describe("filters", () => {
     await page.getByPlaceholder("Select slot(s)").fill("taro");
     await page.getByTestId("combobox-menu-item-Tarot").click();
     await expect(page.getByTestId("listcard-54005")).toBeVisible();
+    await page.getByTestId("search-input").focus();
     await page.getByTestId("search-game-text").click();
     await page.getByTestId("search-card-name").click();
     await expect(page.getByTestId("listcard-54005")).not.toBeVisible();

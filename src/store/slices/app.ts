@@ -62,7 +62,6 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
   async init(queryMetadata, queryDataVersion, queryCards, refresh = false) {
     const state = get();
-
     if (!refresh && state.metadata.dataVersion?.cards_updated_at) {
       const metadata = {
         ...applyLocalData(state.metadata),

@@ -6,11 +6,12 @@ import {
   selectListCards,
 } from "@/store/selectors/lists";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
-import { useCallback } from "react";
+import { forwardRef, useCallback } from "react";
 import { Footer } from "../footer";
 import { CardGrid } from "./card-grid";
 import { CardList } from "./card-list";
 import css from "./card-list-container.module.css";
+import { CardlistCount } from "./card-list-count";
 import { CardListNav } from "./card-list-nav";
 import { CardSearch } from "./card-search";
 import type { CardListProps } from "./types";
@@ -19,7 +20,10 @@ type Props = CardListProps & {
   topContent?: React.ReactNode;
 };
 
-export function CardListContainer(props: Props) {
+export const CardListContainer = forwardRef(function CardListContainer(
+  props: Props,
+  ref: React.ForwardedRef<HTMLDivElement>,
+) {
   const { className, slotLeft, slotRight, targetDeck, topContent, ...rest } =
     props;
 
@@ -70,6 +74,7 @@ export function CardListContainer(props: Props) {
   return (
     <CenterLayout
       className={className}
+      ref={ref}
       top={
         <>
           {topContent}
@@ -77,6 +82,7 @@ export function CardListContainer(props: Props) {
             onInputKeyDown={onKeyboardNavigate}
             slotLeft={slotLeft}
             slotRight={slotRight}
+            slotFlags={<CardlistCount data={data} />}
           />
         </>
       }
@@ -114,4 +120,4 @@ export function CardListContainer(props: Props) {
       </div>
     </CenterLayout>
   );
-}
+});

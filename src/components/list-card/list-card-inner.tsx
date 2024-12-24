@@ -49,6 +49,7 @@ export type Props = {
   referenceProps?: React.ComponentProps<"div">;
   renderCardAction?: (card: Card) => React.ReactNode;
   renderCardAfter?: (card: Card) => React.ReactNode;
+  renderCardBefore?: (card: Card) => React.ReactNode;
   renderCardMetaExtra?: (card: Card, quantity?: number) => React.ReactNode;
   renderCardExtra?: (card: Card, quantity?: number) => React.ReactNode;
   size?: "xs" | "sm" | "investigator";
@@ -77,6 +78,7 @@ export function ListCardInner(props: Props) {
     referenceProps,
     renderCardAction,
     renderCardAfter,
+    renderCardBefore,
     renderCardExtra,
     renderCardMetaExtra,
     showCardText,
@@ -134,6 +136,7 @@ export function ListCardInner(props: Props) {
           ) : (
             <QuantityOutput data-testid="listcard-quantity" value={quantity} />
           ))}
+        {renderCardBefore?.(card)}
       </div>
 
       <div className={css["listcard"]}>
@@ -275,11 +278,7 @@ export function ListCardInner(props: Props) {
         {renderCardExtra?.(card, quantity)}
       </div>
       {!!renderCardAfter && (
-        <div className={css["listcard-after"]}>
-          <div className={css["listcard-after-inner"]}>
-            {renderCardAfter?.(card)}
-          </div>
-        </div>
+        <div className={css["listcard-after"]}>{renderCardAfter?.(card)}</div>
       )}
       {showCardText && (
         <div className={css["listcard-text"]}>

@@ -1,3 +1,4 @@
+import { CoreCardCheckbox } from "@/components/card-recommender/core-card-checkbox";
 import { DeckStats } from "@/components/deck-stats";
 import { DecklistGroups } from "@/components/decklist/decklist-groups";
 import { DecklistSection } from "@/components/decklist/decklist-section";
@@ -10,28 +11,53 @@ import type { Tab } from "@/store/slices/deck-edits.types";
 import { getCardColor, isStaticInvestigator } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { useAccentColor } from "@/utils/use-accent-color";
+import { useMemo } from "react";
 import { EditorActions } from "./editor-actions";
 import css from "./editor.module.css";
 import { InvestigatorListcard } from "./investigator-listcard";
 import { MetaEditor } from "./meta-editor";
 import { MoveToMainDeck } from "./move-to-main-deck";
 
+type Renderer = (card: Card, quantity?: number) => React.ReactNode;
+
 type Props = {
   className?: string;
   currentTab: Tab;
+  currentTool: string;
   onTabChange: (tab: Tab) => void;
   deck: ResolvedDeck;
-  renderCardExtra?: (card: Card, quantity?: number) => React.ReactNode;
+  renderCardExtra?: Renderer;
   validation?: DeckValidationResult;
 };
 
 export function Editor(props: Props) {
-  const { currentTab, onTabChange, deck, renderCardExtra } = props;
+  const { currentTab, currentTool, onTabChange, deck, renderCardExtra } = props;
 
   const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
   const backgroundCls = getCardColor(deck.investigatorBack.card, "background");
 
   const staticInvestigator = isStaticInvestigator(deck.investigatorBack.card);
+
+  const renderCoreCardCheckbox = useMemo(
+    () =>
+      currentTool === "recommendations"
+        ? (card: Card) =>
+            card.xp == null ? (
+              <></>
+            ) : (
+              <CoreCardCheckbox card={card} deck={deck} />
+            )
+        : undefined,
+    [currentTool, deck],
+  );
+
+  const renderMoveToMainDeck = useMemo(
+    () =>
+      staticInvestigator
+        ? undefined
+        : (card: Card) => <MoveToMainDeck card={card} deck={deck} />,
+    [deck, staticInvestigator],
+  );
 
   return (
     <div className={css["editor"]} style={cssVariables}>
@@ -76,6 +102,7 @@ export function Editor(props: Props) {
                 layout="two_column"
                 listCardSize="sm"
                 mapping="slots"
+                renderCardBefore={renderCoreCardCheckbox}
                 renderCardExtra={renderCardExtra}
                 quantities={deck.slots}
               />
@@ -87,6 +114,7 @@ export function Editor(props: Props) {
                   layout="two_column"
                   listCardSize="sm"
                   mapping="bonded"
+                  renderCardBefore={renderCoreCardCheckbox}
                   quantities={deck.bondedSlots}
                 />
               </DecklistSection>
@@ -101,11 +129,8 @@ export function Editor(props: Props) {
                   layout="two_column"
                   listCardSize="sm"
                   mapping="sideSlots"
-                  renderCardExtra={
-                    staticInvestigator
-                      ? undefined
-                      : (card) => <MoveToMainDeck card={card} deck={deck} />
-                  }
+                  renderCardBefore={renderCoreCardCheckbox}
+                  renderCardExtra={renderMoveToMainDeck}
                   quantities={deck.sideSlots ?? undefined}
                 />
               ) : (

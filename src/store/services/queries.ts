@@ -10,6 +10,7 @@ import type {
   EncounterSet,
   Pack,
   QueryCard,
+  Recommendations,
   TabooSet,
 } from "./queries.types";
 
@@ -287,4 +288,70 @@ export async function upgradeDeck(
   });
 
   return await res.json();
+}
+
+async function recommendationRequest(
+  path: string,
+  options: RequestInit = {},
+): Promise<Response> {
+  const res = await fetch(
+    `${import.meta.env.VITE_RECOMMENDATION_API_URL}${path}`,
+    options,
+  );
+
+  if (res.status >= 400) {
+    const err = await res.json();
+    throw new ApiError(err.message, res.status);
+  }
+
+  return res;
+}
+
+export type RecommendationAnalysisAlgorithm =
+  | "absolute percentage"
+  | "percentile rank";
+
+export type RecommendationRequest = {
+  canonical_investigator_code: string;
+  analyze_side_decks: boolean;
+  analysis_algorithm: RecommendationAnalysisAlgorithm;
+  required_cards: string[];
+  cards_to_recommend: string[];
+  date_range: [string, string];
+};
+
+type RecommendationApiResponse = {
+  data: {
+    recommendations: Recommendations;
+  };
+};
+
+export async function getRecommendations(
+  canonicalInvestigatorCode: string,
+  analyzeSideDecks: boolean,
+  relativeAnalysis: boolean,
+  requiredCards: string[],
+  cardsToRecommend: string[],
+  dateRange: [string, string],
+) {
+  const req: RecommendationRequest = {
+    canonical_investigator_code: canonicalInvestigatorCode,
+    analyze_side_decks: analyzeSideDecks,
+    analysis_algorithm: relativeAnalysis
+      ? "percentile rank"
+      : "absolute percentage",
+    required_cards: requiredCards,
+    cards_to_recommend: cardsToRecommend,
+    date_range: dateRange,
+  };
+
+  const res = await recommendationRequest("/recommendations", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(req),
+  });
+  const { data }: RecommendationApiResponse = await res.json();
+  return data.recommendations;
 }

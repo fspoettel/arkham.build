@@ -2,10 +2,12 @@ import { ListLayout } from "@//layouts/list-layout";
 import { Attachments } from "@/components/attachments/attachments";
 import { CardListContainer } from "@/components/card-list/card-list-container";
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
+import { CardRecommender } from "@/components/card-recommender/card-recommender";
 import { DeckTools } from "@/components/deck-tools/deck-tools";
 import { DecklistValidation } from "@/components/decklist/decklist-validation";
 import { Filters } from "@/components/filters/filters";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast.hooks";
 import { ListLayoutContextProvider } from "@/layouts/list-layout-context-provider";
 import { useStore } from "@/store";
@@ -17,11 +19,17 @@ import {
 import type { Card } from "@/store/services/queries.types";
 import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import { useAccentColor } from "@/utils/use-accent-color";
 import { useDocumentTitle } from "@/utils/use-document-title";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
-import { Rows3Icon, UndoIcon } from "lucide-react";
+import {
+  ChartAreaIcon,
+  Rows3Icon,
+  UndoIcon,
+  WandSparklesIcon,
+} from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link, Route, Switch, useParams } from "wouter";
+import { useParams } from "wouter";
 import { Error404 } from "../errors/404";
 import css from "./deck-edit.module.css";
 import { DrawBasicWeakness } from "./editor/draw-basic-weakness";
@@ -103,6 +111,7 @@ function DeckEdit() {
 
 function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
   const [currentTab, setCurrentTab] = useState<Tab>("slots");
+  const [currentTool, setCurrentTool] = useState<string>("card-list");
 
   const renderCardExtra = useCallback(
     (card: Card, quantity: number | undefined) => {
@@ -124,6 +133,8 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
 
   useDocumentTitle(deck ? `Edit: ${deck.name}` : "");
 
+  const accentColor = useAccentColor(deck.investigatorBack.card.faction_code);
+
   const onChangeCardQuantity = useMemo(() => {
     return (card: Card, quantity: number, limit: number) => {
       updateCardQuantity(
@@ -136,59 +147,51 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
     };
   }, [updateCardQuantity, currentTab, deck.id]);
 
-  const sidebar = (
-    <Editor
-      currentTab={currentTab}
-      deck={deck}
-      onTabChange={setCurrentTab}
-      renderCardExtra={renderCardExtra}
-      validation={validation}
-    />
-  );
-
   return (
-    <Switch>
-      <Route path="/tools">
-        <ListLayoutContextProvider>
-          <ListLayout
-            sidebar={sidebar}
-            sidebarWidthMax="var(--sidebar-width-two-col)"
+    <ListLayoutContextProvider>
+      <ListLayout
+        filters={
+          <Filters>
+            <DecklistValidation
+              defaultOpen={validation.errors.length < 3}
+              validation={validation}
+            />
+            <ShowUnusableCardsToggle />
+          </Filters>
+        }
+        sidebar={
+          <Editor
+            currentTab={currentTab}
+            currentTool={currentTool}
+            deck={deck}
+            onTabChange={setCurrentTab}
+            renderCardExtra={renderCardExtra}
+            validation={validation}
+          />
+        }
+        sidebarWidthMax="var(--sidebar-width-two-col)"
+      >
+        {(props) => (
+          <Tabs
+            onValueChange={setCurrentTool}
+            className={css["tabs"]}
+            value={currentTool}
           >
-            {(props) => (
-              <DeckTools
-                {...props}
-                deck={deck}
-                showTitle
-                scrollable
-                slotRight={
-                  <Link to="/" asChild>
-                    <Button as="a">
-                      <Rows3Icon />
-                      Back to card list
-                    </Button>
-                  </Link>
-                }
-              />
-            )}
-          </ListLayout>
-        </ListLayoutContextProvider>
-      </Route>
-      <Route path="/">
-        <ListLayoutContextProvider>
-          <ListLayout
-            filters={
-              <Filters>
-                <DecklistValidation
-                  defaultOpen={validation.errors.length < 3}
-                  validation={validation}
-                />
-                <ShowUnusableCardsToggle />
-              </Filters>
-            }
-            sidebar={sidebar}
-            sidebarWidthMax="var(--sidebar-width-two-col)"
-          >
-            {(props) => (
+            <TabsList className={css["tabs-list"]} style={accentColor}>
+              <TabsTrigger value="card-list">
+                <Rows3Icon />
+                <span>Card list</span>
+              </TabsTrigger>
+              <TabsTrigger value="recommendations">
+                <WandSparklesIcon />
+                <span>Recommendations</span>
+              </TabsTrigger>
+              <TabsTrigger value="deck-tools">
+                <ChartAreaIcon />
+                <span>Tools</span>
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="card-list" asChild>
               <CardListContainer
                 {...props}
                 onChangeCardQuantity={onChangeCardQuantity}
@@ -200,11 +203,27 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
                     : "slots"
                 }
               />
-            )}
-          </ListLayout>
-        </ListLayoutContextProvider>
-      </Route>
-    </Switch>
+            </TabsContent>
+            <TabsContent asChild value="deck-tools">
+              <DeckTools {...props} deck={deck} scrollable />
+            </TabsContent>
+            <TabsContent asChild value="recommendations">
+              <CardRecommender
+                {...props}
+                onChangeCardQuantity={onChangeCardQuantity}
+                quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
+                renderCardExtra={renderCardExtra}
+                targetDeck={
+                  mapTabToSlot(currentTab) === "extraSlots"
+                    ? "extraSlots"
+                    : "slots"
+                }
+              />
+            </TabsContent>
+          </Tabs>
+        )}
+      </ListLayout>
+    </ListLayoutContextProvider>
   );
 }
 

@@ -17,7 +17,9 @@ test.describe("deck create", () => {
   test("choose investigator", async ({ page }) => {
     await page.goto("/deck/create");
     await fillSearch(page, "yorick");
-    await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
+    await expect(page.getByTestId("cardlist-count").first()).toContainText(
+      "1 cards",
+    );
 
     await page.getByTestId("create-choose-investigator").click();
     await expect(page).toHaveURL(/\/deck\/create\/03005/);
@@ -33,7 +35,9 @@ test.describe("deck create", () => {
     await page.goto("/deck/create");
 
     await fillSearch(page, "yorick");
-    await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
+    await expect(page.getByTestId("cardlist-count").first()).toContainText(
+      "1 cards",
+    );
 
     await page.getByTestId("listcard-title").click();
     await expect(page.getByTestId("card-modal")).toBeVisible();
@@ -117,11 +121,15 @@ test.describe("deck create", () => {
       .click();
 
     await page.getByTestId("filters-faction-seeker").click();
-    await expect(page.getByTestId("cardlist-count")).toContainText("47 cards");
+    await expect(page.getByTestId("cardlist-count").first()).toContainText(
+      "47 cards",
+    );
 
     await page.getByTestId("filters-faction-seeker").click();
     await page.getByTestId("filters-faction-survivor").click();
-    await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
+    await expect(page.getByTestId("cardlist-count").first()).toContainText(
+      "1 cards",
+    );
   });
 
   test("select deck size (non-taboo mandy)", async ({ page }) => {

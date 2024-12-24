@@ -252,3 +252,15 @@ export type TabooSet = {
   card_count: number;
   date: string;
 };
+
+export type Recommendation = {
+  card_code: string;
+  recommendation: number;
+  ordering: number;
+  explanation: string;
+};
+
+export type Recommendations = {
+  decks_analyzed: number;
+  recommendations: Recommendation[];
+};

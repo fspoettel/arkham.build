@@ -13,6 +13,8 @@ type Props = Omit<SliderProps, "defaultValue"> & {
   max: number;
   showLabel?: boolean;
   sliderClassName?: string;
+  outputClassName?: string;
+  renderLabel?: (value: number) => string | number;
   value: [number, number];
 };
 
@@ -20,6 +22,7 @@ export function RangeSelect(props: Props) {
   const {
     className,
     sliderClassName,
+    outputClassName,
     id,
     label,
     min,
@@ -27,6 +30,7 @@ export function RangeSelect(props: Props) {
     onValueCommit,
     showLabel,
     value,
+    renderLabel,
     ...rest
   } = props;
 
@@ -69,7 +73,8 @@ export function RangeSelect(props: Props) {
           readOnly
           tabIndex={-1}
           type="text"
-          value={liveValue[0]}
+          className={outputClassName}
+          value={renderLabel ? renderLabel(liveValue[0]) : liveValue[0]}
         />
         <input
           max={max}
@@ -77,7 +82,8 @@ export function RangeSelect(props: Props) {
           readOnly
           tabIndex={-1}
           type="text"
-          value={liveValue[1]}
+          className={outputClassName}
+          value={renderLabel ? renderLabel(liveValue[1]) : liveValue[1]}
         />
       </div>
     </div>

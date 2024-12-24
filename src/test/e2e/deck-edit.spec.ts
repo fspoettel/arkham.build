@@ -136,10 +136,14 @@ test.describe("deck edit", () => {
     });
 
     await fillSearch(page, "flashlight");
-    await expect(page.getByTestId("cardlist-count")).toContainText("0 cards");
+    await expect(page.getByTestId("cardlist-count").first()).toContainText(
+      "0 cards",
+    );
 
     await fillSearch(page, "maimed hand");
-    await expect(page.getByTestId("cardlist-count")).toContainText("1 cards");
+    await expect(page.getByTestId("cardlist-count").first()).toContainText(
+      "1 cards",
+    );
 
     await expect(
       page.getByTestId("listcard-01087").getByTestId("quantity-value"),
@@ -175,6 +179,8 @@ test.describe("deck edit", () => {
     await importDeckFromFile(page, "validation/honed_instinct_valid.json", {
       navigate: "edit",
     });
+
+    await page.getByTestId("search-input").focus();
 
     await page.getByTestId("search-game-text").click();
     await fillSearch(page, "Advanced.");

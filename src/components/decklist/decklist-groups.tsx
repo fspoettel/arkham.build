@@ -30,6 +30,7 @@ type DecklistGroupProps = {
   mapping: string;
   quantities?: Record<string, number>;
   renderCardExtra?: (card: Card, quantity?: number) => React.ReactNode;
+  renderCardBefore?: (card: Card) => React.ReactNode;
 };
 
 type DecklistGroupsProps = {
@@ -46,6 +47,7 @@ export function DecklistGroups({
   mapping,
   quantities,
   renderCardExtra,
+  renderCardBefore,
 }: DecklistGroupsProps) {
   const assetGroup = group["asset"] ? (
     <li className={cx(css["group"], css["asset"])}>
@@ -67,6 +69,7 @@ export function DecklistGroups({
                   listCardSize={listCardSize}
                   mapping={mapping}
                   quantities={quantities}
+                  renderCardBefore={renderCardBefore}
                   renderCardExtra={renderCardExtra}
                 />
               </li>
@@ -93,6 +96,7 @@ export function DecklistGroups({
             mapping={mapping}
             quantities={quantities}
             listCardSize={listCardSize}
+            renderCardBefore={renderCardBefore}
             renderCardExtra={renderCardExtra}
           />
         </li>
@@ -121,6 +125,7 @@ function DecklistGroup(props: DecklistGroupProps) {
     mapping,
     quantities,
     renderCardExtra,
+    renderCardBefore,
   } = props;
 
   const ctx = useResolvedDeckChecked();
@@ -177,6 +182,7 @@ function DecklistGroup(props: DecklistGroupProps) {
             }
             ownedCount={canCheckOwnership ? cardOwnedCount(card) : undefined}
             quantity={quantities?.[card.code] ?? 0}
+            renderCardBefore={renderCardBefore}
             renderCardExtra={renderCardExtra}
             size={listCardSize}
           />
