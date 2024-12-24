@@ -7,4 +7,5 @@
 
 .trigger-container {
   width: 100%;
+  cursor: pointer;
 }

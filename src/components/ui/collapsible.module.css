@@ -30,6 +30,7 @@
   align-items: center;
   flex-flow: row nowrap;
   gap: 0.25rem;
+  cursor: pointer;
   user-select: none;
   font-size: var(--text-sm);
 }
