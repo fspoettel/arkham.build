@@ -40,6 +40,7 @@
   transition-behavior: allow-discrete;
   display: flex;
   visibility: hidden;
+  z-index: 2;
 }
 
 .container:focus-within .flags {
