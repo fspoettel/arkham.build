@@ -143,3 +143,8 @@
   border: 1px solid var(--palette-1);
   border-radius: var(--rounded);
 }
+
+.loader-container {
+  position: relative;
+  height: 100%;
+}

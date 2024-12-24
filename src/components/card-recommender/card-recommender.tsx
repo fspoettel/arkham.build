@@ -128,7 +128,9 @@ export const CardRecommender = forwardRef(function CardRecommender(
           </div>
         </div>
         {(state === "loading" || state === "initial") && (
-          <Loader show message="Computing recommendations..." />
+          <div className={css["loader-container"]}>
+            <Loader show message="Computing recommendations..." />
+          </div>
         )}
         {state === "error" && (
           <ErrorDisplay
