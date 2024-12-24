@@ -10,6 +10,7 @@ import type {
 } from "@/store/services/queries.types";
 import { deckTickToString } from "@/store/slices/recommender";
 import { cx } from "@/utils/cx";
+import { useColorTheme } from "@/utils/use-color-theme";
 import { useQuery } from "@/utils/use-query";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { type MutableRefObject, forwardRef, useCallback, useRef } from "react";
@@ -184,6 +185,8 @@ function CardRecommenderInner(
     listState,
   } = props;
 
+  const [theme] = useColorTheme();
+
   const metadata = useStore((state) => state.metadata);
 
   const { recommendations, decks_analyzed } = data;
@@ -211,6 +214,22 @@ function CardRecommenderInner(
     groupCounts: [],
     key: "recommendations",
   };
+
+  if (sortedCards.length === 0) {
+    return (
+      <ErrorDisplay
+        message="No recommendations for this configuration."
+        pre={
+          <img
+            className={css["no-result-image"]}
+            src={theme === "dark" ? "/404-dark.png" : "/404-light.png"}
+            alt="No recommendations for this configuration."
+          />
+        }
+        status={404}
+      />
+    );
+  }
 
   return (
     <CardList

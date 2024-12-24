@@ -148,3 +148,7 @@
   position: relative;
   height: 100%;
 }
+
+.no-result-image {
+  max-width: 30rem;
+}
