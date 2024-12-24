@@ -34,7 +34,6 @@
   background-color: var(--palette-5);
   border-radius: 50%;
   box-shadow: 0 0 0 0.125rem var(--palette-0);
-  cursor: pointer;
 }
 
 .thumb:hover {

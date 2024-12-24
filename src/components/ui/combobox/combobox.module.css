@@ -72,7 +72,6 @@
   align-items: center;
   gap: 0.5rem;
   width: 100%;
-  cursor: pointer;
   position: relative;
   font-size: var(--text-sm);
   padding: 0 0 0 2rem;

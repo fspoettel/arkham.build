@@ -71,26 +71,31 @@ export const createRecommenderSlice: StateCreator<
     });
   },
   addCoreCard(deckId: Id, value: string) {
-    get().recommender.coreCards[deckId] ??= [];
+    const state = get();
+
+    const currentState = state.recommender.coreCards[deckId] ?? [];
+
     set({
       recommender: {
-        ...get().recommender,
+        ...state.recommender,
         coreCards: {
-          ...get().recommender.coreCards,
-          [deckId]: [...get().recommender.coreCards[deckId], value],
+          ...state.recommender.coreCards,
+          [deckId]: [...currentState, value],
         },
       },
     });
   },
   removeCoreCard(deckId: Id, value: string) {
+    const state = get();
+
+    const currentState = state.recommender.coreCards[deckId] ?? [];
+
     set({
       recommender: {
-        ...get().recommender,
+        ...state.recommender,
         coreCards: {
-          ...get().recommender.coreCards,
-          [deckId]: get().recommender.coreCards[deckId].filter(
-            (v) => v !== value,
-          ),
+          ...state.recommender.coreCards,
+          [deckId]: currentState.filter((v) => v !== value),
         },
       },
     });

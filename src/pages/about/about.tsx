@@ -76,7 +76,8 @@ function About() {
             development of the initial version.
           </li>
           <li>
-            <strong>@blu</strong>: Significant contributions to the codebase.
+            <strong>@TartanLlama</strong>, <strong>@blu</strong>: Significant
+            contributions to the codebase.
           </li>
         </ul>
         <h2>Icon credits</h2>

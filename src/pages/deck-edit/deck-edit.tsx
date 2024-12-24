@@ -188,7 +188,7 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
               </TabsTrigger>
               <TabsTrigger value="deck-tools">
                 <ChartAreaIcon />
-                <span>Deck tools</span>
+                <span>Tools</span>
               </TabsTrigger>
             </TabsList>
             <TabsContent value="card-list" asChild>

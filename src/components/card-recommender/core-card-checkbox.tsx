@@ -12,22 +12,27 @@ export type CoreCardCheckboxProps = {
 };
 
 export function CoreCardCheckbox(props: CoreCardCheckboxProps) {
+  const { card, deck } = props;
+
+  const id = useId();
+
   const checked = useStore((state) =>
     state.recommender.coreCards[props.deck.id]?.includes(props.card.code),
   );
+
   const addCoreCard = useStore((state) => state.addCoreCard);
   const removeCoreCard = useStore((state) => state.removeCoreCard);
+
   const onCheck = useCallback(
     (val: boolean | string) => {
       if (val) {
-        addCoreCard(props.deck.id, props.card.code);
+        addCoreCard(deck.id, card.code);
       } else {
-        removeCoreCard(props.deck.id, props.card.code);
+        removeCoreCard(deck.id, card.code);
       }
     },
-    [addCoreCard, removeCoreCard, props.card.code, props.deck.id],
+    [addCoreCard, removeCoreCard, card.code, deck.id],
   );
-  const id = useId();
 
   return (
     <Checkbox

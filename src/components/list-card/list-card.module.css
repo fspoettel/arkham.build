@@ -40,11 +40,6 @@
   display: inline-block;
 }
 
-.listcard-after-inner-fullwidth {
-  display: inline-block;
-  width: 100%;
-}
-
 .listcard-wrapper.card-text {
   background-color: var(--palette-point-five);
   padding: 0.5em;

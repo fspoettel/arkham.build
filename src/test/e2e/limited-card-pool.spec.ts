@@ -87,7 +87,9 @@ test.describe("limited card pool", () => {
     await page.getByTestId("masthead-logo").click();
     await createLimitedPoolDeck(page);
     await fillSearch(page, "crowbar");
-    await expect(page.getByTestId("cardlist-count")).toContainText("0 cards");
+    await expect(page.getByTestId("cardlist-count").first()).toContainText(
+      "0 cards",
+    );
     await page.getByTestId("editor-tab-meta").click();
     await page.getByTestId("combobox-input").click();
     await page.getByTestId("combobox-input").fill("drown");

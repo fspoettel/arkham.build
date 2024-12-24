@@ -19,6 +19,7 @@
   background: var(--palette-1);
   border-radius: var(--rounded);
   border: 1px solid var(--palette-3);
+  cursor: pointer;
 
   &[disabled] {
     cursor: not-allowed;
@@ -63,12 +64,5 @@
   word-break: normal;
   font-family: var(--font-family-ui);
   font-size: var(--text-sm);
-}
-
-.button {
   cursor: pointer;
-}
-
-.button * {
-  cursor: inherit;
 }

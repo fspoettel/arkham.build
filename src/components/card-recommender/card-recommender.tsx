@@ -1,26 +1,239 @@
 import { ErrorDisplay } from "@/pages/errors/error-display";
 import { useStore } from "@/store";
+import type { ResolvedDeck } from "@/store/lib/types";
 import { type ListState, selectListCards } from "@/store/selectors/lists";
 import { getRecommendations } from "@/store/services/queries";
-import type { Card, Recommendation } from "@/store/services/queries.types";
+import type {
+  Card,
+  Recommendation,
+  Recommendations,
+} from "@/store/services/queries.types";
 import { deckTickToString } from "@/store/slices/recommender";
 import { cx } from "@/utils/cx";
 import { useQuery } from "@/utils/use-query";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
-import { Rows3Icon } from "lucide-react";
 import { type MutableRefObject, forwardRef, useCallback, useRef } from "react";
-import { Link } from "wouter";
 import { CardList } from "../card-list/card-list";
 import { CardSearch } from "../card-list/card-search";
 import type { CardListProps } from "../card-list/types";
 import { Footer } from "../footer";
-import { Button } from "../ui/button";
 import { Loader } from "../ui/loader";
 import css from "./card-recommender.module.css";
 import { DeckDateRangeFilter } from "./deck-date-range-filter";
 import { IncludeSideDeckToggle } from "./include-side-deck-toggle";
 import { RecommendationBar } from "./recommendation-bar";
 import { RecommenderRelativityToggle } from "./recommender-relativity-toggle";
+
+export const CardRecommender = forwardRef(function CardRecommender(
+  props: CardListProps,
+  ref: React.ForwardedRef<HTMLDivElement>,
+) {
+  const { slotLeft, slotRight, ...rest } = props;
+
+  const { resolvedDeck } = useResolvedDeck();
+
+  const listState = useStore((state) =>
+    selectListCards(state, resolvedDeck, "slots"),
+  );
+
+  const recommender = useStore((state) => state.recommender);
+  const {
+    includeSideDeck,
+    isRelative,
+    deckFilter: dateRange,
+    coreCards,
+  } = recommender;
+
+  const recommendationQuery = useMemoSubset(
+    () => {
+      if (!resolvedDeck?.id || !listState?.cards) {
+        return () =>
+          Promise.resolve({ recommendations: [], decks_analyzed: 0 });
+      }
+      const dateRangeStrings = dateRange.map(deckTickToString) as [
+        string,
+        string,
+      ];
+      // We don't want to recommend signatures, story cards, or weaknesses
+      const toRecommend = listState.cards
+        .filter((card) => card.xp != null)
+        .map((card) => card.code);
+
+      const canonicalizedInvestigatorCode = `${resolvedDeck?.metaParsed.alternate_back ?? resolvedDeck?.investigator_code}-${resolvedDeck?.metaParsed.alternate_front ?? resolvedDeck?.investigator_code}`;
+
+      return () =>
+        getRecommendations(
+          canonicalizedInvestigatorCode,
+          includeSideDeck,
+          isRelative,
+          coreCards[resolvedDeck.id] || [],
+          toRecommend,
+          dateRangeStrings,
+        );
+    },
+    listState?.cards, //Allows the new version of listState.cards to be a subset of the old one
+    [
+      resolvedDeck?.id,
+      resolvedDeck?.investigator_code,
+      resolvedDeck?.metaParsed.alternate_back,
+      resolvedDeck?.metaParsed.alternate_front,
+      includeSideDeck,
+      isRelative,
+      dateRange,
+      coreCards,
+    ],
+  );
+
+  const { data, state } = useQuery(recommendationQuery);
+
+  const onKeyboardNavigate = useCallback((evt: React.KeyboardEvent) => {
+    if (
+      evt.key === "ArrowDown" ||
+      evt.key === "ArrowUp" ||
+      evt.key === "Enter" ||
+      evt.key === "Escape"
+    ) {
+      evt.preventDefault();
+
+      const customEvent = new CustomEvent("list-keyboard-navigate", {
+        detail: evt.key,
+      });
+
+      window.dispatchEvent(customEvent);
+
+      if (evt.key === "Escape" && evt.target instanceof HTMLElement) {
+        evt.target.blur();
+      }
+    }
+  }, []);
+
+  if (!listState || !resolvedDeck) return null;
+
+  return (
+    <article className={cx(css["card-recommender"])} ref={ref}>
+      <div className={cx(css["container"])}>
+        <div className={cx(css["toolbar"])}>
+          <CardSearch
+            onInputKeyDown={onKeyboardNavigate}
+            slotLeft={slotLeft}
+            slotRight={slotRight}
+          />
+          <DeckDateRangeFilter />
+          <div className={cx(css["toggle-container"])}>
+            <IncludeSideDeckToggle />
+            {data && <DeckCount decks_analyzed={data?.decks_analyzed} />}
+            <RecommenderRelativityToggle
+              investigator={resolvedDeck.investigator_name}
+            />
+          </div>
+        </div>
+        {(state === "loading" || state === "initial") && (
+          <Loader show message="Computing recommendations..." />
+        )}
+        {state === "error" && (
+          <ErrorDisplay
+            message="Could not retrieve recommendations."
+            status={500}
+          />
+        )}
+        {data && (
+          <CardRecommenderInner
+            {...rest}
+            data={data}
+            listState={listState}
+            resolvedDeck={resolvedDeck}
+          />
+        )}
+      </div>
+      <Footer />
+    </article>
+  );
+});
+
+function DeckCount(props: { decks_analyzed?: number }) {
+  const { decks_analyzed } = props;
+
+  if (!decks_analyzed == null) return null;
+
+  return (
+    <span className={css["toggle-decks-count"]}>
+      <i className="icon-deck" />
+      {decks_analyzed} decks
+    </span>
+  );
+}
+
+function CardRecommenderInner(
+  props: Omit<CardListProps, "slotLeft" | "slotRight"> & {
+    data: Recommendations;
+    listState: ListState;
+    resolvedDeck: ResolvedDeck;
+  },
+) {
+  const {
+    data,
+    itemSize,
+    onChangeCardQuantity,
+    quantities,
+    renderCardAction,
+    renderCardExtra,
+    renderCardMetaExtra,
+    resolvedDeck,
+    listState,
+  } = props;
+
+  const metadata = useStore((state) => state.metadata);
+
+  const { recommendations, decks_analyzed } = data;
+
+  const indexedRecommendations = recommendations.reduce(
+    (acc, rec) => {
+      acc[rec.card_code] = rec;
+      return acc;
+    },
+    {} as Record<string, Recommendation>,
+  );
+
+  const sortedCards = listState.cards
+    .filter((card) => indexedRecommendations[card.code] !== undefined)
+    .sort(
+      (a, b) =>
+        indexedRecommendations[b.code].ordering -
+        indexedRecommendations[a.code].ordering,
+    );
+
+  const newData: ListState = {
+    cards: sortedCards,
+    totalCardCount: sortedCards.length,
+    groups: [],
+    groupCounts: [],
+    key: "recommendations",
+  };
+
+  return (
+    <CardList
+      data={newData}
+      metadata={metadata}
+      resolvedDeck={resolvedDeck}
+      viewMode="compact"
+      listMode="single"
+      itemSize={itemSize}
+      onChangeCardQuantity={onChangeCardQuantity}
+      quantities={quantities}
+      renderCardAction={renderCardAction}
+      renderCardExtra={renderCardExtra}
+      renderCardAfter={(card: Card) => (
+        <RecommendationBar
+          card={card}
+          deckCount={decks_analyzed}
+          investigator={resolvedDeck.investigator_name}
+          recommendations={indexedRecommendations}
+        />
+      )}
+      renderCardMetaExtra={renderCardMetaExtra}
+    />
+  );
+}
 
 // Like useMemo, but has one argument that is allowed to be a subset of previous renders
 function useMemoSubset<T, S extends unknown[]>(
@@ -58,190 +271,3 @@ function useMemoSubset<T, S extends unknown[]>(
 
   return state.current?.value as T;
 }
-
-export const CardRecommender = forwardRef(function CardRecommender(
-  props: CardListProps,
-  ref: React.ForwardedRef<HTMLDivElement>,
-) {
-  const {
-    itemSize,
-    onChangeCardQuantity,
-    quantities,
-    renderCardAction,
-    renderCardExtra,
-    renderCardMetaExtra,
-    slotLeft,
-    slotRight,
-  } = props;
-
-  const ctx = useResolvedDeck();
-  const resolvedDeck = ctx.resolvedDeck;
-  const metadata = useStore((state) => state.metadata);
-  const listState = useStore((state) =>
-    selectListCards(state, ctx.resolvedDeck, "slots"),
-  );
-  const includeSideDeck = useStore(
-    (state) => state.recommender.includeSideDeck,
-  );
-  const isRelative = useStore((state) => state.recommender.isRelative);
-  const dateRange = useStore((state) => state.recommender.deckFilter);
-
-  const coreCards = useStore((state) => state.recommender.coreCards);
-  const recommendationQuery = useMemoSubset(
-    () => {
-      if (!resolvedDeck?.id || !listState?.cards) {
-        return () =>
-          Promise.resolve({ recommendations: [], decks_analyzed: 0 });
-      }
-      const dateRangeStrings = dateRange.map(deckTickToString) as [
-        string,
-        string,
-      ];
-      // We don't want to recommend signatures, story cards, or weaknesses
-      const toRecommend = listState.cards
-        .filter((card) => card.xp != null)
-        .map((card) => card.code);
-      const canonicalizedInvestigatorCode = `${resolvedDeck?.metaParsed.alternate_back ?? resolvedDeck?.investigator_code}-${resolvedDeck?.metaParsed.alternate_front ?? resolvedDeck?.investigator_code}`;
-      return () =>
-        getRecommendations(
-          canonicalizedInvestigatorCode,
-          includeSideDeck,
-          isRelative,
-          coreCards[resolvedDeck.id] || [],
-          toRecommend,
-          dateRangeStrings,
-        );
-    },
-    listState?.cards, //Allows the new version of listState.cards to be a subset of the old one
-    [
-      resolvedDeck?.id,
-      resolvedDeck?.investigator_code,
-      resolvedDeck?.metaParsed.alternate_back,
-      resolvedDeck?.metaParsed.alternate_front,
-      includeSideDeck,
-      isRelative,
-      dateRange,
-      coreCards,
-    ],
-  );
-
-  const { data, state } = useQuery(recommendationQuery);
-
-  const onKeyboardNavigate = useCallback((evt: React.KeyboardEvent) => {
-    if (evt.key === "Enter" || evt.key === "Escape") {
-      evt.preventDefault();
-
-      if (evt.key === "Escape" && evt.target instanceof HTMLElement) {
-        evt.target.blur();
-      }
-    }
-  }, []);
-
-  if (resolvedDeck && metadata && listState) {
-    if (state === "loading" || state === "initial") {
-      return <Loader show message="Computing recommendations..." />;
-    }
-
-    if (state === "error") {
-      return (
-        <ErrorDisplay
-          message="Could not retrieve recommendations."
-          status={500}
-        />
-      );
-    }
-
-    const { recommendations, decks_analyzed } = data;
-
-    const indexedRecommendations = recommendations.reduce<
-      Record<string, Recommendation>
-    >((acc, rec) => {
-      acc[rec.card_code] = rec;
-      return acc;
-    }, {});
-
-    const sortedCards = listState.cards
-      .filter((card) => {
-        return indexedRecommendations[card.code] !== undefined;
-      })
-      .slice();
-    sortedCards.sort((a, b) => {
-      return (
-        indexedRecommendations[b.code].ordering -
-        indexedRecommendations[a.code].ordering
-      );
-    });
-
-    const newData: ListState = {
-      cards: sortedCards,
-      totalCardCount: sortedCards.length,
-      groups: [],
-      groupCounts: [],
-      key: "recommendations",
-    };
-
-    const renderRecBar = (card: Card) => (
-      <RecommendationBar
-        card={card}
-        deckCount={decks_analyzed}
-        investigator={resolvedDeck.investigator_name}
-        recommendations={indexedRecommendations}
-      />
-    );
-
-    return (
-      <article className={cx(css["card-recommender"])} ref={ref}>
-        <div className={cx(css["container"])}>
-          <div className={cx(css["toolbar"])}>
-            <CardSearch
-              onInputKeyDown={onKeyboardNavigate}
-              slotLeft={slotLeft}
-              slotRight={slotRight}
-            />
-            <DeckDateRangeFilter />
-            <div className={cx(css["toggle-container"])}>
-              <IncludeSideDeckToggle />
-              <span className={css["toggle-decks-count"]}>
-                <i className="icon-deck" />
-                {decks_analyzed} decks
-              </span>
-              <RecommenderRelativityToggle
-                investigator={resolvedDeck.investigator_name}
-              />
-            </div>
-          </div>
-          <CardList
-            data={newData}
-            metadata={metadata}
-            resolvedDeck={ctx.resolvedDeck}
-            viewMode="compact"
-            grouped={false}
-            itemSize={itemSize}
-            onChangeCardQuantity={onChangeCardQuantity}
-            quantities={quantities}
-            renderCardAction={renderCardAction}
-            renderCardExtra={renderCardExtra}
-            renderCardAfter={renderRecBar}
-            renderCardMetaExtra={renderCardMetaExtra}
-          />
-        </div>
-        <Footer />
-      </article>
-    );
-  }
-
-  return (
-    <article className={cx(css["card-recommender"])}>
-      <header className={cx(css["recommender-header"])}>
-        <h3 className={cx(css["recommender-title"])}>Card Recommender</h3>
-        <Link to="/" asChild>
-          <Button as="a">
-            <Rows3Icon />
-            Back to card list
-          </Button>
-        </Link>
-      </header>
-      <Footer />
-    </article>
-  );
-});

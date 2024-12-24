@@ -197,6 +197,7 @@ test.describe("filters", () => {
     await page.getByPlaceholder("Select slot(s)").fill("taro");
     await page.getByTestId("combobox-menu-item-Tarot").click();
     await expect(page.getByTestId("listcard-54005")).toBeVisible();
+    await page.getByTestId("search-input").focus();
     await page.getByTestId("search-game-text").click();
     await page.getByTestId("search-card-name").click();
     await expect(page.getByTestId("listcard-54005")).not.toBeVisible();

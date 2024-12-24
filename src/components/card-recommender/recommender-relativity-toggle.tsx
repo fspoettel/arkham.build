@@ -10,6 +10,7 @@ export function RecommenderRelativityToggle(
 ) {
   const isRelative = useStore((state) => state.recommender.isRelative);
   const setIsRelative = useStore((state) => state.setIsRelative);
+
   const onToggleChange = useCallback(
     (value: string) => {
       setIsRelative(value === "true");

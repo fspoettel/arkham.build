@@ -11,13 +11,15 @@ import css from "./card-recommender.module.css";
 export function DeckDateRangeFilter() {
   const value = useStore((state) => state.recommender.deckFilter);
   const setFilterValue = useStore((state) => state.setRecommenderDeckFilter);
-  const [min, max] = deckDateTickRange();
+
   const onValueCommit = useCallback(
     (value: [number, number]) => {
       setFilterValue(value);
     },
     [setFilterValue],
   );
+
+  const [min, max] = deckDateTickRange();
 
   return (
     <RangeSelect
@@ -30,7 +32,7 @@ export function DeckDateRangeFilter() {
       onValueChange={onValueCommit}
       onValueCommit={onValueCommit}
       value={value}
-      labelClassName={cx(css["date-range-label"])}
+      outputClassName={cx(css["date-range-output"])}
       renderLabel={deckTickToString}
       showLabel
     />
