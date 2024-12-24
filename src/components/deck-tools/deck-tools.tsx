@@ -22,15 +22,15 @@ export const DeckTools = forwardRef(function DeckTools(
   props: Props,
   ref: React.ForwardedRef<HTMLDivElement>,
 ) {
-  const { deck, readonly, scrollable, showTitle, slotLeft, slotRight } = props;
+  const { deck, readonly, scrollable, showTitle } = props;
 
   const node = (
     <article className={cx(css["deck-tools"])} ref={ref}>
-      <header className={css["tools-header"]}>
-        {slotLeft}
-        {showTitle && <h3 className={css["tools-title"]}>Deck Tools</h3>}
-        {slotRight}
-      </header>
+      {showTitle && (
+        <header className={css["tools-header"]}>
+          {showTitle && <h3 className={css["tools-title"]}>Deck Tools</h3>}
+        </header>
+      )}
       <Suspense fallback={<Loader show message="Loading tools..." />}>
         <LimitedSlots deck={deck} />
         <LazyChartContainer deck={deck} />
