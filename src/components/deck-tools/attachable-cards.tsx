@@ -56,14 +56,18 @@ export function AttachableCards(props: Props) {
     () =>
       Object.values(resolvedDeck.cards.slots)
         .reduce<Entry[]>((acc, curr) => {
+          const quantity = getAttachedQuantity(
+            curr.card,
+            definition,
+            resolvedDeck,
+          );
+
+          if (quantity === 0 && readonly) return acc;
+
           if (canAttach(curr.card, definition)) {
             acc.push({
               card: curr.card,
-              quantity: getAttachedQuantity(
-                curr.card,
-                definition,
-                resolvedDeck,
-              ),
+              quantity,
               limit: resolvedDeck.slots[curr.card.code] ?? 0,
             });
           }
@@ -71,7 +75,7 @@ export function AttachableCards(props: Props) {
           return acc;
         }, [])
         .sort((a, b) => sortFunction(a.card, b.card)),
-    [resolvedDeck, definition, sortFunction],
+    [resolvedDeck, definition, sortFunction, readonly],
   );
 
   const colorCls = getCardColor(card, "background");
