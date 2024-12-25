@@ -54,24 +54,48 @@ export function useQuery<T>(query: Query<T> | undefined): State<T> {
     data: undefined,
   } as State<T>);
 
-  const lock = useRef(false);
+  // Lock to prevent re-running the same query multiple times while it's already running.
+  const lock = useRef<null | Query<T>>(null);
+
+  // Keep a reference of the current query version we are running.
+  // If it changes between the time we start the query and the time it resolves,
+  // we ignore the result.
+  const queryId = useRef(0);
+
+  const isMounted = useRef(true);
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   const doQuery = useCallback(async () => {
     if (!query) {
       dispatch({ type: "RESET" });
+      return;
     }
 
-    if (!lock.current && query) {
-      lock.current = true;
+    if (!lock.current || query !== lock.current) {
+      lock.current = query;
+
       dispatch({ type: "LOADING" });
+
+      queryId.current += 1;
+      const currentQueryId = queryId.current;
 
       try {
         const data = await query();
-        dispatch({ type: "SUCCESS", payload: data });
+
+        if (isMounted && queryId.current === currentQueryId) {
+          dispatch({ type: "SUCCESS", payload: data });
+        }
       } catch (err) {
-        dispatch({ type: "ERROR", payload: err });
+        if (isMounted && queryId.current === currentQueryId) {
+          dispatch({ type: "ERROR", payload: err });
+        }
       } finally {
-        lock.current = false;
+        lock.current = null;
       }
     }
   }, [query]);
