@@ -17,6 +17,96 @@
     "patch": true
   },
   {
+    "back_flavor": "<b>This is placeholder back text until the card is revealed.</b>",
+    "back_text": "<b>This is not 100% confirmed. Use at your own risk.</b>\n<b>Deck Size:</b> 30\n<b>Trait Choice:</b> At deck creation, choose [[Fortune]], [[Gambit]] or [[Improvised]].\n<b>Deckbuilding Options:</b> Guardian ([guardian]) cards level 0-5, neutral cards level 0-5,  cards of your chosen trait level 0-2, up to 5 other level 0 Survivor ([survivor]) cards.\n<b>Deckbuilding Requirements</b> (do not count toward deck size): 2 copies of Determined, \"I'll do it myself\", 1 random basic weakness.",
+    "code": "11001",
+    "deck_limit": 1,
+    "deck_options": [
+      {
+        "faction": ["guardian", "neutral"],
+        "level": { "min": 0, "max": 5 }
+      },
+      {
+        "name": "Trait Choice",
+        "option_select": [
+          {
+            "id": "improvised",
+            "name": "Improvised",
+            "trait": ["improvised"],
+            "level": { "min": 0, "max": 2 }
+          },
+          {
+            "id": "gambit",
+            "name": "Gambit",
+            "trait": ["gambit"],
+            "level": { "min": 0, "max": 2 }
+          },
+          {
+            "id": "fortune",
+            "name": "Fortune",
+            "trait": ["fortune"],
+            "level": { "min": 0, "max": 2 }
+          }
+        ]
+      },
+      {
+        "faction": ["survivor"],
+        "level": { "min": 0, "max": 0 },
+        "limit": 5
+      }
+    ],
+    "deck_requirements": "card:11002, card:11003, random:subtype:basicweakness",
+    "double_sided": true,
+    "faction_code": "guardian",
+    "flavor": "\"People rely on me to do my job. A few odd fish in the water don't change that.\"",
+    "health": 8,
+    "illustrator": "Aleksander Karcz",
+    "is_unique": true,
+    "name": "Marion Tavares",
+    "pack_code": "tdcp",
+    "position": 1,
+    "quantity": 1,
+    "sanity": 6,
+    "skill_agility": 3,
+    "skill_combat": 4,
+    "skill_intellect": 3,
+    "skill_willpower": 2,
+    "subname": "The Trawler",
+    "text": "You have 1 fewer hand slots.\n[reaction] After you play an event during your turn: Draw 1 card. Then, you may play a different event. (Limit once per round.)\n[elder_sign] effect: +1. Search the top 3 cards of your deck for an event and draw it. Shuffle your deck.",
+    "traits": "Drifter. Entrepreneur.",
+    "type_code": "investigator"
+  },
+  {
+    "code": "11002",
+    "deck_limit": 2,
+    "faction_code": "neutral",
+    "illustrator": "Aleksander Karcz",
+    "name": "Determined",
+    "pack_code": "tdcp",
+    "position": 2,
+    "quantity": 2,
+    "restrictions": "investigator:11001",
+    "skill_wild": 1,
+    "text": "Marion Tavares deck only.\nIf this skill test is successful and it is on an event you played, you may return Determined to your hand instead of discarding it.",
+    "traits": "Innate.",
+    "type_code": "skill"
+  },
+  {
+    "code": "11003",
+    "deck_limit": 1,
+    "faction_code": "neutral",
+    "illustrator": "Aleksander Karcz",
+    "name": "\"I'll do it myself\"",
+    "pack_code": "tdcp",
+    "position": 3,
+    "quantity": 1,
+    "restrictions": "investigator:11001",
+    "subtype_code": "weakness",
+    "text": "<b>Revelation</b> - Put \"I'll do it myself\" into play in your threat area.\nAs an additional cost for you to play an event, take 1 horror.\n[fast] Discard 3 events from your hand: Discard \"I'll do it myself.\"",
+    "traits": "Flaw.",
+    "type_code": "treachery"
+  },
+  {
     "back_flavor": "A Southern transplant raised in New York, Lucius has made quite a name for himself writing dreamy poetry alongside the intellectuals, artists, and musicians of Harlem. What his contemporaries don't know is that the hazy underwater city Lucius describes is inspired not by New York, but by the nightmarish dreams of his missing partner, Rudi. Before he disappeared, Rudi spoke of a cabal of fellow dreamers in Arkham who shared these unsettling visions. Now, Lucius has taken on the role of guest lecturer at Miskatonic University as he searches for his lost lover, and perhaps the source of his own horrifying dreams...",
     "back_text": "<b>Deck Size</b>: 30.\n<b>Deckbuilding Options</b>: Seeker cards ([seeker]) level 0-5, Rogue cards ([rogue]) level 0-2, Neutral cards level 0-5.\n<b>Deckbuilding Requirements</b> (do not count toward deck size): Book of Verse, Dreams of the Flood, 1 random basic weakness.",
     "code": "11004",

@@ -186,7 +186,7 @@ export const selectDeckCreateCardSets = createSelector(
       ],
       quantities: {
         [SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS]:
-          back.card.deck_requirements?.random.length ?? 1,
+          back.card.deck_requirements?.random?.length ?? 1,
       },
     });
 
