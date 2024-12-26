@@ -55,7 +55,7 @@
         "limit": 5
       }
     ],
-    "deck_requirements": "card:11002, card:11003, random:subtype:basicweakness",
+    "deck_requirements": "size:30, card:11002, card:11003, random:subtype:basicweakness",
     "double_sided": true,
     "faction_code": "guardian",
     "flavor": "\"People rely on me to do my job. A few odd fish in the water don't change that.\"",
