@@ -27,6 +27,7 @@ export function EditorActions(props: Props) {
   const connectionLock = useStore((state) =>
     selectConnectionLockForDeck(state, deck),
   );
+
   const discardEdits = useStore((state) => state.discardEdits);
   const saveDeck = useStore((state) => state.saveDeck);
   const duplicateDeck = useStore((state) => state.duplicateDeck);

@@ -278,13 +278,18 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
       assertCanPublishDeck(resolved);
 
+      state.setRemoting("arkhamdb", true);
+
       try {
         const adapter = new syncAdapters["arkhamdb"](state);
         const { id } = await newDeck(deck);
+
         deck = adapter.in(await updateDeck(adapter.out({ ...deck, id })));
       } catch (err) {
         disconnectProviderIfUnauthorized("arkhamdb", err, set);
         throw err;
+      } finally {
+        state.setRemoting("arkhamdb", false);
       }
     }
 
@@ -326,11 +331,14 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     }
 
     if (deck.source === "arkhamdb") {
+      state.setRemoting("arkhamdb", true);
       try {
         await deleteDeck(id, true);
       } catch (err) {
         disconnectProviderIfUnauthorized("arkhamdb", err, set);
         // when deleting, we ignore the remote error and continue to delete
+      } finally {
+        state.setRemoting("arkhamdb", false);
       }
     } else {
       await Promise.allSettled(

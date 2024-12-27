@@ -32,9 +32,17 @@ import css from "./deck-create.module.css";
 export function DeckCreateEditor() {
   const deckCreate = useStore(selectDeckCreateChecked);
   const { back, investigator } = useStore(selectDeckCreateInvestigators);
+
   const connections = useStore(selectConnections);
+  const connectionLock = useStore(selectConnectionLock);
+  const tabooSets = useStore(selectTabooSetSelectOptions);
+  const provider = useStore((state) => state.deckCreate?.provider);
 
   const createDeck = useStore((state) => state.createDeck);
+  const setTitle = useStore((state) => state.deckCreateSetTitle);
+  const setTabooSet = useStore((state) => state.deckCreateSetTabooSet);
+  const setSelection = useStore((state) => state.deckCreateSetSelection);
+  const setProvider = useStore((state) => state.deckCreateSetProvider);
 
   const toast = useToast();
   const [, navigate] = useLocation();
@@ -64,15 +72,6 @@ export function DeckCreateEditor() {
       });
     }
   }, [toast, createDeck, navigate]);
-
-  const tabooSets = useStore(selectTabooSetSelectOptions);
-  const connectionLock = useStore(selectConnectionLock);
-  const provider = useStore((state) => state.deckCreate?.provider);
-
-  const setTitle = useStore((state) => state.deckCreateSetTitle);
-  const setTabooSet = useStore((state) => state.deckCreateSetTabooSet);
-  const setSelection = useStore((state) => state.deckCreateSetSelection);
-  const setProvider = useStore((state) => state.deckCreateSetProvider);
 
   const setInvestigatorCode = useStore(
     (state) => state.deckCreateSetInvestigatorCode,
@@ -131,6 +130,8 @@ export function DeckCreateEditor() {
 
   const selections = decodeSelections(back, deckCreate.selections);
   const cssVariables = useAccentColor(investigator.card.faction_code);
+
+  console.log("@@@", connectionLock, provider);
 
   return (
     <div className={css["editor"]} style={cssVariables}>
