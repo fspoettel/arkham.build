@@ -650,4 +650,18 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
   async restore(buffer) {
     set(await restoreBackup(get(), buffer));
   },
+
+  dismissBanner(bannerId) {
+    const state = get();
+
+    const banners = new Set(state.app.bannersDismissed);
+    banners.add(bannerId);
+
+    set({
+      app: {
+        ...state.app,
+        bannersDismissed: Array.from(banners),
+      },
+    });
+  },
 });

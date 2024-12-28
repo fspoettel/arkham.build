@@ -9,6 +9,7 @@ import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { FilterXIcon } from "lucide-react";
 import { Fragment } from "react/jsx-runtime";
 import { CollapseSidebarButton } from "../collapse-sidebar-button";
+import { PreviewBanner } from "../preview-banner";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Scroller } from "../ui/scroller";
@@ -66,6 +67,8 @@ export function Filters(props: Props) {
         orientation="right"
         className={css["collapse"]}
       />
+
+      <PreviewBanner />
 
       {props.children && (
         <div className={css["children"]}>{props.children}</div>

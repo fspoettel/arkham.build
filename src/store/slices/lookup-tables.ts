@@ -66,7 +66,7 @@ export const createLookupTablesSlice: StateCreator<
 
     const lookupTables = createLookupTables(
       partial.metadata ?? state.metadata,
-      state.settings,
+      partial.settings ?? state.settings,
     );
 
     set({

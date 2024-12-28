@@ -7,6 +7,7 @@ import type { Deck, Id } from "./data.types";
 
 export type AppState = {
   clientId: string;
+  bannersDismissed?: string[];
 };
 
 export type AppSlice = {
@@ -36,4 +37,6 @@ export type AppSlice = {
 
   backup(): void;
   restore(file: File): Promise<void>;
+
+  dismissBanner(bannerId: string): void;
 };
