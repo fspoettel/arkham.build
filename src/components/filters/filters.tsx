@@ -85,7 +85,7 @@ export function Filters(props: Props) {
       )}
 
       <div className={css["header"]}>
-        <HotkeyTooltip keybind="cmd+f" description="Toggle filters">
+        <HotkeyTooltip keybind="alt+f" description="Toggle filters">
           <Checkbox
             checked={filtersEnabled}
             id="toggle-filters"
@@ -94,7 +94,7 @@ export function Filters(props: Props) {
           />
         </HotkeyTooltip>
 
-        <HotkeyTooltip keybind="cmd+shift+f" description="Reset all filters">
+        <HotkeyTooltip keybind="alt+shift+f" description="Reset all filters">
           <Button
             disabled={!filtersEnabled}
             onClick={resetFilters}
