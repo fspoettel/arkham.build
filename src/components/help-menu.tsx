@@ -42,30 +42,6 @@ const SHORTCUTS: [string, { keybind: string; description: string }[]][] = [
     ],
   ],
   [
-    "Deck view",
-    [
-      { keybind: "d", description: "Deck list" },
-      { keybind: "n", description: "Deck notes" },
-      { keybind: "r", description: "Recommendations" },
-      { keybind: "t", description: "Deck tools" },
-      { keybind: "h", description: "Upgrade history" },
-      { keybind: "e", description: "Edit deck" },
-      { keybind: "u", description: "Upgrade deck" },
-      { keybind: "cmd+d", description: "Duplicate deck" },
-      { keybind: "cmd+shift+j", description: "Export JSON" },
-      { keybind: "cmd+shift+t", description: "Export text" },
-      { keybind: "cmd+backspace", description: "Delete deck" },
-      { keybind: "cmd+shift+backspace", description: "Delete upgrade" },
-    ],
-  ],
-  [
-    "Upgrade modal",
-    [
-      { keybind: "cmd+enter", description: "Save upgrade (& edit)" },
-      { keybind: "cmd+shift+enter", description: "Save upgrade (& close)" },
-    ],
-  ],
-  [
     "Card list",
     [
       { keybind: "/", description: "Focus search" },
@@ -107,6 +83,31 @@ const SHORTCUTS: [string, { keybind: string; description: string }[]][] = [
       },
       { keybind: "0..9", description: "Set deck quantity to x" },
       { keybind: "shift+0..9", description: "Set side deck quantity to x" },
+    ],
+  ],
+  [
+    "Deck view",
+    [
+      { keybind: "d", description: "Deck list" },
+      { keybind: "n", description: "Deck notes" },
+      { keybind: "r", description: "Recommendations" },
+      { keybind: "t", description: "Deck tools" },
+      { keybind: "h", description: "Upgrade history" },
+      { keybind: "e", description: "Edit deck" },
+      { keybind: "u", description: "Upgrade deck" },
+      { keybind: "cmd+d", description: "Duplicate deck" },
+      { keybind: "cmd+shift+j", description: "Export JSON" },
+      { keybind: "cmd+shift+t", description: "Export text" },
+      { keybind: "cmd+backspace", description: "Delete deck" },
+      { keybind: "cmd+shift+backspace", description: "Delete upgrade" },
+      { keybind: "cmd+i", description: "Import deck" },
+    ],
+  ],
+  [
+    "Upgrade modal",
+    [
+      { keybind: "cmd+enter", description: "Save upgrade (& edit)" },
+      { keybind: "cmd+shift+enter", description: "Save upgrade (& close)" },
     ],
   ],
 ];

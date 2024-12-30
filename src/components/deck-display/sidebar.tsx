@@ -327,7 +327,7 @@ function SidebarActions(props: {
   useHotkey("u", onOpenUpgradeModal, { disabled: isReadOnly });
   useHotkey("cmd+backspace", onDelete, { disabled: isReadOnly });
   useHotkey("cmd+shift+backspace", onDeleteLatest, { disabled: isReadOnly });
-  useHotkey("i", onImport, { disabled: origin === "local" });
+  useHotkey("cmd+i", onImport, { disabled: origin === "local" });
   useHotkey("cmd+d", onDuplicate);
   useHotkey("cmd+shift+j", onExportJson);
   useHotkey("cmd+shift+t", onExportText);
@@ -379,9 +379,11 @@ function SidebarActions(props: {
             </Dialog>
           </>
         ) : (
-          <Button size="full" onClick={onImport}>
-            <ImportIcon /> Import deck to collection
-          </Button>
+          <HotkeyTooltip keybind="cmd+i" description="Import deck">
+            <Button size="full" onClick={onImport}>
+              <ImportIcon /> Import deck to collection
+            </Button>
+          </HotkeyTooltip>
         )}
         <Popover
           placement="bottom-start"

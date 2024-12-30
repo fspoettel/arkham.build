@@ -234,7 +234,7 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
           >
             <TabsList className={css["tabs-list"]} style={accentColor}>
               <TabsTrigger
-                hotkey="l"
+                hotkey="c"
                 onTabChange={setCurrentTool}
                 tooltip="Card list"
                 value="card-list"
