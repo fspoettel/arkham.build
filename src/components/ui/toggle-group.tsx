@@ -5,6 +5,7 @@ import type {
   ToggleGroupSingleProps,
 } from "@radix-ui/react-toggle-group";
 import { Item, Root } from "@radix-ui/react-toggle-group";
+import { forwardRef } from "react";
 import css from "./toggle-group.module.css";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
 
@@ -36,12 +37,13 @@ type GroupItemProps = Omit<ToggleGroupItemProps, "size"> & {
   tooltip?: string;
 };
 
-export function ToggleGroupItem({
-  className,
-  tooltip,
-  ...rest
-}: GroupItemProps) {
-  const element = <Item {...rest} className={cx(css["item"], className)} />;
+export const ToggleGroupItem = forwardRef(function ToggleGroupItem(
+  { className, tooltip, ...rest }: GroupItemProps,
+  ref: React.Ref<HTMLButtonElement>,
+) {
+  const element = (
+    <Item {...rest} className={cx(css["item"], className)} ref={ref} />
+  );
 
   if (!tooltip) return element;
 
@@ -51,4 +53,4 @@ export function ToggleGroupItem({
       <TooltipContent>{tooltip}</TooltipContent>
     </Tooltip>
   );
-}
+});

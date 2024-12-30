@@ -85,7 +85,7 @@ export const TooltipContent = forwardRef<
   );
 });
 
-type DefaultTooltipProps = {
+export type DefaultTooltipProps = {
   // Don't accept arrays of items or nullish values
   children: NonNullable<Exclude<React.ReactNode, Iterable<React.ReactNode>>>;
   tooltip?: React.ReactNode;

@@ -21,6 +21,7 @@ import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { useDocumentTitle } from "@/utils/use-document-title";
+import { useHotkey } from "@/utils/use-hotkey";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
 import {
   ChartAreaIcon,
@@ -110,8 +111,49 @@ function DeckEdit() {
 }
 
 function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
+  useDocumentTitle(deck ? `Edit: ${deck.name}` : "");
+
   const [currentTab, setCurrentTab] = useState<Tab>("slots");
   const [currentTool, setCurrentTool] = useState<string>("card-list");
+
+  const tabs = useMemo(() => {
+    const tabs = [
+      {
+        label: "Deck",
+        value: "slots",
+        type: "deck",
+        hotkey: "d",
+        hotkeyLabel: "Cycle decks",
+      },
+      {
+        label: "Side",
+        value: "sideSlots",
+        type: "deck",
+        hotkey: "d",
+        hotkeyLabel: "Cycle decks",
+      },
+    ];
+
+    if (deck.hasExtraDeck) {
+      tabs.push({
+        label: "Extra",
+        value: "extraSlots",
+        type: "deck",
+        hotkey: "d",
+        hotkeyLabel: "Cycle decks",
+      });
+    }
+
+    tabs.push({
+      label: "Meta",
+      value: "meta",
+      type: "app",
+      hotkey: "m",
+      hotkeyLabel: "Deck meta",
+    });
+
+    return tabs;
+  }, [deck.hasExtraDeck]);
 
   const renderCardExtra = useCallback(
     (card: Card, quantity: number | undefined) => {
@@ -131,8 +173,6 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
   const validation = useStore((state) => selectDeckValid(state, deck));
 
-  useDocumentTitle(deck ? `Edit: ${deck.name}` : "");
-
   const accentColor = useAccentColor(deck.investigatorBack.card.faction_code);
 
   const onChangeCardQuantity = useMemo(() => {
@@ -146,6 +186,20 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
       );
     };
   }, [updateCardQuantity, currentTab, deck.id]);
+
+  const onCycleDeck = useCallback(() => {
+    const deckTabs = tabs.filter((tab) => tab.type === "deck");
+    const currentIndex = deckTabs.findIndex((tab) => tab.value === currentTab);
+    const nextIndex = (currentIndex + 1) % deckTabs.length;
+    setCurrentTab(deckTabs[nextIndex].value as Tab);
+  }, [currentTab, tabs]);
+
+  const onSetMeta = useCallback(() => {
+    setCurrentTab("meta");
+  }, []);
+
+  useHotkey("d", onCycleDeck);
+  useHotkey("m", onSetMeta);
 
   return (
     <ListLayoutContextProvider>
@@ -167,6 +221,7 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
             onTabChange={setCurrentTab}
             renderCardExtra={renderCardExtra}
             validation={validation}
+            tabs={tabs}
           />
         }
         sidebarWidthMax="var(--sidebar-width-two-col)"
@@ -178,15 +233,30 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
             value={currentTool}
           >
             <TabsList className={css["tabs-list"]} style={accentColor}>
-              <TabsTrigger value="card-list">
+              <TabsTrigger
+                hotkey="l"
+                onTabChange={setCurrentTool}
+                tooltip="Card list"
+                value="card-list"
+              >
                 <Rows3Icon />
                 <span>Card list</span>
               </TabsTrigger>
-              <TabsTrigger value="recommendations">
+              <TabsTrigger
+                hotkey="r"
+                onTabChange={setCurrentTool}
+                tooltip="Recommendations"
+                value="recommendations"
+              >
                 <WandSparklesIcon />
                 <span>Recommendations</span>
               </TabsTrigger>
-              <TabsTrigger value="deck-tools">
+              <TabsTrigger
+                hotkey="t"
+                onTabChange={setCurrentTool}
+                tooltip="Deck tools"
+                value="deck-tools"
+              >
                 <ChartAreaIcon />
                 <span>Tools</span>
               </TabsTrigger>

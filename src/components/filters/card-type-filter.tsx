@@ -1,6 +1,8 @@
 import { useStore } from "@/store";
 import { selectActiveList } from "@/store/selectors/lists";
+import { useHotkey } from "@/utils/use-hotkey";
 import { useCallback } from "react";
+import { HotkeyTooltip } from "../ui/hotkey";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 type Props = {
@@ -18,6 +20,9 @@ export function CardTypeFilter(props: Props) {
     [changeList],
   );
 
+  useHotkey("alt+p", () => onToggle("player"));
+  useHotkey("alt+c", () => onToggle("encounter"));
+
   if (!activeList) return null;
 
   return (
@@ -30,20 +35,16 @@ export function CardTypeFilter(props: Props) {
       type="single"
       value={activeList.cardType}
     >
-      <ToggleGroupItem
-        data-testid="card-type-player"
-        value="player"
-        tooltip="Show player cards"
-      >
-        <i className="icon-per_investigator" /> Player
-      </ToggleGroupItem>
-      <ToggleGroupItem
-        value="encounter"
-        data-testid="card-type-encounter"
-        tooltip="Show encounter cards"
-      >
-        <i className="icon-auto_fail" /> Campaign
-      </ToggleGroupItem>
+      <HotkeyTooltip keybind="alt+p" description="Player cards">
+        <ToggleGroupItem data-testid="card-type-player" value="player">
+          <i className="icon-per_investigator" /> Player
+        </ToggleGroupItem>
+      </HotkeyTooltip>
+      <HotkeyTooltip keybind="alt+c" description="Campaign cards">
+        <ToggleGroupItem value="encounter" data-testid="card-type-encounter">
+          <i className="icon-auto_fail" /> Campaign
+        </ToggleGroupItem>
+      </HotkeyTooltip>
     </ToggleGroup>
   );
 }

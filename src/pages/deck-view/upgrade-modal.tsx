@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useDialogContextChecked } from "@/components/ui/dialog.hooks";
 import { Field, FieldLabel } from "@/components/ui/field";
+import { HotkeyTooltip } from "@/components/ui/hotkey";
 import { Modal, ModalContent } from "@/components/ui/modal";
 import { Scroller } from "@/components/ui/scroller";
 import { useToast } from "@/components/ui/toast.hooks";
@@ -14,6 +15,7 @@ import { decodeExileSlots } from "@/utils/card-utils";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { range } from "@/utils/range";
 import { useAccentColor } from "@/utils/use-accent-color";
+import { useHotkey } from "@/utils/use-hotkey";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useLocation, useSearch } from "wouter";
 import css from "./upgrade-modal.module.css";
@@ -174,6 +176,23 @@ export function UpgradeModal(props: Props) {
     deck.cards.investigator.card.faction_code,
   );
 
+  const disabled = xp === "" || !!connectionLock;
+
+  const onSave = useCallback(() => {
+    onUpgrade("edit");
+  }, [onUpgrade]);
+
+  const onSaveClose = useCallback(() => {
+    onUpgrade("view");
+  }, [onUpgrade]);
+
+  useHotkey("cmd+enter", onSave, { disabled, allowInputFocused: true });
+
+  useHotkey("cmd+shift+enter", onSaveClose, {
+    disabled,
+    allowInputFocused: true,
+  });
+
   return (
     <Modal data-testid="upgrade-modal" onClose={onCloseModal} size="45rem">
       <ModalContent
@@ -186,24 +205,32 @@ export function UpgradeModal(props: Props) {
         footer={
           <div className={css["footer"]}>
             <div className={css["footer-row"]}>
-              <Button
-                data-testid="upgrade-save"
-                disabled={xp === "" || !!connectionLock}
-                onClick={() => onUpgrade("edit")}
-                tooltip={connectionLock}
-                variant="primary"
+              <HotkeyTooltip
+                keybind="cmd+enter"
+                description={connectionLock ?? "Save upgrade"}
               >
-                Upgrade
-              </Button>
-              <Button
-                data-testid="upgrade-save-close"
-                disabled={xp === "" || !!connectionLock}
-                onClick={() => onUpgrade("view")}
-                tooltip={connectionLock}
-                variant="bare"
+                <Button
+                  data-testid="upgrade-save"
+                  disabled={disabled}
+                  onClick={onSave}
+                  variant="primary"
+                >
+                  Upgrade
+                </Button>
+              </HotkeyTooltip>
+              <HotkeyTooltip
+                keybind="cmd+shift+enter"
+                description={connectionLock ?? "Save upgrade & close"}
               >
-                Save & close
-              </Button>
+                <Button
+                  data-testid="upgrade-save-close"
+                  disabled={disabled}
+                  onClick={onSaveClose}
+                  variant="bare"
+                >
+                  Save & close
+                </Button>
+              </HotkeyTooltip>
             </div>
             <Button onClick={onCloseModal} variant="bare">
               Cancel

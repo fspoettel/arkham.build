@@ -1,7 +1,10 @@
+import { CollapseSidebarButton } from "@/components/collapse-sidebar-button";
 import { Masthead } from "@/components/masthead";
 import { Button } from "@/components/ui/button";
+import { HotkeyTooltip } from "@/components/ui/hotkey";
 import { MQ_FLOATING_FILTERS, MQ_FLOATING_SIDEBAR } from "@/utils/constants";
 import { cx } from "@/utils/cx";
+import { useHotkey } from "@/utils/use-hotkey";
 import { useMedia } from "@/utils/use-media";
 import { FilterIcon } from "lucide-react";
 import type React from "react";
@@ -86,6 +89,25 @@ export function ListLayout(props: Props) {
     ((floatingSidebar && sidebarOpen) || (floatingFilters && filtersOpen)) &&
     css["floating-menu-open"];
 
+  const toggleSidebar = useCallback(() => {
+    setSidebarOpen((open) => !open);
+  }, [setSidebarOpen]);
+
+  const toggleFilters = useCallback(() => {
+    setFiltersOpen((open) => !open);
+  }, [setFiltersOpen]);
+
+  const closeSidebar = useCallback(() => {
+    setSidebarOpen(false);
+  }, [setSidebarOpen]);
+
+  const closeFilters = useCallback(() => {
+    setFiltersOpen(false);
+  }, [setFiltersOpen]);
+
+  useHotkey("alt+1", toggleSidebar);
+  useHotkey("alt+2", toggleFilters);
+
   return (
     <div
       className={cx(
@@ -105,6 +127,13 @@ export function ListLayout(props: Props) {
         onPointerDown={sidebarOpen ? preventBubble : undefined}
         ref={sidebarRef}
       >
+        <CollapseSidebarButton
+          className={css["collapse"]}
+          hotkey="alt+1"
+          hotkeyLabel="Toggle sidebar"
+          onClick={closeSidebar}
+          orientation="left"
+        />
         {sidebar}
       </div>
       <div
@@ -117,24 +146,28 @@ export function ListLayout(props: Props) {
       >
         {children({
           slotLeft: !sidebarOpen && (
-            <Button
-              className={css["toggle-sidebar"]}
-              onClick={() => setSidebarOpen(true)}
-              iconOnly
-              size="lg"
-            >
-              <i className="icon-deck" />
-            </Button>
+            <HotkeyTooltip keybind="alt+1" description="Toggle sidebar">
+              <Button
+                className={css["toggle-sidebar"]}
+                onClick={toggleSidebar}
+                iconOnly
+                size="lg"
+              >
+                <i className="icon-deck" />
+              </Button>
+            </HotkeyTooltip>
           ),
           slotRight: !!filters && !filtersOpen && (
-            <Button
-              className={css["toggle-filters"]}
-              onClick={() => setFiltersOpen(true)}
-              iconOnly
-              size="lg"
-            >
-              <FilterIcon />
-            </Button>
+            <HotkeyTooltip keybind="alt+2" description="Toggle filters">
+              <Button
+                className={css["toggle-filters"]}
+                onClick={toggleFilters}
+                iconOnly
+                size="lg"
+              >
+                <FilterIcon />
+              </Button>
+            </HotkeyTooltip>
           ),
         })}
       </div>
@@ -145,6 +178,13 @@ export function ListLayout(props: Props) {
           onPointerDown={floatingFilters ? preventBubble : undefined}
           ref={filtersRef}
         >
+          <CollapseSidebarButton
+            className={css["collapse"]}
+            onClick={closeFilters}
+            hotkey="alt+2"
+            hotkeyLabel="Toggle filters"
+            orientation="right"
+          />
           {filters}
         </nav>
       )}

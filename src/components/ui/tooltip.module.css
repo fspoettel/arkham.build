@@ -1,6 +1,6 @@
 .content {
   background-color: var(--palette-1);
-  padding: 0.375rem;
+  padding: 0.1875rem 0.3125rem;
   font-size: var(--text-xs);
   border: 1px solid var(--palette-2);
   border-radius: var(--rounded);

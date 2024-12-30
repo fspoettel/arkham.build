@@ -90,7 +90,6 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
             ownership: getInitialOwnershipFilter(state.settings),
             subtype: getInitialSubtypeFilter(state.settings),
           },
-          initialSearch: makeSearch(),
         }),
       },
     });
@@ -630,7 +629,7 @@ type MakeListOptions = {
   duplicateFilter: Filter;
   systemFilter?: Filter;
   initialValues?: Partial<Record<FilterKey, unknown>>;
-  initialSearch?: Search;
+  search?: Search;
 };
 
 function makeList({
@@ -641,7 +640,7 @@ function makeList({
   duplicateFilter,
   systemFilter,
   initialValues,
-  initialSearch,
+  search,
 }: MakeListOptions): List {
   return {
     cardType,
@@ -655,7 +654,7 @@ function makeList({
     display,
     key,
     systemFilter,
-    search: initialSearch ?? makeSearch(),
+    search: search ?? makeSearch(),
   };
 }
 
