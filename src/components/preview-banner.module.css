@@ -1,0 +1,28 @@
+.preview {
+  font-size: var(--text-sm);
+  border: 1px solid var(--palette-2);
+  border-radius: var(--rounded);
+  background-image: url("/assets/cycles/tdc.avif");
+  background-size: cover;
+  position: relative;
+  margin-inline: 0.5rem;
+  margin-top: 0.375rem;
+}
+
+.content {
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.55);
+  border-radius: var(--rounded);
+}
+
+.content > * + * {
+  margin-top: 0.375rem;
+}
+
+.actions > * + * {
+  margin-left: 0.375rem;
+}
+
+.title i {
+  margin-right: 0.25rem;
+}

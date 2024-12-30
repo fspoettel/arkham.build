@@ -160,7 +160,7 @@ export function CardModal(props: Props) {
       }
       data-testid="card-modal"
       onClose={onCloseModal}
-      size="52rem"
+      size={showQuantities ? "60rem" : "52rem"}
     >
       {showQuantities ? (
         <div className={css["container"]}>

@@ -9,6 +9,7 @@ import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { FilterXIcon } from "lucide-react";
 import { useCallback } from "react";
 import { Fragment } from "react/jsx-runtime";
+import { PreviewBanner } from "../preview-banner";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { HotkeyTooltip } from "../ui/hotkey";
@@ -73,6 +74,8 @@ export function Filters(props: Props) {
         !filtersEnabled && css["disabled"],
       )}
     >
+      <PreviewBanner />
+
       {props.children && (
         <div className={css["children"]}>{props.children}</div>
       )}

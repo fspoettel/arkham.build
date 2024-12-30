@@ -185,5 +185,7 @@ test.describe("settings", () => {
     await page.getByTestId("settings-back").click();
     await fillSearch(page, "nose to the grind stone");
     await expect(page.getByTestId("listcard-11111")).toBeVisible();
+
+    await expect(page.getByTestId("preview-banner")).not.toBeVisible();
   });
 });
