@@ -1,19 +1,19 @@
-import { useListLayoutContext } from "@/layouts/list-layout-context";
 import { useStore } from "@/store";
 import {
   selectActiveList,
   selectActiveListFilters,
 } from "@/store/selectors/lists";
 import { cx } from "@/utils/cx";
+import { useHotkey } from "@/utils/use-hotkey";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { FilterXIcon } from "lucide-react";
+import { useCallback } from "react";
 import { Fragment } from "react/jsx-runtime";
-import { CollapseSidebarButton } from "../collapse-sidebar-button";
 import { PreviewBanner } from "../preview-banner";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
+import { HotkeyTooltip } from "../ui/hotkey";
 import { Scroller } from "../ui/scroller";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { ActionFilter } from "./action-filter";
 import { AssetFilter } from "./asset-filter";
 import { CardTypeFilter } from "./card-type-filter";
@@ -46,11 +46,25 @@ export function Filters(props: Props) {
 
   const activeList = useStore(selectActiveList);
   const filters = useStore(selectActiveListFilters);
+
   const resetFilters = useStore((state) => state.resetFilters);
-  const { setFiltersOpen } = useListLayoutContext();
   const updateFiltersEnabled = useStore((state) => state.setFiltersEnabled);
 
   const filtersEnabled = activeList?.filtersEnabled ?? true;
+
+  const toggleFiltersEnabled = useCallback(() => {
+    updateFiltersEnabled(!filtersEnabled);
+  }, [filtersEnabled, updateFiltersEnabled]);
+
+  useHotkey;
+
+  useHotkey("alt+f", toggleFiltersEnabled, {
+    allowInputFocused: true,
+  });
+
+  useHotkey("alt+shift+f", resetFilters, {
+    allowInputFocused: true,
+  });
 
   return (
     <search
@@ -60,14 +74,6 @@ export function Filters(props: Props) {
         !filtersEnabled && css["disabled"],
       )}
     >
-      <CollapseSidebarButton
-        onClick={() => {
-          setFiltersOpen(false);
-        }}
-        orientation="right"
-        className={css["collapse"]}
-      />
-
       <PreviewBanner />
 
       {props.children && (
@@ -79,32 +85,25 @@ export function Filters(props: Props) {
       )}
 
       <div className={css["header"]}>
-        <Tooltip delay={300} placement="top-start">
-          <TooltipTrigger asChild>
-            <div>
-              <Checkbox
-                checked={filtersEnabled}
-                id="toggle-filters"
-                label={<h3 className={css["title"]}>Filters</h3>}
-                onCheckedChange={updateFiltersEnabled}
-              />
-            </div>
-          </TooltipTrigger>
-          <TooltipContent>
-            {filtersEnabled ? "Disable filters" : "Enable filters"}
-          </TooltipContent>
-        </Tooltip>
-        <div>
+        <HotkeyTooltip keybind="alt+f" description="Toggle filters">
+          <Checkbox
+            checked={filtersEnabled}
+            id="toggle-filters"
+            label={<h3 className={css["title"]}>Filters</h3>}
+            onCheckedChange={updateFiltersEnabled}
+          />
+        </HotkeyTooltip>
+
+        <HotkeyTooltip keybind="alt+shift+f" description="Reset all filters">
           <Button
             disabled={!filtersEnabled}
             onClick={resetFilters}
             size="sm"
-            tooltip="Reset all filters"
             variant="bare"
           >
             <FilterXIcon /> Reset
           </Button>
-        </div>
+        </HotkeyTooltip>
       </div>
       <Scroller type="hover">
         <div className={css["content"]}>

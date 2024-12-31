@@ -20,9 +20,17 @@ import { MoveToMainDeck } from "./move-to-main-deck";
 
 type Renderer = (card: Card, quantity?: number) => React.ReactNode;
 
+type TabDefinition = {
+  value: string;
+  label: string;
+  hotkey: string;
+  hotkeyLabel: string;
+};
+
 type Props = {
   className?: string;
   currentTab: Tab;
+  tabs: TabDefinition[];
   currentTool: string;
   onTabChange: (tab: Tab) => void;
   deck: ResolvedDeck;
@@ -31,7 +39,8 @@ type Props = {
 };
 
 export function Editor(props: Props) {
-  const { currentTab, currentTool, onTabChange, deck, renderCardExtra } = props;
+  const { currentTab, currentTool, onTabChange, deck, tabs, renderCardExtra } =
+    props;
 
   const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
   const backgroundCls = getCardColor(deck.investigatorBack.card, "background");
@@ -76,20 +85,17 @@ export function Editor(props: Props) {
         value={currentTab}
       >
         <TabsList className={css["editor-tabs-list"]}>
-          <TabsTrigger value="slots" data-testid="editor-tab-slots">
-            Deck
-          </TabsTrigger>
-          <TabsTrigger value="sideSlots" data-testid="editor-tab-sideslots">
-            Side
-          </TabsTrigger>
-          {deck.hasExtraDeck && (
-            <TabsTrigger value="extraSlots" data-testid="editor-tab-extraslots">
-              Spirits
+          {tabs.map((tab) => (
+            <TabsTrigger
+              key={tab.value}
+              data-testid={`editor-tab-${tab.value.toLowerCase()}`}
+              value={tab.value}
+              hotkey={tab.hotkey}
+              tooltip={tab.hotkeyLabel}
+            >
+              {tab.label}
             </TabsTrigger>
-          )}
-          <TabsTrigger value="meta" data-testid="editor-tab-meta">
-            Meta
-          </TabsTrigger>
+          ))}
         </TabsList>
 
         <Scroller className={css["editor-tabs-content"]}>

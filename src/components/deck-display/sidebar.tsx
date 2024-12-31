@@ -2,7 +2,7 @@ import { DeckInvestigator } from "@/components/deck-investigator/deck-investigat
 import { FactionIcon } from "@/components/icons/faction-icon";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { DropdownMenu } from "@/components/ui/dropdown-menu";
+import { DropdownButton, DropdownMenu } from "@/components/ui/dropdown-menu";
 import { Notice } from "@/components/ui/notice";
 import {
   Popover,
@@ -25,7 +25,7 @@ import {
   formatTabooSet,
 } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
-import { useHotKey } from "@/utils/use-hotkey";
+import { useHotkey } from "@/utils/use-hotkey";
 import {
   CopyIcon,
   DownloadIcon,
@@ -41,6 +41,7 @@ import { useCardModalContext } from "../card-modal/card-modal-context";
 import { DeckInvestigatorModal } from "../deck-investigator/deck-investigator-modal";
 import { CopyToClipboard } from "../ui/copy-to-clipboard";
 import { useDialogContextChecked } from "../ui/dialog.hooks";
+import { HotkeyTooltip } from "../ui/hotkey";
 import { LatestUpgrade } from "./deck-history/latest-upgrade";
 import {
   useDeleteDeck,
@@ -228,7 +229,15 @@ function SidebarActions(props: {
 }) {
   const { origin, deck, onArkhamDBUpload } = props;
 
+  const [, navigate] = useLocation();
+  const search = useSearch();
+  const toast = useToast();
+
   const [actionsOpen, setActionsOpen] = useState(false);
+
+  const [upgradeModalOpen, setUpgradeModalOpen] = useState(
+    origin === "local" && search.includes("upgrade") && !deck.next_deck,
+  );
 
   const connectionLock = useStore(selectConnectionLock);
 
@@ -236,26 +245,27 @@ function SidebarActions(props: {
     selectConnectionLockForDeck(state, deck),
   );
 
-  const toast = useToast();
-  const [, navigate] = useLocation();
-
-  const search = useSearch();
-
-  const [upgradeModalOpen, setUpgradeModalOpen] = useState(
-    origin === "local" && search.includes("upgrade") && !deck.next_deck,
-  );
-
   const deleteDeck = useDeleteDeck();
+
   const onDelete = useCallback(
     () => deleteDeck(deck.id),
     [deck.id, deleteDeck],
   );
 
   const deleteUpgrade = useDeleteUpgrade();
+
   const onDeleteUpgrade = useCallback(
     () => deleteUpgrade(deck.id),
     [deleteUpgrade, deck.id],
   );
+
+  const onDeleteLatest = useCallback(() => {
+    if (deck.previous_deck) {
+      deleteUpgrade(deck.id);
+    } else {
+      onDelete();
+    }
+  }, [deleteUpgrade, onDelete, deck]);
 
   const exportJson = useExportJson();
 
@@ -265,20 +275,26 @@ function SidebarActions(props: {
   );
 
   const exportText = useExportText();
+
   const onExportText = useCallback(() => exportText(deck), [deck, exportText]);
 
   const duplicateDeck = useDuplicateDeck();
+
   const onDuplicate = useCallback(() => {
     setActionsOpen(false);
     duplicateDeck(deck.id);
   }, [deck.id, duplicateDeck]);
 
-  const onUpgradeModalOpenChange = (val: boolean) => {
+  const onUpgradeModalOpenChange = useCallback((val: boolean) => {
     setUpgradeModalOpen(val);
     if (!val && window.location.hash.includes("upgrade")) {
       history.replaceState(null, "", " ");
     }
-  };
+  }, []);
+
+  const onOpenUpgradeModal = useCallback(() => {
+    setUpgradeModalOpen(true);
+  }, []);
 
   const onEdit = useCallback(() => {
     navigate(`/deck/edit/${deck.id}`);
@@ -305,11 +321,16 @@ function SidebarActions(props: {
     }
   }, [deck, importSharedDeck, toast.show, navigate]);
 
-  useHotKey("e", onEdit, [onEdit]);
-  useHotKey("cmd+d", onDuplicate, [onDuplicate]);
-  useHotKey("cmd+backspace", onDelete, [onDelete]);
-
   const isReadOnly = !!deck.next_deck;
+
+  useHotkey("e", onEdit, { disabled: isReadOnly });
+  useHotkey("u", onOpenUpgradeModal, { disabled: isReadOnly });
+  useHotkey("cmd+backspace", onDelete, { disabled: isReadOnly });
+  useHotkey("cmd+shift+backspace", onDeleteLatest, { disabled: isReadOnly });
+  useHotkey("cmd+i", onImport, { disabled: origin === "local" });
+  useHotkey("cmd+d", onDuplicate);
+  useHotkey("cmd+shift+j", onExportJson);
+  useHotkey("cmd+shift+t", onExportText);
 
   return (
     <>
@@ -327,36 +348,42 @@ function SidebarActions(props: {
       <div className={css["actions"]}>
         {origin === "local" ? (
           <>
-            <Button
-              data-testid="view-edit"
-              disabled={isReadOnly}
-              onClick={onEdit}
-              size="full"
-            >
-              <PencilIcon /> Edit
-            </Button>
+            <HotkeyTooltip keybind="e" description="Edit deck">
+              <Button
+                data-testid="view-edit"
+                disabled={isReadOnly}
+                onClick={onEdit}
+                size="full"
+              >
+                <PencilIcon /> Edit
+              </Button>
+            </HotkeyTooltip>
             <Dialog
               onOpenChange={onUpgradeModalOpenChange}
               open={upgradeModalOpen}
             >
-              <DialogTrigger asChild>
-                <Button
-                  data-testid="view-upgrade"
-                  disabled={isReadOnly}
-                  size="full"
-                >
-                  <i className="icon-xp-bold" /> Upgrade
-                </Button>
-              </DialogTrigger>
+              <HotkeyTooltip keybind="u" description="Upgrade deck">
+                <DialogTrigger asChild>
+                  <Button
+                    data-testid="view-upgrade"
+                    disabled={isReadOnly}
+                    size="full"
+                  >
+                    <i className="icon-xp-bold" /> Upgrade
+                  </Button>
+                </DialogTrigger>
+              </HotkeyTooltip>
               <DialogContent>
                 <UpgradeModal deck={deck} />
               </DialogContent>
             </Dialog>
           </>
         ) : (
-          <Button size="full" onClick={onImport}>
-            <ImportIcon /> Import deck to collection
-          </Button>
+          <HotkeyTooltip keybind="cmd+i" description="Import deck">
+            <Button size="full" onClick={onImport}>
+              <ImportIcon /> Import deck to collection
+            </Button>
+          </HotkeyTooltip>
         )}
         <Popover
           placement="bottom-start"
@@ -376,15 +403,14 @@ function SidebarActions(props: {
             <DropdownMenu>
               {origin === "local" && (
                 <>
-                  <Button
+                  <DropdownButton
+                    hotkey="cmd+d"
                     data-testid="view-duplicate"
                     onClick={onDuplicate}
-                    size="full"
-                    variant="bare"
                   >
                     <CopyIcon />
                     Duplicate
-                  </Button>
+                  </DropdownButton>
                   <hr />
                 </>
               )}
@@ -403,47 +429,43 @@ function SidebarActions(props: {
                   <hr />
                 </>
               )}
-              <Button
+              <DropdownButton
                 data-testid="view-export-json"
-                size="full"
-                variant="bare"
+                hotkey="cmd+shift+j"
                 onClick={onExportJson}
               >
                 <DownloadIcon /> Export JSON
-              </Button>
-              <Button
+              </DropdownButton>
+              <DropdownButton
                 data-testid="view-export-text"
-                size="full"
-                variant="bare"
+                hotkey="cmd+shift+t"
                 onClick={onExportText}
               >
-                <DownloadIcon /> Export Markdown
-              </Button>
+                <DownloadIcon /> Export text
+              </DropdownButton>
               {origin === "local" && (
                 <>
                   <hr />
                   {!!deck.previous_deck && (
-                    <Button
+                    <DropdownButton
                       data-testid="view-delete-upgrade"
                       disabled={isReadOnly || !!deckConnectionLock}
+                      hotkey="cmd+shift+backspace"
                       onClick={onDeleteUpgrade}
-                      size="full"
                       tooltip={deckConnectionLock}
-                      variant="bare"
                     >
                       <i className="icon-xp-bold" /> Delete upgrade
-                    </Button>
+                    </DropdownButton>
                   )}
-                  <Button
+                  <DropdownButton
                     data-testid="view-delete"
                     disabled={isReadOnly || !!deckConnectionLock}
+                    hotkey="cmd+backspace"
                     onClick={onDelete}
-                    size="full"
                     tooltip={deckConnectionLock}
-                    variant="bare"
                   >
                     <Trash2Icon /> Delete
-                  </Button>
+                  </DropdownButton>
                 </>
               )}
             </DropdownMenu>

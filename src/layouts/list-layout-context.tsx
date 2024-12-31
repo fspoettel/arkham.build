@@ -4,8 +4,8 @@ import { createContext } from "react";
 type Context = {
   sidebarOpen: boolean;
   filtersOpen: boolean;
-  setSidebarOpen(val: boolean): void;
-  setFiltersOpen(val: boolean): void;
+  setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setFiltersOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const ListLayoutContext = createContext<Context>({

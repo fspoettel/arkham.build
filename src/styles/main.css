@@ -349,6 +349,16 @@ button {
   }
 }
 
+kbd {
+  background-color: var(--palette-point-five);
+  border: 1px solid var(--palette-2);
+  color: var(--palette-5);
+  padding: 0.125rem 0.25rem;
+  border-radius: var(--rounded);
+  vertical-align: baseline;
+  font-size: var(--text-xs);
+}
+
 * {
   scrollbar-color: var(--color-scrollbar-thumb) var(--color-scrollbar);
   scrollbar-width: thin;

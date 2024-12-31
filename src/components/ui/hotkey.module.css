@@ -1,0 +1,22 @@
+.hotkey {
+  display: inline-flex;
+  gap: 0.25rem;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.keybind {
+  gap: 0.0625rem;
+  align-items: center;
+  justify-content: flex-start;
+  line-height: 1;
+  display: none;
+
+  @media (hover: hover) and (pointer: fine) {
+    display: inline-flex;
+  }
+}
+
+.keybind svg {
+  width: 1em;
+}

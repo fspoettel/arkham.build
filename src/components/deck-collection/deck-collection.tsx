@@ -1,4 +1,3 @@
-import { CollapseSidebarButton } from "@/components/collapse-sidebar-button";
 import { DeckSummary } from "@/components/deck-collection/deck-summary";
 import {
   useDeleteDeck,
@@ -13,16 +12,17 @@ import {
 } from "@/components/ui/popover";
 import { Scroller } from "@/components/ui/scroller";
 import { useToast } from "@/components/ui/toast.hooks";
-import { useListLayoutContext } from "@/layouts/list-layout-context";
 import { useStore } from "@/store";
 import { selectConnections } from "@/store/selectors/connections";
 import { selectDecksDisplayList } from "@/store/selectors/deck-filters";
 import { isEmpty } from "@/utils/is-empty";
+import { useHotkey } from "@/utils/use-hotkey";
 import { EllipsisIcon, PlusIcon, Trash2Icon, UploadIcon } from "lucide-react";
 import { useCallback, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { FileInput } from "../ui/file-input";
+import { HotkeyTooltip } from "../ui/hotkey";
 import { DeckCollectionFilters } from "./deck-collection-filters";
 import { DeckCollectionImport } from "./deck-collection-import";
 import css from "./deck-collection.module.css";
@@ -32,6 +32,7 @@ export function DeckCollection() {
 
   const [scrollParent, setScrollParent] = useState<HTMLElement | undefined>();
 
+  const [, navigate] = useLocation();
   const toast = useToast();
 
   const deckCollection = useStore(selectDecksDisplayList);
@@ -39,11 +40,6 @@ export function DeckCollection() {
 
   const importDecks = useStore((state) => state.importFromFiles);
   const deleteAllDecks = useStore((state) => state.deleteAllDecks);
-  const { setSidebarOpen } = useListLayoutContext();
-
-  const onCloseSidebar = useCallback(() => {
-    setSidebarOpen(false);
-  }, [setSidebarOpen]);
 
   const onAddFiles = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,13 +84,14 @@ export function DeckCollection() {
   const deleteDeck = useDeleteDeck();
   const duplicateDeck = useDuplicateDeck();
 
+  const onNewDeck = useCallback(() => {
+    navigate("/deck/create");
+  }, [navigate]);
+
+  useHotkey("n", onNewDeck);
+
   return (
     <div className={css["container"]}>
-      <CollapseSidebarButton
-        onClick={onCloseSidebar}
-        orientation="left"
-        className={css["collapse"]}
-      />
       <header className={css["header"]}>
         <h2 className={css["title"]}>Decks</h2>
         <div className={css["actions"]}>
@@ -104,13 +101,11 @@ export function DeckCollection() {
             </Popover>
           )}
           <Link asChild to="/deck/create">
-            <Button
-              as="a"
-              data-testid="collection-create-deck"
-              tooltip="Create new deck"
-            >
-              <PlusIcon />
-            </Button>
+            <HotkeyTooltip keybind="n" description="Create new deck">
+              <Button as="a" data-testid="collection-create-deck">
+                <PlusIcon />
+              </Button>
+            </HotkeyTooltip>
           </Link>
           <Popover onOpenChange={setPopoverOpen} open={popoverOpen}>
             <PopoverTrigger asChild>

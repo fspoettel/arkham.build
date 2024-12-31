@@ -2,7 +2,7 @@ import { cx } from "@/utils/cx";
 import type { CheckboxProps } from "@radix-ui/react-checkbox";
 import { Indicator, Root } from "@radix-ui/react-checkbox";
 import { CheckIcon } from "lucide-react";
-import { useCallback, useRef } from "react";
+import { forwardRef, useCallback, useRef } from "react";
 import css from "./checkbox.module.css";
 
 type Props = Omit<CheckboxProps, "label"> & {
@@ -12,7 +12,10 @@ type Props = Omit<CheckboxProps, "label"> & {
   label: React.ReactNode;
 };
 
-export function Checkbox(props: Props) {
+export const Checkbox = forwardRef(function Checkbox(
+  props: Props,
+  ref: React.ForwardedRef<HTMLDivElement>,
+) {
   const { className, id, hideLabel, label, ...rest } = props;
   const checkboxRef = useRef<HTMLButtonElement>(null);
 
@@ -21,7 +24,7 @@ export function Checkbox(props: Props) {
   }, []);
 
   return (
-    <div className={cx(css["checkbox"], className)}>
+    <div className={cx(css["checkbox"], className)} ref={ref}>
       <Root {...rest} className={css["root"]} id={id} ref={checkboxRef}>
         <Indicator className={css["indicator"]}>
           <CheckIcon />
@@ -36,4 +39,4 @@ export function Checkbox(props: Props) {
       </label>
     </div>
   );
-}
+});

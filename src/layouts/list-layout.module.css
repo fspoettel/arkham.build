@@ -72,7 +72,7 @@
   border-radius: var(--rounded);
   contain: size layout style;
 
-  & > * {
+  > :not(.collapse) {
     overflow-x: hidden;
   }
 }

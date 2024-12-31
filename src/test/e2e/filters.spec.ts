@@ -87,7 +87,7 @@ test.describe("filters", () => {
     await page.getByTestId("search-input").blur();
 
     await page.locator('[data-test-id="card-list-config"]').click();
-    await page.getByLabel("Compact with text").click();
+    await page.getByLabel("List with text").click();
 
     await expect(page.getByTestId("card-text").first()).toBeVisible();
     await expect(page.getByTestId("card-text").nth(1)).toBeVisible();

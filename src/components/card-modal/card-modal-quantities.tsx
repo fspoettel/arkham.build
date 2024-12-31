@@ -17,7 +17,7 @@ type Props = {
 };
 
 export function CardModalQuantities(props: Props) {
-  const { card, canEdit, deck, showExtraQuantities, onCloseModal } = props;
+  const { card, canEdit, deck, showExtraQuantities } = props;
 
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
 
@@ -27,23 +27,18 @@ export function CardModalQuantities(props: Props) {
     function onKeyDown(evt: KeyboardEvent) {
       if (evt.metaKey || !deck?.id) return;
 
+      const slots = evt.shiftKey ? "sideSlots" : "slots";
+
       if (evt.key === "ArrowRight") {
         evt.preventDefault();
-        updateCardQuantity(deck.id, card.code, 1, limit, "slots");
+        updateCardQuantity(deck.id, card.code, 1, limit, slots);
       } else if (evt.key === "ArrowLeft") {
         evt.preventDefault();
-        updateCardQuantity(deck.id, card.code, -1, limit, "slots");
-      } else if (Number.parseInt(evt.key) >= 0) {
+        updateCardQuantity(deck.id, card.code, -1, limit, slots);
+      } else if (evt.code.startsWith("Digit")) {
         evt.preventDefault();
-        updateCardQuantity(
-          deck.id,
-          card.code,
-          Number.parseInt(evt.key),
-          limit,
-          "slots",
-          "set",
-        );
-        onCloseModal();
+        const quantity = Number.parseInt(evt.code.replace("Digit", ""));
+        updateCardQuantity(deck.id, card.code, quantity, limit, slots, "set");
       }
     }
 
@@ -51,7 +46,7 @@ export function CardModalQuantities(props: Props) {
     return () => {
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [canEdit, card.code, updateCardQuantity, onCloseModal, deck?.id]);
+  }, [canEdit, card.code, updateCardQuantity, deck?.id]);
 
   const quantities = deck?.slots;
   const sideSlotQuantities = deck?.sideSlots;
@@ -156,7 +151,7 @@ function showIgnoreDeckLimitSlots(deck: ResolvedDeck | undefined, card: Card) {
       traits.includes("Spell")) ||
     // parallel skids & gambit / fortune
     (investigator === SPECIAL_CARD_CODES.PARALLEL_SKIDS &&
-      (traits.includes("Gambit") || traits.includes("Fortunes"))) ||
+      (traits.includes("Gambit") || traits.includes("Fortune"))) ||
     // ace of rods
     card.code === SPECIAL_CARD_CODES.ACE_OF_RODS
   );

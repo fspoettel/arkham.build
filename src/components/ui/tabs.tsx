@@ -1,4 +1,5 @@
 import { cx } from "@/utils/cx";
+import { useHotkey } from "@/utils/use-hotkey";
 import type {
   TabsProps as RootProps,
   TabsContentProps,
@@ -6,7 +7,9 @@ import type {
   TabsTriggerProps,
 } from "@radix-ui/react-tabs";
 import { Content, List, Root, Trigger } from "@radix-ui/react-tabs";
+import { forwardRef, useCallback } from "react";
 import { Button } from "./button";
+import { HotkeyTooltip } from "./hotkey";
 import css from "./tabs.module.css";
 
 type TabsProps = RootProps & {
@@ -39,27 +42,50 @@ export function TabsList({ children, className, ...rest }: ListProps) {
 
 type TriggerProps = TabsTriggerProps & {
   children: React.ReactNode;
-  tooltip?: React.ReactNode;
+  hotkey?: string;
+  tooltip?: string;
+  onTabChange?: (value: string) => void;
 };
 
-export function TabsTrigger({
-  children,
-  className,
-  tooltip,
-  ...rest
-}: TriggerProps) {
-  return (
-    <Trigger {...rest} asChild>
+export const TabsTrigger = forwardRef(function TabsTrigger(
+  {
+    children,
+    className,
+    hotkey,
+    onTabChange,
+    tooltip,
+    value,
+    ...rest
+  }: TriggerProps,
+  ref: React.ForwardedRef<HTMLButtonElement>,
+) {
+  const inner = (
+    <Trigger {...rest} asChild value={value}>
       <Button
         className={cx(css["trigger"], className)}
+        ref={ref}
+        tooltip={hotkey ? undefined : tooltip}
         variant="bare"
-        tooltip={tooltip}
       >
         {children}
       </Button>
     </Trigger>
   );
-}
+
+  const onHotkey = useCallback(() => {
+    onTabChange?.(value);
+  }, [value, onTabChange]);
+
+  useHotkey(hotkey, onHotkey);
+
+  return hotkey ? (
+    <HotkeyTooltip keybind={hotkey} description={tooltip ?? value}>
+      {inner}
+    </HotkeyTooltip>
+  ) : (
+    inner
+  );
+});
 
 type ContentProps = TabsContentProps & {
   children: React.ReactNode;

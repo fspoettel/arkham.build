@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
+import { HotkeyTooltip } from "@/components/ui/hotkey";
 import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
 import { PreviewPublishError } from "@/store/lib/errors";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { selectConnectionLockForDeck } from "@/store/selectors/shared";
 import type { Tab } from "@/store/slices/deck-edits.types";
-import { useHotKey } from "@/utils/use-hotkey";
+import { useHotkey } from "@/utils/use-hotkey";
 import { SaveIcon, Undo2Icon } from "lucide-react";
 import { useCallback } from "react";
 import { useLocation } from "wouter";
@@ -96,22 +97,22 @@ export function EditorActions(props: Props) {
     [discardEdits, navigate, deck.id, hasEdits],
   );
 
-  const onQuicksave = useCallback(
-    (evt: KeyboardEvent) => {
-      onSave(!evt.shiftKey);
-    },
-    [onSave],
-  );
+  const onQuicksave = useCallback(() => onSave(true), [onSave]);
+  const onQuickDiscard = useCallback(() => onDiscard(true), [onDiscard]);
 
-  const onQuickDiscard = useCallback(
-    (evt: KeyboardEvent) => {
-      onDiscard(!evt.shiftKey);
-    },
-    [onDiscard],
-  );
+  const onSaveClose = useCallback(() => onSave(false), [onSave]);
+  const onDiscardClose = useCallback(() => onDiscard(false), [onDiscard]);
 
-  useHotKey("cmd+s", onQuicksave, [onQuicksave]);
-  useHotKey("cmd+backspace", onQuickDiscard, [onDiscard]);
+  useHotkey("cmd+s", onSaveClose, {
+    allowInputFocused: true,
+  });
+
+  useHotkey("cmd+shift+s", onQuicksave, {
+    allowInputFocused: true,
+  });
+
+  useHotkey("cmd+backspace", onDiscardClose);
+  useHotkey("cmd+shift+backspace", onQuickDiscard);
 
   const readonly = !!deck.next_deck;
 
@@ -119,34 +120,34 @@ export function EditorActions(props: Props) {
     <>
       <LatestUpgrade currentTab={currentTab} deck={deck} overflowScroll />
       <div className={css["actions"]}>
-        <Button
-          data-testid="editor-save"
-          onClick={() => {
-            onSave();
-          }}
-          disabled={!!connectionLock || readonly}
-          tooltip={
-            connectionLock
-              ? connectionLock
-              : readonly
-                ? "This deck has an upgrade and is read-only."
-                : undefined
-          }
-          variant="primary"
-        >
-          <SaveIcon />
-          Save
-        </Button>
-        <Button
-          data-testid="editor-discard"
-          onClick={() => {
-            onDiscard();
-          }}
-          variant="bare"
-        >
-          <Undo2Icon />
-          Discard edits
-        </Button>
+        <HotkeyTooltip keybind="cmd+s" description="Save deck">
+          <Button
+            data-testid="editor-save"
+            onClick={onSaveClose}
+            disabled={!!connectionLock || readonly}
+            tooltip={
+              connectionLock
+                ? connectionLock
+                : readonly
+                  ? "This deck has an upgrade and is read-only."
+                  : undefined
+            }
+            variant="primary"
+          >
+            <SaveIcon />
+            Save
+          </Button>
+        </HotkeyTooltip>
+        <HotkeyTooltip keybind="cmd+backspace" description="Discard edits">
+          <Button
+            data-testid="editor-discard"
+            onClick={onDiscardClose}
+            variant="bare"
+          >
+            <Undo2Icon />
+            Discard edits
+          </Button>
+        </HotkeyTooltip>
       </div>
     </>
   );

@@ -5,7 +5,14 @@ import type { ResolvedDeck } from "@/store/lib/types";
 import type { History } from "@/store/selectors/decks";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { BookOpenTextIcon, ChartAreaIcon, FileClockIcon } from "lucide-react";
-import { Suspense, lazy, useCallback, useEffect, useRef } from "react";
+import {
+  Suspense,
+  lazy,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { DeckTags } from "../deck-tags";
 import { DeckTools } from "../deck-tools/deck-tools";
 import { Decklist } from "../decklist/decklist";
@@ -30,6 +37,8 @@ const LazyDeckDescription = lazy(() => import("@/components/deck-description"));
 
 export function DeckDisplay(props: DeckDisplayProps) {
   const { origin, deck, history, validation } = props;
+
+  const [currentTab, setCurrentTab] = useState("deck");
 
   const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
   const hasHistory = !!history?.length;
@@ -63,6 +72,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
     });
 
     tabRef.current = val;
+    setCurrentTab(val);
   }, []);
 
   return (
@@ -92,28 +102,51 @@ export function DeckDisplay(props: DeckDisplayProps) {
         <div className={css["content"]} ref={contentRef}>
           <Tabs
             className={css["tabs"]}
-            defaultValue="deck"
+            value={currentTab}
             onValueChange={onTabChange}
           >
             <TabsList className={css["list"]}>
-              <TabsTrigger value="deck" data-testid="tab-deck">
+              <TabsTrigger
+                data-testid="tab-deck"
+                hotkey="d"
+                onTabChange={onTabChange}
+                tooltip="Deck list"
+                value="deck"
+              >
                 <i className="icon-deck" />
                 <span>Deck</span>
               </TabsTrigger>
               {deck.description_md && (
-                <TabsTrigger value="notes" data-testid="tab-notes">
+                <TabsTrigger
+                  data-testid="tab-notes"
+                  hotkey="n"
+                  onTabChange={onTabChange}
+                  tooltip="Deck notes"
+                  value="notes"
+                >
                   <BookOpenTextIcon />
                   <span>Notes</span>
                 </TabsTrigger>
               )}
-              <TabsTrigger value="tools">
+              <TabsTrigger
+                hotkey="t"
+                onTabChange={onTabChange}
+                tooltip="Deck tools"
+                value="tools"
+              >
                 <ChartAreaIcon />
                 <span>Tools</span>
               </TabsTrigger>
               {hasHistory && (
-                <TabsTrigger value="history" data-testid="tab-history">
+                <TabsTrigger
+                  data-testid="tab-history"
+                  hotkey="h"
+                  onTabChange={onTabChange}
+                  tooltip="Upgrade history"
+                  value="history"
+                >
                   <FileClockIcon />
-                  <span>Upgrades ({history.length})</span>
+                  <span>History ({history.length})</span>
                 </TabsTrigger>
               )}
             </TabsList>

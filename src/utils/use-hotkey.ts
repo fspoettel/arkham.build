@@ -1,25 +1,32 @@
 import { useEffect, useMemo } from "react";
 import { inputFocused } from "./keyboard";
 
-type HotKey = {
+type Hotkey = {
   key: string;
   modifiers: string[];
 };
 
-export function useHotKey(
-  hotkeyStr: string,
-  callback: (evt: KeyboardEvent) => void,
-  deps: unknown[] = [],
+type Options = {
+  allowInputFocused?: boolean;
+  disabled?: boolean;
+};
+
+export function useHotkey(
+  hotkeyStr: string | undefined,
+  callback?: () => void,
+  options?: Options,
 ) {
-  const hotKey = useMemo(() => parseHotKey(hotkeyStr), [hotkeyStr]);
+  const hotkey = useMemo(() => parseHotkey(hotkeyStr), [hotkeyStr]);
 
   useEffect(() => {
-    function onKeyDown(evt: KeyboardEvent) {
-      if (inputFocused()) return;
+    if (options?.disabled || !hotkey) return;
 
-      if (hotKeyMatches(evt, hotKey)) {
+    function onKeyDown(evt: KeyboardEvent) {
+      if (!options?.allowInputFocused && inputFocused()) return;
+
+      if (hotkeyMatches(evt, hotkey)) {
         evt.preventDefault();
-        callback(evt);
+        callback?.();
       }
     }
 
@@ -28,11 +35,13 @@ export function useHotKey(
     return () => {
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [hotKey, callback, ...deps]);
+  }, [hotkey, callback, options?.disabled, options?.allowInputFocused]);
 }
 
-function parseHotKey(hotKey: string): HotKey | undefined {
-  const parts = hotKey.split("+");
+export function parseHotkey(hotkey: string | undefined): Hotkey | undefined {
+  if (!hotkey) return undefined;
+
+  const parts = hotkey.split("+");
   const key = parts.pop();
   const modifiers = parts;
 
@@ -40,26 +49,51 @@ function parseHotKey(hotKey: string): HotKey | undefined {
   return { key, modifiers };
 }
 
-function hotKeyMatches(
+type Modifier = "ctrl" | "alt" | "shift" | "cmd";
+
+const MODIFIERS: Modifier[] = ["ctrl", "alt", "shift", "cmd"] as const;
+
+const MODIFIER_MAP: Record<Modifier, (evt: KeyboardEvent) => boolean> = {
+  ctrl: (evt: KeyboardEvent) => evt.ctrlKey,
+  alt: (evt: KeyboardEvent) => evt.altKey,
+  shift: (evt: KeyboardEvent) => evt.shiftKey,
+  cmd: (evt: KeyboardEvent) => evt.metaKey || evt.ctrlKey,
+};
+
+function hotkeyMatches(
   evt: KeyboardEvent,
-  hotKey: HotKey | undefined,
+  hotkey: Hotkey | undefined,
 ): boolean {
-  if (!hotKey) return false;
+  if (!hotkey) return false;
 
-  if (hotKey.key.toLowerCase() !== evt.key.toLowerCase()) return false;
+  // When alt is pressed, we check the physical key pressed rather than the composed value
+  // due to it being used to produce special characters.
+  // The approach here only work for alphabetic keys, special keys like `Enter` or `ArrowUp` will not work.
+  const matches = evt.altKey
+    ? evt.code === keyToCode(hotkey.key)
+    : evt.key.toLowerCase() === hotkey.key;
 
-  return hotKey.modifiers.every((mod) => {
-    switch (mod) {
-      case "ctrl":
-        return evt.ctrlKey;
-      case "alt":
-        return evt.altKey;
-      case "shift":
-        return evt.shiftKey;
-      case "cmd":
-        return evt.metaKey || evt.ctrlKey;
-      default:
-        return false;
+  if (!matches) return false;
+
+  return MODIFIERS.every((mod) => {
+    // If shift is pressed, we only check it if it's part of the hotkey itself.
+    // This makes special character hotkeys such as `?` work.
+    if (mod === "shift" && evt.shiftKey && hotkey.modifiers.length === 0) {
+      return true;
     }
+
+    return MODIFIER_MAP[mod](evt) === hotkey.modifiers.includes(mod);
   });
+}
+
+function keyToCode(key: string): string {
+  if (/[a-zA-z]/.test(key)) {
+    return `Key${key.toUpperCase()}`;
+  }
+
+  if (/^\d+$/.test(key)) {
+    return `Digit${key}`;
+  }
+
+  return key;
 }

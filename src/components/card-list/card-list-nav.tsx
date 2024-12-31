@@ -4,13 +4,18 @@ import type { ResolvedDeck } from "@/store/lib/types";
 import type { ListState } from "@/store/selectors/lists";
 import type { ViewMode } from "@/store/slices/lists.types";
 import type { Metadata } from "@/store/slices/metadata.types";
+import { useHotkey } from "@/utils/use-hotkey";
 import { SlidersVerticalIcon } from "lucide-react";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { LimitedCardPoolTag, SealedDeckTag } from "../limited-card-pool";
 import { Button } from "../ui/button";
-import { DropdownMenu, DropdownMenuSection } from "../ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuSection,
+  DropdownRadioGroupItem,
+} from "../ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { RadioGroup } from "../ui/radio-group";
 import { Select } from "../ui/select";
 import css from "./card-list-nav.module.css";
 
@@ -52,6 +57,28 @@ export function CardListNav(props: Props) {
     [data, metadata],
   );
 
+  // TECH DEBT: option names and display names have diverted, reconcile.
+  const onToggleList = useCallback(() => {
+    onViewModeChange("compact");
+  }, [onViewModeChange]);
+
+  const onToggleCardText = useCallback(() => {
+    onViewModeChange("card-text");
+  }, [onViewModeChange]);
+
+  const onToggleFullCards = useCallback(() => {
+    onViewModeChange("full-cards");
+  }, [onViewModeChange]);
+
+  const onToggleScans = useCallback(() => {
+    onViewModeChange("scans");
+  }, [onViewModeChange]);
+
+  useHotkey("alt+l", onToggleList);
+  useHotkey("alt+shift+l", onToggleCardText);
+  useHotkey("alt+d", onToggleFullCards);
+  useHotkey("alt+s", onToggleScans);
+
   if (data == null) return null;
 
   return (
@@ -88,12 +115,21 @@ export function CardListNav(props: Props) {
             <DropdownMenu>
               <DropdownMenuSection title="Display">
                 <RadioGroup value={viewMode} onValueChange={onViewModeChange}>
-                  <RadioGroupItem value="compact">Compact</RadioGroupItem>
-                  <RadioGroupItem value="card-text">
-                    Compact with text
-                  </RadioGroupItem>
-                  <RadioGroupItem value="full-cards">Full cards</RadioGroupItem>
-                  <RadioGroupItem value="scans">Scans</RadioGroupItem>
+                  <DropdownRadioGroupItem hotkey="alt+l" value="compact">
+                    List
+                  </DropdownRadioGroupItem>
+                  <DropdownRadioGroupItem
+                    hotkey="alt+shift+l"
+                    value="card-text"
+                  >
+                    List with text
+                  </DropdownRadioGroupItem>
+                  <DropdownRadioGroupItem hotkey="alt+d" value="full-cards">
+                    Detailed
+                  </DropdownRadioGroupItem>
+                  <DropdownRadioGroupItem hotkey="alt+s" value="scans">
+                    Scans
+                  </DropdownRadioGroupItem>
                 </RadioGroup>
               </DropdownMenuSection>
             </DropdownMenu>

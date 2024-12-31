@@ -2,7 +2,7 @@ import { useStore } from "@/store";
 import { selectActiveListSearch } from "@/store/selectors/lists";
 import { assert } from "@/utils/assert";
 import { debounce } from "@/utils/debounce";
-import { inputFocused } from "@/utils/keyboard";
+import { useHotkey } from "@/utils/use-hotkey";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { SearchInput } from "../ui/search-input";
@@ -27,20 +27,12 @@ export function CardSearch(props: Props) {
 
   const [inputValue, setInputValue] = useState(search.value ?? "");
 
-  useEffect(() => {
-    function onShortcut(evt: KeyboardEvent) {
-      if (evt.key === "/" && !inputFocused()) {
-        evt.preventDefault();
-        inputRef.current?.focus();
-        inputRef.current?.select();
-      }
-    }
-
-    document.addEventListener("keydown", onShortcut);
-    return () => {
-      document.removeEventListener("keydown", onShortcut);
-    };
+  const onShortcut = useCallback(() => {
+    inputRef.current?.focus();
+    inputRef.current?.select();
   }, []);
+
+  useHotkey("/", onShortcut);
 
   useEffect(() => {
     setInputValue(search.value ?? "");
