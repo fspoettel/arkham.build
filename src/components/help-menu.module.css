@@ -1,3 +1,11 @@
+.action-shortcuts {
+  display: none;
+
+  @media (hover: hover) and (pointer: fine) {
+    display: flex;
+  }
+}
+
 .groups > * + * {
   margin-top: 1rem;
 }

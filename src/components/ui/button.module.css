@@ -42,7 +42,6 @@ a.button {
 }
 
 .button.full {
-  display: flex;
   width: 100%;
 }
 

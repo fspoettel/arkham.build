@@ -151,7 +151,11 @@ export function HelpMenu() {
                 <BarChart3Icon /> Collection stats
               </DropdownButton>
             </Link>
-            <DropdownButton hotkey="?" onClick={toggleKeyboardShortcuts}>
+            <DropdownButton
+              className={css["action-shortcuts"]}
+              hotkey="?"
+              onClick={toggleKeyboardShortcuts}
+            >
               <KeyboardIcon /> Keyboard shortcuts
             </DropdownButton>
           </DropdownMenu>
