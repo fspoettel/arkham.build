@@ -62,6 +62,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
   async init(queryMetadata, queryDataVersion, queryCards, refresh = false) {
     const state = get();
+
     if (!refresh && state.metadata.dataVersion?.cards_updated_at) {
       const metadata = {
         ...applyLocalData(state.metadata),
@@ -71,8 +72,12 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       };
 
       state.refreshLookupTables({
-        lists: makeLists(state.settings),
+        app: {
+          ...state.app,
+          clientId: state.app.clientId || randomId(),
+        },
         metadata,
+        lists: makeLists(state.settings),
       });
 
       return false;
@@ -174,6 +179,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     set({
       app: {
+        ...state.app,
         clientId: state.app.clientId || randomId(),
       },
       metadata,

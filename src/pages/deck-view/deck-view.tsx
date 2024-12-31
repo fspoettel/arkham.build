@@ -15,22 +15,28 @@ import {
 } from "@/store/selectors/decks";
 import { selectClientId } from "@/store/selectors/shared";
 import { queryDeck } from "@/store/services/queries";
+import { isNumeric } from "@/utils/is-numeric";
 import { useQuery } from "@/utils/use-query";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
 import { useMemo } from "react";
 import { useParams } from "wouter";
 import { Error404 } from "../errors/404";
+import { ShareInner } from "../share/share";
 
 function DeckView() {
   const { id } = useParams<{ id: string }>();
 
   const resolvedDeck = useStore((state) => selectResolvedDeckById(state, id));
 
-  return resolvedDeck ? (
-    <LocalDeckView deck={resolvedDeck} />
-  ) : (
-    <ArkhamDbDeckView id={id} />
-  );
+  if (resolvedDeck) {
+    return <LocalDeckView deck={resolvedDeck} />;
+  }
+
+  if (isNumeric(id)) {
+    return <ArkhamDbDeckView id={id} />;
+  }
+
+  return <ShareInner id={id} />;
 }
 
 function ArkhamDbDeckView({ id }: { id: string }) {

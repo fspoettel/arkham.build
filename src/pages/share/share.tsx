@@ -27,7 +27,11 @@ const selectResolvedShare = createSelector(
 
 function Share() {
   const { id } = useParams<{ id: string }>();
+  return <ShareInner id={id} />;
+}
 
+export function ShareInner(props: { id: string }) {
+  const { id } = props;
   const query = useCallback(() => getShare(id), [id]);
 
   const { data, state, error } = useQuery(query);
