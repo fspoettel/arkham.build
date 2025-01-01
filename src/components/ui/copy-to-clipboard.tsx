@@ -1,15 +1,15 @@
 import { useCopyToClipboard } from "@/utils/use-copy-to-clipboard";
 import { CheckIcon, ClipboardCopyIcon } from "lucide-react";
 import { useCallback } from "react";
-import { Button } from "./button";
-import css from "./copy-to-clipboard.module.css";
+import { Button, type Props as ButtonProps } from "./button";
 
 type Props = {
   text: string;
-};
+  tooltip?: string;
+} & Omit<ButtonProps<"button">, "children" | "onClick">;
 
 export function CopyToClipboard(props: Props) {
-  const { text } = props;
+  const { text, tooltip, ...rest } = props;
 
   const { copyToClipboard, isCopied } = useCopyToClipboard();
 
@@ -19,11 +19,10 @@ export function CopyToClipboard(props: Props) {
 
   return (
     <Button
-      className={css["button"]}
+      tooltip={isCopied ? "Copied!" : (tooltip ?? "Copy to clipboard")}
+      {...rest}
       iconOnly
-      variant="bare"
       onClick={onClick}
-      tooltip={isCopied ? "Copied!" : "Copy to clipboard"}
     >
       {isCopied ? <CheckIcon /> : <ClipboardCopyIcon />}
     </Button>

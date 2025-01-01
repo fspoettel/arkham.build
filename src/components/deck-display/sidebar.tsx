@@ -549,12 +549,18 @@ function Sharing(props: { onArkhamDBUpload?: () => void; deck: ResolvedDeck }) {
                 </a>
                 .
                 <CopyToClipboard
+                  className={css["share-copy"]}
                   text={`${window.location.origin}/share/${deck.id}`}
+                  variant="bare"
                 />
               </p>
               <p>
                 Deck ID: <code>{deck.id}</code>
-                <CopyToClipboard text={`${deck.id}`} />
+                <CopyToClipboard
+                  className={css["share-copy"]}
+                  text={`${deck.id}`}
+                  variant="bare"
+                />
               </p>
               <nav className={css["share-actions"]}>
                 {deck.date_update !== share && (

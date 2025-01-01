@@ -167,16 +167,14 @@ export function DeckCollection() {
                 data-testid="collection-deck"
                 key={deck.id}
               >
-                <Link href={`/deck/view/${deck.id}`}>
-                  <DeckSummary
-                    deck={deck}
-                    interactive
-                    onDeleteDeck={deleteDeck}
-                    onDuplicateDeck={duplicateDeck}
-                    showThumbnail
-                    validation={deck.problem}
-                  />
-                </Link>
+                <DeckSummary
+                  deck={deck}
+                  interactive
+                  onDeleteDeck={deleteDeck}
+                  onDuplicateDeck={duplicateDeck}
+                  showThumbnail
+                  validation={deck.problem}
+                />
               </div>
             )}
           />

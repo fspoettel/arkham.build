@@ -63,3 +63,9 @@
   display: flex;
   gap: 0.5rem;
 }
+
+.share-copy {
+  display: inline-flex;
+  vertical-align: middle;
+  margin-left: 2px;
+}
