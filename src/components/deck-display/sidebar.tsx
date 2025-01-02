@@ -639,7 +639,11 @@ function ArkhamDbDetails(props: { deck: ResolvedDeck }) {
           <p>This deck is set up to sync with ArkhamDB.</p>
           <p>
             Deck ID: <code>{deck.id}</code>
-            <CopyToClipboard text={`${deck.id}`} />
+            <CopyToClipboard
+              className={css["share-copy"]}
+              text={`${deck.id}`}
+              variant="bare"
+            />
           </p>
           <Button
             as="a"
