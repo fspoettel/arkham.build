@@ -12,7 +12,6 @@
 .signatures {
   display: inline-flex;
   flex-flow: row wrap;
-  width: 100%;
   gap: 0.25rem;
   list-style: none;
   font-family: var(--font-family-content);
