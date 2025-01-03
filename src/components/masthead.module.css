@@ -11,14 +11,36 @@
   display: flex;
   align-items: center;
   gap: 1.5rem;
+  max-width: 50%;
+  width: 100%;
+  container-type: inline-size;
+  overflow: hidden;
 }
 
 .logo {
-  font-size: var(--icon-2xl);
+  display: inline-flex;
+  gap: 0.5rem;
   margin-left: 0.25rem;
+  align-items: center;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: var(--text-sm);
 }
 
 .logo svg {
+  flex: 0 0 auto;
+}
+
+.logo-name {
+  flex: 1 1 auto;
+
+  @container (max-width: 20ch) {
+    display: none;
+  }
+}
+
+.logo svg {
+  font-size: var(--icon-xl);
   fill: var(--palette-4);
 }
 
