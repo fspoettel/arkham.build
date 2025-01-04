@@ -48,7 +48,7 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.48.2
+      image: mcr.microsoft.com/playwright:v1.49.1
     env:
       VITE_PAGE_NAME: ${{ vars.VITE_PAGE_NAME }}
       VITE_API_URL: ${{ vars.VITE_API_URL }}
