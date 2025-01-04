@@ -11,6 +11,7 @@
     "build": "vite build",
     "check": "tsc --noEmit",
     "dev": "vite",
+    "dev:functions": "wrangler pages dev",
     "fmt": "biome check --write",
     "lint": "biome check",
     "knip": "npx knip",
@@ -60,6 +61,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@cloudflare/workers-types": "4.20241230.0",
     "@playwright/test": "1.49.1",
     "@svgr/plugin-jsx": "8.1.0",
     "@svgr/plugin-svgo": "8.1.0",
@@ -78,6 +80,7 @@
     "typescript": "5.7.2",
     "vite": "6.0.7",
     "vite-plugin-svgr": "4.3.0",
-    "vitest": "2.1.8"
+    "vitest": "2.1.8",
+    "wrangler": "3.99.0"
   }
 }

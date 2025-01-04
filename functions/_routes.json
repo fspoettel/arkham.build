@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "include": ["/card/*", "/share/*", "/deck/view/*", "/decklist/view/*"],
+  "exclude": ["/helpers"]
+}

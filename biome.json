@@ -5,7 +5,8 @@
       "dist/**",
       "coverage/**",
       "playwright-report/**",
-      "test-results/**"
+      "test-results/**",
+      ".wrangler/**"
     ],
     "maxSize": 10000000
   },

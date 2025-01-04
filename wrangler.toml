@@ -1,0 +1,22 @@
+name = "arkham-build"
+pages_build_output_dir = "dist"
+compatibility_date = "2024-06-14"
+dev.port = 3000
+
+[vars]
+NODE_VERSION = "22"
+VITE_API_URL = "https://api.arkham.build"
+# VITE_API_URL = "http://localhost:8787"
+VITE_ARKHAMDB_BASE_URL = "https://arkhamdb.com"
+# VITE_ARKHAMDB_BASE_URL = "http://localhost:8000"
+VITE_CARD_IMAGE_URL = "https://assets.arkham.build"
+VITE_PAGE_NAME = "arkham.build"
+VITE_RECOMMENDATION_API_URL = "https://recommendations.arkham.build"
+
+[env.production.vars]
+NODE_VERSION = "22"
+VITE_API_URL = "https://api.arkham.build"
+VITE_ARKHAMDB_BASE_URL = "https://arkhamdb.com"
+VITE_CARD_IMAGE_URL = "https://assets.arkham.build"
+VITE_PAGE_NAME = "arkham.build"
+VITE_RECOMMENDATION_API_URL = "https://recommendations.arkham.build"
