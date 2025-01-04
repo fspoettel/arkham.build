@@ -112,9 +112,8 @@ function AppInner() {
               />
               <Route component={ChooseInvestigator} path="/deck/create" />
               <Route component={DeckCreate} path="/deck/create/:code" />
-              <Route component={DeckView} path="/deck/view/:id" />
-              <Route component={DeckView} path="/decklist/view/:id" />
-              <Route component={DeckView} path="/decklist/view/:id/:slug" />
+              <Route component={DeckView} path="/:type/view/:id" />
+              <Route component={DeckView} path="/:type/view/:id/:slug" />
               <Route component={DeckEdit} nest path="/deck/edit/:id" />
               <Route component={Settings} path="/settings" />
               <Route component={About} path="/about" />
