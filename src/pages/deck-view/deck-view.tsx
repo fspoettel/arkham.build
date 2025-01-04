@@ -24,35 +24,31 @@ import { Error404 } from "../errors/404";
 import { ShareInner } from "../share/share";
 
 function DeckView() {
-  const { id } = useParams<{ id: string }>();
+  const { id, type } = useParams<{ id: string; type: string }>();
 
   const resolvedDeck = useStore((state) => selectResolvedDeckById(state, id));
 
-  if (resolvedDeck) {
+  if (resolvedDeck && type === "deck") {
     return <LocalDeckView deck={resolvedDeck} />;
   }
 
   if (isNumeric(id)) {
-    return <ArkhamDbDeckView id={id} />;
+    return <ArkhamDbDeckView id={id} type={type} />;
   }
 
   return <ShareInner id={id} />;
 }
 
-function ArkhamDbDeckView({ id }: { id: string }) {
+function ArkhamDbDeckView({ id, type }: { id: string; type: string }) {
   const clientId = useStore(selectClientId);
 
   const idInt = Number.parseInt(id, 10);
 
   const query = useMemo(() => {
-    const queryType = window.location.href.includes("/decklist/view")
-      ? "decklist"
-      : "deck";
-
     return Number.isFinite(idInt)
-      ? () => queryDeck(clientId, queryType, idInt)
+      ? () => queryDeck(clientId, type, idInt)
       : undefined;
-  }, [clientId, idInt]);
+  }, [clientId, idInt, type]);
 
   const { data, state } = useQuery(query);
 
