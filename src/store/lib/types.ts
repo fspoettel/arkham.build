@@ -85,6 +85,7 @@ export type DeckMeta = {
   sealed_deck_name?: string | null;
   sealed_deck?: string | null;
   transform_into?: string | null;
+  banner_url?: string | null;
 } & {
   [key in `cus_${string}`]: string | null;
 } & {

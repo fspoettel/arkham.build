@@ -161,6 +161,15 @@ export function MetaEditor(props: Props) {
     [deck.id, updateMetaProperty],
   );
 
+  const onBannerUrlChange = useCallback(
+    (evt: React.ChangeEvent<HTMLInputElement>) => {
+      if (evt.target instanceof HTMLInputElement) {
+        updateMetaProperty(deck.id, "banner_url", evt.target.value);
+      }
+    },
+    [updateMetaProperty, deck.id],
+  );
+
   return (
     <>
       <Field full padded>
@@ -270,6 +279,19 @@ export function MetaEditor(props: Props) {
           data-testid="editor-description"
           defaultValue={deck.description_md ?? ""}
           onChange={onDescriptionChange}
+        />
+      </Field>
+      <FieldLabel>Banner URL</FieldLabel>
+      <Field
+        full
+        padded
+        helpText="Banner image for the deck. Preferably aspect ratios 4:1 to 21:9, at least 1440px wide"
+      >
+        <input
+          defaultValue={deck.metaParsed.banner_url ?? ""}
+          onChange={onBannerUrlChange}
+          type="text"
+          placeholder="Enter URL..."
         />
       </Field>
     </>

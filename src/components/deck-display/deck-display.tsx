@@ -93,6 +93,11 @@ export function DeckDisplay(props: DeckDisplayProps) {
             <LimitedCardPoolTag />
             <SealedDeckTag />
           </div>
+          {deck.metaParsed?.banner_url && (
+            <div className={css["banner"]}>
+              <img alt="Deck banner" src={deck.metaParsed.banner_url} />
+            </div>
+          )}
         </header>
 
         <Dialog>

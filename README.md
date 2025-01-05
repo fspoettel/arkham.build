@@ -14,6 +14,7 @@ arkham.build extends the _arkhamdb deck schema_ with a few fields for additional
 - `meta.sealed_deck`: card ids that are pickable for this deck. Used for sealed deckbuilding. Format: comma-separated list of `id` / `quantity` pairs in the format `"id:2,id:1,..."`.
 - `meta.sealed_deck_name`: name of the sealed deck definition used. format: string.
 - `meta.transform_into`: code of the investigator that this deck's investigator has transformed into. I.e. `04244` for _Body of a Yithian_.
+- `meta.banner_url`: URL to an image to be displayed as banner for the deck. Preferably aspect ratio `4:1`.
 
 ## File formats
 
