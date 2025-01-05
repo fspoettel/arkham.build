@@ -142,6 +142,8 @@
   --text-neutral: var(--neutral-dark);
 
   --color-inverted: var(--white);
+  --color-scrollbar-thumb: #969ba5;
+  --color-scrollbar: rgba(0, 0, 0, 0.05);
 
   --willpower: #165385;
   --intellect: #7a2d6c;
