@@ -9,22 +9,32 @@ import {
   offset,
   shift,
   useFloating,
+  useTransitionStyles,
 } from "@floating-ui/react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { CardTooltip } from "./card-tooltip";
 import css from "./deck-description.module.css";
 
 type Props = {
   className?: string;
   content: string;
-  title: React.ReactNode;
 };
 
 function DeckDescription(props: Props) {
-  const { className, content, title } = props;
+  const { className, content } = props;
+  const containerRef = useRef<HTMLDivElement>(null);
   const [cardTooltip, setCardTooltip] = useState<string>("");
 
-  const { refs, floatingStyles } = useFloating({
+  const restTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+
+  useEffect(
+    () => () => {
+      if (restTimeoutRef.current) clearTimeout(restTimeoutRef.current);
+    },
+    [],
+  );
+
+  const { context, refs, floatingStyles } = useFloating({
     open: !!cardTooltip,
     onOpenChange: () => setCardTooltip(""),
     middleware: [shift(), autoPlacement(), offset(2)],
@@ -33,28 +43,64 @@ function DeckDescription(props: Props) {
     placement: "bottom-start",
   });
 
-  const onMouseLeave = useCallback(
-    (evt: React.MouseEvent) => {
-      const code = getCardCodeForEvent(evt);
+  const { isMounted, styles: transitionStyles } = useTransitionStyles(context);
 
-      if (code && code !== cardTooltip) {
-        evt.preventDefault();
-        evt.stopPropagation();
-        refs.setReference(evt.target as HTMLAnchorElement);
-        setCardTooltip(code);
-      } else if (cardTooltip) {
+  const onMouseMove = useCallback(
+    (evt: MouseEvent) => {
+      const code = getCardCodeForEvent(evt);
+      if (code) {
+        clearTimeout(restTimeoutRef.current);
+
+        restTimeoutRef.current = setTimeout(() => {
+          refs.setReference(evt.target as HTMLAnchorElement);
+          setCardTooltip(code);
+        }, 25);
+      }
+    },
+    [refs],
+  );
+
+  const onMouseLeave = useCallback(
+    (evt: MouseEvent) => {
+      clearTimeout(restTimeoutRef.current);
+
+      const code = getCardCodeForEvent(evt);
+      if (code === cardTooltip || !code) {
         evt.preventDefault();
         setCardTooltip("");
       }
     },
-    [cardTooltip, refs],
+    [cardTooltip],
   );
+
+  useEffect(() => {
+    const div = containerRef.current;
+    if (!div) return;
+
+    const links = div.querySelectorAll("a");
+
+    for (const link of links) {
+      link.addEventListener("pointermove", onMouseMove);
+      link.addEventListener("pointerleave", onMouseLeave);
+      link.addEventListener("mouseleave", onMouseLeave);
+    }
+
+    return () => {
+      for (const link of links) {
+        link.removeEventListener("pointermove", onMouseMove);
+        link.addEventListener("pointerleave", onMouseLeave);
+        link.removeEventListener("mouseleave", onMouseLeave);
+      }
+    };
+  }, [onMouseMove, onMouseLeave]);
 
   return (
     // biome-ignore lint/a11y/useKeyWithClickEvents:  not relevant.
-    <div className={css["description"]} onClick={redirectArkhamDBLinks}>
-      <h1 data-testid="description-title">{title}</h1>
-      {/* biome-ignore lint/a11y/useKeyWithClickEvents: TODO. */}
+    <div
+      className={css["description"]}
+      onClick={redirectArkhamDBLinks}
+      ref={containerRef}
+    >
       <div
         className={cx("longform", className)}
         data-testid="description-content"
@@ -62,12 +108,14 @@ function DeckDescription(props: Props) {
         dangerouslySetInnerHTML={{
           __html: parseMarkdown(content),
         }}
-        onClick={onMouseLeave}
       />
 
-      {cardTooltip && (
+      {isMounted && cardTooltip && (
         <FloatingPortal id={FLOATING_PORTAL_ID}>
-          <div ref={refs.setFloating} style={floatingStyles}>
+          <div
+            ref={refs.setFloating}
+            style={{ ...floatingStyles, ...transitionStyles }}
+          >
             <CardTooltip code={cardTooltip} />
           </div>
         </FloatingPortal>
@@ -76,7 +124,9 @@ function DeckDescription(props: Props) {
   );
 }
 
-function getCardCodeForEvent(evt: React.MouseEvent): string | undefined {
+function getCardCodeForEvent(
+  evt: React.MouseEvent | MouseEvent,
+): string | undefined {
   const target = (evt.target as HTMLElement)?.closest("a");
 
   if (target instanceof HTMLAnchorElement) {

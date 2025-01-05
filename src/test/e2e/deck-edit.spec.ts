@@ -349,12 +349,7 @@ test.describe("deck edit", () => {
 
     await page.getByTestId("editor-tab-meta").click();
 
-    await page
-      .getByLabel("Meta")
-      .locator("div")
-      .filter({ hasText: "Taboo Set" })
-      .getByRole("combobox")
-      .selectOption("8");
+    await page.getByTestId("meta-taboo-set").selectOption("8");
 
     await page
       .getByTestId("listcard-09022")

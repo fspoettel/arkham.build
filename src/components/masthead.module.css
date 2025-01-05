@@ -25,6 +25,7 @@
   text-decoration: none;
   font-weight: 700;
   font-size: var(--text-sm);
+  color: currentColor;
 }
 
 .logo svg {

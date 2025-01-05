@@ -2,7 +2,7 @@ import DOMPurify from "dompurify";
 import { marked } from "marked";
 
 function cleanArkhamdbMarkdown(content: string): string {
-  // fix: deck guides using valentin1337 template all contain invalid markdown for bolding in headlines.
+  // fix: deck guides using valentin1331 template all contain invalid markdown for bolding in headlines.
   return content.replaceAll(
     /\*\*\s<center>(.*?)<\/center>\s\*\*/g,
     "**<center>$1</center>**",

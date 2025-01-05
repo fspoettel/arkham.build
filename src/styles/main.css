@@ -220,7 +220,7 @@ h6 {
 }
 
 a {
-  color: currentColor;
+  color: var(--nord-9);
   text-decoration: underline;
 }
 
@@ -662,10 +662,6 @@ svg {
   margin-top: 0.25em;
 }
 
-.longform :not(:where(h1, h2, h3, h4, h5, h6)) a {
-  text-decoration-style: dashed;
-}
-
 .longform table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -674,6 +670,11 @@ svg {
 
 .longform table :where(td, th) {
   padding: 0.125rem 0.25rem;
+}
+
+.longform a {
+  color: currentColor;
+  text-decoration-color: currentColor;
 }
 
 .longform .icon-rogue {

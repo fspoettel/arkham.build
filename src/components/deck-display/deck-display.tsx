@@ -3,16 +3,10 @@ import type { DeckValidationResult } from "@/store/lib/deck-validation";
 import { deckTags, extendedDeckTags } from "@/store/lib/resolve-deck";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { History } from "@/store/selectors/decks";
+import { CLEAR_TOKEN } from "@/utils/constants";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { BookOpenTextIcon, ChartAreaIcon, FileClockIcon } from "lucide-react";
-import {
-  Suspense,
-  lazy,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { Suspense, lazy, useCallback, useState } from "react";
 import { DeckTags } from "../deck-tags";
 import { DeckTools } from "../deck-tools/deck-tools";
 import { Decklist } from "../decklist/decklist";
@@ -43,37 +37,13 @@ export function DeckDisplay(props: DeckDisplayProps) {
   const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
   const hasHistory = !!history?.length;
 
-  const contentRef = useRef<HTMLDivElement>(null);
-  const tabRef = useRef("deck");
-  const scrollPosition = useRef(0);
-
-  useEffect(() => {
-    const onScroll = () => {
-      if (tabRef.current === "notes") {
-        scrollPosition.current = window.scrollY;
-      }
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, []);
-
   const onTabChange = useCallback((val: string) => {
-    setTimeout(() => {
-      window.scrollTo({
-        top:
-          val === "notes"
-            ? scrollPosition.current
-            : (contentRef.current?.offsetTop ?? 0),
-      });
-    });
-
-    tabRef.current = val;
     setCurrentTab(val);
   }, []);
+
+  // FIXME: remove once https://github.com/Kamalisk/arkhamdb/issues/695 is addressed.
+  const hasDeckDescription =
+    deck.description_md && deck.description_md !== CLEAR_TOKEN;
 
   return (
     <AppLayout title={deck ? deck.name : ""}>
@@ -98,13 +68,16 @@ export function DeckDisplay(props: DeckDisplayProps) {
               <img alt="Deck banner" src={deck.metaParsed.banner_url} />
             </div>
           )}
+          {deck.metaParsed.intro_md && (
+            <LazyDeckDescription content={deck.metaParsed.intro_md} />
+          )}
         </header>
 
         <Dialog>
           <Sidebar className={css["sidebar"]} deck={deck} origin={origin} />
         </Dialog>
 
-        <div className={css["content"]} ref={contentRef}>
+        <div className={css["content"]}>
           <Tabs
             className={css["tabs"]}
             value={currentTab}
@@ -121,7 +94,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
                 <i className="icon-deck" />
                 <span>Deck</span>
               </TabsTrigger>
-              {deck.description_md && (
+              {hasDeckDescription && (
                 <TabsTrigger
                   data-testid="tab-notes"
                   hotkey="n"
@@ -165,13 +138,10 @@ export function DeckDisplay(props: DeckDisplayProps) {
             <TabsContent className={css["tab"]} value="tools">
               <DeckTools deck={deck} readonly />
             </TabsContent>
-            {deck.description_md && (
+            {hasDeckDescription && (
               <TabsContent className={css["tab"]} value="notes">
                 <Suspense fallback={<Loader show message="Loading notes..." />}>
-                  <LazyDeckDescription
-                    content={deck.description_md}
-                    title={deck.name}
-                  />
+                  <LazyDeckDescription content={deck.description_md} />
                 </Suspense>
               </TabsContent>
             )}

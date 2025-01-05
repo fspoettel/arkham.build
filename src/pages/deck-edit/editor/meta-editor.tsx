@@ -16,6 +16,7 @@ import { debounce } from "@/utils/debounce";
 import { capitalize, capitalizeSnakeCase } from "@/utils/formatting";
 import { useCallback, useMemo } from "react";
 import { createSelector } from "reselect";
+import css from "./editor.module.css";
 
 type Props = {
   deck: ResolvedDeck;
@@ -170,8 +171,17 @@ export function MetaEditor(props: Props) {
     [updateMetaProperty, deck.id],
   );
 
+  const onIntroChange = useCallback(
+    (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
+      if (evt.target instanceof HTMLTextAreaElement) {
+        updateMetaProperty(deck.id, "intro_md", evt.target.value);
+      }
+    },
+    [updateMetaProperty, deck.id],
+  );
+
   return (
-    <>
+    <div className={css["meta"]}>
       <Field full padded>
         <FieldLabel>Deck name</FieldLabel>
         <input
@@ -251,6 +261,7 @@ export function MetaEditor(props: Props) {
       <Field full padded>
         <FieldLabel>Taboo Set</FieldLabel>
         <Select
+          data-testid="meta-taboo-set"
           emptyLabel="None"
           onChange={onTabooChange}
           options={tabooSets}
@@ -281,19 +292,39 @@ export function MetaEditor(props: Props) {
           onChange={onDescriptionChange}
         />
       </Field>
-      <FieldLabel>Banner URL</FieldLabel>
-      <Field
-        full
-        padded
-        helpText="Banner image for the deck. Preferably aspect ratios 4:1 to 21:9, at least 1440px wide"
+      <Collapsible
+        title="Display settings"
+        data-testid="meta-display-settings"
+        defaultOpen={!!deck.metaParsed.banner_url || !!deck.metaParsed.intro_md}
       >
-        <input
-          defaultValue={deck.metaParsed.banner_url ?? ""}
-          onChange={onBannerUrlChange}
-          type="text"
-          placeholder="Enter URL..."
-        />
-      </Field>
-    </>
+        <CollapsibleContent>
+          <Field
+            full
+            padded
+            helpText="Banner image for the deck. Will be displayed on the deck view and in social media previews. Aspect ratio is 4:1, at least 1440px wide"
+          >
+            <FieldLabel>Banner URL</FieldLabel>
+            <input
+              defaultValue={deck.metaParsed.banner_url ?? ""}
+              onChange={onBannerUrlChange}
+              type="text"
+              placeholder="Enter URL..."
+            />
+          </Field>
+          <Field
+            full
+            padded
+            helpText="A short deck introduction. Will be displayed on the deck view and in social media previews."
+          >
+            <FieldLabel>Intro</FieldLabel>
+            <textarea
+              data-testid="editor-intro"
+              defaultValue={deck.metaParsed.intro_md ?? ""}
+              onChange={onIntroChange}
+            />
+          </Field>
+        </CollapsibleContent>
+      </Collapsible>
+    </div>
   );
 }

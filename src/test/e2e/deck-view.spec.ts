@@ -238,9 +238,6 @@ test.describe("deck view", () => {
   test("show deck notes", async ({ page }) => {
     await importStandardDeck(page);
     await page.getByTestId("tab-notes").click();
-    await expect(page.getByTestId("description-title")).toContainText(
-      "Kōhaku, Fifty Shades of Blurse|FHV Intro|Deck Guide",
-    );
     await expect(page.getByTestId("description-content")).toBeVisible();
   });
 

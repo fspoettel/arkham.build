@@ -131,8 +131,6 @@ export function DeckCreateEditor() {
   const selections = decodeSelections(back, deckCreate.selections);
   const cssVariables = useAccentColor(investigator.card.faction_code);
 
-  console.log("@@@", connectionLock, provider);
-
   return (
     <div className={css["editor"]} style={cssVariables}>
       {!isEmpty(connections) && (

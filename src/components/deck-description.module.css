@@ -1,18 +1,13 @@
 .description {
   background: var(--palette-point-five);
-  padding: 1rem;
+  padding: 0.75rem;
   border-radius: var(--rounded);
-  margin: 0 auto;
+  margin-inline: auto;
   border: 1px solid var(--palette-1);
-}
-
-.description h1 {
-  text-align: center;
 }
 
 .description > * {
   max-width: 90ch;
-  margin: 0 auto;
 }
 
 .description > * + * {

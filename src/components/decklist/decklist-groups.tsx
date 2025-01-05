@@ -207,7 +207,6 @@ function GroupQuantity(props: { quantity: number }) {
 }
 
 function countGroup(cards: Card[], quantities?: Record<string, number>) {
-  console.log(cards);
   return cards.reduce((acc, card) => acc + (quantities?.[card.code] ?? 0), 0);
 }
 
