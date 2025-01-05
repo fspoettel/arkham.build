@@ -39,15 +39,16 @@ In this example, the sealed deck contains two copies of _Deduction_, _Perception
 
 ## Architecture
 
-arkham.build is a SPA app that, by default, stores data locally in an IndexedDB database by default. The SPA has several backend components that it talks to.
+arkham.build is a SPA app that, by default, stores data locally in an IndexedDB database. The SPA has several backend components that it uses to enrich functionality.
 
 ### api.arkham.build
 
-Our API is tracked in a private git repo. It has a few functions:
-1. a cache for metadata (cards and sets).
+The API source code is tracked in a private git repo. It has a few functions:
+
+1. a cache for metadata  such as cards and sets.
 2. a cached proxy for public ArkhamDB endpoints.
 3. a [token-mediating backend](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-browser-based-apps#name-token-mediating-backend) for authenticated ArkhamDB endpoints.
-4. a CRUD API for our public _shares_.
+4. a CRUD API for public _shares_.
 5. a generator for opengraph previews.
 
 ### Recommendation API
