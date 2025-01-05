@@ -71,6 +71,7 @@ export function CardModal(props: Props) {
   const cardNode = (
     <>
       <Card
+        className={css["card"]}
         resolvedCard={cardWithRelations}
         size={canRenderFull ? "full" : "compact"}
       >
@@ -100,6 +101,7 @@ export function CardModal(props: Props) {
             const cards = Array.isArray(value) ? value : [value];
             return (
               <CardSet
+                className={css["cardset"]}
                 key={key}
                 set={{
                   title: formatRelationTitle(key),

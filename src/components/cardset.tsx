@@ -13,20 +13,21 @@ import { Checkbox } from "./ui/checkbox";
 import { DefaultTooltip } from "./ui/tooltip";
 
 type Props = {
+  className?: string;
   onChangeCardQuantity?: (card: Card, quantity: number) => void;
   onSelect?: (id: string) => void;
   set: CardSetType;
 };
 
 export function CardSet(props: Props) {
-  const { onChangeCardQuantity, onSelect, set } = props;
+  const { className, onChangeCardQuantity, onSelect, set } = props;
   const canCheckOwnership = useStore(selectCanCheckOwnership);
   const cardOwnedCount = useStore(selectCardOwnedCount);
 
   return (
     <article
       data-testid={`cardset-${set.id}`}
-      className={cx(css["cardset"], set.selected && css["selected"])}
+      className={cx(css["cardset"], set.selected && css["selected"], className)}
     >
       <header className={css["cardset-header"]}>
         {onSelect ? (

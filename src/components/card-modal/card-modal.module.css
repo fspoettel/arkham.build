@@ -9,6 +9,11 @@
   }
 }
 
+.card,
+.cardset {
+  box-shadow: var(--shadow);
+}
+
 .quantities {
   order: -1;
 

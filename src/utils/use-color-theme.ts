@@ -34,6 +34,16 @@ export function useColorTheme() {
     localStorage.setItem("color-scheme-preference", pref);
   }, [pref]);
 
+  const isDarkMode = useMedia("(prefers-color-scheme: dark)");
+
+  useEffect(() => {
+    if (pref === "system") {
+      document.documentElement.dataset.theme = isDarkMode ? "dark" : "light";
+    } else {
+      document.documentElement.dataset.theme = pref;
+    }
+  }, [pref, isDarkMode]);
+
   return [pref, setPref] as const;
 }
 

@@ -103,6 +103,10 @@
   transition-behavior: allow-discrete;
 }
 
+:root[data-theme="light"] .quick-actions {
+  background: rgba(255, 255, 255, 0.2);
+}
+
 .quick-action {
   list-style: none;
   transform: translateX(0.375rem);

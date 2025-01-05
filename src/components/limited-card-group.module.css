@@ -31,6 +31,10 @@
   border-radius: var(--rounded-md);
 }
 
+:root[data-theme="light"] .stats {
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .content {
   padding: 0.375rem;
 

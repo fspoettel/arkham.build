@@ -3,6 +3,7 @@
   padding: 1rem;
   border-radius: var(--rounded);
   margin: 0 auto;
+  border: 1px solid var(--palette-1);
 }
 
 .description h1 {
