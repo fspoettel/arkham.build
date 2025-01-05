@@ -48,3 +48,14 @@
 .group-children {
   list-style: none;
 }
+
+.group-quantity {
+  font-size: 0.625rem;
+  font-weight: 400;
+  margin-left: 0.25rem;
+  background: var(--palette-1);
+  display: inline-block;
+  line-height: 1;
+  padding: 0.0625rem 0.1875rem;
+  border-radius: var(--rounded);
+}

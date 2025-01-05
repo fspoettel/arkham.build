@@ -23,7 +23,7 @@
     "test:e2e": "playwright test",
     "test:watch": "vitest watch",
     "update-snapshots:local": "PW_TEST_HTML_REPORT_OPEN='never' playwright test --update-snapshots",
-    "update-snapshots:docker": "docker run -v $(pwd):/work/ mcr.microsoft.com/playwright:v1.49.1"
+    "update-snapshots:docker": "docker run -it --rm --ipc=host -v $(pwd):/work/ mcr.microsoft.com/playwright:v1.49.1 /bin/bash -c 'cd /work && npm ci && PW_TEST_HTML_REPORT_OPEN=never npx playwright test --update-snapshots'"
   },
   "overrides": {
     "@radix-ui/primitive": "1.1.1",

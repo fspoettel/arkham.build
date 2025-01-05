@@ -51,7 +51,12 @@ export function DecklistGroups({
 }: DecklistGroupsProps) {
   const assetGroup = group["asset"] ? (
     <li className={cx(css["group"], css["asset"])}>
-      <h4 className={css["group-title"]}>Asset</h4>
+      <h4 className={css["group-title"]}>
+        Asset
+        <GroupQuantity
+          quantity={countNestedGroup(group["asset"], quantities)}
+        />
+      </h4>
       <ol className={css["group-children"]}>
         {Object.entries(group["asset"] as Record<string, Card[]>)
           .sort(([a], [b]) => sortBySlots(a, b))
@@ -60,7 +65,10 @@ export function DecklistGroups({
               <li className={css["group-child"]} key={key}>
                 <h5 className={css["group-entry_nested-title"]}>
                   <SlotIcon code={key} />
-                  {capitalize(key)}
+                  <span>
+                    {capitalize(key)}
+                    <GroupQuantity quantity={countGroup(val, quantities)} />
+                  </span>
                 </h5>
                 <DecklistGroup
                   cards={val}
@@ -88,7 +96,10 @@ export function DecklistGroups({
       if (!entry) return null;
       return (
         <li className={cx(css["group"])} key={k}>
-          <h4 className={css["group-title"]}>{capitalize(k)}</h4>
+          <h4 className={css["group-title"]}>
+            {capitalize(k)}
+            <GroupQuantity quantity={countGroup(entry, quantities)} />
+          </h4>
           <DecklistGroup
             cards={entry}
             disablePlayerCardEdits={disablePlayerCardEdits}
@@ -188,5 +199,24 @@ function DecklistGroup(props: DecklistGroupProps) {
           />
         ))}
     </ol>
+  );
+}
+
+function GroupQuantity(props: { quantity: number }) {
+  return <span className={css["group-quantity"]}>{props.quantity}</span>;
+}
+
+function countGroup(cards: Card[], quantities?: Record<string, number>) {
+  console.log(cards);
+  return cards.reduce((acc, card) => acc + (quantities?.[card.code] ?? 0), 0);
+}
+
+function countNestedGroup(
+  group: Record<string, Card[]>,
+  quantities?: Record<string, number>,
+) {
+  return Object.values(group).reduce(
+    (acc, cards) => acc + countGroup(cards, quantities),
+    0,
   );
 }

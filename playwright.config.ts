@@ -44,7 +44,10 @@ const config: PlaywrightTestConfig = {
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: {
+        ...devices["Desktop Chrome"],
+        channel: "chromium",
+      },
     },
 
     // {
@@ -86,12 +89,6 @@ const config: PlaywrightTestConfig = {
         url: "http://localhost:3000",
         reuseExistingServer: !process.env.CI,
       },
-
-  expect: {
-    toHaveScreenshot: {
-      maxDiffPixelRatio: 0.05,
-    },
-  },
 };
 
 if (process.env.ALL_BROWSERS) {
