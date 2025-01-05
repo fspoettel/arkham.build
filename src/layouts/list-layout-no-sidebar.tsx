@@ -68,7 +68,7 @@ export function ListLayoutNoSidebar(props: Props) {
         onPointerDown={onContentClick}
       >
         <Masthead className={css["masthead"]}>
-          <Button onClick={goBack} variant="bare">
+          <Button onClick={goBack} variant="bare" size="sm">
             <ChevronLeftIcon /> Back
           </Button>
         </Masthead>

@@ -4,7 +4,11 @@ import {
   useDuplicateDeck,
 } from "@/components/deck-display/hooks";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu } from "@/components/ui/dropdown-menu";
+import {
+  DropdownButton,
+  DropdownItem,
+  DropdownMenu,
+} from "@/components/ui/dropdown-menu";
 import {
   Popover,
   PopoverContent,
@@ -119,24 +123,26 @@ export function DeckCollection() {
             </PopoverTrigger>
             <PopoverContent>
               <DropdownMenu>
-                <FileInput
-                  accept="application/json"
-                  id="collection-import"
-                  multiple
-                  onChange={onAddFiles}
-                  size="full"
-                  variant="bare"
-                >
-                  <UploadIcon /> Import from JSON files
-                </FileInput>
-                <Button
+                <DropdownItem>
+                  <FileInput
+                    accept="application/json"
+                    id="collection-import"
+                    multiple
+                    onChange={onAddFiles}
+                    size="full"
+                    variant="bare"
+                  >
+                    <UploadIcon /> Import from JSON files
+                  </FileInput>
+                </DropdownItem>
+                <DropdownButton
                   data-testid="collection-delete-all"
                   onClick={onDeleteAll}
                   size="full"
                   variant="bare"
                 >
                   <Trash2Icon /> Delete all local decks
-                </Button>
+                </DropdownButton>
               </DropdownMenu>
             </PopoverContent>
           </Popover>

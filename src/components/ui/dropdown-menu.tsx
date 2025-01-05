@@ -85,3 +85,7 @@ export function DropdownMenuSection(props: {
     </section>
   );
 }
+
+export function DropdownItem({ children }: { children: React.ReactNode }) {
+  return <div className={css["dropdown-item"]}>{children}</div>;
+}

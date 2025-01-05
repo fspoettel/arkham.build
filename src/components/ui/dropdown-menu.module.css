@@ -3,8 +3,22 @@
   border-radius: var(--rounded);
   background-color: var(--palette-point-five);
   box-shadow: var(--shadow-md);
-  min-width: 15rem;
   border: 1px solid var(--palette-2);
+}
+
+.dropdown-item,
+.dropdown-button {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 0.375rem;
+  width: 100%;
+  justify-content: flex-start;
+
+  & > * {
+    text-align: left;
+    justify-content: flex-start;
+  }
 }
 
 .dropdown-button-row {
@@ -12,6 +26,7 @@
   width: 100%;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
 
   & > * {
     display: inline-flex;
