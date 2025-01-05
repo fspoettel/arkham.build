@@ -1,4 +1,3 @@
-import { CLEAR_TOKEN } from "@/utils/constants";
 import type { StoreApi } from "zustand";
 import { ApiError } from "../services/queries";
 import type { StoreState } from "../slices";
@@ -48,8 +47,6 @@ class ArkhamDbAdapter implements SyncAdapter {
     deck.previous_deck = undefined;
     deck.next_deck = undefined;
     deck.taboo = deck.taboo_id;
-    // FIXME: remove once https://github.com/Kamalisk/arkhamdb/issues/695 is addressed.
-    deck.description_md = deck.description_md || CLEAR_TOKEN;
     return deck as Deck;
   }
 }

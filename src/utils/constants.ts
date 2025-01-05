@@ -272,5 +272,3 @@ export const PREVIEW_PACKS = localPacks
   .map((pack) => pack.code);
 
 export const NO_SLOT_STRING = "No slot";
-
-export const CLEAR_TOKEN = "<!--clear-->";

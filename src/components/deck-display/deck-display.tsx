@@ -3,7 +3,6 @@ import type { DeckValidationResult } from "@/store/lib/deck-validation";
 import { deckTags, extendedDeckTags } from "@/store/lib/resolve-deck";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { History } from "@/store/selectors/decks";
-import { CLEAR_TOKEN } from "@/utils/constants";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { BookOpenTextIcon, ChartAreaIcon, FileClockIcon } from "lucide-react";
 import { Suspense, lazy, useCallback, useState } from "react";
@@ -40,10 +39,6 @@ export function DeckDisplay(props: DeckDisplayProps) {
   const onTabChange = useCallback((val: string) => {
     setCurrentTab(val);
   }, []);
-
-  // FIXME: remove once https://github.com/Kamalisk/arkhamdb/issues/695 is addressed.
-  const hasDeckDescription =
-    deck.description_md && deck.description_md !== CLEAR_TOKEN;
 
   return (
     <AppLayout title={deck ? deck.name : ""}>
@@ -94,7 +89,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
                 <i className="icon-deck" />
                 <span>Deck</span>
               </TabsTrigger>
-              {hasDeckDescription && (
+              {deck.description_md && (
                 <TabsTrigger
                   data-testid="tab-notes"
                   hotkey="n"
@@ -138,7 +133,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
             <TabsContent className={css["tab"]} value="tools">
               <DeckTools deck={deck} readonly />
             </TabsContent>
-            {hasDeckDescription && (
+            {deck.description_md && (
               <TabsContent className={css["tab"]} value="notes">
                 <Suspense fallback={<Loader show message="Loading notes..." />}>
                   <LazyDeckDescription content={deck.description_md} />
