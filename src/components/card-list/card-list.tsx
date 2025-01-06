@@ -159,7 +159,7 @@ export function CardList(props: CardListImplementationProps) {
       card: data.cards[index],
       currentTop,
       index,
-      itemSize,
+      size: itemSize,
       limitOverride: getDeckLimitOverride(resolvedDeck, data.cards[index].code),
       onChangeCardQuantity,
       ownedCount: canCheckOwnerhip
