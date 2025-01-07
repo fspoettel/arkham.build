@@ -580,6 +580,19 @@ export function filterTabooSet(tabooSetId: number, metadata: Metadata) {
 }
 
 /**
+ * Text
+ */
+
+export function filterText(text: string) {
+  return (card: Card) => {
+    return !!(
+      card.real_text?.includes(text) ||
+      card.real_customization_text?.includes(text)
+    );
+  };
+}
+
+/**
  * Trait
  */
 
@@ -783,8 +796,8 @@ export function makeOptionFilter(
 
   // TODO: generalize tag based access.
 
-  // special case: allessandra
-  if (option.text?.some((s) => s.includes("Parley"))) {
+  // allessandra zorzi
+  if (option.tag?.includes("pa")) {
     filterCount += 1;
     optionFilter.push(filterTag("pa", true));
   }
@@ -812,6 +825,13 @@ export function makeOptionFilter(
     optionFilter.push(
       filterTag("se", config?.customizable?.properties === "all"),
     );
+  }
+
+  // Michael McGlen
+  // FIXME: replace this with tag-based access once implemented.
+  if (option.tag?.includes("fa")) {
+    filterCount += 1;
+    optionFilter.push(filterText("[[Firearm]]"));
   }
 
   // on your own
