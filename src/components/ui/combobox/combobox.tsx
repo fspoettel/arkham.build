@@ -15,6 +15,7 @@ import {
 } from "@floating-ui/react";
 import uFuzzy from "@leeoniya/ufuzzy";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
+import normalizeDiacritics from "normalize-text";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ComboboxMenu } from "./combobox-menu";
 import { ComboboxResults } from "./combobox-results";
@@ -35,10 +36,16 @@ function fuzzyMatch<T extends Coded>(
 ) {
   if (!search) return items;
 
-  const uf = new uFuzzy();
-  const searchItems = items.map(itemToString);
+  const normalizedSearchTerm = normalizeDiacritics(search);
 
-  const results = uf.search(searchItems, search, 1);
+  const uf = new uFuzzy();
+
+  // Normalize diacritics in search items to stripped letters
+  const searchItems = items.map((item) =>
+    normalizeDiacritics(itemToString(item)),
+  );
+
+  const results = uf.search(searchItems, normalizedSearchTerm, 1);
   if (!results?.[0]) return items;
 
   const matches = results[0].reduce<Record<string, boolean>>((acc, curr) => {
