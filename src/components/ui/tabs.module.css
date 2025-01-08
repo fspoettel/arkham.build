@@ -25,7 +25,7 @@
 }
 
 .trigger[data-state="active"] {
-  background-color: var(--palette-1);
+  background-color: var(--palette-point-five);
   border-bottom: 0.125rem solid var(--accent-color-dark, var(--nord-10));
 }
 

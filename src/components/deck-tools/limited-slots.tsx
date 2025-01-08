@@ -11,6 +11,8 @@ export function LimitedSlots(props: { deck: ResolvedDeck }) {
 
   if (!limitedSlots?.length) return null;
 
+  console.log(props.deck);
+
   return (
     <>
       {limitedSlots?.map((entry) => (
@@ -25,7 +27,12 @@ export function LimitedSlots(props: { deck: ResolvedDeck }) {
           }}
           entries={entry.entries}
           renderCard={({ card, quantity }) => (
-            <ListCard card={card} key={card.code} quantity={quantity} />
+            <ListCard
+              annotation={props.deck.annotations[card.code]}
+              card={card}
+              key={card.code}
+              quantity={quantity}
+            />
           )}
           title={entry.option.name ?? "Limited slots"}
         />

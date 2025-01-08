@@ -285,6 +285,7 @@ export function UpgradeModal(props: Props) {
                 <ul>
                   {exilableCards.map(({ card, limit }) => (
                     <ListCard
+                      annotation={deck.annotations[card.code]}
                       as="li"
                       key={card.code}
                       card={card}

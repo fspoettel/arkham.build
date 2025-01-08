@@ -33,6 +33,7 @@ export function CardListItemCompact(props: Props) {
     ownedCount,
     quantity,
     viewMode,
+    resolvedDeck,
     renderCardExtra,
     renderCardAction,
     renderCardAfter,
@@ -41,6 +42,7 @@ export function CardListItemCompact(props: Props) {
 
   return (
     <ListCard
+      annotation={resolvedDeck?.annotations[card.code]}
       card={card}
       disableKeyboard
       isActive={index === currentTop}

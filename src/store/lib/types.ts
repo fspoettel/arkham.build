@@ -91,6 +91,8 @@ export type DeckMeta = {
   [key in `cus_${string}`]: string | null;
 } & {
   [key in `attachments_${string}`]: string | null;
+} & {
+  [key in `annotation_${string}`]: string | null;
 };
 
 type DeckSizeSelection = {
@@ -138,7 +140,10 @@ export type ChartableData<T extends string | number = number> = {
   y: number;
 }[];
 
+export type Annotations = Record<string, string | null>;
+
 export type ResolvedDeck = Omit<Deck, "sideSlots"> & {
+  annotations: Annotations;
   attachments: AttachmentQuantities | undefined;
   availableAttachments: AttachableDefinition[];
   bondedSlots: Record<string, number>;

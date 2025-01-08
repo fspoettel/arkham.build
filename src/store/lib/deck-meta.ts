@@ -3,6 +3,7 @@ import type { AttachmentQuantities } from "@/store/slices/deck-edits.types";
 import type { Metadata } from "@/store/slices/metadata.types";
 import { range } from "@/utils/range";
 import type {
+  Annotations,
   CardWithRelations,
   Customization,
   Customizations,
@@ -204,15 +205,6 @@ export function encodeCardPool(cardPool: string[]) {
   return cardPool.filter((x) => x).join(",");
 }
 
-export function encodeSealedDeck(sealed: SealedDeck) {
-  return {
-    sealed_deck: Object.entries(sealed.cards)
-      .map(([code, quantity]) => `${code}:${quantity}`)
-      .join(","),
-    sealed_deck_name: sealed.name,
-  };
-}
-
 export function decodeSealedDeck(deckMeta: DeckMeta) {
   const entries = deckMeta.sealed_deck?.split(",");
 
@@ -228,4 +220,36 @@ export function decodeSealedDeck(deckMeta: DeckMeta) {
     name: deckMeta.sealed_deck_name ?? "Sealed Deck",
     cards,
   };
+}
+
+export function encodeSealedDeck(sealed: SealedDeck) {
+  return {
+    sealed_deck: Object.entries(sealed.cards)
+      .map(([code, quantity]) => `${code}:${quantity}`)
+      .join(","),
+    sealed_deck_name: sealed.name,
+  };
+}
+
+export function decodeAnnotations(deckMeta: DeckMeta): Annotations {
+  const annotations: Annotations = {};
+
+  for (const [key, value] of Object.entries(deckMeta)) {
+    if (key.startsWith("annotation_") && value) {
+      const code = key.split("annotation_")[1];
+      annotations[code] = value;
+    }
+  }
+
+  return annotations;
+}
+
+export function encodeAnnotations(annotations: Annotations) {
+  return Object.entries(annotations).reduce<Annotations>(
+    (acc, [code, note]) => {
+      if (note) acc[`annotation_${code}`] = note;
+      return acc;
+    },
+    {},
+  );
 }

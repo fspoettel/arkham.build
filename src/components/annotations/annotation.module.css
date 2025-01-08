@@ -1,0 +1,50 @@
+.annotation {
+  width: 100%;
+  padding: 0.5rem;
+  background: var(--palette-point-five);
+  border: 1px solid var(--nord-9);
+  border-radius: var(--rounded-md);
+
+  &.sm {
+    font-size: var(--text-sm);
+  }
+}
+
+.annotation > * + * {
+  margin-top: 0.25rem;
+}
+
+.header {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.25rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.25rem;
+  justify-content: flex-start;
+  align-items: center;
+  line-height: 1;
+  color: var(--nord-9);
+}
+
+.icon {
+  flex: 0 0 auto;
+  fill: currentColor;
+}
+
+.content {
+  width: 100%;
+  border: none;
+  text-align: left;
+}
+
+.content textarea {
+  width: 100%;
+  border: 1px solid var(--palette-1);
+  min-height: 5rem;
+}

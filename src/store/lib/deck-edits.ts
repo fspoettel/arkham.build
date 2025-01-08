@@ -5,14 +5,16 @@ import type { Deck, Slots } from "../slices/data.types";
 import type { EditState, Slot } from "../slices/deck-edits.types";
 import type { Metadata } from "../slices/metadata.types";
 import {
+  decodeAnnotations,
   decodeAttachments,
   decodeCustomizations,
   decodeDeckMeta,
+  encodeAnnotations,
   encodeAttachments,
   encodeCustomizations,
 } from "./deck-meta";
 import { decodeExtraSlots, encodeExtraSlots } from "./slots";
-import type { DeckMeta } from "./types";
+import type { Annotations, DeckMeta } from "./types";
 
 /**
  * Given a stored deck, apply deck edits and return a new, serializable deck.
@@ -117,16 +119,22 @@ export function applyDeckEdits(
     pruneDeletions,
   );
 
+  const annotationEdits = mergeAnnotationEdits(edits, currentDeckMeta);
+
   // adjust customizations & attachments based on deck edits.
   const deckMeta = Object.assign(
     structuredClone(
       omit(
         currentDeckMeta,
-        (k) => k.startsWith("attachments_") || k.startsWith("cus_"),
+        (k) =>
+          k.startsWith("attachments_") ||
+          k.startsWith("cus_") ||
+          k.startsWith("annotation_"),
       ),
     ),
     customizationEdits,
     attachmentEdits,
+    annotationEdits,
   );
 
   deck.meta = JSON.stringify({
@@ -205,6 +213,20 @@ function mergeAttachmentEdits(
   }
 
   return encodeAttachments(attachments);
+}
+
+function mergeAnnotationEdits(edits: EditState, deckMeta: DeckMeta) {
+  const annotations: Annotations = decodeAnnotations(deckMeta) ?? {};
+
+  for (const [code, annotation] of Object.entries(edits.annotations ?? {})) {
+    if (annotation) {
+      annotations[code] = annotation;
+    } else {
+      delete annotations[code];
+    }
+  }
+
+  return encodeAnnotations(annotations);
 }
 
 /**

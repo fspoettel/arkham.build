@@ -11,7 +11,7 @@ import {
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { cx } from "@/utils/cx";
 import type { ReferenceType } from "@floating-ui/react";
-import { FileWarningIcon, StarIcon } from "lucide-react";
+import { FileWarningIcon, MessageCircleIcon, StarIcon } from "lucide-react";
 import { useCallback } from "react";
 import { CardHealth } from "../card-health";
 import { CardIcon } from "../card-icon";
@@ -30,6 +30,7 @@ import { DefaultTooltip } from "../ui/tooltip";
 import css from "./list-card.module.css";
 
 export type Props = {
+  annotation?: string | null;
   as?: "li" | "div";
   card: Card;
   className?: string;
@@ -59,6 +60,7 @@ export type Props = {
 
 export function ListCardInner(props: Props) {
   const {
+    annotation,
     as = "div",
     card,
     className,
@@ -241,6 +243,14 @@ export function ListCardInner(props: Props) {
                       {card.taboo_xp && <ExperienceDots xp={card.taboo_xp} />}
                       <i className="icon-tablet icon-layout color-taboo" />
                     </span>
+                  )}
+
+                  {!!annotation && (
+                    <DefaultTooltip tooltip="Card has an annotation">
+                      <span className={css["annotation-icon"]}>
+                        <MessageCircleIcon />
+                      </span>
+                    </DefaultTooltip>
                   )}
 
                   {!showInvestigatorIcons && card.real_subname && (

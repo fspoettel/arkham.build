@@ -16,6 +16,7 @@ arkham.build extends the _arkhamdb deck schema_ with a few fields for additional
 - `meta.transform_into`: code of the investigator that this deck's investigator has transformed into. I.e. `04244` for _Body of a Yithian_.
 - `meta.banner_url`: URL to an image to be displayed as banner for the deck. Preferably aspect ratio `4:1`.
 - `meta.intro_md`: Short deck introduction that uses the same markdown format that `description_md` uses.
+- `meta.annotation_{code}`: Annotation for a specific card that uses the same markdown format that `description_md` uses. Annotations are not limited to cards in deck, but can also target cards in the side deck (upgrades, alternatives) or _any_ card (reasoning for exclusion).
 
 ## File formats
 

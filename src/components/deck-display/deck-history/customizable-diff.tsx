@@ -1,17 +1,19 @@
 import { CustomizationOption } from "@/components/customizations/customization-option";
 import { ListCard } from "@/components/list-card/list-card";
+import type { ResolvedDeck } from "@/store/lib/types";
 import type { CustomizationUpgrade } from "@/store/selectors/decks";
 import { cx } from "@/utils/cx";
 import css from "./diffs.module.css";
 
 type Props = {
+  deck?: ResolvedDeck;
   differences: CustomizationUpgrade[];
   size?: "sm";
   title: React.ReactNode;
 };
 
 export function CustomizableDiff(props: Props) {
-  const { differences, size, title } = props;
+  const { deck, differences, size, title } = props;
 
   if (!differences.length) return null;
 
@@ -24,6 +26,7 @@ export function CustomizableDiff(props: Props) {
         {differences.map(({ card, diff, xpMax }) => (
           <li key={card.code}>
             <ListCard
+              annotation={deck?.annotations[card.code]}
               key={card.code}
               card={card}
               omitBorders
