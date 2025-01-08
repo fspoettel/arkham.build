@@ -341,4 +341,21 @@ export const createDeckEditsSlice: StateCreator<
       },
     });
   },
+  updateAnnotation(deckId, code, value) {
+    const state = get();
+    const edits = currentEdits(state, deckId);
+
+    set({
+      deckEdits: {
+        ...state.deckEdits,
+        [deckId]: {
+          ...edits,
+          annotations: {
+            ...edits.annotations,
+            [code]: value,
+          },
+        },
+      },
+    });
+  },
 });

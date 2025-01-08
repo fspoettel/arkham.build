@@ -5,7 +5,8 @@ import type { ResolvedDeck } from "@/store/lib/types";
 import type { History } from "@/store/selectors/decks";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { BookOpenTextIcon, ChartAreaIcon, FileClockIcon } from "lucide-react";
-import { Suspense, lazy, useCallback, useState } from "react";
+import { Suspense, useCallback, useState } from "react";
+import DeckDescription from "../deck-description";
 import { DeckTags } from "../deck-tags";
 import { DeckTools } from "../deck-tools/deck-tools";
 import { Decklist } from "../decklist/decklist";
@@ -25,8 +26,6 @@ export type DeckDisplayProps = {
   history?: History;
   validation: DeckValidationResult;
 };
-
-const LazyDeckDescription = lazy(() => import("@/components/deck-description"));
 
 export function DeckDisplay(props: DeckDisplayProps) {
   const { origin, deck, history, validation } = props;
@@ -64,7 +63,9 @@ export function DeckDisplay(props: DeckDisplayProps) {
             </div>
           )}
           {deck.metaParsed.intro_md && (
-            <LazyDeckDescription content={deck.metaParsed.intro_md} />
+            <div className={css["description"]}>
+              <DeckDescription content={deck.metaParsed.intro_md} />
+            </div>
           )}
         </header>
 
@@ -124,11 +125,13 @@ export function DeckDisplay(props: DeckDisplayProps) {
               )}
             </TabsList>
             <TabsContent className={css["tab"]} value="deck">
-              <DecklistValidation
-                defaultOpen={validation.errors.length < 3}
-                validation={validation}
-              />
-              <Decklist deck={deck} />
+              <div className={css["tab-content"]}>
+                <DecklistValidation
+                  defaultOpen={validation.errors.length < 3}
+                  validation={validation}
+                />
+                <Decklist deck={deck} />
+              </div>
             </TabsContent>
             <TabsContent className={css["tab"]} value="tools">
               <DeckTools deck={deck} readonly />
@@ -136,13 +139,15 @@ export function DeckDisplay(props: DeckDisplayProps) {
             {deck.description_md && (
               <TabsContent className={css["tab"]} value="notes">
                 <Suspense fallback={<Loader show message="Loading notes..." />}>
-                  <LazyDeckDescription content={deck.description_md} />
+                  <div className={css["description"]}>
+                    <DeckDescription content={deck.description_md} />
+                  </div>
                 </Suspense>
               </TabsContent>
             )}
             {hasHistory && (
               <TabsContent className={css["tab"]} value="history">
-                <DeckHistory history={history} />
+                <DeckHistory deck={deck} history={history} />
               </TabsContent>
             )}
           </Tabs>

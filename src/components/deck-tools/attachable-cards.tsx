@@ -90,6 +90,7 @@ export function AttachableCards(props: Props) {
       entries={cards}
       renderCard={(entry) => (
         <ListCard
+          annotation={resolvedDeck.annotations[entry.card.code]}
           as="li"
           key={entry.card.code}
           card={entry.card}

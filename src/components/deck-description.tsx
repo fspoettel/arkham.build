@@ -95,19 +95,17 @@ function DeckDescription(props: Props) {
   }, [onMouseMove, onMouseLeave]);
 
   return (
-    // biome-ignore lint/a11y/useKeyWithClickEvents:  not relevant.
-    <div
-      className={css["description"]}
-      onClick={redirectArkhamDBLinks}
-      ref={containerRef}
-    >
+    <>
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents:  not relevant. */}
       <div
-        className={cx("longform", className)}
+        className={cx(css["description"], "longform", className)}
         data-testid="description-content"
         // biome-ignore lint/security/noDangerouslySetInnerHtml: we sanitize html content.
         dangerouslySetInnerHTML={{
           __html: parseMarkdown(content),
         }}
+        onClick={redirectArkhamDBLinks}
+        ref={containerRef}
       />
 
       {isMounted && cardTooltip && (
@@ -120,7 +118,7 @@ function DeckDescription(props: Props) {
           </div>
         </FloatingPortal>
       )}
-    </div>
+    </>
   );
 }
 

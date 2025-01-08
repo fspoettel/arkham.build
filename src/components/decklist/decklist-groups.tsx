@@ -171,6 +171,7 @@ function DecklistGroup(props: DecklistGroupProps) {
         .map((card) => (
           <ListCard
             as="li"
+            annotation={ctx.resolvedDeck?.annotations?.[card.code]}
             card={card}
             isForbidden={
               forbiddenCards.find(

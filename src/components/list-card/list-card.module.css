@@ -257,3 +257,8 @@
 .listcard-text > * + * {
   margin-top: 0.5em;
 }
+
+.annotation-icon svg {
+  color: var(--nord-9);
+  fill: var(--nord-9);
+}

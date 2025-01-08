@@ -10,6 +10,7 @@ import type { Metadata } from "../slices/metadata.types";
 import type { SharingState } from "../slices/sharing.types";
 import { addGroupingsToDeck } from "./deck-grouping";
 import {
+  decodeAnnotations,
   decodeAttachments,
   decodeCardPool,
   decodeCustomizations,
@@ -111,6 +112,7 @@ export function resolveDeck(
 
   const resolved = {
     ...deck,
+    annotations: decodeAnnotations(deckMeta),
     attachments: decodeAttachments(deckMeta),
     availableAttachments,
     cardPool,

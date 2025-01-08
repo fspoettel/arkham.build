@@ -1,3 +1,4 @@
+import type { ResolvedDeck } from "@/store/lib/types";
 import type { History } from "@/store/selectors/decks";
 import { formatXpAvailable } from "@/utils/formatting";
 import { CustomizableDiff } from "./customizable-diff";
@@ -5,11 +6,12 @@ import css from "./deck-history.module.css";
 import { SlotDiff } from "./slot-diff";
 
 type Props = {
+  deck: ResolvedDeck;
   history: History;
 };
 
 export function DeckHistory(props: Props) {
-  const { history } = props;
+  const { deck, history } = props;
 
   return (
     <ol className={css["entries"]} data-testid="history">
@@ -37,20 +39,24 @@ export function DeckHistory(props: Props) {
                 <>
                   <div className={css["entry-row"]}>
                     <SlotDiff
+                      deck={deck}
                       title="Deck changes"
                       differences={stats.differences.slots}
                     />
                     <SlotDiff
+                      deck={deck}
                       title="Spirit deck changes"
                       differences={stats.differences.extraSlots}
                     />
                   </div>
                   <div className={css["entry-row"]}>
                     <SlotDiff
+                      deck={deck}
                       title="Exiled cards"
                       differences={stats.differences.exileSlots}
                     />
                     <CustomizableDiff
+                      deck={deck}
                       title="Customizations"
                       differences={stats.differences.customizations}
                     />

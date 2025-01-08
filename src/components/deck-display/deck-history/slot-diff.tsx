@@ -1,14 +1,16 @@
 import { ListCard } from "@/components/list-card/list-card";
+import type { ResolvedDeck } from "@/store/lib/types";
 import type { SlotUpgrade } from "@/store/selectors/decks";
 import { cx } from "@/utils/cx";
 import css from "./diffs.module.css";
 
 export function SlotDiff(props: {
   differences: SlotUpgrade[];
+  deck?: ResolvedDeck;
   size?: "sm";
   title: React.ReactNode;
 }) {
-  const { differences, size, title } = props;
+  const { deck, differences, size, title } = props;
 
   if (!differences.length) return null;
 
@@ -31,6 +33,7 @@ export function SlotDiff(props: {
               {Math.abs(change.diff)}
             </span>
             <ListCard
+              annotation={deck?.annotations[change.card.code]}
               key={change.card.code}
               card={change.card}
               omitBorders

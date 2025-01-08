@@ -8,9 +8,10 @@ import { getCanonicalCardCode, isStaticInvestigator } from "@/utils/card-utils";
 import { formatRelationTitle } from "@/utils/formatting";
 import { useMedia } from "@/utils/use-media";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
-import { ExternalLinkIcon, MessageSquareIcon } from "lucide-react";
+import { ExternalLinkIcon, MessagesSquareIcon } from "lucide-react";
 import { useCallback, useRef } from "react";
 import { Link } from "wouter";
+import { Annotation } from "../annotations/annotation";
 import { Card } from "../card/card";
 import { CardSet } from "../cardset";
 import { Customizations } from "../customizations/customizations";
@@ -19,6 +20,7 @@ import { AttachableCards } from "../deck-tools/attachable-cards";
 import { Button } from "../ui/button";
 import { useDialogContextChecked } from "../ui/dialog.hooks";
 import { Modal } from "../ui/modal";
+import { AnnotationEdit } from "./card-modal-annotation-edit";
 import { CardModalAttachmentQuantities } from "./card-modal-attachment-quantities";
 import { CardModalQuantities } from "./card-modal-quantities";
 import css from "./card-modal.module.css";
@@ -29,7 +31,6 @@ type Props = {
 
 export function CardModal(props: Props) {
   const ctx = useResolvedDeck();
-
   const canEdit = ctx.canEdit;
 
   const modalContext = useDialogContextChecked();
@@ -40,7 +41,7 @@ export function CardModal(props: Props) {
 
   const quantitiesRef = useRef<HTMLDivElement>(null);
 
-  const onClick = useCallback(
+  const onClickBackdrop = useCallback(
     (evt: React.MouseEvent) => {
       if (evt.target === quantitiesRef.current) {
         onCloseModal();
@@ -67,6 +68,8 @@ export function CardModal(props: Props) {
   const attachableDefinition = ctx.resolvedDeck?.availableAttachments.find(
     (config) => config.code === cardWithRelations.card.code,
   );
+
+  const annotation = ctx.resolvedDeck?.annotations[cardWithRelations.card.code];
 
   const cardNode = (
     <>
@@ -95,6 +98,22 @@ export function CardModal(props: Props) {
           )
         ) : undefined}
       </Card>
+      {!!ctx.resolvedDeck &&
+        (canEdit ? (
+          <div className={css["related"]}>
+            <AnnotationEdit
+              cardCode={cardWithRelations.card.code}
+              deckId={ctx.resolvedDeck.id}
+              text={annotation}
+            />
+          </div>
+        ) : (
+          annotation && (
+            <div className={css["related"]}>
+              <Annotation content={annotation} />
+            </div>
+          )
+        ))}
       {!!related.length && (
         <div className={css["related"]}>
           {related.map(([key, value]) => {
@@ -155,7 +174,7 @@ export function CardModal(props: Props) {
             rel="noreferrer"
             target="_blank"
           >
-            <MessageSquareIcon />
+            <MessagesSquareIcon />
             Reviews
           </Button>
         </>
@@ -170,7 +189,7 @@ export function CardModal(props: Props) {
           {/* biome-ignore lint/a11y/useKeyWithClickEvents: not relevant. */}
           <div
             className={css["quantities"]}
-            onClick={onClick}
+            onClick={onClickBackdrop}
             ref={quantitiesRef}
           >
             {showQuantities && (

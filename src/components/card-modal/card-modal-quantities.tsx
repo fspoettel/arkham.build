@@ -4,6 +4,7 @@ import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import type { Slot } from "@/store/slices/deck-edits.types";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import { inputFocused } from "@/utils/keyboard";
 import { useEffect } from "react";
 import { QuantityInput } from "../ui/quantity-input";
 import css from "./card-modal.module.css";
@@ -25,7 +26,7 @@ export function CardModalQuantities(props: Props) {
     if (!canEdit) return;
 
     function onKeyDown(evt: KeyboardEvent) {
-      if (evt.metaKey || !deck?.id) return;
+      if (evt.metaKey || !deck?.id || inputFocused()) return;
 
       const slots = evt.shiftKey ? "sideSlots" : "slots";
 
