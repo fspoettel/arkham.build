@@ -2,6 +2,7 @@ import { assert } from "@/utils/assert";
 import { FACTION_ORDER, type FactionName } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
 import { and, or } from "@/utils/fp";
+import { normalizeDiacritics } from "@/utils/normalize-diacritics";
 import uFuzzy from "@leeoniya/ufuzzy";
 import { createSelector } from "reselect";
 import { extendedDeckTags } from "../lib/resolve-deck";
@@ -253,7 +254,15 @@ const selectDecksFiltered = createSelector(
         interIns: MATCHING_MAX_TOKEN_DISTANCE_DECKS,
       });
 
-      const results = finder.search(searchableText, searchTerm);
+      const normalizedSearchTerm = normalizeDiacritics(searchTerm);
+
+      // Normalize letters with diacritics in searchable text to stripped letters
+      const normalizedSearchableText = searchableText.map(normalizeDiacritics);
+
+      const results = finder.search(
+        normalizedSearchableText,
+        normalizedSearchTerm,
+      );
 
       decksToFilter = [];
 

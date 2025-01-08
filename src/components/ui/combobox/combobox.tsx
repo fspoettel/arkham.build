@@ -2,6 +2,7 @@ import type { Coded } from "@/store/services/queries.types";
 import { FLOATING_PORTAL_ID } from "@/utils/constants";
 import { cx } from "@/utils/cx";
 import { isEmpty } from "@/utils/is-empty";
+import { normalizeDiacritics } from "@/utils/normalize-diacritics";
 import {
   FloatingFocusManager,
   FloatingPortal,
@@ -35,10 +36,16 @@ function fuzzyMatch<T extends Coded>(
 ) {
   if (!search) return items;
 
-  const uf = new uFuzzy();
-  const searchItems = items.map(itemToString);
+  const normalizedSearchTerm = normalizeDiacritics(search);
 
-  const results = uf.search(searchItems, search, 1);
+  const uf = new uFuzzy();
+
+  // Normalize diacritics in search items to stripped letters
+  const searchItems = items.map((item) =>
+    normalizeDiacritics(itemToString(item)),
+  );
+
+  const results = uf.search(searchItems, normalizedSearchTerm, 1);
   if (!results?.[0]) return items;
 
   const matches = results[0].reduce<Record<string, boolean>>((acc, curr) => {
