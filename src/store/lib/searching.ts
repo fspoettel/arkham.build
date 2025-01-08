@@ -1,6 +1,6 @@
 import type { Card } from "@/store/services/queries.types";
+import { normalizeDiacritics } from "@/utils/normalize-diacritics";
 import uFuzzy from "@leeoniya/ufuzzy";
-import normalizeDiacritics from "normalize-text";
 import type { Search } from "../slices/lists.types";
 import type { Metadata } from "../slices/metadata.types";
 
@@ -76,13 +76,7 @@ export function applySearch(
     return normalizeDiacritics(content);
   });
 
-  const normalizedSearchTerm = normalizeDiacritics(search.value);
-
-  const results = uf.search(
-    searchCards,
-    prepareNeedle(normalizedSearchTerm),
-    0,
-  );
+  const results = uf.search(searchCards, prepareNeedle(search.value), 0);
 
   if (!results?.[0]) return cards;
 
@@ -95,5 +89,5 @@ export function applySearch(
 }
 
 function prepareNeedle(needle: string): string {
-  return needle.replaceAll(/((?:\+|-)\d+)/g, `"$1"`);
+  return normalizeDiacritics(needle.replaceAll(/((?:\+|-)\d+)/g, `"$1"`));
 }

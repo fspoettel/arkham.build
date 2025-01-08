@@ -2,6 +2,7 @@ import type { Coded } from "@/store/services/queries.types";
 import { FLOATING_PORTAL_ID } from "@/utils/constants";
 import { cx } from "@/utils/cx";
 import { isEmpty } from "@/utils/is-empty";
+import { normalizeDiacritics } from "@/utils/normalize-diacritics";
 import {
   FloatingFocusManager,
   FloatingPortal,
@@ -15,7 +16,6 @@ import {
 } from "@floating-ui/react";
 import uFuzzy from "@leeoniya/ufuzzy";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
-import normalizeDiacritics from "normalize-text";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ComboboxMenu } from "./combobox-menu";
 import { ComboboxResults } from "./combobox-results";
