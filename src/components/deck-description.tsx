@@ -104,7 +104,11 @@ function DeckDescription(props: Props) {
         const anchor = evt.target.closest("a") as HTMLAnchorElement;
         const href = anchor.getAttribute("href");
 
-        if (cardModalContext && href?.includes("/card/")) {
+        if (
+          cardModalContext &&
+          href?.includes("/card/") &&
+          !href.includes("#")
+        ) {
           evt.preventDefault();
           const code = anchor.href.split("/card/").at(-1);
 

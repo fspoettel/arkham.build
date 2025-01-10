@@ -17,13 +17,10 @@ test.describe("deck description", () => {
     await page.getByRole("link", { name: "Colt" }).first().click();
     await expect(page.getByTestId("card-face")).toBeVisible();
 
-    const nextPagePromise = page.waitForEvent("popup");
-    await page.getByRole("link", { name: "Colt" }).first().click();
-    const nextPage = await nextPagePromise;
-
-    const url = new URL(nextPage.url());
-    expect(url.pathname).toEqual("/card/03020");
-    expect(new URL(page.url()).origin).toEqual(url.origin);
+    await expect(page.getByTestId("card-modal")).toBeVisible();
+    await expect(
+      page.getByTestId("card-face").getByTestId("card-name"),
+    ).toContainText(".32 Colt");
   });
 
   test("redirect FAQ links to arkhamdb", async ({ page }) => {
@@ -63,17 +60,11 @@ test.describe("deck description", () => {
     await page.getByTestId("tab-notes").click();
 
     await page.getByRole("link", { name: "True Grit" }).first().click();
+
+    await expect(page.getByTestId("card-modal")).toBeVisible();
     await expect(
-      page.getByTestId("card-tooltip").getByTestId("card-03021"),
-    ).toBeVisible();
-
-    const nextPagePromise = page.waitForEvent("popup");
-    await page.getByRole("link", { name: "True Grit" }).first().click();
-    const nextPage = await nextPagePromise;
-
-    const url = new URL(nextPage.url());
-    expect(url.pathname).toEqual("/card/03021");
-    expect(new URL(page.url()).origin).toEqual(url.origin);
+      page.getByTestId("card-face").getByTestId("card-name"),
+    ).toContainText("True Grit");
   });
 
   test("redirect card links with nested block content", async ({ page }) => {
@@ -86,14 +77,9 @@ test.describe("deck description", () => {
       .getByRole("link", { name: "card" })
       .click();
 
-    const nextPagePromise = page.waitForEvent("popup");
-    await page
-      .getByTestId("description-content")
-      .getByRole("link", { name: "card" })
-      .click();
-    const nextPage = await nextPagePromise;
-    const url = new URL(nextPage.url());
-    expect(url.pathname).toEqual("/card/03022");
-    expect(new URL(page.url()).origin).toEqual(url.origin);
+    await expect(page.getByTestId("card-modal")).toBeVisible();
+    await expect(
+      page.getByTestId("card-face").getByTestId("card-name"),
+    ).toContainText("Let me handle this");
   });
 });
