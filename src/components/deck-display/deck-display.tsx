@@ -64,7 +64,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
           )}
           {deck.metaParsed.intro_md && (
             <div className={css["description"]}>
-              <DeckDescription content={deck.metaParsed.intro_md} />
+              <DeckDescription content={deck.metaParsed.intro_md} centered />
             </div>
           )}
         </header>
@@ -140,7 +140,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
               <TabsContent className={css["tab"]} value="notes">
                 <Suspense fallback={<Loader show message="Loading notes..." />}>
                   <div className={css["description"]}>
-                    <DeckDescription content={deck.description_md} />
+                    <DeckDescription content={deck.description_md} centered />
                   </div>
                 </Suspense>
               </TabsContent>

@@ -1,5 +1,9 @@
 .description {
   max-width: 90ch;
+
+  &.centered {
+    margin: 0 auto;
+  }
 }
 
 .description > * + * {

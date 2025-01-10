@@ -17,12 +17,13 @@ import { CardTooltip } from "./card-tooltip";
 import css from "./deck-description.module.css";
 
 type Props = {
+  centered?: boolean;
   className?: string;
   content: string;
 };
 
 function DeckDescription(props: Props) {
-  const { className, content } = props;
+  const { centered, className, content } = props;
 
   const cardModalContext = useCardModalContext();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -129,7 +130,12 @@ function DeckDescription(props: Props) {
     <>
       {/* biome-ignore lint/a11y/useKeyWithClickEvents:  not relevant. */}
       <div
-        className={cx(css["description"], "longform", className)}
+        className={cx(
+          css["description"],
+          "longform",
+          centered && css["centered"],
+          className,
+        )}
         data-testid="description-content"
         // biome-ignore lint/security/noDangerouslySetInnerHtml: we sanitize html content.
         dangerouslySetInnerHTML={{
