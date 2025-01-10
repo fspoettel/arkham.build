@@ -9,7 +9,7 @@ import { range } from "@/utils/range";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { GroupedVirtuosoHandle, ListRange } from "react-virtuoso";
 import { GroupedVirtuoso, Virtuoso } from "react-virtuoso";
-import { useCardModalContext } from "../card-modal/card-modal-context";
+import { useCardModalContextChecked } from "../card-modal/card-modal-context";
 import { Scroller } from "../ui/scroller";
 import { CardListItemCompact, CardListItemFull } from "./card-list-items";
 import css from "./card-list.module.css";
@@ -33,7 +33,7 @@ export function CardList(props: CardListImplementationProps) {
     viewMode,
   } = props;
 
-  const modalContext = useCardModalContext();
+  const modalContext = useCardModalContextChecked();
 
   const showAltHead = viewMode === "card-text";
 

@@ -8,7 +8,7 @@ import type { Metadata } from "@/store/slices/metadata.types";
 import { sideways } from "@/utils/card-utils";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { type ListRange, Virtuoso, type VirtuosoHandle } from "react-virtuoso";
-import { useCardModalContext } from "../card-modal/card-modal-context";
+import { useCardModalContextChecked } from "../card-modal/card-modal-context";
 import { CardScan } from "../card-scan";
 import { Scroller } from "../ui/scroller";
 import { CardActions } from "./card-actions";
@@ -19,7 +19,7 @@ import type { CardListImplementationProps } from "./types";
 export function CardGrid(props: CardListImplementationProps) {
   const { data, metadata, search, ...rest } = props;
 
-  const modalContext = useCardModalContext();
+  const modalContext = useCardModalContextChecked();
 
   const virtuosoRef = useRef<VirtuosoHandle>(null);
   const activeGroup = useRef<string | undefined>(undefined);
@@ -188,7 +188,7 @@ function CardGroupItem(
 ) {
   const { card, onChangeCardQuantity, resolvedDeck, quantities } = props;
 
-  const modalContext = useCardModalContext();
+  const modalContext = useCardModalContextChecked();
 
   const openModal = useCallback(() => {
     modalContext.setOpen({ code: card.code });

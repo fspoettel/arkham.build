@@ -646,6 +646,7 @@
     "faction_code": "guardian",
     "flavor": "They called Sister Sofia the \"hand of God\" for a very good reason.",
     "illustrator": "Gabby Portal",
+    "myriad": true,
     "name": "Quick Shot",
     "pack_code": "tdcp",
     "position": 31,

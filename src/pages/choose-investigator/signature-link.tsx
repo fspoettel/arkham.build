@@ -1,4 +1,4 @@
-import { useCardModalContext } from "@/components/card-modal/card-modal-context";
+import { useCardModalContextChecked } from "@/components/card-modal/card-modal-context";
 import { CardTooltip } from "@/components/card-tooltip";
 import { useRestingTooltip } from "@/components/ui/tooltip.hooks";
 import type { Card } from "@/store/services/queries.types";
@@ -22,7 +22,7 @@ export function SignatureLink(props: Props) {
     middleware: [shift({ padding: 5 })],
     placement: "right",
   });
-  const modalContext = useCardModalContext();
+  const modalContext = useCardModalContextChecked();
 
   const openModal = useCallback(() => {
     if (modalContext) {

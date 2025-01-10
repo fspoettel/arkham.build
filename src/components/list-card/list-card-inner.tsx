@@ -15,7 +15,7 @@ import { FileWarningIcon, MessageCircleIcon, StarIcon } from "lucide-react";
 import { useCallback } from "react";
 import { CardHealth } from "../card-health";
 import { CardIcon } from "../card-icon";
-import { useCardModalContext } from "../card-modal/card-modal-context";
+import { useCardModalContextChecked } from "../card-modal/card-modal-context";
 import { CardThumbnail } from "../card-thumbnail";
 import { CardDetails } from "../card/card-details";
 import { CardIcons } from "../card/card-icons";
@@ -88,7 +88,7 @@ export function ListCardInner(props: Props) {
     size,
   } = props;
 
-  const modalContext = useCardModalContext();
+  const modalContext = useCardModalContextChecked();
 
   const ignoredCount = isIgnored ?? 0;
 

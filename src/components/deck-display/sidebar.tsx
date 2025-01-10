@@ -37,7 +37,7 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useLocation, useSearch } from "wouter";
-import { useCardModalContext } from "../card-modal/card-modal-context";
+import { useCardModalContextChecked } from "../card-modal/card-modal-context";
 import { DeckInvestigatorModal } from "../deck-investigator/deck-investigator-modal";
 import { CopyToClipboard } from "../ui/copy-to-clipboard";
 import { useDialogContextChecked } from "../ui/dialog.hooks";
@@ -64,7 +64,7 @@ export function Sidebar(props: Props) {
   const { className, origin, deck } = props;
 
   const dialogContext = useDialogContextChecked();
-  const cardModalContext = useCardModalContext();
+  const cardModalContext = useCardModalContextChecked();
 
   const connections = useStore(selectConnections);
 

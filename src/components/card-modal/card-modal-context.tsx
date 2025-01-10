@@ -28,15 +28,19 @@ const CardModalContext = createContext<CardModalContext>({
   setOpen: () => {},
 });
 
-export function useCardModalContext() {
+export function useCardModalContextChecked() {
   const context = useContext(CardModalContext);
 
   if (!context) {
     throw new Error(
-      "useCardModalContext must be used within a CardModalProvider.",
+      "useCardModalContextChecked must be used within a CardModalProvider.",
     );
   }
   return context;
+}
+
+export function useCardModalContext() {
+  return useContext(CardModalContext);
 }
 
 type Props = {

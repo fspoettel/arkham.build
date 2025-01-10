@@ -12,6 +12,7 @@ import {
   useTransitionStyles,
 } from "@floating-ui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useCardModalContext } from "./card-modal/card-modal-context";
 import { CardTooltip } from "./card-tooltip";
 import css from "./deck-description.module.css";
 
@@ -22,6 +23,8 @@ type Props = {
 
 function DeckDescription(props: Props) {
   const { className, content } = props;
+
+  const cardModalContext = useCardModalContext();
   const containerRef = useRef<HTMLDivElement>(null);
   const [cardTooltip, setCardTooltip] = useState<string>("");
 
@@ -94,6 +97,34 @@ function DeckDescription(props: Props) {
     };
   }, [onMouseMove, onMouseLeave]);
 
+  const onLinkClick = useCallback(
+    (evt: React.MouseEvent) => {
+      if (evt.target instanceof HTMLElement) {
+        const anchor = evt.target.closest("a") as HTMLAnchorElement;
+        const href = anchor.getAttribute("href");
+
+        if (cardModalContext && href?.includes("/card/")) {
+          evt.preventDefault();
+          const code = anchor.href.split("/card/").at(-1);
+
+          if (code) {
+            cardModalContext.setOpen({ code });
+          } else {
+            redirectArkhamDBLinks(evt);
+          }
+        } else {
+          redirectArkhamDBLinks(evt);
+        }
+
+        if (anchor != null) {
+          if (anchor.href.startsWith("/card")) {
+          }
+        }
+      }
+    },
+    [cardModalContext],
+  );
+
   return (
     <>
       {/* biome-ignore lint/a11y/useKeyWithClickEvents:  not relevant. */}
@@ -104,7 +135,7 @@ function DeckDescription(props: Props) {
         dangerouslySetInnerHTML={{
           __html: parseMarkdown(content),
         }}
-        onClick={redirectArkhamDBLinks}
+        onClick={onLinkClick}
         ref={containerRef}
       />
 
