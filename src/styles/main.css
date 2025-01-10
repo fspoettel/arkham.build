@@ -549,25 +549,48 @@ kbd {
   color: var(--guardian);
 }
 
+:root[data-theme="light"] .fg-guardian {
+  color: var(--guardian-dark);
+}
+
 .fg-mystic {
   color: var(--mystic);
+}
+
+:root[data-theme="light"] .fg-mystic {
+  color: var(--mystic-dark);
 }
 
 .fg-rogue {
   color: var(--rogue);
 }
 
+:root[data-theme="light"] .fg-rogue {
+  color: var(--rogue-dark);
+}
+
 .fg-seeker {
   color: var(--seeker);
+}
+
+:root[data-theme="light"] .fg-seeker {
+  color: var(--seeker-dark);
 }
 
 .fg-survivor {
   color: var(--survivor);
 }
 
-.fg-dual,
-.fg-multiclass {
+:root[data-theme="light"] .fg-survivor {
+  color: var(--survivor-dark);
+}
+
+:where(.fg-dual, .fg-multiclass) {
   color: var(--multiclass);
+}
+
+:root[data-theme="light"] :where(.fg-dual, .fg-multiclass) {
+  color: var(--multiclass-dark);
 }
 
 .fg-mythos {
@@ -707,10 +730,6 @@ svg {
 
 .longform .icon-mythos {
   color: var(--mythos);
-}
-
-.longform [style*="color"] {
-  color: inherit !important;
 }
 
 .spin {
