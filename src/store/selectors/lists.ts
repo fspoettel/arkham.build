@@ -298,9 +298,7 @@ export const selectCanonicalTabooSetId = (
   state: StoreState,
   resolvedDeck?: ResolvedDeck,
 ) => {
-  if (resolvedDeck?.taboo_id) {
-    return resolvedDeck.taboo_id;
-  }
+  if (resolvedDeck) return resolvedDeck.taboo_id;
 
   const filters = selectActiveListFilters(state);
   const filterId = filters.findIndex((f) => f === "tabooSet");
