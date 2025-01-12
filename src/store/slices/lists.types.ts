@@ -61,16 +61,16 @@ export type SkillIconsFilter = {
   any: number | undefined;
 };
 
-export type HealthFilter = [number, number] | undefined;
+type HealthFilter = [number, number] | undefined;
 
-export type SanityFilter = [number, number] | undefined;
+type SanityFilter = [number, number] | undefined;
 
 export type InvestigatorSkillsFilter = Record<
   Exclude<SkillKey, "wild">,
   [number, number] | undefined
 >;
 
-export type InvestigatorCardAccessFilter = string[] | undefined;
+type InvestigatorCardAccessFilter = string[] | undefined;
 
 export type FilterMapping = {
   action: MultiselectFilter;

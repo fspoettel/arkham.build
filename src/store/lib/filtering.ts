@@ -583,7 +583,7 @@ export function filterTabooSet(tabooSetId: number, metadata: Metadata) {
  * Text
  */
 
-export function filterText(text: string) {
+function filterText(text: string) {
   return (card: Card) => {
     return !!(
       card.real_text?.includes(text) ||
@@ -635,7 +635,7 @@ export function filterType(enabledTypeCodes: MultiselectFilter) {
  * Investigator access
  */
 
-export function filterRequired(investigator: Card) {
+function filterRequired(investigator: Card) {
   return (card: Card) => {
     if (!card.restrictions?.investigator) return false;
 

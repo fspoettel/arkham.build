@@ -1,4 +1,4 @@
-export type DeckFiltersType = {
+type DeckFiltersType = {
   faction: string[];
   search: string;
   tags: string[];

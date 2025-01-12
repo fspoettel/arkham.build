@@ -25,9 +25,9 @@ import { forwardRef, useCallback, useMemo, useState } from "react";
 import { Button } from "./button";
 import css from "./sortable.module.css";
 
-export type SortableId = string | number;
+type SortableId = string | number;
 
-export type SortableData =
+type SortableData =
   | SortableId
   | {
       id: SortableId;

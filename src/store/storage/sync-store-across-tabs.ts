@@ -3,7 +3,7 @@
  */
 import type { StateCreator, StoreMutatorIdentifier } from "zustand";
 
-export type SharedOptions<T = unknown> = {
+type SharedOptions<T = unknown> = {
   /**
    * The name of the broadcast channel
    * It must be unique
@@ -54,7 +54,7 @@ export type SharedOptions<T = unknown> = {
 /**
  * The Shared type
  */
-export type Shared = <
+type Shared = <
   T extends object,
   Mps extends [StoreMutatorIdentifier, unknown][] = [],
   Mcs extends [StoreMutatorIdentifier, unknown][] = [],

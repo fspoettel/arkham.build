@@ -7,7 +7,7 @@ function toStartOfMonth(date: Date): Date {
   return new Date(date.getFullYear(), date.getMonth());
 }
 
-export function deckDateRange(): [Date, Date] {
+function deckDateRange(): [Date, Date] {
   const minDate = new Date(2016, 8);
   const maxDate = toStartOfMonth(new Date());
   return [minDate, maxDate];

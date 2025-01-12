@@ -6,7 +6,7 @@ import { useCallback, useId } from "react";
 import { Checkbox } from "../ui/checkbox";
 import css from "./card-recommender.module.css";
 
-export type CoreCardCheckboxProps = {
+type CoreCardCheckboxProps = {
   card: Card;
   deck: ResolvedDeck;
 };

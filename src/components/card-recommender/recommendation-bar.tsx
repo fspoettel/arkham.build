@@ -5,7 +5,7 @@ import { useMemo } from "react";
 import { DefaultTooltip } from "../ui/tooltip";
 import css from "./card-recommender.module.css";
 
-export type RecommendationBarProps = {
+type RecommendationBarProps = {
   card: Card;
   recommendations: Record<string, Recommendation>;
   investigator: string;

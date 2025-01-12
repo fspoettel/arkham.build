@@ -2,9 +2,10 @@ import { useStore } from "@/store";
 import { useCallback } from "react";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
-export type RecommenderRelativityToggleProps = {
+type RecommenderRelativityToggleProps = {
   investigator: string;
 };
+
 export function RecommenderRelativityToggle(
   props: RecommenderRelativityToggleProps,
 ) {

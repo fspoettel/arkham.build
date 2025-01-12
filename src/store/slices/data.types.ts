@@ -46,14 +46,6 @@ export function isDeck(x: unknown): x is Deck {
   );
 }
 
-export function isLocalDeck(x: unknown): x is Deck & { id: string } {
-  return isDeck(x) && x.source !== "arkhamdb";
-}
-
-export function isArkhamDbDeck(x: unknown): x is Deck & { id: number } {
-  return isDeck(x) && x.source === "arkhamdb";
-}
-
 export type DataState = {
   decks: Record<string, Deck>;
   history: {

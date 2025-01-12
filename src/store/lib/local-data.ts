@@ -45,7 +45,7 @@ export function applyLocalData(_metadata: Metadata) {
   return metadata;
 }
 
-export function formatLocalCard(
+function formatLocalCard(
   // biome-ignore lint/suspicious/noExplicitAny: safe, we control the data.
   card: Record<string, any>,
   mode = "card",

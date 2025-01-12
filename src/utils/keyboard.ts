@@ -5,7 +5,3 @@ export function inputFocused() {
     document.activeElement instanceof HTMLSelectElement
   );
 }
-
-export function commandOrControlPressed(event: KeyboardEvent) {
-  return event.metaKey || event.ctrlKey;
-}

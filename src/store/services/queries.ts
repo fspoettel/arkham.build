@@ -202,12 +202,6 @@ function authenticatedRequest(
   });
 }
 
-export async function getSession() {
-  const res = await authenticatedRequest("/user/session");
-  const data = await res.json();
-  return data;
-}
-
 type DecksResponse = {
   data: Deck[];
   lastModified: string | undefined;
@@ -307,11 +301,11 @@ async function recommendationRequest(
   return res;
 }
 
-export type RecommendationAnalysisAlgorithm =
+type RecommendationAnalysisAlgorithm =
   | "absolute percentage"
   | "percentile rank";
 
-export type RecommendationRequest = {
+type RecommendationRequest = {
   canonical_investigator_code: string;
   analyze_side_decks: boolean;
   analysis_algorithm: RecommendationAnalysisAlgorithm;

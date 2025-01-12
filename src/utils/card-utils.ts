@@ -115,7 +115,7 @@ export function isEnemyLike(card: Card) {
   return card.type_code === "enemy" || card.type_code === "enemy_location";
 }
 
-export function isLocationLike(card: Card) {
+function isLocationLike(card: Card) {
   return card.type_code === "location" || card.type_code === "enemy_location";
 }
 

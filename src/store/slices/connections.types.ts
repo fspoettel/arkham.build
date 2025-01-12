@@ -2,7 +2,7 @@ import type { Id } from "./data.types";
 
 export type Provider = "arkhamdb";
 
-export type ConnectionStatus = "connected" | "disconnected";
+type ConnectionStatus = "connected" | "disconnected";
 
 type ConnectionUser = {
   id?: number | string;
@@ -17,7 +17,7 @@ export type SyncSuccessState = {
   itemsTotal: number;
 };
 
-export type SyncErrorState = {
+type SyncErrorState = {
   status: "error";
   errors: string[];
 };

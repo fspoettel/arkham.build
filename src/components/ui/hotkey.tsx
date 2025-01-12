@@ -64,7 +64,7 @@ export function Keybind(props: Pick<Props, "keybind">) {
   );
 }
 
-export function Hotkey(props: Props) {
+function Hotkey(props: Props) {
   const { keybind, description } = props;
 
   return (
