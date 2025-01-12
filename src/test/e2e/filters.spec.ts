@@ -298,4 +298,11 @@ test.describe("filters", () => {
     await fillSearch(page, "honed instinct");
     await expect(page.getByTestId("listcard-09061")).not.toBeVisible();
   });
+
+  test("search handles diacritics", async ({ page }) => {
+    await fillSearch(page, "kohaku");
+    await expect(page.getByTestId("listcard-10012")).toBeVisible();
+    await fillSearch(page, "Kōhaku");
+    await expect(page.getByTestId("listcard-10012")).toBeVisible();
+  });
 });

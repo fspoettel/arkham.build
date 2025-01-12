@@ -26,7 +26,10 @@ export function AnnotationContainer(
   const { actions, className, children, size } = props;
 
   return (
-    <article className={cx(className, css["annotation"], size && css[size])}>
+    <article
+      className={cx(className, css["annotation"], size && css[size])}
+      data-testid="annotation"
+    >
       <header className={css["header"]}>
         <div className={css["row"]}>
           <MessageCircleIcon className={css["icon"]} />

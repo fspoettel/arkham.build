@@ -247,7 +247,10 @@ export function ListCardInner(props: Props) {
 
                   {!!annotation && (
                     <DefaultTooltip tooltip="Card has an annotation">
-                      <span className={css["annotation-icon"]}>
+                      <span
+                        className={css["annotation-icon"]}
+                        data-testid="annotation-indicator"
+                      >
                         <MessageCircleIcon />
                       </span>
                     </DefaultTooltip>

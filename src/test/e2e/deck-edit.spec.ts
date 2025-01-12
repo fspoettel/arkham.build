@@ -323,7 +323,7 @@ test.describe("deck edit", () => {
     ).not.toBeVisible();
   });
 
-  test("change taboo set", async ({ page }) => {
+  test("change taboo set (default none)", async ({ page }) => {
     await page.goto("/deck/create/01001");
     await page.getByTestId("create-save").click();
     await fillSearch(page, "runic axe");
@@ -357,6 +357,44 @@ test.describe("deck edit", () => {
       .click();
 
     await expect(page.getByTestId("customization-3-xp-1")).toBeVisible();
+  });
+
+  test("change taboo set (default set)", async ({ page }) => {
+    await page.goto("/settings");
+    await page.getByTestId("settings-taboo-set").selectOption("8");
+    await page.getByTestId("settings-save").click();
+
+    await page.goto("/deck/create/01001");
+    await page.getByTestId("create-save").click();
+    await fillSearch(page, "runic axe");
+
+    await page
+      .getByTestId("listcard-09022")
+      .getByTestId("quantity-increment")
+      .click();
+
+    await page
+      .getByTestId("editor-tabs-slots")
+      .getByTestId("listcard-09022")
+      .getByTestId("listcard-title")
+      .click();
+
+    await expect(page.getByTestId("customization-3-xp-1")).toBeVisible();
+
+    await page.getByTestId("card-modal").press("Escape");
+
+    await page.getByTestId("editor-tab-meta").click();
+
+    await page.getByTestId("meta-taboo-set").selectOption("8");
+
+    await page.getByTestId("meta-taboo-set").selectOption("");
+
+    await page
+      .getByTestId("listcard-09022")
+      .getByTestId("listcard-title")
+      .click();
+
+    await expect(page.getByTestId("customization-3-xp-1")).not.toBeVisible();
   });
 
   test("customizable selections", async ({ page }) => {
