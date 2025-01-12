@@ -1,5 +1,5 @@
 import { useStore } from "@/store";
-import { sortByName } from "@/store/lib/sorting";
+import { makeSortFunction } from "@/store/lib/sorting";
 import type { Card } from "@/store/services/queries.types";
 import type { CustomizationOption as CustomizationOptionType } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
@@ -39,6 +39,7 @@ const selectPlayerCardsForCustomizationOptions = createSelector(
       }
 
       const card = metadata.cards[code];
+
       if (!card || card.duplicate_of_code) {
         continue;
       }
@@ -46,7 +47,23 @@ const selectPlayerCardsForCustomizationOptions = createSelector(
       options.add(card);
     }
 
-    const cards = Array.from(options).sort(sortByName);
+    const sortFn = makeSortFunction(["name", "level", "position"], metadata);
+
+    const { cards } = Array.from(options)
+      .sort(sortFn)
+      .reduce(
+        (acc, card) => {
+          if (!acc.names.has(card.real_name)) {
+            acc.cards.push(card);
+            acc.names.add(card.real_name);
+          }
+          return acc;
+        },
+        {
+          cards: [] as Card[],
+          names: new Set<string>(),
+        },
+      );
 
     timeEnd("select_player_cards_for_customization_options");
 
