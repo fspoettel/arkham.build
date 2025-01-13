@@ -137,6 +137,10 @@ export function formatDeckAsText(state: StoreState, deck: ResolvedDeck) {
 
   text += `\n## Deck\n\n${formatGrouping(state, deck.groups.slots.data, deck.slots, deck.customizations)}`;
 
+  if (deck.groups.sideSlots && deck.sideSlots) {
+    text += `\n## Side deck\n\n${formatGrouping(state, deck.groups.sideSlots.data, deck.sideSlots, {})}`;
+  }
+
   if (deck.groups.extraSlots && deck.extraSlots) {
     text += `## Spirits\n\n${formatGrouping(state, deck.groups.extraSlots.data, deck.extraSlots, {})}`;
   }
