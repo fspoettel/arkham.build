@@ -49,6 +49,7 @@ export function getInitialSettings(): SettingsState {
     showAllCards: true,
     showPreviews: false,
     tabooSetId: undefined,
+    useLimitedPoolForWeaknessDraw: true,
   };
 }
 
