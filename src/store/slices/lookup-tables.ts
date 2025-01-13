@@ -316,7 +316,13 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
         } else {
           if (card.parallel) {
             setInLookupTable(card.code, tables.relations.parallelCards, key);
-          } else {
+            // Kate has bonded cards restricted to her, these should not be part of the deck.
+          } else if (!card.real_text?.startsWith("Bonded")) {
+            // TECH-DEBT
+            // It should not be required to add cards to "requiredCards" here,
+            // as resolving the relation "the other way around" should be enough/
+            // However, there are some data inconsistencies with duplicate cards (Marie)
+            // that make this necessary.
             setInLookupTable(card.code, tables.relations.requiredCards, key);
           }
         }
