@@ -39,7 +39,7 @@ export function LimitedCardPoolTag() {
             const pack = metadata.packs[packCode];
             return pack ? (
               <li className={css["pack"]} key={packCode}>
-                <PackName pack={pack} />
+                <PackName pack={pack} shortenNewFormat />
               </li>
             ) : null;
           })}
@@ -73,7 +73,7 @@ export function LimitedCardPoolField(props: {
   );
 
   const packRenderer = useCallback(
-    (pack: Pack) => <PackName pack={pack} />,
+    (pack: Pack) => <PackName pack={pack} shortenNewFormat />,
     [],
   );
 
@@ -93,7 +93,7 @@ export function LimitedCardPoolField(props: {
         id="card-pool-combobox"
         items={items}
         itemToString={packToString}
-        label="Limited Pool"
+        label="Limited pool"
         onValueChange={onValueChange}
         placeholder="Select packs..."
         renderItem={packRenderer}
@@ -178,7 +178,7 @@ export function SealedDeckField(props: {
             onChange={onChangeFile}
             size="sm"
           >
-            <BookLockIcon /> Use sealed deck
+            <BookLockIcon /> Add sealed deck
           </FileInput>
         </div>
         {value && (

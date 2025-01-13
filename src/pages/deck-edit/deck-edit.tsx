@@ -24,6 +24,7 @@ import { useDocumentTitle } from "@/utils/use-document-title";
 import { useHotkey } from "@/utils/use-hotkey";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
 import {
+  BookOpenTextIcon,
   ChartAreaIcon,
   Rows3Icon,
   UndoIcon,
@@ -35,6 +36,7 @@ import { Error404 } from "../errors/404";
 import css from "./deck-edit.module.css";
 import { DrawBasicWeakness } from "./editor/draw-basic-weakness";
 import { Editor } from "./editor/editor";
+import { NotesEditor } from "./editor/notes-editor";
 import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 
 function DeckEdit() {
@@ -252,6 +254,16 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
                 <span>Recommendations</span>
               </TabsTrigger>
               <TabsTrigger
+                hotkey="n"
+                onTabChange={setCurrentTool}
+                tooltip="Notes"
+                data-testid="editor-notes"
+                value="notes"
+              >
+                <BookOpenTextIcon />
+                <span>Notes</span>
+              </TabsTrigger>
+              <TabsTrigger
                 hotkey="t"
                 onTabChange={setCurrentTool}
                 tooltip="Deck tools"
@@ -273,6 +285,9 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
                     : "slots"
                 }
               />
+            </TabsContent>
+            <TabsContent asChild value="notes">
+              <NotesEditor deck={deck} />
             </TabsContent>
             <TabsContent asChild value="deck-tools">
               <DeckTools {...props} deck={deck} scrollable />

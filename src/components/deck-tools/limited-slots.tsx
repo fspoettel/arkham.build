@@ -11,8 +11,6 @@ export function LimitedSlots(props: { deck: ResolvedDeck }) {
 
   if (!limitedSlots?.length) return null;
 
-  console.log(props.deck);
-
   return (
     <>
       {limitedSlots?.map((entry) => (
