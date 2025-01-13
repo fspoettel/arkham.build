@@ -47,6 +47,7 @@ import subTypes from "@/store/services/data/subtypes.json";
 import types from "@/store/services/data/types.json";
 import { assertCanPublishDeck } from "@/utils/arkhamdb";
 import { applyLocalData } from "../lib/local-data";
+import { selectSettings } from "../selectors/settings";
 
 export function getInitialAppState() {
   return {
@@ -77,7 +78,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
           clientId: state.app.clientId || randomId(),
         },
         metadata,
-        lists: makeLists(state.settings),
+        lists: makeLists(selectSettings(state)),
       });
 
       return false;
@@ -164,7 +165,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       }
     }
 
-    const lookupTables = createLookupTables(metadata, state.settings);
+    const lookupTables = createLookupTables(metadata, selectSettings(state));
     createRelations(metadata, lookupTables);
 
     for (const code of Object.keys(metadata.encounterSets)) {
@@ -188,7 +189,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         ...state.ui,
         initialized: true,
       },
-      lists: makeLists(state.settings),
+      lists: makeLists(selectSettings(state)),
     });
 
     timeEnd("create_store_data");

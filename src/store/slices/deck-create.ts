@@ -3,6 +3,7 @@ import { getCanonicalCardCode } from "@/utils/card-utils";
 import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
 import { getDefaultDeckName } from "../lib/deck-factory";
+import { selectSettings } from "../selectors/settings";
 import type { CardSet, DeckCreateSlice } from "./deck-create.types";
 
 export const createDeckCreateSlice: StateCreator<
@@ -50,7 +51,7 @@ export const createDeckCreateSlice: StateCreator<
         provider: "",
         selections: {},
         sets: ["requiredCards"],
-        tabooSetId: state.settings.tabooSetId ?? undefined,
+        tabooSetId: selectSettings(state).tabooSetId ?? undefined,
         title: getDefaultDeckName(
           investigator.real_name,
           investigator.faction_code,

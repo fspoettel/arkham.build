@@ -4,38 +4,42 @@ import {
 } from "@/utils/constants";
 import { isEmpty } from "@/utils/is-empty";
 import { randomInt } from "@/utils/random-int";
-import type { StoreState } from "../slices";
+import type { LookupTables } from "../slices/lookup-tables.types";
+import type { Metadata } from "../slices/metadata.types";
+import type { SettingsState } from "../slices/settings.types";
 import { ownedCardCount } from "./card-ownership";
 import type { ResolvedDeck } from "./types";
 
 export function randomBasicWeaknessForDeck(
-  state: StoreState,
+  metadata: Metadata,
+  lookupTables: LookupTables,
+  settings: SettingsState,
   deck: ResolvedDeck,
 ) {
   const factionCode = deck.investigatorBack.card.faction_code;
 
   const limitedPool = deck.cardPool ?? [];
   const useLimitedPool =
-    state.settings.useLimitedPoolForWeaknessDraw && !isEmpty(limitedPool);
+    settings.useLimitedPoolForWeaknessDraw && !isEmpty(limitedPool);
 
   const collection = useLimitedPool
     ? limitedPool.reduce<Record<string, number>>((acc, curr) => {
-        acc[curr] = state.settings.collection?.[curr] ?? 1;
+        acc[curr] = settings.collection?.[curr] ?? 1;
         return acc;
       }, {})
-    : state.settings.collection;
+    : settings.collection;
 
   const basicWeaknesses = Object.keys(
-    state.lookupTables.subtypeCode["basicweakness"],
+    lookupTables.subtypeCode["basicweakness"],
   ).reduce<string[]>((acc, code) => {
-    const card = state.metadata.cards[code];
+    const card = metadata.cards[code];
 
     const ownedCount = ownedCardCount(
       card,
-      state.metadata,
-      state.lookupTables,
+      metadata,
+      lookupTables,
       collection,
-      !useLimitedPool && state.settings.showAllCards,
+      !useLimitedPool && settings.showAllCards,
     );
 
     if (

@@ -11,6 +11,7 @@ import {
   filterPreviews,
   filterType,
 } from "../lib/filtering";
+import { selectSettings } from "../selectors/settings";
 import type { Card } from "../services/queries.types";
 import {
   isAssetFilter,
@@ -81,14 +82,16 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
     const list = state.lists[state.activeList];
     if (!list) return;
 
+    const settings = selectSettings(state);
+
     set({
       lists: {
         ...state.lists,
         [state.activeList]: makeList({
           ...list,
           initialValues: {
-            ownership: getInitialOwnershipFilter(state.settings),
-            subtype: getInitialSubtypeFilter(state.settings),
+            ownership: getInitialOwnershipFilter(settings),
+            subtype: getInitialSubtypeFilter(settings),
           },
         }),
       },
@@ -412,12 +415,14 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
 
     assert(cardType === "player", "only player lists are supported for now.");
 
-    lists[key] = makePlayerCardsList(key, state.settings, {
+    const settings = selectSettings(state);
+
+    lists[key] = makePlayerCardsList(key, settings, {
       showInvestigators: true,
       initialValues: {
         ...initialValues,
-        ownership: getInitialOwnershipFilter(state.settings),
-        subtype: getInitialSubtypeFilter(state.settings),
+        ownership: getInitialOwnershipFilter(settings),
+        subtype: getInitialSubtypeFilter(settings),
       },
     });
 
