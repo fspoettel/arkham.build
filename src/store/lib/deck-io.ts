@@ -12,6 +12,7 @@ import {
   capitalizeSnakeCase,
   formatTabooSet,
 } from "@/utils/formatting";
+import { isEmpty } from "@/utils/is-empty";
 import type { Grouping } from "./deck-grouping";
 import { resolveDeck } from "./resolve-deck";
 import { sortByName, sortBySlots } from "./sorting";
@@ -137,7 +138,7 @@ export function formatDeckAsText(state: StoreState, deck: ResolvedDeck) {
 
   text += `\n## Deck\n\n${formatGrouping(state, deck.groups.slots.data, deck.slots, deck.customizations)}`;
 
-  if (deck.groups.sideSlots && deck.sideSlots) {
+  if (deck.groups.sideSlots && !isEmpty(deck.sideSlots)) {
     text += `\n## Side deck\n\n${formatGrouping(state, deck.groups.sideSlots.data, deck.sideSlots, {})}`;
   }
 
