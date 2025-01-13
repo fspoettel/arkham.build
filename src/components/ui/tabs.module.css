@@ -16,10 +16,18 @@
   min-height: 1rem;
 }
 
+.trigger svg,
+.trigger .icon {
+  flex: 0 0 auto;
+}
+
 .trigger span {
-  @container (max-width: 15ch) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+
+  @container (max-width: 17ch) {
     display: inline-block;
-    padding: 1.5rem;
     display: none;
   }
 }

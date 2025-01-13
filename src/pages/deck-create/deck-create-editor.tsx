@@ -162,7 +162,7 @@ export function DeckCreateEditor() {
       </Field>
 
       <Field full padded>
-        <FieldLabel htmlFor="taboo">Taboo Set</FieldLabel>
+        <FieldLabel htmlFor="taboo">Taboo set</FieldLabel>
         <Select
           data-testid="create-taboo"
           emptyLabel="None"
@@ -177,7 +177,7 @@ export function DeckCreateEditor() {
         <>
           <Field full padded>
             <FieldLabel htmlFor="investigator-front">
-              Investigator Front
+              Investigator front
             </FieldLabel>
             <Select
               data-side="front"
@@ -191,7 +191,7 @@ export function DeckCreateEditor() {
           </Field>
           <Field full padded>
             <FieldLabel htmlFor="investigator-back">
-              Investigator Back
+              Investigator back
             </FieldLabel>
             <Select
               data-side="back"
@@ -282,10 +282,10 @@ function getInvestigatorOptions(
   type: "Front" | "Back",
 ): SelectOption[] {
   return [
-    { value: investigator.card.code, label: `Original ${type}` },
+    { value: investigator.card.code, label: `Original ${type.toLowerCase()}` },
     {
       value: investigator.relations?.parallel?.card.code as string,
-      label: `Parallel ${type}`,
+      label: `Parallel ${type.toLowerCase()}`,
     },
   ];
 }

@@ -1,13 +1,23 @@
 import type { Pack } from "@/store/services/queries.types";
 import PackIcon from "./icons/pack-icon";
 
-type Props = { pack: Pack };
+type Props = {
+  pack: Pack;
+  shortenNewFormat?: boolean;
+};
 
-export function PackName({ pack }: Props) {
+function shorten(name: string) {
+  if (!name) return name;
+  return name.replace("Investigator Expansion", "");
+}
+
+export function PackName(props: Props) {
+  const { pack, shortenNewFormat } = props;
+
   return (
     <>
       <PackIcon code={pack.code} />
-      {pack.real_name}
+      {shortenNewFormat ? shorten(pack.real_name) : pack.real_name}
     </>
   );
 }

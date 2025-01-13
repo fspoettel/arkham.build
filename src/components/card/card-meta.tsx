@@ -31,8 +31,6 @@ export function CardMeta(props: Props) {
 
   const { card } = resolvedCard;
 
-  console.log(card);
-
   return (
     <footer className={cx(css["meta"], css[size])}>
       {size === "full" && illustrator && (

@@ -37,7 +37,7 @@ export function PackFilter({ id }: FilterProps) {
   );
 
   const nameRenderer = useCallback(
-    (pack: Pack) => <PackName pack={pack} />,
+    (pack: Pack) => <PackName pack={pack} shortenNewFormat />,
     [],
   );
 

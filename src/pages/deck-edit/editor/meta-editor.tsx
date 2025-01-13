@@ -2,7 +2,6 @@ import {
   LimitedCardPoolField,
   SealedDeckField,
 } from "@/components/limited-card-pool";
-import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import { Field, FieldLabel } from "@/components/ui/field";
 import type { SelectOption } from "@/components/ui/select";
 import { Select } from "@/components/ui/select";
@@ -43,11 +42,6 @@ const selectUpdateName = createSelector(
   (updateName) => debounce(updateName, 100),
 );
 
-const selectUpdateDescription = createSelector(
-  (state: StoreState) => state.updateDescription,
-  (updateDescription) => debounce(updateDescription, 100),
-);
-
 const selectUpdateTags = createSelector(
   (state: StoreState) => state.updateTags,
   (updateTags) => debounce(updateTags, 100),
@@ -69,7 +63,6 @@ export function MetaEditor(props: Props) {
   const selectedPacks = useMemo(() => deck.cardPool ?? [], [deck.cardPool]);
 
   const updateName = useStore(selectUpdateName);
-  const updateDescription = useStore(selectUpdateDescription);
   const updateTags = useStore(selectUpdateTags);
   const updateTabooId = useStore(selectUpdateTabooId);
   const updateMetaProperty = useStore(selectUpdateMetaProperty);
@@ -92,15 +85,6 @@ export function MetaEditor(props: Props) {
       }
     },
     [updateName, deck.id],
-  );
-
-  const onDescriptionChange = useCallback(
-    (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
-      if (evt.target instanceof HTMLTextAreaElement) {
-        updateDescription(deck.id, evt.target.value);
-      }
-    },
-    [updateDescription, deck.id],
   );
 
   const onTagsChange = useCallback(
@@ -160,24 +144,6 @@ export function MetaEditor(props: Props) {
       );
     },
     [deck.id, updateMetaProperty],
-  );
-
-  const onBannerUrlChange = useCallback(
-    (evt: React.ChangeEvent<HTMLInputElement>) => {
-      if (evt.target instanceof HTMLInputElement) {
-        updateMetaProperty(deck.id, "banner_url", evt.target.value);
-      }
-    },
-    [updateMetaProperty, deck.id],
-  );
-
-  const onIntroChange = useCallback(
-    (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
-      if (evt.target instanceof HTMLTextAreaElement) {
-        updateMetaProperty(deck.id, "intro_md", evt.target.value);
-      }
-    },
-    [updateMetaProperty, deck.id],
   );
 
   return (
@@ -268,63 +234,18 @@ export function MetaEditor(props: Props) {
           value={deck.taboo_id ?? ""}
         />
       </Field>
-      <Collapsible
-        title="Card pool settings"
-        data-testid="meta-limited-card-pool"
-        defaultOpen={!!deck.sealedDeck || !!deck.metaParsed.card_pool}
-      >
-        <CollapsibleContent>
-          <LimitedCardPoolField
-            selectedItems={selectedPacks}
-            onValueChange={onCardPoolChange}
-          />
-          <SealedDeckField
-            onValueChange={onSealedDeckChange}
-            value={deck.sealedDeck}
-          />
-        </CollapsibleContent>
-      </Collapsible>
-      <Field full padded>
-        <FieldLabel>Description</FieldLabel>
-        <textarea
-          data-testid="editor-description"
-          defaultValue={deck.description_md ?? ""}
-          onChange={onDescriptionChange}
+
+      <Field data-testid="meta-limited-card-pool" full padded bordered>
+        <FieldLabel as="div">Card pool settings</FieldLabel>
+        <LimitedCardPoolField
+          selectedItems={selectedPacks}
+          onValueChange={onCardPoolChange}
+        />
+        <SealedDeckField
+          onValueChange={onSealedDeckChange}
+          value={deck.sealedDeck}
         />
       </Field>
-      <Collapsible
-        title="Display settings"
-        data-testid="meta-display-settings"
-        defaultOpen={!!deck.metaParsed.banner_url || !!deck.metaParsed.intro_md}
-      >
-        <CollapsibleContent>
-          <Field
-            full
-            padded
-            helpText="Banner image for the deck. Will be displayed on the deck view and in social media previews. Aspect ratio is 4:1, at least 1440px wide"
-          >
-            <FieldLabel>Banner URL</FieldLabel>
-            <input
-              defaultValue={deck.metaParsed.banner_url ?? ""}
-              onChange={onBannerUrlChange}
-              type="text"
-              placeholder="Enter URL..."
-            />
-          </Field>
-          <Field
-            full
-            padded
-            helpText="A short deck introduction. Will be displayed on the deck view and in social media previews."
-          >
-            <FieldLabel>Intro</FieldLabel>
-            <textarea
-              data-testid="editor-intro"
-              defaultValue={deck.metaParsed.intro_md ?? ""}
-              onChange={onIntroChange}
-            />
-          </Field>
-        </CollapsibleContent>
-      </Collapsible>
     </div>
   );
 }

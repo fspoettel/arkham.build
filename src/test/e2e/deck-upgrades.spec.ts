@@ -27,8 +27,7 @@ async function upgradeDeck(page: Page) {
 }
 
 async function clearDeckDescription(page: Page) {
-  await page.getByTestId("editor-tab-meta").click();
-  await page.getByTestId("editor-description").click();
+  await page.getByTestId("editor-notes").click();
   await page.getByTestId("editor-description").press("ControlOrMeta+a");
   await page.getByTestId("editor-description").fill("");
   await page.waitForTimeout(300);

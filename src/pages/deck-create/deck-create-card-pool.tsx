@@ -2,7 +2,7 @@ import {
   LimitedCardPoolField,
   SealedDeckField,
 } from "@/components/limited-card-pool";
-import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
+import { Field, FieldLabel } from "@/components/ui/field";
 import { useStore } from "@/store";
 import { useMemo } from "react";
 
@@ -26,14 +26,13 @@ export function DeckCreateCardPool() {
   const selectedItems = useMemo(() => deckCreate?.cardPool ?? [], [deckCreate]);
 
   return (
-    <Collapsible title="Card pool settings" defaultOpen>
-      <CollapsibleContent>
-        <LimitedCardPoolField
-          onValueChange={setCardPool}
-          selectedItems={selectedItems}
-        />
-        <SealedDeckField onValueChange={setSealedDeck} value={sealedDeck} />
-      </CollapsibleContent>
-    </Collapsible>
+    <Field full padded bordered>
+      <FieldLabel>Card pool settings</FieldLabel>
+      <LimitedCardPoolField
+        onValueChange={setCardPool}
+        selectedItems={selectedItems}
+      />
+      <SealedDeckField onValueChange={setSealedDeck} value={sealedDeck} />
+    </Field>
   );
 }
