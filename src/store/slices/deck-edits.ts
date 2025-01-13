@@ -9,6 +9,7 @@ import { applyDeckEdits } from "../lib/deck-edits";
 import { randomBasicWeaknessForDeck } from "../lib/random-basic-weakness";
 import { getDeckLimitOverride, resolveDeck } from "../lib/resolve-deck";
 import { selectResolvedDeckById } from "../selectors/decks";
+import { selectSettings } from "../selectors/settings";
 import type { Id } from "./data.types";
 import { type DeckEditsSlice, mapTabToSlot } from "./deck-edits.types";
 
@@ -221,7 +222,13 @@ export const createDeckEditsSlice: StateCreator<
       "Tried to draw a random basic weakness for a deck that does not exist.",
     );
 
-    const weakness = randomBasicWeaknessForDeck(state, resolvedDeck);
+    const weakness = randomBasicWeaknessForDeck(
+      state.metadata,
+      state.lookupTables,
+      selectSettings(state),
+      resolvedDeck,
+    );
+
     assert(weakness, "Could not find a random basic weakness to draw.");
 
     const rbwQuantity =

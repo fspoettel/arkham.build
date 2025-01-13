@@ -37,7 +37,9 @@ describe("randomBasicWeaknessForDeck", () => {
     const state = store.getState();
 
     const weakness = randomBasicWeaknessForDeck(
-      state,
+      state.metadata,
+      state.lookupTables,
+      state.settings,
       resolveDeck(
         state.metadata,
         state.lookupTables,
@@ -77,7 +79,9 @@ describe("randomBasicWeaknessForDeck", () => {
     const state = store.getState();
 
     const weakness = randomBasicWeaknessForDeck(
-      state,
+      state.metadata,
+      state.lookupTables,
+      state.settings,
       resolveDeck(
         state.metadata,
         state.lookupTables,
@@ -116,7 +120,9 @@ describe("randomBasicWeaknessForDeck", () => {
     const state = store.getState();
 
     const weakness = randomBasicWeaknessForDeck(
-      state,
+      state.metadata,
+      state.lookupTables,
+      state.settings,
       resolveDeck(
         state.metadata,
         state.lookupTables,
@@ -148,7 +154,9 @@ describe("randomBasicWeaknessForDeck", () => {
     const state = store.getState();
 
     const weakness = randomBasicWeaknessForDeck(
-      state,
+      state.metadata,
+      state.lookupTables,
+      state.settings,
       resolveDeck(
         state.metadata,
         state.lookupTables,
@@ -156,6 +164,8 @@ describe("randomBasicWeaknessForDeck", () => {
         state.data.decks.foo,
       ),
     );
+
+    expect(weakness).toEqual("60304");
 
     store.setState({
       data: {
@@ -172,7 +182,9 @@ describe("randomBasicWeaknessForDeck", () => {
     });
 
     const secondWeakness = randomBasicWeaknessForDeck(
-      state,
+      state.metadata,
+      state.lookupTables,
+      state.settings,
       resolveDeck(
         state.metadata,
         state.lookupTables,

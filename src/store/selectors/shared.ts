@@ -3,6 +3,7 @@ import { ownedCardCount } from "../lib/card-ownership";
 import type { ResolvedDeck } from "../lib/types";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
+import { selectSettings } from "./settings";
 
 export const selectClientId = (state: StoreState) => {
   return state.app.clientId;
@@ -13,14 +14,15 @@ export const selectIsInitialized = (state: StoreState) => {
 };
 
 export const selectCanCheckOwnership = (state: StoreState) =>
-  !state.settings.showAllCards;
+  !selectSettings(state).showAllCards;
 
 export const selectCardOwnedCount = createSelector(
-  (state) => state.metadata,
-  (state) => state.lookupTables,
-  (state) => state.settings.collection,
-  (state) => state.settings.showAllCards,
-  (metadata, lookupTables, collection, showAllCards) => {
+  (state: StoreState) => state.metadata,
+  (state: StoreState) => state.lookupTables,
+  selectSettings,
+  (metadata, lookupTables, settings) => {
+    const { collection, showAllCards } = settings;
+
     return (card: Card) => {
       return ownedCardCount(
         card,

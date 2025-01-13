@@ -4,6 +4,7 @@ import { createSelector } from "reselect";
 import { ownedCardCount } from "../lib/card-ownership";
 import { filterBacksides, filterEncounterCards } from "../lib/filtering";
 import type { StoreState } from "../slices";
+import { selectSettings } from "./settings";
 
 export type Counts = {
   player: number;
@@ -18,7 +19,7 @@ export type CollectionCounts = {
 export const selectTotalOwned = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
-  (state: StoreState) => state.settings.collection,
+  (state: StoreState) => selectSettings(state).collection,
   (metadata, lookupTables, collection) => {
     const cards = Object.values(metadata.cards);
 

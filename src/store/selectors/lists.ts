@@ -309,7 +309,7 @@ export const selectCanonicalTabooSetId = (
 
   if (typeof filterValue?.value === "number") return filterValue.value;
 
-  return state.settings.tabooSetId;
+  return selectSettings(state).tabooSetId;
 };
 
 // This selector uses a custom equality check that avoid re-creation on every deck change.
@@ -443,7 +443,7 @@ const selectResolvedDeckCustomizations = customizationsEqualSelector(
 const selectBaseListCards = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
-  (state: StoreState) => state.settings,
+  selectSettings,
   (state: StoreState) => selectActiveList(state)?.systemFilter,
   (state: StoreState) => selectActiveList(state)?.duplicateFilter,
   (state: StoreState) => selectActiveList(state)?.filterValues,

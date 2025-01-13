@@ -2,12 +2,13 @@ import { CollectionSettings } from "@/components/collection/collection";
 import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
 import { selectTotalOwned } from "@/store/selectors/collection";
+import { selectSettings } from "@/store/selectors/settings";
 import { cx } from "@/utils/cx";
 import { Link } from "wouter";
 import css from "./collection-stats.module.css";
 
 function CollectionStats() {
-  const settings = useStore((state) => state.settings);
+  const settings = useStore(selectSettings);
 
   const ownedCount = useStore(selectTotalOwned);
 
