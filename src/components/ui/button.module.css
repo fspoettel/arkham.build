@@ -55,10 +55,15 @@ a.button {
   }
 }
 
+.button.link,
 .button.bare {
   color: currentColor;
   background: none;
   border: none;
+}
+
+.button.link {
+  text-decoration: underline;
 }
 
 .button.xs {
@@ -77,6 +82,7 @@ a.button {
 
 .button.none {
   padding: 0;
+  font-size: inherit;
 }
 
 .button:not(.icon-only):not(.none) {

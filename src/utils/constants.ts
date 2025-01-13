@@ -272,3 +272,11 @@ export const PREVIEW_PACKS = localPacks
   .map((pack) => pack.code);
 
 export const NO_SLOT_STRING = "No slot";
+
+export const RETURN_TO_CYCLES: Record<string, string> = {
+  core: "rtnotz",
+  dwl: "rtdwl",
+  ptc: "rtptc",
+  tfa: "rttfa",
+  tcu: "rttcu",
+};

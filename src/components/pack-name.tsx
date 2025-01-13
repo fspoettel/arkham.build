@@ -1,8 +1,8 @@
-import type { Pack } from "@/store/services/queries.types";
+import type { Cycle, Pack } from "@/store/services/queries.types";
 import PackIcon from "./icons/pack-icon";
 
 type Props = {
-  pack: Pack;
+  pack: Pack | Cycle;
   shortenNewFormat?: boolean;
 };
 

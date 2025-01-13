@@ -2,6 +2,7 @@ import { cx } from "@/utils/cx";
 import { XIcon } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { Button } from "./button";
+import { useDialogContext } from "./dialog.hooks";
 import css from "./modal.module.css";
 import { Scroller } from "./scroller";
 
@@ -10,7 +11,7 @@ type Props = {
   children: React.ReactNode;
   className?: string;
   actions?: React.ReactNode;
-  onClose: () => void;
+  onClose?: () => void;
   open?: boolean;
   size?: string;
 } & React.HTMLAttributes<HTMLDivElement>;
@@ -31,6 +32,15 @@ export function Modal(props: Props) {
   const actionRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
   const hasReset = useRef(false);
+  const dialogContext = useDialogContext();
+
+  const closeModal = useCallback(() => {
+    if (onClose) {
+      onClose();
+    } else if (dialogContext?.setOpen) {
+      dialogContext.setOpen(false);
+    }
+  }, [onClose, dialogContext?.setOpen]);
 
   useEffect(() => {
     if (open && !hasReset.current) {
@@ -46,17 +56,17 @@ export function Modal(props: Props) {
         modalRef.current?.contains(evt.target) &&
         !innerRef.current?.contains(evt.target)
       ) {
-        onClose();
+        closeModal();
       }
     },
-    [onClose],
+    [closeModal],
   );
 
   const onCloseActions = useCallback(
     (evt: React.MouseEvent) => {
-      if (evt.target === actionRef.current) onClose();
+      if (evt.target === actionRef.current) closeModal();
     },
-    [onClose],
+    [closeModal],
   );
 
   const cssVariables = useMemo(
