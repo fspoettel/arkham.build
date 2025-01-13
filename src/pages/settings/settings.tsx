@@ -25,6 +25,7 @@ import { ShowAllCardsSetting } from "./show-all-cards";
 import { ShowPreviewsSetting } from "./show-previews";
 import { TabooSetSetting } from "./taboo-set";
 import { ThemeSetting } from "./theme";
+import { WeaknessPoolSetting } from "./weakness-pool";
 
 function Settings() {
   const search = useSearch();
@@ -98,7 +99,6 @@ function Settings() {
             </TabsList>
             <TabsContent value="general" forceMount>
               <Section title="General">
-                <ThemeSetting />
                 <TabooSetSetting
                   settings={settings}
                   updateSettings={updateSettings}
@@ -107,6 +107,11 @@ function Settings() {
                   settings={settings}
                   updateSettings={updateSettings}
                 />
+                <WeaknessPoolSetting
+                  settings={settings}
+                  updateSettings={updateSettings}
+                />
+                <ThemeSetting />
                 <FontSizeSetting
                   settings={settings}
                   updateSettings={updateSettings}

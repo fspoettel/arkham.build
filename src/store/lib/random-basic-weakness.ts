@@ -2,36 +2,47 @@ import {
   REGEX_WEAKNESS_FACTION_LOCKED,
   SPECIAL_CARD_CODES,
 } from "@/utils/constants";
+import { isEmpty } from "@/utils/is-empty";
 import { randomInt } from "@/utils/random-int";
-import {
-  selectCurrentCardQuantity,
-  selectCurrentInvestigatorFactionCode,
-} from "../selectors/decks";
 import type { StoreState } from "../slices";
-import type { Id } from "../slices/data.types";
 import { ownedCardCount } from "./card-ownership";
+import type { ResolvedDeck } from "./types";
 
-export function randomBasicWeaknessForDeck(state: StoreState, deckId: Id) {
-  const factionCode = selectCurrentInvestigatorFactionCode(state, deckId);
+export function randomBasicWeaknessForDeck(
+  state: StoreState,
+  deck: ResolvedDeck,
+) {
+  const factionCode = deck.investigatorBack.card.faction_code;
+
+  const limitedPool = deck.cardPool ?? [];
+  const useLimitedPool =
+    state.settings.useLimitedPoolForWeaknessDraw && !isEmpty(limitedPool);
+
+  const collection = useLimitedPool
+    ? limitedPool.reduce<Record<string, number>>((acc, curr) => {
+        acc[curr] = state.settings.collection?.[curr] ?? 1;
+        return acc;
+      }, {})
+    : state.settings.collection;
 
   const basicWeaknesses = Object.keys(
     state.lookupTables.subtypeCode["basicweakness"],
   ).reduce<string[]>((acc, code) => {
     const card = state.metadata.cards[code];
+
     const ownedCount = ownedCardCount(
       card,
       state.metadata,
       state.lookupTables,
-      state.settings.collection,
-      state.settings.showAllCards,
+      collection,
+      !useLimitedPool && state.settings.showAllCards,
     );
 
     if (
       card.code === SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS ||
       !!card.duplicate_of_code ||
       ownedCount === 0 ||
-      selectCurrentCardQuantity(state, deckId, code, "slots") >=
-        (card.deck_limit ?? card.quantity)
+      deck.slots[code] >= (card.deck_limit ?? card.quantity)
     ) {
       return acc;
     }
@@ -45,8 +56,8 @@ export function randomBasicWeaknessForDeck(state: StoreState, deckId: Id) {
     }
 
     const codes = Array.from({ length: ownedCount }, () => code);
-
     acc.push(...codes);
+
     return acc;
   }, []);
 

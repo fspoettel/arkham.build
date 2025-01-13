@@ -8,10 +8,7 @@ import { clampAttachmentQuantity } from "../lib/attachments";
 import { applyDeckEdits } from "../lib/deck-edits";
 import { randomBasicWeaknessForDeck } from "../lib/random-basic-weakness";
 import { getDeckLimitOverride, resolveDeck } from "../lib/resolve-deck";
-import {
-  selectCurrentCardQuantity,
-  selectResolvedDeckById,
-} from "../selectors/decks";
+import { selectResolvedDeckById } from "../selectors/decks";
 import type { Id } from "./data.types";
 import { type DeckEditsSlice, mapTabToSlot } from "./deck-edits.types";
 
@@ -217,27 +214,19 @@ export const createDeckEditsSlice: StateCreator<
   drawRandomBasicWeakness(deckId) {
     const state = get();
 
+    const resolvedDeck = selectResolvedDeckById(state, deckId, true);
+
     assert(
-      state.data.decks[deckId],
+      resolvedDeck,
       "Tried to draw a random basic weakness for a deck that does not exist.",
     );
 
-    const weakness = randomBasicWeaknessForDeck(state, deckId);
+    const weakness = randomBasicWeaknessForDeck(state, resolvedDeck);
     assert(weakness, "Could not find a random basic weakness to draw.");
 
-    const rbwQuantity = selectCurrentCardQuantity(
-      state,
-      deckId,
-      SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS,
-      "slots",
-    );
-
-    const weaknessQuantity = selectCurrentCardQuantity(
-      state,
-      deckId,
-      weakness,
-      "slots",
-    );
+    const rbwQuantity =
+      resolvedDeck.slots[SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS] ?? 0;
+    const weaknessQuantity = resolvedDeck.slots[weakness] ?? 0;
 
     const edits = currentEdits(state, deckId);
 

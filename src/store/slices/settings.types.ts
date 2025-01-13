@@ -18,6 +18,7 @@ export type SettingsState = {
   };
   showPreviews: boolean;
   showAllCards: boolean;
+  useLimitedPoolForWeaknessDraw: boolean;
   tabooSetId: number | undefined;
 };
 
