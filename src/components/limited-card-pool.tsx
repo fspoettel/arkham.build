@@ -1,18 +1,27 @@
 import { useStore } from "@/store";
 import type { SealedDeck } from "@/store/lib/types";
-import { selectPackOptions } from "@/store/selectors/lists";
-import type { Pack } from "@/store/services/queries.types";
+import {
+  selectCyclesAndPacks,
+  selectPackOptions,
+} from "@/store/selectors/lists";
+import type { Cycle, Pack } from "@/store/services/queries.types";
 import { assert } from "@/utils/assert";
+import { campaignPlayalongPacks } from "@/utils/campaign-playalong";
+import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
 import { parseCsv } from "@/utils/parse-csv";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { BookLockIcon, XIcon } from "lucide-react";
 import { useCallback, useMemo } from "react";
+import { createSelector } from "reselect";
 import css from "./limited-card-pool.module.css";
 import { PackName } from "./pack-name";
 import { Button } from "./ui/button";
 import { Combobox } from "./ui/combobox/combobox";
+import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
+import { useDialogContextChecked } from "./ui/dialog.hooks";
 import { Field, FieldLabel } from "./ui/field";
 import { FileInput } from "./ui/file-input";
+import { Modal, ModalContent } from "./ui/modal";
 import { Tag } from "./ui/tag";
 import { useToast } from "./ui/toast.hooks";
 import {
@@ -83,25 +92,42 @@ export function LimitedCardPoolField(props: {
   );
 
   return (
-    <Field
-      data-testid="limited-card-pool-field"
-      full
-      padded
-      helpText="Investigators, signature cards and story assets are not affected by this selection."
-    >
-      <Combobox
-        id="card-pool-combobox"
-        items={items}
-        itemToString={packToString}
-        label="Limited pool"
-        onValueChange={onValueChange}
-        placeholder="Select packs..."
-        renderItem={packRenderer}
-        renderResult={packRenderer}
-        showLabel
-        selectedItems={selectedItems}
-      />
-    </Field>
+    <Dialog>
+      <Field
+        data-testid="limited-card-pool-field"
+        full
+        padded
+        helpText={
+          <>
+            <p>
+              Investigators, signature cards and story assets are not affected
+              by this selection.
+            </p>
+            <DialogTrigger asChild>
+              <Button variant="link" size="xs">
+                Use campaign-playalong preset
+              </Button>
+            </DialogTrigger>
+          </>
+        }
+      >
+        <Combobox
+          id="card-pool-combobox"
+          items={items}
+          itemToString={packToString}
+          label="Limited pool"
+          onValueChange={onValueChange}
+          placeholder="Select packs..."
+          renderItem={packRenderer}
+          renderResult={packRenderer}
+          showLabel
+          selectedItems={selectedItems}
+        />
+      </Field>
+      <DialogContent>
+        <ChooseCampaignModal onValueChange={onValueChange} />
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -234,5 +260,76 @@ export function SealedDeckTag() {
         {value.name} ({Object.keys(value.cards).length} cards)
       </TooltipContent>
     </Tooltip>
+  );
+}
+
+const selectCampaignCycles = createSelector(selectCyclesAndPacks, (cycles) =>
+  cycles.filter((cycle) => !CYCLES_WITH_STANDALONE_PACKS.includes(cycle.code)),
+);
+
+function ChooseCampaignModal(props: {
+  onValueChange: (items: string[]) => void;
+}) {
+  const { onValueChange } = props;
+
+  const dialogCtx = useDialogContextChecked();
+  const cycles = useStore(selectCampaignCycles);
+
+  const packRenderer = useCallback(
+    (cycle: Cycle) => <PackName pack={cycle} shortenNewFormat />,
+    [],
+  );
+
+  const packToString = useCallback(
+    (pack: Cycle) => pack.real_name.toLowerCase(),
+    [],
+  );
+
+  const selectCampaign = useCallback(
+    (selection: string[]) => {
+      if (!selection.length) return;
+      const cycle = selection[0];
+
+      const packs = campaignPlayalongPacks(cycle);
+      onValueChange(packs);
+      dialogCtx.setOpen(false);
+    },
+    [onValueChange, dialogCtx.setOpen],
+  );
+
+  const selectedItems = useMemo(() => [], []);
+
+  return (
+    <Modal size="60rem">
+      <ModalContent title="Choose campaign">
+        <Field
+          full
+          padded
+          bordered
+          helpText={
+            <>
+              The Campaign Play-Along is an ongoing event hosted on the Mythos
+              Busters discord server.It is designed to play Arkham campaigns
+              together, share stories and generally create a sense of community.
+            </>
+          }
+        >
+          <Combobox
+            autoFocus
+            id="campaign-playalong-combobox"
+            limit={1}
+            placeholder="Select campaign..."
+            renderItem={packRenderer}
+            renderResult={packRenderer}
+            itemToString={packToString}
+            onValueChange={selectCampaign}
+            items={cycles}
+            label="Campaign"
+            showLabel
+            selectedItems={selectedItems}
+          />
+        </Field>
+      </ModalContent>
+    </Modal>
   );
 }
