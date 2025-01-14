@@ -93,7 +93,7 @@ export function Modal(props: Props) {
             ref={actionRef}
           >
             <nav className={css["actions-row"]}>{actions}</nav>
-            <Button iconOnly onClick={onClose}>
+            <Button iconOnly onClick={closeModal}>
               <XIcon />
             </Button>
           </div>

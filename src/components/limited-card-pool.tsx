@@ -309,7 +309,7 @@ function ChooseCampaignModal(props: {
           helpText={
             <>
               The Campaign Play-Along is an ongoing event hosted on the Mythos
-              Busters discord server.It is designed to play Arkham campaigns
+              Busters discord server. It is designed to play Arkham campaigns
               together, share stories and generally create a sense of community.
             </>
           }
