@@ -116,6 +116,7 @@ export const CardRecommender = forwardRef(function CardRecommender(
         <div className={cx(css["toolbar"])}>
           <CardSearch
             onInputKeyDown={onKeyboardNavigate}
+            mode="force-hover"
             slotLeft={slotLeft}
             slotRight={slotRight}
           />

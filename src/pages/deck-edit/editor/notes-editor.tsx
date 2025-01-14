@@ -61,10 +61,10 @@ export function NotesEditor(props: Props) {
         <Field full helpText="Supports ArkhamDB-flavoured markdown." padded>
           <FieldLabel>Notes</FieldLabel>
           <textarea
+            className={css["notes-editor-textarea"]}
             data-testid="editor-description"
             defaultValue={deck.description_md ?? ""}
             onChange={onDescriptionChange}
-            style={{ minHeight: "50dvh" }}
           />
         </Field>
         <Field

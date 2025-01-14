@@ -1,6 +1,7 @@
 import { useStore } from "@/store";
 import { selectActiveListSearch } from "@/store/selectors/lists";
 import { assert } from "@/utils/assert";
+import { cx } from "@/utils/cx";
 import { debounce } from "@/utils/debounce";
 import { useHotkey } from "@/utils/use-hotkey";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -10,13 +11,20 @@ import css from "./card-search.module.css";
 
 type Props = {
   onInputKeyDown?: (evt: React.KeyboardEvent) => void;
+  mode?: "force-hover" | "dynamic";
   slotLeft?: React.ReactNode;
   slotRight?: React.ReactNode;
   slotFlags?: React.ReactNode;
 };
 
 export function CardSearch(props: Props) {
-  const { onInputKeyDown, slotFlags, slotLeft, slotRight } = props;
+  const {
+    onInputKeyDown,
+    mode = "dynamic",
+    slotFlags,
+    slotLeft,
+    slotRight,
+  } = props;
   const inputRef = useRef<HTMLInputElement>(null);
 
   const setSearchValue = useStore((state) => state.setSearchValue);
@@ -84,7 +92,7 @@ export function CardSearch(props: Props) {
   );
 
   return (
-    <search className={css["container"]} data-testid="search">
+    <search className={cx(css["container"], css[mode])} data-testid="search">
       <div className={css["row"]}>
         {slotLeft}
         <div className={css["field"]}>
@@ -102,7 +110,7 @@ export function CardSearch(props: Props) {
         {slotRight}
       </div>
       <div className={css["flags"]}>
-        {slotFlags}
+        <div className={css["flags-slot"]}>{slotFlags}</div>
         <Checkbox
           checked={search.includeName}
           data-testid="search-card-name"
