@@ -23,6 +23,9 @@ export function emptyDeckCharts(): DeckCharts {
       { x: "mystic", y: 0 },
       { x: "survivor", y: 0 },
       { x: "neutral", y: 0 },
+      // even though mythos cards should not be part of the deck, some arkhamdb decks contain them.
+      // we should at least not crash when this happens.
+      { x: "mythos", y: 0 },
     ],
   };
 }
@@ -49,6 +52,11 @@ export function addCardToDeckCharts(
   }
 
   // Factions
+
+  if (card.faction_code === "mythos") {
+    console.log("@@@", card.code, card.real_name);
+  }
+
   accumulator.factions[
     FACTION_ORDER.indexOf(card.faction_code as FactionName)
   ].y += quantity;

@@ -355,7 +355,8 @@ function validateSlots(
 
     const card = slotEntry.card;
 
-    if (card.encounter_code || quantity === 0) {
+    const isStoryAsset = card.encounter_code && card.faction_code === "neutral";
+    if (isStoryAsset || quantity === 0) {
       continue;
     }
 
