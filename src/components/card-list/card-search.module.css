@@ -43,10 +43,16 @@
   z-index: 2;
 }
 
-.container:hover .flags,
 .container:focus-within .flags {
   visibility: visible;
   transform: scaleY(100%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .container:hover .flags {
+    visibility: visible;
+    transform: scaleY(100%);
+  }
 }
 
 @media screen and (min-height: 50rem) {
