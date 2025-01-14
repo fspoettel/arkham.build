@@ -37,6 +37,9 @@ export const SearchInput = forwardRef<HTMLInputElement, Props>(
         </label>
         <input
           {...rest}
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
           className={cx(css["input"], inputClassName)}
           id={id}
           onChange={onChange}
