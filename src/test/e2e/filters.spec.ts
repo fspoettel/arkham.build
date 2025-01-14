@@ -86,6 +86,7 @@ test.describe("filters", () => {
 
     await page.getByTestId("search-input").blur();
 
+    await page.getByTestId("collection-create-deck").hover();
     await page.locator('[data-test-id="card-list-config"]').click();
     await page.getByLabel("List with text").click();
 
