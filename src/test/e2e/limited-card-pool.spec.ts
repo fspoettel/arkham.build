@@ -200,7 +200,7 @@ test.describe("sealed deck", () => {
       .getByTestId("listcard-02149")
       .getByTestId("quantity-increment")
       .click();
-    await page.getByTestId("editor-move-to-main").click();
+    await page.getByTestId("editor").getByTestId("editor-move-to-main").click();
     await page.getByTestId("editor-tab-slots").click();
 
     await expect(

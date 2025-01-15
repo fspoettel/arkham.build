@@ -1,24 +1,24 @@
-import { CoreCardCheckbox } from "@/components/card-recommender/core-card-checkbox";
+import type { FilteredListCardPropsGetter } from "@/components/card-list/types";
 import { DeckStats } from "@/components/deck-stats";
-import { DecklistGroups } from "@/components/decklist/decklist-groups";
+import { DecklistGroup } from "@/components/decklist/decklist-groups";
 import { DecklistSection } from "@/components/decklist/decklist-section";
 import { Scroller } from "@/components/ui/scroller";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useStore } from "@/store";
+import type { DeckGrouping } from "@/store/lib/deck-grouping";
 import type { DeckValidationResult } from "@/store/lib/deck-validation";
 import type { ResolvedDeck } from "@/store/lib/types";
-import type { Card } from "@/store/services/queries.types";
+import { selectDeckGroups } from "@/store/selectors/decks";
 import type { Tab } from "@/store/slices/deck-edits.types";
-import { getCardColor, isStaticInvestigator } from "@/utils/card-utils";
+import { getCardColor } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
+import { isEmpty } from "@/utils/is-empty";
 import { useAccentColor } from "@/utils/use-accent-color";
-import { useMemo } from "react";
+import { useResolvedDeckChecked } from "@/utils/use-resolved-deck";
 import { EditorActions } from "./editor-actions";
 import css from "./editor.module.css";
 import { InvestigatorListcard } from "./investigator-listcard";
 import { MetaEditor } from "./meta-editor";
-import { MoveToMainDeck } from "./move-to-main-deck";
-
-type Renderer = (card: Card, quantity?: number) => React.ReactNode;
 
 type TabDefinition = {
   value: string;
@@ -33,43 +33,22 @@ type Props = {
   tabs: TabDefinition[];
   currentTool: string;
   onTabChange: (tab: Tab) => void;
-  deck: ResolvedDeck;
-  renderCardExtra?: Renderer;
+  getListCardProps?: FilteredListCardPropsGetter;
   validation?: DeckValidationResult;
 };
 
 export function Editor(props: Props) {
-  const { currentTab, currentTool, onTabChange, deck, tabs, renderCardExtra } =
-    props;
+  const { currentTab, getListCardProps, onTabChange, tabs } = props;
+
+  const { resolvedDeck: deck } = useResolvedDeckChecked();
+
+  const groups = useStore((state) => selectDeckGroups(state, deck));
 
   const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
   const backgroundCls = getCardColor(deck.investigatorBack.card, "background");
 
-  const staticInvestigator = isStaticInvestigator(deck.investigatorBack.card);
-
-  const renderCoreCardCheckbox = useMemo(
-    () =>
-      currentTool === "recommendations"
-        ? (card: Card) =>
-            card.xp == null ? (
-              <></>
-            ) : (
-              <CoreCardCheckbox card={card} deck={deck} />
-            )
-        : undefined,
-    [currentTool, deck],
-  );
-
-  const renderMoveToMainDeck = useMemo(
-    () =>
-      staticInvestigator
-        ? undefined
-        : (card: Card) => <MoveToMainDeck card={card} deck={deck} />,
-    [deck, staticInvestigator],
-  );
-
   return (
-    <div className={css["editor"]} style={cssVariables}>
+    <div className={css["editor"]} style={cssVariables} data-testid="editor">
       <header className={cx(css["editor-header"], backgroundCls)}>
         <h1 className={css["editor-title"]}>{deck.name}</h1>
         <DeckStats deck={deck} />
@@ -100,66 +79,40 @@ export function Editor(props: Props) {
 
         <Scroller className={css["editor-tabs-content"]}>
           <TabsContent value="slots" data-testid="editor-tabs-slots">
-            <DecklistSection title="Cards">
-              <DecklistGroups
-                disablePlayerCardEdits={staticInvestigator}
-                group={deck.groups.slots.data}
-                ignoredCounts={deck.ignoreDeckLimitSlots ?? undefined}
-                layout="two_column"
-                listCardSize="sm"
-                mapping="slots"
-                renderCardBefore={renderCoreCardCheckbox}
-                renderCardExtra={renderCardExtra}
-                quantities={deck.slots}
-              />
-            </DecklistSection>
-            {deck.groups.bondedSlots && deck.bondedSlots && (
-              <DecklistSection showTitle title="Bonded cards">
-                <DecklistGroups
-                  group={deck.groups.bondedSlots.data}
-                  layout="two_column"
-                  listCardSize="sm"
-                  mapping="bonded"
-                  renderCardBefore={renderCoreCardCheckbox}
-                  quantities={deck.bondedSlots}
-                />
-              </DecklistSection>
-            )}
+            <EditorGroup
+              deck={deck}
+              getListCardProps={getListCardProps}
+              grouping={groups.slots}
+              title="Cards"
+            />
+
+            <EditorGroup
+              deck={deck}
+              grouping={groups.bondedSlots}
+              getListCardProps={getListCardProps}
+              omitEmpty
+              showTitle
+              title="Bonded cards"
+            />
           </TabsContent>
 
           <TabsContent value="sideSlots">
-            <DecklistSection title="Side Deck">
-              {deck.groups.sideSlots?.data ? (
-                <DecklistGroups
-                  group={deck.groups.sideSlots.data}
-                  layout="two_column"
-                  listCardSize="sm"
-                  mapping="sideSlots"
-                  renderCardBefore={renderCoreCardCheckbox}
-                  renderCardExtra={renderMoveToMainDeck}
-                  quantities={deck.sideSlots ?? undefined}
-                />
-              ) : (
-                <Placeholder name="Side deck" />
-              )}
-            </DecklistSection>
+            <EditorGroup
+              deck={deck}
+              grouping={groups.sideSlots}
+              getListCardProps={getListCardProps}
+              title="Side deck"
+            />
           </TabsContent>
 
           {deck.hasExtraDeck && (
             <TabsContent value="extraSlots">
-              <DecklistSection title="Spirits">
-                {deck.groups.extraSlots?.data ? (
-                  <DecklistGroups
-                    group={deck.groups.extraSlots.data}
-                    layout="one_column"
-                    listCardSize="sm"
-                    mapping="extraSlots"
-                    quantities={deck.extraSlots ?? undefined}
-                  />
-                ) : (
-                  <Placeholder name="Spirit deck" />
-                )}
-              </DecklistSection>
+              <EditorGroup
+                grouping={groups.extraSlots}
+                title="Spirit deck"
+                getListCardProps={getListCardProps}
+                deck={deck}
+              />
             </TabsContent>
           )}
 
@@ -175,4 +128,33 @@ export function Editor(props: Props) {
 
 function Placeholder({ name }: { name: string }) {
   return <div className={css["editor-placeholder"]}>{name} is empty.</div>;
+}
+
+function EditorGroup(props: {
+  deck: ResolvedDeck;
+  title: string;
+  showTitle?: boolean;
+  getListCardProps?: FilteredListCardPropsGetter;
+  omitEmpty?: boolean;
+  grouping?: DeckGrouping;
+}) {
+  const { deck, omitEmpty, grouping, getListCardProps, showTitle, title } =
+    props;
+  const empty = isEmpty(grouping?.data);
+
+  if (omitEmpty && empty) return null;
+
+  return (
+    <DecklistSection showTitle={showTitle} title={title}>
+      {empty ? (
+        <Placeholder name={title} />
+      ) : (
+        <DecklistGroup
+          getListCardProps={getListCardProps}
+          grouping={grouping}
+          deck={deck}
+        />
+      )}
+    </DecklistSection>
+  );
 }

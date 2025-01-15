@@ -174,17 +174,7 @@ function CardRecommenderInner(
     resolvedDeck: ResolvedDeck;
   },
 ) {
-  const {
-    data,
-    itemSize,
-    onChangeCardQuantity,
-    quantities,
-    renderCardAction,
-    renderCardExtra,
-    renderCardMetaExtra,
-    resolvedDeck,
-    listState,
-  } = props;
+  const { data, quantities, resolvedDeck, listState, getListCardProps } = props;
 
   const [theme] = useColorTheme();
 
@@ -216,6 +206,26 @@ function CardRecommenderInner(
     key: "recommendations",
   };
 
+  const listCardPropsWithRecommendations = useCallback(
+    (card: Card) => ({
+      ...getListCardProps?.(card),
+      renderCardAfter: (card: Card) => (
+        <RecommendationBar
+          card={card}
+          deckCount={decks_analyzed}
+          investigator={resolvedDeck.investigator_name}
+          recommendations={indexedRecommendations}
+        />
+      ),
+    }),
+    [
+      getListCardProps,
+      decks_analyzed,
+      resolvedDeck.investigator_name,
+      indexedRecommendations,
+    ],
+  );
+
   if (sortedCards.length === 0) {
     return (
       <ErrorDisplay
@@ -239,20 +249,8 @@ function CardRecommenderInner(
       resolvedDeck={resolvedDeck}
       viewMode="compact"
       listMode="single"
-      itemSize={itemSize}
-      onChangeCardQuantity={onChangeCardQuantity}
       quantities={quantities}
-      renderCardAction={renderCardAction}
-      renderCardExtra={renderCardExtra}
-      renderCardAfter={(card: Card) => (
-        <RecommendationBar
-          card={card}
-          deckCount={decks_analyzed}
-          investigator={resolvedDeck.investigator_name}
-          recommendations={indexedRecommendations}
-        />
-      )}
-      renderCardMetaExtra={renderCardMetaExtra}
+      getListCardProps={listCardPropsWithRecommendations}
     />
   );
 }

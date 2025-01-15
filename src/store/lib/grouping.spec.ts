@@ -29,45 +29,61 @@ describe("getGroupedCards", () => {
     const result = getGroupedCards(groupings, cards, sortByName, metadata);
 
     expect(result).toMatchInlineSnapshot(`
-      [
-        {
-          "cards": [
-            {
-              "code": "1",
-              "real_name": "1",
-              "subtype_code": "weakness",
-            },
-            {
-              "code": "2",
-              "real_name": "2",
-              "subtype_code": "weakness",
-            },
-            {
-              "code": "5",
-              "real_name": "5",
-              "subtype_code": "weakness",
-            },
-          ],
-          "key": "weakness",
-          "type": "subtype",
+      {
+        "data": [
+          {
+            "cards": [
+              {
+                "code": "1",
+                "real_name": "1",
+                "subtype_code": "weakness",
+              },
+              {
+                "code": "2",
+                "real_name": "2",
+                "subtype_code": "weakness",
+              },
+              {
+                "code": "5",
+                "real_name": "5",
+                "subtype_code": "weakness",
+              },
+            ],
+            "key": "weakness",
+            "type": "subtype",
+          },
+          {
+            "cards": [
+              {
+                "code": "3",
+                "real_name": "3",
+                "subtype_code": "basicweakness",
+              },
+              {
+                "code": "4",
+                "real_name": "4",
+                "subtype_code": "basicweakness",
+              },
+            ],
+            "key": "basicweakness",
+            "type": "subtype",
+          },
+        ],
+        "hierarchy": {
+          "basicweakness": {
+            "count": 2,
+            "key": "basicweakness",
+            "parent": null,
+            "type": "subtype",
+          },
+          "weakness": {
+            "count": 3,
+            "key": "weakness",
+            "parent": null,
+            "type": "subtype",
+          },
         },
-        {
-          "cards": [
-            {
-              "code": "3",
-              "real_name": "3",
-              "subtype_code": "basicweakness",
-            },
-            {
-              "code": "4",
-              "real_name": "4",
-              "subtype_code": "basicweakness",
-            },
-          ],
-          "key": "basicweakness",
-          "type": "subtype",
-        },
-      ]
+      }
     `);
   });
 
@@ -84,40 +100,56 @@ describe("getGroupedCards", () => {
     const metadata = store.getState().metadata;
     const result = getGroupedCards(groupings, cards, sortByName, metadata);
     expect(result).toMatchInlineSnapshot(`
-      [
-        {
-          "cards": [
-            {
-              "code": "1",
-              "faction_code": "guardian",
-              "real_name": "1",
-            },
-            {
-              "code": "3",
-              "faction_code": "guardian",
-              "real_name": "3",
-            },
-          ],
-          "key": "guardian",
-          "type": "faction",
+      {
+        "data": [
+          {
+            "cards": [
+              {
+                "code": "1",
+                "faction_code": "guardian",
+                "real_name": "1",
+              },
+              {
+                "code": "3",
+                "faction_code": "guardian",
+                "real_name": "3",
+              },
+            ],
+            "key": "guardian",
+            "type": "faction",
+          },
+          {
+            "cards": [
+              {
+                "code": "2",
+                "faction_code": "mystic",
+                "real_name": "2",
+              },
+              {
+                "code": "4",
+                "faction_code": "mystic",
+                "real_name": "4",
+              },
+            ],
+            "key": "mystic",
+            "type": "faction",
+          },
+        ],
+        "hierarchy": {
+          "guardian": {
+            "count": 2,
+            "key": "guardian",
+            "parent": null,
+            "type": "faction",
+          },
+          "mystic": {
+            "count": 2,
+            "key": "mystic",
+            "parent": null,
+            "type": "faction",
+          },
         },
-        {
-          "cards": [
-            {
-              "code": "2",
-              "faction_code": "mystic",
-              "real_name": "2",
-            },
-            {
-              "code": "4",
-              "faction_code": "mystic",
-              "real_name": "4",
-            },
-          ],
-          "key": "mystic",
-          "type": "faction",
-        },
-      ]
+      }
     `);
   });
 
@@ -134,40 +166,56 @@ describe("getGroupedCards", () => {
     const metadata = store.getState().metadata;
     const result = getGroupedCards(groupings, cards, sortByName, metadata);
     expect(result).toMatchInlineSnapshot(`
-      [
-        {
-          "cards": [
-            {
-              "code": "1",
-              "pack_code": "core",
-              "real_name": "1",
-            },
-            {
-              "code": "2",
-              "pack_code": "core",
-              "real_name": "2",
-            },
-          ],
-          "key": "core",
-          "type": "cycle",
+      {
+        "data": [
+          {
+            "cards": [
+              {
+                "code": "1",
+                "pack_code": "core",
+                "real_name": "1",
+              },
+              {
+                "code": "2",
+                "pack_code": "core",
+                "real_name": "2",
+              },
+            ],
+            "key": "core",
+            "type": "cycle",
+          },
+          {
+            "cards": [
+              {
+                "code": "3",
+                "pack_code": "tmm",
+                "real_name": "3",
+              },
+              {
+                "code": "4",
+                "pack_code": "tmm",
+                "real_name": "4",
+              },
+            ],
+            "key": "dwl",
+            "type": "cycle",
+          },
+        ],
+        "hierarchy": {
+          "core": {
+            "count": 2,
+            "key": "core",
+            "parent": null,
+            "type": "cycle",
+          },
+          "dwl": {
+            "count": 2,
+            "key": "dwl",
+            "parent": null,
+            "type": "cycle",
+          },
         },
-        {
-          "cards": [
-            {
-              "code": "3",
-              "pack_code": "tmm",
-              "real_name": "3",
-            },
-            {
-              "code": "4",
-              "pack_code": "tmm",
-              "real_name": "4",
-            },
-          ],
-          "key": "dwl",
-          "type": "cycle",
-        },
-      ]
+      }
     `);
   });
 
@@ -187,56 +235,78 @@ describe("getGroupedCards", () => {
 
     const result = getGroupedCards(groupings, cards, sortByName, metadata);
     expect(result).toMatchInlineSnapshot(`
-      [
-        {
-          "cards": [
-            {
-              "code": "1",
-              "cost": 0,
-              "real_name": "1",
-            },
-            {
-              "code": "2",
-              "cost": 0,
-              "real_name": "2",
-            },
-            {
-              "code": "6",
-              "cost": 0,
-              "real_name": "6",
-            },
-          ],
-          "key": "0",
-          "type": "cost",
+      {
+        "data": [
+          {
+            "cards": [
+              {
+                "code": "1",
+                "cost": 0,
+                "real_name": "1",
+              },
+              {
+                "code": "2",
+                "cost": 0,
+                "real_name": "2",
+              },
+              {
+                "code": "6",
+                "cost": 0,
+                "real_name": "6",
+              },
+            ],
+            "key": "0",
+            "type": "cost",
+          },
+          {
+            "cards": [
+              {
+                "code": "3",
+                "cost": 1,
+                "real_name": "3",
+              },
+              {
+                "code": "4",
+                "cost": 1,
+                "real_name": "4",
+              },
+            ],
+            "key": "1",
+            "type": "cost",
+          },
+          {
+            "cards": [
+              {
+                "code": "5",
+                "cost": 2,
+                "real_name": "4",
+              },
+            ],
+            "key": "2",
+            "type": "cost",
+          },
+        ],
+        "hierarchy": {
+          "0": {
+            "count": 3,
+            "key": "0",
+            "parent": null,
+            "type": "cost",
+          },
+          "1": {
+            "count": 2,
+            "key": "1",
+            "parent": null,
+            "type": "cost",
+          },
+          "2": {
+            "count": 1,
+            "key": "2",
+            "parent": null,
+            "type": "cost",
+          },
         },
-        {
-          "cards": [
-            {
-              "code": "3",
-              "cost": 1,
-              "real_name": "3",
-            },
-            {
-              "code": "4",
-              "cost": 1,
-              "real_name": "4",
-            },
-          ],
-          "key": "1",
-          "type": "cost",
-        },
-        {
-          "cards": [
-            {
-              "code": "5",
-              "cost": 2,
-              "real_name": "4",
-            },
-          ],
-          "key": "2",
-          "type": "cost",
-        },
-      ]
+      }
     `);
   });
 
@@ -255,51 +325,73 @@ describe("getGroupedCards", () => {
 
     const result = getGroupedCards(groupings, cards, sortByName, metadata);
     expect(result).toMatchInlineSnapshot(`
-      [
-        {
-          "cards": [
-            {
-              "code": "1",
-              "real_name": "1",
-              "type_code": "asset",
-            },
-            {
-              "code": "2",
-              "real_name": "2",
-              "type_code": "asset",
-            },
-          ],
-          "key": "asset",
-          "type": "type",
+      {
+        "data": [
+          {
+            "cards": [
+              {
+                "code": "1",
+                "real_name": "1",
+                "type_code": "asset",
+              },
+              {
+                "code": "2",
+                "real_name": "2",
+                "type_code": "asset",
+              },
+            ],
+            "key": "asset",
+            "type": "type",
+          },
+          {
+            "cards": [
+              {
+                "code": "3",
+                "real_name": "3",
+                "type_code": "event",
+              },
+              {
+                "code": "4",
+                "real_name": "4",
+                "type_code": "event",
+              },
+            ],
+            "key": "event",
+            "type": "type",
+          },
+          {
+            "cards": [
+              {
+                "code": "5",
+                "real_name": "5",
+                "type_code": "skill",
+              },
+            ],
+            "key": "skill",
+            "type": "type",
+          },
+        ],
+        "hierarchy": {
+          "asset": {
+            "count": 2,
+            "key": "asset",
+            "parent": null,
+            "type": "type",
+          },
+          "event": {
+            "count": 2,
+            "key": "event",
+            "parent": null,
+            "type": "type",
+          },
+          "skill": {
+            "count": 1,
+            "key": "skill",
+            "parent": null,
+            "type": "type",
+          },
         },
-        {
-          "cards": [
-            {
-              "code": "3",
-              "real_name": "3",
-              "type_code": "event",
-            },
-            {
-              "code": "4",
-              "real_name": "4",
-              "type_code": "event",
-            },
-          ],
-          "key": "event",
-          "type": "type",
-        },
-        {
-          "cards": [
-            {
-              "code": "5",
-              "real_name": "5",
-              "type_code": "skill",
-            },
-          ],
-          "key": "skill",
-          "type": "type",
-        },
-      ]
+      }
     `);
   });
 
@@ -321,72 +413,100 @@ describe("getGroupedCards", () => {
 
     const result = getGroupedCards(groupings, cards, sortByName, metadata);
     expect(result).toMatchInlineSnapshot(`
-      [
-        {
-          "cards": [
-            {
-              "code": "7",
-              "real_name": "7",
-              "xp": null,
-            },
-            {
-              "code": "8",
-              "real_name": "8",
-              "xp": null,
-            },
-          ],
-          "key": "none",
-          "type": "level",
+      {
+        "data": [
+          {
+            "cards": [
+              {
+                "code": "7",
+                "real_name": "7",
+                "xp": null,
+              },
+              {
+                "code": "8",
+                "real_name": "8",
+                "xp": null,
+              },
+            ],
+            "key": "none",
+            "type": "level",
+          },
+          {
+            "cards": [
+              {
+                "code": "1",
+                "real_name": "1",
+                "xp": 0,
+              },
+              {
+                "code": "2",
+                "real_name": "2",
+                "xp": 0,
+              },
+              {
+                "code": "6",
+                "real_name": "6",
+                "xp": 0,
+              },
+            ],
+            "key": "0",
+            "type": "level",
+          },
+          {
+            "cards": [
+              {
+                "code": "3",
+                "real_name": "3",
+                "xp": 1,
+              },
+              {
+                "code": "4",
+                "real_name": "4",
+                "xp": 1,
+              },
+            ],
+            "key": "1",
+            "type": "level",
+          },
+          {
+            "cards": [
+              {
+                "code": "5",
+                "real_name": "5",
+                "xp": 2,
+              },
+            ],
+            "key": "2",
+            "type": "level",
+          },
+        ],
+        "hierarchy": {
+          "0": {
+            "count": 3,
+            "key": "0",
+            "parent": null,
+            "type": "level",
+          },
+          "1": {
+            "count": 2,
+            "key": "1",
+            "parent": null,
+            "type": "level",
+          },
+          "2": {
+            "count": 1,
+            "key": "2",
+            "parent": null,
+            "type": "level",
+          },
+          "none": {
+            "count": 2,
+            "key": "none",
+            "parent": null,
+            "type": "level",
+          },
         },
-        {
-          "cards": [
-            {
-              "code": "1",
-              "real_name": "1",
-              "xp": 0,
-            },
-            {
-              "code": "2",
-              "real_name": "2",
-              "xp": 0,
-            },
-            {
-              "code": "6",
-              "real_name": "6",
-              "xp": 0,
-            },
-          ],
-          "key": "0",
-          "type": "level",
-        },
-        {
-          "cards": [
-            {
-              "code": "3",
-              "real_name": "3",
-              "xp": 1,
-            },
-            {
-              "code": "4",
-              "real_name": "4",
-              "xp": 1,
-            },
-          ],
-          "key": "1",
-          "type": "level",
-        },
-        {
-          "cards": [
-            {
-              "code": "5",
-              "real_name": "5",
-              "xp": 2,
-            },
-          ],
-          "key": "2",
-          "type": "level",
-        },
-      ]
+      }
     `);
   });
 
@@ -408,60 +528,76 @@ describe("getGroupedCards", () => {
 
     const result = getGroupedCards(groupings, cards, sortByName, metadata);
     expect(result).toMatchInlineSnapshot(`
-      [
-        {
-          "cards": [
-            {
-              "code": "1",
-              "real_name": "1",
-              "xp": 0,
-            },
-            {
-              "code": "2",
-              "real_name": "2",
-              "xp": 0,
-            },
-            {
-              "code": "6",
-              "real_name": "6",
-              "xp": 0,
-            },
-            {
-              "code": "7",
-              "real_name": "7",
-              "xp": null,
-            },
-            {
-              "code": "8",
-              "real_name": "8",
-              "xp": null,
-            },
-          ],
-          "key": "level0",
-          "type": "base_upgrades",
+      {
+        "data": [
+          {
+            "cards": [
+              {
+                "code": "1",
+                "real_name": "1",
+                "xp": 0,
+              },
+              {
+                "code": "2",
+                "real_name": "2",
+                "xp": 0,
+              },
+              {
+                "code": "6",
+                "real_name": "6",
+                "xp": 0,
+              },
+              {
+                "code": "7",
+                "real_name": "7",
+                "xp": null,
+              },
+              {
+                "code": "8",
+                "real_name": "8",
+                "xp": null,
+              },
+            ],
+            "key": "level0",
+            "type": "base_upgrades",
+          },
+          {
+            "cards": [
+              {
+                "code": "3",
+                "real_name": "3",
+                "xp": 1,
+              },
+              {
+                "code": "4",
+                "real_name": "4",
+                "xp": 1,
+              },
+              {
+                "code": "5",
+                "real_name": "5",
+                "xp": 2,
+              },
+            ],
+            "key": "upgrade",
+            "type": "base_upgrades",
+          },
+        ],
+        "hierarchy": {
+          "level0": {
+            "count": 5,
+            "key": "level0",
+            "parent": null,
+            "type": "base_upgrades",
+          },
+          "upgrade": {
+            "count": 3,
+            "key": "upgrade",
+            "parent": null,
+            "type": "base_upgrades",
+          },
         },
-        {
-          "cards": [
-            {
-              "code": "3",
-              "real_name": "3",
-              "xp": 1,
-            },
-            {
-              "code": "4",
-              "real_name": "4",
-              "xp": 1,
-            },
-            {
-              "code": "5",
-              "real_name": "5",
-              "xp": 2,
-            },
-          ],
-          "key": "upgrade",
-          "type": "base_upgrades",
-        },
-      ]
+      }
     `);
   });
 
@@ -479,40 +615,56 @@ describe("getGroupedCards", () => {
 
     const result = getGroupedCards(groupings, cards, sortByName, metadata);
     expect(result).toMatchInlineSnapshot(`
-      [
-        {
-          "cards": [
-            {
-              "code": "1",
-              "encounter_code": "core",
-              "real_name": "1",
-            },
-            {
-              "code": "2",
-              "encounter_code": "core",
-              "real_name": "2",
-            },
-          ],
-          "key": "core",
-          "type": "encounter_set",
+      {
+        "data": [
+          {
+            "cards": [
+              {
+                "code": "1",
+                "encounter_code": "core",
+                "real_name": "1",
+              },
+              {
+                "code": "2",
+                "encounter_code": "core",
+                "real_name": "2",
+              },
+            ],
+            "key": "core",
+            "type": "encounter_set",
+          },
+          {
+            "cards": [
+              {
+                "code": "3",
+                "encounter_code": "beast_thralls",
+                "real_name": "3",
+              },
+              {
+                "code": "4",
+                "encounter_code": "beast_thralls",
+                "real_name": "4",
+              },
+            ],
+            "key": "beast_thralls",
+            "type": "encounter_set",
+          },
+        ],
+        "hierarchy": {
+          "beast_thralls": {
+            "count": 2,
+            "key": "beast_thralls",
+            "parent": null,
+            "type": "encounter_set",
+          },
+          "core": {
+            "count": 2,
+            "key": "core",
+            "parent": null,
+            "type": "encounter_set",
+          },
         },
-        {
-          "cards": [
-            {
-              "code": "3",
-              "encounter_code": "beast_thralls",
-              "real_name": "3",
-            },
-            {
-              "code": "4",
-              "encounter_code": "beast_thralls",
-              "real_name": "4",
-            },
-          ],
-          "key": "beast_thralls",
-          "type": "encounter_set",
-        },
-      ]
+      }
     `);
   });
 
@@ -533,67 +685,95 @@ describe("getGroupedCards", () => {
 
     const result = getGroupedCards(groupings, cards, sortByName, metadata);
     expect(result).toMatchInlineSnapshot(`
-      [
-        {
-          "cards": [
-            {
-              "code": "4",
-              "real_name": "4",
-              "real_slot": "Hand",
-            },
-            {
-              "code": "5",
-              "real_name": "5",
-              "real_slot": "Hand",
-            },
-          ],
-          "key": "Hand",
-          "type": "slot",
+      {
+        "data": [
+          {
+            "cards": [
+              {
+                "code": "4",
+                "real_name": "4",
+                "real_slot": "Hand",
+              },
+              {
+                "code": "5",
+                "real_name": "5",
+                "real_slot": "Hand",
+              },
+            ],
+            "key": "Hand",
+            "type": "slot",
+          },
+          {
+            "cards": [
+              {
+                "code": "1",
+                "real_name": "1",
+                "real_slot": "Body",
+              },
+              {
+                "code": "2",
+                "real_name": "2",
+                "real_slot": "Body",
+              },
+              {
+                "code": "3",
+                "real_name": "3",
+                "real_slot": "Body",
+              },
+            ],
+            "key": "Body",
+            "type": "slot",
+          },
+          {
+            "cards": [
+              {
+                "code": "7",
+                "real_name": "7",
+                "real_slot": null,
+              },
+            ],
+            "key": "none",
+            "type": "slot",
+          },
+          {
+            "cards": [
+              {
+                "code": "6",
+                "permanent": true,
+                "real_name": "6",
+              },
+            ],
+            "key": "permanent",
+            "type": "slot",
+          },
+        ],
+        "hierarchy": {
+          "Body": {
+            "count": 3,
+            "key": "Body",
+            "parent": null,
+            "type": "slot",
+          },
+          "Hand": {
+            "count": 2,
+            "key": "Hand",
+            "parent": null,
+            "type": "slot",
+          },
+          "none": {
+            "count": 1,
+            "key": "none",
+            "parent": null,
+            "type": "slot",
+          },
+          "permanent": {
+            "count": 1,
+            "key": "permanent",
+            "parent": null,
+            "type": "slot",
+          },
         },
-        {
-          "cards": [
-            {
-              "code": "1",
-              "real_name": "1",
-              "real_slot": "Body",
-            },
-            {
-              "code": "2",
-              "real_name": "2",
-              "real_slot": "Body",
-            },
-            {
-              "code": "3",
-              "real_name": "3",
-              "real_slot": "Body",
-            },
-          ],
-          "key": "Body",
-          "type": "slot",
-        },
-        {
-          "cards": [
-            {
-              "code": "7",
-              "real_name": "7",
-              "real_slot": null,
-            },
-          ],
-          "key": "none",
-          "type": "slot",
-        },
-        {
-          "cards": [
-            {
-              "code": "6",
-              "permanent": true,
-              "real_name": "6",
-            },
-          ],
-          "key": "permanent",
-          "type": "slot",
-        },
-      ]
+      }
     `);
   });
 
@@ -628,68 +808,108 @@ describe("getGroupedCards", () => {
 
     const result = getGroupedCards(groupings, cards, sortByName, metadata);
     expect(result).toMatchInlineSnapshot(`
-      [
-        {
-          "cards": [
-            {
-              "code": "1",
-              "faction_code": "guardian",
-              "real_name": "1",
-              "type_code": "asset",
-            },
-            {
-              "code": "2",
-              "faction_code": "guardian",
-              "real_name": "2",
-              "type_code": "asset",
-            },
-          ],
-          "key": "guardian|asset",
-          "type": "faction|type",
+      {
+        "data": [
+          {
+            "cards": [
+              {
+                "code": "1",
+                "faction_code": "guardian",
+                "real_name": "1",
+                "type_code": "asset",
+              },
+              {
+                "code": "2",
+                "faction_code": "guardian",
+                "real_name": "2",
+                "type_code": "asset",
+              },
+            ],
+            "key": "guardian|asset",
+            "type": "faction|type",
+          },
+          {
+            "cards": [
+              {
+                "code": "5",
+                "faction_code": "guardian",
+                "real_name": "5",
+                "type_code": "skill",
+              },
+            ],
+            "key": "guardian|skill",
+            "type": "faction|type",
+          },
+          {
+            "cards": [
+              {
+                "code": "3",
+                "faction_code": "mystic",
+                "real_name": "3",
+                "type_code": "event",
+              },
+              {
+                "code": "4",
+                "faction_code": "mystic",
+                "real_name": "4",
+                "type_code": "event",
+              },
+            ],
+            "key": "mystic|event",
+            "type": "faction|type",
+          },
+          {
+            "cards": [
+              {
+                "code": "6",
+                "faction_code": "mystic",
+                "real_name": "6",
+                "type_code": "skill",
+              },
+            ],
+            "key": "mystic|skill",
+            "type": "faction|type",
+          },
+        ],
+        "hierarchy": {
+          "guardian": {
+            "count": 3,
+            "key": "guardian",
+            "parent": null,
+            "type": "faction",
+          },
+          "guardian|asset": {
+            "count": 2,
+            "key": "guardian|asset",
+            "parent": "guardian",
+            "type": "faction|type",
+          },
+          "guardian|skill": {
+            "count": 1,
+            "key": "guardian|skill",
+            "parent": "guardian",
+            "type": "faction|type",
+          },
+          "mystic": {
+            "count": 3,
+            "key": "mystic",
+            "parent": null,
+            "type": "faction",
+          },
+          "mystic|event": {
+            "count": 2,
+            "key": "mystic|event",
+            "parent": "mystic",
+            "type": "faction|type",
+          },
+          "mystic|skill": {
+            "count": 1,
+            "key": "mystic|skill",
+            "parent": "mystic",
+            "type": "faction|type",
+          },
         },
-        {
-          "cards": [
-            {
-              "code": "5",
-              "faction_code": "guardian",
-              "real_name": "5",
-              "type_code": "skill",
-            },
-          ],
-          "key": "guardian|skill",
-          "type": "faction|type",
-        },
-        {
-          "cards": [
-            {
-              "code": "3",
-              "faction_code": "mystic",
-              "real_name": "3",
-              "type_code": "event",
-            },
-            {
-              "code": "4",
-              "faction_code": "mystic",
-              "real_name": "4",
-              "type_code": "event",
-            },
-          ],
-          "key": "mystic|event",
-          "type": "faction|type",
-        },
-        {
-          "cards": [
-            {
-              "code": "6",
-              "faction_code": "mystic",
-              "real_name": "6",
-              "type_code": "skill",
-            },
-          ],
-          "key": "mystic|skill",
-          "type": "faction|type",
-        },
-      ]
+      }
     `);
   });
 });

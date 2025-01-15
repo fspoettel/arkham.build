@@ -1,19 +1,18 @@
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { ListState } from "@/store/selectors/lists";
+import type { Card } from "@/store/services/queries.types";
 import type { Slots } from "@/store/slices/data.types";
 import type { Search, ViewMode } from "@/store/slices/lists.types";
 import type { Metadata } from "@/store/slices/metadata.types";
 import type { Props as ListCardProps } from "../list-card/list-card";
 
+export type FilteredListCardProps = Omit<ListCardProps, "card" | "quantity">;
+export type FilteredListCardPropsGetter = (card: Card) => FilteredListCardProps;
+
 export type CardListProps = {
   className?: string;
-  itemSize?: "xs" | "sm" | "investigator";
-  onChangeCardQuantity?: ListCardProps["onChangeCardQuantity"];
   quantities?: Slots;
-  renderCardAction?: ListCardProps["renderCardAction"];
-  renderCardExtra?: ListCardProps["renderCardExtra"];
-  renderCardMetaExtra?: ListCardProps["renderCardMetaExtra"];
-  renderCardAfter?: ListCardProps["renderCardAfter"];
+  getListCardProps?: FilteredListCardPropsGetter;
   slotLeft?: React.ReactNode;
   slotRight?: React.ReactNode;
   targetDeck?: "slots" | "extraSlots" | "both";
@@ -31,13 +30,6 @@ export type CardListImplementationProps = Omit<
   search?: Search;
 };
 
-export type CardListItemProps = Pick<
-  CardListImplementationProps,
-  | "itemSize"
-  | "onChangeCardQuantity"
-  | "quantities"
-  | "renderCardAction"
-  | "renderCardAfter"
-  | "renderCardExtra"
-  | "renderCardMetaExtra"
->;
+export type CardListItemProps = {
+  listCardProps?: FilteredListCardProps;
+};

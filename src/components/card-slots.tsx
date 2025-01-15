@@ -6,13 +6,12 @@ import SlotIcon from "./icons/slot-icon";
 type Props = {
   className?: string;
   slot: string;
-  size?: "small" | "default";
 };
 
 export function CardSlots(props: Props) {
-  const { className, slot, size } = props;
+  const { className, slot } = props;
   return (
-    <ol className={cx(css["slots"], size && css[size], className)}>
+    <ol className={cx(css["slots"], className)}>
       {splitMultiValue(slot).map((slot) => (
         <li key={slot}>
           <SlotIcon code={slot} />

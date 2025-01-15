@@ -4,39 +4,28 @@ import { QuantityInput } from "../ui/quantity-input";
 import css from "./card-actions.module.css";
 import type { CardListItemProps } from "./types";
 
-type Props = Pick<
-  CardListItemProps,
-  "onChangeCardQuantity" | "quantities" | "renderCardAction" | "renderCardExtra"
-> & {
+type Props = Pick<CardListItemProps, "listCardProps"> & {
   card: Card;
-  limitOverride?: number;
   quantity?: number;
 };
 
 export function CardActions(props: Props) {
-  const {
-    card,
-    limitOverride,
-    onChangeCardQuantity,
-    quantity,
-    renderCardAction,
-    renderCardExtra,
-  } = props;
+  const { card, listCardProps, quantity } = props;
 
-  if (!onChangeCardQuantity || quantity == null) return null;
+  if (!listCardProps?.onChangeCardQuantity || quantity == null) return null;
 
   return (
     <div className={css["actions"]}>
       <QuantityInput
         className={css["actions-quantity"]}
-        limit={cardLimit(card, limitOverride)}
+        limit={cardLimit(card, listCardProps?.limitOverride)}
         value={quantity || 0}
         onValueChange={(quantity, limit) =>
-          onChangeCardQuantity(card, quantity, limit)
+          listCardProps?.onChangeCardQuantity?.(card, quantity, limit)
         }
       />
-      {renderCardAction?.(card)}
-      {renderCardExtra?.(card, quantity)}
+      {listCardProps?.renderCardAction?.(card)}
+      {listCardProps?.renderCardExtra?.(card, quantity)}
     </div>
   );
 }

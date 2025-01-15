@@ -1,4 +1,3 @@
-import { getDeckLimitOverride } from "@/store/lib/resolve-deck";
 import type {
   CardGroup as CardGroupType,
   ListState,
@@ -166,7 +165,7 @@ function CardGroup(
       />
       <div className={css["group-items"]}>
         {groupCards.map((card) => (
-          <CardGroupItem card={card} key={card.code} {...rest} />
+          <CardGroupItem {...rest} card={card} key={card.code} />
         ))}
       </div>
     </div>
@@ -176,17 +175,9 @@ function CardGroup(
 function CardGroupItem(
   props: {
     card: Card;
-  } & Pick<
-    CardListImplementationProps,
-    | "onChangeCardQuantity"
-    | "quantities"
-    | "resolvedDeck"
-    | "renderCardAction"
-    | "renderCardExtra"
-    | "renderCardMetaExtra"
-  >,
+  } & Pick<CardListImplementationProps, "getListCardProps" | "quantities">,
 ) {
-  const { card, onChangeCardQuantity, resolvedDeck, quantities } = props;
+  const { card, getListCardProps, quantities } = props;
 
   const modalContext = useCardModalContextChecked();
 
@@ -208,11 +199,8 @@ function CardGroupItem(
       <div className={css["group-item-actions"]}>
         <CardActions
           card={card}
-          onChangeCardQuantity={onChangeCardQuantity}
-          limitOverride={getDeckLimitOverride(resolvedDeck, card.code)}
           quantity={quantity}
-          renderCardAction={props.renderCardAction}
-          renderCardExtra={props.renderCardExtra}
+          listCardProps={getListCardProps?.(card)}
         />
       </div>
     </div>

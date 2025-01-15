@@ -13,9 +13,17 @@ import {
   formatTabooSet,
 } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
-import type { Grouping } from "./deck-grouping";
+import { getInitialSettings } from "../slices/settings";
+import {
+  type DeckGrouping,
+  groupDeckCards,
+  isGroupCollapsed,
+  resolveParents,
+  resolveQuantities,
+} from "./deck-grouping";
+import { getGroupingKeyLabel } from "./grouping";
 import { resolveDeck } from "./resolve-deck";
-import { sortByName, sortBySlots } from "./sorting";
+import { sortByName } from "./sorting";
 import type { Customizations, ResolvedDeck } from "./types";
 
 export function formatDeckImport(
@@ -136,82 +144,78 @@ export function formatDeckAsText(state: StoreState, deck: ResolvedDeck) {
     text += `Taboo†: ${formatTabooSet(deck.tabooSet)}  \n`;
   }
 
-  text += `\n## Deck\n\n${formatGrouping(state, deck.groups.slots.data, deck.slots, deck.customizations)}`;
+  const groups = groupDeckCards(
+    state.metadata,
+    getInitialSettings().lists.deck,
+    deck,
+  );
 
-  if (deck.groups.sideSlots && !isEmpty(deck.sideSlots)) {
-    text += `\n## Side deck\n\n${formatGrouping(state, deck.groups.sideSlots.data, deck.sideSlots, {})}`;
+  if (groups.slots && !isEmpty(deck.slots)) {
+    text += `\n## Deck\n\n${formatGrouping(state, groups.slots, deck.slots, deck.customizations)}`;
   }
 
-  if (deck.groups.extraSlots && deck.extraSlots) {
-    text += `## Spirits\n\n${formatGrouping(state, deck.groups.extraSlots.data, deck.extraSlots, {})}`;
+  if (groups.sideSlots && !isEmpty(deck.sideSlots)) {
+    text += `\n## Side deck\n\n${formatGrouping(state, groups.sideSlots, deck.sideSlots, {})}`;
+  }
+
+  if (groups.extraSlots && deck.extraSlots) {
+    text += `## Spirits\n\n${formatGrouping(state, groups.extraSlots, deck.extraSlots, {})}`;
   }
 
   return text;
 }
 
-// FIXME: rework this once deck groups are using the same grouping logic as lists, it's needlessly complex.
 function formatGrouping(
   state: StoreState,
-  grouping: Grouping,
+  grouping: DeckGrouping,
   slots: { [code: string]: number },
   customizations?: Customizations,
 ) {
   let text = "";
 
-  for (const [section, data] of Object.entries(grouping)) {
-    if (section === "asset") {
-      text += "**Asset**  \n";
+  const quantities = resolveQuantities(grouping);
 
-      const groups = Object.entries(data).sort((a, b) =>
-        sortBySlots(a[0], b[0]),
-      );
+  const seenParents = new Set<string>();
 
-      const entries = groups.map(([key, cards]) => {
-        return formatGroupAsText(
-          state,
-          key,
-          cards,
-          slots,
-          customizations,
-          false,
-        );
-      });
+  grouping.data.forEach((group, i) => {
+    const parents = resolveParents(grouping, group).filter(
+      (parent) => !seenParents.has(parent.key),
+    );
 
-      text += `${entries.join("\n")}\n`;
-    } else {
-      text += formatGroupAsText(
-        state,
-        section,
-        data as Card[],
-        slots,
-        customizations,
-        true,
-      );
+    parents.forEach((parent, _) => {
+      seenParents.add(parent.key);
+      const key = parent.key.split("|").at(-1) as string;
+      const type = parent.type.split("|").at(-1) as string;
+      text += `**${getGroupingKeyLabel(type, key, state.metadata)}** (${quantities.get(parent.key) ?? 0})  \n`;
+    });
+
+    if (!isGroupCollapsed(group)) {
+      const key = group.key.split("|").at(-1) as string;
+      const type = group.type.split("|").at(-1) as string;
+      text += `_${getGroupingKeyLabel(type, key, state.metadata)}_ (${quantities.get(group.key) ?? 0})  \n`;
     }
-  }
+
+    text += formatGroupAsText(state, group.cards, slots, customizations);
+    if (i < grouping.data.length - 1) text += "\n";
+  });
 
   return text;
 }
 
 function formatGroupAsText(
   state: StoreState,
-  title: string,
   data: Card[],
   quantities: { [code: string]: number },
   customizations: Customizations | undefined,
-  isMain: boolean,
 ) {
   if (!data.length) return "";
-
-  const labelStr = capitalize(title);
-  const label = isMain ? `**${labelStr}**` : `_${labelStr}_`;
 
   const cards = [...data]
     .sort((a, b) => sortByName(a, b))
     .map((c) => formatCardAsText(state, c, quantities, customizations))
     .join("\n");
 
-  return `${label}\n${cards}\n${isMain ? "\n" : ""}`;
+  return `${cards}\n`;
 }
 
 function formatCardAsText(

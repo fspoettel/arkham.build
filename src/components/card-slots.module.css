@@ -22,15 +22,3 @@
   font-size: 1.125rem;
 }
 
-.slots.small li {
-  width: 1.125rem;
-  height: 1.125rem;
-  border: none;
-  font-size: var(--icon-sm);
-  background: none;
-  color: var(--palette-4);
-}
-
-.slots.small li i[class*="hand_x2"] {
-  font-size: 0.875rem;
-}
