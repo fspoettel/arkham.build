@@ -118,8 +118,8 @@ test.describe("deck edit", () => {
       .getByTestId("listcard-02229")
       .getByTestId("quantity-increment")
       .dblclick();
-    await page.getByTestId("editor-move-to-main").click();
-    await page.getByTestId("editor-move-to-main").click();
+    await page.getByTestId("editor").getByTestId("editor-move-to-main").click();
+    await page.getByTestId("editor").getByTestId("editor-move-to-main").click();
 
     await page.getByTestId("editor-tab-slots").click();
     await expect(

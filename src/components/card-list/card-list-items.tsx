@@ -1,5 +1,4 @@
 import { useStore } from "@/store";
-import type { getDeckLimitOverride } from "@/store/lib/resolve-deck";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { selectResolvedCardById } from "@/store/selectors/lists";
 import type { Card } from "@/store/services/queries.types";
@@ -14,9 +13,6 @@ type Props = CardListItemProps & {
   card: Card;
   currentTop: number;
   index: number;
-  size?: "xs" | "sm" | "investigator";
-  limitOverride?: ReturnType<typeof getDeckLimitOverride>;
-  ownedCount?: number;
   quantity?: number;
   resolvedDeck?: ResolvedDeck;
   viewMode: ViewMode;
@@ -27,50 +23,28 @@ export function CardListItemCompact(props: Props) {
     card,
     currentTop,
     index,
-    size,
-    limitOverride,
-    onChangeCardQuantity,
-    ownedCount,
+    listCardProps,
     quantity,
-    viewMode,
     resolvedDeck,
-    renderCardExtra,
-    renderCardAction,
-    renderCardAfter,
-    renderCardMetaExtra,
+    viewMode,
   } = props;
 
   return (
     <ListCard
+      {...listCardProps}
       annotation={resolvedDeck?.annotations[card.code]}
       card={card}
       disableKeyboard
       isActive={index === currentTop}
       key={card.code}
-      limitOverride={limitOverride}
-      onChangeCardQuantity={onChangeCardQuantity}
-      ownedCount={ownedCount}
       quantity={quantity}
-      renderCardAfter={renderCardAfter}
-      renderCardAction={renderCardAction}
-      renderCardExtra={renderCardExtra}
-      renderCardMetaExtra={renderCardMetaExtra}
       showCardText={viewMode === "card-text"}
-      size={size}
     />
   );
 }
 
 export function CardListItemFull(props: Props) {
-  const {
-    card,
-    onChangeCardQuantity,
-    limitOverride,
-    quantity,
-    renderCardAction,
-    renderCardExtra,
-    resolvedDeck,
-  } = props;
+  const { card, resolvedDeck, ...rest } = props;
 
   const resolvedCard = useStore((state) =>
     selectResolvedCardById(state, card.code, resolvedDeck),
@@ -81,16 +55,7 @@ export function CardListItemFull(props: Props) {
   return (
     <div className={css["card-list-item-full"]}>
       <CardComponent
-        headerActions={
-          <CardActions
-            card={card}
-            onChangeCardQuantity={onChangeCardQuantity}
-            limitOverride={limitOverride}
-            quantity={quantity}
-            renderCardAction={renderCardAction}
-            renderCardExtra={renderCardExtra}
-          />
-        }
+        headerActions={<CardActions {...rest} card={card} />}
         resolvedCard={resolvedCard}
         size="full"
         titleLinks="card-modal"

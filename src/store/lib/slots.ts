@@ -7,6 +7,7 @@ import {
   isSpecialCard,
 } from "@/utils/card-utils";
 import { range } from "@/utils/range";
+import type { Card } from "../services/queries.types";
 import { addCardToDeckCharts, emptyDeckCharts } from "./deck-charts";
 import { resolveCardWithRelations } from "./resolve-card";
 import type {
@@ -26,12 +27,13 @@ export function decodeSlots(
   customizations: Customizations | undefined,
 ) {
   const cards: ResolvedDeck["cards"] = {
-    investigator: investigator,
-    slots: {},
-    sideSlots: {},
-    ignoreDeckLimitSlots: {},
-    extraSlots: {},
+    bondedSlots: {},
     exileSlots: {},
+    extraSlots: {},
+    ignoreDeckLimitSlots: {},
+    investigator: investigator,
+    sideSlots: {},
+    slots: {},
   };
 
   let deckSize = 0;
@@ -39,6 +41,16 @@ export function decodeSlots(
   let xpRequired = 0;
 
   const charts: DeckCharts = emptyDeckCharts();
+
+  const bonded: Card[] = [];
+
+  // Add cards bonded to investigator to deck.
+  const investigatorRelations = investigator?.relations;
+  if (investigatorRelations?.bound?.length) {
+    for (const { card } of investigatorRelations.bound) {
+      bonded.push(card);
+    }
+  }
 
   for (const [code, quantity] of Object.entries(deck.slots)) {
     const card = resolveCardWithRelations(
@@ -67,6 +79,24 @@ export function decodeSlots(
       }
 
       addCardToDeckCharts(card.card, quantity, charts);
+
+      // Collect bonded cards, filtering out duplicates.
+      // These can occur when e.g. two versions of `Dream Diary` are in a deck.
+      const bound = Object.keys(lookupTables.relations.bound[code] ?? {}).map(
+        (code) => metadata.cards[code],
+      );
+
+      if (bound?.length) {
+        for (const boundCard of bound) {
+          if (
+            !boundCard.code.endsWith("b") &&
+            !bonded.some((c) => c.code === boundCard.code) &&
+            deck.slots[code] > 0
+          ) {
+            bonded.push(boundCard);
+          }
+        }
+      }
     }
   }
 
@@ -123,7 +153,25 @@ export function decodeSlots(
     }
   }
 
+  const bondedSlots: Slots = {};
+
+  for (const card of bonded) {
+    const resolved = resolveCardWithRelations(
+      metadata,
+      lookupTables,
+      card.code,
+      deck.taboo_id,
+      customizations,
+      false,
+    );
+    if (resolved) {
+      cards.bondedSlots[card.code] = resolved;
+      bondedSlots[card.code] = card.quantity;
+    }
+  }
+
   return {
+    bondedSlots,
     cards,
     deckSize,
     deckSizeTotal,

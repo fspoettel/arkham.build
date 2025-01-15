@@ -8,7 +8,6 @@ import type { Deck } from "../slices/data.types";
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
 import type { SharingState } from "../slices/sharing.types";
-import { addGroupingsToDeck } from "./deck-grouping";
 import {
   decodeAnnotations,
   decodeAttachments,
@@ -91,14 +90,15 @@ export function resolveDeck(
 
   const customizations = decodeCustomizations(deckMeta, metadata);
 
-  const { cards, deckSize, deckSizeTotal, xpRequired, charts } = decodeSlots(
-    deck,
-    extraSlots,
-    metadata,
-    lookupTables,
-    investigator,
-    customizations,
-  );
+  const { bondedSlots, cards, deckSize, deckSizeTotal, xpRequired, charts } =
+    decodeSlots(
+      deck,
+      extraSlots,
+      metadata,
+      lookupTables,
+      investigator,
+      customizations,
+    );
 
   const availableAttachments = Object.entries(ATTACHABLE_CARDS).reduce<
     AttachableDefinition[]
@@ -112,6 +112,7 @@ export function resolveDeck(
 
   const resolved = {
     ...deck,
+    bondedSlots,
     annotations: decodeAnnotations(deckMeta),
     attachments: decodeAttachments(deckMeta),
     availableAttachments,
@@ -139,8 +140,6 @@ export function resolveDeck(
     },
     tabooSet: deck.taboo_id ? metadata.tabooSets[deck.taboo_id] : undefined,
   } as ResolvedDeck;
-
-  addGroupingsToDeck(metadata, lookupTables, resolved);
 
   return resolved as ResolvedDeck;
 }

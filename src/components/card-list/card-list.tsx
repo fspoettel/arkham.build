@@ -19,15 +19,10 @@ import type { CardListImplementationProps } from "./types";
 export function CardList(props: CardListImplementationProps) {
   const {
     data,
-    itemSize,
     metadata,
-    onChangeCardQuantity,
     quantities,
     listMode,
-    renderCardAction,
-    renderCardExtra,
-    renderCardMetaExtra,
-    renderCardAfter,
+    getListCardProps,
     resolvedDeck,
     search,
     viewMode,
@@ -155,23 +150,25 @@ export function CardList(props: CardListImplementationProps) {
   }, [data?.cards.length]);
 
   const makeItemContent = (index: number, currentTop: number) => {
+    const card = data.cards[index];
+
     const itemProps = {
-      card: data.cards[index],
-      currentTop,
-      index,
-      size: itemSize,
-      limitOverride: getDeckLimitOverride(resolvedDeck, data.cards[index].code),
-      onChangeCardQuantity,
-      ownedCount: canCheckOwnerhip
-        ? cardOwnedCount(data.cards[index])
-        : undefined,
+      listCardProps: {
+        ...getListCardProps?.(card),
+        limitOverride: getDeckLimitOverride(
+          resolvedDeck,
+          data.cards[index].code,
+        ),
+        ownedCount: canCheckOwnerhip
+          ? cardOwnedCount(data.cards[index])
+          : undefined,
+      },
+      card,
       quantity: quantities
         ? (quantities[data.cards[index].code] ?? 0)
         : undefined,
-      renderCardAction: renderCardAction,
-      renderCardExtra: renderCardExtra,
-      renderCardMetaExtra: renderCardMetaExtra,
-      renderCardAfter: renderCardAfter,
+      currentTop,
+      index,
       resolvedDeck,
       viewMode,
     };

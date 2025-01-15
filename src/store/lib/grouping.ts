@@ -45,10 +45,22 @@ type Grouping<K extends Key = string> = {
   type: GroupingType;
 };
 
-type GroupingResult = {
+export type GroupingResult = {
   cards: Card[];
   key: string;
   type: string;
+};
+
+type GroupTreeEntry = {
+  key: string;
+  type: string;
+  count: number;
+  parent: string | null;
+};
+
+export type GroupedCards = {
+  data: GroupingResult[];
+  hierarchy: Record<string, GroupTreeEntry>;
 };
 
 function toGroupingResult<K extends Key>(
@@ -366,10 +378,12 @@ export function getGroupedCards(
   cards: Card[],
   sortFunction: SortFunction,
   metadata: Metadata,
-) {
+): GroupedCards {
   assert(groupings.length > 0, "At least one grouping needs to be provided.");
 
-  const groups = applyGrouping(cards, groupings[0], metadata);
+  const data = applyGrouping(cards, groupings[0], metadata);
+
+  const hierarchy: Record<string, GroupTreeEntry> = {};
 
   if (groupings.length > 1) {
     for (let i = 1; i < groupings.length; i++) {
@@ -377,26 +391,55 @@ export function getGroupedCards(
 
       let j = 0;
 
-      while (j < groups.length) {
-        const group = groups[j];
-        const newGroups = applyGrouping(group.cards, grouping, metadata);
+      while (j < data.length) {
+        const group = data[j];
 
-        for (const g of newGroups) {
+        const parent = group.key.includes("|")
+          ? group.key.split("|").slice(0, -1).join("|")
+          : null;
+
+        hierarchy[group.key] = {
+          key: group.key,
+          type: group.type,
+          count: group.cards.length,
+          parent,
+        };
+
+        const expanded = applyGrouping(group.cards, grouping, metadata);
+
+        for (const g of expanded) {
           g.key = `${group.key}|${g.key}`;
           g.type = `${group.type}|${g.type}`;
+
+          hierarchy[g.key] = {
+            key: g.key,
+            type: g.type,
+            count: g.cards.length,
+            parent: group.key,
+          };
         }
 
-        groups.splice(j, 1, ...newGroups);
-        j += newGroups.length;
+        data.splice(j, 1, ...expanded);
+
+        j += expanded.length;
       }
+    }
+  } else {
+    for (const group of data) {
+      hierarchy[group.key] = {
+        key: group.key,
+        type: group.type,
+        count: group.cards.length,
+        parent: null,
+      };
     }
   }
 
-  for (const group of groups) {
+  for (const group of data) {
     group.cards.sort(sortFunction);
   }
 
-  return groups;
+  return { data, hierarchy };
 }
 
 export function getGroupingKeyLabel(

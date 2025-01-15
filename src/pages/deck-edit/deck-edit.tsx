@@ -3,6 +3,7 @@ import { Attachments } from "@/components/attachments/attachments";
 import { CardListContainer } from "@/components/card-list/card-list-container";
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { CardRecommender } from "@/components/card-recommender/card-recommender";
+import { CoreCardCheckbox } from "@/components/card-recommender/core-card-checkbox";
 import { DeckTools } from "@/components/deck-tools/deck-tools";
 import { DecklistValidation } from "@/components/decklist/decklist-validation";
 import { Filters } from "@/components/filters/filters";
@@ -11,18 +12,21 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast.hooks";
 import { ListLayoutContextProvider } from "@/layouts/list-layout-context-provider";
 import { useStore } from "@/store";
-import type { ResolvedDeck } from "@/store/lib/types";
 import {
   selectDeckValid,
   selectResolvedDeckById,
 } from "@/store/selectors/decks";
 import type { Card } from "@/store/services/queries.types";
 import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
+import { isStaticInvestigator } from "@/utils/card-utils";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { useDocumentTitle } from "@/utils/use-document-title";
 import { useHotkey } from "@/utils/use-hotkey";
-import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
+import {
+  ResolvedDeckProvider,
+  useResolvedDeckChecked,
+} from "@/utils/use-resolved-deck";
 import {
   BookOpenTextIcon,
   ChartAreaIcon,
@@ -36,6 +40,7 @@ import { Error404 } from "../errors/404";
 import css from "./deck-edit.module.css";
 import { DrawBasicWeakness } from "./editor/draw-basic-weakness";
 import { Editor } from "./editor/editor";
+import { MoveToMainDeck } from "./editor/move-to-main-deck";
 import { NotesEditor } from "./editor/notes-editor";
 import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 
@@ -104,15 +109,20 @@ function DeckEdit() {
   if (!deck || !activeListId?.startsWith("editor")) return null;
 
   return (
-    <ResolvedDeckProvider canEdit resolvedDeck={deck}>
+    <ResolvedDeckProvider
+      canEdit={!isStaticInvestigator(deck.investigatorBack.card)}
+      resolvedDeck={deck}
+    >
       <CardModalProvider>
-        <DeckEditInner deck={deck} />
+        <DeckEditInner />
       </CardModalProvider>
     </ResolvedDeckProvider>
   );
 }
 
-function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
+function DeckEditInner() {
+  const { canEdit, resolvedDeck: deck } = useResolvedDeckChecked();
+
   useDocumentTitle(deck ? `Edit: ${deck.name}` : "");
 
   const [currentTab, setCurrentTab] = useState<Tab>("slots");
@@ -138,7 +148,7 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
 
     if (deck.hasExtraDeck) {
       tabs.push({
-        label: "Extra",
+        label: "Spirits",
         value: "extraSlots",
         type: "deck",
         hotkey: "d",
@@ -156,21 +166,6 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
 
     return tabs;
   }, [deck.hasExtraDeck]);
-
-  const renderCardExtra = useCallback(
-    (card: Card, quantity: number | undefined) => {
-      return card.code === SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS ? (
-        <DrawBasicWeakness
-          deckId={deck.id}
-          quantity={quantity}
-          targetDeck={mapTabToSlot(currentTab)}
-        />
-      ) : (
-        <Attachments card={card} resolvedDeck={deck} />
-      );
-    },
-    [deck, currentTab],
-  );
 
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
   const validation = useStore((state) => selectDeckValid(state, deck));
@@ -203,6 +198,71 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
   useHotkey("d", onCycleDeck);
   useHotkey("m", onSetMeta);
 
+  const renderCardExtraSlots = useCallback(
+    (card: Card, quantity: number | undefined) => {
+      return card.code === SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS ? (
+        <DrawBasicWeakness
+          deckId={deck.id}
+          quantity={quantity}
+          targetDeck={mapTabToSlot(currentTab)}
+        />
+      ) : (
+        <Attachments card={card} resolvedDeck={deck} />
+      );
+    },
+    [deck, currentTab],
+  );
+
+  const renderMoveToMainDeck = useMemo(
+    () =>
+      canEdit
+        ? (card: Card) =>
+            deck.sideSlots?.[card.code] ? (
+              <MoveToMainDeck card={card} deck={deck} />
+            ) : undefined
+        : undefined,
+    [deck, canEdit],
+  );
+
+  const renderCoreCardCheckbox = useMemo(
+    () =>
+      currentTool === "recommendations"
+        ? (card: Card) =>
+            card.xp == null ? (
+              <></>
+            ) : (
+              <CoreCardCheckbox card={card} deck={deck} />
+            )
+        : undefined,
+    [currentTool, deck],
+  );
+
+  const getListCardProps = useCallback(
+    (card: Card) => ({
+      onChangeCardQuantity:
+        canEdit || card.encounter_code || card.subtype_code
+          ? onChangeCardQuantity
+          : undefined,
+      renderCardBefore:
+        currentTool === "recommendations" ? renderCoreCardCheckbox : undefined,
+      renderCardExtra:
+        currentTab === "slots"
+          ? renderCardExtraSlots
+          : currentTab === "sideSlots"
+            ? renderMoveToMainDeck
+            : undefined,
+    }),
+    [
+      canEdit,
+      onChangeCardQuantity,
+      renderCardExtraSlots,
+      renderMoveToMainDeck,
+      currentTab,
+      currentTool,
+      renderCoreCardCheckbox,
+    ],
+  );
+
   return (
     <ListLayoutContextProvider>
       <ListLayout
@@ -219,9 +279,8 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
           <Editor
             currentTab={currentTab}
             currentTool={currentTool}
-            deck={deck}
             onTabChange={setCurrentTab}
-            renderCardExtra={renderCardExtra}
+            getListCardProps={getListCardProps}
             validation={validation}
             tabs={tabs}
           />
@@ -276,9 +335,8 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
             <TabsContent value="card-list" asChild>
               <CardListContainer
                 {...props}
-                onChangeCardQuantity={onChangeCardQuantity}
+                getListCardProps={getListCardProps}
                 quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
-                renderCardExtra={renderCardExtra}
                 targetDeck={
                   mapTabToSlot(currentTab) === "extraSlots"
                     ? "extraSlots"
@@ -295,9 +353,8 @@ function DeckEditInner({ deck }: { deck: ResolvedDeck }) {
             <TabsContent asChild value="recommendations">
               <CardRecommender
                 {...props}
-                onChangeCardQuantity={onChangeCardQuantity}
+                getListCardProps={getListCardProps}
                 quantities={deck[mapTabToSlot(currentTab)] ?? undefined}
-                renderCardExtra={renderCardExtra}
                 targetDeck={
                   mapTabToSlot(currentTab) === "extraSlots"
                     ? "extraSlots"

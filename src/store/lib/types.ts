@@ -15,7 +15,6 @@ import type {
 } from "../services/queries.types";
 import type { Deck } from "../slices/data.types";
 import type { AttachmentQuantities } from "../slices/deck-edits.types";
-import type { Groupings } from "./deck-grouping";
 
 export type SealedDeck = {
   name: string;
@@ -147,13 +146,11 @@ export type ResolvedDeck = Omit<Deck, "sideSlots"> & {
   attachments: AttachmentQuantities | undefined;
   availableAttachments: AttachableDefinition[];
   bondedSlots: Record<string, number>;
-  cardPool?: string[];
-  metaParsed: DeckMeta;
   sideSlots: Record<string, number> | null; // arkhamdb stores `[]` when empty, normalize to `null`.
   extraSlots: Record<string, number> | null;
   exileSlots: Record<string, number>;
-  customizations?: Customizations;
   cards: {
+    bondedSlots: Record<string, ResolvedCard>;
     exileSlots: Record<string, ResolvedCard>;
     extraSlots: Record<string, ResolvedCard>; // used by parallel jim.
     ignoreDeckLimitSlots: Record<string, ResolvedCard>;
@@ -161,7 +158,10 @@ export type ResolvedDeck = Omit<Deck, "sideSlots"> & {
     sideSlots: Record<string, ResolvedCard>;
     slots: Record<string, ResolvedCard>;
   };
-  groups: Groupings;
+
+  cardPool?: string[];
+  metaParsed: DeckMeta;
+  customizations?: Customizations;
   investigatorFront: CardWithRelations;
   investigatorBack: CardWithRelations;
   hasExtraDeck: boolean;

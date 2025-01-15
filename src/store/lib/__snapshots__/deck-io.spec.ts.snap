@@ -10,8 +10,8 @@ Taboo†: 2.1 (Aug 30, 2023)
 
 ## Deck
 
-**Asset**  
-_Hand_
+**Asset** (13)  
+_Hand_ (2)  
 - Alchemical Distillation (C) x2
   - Mending Distillate.
   - Calming Distillate.
@@ -19,12 +19,12 @@ _Hand_
   - Empowered.
   - Perfected.
 
-_Hand x2_
+_Hand x2_ (2)  
 - Runic Axe† (C) x2
   - Heirloom.
   - Inscription of Glory.
 
-_Arcane_
+_Arcane_ (4)  
 - Hunter's Armor (C) x2
   - Enchanted.
   - Durable.
@@ -34,20 +34,20 @@ _Arcane_
   - Claws that Catch.
   - Dominance. Choice: Ally
 
-_Body_
+_Body_ (2)  
 - Living Ink (C) x2
   - Chosen skill: Willpower
   - Shifting Ink.
   - Eldritch Ink. Choice: Intellect
   - Eldritch Ink. Choice: Agility
 
-_Other_
+_No Slot_ (3)  
 - Empirical Hypothesis (C) x2
   - Trial and Error.
   - Research Grant.
 - Hypnotic Therapy
 
-**Event**
+**Event** (7)  
 - Friends in Low Places (C) x2
   - Chosen Trait: Innate
   - Versatile. Choice: Illicit
@@ -60,15 +60,14 @@ _Other_
   - Spectral Binding.
   - Endless Inkwell. Choice: Abyssal Tome, Old Book of Lore
 
-**Skill**
+**Skill** (2)  
 - Grizzled (C) x2
   - Traits chosen: Innate, Expert
   - Specialist. Choice: Practiced
 
-**Treachery**
+**Treachery** (2)  
 - Random Basic Weakness
 - Rational Thought
-
 "
 `;
 
@@ -84,54 +83,52 @@ Taboo†: 2.0 (Aug 26, 2022)
 
 ## Deck
 
-**Asset**  
-_Hand_
+**Asset** (18)  
+_Hand_ (2)  
 - Fire Axe x2
 
-_Accessory_
+_Accessory_ (1)  
 - Hallowed Mirror
 
-_Ally_
+_Ally_ (6)  
 - Bonnie Walsh
 - Laboratory Assistant x2
 - Leo De Luca (1)
 - Michael Leigh (5)
 - Miss Doyle (1)
 
-_Ally. Arcane_
+_Ally. Arcane_ (2)  
 - Summoned Hound (1) x2
 
-_Other_
+_No Slot_ (4)  
 - Drawing Thin† x2
 - Safeguard (2) x2
 
-_Permanent_
+_Permanent_ (3)  
 - Charisma (3) x2
 - In the Thick of It
 
-**Event**
+**Event** (8)  
 - A Chance Encounter (2) x2
 - Calling in Favors x2
 - Gang Up (1) x2
 - Motivational Speech x2
 
-**Skill**
+**Skill** (8)  
 - Inspiring Presence x2
 - Strength in Numbers (1) x2
 - Take Heart x2
 - Vicious Blow x2
 
-**Treachery**
+**Treachery** (2)  
 - Burden of Leadership
 - Random Basic Weakness
 
-
 ## Side deck
 
-**Asset**  
-_Ally_
+**Asset** (1)  
+_Ally_ (1)  
 - The Black Cat (5)
-
 "
 `;
 
@@ -145,40 +142,40 @@ Experience: 0
 
 ## Deck
 
-**Asset**  
-_Hand_
+**Asset** (21)  
+_Hand_ (7)  
 - Gravedigger's Shovel x2
 - Hallowed Chalice
 - Jim's Trumpet
 - Knife
 - Ritual Candles x2
 
-_Accessory_
+_Accessory_ (1)  
 - Grisly Totem
 
-_Ally_
+_Ally_ (1)  
 - Sled Dog
 
-_Arcane_
+_Arcane_ (6)  
 - Armageddon
 - Clarity of Mind
 - Eye of Chaos
 - Obfuscation x2
 - Scrying
 
-_Hand. Arcane_
+_Hand. Arcane_ (1)  
 - Enchanted Blade
 
-_Other_
+_No Slot_ (3)  
 - Arcane Studies
 - Blood Pact
 - Forbidden Knowledge
 
-_Permanent_
+_Permanent_ (2)  
 - Down the Rabbit Hole
 - The Beyond
 
-**Event**
+**Event** (9)  
 - Delve Too Deep
 - Deny Existence
 - Drawn to the Flame
@@ -189,19 +186,18 @@ _Permanent_
 - Ward of Radiance
 - Waylay
 
-**Skill**
+**Skill** (3)  
 - Enraptured
 - Grizzled (C)
 - Reckless Assault
 
-**Treachery**
+**Treachery** (2)  
 - Final Rhapsody
 - Random Basic Weakness
-
 ## Spirits
 
-**Asset**  
-_Ally_
+**Asset** (9)  
+_Ally_ (9)  
 - Arcane Initiate
 - Beat Cop
 - Eldritch Sophist
@@ -212,8 +208,7 @@ _Ally_
 - Madame Labranche
 - Medical Student
 
-**Enemy**
+**Enemy** (1)  
 - Vengeful Shade
-
 "
 `;
