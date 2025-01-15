@@ -169,7 +169,10 @@ test.describe("deck view", () => {
 
     await page.getByTestId("card-modal").press("Escape");
 
-    await page.getByTestId("listcard-09021").click();
+    await page
+      .getByTestId("listcard-09021")
+      .getByTestId("listcard-title")
+      .click();
 
     const cardHealth = page
       .getByTestId("card-modal")
