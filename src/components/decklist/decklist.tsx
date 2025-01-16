@@ -1,4 +1,5 @@
 import { useStore } from "@/store";
+import { type DeckGrouping, countGroupRows } from "@/store/lib/deck-grouping";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { selectDeckGroups } from "@/store/selectors/decks";
 import type { Card } from "@/store/services/queries.types";
@@ -53,7 +54,11 @@ export function Decklist(props: Props) {
         {hasAdditional && (
           <div className={css["decklist-additional"]}>
             {groups.sideSlots && (
-              <DecklistSection title={LABELS["sideSlots"]} showTitle>
+              <DecklistSection
+                columns={getColumnMode(groups.sideSlots)}
+                showTitle
+                title={LABELS["sideSlots"]}
+              >
                 <DecklistGroup
                   deck={deck}
                   grouping={groups.sideSlots}
@@ -62,7 +67,11 @@ export function Decklist(props: Props) {
               </DecklistSection>
             )}
             {groups.bondedSlots && (
-              <DecklistSection title={LABELS["bondedSlots"]} showTitle>
+              <DecklistSection
+                columns={getColumnMode(groups.bondedSlots)}
+                title={LABELS["bondedSlots"]}
+                showTitle
+              >
                 <DecklistGroup
                   deck={deck}
                   grouping={groups.bondedSlots}
@@ -72,7 +81,11 @@ export function Decklist(props: Props) {
             )}
 
             {groups.extraSlots && (
-              <DecklistSection title={LABELS["extraSlots"]} showTitle>
+              <DecklistSection
+                columns={getColumnMode(groups.extraSlots)}
+                title={LABELS["extraSlots"]}
+                showTitle
+              >
                 <DecklistGroup
                   deck={deck}
                   grouping={groups.extraSlots}
@@ -85,4 +98,8 @@ export function Decklist(props: Props) {
       </div>
     </article>
   );
+}
+
+function getColumnMode(group: DeckGrouping) {
+  return countGroupRows(group) < 5 ? "single" : "auto";
 }

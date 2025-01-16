@@ -11,11 +11,11 @@
   margin-top: 0.5rem;
 }
 
-.decklist-section-content {
+.decklist-section-content.auto {
   column-width: 21.5rem;
   column-gap: 0.75rem;
 }
 
-.decklist-section-content > * {
+.decklist-section-content.auto > * {
   break-inside: avoid;
 }
