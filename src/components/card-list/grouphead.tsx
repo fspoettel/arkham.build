@@ -29,7 +29,6 @@ export function Grouphead(props: Props) {
           <GroupLabel
             // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
             key={i}
-            groupKey={grouping.key}
             metadata={metadata}
             segment={key}
             type={type}
@@ -42,7 +41,6 @@ export function Grouphead(props: Props) {
 
 type GroupLabelProps = {
   className?: string;
-  groupKey: string;
   metadata: Metadata;
   segment: string;
   slot?: React.ReactNode;
@@ -50,7 +48,7 @@ type GroupLabelProps = {
 };
 
 export function GroupLabel(props: GroupLabelProps) {
-  const { className, type, groupKey, segment, metadata } = props;
+  const { className, type, segment, metadata } = props;
 
   const keyLabel = getGroupingKeyLabel(type, segment, metadata);
   if (!keyLabel) return null;
@@ -85,9 +83,7 @@ export function GroupLabel(props: GroupLabelProps) {
 
   if (type === "slot") {
     if (segment === NONE) {
-      return groupKey.includes("asset") ? (
-        <span className={className}>{keyLabel}</span>
-      ) : null;
+      return <span className={className}>{keyLabel}</span>;
     }
 
     if (segment === "permanent") {

@@ -100,7 +100,6 @@ export function DecklistGroup(props: DecklistGroupsProps) {
                   type={parent.type.split("|").at(-1) as string}
                   segment={parent.key.split("|").at(-1) as string}
                   metadata={metadata}
-                  groupKey={parent.key}
                 />
                 <GroupQuantity quantity={quantities.get(parent.key) ?? 0} />
               </h2>
@@ -112,7 +111,6 @@ export function DecklistGroup(props: DecklistGroupsProps) {
                   type={group.type.split("|").at(-1) as string}
                   segment={group.key.split("|").at(-1) as string}
                   metadata={metadata}
-                  groupKey={group.key}
                 />
                 <GroupQuantity quantity={quantities.get(group.key) ?? 0} />
               </h3>

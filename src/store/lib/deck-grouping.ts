@@ -104,6 +104,7 @@ export function resolveQuantities(grouping: DeckGrouping) {
 
 export function isGroupCollapsed(group: GroupingResult) {
   return (
+    group.type.split("|").length > 1 &&
     group.type.endsWith("slot") &&
     group.key.endsWith(NONE) &&
     !group.key.includes("asset")
