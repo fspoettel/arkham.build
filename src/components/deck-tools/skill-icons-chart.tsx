@@ -1,4 +1,5 @@
 import type { ChartableData } from "@/store/lib/types";
+import { capitalize } from "@/utils/formatting";
 import { useRef } from "react";
 import {
   VictoryChart,
@@ -50,7 +51,7 @@ export function SkillIconsChart({ data }: Props) {
               labelComponent={
                 <VictoryTooltip
                   labelPlacement="vertical"
-                  flyoutWidth={100}
+                  flyoutWidth={120}
                   constrainToVisibleArea
                 />
               }
@@ -66,8 +67,12 @@ function formatTickLabels(value: string) {
   return value.replace("skill_", "");
 }
 
-function formatTooltips(value: { datum: { y: number } }) {
-  return `${value.datum.y} symbol${value.datum.y !== 1 ? "s" : ""}`;
+function formatTooltips(value: { datum: { xName: string; y: number } }) {
+  const { xName, y } = value.datum;
+
+  const skill = xName.replace("skill_", "");
+
+  return `${y} ${capitalize(skill)} icon${y !== 1 ? "s" : ""}`;
 }
 
 function SkillIconLabel(props: {
