@@ -105,7 +105,13 @@ export function DecklistGroup(props: DecklistGroupsProps) {
               </h2>
             ))}
             {!isGroupCollapsed(group) && (
-              <h3 className={css["subtitle"]}>
+              <h3
+                className={
+                  group.key.split("|").length === 1
+                    ? css["title"]
+                    : css["subtitle"]
+                }
+              >
                 <GroupLabel
                   className={css["label"]}
                   type={group.type.split("|").at(-1) as string}
