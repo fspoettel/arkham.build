@@ -2,8 +2,6 @@
 
 > [arkham.build](https://arkham.build) is a web-based deckbuilder for Arkham Horror: The Card Game™.
 
-🗺️ [Roadmap](https://github.com/users/fspoettel/projects/5)
-
 ## Metadata additions
 
 arkham.build extends the _arkhamdb deck schema_ with a few fields for additional functionality.
