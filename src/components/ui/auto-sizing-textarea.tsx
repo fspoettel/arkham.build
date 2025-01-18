@@ -1,10 +1,14 @@
 import { cx } from "@/utils/cx";
-import { useCallback, useEffect, useRef } from "react";
+import { mergeRefs } from "@/utils/merge-refs";
+import { forwardRef, useCallback, useEffect, useRef } from "react";
 import css from "./auto-sizing-textarea.module.css";
 
 type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-export function AutoSizingTextarea(props: TextareaProps) {
+export const AutoSizingTextarea = forwardRef(function AutoSizingTextarea(
+  props: TextareaProps,
+  forwardedRef: React.ForwardedRef<HTMLTextAreaElement>,
+) {
   const ref = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -30,7 +34,7 @@ export function AutoSizingTextarea(props: TextareaProps) {
       {...props}
       className={cx(css["textarea"], props.className)}
       onChange={onValueChange}
-      ref={ref}
+      ref={mergeRefs(ref, forwardedRef)}
     />
   );
-}
+});

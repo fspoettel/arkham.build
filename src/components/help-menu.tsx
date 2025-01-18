@@ -71,6 +71,7 @@ const SHORTCUTS: [string, { keybind: string; description: string }[]][] = [
   [
     "Card modal",
     [
+      { keybind: "a", description: "Edit annotation" },
       { keybind: "arrowright", description: "Increment deck quantity" },
       { keybind: "arrowleft", description: "Decrement deck quantity" },
       {

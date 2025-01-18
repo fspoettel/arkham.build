@@ -80,14 +80,18 @@ const TOOLTIP_OPTIONS = {
 };
 
 export function HotkeyTooltip(
-  props: Props & { children: DefaultTooltipProps["children"] },
+  props: Props & {
+    children: DefaultTooltipProps["children"];
+    paused?: DefaultTooltipProps["paused"];
+  },
 ) {
-  const { children, keybind, description, ...rest } = props;
+  const { children, keybind, description, paused, ...rest } = props;
 
   return (
     <DefaultTooltip
       tooltip={<Hotkey keybind={keybind} description={description} />}
       options={TOOLTIP_OPTIONS}
+      paused={paused}
     >
       {cloneElement(children as React.ReactElement, rest)}
     </DefaultTooltip>

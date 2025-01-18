@@ -90,14 +90,15 @@ export type DefaultTooltipProps = {
   children: NonNullable<Exclude<React.ReactNode, Iterable<React.ReactNode>>>;
   tooltip?: React.ReactNode;
   options?: TooltipOptions;
+  paused?: boolean;
 };
 
 export const DefaultTooltip = memo(function DefaultTooltip(
   props: DefaultTooltipProps,
 ) {
-  const { children, tooltip, options } = props;
+  const { children, options, paused, tooltip } = props;
 
-  if (!tooltip) {
+  if (!tooltip || paused) {
     return children;
   }
 
