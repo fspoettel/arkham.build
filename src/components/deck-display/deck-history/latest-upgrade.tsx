@@ -67,7 +67,7 @@ export function LatestUpgrade(props: Props) {
         deck.id,
         card.code,
         quantity,
-        card.deck_limit ?? card.quantity,
+        cardLimit(card),
         mapTabToSlot(currentTab),
         "increment",
       );

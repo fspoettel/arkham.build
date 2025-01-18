@@ -144,7 +144,7 @@ export function isStaticInvestigator(card: Card) {
 }
 
 export function cardLimit(card: Card, limitOverride?: number) {
-  return limitOverride ?? card.deck_limit ?? card.quantity;
+  return limitOverride ?? card.deck_limit ?? 0;
 }
 
 export function cardUses(card: Card) {

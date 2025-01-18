@@ -1,6 +1,6 @@
 import { applyTaboo } from "@/store/lib/card-edits";
 import type { Card } from "@/store/services/queries.types";
-import { cardUses, splitMultiValue } from "@/utils/card-utils";
+import { cardLimit, cardUses, splitMultiValue } from "@/utils/card-utils";
 import {
   ACTION_TEXT_ENTRIES,
   REGEX_BONDED,
@@ -317,7 +317,7 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
           if (card.parallel) {
             setInLookupTable(card.code, tables.relations.parallelCards, key);
             // Kate has bonded cards restricted to her, these should not be part of the deck.
-          } else if (!card.real_text?.startsWith("Bonded")) {
+          } else if (cardLimit(card) > 0) {
             // TECH-DEBT
             // It should not be required to add cards to "requiredCards" here,
             // as resolving the relation "the other way around" should be enough/

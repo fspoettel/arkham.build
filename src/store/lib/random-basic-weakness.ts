@@ -1,3 +1,4 @@
+import { cardLimit } from "@/utils/card-utils";
 import {
   REGEX_WEAKNESS_FACTION_LOCKED,
   SPECIAL_CARD_CODES,
@@ -46,7 +47,7 @@ export function randomBasicWeaknessForDeck(
       card.code === SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS ||
       !!card.duplicate_of_code ||
       ownedCount === 0 ||
-      deck.slots[code] >= (card.deck_limit ?? card.quantity)
+      deck.slots[code] >= cardLimit(card)
     ) {
       return acc;
     }

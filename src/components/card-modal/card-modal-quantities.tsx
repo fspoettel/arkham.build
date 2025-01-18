@@ -3,6 +3,7 @@ import { getDeckLimitOverride } from "@/store/lib/resolve-deck";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import type { Slot } from "@/store/slices/deck-edits.types";
+import { cardLimit } from "@/utils/card-utils";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { inputFocused } from "@/utils/keyboard";
 import { useEffect } from "react";
@@ -62,8 +63,7 @@ export function CardModalQuantities(props: Props) {
 
   const code = card.code;
 
-  const limit =
-    getDeckLimitOverride(deck, card.code) ?? card.deck_limit ?? card.quantity;
+  const limit = getDeckLimitOverride(deck, card.code) ?? cardLimit(card);
 
   const isBonded = !!bondedSlotQuantities?.[code];
 

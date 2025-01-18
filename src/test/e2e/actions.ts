@@ -107,3 +107,22 @@ export async function fillSearch(page: Page, text: string) {
   await page.getByTestId("search-input").fill(text);
   await page.waitForTimeout(150);
 }
+
+export function assertEditorDeckQuantity(
+  page: Page,
+  code: string,
+  quantity: number,
+) {
+  if (quantity === 0) {
+    return expect(
+      page.getByTestId("editor").getByTestId(`listcard-${code}`),
+    ).not.toBeVisible();
+  }
+
+  return expect(
+    page
+      .getByTestId("editor")
+      .getByTestId(`listcard-${code}`)
+      .getByTestId("quantity-value"),
+  ).toContainText(`${quantity}`);
+}

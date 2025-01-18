@@ -1,6 +1,7 @@
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
+import { cardLimit } from "@/utils/card-utils";
 import type { AttachableDefinition } from "@/utils/constants";
 import { useResolvedDeckChecked } from "@/utils/use-resolved-deck";
 import { useMemo } from "react";
@@ -13,7 +14,7 @@ export function canAttach(card: Card, definition: AttachableDefinition) {
 }
 
 function attachmentLimit(card: Card, quantityInDeck: number) {
-  return Math.min(quantityInDeck, card.deck_limit ?? card.quantity);
+  return Math.min(quantityInDeck, cardLimit(card));
 }
 
 export function attachmentDefinitionLimit(
