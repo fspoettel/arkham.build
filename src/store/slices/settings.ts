@@ -25,7 +25,7 @@ const INVESTIGATOR_DEFAULTS: ListConfig = {
   viewMode: "compact",
 };
 
-const DECK_DEFAULTS: ListConfig = {
+export const DECK_DEFAULTS: ListConfig = {
   group: ["type", "slot"],
   sort: ["name", "level"],
   viewMode: "compact",

@@ -589,12 +589,14 @@ export const selectListCards = createSelector(
     const groups: CardGroup[] = [];
     const groupCounts: number[] = [];
 
-    for (const group of getGroupedCards(
+    const groupedCards = getGroupedCards(
       activeList.display.grouping,
       filteredCards,
       makeSortFunction(activeList.display.sorting, metadata),
       metadata,
-    )) {
+    );
+
+    for (const group of groupedCards.data) {
       cards.push(...group.cards);
 
       groups.push({

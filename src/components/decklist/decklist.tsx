@@ -1,9 +1,11 @@
-import type { NamedGrouping } from "@/store/lib/deck-grouping";
+import { useStore } from "@/store";
+import { type DeckGrouping, countGroupRows } from "@/store/lib/deck-grouping";
 import type { ResolvedDeck } from "@/store/lib/types";
+import { selectDeckGroups } from "@/store/selectors/decks";
 import type { Card } from "@/store/services/queries.types";
 import { useCallback } from "react";
 import { Attachments } from "../attachments/attachments";
-import { DecklistGroups } from "./decklist-groups";
+import { DecklistGroup } from "./decklist-groups";
 import { DecklistSection } from "./decklist-section";
 import css from "./decklist.module.css";
 
@@ -18,62 +20,86 @@ type Props = {
   deck: ResolvedDeck;
 };
 
-function getSlotsForGrouping(deck: ResolvedDeck, grouping: NamedGrouping) {
-  if (grouping.id === "sideSlots") return deck.sideSlots ?? undefined;
-  if (grouping.id === "extraSlots") return deck.extraSlots ?? undefined;
-  if (grouping.id === "bondedSlots") return deck.bondedSlots;
-  return deck.slots;
-}
-
 export function Decklist(props: Props) {
   const { deck } = props;
-  const cols = [
-    deck.groups.sideSlots,
-    deck.groups.extraSlots,
-    deck.groups.bondedSlots,
-  ]
-    .filter((col) => !!col)
-    .map(
-      (col) =>
-        col && (
-          <DecklistSection showTitle title={LABELS[col.id]}>
-            <DecklistGroups
-              group={col.data}
-              layout="one_column"
-              mapping={col.id}
-              quantities={getSlotsForGrouping(deck, col)}
-            />
-          </DecklistSection>
-        ),
-    );
+
+  const groups = useStore((state) => selectDeckGroups(state, deck));
 
   const renderCardExtra = useCallback(
     (card: Card) => <Attachments card={card} resolvedDeck={deck} />,
     [deck],
   );
 
+  const getListCardProps = useCallback(
+    () => ({ renderCardExtra }),
+    [renderCardExtra],
+  );
+
+  const hasAdditional =
+    groups.bondedSlots || groups.extraSlots || groups.sideSlots;
+
   return (
     <article className={css["decklist-container"]} data-testid="view-decklist">
       <div className={css["decklist"]}>
-        <DecklistSection title={LABELS["main"]}>
-          <DecklistGroups
-            group={deck.groups.slots.data}
-            ignoredCounts={deck.ignoreDeckLimitSlots ?? undefined}
-            layout="two_column"
-            mapping="slots"
-            quantities={deck.slots}
-            renderCardExtra={renderCardExtra}
-          />
-        </DecklistSection>
+        {groups.slots && (
+          <DecklistSection title={LABELS["main"]}>
+            <DecklistGroup
+              deck={deck}
+              grouping={groups.slots}
+              getListCardProps={getListCardProps}
+            />
+          </DecklistSection>
+        )}
 
-        <div className={css["decklist-row"]}>
-          <div>
-            {cols[0]}
-            {cols[2]}
+        {hasAdditional && (
+          <div className={css["decklist-additional"]}>
+            {groups.sideSlots && (
+              <DecklistSection
+                columns={getColumnMode(groups.sideSlots)}
+                showTitle
+                title={LABELS["sideSlots"]}
+              >
+                <DecklistGroup
+                  deck={deck}
+                  grouping={groups.sideSlots}
+                  getListCardProps={getListCardProps}
+                />
+              </DecklistSection>
+            )}
+            {groups.bondedSlots && (
+              <DecklistSection
+                columns={getColumnMode(groups.bondedSlots)}
+                title={LABELS["bondedSlots"]}
+                showTitle
+              >
+                <DecklistGroup
+                  deck={deck}
+                  grouping={groups.bondedSlots}
+                  getListCardProps={getListCardProps}
+                />
+              </DecklistSection>
+            )}
+
+            {groups.extraSlots && (
+              <DecklistSection
+                columns={getColumnMode(groups.extraSlots)}
+                title={LABELS["extraSlots"]}
+                showTitle
+              >
+                <DecklistGroup
+                  deck={deck}
+                  grouping={groups.extraSlots}
+                  getListCardProps={getListCardProps}
+                />
+              </DecklistSection>
+            )}
           </div>
-          <div>{cols[1]}</div>
-        </div>
+        )}
       </div>
     </article>
   );
+}
+
+function getColumnMode(group: DeckGrouping) {
+  return countGroupRows(group) < 5 ? "single" : "auto";
 }

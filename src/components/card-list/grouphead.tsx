@@ -1,11 +1,12 @@
 import { NONE, getGroupingKeyLabel } from "@/store/lib/grouping";
 import type { CardGroup } from "@/store/selectors/lists";
 import type { Metadata } from "@/store/slices/metadata.types";
+import { splitMultiValue } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
-import { CardSlots } from "../card-slots";
 import EncounterIcon from "../icons/encounter-icon";
 import { FactionIcon } from "../icons/faction-icon";
 import PackIcon from "../icons/pack-icon";
+import SlotIcon from "../icons/slot-icon";
 import css from "./grouphead.module.css";
 
 type Props = {
@@ -24,85 +25,98 @@ export function Grouphead(props: Props) {
     <h3 className={cx(css["grouphead"], variant && css[variant], className)}>
       {keys.map((key, i) => {
         const type = types[i];
-        const keyLabel = getGroupingKeyLabel(type, key, metadata);
-
-        if (!keyLabel) return null;
-
-        if (
-          type === "subtype" ||
-          type === "type" ||
-          type === "level" ||
-          type === "cost" ||
-          type === "base_upgrades"
-        ) {
-          // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
-          return <span key={i}>{keyLabel}</span>;
-        }
-
-        if (type === "cycle") {
-          return (
+        return (
+          <GroupLabel
             // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
-            <span key={i}>
-              <PackIcon className={css["icon"]} code={key} />
-              <span>{keyLabel}</span>
-            </span>
-          );
-        }
-
-        if (type === "encounter_set") {
-          return (
-            // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
-            <span key={i}>
-              <EncounterIcon className={css["icon"]} code={key} />
-              <span>{keyLabel}</span>
-            </span>
-          );
-        }
-
-        if (type === "slot") {
-          if (key === NONE) {
-            return grouping.key.includes("asset") ? (
-              // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
-              <span key={i}>{keyLabel}</span>
-            ) : null;
-          }
-
-          if (key === "permanent") {
-            // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
-            return <span key={i}>{keyLabel}</span>;
-          }
-
-          return (
-            // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
-            <span key={i}>
-              <CardSlots className={css["icon"]} size="small" slot={key} />
-              <span>{keyLabel}</span>
-            </span>
-          );
-        }
-
-        if (type === "faction") {
-          return (
-            // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
-            <span key={i}>
-              <FactionIcon className={css["icon"]} code={key} />
-              <span>{keyLabel}</span>
-            </span>
-          );
-        }
-
-        if (type === "pack") {
-          return (
-            // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
-            <span key={i}>
-              <PackIcon className={css["icon"]} code={key} />
-              <span>{keyLabel}</span>
-            </span>
-          );
-        }
-
-        return null;
+            key={i}
+            metadata={metadata}
+            segment={key}
+            type={type}
+          />
+        );
       })}
     </h3>
   );
+}
+
+type GroupLabelProps = {
+  className?: string;
+  metadata: Metadata;
+  segment: string;
+  slot?: React.ReactNode;
+  type: string;
+};
+
+export function GroupLabel(props: GroupLabelProps) {
+  const { className, type, segment, metadata } = props;
+
+  const keyLabel = getGroupingKeyLabel(type, segment, metadata);
+  if (!keyLabel) return null;
+
+  if (
+    type === "subtype" ||
+    type === "type" ||
+    type === "level" ||
+    type === "cost" ||
+    type === "base_upgrades"
+  ) {
+    return <span>{keyLabel}</span>;
+  }
+
+  if (type === "cycle") {
+    return (
+      <span className={className}>
+        <PackIcon className={css["icon"]} code={segment} />
+        <span>{keyLabel}</span>
+      </span>
+    );
+  }
+
+  if (type === "encounter_set") {
+    return (
+      <span className={className}>
+        <EncounterIcon className={css["icon"]} code={segment} />
+        <span>{keyLabel}</span>
+      </span>
+    );
+  }
+
+  if (type === "slot") {
+    if (segment === NONE) {
+      return <span className={className}>{keyLabel}</span>;
+    }
+
+    if (segment === "permanent") {
+      return <span className={className}>{keyLabel}</span>;
+    }
+
+    return (
+      <span className={className}>
+        {splitMultiValue(segment).map((slot) => (
+          <SlotIcon key={slot} code={slot} />
+        ))}
+        <span>{keyLabel}</span>
+      </span>
+    );
+  }
+
+  if (type === "faction") {
+    return (
+      <span className={className}>
+        <FactionIcon className={css["icon"]} code={segment} />
+        <span>{keyLabel}</span>
+      </span>
+    );
+  }
+
+  if (type === "pack") {
+    return (
+      <span className={className}>
+        <PackIcon className={css["icon"]} code={segment} />
+        <span>{keyLabel}</span>
+      </span>
+    );
+  }
+
+  return null;
 }

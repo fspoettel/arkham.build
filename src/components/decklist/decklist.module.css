@@ -13,29 +13,9 @@
   gap: 0.75rem;
 }
 
-/* HACK: clean up selectors. */
-.decklist-row {
-  display: flex;
-  flex-flow: row wrap;
-  gap: 0.75rem;
+.decklist-additional {
+  border: 1px solid var(--palette-1);
   width: 100%;
-}
-
-.decklist-row > * {
-  flex: 1 1 calc(100% - 0.75rem);
-
-  @container (min-width: 36rem) {
-    flex: 0 1 calc(50% - 0.75rem);
-  }
-}
-
-.decklist-row > * > * {
-  border: 1px solid var(--palette-point-five);
+  padding: 0.75rem;
   border-radius: var(--rounded);
-  padding: 0.5rem;
-  width: 100%;
-}
-
-.decklist-row > * > * + * {
-  margin-top: 0.5rem;
 }

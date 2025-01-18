@@ -11,7 +11,7 @@ import type { Card } from "@/store/services/queries.types";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { useDocumentTitle } from "@/utils/use-document-title";
 import { CirclePlusIcon } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { Link } from "wouter";
 import css from "./choose-investigator.module.css";
 import { SignatureLink } from "./signature-link";
@@ -31,23 +31,29 @@ function DeckCreateChooseInvestigator() {
     setActiveList("create_deck");
   }, [setActiveList]);
 
+  const getListCardProps = useCallback(
+    () => ({
+      renderCardAction: (card: Card) => <ChooseInvestigatorLink card={card} />,
+      renderCardMetaExtra:
+        activeList?.display.viewMode === "compact"
+          ? (card: Card) => (
+              <p className={css["traits"]}>&middot; {card.real_traits}</p>
+            )
+          : undefined,
+      renderCardAfter: (card: Card) => (
+        <ListcardExtra code={card.code} cardResolver={cardResolver} />
+      ),
+      size: "investigator" as const,
+    }),
+    [activeList?.display.viewMode, cardResolver],
+  );
+
   if (activeListId !== "create_deck") return null;
 
   return (
     <ListLayoutContextProvider>
       <ListLayoutNoSidebar
-        renderCardAction={(card) => <ChooseInvestigatorLink card={card} />}
-        renderCardMetaExtra={
-          activeList?.display.viewMode === "compact"
-            ? (card) => (
-                <p className={css["traits"]}>&middot; {card.real_traits}</p>
-              )
-            : undefined
-        }
-        renderCardAfter={({ code }) => (
-          <ListcardExtra code={code} cardResolver={cardResolver} />
-        )}
-        itemSize="investigator"
+        getListCardProps={getListCardProps}
         titleString="Choose investigator"
       />
     </ListLayoutContextProvider>

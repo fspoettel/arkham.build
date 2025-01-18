@@ -4,6 +4,7 @@ import { time, timeEnd } from "@/utils/time";
 import { createSelector } from "reselect";
 import { applyCardChanges } from "../lib/card-edits";
 import { applyDeckEdits } from "../lib/deck-edits";
+import { groupDeckCards } from "../lib/deck-grouping";
 import { type UpgradeStats, getUpgradeStats } from "../lib/deck-upgrades";
 import { type ForbiddenCardError, validateDeck } from "../lib/deck-validation";
 import { limitedSlotOccupation } from "../lib/limited-slots";
@@ -288,4 +289,12 @@ export const selectLimitedSlotOccupation = createSelector(
     timeEnd("limited_slot_occupation");
     return value;
   },
+);
+
+export const selectDeckGroups = createSelector(
+  (state: StoreState) => state.metadata,
+  (state: StoreState) => state.settings,
+  (_: StoreState, deck: ResolvedDeck) => deck,
+  (metadata, settings, deck) =>
+    groupDeckCards(metadata, settings.lists.deck, deck),
 );

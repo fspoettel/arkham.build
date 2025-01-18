@@ -6,7 +6,11 @@ import {
   PLAYER_GROUPING_TYPES,
 } from "@/store/lib/grouping";
 import { SORTING_TYPES } from "@/store/lib/sorting";
-import { ENCOUNTER_DEFAULTS, PLAYER_DEFAULTS } from "@/store/slices/settings";
+import {
+  DECK_DEFAULTS,
+  ENCOUNTER_DEFAULTS,
+  PLAYER_DEFAULTS,
+} from "@/store/slices/settings";
 import type { SettingsState } from "@/store/slices/settings.types";
 import { formatGroupingType } from "@/utils/formatting";
 import type React from "react";
@@ -30,6 +34,10 @@ function getGroupItemsForList(listKey: keyof SettingsState["lists"]) {
 function getDefaultsForList(listKey: keyof SettingsState["lists"]) {
   if (listKey === "encounter") {
     return structuredClone(ENCOUNTER_DEFAULTS);
+  }
+
+  if (listKey === "deck") {
+    return structuredClone(DECK_DEFAULTS);
   }
 
   return structuredClone(PLAYER_DEFAULTS);
