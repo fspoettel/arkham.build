@@ -192,7 +192,10 @@ export function ListCardInner(props: Props) {
                         )
                       }
                     >
-                      <span className={css["ownership"]}>
+                      <span
+                        className={css["ownership"]}
+                        data-testid="ownership"
+                      >
                         <FileWarningIcon />
                       </span>
                     </DefaultTooltip>

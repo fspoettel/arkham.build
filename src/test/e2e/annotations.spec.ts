@@ -13,14 +13,30 @@ test.beforeEach(async ({ page }) => {
     .getByTestId("listcard-01087")
     .getByTestId("listcard-title")
     .click();
+
   await page
     .getByTestId("annotation-edit")
     .fill("Good card, upgrades into [Flashlight (2)](09122).");
+
   await page.getByTestId("annotation-edit").press("Escape");
   await page.getByTestId("editor-save").click();
 });
 
 test.describe("annotations", () => {
+  test("display annotation in editor", async ({ page }) => {
+    await page.getByTestId("view-edit").click();
+    await expect(
+      page.getByTestId("annotation-indicator").locator("path"),
+    ).toBeVisible();
+    await page
+      .getByTestId("listcard-01087")
+      .getByTestId("listcard-title")
+      .click();
+    await expect(page.getByTestId("annotation-edit")).toHaveValue(
+      "Good card, upgrades into [Flashlight (2)](09122).",
+    );
+  });
+
   test("display annotation in deck list", async ({ page }) => {
     await expect(
       page.getByTestId("listcard-01087").getByTestId("annotation-indicator"),

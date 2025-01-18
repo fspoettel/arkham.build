@@ -1,5 +1,10 @@
 import test, { type Page, expect } from "@playwright/test";
-import { fillSearch, importDeckFromFile } from "./actions";
+import {
+  adjustListCardQuantity,
+  assertEditorDeckQuantity,
+  fillSearch,
+  importDeckFromFile,
+} from "./actions";
 import { mockApiCalls } from "./mocks";
 
 test.beforeEach(async ({ page }) => {
@@ -23,18 +28,143 @@ async function sumCardCounts(page: Page) {
 }
 
 test.describe("deck edit", () => {
-  test("draw random basic weakness", async ({ page }) => {
-    await page.goto("/");
+  test("add card to deck", async ({ page }) => {
+    await page.goto("/deck/create/01001");
+    await page.getByTestId("create-save").click();
+    await fillSearch(page, ".45 automatic");
+    await adjustListCardQuantity(page, "01016", "increment");
+    await adjustListCardQuantity(page, "01016", "increment");
+    await assertEditorDeckQuantity(page, "01016", 2);
+  });
 
-    await page.getByTestId("collection-create-deck").click();
+  test("add card with bonds", async ({ page }) => {
+    await page.goto("/deck/create/01001");
+    await page.getByTestId("create-save").click();
+    await fillSearch(page, "hallowed mirror");
+    await adjustListCardQuantity(page, "05313", "increment");
+    await assertEditorDeckQuantity(page, "05313", 1);
+    await assertEditorDeckQuantity(page, "05314", 3);
+    await expect(
+      page
+        .getByTestId("editor")
+        .getByTestId("listcard-05314")
+        .getByTestId("quantity-increment"),
+    ).not.toBeVisible();
+  });
 
-    await fillSearch(page, "subject");
+  test("add card to side deck", async ({ page }) => {
+    await page.goto("/deck/create/01001");
+    await page.getByTestId("create-save").click();
+    await fillSearch(page, ".45 automatic");
+    await page.getByTestId("editor-tab-sideslots").click();
+    await adjustListCardQuantity(page, "01016", "increment");
+    await adjustListCardQuantity(page, "01016", "increment");
+    await assertEditorDeckQuantity(page, "01016", 2);
+    await page.getByTestId("editor-tab-slots").click();
+    await assertEditorDeckQuantity(page, "01016", 0);
+  });
+
+  test("remove card from deck", async ({ page }) => {
+    await page.goto("/deck/create/01001");
+    await page.getByTestId("create-save").click();
+    await fillSearch(page, ".45 automatic");
+    await adjustListCardQuantity(page, "01016", "increment");
+    await adjustListCardQuantity(page, "01016", "increment");
+    await page.getByTestId("editor-save").click();
+    await page.getByTestId("view-edit").click();
+    await adjustListCardQuantity(page, "01016", "decrement");
+    await adjustListCardQuantity(page, "01016", "decrement");
+    await page.getByTestId("editor-save").click();
+    await page.getByTestId("view-edit").click();
+    await assertEditorDeckQuantity(page, "01016", 0);
+  });
+
+  test("remove card from side deck", async ({ page }) => {
+    await page.goto("/deck/create/01001");
+    await page.getByTestId("create-save").click();
+    await fillSearch(page, ".45 automatic");
+    await page.getByTestId("editor-tab-sideslots").click();
+    await adjustListCardQuantity(page, "01016", "increment");
+    await adjustListCardQuantity(page, "01016", "increment");
+    await page.getByTestId("editor-save").click();
+    await page.getByTestId("view-edit").click();
+    await page.getByTestId("editor-tab-sideslots").click();
+    await adjustListCardQuantity(page, "01016", "decrement");
+    await adjustListCardQuantity(page, "01016", "decrement");
+    await page.getByTestId("editor-save").click();
+    await page.getByTestId("view-edit").click();
+    await page.getByTestId("editor-tab-sideslots").click();
+    await expect(page.getByText("Side deck is empty.")).toBeVisible();
+  });
+
+  test("ignore card deck limit", async ({ page }) => {
+    await page.goto("/deck/create/01004");
+    await page.getByTestId("create-investigator-back").selectOption("90017");
+    await page.getByTestId("create-save").click();
+    await fillSearch(page, "shrivelling");
+    await adjustListCardQuantity(page, "01060", "increment");
+    await adjustListCardQuantity(page, "01060", "increment");
+    await adjustListCardQuantity(page, "02154", "increment");
+    await adjustListCardQuantity(page, "02154", "increment");
+    await page
+      .getByTestId("editor-tabs-slots")
+      .getByTestId("listcard-01060")
+      .getByTestId("listcard-title")
+      .click();
+    await page
+      .getByTestId("card-modal-quantities-ignored")
+      .getByTestId("quantity-increment")
+      .click();
+    await page
+      .getByTestId("card-modal-quantities-ignored")
+      .getByTestId("quantity-increment")
+      .click();
+    await page.locator("body").press("Escape");
+    await expect(
+      page
+        .getByTestId("editor")
+        .getByTestId("listcard-01060")
+        .getByTestId("listcard-ignored"),
+    ).toBeVisible();
+    await expect(page.getByTestId("deck-summary-size")).toContainText("2 (7)");
+  });
+
+  test("move card to main deck", async ({ page }) => {
+    await importDeckFromFile(page, "validation/honed_instinct_valid.json", {
+      navigate: "edit",
+    });
+
+    await expect(
+      page.getByTestId("editor-tabs-slots").getByTestId("listcard-02229"),
+    ).not.toBeVisible();
+
+    await page.getByTestId("editor-tab-sideslots").click();
+
+    await fillSearch(page, "quick thinking");
 
     await page
-      .getByTestId("listcard-89001")
-      .getByTestId("create-choose-investigator")
+      .getByTestId("listcard-02229")
+      .getByTestId("quantity-increment")
       .click();
+    await page
+      .getByTestId("virtuoso-item-list")
+      .getByTestId("listcard-02229")
+      .getByTestId("quantity-increment")
+      .dblclick();
+    await page.getByTestId("editor").getByTestId("editor-move-to-main").click();
+    await page.getByTestId("editor").getByTestId("editor-move-to-main").click();
 
+    await page.getByTestId("editor-tab-slots").click();
+    await expect(
+      page
+        .getByTestId("editor-tabs-slots")
+        .getByTestId("listcard-02229")
+        .getByTestId("quantity-value"),
+    ).toContainText("2");
+  });
+
+  test("draw random basic weakness", async ({ page }) => {
+    await page.goto("/deck/create/89001");
     await page.getByTestId("create-save").click();
 
     await expect(page.getByTestId("editor-tabs-slots")).toBeVisible();
@@ -94,40 +224,6 @@ test.describe("deck edit", () => {
       .click();
 
     await expect(page.getByTestId("decklist-validation")).not.toBeVisible();
-  });
-
-  test("move to main deck", async ({ page }) => {
-    await importDeckFromFile(page, "validation/honed_instinct_valid.json", {
-      navigate: "edit",
-    });
-
-    await expect(
-      page.getByTestId("editor-tabs-slots").getByTestId("listcard-02229"),
-    ).not.toBeVisible();
-
-    await page.getByTestId("editor-tab-sideslots").click();
-
-    await fillSearch(page, "quick thinking");
-
-    await page
-      .getByTestId("listcard-02229")
-      .getByTestId("quantity-increment")
-      .click();
-    await page
-      .getByTestId("virtuoso-item-list")
-      .getByTestId("listcard-02229")
-      .getByTestId("quantity-increment")
-      .dblclick();
-    await page.getByTestId("editor").getByTestId("editor-move-to-main").click();
-    await page.getByTestId("editor").getByTestId("editor-move-to-main").click();
-
-    await page.getByTestId("editor-tab-slots").click();
-    await expect(
-      page
-        .getByTestId("editor-tabs-slots")
-        .getByTestId("listcard-02229")
-        .getByTestId("quantity-value"),
-    ).toContainText("2");
   });
 
   test("transformed investigators", async ({ page }) => {
@@ -497,5 +593,33 @@ test.describe("deck edit", () => {
     await page.locator("body").press("Escape");
 
     await page.getByTestId("editor-save").click();
+  });
+
+  test("shows card ownership", async ({ page }) => {
+    await page.goto("/settings");
+    await page.getByTestId("tab-collection").click();
+    await page.getByTestId("settings-show-all").click();
+    await page.getByLabel("Core Set", { exact: true }).click();
+    await page.getByLabel("Core Set", { exact: true }).fill("1");
+    await page.getByTestId("settings-save").click();
+    await page.goto("/deck/create/01001");
+    await page.getByTestId("create-save").click();
+    await fillSearch(page, ".45 automatic");
+    await adjustListCardQuantity(page, "01016", "increment");
+    await expect(
+      page
+        .getByTestId("editor-tabs-slots")
+        .getByTestId("listcard-01016")
+        .getByTestId("ownership"),
+    ).not.toBeVisible();
+
+    await adjustListCardQuantity(page, "01016", "increment");
+
+    await expect(
+      page
+        .getByTestId("editor-tabs-slots")
+        .getByTestId("listcard-01016")
+        .getByTestId("ownership"),
+    ).toBeVisible();
   });
 });
