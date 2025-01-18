@@ -21,6 +21,8 @@ import type { SettingProps } from "./types";
 type Props = SettingProps & {
   listKey: keyof SettingsState["lists"];
   title: React.ReactNode;
+  disabledSortings?: string[];
+  disabledGroupings?: string[];
 };
 
 function getGroupItemsForList(listKey: keyof SettingsState["lists"]) {
@@ -28,7 +30,23 @@ function getGroupItemsForList(listKey: keyof SettingsState["lists"]) {
     return [...ENCOUNTER_GROUPING_TYPES];
   }
 
+  if (listKey === "investigator") {
+    return ["cycle", "faction"];
+  }
+
   return [...PLAYER_GROUPING_TYPES];
+}
+
+function getSortItemsForList(listKey: keyof SettingsState["lists"]) {
+  if (listKey === "investigator") {
+    return ["cycle", "faction", "name", "position"];
+  }
+
+  if (listKey === "encounter") {
+    return [...SORTING_TYPES].filter((x) => x !== "level");
+  }
+
+  return [...SORTING_TYPES];
 }
 
 function getDefaultsForList(listKey: keyof SettingsState["lists"]) {
@@ -83,7 +101,7 @@ export function ListSettings(props: Props) {
       />
       <ListSettingsList
         activeItems={settings.lists[listKey].sort}
-        items={SORTING_TYPES}
+        items={getSortItemsForList(listKey)}
         listKey={listKey}
         subKey="sort"
         updateSettings={updateSettings}

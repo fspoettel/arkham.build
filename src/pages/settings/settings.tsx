@@ -131,6 +131,12 @@ function Settings() {
                     settings={settings}
                     updateSettings={updateSettings}
                   />
+                  <ListSettings
+                    listKey="investigator"
+                    title="Choose investigator"
+                    settings={settings}
+                    updateSettings={updateSettings}
+                  />
                 </div>
               </Section>
             </TabsContent>

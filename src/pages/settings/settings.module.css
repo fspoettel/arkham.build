@@ -109,6 +109,10 @@
   gap: 0.25rem;
 }
 
+.list-title {
+  font-size: var(--text-lg);
+}
+
 .list-group-title {
   font-size: var(--text-base);
 }
