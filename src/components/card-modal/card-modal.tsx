@@ -77,6 +77,24 @@ export function CardModal(props: Props) {
         className={css["card"]}
         resolvedCard={cardWithRelations}
         size={canRenderFull ? "full" : "compact"}
+        slotCardFooter={
+          !!ctx.resolvedDeck &&
+          (canEdit ? (
+            <div className={css["related"]}>
+              <AnnotationEdit
+                cardCode={cardWithRelations.card.code}
+                deckId={ctx.resolvedDeck.id}
+                text={annotation}
+              />
+            </div>
+          ) : (
+            annotation && (
+              <div className={css["related"]}>
+                <Annotation content={annotation} />
+              </div>
+            )
+          ))
+        }
       >
         {ctx.resolvedDeck && !!attachableDefinition && (
           <AttachableCards
@@ -98,22 +116,6 @@ export function CardModal(props: Props) {
           )
         ) : undefined}
       </Card>
-      {!!ctx.resolvedDeck &&
-        (canEdit ? (
-          <div className={css["related"]}>
-            <AnnotationEdit
-              cardCode={cardWithRelations.card.code}
-              deckId={ctx.resolvedDeck.id}
-              text={annotation}
-            />
-          </div>
-        ) : (
-          annotation && (
-            <div className={css["related"]}>
-              <Annotation content={annotation} />
-            </div>
-          )
-        ))}
       {!!related.length && (
         <div className={css["related"]}>
           {related.map(([key, value]) => {

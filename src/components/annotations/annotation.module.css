@@ -46,5 +46,4 @@
 .content textarea {
   width: 100%;
   border: 1px solid var(--palette-1);
-  min-height: 5rem;
 }

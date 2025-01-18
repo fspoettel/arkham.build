@@ -57,3 +57,13 @@
     margin-top: 0.5rem;
   }
 }
+
+.annotation-edit {
+  border-color: transparent;
+  padding: 0;
+}
+
+.annotation-edit.active textarea {
+  border-color: var(--nord-9)
+}
+

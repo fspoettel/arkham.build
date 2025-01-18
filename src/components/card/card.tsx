@@ -13,7 +13,8 @@ type Props = {
   children?: React.ReactNode;
   className?: string;
   resolvedCard: ResolvedCard | CardWithRelations;
-  headerActions?: React.ReactNode;
+  slotCardFooter?: React.ReactNode;
+  slotHeaderActions?: React.ReactNode;
   titleLinks?: "card" | "card-modal" | "dialog";
   size?: "compact" | "tooltip" | "full";
 };
@@ -29,7 +30,8 @@ export function Card(props: Props) {
     canToggleBackside,
     children,
     className,
-    headerActions,
+    slotHeaderActions,
+    slotCardFooter,
     resolvedCard,
     size = "full",
     titleLinks,
@@ -43,11 +45,13 @@ export function Card(props: Props) {
   const frontNode = (
     <CardFace
       className={className}
-      headerActions={headerActions}
+      slotHeaderActions={slotHeaderActions}
       titleLinks={titleLinks}
       resolvedCard={resolvedCard}
       size={size}
-    />
+    >
+      {slotCardFooter}
+    </CardFace>
   );
 
   let backNode = null;

@@ -55,7 +55,7 @@ export function CardListItemFull(props: Props) {
   return (
     <div className={css["card-list-item-full"]}>
       <CardComponent
-        headerActions={<CardActions {...rest} card={card} />}
+        slotHeaderActions={<CardActions {...rest} card={card} />}
         resolvedCard={resolvedCard}
         size="full"
         titleLinks="card-modal"

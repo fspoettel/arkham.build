@@ -13,15 +13,23 @@ import css from "./card.module.css";
 
 type Props = {
   className?: string;
-  headerActions?: React.ReactNode;
+  children?: React.ReactNode;
+  slotHeaderActions?: React.ReactNode;
   resolvedCard: CardWithRelations | ResolvedCard;
   titleLinks?: "card" | "card-modal" | "dialog";
   size: "compact" | "tooltip" | "full";
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export function CardFace(props: Props) {
-  const { className, headerActions, resolvedCard, titleLinks, size, ...rest } =
-    props;
+  const {
+    children,
+    className,
+    slotHeaderActions,
+    resolvedCard,
+    titleLinks,
+    size,
+    ...rest
+  } = props;
 
   const { card } = resolvedCard;
   const isSideways = sideways(card);
@@ -43,7 +51,7 @@ export function CardFace(props: Props) {
     >
       <CardHeader
         card={card}
-        headerActions={headerActions}
+        slotHeaderActions={slotHeaderActions}
         titleLinks={titleLinks}
       />
 
@@ -62,6 +70,7 @@ export function CardFace(props: Props) {
         />
         <CardTabooText card={card} />
         <CardMeta resolvedCard={resolvedCard} size={size} />
+        {children}
       </div>
 
       {showImage &&

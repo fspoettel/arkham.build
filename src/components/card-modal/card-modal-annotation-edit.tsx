@@ -1,11 +1,14 @@
 import { useStore } from "@/store";
 import type { StoreState } from "@/store/slices";
 import type { Id } from "@/store/slices/data.types";
+import { cx } from "@/utils/cx";
 import { debounce } from "@/utils/debounce";
 import { useCallback, useState } from "react";
 import { createSelector } from "reselect";
 import { AnnotationContainer } from "../annotations/annotation";
+import { AutoSizingTextarea } from "../ui/auto-sizing-textarea";
 import { Button } from "../ui/button";
+import css from "./card-modal.module.css";
 
 type Props = {
   cardCode: string;
@@ -40,13 +43,19 @@ export function AnnotationEdit(props: Props) {
 
   return (
     <AnnotationContainer
+      className={cx(css["annotation-edit"], !!liveValue && css["active"])}
       actions={
-        <Button size="sm" onClick={onAnnotationClear} variant="bare">
+        <Button
+          size="sm"
+          onClick={onAnnotationClear}
+          variant="bare"
+          style={{ visibility: liveValue ? "visible" : "hidden" }}
+        >
           Clear
         </Button>
       }
     >
-      <textarea
+      <AutoSizingTextarea
         data-testid="annotation-edit"
         value={liveValue}
         onChange={onAnnotationChange}

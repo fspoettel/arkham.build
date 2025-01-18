@@ -9,12 +9,12 @@ import css from "./card.module.css";
 type Props = {
   card: Card;
   className?: string;
-  headerActions?: React.ReactNode;
+  slotHeaderActions?: React.ReactNode;
   titleLinks?: "card" | "card-modal" | "dialog";
 };
 
 export function CardHeader(props: Props) {
-  const { card, className, headerActions, titleLinks } = props;
+  const { card, className, slotHeaderActions, titleLinks } = props;
   const colorCls = getCardColor(card, "background");
 
   return (
@@ -24,8 +24,8 @@ export function CardHeader(props: Props) {
         <CardNames card={card} titleLinks={titleLinks} />
       </div>
       <div className={css["header-row"]}>
-        {!!headerActions && (
-          <div className={css["header-actions"]}>{headerActions}</div>
+        {!!slotHeaderActions && (
+          <div className={css["header-actions"]}>{slotHeaderActions}</div>
         )}
         <MulticlassIcons
           card={card}
