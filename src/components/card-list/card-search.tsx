@@ -3,6 +3,7 @@ import { selectActiveListSearch } from "@/store/selectors/lists";
 import { assert } from "@/utils/assert";
 import { cx } from "@/utils/cx";
 import { debounce } from "@/utils/debounce";
+import { useAgathaEasterEggTrigger } from "@/utils/easter-egg-agatha";
 import { useHotkey } from "@/utils/use-hotkey";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Checkbox } from "../ui/checkbox";
@@ -33,6 +34,8 @@ export function CardSearch(props: Props) {
   const search = useStore(selectActiveListSearch);
   assert(search, "Search bar requires an active list.");
 
+  const easterEggHandler = useAgathaEasterEggTrigger();
+
   const [inputValue, setInputValue] = useState(search.value ?? "");
 
   const onShortcut = useCallback(() => {
@@ -55,8 +58,12 @@ export function CardSearch(props: Props) {
     (val: string) => {
       setInputValue(val);
       debouncedSetSearchValue(val);
+      if (easterEggHandler(val)) {
+        setInputValue("");
+        debouncedSetSearchValue("");
+      }
     },
-    [debouncedSetSearchValue],
+    [debouncedSetSearchValue, easterEggHandler],
   );
 
   const onToggleGameText = useCallback(

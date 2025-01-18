@@ -1,5 +1,6 @@
 import { imageUrl } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
+import { useAgathaEasterEggTransform } from "@/utils/easter-egg-agatha";
 import css from "./card-scan.module.css";
 
 type Props = {
@@ -13,7 +14,7 @@ type Props = {
 export function CardScan(props: Props) {
   const { code, className, lazy, sideways, suffix } = props;
 
-  const imageCode = `${code}${suffix ?? ""}`;
+  const imageCode = useAgathaEasterEggTransform(`${code}${suffix ?? ""}`);
 
   return (
     <div className={cx(css["scan"], className)} data-testid="card-scan">

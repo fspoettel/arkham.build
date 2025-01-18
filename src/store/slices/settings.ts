@@ -50,6 +50,7 @@ export function getInitialSettings(): SettingsState {
     showPreviews: false,
     tabooSetId: undefined,
     useLimitedPoolForWeaknessDraw: true,
+    flags: {},
   };
 }
 
@@ -58,7 +59,7 @@ export const createSettingsSlice: StateCreator<
   [],
   [],
   SettingsSlice
-> = (_, get) => ({
+> = (set, get) => ({
   settings: getInitialSettings(),
   // TODO: extract to `shared` since this touches other state slices.
   updateSettings(settings) {
@@ -68,5 +69,16 @@ export const createSettingsSlice: StateCreator<
       settings,
       lists: makeLists(settings),
     });
+  },
+  toggleFlag(key) {
+    set((state) => ({
+      settings: {
+        ...state.settings,
+        flags: {
+          ...state.settings.flags,
+          [key]: !state.settings.flags?.[key],
+        },
+      },
+    }));
   },
 });

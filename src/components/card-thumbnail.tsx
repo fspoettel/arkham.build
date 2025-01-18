@@ -2,6 +2,7 @@ import type { Card } from "@/store/services/queries.types";
 import { getCardColor, hasImage, thumbnailUrl } from "@/utils/card-utils";
 /* eslint-disable react/display-name */
 import { cx } from "@/utils/cx";
+import { useAgathaEasterEggTransform } from "@/utils/easter-egg-agatha";
 import { memo } from "react";
 import css from "./card-thumbnail.module.css";
 
@@ -18,10 +19,11 @@ export const CardThumbnail = memo(
     const { card, className, suffix } = props;
 
     const colorCls = getCardColor(card);
+    const imageCode = useAgathaEasterEggTransform(
+      `${card.code}${suffix ?? ""}`,
+    );
 
     if (!hasImage(card)) return null;
-
-    const imageCode = `${card.code}${suffix ?? ""}`;
 
     return (
       <div

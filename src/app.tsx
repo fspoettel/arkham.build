@@ -17,6 +17,7 @@ import {
   queryDataVersion,
   queryMetadata,
 } from "./store/services/queries";
+import { useAgathaEasterEggHint } from "./utils/easter-egg-agatha";
 import { useColorTheme } from "./utils/use-color-theme";
 import { useVisibilityChange } from "./utils/use-document-visibility";
 
@@ -160,6 +161,8 @@ function AppTasks() {
   const toast = useToast();
   const [location] = useLocation();
   const toastId = useRef<string>();
+
+  useAgathaEasterEggHint();
 
   const cardDataLock = useRef(false);
 

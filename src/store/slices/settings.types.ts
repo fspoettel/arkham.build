@@ -20,10 +20,12 @@ export type SettingsState = {
   showAllCards: boolean;
   useLimitedPoolForWeaknessDraw: boolean;
   tabooSetId: number | undefined;
+  flags?: Record<string, boolean>;
 };
 
 export type SettingsSlice = {
   settings: SettingsState;
 } & {
+  toggleFlag(key: string): void;
   updateSettings: (payload: SettingsState) => void;
 };
