@@ -1,0 +1,6 @@
+.textarea {
+  display: block;
+  resize: none;
+  min-height: 0;
+  overflow: hidden;
+}

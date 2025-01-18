@@ -320,7 +320,7 @@ input::placeholder {
 
 textarea {
   resize: vertical;
-  min-height: 8rem;
+  min-height: 5rem;
 }
 
 /* HACK! avoids iOS Safari forced zooming to inputs */

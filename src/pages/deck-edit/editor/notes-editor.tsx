@@ -1,3 +1,4 @@
+import { AutoSizingTextarea } from "@/components/ui/auto-sizing-textarea";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Scroller } from "@/components/ui/scroller";
 import { useStore } from "@/store";
@@ -60,7 +61,7 @@ export function NotesEditor(props: Props) {
       <div className={css["notes-editor"]}>
         <Field full helpText="Supports ArkhamDB-flavoured markdown." padded>
           <FieldLabel>Notes</FieldLabel>
-          <textarea
+          <AutoSizingTextarea
             className={css["notes-editor-textarea"]}
             data-testid="editor-description"
             defaultValue={deck.description_md ?? ""}
@@ -86,7 +87,7 @@ export function NotesEditor(props: Props) {
           helpText="A short deck introduction. Will be displayed on the deck view and in social media previews."
         >
           <FieldLabel>Intro</FieldLabel>
-          <textarea
+          <AutoSizingTextarea
             data-testid="editor-intro"
             defaultValue={deck.metaParsed.intro_md ?? ""}
             onChange={onIntroChange}
