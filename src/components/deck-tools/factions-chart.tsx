@@ -70,7 +70,7 @@ function CustomLabel(props: VictoryLabelProps) {
         angle={0}
         theme={chartsTheme}
         labelPlacement="vertical"
-        flyoutWidth={100}
+        flyoutWidth={120}
         constrainToVisibleArea
         text={`${props.datum?.y ?? 0} ${capitalize(props.datum?.xName ?? "")} cards`}
       />
