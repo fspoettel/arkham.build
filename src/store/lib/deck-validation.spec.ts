@@ -7,6 +7,7 @@ import atleastFactionsInvalid from "@/test/fixtures/decks/validation/atleast_fac
 import baseCase from "@/test/fixtures/decks/validation/base_case.json";
 import covenantValid from "@/test/fixtures/decks/validation/covenant.json";
 import covenantInvalid from "@/test/fixtures/decks/validation/covenant_invalid.json";
+import deckLimitSubtitles from "@/test/fixtures/decks/validation/deck_limit_subtitles.json";
 import extraSlotsForbidden from "@/test/fixtures/decks/validation/extra_slots_forbidden.json";
 import extraSlotsTooFewCards from "@/test/fixtures/decks/validation/extra_slots_too_few_cards.json";
 import extraSlotsTooManyCards from "@/test/fixtures/decks/validation/extra_slots_too_many_cards.json";
@@ -189,6 +190,43 @@ describe("deck validation", () => {
           ],
           "valid": false,
         }
+      `);
+    });
+
+    it("handles case: deck_limit and subtitles", () => {
+      const result = validate(store, deckLimitSubtitles);
+      expect(result.valid).toBeFalsy();
+      expect(result.errors).toMatchInlineSnapshot(`
+        [
+          {
+            "details": {
+              "count": 8,
+              "countRequired": 30,
+              "target": "slots",
+            },
+            "type": "TOO_FEW_CARDS",
+          },
+          {
+            "details": [
+              {
+                "code": "10059",
+                "limit": 1,
+                "quantity": 2,
+              },
+              {
+                "code": "04022",
+                "limit": 2,
+                "quantity": 3,
+              },
+              {
+                "code": "08041",
+                "limit": 1,
+                "quantity": 2,
+              },
+            ],
+            "type": "INVALID_CARD_COUNT",
+          },
+        ]
       `);
     });
 
