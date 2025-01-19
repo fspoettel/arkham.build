@@ -26,10 +26,12 @@ import customizableUpgrade from "@/test/fixtures/decks/upgrades/customizable_upg
 import customizableUpgrade2 from "@/test/fixtures/decks/upgrades/customizable_upgrade_2.json";
 import deckSize from "@/test/fixtures/decks/upgrades/deck_size_1.json";
 import deckSize2 from "@/test/fixtures/decks/upgrades/deck_size_2.json";
-import downTheRabbitHole from "@/test/fixtures/decks/upgrades/down_the_rabbit_hole_base_1.json";
-import downTheRabbitHole2 from "@/test/fixtures/decks/upgrades/down_the_rabbit_hole_base_2.json";
-import downTheRabbitHoleBase from "@/test/fixtures/decks/upgrades/dtrh_base.json";
-import downTheRabbitHoleLevel0 from "@/test/fixtures/decks/upgrades/dtrh_level_zero_2.json";
+import dtrh from "@/test/fixtures/decks/upgrades/down_the_rabbit_hole_base_1.json";
+import dtrh2 from "@/test/fixtures/decks/upgrades/down_the_rabbit_hole_base_2.json";
+import dtrhPenaltyBase from "@/test/fixtures/decks/upgrades/dtrh_penalties_base.json";
+import dtrhPenaltyExile from "@/test/fixtures/decks/upgrades/dtrh_penalties_exile.json";
+import dtrhPenaltyLevel0 from "@/test/fixtures/decks/upgrades/dtrh_penalties_level_zero.json";
+import dtrhPenaltyLevel0_2 from "@/test/fixtures/decks/upgrades/dtrh_penalties_level_zero_2.json";
 import exceptional from "@/test/fixtures/decks/upgrades/exceptional_1.json";
 import exceptional2 from "@/test/fixtures/decks/upgrades/exceptional_2.json";
 import exceptional3 from "@/test/fixtures/decks/upgrades/exceptional_3.json";
@@ -242,13 +244,13 @@ describe("getUpgradeStats", () => {
           state.metadata,
           state.lookupTables,
           state.sharing,
-          downTheRabbitHole,
+          dtrh,
         );
         const next = resolveDeck(
           state.metadata,
           state.lookupTables,
           state.sharing,
-          downTheRabbitHole2,
+          dtrh2,
         );
         expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
       });
@@ -277,13 +279,54 @@ describe("getUpgradeStats", () => {
           state.metadata,
           state.lookupTables,
           state.sharing,
-          downTheRabbitHoleBase,
+          dtrhPenaltyBase,
         );
         const next = resolveDeck(
           state.metadata,
           state.lookupTables,
           state.sharing,
-          downTheRabbitHoleLevel0,
+          dtrhPenaltyLevel0,
+        );
+
+        expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      });
+
+      it("handles case: handles XP penalty for level 0 customizables", () => {
+        const state = store.getState();
+
+        const base = structuredClone(dtrhPenaltyBase);
+        base.slots["02110"] = 0;
+
+        const prev = resolveDeck(
+          state.metadata,
+          state.lookupTables,
+          state.sharing,
+          dtrhPenaltyBase,
+        );
+
+        const next = resolveDeck(
+          state.metadata,
+          state.lookupTables,
+          state.sharing,
+          dtrhPenaltyLevel0_2,
+        );
+
+        expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      });
+
+      it("handles case: handles XP penalty for exile cards", () => {
+        const state = store.getState();
+        const prev = resolveDeck(
+          state.metadata,
+          state.lookupTables,
+          state.sharing,
+          dtrhPenaltyBase,
+        );
+        const next = resolveDeck(
+          state.metadata,
+          state.lookupTables,
+          state.sharing,
+          dtrhPenaltyExile,
         );
 
         expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);

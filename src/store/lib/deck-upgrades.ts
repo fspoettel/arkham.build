@@ -263,9 +263,13 @@ function calculateXpSpent(
       } else if (level === 0) {
         cost = applyFree0Swaps(cost, quantity);
         // if an XP card is new and DtRH is in deck, a penalty of 1XP is applied,
-        // unless it's an exiled card that is re-added...
+        // (unless it's an exiled card that is re-added)
       } else if (modifierFlags.downTheRabbitHole && !upgradedFrom) {
-        cost += card.myriad ? 1 : quantity;
+        const exiled = next.exileSlots[card.code] ?? 0;
+        const added = (next.slots[card.code] ?? 0) - exiled;
+        if (added > 0) {
+          cost += card.myriad ? 1 : added;
+        }
       }
 
       xp += cost;
