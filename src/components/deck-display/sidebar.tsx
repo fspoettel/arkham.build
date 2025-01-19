@@ -107,11 +107,13 @@ export function Sidebar(props: Props) {
       />
       <SidebarDetails deck={deck} />
       {origin === "local" && <SidebarUpgrade deck={deck} />}
+
+      {origin === "arkhamdb" ||
+        (deck.source === "arkhamdb" && <ArkhamDbDetails deck={deck} />)}
+
       {origin === "local" && deck.source !== "arkhamdb" && (
         <Sharing onArkhamDBUpload={onArkhamDBUpload} deck={deck} />
       )}
-      {origin === "arkhamdb" ||
-        (deck.source === "arkhamdb" && <ArkhamDbDetails deck={deck} />)}
     </div>
   );
 }
@@ -627,35 +629,64 @@ function Sharing(props: { onArkhamDBUpload?: () => void; deck: ResolvedDeck }) {
 function ArkhamDbDetails(props: { deck: ResolvedDeck }) {
   const { deck } = props;
   return (
-    <section className={css["details"]} data-testid="share">
-      <div className={cx(css["detail"], css["full"])}>
-        <header>
-          <h3 className={css["detail-label"]}>
-            <i className="icon-elder_sign" />
-            ArkhamDB
-          </h3>
-        </header>
-        <div className={css["detail-value"]}>
-          <p>This deck is set up to sync with ArkhamDB.</p>
+    <>
+      <section className={css["details"]} data-testid="share">
+        <div className={cx(css["detail"], css["full"])}>
+          <header>
+            <h3 className={css["detail-label"]}>
+              <i className="icon-elder_sign" />
+              ArkhamDB
+            </h3>
+          </header>
+          <div className={css["detail-value"]}>
+            <p>This deck is set up to sync with ArkhamDB.</p>
+            <p>
+              Deck ID: <code>{deck.id}</code>
+              <CopyToClipboard
+                className={css["share-copy"]}
+                text={`${deck.id}`}
+                variant="bare"
+              />
+            </p>
+            <Button
+              as="a"
+              href={`${import.meta.env.VITE_ARKHAMDB_BASE_URL}/deck/view/${deck.id}`}
+              size="sm"
+              rel="noreferrer"
+              target="_blank"
+            >
+              View on ArkhamDB
+            </Button>
+          </div>
+        </div>
+      </section>
+      <section className={css["details"]} data-testid="share">
+        <div className={cx(css["detail"], css["full"])}>
+          <header>
+            <h3 className={css["detail-label"]}>
+              <ShareIcon />
+              Public share
+            </h3>
+          </header>
           <p>
-            Deck ID: <code>{deck.id}</code>
+            This deck has a public share, it can be viewed using this{" "}
+            <a
+              data-testid="share-link"
+              href={`/deck/view/${deck.id}`}
+              target="_blank"
+              rel="noreferrer "
+            >
+              link
+            </a>
+            .
             <CopyToClipboard
               className={css["share-copy"]}
-              text={`${deck.id}`}
+              text={`${window.location.origin}/deck/view/${deck.id}`}
               variant="bare"
             />
           </p>
-          <Button
-            as="a"
-            href={`${import.meta.env.VITE_ARKHAMDB_BASE_URL}/deck/view/${deck.id}`}
-            size="sm"
-            rel="noreferrer"
-            target="_blank"
-          >
-            View on ArkhamDB
-          </Button>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
