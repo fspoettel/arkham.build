@@ -801,6 +801,7 @@ describe("getUpgradeStats", () => {
               "60311": -1,
             },
           },
+          "modifierStats": {},
           "xp": 5,
           "xpAdjustment": 4,
           "xpAvailable": 0,

@@ -10,12 +10,23 @@ type Changes = {
   customizations: Record<string, Customization[]>;
 };
 
+export type Modifier =
+  | "adaptable"
+  | "arcaneResearch"
+  | "dejaVu"
+  | "downTheRabbitHole";
+
+type Modifiers = Record<Modifier, number>;
+type ModifierFlags = Record<Modifier, boolean>;
+type ModifierStats = Record<Modifier, { used: number; available: number }>;
+
 export type UpgradeStats = {
   changes: Changes;
   xpAvailable: number;
   xpAdjustment: number;
   xpSpent: number;
   xp: number;
+  modifierStats: Partial<ModifierStats>;
 };
 
 export function getUpgradeStats(
@@ -27,11 +38,12 @@ export function getUpgradeStats(
   const xp = next.xp ?? 0;
   const xpAdjustment = next.xp_adjustment ?? 0;
 
-  const xpSpent = calculateXpSpent(prev, next, changes);
+  const { xp: xpSpent, modifierStats } = calculateXpSpent(prev, next, changes);
   const xpAvailable = xp + xpAdjustment - xpSpent;
 
   return {
     changes,
+    modifierStats,
     xpAvailable,
     xpAdjustment,
     xpSpent,
@@ -126,6 +138,8 @@ function calculateXpSpent(
     investigatorCode === SPECIAL_CARD_CODES.PARALLEL_SKIDS;
 
   const { modifiers, modifierFlags } = getModifiers(prev, next);
+
+  const originalModifiers = structuredClone(modifiers);
 
   function applyDownTheRabbitHole(_cost: number, quantity: number) {
     let cost = _cost;
@@ -298,10 +312,30 @@ function calculateXpSpent(
     }
   }
 
-  return xp;
+  const modifierStats = Object.entries(originalModifiers).reduce<
+    Partial<ModifierStats>
+  >((acc, [key, val]) => {
+    if (val) {
+      const available = val;
+      const used = val - modifiers[key as Modifier];
+      acc[key as Modifier] = {
+        available,
+        used,
+      };
+    }
+    return acc;
+  }, {});
+
+  return { modifierStats, xp };
 }
 
-function getModifiers(prev: ResolvedDeck, next: ResolvedDeck) {
+function getModifiers(
+  prev: ResolvedDeck,
+  next: ResolvedDeck,
+): {
+  modifiers: Modifiers;
+  modifierFlags: ModifierFlags;
+} {
   const modifiers = {
     adaptable: (next.slots[SPECIAL_CARD_CODES.ADAPTABLE] ?? 0) * 2,
     arcaneResearch: prev.slots[SPECIAL_CARD_CODES.ARCANE_RESEARCH] ?? 0,
@@ -312,7 +346,7 @@ function getModifiers(prev: ResolvedDeck, next: ResolvedDeck) {
 
   const modifierFlags = Object.fromEntries(
     Object.entries(modifiers).map(([key, val]) => [key, !!val]),
-  );
+  ) as ModifierFlags;
 
   return { modifiers, modifierFlags };
 }

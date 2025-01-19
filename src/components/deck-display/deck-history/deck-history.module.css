@@ -30,3 +30,25 @@
 .entry-row > * + * {
   margin-top: 1rem;
 }
+
+.discount-container > * + * {
+  margin-top: 0.5rem;
+}
+
+.discounts {
+  list-style: none;
+}
+
+.discounts {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: max-content max-content;
+  align-items: center;
+}
+
+.discounts dd {
+  font-weight: 700;
+  background: rgba(0, 0, 0, 0.08);
+  padding: 0.125rem 0.25rem;
+  border-radius: var(--rounded);
+}

@@ -1,6 +1,9 @@
+import type { Modifier } from "@/store/lib/deck-upgrades";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { History } from "@/store/selectors/decks";
 import { formatXpAvailable } from "@/utils/formatting";
+import { isEmpty } from "@/utils/is-empty";
+import { Fragment } from "react/jsx-runtime";
 import { CustomizableDiff } from "./customizable-diff";
 import css from "./deck-history.module.css";
 import { SlotDiff } from "./slot-diff";
@@ -65,9 +68,34 @@ export function DeckHistory(props: Props) {
               )}
               {!hasChanges && "No changes"}
             </div>
+            {!isEmpty(stats.modifierStats) && (
+              <div className={css["discount-container"]}>
+                <h4>Discounts</h4>
+                <dl className={css["discounts"]}>
+                  {Object.entries(stats.modifierStats).map(
+                    ([modifier, value]) => (
+                      <Fragment key={modifier}>
+                        <dt>{formatModifier(modifier as Modifier)}</dt>
+                        <dd>
+                          {value.used} / {value.available}
+                        </dd>
+                      </Fragment>
+                    ),
+                  )}
+                </dl>
+              </div>
+            )}
           </li>
         );
       })}
     </ol>
   );
+}
+
+function formatModifier(modifier: Modifier) {
+  if (modifier === "adaptable") return "Adaptable";
+  if (modifier === "arcaneResearch") return "Arcane Research";
+  if (modifier === "dejaVu") return "Déjà Vu";
+  if (modifier === "downTheRabbitHole") return "Down the Rabbit Hole";
+  return modifier;
 }
