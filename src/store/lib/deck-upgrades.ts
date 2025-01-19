@@ -178,9 +178,8 @@ function calculateXpSpent(
     const diff = getSlotDiff(prev, next, changes[slotKey], slotKey);
     let free0Cards = countFreeLevel0Cards(prev, next, modifiers, diff, slotKey);
 
-    function applyFree0Swaps(card: Card, _cost: number, quantity: number) {
+    function applyFree0Swaps(_cost: number, quantity: number) {
       let cost = _cost;
-      let swapped = 0;
 
       // in some cases, swapping in level 0 cards is free:
       // 1. deck below legal size.
@@ -189,16 +188,6 @@ function calculateXpSpent(
         if (cost > 0) {
           cost -= 1;
           free0Cards -= 1;
-          swapped += 1;
-        }
-      }
-
-      // if not all added level 0 cards can be swapped freely,
-      // they will cost 1.
-      // if DtRH is in deck, an additional penalty of 1XP is applied.
-      if (swapped !== quantity) {
-        if (modifierFlags.downTheRabbitHole) {
-          cost += card.myriad ? 1 : quantity - swapped;
         }
       }
 
@@ -272,8 +261,9 @@ function calculateXpSpent(
         cost = applyDownTheRabbitHole(cost, quantity);
         cost = applyArcaneResearch(card, cost);
       } else if (level === 0) {
-        cost = applyFree0Swaps(card, cost, quantity);
-        // if an XP card is new and DtRH is in deck, a penalty of 1XP is applied.
+        cost = applyFree0Swaps(cost, quantity);
+        // if an XP card is new and DtRH is in deck, a penalty of 1XP is applied,
+        // unless it's an exiled card that is re-added...
       } else if (modifierFlags.downTheRabbitHole && !upgradedFrom) {
         cost += card.myriad ? 1 : quantity;
       }

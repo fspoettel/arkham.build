@@ -28,6 +28,8 @@ import deckSize from "@/test/fixtures/decks/upgrades/deck_size_1.json";
 import deckSize2 from "@/test/fixtures/decks/upgrades/deck_size_2.json";
 import downTheRabbitHole from "@/test/fixtures/decks/upgrades/down_the_rabbit_hole_base_1.json";
 import downTheRabbitHole2 from "@/test/fixtures/decks/upgrades/down_the_rabbit_hole_base_2.json";
+import downTheRabbitHoleBase from "@/test/fixtures/decks/upgrades/dtrh_base.json";
+import downTheRabbitHoleLevel0 from "@/test/fixtures/decks/upgrades/dtrh_level_zero_2.json";
 import exceptional from "@/test/fixtures/decks/upgrades/exceptional_1.json";
 import exceptional2 from "@/test/fixtures/decks/upgrades/exceptional_2.json";
 import exceptional3 from "@/test/fixtures/decks/upgrades/exceptional_3.json";
@@ -233,39 +235,59 @@ describe("getUpgradeStats", () => {
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
-    it("handles case: down the rabbit hole", () => {
-      const state = store.getState();
-      const prev = resolveDeck(
-        state.metadata,
-        state.lookupTables,
-        state.sharing,
-        downTheRabbitHole,
-      );
-      const next = resolveDeck(
-        state.metadata,
-        state.lookupTables,
-        state.sharing,
-        downTheRabbitHole2,
-      );
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
-    });
+    describe("down the rabbit hole", () => {
+      it("handles case: down the rabbit hole XP reduction", () => {
+        const state = store.getState();
+        const prev = resolveDeck(
+          state.metadata,
+          state.lookupTables,
+          state.sharing,
+          downTheRabbitHole,
+        );
+        const next = resolveDeck(
+          state.metadata,
+          state.lookupTables,
+          state.sharing,
+          downTheRabbitHole2,
+        );
+        expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      });
 
-    it("handles case: arcane research + down the rabbit hole", () => {
-      const state = store.getState();
-      const prev = resolveDeck(
-        state.metadata,
-        state.lookupTables,
-        state.sharing,
-        arcaneResearchDtrh,
-      );
-      const next = resolveDeck(
-        state.metadata,
-        state.lookupTables,
-        state.sharing,
-        arcaneResearchDtrh2,
-      );
+      it("handles case: interaction with arcane research", () => {
+        const state = store.getState();
+        const prev = resolveDeck(
+          state.metadata,
+          state.lookupTables,
+          state.sharing,
+          arcaneResearchDtrh,
+        );
+        const next = resolveDeck(
+          state.metadata,
+          state.lookupTables,
+          state.sharing,
+          arcaneResearchDtrh2,
+        );
 
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+        expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      });
+
+      it("handles case: handles XP penalty for level 0 cards", () => {
+        const state = store.getState();
+        const prev = resolveDeck(
+          state.metadata,
+          state.lookupTables,
+          state.sharing,
+          downTheRabbitHoleBase,
+        );
+        const next = resolveDeck(
+          state.metadata,
+          state.lookupTables,
+          state.sharing,
+          downTheRabbitHoleLevel0,
+        );
+
+        expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      });
     });
 
     it("handles case: ignore deck limit", () => {
