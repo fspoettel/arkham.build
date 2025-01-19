@@ -267,6 +267,7 @@ function calculateXpSpent(
       } else if (modifierFlags.downTheRabbitHole && !upgradedFrom) {
         const exiled = next.exileSlots[card.code] ?? 0;
         const added = (next.slots[card.code] ?? 0) - exiled;
+
         if (added > 0) {
           cost += card.myriad ? 1 : added;
         }
@@ -289,7 +290,8 @@ function calculateXpSpent(
       const card = prev.cards.slots[code].card;
       let cost = entries.reduce((acc, curr) => acc + curr.xp_spent, 0);
 
-      cost = applyDownTheRabbitHole(cost, cost);
+      // Dtrh can discount each customizable only once.
+      cost = applyDownTheRabbitHole(cost, 1);
       cost = applyArcaneResearch(card, cost);
 
       xp += cost;
