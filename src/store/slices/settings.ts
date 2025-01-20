@@ -2,6 +2,7 @@ import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
 import { makeLists } from "./lists";
 import type {
+  DecklistConfig,
   ListConfig,
   SettingsSlice,
   SettingsState,
@@ -25,10 +26,14 @@ const INVESTIGATOR_DEFAULTS: ListConfig = {
   viewMode: "compact",
 };
 
-export const DECK_DEFAULTS: ListConfig = {
+export const DECK_DEFAULTS: DecklistConfig = {
   group: ["type", "slot"],
   sort: ["name", "level"],
-  viewMode: "compact",
+};
+
+export const DECK_SCANS_DEFAULTS: DecklistConfig = {
+  group: ["type"],
+  sort: ["slot", "name", "level", "position"],
 };
 
 export function getInitialListsSetting(): SettingsState["lists"] {
@@ -37,6 +42,7 @@ export function getInitialListsSetting(): SettingsState["lists"] {
     encounter: structuredClone(ENCOUNTER_DEFAULTS),
     investigator: structuredClone(INVESTIGATOR_DEFAULTS),
     deck: structuredClone(DECK_DEFAULTS),
+    deckScans: structuredClone(DECK_SCANS_DEFAULTS),
   };
 }
 
