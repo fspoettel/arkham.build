@@ -253,7 +253,18 @@ function isLevelInRange(
   level: number | null | undefined,
   value: [number, number],
 ) {
-  return level != null && level >= value[0] && level <= value[1];
+  const filters = [];
+
+  // convention: -1 means "null" (i.e. no level).
+  if (value[0] === -1) {
+    filters.push(level == null);
+  }
+
+  if (level != null && value[1] !== -1) {
+    filters.push(level >= value[0] && level <= value[1]);
+  }
+
+  return filters.some((x) => x);
 }
 
 function checkLevelRange(value: [number, number], card: Card, filter?: Filter) {
@@ -284,7 +295,9 @@ function filterCardLevel(
       return isLevelInRange(level, value);
     }
 
-    if (!options?.investigator) return true;
+    if (!options?.investigator) {
+      return value[1] >= 0;
+    }
 
     const filter = filterInvestigatorAccess(options.investigator, {
       customizable: {

@@ -18,7 +18,7 @@
 
 .limits input[type="text"] {
   line-height: 1;
-  width: calc(2ch + 0.5rem);
+  max-width: calc(4ch);
   text-align: center;
   padding: 0.125rem 0;
 

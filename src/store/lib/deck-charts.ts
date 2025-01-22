@@ -53,10 +53,6 @@ export function addCardToDeckCharts(
 
   // Factions
 
-  if (card.faction_code === "mythos") {
-    console.log("@@@", card.code, card.real_name);
-  }
-
   accumulator.factions[
     FACTION_ORDER.indexOf(card.faction_code as FactionName)
   ].y += quantity;

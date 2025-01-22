@@ -1,5 +1,6 @@
 import { useStore } from "@/store";
 import {
+  levelToString,
   selectActiveListFilter,
   selectLevelChanges,
 } from "@/store/selectors/lists";
@@ -115,7 +116,8 @@ export function LevelFilter({ id }: FilterProps) {
         id="level-select"
         label="Level"
         max={5}
-        min={0}
+        min={-1}
+        renderLabel={levelToString}
         onValueCommit={(val) => {
           onChangeRange([val[0], val[1]]);
         }}

@@ -988,13 +988,24 @@ export const selectInvestigatorSkillIconsChanges = (
  * Level
  */
 
+export function levelToString(value: number) {
+  if (value === -1) return "Null";
+  return value.toString();
+}
+
 export const selectLevelChanges = (value: LevelFilter) => {
   if (!value.range) return undefined;
-  let s = `${value.range[0]}`;
-  if (value.range[1] !== value.range[0]) s = `${s}-${value.range[1]}`;
-  if (value.exceptional) s = `${s}, exceptional`;
-  if (value.nonexceptional) s = `${s}, nonexceptional`;
-  return s;
+
+  const min = levelToString(value.range[0]);
+
+  let str = min;
+  if (value.range[1] !== value.range[0]) {
+    const max = levelToString(value.range[1]);
+    str = `${str}-${max}`;
+  }
+  if (value.exceptional) str = `${str}, exceptional`;
+  if (value.nonexceptional) str = `${str}, nonexceptional`;
+  return str;
 };
 
 /**
