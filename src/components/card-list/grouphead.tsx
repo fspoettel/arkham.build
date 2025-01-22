@@ -25,6 +25,11 @@ export function Grouphead(props: Props) {
     <h3 className={cx(css["grouphead"], variant && css[variant], className)}>
       {keys.map((key, i) => {
         const type = types[i];
+
+        if (type === "slot" && !keys.includes("asset")) {
+          return null;
+        }
+
         return (
           <GroupLabel
             // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
