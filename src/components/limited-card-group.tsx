@@ -1,5 +1,6 @@
 import type { Card } from "@/store/services/queries.types";
 import { cx } from "@/utils/cx";
+import { isEmpty } from "@/utils/is-empty";
 import css from "./limited-card-group.module.css";
 
 type Entry = {
@@ -30,7 +31,11 @@ export function LimitedCardGroup(props: Props) {
           {count.total} / {count.limit}
         </div>
       </header>
-      <ul className={css["content"]}>{entries.map(renderCard)}</ul>
+      {isEmpty(entries) ? (
+        <p className={css["empty"]}>No entries</p>
+      ) : (
+        <ul className={css["content"]}>{entries.map(renderCard)}</ul>
+      )}
     </article>
   );
 }

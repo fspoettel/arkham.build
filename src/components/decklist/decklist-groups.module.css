@@ -1,3 +1,7 @@
+.container {
+  container-type: inline-size;
+}
+
 .title {
   display: flex;
   align-items: center;
@@ -36,4 +40,65 @@
   line-height: 1;
   padding: 0.0625rem 0.1875rem;
   border-radius: var(--rounded);
+}
+
+.scans {
+  --scan-spacing: 1rem;
+
+  display: grid;
+  column-gap: 0.75rem;
+  align-items: flex-end;
+  row-gap: calc(0.75rem + var(--scan-spacing) * var(--scan-levels));
+  padding-block: calc(0.75rem + var(--scan-spacing) * var(--scan-levels));
+  width: 100%;
+
+  grid-template-columns: 1fr;
+
+  @container (min-width: 20rem) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @container (min-width: 33rem) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @container (min-width: 45rem) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @container (min-width: 60rem) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  @container (min-width: 72rem) {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.scans > * {
+  list-style: none;
+}
+
+.scan-images {
+  position: relative;
+}
+
+.scan-images img {
+  width: 100%;
+  cursor: pointer;
+}
+
+.scan-images > *:not(:last-child) img {
+  filter: drop-shadow(0 -2px 2px rgba(8, 10, 12, 0.7));
+}
+
+.scan-images > *:first-child img {
+  box-shadow: var(--shadow-md);
+}
+
+.scan-images > *:not(:first-child) {
+  position: absolute;
+  z-index: calc(var(--scan-level) * -1);
+  top: calc(var(--scan-level) * var(--scan-spacing) * -1);
+  left: 0;
 }

@@ -21,3 +21,7 @@
 .decklist-section-content.auto > * {
   break-inside: avoid;
 }
+
+.decklist-section-content.single > * {
+  max-width: 21.5rem;
+}

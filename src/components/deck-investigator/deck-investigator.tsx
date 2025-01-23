@@ -5,6 +5,7 @@ import {
 import type { ResolvedDeck } from "@/store/lib/types";
 import { cx } from "@/utils/cx";
 import { formatRelationTitle } from "@/utils/formatting";
+import { isEmpty } from "@/utils/is-empty";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { useState } from "react";
 import { CardBack } from "../card/card-back";
@@ -18,6 +19,7 @@ import css from "./deck-investigator.module.css";
 
 type Props = {
   canToggleBack?: boolean;
+  className?: string;
   deck: ResolvedDeck;
   readonly?: boolean;
   showRelated?: boolean;
@@ -28,6 +30,7 @@ type Props = {
 export function DeckInvestigator(props: Props) {
   const {
     canToggleBack = true,
+    className,
     deck,
     readonly,
     showRelated,
@@ -93,7 +96,7 @@ export function DeckInvestigator(props: Props) {
   );
 
   return (
-    <div className={css["deck-investigator-container"]}>
+    <div className={cx(css["deck-investigator-container"], className)}>
       <CardContainer
         className={cx(css["deck-investigator"], css[size])}
         data-testid="deck-investigator"
@@ -110,7 +113,7 @@ export function DeckInvestigator(props: Props) {
         />
       )}
       {showRelated && <LimitedSlots deck={deck} />}
-      {showRelated && !!related.length && (
+      {showRelated && !isEmpty(related) && (
         <div className={css["deck-investigator-related"]}>
           {related.map(([key, value]) => {
             const cards = Array.isArray(value) ? value : [value];

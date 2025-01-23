@@ -3,7 +3,7 @@ import css from "./decklist-section.module.css";
 
 type Props = {
   children: React.ReactNode;
-  columns?: "single" | "auto";
+  columns?: "single" | "auto" | "scans";
   showTitle?: boolean;
   title: string;
 };

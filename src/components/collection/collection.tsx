@@ -5,6 +5,7 @@ import { selectCycleCardCounts } from "@/store/selectors/collection";
 import { selectCyclesAndPacks } from "@/store/selectors/lists";
 import type { SettingsState } from "@/store/slices/settings.types";
 import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
+import { isEmpty } from "@/utils/is-empty";
 import { useCallback } from "react";
 import { CollectionCount } from "./collection-count";
 import { CollectionCycleActions } from "./collection-cycle-actions";
@@ -115,7 +116,7 @@ export function CollectionSettings(props: Props) {
                 </div>
               </div>
 
-              {!!cycle.reprintPacks.length && (
+              {!isEmpty(cycle.reprintPacks) && (
                 <div>
                   <div className={css["cycle-subheader"]}>
                     New format
@@ -146,7 +147,7 @@ export function CollectionSettings(props: Props) {
               )}
 
               <div>
-                {!!cycle.reprintPacks.length && (
+                {!isEmpty(cycle.reprintPacks) && (
                   <div className={css["cycle-subheader"]}>
                     Old format
                     {canEdit && cycle.code !== "core" && (

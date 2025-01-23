@@ -17,6 +17,7 @@ import type { Card } from "@/store/services/queries.types";
 import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
 import { cardLimit, isStaticInvestigator } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
+import { isEmpty } from "@/utils/is-empty";
 import { useAccentColor } from "@/utils/use-accent-color";
 import {
   ArrowLeftToLineIcon,
@@ -179,7 +180,7 @@ export function LatestUpgrade(props: Props) {
                 ? ` (${xpAdjustment >= 0 ? "+" : ""}${xpAdjustment})`
                 : ""}
             </div>
-            {!readonly && !!Object.keys(deck.exileSlots).length && (
+            {!readonly && !isEmpty(Object.keys(deck.exileSlots)) && (
               <Popover placement="right-start">
                 <PopoverTrigger asChild>
                   <Button

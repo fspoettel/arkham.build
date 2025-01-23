@@ -4,6 +4,7 @@ import type { ResolvedCard } from "@/store/lib/types";
 import { selectClientId } from "@/store/selectors/shared";
 import { queryFaq } from "@/store/services/queries";
 import { redirectArkhamDBLinks } from "@/utils/arkhamdb";
+import { isEmpty } from "@/utils/is-empty";
 import { useQuery } from "@/utils/use-query";
 import DOMPurify from "dompurify";
 import { useMemo, useState } from "react";
@@ -41,7 +42,7 @@ export function Faq(props: Props) {
 
         {response.data?.length === 0 && "No FAQ entries."}
 
-        {!!response.data?.length &&
+        {!isEmpty(response.data) &&
           response.data.map((faq, i) => (
             <p
               // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is sanitized.

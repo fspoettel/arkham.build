@@ -1,10 +1,5 @@
 import type { Card } from "@/store/services/queries.types";
-import {
-  REGEX_USES,
-  SIDEWAYS_TYPE_CODES,
-  SKILL_KEYS,
-  SPECIAL_CARD_CODES,
-} from "./constants";
+import { REGEX_USES, SIDEWAYS_TYPE_CODES, SKILL_KEYS } from "./constants";
 
 export function splitMultiValue(s?: string) {
   if (!s) return [];
@@ -117,10 +112,6 @@ export function isEnemyLike(card: Card) {
 
 function isLocationLike(card: Card) {
   return card.type_code === "location" || card.type_code === "enemy_location";
-}
-
-export function hasImage(card: Card) {
-  return card.code !== SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS;
 }
 
 export function getCanonicalCardCode(card: Card) {

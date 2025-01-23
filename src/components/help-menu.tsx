@@ -102,6 +102,8 @@ const SHORTCUTS: [string, { keybind: string; description: string }[]][] = [
       { keybind: "cmd+backspace", description: "Delete deck" },
       { keybind: "cmd+shift+backspace", description: "Delete upgrade" },
       { keybind: "cmd+i", description: "Import deck" },
+      { keybind: "alt+l", description: "Display as list" },
+      { keybind: "alt+s", description: "Display as scans" },
     ],
   ],
   [

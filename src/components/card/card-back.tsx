@@ -1,6 +1,6 @@
 import type { ResolvedCard } from "@/store/lib/types";
 import type { Card as CardType } from "@/store/services/queries.types";
-import { hasImage, sideways } from "@/utils/card-utils";
+import { sideways } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { useMemo } from "react";
 import { CardScan } from "../card-scan";
@@ -35,10 +35,8 @@ export function CardBack(props: Props) {
   const hasHeader = card.parallel || card.type_code !== "investigator";
 
   const showImage =
-    hasImage(backCard) &&
-    (size === "full" ||
-      (backCard.type_code !== "investigator" &&
-        backCard.type_code !== "story"));
+    size === "full" ||
+    (backCard.type_code !== "investigator" && backCard.type_code !== "story");
 
   const showMeta =
     size === "full" &&
@@ -73,12 +71,9 @@ export function CardBack(props: Props) {
 
       {showImage &&
         (size === "full" ? (
-          <CardScan
-            className={css["image"]}
-            code={card.code}
-            sideways={isSideways}
-            suffix="b"
-          />
+          <div className={css["image"]}>
+            <CardScan code={card.code} sideways={isSideways} suffix="b" />
+          </div>
         ) : (
           <div className={css["image"]}>
             <CardThumbnail card={backCard} suffix="b" />

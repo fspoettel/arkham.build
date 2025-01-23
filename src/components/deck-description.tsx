@@ -13,7 +13,7 @@ import {
 } from "@floating-ui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useCardModalContext } from "./card-modal/card-modal-context";
-import { CardTooltip } from "./card-tooltip";
+import { CardTooltip } from "./card-tooltip/card-tooltip";
 import css from "./deck-description.module.css";
 
 type Props = {

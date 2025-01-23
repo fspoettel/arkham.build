@@ -1,9 +1,9 @@
 import type { ResolvedDeck } from "@/store/lib/types";
 import { cx } from "@/utils/cx";
-import { Fragment, Suspense, forwardRef, lazy } from "react";
+import { Suspense, forwardRef, lazy } from "react";
 import { Loader } from "../ui/loader";
 import { Scroller } from "../ui/scroller";
-import { AttachableCards } from "./attachable-cards";
+import { AllAttachables } from "./all-attachables";
 import css from "./deck-tools.module.css";
 import { LimitedSlots } from "./limited-slots";
 
@@ -32,28 +32,9 @@ export const DeckTools = forwardRef(function DeckTools(
         </header>
       )}
       <Suspense fallback={<Loader show message="Loading tools..." />}>
-        <LimitedSlots deck={deck} />
         <LazyChartContainer deck={deck} />
-        {deck.availableAttachments?.map((attachment) => (
-          <Fragment key={attachment.code}>
-            {deck.cards.slots[attachment.code]?.card && (
-              <AttachableCards
-                card={deck.cards.slots[attachment.code]?.card}
-                definition={attachment}
-                readonly={readonly}
-                resolvedDeck={deck}
-              />
-            )}
-            {deck.investigatorBack.card.code === attachment.code && (
-              <AttachableCards
-                card={deck.investigatorBack.card}
-                definition={attachment}
-                readonly={readonly}
-                resolvedDeck={deck}
-              />
-            )}
-          </Fragment>
-        ))}
+        <LimitedSlots deck={deck} />
+        <AllAttachables deck={deck} readonly={readonly} />
       </Suspense>
     </article>
   );

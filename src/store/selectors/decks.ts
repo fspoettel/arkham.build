@@ -13,6 +13,7 @@ import type { Customization, Customizations, ResolvedDeck } from "../lib/types";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import type { Id } from "../slices/data.types";
+import { selectSettings } from "./settings";
 
 export const selectResolvedDeckById = createSelector(
   (state: StoreState) => state.metadata,
@@ -293,8 +294,13 @@ export const selectLimitedSlotOccupation = createSelector(
 
 export const selectDeckGroups = createSelector(
   (state: StoreState) => state.metadata,
-  (state: StoreState) => state.settings,
+  selectSettings,
   (_: StoreState, deck: ResolvedDeck) => deck,
-  (metadata, settings, deck) =>
-    groupDeckCards(metadata, settings.lists.deck, deck),
+  (_: StoreState, __: ResolvedDeck, viewMode: "list" | "scans") => viewMode,
+  (metadata, settings, deck, viewMode) =>
+    groupDeckCards(
+      metadata,
+      viewMode === "scans" ? settings.lists.deckScans : settings.lists.deck,
+      deck,
+    ),
 );

@@ -9,20 +9,44 @@ type Props = {
   sideways?: boolean;
   suffix?: string;
   lazy?: boolean;
-};
+} & React.HTMLAttributes<HTMLDivElement>;
 
 export function CardScan(props: Props) {
-  const { code, className, lazy, sideways, suffix } = props;
+  const { code, suffix, ...rest } = props;
 
   const imageCode = useAgathaEasterEggTransform(`${code}${suffix ?? ""}`);
 
   return (
-    <div className={cx(css["scan"], className)} data-testid="card-scan">
+    <CardScanInner
+      alt={`Scan of card ${imageCode}`}
+      url={imageUrl(imageCode)}
+      {...rest}
+    />
+  );
+}
+
+export function CardScanInner(
+  props: Omit<Props, "code"> & {
+    alt: string;
+    url: string;
+    crossOrigin?: "anonymous";
+  },
+) {
+  const { alt, crossOrigin, sideways, lazy, className, url, ...rest } = props;
+
+  return (
+    <div
+      className={cx(css["scan"], sideways && css["sideways"], className)}
+      data-testid="card-scan"
+      data-component="card-scan"
+      {...rest}
+    >
       <img
-        loading={lazy ? "lazy" : undefined}
-        alt={`Scan of card ${imageCode}`}
+        alt={alt}
+        crossOrigin={crossOrigin}
         height={sideways ? 300 : 420}
-        src={imageUrl(imageCode)}
+        loading={lazy ? "lazy" : undefined}
+        src={url}
         width={sideways ? 420 : 300}
       />
     </div>

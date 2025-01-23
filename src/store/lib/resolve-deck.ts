@@ -4,6 +4,7 @@ import {
   ATTACHABLE_CARDS,
   type AttachableDefinition,
 } from "@/utils/constants";
+import { isEmpty } from "@/utils/is-empty";
 import type { Deck } from "../slices/data.types";
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
@@ -74,7 +75,7 @@ export function resolveDeck(
 
   const hasExtraDeck = !!investigatorBack.card.side_deck_options;
   const hasParallel = !!investigator.relations?.parallel;
-  const hasReplacements = !!investigator.relations?.replacement?.length;
+  const hasReplacements = !isEmpty(investigator.relations?.replacement);
 
   if (!investigatorFront || !investigatorBack) {
     throw new Error(`Investigator not found: ${deck.investigator_code}`);

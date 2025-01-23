@@ -10,6 +10,7 @@ import type { DeckValidationResult } from "@/store/lib/deck-validation";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { selectDeckGroups } from "@/store/selectors/decks";
 import type { Tab } from "@/store/slices/deck-edits.types";
+import type { ViewMode } from "@/store/slices/lists.types";
 import { getCardColor } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { isEmpty } from "@/utils/is-empty";
@@ -35,14 +36,17 @@ type Props = {
   onTabChange: (tab: Tab) => void;
   getListCardProps?: FilteredListCardPropsGetter;
   validation?: DeckValidationResult;
+  viewMode?: ViewMode;
 };
 
 export function Editor(props: Props) {
-  const { currentTab, getListCardProps, onTabChange, tabs } = props;
+  const { currentTab, getListCardProps, onTabChange, tabs, viewMode } = props;
 
   const { resolvedDeck: deck } = useResolvedDeckChecked();
 
-  const groups = useStore((state) => selectDeckGroups(state, deck));
+  const groups = useStore((state) =>
+    selectDeckGroups(state, deck, viewMode === "scans" ? "scans" : "list"),
+  );
 
   const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
   const backgroundCls = getCardColor(deck.investigatorBack.card, "background");

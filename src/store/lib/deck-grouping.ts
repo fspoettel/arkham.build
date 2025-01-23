@@ -2,7 +2,7 @@ import { isEmpty } from "@/utils/is-empty";
 import type { Card } from "../services/queries.types";
 import type { Slots } from "../slices/data.types";
 import type { Metadata } from "../slices/metadata.types";
-import type { ListConfig } from "../slices/settings.types";
+import type { DecklistConfig } from "../slices/settings.types";
 import {
   type GroupedCards,
   type GroupingResult,
@@ -29,7 +29,7 @@ export type Groupings = Partial<{
 
 export function groupDeckCards(
   metadata: Metadata,
-  config: ListConfig,
+  config: DecklistConfig,
   resolvedDeck: ResolvedDeck,
 ) {
   const sortFunc = makeSortFunction(config.sort, metadata);

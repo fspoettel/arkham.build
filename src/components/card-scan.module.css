@@ -1,11 +1,21 @@
-.scan img {
-  background: var(--palette-1);
-  border-radius: 14px;
-  margin: 0 auto;
-  max-width: 100%;
+.scan {
+  position: relative;
+  aspect-ratio: 300 / 420;
+  width: 100%;
   height: auto;
 
-  @media screen and (min-width: 45rem) {
-    box-shadow: var(--shadow-lg);
+  &.sideways {
+    aspect-ratio: 420 / 300;
   }
+}
+
+.scan > img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: var(--palette-1);
+  border-radius: 3.75%;
 }

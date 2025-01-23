@@ -11,17 +11,21 @@ import { useAttachmentsChangeHandler } from "./utils";
 type Props = {
   card: Card;
   resolvedDeck: ResolvedDeck;
+  buttonVariant?: "bare";
 };
 
+export function getMatchingAttachables(card: Card, resolvedDeck: ResolvedDeck) {
+  return resolvedDeck.availableAttachments.filter((definition) =>
+    canAttach(card, definition),
+  );
+}
+
 export function Attachments(props: Props) {
-  const { card, resolvedDeck } = props;
+  const { buttonVariant, card, resolvedDeck } = props;
 
   const matches = useMemo(
-    () =>
-      resolvedDeck.availableAttachments.filter((definition) =>
-        canAttach(card, definition),
-      ),
-    [resolvedDeck.availableAttachments, card],
+    () => getMatchingAttachables(card, resolvedDeck),
+    [resolvedDeck, card],
   );
 
   if (!matches.length) return null;
@@ -31,6 +35,7 @@ export function Attachments(props: Props) {
       {matches.map((definition) => {
         return (
           <Attachment
+            buttonVariant={buttonVariant}
             card={card}
             definition={definition}
             resolvedDeck={resolvedDeck}
@@ -47,7 +52,7 @@ function Attachment(
     definition: AttachableDefinition;
   },
 ) {
-  const { card, definition, resolvedDeck } = props;
+  const { buttonVariant, card, definition, resolvedDeck } = props;
 
   const onChangeAttachmentQuantity = useAttachmentsChangeHandler();
 
@@ -86,8 +91,8 @@ function Attachment(
         data-testid={`attachment-${definition.code}`}
         onClick={canEdit ? onClick : undefined}
         onContextMenu={canEdit ? onRightClick : undefined}
-        size="sm"
-        variant={!canEdit && !attached ? "bare" : undefined}
+        size={buttonVariant ? "none" : "sm"}
+        variant={buttonVariant ?? (!canEdit && !attached ? "bare" : undefined)}
         tooltip={
           canEdit
             ? `Add to ${definition.name}`

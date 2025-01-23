@@ -1,5 +1,5 @@
 import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
-import { hasImage, sideways } from "@/utils/card-utils";
+import { sideways } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { CardScan } from "../card-scan";
 import { CardThumbnail } from "../card-thumbnail";
@@ -34,8 +34,7 @@ export function CardFace(props: Props) {
   const { card } = resolvedCard;
   const isSideways = sideways(card);
 
-  const showImage =
-    hasImage(card) && (size === "full" || card.type_code !== "story");
+  const showImage = size === "full" || card.type_code !== "story";
 
   return (
     <article
@@ -75,11 +74,9 @@ export function CardFace(props: Props) {
 
       {showImage &&
         (size === "full" ? (
-          <CardScan
-            className={css["image"]}
-            code={card.code}
-            sideways={isSideways}
-          />
+          <div className={css["image"]}>
+            <CardScan code={card.code} sideways={isSideways} />
+          </div>
         ) : (
           <div className={css["image"]}>
             <CardThumbnail card={card} />

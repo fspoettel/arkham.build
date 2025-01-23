@@ -7,6 +7,7 @@ import {
 } from "@/store/selectors/deck-filters";
 import type { Coded } from "@/store/services/queries.types";
 import { capitalizeWords, formatProviderName } from "@/utils/formatting";
+import { isEmpty } from "@/utils/is-empty";
 import { useCallback } from "react";
 import { FilterContainer } from "../filters/primitives/filter-container";
 
@@ -51,7 +52,7 @@ export function DeckTagsFilter({ containerClass }: Props) {
   );
 
   return (
-    !!Object.keys(options).length && (
+    !isEmpty(Object.keys(options)) && (
       <FilterContainer
         className={containerClass}
         filterString={changes}
