@@ -9,6 +9,7 @@ import deckInvestigatorParallelBoth from "@/test/fixtures/decks/investigator_par
 import deckInvestigatorParallelFront from "@/test/fixtures/decks/investigator_parallel_front.json";
 import deckInvestigatorReplacements from "@/test/fixtures/decks/investigator_replacement.json";
 import deckMultiFactionSelected from "@/test/fixtures/decks/multi_faction_select.json";
+import deckMyriadDifferentNames from "@/test/fixtures/decks/upgrades/dtrh_myriad_2.json";
 import deckXpRequired from "@/test/fixtures/decks/xp_required.json";
 import { getMockStore } from "@/test/get-mock-store";
 import { beforeAll, describe, expect, it } from "vitest";
@@ -523,6 +524,15 @@ describe("resolveDeck", () => {
         const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
         expect(resolved.stats).toMatchObject({
           xpRequired: 47,
+        });
+      });
+
+      it("counts myriad with different names correctly", () => {
+        const { metadata, lookupTables, sharing } = store.getState();
+        const deck = deckMyriadDifferentNames;
+        const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+        expect(resolved.stats).toMatchObject({
+          xpRequired: 2,
         });
       });
     });

@@ -52,6 +52,9 @@ export function decodeSlots(
     }
   }
 
+  // Myriad cards are counted only once, regardless of sub name.
+  const myriadCounted: Record<string, boolean> = {};
+
   for (const [code, quantity] of Object.entries(deck.slots)) {
     const card = resolveCardWithRelations(
       metadata,
@@ -64,8 +67,16 @@ export function decodeSlots(
 
     if (card) {
       deckSizeTotal += quantity;
-      xpRequired += countExperience(card.card, quantity);
       cards.slots[code] = card;
+
+      xpRequired +=
+        card.card.myriad && myriadCounted[card.card.real_name]
+          ? 0
+          : countExperience(card.card, quantity);
+
+      if (card.card.myriad && !myriadCounted[card.card.real_name]) {
+        myriadCounted[card.card.real_name] = true;
+      }
 
       if (deck.ignoreDeckLimitSlots?.[code]) {
         cards.ignoreDeckLimitSlots[code] = card;

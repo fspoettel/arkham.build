@@ -1,3 +1,4 @@
+import myriad from "@/test/fixtures/decks/upgrades/dtrh_myriad_2.json";
 import accessCustomizableValid from "@/test/fixtures/decks/validation/access_customizable.json";
 import accessCustomizableInvalid from "@/test/fixtures/decks/validation/access_customizable_invalid.json";
 import atleastAncestralKnowledge from "@/test/fixtures/decks/validation/atleast_ancestral_knowledge.json";
@@ -1298,6 +1299,50 @@ describe("deck validation", () => {
               },
             ],
             "type": "FORBIDDEN",
+          },
+        ]
+      `);
+    });
+  });
+
+  describe("corner cases", () => {
+    it("handles case: myriad with different names", () => {
+      const deck = structuredClone(myriad);
+      let result = validate(store, deck);
+      expect(result.valid).toBeFalsy();
+      expect(result.errors).toMatchInlineSnapshot(`
+        [
+          {
+            "details": {
+              "count": 3,
+              "countRequired": 30,
+              "target": "slots",
+            },
+            "type": "TOO_FEW_CARDS",
+          },
+        ]
+      `);
+      deck.slots["06242"] = 2;
+      result = validate(store, deck);
+      expect(result.errors).toMatchInlineSnapshot(`
+        [
+          {
+            "details": {
+              "count": 4,
+              "countRequired": 30,
+              "target": "slots",
+            },
+            "type": "TOO_FEW_CARDS",
+          },
+          {
+            "details": [
+              {
+                "code": "06243",
+                "limit": 3,
+                "quantity": 4,
+              },
+            ],
+            "type": "INVALID_CARD_COUNT",
           },
         ]
       `);

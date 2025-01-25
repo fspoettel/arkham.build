@@ -26,8 +26,10 @@ import customizableUpgrade from "@/test/fixtures/decks/upgrades/customizable_upg
 import customizableUpgrade2 from "@/test/fixtures/decks/upgrades/customizable_upgrade_2.json";
 import deckSize from "@/test/fixtures/decks/upgrades/deck_size_1.json";
 import deckSize2 from "@/test/fixtures/decks/upgrades/deck_size_2.json";
-import dtrh from "@/test/fixtures/decks/upgrades/down_the_rabbit_hole_base_1.json";
-import dtrh2 from "@/test/fixtures/decks/upgrades/down_the_rabbit_hole_base_2.json";
+import dtrh from "@/test/fixtures/decks/upgrades/dtrh_base_1.json";
+import dtrh2 from "@/test/fixtures/decks/upgrades/dtrh_base_2.json";
+import dtrhMyriad from "@/test/fixtures/decks/upgrades/dtrh_myriad.json";
+import dtrhMyriad2 from "@/test/fixtures/decks/upgrades/dtrh_myriad_2.json";
 import dtrhPenaltyBase from "@/test/fixtures/decks/upgrades/dtrh_penalties_base.json";
 import dtrhPenaltyExile from "@/test/fixtures/decks/upgrades/dtrh_penalties_exile.json";
 import dtrhPenaltyLevel0 from "@/test/fixtures/decks/upgrades/dtrh_penalties_level_zero.json";
@@ -268,6 +270,24 @@ describe("getUpgradeStats", () => {
           state.lookupTables,
           state.sharing,
           arcaneResearchDtrh2,
+        );
+
+        expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      });
+
+      it("handles case: interaction with myriad", () => {
+        const state = store.getState();
+        const prev = resolveDeck(
+          state.metadata,
+          state.lookupTables,
+          state.sharing,
+          dtrhMyriad,
+        );
+        const next = resolveDeck(
+          state.metadata,
+          state.lookupTables,
+          state.sharing,
+          dtrhMyriad2,
         );
 
         expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);

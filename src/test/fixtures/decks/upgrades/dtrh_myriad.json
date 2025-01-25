@@ -1,7 +1,7 @@
 {
-  "id": "UeOcfmsxBlsGCyw",
-  "date_creation": "2024-08-11T11:06:53.474Z",
-  "date_update": "2024-08-11T11:07:11.425Z",
+  "id": "xbQNcixJZePiJ36",
+  "date_creation": "2025-01-25T22:50:47.534Z",
+  "date_update": "2025-01-25T22:50:52.773Z",
   "description_md": "",
   "meta": "{}",
   "ignoreDeckLimitSlots": {},
@@ -10,11 +10,13 @@
   "previous_deck": null,
   "tags": "",
   "version": "0.1",
+  "taboo_id": 8,
   "xp": null,
   "xp_spent": null,
   "exile_string": null,
   "xp_adjustment": null,
   "investigator_code": "01004",
+  "investigator_name": "Agnes Baker",
   "name": "The Agnes Baker Mysteries",
   "slots": {
     "01000": 1,
@@ -22,6 +24,5 @@
     "01013": 1,
     "08059": 1
   },
-  "problem": "too_few_cards",
-  "taboo_id": null
+  "problem": "too_few_cards"
 }

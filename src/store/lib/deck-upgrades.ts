@@ -210,6 +210,9 @@ function calculateXpSpent(
 
     const upgrades = getDirectUpgrades(diff);
 
+    // Myriad cards are counted only once, regardless of sub name.
+    const myriadCounted: Record<string, boolean> = {};
+
     for (const [card, _quantity] of diff.adds) {
       // Checking boxes on a customizable cards counts as upgrades.
       // We only handle customizable purchases as adds if the cards are new.
@@ -242,9 +245,15 @@ function calculateXpSpent(
         continue;
       }
 
-      let cost = countExperience(card, quantity);
+      // additional copies of a myriad card are free.
+      if (card.myriad && myriadCounted[card.real_name]) {
+        continue;
+      }
 
-      // level 0 cards cost a minimum of to purchase.
+      let cost = countExperience(card, quantity);
+      if (card.myriad) myriadCounted[card.real_name] = true;
+
+      // level 0 cards cost a minimum of 1 to purchase.
       // copy 2 to n of a myriad is free.
       if (level === 0) {
         cost += card.myriad ? 1 : quantity;
