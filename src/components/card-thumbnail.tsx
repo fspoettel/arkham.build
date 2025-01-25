@@ -33,6 +33,7 @@ export const CardThumbnail = memo(
           className,
         )}
         key={card.code}
+        data-component="card-thumbnail"
       >
         <img alt={`Thumbnail: ${imageCode}`} src={thumbnailUrl(imageCode)} />
       </div>

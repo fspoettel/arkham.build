@@ -156,19 +156,26 @@
   box-shadow: var(--shadow-md);
 }
 
-.container.compact [data-component="card-scan"] {
+.container.compact
+  .image
+  :where([data-component="card-scan"], [data-component="card-thumbnail"]) {
   max-width: 100%;
   width: 8rem;
   height: auto;
 }
 
-.container.full .image [data-component="card-scan"] {
+.container.full
+  .image
+  :where([data-component="card-scan"], [data-component="card-thumbnail"]) {
   max-width: 100%;
   width: 16rem;
   height: auto;
 }
 
-.container.full .card.sideways .image [data-component="card-scan"] {
+.container.full
+  .card.sideways
+  .image
+  :where([data-component="card-scan"], [data-component="card-thumbnail"]) {
   max-width: 100%;
   width: 20rem;
   height: auto;
