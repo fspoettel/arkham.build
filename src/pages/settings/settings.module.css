@@ -74,8 +74,10 @@
 
 .lists {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   gap: 1rem;
+  overflow-x: scroll;
+  width: 100%;
 }
 
 .list {

@@ -137,6 +137,18 @@ function Settings() {
                     settings={settings}
                     updateSettings={updateSettings}
                   />
+                  <ListSettings
+                    listKey="deck"
+                    title="Deck view"
+                    settings={settings}
+                    updateSettings={updateSettings}
+                  />
+                  <ListSettings
+                    listKey="deckScans"
+                    title="Deck view (scans)"
+                    settings={settings}
+                    updateSettings={updateSettings}
+                  />
                 </div>
               </Section>
             </TabsContent>

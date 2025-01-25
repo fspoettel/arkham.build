@@ -8,6 +8,7 @@ import {
 import { SORTING_TYPES } from "@/store/lib/sorting";
 import {
   DECK_DEFAULTS,
+  DECK_SCANS_DEFAULTS,
   ENCOUNTER_DEFAULTS,
   PLAYER_DEFAULTS,
 } from "@/store/slices/settings";
@@ -56,6 +57,10 @@ function getDefaultsForList(listKey: keyof SettingsState["lists"]) {
 
   if (listKey === "deck") {
     return structuredClone(DECK_DEFAULTS);
+  }
+
+  if (listKey === "deckScans") {
+    return structuredClone(DECK_SCANS_DEFAULTS);
   }
 
   return structuredClone(PLAYER_DEFAULTS);
