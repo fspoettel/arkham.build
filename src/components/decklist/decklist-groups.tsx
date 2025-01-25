@@ -17,6 +17,7 @@ import { customizationSheetUrl } from "@/store/services/queries";
 import type { Card } from "@/store/services/queries.types";
 import type { Slots } from "@/store/slices/data.types";
 import { sideways } from "@/utils/card-utils";
+import { cx } from "@/utils/cx";
 import { range } from "@/utils/range";
 import { Fragment, useCallback, useMemo } from "react";
 import { CardGridItem } from "../card-list/card-grid";
@@ -61,7 +62,10 @@ export function DecklistGroup(props: DecklistGroupsProps) {
         }
 
         return (
-          <div className={css["container"]} key={group.key}>
+          <div
+            className={cx(css["container"], viewMode && css[viewMode])}
+            key={group.key}
+          >
             {parents.map((parent) => (
               <h2 className={css["title"]} key={parent.key}>
                 <GroupLabel
@@ -157,7 +161,7 @@ function Scans(props: {
   );
 
   return (
-    <ol className={css["scans"]} style={styles}>
+    <ol className={css["grid"]} style={styles}>
       {group.cards.map((card) => (
         <Fragment key={card.code}>
           <li>

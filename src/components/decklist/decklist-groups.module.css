@@ -42,7 +42,7 @@
   border-radius: var(--rounded);
 }
 
-.scans {
+.grid {
   --scan-spacing: 1rem;
 
   display: grid;
@@ -75,7 +75,7 @@
   }
 }
 
-.scans > * {
+.grid > * {
   list-style: none;
 }
 
@@ -101,4 +101,12 @@
   z-index: calc(var(--scan-level) * -1);
   top: calc(var(--scan-level) * var(--scan-spacing) * -1);
   left: 0;
+}
+
+.container.scans .title {
+  font-size: var(--text-base);
+}
+
+.container.scans .subtitle {
+  font-size: var(--text-sm);
 }

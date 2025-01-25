@@ -11,7 +11,7 @@ type Props = {
 export function DecklistSection(props: Props) {
   const { children, columns = "auto", showTitle, title } = props;
   return (
-    <article className={cx(css["decklist-section"])}>
+    <article className={cx(css["decklist-section"], css[columns])}>
       <header className={css["decklist-section-header"]}>
         <h3
           className={cx(css["decklist-section-title"], !showTitle && "sr-only")}
@@ -19,9 +19,7 @@ export function DecklistSection(props: Props) {
           {title}
         </h3>
       </header>
-      <div className={cx(css["decklist-section-content"], css[columns])}>
-        {children}
-      </div>
+      <div className={css["decklist-section-content"]}>{children}</div>
     </article>
   );
 }
