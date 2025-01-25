@@ -9,7 +9,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { type ListRange, Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 import { useCardModalContextChecked } from "../card-modal/card-modal-context";
 import { CardScan } from "../card-scan";
+import { PortaledCardTooltip } from "../card-tooltip/card-tooltip-portaled";
 import { Scroller } from "../ui/scroller";
+import { useRestingTooltip } from "../ui/tooltip.hooks";
 import { CardActions } from "./card-actions";
 import css from "./card-grid.module.css";
 import { Grouphead } from "./grouphead";
@@ -119,7 +121,7 @@ export function CardGrid(props: CardListImplementationProps) {
           overscan={2}
           rangeChanged={rangeChanged}
           itemContent={(index, group) => (
-            <CardGroup
+            <CardGridGroup
               {...rest}
               group={group}
               data={data}
@@ -133,7 +135,7 @@ export function CardGrid(props: CardListImplementationProps) {
   );
 }
 
-function CardGroup(
+function CardGridGroup(
   props: {
     group: CardGroupType;
     data: ListState;
@@ -165,19 +167,25 @@ function CardGroup(
       />
       <div className={css["group-items"]}>
         {groupCards.map((card) => (
-          <CardGroupItem {...rest} card={card} key={card.code} />
+          <CardGridItem {...rest} card={card} key={card.code} />
         ))}
       </div>
     </div>
   );
 }
 
-function CardGroupItem(
+export function CardGridItem(
   props: {
     card: Card;
-  } & Pick<CardListImplementationProps, "getListCardProps" | "quantities">,
+  } & Pick<
+    CardListImplementationProps,
+    "getListCardProps" | "quantities" | "resolvedDeck"
+  >,
 ) {
   const { card, getListCardProps, quantities } = props;
+
+  const { refs, referenceProps, isMounted, floatingStyles, transitionStyles } =
+    useRestingTooltip();
 
   const modalContext = useCardModalContextChecked();
 
@@ -188,21 +196,37 @@ function CardGroupItem(
   const quantity = quantities?.[card.code] ?? 0;
 
   return (
-    <div className={css["group-item"]} key={card.code}>
-      <button
-        className={css["group-item-scan"]}
-        onClick={openModal}
-        type="button"
+    <>
+      <div
+        {...referenceProps}
+        className={css["group-item"]}
+        key={card.code}
+        data-component="card-group-item"
+        ref={refs.setReference}
       >
-        <CardScan code={card.code} sideways={sideways(card)} />
-      </button>
-      <div className={css["group-item-actions"]}>
-        <CardActions
-          card={card}
-          quantity={quantity}
-          listCardProps={getListCardProps?.(card)}
-        />
+        <button
+          className={css["group-item-scan"]}
+          onClick={openModal}
+          type="button"
+        >
+          <CardScan code={card.code} sideways={sideways(card)} />
+        </button>
+        <div className={css["group-item-actions"]}>
+          <CardActions
+            card={card}
+            quantity={quantities ? quantity : undefined}
+            listCardProps={getListCardProps?.(card)}
+          />
+        </div>
       </div>
-    </div>
+      {isMounted && (
+        <PortaledCardTooltip
+          card={card}
+          ref={refs.setFloating}
+          floatingStyles={floatingStyles}
+          transitionStyles={transitionStyles}
+        />
+      )}
+    </>
   );
 }

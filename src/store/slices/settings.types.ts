@@ -6,6 +6,11 @@ export type ListConfig = {
   viewMode: ViewMode;
 };
 
+export type DecklistConfig = {
+  group: GroupingType[];
+  sort: SortingType[];
+};
+
 export type SettingsState = {
   collection: Record<string, number>; // track as "quantity" owned to accomodate the core set.
   fontSize: number;
@@ -14,7 +19,8 @@ export type SettingsState = {
     encounter: ListConfig;
     investigator: ListConfig;
     player: ListConfig;
-    deck: ListConfig;
+    deck: DecklistConfig;
+    deckScans: DecklistConfig;
   };
   showPreviews: boolean;
   showAllCards: boolean;

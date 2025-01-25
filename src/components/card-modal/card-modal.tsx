@@ -6,6 +6,7 @@ import {
 import { selectCardWithRelations } from "@/store/selectors/card-view";
 import { getCanonicalCardCode, isStaticInvestigator } from "@/utils/card-utils";
 import { formatRelationTitle } from "@/utils/formatting";
+import { isEmpty } from "@/utils/is-empty";
 import { useMedia } from "@/utils/use-media";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { ExternalLinkIcon, MessagesSquareIcon } from "lucide-react";
@@ -116,7 +117,7 @@ export function CardModal(props: Props) {
           )
         ) : undefined}
       </Card>
-      {!!related.length && (
+      {!isEmpty(related) && (
         <div className={css["related"]}>
           {related.map(([key, value]) => {
             const cards = Array.isArray(value) ? value : [value];
@@ -187,7 +188,7 @@ export function CardModal(props: Props) {
     >
       {showQuantities ? (
         <div className={css["container"]}>
-          <div>{cardNode}</div>
+          <div className={css["card"]}>{cardNode}</div>
           {/* biome-ignore lint/a11y/useKeyWithClickEvents: not relevant. */}
           <div
             className={css["quantities"]}
@@ -203,7 +204,7 @@ export function CardModal(props: Props) {
                 showExtraQuantities={showExtraQuantities}
               />
             )}
-            {!!ctx.resolvedDeck?.availableAttachments.length && (
+            {!isEmpty(ctx.resolvedDeck?.availableAttachments) && (
               <CardModalAttachmentQuantities
                 card={cardWithRelations.card}
                 resolvedDeck={ctx.resolvedDeck}

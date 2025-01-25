@@ -153,21 +153,25 @@
 
 .image img {
   margin: 0 auto;
+  box-shadow: var(--shadow-md);
 }
 
-.container.compact .image {
+.container.compact [data-component="card-scan"] {
   max-width: 100%;
   width: 8rem;
+  height: auto;
 }
 
-.container.full .image img {
+.container.full .image [data-component="card-scan"] {
   max-width: 100%;
   width: 16rem;
+  height: auto;
 }
 
-.container.full .card.sideways .image img {
+.container.full .card.sideways .image [data-component="card-scan"] {
   max-width: 100%;
   width: 20rem;
+  height: auto;
 }
 
 /* Elements */
@@ -203,15 +207,6 @@
   font-size: calc(var(--card-title-size) * 1.75);
   color: currentColor;
   line-height: 1;
-}
-
-.header-actions {
-  border-radius: var(--rounded);
-  background: rgba(0, 0, 0, 0.25);
-}
-
-.header:hover .header-actions {
-  background: rgba(0, 0, 0, 0.5);
 }
 
 .faction-icons {

@@ -3,6 +3,7 @@
   gap: 1rem;
   align-items: stretch;
   flex-flow: column nowrap;
+  width: 100%;
 
   @media screen and (min-width: 32rem) {
     flex-flow: row nowrap;
@@ -11,11 +12,13 @@
 
 .card,
 .cardset {
+  flex: 1 1 auto;
   box-shadow: var(--shadow);
 }
 
 .quantities {
   order: -1;
+  flex: 0 0 auto;
 
   display: flex;
   align-items: flex-start;

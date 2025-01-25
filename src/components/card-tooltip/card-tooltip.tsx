@@ -1,9 +1,9 @@
 import { useStore } from "@/store";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
-import { Annotation } from "./annotations/annotation";
+import { Annotation } from "../annotations/annotation";
+import { Card } from "../card/card";
 import css from "./card-tooltip.module.css";
-import { Card } from "./card/card";
 
 type Props = {
   code: string;

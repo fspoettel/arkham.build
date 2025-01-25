@@ -1,5 +1,5 @@
 import { useCardModalContextChecked } from "@/components/card-modal/card-modal-context";
-import { CardTooltip } from "@/components/card-tooltip";
+import { CardTooltip } from "@/components/card-tooltip/card-tooltip";
 import { useRestingTooltip } from "@/components/ui/tooltip.hooks";
 import type { Card } from "@/store/services/queries.types";
 import { FLOATING_PORTAL_ID } from "@/utils/constants";

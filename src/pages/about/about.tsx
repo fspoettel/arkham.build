@@ -67,20 +67,27 @@ function About() {
             Without you this project would not have been possible. 🙇‍♂️
           </li>
           <li>
-            <strong>@kamalisk &amp; ArkhamDB crew:</strong> Structured card data
-            and images and many years of being the backbone of the community.
+            <strong>@kamalisk &amp; ArkhamDB crew:</strong> OAuth access,
+            structured card data and many years of being the backbone of the
+            community.
           </li>
           <li>
             <strong>@Chr1Z</strong>, <strong>@Butermelse</strong>,{" "}
             <strong>@5argon</strong>: Patient feedback and testing during
-            development of the initial version.
+            development of the initial version, design concepts.
           </li>
           <li>
             <strong>@TartanLlama</strong>, <strong>@blu</strong>: Significant
             contributions to the codebase.
           </li>
+          <li>
+            <strong>@morvael</strong>: API access to draw customization sheets.
+          </li>
+          <li>
+            <strong>@HatfulBob</strong>: Custom card design.
+          </li>
         </ul>
-        <h2>Icon credits</h2>
+        <h2>Image / Icon credits</h2>
         <ul>
           <li>
             <strong>Card icons:</strong> Fantasy Flight Games

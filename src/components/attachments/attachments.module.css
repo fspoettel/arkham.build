@@ -7,6 +7,7 @@
 
 .attachment {
   flex: 0 0 auto;
+  line-height: 1;
 }
 
 .attachment-quantity {

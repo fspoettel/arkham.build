@@ -111,11 +111,11 @@ export type Search = {
 };
 
 export type GroupingType =
+  | "base_upgrades"
   | "cost"
   | "cycle"
   | "encounter_set"
   | "faction"
-  | "base_upgrades"
   | "level"
   | "pack"
   | "slot"
@@ -123,13 +123,14 @@ export type GroupingType =
   | "type";
 
 export type SortingType =
-  | "position"
-  | "name"
-  | "level"
+  | "cost"
   | "cycle"
   | "faction"
-  | "type"
-  | "cost";
+  | "level"
+  | "name"
+  | "position"
+  | "slot"
+  | "type";
 
 export type ViewMode = "compact" | "card-text" | "full-cards" | "scans";
 

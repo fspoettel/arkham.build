@@ -20,10 +20,10 @@ export function DeckHistory(props: Props) {
     <ol className={css["entries"]} data-testid="history">
       {history.map((stats, idx) => {
         const hasChanges =
-          !!stats.differences.slots.length ||
-          !!stats.differences.extraSlots.length ||
-          !!stats.differences.customizations.length ||
-          !!stats.differences.exileSlots.length;
+          !isEmpty(stats.differences.slots) ||
+          !isEmpty(stats.differences.extraSlots) ||
+          !isEmpty(stats.differences.customizations) ||
+          !isEmpty(stats.differences.exileSlots);
 
         return (
           // biome-ignore lint/suspicious/noArrayIndexKey: no natural key available.

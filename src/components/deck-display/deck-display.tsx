@@ -3,14 +3,16 @@ import type { DeckValidationResult } from "@/store/lib/deck-validation";
 import { deckTags, extendedDeckTags } from "@/store/lib/resolve-deck";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { History } from "@/store/selectors/decks";
+import { isEmpty } from "@/utils/is-empty";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { BookOpenTextIcon, ChartAreaIcon, FileClockIcon } from "lucide-react";
-import { Suspense, useCallback, useState } from "react";
+import { Suspense, useCallback, useRef, useState } from "react";
 import DeckDescription from "../deck-description";
 import { DeckTags } from "../deck-tags";
 import { DeckTools } from "../deck-tools/deck-tools";
 import { Decklist } from "../decklist/decklist";
 import { DecklistValidation } from "../decklist/decklist-validation";
+import type { ViewMode } from "../decklist/decklist.types";
 import { LimitedCardPoolTag, SealedDeckTag } from "../limited-card-pool";
 import { Dialog } from "../ui/dialog";
 import { Loader } from "../ui/loader";
@@ -30,10 +32,12 @@ export type DeckDisplayProps = {
 export function DeckDisplay(props: DeckDisplayProps) {
   const { origin, deck, history, validation } = props;
 
+  const [viewMode, setViewMode] = useState<ViewMode>("list");
   const [currentTab, setCurrentTab] = useState("deck");
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
-  const hasHistory = !!history?.length;
+  const hasHistory = !isEmpty(history);
 
   const onTabChange = useCallback((val: string) => {
     setCurrentTab(val);
@@ -78,6 +82,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
             className={css["tabs"]}
             value={currentTab}
             onValueChange={onTabChange}
+            ref={contentRef}
           >
             <TabsList className={css["list"]}>
               <TabsTrigger
@@ -130,7 +135,11 @@ export function DeckDisplay(props: DeckDisplayProps) {
                   defaultOpen={validation.errors.length < 3}
                   validation={validation}
                 />
-                <Decklist deck={deck} />
+                <Decklist
+                  deck={deck}
+                  viewMode={viewMode}
+                  setViewMode={setViewMode}
+                />
               </div>
             </TabsContent>
             <TabsContent className={css["tab"]} value="tools">

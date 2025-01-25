@@ -1,4 +1,5 @@
 import type { StoreState } from "@/store/slices";
+import type { ListConfig } from "@/store/slices/settings.types";
 
 function migrate(_state: unknown, version: number) {
   const state = _state as StoreState;
@@ -13,9 +14,11 @@ function migrate(_state: unknown, version: number) {
         ] as any
       ).showCardText;
 
-      state.settings.lists[
-        key as keyof StoreState["settings"]["lists"]
-      ].viewMode = "compact";
+      (
+        state.settings.lists[
+          key as keyof StoreState["settings"]["lists"]
+        ] as ListConfig
+      ).viewMode = "compact";
     }
   }
 

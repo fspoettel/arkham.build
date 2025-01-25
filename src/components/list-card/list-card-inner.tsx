@@ -3,7 +3,6 @@ import {
   cardLimit,
   countExperience,
   getCardColor,
-  hasImage,
   hasSkillIcons,
   isEnemyLike,
   parseCardTextHtml,
@@ -11,8 +10,9 @@ import {
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { cx } from "@/utils/cx";
 import type { ReferenceType } from "@floating-ui/react";
-import { FileWarningIcon, MessageCircleIcon, StarIcon } from "lucide-react";
+import { FileWarningIcon, StarIcon } from "lucide-react";
 import { useCallback } from "react";
+import { AnnotationIndicator } from "../annotation-indicator";
 import { CardHealth } from "../card-health";
 import { CardIcon } from "../card-icon";
 import { useCardModalContextChecked } from "../card-modal/card-modal-context";
@@ -144,7 +144,7 @@ export function ListCardInner(props: Props) {
       <div className={css["listcard"]}>
         <div className={css["listcard-main"]}>
           <figure className={css["content"]} ref={figureRef}>
-            {!omitThumbnail && hasImage(card) && (
+            {!omitThumbnail && (
               <button
                 onClick={disableModalOpen ? undefined : openModal}
                 tabIndex={-1}
@@ -248,16 +248,7 @@ export function ListCardInner(props: Props) {
                     </span>
                   )}
 
-                  {!!annotation && (
-                    <DefaultTooltip tooltip="Card has an annotation">
-                      <span
-                        className={css["annotation-icon"]}
-                        data-testid="annotation-indicator"
-                      >
-                        <MessageCircleIcon />
-                      </span>
-                    </DefaultTooltip>
-                  )}
+                  {!!annotation && <AnnotationIndicator />}
 
                   {!showInvestigatorIcons && card.real_subname && (
                     <h5

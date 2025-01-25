@@ -388,7 +388,9 @@ test.describe("deck view", () => {
       .getByTestId("card-name")
       .click();
 
-    await expect(page.getByTestId("limited-card-group")).toBeVisible();
+    await expect(
+      page.getByTestId("investigator-modal").getByTestId("limited-card-group"),
+    ).toBeVisible();
   });
 
   test("limited slots in deck tools", async ({ page }) => {
@@ -442,6 +444,8 @@ test.describe("deck view", () => {
       .getByTestId("card-name")
       .click();
 
-    await expect(page.getByTestId("limited-card-group")).toHaveScreenshot();
+    await expect(
+      page.getByTestId("investigator-modal").getByTestId("limited-card-group"),
+    ).toHaveScreenshot();
   });
 });

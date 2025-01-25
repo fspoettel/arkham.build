@@ -16,13 +16,16 @@ type TabsProps = RootProps & {
   children: React.ReactNode;
 };
 
-export function Tabs({ children, className, ...rest }: TabsProps) {
+export const Tabs = forwardRef(function Tabs(
+  { children, className, ...rest }: TabsProps,
+  ref: React.ForwardedRef<HTMLDivElement>,
+) {
   return (
-    <Root {...rest} className={cx(css["tabs"], className)}>
+    <Root {...rest} className={cx(css["tabs"], className)} ref={ref}>
       {children}
     </Root>
   );
-}
+});
 
 type ListProps = TabsListProps & {
   children: React.ReactNode;

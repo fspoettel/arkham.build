@@ -1,5 +1,10 @@
 [
   {
+    "code": "01000",
+    "text": "This is a placeholder random basic weakness.\n\nYou can replace it with a specific weakness manually or use the randomize button to replace it with a random weakness from your collection.",
+    "patch": true
+  },
+  {
     "alt_art_investigator": true,
     "code": "98019",
     "deck_requirements": "size:30, card:11015:98020, card:11016:98021, random:subtype:basicweakness",

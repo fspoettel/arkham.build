@@ -5,7 +5,7 @@
 
 .deck-tools {
   animation: fadeIn 0.5s;
-  min-height: 15rem;
+  min-height: 32rem;
 }
 
 .deck-tools > * + * {

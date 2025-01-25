@@ -11,13 +11,21 @@
   margin-top: 0.5rem;
 }
 
-.decklist-section-content.auto {
+.decklist-section.auto .decklist-section-content {
   column-count: 3;
   column-width: 21.5rem;
   column-gap: 0.75rem;
   column-fill: balance;
 }
 
-.decklist-section-content.auto > * {
+.decklist-section.auto .decklist-section-content > * {
   break-inside: avoid;
+}
+
+.decklist-section.single .decklist-section-content > * {
+  max-width: 21.5rem;
+}
+
+.decklist-section.scans .decklist-section-title {
+  font-size: var(--text-lg);
 }

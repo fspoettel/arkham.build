@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.375rem;
-  padding: 0.625rem 1rem;
+  padding: 0.375rem 0.75rem;
   border-radius: var(--rounded-md) var(--rounded-md) 0 0;
 }
 
@@ -46,4 +46,9 @@
     border-bottom: 0;
     padding-bottom: 0;
   }
+}
+
+.empty {
+  padding: 0.375rem 0.75rem 0.75rem;
+  text-align: center;
 }

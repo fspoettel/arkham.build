@@ -5,9 +5,15 @@ import type { SettingsState } from "../slices/settings.types";
 
 export const selectSettings = createSelector(
   (state: StoreState) => state.settings,
-  (settings) =>
-    ({
-      ...getInitialSettings(),
+  (settings) => {
+    const initialSettings = getInitialSettings();
+    return {
+      ...initialSettings,
       ...settings,
-    }) as SettingsState,
+      lists: {
+        ...initialSettings.lists,
+        ...settings.lists,
+      },
+    } as SettingsState;
+  },
 );

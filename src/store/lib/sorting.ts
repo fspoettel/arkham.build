@@ -19,6 +19,7 @@ export const SORTING_TYPES: SortingType[] = [
   "level",
   "name",
   "position",
+  "slot",
   "type",
 ];
 
@@ -117,6 +118,10 @@ export function makeSortFunction(
       case "cost": {
         return sortByCost;
       }
+
+      case "slot": {
+        return sortBySlot;
+      }
     }
   });
 
@@ -181,6 +186,10 @@ export function sortBySlots(a: string, b: string) {
   if (slotB === -1) return -1;
 
   return slotA - slotB;
+}
+
+function sortBySlot(a: Card, b: Card) {
+  return sortBySlots(a.real_slot ?? "", b.real_slot ?? "");
 }
 
 /**

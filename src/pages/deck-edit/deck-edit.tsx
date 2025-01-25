@@ -1,5 +1,8 @@
 import { ListLayout } from "@//layouts/list-layout";
-import { Attachments } from "@/components/attachments/attachments";
+import {
+  Attachments,
+  getMatchingAttachables,
+} from "@/components/attachments/attachments";
 import { CardListContainer } from "@/components/card-list/card-list-container";
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { CardRecommender } from "@/components/card-recommender/card-recommender";
@@ -16,10 +19,12 @@ import {
   selectDeckValid,
   selectResolvedDeckById,
 } from "@/store/selectors/decks";
+import { selectActiveList } from "@/store/selectors/lists";
 import type { Card } from "@/store/services/queries.types";
 import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
 import { isStaticInvestigator } from "@/utils/card-utils";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import { isEmpty } from "@/utils/is-empty";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { useDocumentTitle } from "@/utils/use-document-title";
 import { useHotkey } from "@/utils/use-hotkey";
@@ -30,7 +35,7 @@ import {
 import {
   BookOpenTextIcon,
   ChartAreaIcon,
-  Rows3Icon,
+  LayoutListIcon,
   UndoIcon,
   WandSparklesIcon,
 } from "lucide-react";
@@ -167,6 +172,7 @@ function DeckEditInner() {
     return tabs;
   }, [deck.hasExtraDeck]);
 
+  const activeList = useStore(selectActiveList);
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
   const validation = useStore((state) => selectDeckValid(state, deck));
 
@@ -200,15 +206,21 @@ function DeckEditInner() {
 
   const renderCardExtraSlots = useCallback(
     (card: Card, quantity: number | undefined) => {
-      return card.code === SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS ? (
-        <DrawBasicWeakness
-          deckId={deck.id}
-          quantity={quantity}
-          targetDeck={mapTabToSlot(currentTab)}
-        />
-      ) : (
-        <Attachments card={card} resolvedDeck={deck} />
-      );
+      if (card.code === SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS) {
+        return (
+          <DrawBasicWeakness
+            deckId={deck.id}
+            quantity={quantity}
+            targetDeck={mapTabToSlot(currentTab)}
+          />
+        );
+      }
+
+      if (isEmpty(getMatchingAttachables(card, deck))) {
+        return null;
+      }
+
+      return <Attachments card={card} resolvedDeck={deck} />;
     },
     [deck, currentTab],
   );
@@ -279,10 +291,11 @@ function DeckEditInner() {
           <Editor
             currentTab={currentTab}
             currentTool={currentTool}
-            onTabChange={setCurrentTab}
             getListCardProps={getListCardProps}
-            validation={validation}
+            onTabChange={setCurrentTab}
             tabs={tabs}
+            validation={validation}
+            viewMode={activeList?.display.viewMode}
           />
         }
         sidebarWidthMax="var(--sidebar-width-two-col)"
@@ -300,7 +313,7 @@ function DeckEditInner() {
                 tooltip="Card list"
                 value="card-list"
               >
-                <Rows3Icon />
+                <LayoutListIcon />
                 <span>Card list</span>
               </TabsTrigger>
               <TabsTrigger

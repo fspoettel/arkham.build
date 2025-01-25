@@ -1,6 +1,4 @@
-import { FLOATING_PORTAL_ID } from "@/utils/constants";
-import { FloatingPortal } from "@floating-ui/react";
-import { CardTooltip } from "../card-tooltip";
+import { PortaledCardTooltip } from "../card-tooltip/card-tooltip-portaled";
 import { useRestingTooltip } from "../ui/tooltip.hooks";
 import type { Props as ListCardInnerProps } from "./list-card-inner";
 import { ListCardInner } from "./list-card-inner";
@@ -25,13 +23,13 @@ export function ListCard(props: Props) {
         referenceProps={referenceProps}
       />
       {isMounted && (
-        <FloatingPortal id={FLOATING_PORTAL_ID}>
-          <div ref={refs.setFloating} style={floatingStyles}>
-            <div style={transitionStyles}>
-              {tooltip ?? <CardTooltip code={card.code} />}
-            </div>
-          </div>
-        </FloatingPortal>
+        <PortaledCardTooltip
+          card={card}
+          ref={refs.setFloating}
+          floatingStyles={floatingStyles}
+          transitionStyles={transitionStyles}
+          tooltip={tooltip}
+        />
       )}
     </>
   );

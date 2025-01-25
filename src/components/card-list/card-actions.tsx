@@ -1,6 +1,7 @@
 import type { Card } from "@/store/services/queries.types";
 import { cardLimit } from "@/utils/card-utils";
 import { QuantityInput } from "../ui/quantity-input";
+import { QuantityOutput } from "../ui/quantity-output";
 import css from "./card-actions.module.css";
 import type { CardListItemProps } from "./types";
 
@@ -12,20 +13,29 @@ type Props = Pick<CardListItemProps, "listCardProps"> & {
 export function CardActions(props: Props) {
   const { card, listCardProps, quantity } = props;
 
-  if (!listCardProps?.onChangeCardQuantity || quantity == null) return null;
+  const onChangeCardQuantity = listCardProps?.onChangeCardQuantity;
+
+  if (quantity == null) return null;
+
+  const extras = listCardProps?.renderCardExtra?.(card);
 
   return (
     <div className={css["actions"]}>
-      <QuantityInput
-        className={css["actions-quantity"]}
-        limit={cardLimit(card, listCardProps?.limitOverride)}
-        value={quantity || 0}
-        onValueChange={(quantity, limit) =>
-          listCardProps?.onChangeCardQuantity?.(card, quantity, limit)
-        }
-      />
-      {listCardProps?.renderCardAction?.(card)}
-      {listCardProps?.renderCardExtra?.(card, quantity)}
+      <div className={css["actions-quantity"]}>
+        {onChangeCardQuantity ? (
+          <QuantityInput
+            className={css["actions-quantity"]}
+            limit={cardLimit(card, listCardProps?.limitOverride)}
+            value={quantity}
+            onValueChange={(quantity, limit) =>
+              listCardProps?.onChangeCardQuantity?.(card, quantity, limit)
+            }
+          />
+        ) : (
+          <QuantityOutput value={quantity || 0} />
+        )}
+      </div>
+      {extras && <div className={css["actions-extras"]}>{extras}</div>}
     </div>
   );
 }

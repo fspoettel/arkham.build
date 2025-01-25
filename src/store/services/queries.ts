@@ -4,7 +4,9 @@ import type { Deck, Id } from "../slices/data.types";
 import { isDeck } from "../slices/data.types";
 import reprintPacks from "./data/reprint_packs.json";
 
+import type { ResolvedDeck } from "../lib/types";
 import type {
+  Card,
   Cycle,
   DataVersion,
   EncounterSet,
@@ -282,6 +284,23 @@ export async function upgradeDeck(
   });
 
   return await res.json();
+}
+
+export function customizationSheetUrl(card: Card, deck: ResolvedDeck) {
+  const base = `${import.meta.env.VITE_API_URL}/v1/public/customization_sheet`;
+
+  const tabooId = deck.taboo_id ?? "0";
+  const customizations = deck.metaParsed[`cus_${card.code}`] ?? "";
+
+  let customizationStr = btoa(customizations);
+  // the sheet api uses php and expects base64 without padding, remove trailing `=`
+  while (customizationStr.endsWith("=")) {
+    customizationStr = customizationStr.slice(0, -1);
+  }
+
+  const params = `${card.code}-${tabooId}-${customizationStr}`;
+
+  return `${base}/${params}.webp`;
 }
 
 async function recommendationRequest(

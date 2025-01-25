@@ -21,9 +21,9 @@
 
 .group-items {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
   grid-template-rows: auto;
-  gap: 1rem;
+  gap: 0.75rem;
   align-items: start;
 }
 
@@ -36,18 +36,12 @@
   display: block;
   width: 100%;
   background: transparent;
+  box-shadow: var(--shadow-md);
 }
 
 .group-item-actions {
   position: absolute;
-  bottom: 0.25rem;
-  left: 0.25rem;
+  bottom: 0;
+  left: 0;
   z-index: 2;
-  border-radius: var(--rounded);
-  background: rgba(0, 0, 0, 0.5);
-  box-shadow: var(--shadow-lg);
-}
-
-.group-item:hover .group-item-actions {
-  background: rgba(0, 0, 0, 0.75);
 }

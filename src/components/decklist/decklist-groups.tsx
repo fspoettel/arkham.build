@@ -5,6 +5,7 @@ import {
   resolveParents,
   resolveQuantities,
 } from "@/store/lib/deck-grouping";
+import type { GroupingResult } from "@/store/lib/grouping";
 import { getDeckLimitOverride } from "@/store/lib/resolve-deck";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { selectForbiddenCards } from "@/store/selectors/decks";
@@ -12,21 +13,31 @@ import {
   selectCanCheckOwnership,
   selectCardOwnedCount,
 } from "@/store/selectors/shared";
+import { customizationSheetUrl } from "@/store/services/queries";
 import type { Card } from "@/store/services/queries.types";
-import { useCallback } from "react";
+import type { Slots } from "@/store/slices/data.types";
+import { sideways } from "@/utils/card-utils";
+import { cx } from "@/utils/cx";
+import { range } from "@/utils/range";
+import { Fragment, useCallback, useMemo } from "react";
+import { CardGridItem } from "../card-list/card-grid";
 import { GroupLabel } from "../card-list/grouphead";
 import type { FilteredListCardPropsGetter } from "../card-list/types";
+import { useCardModalContextChecked } from "../card-modal/card-modal-context";
+import { CardScan, CardScanInner } from "../card-scan";
 import { ListCard } from "../list-card/list-card";
 import css from "./decklist-groups.module.css";
+import type { ViewMode } from "./decklist.types";
 
 type DecklistGroupsProps = {
   deck: ResolvedDeck;
   grouping: DeckGrouping;
   getListCardProps?: FilteredListCardPropsGetter;
+  viewMode?: ViewMode;
 };
 
 export function DecklistGroup(props: DecklistGroupsProps) {
-  const { deck, grouping, getListCardProps } = props;
+  const { deck, grouping, getListCardProps, viewMode } = props;
 
   const metadata = useStore((state) => state.metadata);
   const canCheckOwnership = useStore(selectCanCheckOwnership);
@@ -34,47 +45,6 @@ export function DecklistGroup(props: DecklistGroupsProps) {
   const cardOwnedCount = useStore(selectCardOwnedCount);
 
   const quantities = resolveQuantities(grouping);
-
-  const renderCard = useCallback(
-    (card: Card) => {
-      const listCardProps = getListCardProps?.(card);
-
-      return (
-        <ListCard
-          {...listCardProps}
-          annotation={deck.annotations?.[card.code]}
-          isForbidden={
-            forbiddenCards.find(
-              (x) =>
-                (x.code === card.code || x.code === card.duplicate_of_code) &&
-                x.target === grouping.id,
-            ) != null
-          }
-          card={card}
-          isRemoved={grouping.quantities?.[card.code] === 0}
-          isIgnored={deck.ignoreDeckLimitSlots?.[card.code]}
-          limitOverride={getDeckLimitOverride(deck, card.code)}
-          key={card.code}
-          omitBorders
-          onChangeCardQuantity={
-            grouping.static ? undefined : listCardProps?.onChangeCardQuantity
-          }
-          ownedCount={canCheckOwnership ? cardOwnedCount(card) : undefined}
-          quantity={grouping.quantities?.[card.code] ?? 0}
-        />
-      );
-    },
-    [
-      canCheckOwnership,
-      cardOwnedCount,
-      deck,
-      forbiddenCards,
-      grouping.id,
-      grouping.quantities,
-      grouping.static,
-      getListCardProps,
-    ],
-  );
 
   const seenParents = new Set<string>();
 
@@ -92,7 +62,10 @@ export function DecklistGroup(props: DecklistGroupsProps) {
         }
 
         return (
-          <div key={group.key}>
+          <div
+            className={cx(css["container"], viewMode && css[viewMode])}
+            key={group.key}
+          >
             {parents.map((parent) => (
               <h2 className={css["title"]} key={parent.key}>
                 <GroupLabel
@@ -121,11 +94,166 @@ export function DecklistGroup(props: DecklistGroupsProps) {
                 <GroupQuantity quantity={quantities.get(group.key) ?? 0} />
               </h3>
             )}
-            {group.cards.map(renderCard)}
+            {viewMode === "scans" ? (
+              <Scans
+                deck={deck}
+                grouping={grouping}
+                group={group}
+                getListCardProps={getListCardProps}
+              />
+            ) : (
+              group.cards.map((card: Card) => {
+                const listCardProps = getListCardProps?.(card);
+                return (
+                  <ListCard
+                    {...listCardProps}
+                    annotation={deck.annotations?.[card.code]}
+                    isForbidden={
+                      forbiddenCards.find(
+                        (x) =>
+                          (x.code === card.code ||
+                            x.code === card.duplicate_of_code) &&
+                          x.target === grouping.id,
+                      ) != null
+                    }
+                    card={card}
+                    isRemoved={grouping.quantities?.[card.code] === 0}
+                    isIgnored={deck.ignoreDeckLimitSlots?.[card.code]}
+                    limitOverride={getDeckLimitOverride(deck, card.code)}
+                    key={card.code}
+                    omitBorders
+                    onChangeCardQuantity={
+                      grouping.static
+                        ? undefined
+                        : listCardProps?.onChangeCardQuantity
+                    }
+                    ownedCount={
+                      canCheckOwnership ? cardOwnedCount(card) : undefined
+                    }
+                    quantity={grouping.quantities?.[card.code] ?? 0}
+                  />
+                );
+              })
+            )}
           </div>
         );
       })}
     </>
+  );
+}
+
+function Scans(props: {
+  deck: ResolvedDeck;
+  grouping: DeckGrouping;
+  group: GroupingResult;
+  getListCardProps?: FilteredListCardPropsGetter;
+}) {
+  const { deck, getListCardProps, group, grouping } = props;
+
+  const styles = useMemo(
+    () =>
+      ({
+        "--scan-levels": Math.max(
+          ...group.cards.map((card) => grouping.quantities[card.code] ?? 0),
+        ),
+      }) as React.CSSProperties,
+    [grouping.quantities, group.cards],
+  );
+
+  return (
+    <ol className={css["grid"]} style={styles}>
+      {group.cards.map((card) => (
+        <Fragment key={card.code}>
+          <li>
+            <Scan
+              card={card}
+              quantities={grouping.quantities}
+              getListCardProps={getListCardProps}
+            />
+          </li>
+          {!!card.customization_options && (
+            <li>
+              <CustomizationScan card={card} deck={deck} />
+            </li>
+          )}
+        </Fragment>
+      ))}
+    </ol>
+  );
+}
+
+function Scan(props: {
+  card: Card;
+  quantities: Slots;
+  getListCardProps?: FilteredListCardPropsGetter;
+}) {
+  const { card, getListCardProps, quantities } = props;
+
+  const quantity = quantities[card.code] ?? 0;
+
+  return (
+    <figure className={css["scan"]}>
+      <div className={css["scan-images"]}>
+        {range(0, quantity).map((i) => {
+          if (i === 0) {
+            return (
+              <CardGridItem
+                key={i}
+                card={card}
+                quantities={quantities}
+                getListCardProps={getListCardProps}
+              />
+            );
+          }
+
+          return (
+            <CardScan
+              key={i}
+              code={card.code}
+              sideways={sideways(card)}
+              style={
+                {
+                  "--scan-level": i,
+                } as React.CSSProperties
+              }
+            />
+          );
+        })}
+      </div>
+    </figure>
+  );
+}
+
+function CustomizationScan(props: {
+  card: Card;
+  deck: ResolvedDeck;
+}) {
+  const { card, deck } = props;
+
+  const modalContext = useCardModalContextChecked();
+
+  const openModal = useCallback(() => {
+    modalContext.setOpen({ code: card.code });
+  }, [modalContext, card.code]);
+
+  return (
+    <figure className={css["scan"]}>
+      <div className={css["scan-images"]}>
+        <div>
+          <CardScanInner
+            onClick={openModal}
+            crossOrigin="anonymous"
+            url={customizationSheetUrl(card, deck)}
+            alt={`Customization sheet for ${card.real_name}`}
+            style={
+              {
+                "--scan-level": 0,
+              } as React.CSSProperties
+            }
+          />
+        </div>
+      </div>
+    </figure>
   );
 }
 
