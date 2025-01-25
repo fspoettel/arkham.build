@@ -93,7 +93,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     timeEnd("query_data");
 
     time("create_store_data");
-    const metadata: Metadata = applyLocalData({
+    let metadata: Metadata = {
       ...getInitialMetadata(),
       dataVersion: dataVersionResponse,
       cards: {},
@@ -108,7 +108,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       subtypes: mappedByCode(subTypes),
       types: mappedByCode(types),
       tabooSets: mappedById(metadataResponse.taboo_set),
-    });
+    };
 
     if (metadata.packs["rcore"]) {
       metadata.packs["rcore"].reprint = {
@@ -165,6 +165,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       }
     }
 
+    metadata = applyLocalData(metadata);
     const lookupTables = createLookupTables(metadata, selectSettings(state));
     createRelations(metadata, lookupTables);
 
