@@ -30,6 +30,8 @@ import { QuantityOutput } from "../ui/quantity-output";
 import { DefaultTooltip } from "../ui/tooltip";
 import css from "./list-card.module.css";
 
+type RenderCallback = (card: Card, quantity?: number) => React.ReactNode;
+
 export type Props = {
   annotation?: string | null;
   as?: "li" | "div";
@@ -50,11 +52,11 @@ export type Props = {
   ownedCount?: number;
   quantity?: number;
   referenceProps?: React.ComponentProps<"div">;
-  renderCardAction?: (card: Card) => React.ReactNode;
-  renderCardAfter?: (card: Card) => React.ReactNode;
-  renderCardBefore?: (card: Card) => React.ReactNode;
-  renderCardMetaExtra?: (card: Card, quantity?: number) => React.ReactNode;
-  renderCardExtra?: (card: Card, quantity?: number) => React.ReactNode;
+  renderCardAction?: RenderCallback;
+  renderCardAfter?: RenderCallback;
+  renderCardBefore?: RenderCallback;
+  renderCardMetaExtra?: RenderCallback;
+  renderCardExtra?: RenderCallback;
   size?: "xs" | "sm" | "investigator";
   showCardText?: boolean;
   showInvestigatorIcons?: boolean;
@@ -127,7 +129,7 @@ export function ListCardInner(props: Props) {
       data-testid={`listcard-${card.code}`}
     >
       <div className={css["listcard-action"]}>
-        {!!renderCardAction && renderCardAction(card)}
+        {!!renderCardAction && renderCardAction(card, quantity)}
         {quantity != null &&
           (onChangeCardQuantity ? (
             <QuantityInput
@@ -139,7 +141,7 @@ export function ListCardInner(props: Props) {
           ) : (
             <QuantityOutput data-testid="listcard-quantity" value={quantity} />
           ))}
-        {renderCardBefore?.(card)}
+        {renderCardBefore?.(card, quantity)}
       </div>
 
       <div className={css["listcard"]}>
@@ -294,7 +296,9 @@ export function ListCardInner(props: Props) {
         {renderCardExtra?.(card, quantity)}
       </div>
       {!!renderCardAfter && (
-        <div className={css["listcard-after"]}>{renderCardAfter?.(card)}</div>
+        <div className={css["listcard-after"]}>
+          {renderCardAfter?.(card, quantity)}
+        </div>
       )}
       {showCardText && (
         <div className={css["listcard-text"]}>

@@ -236,17 +236,12 @@ function DeckEditInner() {
     [deck, canEdit],
   );
 
-  const renderCoreCardCheckbox = useMemo(
-    () =>
-      currentTool === "recommendations"
-        ? (card: Card) =>
-            card.xp == null ? (
-              <></>
-            ) : (
-              <CoreCardCheckbox card={card} deck={deck} />
-            )
-        : undefined,
-    [currentTool, deck],
+  const renderCoreCardCheckbox = useCallback(
+    (card: Card, quantity?: number) => {
+      if (card.xp == null || !quantity) return null;
+      return <CoreCardCheckbox card={card} deck={deck} />;
+    },
+    [deck],
   );
 
   const getListCardProps = useCallback(
