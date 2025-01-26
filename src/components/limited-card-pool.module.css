@@ -5,6 +5,12 @@
   align-items: center;
 }
 
+.cpa-actions {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
 .sealed > * + * {
   margin-top: 0.375rem;
 }

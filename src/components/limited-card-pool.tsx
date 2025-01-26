@@ -8,6 +8,7 @@ import type { Cycle, Pack } from "@/store/services/queries.types";
 import { assert } from "@/utils/assert";
 import { campaignPlayalongPacks } from "@/utils/campaign-playalong";
 import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
+import { isEmpty } from "@/utils/is-empty";
 import { parseCsv } from "@/utils/parse-csv";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { BookLockIcon, XIcon } from "lucide-react";
@@ -103,11 +104,22 @@ export function LimitedCardPoolField(props: {
               Investigators, signature cards and story assets are not affected
               by this selection.
             </p>
-            <DialogTrigger asChild>
-              <Button variant="link" size="xs">
-                Use campaign-playalong preset
-              </Button>
-            </DialogTrigger>
+            <div className={css["cpa-actions"]}>
+              <DialogTrigger asChild>
+                <Button variant="link" size="xs">
+                  Use campaign-playalong preset
+                </Button>
+              </DialogTrigger>
+              {!isEmpty(selectedItems) && (
+                <Button
+                  onClick={() => onValueChange([])}
+                  size="xs"
+                  variant="link"
+                >
+                  Clear
+                </Button>
+              )}
+            </div>
           </>
         }
       >
