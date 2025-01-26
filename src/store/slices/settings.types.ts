@@ -12,6 +12,7 @@ export type DecklistConfig = {
 };
 
 export type SettingsState = {
+  cardLevelDisplay: "icon-only" | "dots" | "text";
   collection: Record<string, number>; // track as "quantity" owned to accomodate the core set.
   fontSize: number;
   hideWeaknessesByDefault: boolean;

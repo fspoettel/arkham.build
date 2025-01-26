@@ -1,7 +1,7 @@
 import type { Card } from "@/store/services/queries.types";
+import type { SettingsState } from "@/store/slices/settings.types";
 import {
   cardLimit,
-  countExperience,
   getCardColor,
   hasSkillIcons,
   isEnemyLike,
@@ -16,6 +16,7 @@ import { AnnotationIndicator } from "../annotation-indicator";
 import { CardHealth } from "../card-health";
 import { CardIcon } from "../card-icon";
 import { useCardModalContextChecked } from "../card-modal/card-modal-context";
+import { CardName } from "../card-name";
 import { CardThumbnail } from "../card-thumbnail";
 import { CardDetails } from "../card/card-details";
 import { CardIcons } from "../card/card-icons";
@@ -33,6 +34,7 @@ export type Props = {
   annotation?: string | null;
   as?: "li" | "div";
   card: Card;
+  cardLevelDisplay: SettingsState["cardLevelDisplay"];
   className?: string;
   disableKeyboard?: boolean;
   disableModalOpen?: boolean;
@@ -63,6 +65,7 @@ export function ListCardInner(props: Props) {
     annotation,
     as = "div",
     card,
+    cardLevelDisplay,
     className,
     disableKeyboard,
     disableModalOpen,
@@ -107,8 +110,6 @@ export function ListCardInner(props: Props) {
   }, [modalContext, card.code]);
 
   const limit = cardLimit(card, limitOverride);
-
-  const xp = countExperience(card, 1);
 
   return (
     <Element
@@ -170,14 +171,17 @@ export function ListCardInner(props: Props) {
                     tabIndex={-1}
                     type="button"
                     data-testid="listcard-title"
-                    // biome-ignore lint/security/noDangerouslySetInnerHtml: safe and necessary.
-                    dangerouslySetInnerHTML={{
-                      __html: parseCardTextHtml(card.real_name),
-                    }}
-                  />
+                  >
+                    <CardName
+                      card={card}
+                      cardLevelDisplay={
+                        cardLevelDisplay === "icon-only" && size === "xs"
+                          ? "dots"
+                          : cardLevelDisplay
+                      }
+                    />
+                  </button>
                 </h4>
-
-                {size === "xs" && !!xp && <ExperienceDots xp={xp} />}
 
                 {ownedCount != null &&
                   card.code !== SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS &&
@@ -243,8 +247,13 @@ export function ListCardInner(props: Props) {
 
                   {!!card.taboo_set_id && (
                     <span className={cx(css["taboo"], "color-taboo")}>
-                      {card.taboo_xp && <ExperienceDots xp={card.taboo_xp} />}
                       <i className="icon-tablet icon-layout color-taboo" />
+                      {card.taboo_xp &&
+                        (cardLevelDisplay === "text" ? (
+                          <strong>{signedInteger(card.taboo_xp)} XP</strong>
+                        ) : (
+                          <ExperienceDots xp={card.taboo_xp} />
+                        ))}
                     </span>
                   )}
 
@@ -309,4 +318,8 @@ export function ListCardInner(props: Props) {
       )}
     </Element>
   );
+}
+
+function signedInteger(num: number) {
+  return num > 0 ? `+${num}` : num.toString();
 }

@@ -1,6 +1,6 @@
 import type { Card } from "@/store/services/queries.types";
 import { useCallback } from "react";
-import { ListCardInner } from "./list-card/list-card-inner";
+import { ListCard } from "./list-card/list-card";
 import { Combobox, type Props as ComboboxProps } from "./ui/combobox/combobox";
 
 type Props = Omit<
@@ -14,7 +14,7 @@ type Props = Omit<
 
 export function CardsCombobox(props: Props) {
   const cardRenderer = useCallback(
-    (item: Card) => <ListCardInner disableModalOpen card={item} size="sm" />,
+    (item: Card) => <ListCard disableModalOpen card={item} size="sm" />,
     [],
   );
 

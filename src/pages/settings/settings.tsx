@@ -15,6 +15,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useSearch } from "wouter";
 import { BackupRestore } from "./backup-restore";
 import { CardDataSync } from "./card-data-sync";
+import { CardLevelDisplaySetting } from "./card-level-display";
 import { Connections } from "./connections";
 import { FontSizeSetting } from "./font-size";
 import { HideWeaknessSetting } from "./hide-weakness";
@@ -103,16 +104,22 @@ function Settings() {
                   settings={settings}
                   updateSettings={updateSettings}
                 />
-                <HideWeaknessSetting
-                  settings={settings}
-                  updateSettings={updateSettings}
-                />
                 <WeaknessPoolSetting
                   settings={settings}
                   updateSettings={updateSettings}
                 />
+              </Section>
+              <Section title="Display">
                 <ThemeSetting />
                 <FontSizeSetting
+                  settings={settings}
+                  updateSettings={updateSettings}
+                />
+                <CardLevelDisplaySetting
+                  settings={settings}
+                  updateSettings={updateSettings}
+                />
+                <HideWeaknessSetting
                   settings={settings}
                   updateSettings={updateSettings}
                 />

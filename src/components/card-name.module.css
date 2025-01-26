@@ -1,0 +1,7 @@
+.name {
+  display: inline-flex;
+  flex-flow: row nowrap;
+  align-items: last baseline;
+  gap: 0.1875em;
+  min-width: 0;
+}

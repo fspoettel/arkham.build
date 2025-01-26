@@ -48,6 +48,7 @@ export function getInitialListsSetting(): SettingsState["lists"] {
 
 export function getInitialSettings(): SettingsState {
   return {
+    cardLevelDisplay: "icon-only",
     collection: {},
     lists: getInitialListsSetting(),
     fontSize: 100,

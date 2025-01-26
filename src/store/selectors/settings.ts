@@ -17,3 +17,8 @@ export const selectSettings = createSelector(
     } as SettingsState;
   },
 );
+
+export const selectCardLevelDisplaySetting = createSelector(
+  selectSettings,
+  (settings) => settings.cardLevelDisplay,
+);

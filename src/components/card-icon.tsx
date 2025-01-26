@@ -59,6 +59,7 @@ export function CardIcon(props: Props) {
   }
 
   const level = cardLevel(card);
+
   if (card.type_code === "skill") {
     return (
       <div
