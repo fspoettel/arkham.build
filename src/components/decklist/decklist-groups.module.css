@@ -46,10 +46,10 @@
   --scan-spacing: 1rem;
 
   display: grid;
-  column-gap: 0.75rem;
+  column-gap: 1rem;
   align-items: flex-end;
-  row-gap: calc(0.75rem + var(--scan-spacing) * var(--scan-levels));
-  padding-block: calc(0.75rem + var(--scan-spacing) * var(--scan-levels));
+  row-gap: calc(var(--scan-spacing) * var(--scan-levels));
+  padding-block: calc(var(--scan-spacing) * var(--scan-levels));
   width: 100%;
 
   grid-template-columns: 1fr;
