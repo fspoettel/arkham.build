@@ -4,13 +4,13 @@ import { forwardRef, useCallback } from "react";
 import { Button } from "./button";
 import css from "./search-input.module.css";
 
-type Props = React.ComponentProps<"input"> & {
+interface Props extends React.ComponentProps<"input"> {
   className?: string;
   inputClassName?: string;
   onChangeValue: (value: string) => void;
   id: string;
   value: string;
-};
+}
 
 export const SearchInput = forwardRef<HTMLInputElement, Props>(
   function SearchInput(

@@ -4,7 +4,7 @@ import css from "./range-select.module.css";
 import type { Props as SliderProps } from "./slider";
 import { Slider } from "./slider";
 
-type Props = Omit<SliderProps, "defaultValue"> & {
+interface Props extends Omit<SliderProps, "defaultValue"> {
   className?: string;
   children?: React.ReactNode;
   id: string;
@@ -16,7 +16,7 @@ type Props = Omit<SliderProps, "defaultValue"> & {
   outputClassName?: string;
   renderLabel?: (value: number) => string | number;
   value: [number, number];
-};
+}
 
 export function RangeSelect(props: Props) {
   const {

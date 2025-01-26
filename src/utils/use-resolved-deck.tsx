@@ -21,9 +21,9 @@ function isDeckContextTypeChecked(
 
 const DeckIdContext = createContext<DeckContextType | undefined>(undefined);
 
-type Props = DeckContextType & {
+interface Props extends DeckContextType {
   children: React.ReactNode;
-};
+}
 
 export function ResolvedDeckProvider(props: Props) {
   const { resolvedDeck, canEdit, children } = props;

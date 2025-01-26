@@ -6,13 +6,13 @@ export type SelectOption = {
   value: string | number;
 };
 
-type Props = React.ComponentProps<"select"> & {
+interface Props extends React.ComponentProps<"select"> {
   required?: boolean;
   emptyLabel?: string;
   options: SelectOption[];
   className?: string;
   variant?: "compressed";
-};
+}
 
 export function Select(props: Props) {
   const { emptyLabel, options, required, className, variant, ...rest } = props;

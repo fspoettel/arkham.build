@@ -5,13 +5,14 @@ import { Button } from "./button";
 import css from "./details.module.css";
 import { Scroller } from "./scroller";
 
-type Props = {
+interface Props
+  extends Omit<React.DetailsHTMLAttributes<HTMLDetailsElement>, "title"> {
   children: React.ReactNode;
   iconClosed: React.ReactNode;
   onOpenChange?: (open: boolean) => void;
   scrollHeight?: string;
   title: React.ReactNode;
-} & React.DetailsHTMLAttributes<HTMLDetailsElement>;
+}
 
 export function Details(props: Props) {
   const { children, iconClosed, onOpenChange, scrollHeight, title, ...rest } =

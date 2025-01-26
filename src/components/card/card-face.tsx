@@ -11,14 +11,14 @@ import { CardTabooText } from "./card-taboo-text";
 import { CardText } from "./card-text";
 import css from "./card.module.css";
 
-type Props = {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
   children?: React.ReactNode;
   slotHeaderActions?: React.ReactNode;
   resolvedCard: CardWithRelations | ResolvedCard;
   titleLinks?: "card" | "card-modal" | "dialog";
   size: "compact" | "tooltip" | "full";
-} & React.HTMLAttributes<HTMLDivElement>;
+}
 
 export function CardFace(props: Props) {
   const {

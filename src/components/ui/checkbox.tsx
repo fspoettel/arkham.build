@@ -5,12 +5,12 @@ import { CheckIcon } from "lucide-react";
 import { forwardRef, useCallback, useRef } from "react";
 import css from "./checkbox.module.css";
 
-type Props = Omit<CheckboxProps, "label"> & {
+interface Props extends Omit<CheckboxProps, "label"> {
   className?: string;
   hideLabel?: boolean;
   id?: string;
   label: React.ReactNode;
-};
+}
 
 export const Checkbox = forwardRef(function Checkbox(
   props: Props,

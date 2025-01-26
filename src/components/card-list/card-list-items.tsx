@@ -9,14 +9,14 @@ import { CardActions } from "./card-actions";
 import css from "./card-list-items.module.css";
 import type { CardListItemProps } from "./types";
 
-type Props = CardListItemProps & {
+interface Props extends CardListItemProps {
   card: Card;
   currentTop: number;
   index: number;
   quantity?: number;
   resolvedDeck?: ResolvedDeck;
   viewMode: ViewMode;
-};
+}
 
 export function CardListItemCompact(props: Props) {
   const {

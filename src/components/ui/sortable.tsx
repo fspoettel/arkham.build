@@ -157,15 +157,14 @@ function SortableItem(props: {
   );
 }
 
+interface ItemProps extends React.HTMLAttributes<HTMLLIElement> {
+  active?: boolean;
+  children: React.ReactNode;
+  dragHandleProps?: DraggableAttributes | undefined;
+}
+
 const Item = forwardRef(
-  (
-    props: {
-      active?: boolean;
-      children: React.ReactNode;
-      dragHandleProps?: DraggableAttributes | undefined;
-    } & React.HTMLAttributes<HTMLLIElement>,
-    ref: React.ForwardedRef<HTMLLIElement>,
-  ) => {
+  (props: ItemProps, ref: React.ForwardedRef<HTMLLIElement>) => {
     const { active, children, dragHandleProps, ...rest } = props;
 
     return (

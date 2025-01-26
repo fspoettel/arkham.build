@@ -3,13 +3,13 @@ import { MinusIcon, PlusIcon } from "lucide-react";
 import { Button } from "./button";
 import css from "./quantity-input.module.css";
 
-type Props = {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   disabled?: boolean;
   tabIndex?: number;
   onValueChange?: (value: number, limit: number) => void;
   value: number;
   limit: number;
-} & React.HTMLAttributes<HTMLDivElement>;
+}
 
 export function QuantityInput(props: Props) {
   const {

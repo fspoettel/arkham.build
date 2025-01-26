@@ -3,10 +3,10 @@ import { CheckIcon, ClipboardCopyIcon } from "lucide-react";
 import { useCallback } from "react";
 import { Button, type Props as ButtonProps } from "./button";
 
-type Props = {
+interface Props extends Omit<ButtonProps<"button">, "children" | "onClick"> {
   text: string;
   tooltip?: string;
-} & Omit<ButtonProps<"button">, "children" | "onClick">;
+}
 
 export function CopyToClipboard(props: Props) {
   const { text, tooltip, ...rest } = props;

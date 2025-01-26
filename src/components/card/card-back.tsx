@@ -10,11 +10,11 @@ import { CardMetaBack } from "./card-meta";
 import { CardText } from "./card-text";
 import css from "./card.module.css";
 
-type Props = {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
   card: ResolvedCard["card"];
   size: "compact" | "tooltip" | "full";
-} & React.HTMLAttributes<HTMLDivElement>;
+}
 
 export function CardBack(props: Props) {
   const { className, card, size, ...rest } = props;

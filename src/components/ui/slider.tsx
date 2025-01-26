@@ -4,10 +4,10 @@ import type { SliderProps } from "@radix-ui/react-slider";
 import { Range, Root, Thumb, Track } from "@radix-ui/react-slider";
 import css from "./slider.module.css";
 
-export type Props = SliderProps & {
+export interface Props extends SliderProps {
   className?: string;
   thumbCount?: number;
-};
+}
 
 export function Slider(props: Props) {
   const { className, thumbCount = 1, ...rest } = props;

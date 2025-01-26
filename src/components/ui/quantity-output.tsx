@@ -1,10 +1,10 @@
 import { cx } from "@/utils/cx";
 import css from "./quantity-output.module.css";
 
-type Props = {
+interface Props extends React.HTMLAttributes<HTMLSpanElement> {
   className?: string;
   value: number;
-} & React.HTMLAttributes<HTMLSpanElement>;
+}
 
 export function QuantityOutput(props: Props) {
   const { className, value, ...rest } = props;

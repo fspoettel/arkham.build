@@ -6,11 +6,11 @@ import { Root, Scrollbar, Thumb, Viewport } from "@radix-ui/react-scroll-area";
 import { forwardRef } from "react";
 import css from "./scroller.module.css";
 
-type Props = ScrollAreaProps & {
+interface Props extends ScrollAreaProps {
   className?: string;
   children: React.ReactNode;
   viewportClassName?: string;
-};
+}
 
 export const Scroller = forwardRef(
   (props: Props, ref: React.ForwardedRef<HTMLDivElement>) => {

@@ -3,9 +3,10 @@ import { useRestingTooltip } from "../ui/tooltip.hooks";
 import type { Props as ListCardInnerProps } from "./list-card-inner";
 import { ListCardInner } from "./list-card-inner";
 
-export type Props = {
+export interface Props
+  extends Omit<ListCardInnerProps, "figureRef" | "referenceProps"> {
   tooltip?: React.ReactNode;
-} & Omit<ListCardInnerProps, "figureRef" | "referenceProps">;
+}
 
 export function ListCard(props: Props) {
   const { card, tooltip, ...rest } = props;

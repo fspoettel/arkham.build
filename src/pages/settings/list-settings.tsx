@@ -19,12 +19,12 @@ import { useCallback, useEffect, useState } from "react";
 import css from "./settings.module.css";
 import type { SettingProps } from "./types";
 
-type Props = SettingProps & {
+interface Props extends SettingProps {
   listKey: keyof SettingsState["lists"];
   title: React.ReactNode;
   disabledSortings?: string[];
   disabledGroupings?: string[];
-};
+}
 
 function getGroupItemsForList(listKey: keyof SettingsState["lists"]) {
   if (listKey === "encounter") {

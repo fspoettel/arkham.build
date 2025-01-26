@@ -8,7 +8,7 @@ import { UnfoldVerticalIcon, XIcon } from "lucide-react";
 import { Button } from "./button";
 import css from "./collapsible.module.css";
 
-type Props = Omit<CollapsibleProps, "title"> & {
+interface Props extends Omit<CollapsibleProps, "title"> {
   actions?: React.ReactNode;
   children: React.ReactNode;
   className?: string;
@@ -20,7 +20,7 @@ type Props = Omit<CollapsibleProps, "title"> & {
   title: React.ReactNode;
   header?: React.ReactNode;
   variant?: "active";
-};
+}
 
 export function Collapsible(props: Props) {
   const {

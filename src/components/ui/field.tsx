@@ -1,14 +1,14 @@
 import { cx } from "@/utils/cx";
 import css from "./field.module.css";
 
-type Props = {
+interface Props extends React.ComponentProps<"div"> {
   bordered?: boolean;
   children: React.ReactNode;
   className?: string;
   full?: boolean;
   helpText?: React.ReactNode;
   padded?: boolean;
-} & React.ComponentProps<"div">;
+}
 
 export function FieldLabel<T extends React.ElementType>({
   as,

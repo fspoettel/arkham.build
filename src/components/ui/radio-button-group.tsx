@@ -7,10 +7,10 @@ import { Item, Root } from "@radix-ui/react-radio-group";
 import css from "./radio-button-group.module.css";
 import { DefaultTooltip } from "./tooltip";
 
-type Props = RadioGroupProps & {
+interface Props extends RadioGroupProps {
   full?: boolean;
   icons?: boolean;
-};
+}
 
 export function RadioButtonGroup(props: Props) {
   const { full, icons, className, ...rest } = props;

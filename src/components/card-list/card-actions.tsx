@@ -5,10 +5,10 @@ import { QuantityOutput } from "../ui/quantity-output";
 import css from "./card-actions.module.css";
 import type { CardListItemProps } from "./types";
 
-type Props = Pick<CardListItemProps, "listCardProps"> & {
+interface Props extends Pick<CardListItemProps, "listCardProps"> {
   card: Card;
   quantity?: number;
-};
+}
 
 export function CardActions(props: Props) {
   const { card, listCardProps, quantity } = props;

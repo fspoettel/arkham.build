@@ -12,10 +12,10 @@ import { useCallback, useEffect } from "react";
 import { useListLayoutContext } from "./list-layout-context";
 import css from "./list-layout-no-sidebar.module.css";
 
-type Props = {
+interface Props extends React.ComponentProps<typeof CardListContainer> {
   titleString: string;
   title?: React.ReactNode;
-} & React.ComponentProps<typeof CardListContainer>;
+}
 
 /**
  * TODO: TECH DEBT

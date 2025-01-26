@@ -5,10 +5,10 @@ import css from "./dropdown-menu.module.css";
 import { Keybind } from "./hotkey";
 import { RadioGroupItem } from "./radio-group";
 
-type Props = {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
   children: React.ReactNode;
-} & React.HTMLAttributes<HTMLDivElement>;
+}
 
 export function DropdownMenu(props: Props) {
   const { children, className, ...rest } = props;

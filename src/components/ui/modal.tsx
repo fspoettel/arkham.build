@@ -6,7 +6,7 @@ import { useDialogContext } from "./dialog.hooks";
 import css from "./modal.module.css";
 import { Scroller } from "./scroller";
 
-type Props = {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   centerContent?: boolean;
   children: React.ReactNode;
   className?: string;
@@ -14,7 +14,7 @@ type Props = {
   onClose?: () => void;
   open?: boolean;
   size?: string;
-} & React.HTMLAttributes<HTMLDivElement>;
+}
 
 export function Modal(props: Props) {
   const {

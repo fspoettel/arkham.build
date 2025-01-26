@@ -1,11 +1,11 @@
 import { cx } from "@/utils/cx";
 import css from "./card.module.css";
 
-type Props = {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   className?: string;
   size: "compact" | "tooltip" | "full";
-} & React.HTMLAttributes<HTMLDivElement>;
+}
 
 export function CardContainer(props: Props) {
   const { children, className, size, ...rest } = props;

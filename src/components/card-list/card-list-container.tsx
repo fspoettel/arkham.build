@@ -16,9 +16,9 @@ import { CardListNav } from "./card-list-nav";
 import { CardSearch } from "./card-search";
 import type { CardListProps } from "./types";
 
-type Props = CardListProps & {
+interface Props extends CardListProps {
   topContent?: React.ReactNode;
-};
+}
 
 export const CardListContainer = forwardRef(function CardListContainer(
   props: Props,

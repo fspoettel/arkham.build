@@ -3,13 +3,13 @@ import { cx } from "@/utils/cx";
 import { useAgathaEasterEggTransform } from "@/utils/easter-egg-agatha";
 import css from "./card-scan.module.css";
 
-type Props = {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   code: string;
   className?: string;
   sideways?: boolean;
   suffix?: string;
   lazy?: boolean;
-} & React.HTMLAttributes<HTMLDivElement>;
+}
 
 export function CardScan(props: Props) {
   const { code, suffix, ...rest } = props;
