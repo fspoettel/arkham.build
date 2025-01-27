@@ -5,9 +5,8 @@ import { capitalize } from "@/utils/formatting";
 import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
 import { clampAttachmentQuantity } from "../lib/attachments";
-import { applyDeckEdits } from "../lib/deck-edits";
 import { randomBasicWeaknessForDeck } from "../lib/random-basic-weakness";
-import { getDeckLimitOverride, resolveDeck } from "../lib/resolve-deck";
+import { getDeckLimitOverride } from "../lib/resolve-deck";
 import { selectResolvedDeckById } from "../selectors/decks";
 import { selectSettings } from "../selectors/settings";
 import type { Id } from "./data.types";
@@ -257,18 +256,8 @@ export const createDeckEditsSlice: StateCreator<
       },
     });
   },
-  updateAttachment(deckId, targetCode, code, quantity, limit) {
-    const state = get();
-    const edits = currentEdits(state, deckId);
-
-    const deck = resolveDeck(
-      state.metadata,
-      state.lookupTables,
-      state.sharing,
-      applyDeckEdits(state.data.decks[deckId], edits, state.metadata, false),
-    );
-
-    const attachments = structuredClone(deck.attachments ?? {});
+  updateAttachment(deck, targetCode, code, quantity, limit) {
+    const attachments = get().deckEdits[deck.id]?.attachments ?? {};
 
     attachments[targetCode] ??= {};
     attachments[targetCode][code] = quantity;
@@ -284,15 +273,15 @@ export const createDeckEditsSlice: StateCreator<
       }
     }
 
-    set({
+    set((state) => ({
       deckEdits: {
         ...state.deckEdits,
-        [deckId]: {
-          ...edits,
+        [deck.id]: {
+          ...state.deckEdits[deck.id],
           attachments,
         },
       },
-    });
+    }));
   },
 
   moveToMainDeck(card, deckId) {

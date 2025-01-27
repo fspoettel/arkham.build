@@ -4,7 +4,7 @@ import type { Card } from "@/store/services/queries.types";
 import { cardLimit } from "@/utils/card-utils";
 import type { AttachableDefinition } from "@/utils/constants";
 import { useResolvedDeckChecked } from "@/utils/use-resolved-deck";
-import { useMemo } from "react";
+import { useCallback } from "react";
 
 export function canAttach(card: Card, definition: AttachableDefinition) {
   return (
@@ -51,19 +51,13 @@ export function canUpdateAttachment(
   );
 }
 
-type AttachmentsChangeHandler =
-  | ((definition: AttachableDefinition, card: Card, delta: number) => void)
-  | undefined;
-
 export function useAttachmentsChangeHandler() {
   const { canEdit, resolvedDeck } = useResolvedDeckChecked();
 
   const updateAttachment = useStore((state) => state.updateAttachment);
 
-  const changeHandler = useMemo(() => {
-    if (!canEdit) return undefined;
-
-    const handler: AttachmentsChangeHandler = (definition, card, delta) => {
+  const changeHandler = useCallback(
+    (definition: AttachableDefinition, card: Card, delta: number) => {
       const quantity = resolvedDeck.slots[card.code] ?? 0;
 
       const attached =
@@ -73,22 +67,15 @@ export function useAttachmentsChangeHandler() {
       const nextQuantity = attached + delta;
 
       return updateAttachment(
-        resolvedDeck.id,
+        resolvedDeck,
         definition.code,
         card.code,
         nextQuantity > limit ? 0 : nextQuantity,
         attachmentLimit(card, quantity),
       );
-    };
+    },
+    [resolvedDeck, updateAttachment],
+  );
 
-    return handler;
-  }, [
-    resolvedDeck.id,
-    resolvedDeck.slots,
-    resolvedDeck.attachments,
-    canEdit,
-    updateAttachment,
-  ]);
-
-  return changeHandler;
+  return canEdit ? changeHandler : undefined;
 }

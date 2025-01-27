@@ -2,7 +2,7 @@ import type {
   Card,
   DeckOptionSelectType,
 } from "@/store/services/queries.types";
-import type { Annotations, DeckMeta } from "../lib/types";
+import type { Annotations, DeckMeta, ResolvedDeck } from "../lib/types";
 import type { Id } from "./data.types";
 
 export type Slot =
@@ -110,7 +110,7 @@ export type DeckEditsSlice = {
   updateXpAdjustment(deckId: Id, value: number): void;
 
   updateAttachment(
-    deckId: Id,
+    deck: ResolvedDeck,
     targetCode: string,
     code: string,
     quantity: number,

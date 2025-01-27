@@ -279,6 +279,8 @@ test.describe("deck view", () => {
 
     // TODO: why does `page.goto("/")` show a spinner? maybe we have a race condition with init logic.
     await page.getByTestId("masthead-logo").click();
+
+    await expect(page.getByTestId("collection-deck").first()).toBeVisible();
     expect(await page.getByTestId("collection-deck").all()).toHaveLength(2);
   });
 
