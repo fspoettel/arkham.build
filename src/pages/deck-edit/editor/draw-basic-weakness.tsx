@@ -17,6 +17,7 @@ export function DrawBasicWeakness(props: Props) {
   return (
     <Button
       disabled={!props.quantity || props.targetDeck !== "slots"}
+      iconOnly
       onClick={() => drawRandomBasicWeakness(props.deckId)}
       size="sm"
       data-testid="draw-basic-weakness"
