@@ -189,7 +189,9 @@ export function sortBySlots(a: string, b: string) {
 }
 
 function sortBySlot(a: Card, b: Card) {
-  return sortBySlots(a.real_slot ?? "", b.real_slot ?? "");
+  const aSlot = a.permanent ? "permanent" : (a.real_slot ?? "");
+  const bSlot = b.permanent ? "permanent" : (b.real_slot ?? "");
+  return sortBySlots(aSlot, bSlot);
 }
 
 /**
