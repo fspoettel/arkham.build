@@ -14,6 +14,7 @@ import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { BookLockIcon, XIcon } from "lucide-react";
 import { useCallback, useMemo } from "react";
 import { createSelector } from "reselect";
+import { useShallow } from "zustand/react/shallow";
 import css from "./limited-card-pool.module.css";
 import { PackName } from "./pack-name";
 import { Button } from "./ui/button";
@@ -35,20 +36,26 @@ import {
 export function LimitedCardPoolTag() {
   const ctx = useResolvedDeck();
 
-  const metadata = useStore((state) => state.metadata);
   const cardPool = ctx.resolvedDeck?.metaParsed.card_pool;
 
-  if (!cardPool) return null;
+  const selectedPacks = useStore(
+    useShallow((state) =>
+      selectPackOptions(state).filter((pack) => cardPool?.includes(pack.code)),
+    ),
+  );
+
+  console.log(selectedPacks);
+
+  if (isEmpty(selectedPacks)) return null;
 
   return (
     <DefaultTooltip
       options={{ placement: "bottom-start" }}
       tooltip={
         <ol className={css["packs"]}>
-          {cardPool.split(",").map((packCode) => {
-            const pack = metadata.packs[packCode];
+          {selectedPacks.map((pack) => {
             return pack ? (
-              <li className={css["pack"]} key={packCode}>
+              <li className={css["pack"]} key={pack.code}>
                 <PackName pack={pack} shortenNewFormat />
               </li>
             ) : null;
