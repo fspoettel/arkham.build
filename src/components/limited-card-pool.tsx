@@ -44,8 +44,6 @@ export function LimitedCardPoolTag() {
     ),
   );
 
-  console.log(selectedPacks);
-
   if (isEmpty(selectedPacks)) return null;
 
   return (
