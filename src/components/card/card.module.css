@@ -225,7 +225,7 @@
   font-size: var(--card-title-size);
 }
 
-.name > span:last-child {
+.name .unique {
   display: inline-block;
   margin-left: 0.125rem;
 }
