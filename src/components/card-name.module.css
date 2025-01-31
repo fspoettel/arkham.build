@@ -1,7 +1,17 @@
 .name {
-  display: inline-flex;
-  flex-flow: row nowrap;
-  align-items: last baseline;
-  gap: 0.1875em;
   min-width: 0;
+}
+
+.name > * {
+  float: left;
+
+  &::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+.name > *:not(:first-child) {
+  margin-left: 0.1875rem;
 }
