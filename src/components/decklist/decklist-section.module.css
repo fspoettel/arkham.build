@@ -14,8 +14,9 @@
 .decklist-section.auto .decklist-section-content {
   column-count: 3;
   column-width: 21.5rem;
-  column-gap: 0.75rem;
+  column-gap: 1.5rem;
   column-fill: balance;
+  column-rule: 1px solid var(--palette-point-five);
 }
 
 .decklist-section.auto .decklist-section-content > * {
