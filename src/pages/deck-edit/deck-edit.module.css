@@ -27,3 +27,14 @@
   flex: 1 1 100%;
   height: 100%;
 }
+
+.extra-row {
+  display: inline-flex;
+  gap: 0.25rem;
+  align-items: stretch;
+  flex-flow: row nowrap;
+}
+
+.extra-row > * {
+  flex: 0 0 auto;
+}

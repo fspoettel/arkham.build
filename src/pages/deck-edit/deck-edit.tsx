@@ -19,7 +19,10 @@ import {
   selectDeckValid,
   selectResolvedDeckById,
 } from "@/store/selectors/decks";
-import { selectActiveList } from "@/store/selectors/lists";
+import {
+  selectActiveList,
+  selectAvailableUpgrades,
+} from "@/store/selectors/lists";
 import type { Card } from "@/store/services/queries.types";
 import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
 import { isStaticInvestigator } from "@/utils/card-utils";
@@ -35,6 +38,7 @@ import {
 import {
   BookOpenTextIcon,
   ChartAreaIcon,
+  CircleArrowUpIcon,
   LayoutListIcon,
   UndoIcon,
   WandSparklesIcon,
@@ -178,6 +182,14 @@ function DeckEditInner() {
 
   const accentColor = useAccentColor(deck.investigatorBack.card.faction_code);
 
+  const availableUpgrades = useStore((state) =>
+    selectAvailableUpgrades(
+      state,
+      deck,
+      currentTab === "extraSlots" ? "extraSlots" : "slots",
+    ),
+  );
+
   const onChangeCardQuantity = useMemo(() => {
     return (card: Card, quantity: number, limit: number) => {
       updateCardQuantity(
@@ -216,13 +228,26 @@ function DeckEditInner() {
         );
       }
 
-      if (isEmpty(getMatchingAttachables(card, deck))) {
+      const hasAttachable =
+        currentTab === "slots" && !isEmpty(getMatchingAttachables(card, deck));
+      const hasUpgrades = !isEmpty(availableUpgrades[card.code]);
+
+      if (!hasAttachable && !hasUpgrades) {
         return null;
       }
 
-      return <Attachments card={card} resolvedDeck={deck} />;
+      return (
+        <div className={css["extra-row"]}>
+          {hasAttachable && <Attachments card={card} resolvedDeck={deck} />}
+          {hasUpgrades && (
+            <Button iconOnly size="sm" tooltip="Upgrade card">
+              <CircleArrowUpIcon />
+            </Button>
+          )}
+        </div>
+      );
     },
-    [deck, currentTab],
+    [deck, currentTab, availableUpgrades],
   );
 
   const renderMoveToMainDeck = useMemo(
@@ -253,7 +278,7 @@ function DeckEditInner() {
       renderCardBefore:
         currentTool === "recommendations" ? renderCoreCardCheckbox : undefined,
       renderCardExtra:
-        currentTab === "slots"
+        currentTab === "slots" || currentTab === "extraSlots"
           ? renderCardExtraSlots
           : currentTab === "sideSlots"
             ? renderMoveToMainDeck

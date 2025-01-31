@@ -1242,3 +1242,45 @@ export const selectTypeOptions = createSelector(
       .sort()
       .map((code) => typeTable[code]),
 );
+
+/**
+ * Upgrades
+ */
+
+type AvailableUpgrades = Record<string, Card[]>;
+
+export const selectAvailableUpgrades = createSelector(
+  selectDeckInvestigatorFilter,
+  (state: StoreState) => state.metadata,
+  (state: StoreState) => state.lookupTables,
+  (_: StoreState, deck: ResolvedDeck) => deck,
+  (_: StoreState, __: ResolvedDeck, target: "slots" | "extraSlots") => target,
+  (accessFilter, metadata, lookupTables, deck, target) => {
+    const upgrades: AvailableUpgrades = {};
+
+    if (!deck.previous_deck) return upgrades;
+
+    const cards = Object.values(deck.cards[target] ?? {});
+    if (isEmpty(cards)) return upgrades;
+
+    for (const { card } of cards) {
+      const versions = lookupTables.relations.level[card.code];
+      if (!versions) continue;
+
+      for (const code of Object.keys(versions)) {
+        const version = metadata.cards[code];
+
+        if (
+          version?.xp &&
+          version.xp > (card.xp ?? 0) &&
+          accessFilter?.(version)
+        ) {
+          upgrades[card.code] ??= [];
+          upgrades[card.code].push(version);
+        }
+      }
+    }
+
+    return upgrades;
+  },
+);
