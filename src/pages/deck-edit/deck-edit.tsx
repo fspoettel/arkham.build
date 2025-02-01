@@ -19,7 +19,6 @@ import {
   selectDeckValid,
   selectResolvedDeckById,
 } from "@/store/selectors/decks";
-import { selectActiveList } from "@/store/selectors/lists";
 import type { Card } from "@/store/services/queries.types";
 import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
 import { isStaticInvestigator } from "@/utils/card-utils";
@@ -172,7 +171,6 @@ function DeckEditInner() {
     return tabs;
   }, [deck.hasExtraDeck]);
 
-  const activeList = useStore(selectActiveList);
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
   const validation = useStore((state) => selectDeckValid(state, deck));
 
@@ -290,7 +288,6 @@ function DeckEditInner() {
             onTabChange={setCurrentTab}
             tabs={tabs}
             validation={validation}
-            viewMode={activeList?.display.viewMode}
           />
         }
         sidebarWidthMax="var(--sidebar-width-two-col)"

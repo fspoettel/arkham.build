@@ -40,13 +40,11 @@ type Props = {
 };
 
 export function Editor(props: Props) {
-  const { currentTab, getListCardProps, onTabChange, tabs, viewMode } = props;
+  const { currentTab, getListCardProps, onTabChange, tabs } = props;
 
   const { resolvedDeck: deck } = useResolvedDeckChecked();
 
-  const groups = useStore((state) =>
-    selectDeckGroups(state, deck, viewMode === "scans" ? "scans" : "list"),
-  );
+  const groups = useStore((state) => selectDeckGroups(state, deck, "list"));
 
   const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
   const backgroundCls = getCardColor(deck.investigatorBack.card, "background");
