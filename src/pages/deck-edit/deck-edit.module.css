@@ -33,6 +33,7 @@
   gap: 0.25rem;
   align-items: stretch;
   flex-flow: row nowrap;
+  flex: 0 0 auto;
 }
 
 .extra-row > * {

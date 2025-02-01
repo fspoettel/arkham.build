@@ -1,8 +1,4 @@
 import { ListLayout } from "@//layouts/list-layout";
-import {
-  Attachments,
-  getMatchingAttachables,
-} from "@/components/attachments/attachments";
 import { CardListContainer } from "@/components/card-list/card-list-container";
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { CardRecommender } from "@/components/card-recommender/card-recommender";
@@ -19,15 +15,10 @@ import {
   selectDeckValid,
   selectResolvedDeckById,
 } from "@/store/selectors/decks";
-import {
-  selectActiveList,
-  selectAvailableUpgrades,
-} from "@/store/selectors/lists";
+import { selectActiveList } from "@/store/selectors/lists";
 import type { Card } from "@/store/services/queries.types";
 import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
 import { isStaticInvestigator } from "@/utils/card-utils";
-import { SPECIAL_CARD_CODES } from "@/utils/constants";
-import { isEmpty } from "@/utils/is-empty";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { useDocumentTitle } from "@/utils/use-document-title";
 import { useHotkey } from "@/utils/use-hotkey";
@@ -38,7 +29,6 @@ import {
 import {
   BookOpenTextIcon,
   ChartAreaIcon,
-  CircleArrowUpIcon,
   LayoutListIcon,
   UndoIcon,
   WandSparklesIcon,
@@ -46,10 +36,9 @@ import {
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "wouter";
 import { Error404 } from "../errors/404";
+import { CardExtras } from "./card-extras";
 import css from "./deck-edit.module.css";
-import { DrawBasicWeakness } from "./editor/draw-basic-weakness";
 import { Editor } from "./editor/editor";
-import { MoveToMainDeck } from "./editor/move-to-main-deck";
 import { NotesEditor } from "./editor/notes-editor";
 import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 
@@ -182,14 +171,6 @@ function DeckEditInner() {
 
   const accentColor = useAccentColor(deck.investigatorBack.card.faction_code);
 
-  const availableUpgrades = useStore((state) =>
-    selectAvailableUpgrades(
-      state,
-      deck,
-      currentTab === "extraSlots" ? "extraSlots" : "slots",
-    ),
-  );
-
   const onChangeCardQuantity = useMemo(() => {
     return (card: Card, quantity: number, limit: number) => {
       updateCardQuantity(
@@ -216,57 +197,27 @@ function DeckEditInner() {
   useHotkey("d", onCycleDeck);
   useHotkey("m", onSetMeta);
 
-  const renderCardExtraSlots = useCallback(
-    (card: Card, quantity: number | undefined) => {
-      if (card.code === SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS) {
-        return (
-          <DrawBasicWeakness
-            deckId={deck.id}
-            quantity={quantity}
-            targetDeck={mapTabToSlot(currentTab)}
-          />
-        );
-      }
-
-      const hasAttachable =
-        currentTab === "slots" && !isEmpty(getMatchingAttachables(card, deck));
-      const hasUpgrades = !isEmpty(availableUpgrades[card.code]);
-
-      if (!hasAttachable && !hasUpgrades) {
-        return null;
-      }
-
-      return (
-        <div className={css["extra-row"]}>
-          {hasAttachable && <Attachments card={card} resolvedDeck={deck} />}
-          {hasUpgrades && (
-            <Button iconOnly size="sm" tooltip="Upgrade card">
-              <CircleArrowUpIcon />
-            </Button>
-          )}
-        </div>
-      );
-    },
-    [deck, currentTab, availableUpgrades],
-  );
-
-  const renderMoveToMainDeck = useMemo(
-    () =>
-      canEdit
-        ? (card: Card) =>
-            deck.sideSlots?.[card.code] ? (
-              <MoveToMainDeck card={card} deck={deck} />
-            ) : undefined
-        : undefined,
-    [deck, canEdit],
-  );
-
   const renderCoreCardCheckbox = useCallback(
     (card: Card, quantity?: number) => {
       if (card.xp == null || !quantity) return null;
       return <CoreCardCheckbox card={card} deck={deck} />;
     },
     [deck],
+  );
+
+  const renderCardExtra = useCallback(
+    (card: Card, quantity?: number) => {
+      return (
+        <CardExtras
+          canEdit={canEdit}
+          card={card}
+          deck={deck}
+          quantity={quantity}
+          currentTab={currentTab}
+        />
+      );
+    },
+    [canEdit, currentTab, deck],
   );
 
   const getListCardProps = useCallback(
@@ -277,20 +228,13 @@ function DeckEditInner() {
           : undefined,
       renderCardBefore:
         currentTool === "recommendations" ? renderCoreCardCheckbox : undefined,
-      renderCardExtra:
-        currentTab === "slots" || currentTab === "extraSlots"
-          ? renderCardExtraSlots
-          : currentTab === "sideSlots"
-            ? renderMoveToMainDeck
-            : undefined,
+      renderCardExtra,
     }),
     [
       canEdit,
       onChangeCardQuantity,
-      renderCardExtraSlots,
-      renderMoveToMainDeck,
-      currentTab,
       currentTool,
+      renderCardExtra,
       renderCoreCardCheckbox,
     ],
   );

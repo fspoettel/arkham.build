@@ -80,6 +80,7 @@
   flex-flow: row nowrap;
   gap: var(--card-spacing-x);
   min-width: 0;
+  flex: 1 1 auto;
 }
 
 .content {

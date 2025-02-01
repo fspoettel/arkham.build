@@ -21,7 +21,6 @@ export function DrawBasicWeakness(props: Props) {
       onClick={() => drawRandomBasicWeakness(props.deckId)}
       size="sm"
       data-testid="draw-basic-weakness"
-      variant="bare"
       tooltip="Draw a random basic weakness"
     >
       <ShuffleIcon />

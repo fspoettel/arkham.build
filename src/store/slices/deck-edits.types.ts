@@ -118,4 +118,11 @@ export type DeckEditsSlice = {
   ): void;
 
   updateAnnotation(deckId: Id, code: string, value: string | null): void;
+
+  upgradeCard(
+    deckId: Id,
+    code: string,
+    upgradeCode: string,
+    quantity: number,
+  ): void;
 };

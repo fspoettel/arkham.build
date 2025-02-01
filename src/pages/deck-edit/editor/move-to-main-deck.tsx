@@ -23,6 +23,7 @@ export function MoveToMainDeck(props: Props) {
       data-testid="editor-move-to-main"
       iconOnly
       onClick={onButtonClick}
+      size="sm"
       tooltip="Move to deck"
     >
       <ArrowLeftToLineIcon />
