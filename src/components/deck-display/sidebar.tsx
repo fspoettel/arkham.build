@@ -494,6 +494,7 @@ function Sharing(props: { onArkhamDBUpload?: () => void; deck: ResolvedDeck }) {
   async function withToast(fn: () => Promise<unknown>, action: string) {
     const id = toast.show({
       children: `${capitalize(action)} share...`,
+      variant: "loading",
     });
 
     try {
