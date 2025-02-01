@@ -2,16 +2,6 @@
   min-width: 0;
 }
 
-.name > * {
-  float: left;
-
-  &::after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-}
-
 .name > *:not(:first-child) {
   margin-left: 0.1875rem;
 }
