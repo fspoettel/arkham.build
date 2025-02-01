@@ -54,7 +54,7 @@
 }
 
 .editor-tabs-content {
-  padding-right: 0.625rem;
+  padding-inline: 0.625rem;
 }
 
 .editor-tabs > * + * {

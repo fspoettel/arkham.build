@@ -1,7 +1,7 @@
 .layout {
   --filters-width: 20rem;
   --sidebar-width-one-col: 24rem;
-  --sidebar-width-two-col: 45rem;
+  --sidebar-width-two-col: 47rem;
 
   display: grid;
 
