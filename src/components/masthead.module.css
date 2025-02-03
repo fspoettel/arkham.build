@@ -3,8 +3,8 @@
   grid-area: header;
   display: flex;
   justify-content: space-between;
-  padding: 1rem 0;
-  height: calc(2rem + var(--icon-3xl));
+  padding: 0.75rem 0;
+  height: calc(1.5rem + var(--icon-3xl));
 }
 
 .left {
