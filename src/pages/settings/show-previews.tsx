@@ -1,10 +1,12 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/field";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import type { SettingProps } from "./types";
 
 export function ShowPreviewsSetting(props: SettingProps) {
   const { settings, updateSettings } = props;
+  const { t } = useTranslation();
 
   const onCheckedChange = useCallback(
     (val: boolean | string) => {
@@ -14,15 +16,12 @@ export function ShowPreviewsSetting(props: SettingProps) {
   );
 
   return (
-    <Field
-      bordered
-      helpText="When this is checked, unreleased cards will be shown in the application and can be added to decks."
-    >
+    <Field bordered helpText={t("settings.collection.show_previews_help")}>
       <Checkbox
         checked={settings.showPreviews}
         data-testid="settings-show-previews"
         id="show-previews"
-        label="Show previews"
+        label={t("settings.collection.show_previews")}
         name="show-previews"
         onCheckedChange={onCheckedChange}
       />

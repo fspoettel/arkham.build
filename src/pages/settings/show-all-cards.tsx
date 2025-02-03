@@ -1,10 +1,13 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/field";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import type { SettingProps } from "./types";
 
 export function ShowAllCardsSetting(props: SettingProps) {
   const { settings, updateSettings } = props;
+
+  const { t } = useTranslation();
 
   const onCheckShowAll = useCallback(
     (val: boolean | string) => {
@@ -16,13 +19,13 @@ export function ShowAllCardsSetting(props: SettingProps) {
   return (
     <Field
       bordered
-      helpText="When this is checked, the collection settings below are ignored when checking card ownership in card and deck lists."
+      helpText={t("settings.collection.show_all_cards_owned_help")}
     >
       <Checkbox
         checked={settings.showAllCards}
         data-testid="settings-show-all"
         id="show-all-cards"
-        label="Show all cards as owned"
+        label={t("settings.collection.show_all_cards_owned")}
         name="show-all-cards"
         onCheckedChange={onCheckShowAll}
       />

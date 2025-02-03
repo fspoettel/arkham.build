@@ -16,6 +16,7 @@ import type { SettingsState } from "@/store/slices/settings.types";
 import { formatGroupingType } from "@/utils/formatting";
 import type React from "react";
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import css from "./settings.module.css";
 import type { SettingProps } from "./types";
 
@@ -69,6 +70,7 @@ function getDefaultsForList(listKey: keyof SettingsState["lists"]) {
 export function ListSettings(props: Props) {
   const { listKey, settings, title, updateSettings } = props;
 
+  const { t } = useTranslation();
   const [version, setVersion] = useState(0);
 
   const resetToDefaults = useCallback(() => {
@@ -92,7 +94,7 @@ export function ListSettings(props: Props) {
           size="sm"
           type="button"
         >
-          Reset to default
+          {t("lists.reset")}
         </Button>
       </header>
       <ListSettingsList
@@ -101,7 +103,7 @@ export function ListSettings(props: Props) {
         listKey={listKey}
         subKey="group"
         updateSettings={updateSettings}
-        title="Group by"
+        title={t("lists.group_by")}
         version={version}
       />
       <ListSettingsList
@@ -110,7 +112,7 @@ export function ListSettings(props: Props) {
         listKey={listKey}
         subKey="sort"
         updateSettings={updateSettings}
-        title="Sort by"
+        title={t("lists.sort_by")}
         version={version}
       />
     </section>
