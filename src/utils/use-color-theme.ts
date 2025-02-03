@@ -1,10 +1,11 @@
+import i18n from "@/utils/i18n";
 import { useEffect, useState } from "react";
 import { useMedia } from "./use-media";
 
 export const AVAILABLE_THEMES: Record<string, string> = {
-  dark: "Dark",
-  light: "Light",
-  system: "System",
+  dark: i18n.t("settings.display.theme_dark"),
+  light: i18n.t("settings.display.theme_light"),
+  system: i18n.t("settings.display.theme_system"),
 };
 
 const DEFAULT_THEME = "dark";

@@ -1,4 +1,5 @@
 import type { TabooSet } from "@/store/services/queries.types";
+import i18n from "@/utils/i18n";
 import { createSelector } from "reselect";
 
 export function capitalize(s: string | number) {
@@ -67,15 +68,7 @@ export function formatXpAvailable(
 }
 
 export function formatGroupingType(type: string) {
-  switch (type) {
-    case "base_upgrades": {
-      return "Lvl. 0 <> Upgrades";
-    }
-
-    default: {
-      return capitalizeSnakeCase(type);
-    }
-  }
+  return i18n.t(`lists.categories.${type}`);
 }
 
 export function formatProviderName(name: string) {

@@ -1,0 +1,123 @@
+{
+  "translation": {
+    "app": {
+      "init": "Initializing card database...",
+      "init_error": "Failed to initialize card database: {{error}}"
+    },
+    "common": {
+      "back": "Back",
+      "player_cards": "Player cards",
+      "encounter_cards": "Campaign cards",
+      "investigator_one": "Investigator",
+      "investigator_other": "Investigators"
+    },
+    "lists": {
+      "group_by": "Group by",
+      "sort_by": "Sort by",
+      "reset": "Reset to default",
+      "categories": {
+        "cost": "Cost",
+        "cycle": "Cycle",
+        "faction": "Faction",
+        "level": "Level",
+        "name": "Name",
+        "pack": "Pack",
+        "position": "Position",
+        "slot": "Slot",
+        "subtype": "Subtype",
+        "type": "Type",
+        "base_upgrades": "Lvl. 0 <> Upgrades"
+      }
+    },
+    "settings": {
+      "save": "Save settings",
+      "title": "Settings",
+      "preview": "Preview",
+      "backup": {
+        "confirm": "Are you sure you want to restore this backup? Any existing data will be overwritten.",
+        "create": "Create backup",
+        "help": "Create a backup of your settings, decks and card collection as a JSON file. You can use this file to restore your data on this device or another device.",
+        "help_warning": "When a backup is restored,<strong>any existing data will be overwritten.</strong>",
+        "no_file_selected": "No file selected",
+        "restore_success": "Backup restored successfully.",
+        "restore": "Restore backup",
+        "restore_error": "Failed to restore backup: {{error}}",
+        "title": "Backup & Restore"
+      },
+      "card_data": {
+        "title": "Card data",
+        "loading": "Loading latest card data...",
+        "error": "Failed to load latest card data.",
+        "up_to_date": "Card data is up to date.",
+        "update_available": "New card data is available.",
+        "sync": "Sync card data",
+        "sync_success": "Card data synced successfully.",
+        "data_version": "Data version",
+        "locale": "Locale",
+        "card_count": "Card count"
+      },
+      "collection": {
+        "card_collection": "Card collection",
+        "new_format": "New format",
+        "old_format": "Old format",
+        "show_all_cards_owned_help": "When this is checked, the collection settings below are ignored when checking card ownership in card and deck lists.",
+        "show_all_cards_owned": "Show all cards as owned",
+        "show_previews_help": "When this is checked, unreleased cards will be shown in the application and can be added to decks.",
+        "show_previews": "Show preview cards",
+        "title": "Collection"
+      },
+      "connections": {
+        "connect_help": "Connect your {{provider}} account to sync your decks.",
+        "connect": "Connect",
+        "connected": "Connected",
+        "created_at": "Connected since",
+        "details": "Details",
+        "disconnect": "Disconnect",
+        "disconnected_all": "There is a problem with one of your connections. Please refresh it in the settings.",
+        "disconnected": "There is a problem with this connection, please reconnect.",
+        "items_synced": "Items synced",
+        "last_modified": "Data timestamp",
+        "last_synced_at": "Last sync",
+        "no_errors": "No errors",
+        "reconnect": "Refresh",
+        "sync_all": "Sync {{collectionLabels}} decks",
+        "sync_errors": "Sync errors",
+        "sync_status": "Sync status",
+        "sync": "Sync",
+        "provider_error": "Syncing {{provider}} failed: {{error}}",
+        "provider_success": "Successfully synced {{provider}}.",
+        "provider_syncing": "Syncing {{provider}}...",
+        "syncing": "Sync in progress",
+        "title": "Connected accounts",
+        "user_id": "User ID",
+        "username": "Username"
+      },
+      "display": {
+        "card_level": "Card level display",
+        "card_level_icon_only": "In card icon only",
+        "card_level_as_dots": "In card icon and as dots",
+        "card_level_as_text": "In card icon and as text",
+        "font_size_preview": "Armitage had an idea that the alphabet might be something esoterically used by certain forbidden cults which have come down from old times, and which have inherited many forms and traditions from the wizards of the Saracenic world.",
+        "font_size": "Font size",
+        "hide_weaknesses": "Hide weaknesses in player card lists",
+        "hide_weaknesses_help": "When this is checked, weaknesses are hidden in player card lists by default and need to be enabled in the <strong>Subtype</strong> filter to be visible.",
+        "theme_dark": "Dark",
+        "theme_light": "Light",
+        "theme_system": "System",
+        "theme": "Theme",
+        "title": "Display"
+      },
+      "general": {
+        "title": "General",
+        "default_taboo": "Default taboo list",
+        "weakness_limited_card_pool": "Use limited card pool for random basic weakness draws",
+        "weakness_limited_card_pool_help": "When this is checked, the random basic weakness draw will respect the limited card pool of a deck if one is defined."
+      },
+      "lists": {
+        "title": "Lists",
+        "deck_view": "Deck view",
+        "deck_view_scans": "Deck view (Scans)"
+      }
+    }
+  }
+}

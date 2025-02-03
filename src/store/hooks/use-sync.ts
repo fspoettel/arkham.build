@@ -1,11 +1,13 @@
 import { useToast } from "@/components/ui/toast.hooks";
 import { isEmpty } from "@/utils/is-empty";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { useStore } from "..";
 import { selectConnections, selectSyncHealthy } from "../selectors/connections";
 
 export function useSync() {
   const toast = useToast();
+  const { t } = useTranslation();
 
   const sync = useStore((state) => state.sync);
 
@@ -16,8 +18,10 @@ export function useSync() {
   const onSync = useCallback(async () => {
     if (!syncHealthy || connectionsEmpty) return;
 
+    const provider = "ArkhamDB";
+
     const toastId = toast.show({
-      children: "Syncing with ArkhamDB...",
+      children: t("settings.connections.provider_syncing", { provider }),
       variant: "loading",
     });
 
@@ -26,7 +30,7 @@ export function useSync() {
       toast.dismiss(toastId);
 
       toast.show({
-        children: "ArkhamDB sync successful",
+        children: t("settings.connections.provider_success", { provider }),
         duration: 3000,
         variant: "success",
       });
@@ -34,13 +38,16 @@ export function useSync() {
       console.error(err);
       toast.dismiss(toastId);
       toast.show({
-        children: `Error syncing with ArkhamDB: ${(err as Error).message || "Unknown error"}`,
+        children: t("settings.connections.provider_error", {
+          provider,
+          error: (err as Error).message || "Unknown error",
+        }),
         duration: 3000,
         variant: "error",
       });
       throw err;
     }
-  }, [connectionsEmpty, sync, syncHealthy, toast]);
+  }, [connectionsEmpty, sync, syncHealthy, toast, t]);
 
   return onSync;
 }

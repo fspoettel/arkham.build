@@ -1,5 +1,6 @@
 import { cx } from "@/utils/cx";
 import { SettingsIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "wouter";
 import Logo from "../assets/icons/logo.svg?react";
 import { HelpMenu } from "./help-menu";
@@ -14,6 +15,8 @@ type Props = {
 };
 
 export function Masthead(props: Props) {
+  const { t } = useTranslation();
+
   const [location] = useLocation();
 
   return (
@@ -38,7 +41,7 @@ export function Masthead(props: Props) {
                 className={css["settings"]}
                 data-testid="masthead-settings"
                 variant="bare"
-                tooltip="Go to settings"
+                tooltip={t("settings.title")}
               >
                 <SettingsIcon />
               </Button>

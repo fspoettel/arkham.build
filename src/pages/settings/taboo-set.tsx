@@ -3,10 +3,13 @@ import { Select } from "@/components/ui/select";
 import { useStore } from "@/store";
 import { selectTabooSetOptions } from "@/store/selectors/lists";
 import { formatTabooSet } from "@/utils/formatting";
+import { useTranslation } from "react-i18next";
 import type { SettingProps } from "./types";
 
 export function TabooSetSetting(props: SettingProps) {
   const { settings, updateSettings } = props;
+  const { t } = useTranslation();
+
   const tabooSets = useStore(selectTabooSetOptions);
 
   const onChange = (evt: React.ChangeEvent<HTMLSelectElement>) => {
@@ -18,7 +21,9 @@ export function TabooSetSetting(props: SettingProps) {
 
   return (
     <Field bordered>
-      <FieldLabel htmlFor="taboo-set">Default taboo list</FieldLabel>
+      <FieldLabel htmlFor="taboo-set">
+        {t("settings.general.default_taboo")}
+      </FieldLabel>
       <Select
         data-testid="settings-taboo-set"
         emptyLabel="None"

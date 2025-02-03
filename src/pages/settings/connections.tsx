@@ -4,8 +4,9 @@ import { selectAvailableConnections } from "@/store/selectors/connections";
 import { selectConnectionLock } from "@/store/selectors/shared";
 import type { Connection, Provider } from "@/store/slices/connections.types";
 import { cx } from "@/utils/cx";
-import { capitalize, formatDate } from "@/utils/formatting";
+import { capitalize, formatDate, formatProviderName } from "@/utils/formatting";
 import { CheckIcon, CloudOffIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import css from "./connections.module.css";
 
 export function Connections() {
@@ -48,6 +49,7 @@ function ConnectionStatusOutput(props: {
   connection: Connection;
 }) {
   const { status } = props.connection;
+  const { t } = useTranslation();
 
   return (
     <output className={css["status"]}>
@@ -56,9 +58,8 @@ function ConnectionStatusOutput(props: {
         {status === "disconnected" && <CloudOffIcon />}
       </span>
       <span>
-        {status === "connected" && "Connected"}
-        {status === "disconnected" &&
-          "There is a problem with this connection, please reconnect."}
+        {status === "connected" && t("settings.connections.connected")}
+        {status === "disconnected" && t("settings.connections.disconnected")}
       </span>
     </output>
   );
@@ -68,6 +69,8 @@ function ConnectionDetails(props: {
   connection: Connection;
   lastSyncedAt?: number;
 }) {
+  const { t } = useTranslation();
+
   const { connection, lastSyncedAt } = props;
   const removeConnection = useStore((state) => state.removeConnection);
 
@@ -76,47 +79,45 @@ function ConnectionDetails(props: {
   return (
     <>
       <details className={css["details"]}>
-        <summary>Details</summary>
+        <summary>{t("settings.connections.details")}</summary>
         <dl className={css["details-properties"]}>
           {connection.user.username && (
             <>
-              <dt>Username</dt>
+              <dt>{t("settings.connections.username")}</dt>
               <dd>{connection.user.username}</dd>
             </>
           )}
           {connection.user.id && (
             <>
-              <dt>User id</dt>
+              <dt>{t("settings.connections.user_id")}</dt>
               <dd>{connection.user.id}</dd>
             </>
           )}
-          <dt>Connected since</dt>
+          <dt>{t("settings.connections.created_at")}</dt>
           <dd>{formatDate(connection.createdAt)}</dd>
-          <dt>Last sync</dt>
-          <dd>
-            {lastSyncedAt ? new Date(lastSyncedAt).toUTCString() : "Never"}
-          </dd>
+          <dt>{t("settings.connections.last_synced_at")}</dt>
+          <dd>{lastSyncedAt ? new Date(lastSyncedAt).toUTCString() : "-"}</dd>
 
           {connection.syncDetails && (
             <>
-              <dt>Sync status</dt>
+              <dt>{t("settings.connections.sync_status")}</dt>
               <dd>{capitalize(connection.syncDetails.status)}</dd>
               {connection.syncDetails.status === "success" && (
                 <>
-                  <dt>Sync items</dt>
+                  <dt>{t("settings.connections.items_synced")}</dt>
                   <dd>
                     {connection.syncDetails.itemsSynced} /{" "}
                     {connection.syncDetails.itemsTotal}
                   </dd>
-                  <dt>Data timestamp</dt>
+                  <dt>{t("settings.connections.last_modified")}</dt>
                   <dd>{connection.syncDetails.lastModified}</dd>
                 </>
               )}
-              <dt>Sync errors</dt>
+              <dt>{t("settings.connections.sync_errors")}</dt>
               <dd>
                 {connection.syncDetails?.errors?.length
                   ? connection.syncDetails.errors.join(", ")
-                  : "No errors"}
+                  : t("settings.connections.no_errors")}
               </dd>
             </>
           )}
@@ -128,15 +129,17 @@ function ConnectionDetails(props: {
           disabled={!!connectionLock}
           href={`${import.meta.env.VITE_API_URL}/auth/signin?provider=${connection.provider}`}
           type="button"
+          size="sm"
         >
-          Refresh connection
+          {t("settings.connections.reconnect")}
         </Button>
         <Button
           type="button"
           disabled={!!connectionLock}
           onClick={() => removeConnection(connection.provider as Provider)}
+          size="sm"
         >
-          Disconnect
+          {t("settings.connections.disconnect")}
         </Button>
       </div>
     </>
@@ -146,20 +149,24 @@ function ConnectionDetails(props: {
 function ConnectionInit(props: {
   provider: Provider;
 }) {
+  const { t } = useTranslation();
   const { provider } = props;
 
   return (
     <>
       <p className={css["info-text"]}>
-        Connect your {provider} account to sync your decks.
+        {t("settings.connections.connect_help", {
+          provider: formatProviderName(provider),
+        })}
       </p>
       <div className={css["actions"]}>
         <Button
           as="a"
           href={`${import.meta.env.VITE_API_URL}/auth/signin?provider=${provider}`}
           type="button"
+          size="sm"
         >
-          Connect
+          {t("settings.connections.connect")}
         </Button>
       </div>
     </>

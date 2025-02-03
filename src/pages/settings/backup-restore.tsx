@@ -6,40 +6,40 @@ import { useStore } from "@/store";
 import { assert } from "@/utils/assert";
 import { AlertTriangleIcon } from "lucide-react";
 import { useCallback } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import css from "./backup-restore.module.css";
 
 export function BackupRestore() {
   const toast = useToast();
+  const { t } = useTranslation();
+
   const backup = useStore((state) => state.backup);
   const restore = useStore((state) => state.restore);
 
   const onRestore = useCallback(
     async (evt: React.ChangeEvent<HTMLInputElement>) => {
-      const confirmed = confirm(
-        "Are you sure you want to restore this backup? Any existing data will be overwritten.",
-      );
-
-      if (!confirmed) {
-        return;
-      }
+      const confirmed = confirm(t("settings.backup.confirm"));
+      if (!confirmed) return;
 
       try {
         const file = evt.target.files?.[0];
-        assert(file, "No file selected");
+        assert(file, t("settings.backup.no_file_selected"));
         await restore(file);
         toast.show({
           duration: 3000,
-          children: "Backup restore successful.",
+          children: t("settings.backup.restore_success"),
           variant: "success",
         });
       } catch (err) {
         toast.show({
-          children: `Could not restore backup: ${(err as Error).message}`,
+          children: t("settings.backup.restore_error", {
+            error: (err as Error).message,
+          }),
           variant: "error",
         });
       }
     },
-    [restore, toast],
+    [restore, toast, t],
   );
 
   return (
@@ -47,28 +47,31 @@ export function BackupRestore() {
       bordered
       helpText={
         <>
+          <p>{t("settings.backup.help")}</p>
           <p>
-            Create a backup of your settings, decks and card collection as a
-            JSON file. You can use this file to restore your data on this device
-            or another device.
-          </p>
-          <p>
-            <AlertTriangleIcon className="icon-inline" /> When a backup is
-            restored, <strong>any existing data will be overwritten.</strong>
+            <AlertTriangleIcon className="icon-inline" />{" "}
+            <Trans
+              i18nKey="settings.backup.help_warning"
+              components={{ strong: <strong /> }}
+              t={t}
+            >
+              When a backup is restored,{" "}
+              <strong>any existing data will be overwritten.</strong>
+            </Trans>
           </p>
         </>
       }
     >
       <div className={css["actions"]}>
         <Button onClick={backup} type="button">
-          Create backup
+          {t("settings.backup.create")}
         </Button>
         <FileInput
           accept="application/json"
           id="settings-restore"
           onChange={onRestore}
         >
-          Restore backup
+          {t("settings.backup.restore")}
         </FileInput>
       </div>
     </Field>
