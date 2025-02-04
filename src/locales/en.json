@@ -10,13 +10,76 @@
     },
     "common": {
       "back": "Back",
-      "player_cards": "Player cards",
       "encounter_cards": "Campaign cards",
+      "deck_actions": {
+        "copy_id": "Copy deck ID",
+        "delete_upgrade": "Delete upgrade",
+        "delete": "Delete deck",
+        "duplicate": "Duplicate deck",
+        "edit": "Edit deck",
+        "export_json": "Export JSON",
+        "export_text": "Export text",
+        "upgrade": "Upgrade deck"
+      },
+      "deck_stats": {
+        "deck_size": "Deck size",
+        "xp_available_help": "XP available to spend after latest upgrade.",
+        "xp_required_help": "Amount of XP required to build this deck from scratch."
+      },
+      "factions": {
+        "guardian": "Guardian",
+        "mystic": "Mystic",
+        "mythos": "Mythos",
+        "neutral": "Neutral",
+        "rogue": "Rogue",
+        "seeker": "Seeker",
+        "survivor": "Survivor"
+      },
       "investigator_one": "Investigator",
-      "investigator_other": "Investigators"
+      "investigator_other": "Investigators",
+      "player_cards": "Player cards",
+      "xp": "XP"
+    },
+    "about": {
+      "title": "About"
+    },
+    "collection_stats": {
+      "title": "Collection stats",
+      "description": "This page displays your collection and card counts based on your collection settings. To update your collection settings, visit the <custom_link>Settings</custom_link> page.",
+      "counts": "You own <strong>{{player_count}}</strong> player and <strong>{{encounter_count}}</strong> encounter cards."
     },
     "deck_collection": {
-      "create": "Create new deck"
+      "close_filters": "Close filters",
+      "count": "{{count}} decks",
+      "count_hidden": " ({{count}} hidden)",
+      "collection_empty": "Collection empty",
+      "connect_arkhamdb": "Connect to ArkhamDB",
+      "create": "Create new deck",
+      "deck_url_or_id": "Deck URL or ID",
+      "delete_all_confirm": "Are you sure you want to delete all local decks in your collection?",
+      "delete_all_error": "Failed to delete local decks: {{error}}",
+      "delete_all_loading": "Deleting local decks...",
+      "delete_all_success": "Local decks deleted successfully.",
+      "delete_all": "Delete all local decks",
+      "import_arkhamdb_help": "Enter a public ArkhamDB deck id, deck url or deck guide url. Decks will be <strong>copied</strong> over and deck history will not be imported.",
+      "import_arkhamdb": "Import from ArkhamDB",
+      "import_json": "Import from JSON files",
+      "import": "Import",
+      "more_filters": "More filters",
+      "search_placeholder": "Search decks...",
+      "sorting": {
+        "date_updated": "Updated recently",
+        "date_created": "Created recently",
+        "alphabetical_asc": "Alphabetical (A -> Z)",
+        "alphabetical_desc": "Alphabetical (Z -> A)",
+        "xp_asc": "Least XP spent",
+        "xp_desc": "Most XP spent"
+      },
+      "tags_filter": {
+        "title": "Tags",
+        "placeholder": "Select tags..."
+      },
+      "title": "Decks"
     },
     "deck_edit": {
       "tab_card_list": "Card list",
@@ -46,19 +109,17 @@
       "tab_deck_tools": "Deck tools",
       "tab_history": "Upgrade history",
       "actions": {
-        "delete_upgrade": "Delete upgrade",
-        "delete": "Delete deck",
         "display_as_list": "Display as list",
         "display_as_scans": "Display as scans",
-        "duplicate": "Duplicate deck",
-        "edit": "Edit deck",
-        "export_json": "Export JSON",
-        "export_text": "Export text",
         "import": "Import deck",
         "save_upgrade": "Save upgrade and edit",
-        "save_upgrade_close": "Save upgrade and close",
-        "upgrade": "Upgrade deck"
+        "save_upgrade_close": "Save upgrade and close"
       }
+    },
+    "filters": {
+      "all": "All",
+      "and": "and",
+      "or": "or"
     },
     "help": {
       "title": "Help",

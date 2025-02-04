@@ -7,6 +7,7 @@ import {
 import { Content, Root, Trigger } from "@radix-ui/react-collapsible";
 import { FilterIcon, Minimize2Icon } from "lucide-react";
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FactionToggle } from "../faction-toggle";
 import { Button } from "../ui/button";
 import { SearchInput } from "../ui/search-input";
@@ -21,6 +22,7 @@ type Props = {
 
 export function DeckCollectionFilters(props: Props) {
   const { filteredCount, totalCount } = props;
+  const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
 
@@ -51,7 +53,7 @@ export function DeckCollectionFilters(props: Props) {
           id="deck-search-input"
           inputClassName={css["search-input"]}
           onChangeValue={onSearchChange}
-          placeholder="Search for decks..."
+          placeholder={t("deck_collection.search_placeholder")}
           ref={searchRef}
           value={searchValue}
           className={css["search-outer"]}
@@ -60,7 +62,11 @@ export function DeckCollectionFilters(props: Props) {
           <Button
             as="a"
             data-testid="expand-deck-filters"
-            tooltip={open ? "Close Filters" : "More filters"}
+            tooltip={
+              open
+                ? t("deck_collection.close_filters")
+                : t("deck_collection.more_filters")
+            }
             variant="bare"
           >
             {open ? <Minimize2Icon /> : <FilterIcon />}

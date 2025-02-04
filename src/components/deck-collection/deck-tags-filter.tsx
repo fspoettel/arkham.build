@@ -9,6 +9,7 @@ import type { Coded } from "@/store/services/queries.types";
 import { capitalizeWords, formatProviderName } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { FilterContainer } from "../filters/primitives/filter-container";
 
 type Props = {
@@ -24,6 +25,7 @@ const tagRenderer = (tag: Coded) => (
 );
 
 export function DeckTagsFilter({ containerClass }: Props) {
+  const { t } = useTranslation();
   const changes = useStore(selectTagsChanges);
   const options = useStore(selectTagsInLocalDecks);
   const open = useStore((state) => state.deckFilters.open.tags);
@@ -59,16 +61,16 @@ export function DeckTagsFilter({ containerClass }: Props) {
         onOpenChange={onOpenChange}
         onReset={onReset}
         open={open}
-        title="Tags"
+        title={t("deck_collection.tags_filter.title")}
         data-testid="deck-tags-filter"
       >
         <Combobox
           autoFocus
           id="tag-deck-filter"
           items={options}
-          label="Tag"
+          label={t("deck_collection.tags_filter.title")}
           onValueChange={onChange}
-          placeholder="Select tag(s)"
+          placeholder={t("deck_collection.tags_filter.placeholder")}
           selectedItems={value}
           renderResult={tagRenderer}
           renderItem={tagRenderer}

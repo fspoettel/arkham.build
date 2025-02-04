@@ -13,6 +13,7 @@ import {
   Trash2Icon,
 } from "lucide-react";
 import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "wouter";
 import { CardThumbnail } from "../card-thumbnail";
 import { DeckStats } from "../deck-stats";
@@ -41,6 +42,7 @@ export function DeckSummary(props: Props) {
     validation,
   } = props;
 
+  const { t } = useTranslation();
   const [, navigate] = useLocation();
 
   const backgroundCls = getCardColor(deck.investigatorBack.card, "background");
@@ -143,7 +145,7 @@ export function DeckSummary(props: Props) {
           <Button
             className={css["quick-action"]}
             iconOnly
-            tooltip="Edit"
+            tooltip={t("common.deck_actions.edit")}
             onClick={onEdit}
           >
             <PencilIcon />
@@ -151,7 +153,7 @@ export function DeckSummary(props: Props) {
           <Button
             className={css["quick-action"]}
             iconOnly
-            tooltip="Upgrade"
+            tooltip={t("common.deck_actions.upgrade")}
             onClick={onUpgrade}
           >
             <i className="icon-xp-bold" />
@@ -159,7 +161,7 @@ export function DeckSummary(props: Props) {
           <Button
             className={css["quick-action"]}
             iconOnly
-            tooltip="Duplicate"
+            tooltip={t("common.deck_actions.duplicate")}
             onClick={onDuplicate}
           >
             <CopyIcon />
@@ -167,14 +169,16 @@ export function DeckSummary(props: Props) {
           <CopyToClipboard
             className={css["quick-action"]}
             text={deck.id.toString()}
-            tooltip="Copy deck id"
+            tooltip={t("common.deck_actions.copy_id")}
           />
           <Button
             className={css["quick-action"]}
             iconOnly
             disabled={!!connectionLock}
             onClick={onDelete}
-            tooltip={connectionLock ? connectionLock : "Delete"}
+            tooltip={
+              connectionLock ? connectionLock : t("common.deck_actions.delete")
+            }
           >
             <Trash2Icon />
           </Button>
