@@ -1,5 +1,6 @@
 import type { Faction } from "@/store/services/queries.types";
 import type { MultiselectFilter } from "@/store/slices/lists.types";
+import { useTranslation } from "react-i18next";
 import css from "./faction-toggle.module.css";
 import { FactionIconFancy } from "./icons/faction-icon-fancy";
 import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
@@ -12,6 +13,7 @@ type Props = {
 
 export function FactionToggle(props: Props) {
   const { options, value, onValueChange } = props;
+  const { t } = useTranslation();
 
   return (
     <ToggleGroup
@@ -28,7 +30,7 @@ export function FactionToggle(props: Props) {
           className={css[`color-active-${faction.code}`]}
           data-testid={`filters-faction-${faction.code}`}
           key={faction.code}
-          tooltip={faction.name}
+          tooltip={t(`common.factions.${faction.code}`)}
           value={faction.code}
         >
           <FactionIconFancy code={faction.code} />

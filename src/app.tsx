@@ -1,4 +1,5 @@
 import { Suspense, lazy, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { Route, Router, Switch, useLocation } from "wouter";
 import { useBrowserLocation } from "wouter/use-browser-location";
 import { ErrorBoundary } from "./components/error-boundary";
@@ -54,6 +55,7 @@ function Providers(props: { children: React.ReactNode }) {
 }
 
 function AppInner() {
+  const { t } = useTranslation();
   const toast = useToast();
   const storeHydrated = useStore((state) => state.ui.hydrated);
   const storeInitialized = useStore(selectIsInitialized);
@@ -79,7 +81,9 @@ function AppInner() {
         } catch (err) {
           console.error(err);
           toast.show({
-            children: `Failed to initialize card database: ${(err as Error)?.message}`,
+            children: t("app.init_error", {
+              error: (err as Error)?.message ?? "Unknown error",
+            }),
             variant: "error",
           });
         }
@@ -87,7 +91,7 @@ function AppInner() {
     }
 
     initStore().catch(console.error);
-  }, [storeHydrated, init, toast.show]);
+  }, [storeHydrated, init, toast.show, t]);
 
   useEffect(() => {
     if (storeHydrated) {
@@ -98,7 +102,7 @@ function AppInner() {
   return (
     <>
       <Loader
-        message="Initializing card database..."
+        message={t("app.init")}
         show={storeHydrated && !storeInitialized}
       />
       <Suspense fallback={<Loader delay={200} show />}>

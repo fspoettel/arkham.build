@@ -2,11 +2,14 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import { Slider } from "@/components/ui/slider";
 import { ALargeSmallIcon } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import css from "./font-size.module.css";
 import type { SettingProps } from "./types";
 
 export function FontSizeSetting(props: SettingProps) {
   const { settings, updateSettings } = props;
+
+  const { t } = useTranslation();
 
   const min = 85;
   const max = 125;
@@ -43,7 +46,7 @@ export function FontSizeSetting(props: SettingProps) {
     <Field className={css["field"]} bordered>
       <FieldLabel htmlFor="font-size">
         <ALargeSmallIcon />
-        Font size
+        {t("settings.display.font_size")}
       </FieldLabel>
       <div className={css["input"]}>
         <Slider
@@ -59,13 +62,8 @@ export function FontSizeSetting(props: SettingProps) {
         <span>{liveValue}%</span>
       </div>
       <div className={css["preview"]} style={{ fontSize: `${liveValue[0]}%` }}>
-        <h4>Preview</h4>
-        <p>
-          Armitage had an idea that the alphabet might be something esoterically
-          used by certain forbidden cults which have come down from old times,
-          and which have inherited many forms and traditions from the wizards of
-          the Saracenic world.
-        </p>
+        <h4>{t("settings.preview")}</h4>
+        <p>{t("settings.display.font_size_preview")}</p>
       </div>
     </Field>
   );

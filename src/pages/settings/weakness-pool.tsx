@@ -1,10 +1,12 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/field";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import type { SettingProps } from "./types";
 
 export function WeaknessPoolSetting(props: SettingProps) {
   const { settings, updateSettings } = props;
+  const { t } = useTranslation();
 
   const onCheckWeaknessPool = useCallback(
     (val: boolean | string) => {
@@ -19,13 +21,13 @@ export function WeaknessPoolSetting(props: SettingProps) {
   return (
     <Field
       bordered
-      helpText="When this is checked, the random basic weakness draw will respect the limited card pool of a deck if one is defined."
+      helpText={t("settings.general.weakness_limited_card_pool_help")}
     >
       <Checkbox
         checked={settings.useLimitedPoolForWeaknessDraw}
         data-testid="settings-weakness-pool"
         id="weakness-pool"
-        label="Use limited card pool for random basic weakness draws"
+        label={t("settings.general.weakness_limited_card_pool")}
         name="weakness-pool"
         onCheckedChange={onCheckWeaknessPool}
       />

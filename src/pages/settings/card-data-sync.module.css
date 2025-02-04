@@ -22,6 +22,12 @@
   color: var(--nord-14);
 }
 
+.info {
+  display: grid;
+  gap: 0.25rem;
+  grid-template-columns: max-content 1fr;
+}
+
 .info dt {
   font-weight: 700;
 }

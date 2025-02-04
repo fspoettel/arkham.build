@@ -1,0 +1,266 @@
+{
+  "translation": {
+    "app": {
+      "init": "Initializing card database...",
+      "init_error": "Failed to initialize card database: {{error}}",
+      "actions": {
+        "legend": "Show keyboard shortcuts",
+        "close_modal": "Close modal"
+      }
+    },
+    "common": {
+      "back": "Back",
+      "encounter_cards": "Campaign cards",
+      "deck_actions": {
+        "copy_id": "Copy deck ID",
+        "delete_upgrade": "Delete upgrade",
+        "delete": "Delete deck",
+        "duplicate": "Duplicate deck",
+        "edit": "Edit deck",
+        "export_json": "Export JSON",
+        "export_text": "Export text",
+        "upgrade": "Upgrade deck"
+      },
+      "deck_stats": {
+        "deck_size": "Deck size",
+        "xp_available_help": "XP available to spend after latest upgrade.",
+        "xp_required_help": "Amount of XP required to build this deck from scratch."
+      },
+      "factions": {
+        "guardian": "Guardian",
+        "mystic": "Mystic",
+        "mythos": "Mythos",
+        "neutral": "Neutral",
+        "rogue": "Rogue",
+        "seeker": "Seeker",
+        "survivor": "Survivor"
+      },
+      "investigator_one": "Investigator",
+      "investigator_other": "Investigators",
+      "player_cards": "Player cards",
+      "xp": "XP"
+    },
+    "about": {
+      "title": "About"
+    },
+    "collection_stats": {
+      "title": "Collection stats",
+      "description": "This page displays your collection and card counts based on your collection settings. To update your collection settings, visit the <custom_link>Settings</custom_link> page.",
+      "counts": "You own <strong>{{player_count}}</strong> player and <strong>{{encounter_count}}</strong> encounter cards."
+    },
+    "deck_collection": {
+      "close_filters": "Close filters",
+      "count": "{{count}} decks",
+      "count_hidden": " ({{count}} hidden)",
+      "collection_empty": "Collection empty",
+      "connect_arkhamdb": "Connect to ArkhamDB",
+      "create": "Create new deck",
+      "deck_url_or_id": "Deck URL or ID",
+      "delete_all_confirm": "Are you sure you want to delete all local decks in your collection?",
+      "delete_all_error": "Failed to delete local decks: {{error}}",
+      "delete_all_loading": "Deleting local decks...",
+      "delete_all_success": "Local decks deleted successfully.",
+      "delete_all": "Delete all local decks",
+      "import_arkhamdb_help": "Enter a public ArkhamDB deck id, deck url or deck guide url. Decks will be <strong>copied</strong> over and deck history will not be imported.",
+      "import_arkhamdb": "Import from ArkhamDB",
+      "import_json": "Import from JSON files",
+      "import": "Import",
+      "more_filters": "More filters",
+      "search_placeholder": "Search decks...",
+      "sorting": {
+        "date_updated": "Updated recently",
+        "date_created": "Created recently",
+        "alphabetical_asc": "Alphabetical (A -> Z)",
+        "alphabetical_desc": "Alphabetical (Z -> A)",
+        "xp_asc": "Least XP spent",
+        "xp_desc": "Most XP spent"
+      },
+      "tags_filter": {
+        "title": "Tags",
+        "placeholder": "Select tags..."
+      },
+      "title": "Decks"
+    },
+    "deck_edit": {
+      "tab_card_list": "Card list",
+      "tab_recommendations": "Recommendations",
+      "tab_deck_tools": "Deck tools",
+      "tab_notes": "Notes",
+      "tab_config": "Config",
+      "discard": "Discard changes",
+      "save": "Save deck",
+      "actions": {
+        "cycle_deck_lists": "Cycle deck lists",
+        "decrement_quantity": "Decrement deck quantity",
+        "decrement_side_quantity": "Decrement side deck quantity",
+        "edit_annotation": "Edit annotation",
+        "increment_quantity": "Increment deck quantity",
+        "increment_side_quantity": "Increment side deck quantity",
+        "quick_discard": "Discard edits (and stay on page)",
+        "quick_save_deck": "Save deck (and stay on page)",
+        "set_quantity": "Set deck quantity",
+        "set_side_quantity": "Set side deck quantity"
+      }
+    },
+    "deck_view": {
+      "tab_deck_list": "Deck list",
+      "tab_notes": "Notes",
+      "tab_recommendations": "Recommendations",
+      "tab_deck_tools": "Deck tools",
+      "tab_history": "Upgrade history",
+      "actions": {
+        "display_as_list": "Display as list",
+        "display_as_scans": "Display as scans",
+        "import": "Import deck",
+        "save_upgrade": "Save upgrade and edit",
+        "save_upgrade_close": "Save upgrade and close"
+      }
+    },
+    "filters": {
+      "all": "All",
+      "and": "and",
+      "or": "or"
+    },
+    "help": {
+      "title": "Help",
+      "about": "About this site",
+      "collection_stats": "Collection stats",
+      "shortcuts": {
+        "title": "Keyboard shortcuts",
+        "group_general": "General",
+        "group_deck_collection": "Deck collection",
+        "group_deck_editor": "Deck editor",
+        "group_card_list": "Card list",
+        "group_card_list_search": "Card list (search focused)",
+        "group_card_modal": "Card modal",
+        "group_deck_view": "Deck view",
+        "group_upgrade_modal": "Upgrade modal"
+      }
+    },
+    "lists": {
+      "group_by": "Group by",
+      "sort_by": "Sort by",
+      "reset": "Reset to default",
+      "categories": {
+        "cost": "Cost",
+        "cycle": "Cycle",
+        "faction": "Faction",
+        "level": "Level",
+        "name": "Name",
+        "pack": "Pack",
+        "position": "Position",
+        "slot": "Slot",
+        "subtype": "Subtype",
+        "type": "Type",
+        "base_upgrades": "Lvl. 0 <> Upgrades"
+      },
+      "actions": {
+        "blur_search": "Unfocus search",
+        "clear_search": "Clear search",
+        "display_as_detailed": "Display as detailed cards",
+        "display_as_list_text": "Display as list with card text",
+        "display_as_list": "Display as list",
+        "display_as_scans": "Display as scans",
+        "focus_search": "Focus search",
+        "move_down": "Move down",
+        "move_up": "Move up",
+        "open_card_modal": "Open card modal for focused card",
+        "reset_filters": "Reset filters",
+        "toggle_filter_menu": "Toggle filter menu",
+        "toggle_filters": "Toggle filters",
+        "toggle_sidebar": "Toggle sidebar",
+        "toggle_unusable_cards": "Toggle unusable cards"
+      }
+    },
+    "settings": {
+      "save": "Save settings",
+      "title": "Settings",
+      "preview": "Preview",
+      "backup": {
+        "confirm": "Are you sure you want to restore this backup? Any existing data will be overwritten.",
+        "create": "Create backup",
+        "help": "Create a backup of your settings, decks and card collection as a JSON file. You can use this file to restore your data on this device or another device.",
+        "help_warning": "When a backup is restored,<strong>any existing data will be overwritten.</strong>",
+        "no_file_selected": "No file selected",
+        "restore_success": "Backup restored successfully.",
+        "restore": "Restore backup",
+        "restore_error": "Failed to restore backup: {{error}}",
+        "title": "Backup & Restore"
+      },
+      "card_data": {
+        "title": "Card data",
+        "loading": "Loading latest card data...",
+        "error": "Failed to load latest card data.",
+        "up_to_date": "Card data is up to date.",
+        "update_available": "New card data is available.",
+        "sync": "Sync card data",
+        "sync_success": "Card data synced successfully.",
+        "data_version": "Data version",
+        "locale": "Locale",
+        "card_count": "Card count"
+      },
+      "collection": {
+        "card_collection": "Card collection",
+        "new_format": "New format",
+        "old_format": "Old format",
+        "show_all_cards_owned_help": "When this is checked, the collection settings below are ignored when checking card ownership in card and deck lists.",
+        "show_all_cards_owned": "Show all cards as owned",
+        "show_previews_help": "When this is checked, unreleased cards will be shown in the application and can be added to decks.",
+        "show_previews": "Show preview cards",
+        "title": "Collection"
+      },
+      "connections": {
+        "connect_help": "Connect your {{provider}} account to sync your decks.",
+        "connect": "Connect",
+        "connected": "Connected",
+        "created_at": "Connected since",
+        "details": "Details",
+        "disconnect": "Disconnect",
+        "disconnected_all": "There is a problem with one of your connections. Please refresh it in the settings.",
+        "disconnected": "There is a problem with this connection, please reconnect.",
+        "items_synced": "Items synced",
+        "last_modified": "Data timestamp",
+        "last_synced_at": "Last sync",
+        "no_errors": "No errors",
+        "reconnect": "Refresh",
+        "sync_all": "Sync {{collectionLabels}} decks",
+        "sync_errors": "Sync errors",
+        "sync_status": "Sync status",
+        "sync": "Sync",
+        "provider_error": "Syncing {{provider}} failed: {{error}}",
+        "provider_success": "Successfully synced {{provider}}.",
+        "provider_syncing": "Syncing {{provider}}...",
+        "syncing": "Sync in progress",
+        "title": "Connected accounts",
+        "user_id": "User ID",
+        "username": "Username"
+      },
+      "display": {
+        "card_level": "Card level display",
+        "card_level_icon_only": "In card icon only",
+        "card_level_as_dots": "In card icon and as dots",
+        "card_level_as_text": "In card icon and as text",
+        "font_size_preview": "Armitage had an idea that the alphabet might be something esoterically used by certain forbidden cults which have come down from old times, and which have inherited many forms and traditions from the wizards of the Saracenic world.",
+        "font_size": "Font size",
+        "hide_weaknesses": "Hide weaknesses in player card lists",
+        "hide_weaknesses_help": "When this is checked, weaknesses are hidden in player card lists by default and need to be enabled in the <strong>Subtype</strong> filter to be visible.",
+        "theme_dark": "Dark",
+        "theme_light": "Light",
+        "theme_system": "System",
+        "theme": "Theme",
+        "title": "Display"
+      },
+      "general": {
+        "title": "General",
+        "default_taboo": "Default taboo list",
+        "weakness_limited_card_pool": "Use limited card pool for random basic weakness draws",
+        "weakness_limited_card_pool_help": "When this is checked, the random basic weakness draw will respect the limited card pool of a deck if one is defined."
+      },
+      "lists": {
+        "title": "Lists",
+        "deck_view": "Deck view",
+        "deck_view_scans": "Deck view (Scans)"
+      }
+    }
+  }
+}
