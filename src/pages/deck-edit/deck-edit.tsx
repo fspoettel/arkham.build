@@ -161,11 +161,11 @@ function DeckEditInner() {
     }
 
     tabs.push({
-      label: "Meta",
-      value: "meta",
+      label: "Config",
+      value: "config",
       type: "app",
-      hotkey: "m",
-      hotkeyLabel: "Deck meta",
+      hotkey: "c",
+      hotkeyLabel: "Configuration",
     });
 
     return tabs;
@@ -196,11 +196,11 @@ function DeckEditInner() {
   }, [currentTab, tabs]);
 
   const onSetMeta = useCallback(() => {
-    setCurrentTab("meta");
+    setCurrentTab("config");
   }, []);
 
   useHotkey("d", onCycleDeck);
-  useHotkey("m", onSetMeta);
+  useHotkey("c", onSetMeta);
 
   const renderCardExtraSlots = useCallback(
     (card: Card, quantity: number | undefined) => {
@@ -300,7 +300,7 @@ function DeckEditInner() {
           >
             <TabsList className={css["tabs-list"]} style={accentColor}>
               <TabsTrigger
-                hotkey="c"
+                hotkey="l"
                 onTabChange={setCurrentTool}
                 tooltip="Card list"
                 value="card-list"

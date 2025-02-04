@@ -78,7 +78,7 @@ export function LatestUpgrade(props: Props) {
 
   const canAddExile = useCallback(
     (card: Card) => {
-      if (currentTab && currentTab !== "meta") {
+      if (currentTab && currentTab !== "config") {
         const slot = deck[mapTabToSlot(currentTab)];
         if (slot) {
           const result = (slot[card.code] ?? 0) < cardLimit(card);

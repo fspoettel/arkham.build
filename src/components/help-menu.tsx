@@ -5,7 +5,8 @@ import {
   CircleHelpIcon,
   KeyboardIcon,
 } from "lucide-react";
-import { Fragment, useCallback, useState } from "react";
+import { Fragment, useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "wouter";
 import css from "./help-menu.module.css";
 import { Button } from "./ui/button";
@@ -15,108 +16,205 @@ import { Keybind } from "./ui/hotkey";
 import { Modal, ModalContent } from "./ui/modal";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
-const SHORTCUTS: [string, { keybind: string; description: string }[]][] = [
-  [
-    "General",
-    [
-      { keybind: "?", description: "Show keyboard shortcuts" },
-      { keybind: "escape", description: "Close modal" },
-    ],
-  ],
-  ["Deck collection", [{ keybind: "n", description: "Create new deck" }]],
-  [
-    "Deck editor",
-    [
-      { keybind: "c", description: "Card list" },
-      { keybind: "r", description: "Recommendations" },
-      { keybind: "t", description: "Deck tools" },
-      { keybind: "d", description: "Cycle deck lists" },
-      { keybind: "m", description: "Deck meta" },
-      { keybind: "cmd+s", description: "Save deck" },
-      { keybind: "cmd+shift+s", description: "Save deck (& stay on page)" },
-      { keybind: "cmd+backspace", description: "Discard edits" },
-      {
-        keybind: "cmd+shift+backspace",
-        description: "Discard edits (& stay on page)",
-      },
-    ],
-  ],
-  [
-    "Card list",
-    [
-      { keybind: "/", description: "Focus search" },
-      { keybind: "alt+f", description: "Toggle filters" },
-      { keybind: "alt+shift+f", description: "Reset filters" },
-      { keybind: "alt+1", description: "Toggle sidebar" },
-      { keybind: "alt+2", description: "Toggle filters" },
-      { keybind: "alt+p", description: "Show player cards" },
-      { keybind: "alt+c", description: "Show campaign cards" },
-      { keybind: "alt+u", description: "Show unusable cards" },
-      { keybind: "alt+l", description: "Display as list" },
-      { keybind: "alt+shift+l", description: "Display as list with card text" },
-      { keybind: "alt+d", description: "Display as detailed cards" },
-      { keybind: "alt+s", description: "Display as scans" },
-    ],
-  ],
-  [
-    "Card list (search focused)",
-    [
-      { keybind: "arrowup", description: "Move up" },
-      { keybind: "arrowdown", description: "Move down" },
-      { keybind: "enter", description: "Open card modal (focused card)" },
-      { keybind: "cmd+backspace", description: "Clear search" },
-      { keybind: "escape", description: "Unfocus search" },
-    ],
-  ],
-  [
-    "Card modal",
-    [
-      { keybind: "a", description: "Edit annotation" },
-      { keybind: "arrowright", description: "Increment deck quantity" },
-      { keybind: "arrowleft", description: "Decrement deck quantity" },
-      {
-        keybind: "shift+arrowright",
-        description: "Increment side deck quantity",
-      },
-      {
-        keybind: "shift+arrowleft",
-        description: "Decrement side deck quantity",
-      },
-      { keybind: "0..9", description: "Set deck quantity to x" },
-      { keybind: "shift+0..9", description: "Set side deck quantity to x" },
-    ],
-  ],
-  [
-    "Deck view",
-    [
-      { keybind: "d", description: "Deck list" },
-      { keybind: "n", description: "Deck notes" },
-      { keybind: "r", description: "Recommendations" },
-      { keybind: "t", description: "Deck tools" },
-      { keybind: "h", description: "Upgrade history" },
-      { keybind: "e", description: "Edit deck" },
-      { keybind: "u", description: "Upgrade deck" },
-      { keybind: "cmd+d", description: "Duplicate deck" },
-      { keybind: "cmd+shift+j", description: "Export JSON" },
-      { keybind: "cmd+shift+t", description: "Export text" },
-      { keybind: "cmd+backspace", description: "Delete deck" },
-      { keybind: "cmd+shift+backspace", description: "Delete upgrade" },
-      { keybind: "cmd+i", description: "Import deck" },
-      { keybind: "alt+l", description: "Display as list" },
-      { keybind: "alt+s", description: "Display as scans" },
-    ],
-  ],
-  [
-    "Upgrade modal",
-    [
-      { keybind: "cmd+enter", description: "Save upgrade (& edit)" },
-      { keybind: "cmd+shift+enter", description: "Save upgrade (& close)" },
-    ],
-  ],
-];
-
 export function HelpMenu() {
   const [keyboardShortcutsOpen, setKeyboardShortcutsOpen] = useState(false);
+
+  const { t } = useTranslation();
+
+  const shortcuts: [string, { keybind: string; description: string }[]][] =
+    useMemo(
+      () => [
+        [
+          t("help.shortcuts.group_general"),
+          [
+            { keybind: "?", description: t("app.actions.legend") },
+            {
+              keybind: "escape",
+              description: t("app.actions.close_modal"),
+            },
+          ],
+        ],
+        [
+          t("help.shortcuts.group_deck_collection"),
+          [{ keybind: "n", description: t("deck_collection.create") }],
+        ],
+        [
+          t("help.shortcuts.group_deck_editor"),
+          [
+            { keybind: "l", description: t("deck_edit.tab_card_list") },
+            { keybind: "r", description: t("deck_edit.tab_recommendations") },
+            { keybind: "n", description: t("deck_edit.tab_notes") },
+            { keybind: "t", description: t("deck_edit.tab_deck_tools") },
+            {
+              keybind: "d",
+              description: t("deck_edit.actions.cycle_deck_lists"),
+            },
+            { keybind: "c", description: t("deck_edit.tab_config") },
+            { keybind: "cmd+s", description: t("deck_edit.save") },
+            {
+              keybind: "cmd+shift+s",
+              description: t("deck_edit.actions.quick_save_deck"),
+            },
+            { keybind: "cmd+backspace", description: t("deck_edit.discard") },
+            {
+              keybind: "cmd+shift+backspace",
+              description: t("deck_edit.actions.quick_discard"),
+            },
+          ],
+        ],
+        [
+          t("help.shortcuts.group_card_list"),
+          [
+            { keybind: "/", description: t("lists.actions.focus_search") },
+            {
+              keybind: "alt+f",
+              description: t("lists.actions.toggle_filters"),
+            },
+            {
+              keybind: "alt+shift+f",
+              description: t("lists.actions.reset_filters"),
+            },
+            {
+              keybind: "alt+1",
+              description: t("lists.actions.toggle_sidebar"),
+            },
+            {
+              keybind: "alt+2",
+              description: t("lists.actions.toggle_filter_menu"),
+            },
+            { keybind: "alt+p", description: t("common.player_cards") },
+            { keybind: "alt+c", description: t("common.encounter_cards") },
+            {
+              keybind: "alt+u",
+              description: t("lists.actions.toggle_unusable_cards"),
+            },
+            {
+              keybind: "alt+l",
+              description: t("lists.actions.display_as_list"),
+            },
+            {
+              keybind: "alt+shift+l",
+              description: t("lists.actions.display_as_list_text"),
+            },
+            {
+              keybind: "alt+d",
+              description: t("lists.actions.display_as_detailed"),
+            },
+            {
+              keybind: "alt+s",
+              description: t("lists.actions.display_as_scans"),
+            },
+          ],
+        ],
+        [
+          t("help.shortcuts.group_card_list_search"),
+          [
+            { keybind: "arrowup", description: t("lists.actions.move_up") },
+            {
+              keybind: "arrowdown",
+              description: t("lists.actions.move_down"),
+            },
+            {
+              keybind: "enter",
+              description: t("lists.actions.open_card_modal"),
+            },
+            {
+              keybind: "cmd+backspace",
+              description: t("lists.actions.clear_search"),
+            },
+            {
+              keybind: "escape",
+              description: t("lists.actions.blur_search"),
+            },
+          ],
+        ],
+        [
+          t("help.shortcuts.group_card_modal"),
+          [
+            {
+              keybind: "a",
+              description: t("deck_edit.actions.edit_annotation"),
+            },
+            {
+              keybind: "arrowright",
+              description: t("deck_edit.actions.increment_quantity"),
+            },
+            {
+              keybind: "arrowleft",
+              description: t("deck_edit.actions.decrement_quantity"),
+            },
+            {
+              keybind: "shift+arrowright",
+              description: t("deck_edit.actions.increment_side_quantity"),
+            },
+            {
+              keybind: "shift+arrowleft",
+              description: t("deck_edit.actions.decrement_side_quantity"),
+            },
+            {
+              keybind: "0..9",
+              description: t("deck_edit.actions.set_quantity"),
+            },
+            {
+              keybind: "shift+0..9",
+              description: t("deck_edit.actions.set_side_quantity"),
+            },
+          ],
+        ],
+        [
+          t("help.shortcuts.group_deck_view"),
+          [
+            { keybind: "d", description: t("deck_view.tab_deck_list") },
+            { keybind: "n", description: t("deck_view.tab_notes") },
+            { keybind: "r", description: t("deck_view.tab_recommendations") },
+            { keybind: "t", description: t("deck_view.tab_deck_tools") },
+            { keybind: "h", description: t("deck_view.tab_history") },
+            { keybind: "e", description: t("deck_view.actions.edit") },
+            { keybind: "u", description: t("deck_view.actions.upgrade") },
+            { keybind: "cmd+d", description: t("deck_view.actions.duplicate") },
+            {
+              keybind: "cmd+shift+j",
+              description: t("deck_view.actions.export_json"),
+            },
+            {
+              keybind: "cmd+shift+t",
+              description: t("deck_view.actions.export_text"),
+            },
+            {
+              keybind: "cmd+backspace",
+              description: t("deck_view.actions.delete"),
+            },
+            {
+              keybind: "cmd+shift+backspace",
+              description: t("deck_view.actions.delete_upgrade"),
+            },
+            { keybind: "cmd+i", description: t("deck_view.actions.import") },
+            {
+              keybind: "alt+l",
+              description: t("deck_view.actions.display_as_list"),
+            },
+            {
+              keybind: "alt+s",
+              description: t("deck_view.actions.display_as_scans"),
+            },
+          ],
+        ],
+        [
+          t("help.shortcuts.group_upgrade_modal"),
+          [
+            {
+              keybind: "cmd+enter",
+              description: t("deck_view.actions.save_upgrade"),
+            },
+            {
+              keybind: "cmd+shift+enter",
+              description: t("deck_view.actions.save_upgrade_close"),
+            },
+          ],
+        ],
+      ],
+      [t],
+    );
 
   const toggleKeyboardShortcuts = useCallback(
     () => setKeyboardShortcutsOpen((prev) => !prev),
@@ -134,7 +232,7 @@ export function HelpMenu() {
     <>
       <Popover>
         <PopoverTrigger asChild>
-          <Button tooltip="Help" variant="bare">
+          <Button tooltip={t("help.title")} variant="bare">
             <CircleHelpIcon />
           </Button>
         </PopoverTrigger>
@@ -146,12 +244,12 @@ export function HelpMenu() {
                 className={css["about"]}
                 data-testid="masthead-about"
               >
-                <BookOpenIcon /> About this site
+                <BookOpenIcon /> {t("help.about")}
               </DropdownButton>
             </Link>
             <Link asChild href="~/collection-stats">
               <DropdownButton as="a" variant="bare" size="full">
-                <BarChart3Icon /> Collection stats
+                <BarChart3Icon /> {t("help.collection_stats")}
               </DropdownButton>
             </Link>
             <DropdownButton
@@ -159,7 +257,7 @@ export function HelpMenu() {
               hotkey="?"
               onClick={toggleKeyboardShortcuts}
             >
-              <KeyboardIcon /> Keyboard shortcuts
+              <KeyboardIcon /> {t("help.shortcuts.title")}
             </DropdownButton>
           </DropdownMenu>
         </PopoverContent>
@@ -174,9 +272,9 @@ export function HelpMenu() {
             open={keyboardShortcutsOpen}
             size="60rem"
           >
-            <ModalContent title="Keyboard shortcuts">
+            <ModalContent title={t("help.shortcuts.title")}>
               <div className={css["groups"]}>
-                {SHORTCUTS.map(([category, shortcuts]) => (
+                {shortcuts.map(([category, shortcuts]) => (
                   <article className={css["group"]} key={category}>
                     <header className={css["group-header"]}>
                       <h2 className={css["group-title"]}>{category}</h2>
