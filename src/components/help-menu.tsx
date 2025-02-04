@@ -169,24 +169,27 @@ export function HelpMenu() {
             { keybind: "r", description: t("deck_view.tab_recommendations") },
             { keybind: "t", description: t("deck_view.tab_deck_tools") },
             { keybind: "h", description: t("deck_view.tab_history") },
-            { keybind: "e", description: t("deck_view.actions.edit") },
-            { keybind: "u", description: t("deck_view.actions.upgrade") },
-            { keybind: "cmd+d", description: t("deck_view.actions.duplicate") },
+            { keybind: "e", description: t("common.deck_actions.edit") },
+            { keybind: "u", description: t("common.deck_actions.upgrade") },
+            {
+              keybind: "cmd+d",
+              description: t("common.deck_actions.duplicate"),
+            },
             {
               keybind: "cmd+shift+j",
-              description: t("deck_view.actions.export_json"),
+              description: t("common.deck_actions.export_json"),
             },
             {
               keybind: "cmd+shift+t",
-              description: t("deck_view.actions.export_text"),
+              description: t("common.deck_actions.export_text"),
             },
             {
               keybind: "cmd+backspace",
-              description: t("deck_view.actions.delete"),
+              description: t("common.deck_actions.delete"),
             },
             {
               keybind: "cmd+shift+backspace",
-              description: t("deck_view.actions.delete_upgrade"),
+              description: t("common.deck_actions.delete_upgrade"),
             },
             { keybind: "cmd+i", description: t("deck_view.actions.import") },
             {

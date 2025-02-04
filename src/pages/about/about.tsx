@@ -3,18 +3,20 @@ import { AppLayout } from "@/layouts/app-layout";
 import { cx } from "@/utils/cx";
 import { useGoBack } from "@/utils/use-go-back";
 import { ChevronLeftIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import css from "./about.module.css";
 
 function About() {
   const goBack = useGoBack();
+  const { t } = useTranslation();
 
   return (
     <AppLayout title="About">
       <div className={cx("longform", css["about"])}>
         <Button onClick={goBack} variant="bare">
-          <ChevronLeftIcon /> Back
+          <ChevronLeftIcon /> {t("common.back")}
         </Button>
-        <h1>About</h1>
+        <h1>{t("about.title")}</h1>
         <p>
           The information presented in this app about{" "}
           <a
