@@ -2,7 +2,11 @@
   "translation": {
     "app": {
       "init": "Initializing card database...",
-      "init_error": "Failed to initialize card database: {{error}}"
+      "init_error": "Failed to initialize card database: {{error}}",
+      "actions": {
+        "legend": "Show keyboard shortcuts",
+        "close_modal": "Close modal"
+      }
     },
     "common": {
       "back": "Back",
@@ -10,6 +14,67 @@
       "encounter_cards": "Campaign cards",
       "investigator_one": "Investigator",
       "investigator_other": "Investigators"
+    },
+    "deck_collection": {
+      "create": "Create new deck"
+    },
+    "deck_edit": {
+      "tab_card_list": "Card list",
+      "tab_recommendations": "Recommendations",
+      "tab_deck_tools": "Deck tools",
+      "tab_notes": "Notes",
+      "tab_config": "Config",
+      "discard": "Discard changes",
+      "save": "Save deck",
+      "actions": {
+        "cycle_deck_lists": "Cycle deck lists",
+        "decrement_quantity": "Decrement deck quantity",
+        "decrement_side_quantity": "Decrement side deck quantity",
+        "edit_annotation": "Edit annotation",
+        "increment_quantity": "Increment deck quantity",
+        "increment_side_quantity": "Increment side deck quantity",
+        "quick_discard": "Discard edits (and stay on page)",
+        "quick_save_deck": "Save deck (and stay on page)",
+        "set_quantity": "Set deck quantity",
+        "set_side_quantity": "Set side deck quantity"
+      }
+    },
+    "deck_view": {
+      "tab_deck_list": "Deck list",
+      "tab_notes": "Notes",
+      "tab_recommendations": "Recommendations",
+      "tab_deck_tools": "Deck tools",
+      "tab_history": "Upgrade history",
+      "actions": {
+        "delete_upgrade": "Delete upgrade",
+        "delete": "Delete deck",
+        "display_as_list": "Display as list",
+        "display_as_scans": "Display as scans",
+        "duplicate": "Duplicate deck",
+        "edit": "Edit deck",
+        "export_json": "Export JSON",
+        "export_text": "Export text",
+        "import": "Import deck",
+        "save_upgrade": "Save upgrade and edit",
+        "save_upgrade_close": "Save upgrade and close",
+        "upgrade": "Upgrade deck"
+      }
+    },
+    "help": {
+      "title": "Help",
+      "about": "About this site",
+      "collection_stats": "Collection stats",
+      "shortcuts": {
+        "title": "Keyboard shortcuts",
+        "group_general": "General",
+        "group_deck_collection": "Deck collection",
+        "group_deck_editor": "Deck editor",
+        "group_card_list": "Card list",
+        "group_card_list_search": "Card list (search focused)",
+        "group_card_modal": "Card modal",
+        "group_deck_view": "Deck view",
+        "group_upgrade_modal": "Upgrade modal"
+      }
     },
     "lists": {
       "group_by": "Group by",
@@ -27,6 +92,23 @@
         "subtype": "Subtype",
         "type": "Type",
         "base_upgrades": "Lvl. 0 <> Upgrades"
+      },
+      "actions": {
+        "blur_search": "Unfocus search",
+        "clear_search": "Clear search",
+        "display_as_detailed": "Display as detailed cards",
+        "display_as_list_text": "Display as list with card text",
+        "display_as_list": "Display as list",
+        "display_as_scans": "Display as scans",
+        "focus_search": "Focus search",
+        "move_down": "Move down",
+        "move_up": "Move up",
+        "open_card_modal": "Open card modal for focused card",
+        "reset_filters": "Reset filters",
+        "toggle_filter_menu": "Toggle filter menu",
+        "toggle_filters": "Toggle filters",
+        "toggle_sidebar": "Toggle sidebar",
+        "toggle_unusable_cards": "Toggle unusable cards"
       }
     },
     "settings": {

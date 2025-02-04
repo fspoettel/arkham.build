@@ -118,7 +118,7 @@ export function Editor(props: Props) {
             </TabsContent>
           )}
 
-          <TabsContent value="meta">
+          <TabsContent value="config">
             <MetaEditor deck={deck} />
           </TabsContent>
         </Scroller>
