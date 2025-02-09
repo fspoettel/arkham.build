@@ -20,6 +20,7 @@ import { sideways } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { range } from "@/utils/range";
 import { Fragment, useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { CardGridItem } from "../card-list/card-grid";
 import { GroupLabel } from "../card-list/grouphead";
 import type { FilteredListCardPropsGetter } from "../card-list/types";
@@ -230,6 +231,7 @@ function CustomizationScan(props: {
 }) {
   const { card, deck } = props;
 
+  const { t } = useTranslation();
   const modalContext = useCardModalContextChecked();
 
   const openModal = useCallback(() => {
@@ -244,7 +246,7 @@ function CustomizationScan(props: {
             onClick={openModal}
             crossOrigin="anonymous"
             url={customizationSheetUrl(card, deck)}
-            alt={`Customization sheet for ${card.real_name}`}
+            alt={t("deck.customization_sheet", { name: card.real_name })}
             style={
               {
                 "--scan-level": 0,

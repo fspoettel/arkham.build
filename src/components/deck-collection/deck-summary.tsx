@@ -122,7 +122,7 @@ export function DeckSummary(props: Props) {
               <div className={cx(css["header-row"], css["wrap"])}>
                 <div className={css["header-row"]}>
                   {card.parallel && (
-                    <DefaultTooltip tooltip="Uses a parallel side">
+                    <DefaultTooltip tooltip={t("deck.stats.uses_parallel")}>
                       <i className="icon-parallel" />
                     </DefaultTooltip>
                   )}
@@ -145,7 +145,7 @@ export function DeckSummary(props: Props) {
           <Button
             className={css["quick-action"]}
             iconOnly
-            tooltip={t("common.deck_actions.edit")}
+            tooltip={t("deck.actions.edit")}
             onClick={onEdit}
           >
             <PencilIcon />
@@ -153,7 +153,7 @@ export function DeckSummary(props: Props) {
           <Button
             className={css["quick-action"]}
             iconOnly
-            tooltip={t("common.deck_actions.upgrade")}
+            tooltip={t("deck.actions.upgrade")}
             onClick={onUpgrade}
           >
             <i className="icon-xp-bold" />
@@ -161,7 +161,7 @@ export function DeckSummary(props: Props) {
           <Button
             className={css["quick-action"]}
             iconOnly
-            tooltip={t("common.deck_actions.duplicate")}
+            tooltip={t("deck.actions.duplicate")}
             onClick={onDuplicate}
           >
             <CopyIcon />
@@ -169,16 +169,14 @@ export function DeckSummary(props: Props) {
           <CopyToClipboard
             className={css["quick-action"]}
             text={deck.id.toString()}
-            tooltip={t("common.deck_actions.copy_id")}
+            tooltip={t("deck.actions.copy_id")}
           />
           <Button
             className={css["quick-action"]}
             iconOnly
             disabled={!!connectionLock}
             onClick={onDelete}
-            tooltip={
-              connectionLock ? connectionLock : t("common.deck_actions.delete")
-            }
+            tooltip={connectionLock ? connectionLock : t("deck.actions.delete")}
           >
             <Trash2Icon />
           </Button>

@@ -10,6 +10,7 @@ import {
   isTooManyCardsError,
 } from "@/store/lib/deck-validation";
 import { InfoIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Collapsible, CollapsibleContent } from "../ui/collapsible";
 import { Scroller } from "../ui/scroller";
 import css from "./decklist-validation.module.css";
@@ -22,6 +23,7 @@ type Props = {
 export function DecklistValidation(props: Props) {
   const { defaultOpen, validation } = props;
 
+  const { t } = useTranslation();
   const cards = useStore((state) => state.metadata.cards);
 
   if (validation.valid) return null;
@@ -34,7 +36,9 @@ export function DecklistValidation(props: Props) {
       title={
         <div className={css["decklist-validation-header"]}>
           <InfoIcon />
-          <p className={css["decklist-validation-text"]}>Deck is invalid.</p>
+          <p className={css["decklist-validation-text"]}>
+            {t("deck.validation.invalid")}
+          </p>
         </div>
       }
     >

@@ -1,8 +1,9 @@
 import type { Modifier } from "@/store/lib/deck-upgrades";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { History } from "@/store/selectors/decks";
-import { formatXpAvailable } from "@/utils/formatting";
+import { capitalize, formatUpgradeXP } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
+import { useTranslation } from "react-i18next";
 import { Fragment } from "react/jsx-runtime";
 import { CustomizableDiff } from "./customizable-diff";
 import css from "./deck-history.module.css";
@@ -15,6 +16,8 @@ type Props = {
 
 export function DeckHistory(props: Props) {
   const { deck, history } = props;
+
+  const { t } = useTranslation();
 
   return (
     <ol className={css["entries"]} data-testid="history">
@@ -30,12 +33,13 @@ export function DeckHistory(props: Props) {
           <li className={css["entry"]} key={idx}>
             <h3 className={css["entry-title"]}>
               {idx === 0
-                ? "Current upgrade"
-                : `Upgrade #${history.length - idx}`}
+                ? t("deck_view.history.current_upgrade")
+                : t("deck_view.history.upgrade", {
+                    index: history.length - idx,
+                  })}
             </h3>
             <p className={css["entry-stats"]}>
-              XP available:{" "}
-              {formatXpAvailable(stats.xp, stats.xpAdjustment, stats.xpSpent)}
+              {formatUpgradeXP(stats.xp, stats.xpAdjustment, stats.xpSpent)}
             </p>
             <div className={css["entry-container"]}>
               {hasChanges && (
@@ -43,34 +47,34 @@ export function DeckHistory(props: Props) {
                   <div className={css["entry-row"]}>
                     <SlotDiff
                       deck={deck}
-                      title="Deck changes"
+                      title={`${t("common.decks.slots")} ${t("common.change", { count: 2 })}`}
                       differences={stats.differences.slots}
                     />
                     <SlotDiff
                       deck={deck}
-                      title="Spirit deck changes"
+                      title={`${t("common.decks.extraSlots")} ${t("common.change", { count: 2 })}`}
                       differences={stats.differences.extraSlots}
                     />
                   </div>
                   <div className={css["entry-row"]}>
                     <SlotDiff
                       deck={deck}
-                      title="Exiled cards"
+                      title={`${capitalize(t("common.exiled"))} ${t("common.card", { count: 2 })}`}
                       differences={stats.differences.exileSlots}
                     />
                     <CustomizableDiff
                       deck={deck}
-                      title="Customizations"
+                      title={capitalize(t("common.customizations"))}
                       differences={stats.differences.customizations}
                     />
                   </div>
                 </>
               )}
-              {!hasChanges && "No changes"}
+              {!hasChanges && t("deck_view.history.no_changes")}
             </div>
             {!isEmpty(stats.modifierStats) && (
               <div className={css["discount-container"]}>
-                <h4>Discounts</h4>
+                <h4>{t("deck_view.history.discounts")}</h4>
                 <dl className={css["discounts"]}>
                   {Object.entries(stats.modifierStats).map(
                     ([modifier, value]) => (

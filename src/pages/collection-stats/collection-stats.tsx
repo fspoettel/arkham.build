@@ -15,7 +15,7 @@ function CollectionStats() {
   const ownedCount = useStore(selectTotalOwned);
 
   return (
-    <AppLayout title="Collection Stats">
+    <AppLayout title={t("collection_stats.title")}>
       <div className={cx(css["layout"])}>
         <h1 className={css["title"]}>{t("collection_stats.title")}</h1>
         <div className={cx(css["content"], "longform")}>
@@ -23,11 +23,11 @@ function CollectionStats() {
             <Trans
               i18nKey="collection_stats.description"
               t={t}
-              components={{ custom_link: <Link href="/settings" /> }}
+              components={{ hyperlink: <Link href="/settings" /> }}
             >
               This page displays your collection and card counts based on your
               collection settings. To update your collection settings, visit the{" "}
-              <Link href="/settings">Settings</Link> page.
+              <Link href="">Settings</Link> page.
             </Trans>
           </p>
           <blockquote>

@@ -13,11 +13,13 @@ import { selectConnectionLockForDeck } from "@/store/selectors/shared";
 import type { Card } from "@/store/services/queries.types";
 import { decodeExileSlots } from "@/utils/card-utils";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
+import { capitalize } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { range } from "@/utils/range";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { useHotkey } from "@/utils/use-hotkey";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation, useSearch } from "wouter";
 import css from "./upgrade-modal.module.css";
 
@@ -69,6 +71,7 @@ export function UpgradeModal(props: Props) {
   const [, navigate] = useLocation();
   const search = useSearch();
   const toast = useToast();
+  const { t } = useTranslation();
 
   const connectionLock = useStore((state) =>
     selectConnectionLockForDeck(state, deck),
@@ -104,7 +107,7 @@ export function UpgradeModal(props: Props) {
   const onUpgrade = useCallback(
     async (path = "edit") => {
       const toastId = toast.show({
-        children: "Upgrading deck",
+        children: t("deck_view.upgrade_modal.loading"),
         variant: "loading",
       });
 
@@ -121,7 +124,7 @@ export function UpgradeModal(props: Props) {
 
         toast.show({
           duration: 3000,
-          children: "Deck upgrade successful.",
+          children: t("deck_view.upgrade_modal.success"),
           variant: "success",
         });
 
@@ -129,7 +132,9 @@ export function UpgradeModal(props: Props) {
       } catch (err) {
         toast.dismiss(toastId);
         toast.show({
-          children: `Deck upgrade failed: ${(err as Error).message}`,
+          children: t("deck_view.upgrade_modal.error", {
+            error: (err as Error).message,
+          }),
           variant: "error",
         });
       }
@@ -144,6 +149,7 @@ export function UpgradeModal(props: Props) {
       exileString,
       usurped,
       hasGreatWork,
+      t,
     ],
   );
 
@@ -200,7 +206,7 @@ export function UpgradeModal(props: Props) {
         title={
           <>
             <i className="icon-xp-bold" />
-            Upgrade deck with XP
+            {t("deck_view.upgrade_modal.title")}
           </>
         }
         footer={
@@ -208,7 +214,9 @@ export function UpgradeModal(props: Props) {
             <div className={css["footer-row"]}>
               <HotkeyTooltip
                 keybind="cmd+enter"
-                description={connectionLock ?? "Save upgrade"}
+                description={
+                  connectionLock ?? t("deck_view.actions.save_upgrade")
+                }
               >
                 <Button
                   data-testid="upgrade-save"
@@ -216,12 +224,14 @@ export function UpgradeModal(props: Props) {
                   onClick={onSave}
                   variant="primary"
                 >
-                  Upgrade
+                  {t("deck_view.actions.save_upgrade_short")}
                 </Button>
               </HotkeyTooltip>
               <HotkeyTooltip
                 keybind="cmd+shift+enter"
-                description={connectionLock ?? "Save upgrade & close"}
+                description={
+                  connectionLock ?? t("deck_view.actions.save_upgrade_close")
+                }
               >
                 <Button
                   data-testid="upgrade-save-close"
@@ -229,12 +239,12 @@ export function UpgradeModal(props: Props) {
                   onClick={onSaveClose}
                   variant="bare"
                 >
-                  Save & close
+                  {t("deck_view.actions.save_upgrade_close_short")}
                 </Button>
               </HotkeyTooltip>
             </div>
             <Button onClick={onCloseModal} variant="bare">
-              Cancel
+              {t("common.cancel")}
             </Button>
           </div>
         }
@@ -242,7 +252,9 @@ export function UpgradeModal(props: Props) {
       >
         <div className={css["content"]}>
           <Field bordered full>
-            <FieldLabel htmlFor="xp-gained">XP gained</FieldLabel>
+            <FieldLabel htmlFor="xp-gained">
+              {t("deck_view.upgrade_modal.xp_gained")}
+            </FieldLabel>
             <input
               // biome-ignore lint/a11y/noAutofocus: this is a modal.
               autoFocus
@@ -261,18 +273,20 @@ export function UpgradeModal(props: Props) {
               helpText={
                 usurped ? (
                   <i>
-                    The Great Work will be removed from your deck alongside each
-                    of your signature cards. Your investigator will be replaced
-                    with the homunculus.
+                    {t("deck_view.upgrade_modal.great_work_status_usurped")}
                   </i>
                 ) : (
-                  <i>+1 XP will be automatically added to this upgrade.</i>
+                  <i>
+                    {t("deck_view.upgrade_modal.great_work_status_not_usurped")}
+                  </i>
                 )
               }
             >
-              <FieldLabel htmlFor="xp-gained">The Great Work</FieldLabel>
+              <FieldLabel htmlFor="xp-gained">
+                {t("deck_view.upgrade_modal.great_work")}
+              </FieldLabel>
               <Checkbox
-                label="I was usurped by the homunculus"
+                label={t("deck_view.upgrade_modal.great_work_label")}
                 id="the-great-work"
                 checked={usurped}
                 onCheckedChange={onUsurpedChange}
@@ -281,7 +295,10 @@ export function UpgradeModal(props: Props) {
           )}
           {!isEmpty(exilableCards) && (
             <Field bordered>
-              <FieldLabel htmlFor="xp-gained">Exiled Cards</FieldLabel>
+              <FieldLabel htmlFor="xp-gained">
+                {capitalize(t("common.exiled"))}{" "}
+                {t("common.card", { count: 2 })}
+              </FieldLabel>
               <Scroller className={css["exile"]}>
                 <ul>
                   {exilableCards.map(({ card, limit }) => (

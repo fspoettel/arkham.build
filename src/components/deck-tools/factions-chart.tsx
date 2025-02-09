@@ -1,7 +1,7 @@
 import type { ChartableData } from "@/store/lib/types";
 import type { FactionName } from "@/utils/constants";
-import { capitalize } from "@/utils/formatting";
 import { useMemo, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import {
   VictoryContainer,
   VictoryLabel,
@@ -20,6 +20,7 @@ type Props = {
 export function FactionsChart({ data }: Props) {
   const ref = useRef(null);
   const { width } = useElementSize(ref);
+  const { t } = useTranslation();
 
   // Remove factions not in the deck so that they don't show as empty labels
   const normalizedData = useMemo((): ChartableData<FactionName> => {
@@ -30,7 +31,7 @@ export function FactionsChart({ data }: Props) {
     <div ref={ref} className={css["chart-container"]}>
       {width > 0 && (
         <>
-          <h4 className={css["chart-title"]}>Factions</h4>
+          <h4 className={css["chart-title"]}>{t("deck.tools.factions")}</h4>
           <VictoryPie
             containerComponent={
               <VictoryContainer responsive={false} style={containerTheme} />
@@ -39,7 +40,7 @@ export function FactionsChart({ data }: Props) {
             theme={chartsTheme}
             labelPlacement="parallel"
             labelComponent={<CustomLabel />}
-            labels={({ datum }) => capitalize(datum.xName)}
+            labels={({ datum }) => t(`common.factions.${datum.xName}`)}
             width={width}
             sortKey={"y"}
             style={{
@@ -58,6 +59,13 @@ export function FactionsChart({ data }: Props) {
 }
 
 function CustomLabel(props: VictoryLabelProps) {
+  const { t } = useTranslation();
+
+  const { datum } = props;
+  const count = datum?.y ?? 0;
+
+  const text = `${count} ${t(`common.factions.${datum?.xName ?? "unknown"}`)} ${t("common.card", { count: props.datum?.y })}`;
+
   return (
     <g>
       <VictoryLabel {...props} />
@@ -72,7 +80,7 @@ function CustomLabel(props: VictoryLabelProps) {
         labelPlacement="vertical"
         flyoutWidth={120}
         constrainToVisibleArea
-        text={`${props.datum?.y ?? 0} ${capitalize(props.datum?.xName ?? "")} cards`}
+        text={text}
       />
     </g>
   );

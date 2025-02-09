@@ -1,6 +1,7 @@
 import { assert } from "@/utils/assert";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { formatRelationTitle } from "@/utils/formatting";
+import i18n from "@/utils/i18n";
 import { createSelector } from "reselect";
 import { resolveCardWithRelations } from "../lib/resolve-card";
 import type { CardSet, CardWithRelations, ResolvedCard } from "../lib/types";
@@ -73,7 +74,7 @@ export const selectDeckCreateCardSets = createSelector(
           },
           {} as Record<string, number>,
         ),
-        help: `Signature cards with "Advanced" are stronger versions of an investigator's signature cards that are listed under "Deck Requirements".<br>At any point during a campaign (including at deck creation) you may optionally choose to include these advanced signature cards <strong>instead of</strong> the original signature cards.`,
+        help: i18n.t("deck_create.help_advanced"),
       });
     }
 
@@ -91,7 +92,7 @@ export const selectDeckCreateCardSets = createSelector(
           },
           {} as Record<string, number>,
         ),
-        help: `Signature cards with "Replacement" can replace the signature cards that are listed under "Deckbuilding Requirements". Doing so still satisfies the requirement and the deck is valid to play.<br>If doing so, <strong>both</strong> signature cards must be replaced and if doing so for a campaign, you cannot later change to using the original signature cards.<br>Alternatively, the "Replacement" cards can be included in addition to the signature cards.`,
+        help: i18n.t("deck_create.help_replacements"),
       });
     }
 
@@ -104,7 +105,7 @@ export const selectDeckCreateCardSets = createSelector(
     ) {
       groupings.push({
         id: "extra",
-        title: "Special cards",
+        title: formatRelationTitle("extra"),
         cards: relations.parallelCards,
         canSetQuantity:
           deckCreate.investigatorFrontCode ===

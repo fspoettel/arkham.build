@@ -44,7 +44,7 @@ export function HelpMenu() {
             { keybind: "l", description: t("deck_edit.tab_card_list") },
             { keybind: "r", description: t("deck_edit.tab_recommendations") },
             { keybind: "n", description: t("deck_edit.tab_notes") },
-            { keybind: "t", description: t("deck_edit.tab_deck_tools") },
+            { keybind: "t", description: t("deck_edit.tab_tools") },
             {
               keybind: "d",
               description: t("deck_edit.actions.cycle_deck_lists"),
@@ -167,29 +167,29 @@ export function HelpMenu() {
             { keybind: "d", description: t("deck_view.tab_deck_list") },
             { keybind: "n", description: t("deck_view.tab_notes") },
             { keybind: "r", description: t("deck_view.tab_recommendations") },
-            { keybind: "t", description: t("deck_view.tab_deck_tools") },
+            { keybind: "t", description: t("deck_view.tab_tools") },
             { keybind: "h", description: t("deck_view.tab_history") },
-            { keybind: "e", description: t("common.deck_actions.edit") },
-            { keybind: "u", description: t("common.deck_actions.upgrade") },
+            { keybind: "e", description: t("deck.actions.edit") },
+            { keybind: "u", description: t("deck.actions.upgrade") },
             {
               keybind: "cmd+d",
-              description: t("common.deck_actions.duplicate"),
+              description: t("deck.actions.duplicate"),
             },
             {
               keybind: "cmd+shift+j",
-              description: t("common.deck_actions.export_json"),
+              description: t("deck.actions.export_json"),
             },
             {
               keybind: "cmd+shift+t",
-              description: t("common.deck_actions.export_text"),
+              description: t("deck.actions.export_text"),
             },
             {
               keybind: "cmd+backspace",
-              description: t("common.deck_actions.delete"),
+              description: t("deck.actions.delete"),
             },
             {
               keybind: "cmd+shift+backspace",
-              description: t("common.deck_actions.delete_upgrade"),
+              description: t("deck.actions.delete_upgrade"),
             },
             { keybind: "cmd+i", description: t("deck_view.actions.import") },
             {

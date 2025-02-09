@@ -52,6 +52,7 @@ export function DeckCollectionFilters(props: Props) {
           data-testid="deck-search-input"
           id="deck-search-input"
           inputClassName={css["search-input"]}
+          label={t("deck_collection.search_placeholder")}
           onChangeValue={onSearchChange}
           placeholder={t("deck_collection.search_placeholder")}
           ref={searchRef}

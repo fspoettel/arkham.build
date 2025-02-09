@@ -11,6 +11,7 @@ import { makeSortFunction } from "@/store/lib/sorting";
 import type { Card } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
 import { not, or } from "@/utils/fp";
+import { useTranslation } from "react-i18next";
 import { createSelector } from "reselect";
 
 type Props = {
@@ -50,6 +51,8 @@ const selectInvestigators = createSelector(
 );
 
 export function UsableBy(props: Props) {
+  const { t } = useTranslation();
+
   const investigators = useStore((state) =>
     selectInvestigators(state, props.card),
   );
@@ -58,7 +61,7 @@ export function UsableBy(props: Props) {
     <Details
       data-testid="usable-by"
       iconClosed={<i className="icon-per_investigator" />}
-      title="Who can use this?"
+      title={t("card_view.actions.who_can_take")}
       scrollHeight="24rem"
     >
       <ol>

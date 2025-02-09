@@ -20,7 +20,7 @@ export const ENCOUNTER_DEFAULTS: ListConfig = {
   viewMode: "compact",
 };
 
-const INVESTIGATOR_DEFAULTS: ListConfig = {
+export const INVESTIGATOR_DEFAULTS: ListConfig = {
   group: ["cycle"],
   sort: ["position"],
   viewMode: "compact",

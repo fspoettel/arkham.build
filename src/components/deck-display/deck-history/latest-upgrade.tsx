@@ -17,6 +17,7 @@ import type { Card } from "@/store/services/queries.types";
 import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
 import { cardLimit, isStaticInvestigator } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
+import { capitalize } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { useAccentColor } from "@/utils/use-accent-color";
 import {
@@ -26,6 +27,7 @@ import {
   PlusCircleIcon,
 } from "lucide-react";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import css from "./latest-upgrade.module.css";
 
 type Props = {
@@ -37,6 +39,7 @@ type Props = {
 
 export function LatestUpgrade(props: Props) {
   const { currentTab, overflowScroll, readonly, deck } = props;
+  const { t } = useTranslation();
 
   const accentColor = useAccentColor(deck.investigatorBack.card.faction_code);
 
@@ -102,29 +105,33 @@ export function LatestUpgrade(props: Props) {
 
   const staticInvestigator = isStaticInvestigator(deck.investigatorBack.card);
 
+  const exiledTitle = `${capitalize(t("common.exiled"))} ${t("common.card", {
+    count: 2,
+  })}`;
+
   const contentNode = (
     <div className={css["content-row"]}>
       {hasChanges ? (
         <>
           <SlotDiff title="Deck" differences={differences.slots} size="sm" />
           <SlotDiff
-            title="Extra deck"
+            title={t("common.decks.extraSlots")}
             differences={differences.extraSlots}
             size="sm"
           />
           <SlotDiff
-            title="Exiled cards"
+            title={exiledTitle}
             differences={differences.exileSlots}
             size="sm"
           />
           <CustomizableDiff
-            title="Customizations"
+            title={t("common.customizations")}
             differences={differences.customizations}
             size="sm"
           />
         </>
       ) : (
-        "No changes."
+        t("deck.latest_upgrade.no_changes")
       )}
     </div>
   );
@@ -152,9 +159,8 @@ export function LatestUpgrade(props: Props) {
               <strong>{xpSpent}</strong> of{" "}
               <span className={css["quantity"]}>
                 <strong>{xp + xpAdjustment}</strong>
-                XP
-              </span>{" "}
-              spent
+                {t("deck.latest_upgrade.xp_spent")}
+              </span>
               {!readonly && (
                 <>
                   <Button
@@ -191,13 +197,13 @@ export function LatestUpgrade(props: Props) {
                     }}
                     variant="bare"
                   >
-                    <FlameIcon /> Exile
+                    <FlameIcon /> {capitalize(t("common.exile"))}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent onClick={(evt) => evt.stopPropagation()}>
                   <article className={css["exile"]}>
                     <header>
-                      <h3>Exiled cards</h3>
+                      <h4>{exiledTitle}</h4>
                     </header>
                     <ol>
                       {Object.entries(deck.exileSlots).map(
@@ -221,7 +227,9 @@ export function LatestUpgrade(props: Props) {
                                         evt.stopPropagation();
                                         onAddExile(card, quantity);
                                       }}
-                                      tooltip="Add to current list"
+                                      tooltip={t(
+                                        "deck.latest_upgrade.add_to_deck",
+                                      )}
                                     >
                                       <ArrowLeftToLineIcon />
                                     </Button>

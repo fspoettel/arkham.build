@@ -3,6 +3,7 @@ import { ListLayoutNoSidebar } from "@/layouts/list-layout-no-sidebar";
 import { useStore } from "@/store";
 import type { Card } from "@/store/services/queries.types";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "wouter";
 import { Error404 } from "../errors/404";
 
@@ -25,6 +26,7 @@ function UsableCards() {
 function UsableCardsList(props: { card: Card }) {
   const { card } = props;
   const listKey = `investigator_usable_${card.code}`;
+  const { t } = useTranslation();
 
   const activeList = useStore((state) => state.lists[state.activeList ?? ""]);
   const addList = useStore((state) => state.addList);
@@ -46,24 +48,13 @@ function UsableCardsList(props: { card: Card }) {
 
   if (!activeList) return null;
 
+  const title = t("card_view.actions.usable_by", {
+    name: `${card.parallel ? "|| " : ""} ${card.real_name}`,
+  });
+
   return (
     <ListLayoutContextProvider>
-      <ListLayoutNoSidebar
-        titleString={`Cards usable by ${card.parallel ? "Parallel " : ""}${card.real_name}`}
-        title={
-          <>
-            Cards usable by{" "}
-            {card.parallel ? (
-              <>
-                <i className="icon-parallel" />{" "}
-              </>
-            ) : (
-              ""
-            )}
-            {card.real_name}
-          </>
-        }
-      />
+      <ListLayoutNoSidebar titleString={title} title={title} />
     </ListLayoutContextProvider>
   );
 }

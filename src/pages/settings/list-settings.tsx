@@ -10,6 +10,7 @@ import {
   DECK_DEFAULTS,
   DECK_SCANS_DEFAULTS,
   ENCOUNTER_DEFAULTS,
+  INVESTIGATOR_DEFAULTS,
   PLAYER_DEFAULTS,
 } from "@/store/slices/settings";
 import type { SettingsState } from "@/store/slices/settings.types";
@@ -62,6 +63,10 @@ function getDefaultsForList(listKey: keyof SettingsState["lists"]) {
 
   if (listKey === "deckScans") {
     return structuredClone(DECK_SCANS_DEFAULTS);
+  }
+
+  if (listKey === "investigator") {
+    return structuredClone(INVESTIGATOR_DEFAULTS);
   }
 
   return structuredClone(PLAYER_DEFAULTS);

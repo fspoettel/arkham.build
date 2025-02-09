@@ -1,6 +1,10 @@
 {
   "translation": {
+    "about": {
+      "title": "About"
+    },
     "app": {
+      "home": "Home",
       "init": "Initializing card database...",
       "init_error": "Failed to initialize card database: {{error}}",
       "actions": {
@@ -8,24 +12,50 @@
         "close_modal": "Close modal"
       }
     },
+    "browse": {
+      "title": "Browse cards"
+    },
+    "card_view": {
+      "actions": {
+        "create_deck": "Create deck",
+        "faq": "View FAQ",
+        "open_on_arkhamdb": "Open on ArkhamDB",
+        "reviews": "View reviews",
+        "who_can_take": "Who can take this card?",
+        "usable_by": "Cards usable by {{name}}"
+      },
+      "faq": {
+        "empty": "No FAQ entries available.",
+        "error": "Failed to load FAQ entries.",
+        "loading": "Loading FAQ entries...",
+        "title": "FAQ"
+      },
+      "section_deckbuilding": "Deckbuilding",
+      "section_actions": "Actions",
+      "section_faq": "FAQ"
+    },
+    "choose_investigator": {
+      "title": "Choose investigator",
+      "create_tooltip": "Create {{name}} deck"
+    },
     "common": {
       "back": "Back",
+      "cancel": "Cancel",
+      "card_one": "card",
+      "card_other": "cards",
+      "change_one": "change",
+      "change_other": "changes",
+      "clear": "Clear",
+      "customizations": "customizations",
+      "exile": "exile",
+      "exiled": "exiled",
+      "decks": {
+        "bondedSlots": "Bonded cards",
+        "slots": "Deck",
+        "sideSlots": "Side deck",
+        "extraSlots": "Extra deck"
+      },
       "encounter_cards": "Campaign cards",
-      "deck_actions": {
-        "copy_id": "Copy deck ID",
-        "delete_upgrade": "Delete upgrade",
-        "delete": "Delete deck",
-        "duplicate": "Duplicate deck",
-        "edit": "Edit deck",
-        "export_json": "Export JSON",
-        "export_text": "Export text",
-        "upgrade": "Upgrade deck"
-      },
-      "deck_stats": {
-        "deck_size": "Deck size",
-        "xp_available_help": "XP available to spend after latest upgrade.",
-        "xp_required_help": "Amount of XP required to build this deck from scratch."
-      },
       "factions": {
         "guardian": "Guardian",
         "mystic": "Mystic",
@@ -35,18 +65,97 @@
         "seeker": "Seeker",
         "survivor": "Survivor"
       },
+      "icon_one": "icon",
+      "icon_other": "icons",
+      "none": "None",
+      "parallel": "parallel",
+      "relations": {
+        "advanced": "Advanced Signatures",
+        "base": "Base Investigator",
+        "bonded": "Bonded cards",
+        "bound": "Bound cards",
+        "extra": "Special cards",
+        "level": "Other levels",
+        "otherSignatures": "Other Signatures",
+        "otherVersions": "Other versions",
+        "parallel": "Parallel Investigator",
+        "parallelCards": "Parallel cards",
+        "replacement": "Replacements",
+        "requiredCards": "Signatures",
+        "restrictedTo": "Restricted to"
+      },
+      "skills": {
+        "agility": "Agility",
+        "combat": "Combat",
+        "intellect": "Intellect",
+        "willpower": "Willpower",
+        "wild": "Wild"
+      },
       "investigator_one": "Investigator",
       "investigator_other": "Investigators",
       "player_cards": "Player cards",
+      "taboo": "Taboo list",
+      "taboo_none": "none",
+      "total": "total",
       "xp": "XP"
-    },
-    "about": {
-      "title": "About"
     },
     "collection_stats": {
       "title": "Collection stats",
-      "description": "This page displays your collection and card counts based on your collection settings. To update your collection settings, visit the <custom_link>Settings</custom_link> page.",
+      "description": "This page displays your collection and card counts based on your collection settings. To update your collection settings, visit the <hyperlink>Settings</hyperlink> page.",
       "counts": "You own <strong>{{player_count}}</strong> player and <strong>{{encounter_count}}</strong> encounter cards."
+    },
+    "connect": {
+      "title": "Connecting {{provider}}...",
+      "syncing": "Syncing {{provider}}...",
+      "error": "Failed to connect {{provider}}: {{error}}"
+    },
+    "deck": {
+      "actions": {
+        "copy_id": "Copy deck ID",
+        "delete_upgrade": "Delete upgrade",
+        "delete": "Delete deck",
+        "duplicate": "Duplicate deck",
+        "duplicate_short": "Duplicate",
+        "edit": "Edit deck",
+        "edit_short": "Edit",
+        "export_json": "Export JSON",
+        "export_text": "Export text",
+        "upgrade": "Upgrade deck",
+        "upgrade_short": "Upgrade"
+      },
+      "customization_sheet": "Customization sheet for {{name}}",
+      "id": "Deck ID",
+      "latest_upgrade": {
+        "title": "Latest upgrade",
+        "no_changes": "No changes.",
+        "xp_spent": "XP spent",
+        "add_to_deck": "Add to current deck"
+      },
+      "stats": {
+        "deck_size": "Deck size",
+        "uses_parallel": "Uses a parallel side",
+        "xp_available_help": "XP available to spend after latest upgrade.",
+        "xp_required": "XP required",
+        "xp_required_help": "Amount of XP required to build this deck from scratch."
+      },
+      "tags": {
+        "limited_pool": "Limited pool",
+        "private": "Private",
+        "sealed": "Sealed",
+        "shared": "Shared"
+      },
+      "tools": {
+        "title": "Deck tools",
+        "factions": "Factions",
+        "loading": "Loading deck tools...",
+        "resource_costs": "Resource costs",
+        "resource_cost": "Resource cost",
+        "resource_cost_tooltip": "{{count}} {{cards}} of cost {{cost}}",
+        "skill_icons": "Skill icons"
+      },
+      "validation": {
+        "invalid": "Deck is invalid."
+      }
     },
     "deck_collection": {
       "close_filters": "Close filters",
@@ -54,14 +163,14 @@
       "count_hidden": " ({{count}} hidden)",
       "collection_empty": "Collection empty",
       "connect_arkhamdb": "Connect to ArkhamDB",
-      "create": "Create new deck",
+      "create": "Create deck",
       "deck_url_or_id": "Deck URL or ID",
       "delete_all_confirm": "Are you sure you want to delete all local decks in your collection?",
       "delete_all_error": "Failed to delete local decks: {{error}}",
       "delete_all_loading": "Deleting local decks...",
       "delete_all_success": "Local decks deleted successfully.",
       "delete_all": "Delete all local decks",
-      "import_arkhamdb_help": "Enter a public ArkhamDB deck id, deck url or deck guide url. Decks will be <strong>copied</strong> over and deck history will not be imported.",
+      "import_arkhamdb_help": "Enter a public ArkhamDB deck ID, deck url or deck guide url. Decks will be <strong>copied</strong> over and deck history will not be imported.",
       "import_arkhamdb": "Import from ArkhamDB",
       "import_json": "Import from JSON files",
       "import": "Import",
@@ -81,14 +190,18 @@
       },
       "title": "Decks"
     },
+    "deck_create": {
+      "actions": {
+        "create": "Create deck"
+      },
+      "help_advanced": "Signature cards with \"Advanced\" are stronger versions of an investigator's signature cards that are listed under \"Deck Requirements\".<br>At any point during a campaign (including at deck creation) you may optionally choose to include these advanced signature cards <strong>instead of</strong> the original signature cards.",
+      "help_replacements": "Signature cards with \"Replacement\" can replace the signature cards that are listed under \"Deckbuilding Requirements\". Doing so still satisfies the requirement and the deck is valid to play.<br>If doing so, <strong>both</strong> signature cards must be replaced and if doing so for a campaign, you cannot later change to using the original signature cards.<br>Alternatively, the \"Replacement\" cards can be included in addition to the signature cards.",
+      "error": "Failed to create deck: {{error}}",
+      "loading": "Creating deck...",
+      "success": "Deck created successfully.",
+      "storage_provider": "Storage provider"
+    },
     "deck_edit": {
-      "tab_card_list": "Card list",
-      "tab_recommendations": "Recommendations",
-      "tab_deck_tools": "Deck tools",
-      "tab_notes": "Notes",
-      "tab_config": "Config",
-      "discard": "Discard changes",
-      "save": "Save deck",
       "actions": {
         "cycle_deck_lists": "Cycle deck lists",
         "decrement_quantity": "Decrement deck quantity",
@@ -100,26 +213,114 @@
         "quick_save_deck": "Save deck (and stay on page)",
         "set_quantity": "Set deck quantity",
         "set_side_quantity": "Set side deck quantity"
-      }
+      },
+      "config": {
+        "sides": {
+          "investigator_back": "Investigator back",
+          "investigator_front": "Investigator front",
+          "original_front": "Original front",
+          "parallel_front": "Parallel front",
+          "original_back": "Original back",
+          "parallel_back": "Parallel back"
+        },
+        "card_pool": {
+          "campaign": "Campaign",
+          "choose_campaign": "Choose campaign",
+          "choose_campaign_placeholder": "Select campaign...",
+          "cpa_help": "The Campaign Play-Along is an ongoing event hosted on the Mythos Busters discord server. It is designed to play Arkham campaigns together, share stories and generally create a sense of community.",
+          "help": "Investigators, signature cards and story assets are not affected by this selection.",
+          "placeholder": "Select packs...",
+          "section_title": "Card pool settings",
+          "title": "Limited card pool",
+          "use_preset": "Use campaign-playalong preset"
+        },
+        "name": "Deck name",
+        "sealed": {
+          "title": "Sealed",
+          "add": "Add sealed deck",
+          "help": "Upload a sealed deck definition (.csv) to use it. Use <hyperlink>ArkhamSealed</hyperlink> to generate a sealed deck."
+        },
+        "storage_provider": {
+          "title": "Storage provider",
+          "local": "Private"
+        },
+        "taboo": "Taboo list",
+        "version": {
+          "title": "Other versions",
+          "switch": "Switch"
+        }
+      },
+      "discard": "Discard changes",
+      "save": "Save deck",
+      "tab_card_list": "Card list",
+      "tab_config": "Config",
+      "tab_tools": "Tools",
+      "tab_notes": "Notes",
+      "tab_recommendations": "Recommendations"
     },
     "deck_view": {
-      "tab_deck_list": "Deck list",
-      "tab_notes": "Notes",
-      "tab_recommendations": "Recommendations",
-      "tab_deck_tools": "Deck tools",
-      "tab_history": "Upgrade history",
       "actions": {
         "display_as_list": "Display as list",
         "display_as_scans": "Display as scans",
-        "import": "Import deck",
+        "import": "Import deck to collection",
+        "more_actions": "More actions",
         "save_upgrade": "Save upgrade and edit",
-        "save_upgrade_close": "Save upgrade and close"
+        "save_upgrade_short": "Upgrade",
+        "save_upgrade_close": "Save upgrade and close",
+        "save_upgrade_close_short": "Save and close",
+        "upload": "Upload to {{provider}}"
+      },
+      "connections": {
+        "description": "This deck is set up to sync with {{provider}}.",
+        "view": "View on {{provider}}"
+      },
+      "history": {
+        "current_upgrade": "Current upgrade",
+        "discounts": "Discounts",
+        "no_changes": "No changes",
+        "upgrade": "Upgrade #{{index}}",
+        "upgrade_xp": "XP available: {{xp}}{{adjustment}} (spent: {{spent}})"
+      },
+      "import_success": "Deck imported successfully.",
+      "import_failed": "Failed to import deck: {{error}}",
+      "loading": "Fetching deck...",
+      "newer_version": "There is a <hyperlink>newer version</hyperlink> of this deck. This deck is read-only.",
+      "tab_deck_list": "Deck",
+      "tab_tools": "Tools",
+      "tab_history": "History",
+      "tab_notes": "Notes",
+      "tab_recommendations": "Recommendations",
+      "list": "List",
+      "scans": "Scans",
+      "sharing": {
+        "title": "Public share",
+        "description": "Deck is stored locally.",
+        "description_present": "This deck has a public share, it can be viewed using <a>this link</a>.",
+        "create_tooltip": "Sharing creates a publicly accessible, read-only link to the deck. Anyone with the link can view the deck, but not edit it.<br />Shares can be removed at any time. Removing a share does not affect the deck itself.<br /><strong>Note:</strong> For security reasons, deck notes are not part of the share.",
+        "create": "Create share",
+        "update": "Update share",
+        "delete": "Delete share"
+      },
+      "upgrade_modal": {
+        "title": "Upgrade deck with XP",
+        "xp_gained": "XP gained",
+        "loading": "Upgrading deck",
+        "success": "Deck upgraded successfully.",
+        "error": "Failed to upgrade deck: {{error}}",
+        "great_work": "The Great Work",
+        "great_work_label": "I was usurped by the homunculus",
+        "great_work_status_not_usurped": "+1 XP will be automatically added to this upgrade.",
+        "great_work_status_usurped": "The Great Work will be removed from your deck alongside each of your signature cards. Your investigator will be replaced with the homunculus."
       }
+    },
+    "errors": {
+      "404": "Page not found."
     },
     "filters": {
       "all": "All",
       "and": "and",
-      "or": "or"
+      "or": "or",
+      "reset_filter": "Reset filter"
     },
     "help": {
       "title": "Help",
@@ -138,22 +339,6 @@
       }
     },
     "lists": {
-      "group_by": "Group by",
-      "sort_by": "Sort by",
-      "reset": "Reset to default",
-      "categories": {
-        "cost": "Cost",
-        "cycle": "Cycle",
-        "faction": "Faction",
-        "level": "Level",
-        "name": "Name",
-        "pack": "Pack",
-        "position": "Position",
-        "slot": "Slot",
-        "subtype": "Subtype",
-        "type": "Type",
-        "base_upgrades": "Lvl. 0 <> Upgrades"
-      },
       "actions": {
         "blur_search": "Unfocus search",
         "clear_search": "Clear search",
@@ -170,12 +355,44 @@
         "toggle_filters": "Toggle filters",
         "toggle_sidebar": "Toggle sidebar",
         "toggle_unusable_cards": "Toggle unusable cards"
-      }
+      },
+      "categories": {
+        "cost": "Cost",
+        "cycle": "Cycle",
+        "encounter_set": "Encounter set",
+        "faction": "Faction",
+        "level": "Level",
+        "name": "Name",
+        "pack": "Pack",
+        "position": "Position",
+        "slot": "Slot",
+        "subtype": "Subtype",
+        "type": "Type",
+        "base_upgrades": "Lvl. 0 <> Upgrades"
+      },
+      "nav": {
+        "card_count_hidden": "({{count }} hidden)",
+        "card_count": "{{count}} cards",
+        "display_as_detailed": "Detailed cards",
+        "display_as_list_text": "List with card text",
+        "display_as_list": "List",
+        "display_as_scans": "Scans",
+        "display": "Display",
+        "jump_to": "Jump to...",
+        "list_settings": "List settings"
+      },
+      "search": {
+        "include_backs": "Backs",
+        "include_flavor": "Flavor",
+        "include_game_text": "Game text",
+        "include_name": "Name",
+        "placeholder": "Search cards..."
+      },
+      "group_by": "Group by",
+      "sort_by": "Sort by",
+      "reset": "Reset to default"
     },
     "settings": {
-      "save": "Save settings",
-      "title": "Settings",
-      "preview": "Preview",
       "backup": {
         "confirm": "Are you sure you want to restore this backup? Any existing data will be overwritten.",
         "create": "Create backup",
@@ -221,6 +438,7 @@
         "items_synced": "Items synced",
         "last_modified": "Data timestamp",
         "last_synced_at": "Last sync",
+        "lock": "Another {{provider}} operation is in progress, please wait...",
         "no_errors": "No errors",
         "reconnect": "Refresh",
         "sync_all": "Sync {{collectionLabels}} decks",
@@ -228,7 +446,7 @@
         "sync_status": "Sync status",
         "sync": "Sync",
         "provider_error": "Syncing {{provider}} failed: {{error}}",
-        "provider_success": "Successfully synced {{provider}}.",
+        "provider_success": "{{provider}} synced successfully.",
         "provider_syncing": "Syncing {{provider}}...",
         "syncing": "Sync in progress",
         "title": "Connected accounts",
@@ -259,8 +477,20 @@
       "lists": {
         "title": "Lists",
         "deck_view": "Deck view",
-        "deck_view_scans": "Deck view (Scans)"
-      }
+        "deck_view_scans": "Deck view (scans)"
+      },
+      "preview": "Preview",
+      "save": "Save settings",
+      "title": "Settings"
+    },
+    "ui": {
+      "collapsible": {
+        "collapse": "Close section",
+        "expand": "Expand section",
+        "toggle": "Toggle section"
+      },
+      "copy_to_clipboard": "Copy to clipboard",
+      "copy_to_clipboard_success": "Copied."
     }
   }
 }

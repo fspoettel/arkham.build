@@ -13,7 +13,9 @@ import { parseCsv } from "@/utils/parse-csv";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { BookLockIcon, XIcon } from "lucide-react";
 import { useCallback, useMemo } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import { createSelector } from "reselect";
+import { Link } from "wouter";
 import { useShallow } from "zustand/react/shallow";
 import css from "./limited-card-pool.module.css";
 import { PackName } from "./pack-name";
@@ -35,6 +37,7 @@ import {
 
 export function LimitedCardPoolTag() {
   const ctx = useResolvedDeck();
+  const { t } = useTranslation();
 
   const cardPool = ctx.resolvedDeck?.metaParsed.card_pool;
 
@@ -62,7 +65,7 @@ export function LimitedCardPoolTag() {
       }
     >
       <Tag as="li" size="xs" data-testid="limited-card-pool-tag">
-        Limited pool
+        {t("deck.tags.limited_pool")}
       </Tag>
     </DefaultTooltip>
   );
@@ -73,6 +76,7 @@ export function LimitedCardPoolField(props: {
   selectedItems: string[];
 }) {
   const { onValueChange, selectedItems } = props;
+  const { t } = useTranslation();
 
   const packs = useStore(selectPackOptions);
 
@@ -105,14 +109,11 @@ export function LimitedCardPoolField(props: {
         padded
         helpText={
           <>
-            <p>
-              Investigators, signature cards and story assets are not affected
-              by this selection.
-            </p>
+            <p>{t("deck_edit.config.card_pool.help")}</p>
             <div className={css["cpa-actions"]}>
               <DialogTrigger asChild>
                 <Button variant="link" size="xs">
-                  Use campaign-playalong preset
+                  {t("deck_edit.config.card_pool.use_preset")}
                 </Button>
               </DialogTrigger>
               {!isEmpty(selectedItems) && (
@@ -121,7 +122,7 @@ export function LimitedCardPoolField(props: {
                   size="xs"
                   variant="link"
                 >
-                  Clear
+                  {t("common.clear")}
                 </Button>
               )}
             </div>
@@ -134,7 +135,7 @@ export function LimitedCardPoolField(props: {
           itemToString={packToString}
           label="Limited pool"
           onValueChange={onValueChange}
-          placeholder="Select packs..."
+          placeholder={t("deck_edit.config.card_pool.placeholder")}
           renderItem={packRenderer}
           renderResult={packRenderer}
           showLabel
@@ -154,6 +155,7 @@ export function SealedDeckField(props: {
 }) {
   const { onValueChange, value } = props;
 
+  const { t } = useTranslation();
   const toast = useToast();
 
   const onChangeFile = useCallback(
@@ -199,20 +201,26 @@ export function SealedDeckField(props: {
       full
       padded
       helpText={
-        <>
+        <Trans
+          t={t}
+          i18nKey="deck_edit.config.sealed.help"
+          components={{
+            hyperlink: (
+              // biome-ignore lint/a11y/useAnchorContent: interpolation.
+              <a
+                href="https://www.arkhamsealed.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              />
+            ),
+          }}
+        >
           Upload a sealed deck definition (.csv) to use it. Use{" "}
-          <a
-            href="https://www.arkhamsealed.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            ArkhamSealed
-          </a>{" "}
-          to generate a sealed deck.
-        </>
+          <Link href="">ArkhamSealed</Link> to generate a sealed deck.
+        </Trans>
       }
     >
-      <FieldLabel as="div">Sealed</FieldLabel>
+      <FieldLabel as="div">{t("deck_edit.config.sealed.title")}</FieldLabel>
       <div className={css["sealed"]}>
         <div>
           <FileInput
@@ -221,7 +229,7 @@ export function SealedDeckField(props: {
             onChange={onChangeFile}
             size="sm"
           >
-            <BookLockIcon /> Add sealed deck
+            <BookLockIcon /> {t("deck_edit.config.sealed.add")}
           </FileInput>
         </div>
         {value && (
@@ -264,17 +272,20 @@ function isCardRow(x: unknown): x is CardRow {
 
 export function SealedDeckTag() {
   const ctx = useResolvedDeck();
+  const { t } = useTranslation();
 
   const value = ctx.resolvedDeck?.sealedDeck;
   if (!value) return null;
 
+  const count = Object.keys(value.cards).length;
+
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Tag size="xs">Sealed</Tag>
+        <Tag size="xs">{t("deck.tags.sealed")}</Tag>
       </TooltipTrigger>
       <TooltipContent>
-        {value.name} ({Object.keys(value.cards).length} cards)
+        {value.name} ({count} {t("common.card", { count })})
       </TooltipContent>
     </Tooltip>
   );
@@ -288,6 +299,7 @@ function ChooseCampaignModal(props: {
   onValueChange: (items: string[]) => void;
 }) {
   const { onValueChange } = props;
+  const { t } = useTranslation();
 
   const dialogCtx = useDialogContextChecked();
   const cycles = useStore(selectCampaignCycles);
@@ -318,30 +330,26 @@ function ChooseCampaignModal(props: {
 
   return (
     <Modal size="60rem">
-      <ModalContent title="Choose campaign">
+      <ModalContent title={t("deck_edit.config.card_pool.choose_campaign")}>
         <Field
           full
           padded
           bordered
-          helpText={
-            <>
-              The Campaign Play-Along is an ongoing event hosted on the Mythos
-              Busters discord server. It is designed to play Arkham campaigns
-              together, share stories and generally create a sense of community.
-            </>
-          }
+          helpText={t("deck_edit.config.card_pool.cpa_help")}
         >
           <Combobox
             autoFocus
             id="campaign-playalong-combobox"
             limit={1}
-            placeholder="Select campaign..."
+            placeholder={t(
+              "deck_edit.config.card_pool.choose_campaign_placeholder",
+            )}
             renderItem={packRenderer}
             renderResult={packRenderer}
             itemToString={packToString}
             onValueChange={selectCampaign}
             items={cycles}
-            label="Campaign"
+            label={t("deck_edit.config.card_pool.campaign")}
             showLabel
             selectedItems={selectedItems}
           />

@@ -11,7 +11,7 @@ function About() {
   const { t } = useTranslation();
 
   return (
-    <AppLayout title="About">
+    <AppLayout title={t("about.title")}>
       <div className={cx("longform", css["about"])}>
         <Button onClick={goBack} variant="bare">
           <ChevronLeftIcon /> {t("common.back")}

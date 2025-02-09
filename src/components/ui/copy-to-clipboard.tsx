@@ -1,6 +1,7 @@
 import { useCopyToClipboard } from "@/utils/use-copy-to-clipboard";
 import { CheckIcon, ClipboardCopyIcon } from "lucide-react";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Button, type Props as ButtonProps } from "./button";
 
 interface Props extends Omit<ButtonProps<"button">, "children" | "onClick"> {
@@ -10,6 +11,7 @@ interface Props extends Omit<ButtonProps<"button">, "children" | "onClick"> {
 
 export function CopyToClipboard(props: Props) {
   const { text, tooltip, ...rest } = props;
+  const { t } = useTranslation();
 
   const { copyToClipboard, isCopied } = useCopyToClipboard();
 
@@ -19,7 +21,11 @@ export function CopyToClipboard(props: Props) {
 
   return (
     <Button
-      tooltip={isCopied ? "Copied!" : (tooltip ?? "Copy to clipboard")}
+      tooltip={
+        isCopied
+          ? t("ui.copy_to_clipboard_success")
+          : (tooltip ?? t("ui.copy_to_clipboard"))
+      }
       {...rest}
       iconOnly
       onClick={onClick}

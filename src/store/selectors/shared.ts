@@ -1,3 +1,4 @@
+import i18n from "@/utils/i18n";
 import { createSelector } from "reselect";
 import { ownedCardCount } from "../lib/card-ownership";
 import type { ResolvedDeck } from "../lib/types";
@@ -39,7 +40,7 @@ export const selectConnectionLock = createSelector(
   (state: StoreState) => state.remoting,
   (remoting) => {
     return remoting.sync || remoting.arkhamdb
-      ? "Another ArkhamDB operation is in progress, please wait..."
+      ? i18n.t("settings.connections.lock", { provider: "ArkhamDB" })
       : undefined;
   },
 );

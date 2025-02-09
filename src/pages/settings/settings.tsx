@@ -59,10 +59,10 @@ function Settings() {
   );
 
   return (
-    <AppLayout title="Settings">
+    <AppLayout title={t("settings.title")}>
       <form className={css["settings"]} onSubmit={onSubmit}>
         <header className={css["header"]}>
-          <h1 className={css["title"]}>Settings</h1>
+          <h1 className={css["title"]}>{t("settings.title")}</h1>
           <div className={css["header-actions"]}>
             <Button
               data-testid="settings-back"

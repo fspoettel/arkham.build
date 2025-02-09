@@ -108,7 +108,10 @@ export function DeckCollection() {
             </Popover>
           )}
           <Link asChild to="/deck/create">
-            <HotkeyTooltip keybind="n" description="Create new deck">
+            <HotkeyTooltip
+              keybind="n"
+              description={t("deck_collection.create")}
+            >
               <Button as="a" data-testid="collection-create-deck">
                 <PlusIcon />
               </Button>
