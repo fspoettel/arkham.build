@@ -16,6 +16,7 @@ export type OptionSelect = {
   size?: number;
   level: { min: number; max: number };
   trait: string[];
+  type?: string[];
 };
 
 export type DeckOption = {

@@ -987,7 +987,7 @@
     "text": "Limit 1 per investigator. Seal (+1 or 0). You may resolve this keyword again after you discover the last clue at your location.\n[reaction] When an enemy attacks an investigator at your location, exhaust Misdirection and release a token sealed here: Cancel that attack. Then, that investigator may move to a connecting location.",
     "traits": "Ritual.",
     "type_code": "asset",
-    "xp": 0
+    "xp": 2
   },
   {
     "code": "11044",
