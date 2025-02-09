@@ -70,6 +70,7 @@ function formatLocalCard(
     pack_position: card.position,
     deck_requirements: decodeDeckRequirements(card.deck_requirements),
     restrictions: decodeRestrictions(card.restrictions),
+    tags: card.tags?.split("."),
   } as QueryCard;
 
   return mode === "patch"
