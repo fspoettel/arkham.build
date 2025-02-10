@@ -47,13 +47,18 @@ export class ErrorBoundary extends Component<Props, State> {
                 overflowY: "auto",
               }}
             >
-              <div className="longform">
+              <div className="longform" style={{ maxWidth: "80ch" }}>
                 <pre
                   style={{ background: "var(--palette-1)", padding: "0.5rem" }}
                 >
                   {this.state.message ?? "Unknown error"}
                 </pre>
                 <p>Check the browser console for further details.</p>
+                <p>
+                  Please <strong>don't</strong> try to fix this issue by
+                  clearing cookies or other local browser data{" "}
+                  <i>(unless you are fine with losing your local decks)</i>.
+                </p>
               </div>
               <nav style={{ display: "flex", gap: "0.5rem" }}>
                 <Button as="a" href={ISSUE_URL}>
