@@ -39,7 +39,8 @@ export function ShareInner(props: { id: string }) {
   const resolvedDeck = useStore((state) => selectResolvedShare(state, data));
   const validation = useStore((state) => selectDeckValid(state, resolvedDeck));
 
-  if (state === "initial" || state === "loading") return <Loader />;
+  if (state === "initial" || state === "loading")
+    return <Loader show message="Loading shared deck..." />;
   if (error) return <Error404 />;
 
   if (!resolvedDeck) return null;
