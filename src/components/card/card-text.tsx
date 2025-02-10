@@ -1,5 +1,6 @@
 import { parseCardTextHtml } from "@/utils/card-utils";
 import css from "./card.module.css";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   flavor?: string;
@@ -11,6 +12,7 @@ type Props = {
 
 export function CardText(props: Props) {
   const { flavor, size, text, typeCode, victory } = props;
+  const { t } = useTranslation();
 
   const swapFlavor = ["agenda", "act", "story"].includes(typeCode);
 
@@ -30,7 +32,9 @@ export function CardText(props: Props) {
       )}
       {victory != null && (
         <p>
-          <b>Victory {victory}.</b>
+          <b>
+            {t("common.victory")} {victory}.
+          </b>
         </p>
       )}
     </div>

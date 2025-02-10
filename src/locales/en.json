@@ -17,6 +17,7 @@
     },
     "card_view": {
       "actions": {
+        "view_backside": "Backside",
         "create_deck": "Create deck",
         "faq": "View FAQ",
         "open_on_arkhamdb": "Open on ArkhamDB",
@@ -46,18 +47,29 @@
       "change_one": "change",
       "change_other": "changes",
       "clear": "Clear",
+      "clue_one": "Clue",
+      "clue_other": "Clues",
       "customizations": "customizations",
+      "doom": "Doom",
       "exile": "exile",
       "exiled": "exiled",
+      "cost": {
+        "none": "No cost",
+        "value": "Cost {{cost}}",
+        "x": "Cost X"
+      },
       "decks": {
         "bondedSlots": "Bonded cards",
         "slots": "Deck",
         "sideSlots": "Side deck",
-        "extraSlots": "Extra deck"
+        "sideSlots_short": "Side",
+        "extraSlots": "Extra deck",
+        "extraSlots_short": "Extra"
       },
       "encounter_cards": "Campaign cards",
       "factions": {
         "guardian": "Guardian",
+        "multiclass": "Multi-class",
         "mystic": "Mystic",
         "mythos": "Mythos",
         "neutral": "Neutral",
@@ -67,8 +79,18 @@
       },
       "icon_one": "icon",
       "icon_other": "icons",
+      "level": {
+        "none": "No level",
+        "value": "Level {{level}}",
+        "base": "Level 0 / Null",
+        "upgrades": "Upgrades"
+      },
       "none": "None",
+      "no_entries": "No entries",
+      "ok": "OK",
       "parallel": "parallel",
+      "permanent": "Permanent",
+      "player_cards": "Player cards",
       "relations": {
         "advanced": "Advanced Signatures",
         "base": "Base Investigator",
@@ -84,19 +106,50 @@
         "requiredCards": "Signatures",
         "restrictedTo": "Restricted to"
       },
-      "skills": {
+      "shroud": "Shroud",
+      "skill": {
         "agility": "Agility",
         "combat": "Combat",
         "intellect": "Intellect",
         "willpower": "Willpower",
         "wild": "Wild"
       },
-      "investigator_one": "Investigator",
-      "investigator_other": "Investigators",
-      "player_cards": "Player cards",
+      "slot": {
+        "accessory": "Accessory",
+        "ally": "Ally",
+        "arcane": "Arcane",
+        "arcane x2": "Arcane x2",
+        "body": "Body",
+        "hand x2": "Hand x2",
+        "hand": "Hand",
+        "none": "No slot",
+        "tarot": "Tarot"
+      },
+      "subtype": {
+        "basicweakness": "Basic Weakness",
+        "weakness": "Weakness"
+      },
+      "type": {
+        "act": "Act",
+        "agenda": "Agenda",
+        "asset": "Asset",
+        "enemy": "Enemy",
+        "enemy_location": "Enemy-Location",
+        "event": "Event",
+        "investigator_one": "Investigator",
+        "investigator_other": "Investigators",
+        "key": "Key",
+        "location": "Location",
+        "scenario": "Scenario",
+        "skill": "Skill",
+        "story": "Story",
+        "treachery": "Treachery"
+      },
       "taboo": "Taboo list",
       "taboo_none": "none",
       "total": "total",
+      "undo": "Undo",
+      "victory": "Victory",
       "xp": "XP"
     },
     "collection_stats": {
@@ -203,7 +256,7 @@
     },
     "deck_edit": {
       "actions": {
-        "cycle_deck_lists": "Cycle deck lists",
+        "cycle_decks": "Cycle deck lists",
         "decrement_quantity": "Decrement deck quantity",
         "decrement_side_quantity": "Decrement side deck quantity",
         "edit_annotation": "Edit annotation",
@@ -214,6 +267,7 @@
         "set_quantity": "Set deck quantity",
         "set_side_quantity": "Set side deck quantity"
       },
+      "changes_restored": "Unsaved changes were restored.",
       "config": {
         "sides": {
           "investigator_back": "Investigator back",
@@ -245,18 +299,40 @@
           "local": "Private"
         },
         "taboo": "Taboo list",
+        "tags": "Tags",
+        "tags_help": "Enter tags, separated by spaces",
         "version": {
           "title": "Other versions",
           "switch": "Switch"
         }
       },
       "discard": "Discard changes",
+      "notes": {
+        "banner_url_help": "Banner image for the deck. Will be displayed on the deck view and in social media previews. Aspect ratio is 4:1, optimal width is 1440px.",
+        "banner_url": "Banner URL",
+        "description_help": "Supports ArkhamDB-flavoured markdown.",
+        "description": "Notes",
+        "intro_help": "A short deck introduction. Will be displayed on the deck view and in social media previews. Supports ArkhamDB-flavoured markdown.",
+        "intro": "Introduction"
+      },
+      "recommendations": {
+        "absolute_help": "Count how many {{name}} decks each card is used in",
+        "absolute": "Absolute",
+        "analyze_side_decks": "Analyze side decks",
+        "error": "Could not retrieve recommendations.",
+        "loading": "Computing recommendations...",
+        "no_results": "No recommendations for this configuration.",
+        "publication_date": "Publication date",
+        "relative_help": "Count how many {{name}} decks each card is used in compared to other investigators who have access to it",
+        "relative": "Relative"
+      },
       "save": "Save deck",
       "tab_card_list": "Card list",
       "tab_config": "Config",
       "tab_tools": "Tools",
       "tab_notes": "Notes",
-      "tab_recommendations": "Recommendations"
+      "tab_recommendations": "Recommendations",
+      "title": "Edit: {{name}}"
     },
     "deck_view": {
       "actions": {
@@ -356,6 +432,7 @@
         "toggle_sidebar": "Toggle sidebar",
         "toggle_unusable_cards": "Toggle unusable cards"
       },
+      "all_cards": "All cards",
       "categories": {
         "cost": "Cost",
         "cycle": "Cycle",

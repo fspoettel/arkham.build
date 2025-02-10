@@ -47,7 +47,7 @@ export function HelpMenu() {
             { keybind: "t", description: t("deck_edit.tab_tools") },
             {
               keybind: "d",
-              description: t("deck_edit.actions.cycle_deck_lists"),
+              description: t("deck_edit.actions.cycle_decks"),
             },
             { keybind: "c", description: t("deck_edit.tab_config") },
             { keybind: "cmd+s", description: t("deck_edit.save") },

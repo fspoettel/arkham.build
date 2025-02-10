@@ -143,7 +143,7 @@ function Settings() {
                   />
                   <ListSettings
                     listKey="investigator"
-                    title={t("common.investigator", { count: 2 })}
+                    title={t("common.type.investigator", { count: 2 })}
                     settings={settings}
                     updateSettings={updateSettings}
                   />

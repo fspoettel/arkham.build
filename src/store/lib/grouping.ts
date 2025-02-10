@@ -1,4 +1,4 @@
-import { capitalize } from "@/utils/formatting";
+import i18n from "@/utils/i18n";
 import type { Card } from "../services/queries.types";
 import type { GroupingType } from "../slices/lists.types";
 import type { Metadata } from "../slices/metadata.types";
@@ -457,17 +457,16 @@ export function getGroupingKeyLabel(
 ) {
   switch (type) {
     case "none": {
-      return "All cards";
+      return i18n.t("lists.all_cards");
     }
 
     case "subtype": {
-      if (segment === "weakness") return "Weakness";
-      if (segment === "basicweakness") return "Basic Weakness";
-      return "";
+      if (segment === NONE) return "";
+      return i18n.t(`common.subtype.${segment}`);
     }
 
     case "type": {
-      return capitalize(segment);
+      return i18n.t(`common.type.${segment}`, { count: 1 });
     }
 
     case "cycle": {
@@ -479,31 +478,29 @@ export function getGroupingKeyLabel(
     }
 
     case "slot": {
-      if (segment === NONE) return "No Slot";
-      if (segment === "permanent") return "Permanent";
-      return capitalize(segment);
+      if (segment === NONE) return i18n.t("common.slot.none");
+      if (segment === "permanent") return i18n.t("common.permanent");
+      return i18n.t(`common.slot.${segment.toLowerCase()}`);
     }
 
     case "level": {
-      if (segment === NONE) return "No level";
-      return `Level ${segment}`;
+      if (segment === NONE) return i18n.t("common.level.none");
+      return i18n.t("common.level.value", { level: segment });
     }
 
     case "cost": {
-      if (segment === NONE) return "No cost";
-      if (segment === "-2") return "Cost X";
-      return `Cost ${segment}`;
+      if (segment === NONE) return i18n.t("common.cost.none");
+      if (segment === "-2") return i18n.t("common.cost.x");
+      return i18n.t("common.cost.value", { cost: segment });
     }
 
     case "faction": {
-      return segment === "multiclass"
-        ? "Multiclass"
-        : (metadata.factions[segment]?.name ?? "");
+      return i18n.t(`common.factions.${segment}`);
     }
 
     case "base_upgrades": {
-      if (segment === LEVEL_0) return "Level 0 / Null";
-      if (segment === UPGRADE) return "Upgrades";
+      if (segment === LEVEL_0) return i18n.t("common.level.base");
+      if (segment === UPGRADE) return i18n.t("common.level.upgrades");
       return "";
     }
 

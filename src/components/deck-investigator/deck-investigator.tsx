@@ -16,6 +16,7 @@ import { AttachableCards } from "../deck-tools/attachable-cards";
 import { LimitedSlots } from "../deck-tools/limited-slots";
 import { Button } from "../ui/button";
 import css from "./deck-investigator.module.css";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   canToggleBack?: boolean;
@@ -39,6 +40,7 @@ export function DeckInvestigator(props: Props) {
   } = props;
 
   const [backToggled, toggleBack] = useState(false);
+  const { t } = useTranslation();
 
   const related = getRelatedCards(deck.cards.investigator).filter(
     ([key]) => key !== "parallel",
@@ -63,7 +65,7 @@ export function DeckInvestigator(props: Props) {
         >
           <Button onClick={() => toggleBack((p) => !p)}>
             {backToggled ? <ChevronUpIcon /> : <ChevronDownIcon />}
-            Backside{" "}
+            {t("card_view.actions.view_backside")}{" "}
             {deck.investigatorBack.card.parallel && (
               <>
                 (<span className="icon-parallel" />)

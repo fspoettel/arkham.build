@@ -63,6 +63,7 @@ export const PLAYER_TYPE_ORDER = [
   "skill",
   "location",
   "enemy",
+  "enemy_location",
   "key",
   "treachery",
   "scenario",

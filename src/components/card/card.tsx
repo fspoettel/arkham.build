@@ -7,6 +7,7 @@ import { CardBack } from "./card-back";
 import { CardContainer } from "./card-container";
 import { CardFace } from "./card-face";
 import css from "./card.module.css";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   canToggleBackside?: boolean;
@@ -38,6 +39,7 @@ export function Card(props: Props) {
   } = props;
 
   const [backVisible, toggleBack] = useState(!canToggleBackside);
+  const { t } = useTranslation();
 
   const { back, card } = resolvedCard;
   const cardReversed = reversed(card);
@@ -69,7 +71,7 @@ export function Card(props: Props) {
       onClick={() => toggleBack((p) => !p)}
     >
       {backVisible ? <ChevronUpIcon /> : <ChevronDownIcon />}
-      Backside
+      {t("card_view.actions.view_backside")}
     </Button>
   );
 

@@ -73,7 +73,7 @@ function formatTooltips(t: TFunction) {
   return (value: { datum: { xName: string; y: number } }) => {
     const { xName, y } = value.datum;
     const skill = xName.replace("skill_", "");
-    return `${y} ${t(`common.skills.${skill}`)} ${t("common.icon", { count: y })}`;
+    return `${y} ${t(`common.skill.${skill}`)} ${t("common.icon", { count: y })}`;
   };
 }
 

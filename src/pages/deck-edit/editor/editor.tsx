@@ -16,6 +16,7 @@ import { cx } from "@/utils/cx";
 import { isEmpty } from "@/utils/is-empty";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { useResolvedDeckChecked } from "@/utils/use-resolved-deck";
+import { useTranslation } from "react-i18next";
 import { EditorActions } from "./editor-actions";
 import css from "./editor.module.css";
 import { InvestigatorListcard } from "./investigator-listcard";
@@ -43,6 +44,7 @@ export function Editor(props: Props) {
   const { currentTab, getListCardProps, onTabChange, tabs } = props;
 
   const { resolvedDeck: deck } = useResolvedDeckChecked();
+  const { t } = useTranslation();
 
   const groups = useStore((state) => selectDeckGroups(state, deck, "list"));
 
@@ -85,7 +87,7 @@ export function Editor(props: Props) {
               deck={deck}
               getListCardProps={getListCardProps}
               grouping={groups.slots}
-              title="Cards"
+              title={t("common.decks.slots")}
             />
 
             <EditorGroup
@@ -94,7 +96,7 @@ export function Editor(props: Props) {
               getListCardProps={getListCardProps}
               omitEmpty
               showTitle
-              title="Bonded cards"
+              title={t("common.decks.bondedSlots")}
             />
           </TabsContent>
 
@@ -103,7 +105,7 @@ export function Editor(props: Props) {
               deck={deck}
               grouping={groups.sideSlots}
               getListCardProps={getListCardProps}
-              title="Side deck"
+              title={t("common.decks.sideSlots")}
             />
           </TabsContent>
 
@@ -128,10 +130,6 @@ export function Editor(props: Props) {
   );
 }
 
-function Placeholder({ name }: { name: string }) {
-  return <div className={css["editor-placeholder"]}>{name} is empty.</div>;
-}
-
 function EditorGroup(props: {
   deck: ResolvedDeck;
   title: string;
@@ -142,6 +140,7 @@ function EditorGroup(props: {
 }) {
   const { deck, omitEmpty, grouping, getListCardProps, showTitle, title } =
     props;
+
   const empty = isEmpty(grouping?.data);
 
   if (omitEmpty && empty) return null;
@@ -149,7 +148,7 @@ function EditorGroup(props: {
   return (
     <DecklistSection showTitle={showTitle} title={title}>
       {empty ? (
-        <Placeholder name={title} />
+        <Placeholder />
       ) : (
         <DecklistGroup
           getListCardProps={getListCardProps}
@@ -158,5 +157,12 @@ function EditorGroup(props: {
         />
       )}
     </DecklistSection>
+  );
+}
+
+function Placeholder() {
+  const { t } = useTranslation();
+  return (
+    <div className={css["editor-placeholder"]}>{t("common.no_entries")}</div>
   );
 }
