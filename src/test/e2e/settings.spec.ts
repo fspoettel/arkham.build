@@ -188,4 +188,21 @@ test.describe("settings", () => {
 
     await expect(page.getByTestId("preview-banner")).not.toBeVisible();
   });
+
+  test("deselect all grouping and sorting options", async ({ page }) => {
+    await mockApiCalls(page);
+    await page.goto("/settings");
+    await page.getByTestId("player-group-subtype").click();
+    await page
+      .getByTestId("list-settings-player-group")
+      .getByTestId("sortable-item-type")
+      .click();
+    await page.getByTestId("player-group-slot").click();
+    await page.getByTestId("player-sort-name").click();
+    await page.getByTestId("player-sort-level").click();
+    await page.getByTestId("player-sort-position").click();
+    await page.getByTestId("settings-save").click();
+    await page.getByTestId("masthead-logo").click();
+    await expect(page.getByTestId("card-list-scroller")).toBeVisible();
+  });
 });

@@ -117,6 +117,7 @@ export type GroupingType =
   | "encounter_set"
   | "faction"
   | "level"
+  | "none"
   | "pack"
   | "slot"
   | "subtype"

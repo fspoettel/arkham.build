@@ -54,11 +54,11 @@ type GroupLabelProps = {
 
 export function GroupLabel(props: GroupLabelProps) {
   const { className, type, segment, metadata } = props;
-
   const keyLabel = getGroupingKeyLabel(type, segment, metadata);
   if (!keyLabel) return null;
 
   if (
+    type === "none" ||
     type === "subtype" ||
     type === "type" ||
     type === "level" ||

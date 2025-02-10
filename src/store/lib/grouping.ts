@@ -1,4 +1,3 @@
-import { assert } from "@/utils/assert";
 import { capitalize } from "@/utils/formatting";
 import type { Card } from "../services/queries.types";
 import type { GroupingType } from "../slices/lists.types";
@@ -350,6 +349,15 @@ function applyGrouping(
   metadata: Metadata,
 ): GroupingResult[] {
   switch (grouping) {
+    case "none": {
+      return [
+        {
+          cards,
+          key: "all",
+          type: "none",
+        },
+      ];
+    }
     case "subtype":
       return groupBySubtypeCode(cards);
     case "type":
@@ -374,12 +382,12 @@ function applyGrouping(
 }
 
 export function getGroupedCards(
-  groupings: GroupingType[],
+  _groupings: GroupingType[],
   cards: Card[],
   sortFunction: SortFunction,
   metadata: Metadata,
 ): GroupedCards {
-  assert(groupings.length > 0, "At least one grouping needs to be provided.");
+  const groupings = _groupings.length ? _groupings : ["none" as const];
 
   const data = applyGrouping(cards, groupings[0], metadata);
 
@@ -439,6 +447,8 @@ export function getGroupedCards(
     group.cards.sort(sortFunction);
   }
 
+  console.log(data, hierarchy);
+
   return { data, hierarchy };
 }
 
@@ -448,6 +458,10 @@ export function getGroupingKeyLabel(
   metadata: Metadata,
 ) {
   switch (type) {
+    case "none": {
+      return "All cards";
+    }
+
     case "subtype": {
       if (segment === "weakness") return "Weakness";
       if (segment === "basicweakness") return "Basic Weakness";
