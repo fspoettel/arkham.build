@@ -8,6 +8,7 @@ import { formatRelationTitle } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { CardBack } from "../card/card-back";
 import { CardContainer } from "../card/card-container";
 import { CardFace } from "../card/card-face";
@@ -16,7 +17,6 @@ import { AttachableCards } from "../deck-tools/attachable-cards";
 import { LimitedSlots } from "../deck-tools/limited-slots";
 import { Button } from "../ui/button";
 import css from "./deck-investigator.module.css";
-import { useTranslation } from "react-i18next";
 
 type Props = {
   canToggleBack?: boolean;

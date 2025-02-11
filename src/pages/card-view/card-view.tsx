@@ -84,8 +84,7 @@ function CardView() {
                     data-testid="card-modal-create-deck"
                     size="full"
                   >
-                    <i className="icon-deck" />{" "}
-                    {t("card_view.actions.create_deck")}
+                    <i className="icon-deck" /> {t("deck.actions.create")}
                   </Button>
                 </Link>
               )}

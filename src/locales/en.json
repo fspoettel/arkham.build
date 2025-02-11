@@ -12,13 +12,23 @@
         "close_modal": "Close modal"
       }
     },
+    "attachments": {
+      "attach": "Add to {{name}}",
+      "attached": "Attached to {{name}}",
+      "eligible": "Eligible for {{name}}"
+    },
     "browse": {
       "title": "Browse cards"
+    },
+    "card_modal": {
+      "actions": {
+        "open_card_page": "Card page",
+        "reviews": "Reviews"
+      }
     },
     "card_view": {
       "actions": {
         "view_backside": "Backside",
-        "create_deck": "Create deck",
         "faq": "View FAQ",
         "open_on_arkhamdb": "Open on ArkhamDB",
         "reviews": "View reviews",
@@ -33,7 +43,9 @@
       },
       "section_deckbuilding": "Deckbuilding",
       "section_actions": "Actions",
-      "section_faq": "FAQ"
+      "section_faq": "FAQ",
+      "scan": "Scan of {{code}}",
+      "thumbnail": "Thumbnail of {{code}}"
     },
     "choose_investigator": {
       "title": "Choose investigator",
@@ -50,6 +62,8 @@
       "clue_one": "Clue",
       "clue_other": "Clues",
       "customizations": "customizations",
+      "cycle_one": "cycle",
+      "cycle_other": "cycles",
       "doom": "Doom",
       "exile": "exile",
       "exiled": "exiled",
@@ -60,6 +74,8 @@
       },
       "decks": {
         "bondedSlots": "Bonded cards",
+        "bondedSlots_short": "Bonded",
+        "ignoreDeckLimitSlots": "Ignore deck limit",
         "slots": "Deck",
         "sideSlots": "Side deck",
         "sideSlots_short": "Side",
@@ -88,6 +104,8 @@
       "none": "None",
       "no_entries": "No entries",
       "ok": "OK",
+      "pack_one": "pack",
+      "pack_other": "packs",
       "parallel": "parallel",
       "permanent": "Permanent",
       "player_cards": "Player cards",
@@ -112,6 +130,7 @@
         "combat": "Combat",
         "intellect": "Intellect",
         "willpower": "Willpower",
+        "title": "Skill",
         "wild": "Wild"
       },
       "slot": {
@@ -146,8 +165,13 @@
         "treachery": "Treachery"
       },
       "taboo": "Taboo list",
+      "taboo_mutated": "Mutated",
+      "taboo_chained": "Costs {{xp}} additional experience.",
+      "taboo_unchained": "Costs {{xp}} experience less.",
       "taboo_none": "none",
       "total": "total",
+      "trait_one": "Trait",
+      "trait_other": "Traits",
       "undo": "Undo",
       "victory": "Victory",
       "xp": "XP"
@@ -155,7 +179,9 @@
     "collection_stats": {
       "title": "Collection stats",
       "description": "This page displays your collection and card counts based on your collection settings. To update your collection settings, visit the <hyperlink>Settings</hyperlink> page.",
-      "counts": "You own <strong>{{player_count}}</strong> player and <strong>{{encounter_count}}</strong> encounter cards."
+      "counts": "You own <strong>{{player_count}}</strong> player and <strong>{{encounter_count}}</strong> encounter cards.",
+      "tooltip_count_player": "Total number of player cards in {{type}}",
+      "tooltip_count_encounter": "Total number of encounter cards in {{type}}"
     },
     "connect": {
       "title": "Connecting {{provider}}...",
@@ -165,6 +191,7 @@
     "deck": {
       "actions": {
         "copy_id": "Copy deck ID",
+        "create": "Create deck",
         "delete_upgrade": "Delete upgrade",
         "delete": "Delete deck",
         "duplicate": "Duplicate deck",
@@ -176,6 +203,8 @@
         "upgrade": "Upgrade deck",
         "upgrade_short": "Upgrade"
       },
+      "annotation": "Annotation",
+      "annotation_tooltip": "Card has an annotation",
       "customization_sheet": "Customization sheet for {{name}}",
       "id": "Deck ID",
       "latest_upgrade": {
@@ -187,6 +216,9 @@
       "stats": {
         "deck_size": "Deck size",
         "uses_parallel": "Uses a parallel side",
+        "ignored_one": "{{count}} copy does not count towards deck size.",
+        "ignored_other": "{{count}} copies do not count towards deck size.",
+        "unowned": "Unavailable: {{count}} of {{total}} cards",
         "xp_available_help": "XP available to spend after latest upgrade.",
         "xp_required": "XP required",
         "xp_required_help": "Amount of XP required to build this deck from scratch."
@@ -216,7 +248,6 @@
       "count_hidden": " ({{count}} hidden)",
       "collection_empty": "Collection empty",
       "connect_arkhamdb": "Connect to ArkhamDB",
-      "create": "Create deck",
       "deck_url_or_id": "Deck URL or ID",
       "delete_all_confirm": "Are you sure you want to delete all local decks in your collection?",
       "delete_all_error": "Failed to delete local decks: {{error}}",
@@ -244,9 +275,6 @@
       "title": "Decks"
     },
     "deck_create": {
-      "actions": {
-        "create": "Create deck"
-      },
       "help_advanced": "Signature cards with \"Advanced\" are stronger versions of an investigator's signature cards that are listed under \"Deck Requirements\".<br>At any point during a campaign (including at deck creation) you may optionally choose to include these advanced signature cards <strong>instead of</strong> the original signature cards.",
       "help_replacements": "Signature cards with \"Replacement\" can replace the signature cards that are listed under \"Deckbuilding Requirements\". Doing so still satisfies the requirement and the deck is valid to play.<br>If doing so, <strong>both</strong> signature cards must be replaced and if doing so for a campaign, you cannot later change to using the original signature cards.<br>Alternatively, the \"Replacement\" cards can be included in addition to the signature cards.",
       "error": "Failed to create deck: {{error}}",
@@ -305,6 +333,11 @@
           "title": "Other versions",
           "switch": "Switch"
         }
+      },
+      "customizable": {
+        "skill_placeholder": "Select skill...",
+        "traits_placeholder_one": "Select trait...",
+        "traits_placeholder_other": "Select traits..."
       },
       "discard": "Discard changes",
       "notes": {
@@ -448,7 +481,7 @@
         "base_upgrades": "Lvl. 0 <> Upgrades"
       },
       "nav": {
-        "card_count_hidden": "({{count }} hidden)",
+        "card_count_hidden": "({{count}} hidden by filters)",
         "card_count": "{{count}} cards",
         "display_as_detailed": "Detailed cards",
         "display_as_list_text": "List with card text",
@@ -468,6 +501,14 @@
       "group_by": "Group by",
       "sort_by": "Sort by",
       "reset": "Reset to default"
+    },
+    "preview_banner": {
+      "actions": {
+        "enable": "Enable previews",
+        "dismiss": "Dismiss"
+      },
+      "description": "Enabling previews will show cards from upcoming sets in the card browser. You can change this setting at any time in the collection settings.",
+      "title": "Preview season is here!"
     },
     "settings": {
       "backup": {
@@ -561,6 +602,10 @@
       "title": "Settings"
     },
     "ui": {
+      "cards_combobox": {
+        "placeholder_one": "Select a card...",
+        "placeholder_other": "Select cards..."
+      },
       "collapsible": {
         "collapse": "Close section",
         "expand": "Expand section",

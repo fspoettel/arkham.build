@@ -108,10 +108,7 @@ export function DeckCollection() {
             </Popover>
           )}
           <Link asChild to="/deck/create">
-            <HotkeyTooltip
-              keybind="n"
-              description={t("deck_collection.create")}
-            >
+            <HotkeyTooltip keybind="n" description={t("deck.actions.create")}>
               <Button as="a" data-testid="collection-create-deck">
                 <PlusIcon />
               </Button>
@@ -201,7 +198,7 @@ export function DeckCollection() {
                 <Link href="/deck/create" asChild>
                   <Button variant="bare">
                     <PlusIcon />
-                    {t("deck_collection.create")}
+                    {t("deck.actions.create")}
                   </Button>
                 </Link>
                 <Link href="/settings" asChild>

@@ -36,7 +36,7 @@ export function HelpMenu() {
         ],
         [
           t("help.shortcuts.group_deck_collection"),
-          [{ keybind: "n", description: t("deck_collection.create") }],
+          [{ keybind: "n", description: t("deck.actions.create") }],
         ],
         [
           t("help.shortcuts.group_deck_editor"),

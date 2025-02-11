@@ -91,12 +91,18 @@ export function Decklist(props: Props) {
           value={viewMode}
           onValueChange={onSetViewMode}
         >
-          <HotkeyTooltip keybind="alt+l" description="Display as list">
+          <HotkeyTooltip
+            keybind="alt+l"
+            description={t("deck_view.actions.display_as_list")}
+          >
             <ToggleGroupItem value="list">
               <LayoutListIcon /> {t("deck_view.list")}
             </ToggleGroupItem>
           </HotkeyTooltip>
-          <HotkeyTooltip keybind="alt+s" description="Display as scans">
+          <HotkeyTooltip
+            keybind="alt+s"
+            description={t("deck_view.actions.display_as_scans")}
+          >
             <ToggleGroupItem value="scans">
               <LayoutGridIcon /> {t("deck_view.scans")}
             </ToggleGroupItem>

@@ -1,5 +1,6 @@
 import { cx } from "@/utils/cx";
 import { MessageCircleIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import DeckDescription from "../deck-description";
 import css from "./annotation.module.css";
 
@@ -24,6 +25,7 @@ export function AnnotationContainer(
   props: Omit<Props, "content"> & { children: React.ReactNode },
 ) {
   const { actions, className, children, size } = props;
+  const { t } = useTranslation();
 
   return (
     <article
@@ -33,7 +35,7 @@ export function AnnotationContainer(
       <header className={css["header"]}>
         <div className={css["row"]}>
           <MessageCircleIcon className={css["icon"]} />
-          <h4>Annotation</h4>
+          <h4>{t("deck.annotation")}</h4>
         </div>
         {actions}
       </header>

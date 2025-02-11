@@ -9,6 +9,7 @@ import {
   WandIcon,
 } from "lucide-react";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import css from "./attachments.module.css";
 import { canAttach, canUpdateAttachment, getAttachedQuantity } from "./utils";
@@ -59,6 +60,7 @@ function Attachment(
   },
 ) {
   const { buttonVariant, card, definition, resolvedDeck } = props;
+  const { t } = useTranslation();
 
   const onChangeAttachmentQuantity = useAttachmentsChangeHandler();
 
@@ -90,6 +92,8 @@ function Attachment(
     onChangeQuantity(-1);
   };
 
+  const name = definition.name;
+
   return (
     <li className={css["attachment"]} key={definition.code}>
       <Button
@@ -101,8 +105,10 @@ function Attachment(
         variant={buttonVariant ?? (!canEdit && !attached ? "bare" : undefined)}
         tooltip={
           canEdit
-            ? `Add to ${definition.name}`
-            : `${attached > 0 ? "Attached to" : "Eligible for"} ${definition.name}`
+            ? t("attachments.attach", { name })
+            : attached > 0
+              ? t("attachments.attached", { name })
+              : t("attachments.eligible", { name })
         }
       >
         {contentNode}

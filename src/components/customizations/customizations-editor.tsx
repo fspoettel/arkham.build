@@ -5,6 +5,7 @@ import type { CustomizationEdit } from "@/store/slices/deck-edits.types";
 import { getCardColor } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { CustomizationOption } from "./customization-option";
 import css from "./customizations.module.css";
 
@@ -16,6 +17,7 @@ type Props = {
 
 export function CustomizationsEditor(props: Props) {
   const { deck, card, canEdit } = props;
+  const { t } = useTranslation();
 
   const updateCustomization = useStore((state) => state.updateCustomization);
   const backgroundCls = getCardColor(card, "background");
@@ -46,7 +48,7 @@ export function CustomizationsEditor(props: Props) {
       data-testid="customizations-editor"
     >
       <header className={cx(css["header"], backgroundCls)}>
-        <h3>Customizations</h3>
+        <h3>{t("common.customizations")}</h3>
       </header>
       <div className={css["text"]}>
         {options.map((option, i) => (

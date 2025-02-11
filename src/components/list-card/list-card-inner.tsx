@@ -12,6 +12,7 @@ import { cx } from "@/utils/cx";
 import type { ReferenceType } from "@floating-ui/react";
 import { FileWarningIcon, StarIcon } from "lucide-react";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { AnnotationIndicator } from "../annotation-indicator";
 import { CardHealth } from "../card-health";
 import { CardIcon } from "../card-icon";
@@ -93,6 +94,7 @@ export function ListCardInner(props: Props) {
     size,
   } = props;
 
+  const { t } = useTranslation();
   const modalContext = useCardModalContextChecked();
 
   const ignoredCount = isIgnored ?? 0;
@@ -191,11 +193,11 @@ export function ListCardInner(props: Props) {
                     (quantity != null && ownedCount < quantity)) && (
                     <DefaultTooltip
                       tooltip={
-                        quantity && (
-                          <>
-                            Unavailable: {quantity - ownedCount} of {quantity}
-                          </>
-                        )
+                        quantity &&
+                        t("deck.stats.unowned", {
+                          count: quantity - ownedCount,
+                          total: quantity,
+                        })
                       }
                     >
                       <span
@@ -208,13 +210,7 @@ export function ListCardInner(props: Props) {
                   )}
                 {ignoredCount > 0 && (
                   <DefaultTooltip
-                    tooltip={
-                      <>
-                        {ignoredCount}{" "}
-                        {ignoredCount === 1 ? "copy does" : "copies do"} not
-                        count towards the deck limit.
-                      </>
-                    }
+                    tooltip={t("deck.stats.ignored", { count: ignoredCount })}
                   >
                     <span
                       className={css["ignored"]}
@@ -238,7 +234,7 @@ export function ListCardInner(props: Props) {
                   {card.parallel &&
                   card.type_code === "investigator" &&
                   size === "investigator" ? (
-                    <DefaultTooltip tooltip="Uses a parallel side">
+                    <DefaultTooltip tooltip={t("deck.stats.uses_parallel")}>
                       <i className="icon-parallel" />
                     </DefaultTooltip>
                   ) : (

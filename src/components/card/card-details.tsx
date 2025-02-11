@@ -1,7 +1,7 @@
 import type { Card } from "@/store/services/queries.types";
+import { useTranslation } from "react-i18next";
 import { CardSlots } from "../card-slots";
 import css from "./card.module.css";
-import { useTranslation } from "react-i18next";
 
 type Props = {
   card: Card;

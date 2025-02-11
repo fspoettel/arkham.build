@@ -1,6 +1,7 @@
 import { imageUrl } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { useAgathaEasterEggTransform } from "@/utils/easter-egg-agatha";
+import { useTranslation } from "react-i18next";
 import css from "./card-scan.module.css";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
@@ -13,12 +14,13 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 export function CardScan(props: Props) {
   const { code, suffix, ...rest } = props;
+  const { t } = useTranslation();
 
   const imageCode = useAgathaEasterEggTransform(`${code}${suffix ?? ""}`);
 
   return (
     <CardScanInner
-      alt={`Scan of card ${imageCode}`}
+      alt={t("card_view.scan", { code })}
       url={imageUrl(imageCode)}
       {...rest}
     />

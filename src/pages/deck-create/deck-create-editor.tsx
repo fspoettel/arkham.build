@@ -55,7 +55,7 @@ export function DeckCreateEditor() {
 
   const onDeckCreate = useCallback(async () => {
     const toastId = toast.show({
-      children: "Creating deck",
+      children: t("deck_create.loading"),
       variant: "loading",
     });
 
@@ -64,18 +64,18 @@ export function DeckCreateEditor() {
       navigate(`/deck/edit/${id}`, { replace: true });
       toast.dismiss(toastId);
       toast.show({
-        children: "Deck create successful.",
+        children: t("deck_create.success"),
         duration: 3000,
         variant: "success",
       });
     } catch (err) {
       toast.dismiss(toastId);
       toast.show({
-        children: `Deck create failed: ${(err as Error)?.message || "Unknown error"}`,
+        children: t("deck_create.error", { error: (err as Error).message }),
         variant: "error",
       });
     }
-  }, [toast, createDeck, navigate]);
+  }, [toast, createDeck, navigate, t]);
 
   const setInvestigatorCode = useStore(
     (state) => state.deckCreateSetInvestigatorCode,
@@ -273,7 +273,7 @@ export function DeckCreateEditor() {
           }
           variant="primary"
         >
-          {t("deck_create.actions.create")}
+          {t("deck.actions.create")}
         </Button>
         <Button onClick={goBack} type="button" variant="bare">
           {t("common.cancel")}

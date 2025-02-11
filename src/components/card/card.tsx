@@ -2,12 +2,12 @@ import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
 import { reversed } from "@/utils/card-utils";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import { CardBack } from "./card-back";
 import { CardContainer } from "./card-container";
 import { CardFace } from "./card-face";
 import css from "./card.module.css";
-import { useTranslation } from "react-i18next";
 
 type Props = {
   canToggleBackside?: boolean;

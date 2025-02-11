@@ -1,6 +1,7 @@
 import type { Card } from "@/store/services/queries.types";
 import { parseCardTextHtml } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
+import { useTranslation } from "react-i18next";
 import { DefaultTooltip } from "../ui/tooltip";
 import css from "./card.module.css";
 
@@ -14,6 +15,8 @@ const TOOLTIP_OPTIONS = {
 
 export function CardTabooText(props: Props) {
   const { real_taboo_text_change, taboo_xp } = props.card;
+
+  const { t } = useTranslation();
 
   if (!real_taboo_text_change && taboo_xp == null) return null;
 
@@ -34,14 +37,16 @@ export function CardTabooText(props: Props) {
           <p>
             <i className="icon-tablet color-taboo icon-text" /> Taboo List{" "}
             <br />
-            Mutated.
+            {t("common.taboo_mutated")}.
           </p>
         </DefaultTooltip>
       )}
       {taboo_xp != null && (
         <p>
-          <i className="icon-tablet color-taboo icon-text" /> Costs {taboo_xp}
-          {taboo_xp > 0 ? " additional" : ""} experience.
+          <i className="icon-tablet color-taboo icon-text" />
+          {taboo_xp > 0
+            ? t("common.taboo_chained", { xp: taboo_xp })
+            : t("common.taboo_unchained", { xp: Math.abs(taboo_xp) })}
         </p>
       )}
     </div>

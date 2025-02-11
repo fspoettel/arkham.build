@@ -1,6 +1,6 @@
 import { parseCardTextHtml } from "@/utils/card-utils";
-import css from "./card.module.css";
 import { useTranslation } from "react-i18next";
+import css from "./card.module.css";
 
 type Props = {
   flavor?: string;

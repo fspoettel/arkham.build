@@ -2,6 +2,7 @@ import { Combobox } from "@/components/ui/combobox/combobox";
 import { useStore } from "@/store";
 import { sortAlphabetical } from "@/store/lib/sorting";
 import type { StoreState } from "@/store/slices";
+import { useTranslation } from "react-i18next";
 import { createSelector } from "reselect";
 
 type Props = {
@@ -24,17 +25,20 @@ const selectTraitOptions = createSelector(
 export function CustomizationChooseTraits(props: Props) {
   const { disabled, id, limit, onChange, readonly, selections } = props;
   const traits = useStore(selectTraitOptions);
+  const { t } = useTranslation();
 
   return (
     <Combobox
       disabled={disabled}
       id={`${id}-choose-trait`}
       items={traits}
-      label="Traits"
+      label={t("common.trait", { count: limit })}
       limit={limit}
       readonly={readonly}
       onValueChange={onChange}
-      placeholder="Select traits..."
+      placeholder={t("deck_edit.customizable.trait_placeholder", {
+        count: limit,
+      })}
       selectedItems={selections}
     />
   );
