@@ -66,7 +66,7 @@ export const createDeckEditsSlice: StateCreator<
     };
 
     // ensure quantity of attachments is less than quantity in deck.
-    if (nextState.deckEdits && deck.attachments) {
+    if (targetTab === "slots" && nextState.deckEdits && deck.attachments) {
       nextState.deckEdits[deckId].attachments = clampAttachmentQuantity(
         edits.attachments,
         deck.attachments,
@@ -77,6 +77,7 @@ export const createDeckEditsSlice: StateCreator<
 
     // remove recommendation core card entry after card is remove from deck.
     if (
+      targetTab === "slots" &&
       newValue === 0 &&
       state.recommender?.coreCards[deckId]?.includes(code)
     ) {

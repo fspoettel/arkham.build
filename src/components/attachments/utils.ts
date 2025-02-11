@@ -9,7 +9,8 @@ import { useCallback } from "react";
 export function canAttach(card: Card, definition: AttachableDefinition) {
   return (
     definition.code !== card.code &&
-    definition.traits?.some((t) => card.real_traits?.includes(t))
+    definition.traits?.some((t) => card.real_traits?.includes(t)) &&
+    (definition.filters?.every((f) => f(card)) ?? true)
   );
 }
 

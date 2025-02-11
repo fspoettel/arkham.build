@@ -1,7 +1,13 @@
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import type { AttachableDefinition } from "@/utils/constants";
-import { LightbulbIcon, PackageIcon, StoreIcon, WandIcon } from "lucide-react";
+import {
+  LightbulbIcon,
+  PackageIcon,
+  StampIcon,
+  StoreIcon,
+  WandIcon,
+} from "lucide-react";
 import { useMemo } from "react";
 import { Button } from "../ui/button";
 import css from "./attachments.module.css";
@@ -122,6 +128,10 @@ export function AttachmentIcon(props: { name: string }) {
 
   if (name === "package") {
     return <PackageIcon />;
+  }
+
+  if (name === "stamp") {
+    return <StampIcon />;
   }
 
   return null;

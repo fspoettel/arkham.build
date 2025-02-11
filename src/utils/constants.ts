@@ -1,4 +1,6 @@
 import localPacks from "@/store/services/data/packs.json";
+import type { Card } from "@/store/services/queries.types";
+import type { Filter } from "./fp";
 
 export const FLOATING_PORTAL_ID = "floating";
 
@@ -149,6 +151,8 @@ export const SPECIAL_CARD_CODES = {
   DIRECTIVE: "90025",
   /** Changes XP calculation for upgrades. */
   DOWN_THE_RABBIT_HOLE: "08059",
+  /** Has attachments, has additional deck validation rule. */
+  ELDRITCH_BRAND: "11080",
   /** Adjusts deck size. */
   FORCED_LEARNING: "08031",
   /** Has separate deck. */
@@ -209,6 +213,7 @@ export const CARD_SET_ORDER = [
 export type AttachableDefinition = {
   code: string;
   icon: string;
+  filters?: Filter[];
   limit?: number;
   name: string;
   requiredCards?: Record<string, number>;
@@ -253,6 +258,15 @@ export const ATTACHABLE_CARDS: { [code: string]: AttachableDefinition } = {
     name: "Market deck",
     icon: "store",
     targetSize: 10,
+  },
+  [SPECIAL_CARD_CODES.ELDRITCH_BRAND]: {
+    code: SPECIAL_CARD_CODES.ELDRITCH_BRAND,
+    traits: ["Spell."],
+    filters: [(c: Card) => c.xp != null],
+    name: "Eldritch Brand",
+    icon: "stamp",
+    limit: 1,
+    targetSize: 1,
   },
 };
 

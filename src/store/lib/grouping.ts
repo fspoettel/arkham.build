@@ -447,8 +447,6 @@ export function getGroupedCards(
     group.cards.sort(sortFunction);
   }
 
-  console.log(data, hierarchy);
-
   return { data, hierarchy };
 }
 
