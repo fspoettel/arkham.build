@@ -93,7 +93,7 @@ test.describe("deck create", () => {
   test("select advanced signatures", async ({ page }) => {
     await page.goto("/deck/create/02003");
 
-    await page.getByLabel("Advanced signatures", { exact: true }).click();
+    await page.getByLabel("Advanced Signatures", { exact: true }).click();
 
     await page.getByTestId("create-save").click();
 
@@ -170,7 +170,7 @@ test.describe("deck create", () => {
   });
 
   function locateScan(page: Page | Locator, code: string) {
-    return page.getByAltText(`Scan of card ${code}`, { exact: true });
+    return page.getByAltText(`Scan of ${code}`, { exact: true });
   }
 
   test("select parallel investigator", async ({ page }) => {

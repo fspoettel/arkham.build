@@ -44,7 +44,9 @@ test.describe("deck view", () => {
     await expect(page.getByTestId("view-deck-xp")).toContainText(
       "XP required31",
     );
-    await expect(page.getByTestId("view-deck-taboo")).toContainText("Taboo2.1");
+    await expect(page.getByTestId("view-deck-taboo")).toContainText(
+      "Taboo list2.1",
+    );
     await expect(page.getByTestId("deck-tags")).toBeVisible();
 
     await expect(page.getByTestId("view-deck-size")).toContainText(
@@ -231,7 +233,7 @@ test.describe("deck view", () => {
 
     await expect(
       page.getByTestId("selection-option_selected-label"),
-    ).toHaveText("Option Selected");
+    ).toHaveText("Trait Choice");
 
     await expect(
       page.getByTestId("selection-option_selected-value"),
@@ -327,7 +329,9 @@ test.describe("deck view", () => {
       "XP required31",
     );
 
-    await expect(page.getByTestId("view-deck-taboo")).toContainText("Taboo2.1");
+    await expect(page.getByTestId("view-deck-taboo")).toContainText(
+      "Taboo list2.1",
+    );
 
     await expect(page.getByTestId("deck-tags")).toBeVisible();
   });
@@ -408,7 +412,7 @@ test.describe("deck view", () => {
     await importDeckFromFile(page, "validation/parallel_wendy.json", {
       navigate: "edit",
     });
-    await page.getByTestId("editor-tab-meta").click();
+    await page.getByTestId("editor-tab-config").click();
 
     await page.getByTestId("meta-investigator-front").selectOption("01005");
 

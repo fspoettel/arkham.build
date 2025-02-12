@@ -16,12 +16,12 @@ import { selectTabooSetSelectOptions } from "@/store/selectors/lists";
 import type { DeckOptionSelectType } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
 import { debounce } from "@/utils/debounce";
-import { capitalize, capitalizeSnakeCase } from "@/utils/formatting";
 import type { TFunction } from "i18next";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createSelector } from "reselect";
 import css from "./editor.module.css";
+import { SelectionEditor } from "./selection-editor";
 
 type Props = {
   deck: ResolvedDeck;
@@ -212,38 +212,12 @@ export function MetaEditor(props: Props) {
           </Field>
         </>
       )}
-      {deck.selections &&
-        Object.entries(deck.selections).map(([key, value]) => (
-          <Field full key={key} padded>
-            <FieldLabel>{capitalizeSnakeCase(key)}</FieldLabel>
-            {(value.type === "deckSize" || value.type === "faction") && (
-              <Select
-                data-field={value.accessor}
-                data-type={value.type}
-                emptyLabel="None"
-                onChange={onFieldChange}
-                options={value.options.map((v) => ({
-                  value: v,
-                  label: capitalize(v),
-                }))}
-                value={value.value ?? ""}
-              />
-            )}
-            {value.type === "option" && (
-              <Select
-                data-field={value.accessor}
-                data-type={value.type}
-                emptyLabel="None"
-                onChange={onFieldChange}
-                options={value.options.map((v) => ({
-                  value: v.id,
-                  label: v.name,
-                }))}
-                value={value.value?.id ?? ""}
-              />
-            )}
-          </Field>
-        ))}
+      {deck.selections && (
+        <SelectionEditor
+          onSelectionChange={onFieldChange}
+          selections={deck.selections}
+        />
+      )}
       <Field full padded>
         <FieldLabel>{t("deck_edit.config.taboo")}</FieldLabel>
         <Select

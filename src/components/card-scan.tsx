@@ -20,7 +20,7 @@ export function CardScan(props: Props) {
 
   return (
     <CardScanInner
-      alt={t("card_view.scan", { code })}
+      alt={t("card_view.scan", { code: imageCode })}
       url={imageUrl(imageCode)}
       {...rest}
     />

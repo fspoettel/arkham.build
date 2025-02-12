@@ -88,7 +88,7 @@ test.describe("filters", () => {
 
     await page.getByTestId("collection-create-deck").hover();
     await page.locator('[data-test-id="card-list-config"]').click();
-    await page.getByLabel("List with text").click();
+    await page.getByLabel("List with card text").click();
 
     await expect(page.getByTestId("card-text").first()).toBeVisible();
     await expect(page.getByTestId("card-text").nth(1)).toBeVisible();
@@ -194,8 +194,8 @@ test.describe("filters", () => {
   test("toggle search name", async ({ page }) => {
     await fillSearch(page, "charge");
     await page.getByRole("heading", { name: "Asset", exact: true }).click();
-    await page.getByPlaceholder("Select slot(s)").click();
-    await page.getByPlaceholder("Select slot(s)").fill("taro");
+    await page.getByPlaceholder("Select slots").click();
+    await page.getByPlaceholder("Select slots").fill("taro");
     await page.getByTestId("combobox-menu-item-Tarot").click();
     await expect(page.getByTestId("listcard-54005")).toBeVisible();
     await page.getByTestId("search-input").focus();
@@ -203,7 +203,7 @@ test.describe("filters", () => {
     await page.getByTestId("search-card-name").click();
     await expect(page.getByTestId("listcard-54005")).not.toBeVisible();
     await page.getByTestId("combobox-result-remove").click();
-    await page.getByPlaceholder("Select slot(s)").click();
+    await page.getByPlaceholder("Select slots").click();
     await page.getByTestId("combobox-menu-item-Hand x2").click();
     await expect(page.getByTestId("listcard-09022")).toBeVisible();
   });

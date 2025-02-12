@@ -104,6 +104,7 @@ function CardView() {
                       <Button size="full" data-testid="usable-cards" as="a">
                         <i className="icon-cards" />
                         {t("card_view.actions.usable_by", {
+                          prefix: "",
                           name: cardWithRelations.card.real_name,
                         })}
                       </Button>
@@ -120,7 +121,8 @@ function CardView() {
                         >
                           <i className="icon-cards" />
                           {t("card_view.actions.usable_by", {
-                            name: `${t("common.parallel")} ${cardWithRelations.card.real_name}`,
+                            prefix: `${t("common.parallel")} `,
+                            name: cardWithRelations.card.real_name,
                           })}
                         </Button>
                       </Link>

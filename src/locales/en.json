@@ -33,7 +33,7 @@
         "open_on_arkhamdb": "Open on ArkhamDB",
         "reviews": "View reviews",
         "who_can_take": "Who can take this card?",
-        "usable_by": "Cards usable by {{name}}"
+        "usable_by": "Cards usable by {{prefix}}{{name}}"
       },
       "faq": {
         "empty": "No FAQ entries available.",
@@ -66,8 +66,6 @@
       "cancel": "Cancel",
       "card_one": "card",
       "card_other": "cards",
-      "change_one": "change",
-      "change_other": "changes",
       "cost": {
         "none": "No cost",
         "value": "Cost {{cost}}",
@@ -96,6 +94,7 @@
       "exceptional": "Exceptional",
       "exile": "Exile",
       "exiled": "Exiled",
+      "exiled_cards": "Exiled cards",
       "factions": {
         "guardian": "Guardian",
         "multiclass": "Multi-class",
@@ -160,7 +159,7 @@
         "body": "Body",
         "hand x2": "Hand x2",
         "hand": "Hand",
-        "none": "No slot",
+        "none": "No Slot",
         "tarot": "Tarot"
       },
       "specialist": "Specialist",
@@ -175,6 +174,7 @@
         "enemy": "Enemy",
         "enemy_location": "Enemy-Location",
         "event": "Event",
+        "investigator": "Investigator",
         "investigator_one": "Investigator",
         "investigator_other": "Investigators",
         "key": "Key",
@@ -197,28 +197,28 @@
       "victory": "Victory",
       "xp": "XP",
       "uses": {
-        "Aether": "Aether",
-        "Ammo": "Ammo",
-        "Bounties": "Bounties",
-        "Brilliance": "Brilliance",
-        "Charges": "Charges",
-        "Durability": "Durability",
-        "Evidence": "Evidence",
-        "Inspiration": "Inspiration",
-        "Keys": "Keys",
-        "Leylines": "Leylines",
-        "Offerings": "Offerings",
-        "Portents": "Portents",
-        "Resources": "Resources",
-        "Secrets": "Secrets",
-        "Shell": "Shell",
-        "Supplies": "Supplies",
-        "Tickets": "Tickets",
-        "Time": "Time",
-        "Tries": "Tries",
-        "Truths": "Truths",
-        "Whistles": "Whistles",
-        "Wishes": "Wishes"
+        "aether": "Aether",
+        "ammo": "Ammo",
+        "bounties": "Bounties",
+        "brilliance": "Brilliance",
+        "charges": "Charges",
+        "durability": "Durability",
+        "evidence": "Evidence",
+        "inspiration": "Inspiration",
+        "keys": "Keys",
+        "leylines": "Leylines",
+        "offerings": "Offerings",
+        "portents": "Portents",
+        "resources": "Resources",
+        "secrets": "Secrets",
+        "shell": "Shell",
+        "supplies": "Supplies",
+        "tickets": "Tickets",
+        "time": "Time",
+        "tries": "Tries",
+        "truths": "Truths",
+        "whistles": "Whistles",
+        "wishes": "Wishes"
       },
       "traits": {
         "???": "???",
@@ -547,6 +547,42 @@
         "Yoth": "Yoth",
         "Yuggoth": "Yuggoth",
         "Zoog": "Zoog"
+      },
+      "deck_options": {
+        "Atleast constraint violated.": "Atleast constraint violated.",
+        "Blessed": "Blessed",
+        "Blessed and Cursed": "Blessed and Cursed",
+        "Class Choice": "Class Choice",
+        "Cursed": "Cursed",
+        "Deck Size": "Deck Size",
+        "Deck must have at least 10 skill cards.": "Deck must have at least 10 skill cards.",
+        "Fortune": "Fortune",
+        "Gambit": "Gambit",
+        "Improvised": "Improvised",
+        "No permanents except story and signature permanents": "No permanents except story and signature permanents",
+        "Secondary Class": "Secondary Class",
+        "Too many off-class cards.": "Too many off-class cards.",
+        "Trait Choice": "Trait Choice",
+        "You cannot have more than 15 level 0-1 Guardian and/or Survivor cards": "You cannot have more than 15 level 0-1 Guardian and/or Survivor cards",
+        "You cannot have more than 15 level 0-1 Seeker and/or Mystic cards": "You cannot have more than 15 level 0-1 Seeker and/or Mystic cards",
+        "You cannot have more than 5 Guardian and/or Mystic cards": "You cannot have more than 5 Guardian and/or Mystic cards",
+        "You cannot have more than 5 Mystic cards.": "You cannot have more than 5 Mystic cards.",
+        "You cannot have more than 5 Rogue cards.": "You cannot have more than 5 Rogue cards.",
+        "You cannot have more than 5 Seeker and/or Survivor cards": "You cannot have more than 5 Seeker and/or Survivor cards",
+        "You cannot have more than 5 Survivor cards.": "You cannot have more than 5 Survivor cards.",
+        "You cannot have more than 5 cards that are not Guardian or Neutral": "You cannot have more than 5 cards that are not Guardian or Neutral",
+        "You cannot have more than 5 cards that are not Mystic or Neutral": "You cannot have more than 5 cards that are not Mystic or Neutral",
+        "You cannot have more than 5 cards that are not Rogue or Neutral": "You cannot have more than 5 cards that are not Rogue or Neutral",
+        "You cannot have more than 5 cards that are not Seeker or Neutral": "You cannot have more than 5 cards that are not Seeker or Neutral",
+        "You cannot have more than 5 cards that are not Survivor or Neutral": "You cannot have more than 5 cards that are not Survivor or Neutral",
+        "You cannot have more than 5 level 0 Guardian cards": "You cannot have more than 5 level 0 Guardian cards",
+        "You cannot have more than 5 level 0 Mystic cards": "You cannot have more than 5 level 0 Mystic cards",
+        "You cannot have more than 5 level 0 Rogue cards": "You cannot have more than 5 level 0 Rogue cards",
+        "You cannot have more than 5 level 0 Seeker cards": "You cannot have more than 5 level 0 Seeker cards",
+        "You cannot have more than 5 level 0 Survivor cards": "You cannot have more than 5 level 0 Survivor cards",
+        "You cannot have more than one Covenant in your deck.": "You cannot have more than one Covenant in your deck.",
+        "You must have at least 7 cards from 3 different factions": "You must have at least 7 cards from 3 different factions",
+        "You must have at least 7 cards from each class": "You must have at least 7 cards from each class"
       }
     },
     "collection_stats": {
@@ -621,7 +657,13 @@
         "skill_icons": "Skill icons"
       },
       "validation": {
-        "invalid": "Deck is invalid."
+        "invalid": "Deck is invalid.",
+        "too_many_cards": "{{deck}} contains too many cards.",
+        "too_few_cards": "{{deck}} contains too few cards.",
+        "invalid_investigator": "Investigator is invalid. Required configuration is missing or the card is not an investigator.",
+        "investigator_requirements": "Deck does not comply with the Investigator requirements:",
+        "invalid_card_count": "Deck contains invalid number of copies of the following cards:",
+        "forbidden_cards": "Deck contains forbidden cards (cards not permitted by Investigator):"
       }
     },
     "deck_collection": {
@@ -672,7 +714,7 @@
         "edit_annotation": "Edit annotation",
         "increment_quantity": "Increment deck quantity",
         "increment_side_quantity": "Increment side deck quantity",
-        "quick_discard": "Discard edits (and stay on page)",
+        "quick_discard": "Discard changes (and stay on page)",
         "quick_save_deck": "Save deck (and stay on page)",
         "set_quantity": "Set deck quantity",
         "set_side_quantity": "Set side deck quantity"
@@ -716,12 +758,15 @@
           "switch": "Switch"
         }
       },
+      "create_local_copy": "Create local copy",
+      "create_local_copy_help": "Create a local copy of this deck. This will apply all outstanding edits and allow you to save them. Upgrades and deck history will not be carried over.",
       "customizable": {
         "skill_placeholder": "Select skill...",
         "traits_placeholder_one": "Select trait...",
         "traits_placeholder_other": "Select traits..."
       },
       "discard": "Discard changes",
+      "discard_confirm": "Are you sure you want to discard your changes?",
       "notes": {
         "banner_url_help": "Banner image for the deck. Will be displayed on the deck view and in social media previews. Aspect ratio is 4:1, optimal width is 1440px.",
         "banner_url": "Banner URL",
@@ -731,6 +776,7 @@
         "intro_help": "A short deck introduction. Will be displayed on the deck view and in social media previews. Supports ArkhamDB-flavoured markdown.",
         "intro": "Introduction"
       },
+      "read_only": "This deck has an upgrade and is read-only.",
       "recommendations": {
         "absolute_help": "Count how many {{name}} decks each card is used in",
         "absolute": "Absolute",
@@ -743,6 +789,10 @@
         "relative": "Relative"
       },
       "save": "Save deck",
+      "save_error": "Failed to save deck: {{error}}",
+      "save_loading": "Saving deck...",
+      "save_success": "Deck saved successfully.",
+      "save_short": "Save",
       "tab_card_list": "Card list",
       "tab_config": "Config",
       "tab_tools": "Tools",
@@ -775,6 +825,7 @@
         "current_upgrade": "Current upgrade",
         "discounts": "Discounts",
         "no_changes": "No changes",
+        "slot_changes": "{{slot}} changes",
         "upgrade": "Upgrade #{{index}}",
         "upgrade_xp": "XP available: {{xp}}{{adjustment}} (spent: {{spent}})"
       },
@@ -811,7 +862,12 @@
       }
     },
     "errors": {
-      "404": "Page not found."
+      "404": "Page not found.",
+      "500": "The app drew an Auto-fail.",
+      "500_help": "Check the browser console for further details.",
+      "500_help_2": "Please don't try to fix this issue by clearing cookies or other local browser data (unless you are fine with losing your local decks).",
+      "report": "Report issue",
+      "home": "Return home"
     },
     "filters": {
       "action": {
@@ -856,6 +912,10 @@
         "title": "Ownership",
         "owned": "Owned",
         "unowned": "Unavailable"
+      },
+      "pack": {
+        "placeholder": "Select packs...",
+        "title": "Pack"
       },
       "properties": {
         "heals_damage": "Heals damage",
@@ -1000,6 +1060,7 @@
       },
       "collection": {
         "card_collection": "Card collection",
+        "card_count": "Card count",
         "new_format": "New format",
         "old_format": "Old format",
         "show_all_cards_owned_help": "When this is checked, the collection settings below are ignored when checking card ownership in card and deck lists.",

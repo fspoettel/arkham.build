@@ -104,10 +104,6 @@ export function LatestUpgrade(props: Props) {
 
   const staticInvestigator = isStaticInvestigator(deck.investigatorBack.card);
 
-  const exiledTitle = `${t("common.exiled")} ${t("common.card", {
-    count: 2,
-  })}`;
-
   const contentNode = (
     <div className={css["content-row"]}>
       {hasChanges ? (
@@ -123,7 +119,7 @@ export function LatestUpgrade(props: Props) {
             size="sm"
           />
           <SlotDiff
-            title={exiledTitle}
+            title={t("common.exiled_cards")}
             differences={differences.exileSlots}
             size="sm"
           />
@@ -206,7 +202,7 @@ export function LatestUpgrade(props: Props) {
                 <PopoverContent onClick={(evt) => evt.stopPropagation()}>
                   <article className={css["exile"]}>
                     <header>
-                      <h4>{exiledTitle}</h4>
+                      <h4>{t("common.exiled_cards")}</h4>
                     </header>
                     <ol>
                       {Object.entries(deck.exileSlots).map(

@@ -20,11 +20,7 @@ import {
 } from "@/store/selectors/shared";
 import type { Id } from "@/store/slices/data.types";
 import { cx } from "@/utils/cx";
-import {
-  capitalize,
-  capitalizeSnakeCase,
-  formatTabooSet,
-} from "@/utils/formatting";
+import { capitalize, formatTabooSet } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { useHotkey } from "@/utils/use-hotkey";
 import {
@@ -124,6 +120,8 @@ function SidebarDetails(props: { deck: ResolvedDeck }) {
   const { deck } = props;
   const { t } = useTranslation();
 
+  console.log("@@@", deck.selections);
+
   return (
     <ul className={css["details"]}>
       <li className={css["detail"]} data-testid="view-deck-size">
@@ -166,7 +164,7 @@ function SidebarDetails(props: { deck: ResolvedDeck }) {
               className={css["detail-label"]}
               data-testid={`selection-${key}-label`}
             >
-              {capitalizeSnakeCase(key)}
+              {t(`common.deck_options.${selection.name}`)}
             </div>
             {selection.type === "deckSize" && (
               <p
@@ -182,12 +180,12 @@ function SidebarDetails(props: { deck: ResolvedDeck }) {
                 data-testid={`selection-${key}-value`}
               >
                 {selection.value ? (
-                  <>
+                  <span>
                     <FactionIcon code={selection.value} />
-                    {capitalize(selection.value)}
-                  </>
+                    {t(`common.factions.${selection.value}`)}
+                  </span>
                 ) : (
-                  "None"
+                  t("common.none")
                 )}
               </p>
             )}
@@ -196,7 +194,7 @@ function SidebarDetails(props: { deck: ResolvedDeck }) {
                 className={css["detail-value"]}
                 data-testid={`selection-${key}-value`}
               >
-                {selection.value?.name ?? "None"}
+                {t(`common.deck_options.${selection.value?.name}`)}
               </p>
             )}
           </li>

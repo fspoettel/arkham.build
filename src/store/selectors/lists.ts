@@ -769,7 +769,7 @@ export const selectAssetOptions = createSelector(
   selectListFilterProperties,
   (lookupTables, filterProps) => {
     const uses = Object.keys(lookupTables.uses)
-      .map((code) => ({ code, name: capitalize(code) }))
+      .map((code) => ({ code, name: i18n.t(`common.uses.${code}`) }))
       .sort((a, b) => sortAlphabetical(a.code, b.code));
 
     const skillBoosts = SKILL_KEYS.filter((x) => x !== "wild");
@@ -1302,7 +1302,7 @@ export const selectTabooSetChanges = createSelector(
 export function selectTraitChanges(value: MultiselectFilter) {
   if (!value.length) return "";
   return value
-    .map((code) => i18n.t(`common.trait.${code}`))
+    .map((code) => i18n.t(`common.traits.${code}`))
     .join(` ${i18n.t("filters.or")} `);
 }
 
@@ -1311,7 +1311,7 @@ export const selectTraitOptions = createSelector(
   ({ traits }) =>
     Array.from(traits)
       .sort()
-      .map((code) => ({ code, name: i18n.t(`common.trait.${code}`) })),
+      .map((code) => ({ code, name: i18n.t(`common.traits.${code}`) })),
 );
 
 /**
@@ -1331,5 +1331,8 @@ export const selectTypeOptions = createSelector(
   ({ types }, typeTable) =>
     Array.from(types)
       .sort()
-      .map((code) => typeTable[code]),
+      .map((code) => ({
+        ...typeTable[code],
+        name: i18n.t(`common.type.${code}`),
+      })),
 );

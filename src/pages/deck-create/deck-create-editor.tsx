@@ -15,11 +15,7 @@ import {
 import { selectTabooSetSelectOptions } from "@/store/selectors/lists";
 import { selectConnectionLock } from "@/store/selectors/shared";
 import type { Card } from "@/store/services/queries.types";
-import {
-  capitalize,
-  capitalizeSnakeCase,
-  formatProviderName,
-} from "@/utils/formatting";
+import { formatProviderName } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { useGoBack } from "@/utils/use-go-back";
 import type { TFunction } from "i18next";
@@ -28,6 +24,7 @@ import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "wouter";
 import { useAccentColor } from "../../utils/use-accent-color";
+import { SelectionEditor } from "../deck-edit/editor/selection-editor";
 import { DeckCreateCardPool } from "./deck-create-card-pool";
 import css from "./deck-create.module.css";
 
@@ -212,40 +209,12 @@ export function DeckCreateEditor() {
         </>
       )}
 
-      {selections &&
-        Object.entries(selections).map(([key, value]) => (
-          <Field full key={key} padded>
-            <FieldLabel>{capitalizeSnakeCase(key)}</FieldLabel>
-            {(value.type === "deckSize" || value.type === "faction") && (
-              <Select
-                data-testid={`create-select-${key}`}
-                data-field={value.accessor}
-                data-type={value.type}
-                emptyLabel={t("common.none")}
-                onChange={onSelectionChange}
-                options={value.options.map((v) => ({
-                  value: v,
-                  label: capitalize(v),
-                }))}
-                value={value.value ?? ""}
-              />
-            )}
-            {value.type === "option" && (
-              <Select
-                data-field={value.accessor}
-                data-testid={`create-select-${key}`}
-                data-type={value.type}
-                emptyLabel={t("common.none")}
-                onChange={onSelectionChange}
-                options={value.options.map((v) => ({
-                  value: v.id,
-                  label: v.name,
-                }))}
-                value={value.value?.id ?? ""}
-              />
-            )}
-          </Field>
-        ))}
+      {selections && (
+        <SelectionEditor
+          onSelectionChange={onSelectionChange}
+          selections={selections}
+        />
+      )}
 
       {!isEmpty(investigator.relations?.otherVersions) && (
         <Field>

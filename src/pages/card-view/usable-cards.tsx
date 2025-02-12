@@ -49,7 +49,8 @@ function UsableCardsList(props: { card: Card }) {
   if (!activeList) return null;
 
   const title = t("card_view.actions.usable_by", {
-    name: `${card.parallel ? "|| " : ""} ${card.real_name}`,
+    prefix: card.parallel ? `${t("common.parallel")} ` : "",
+    name: card.real_name,
   });
 
   return (

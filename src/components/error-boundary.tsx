@@ -2,6 +2,7 @@ import { ErrorDisplay } from "@/pages/errors/error-display";
 import { ISSUE_URL } from "@/utils/constants";
 import type { ErrorInfo } from "react";
 import { Component } from "react";
+import { Translation } from "react-i18next";
 import { Button } from "./ui/button";
 
 type Props = {
@@ -35,41 +36,44 @@ export class ErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       return (
         <main style={{ height: "100dvh", width: "100%" }}>
-          <ErrorDisplay message="The app drew an Auto-fail." status={500}>
-            <div
-              style={{
-                border: "1px solid var(--palette-1)",
-                padding: "0.5rem",
-                display: "flex",
-                flexFlow: "column nowrap",
-                gap: "1rem",
-                maxHeight: "50vh",
-                overflowY: "auto",
-              }}
-            >
-              <div className="longform" style={{ maxWidth: "80ch" }}>
-                <pre
-                  style={{ background: "var(--palette-1)", padding: "0.5rem" }}
+          <Translation>
+            {(t) => (
+              <ErrorDisplay message={t("errors.500")} status={500}>
+                <div
+                  style={{
+                    border: "1px solid var(--palette-1)",
+                    padding: "0.5rem",
+                    display: "flex",
+                    flexFlow: "column nowrap",
+                    gap: "1rem",
+                    maxHeight: "50vh",
+                    overflowY: "auto",
+                  }}
                 >
-                  {this.state.message ?? "Unknown error"}
-                </pre>
-                <p>Check the browser console for further details.</p>
-                <p>
-                  Please <strong>don't</strong> try to fix this issue by
-                  clearing cookies or other local browser data{" "}
-                  <i>(unless you are fine with losing your local decks)</i>.
-                </p>
-              </div>
-              <nav style={{ display: "flex", gap: "0.5rem" }}>
-                <Button as="a" href={ISSUE_URL}>
-                  Report issue
-                </Button>
-                <Button as="a" href="/" variant="bare">
-                  Go home
-                </Button>
-              </nav>
-            </div>
-          </ErrorDisplay>
+                  <div className="longform" style={{ maxWidth: "80ch" }}>
+                    <pre
+                      style={{
+                        background: "var(--palette-1)",
+                        padding: "0.5rem",
+                      }}
+                    >
+                      {this.state.message ?? "Unknown error"}
+                    </pre>
+                    <p>{t("errors.500_help")}</p>
+                    <p>{t("errors.500_help_2")}</p>
+                  </div>
+                  <nav style={{ display: "flex", gap: "0.5rem" }}>
+                    <Button as="a" href={ISSUE_URL}>
+                      {t("errors.report")}
+                    </Button>
+                    <Button as="a" href="/" variant="bare">
+                      {t("errors.home")}
+                    </Button>
+                  </nav>
+                </div>
+              </ErrorDisplay>
+            )}
+          </Translation>
         </main>
       );
     }

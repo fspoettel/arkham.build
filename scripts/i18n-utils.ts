@@ -10,12 +10,19 @@ const [cards, locale] = await Promise.all([queryCards(), readLocale("en")]);
 const uses = listUses(cards);
 const traits = listTraits(cards);
 
+const deckOptions = listDeckOptions(cards);
+
 locale.translation.common.uses = uses.reduce((acc, curr) => {
-  acc[curr] = curr;
+  acc[curr] = capitalize(curr);
   return acc;
 }, {});
 
 locale.translation.common.traits = traits.reduce((acc, curr) => {
+  acc[curr] = curr;
+  return acc;
+}, {});
+
+locale.translation.common.deck_options = deckOptions.reduce((acc, curr) => {
   acc[curr] = curr;
   return acc;
 }, {});
@@ -55,10 +62,43 @@ function listUses(cards: Card[]) {
       const uses = cardUses(card);
       if (!uses) return acc;
 
-      acc.add(capitalize(uses));
+      acc.add(uses);
 
       return acc;
     }, new Set()),
+  ).sort();
+}
+
+function listDeckOptions(cards: Card[]) {
+  const additionalDeckOptionErrors = [
+    "You cannot have more than one Covenant in your deck.",
+    "Deck must have at least 10 skill cards.",
+    "Atleast constraint violated.",
+    "Too many off-class cards.",
+  ];
+
+  return Array.from(
+    cards.reduce<Set<string>>((acc, card) => {
+      if (!card.deck_options) return acc;
+
+      for (const option of card.deck_options) {
+        if (option.name) {
+          acc.add(option.name);
+        }
+
+        if (option.error) {
+          acc.add(option.error);
+        }
+
+        if (option.option_select) {
+          for (const select of option.option_select) {
+            acc.add(select.name);
+          }
+        }
+      }
+
+      return acc;
+    }, new Set(additionalDeckOptionErrors)),
   ).sort();
 }
 

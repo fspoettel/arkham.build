@@ -36,7 +36,7 @@ export function CustomizationChooseTraits(props: Props) {
       limit={limit}
       readonly={readonly}
       onValueChange={onChange}
-      placeholder={t("deck_edit.customizable.trait_placeholder", {
+      placeholder={t("deck_edit.customizable.traits_placeholder", {
         count: limit,
       })}
       selectedItems={selections}
