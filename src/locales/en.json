@@ -883,7 +883,7 @@
         "title": "Cost",
         "even": "Even",
         "odd": "Odd",
-        "no_cost": "No cost"
+        "nocost": "No cost"
       },
       "encounter_set": {
         "placeholder": "Select encounter sets...",

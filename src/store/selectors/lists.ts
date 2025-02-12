@@ -668,18 +668,21 @@ const selectListFilterProperties = createSelector(
       for (const card of cards) {
         types.add(card.type_code);
 
-        if (card.cost != null && card.cost >= 0) {
+        if (card.cost != null) {
           cost.min = Math.min(cost.min, card.cost);
           cost.max = Math.max(cost.max, card.cost);
         }
 
-        if (card.health != null && card.health >= 0) {
-          health.min = Math.min(health.min, card.health);
+        if (card.type_code === "asset") {
+          health.min = Math.min(health.min, Math.max(card.health ?? 0, 0));
+          sanity.min = Math.min(sanity.min, Math.max(card.sanity ?? 0, 0));
+        }
+
+        if (card.health) {
           health.max = Math.max(health.max, card.health);
         }
 
-        if (card.sanity != null && card.sanity >= 0) {
-          sanity.min = Math.min(sanity.min, card.sanity);
+        if (card.sanity) {
           sanity.max = Math.max(sanity.max, card.sanity);
         }
 
