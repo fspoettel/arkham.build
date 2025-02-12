@@ -7,6 +7,7 @@ import { isSkillIconsFilterObject } from "@/store/slices/lists.type-guards";
 import type { SkillIconsFilter as SkillIconsFilterType } from "@/store/slices/lists.types";
 import { assert } from "@/utils/assert";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { SkillIcon } from "../icons/skill-icon";
 import { CheckboxGroup } from "../ui/checkboxgroup";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
@@ -16,6 +17,8 @@ import { FilterContainer } from "./primitives/filter-container";
 import { useFilterCallbacks } from "./primitives/filter-hooks";
 
 export function SkillIconsFilter({ id }: FilterProps) {
+  const { t } = useTranslation();
+
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
     isSkillIconsFilterObject(filter),
@@ -43,7 +46,7 @@ export function SkillIconsFilter({ id }: FilterProps) {
       onOpenChange={onOpenChange}
       onReset={onReset}
       open={filter.open}
-      title="Skill Icons"
+      title={t("filters.skill_icons.title")}
     >
       <CheckboxGroup as="div" className={css["icons"]} cols={2}>
         {Object.entries(filter.value).map(([key, value]) => (
@@ -59,7 +62,11 @@ export function SkillIconsFilter({ id }: FilterProps) {
               <ToggleGroupItem value="1">1+</ToggleGroupItem>
               <ToggleGroupItem value="2">2+</ToggleGroupItem>
             </ToggleGroup>
-            {key === "any" ? "any" : <SkillIcon skill={key} />}
+            {key === "any" ? (
+              t("filters.skill_icons.any")
+            ) : (
+              <SkillIcon skill={key} />
+            )}
           </div>
         ))}
       </CheckboxGroup>

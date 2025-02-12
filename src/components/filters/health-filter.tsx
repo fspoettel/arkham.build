@@ -6,11 +6,13 @@ import {
 } from "@/store/selectors/lists";
 import { isHealthFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
+import { useTranslation } from "react-i18next";
 import type { FilterProps } from "./filters.types";
 import { RangeFilter } from "./primitives/range-filter";
 
 export function HealthFilter(props: FilterProps) {
   const { id, resolvedDeck } = props;
+  const { t } = useTranslation();
 
   const filter = useStore((state) => selectActiveListFilter(state, id));
 
@@ -33,7 +35,7 @@ export function HealthFilter(props: FilterProps) {
       min={min}
       max={max}
       open={filter.open}
-      title="Health"
+      title={t("filters.health.title")}
       value={filter.value}
     />
   );

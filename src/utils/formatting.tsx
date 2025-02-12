@@ -10,11 +10,6 @@ export function capitalize(s: string | number) {
   return `${str[0].toUpperCase()}${str.slice(1)}`;
 }
 
-export function capitalizeWords(s: string) {
-  if (!s.length) return s;
-  return s.split(" ").map(capitalize).join(" ");
-}
-
 export function capitalizeSnakeCase(s: string) {
   if (!s.length) return s;
   return s.split("_").map(capitalize).join(" ");

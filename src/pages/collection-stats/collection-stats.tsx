@@ -23,7 +23,7 @@ function CollectionStats() {
             <Trans
               i18nKey="collection_stats.description"
               t={t}
-              components={{ hyperlink: <Link href="/settings" /> }}
+              components={{ a: <Link href="/settings" /> }}
             >
               This page displays your collection and card counts based on your
               collection settings. To update your collection settings, visit the{" "}

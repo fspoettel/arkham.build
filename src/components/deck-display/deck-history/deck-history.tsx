@@ -3,6 +3,7 @@ import type { ResolvedDeck } from "@/store/lib/types";
 import type { History } from "@/store/selectors/decks";
 import { formatUpgradeXP } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
+import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import { Fragment } from "react/jsx-runtime";
 import { CustomizableDiff } from "./customizable-diff";
@@ -79,7 +80,7 @@ export function DeckHistory(props: Props) {
                   {Object.entries(stats.modifierStats).map(
                     ([modifier, value]) => (
                       <Fragment key={modifier}>
-                        <dt>{formatModifier(modifier as Modifier)}</dt>
+                        <dt>{formatModifier(modifier as Modifier, t)}</dt>
                         <dd>
                           {value.used} / {value.available}
                         </dd>
@@ -96,10 +97,6 @@ export function DeckHistory(props: Props) {
   );
 }
 
-function formatModifier(modifier: Modifier) {
-  if (modifier === "adaptable") return "Adaptable";
-  if (modifier === "arcaneResearch") return "Arcane Research";
-  if (modifier === "dejaVu") return "Déjà Vu";
-  if (modifier === "downTheRabbitHole") return "Down the Rabbit Hole";
-  return modifier;
+function formatModifier(modifier: Modifier, t: TFunction) {
+  return t(`deck_view.discounts.${modifier}`);
 }

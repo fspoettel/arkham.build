@@ -7,10 +7,13 @@ import {
 import { isTabooSetFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
 import { formatTabooSet } from "@/utils/formatting";
+import { useTranslation } from "react-i18next";
 import type { FilterProps } from "./filters.types";
 import { SelectFilter } from "./primitives/select-filter";
 
 export function TabooSetFilter({ id }: FilterProps) {
+  const { t } = useTranslation();
+
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
     isTabooSetFilterObject(filter),
@@ -34,7 +37,7 @@ export function TabooSetFilter({ id }: FilterProps) {
           {formatTabooSet(set)}
         </option>
       )}
-      title="Taboo Set"
+      title={t("common.taboo")}
       value={filter.value}
     />
   );

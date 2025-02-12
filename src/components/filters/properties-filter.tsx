@@ -45,7 +45,7 @@ export function PropertiesFilter({ id }: FilterProps) {
       return <>{label} (&#10040;)</>;
     }
 
-    if (key === "multiclass") {
+    if (key === "multiClass") {
       return (
         <>
           {label} (<FactionIconFancy code="multiclass" />)

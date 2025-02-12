@@ -6,7 +6,6 @@ import en from "@/locales/en.json";
 
 i18n.use(initReactI18next).init({
   fallbackLng: "en",
-  debug: import.meta.env.DEV,
   resources: {
     en,
   },

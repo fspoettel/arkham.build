@@ -2,13 +2,14 @@ import { useStore } from "@/store";
 import {
   selectActiveList,
   selectActiveListFilter,
-  selectMultiselectChanges,
+  selectTypeChanges,
 } from "@/store/selectors/lists";
 import { selectTypeOptions } from "@/store/selectors/lists";
 import type { Type } from "@/store/services/queries.types";
 import { isTypeFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import type { FilterProps } from "./filters.types";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
@@ -17,6 +18,8 @@ const nameRenderer = (item: Type) => item.name;
 const itemToString = (item: Type) => item.name.toLowerCase();
 
 export function TypeFilter({ id, resolvedDeck }: FilterProps) {
+  const { t } = useTranslation();
+
   const activeList = useStore(selectActiveList);
   const filter = useStore((state) => selectActiveListFilter(state, id));
   const setFilterValue = useStore((state) => state.setFilterValue);
@@ -26,7 +29,7 @@ export function TypeFilter({ id, resolvedDeck }: FilterProps) {
     `TypeFilter instantiated with '${filter?.type}'`,
   );
 
-  const changes = selectMultiselectChanges(filter.value);
+  const changes = selectTypeChanges(filter.value);
   const options = useStore((state) => selectTypeOptions(state, resolvedDeck));
 
   const onApplyShortcut = useCallback(
@@ -44,8 +47,8 @@ export function TypeFilter({ id, resolvedDeck }: FilterProps) {
       nameRenderer={nameRenderer}
       open={filter.open}
       options={options}
-      placeholder="Select type(s)..."
-      title="Type"
+      placeholder={t("filters.type.placeholder")}
+      title={t("filters.type.title")}
       value={filter.value}
     >
       {!filter.open && activeList?.cardType === "player" && (
@@ -56,9 +59,15 @@ export function TypeFilter({ id, resolvedDeck }: FilterProps) {
           type="multiple"
           value={filter.value}
         >
-          <ToggleGroupItem value="asset">Asset</ToggleGroupItem>
-          <ToggleGroupItem value="event">Event</ToggleGroupItem>
-          <ToggleGroupItem value="skill">Skill</ToggleGroupItem>
+          <ToggleGroupItem value="asset">
+            {t("common.type.asset")}
+          </ToggleGroupItem>
+          <ToggleGroupItem value="event">
+            {t("common.type.event")}
+          </ToggleGroupItem>
+          <ToggleGroupItem value="skill">
+            {t("common.type.skill")}
+          </ToggleGroupItem>
         </ToggleGroup>
       )}
     </MultiselectFilter>

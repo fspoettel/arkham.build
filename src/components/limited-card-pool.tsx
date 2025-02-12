@@ -205,7 +205,7 @@ export function SealedDeckField(props: {
           t={t}
           i18nKey="deck_edit.config.sealed.help"
           components={{
-            hyperlink: (
+            a: (
               // biome-ignore lint/a11y/useAnchorContent: interpolation.
               <a
                 href="https://www.arkhamsealed.com/"

@@ -480,7 +480,11 @@ export function getGroupingKeyLabel(
     case "slot": {
       if (segment === NONE) return i18n.t("common.slot.none");
       if (segment === "permanent") return i18n.t("common.permanent");
-      return i18n.t(`common.slot.${segment.toLowerCase()}`);
+
+      return segment
+        .split(". ")
+        .map((s) => i18n.t(`common.slot.${s.toLowerCase()}`))
+        .join(". ");
     }
 
     case "level": {

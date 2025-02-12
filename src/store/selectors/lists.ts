@@ -793,34 +793,38 @@ export const selectAssetOptions = createSelector(
 );
 
 export const selectAssetChanges = (value: AssetFilter) => {
+  const t = i18n.t;
+
   const slot = value.slots.reduce((acc, key) => {
     return !acc
-      ? `${i18n.t("filters.slot.title")}: ${key}`
-      : `${acc} ${i18n.t("filters.or")} ${key}`;
+      ? `${t("filters.slot.title")}: ${key}`
+      : `${acc} ${t("filters.or")} ${key}`;
   }, "");
 
-  // FIXME: translate uses attributes
   const uses = value.uses.reduce((acc, key) => {
+    const displayStr = t(`common.uses.${key}`);
+
     return !acc
-      ? `${i18n.t("filters.uses.title")}: ${capitalize(key)}`
-      : `${acc} ${i18n.t("filters.or")} ${capitalize(key)}`;
+      ? `${t("filters.uses.title")}: ${displayStr}`
+      : `${acc} ${t("filters.or")} ${displayStr}`;
   }, "");
 
   const skillBoosts = value.skillBoosts.reduce((acc, key) => {
-    const displayStr = i18n.t(`common.skill.${key}`);
+    const displayStr = t(`common.skill.${key}`);
 
     return !acc
-      ? `${i18n.t("filters.skill_boost.title")}: ${displayStr}`
-      : `${acc} ${i18n.t("filters.or")} ${displayStr}`;
+      ? `${t("filters.skill_boost.title")}: ${displayStr}`
+      : `${acc} ${t("filters.or")} ${displayStr}`;
   }, "");
 
   const healthFilter = formatHealthChanges(
     value.health,
-    i18n.t("filters.health.title"),
+    t("filters.health.title"),
   );
+
   const sanityFilter = formatHealthChanges(
     value.sanity,
-    i18n.t("filters.sanity.title"),
+    t("filters.sanity.title"),
   );
 
   return [slot, uses, skillBoosts, sanityFilter, healthFilter]
@@ -908,7 +912,7 @@ export const selectHealthMinMax = createSelector(
 );
 
 export const selectHealthChanges = (value: [number, number] | undefined) => {
-  return formatHealthChanges(value, "Health");
+  return formatHealthChanges(value, i18n.t("filters.health.title"));
 };
 
 /**
@@ -982,8 +986,9 @@ export const selectCardOptions = createSelector(
 export const selectInvestigatorCardAccessChanges = (
   value: MultiselectFilter,
 ) => {
-  if (!value.length) return "";
-  return `${value.length} cards`;
+  const count = value.length;
+  if (!count) return "";
+  return `${count} ${i18n.t("common.card", { count })}`;
 };
 
 /**
@@ -1003,8 +1008,10 @@ export const selectInvestigatorSkillIconsChanges = (
   return Object.entries(value).reduce((acc, [key, val]) => {
     if (!val) return acc;
 
-    const s = `${val[0]}-${val[1]} ${capitalize(key)}`;
-    return acc ? `${acc} and ${s}` : s;
+    const skillStr = i18n.t(`common.skill.${key}`);
+    const s = `${val[0]}-${val[1]} ${skillStr}`;
+
+    return acc ? `${acc} ${i18n.t("filters.and")} ${s}` : s;
   }, "");
 };
 
@@ -1211,8 +1218,15 @@ export const selectResolvedCardById = createSelector(
 export const selectSkillIconsChanges = (value: SkillIconsFilter) => {
   return Object.entries(value).reduce((acc, [key, val]) => {
     if (!val) return acc;
-    const s = `${val}+ ${capitalize(key)}`;
-    return acc ? `${acc} and ${s}` : s;
+
+    const displayStr =
+      key === "any"
+        ? i18n.t("filters.skill_icons.any")
+        : i18n.t(`common.skill.${key}`);
+
+    const s = `${val}+ ${displayStr}`;
+
+    return acc ? `${acc} ${i18n.t("filters.and")} ${s}` : s;
   }, "");
 };
 
@@ -1221,16 +1235,16 @@ export const selectSkillIconsChanges = (value: SkillIconsFilter) => {
  */
 
 const subtypeLabels: Record<string, string> = {
-  none: "None",
-  weakness: "Weakness",
-  basicweakness: "Basic weakness",
+  none: i18n.t("common.none"),
+  weakness: i18n.t("common.subtype.weakness"),
+  basicweakness: i18n.t("common.subtype.basicweakness"),
 };
 
 export function selectSubtypeOptions() {
   return [
-    { code: "none", name: "None" },
-    { code: "weakness", name: "Weakness" },
-    { code: "basicweakness", name: "Basic weakness" },
+    { code: "none", name: subtypeLabels["none"] },
+    { code: "weakness", name: subtypeLabels["weakness"] },
+    { code: "basicweakness", name: subtypeLabels["basicweakness"] },
   ];
 }
 
@@ -1240,10 +1254,12 @@ export const selectSubtypeChanges = createSelector(
     const options = Object.entries(value);
     const enabled = options.filter(([, value]) => !!value);
 
-    if (enabled.length === 0) return "None";
+    if (enabled.length === 0) return subtypeLabels["none"];
     if (enabled.length === options.length) return "";
 
-    return enabled.map(([key]) => subtypeLabels[key]).join(" or ");
+    return enabled
+      .map(([key]) => subtypeLabels[key])
+      .join(` ${i18n.t("filters.or")} `);
   },
 );
 
@@ -1283,17 +1299,31 @@ export const selectTabooSetChanges = createSelector(
  * Trait
  */
 
+export function selectTraitChanges(value: MultiselectFilter) {
+  if (!value.length) return "";
+  return value
+    .map((code) => i18n.t(`common.trait.${code}`))
+    .join(` ${i18n.t("filters.or")} `);
+}
+
 export const selectTraitOptions = createSelector(
   selectListFilterProperties,
   ({ traits }) =>
     Array.from(traits)
       .sort()
-      .map((code) => ({ code })),
+      .map((code) => ({ code, name: i18n.t(`common.trait.${code}`) })),
 );
 
 /**
  * Type
  */
+
+export function selectTypeChanges(value: MultiselectFilter) {
+  if (!value.length) return "";
+  return value
+    .map((code) => i18n.t(`common.type.${code}`))
+    .join(` ${i18n.t("filters.or")} `);
+}
 
 export const selectTypeOptions = createSelector(
   selectListFilterProperties,

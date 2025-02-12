@@ -352,7 +352,7 @@ function SidebarActions(props: {
           <Trans
             t={t}
             i18nKey="deck_view.newer_version"
-            components={{ hyperlink: <Link href={nextDeck} /> }}
+            components={{ a: <Link href={nextDeck} /> }}
           >
             There is a <Link href="">newer version</Link> of this deck. This
             deck is read-only.
