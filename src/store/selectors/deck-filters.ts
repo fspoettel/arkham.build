@@ -1,7 +1,7 @@
 import { assert } from "@/utils/assert";
 import { FACTION_ORDER, type FactionName } from "@/utils/constants";
-import { capitalize } from "@/utils/formatting";
 import { and, or } from "@/utils/fp";
+import i18n from "@/utils/i18n";
 import { normalizeDiacritics } from "@/utils/normalize-diacritics";
 import uFuzzy from "@leeoniya/ufuzzy";
 import { createSelector } from "reselect";
@@ -71,7 +71,7 @@ export const selectTagsChanges = createSelector(
   (filters) => {
     const tagsFilters = filters.tags;
     if (!tagsFilters.length) return "";
-    return tagsFilters.map(capitalize).join(" or ");
+    return tagsFilters.join(` ${i18n.t("filters.or")} `);
   },
 );
 
@@ -84,8 +84,7 @@ export const selectPropertiesChanges = createSelector(
   (properties) => {
     return Object.keys(properties)
       .filter((prop) => properties[prop as DeckPropertyName])
-      .map(capitalize)
-      .join(" and ");
+      .join(` ${i18n.t("filters.and")} `);
   },
 );
 

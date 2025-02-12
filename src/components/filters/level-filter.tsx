@@ -7,6 +7,7 @@ import {
 import { isLevelFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
 import { RangeSelect } from "../ui/range-select";
@@ -23,6 +24,7 @@ function getToggleValue(value: [number, number] | undefined) {
 }
 
 export function LevelFilter({ id }: FilterProps) {
+  const { t } = useTranslation();
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
     isLevelFilterObject(filter),
@@ -102,19 +104,23 @@ export function LevelFilter({ id }: FilterProps) {
             type="single"
             value={getToggleValue(filter.value.range)}
           >
-            <ToggleGroupItem value="0">Level 0</ToggleGroupItem>
-            <ToggleGroupItem value="1-5">Level 1-5</ToggleGroupItem>
+            <ToggleGroupItem value="0">
+              {t("common.level.value", { level: "0" })}
+            </ToggleGroupItem>
+            <ToggleGroupItem value="1-5">
+              {t("common.level.value", { level: "1-5" })}
+            </ToggleGroupItem>
           </ToggleGroup>
         )
       }
       onOpenChange={onToggleOpen}
       onReset={onReset}
       open={filter.open}
-      title="Level"
+      title={t("filters.level.title")}
     >
       <RangeSelect
         id="level-select"
-        label="Level"
+        label={t("filters.level.title")}
         max={5}
         min={-1}
         renderLabel={levelToString}
@@ -127,13 +133,13 @@ export function LevelFilter({ id }: FilterProps) {
         <Checkbox
           checked={filter.value.exceptional}
           id="exceptional"
-          label="Exceptional"
+          label={t("common.exceptional")}
           onCheckedChange={onSetExceptional}
         />
         <Checkbox
           checked={filter.value.nonexceptional}
           id="nonexceptional"
-          label="Non-exceptional"
+          label={t("common.nonexceptional")}
           onCheckedChange={onSetNonexceptional}
         />
       </CheckboxGroup>

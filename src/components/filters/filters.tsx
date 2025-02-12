@@ -8,6 +8,7 @@ import { useHotkey } from "@/utils/use-hotkey";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { FilterXIcon } from "lucide-react";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Fragment } from "react/jsx-runtime";
 import { PreviewBanner } from "../preview-banner";
 import { Button } from "../ui/button";
@@ -43,6 +44,7 @@ type Props = {
 
 export function Filters(props: Props) {
   const { resolvedDeck } = useResolvedDeck();
+  const { t } = useTranslation();
 
   const activeList = useStore(selectActiveList);
   const filters = useStore(selectActiveListFilters);
@@ -85,23 +87,29 @@ export function Filters(props: Props) {
       )}
 
       <div className={css["header"]}>
-        <HotkeyTooltip keybind="alt+f" description="Toggle filters">
+        <HotkeyTooltip
+          keybind="alt+f"
+          description={t("lists.actions.toggle_filters")}
+        >
           <Checkbox
             checked={filtersEnabled}
             id="toggle-filters"
-            label={<h3 className={css["title"]}>Filters</h3>}
+            label={<h3 className={css["title"]}>{t("filters.title")}</h3>}
             onCheckedChange={updateFiltersEnabled}
           />
         </HotkeyTooltip>
 
-        <HotkeyTooltip keybind="alt+shift+f" description="Reset all filters">
+        <HotkeyTooltip
+          keybind="alt+shift+f"
+          description={t("lists.actions.reset_filters")}
+        >
           <Button
             disabled={!filtersEnabled}
             onClick={resetFilters}
             size="sm"
             variant="bare"
           >
-            <FilterXIcon /> Reset
+            <FilterXIcon /> {t("common.reset")}
           </Button>
         </HotkeyTooltip>
       </div>

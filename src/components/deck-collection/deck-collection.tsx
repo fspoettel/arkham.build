@@ -119,7 +119,7 @@ export function DeckCollection() {
               <Button
                 variant="bare"
                 data-testid="collection-more-actions"
-                tooltip="More actions"
+                tooltip={t("common.more_actions")}
               >
                 <EllipsisIcon />
               </Button>

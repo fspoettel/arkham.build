@@ -417,7 +417,7 @@ function SidebarActions(props: {
             <Button
               variant="bare"
               data-testid="view-more-actions"
-              tooltip={t("deck_view.actions.more_actions")}
+              tooltip={t("common.more_actions")}
             >
               <EllipsisIcon />
             </Button>
@@ -604,8 +604,6 @@ function Sharing(props: { onArkhamDBUpload?: () => void; deck: ResolvedDeck }) {
                       Shares can be removed at any time. Removing a share does
                       not affect the deck itself.
                       <br />
-                      <strong>Note:</strong> For security reasons, deck notes
-                      are not part of the share.
                     </Trans>
                   }
                 >

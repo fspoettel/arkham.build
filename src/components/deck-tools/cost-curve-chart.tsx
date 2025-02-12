@@ -1,6 +1,5 @@
 import type { ChartableData } from "@/store/lib/types";
 import { cx } from "@/utils/cx";
-import { capitalize } from "@/utils/formatting";
 import { range } from "@/utils/range";
 import type { TFunction } from "i18next";
 import { useMemo, useRef } from "react";
@@ -73,7 +72,7 @@ export function CostCurveChart({ data }: Props) {
             <VictoryAxis
               dependentAxis
               tickValues={codomainTickValues}
-              label={capitalize(t("common.card", { count: 2 }))}
+              label={t("deck.tools.cards")}
               tickLabelComponent={<VictoryLabel />}
             />
             <VictoryLine data={normalizedData} width={width} />

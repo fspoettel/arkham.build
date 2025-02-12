@@ -1,7 +1,7 @@
 import type { Modifier } from "@/store/lib/deck-upgrades";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { History } from "@/store/selectors/decks";
-import { capitalize, formatUpgradeXP } from "@/utils/formatting";
+import { formatUpgradeXP } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { useTranslation } from "react-i18next";
 import { Fragment } from "react/jsx-runtime";
@@ -59,12 +59,12 @@ export function DeckHistory(props: Props) {
                   <div className={css["entry-row"]}>
                     <SlotDiff
                       deck={deck}
-                      title={`${capitalize(t("common.exiled"))} ${t("common.card", { count: 2 })}`}
+                      title={`${t("common.exiled")} ${t("common.card", { count: 2 })}`}
                       differences={stats.differences.exileSlots}
                     />
                     <CustomizableDiff
                       deck={deck}
-                      title={capitalize(t("common.customizations"))}
+                      title={t("common.customizations")}
                       differences={stats.differences.customizations}
                     />
                   </div>

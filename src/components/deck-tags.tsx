@@ -1,4 +1,4 @@
-import { capitalizeWords, formatProviderName } from "@/utils/formatting";
+import { capitalize, formatProviderName } from "@/utils/formatting";
 import type { TFunction } from "i18next";
 import { LockKeyholeIcon, ShareIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -9,7 +9,7 @@ type Props = {
   tags: string[];
 };
 
-const tagRenderer = (tag: string, t: TFunction) => {
+export const tagRenderer = (tag: string, t: TFunction) => {
   let icon = null;
 
   if (tag === "arkhamdb") {
@@ -26,11 +26,13 @@ const tagRenderer = (tag: string, t: TFunction) => {
     <>
       {icon}
       <span>
-        {tag === "arkhamdb"
+        {str === "arkhamdb"
           ? formatProviderName(str)
-          : tag === "shared" || tag === "shared"
-            ? t(`deck.tags.${str}`)
-            : capitalizeWords(str)}
+          : str === "private"
+            ? t("deck.tags.private")
+            : str === "shared"
+              ? t("deck.tags.shared")
+              : capitalize(str)}
       </span>
     </>
   );

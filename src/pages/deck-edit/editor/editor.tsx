@@ -76,7 +76,7 @@ export function Editor(props: Props) {
               hotkey={tab.hotkey}
               tooltip={tab.hotkeyLabel}
             >
-              {tab.label}
+              <span>{tab.label}</span>
             </TabsTrigger>
           ))}
         </TabsList>

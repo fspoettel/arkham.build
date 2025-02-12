@@ -6,23 +6,15 @@ import {
   selectTagsInLocalDecks,
 } from "@/store/selectors/deck-filters";
 import type { Coded } from "@/store/services/queries.types";
-import { capitalizeWords, formatProviderName } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { tagRenderer } from "../deck-tags";
 import { FilterContainer } from "../filters/primitives/filter-container";
 
 type Props = {
   containerClass?: string;
 };
-
-const tagRenderer = (tag: Coded) => (
-  <>
-    {tag.code === "arkhamdb"
-      ? formatProviderName(tag.code)
-      : capitalizeWords(tag.code)}
-  </>
-);
 
 export function DeckTagsFilter({ containerClass }: Props) {
   const { t } = useTranslation();
@@ -53,6 +45,11 @@ export function DeckTagsFilter({ containerClass }: Props) {
     [setFilterValue],
   );
 
+  const renderResult = useCallback(
+    (tag: Coded) => tagRenderer(tag.code, t),
+    [t],
+  );
+
   return (
     !isEmpty(Object.keys(options)) && (
       <FilterContainer
@@ -72,8 +69,8 @@ export function DeckTagsFilter({ containerClass }: Props) {
           onValueChange={onChange}
           placeholder={t("deck_collection.tags_filter.placeholder")}
           selectedItems={value}
-          renderResult={tagRenderer}
-          renderItem={tagRenderer}
+          renderResult={renderResult}
+          renderItem={renderResult}
         />
       </FilterContainer>
     )

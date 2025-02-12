@@ -23,7 +23,7 @@ export type DeckGrouping = GroupedCards & {
   ignoredQuantities?: Slots | null;
 };
 
-export type Groupings = Partial<{
+type Groupings = Partial<{
   [key in SlotKey]: DeckGrouping;
 }>;
 
@@ -67,7 +67,7 @@ export function countGroupRows(grouping: DeckGrouping) {
   return grouping.data.reduce((acc, group) => acc + group.cards.length, 0);
 }
 
-export function countGroup(cards: Card[], quantities?: Record<string, number>) {
+function countGroup(cards: Card[], quantities?: Record<string, number>) {
   return cards.reduce((acc, card) => acc + (quantities?.[card.code] ?? 0), 0);
 }
 

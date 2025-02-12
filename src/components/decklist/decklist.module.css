@@ -31,7 +31,3 @@
     grid-template-columns: 1fr 1fr;
   }
 }
-
-.decklist-tools > *:first-child:last-child {
-  grid-column: 1 / -1;
-}

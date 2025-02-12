@@ -17,7 +17,6 @@ import type { Card } from "@/store/services/queries.types";
 import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
 import { cardLimit, isStaticInvestigator } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
-import { capitalize } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { useAccentColor } from "@/utils/use-accent-color";
 import {
@@ -105,7 +104,7 @@ export function LatestUpgrade(props: Props) {
 
   const staticInvestigator = isStaticInvestigator(deck.investigatorBack.card);
 
-  const exiledTitle = `${capitalize(t("common.exiled"))} ${t("common.card", {
+  const exiledTitle = `${t("common.exiled")} ${t("common.card", {
     count: 2,
   })}`;
 
@@ -113,7 +112,11 @@ export function LatestUpgrade(props: Props) {
     <div className={css["content-row"]}>
       {hasChanges ? (
         <>
-          <SlotDiff title="Deck" differences={differences.slots} size="sm" />
+          <SlotDiff
+            title={t("common.decks.slots")}
+            differences={differences.slots}
+            size="sm"
+          />
           <SlotDiff
             title={t("common.decks.extraSlots")}
             differences={differences.extraSlots}
@@ -197,7 +200,7 @@ export function LatestUpgrade(props: Props) {
                     }}
                     variant="bare"
                   >
-                    <FlameIcon /> {capitalize(t("common.exile"))}
+                    <FlameIcon /> {t("common.exile")}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent onClick={(evt) => evt.stopPropagation()}>

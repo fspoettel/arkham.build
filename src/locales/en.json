@@ -52,26 +52,34 @@
       "create_tooltip": "Create {{name}} deck"
     },
     "common": {
+      "actions": {
+        "draw": "Draw",
+        "engage": "Engage",
+        "evade": "Evade",
+        "fight": "Fight",
+        "investigate": "Investigate",
+        "move": "Move",
+        "parley": "Parley",
+        "resign": "Resign"
+      },
       "back": "Back",
       "cancel": "Cancel",
       "card_one": "card",
       "card_other": "cards",
       "change_one": "change",
       "change_other": "changes",
-      "clear": "Clear",
-      "clue_one": "Clue",
-      "clue_other": "Clues",
-      "customizations": "customizations",
-      "cycle_one": "cycle",
-      "cycle_other": "cycles",
-      "doom": "Doom",
-      "exile": "exile",
-      "exiled": "exiled",
       "cost": {
         "none": "No cost",
         "value": "Cost {{cost}}",
         "x": "Cost X"
       },
+      "clear": "Clear",
+      "clue_one": "Clue",
+      "clue_other": "Clues",
+      "customizable": "Customizable",
+      "customizations": "Customizations",
+      "cycle_one": "cycle",
+      "cycle_other": "cycles",
       "decks": {
         "bondedSlots": "Bonded cards",
         "bondedSlots_short": "Bonded",
@@ -82,7 +90,12 @@
         "extraSlots": "Extra deck",
         "extraSlots_short": "Extra"
       },
+      "doom": "Doom",
       "encounter_cards": "Campaign cards",
+      "encounter_cards_short": "Campaign",
+      "exceptional": "Exceptional",
+      "exile": "Exile",
+      "exiled": "Exiled",
       "factions": {
         "guardian": "Guardian",
         "multiclass": "Multi-class",
@@ -93,6 +106,8 @@
         "seeker": "Seeker",
         "survivor": "Survivor"
       },
+      "fast": "Fast",
+      "nonexceptional": "Non-exceptional",
       "icon_one": "icon",
       "icon_other": "icons",
       "level": {
@@ -101,6 +116,7 @@
         "base": "Level 0 / Null",
         "upgrades": "Upgrades"
       },
+      "more_actions": "More actions",
       "none": "None",
       "no_entries": "No entries",
       "ok": "OK",
@@ -109,6 +125,7 @@
       "parallel": "parallel",
       "permanent": "Permanent",
       "player_cards": "Player cards",
+      "player_cards_short": "Player",
       "relations": {
         "advanced": "Advanced Signatures",
         "base": "Base Investigator",
@@ -124,6 +141,7 @@
         "requiredCards": "Signatures",
         "restrictedTo": "Restricted to"
       },
+      "seal": "Seal",
       "shroud": "Shroud",
       "skill": {
         "agility": "Agility",
@@ -144,6 +162,7 @@
         "none": "No slot",
         "tarot": "Tarot"
       },
+      "specialist": "Specialist",
       "subtype": {
         "basicweakness": "Basic Weakness",
         "weakness": "Weakness"
@@ -173,6 +192,7 @@
       "trait_one": "Trait",
       "trait_other": "Traits",
       "undo": "Undo",
+      "unique": "Unique",
       "victory": "Victory",
       "xp": "XP"
     },
@@ -205,6 +225,13 @@
       },
       "annotation": "Annotation",
       "annotation_tooltip": "Card has an annotation",
+      "attachments": {
+        "bewitching": "Bewitching",
+        "eldritch_brand": "Eldritch Brand",
+        "hunch_deck": "Hunch deck",
+        "stick_to_the_plan": "Stick to the Plan",
+        "underworld_market": "Market deck"
+      },
       "customization_sheet": "Customization sheet for {{name}}",
       "id": "Deck ID",
       "latest_upgrade": {
@@ -213,6 +240,7 @@
         "xp_spent": "XP spent",
         "add_to_deck": "Add to current deck"
       },
+      "limited_slots": "Limited slots",
       "stats": {
         "deck_size": "Deck size",
         "uses_parallel": "Uses a parallel side",
@@ -230,6 +258,7 @@
         "shared": "Shared"
       },
       "tools": {
+        "cards": "Cards",
         "title": "Deck tools",
         "factions": "Factions",
         "loading": "Loading deck tools...",
@@ -343,6 +372,7 @@
       "notes": {
         "banner_url_help": "Banner image for the deck. Will be displayed on the deck view and in social media previews. Aspect ratio is 4:1, optimal width is 1440px.",
         "banner_url": "Banner URL",
+        "banner_url_placeholder": "Enter URL",
         "description_help": "Supports ArkhamDB-flavoured markdown.",
         "description": "Notes",
         "intro_help": "A short deck introduction. Will be displayed on the deck view and in social media previews. Supports ArkhamDB-flavoured markdown.",
@@ -372,7 +402,6 @@
         "display_as_list": "Display as list",
         "display_as_scans": "Display as scans",
         "import": "Import deck to collection",
-        "more_actions": "More actions",
         "save_upgrade": "Save upgrade and edit",
         "save_upgrade_short": "Upgrade",
         "save_upgrade_close": "Save upgrade and close",
@@ -405,7 +434,7 @@
         "title": "Public share",
         "description": "Deck is stored locally.",
         "description_present": "This deck has a public share, it can be viewed using <a>this link</a>.",
-        "create_tooltip": "Sharing creates a publicly accessible, read-only link to the deck. Anyone with the link can view the deck, but not edit it.<br />Shares can be removed at any time. Removing a share does not affect the deck itself.<br /><strong>Note:</strong> For security reasons, deck notes are not part of the share.",
+        "create_tooltip": "Sharing creates a publicly accessible, read-only link to the deck. Anyone with the link can view the deck, but not edit it.<br />Shares can be removed at any time. Removing a share does not affect the deck itself.",
         "create": "Create share",
         "update": "Update share",
         "delete": "Delete share"
@@ -426,10 +455,64 @@
       "404": "Page not found."
     },
     "filters": {
+      "action": {
+        "placeholder": "Select actions...",
+        "title": "Actions"
+      },
       "all": "All",
       "and": "and",
+      "asset": {
+        "title": "Asset"
+      },
+      "cost": {
+        "title": "Cost",
+        "even": "Even",
+        "odd": "Odd",
+        "no_cost": "No cost"
+      },
+      "encounter_set": {
+        "placeholder": "Select encounter sets...",
+        "title": "Encounter set"
+      },
+      "health": {
+        "title": "Health"
+      },
+      "health_sanity_x": "Include health / sanity 'X'",
+      "investigator": {
+        "placeholder": "Select investigators...",
+        "title": "Investigator"
+      },
+      "level": {
+        "title": "Level"
+      },
       "or": "or",
-      "reset_filter": "Reset filter"
+      "ownership": {
+        "title": "Ownership",
+        "owned": "Owned",
+        "unowned": "Unavailable"
+      },
+      "properties": {
+        "heals_damage": "Heals damage",
+        "heals_horror": "Heals horror",
+        "succeed_by": "Succeed by",
+        "title": "Properties"
+      },
+      "reset_filter": "Reset filter",
+      "slot": {
+        "placeholder": "Select slots...",
+        "title": "Slot"
+      },
+      "sanity": {
+        "title": "Sanity"
+      },
+      "skill_boost": {
+        "title": "Skill boost"
+      },
+      "title": "Filters",
+      "uses": {
+        "title": "Uses",
+        "placeholder": "Select uses attributes..."
+      }
     },
     "help": {
       "title": "Help",

@@ -13,7 +13,6 @@ import { selectConnectionLockForDeck } from "@/store/selectors/shared";
 import type { Card } from "@/store/services/queries.types";
 import { decodeExileSlots } from "@/utils/card-utils";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
-import { capitalize } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { range } from "@/utils/range";
 import { useAccentColor } from "@/utils/use-accent-color";
@@ -296,8 +295,7 @@ export function UpgradeModal(props: Props) {
           {!isEmpty(exilableCards) && (
             <Field bordered>
               <FieldLabel htmlFor="xp-gained">
-                {capitalize(t("common.exiled"))}{" "}
-                {t("common.card", { count: 2 })}
+                {t("common.exiled")} {t("common.card", { count: 2 })}
               </FieldLabel>
               <Scroller className={css["exile"]}>
                 <ul>
