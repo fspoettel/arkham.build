@@ -781,6 +781,7 @@
         "absolute_help": "Count how many {{name}} decks each card is used in",
         "absolute": "Absolute",
         "analyze_side_decks": "Analyze side decks",
+        "core": "Core",
         "error": "Could not retrieve recommendations.",
         "loading": "Computing recommendations...",
         "no_results": "No recommendations for this configuration.",
@@ -823,6 +824,8 @@
       },
       "history": {
         "current_upgrade": "Current upgrade",
+        "added": "Added",
+        "removed": "Removed",
         "discounts": "Discounts",
         "no_changes": "No changes",
         "slot_changes": "{{slot}} changes",

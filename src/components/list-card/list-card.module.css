@@ -3,7 +3,7 @@
   --card-spacing-x: 0.375em;
   --card-image-height: 2em;
 
-  padding: var(--card-spacing-y) 0.25em var(--card-spacing-y) 0.25em;
+  padding-block: var(--card-spacing-y);
   min-height: calc(var(--card-image-height) + 2 * var(--card-spacing-y));
 
   width: 100%;
@@ -80,6 +80,7 @@
   flex-flow: row nowrap;
   gap: var(--card-spacing-x);
   min-width: 0;
+  flex: 1 1 0%;
 }
 
 .content {
@@ -104,6 +105,12 @@
   display: flex;
   align-items: center;
   gap: 0.25em;
+}
+
+.name {
+  display: flex;
+  flex-flow: row wrap;
+  min-width: 0;
 }
 
 .name * {

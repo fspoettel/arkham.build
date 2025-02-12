@@ -52,6 +52,7 @@ export function DeckHistory(props: Props) {
                         slot: t("common.decks.slots"),
                       })}
                       differences={stats.differences.slots}
+                      omitHeadings
                     />
                     <SlotDiff
                       deck={deck}
@@ -59,6 +60,7 @@ export function DeckHistory(props: Props) {
                         slot: t("common.decks.extraSlots"),
                       })}
                       differences={stats.differences.extraSlots}
+                      omitHeadings
                     />
                   </div>
                   <div className={css["entry-row"]}>
@@ -66,6 +68,7 @@ export function DeckHistory(props: Props) {
                       deck={deck}
                       title={t("common.exiled_cards")}
                       differences={stats.differences.exileSlots}
+                      omitHeadings
                     />
                     <CustomizableDiff
                       deck={deck}

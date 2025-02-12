@@ -121,6 +121,7 @@ export function LatestUpgrade(props: Props) {
           <SlotDiff
             title={t("common.exiled_cards")}
             differences={differences.exileSlots}
+            omitHeadings
             size="sm"
           />
           <CustomizableDiff
