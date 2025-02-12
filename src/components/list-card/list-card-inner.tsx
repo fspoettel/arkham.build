@@ -126,6 +126,7 @@ export function ListCardInner(props: Props) {
         isForbidden && css["forbidden"],
         isActive && css["active"],
         showCardText && css["card-text"],
+        css[card.faction_code],
         !!renderCardAfter && css["has-after"],
       )}
       data-testid={`listcard-${card.code}`}

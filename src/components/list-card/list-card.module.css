@@ -262,3 +262,7 @@
   color: var(--nord-9);
   fill: var(--nord-9);
 }
+
+.listcard-wrapper.mythos .caption {
+  margin-left: 0.25rem;
+}
