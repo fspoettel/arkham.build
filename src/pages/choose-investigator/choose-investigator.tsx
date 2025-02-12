@@ -12,11 +12,13 @@ import { useAccentColor } from "@/utils/use-accent-color";
 import { useDocumentTitle } from "@/utils/use-document-title";
 import { CirclePlusIcon } from "lucide-react";
 import { useCallback, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "wouter";
 import css from "./choose-investigator.module.css";
 import { SignatureLink } from "./signature-link";
 
 function DeckCreateChooseInvestigator() {
+  const { t } = useTranslation();
   const activeListId = useStore((state) => state.activeList);
 
   const setActiveList = useStore((state) => state.setActiveList);
@@ -25,7 +27,7 @@ function DeckCreateChooseInvestigator() {
 
   const activeList = useStore(selectActiveList);
 
-  useDocumentTitle("Choose investigator");
+  useDocumentTitle(t("choose_investigator.title"));
 
   useEffect(() => {
     setActiveList("create_deck");
@@ -54,7 +56,7 @@ function DeckCreateChooseInvestigator() {
     <ListLayoutContextProvider>
       <ListLayoutNoSidebar
         getListCardProps={getListCardProps}
-        titleString="Choose investigator"
+        titleString={t("choose_investigator.title")}
       />
     </ListLayoutContextProvider>
   );
@@ -88,6 +90,7 @@ function ListcardExtra({
 }
 
 function ChooseInvestigatorLink(props: { card: Card }) {
+  const { t } = useTranslation();
   const cssVariables = useAccentColor(props.card.faction_code);
 
   return (
@@ -107,7 +110,9 @@ function ChooseInvestigatorLink(props: { card: Card }) {
         variant="primary"
         size="lg"
         style={cssVariables}
-        tooltip={`Create ${props.card.real_name} deck`}
+        tooltip={t("choose_investigator.create_tooltip", {
+          name: props.card.real_name,
+        })}
       >
         <CirclePlusIcon />
       </Button>

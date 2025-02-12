@@ -6,7 +6,7 @@ import type { Search, ViewMode } from "@/store/slices/lists.types";
 import type { Metadata } from "@/store/slices/metadata.types";
 import type { Props as ListCardProps } from "../list-card/list-card";
 
-export type FilteredListCardProps = Omit<ListCardProps, "card" | "quantity">;
+type FilteredListCardProps = Omit<ListCardProps, "card" | "quantity">;
 export type FilteredListCardPropsGetter = (card: Card) => FilteredListCardProps;
 
 export type CardListProps = {

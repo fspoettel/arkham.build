@@ -1,10 +1,12 @@
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { selectLimitedSlotOccupation } from "@/store/selectors/decks";
+import { useTranslation } from "react-i18next";
 import { LimitedCardGroup } from "../limited-card-group";
 import { ListCard } from "../list-card/list-card";
 
 export function LimitedSlots(props: { deck: ResolvedDeck }) {
+  const { t } = useTranslation();
   const limitedSlots = useStore((state) =>
     selectLimitedSlotOccupation(state, props.deck),
   );
@@ -32,7 +34,7 @@ export function LimitedSlots(props: { deck: ResolvedDeck }) {
               quantity={quantity}
             />
           )}
-          title={entry.option.name ?? "Limited slots"}
+          title={entry.option.name ?? t("deck.limited_slots")}
         />
       ))}
     </>

@@ -4,12 +4,11 @@ import {
   selectAssetChanges,
   selectAssetOptions,
 } from "@/store/selectors/lists";
-import type { Coded } from "@/store/services/queries.types";
 import { isAssetFilterObject } from "@/store/slices/lists.type-guards";
 import type { AssetFilter as AssetFilterType } from "@/store/slices/lists.types";
 import { assert } from "@/utils/assert";
-import { capitalize } from "@/utils/formatting";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { SkillIcon } from "../icons/skill-icon";
 import SlotIcon from "../icons/slot-icon";
 import { Checkbox } from "../ui/checkbox";
@@ -20,14 +19,19 @@ import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
 import { useFilterCallbacks } from "./primitives/filter-hooks";
 
-function capitalizeCode(c: Coded) {
-  return capitalize(c.code);
+type Option = {
+  code: string;
+  name: string;
+};
+
+function renderName(c: Option) {
+  return c.name;
 }
 
-function renderSlot(c: Coded) {
+function renderSlot(c: Option) {
   return (
     <>
-      <SlotIcon code={c.code} /> {c.code}
+      <SlotIcon code={c.code} /> {c.name}
     </>
   );
 }
@@ -39,6 +43,7 @@ export function AssetFilter({ id, resolvedDeck }: FilterProps) {
     `AssetFilter instantiated with '${filter?.type}'`,
   );
 
+  const { t } = useTranslation();
   const changes = selectAssetChanges(filter.value);
   const options = useStore((state) => selectAssetOptions(state, resolvedDeck));
 
@@ -102,14 +107,14 @@ export function AssetFilter({ id, resolvedDeck }: FilterProps) {
       onOpenChange={onOpenChange}
       onReset={onReset}
       open={filter.open}
-      title="Asset"
+      title={t("filters.asset.title")}
     >
       <Combobox
         id="asset-slots"
         items={options.slots}
-        label="Slots"
+        label={t("filters.slot.title")}
         onValueChange={onChangeSlot}
-        placeholder="Select slot(s)..."
+        placeholder={t("filters.slot.placeholder")}
         renderItem={renderSlot}
         renderResult={renderSlot}
         selectedItems={filter.value.slots}
@@ -117,7 +122,9 @@ export function AssetFilter({ id, resolvedDeck }: FilterProps) {
       />
 
       <fieldset className={css["skill-boosts"]}>
-        <legend className={css["skill-boosts-label"]}>Skill Boosts</legend>
+        <legend className={css["skill-boosts-label"]}>
+          {t("filters.skill_boost.title")}
+        </legend>
         {options.skillBoosts.map((skill) => (
           <Checkbox
             checked={filter.value.skillBoosts.includes(skill)}
@@ -132,18 +139,18 @@ export function AssetFilter({ id, resolvedDeck }: FilterProps) {
       <Combobox
         id="asset-uses"
         items={options.uses}
-        label="Uses"
+        label={t("filters.uses.title")}
         onValueChange={onChangeUses}
-        placeholder="Select Uses attribute(s)..."
-        renderItem={capitalizeCode}
-        renderResult={capitalizeCode}
+        placeholder={t("filters.uses.placeholder")}
+        renderItem={renderName}
+        renderResult={renderName}
         selectedItems={filter.value.uses}
         showLabel
       />
 
       <RangeSelect
         id="asset-health"
-        label="Health"
+        label={t("filters.health.title")}
         max={options.health.max}
         min={options.health.min}
         onValueCommit={(val) => {
@@ -155,7 +162,7 @@ export function AssetFilter({ id, resolvedDeck }: FilterProps) {
 
       <RangeSelect
         id="asset-sanity"
-        label="Sanity"
+        label={t("filters.sanity.title")}
         max={options.sanity.max}
         min={options.sanity.min}
         onValueCommit={(val) => {
@@ -168,7 +175,7 @@ export function AssetFilter({ id, resolvedDeck }: FilterProps) {
       <Checkbox
         checked={filter.value.healthX}
         id="asset-health-x"
-        label='Include health / sanity "X"'
+        label={t("filters.health_sanity_x")}
         onCheckedChange={onHealthXChange}
       />
     </FilterContainer>

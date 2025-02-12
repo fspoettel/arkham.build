@@ -1,6 +1,6 @@
 import { RETURN_TO_CYCLES } from "./constants";
 
-export const CAMPAIGN_PLAYALONG_PACKS = [
+const CAMPAIGN_PLAYALONG_PACKS = [
   "core",
   "rcore",
   "rtnotz",

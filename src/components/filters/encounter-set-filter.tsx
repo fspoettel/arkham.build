@@ -8,6 +8,7 @@ import type { EncounterSet } from "@/store/services/queries.types";
 import { isEncounterSetFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import EncounterIcon from "../icons/encounter-icon";
 import type { FilterProps } from "./filters.types";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
@@ -19,6 +20,7 @@ export function EncounterSetFilter({ id }: FilterProps) {
     `EncounterSetFilter instantiated with '${filter?.type}'`,
   );
 
+  const { t } = useTranslation();
   const changes = useStore((state) =>
     selectEncounterSetChanges(state, filter.value),
   );
@@ -42,8 +44,8 @@ export function EncounterSetFilter({ id }: FilterProps) {
       nameRenderer={nameRenderer}
       open={filter.open}
       options={options}
-      placeholder="Select encounter set..."
-      title="Encounter Set"
+      placeholder={t("filters.encounter_set.placeholder")}
+      title={t("filters.encounter_set.title")}
       value={filter.value}
     />
   );

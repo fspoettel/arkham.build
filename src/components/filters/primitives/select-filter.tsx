@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { FilterContainer } from "./filter-container";
 import { useFilterCallbacks } from "./filter-hooks";
 
@@ -19,6 +20,7 @@ export function SelectFilter<T, V extends number | string | undefined>(
   const { changes, mapValue, id, options, renderOption, open, title, value } =
     props;
 
+  const { t } = useTranslation();
   const { onReset, onOpenChange, onChange } = useFilterCallbacks<V>(id);
 
   const onValueChange = useCallback(
@@ -45,7 +47,7 @@ export function SelectFilter<T, V extends number | string | undefined>(
         data-testid={`filter-${title}-input`}
         value={value ?? ""}
       >
-        <option value="">All cards</option>
+        <option value="">{t("filters.all")}</option>
         {options.map(renderOption)}
       </select>
     </FilterContainer>

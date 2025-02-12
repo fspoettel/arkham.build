@@ -94,7 +94,7 @@ test.describe("deck edit", () => {
     await page.getByTestId("editor-save").click();
     await page.getByTestId("view-edit").click();
     await page.getByTestId("editor-tab-sideslots").click();
-    await expect(page.getByText("Side deck is empty.")).toBeVisible();
+    await expect(page.getByText("No entries")).toBeVisible();
   });
 
   test("ignore card deck limit", async ({ page }) => {
@@ -443,7 +443,7 @@ test.describe("deck edit", () => {
 
     await page.getByTestId("card-modal").press("Escape");
 
-    await page.getByTestId("editor-tab-meta").click();
+    await page.getByTestId("editor-tab-config").click();
 
     await page.getByTestId("meta-taboo-set").selectOption("8");
 
@@ -479,7 +479,7 @@ test.describe("deck edit", () => {
 
     await page.getByTestId("card-modal").press("Escape");
 
-    await page.getByTestId("editor-tab-meta").click();
+    await page.getByTestId("editor-tab-config").click();
 
     await page.getByTestId("meta-taboo-set").selectOption("8");
 

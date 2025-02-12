@@ -1,5 +1,6 @@
 import { useStore } from "@/store";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 type RecommenderRelativityToggleProps = {
@@ -9,6 +10,7 @@ type RecommenderRelativityToggleProps = {
 export function RecommenderRelativityToggle(
   props: RecommenderRelativityToggleProps,
 ) {
+  const { t } = useTranslation();
   const isRelative = useStore((state) => state.recommender.isRelative);
   const setIsRelative = useStore((state) => state.setIsRelative);
 
@@ -26,15 +28,19 @@ export function RecommenderRelativityToggle(
     >
       <ToggleGroupItem
         value={"false"}
-        tooltip={`Count how many ${props.investigator} decks each card is used in`}
+        tooltip={t("deck_edit.recommendations.absolute_help", {
+          name: props.investigator,
+        })}
       >
-        Absolute
+        {t("deck_edit.recommendations.absolute")}
       </ToggleGroupItem>
       <ToggleGroupItem
         value={"true"}
-        tooltip={`Count how many ${props.investigator} decks each card is used in compared to other investigators who have access to it`}
+        tooltip={t("deck_edit.recommendations.relative_help", {
+          name: props.investigator,
+        })}
       >
-        Relative
+        {t("deck_edit.recommendations.relative")}
       </ToggleGroupItem>
     </ToggleGroup>
   );

@@ -4,7 +4,7 @@ import type { Metadata } from "@/store/slices/metadata.types";
 import { splitMultiValue } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import EncounterIcon from "../icons/encounter-icon";
-import { FactionIcon } from "../icons/faction-icon";
+import { FactionIconFancy } from "../icons/faction-icon-fancy";
 import PackIcon from "../icons/pack-icon";
 import SlotIcon from "../icons/slot-icon";
 import css from "./grouphead.module.css";
@@ -108,7 +108,7 @@ export function GroupLabel(props: GroupLabelProps) {
   if (type === "faction") {
     return (
       <span className={className}>
-        <FactionIcon className={css["icon"]} code={segment} />
+        <FactionIconFancy className={css["icon"]} code={segment} />
         <span>{keyLabel}</span>
       </span>
     );

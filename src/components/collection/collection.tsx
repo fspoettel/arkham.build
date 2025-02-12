@@ -7,6 +7,7 @@ import type { SettingsState } from "@/store/slices/settings.types";
 import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
 import { isEmpty } from "@/utils/is-empty";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { CollectionCount } from "./collection-count";
 import { CollectionCycleActions } from "./collection-cycle-actions";
 import { CollectionPack } from "./collection-pack";
@@ -20,6 +21,8 @@ type Props = {
 
 export function CollectionSettings(props: Props) {
   const { canShowCounts, settings, updateSettings } = props;
+
+  const { t } = useTranslation();
   const cyclesWithPacks = useStore(selectCyclesAndPacks);
 
   const canEdit = !!updateSettings;
@@ -81,7 +84,7 @@ export function CollectionSettings(props: Props) {
   return (
     <Field bordered>
       <FieldLabel className={css["collection-label"]} htmlFor="collection">
-        <strong>Card collection</strong>
+        <strong>{t("settings.collection.card_collection")}</strong>
       </FieldLabel>
       <fieldset
         className={css["container"]}
@@ -119,7 +122,7 @@ export function CollectionSettings(props: Props) {
               {!isEmpty(cycle.reprintPacks) && (
                 <div>
                   <div className={css["cycle-subheader"]}>
-                    New format
+                    {t("settings.collection.new_format")}
                     {canEdit && cycle.code !== "core" && (
                       <CollectionCycleActions
                         cycleCode={cycle.code}
@@ -149,7 +152,7 @@ export function CollectionSettings(props: Props) {
               <div>
                 {!isEmpty(cycle.reprintPacks) && (
                   <div className={css["cycle-subheader"]}>
-                    Old format
+                    {t("settings.collection.old_format")}
                     {canEdit && cycle.code !== "core" && (
                       <CollectionCycleActions
                         cycleCode={cycle.code}
@@ -180,7 +183,9 @@ export function CollectionSettings(props: Props) {
                 !CYCLES_WITH_STANDALONE_PACKS.includes(cycle.code) && (
                   <article className={css["cycle-counts"]}>
                     <header>
-                      <h4 className={css["cycle-counts-title"]}>Card count</h4>
+                      <h4 className={css["cycle-counts-title"]}>
+                        {t("collection.card_count")}
+                      </h4>
                     </header>
                     <CollectionCount
                       counts={counts.cycles[cycle.code]}

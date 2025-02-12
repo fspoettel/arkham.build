@@ -4,6 +4,7 @@ import { getCardColor, thumbnailUrl } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { useAgathaEasterEggTransform } from "@/utils/easter-egg-agatha";
 import { memo } from "react";
+import { useTranslation } from "react-i18next";
 import css from "./card-thumbnail.module.css";
 
 type Props = {
@@ -17,6 +18,7 @@ type Props = {
 export const CardThumbnail = memo(
   (props: Props) => {
     const { card, className, suffix } = props;
+    const { t } = useTranslation();
 
     const colorCls = getCardColor(card);
     const imageCode = useAgathaEasterEggTransform(
@@ -35,7 +37,10 @@ export const CardThumbnail = memo(
         key={card.code}
         data-component="card-thumbnail"
       >
-        <img alt={`Thumbnail: ${imageCode}`} src={thumbnailUrl(imageCode)} />
+        <img
+          alt={t("card_view.thumbnail", { code: card.code })}
+          src={thumbnailUrl(imageCode)}
+        />
       </div>
     );
   },

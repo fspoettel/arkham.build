@@ -12,6 +12,7 @@ import {
   SlidersVerticalIcon,
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useSearch } from "wouter";
 import { BackupRestore } from "./backup-restore";
 import { CardDataSync } from "./card-data-sync";
@@ -29,6 +30,8 @@ import { ThemeSetting } from "./theme";
 import { WeaknessPoolSetting } from "./weakness-pool";
 
 function Settings() {
+  const { t } = useTranslation();
+
   const search = useSearch();
   const toast = useToast();
   const goBack = useGoBack(search.includes("login_state") ? "/" : undefined);
@@ -56,10 +59,10 @@ function Settings() {
   );
 
   return (
-    <AppLayout title="Settings">
+    <AppLayout title={t("settings.title")}>
       <form className={css["settings"]} onSubmit={onSubmit}>
         <header className={css["header"]}>
-          <h1 className={css["title"]}>Settings</h1>
+          <h1 className={css["title"]}>{t("settings.title")}</h1>
           <div className={css["header-actions"]}>
             <Button
               data-testid="settings-back"
@@ -67,19 +70,19 @@ function Settings() {
               type="button"
               variant="bare"
             >
-              Back
+              {t("common.back")}
             </Button>
             <Button data-testid="settings-save" type="submit" variant="primary">
-              Save settings
+              {t("settings.save")}
             </Button>
           </div>
         </header>
         <div className={css["container"]}>
           <div className={css["row"]}>
-            <Section title="Connected accounts">
+            <Section title={t("settings.connections.title")}>
               <Connections />
             </Section>
-            <Section title="Card data">
+            <Section title={t("settings.card_data.title")}>
               <CardDataSync showDetails />
             </Section>
           </div>
@@ -87,19 +90,19 @@ function Settings() {
             <TabsList>
               <TabsTrigger data-testid="tab-general" value="general">
                 <SlidersVerticalIcon />
-                <span>General</span>
+                <span>{t("settings.general.title")}</span>
               </TabsTrigger>
               <TabsTrigger data-testid="tab-collection" value="collection">
                 <LibraryIcon />
-                <span>Collection</span>
+                <span>{t("settings.collection.title")}</span>
               </TabsTrigger>
               <TabsTrigger data-testid="tab-backup" value="backup">
                 <DatabaseBackupIcon />
-                <span>Backup & Restore</span>
+                <span>{t("settings.backup.title")}</span>
               </TabsTrigger>
             </TabsList>
             <TabsContent value="general" forceMount>
-              <Section title="General">
+              <Section title={t("settings.general.title")}>
                 <TabooSetSetting
                   settings={settings}
                   updateSettings={updateSettings}
@@ -109,7 +112,7 @@ function Settings() {
                   updateSettings={updateSettings}
                 />
               </Section>
-              <Section title="Display">
+              <Section title={t("settings.display.title")}>
                 <ThemeSetting />
                 <FontSizeSetting
                   settings={settings}
@@ -124,35 +127,35 @@ function Settings() {
                   updateSettings={updateSettings}
                 />
               </Section>
-              <Section title="Lists">
+              <Section title={t("settings.lists.title")}>
                 <div className={css["lists"]}>
                   <ListSettings
                     listKey="player"
-                    title="Player cards"
+                    title={t("common.player_cards")}
                     settings={settings}
                     updateSettings={updateSettings}
                   />
                   <ListSettings
                     listKey="encounter"
-                    title="Encounter cards"
+                    title={t("common.encounter_cards")}
                     settings={settings}
                     updateSettings={updateSettings}
                   />
                   <ListSettings
                     listKey="investigator"
-                    title="Choose investigator"
+                    title={t("common.type.investigator", { count: 2 })}
                     settings={settings}
                     updateSettings={updateSettings}
                   />
                   <ListSettings
                     listKey="deck"
-                    title="Deck view"
+                    title={t("settings.lists.deck_view")}
                     settings={settings}
                     updateSettings={updateSettings}
                   />
                   <ListSettings
                     listKey="deckScans"
-                    title="Deck view (scans)"
+                    title={t("settings.lists.deck_view_scans")}
                     settings={settings}
                     updateSettings={updateSettings}
                   />
@@ -160,7 +163,7 @@ function Settings() {
               </Section>
             </TabsContent>
             <TabsContent value="collection" forceMount>
-              <Section title="Collection">
+              <Section title={t("settings.collection.title")}>
                 <ShowPreviewsSetting
                   settings={settings}
                   updateSettings={updateSettings}
@@ -176,7 +179,7 @@ function Settings() {
               </Section>
             </TabsContent>
             <TabsContent value="backup" forceMount>
-              <Section title="Backup & Restore">
+              <Section title={t("settings.backup.title")}>
                 <BackupRestore />
               </Section>
             </TabsContent>

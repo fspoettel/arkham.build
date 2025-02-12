@@ -1,6 +1,7 @@
 import { Select } from "@/components/ui/select";
 import type { Card } from "@/store/services/queries.types";
 import { splitMultiValue } from "@/utils/card-utils";
+import { useTranslation } from "react-i18next";
 import { Tag } from "../ui/tag";
 
 type Props = {
@@ -14,6 +15,7 @@ type Props = {
 
 export function CustomizationRemoveSlot(props: Props) {
   const { card, disabled, id, onChange, readonly, selections } = props;
+  const { t } = useTranslation();
 
   const onValueChange = (evt: React.ChangeEvent<HTMLSelectElement>) => {
     if (evt.target instanceof HTMLSelectElement) {
@@ -34,8 +36,8 @@ export function CustomizationRemoveSlot(props: Props) {
       data-testid="customization-remove-slot"
       id={`${id}-remove-slot`}
       onChange={onValueChange}
-      options={splitMultiValue(card.original_slot).map((trait, i) => ({
-        label: trait,
+      options={splitMultiValue(card.original_slot).map((slot, i) => ({
+        label: t(`common.slot.${slot.toLowerCase()}`),
         value: i.toString(),
       }))}
     />

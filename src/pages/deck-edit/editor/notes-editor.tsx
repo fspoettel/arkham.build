@@ -6,6 +6,7 @@ import type { ResolvedDeck } from "@/store/lib/types";
 import type { StoreState } from "@/store/slices";
 import { debounce } from "@/utils/debounce";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { createSelector } from "reselect";
 import css from "./notes-editor.module.css";
 
@@ -26,6 +27,7 @@ const selectUpdateMetaProperty = createSelector(
 export function NotesEditor(props: Props) {
   const { deck } = props;
 
+  const { t } = useTranslation();
   const updateDescription = useStore(selectUpdateDescription);
   const updateMetaProperty = useStore(selectUpdateMetaProperty);
 
@@ -59,8 +61,8 @@ export function NotesEditor(props: Props) {
   return (
     <Scroller>
       <div className={css["notes-editor"]}>
-        <Field full helpText="Supports ArkhamDB-flavoured markdown." padded>
-          <FieldLabel>Notes</FieldLabel>
+        <Field full helpText={t("deck_edit.notes.description_help")} padded>
+          <FieldLabel>{t("deck_edit.notes.description")}</FieldLabel>
           <AutoSizingTextarea
             className={css["notes-editor-textarea"]}
             data-testid="editor-description"
@@ -68,25 +70,17 @@ export function NotesEditor(props: Props) {
             onChange={onDescriptionChange}
           />
         </Field>
-        <Field
-          full
-          padded
-          helpText="Banner image for the deck. Will be displayed on the deck view and in social media previews. Aspect ratio is 4:1, at least 1440px wide"
-        >
-          <FieldLabel>Banner URL</FieldLabel>
+        <Field full padded helpText={t("deck_edit.notes.banner_url_help")}>
+          <FieldLabel>{t("deck_edit.notes.banner_url")}</FieldLabel>
           <input
             defaultValue={deck.metaParsed.banner_url ?? ""}
             onChange={onBannerUrlChange}
             type="text"
-            placeholder="Enter URL..."
+            placeholder={t("deck_edit.notes.banner_url_placeholder")}
           />
         </Field>
-        <Field
-          full
-          padded
-          helpText="A short deck introduction. Will be displayed on the deck view and in social media previews."
-        >
-          <FieldLabel>Intro</FieldLabel>
+        <Field full padded helpText={t("deck_edit.notes.intro_help")}>
+          <FieldLabel>{t("deck_edit.notes.intro")}</FieldLabel>
           <AutoSizingTextarea
             data-testid="editor-intro"
             defaultValue={deck.metaParsed.intro_md ?? ""}

@@ -6,7 +6,8 @@ import type { History } from "@/store/selectors/decks";
 import { isEmpty } from "@/utils/is-empty";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { BookOpenTextIcon, ChartAreaIcon, FileClockIcon } from "lucide-react";
-import { Suspense, useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import DeckDescription from "../deck-description";
 import { DeckTags } from "../deck-tags";
 import { DeckTools } from "../deck-tools/deck-tools";
@@ -15,7 +16,6 @@ import { DecklistValidation } from "../decklist/decklist-validation";
 import type { ViewMode } from "../decklist/decklist.types";
 import { LimitedCardPoolTag, SealedDeckTag } from "../limited-card-pool";
 import { Dialog } from "../ui/dialog";
-import { Loader } from "../ui/loader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import css from "./deck-display.module.css";
 import { DeckHistory } from "./deck-history/deck-history";
@@ -36,6 +36,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
   const [currentTab, setCurrentTab] = useState("deck");
   const contentRef = useRef<HTMLDivElement>(null);
 
+  const { t } = useTranslation();
   const cssVariables = useAccentColor(deck.investigatorBack.card.faction_code);
   const hasHistory = !isEmpty(history);
 
@@ -89,43 +90,45 @@ export function DeckDisplay(props: DeckDisplayProps) {
                 data-testid="tab-deck"
                 hotkey="d"
                 onTabChange={onTabChange}
-                tooltip="Deck list"
+                tooltip={t("deck_view.tab_deck_list")}
                 value="deck"
               >
                 <i className="icon-deck" />
-                <span>Deck</span>
+                <span>{t("deck_view.tab_deck_list")}</span>
               </TabsTrigger>
               {deck.description_md && (
                 <TabsTrigger
                   data-testid="tab-notes"
                   hotkey="n"
                   onTabChange={onTabChange}
-                  tooltip="Deck notes"
+                  tooltip={t("deck_view.tab_notes")}
                   value="notes"
                 >
                   <BookOpenTextIcon />
-                  <span>Notes</span>
+                  <span>{t("deck_view.tab_notes")}</span>
                 </TabsTrigger>
               )}
               <TabsTrigger
                 hotkey="t"
                 onTabChange={onTabChange}
-                tooltip="Deck tools"
+                tooltip={t("deck_view.tab_tools")}
                 value="tools"
               >
                 <ChartAreaIcon />
-                <span>Tools</span>
+                <span>{t("deck_view.tab_tools")}</span>
               </TabsTrigger>
               {hasHistory && (
                 <TabsTrigger
                   data-testid="tab-history"
                   hotkey="h"
                   onTabChange={onTabChange}
-                  tooltip="Upgrade history"
+                  tooltip={t("deck_view.tab_history")}
                   value="history"
                 >
                   <FileClockIcon />
-                  <span>History ({history.length})</span>
+                  <span>
+                    {t("deck_view.tab_history")} ({history.length})
+                  </span>
                 </TabsTrigger>
               )}
             </TabsList>
@@ -147,11 +150,9 @@ export function DeckDisplay(props: DeckDisplayProps) {
             </TabsContent>
             {deck.description_md && (
               <TabsContent className={css["tab"]} value="notes">
-                <Suspense fallback={<Loader show message="Loading notes..." />}>
-                  <div className={css["description"]}>
-                    <DeckDescription content={deck.description_md} centered />
-                  </div>
-                </Suspense>
+                <div className={css["description"]}>
+                  <DeckDescription content={deck.description_md} centered />
+                </div>
               </TabsContent>
             )}
             {hasHistory && (

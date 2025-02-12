@@ -9,9 +9,11 @@ import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
 import { CloudDownloadIcon, LoaderCircleIcon } from "lucide-react";
 import { useCallback, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import css from "./deck-collection.module.css";
 
 export function DeckCollectionImport() {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const importDeck = useStore((state) => state.importDeck);
@@ -56,7 +58,7 @@ export function DeckCollectionImport() {
       <PopoverTrigger asChild>
         <Button
           data-testid="import-trigger"
-          tooltip="Import deck from ArkhamDB"
+          tooltip={t("deck_collection.import_arkhamdb")}
         >
           <CloudDownloadIcon />
         </Button>
@@ -64,20 +66,24 @@ export function DeckCollectionImport() {
       <PopoverContent>
         <form className={css["import"]} onSubmit={onFormSubmit}>
           <header className={css["deck-collection-form-header"]}>
-            <h3>Import from ArkhamDB</h3>
+            <h3>{t("deck_collection.import_arkhamdb")}</h3>
           </header>
           <Field
             full
             helpText={
-              <>
+              <Trans
+                i18nextKey="deck_collection.import_arkhamdb_help"
+                t={t}
+                components={{ strong: <strong /> }}
+              >
                 Enter a public ArkhamDB deck id, deck url or deck guide url.
                 Decks will be <strong>copied</strong> over and deck history will
                 not be imported.
-              </>
+              </Trans>
             }
           >
             <label className="sr-only" htmlFor="deck-id">
-              Deck Url / ID
+              {t("deck_collection.deck_url_or_id")}
             </label>
             <input
               autoComplete="off"
@@ -95,7 +101,7 @@ export function DeckCollectionImport() {
               disabled={loading}
               type="submit"
             >
-              Import
+              {t("deck_collection.import")}
             </Button>
             {loading && <LoaderCircleIcon className="spin" />}
           </footer>

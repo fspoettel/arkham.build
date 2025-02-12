@@ -1,7 +1,9 @@
 import type { ChartableData } from "@/store/lib/types";
 import { cx } from "@/utils/cx";
 import { range } from "@/utils/range";
+import type { TFunction } from "i18next";
 import { useMemo, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import {
   VictoryAxis,
   VictoryChart,
@@ -20,11 +22,12 @@ type Props = {
 };
 
 export function CostCurveChart({ data }: Props) {
+  const { t } = useTranslation();
+
   // Ensure that all resource costs (up to the maximum cost)
   // have an actual entry (even if its value is 0)
   const normalizedData = useMemo((): ChartableData => {
     const max = Math.max(...data.filter((x) => x).map((tick) => tick?.x ?? 0));
-
     return range(0, max + 1).map((cost) => {
       return data[cost] ?? { x: cost, y: 0 };
     });
@@ -48,7 +51,9 @@ export function CostCurveChart({ data }: Props) {
     <div ref={ref} className={cx(css["chart-container"], css["fullsize"])}>
       {width > 0 && (
         <>
-          <h4 className={css["chart-title"]}>Resource costs</h4>
+          <h4 className={css["chart-title"]}>
+            {t("deck.tools.resource_costs")}
+          </h4>
           <VictoryChart
             theme={chartsTheme}
             padding={{ left: 45, bottom: 40, right: 5 }}
@@ -59,7 +64,7 @@ export function CostCurveChart({ data }: Props) {
           >
             <VictoryAxis
               tickValues={domainTickValues}
-              label="Resource cost"
+              label={t("deck.tools.resource_cost")}
               tickFormat={formatDomainTickLabels}
               style={{ grid: { stroke: "transparent" } }}
               tickLabelComponent={<VictoryLabel />}
@@ -67,14 +72,14 @@ export function CostCurveChart({ data }: Props) {
             <VictoryAxis
               dependentAxis
               tickValues={codomainTickValues}
-              label="Cards"
+              label={t("deck.tools.cards")}
               tickLabelComponent={<VictoryLabel />}
             />
             <VictoryLine data={normalizedData} width={width} />
             <VictoryScatter
               data={normalizedData}
               size={6}
-              labels={formatTooltips}
+              labels={formatTooltips(t)}
               labelComponent={
                 <VictoryTooltip flyoutWidth={125} constrainToVisibleArea />
               }
@@ -90,9 +95,16 @@ function formatDomainTickLabels(value: number) {
   return value === 7 ? "7+" : value.toString();
 }
 
-function formatTooltips(value: { datum: { y: number; x: number } }) {
-  const { y, x } = value.datum;
-  return `${y} card${y !== 1 ? "s" : ""} of cost ${x}${x === 7 ? "+" : ""}`;
+function formatTooltips(t: TFunction) {
+  return (value: { datum: { x: number; y: number } }) => {
+    const { y, x } = value.datum;
+
+    return t("deck.tools.resource_cost_tooltip", {
+      count: y,
+      cost: `${x}${x === 7 ? "+" : ""}`,
+      cards: t("common.card", { count: y }),
+    });
+  };
 }
 
 // Creates a [0...n] array of numbers

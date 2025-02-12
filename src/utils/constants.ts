@@ -1,6 +1,7 @@
 import localPacks from "@/store/services/data/packs.json";
 import type { Card } from "@/store/services/queries.types";
 import type { Filter } from "./fp";
+import i18n from "./i18n";
 
 export const FLOATING_PORTAL_ID = "floating";
 
@@ -63,6 +64,7 @@ export const PLAYER_TYPE_ORDER = [
   "skill",
   "location",
   "enemy",
+  "enemy_location",
   "key",
   "treachery",
   "scenario",
@@ -237,7 +239,7 @@ export const ATTACHABLE_CARDS: { [code: string]: AttachableDefinition } = {
   [SPECIAL_CARD_CODES.JOE_DIAMOND]: {
     code: SPECIAL_CARD_CODES.JOE_DIAMOND,
     traits: ["Insight."],
-    name: "Hunch deck",
+    name: i18n.t("deck.attachments.hunch_deck"),
     icon: "lightbulb",
     targetSize: 11,
     requiredCards: {
@@ -248,14 +250,14 @@ export const ATTACHABLE_CARDS: { [code: string]: AttachableDefinition } = {
     code: SPECIAL_CARD_CODES.STICK_TO_THE_PLAN,
     limit: 1,
     traits: ["Tactic.", "Supply."],
-    name: "Stick to the Plan",
+    name: i18n.t("deck.attachments.stick_to_the_plan"),
     icon: "package",
     targetSize: 3,
   },
   [SPECIAL_CARD_CODES.UNDERWORLD_MARKET]: {
     code: SPECIAL_CARD_CODES.UNDERWORLD_MARKET,
     traits: ["Illicit."],
-    name: "Market deck",
+    name: i18n.t("deck.attachments.underworld_market"),
     icon: "store",
     targetSize: 10,
   },
@@ -263,7 +265,7 @@ export const ATTACHABLE_CARDS: { [code: string]: AttachableDefinition } = {
     code: SPECIAL_CARD_CODES.ELDRITCH_BRAND,
     traits: ["Spell."],
     filters: [(c: Card) => c.xp != null],
-    name: "Eldritch Brand",
+    name: i18n.t("deck.attachments.eldritch_brand"),
     icon: "stamp",
     limit: 1,
     targetSize: 1,
@@ -285,7 +287,7 @@ export const PREVIEW_PACKS = localPacks
   .filter((p) => p.release_date && new Date() < new Date(p.release_date))
   .map((pack) => pack.code);
 
-export const NO_SLOT_STRING = "No slot";
+export const NO_SLOT_STRING = "none";
 
 export const RETURN_TO_CYCLES: Record<string, string> = {
   core: "rtnotz",

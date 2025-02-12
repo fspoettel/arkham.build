@@ -10,12 +10,14 @@ import {
   DECK_DEFAULTS,
   DECK_SCANS_DEFAULTS,
   ENCOUNTER_DEFAULTS,
+  INVESTIGATOR_DEFAULTS,
   PLAYER_DEFAULTS,
 } from "@/store/slices/settings";
 import type { SettingsState } from "@/store/slices/settings.types";
 import { formatGroupingType } from "@/utils/formatting";
 import type React from "react";
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import css from "./settings.module.css";
 import type { SettingProps } from "./types";
 
@@ -63,12 +65,17 @@ function getDefaultsForList(listKey: keyof SettingsState["lists"]) {
     return structuredClone(DECK_SCANS_DEFAULTS);
   }
 
+  if (listKey === "investigator") {
+    return structuredClone(INVESTIGATOR_DEFAULTS);
+  }
+
   return structuredClone(PLAYER_DEFAULTS);
 }
 
 export function ListSettings(props: Props) {
   const { listKey, settings, title, updateSettings } = props;
 
+  const { t } = useTranslation();
   const [version, setVersion] = useState(0);
 
   const resetToDefaults = useCallback(() => {
@@ -92,7 +99,7 @@ export function ListSettings(props: Props) {
           size="sm"
           type="button"
         >
-          Reset to default
+          {t("lists.reset")}
         </Button>
       </header>
       <ListSettingsList
@@ -101,7 +108,7 @@ export function ListSettings(props: Props) {
         listKey={listKey}
         subKey="group"
         updateSettings={updateSettings}
-        title="Group by"
+        title={t("lists.group_by")}
         version={version}
       />
       <ListSettingsList
@@ -110,7 +117,7 @@ export function ListSettings(props: Props) {
         listKey={listKey}
         subKey="sort"
         updateSettings={updateSettings}
-        title="Sort by"
+        title={t("lists.sort_by")}
         version={version}
       />
     </section>

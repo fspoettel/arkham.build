@@ -19,6 +19,7 @@ import { isNumeric } from "@/utils/is-numeric";
 import { useQuery } from "@/utils/use-query";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "wouter";
 import { Error404 } from "../errors/404";
 import { ShareInner } from "../share/share";
@@ -41,6 +42,7 @@ function DeckView() {
 
 function ArkhamDbDeckView({ id, type }: { id: string; type: string }) {
   const clientId = useStore(selectClientId);
+  const { t } = useTranslation();
 
   const idInt = Number.parseInt(id, 10);
 
@@ -61,7 +63,7 @@ function ArkhamDbDeckView({ id, type }: { id: string; type: string }) {
   }
 
   if (state === "loading" || state === "initial") {
-    return <Loader show message="Fetching deck..." />;
+    return <Loader show message={t("deck_view.loading")} />;
   }
 
   if (state === "error") {

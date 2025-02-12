@@ -9,6 +9,7 @@ import type { Tab } from "@/store/slices/deck-edits.types";
 import { useHotkey } from "@/utils/use-hotkey";
 import { SaveIcon, Undo2Icon } from "lucide-react";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation } from "wouter";
 import { LatestUpgrade } from "../../../components/deck-display/deck-history/latest-upgrade";
 import css from "./editor.module.css";
@@ -23,6 +24,7 @@ export function EditorActions(props: Props) {
 
   const [, navigate] = useLocation();
   const toast = useToast();
+  const { t } = useTranslation();
 
   const hasEdits = useStore((state) => !!state.deckEdits[deck.id]);
   const connectionLock = useStore((state) =>
@@ -41,7 +43,7 @@ export function EditorActions(props: Props) {
   const onSave = useCallback(
     async (stayOnPage?: boolean) => {
       const toastId = toast.show({
-        children: "Updating deck",
+        children: t("deck_edit.save_loading"),
         variant: "loading",
       });
 
@@ -50,7 +52,7 @@ export function EditorActions(props: Props) {
         toast.dismiss(toastId);
 
         toast.show({
-          children: "Deck save successful.",
+          children: t("deck_edit.save_success"),
           duration: 3000,
           variant: "success",
         });
@@ -63,16 +65,16 @@ export function EditorActions(props: Props) {
           children: (
             <>
               <p>
-                Deck save failed: {(err as Error)?.message || "Unknown error"}.
+                {t("deck_edit.save_error", { error: (err as Error).message })}
               </p>
               {err instanceof PreviewPublishError && (
                 <Button
                   className={css["error-action"]}
                   onClick={onduplicateWithEdits}
                   size="sm"
-                  tooltip="Create a local copy of this deck. This will apply all outstanding edits and allow you to save them. Upgrades and deck history will not be carried over."
+                  tooltip={t("deck_edit.create_local_copy_help")}
                 >
-                  Create local copy
+                  {t("deck_edit.create_local_copy")}
                 </Button>
               )}
             </>
@@ -81,20 +83,19 @@ export function EditorActions(props: Props) {
         });
       }
     },
-    [saveDeck, navigate, deck.id, toast, onduplicateWithEdits],
+    [saveDeck, navigate, deck.id, toast, onduplicateWithEdits, t],
   );
 
   const onDiscard = useCallback(
     (stayOnPage?: boolean) => {
       const confirmed =
-        !hasEdits ||
-        window.confirm("Are you sure you want to discard your changes?");
+        !hasEdits || window.confirm(t("deck_edit.discard_confirm"));
       if (confirmed) {
         discardEdits(deck.id);
         if (!stayOnPage) navigate(`~/deck/view/${deck.id}`);
       }
     },
-    [discardEdits, navigate, deck.id, hasEdits],
+    [discardEdits, navigate, deck.id, hasEdits, t],
   );
 
   const onQuicksave = useCallback(() => onSave(true), [onSave]);
@@ -120,7 +121,7 @@ export function EditorActions(props: Props) {
     <>
       <LatestUpgrade currentTab={currentTab} deck={deck} overflowScroll />
       <div className={css["actions"]}>
-        <HotkeyTooltip keybind="cmd+s" description="Save deck">
+        <HotkeyTooltip keybind="cmd+s" description={t("deck_edit.save")}>
           <Button
             data-testid="editor-save"
             onClick={onSaveClose}
@@ -129,23 +130,26 @@ export function EditorActions(props: Props) {
               connectionLock
                 ? connectionLock
                 : readonly
-                  ? "This deck has an upgrade and is read-only."
+                  ? t("deck_edit.readonly")
                   : undefined
             }
             variant="primary"
           >
             <SaveIcon />
-            Save
+            {t("deck_edit.save_short")}
           </Button>
         </HotkeyTooltip>
-        <HotkeyTooltip keybind="cmd+backspace" description="Discard edits">
+        <HotkeyTooltip
+          keybind="cmd+backspace"
+          description={t("deck_edit.discard")}
+        >
           <Button
             data-testid="editor-discard"
             onClick={onDiscardClose}
             variant="bare"
           >
             <Undo2Icon />
-            Discard edits
+            {t("deck_edit.discard")}
           </Button>
         </HotkeyTooltip>
       </div>

@@ -6,11 +6,13 @@ import {
 } from "@/store/selectors/lists";
 import { isSanityFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
+import { useTranslation } from "react-i18next";
 import type { FilterProps } from "./filters.types";
 import { RangeFilter } from "./primitives/range-filter";
 
 export function SanityFilter(props: FilterProps) {
   const { id, resolvedDeck } = props;
+  const { t } = useTranslation();
 
   const filter = useStore((state) => selectActiveListFilter(state, id));
 
@@ -33,7 +35,7 @@ export function SanityFilter(props: FilterProps) {
       min={min}
       max={max}
       open={filter.open}
-      title="Sanity"
+      title={t("filters.sanity.title")}
       value={filter.value}
     />
   );

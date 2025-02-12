@@ -10,6 +10,7 @@ import {
   isTooManyCardsError,
 } from "@/store/lib/deck-validation";
 import { InfoIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Collapsible, CollapsibleContent } from "../ui/collapsible";
 import { Scroller } from "../ui/scroller";
 import css from "./decklist-validation.module.css";
@@ -22,6 +23,7 @@ type Props = {
 export function DecklistValidation(props: Props) {
   const { defaultOpen, validation } = props;
 
+  const { t } = useTranslation();
   const cards = useStore((state) => state.metadata.cards);
 
   if (validation.valid) return null;
@@ -34,7 +36,9 @@ export function DecklistValidation(props: Props) {
       title={
         <div className={css["decklist-validation-header"]}>
           <InfoIcon />
-          <p className={css["decklist-validation-text"]}>Deck is invalid.</p>
+          <p className={css["decklist-validation-text"]}>
+            {t("deck.validation.invalid")}
+          </p>
         </div>
       }
     >
@@ -44,17 +48,29 @@ export function DecklistValidation(props: Props) {
             {validation.errors.map((error, i) => (
               // biome-ignore lint/suspicious/noArrayIndexKey: no unique key available.
               <li className={css["decklist-validation-result"]} key={i}>
-                {isTooManyCardsError(error) &&
-                  `${getName(error.details.target)} contains too many cards. (${error.details.count} / ${error.details.countRequired})`}
-                {isTooFewCardsError(error) &&
-                  `${getName(error.details.target)} contains too few cards. (${error.details.count} / ${error.details.countRequired})`}
+                {isTooManyCardsError(error) && (
+                  <>
+                    {t("deck.validation.too_many_cards", {
+                      deck: `${t(`common.decks.${error.details.target}`)}`,
+                    })}{" "}
+                    ({error.details.count} / {error.details.countRequired})
+                  </>
+                )}
+                {isTooFewCardsError(error) && (
+                  <>
+                    {t("deck.validation.too_few_cards", {
+                      deck: `${t(`common.decks.${error.details.target}`)}`,
+                    })}{" "}
+                    ({error.details.count} / {error.details.countRequired})
+                  </>
+                )}
                 {isInvalidInvestigatorError(error) &&
-                  "Investigator is invalid. Required configuration is missing or the card is not an investigator."}
-                {isDeckOptionsError(error) && error.details.error}
+                  t("deck.validation.invalid_investigator")}
+                {isDeckOptionsError(error) &&
+                  t(`common.deck_options.${error.details.error}`)}
                 {isInvalidCardCountError(error) && (
                   <>
-                    Deck contains invalid number of copies of the following
-                    cards:
+                    {t("deck.validation.invalid_card_count")}
                     <ol className={css["decklist-validation-result-cards"]}>
                       {error.details.map((detail) => (
                         <li key={detail.code}>
@@ -67,8 +83,7 @@ export function DecklistValidation(props: Props) {
                 )}
                 {isForbiddenCardError(error) && (
                   <>
-                    Deck contains forbidden cards (cards not permitted by
-                    Investigator):
+                    {t("deck.validation.forbidden_cards")}
                     <ol className={css["decklist-validation-result-cards"]}>
                       {error.details.map((detail) => (
                         <li key={detail.code}>
@@ -80,7 +95,7 @@ export function DecklistValidation(props: Props) {
                 )}
                 {isDeckRequirementsNotMetError(error) && (
                   <>
-                    Deck does not comply with the Investigator requirements:
+                    {t("deck.validation.investigator_requirements")}
                     <ol className={css["decklist-validation-result-cards"]}>
                       {error.details.map((detail) => (
                         <li key={detail.code}>
@@ -98,10 +113,4 @@ export function DecklistValidation(props: Props) {
       </CollapsibleContent>
     </Collapsible>
   );
-}
-
-function getName(slot: string) {
-  if (slot === "slots") return "Deck";
-  if (slot === "extraSlots") return "Spirit deck";
-  return slot;
 }

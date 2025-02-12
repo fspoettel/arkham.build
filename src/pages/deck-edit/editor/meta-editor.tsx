@@ -7,34 +7,41 @@ import type { SelectOption } from "@/components/ui/select";
 import { Select } from "@/components/ui/select";
 import { useStore } from "@/store";
 import { encodeCardPool, encodeSealedDeck } from "@/store/lib/deck-meta";
-import type { ResolvedDeck, SealedDeck } from "@/store/lib/types";
+import type {
+  CardWithRelations,
+  ResolvedDeck,
+  SealedDeck,
+} from "@/store/lib/types";
 import { selectTabooSetSelectOptions } from "@/store/selectors/lists";
 import type { DeckOptionSelectType } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
 import { debounce } from "@/utils/debounce";
-import { capitalize, capitalizeSnakeCase } from "@/utils/formatting";
+import type { TFunction } from "i18next";
 import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { createSelector } from "reselect";
 import css from "./editor.module.css";
+import { SelectionEditor } from "./selection-editor";
 
 type Props = {
   deck: ResolvedDeck;
 };
 
 function getInvestigatorOptions(
-  deck: ResolvedDeck,
-  type: "Front" | "Back",
+  investigator: CardWithRelations,
+  type: "front" | "back",
+  t: TFunction,
 ): SelectOption[] {
-  return deck.hasParallel
-    ? [
-        { value: deck.cards.investigator.card.code, label: `Original ${type}` },
-        {
-          value: deck.cards.investigator.relations?.parallel?.card
-            .code as string,
-          label: `Parallel ${type}`,
-        },
-      ]
-    : [];
+  return [
+    {
+      value: investigator.card.code,
+      label: t(`deck_edit.config.sides.original_${type}`),
+    },
+    {
+      value: investigator.relations?.parallel?.card.code as string,
+      label: t(`deck_edit.config.sides.parallel_${type}`),
+    },
+  ];
 }
 
 const selectUpdateName = createSelector(
@@ -58,6 +65,7 @@ const selectUpdateInvestigatorSide = (state: StoreState) =>
 export function MetaEditor(props: Props) {
   const { deck } = props;
 
+  const { t } = useTranslation();
   const tabooSets = useStore(selectTabooSetSelectOptions);
 
   const selectedPacks = useMemo(() => deck.cardPool ?? [], [deck.cardPool]);
@@ -149,7 +157,7 @@ export function MetaEditor(props: Props) {
   return (
     <div className={css["meta"]}>
       <Field full padded>
-        <FieldLabel>Deck name</FieldLabel>
+        <FieldLabel>{t("deck_edit.config.name")}</FieldLabel>
         <input
           defaultValue={deck.name}
           onChange={onNameChange}
@@ -157,8 +165,8 @@ export function MetaEditor(props: Props) {
           type="text"
         />
       </Field>
-      <Field full helpText="Enter tags, separated by spaces" padded>
-        <FieldLabel>Tags</FieldLabel>
+      <Field full helpText={t("deck_edit.config.tags_help")} padded>
+        <FieldLabel>{t("deck_edit.config.tags")}</FieldLabel>
         <input
           defaultValue={deck.tags ?? ""}
           onChange={onTagsChange}
@@ -169,66 +177,52 @@ export function MetaEditor(props: Props) {
       {deck.hasParallel && (
         <>
           <Field full padded>
-            <FieldLabel>Investigator Front</FieldLabel>
+            <FieldLabel>
+              {t("deck_edit.config.sides.investigator_front")}
+            </FieldLabel>
             <Select
               data-testid="meta-investigator-front"
               data-side="front"
               onChange={onInvestigatorSideChange}
-              options={getInvestigatorOptions(deck, "Front")}
+              options={getInvestigatorOptions(
+                deck.cards.investigator,
+                "front",
+                t,
+              )}
               required
               value={deck.investigatorFront.card.code}
             />
           </Field>
           <Field full padded>
-            <FieldLabel>Investigator Back</FieldLabel>
+            <FieldLabel>
+              {t("deck_edit.config.sides.investigator_back")}
+            </FieldLabel>
             <Select
               data-testid="meta-investigator-back"
               data-side="back"
               onChange={onInvestigatorSideChange}
-              options={getInvestigatorOptions(deck, "Back")}
+              options={getInvestigatorOptions(
+                deck.cards.investigator,
+                "back",
+                t,
+              )}
               required
               value={deck.investigatorBack.card.code}
             />
           </Field>
         </>
       )}
-      {deck.selections &&
-        Object.entries(deck.selections).map(([key, value]) => (
-          <Field full key={key} padded>
-            <FieldLabel>{capitalizeSnakeCase(key)}</FieldLabel>
-            {(value.type === "deckSize" || value.type === "faction") && (
-              <Select
-                data-field={value.accessor}
-                data-type={value.type}
-                emptyLabel="None"
-                onChange={onFieldChange}
-                options={value.options.map((v) => ({
-                  value: v,
-                  label: capitalize(v),
-                }))}
-                value={value.value ?? ""}
-              />
-            )}
-            {value.type === "option" && (
-              <Select
-                data-field={value.accessor}
-                data-type={value.type}
-                emptyLabel="None"
-                onChange={onFieldChange}
-                options={value.options.map((v) => ({
-                  value: v.id,
-                  label: v.name,
-                }))}
-                value={value.value?.id ?? ""}
-              />
-            )}
-          </Field>
-        ))}
+      {deck.selections && (
+        <SelectionEditor
+          onSelectionChange={onFieldChange}
+          selections={deck.selections}
+        />
+      )}
       <Field full padded>
-        <FieldLabel>Taboo Set</FieldLabel>
+        <FieldLabel>{t("deck_edit.config.taboo")}</FieldLabel>
         <Select
           data-testid="meta-taboo-set"
-          emptyLabel="None"
+          emptyLabel={t("common.none")}
           onChange={onTabooChange}
           options={tabooSets}
           value={deck.taboo_id ?? ""}
@@ -236,7 +230,9 @@ export function MetaEditor(props: Props) {
       </Field>
 
       <Field data-testid="meta-limited-card-pool" full padded bordered>
-        <FieldLabel as="div">Card pool settings</FieldLabel>
+        <FieldLabel as="div">
+          {t("deck_edit.config.card_pool.section_title")}
+        </FieldLabel>
         <LimitedCardPoolField
           selectedItems={selectedPacks}
           onValueChange={onCardPoolChange}

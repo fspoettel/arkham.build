@@ -1,6 +1,7 @@
 import type { ChartableData } from "@/store/lib/types";
-import { capitalize } from "@/utils/formatting";
+import type { TFunction } from "i18next";
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 import {
   VictoryChart,
   VictoryContainer,
@@ -21,12 +22,13 @@ type Props = {
 export function SkillIconsChart({ data }: Props) {
   const ref = useRef(null);
   const { width } = useElementSize(ref);
+  const { t } = useTranslation();
 
   return (
     <div ref={ref} className={css["chart-container"]}>
       {width > 0 && (
         <>
-          <h4 className={css["chart-title"]}>Skill icons</h4>
+          <h4 className={css["chart-title"]}>{t("deck.tools.skill_icons")}</h4>
           <VictoryChart
             containerComponent={
               <VictoryContainer style={containerTheme} responsive={false} />
@@ -47,7 +49,7 @@ export function SkillIconsChart({ data }: Props) {
             <VictoryScatter
               data={data}
               size={5}
-              labels={formatTooltips}
+              labels={formatTooltips(t)}
               labelComponent={
                 <VictoryTooltip
                   labelPlacement="vertical"
@@ -67,12 +69,12 @@ function formatTickLabels(value: string) {
   return value.replace("skill_", "");
 }
 
-function formatTooltips(value: { datum: { xName: string; y: number } }) {
-  const { xName, y } = value.datum;
-
-  const skill = xName.replace("skill_", "");
-
-  return `${y} ${capitalize(skill)} icon${y !== 1 ? "s" : ""}`;
+function formatTooltips(t: TFunction) {
+  return (value: { datum: { xName: string; y: number } }) => {
+    const { xName, y } = value.datum;
+    const skill = xName.replace("skill_", "");
+    return `${y} ${t(`common.skill.${skill}`)} ${t("common.icon", { count: y })}`;
+  };
 }
 
 function SkillIconLabel(props: {

@@ -8,6 +8,7 @@ import { isSubtypeFilterObject } from "@/store/slices/lists.type-guards";
 import type { SubtypeFilter as SubtypeFilterType } from "@/store/slices/lists.types";
 import { assert } from "@/utils/assert";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
 import type { FilterProps } from "./filters.types";
@@ -15,8 +16,9 @@ import { FilterContainer } from "./primitives/filter-container";
 import { useFilterCallbacks } from "./primitives/filter-hooks";
 
 export function SubtypeFilter({ id }: FilterProps) {
-  const filter = useStore((state) => selectActiveListFilter(state, id));
+  const { t } = useTranslation();
 
+  const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
     isSubtypeFilterObject(filter),
     `SubtypeFilter instantiated with '${filter?.type}'`,
@@ -46,7 +48,7 @@ export function SubtypeFilter({ id }: FilterProps) {
       onOpenChange={onOpenChange}
       onReset={onReset}
       open={filter.open}
-      title="Subtype"
+      title={t("filters.subtype.title")}
     >
       <CheckboxGroup>
         {options.map(({ code, name }) => (

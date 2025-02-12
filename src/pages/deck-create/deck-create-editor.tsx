@@ -15,21 +15,22 @@ import {
 import { selectTabooSetSelectOptions } from "@/store/selectors/lists";
 import { selectConnectionLock } from "@/store/selectors/shared";
 import type { Card } from "@/store/services/queries.types";
-import {
-  capitalize,
-  capitalizeSnakeCase,
-  formatProviderName,
-} from "@/utils/formatting";
+import { formatProviderName } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { useGoBack } from "@/utils/use-go-back";
+import type { TFunction } from "i18next";
 import { ArrowRightLeftIcon } from "lucide-react";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation } from "wouter";
 import { useAccentColor } from "../../utils/use-accent-color";
+import { SelectionEditor } from "../deck-edit/editor/selection-editor";
 import { DeckCreateCardPool } from "./deck-create-card-pool";
 import css from "./deck-create.module.css";
 
 export function DeckCreateEditor() {
+  const { t } = useTranslation();
+
   const deckCreate = useStore(selectDeckCreateChecked);
   const { back, investigator } = useStore(selectDeckCreateInvestigators);
 
@@ -51,7 +52,7 @@ export function DeckCreateEditor() {
 
   const onDeckCreate = useCallback(async () => {
     const toastId = toast.show({
-      children: "Creating deck",
+      children: t("deck_create.loading"),
       variant: "loading",
     });
 
@@ -60,18 +61,18 @@ export function DeckCreateEditor() {
       navigate(`/deck/edit/${id}`, { replace: true });
       toast.dismiss(toastId);
       toast.show({
-        children: "Deck create successful.",
+        children: t("deck_create.success"),
         duration: 3000,
         variant: "success",
       });
     } catch (err) {
       toast.dismiss(toastId);
       toast.show({
-        children: `Deck create failed: ${(err as Error)?.message || "Unknown error"}`,
+        children: t("deck_create.error", { error: (err as Error).message }),
         variant: "error",
       });
     }
-  }, [toast, createDeck, navigate]);
+  }, [toast, createDeck, navigate, t]);
 
   const setInvestigatorCode = useStore(
     (state) => state.deckCreateSetInvestigatorCode,
@@ -122,10 +123,10 @@ export function DeckCreateEditor() {
     (card: Card) => (
       <Button size="sm" onClick={() => setInvestigatorCode(card.code)}>
         <ArrowRightLeftIcon />
-        Switch
+        {t("deck_edit.config.version.switch")}
       </Button>
     ),
-    [setInvestigatorCode],
+    [setInvestigatorCode, t],
   );
 
   const selections = decodeSelections(back, deckCreate.selections);
@@ -135,10 +136,12 @@ export function DeckCreateEditor() {
     <div className={css["editor"]} style={cssVariables}>
       {!isEmpty(connections) && (
         <Field full padded>
-          <FieldLabel htmlFor="provider">Storage provider</FieldLabel>
+          <FieldLabel htmlFor="provider">
+            {t("deck_edit.config.storage_provider.title")}
+          </FieldLabel>
           <Select
             name="provider"
-            emptyLabel="Private"
+            emptyLabel={t("deck_edit.config.storage_provider.local")}
             options={connections.map((connection) => ({
               label: formatProviderName(connection.provider),
               value: connection.provider,
@@ -151,7 +154,7 @@ export function DeckCreateEditor() {
         </Field>
       )}
       <Field full padded>
-        <FieldLabel htmlFor="title">Title</FieldLabel>
+        <FieldLabel htmlFor="title">{t("deck_edit.config.name")}</FieldLabel>
         <input
           data-testid="create-title"
           name="title"
@@ -162,7 +165,7 @@ export function DeckCreateEditor() {
       </Field>
 
       <Field full padded>
-        <FieldLabel htmlFor="taboo">Taboo set</FieldLabel>
+        <FieldLabel htmlFor="taboo">{t("deck_edit.config.taboo")}</FieldLabel>
         <Select
           data-testid="create-taboo"
           emptyLabel="None"
@@ -177,28 +180,28 @@ export function DeckCreateEditor() {
         <>
           <Field full padded>
             <FieldLabel htmlFor="investigator-front">
-              Investigator front
+              {t("deck_edit.config.sides.investigator_front")}
             </FieldLabel>
             <Select
               data-side="front"
               data-testid="create-investigator-front"
               name="investigator-front"
               onChange={onInvestigatorChange}
-              options={getInvestigatorOptions(investigator, "Front")}
+              options={getInvestigatorOptions(investigator, "front", t)}
               required
               value={deckCreate.investigatorFrontCode}
             />
           </Field>
           <Field full padded>
             <FieldLabel htmlFor="investigator-back">
-              Investigator back
+              {t("deck_edit.config.sides.investigator_back")}
             </FieldLabel>
             <Select
               data-side="back"
               data-testid="create-investigator-back"
               name="investigator-back"
               onChange={onInvestigatorChange}
-              options={getInvestigatorOptions(investigator, "Back")}
+              options={getInvestigatorOptions(investigator, "back", t)}
               required
               value={deckCreate.investigatorBackCode}
             />
@@ -206,44 +209,16 @@ export function DeckCreateEditor() {
         </>
       )}
 
-      {selections &&
-        Object.entries(selections).map(([key, value]) => (
-          <Field full key={key} padded>
-            <FieldLabel>{capitalizeSnakeCase(key)}</FieldLabel>
-            {(value.type === "deckSize" || value.type === "faction") && (
-              <Select
-                data-testid={`create-select-${key}`}
-                data-field={value.accessor}
-                data-type={value.type}
-                emptyLabel="None"
-                onChange={onSelectionChange}
-                options={value.options.map((v) => ({
-                  value: v,
-                  label: capitalize(v),
-                }))}
-                value={value.value ?? ""}
-              />
-            )}
-            {value.type === "option" && (
-              <Select
-                data-field={value.accessor}
-                data-testid={`create-select-${key}`}
-                data-type={value.type}
-                emptyLabel="None"
-                onChange={onSelectionChange}
-                options={value.options.map((v) => ({
-                  value: v.id,
-                  label: v.name,
-                }))}
-                value={value.value?.id ?? ""}
-              />
-            )}
-          </Field>
-        ))}
+      {selections && (
+        <SelectionEditor
+          onSelectionChange={onSelectionChange}
+          selections={selections}
+        />
+      )}
 
       {!isEmpty(investigator.relations?.otherVersions) && (
         <Field>
-          <FieldLabel>Other versions</FieldLabel>
+          <FieldLabel>{t("deck_edit.config.version.title")}</FieldLabel>
           <ListCard
             card={investigator.relations.otherVersions[0].card}
             size="sm"
@@ -258,7 +233,7 @@ export function DeckCreateEditor() {
       <nav className={css["editor-nav"]}>
         <Button
           data-testid="create-save"
-          disabled={connectionLock && provider === "arkhamdb"}
+          disabled={!!connectionLock && provider === "arkhamdb"}
           onClick={onDeckCreate}
           tooltip={
             connectionLock && provider === "arkhamdb"
@@ -267,10 +242,10 @@ export function DeckCreateEditor() {
           }
           variant="primary"
         >
-          Create deck
+          {t("deck.actions.create")}
         </Button>
         <Button onClick={goBack} type="button" variant="bare">
-          Cancel
+          {t("common.cancel")}
         </Button>
       </nav>
     </div>
@@ -279,13 +254,17 @@ export function DeckCreateEditor() {
 
 function getInvestigatorOptions(
   investigator: CardWithRelations,
-  type: "Front" | "Back",
+  type: "front" | "back",
+  t: TFunction,
 ): SelectOption[] {
   return [
-    { value: investigator.card.code, label: `Original ${type.toLowerCase()}` },
+    {
+      value: investigator.card.code,
+      label: t(`deck_edit.config.sides.original_${type}`),
+    },
     {
       value: investigator.relations?.parallel?.card.code as string,
-      label: `Parallel ${type.toLowerCase()}`,
+      label: t(`deck_edit.config.sides.parallel_${type}`),
     },
   ];
 }

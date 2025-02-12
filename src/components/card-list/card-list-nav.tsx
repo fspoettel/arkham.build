@@ -7,6 +7,7 @@ import type { Metadata } from "@/store/slices/metadata.types";
 import { useHotkey } from "@/utils/use-hotkey";
 import { SlidersVerticalIcon } from "lucide-react";
 import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { LimitedCardPoolTag, SealedDeckTag } from "../limited-card-pool";
 import { Button } from "../ui/button";
 import {
@@ -30,6 +31,7 @@ type Props = {
 
 export function CardListNav(props: Props) {
   const { data, metadata, onSelectGroup, onViewModeChange, viewMode } = props;
+  const { t } = useTranslation();
 
   const jumpToOptions = useMemo(
     () =>
@@ -92,7 +94,7 @@ export function CardListNav(props: Props) {
         {data && (
           <Select
             className={css["nav-jump"]}
-            emptyLabel="Jump to..."
+            emptyLabel={t("lists.nav.jump_to")}
             onChange={onSelectGroup}
             options={jumpToOptions ?? []}
             variant="compressed"
@@ -103,7 +105,7 @@ export function CardListNav(props: Props) {
           <PopoverTrigger asChild>
             <Button
               className={css["nav-config"]}
-              tooltip="List settings"
+              tooltip={t("lists.nav.list_settings")}
               data-test-id="card-list-config"
               variant="bare"
               iconOnly
@@ -113,22 +115,22 @@ export function CardListNav(props: Props) {
           </PopoverTrigger>
           <PopoverContent>
             <DropdownMenu>
-              <DropdownMenuSection title="Display">
+              <DropdownMenuSection title={t("lists.nav.display")}>
                 <RadioGroup value={viewMode} onValueChange={onViewModeChange}>
                   <DropdownRadioGroupItem hotkey="alt+l" value="compact">
-                    List
+                    {t("lists.nav.display_as_list")}
                   </DropdownRadioGroupItem>
                   <DropdownRadioGroupItem
                     hotkey="alt+shift+l"
                     value="card-text"
                   >
-                    List with text
+                    {t("lists.nav.display_as_list_text")}
                   </DropdownRadioGroupItem>
                   <DropdownRadioGroupItem hotkey="alt+d" value="full-cards">
-                    Detailed
+                    {t("lists.nav.display_as_detailed")}
                   </DropdownRadioGroupItem>
                   <DropdownRadioGroupItem hotkey="alt+s" value="scans">
-                    Scans
+                    {t("lists.nav.display_as_scans")}
                   </DropdownRadioGroupItem>
                 </RadioGroup>
               </DropdownMenuSection>

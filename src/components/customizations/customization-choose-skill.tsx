@@ -3,6 +3,7 @@ import type { Coded } from "@/store/services/queries.types";
 import { SKILL_KEYS } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   disabled?: boolean;
@@ -20,6 +21,7 @@ const itemRenderer = (item: Coded) => (
 
 export function CustomizationChooseSkill(props: Props) {
   const { disabled, id, onChange, readonly, selections } = props;
+  const { t } = useTranslation();
 
   const options = useMemo(
     () =>
@@ -34,10 +36,10 @@ export function CustomizationChooseSkill(props: Props) {
       disabled={disabled}
       id={`${id}-choose-skill`}
       items={options}
-      label="Skill"
+      label={t("common.skill.title")}
       limit={1}
       onValueChange={onChange}
-      placeholder="Choose a skill..."
+      placeholder={t("deck_edit.customizable.skill_placeholder")}
       readonly={readonly}
       renderItem={itemRenderer}
       renderResult={itemRenderer}

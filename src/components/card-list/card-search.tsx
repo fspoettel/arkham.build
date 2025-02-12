@@ -6,6 +6,7 @@ import { debounce } from "@/utils/debounce";
 import { useAgathaEasterEggTrigger } from "@/utils/easter-egg-agatha";
 import { useHotkey } from "@/utils/use-hotkey";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Checkbox } from "../ui/checkbox";
 import { SearchInput } from "../ui/search-input";
 import css from "./card-search.module.css";
@@ -26,6 +27,8 @@ export function CardSearch(props: Props) {
     slotLeft,
     slotRight,
   } = props;
+
+  const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const setSearchValue = useStore((state) => state.setSearchValue);
@@ -106,10 +109,11 @@ export function CardSearch(props: Props) {
           <SearchInput
             data-testid="search-input"
             id="card-search-input"
+            label={t("lists.search.placeholder")}
             inputClassName={css["field-input"]}
             onChangeValue={onValueChange}
             onKeyDown={onInputKeyDown}
-            placeholder="Search for cards..."
+            placeholder={t("lists.search.placeholder")}
             ref={inputRef}
             value={inputValue}
           />
@@ -122,26 +126,26 @@ export function CardSearch(props: Props) {
           checked={search.includeName}
           data-testid="search-card-name"
           id="search-card-name"
-          label="Name"
+          label={t("lists.search.include_name")}
           onCheckedChange={onToggleCardName}
         />
         <Checkbox
           checked={search.includeGameText}
           data-testid="search-game-text"
           id="search-game-text"
-          label="Game text"
+          label={t("lists.search.include_game_text")}
           onCheckedChange={onToggleGameText}
         />
         <Checkbox
           checked={search.includeFlavor}
           id="search-game-flavor"
-          label="Flavor"
+          label={t("lists.search.include_flavor")}
           onCheckedChange={onToggleFlavor}
         />
         <Checkbox
           checked={search.includeBacks}
           id="search-back"
-          label="Backs"
+          label={t("lists.search.include_backs")}
           onCheckedChange={onToggleBacks}
         />
       </div>

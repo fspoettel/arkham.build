@@ -18,12 +18,9 @@ import {
   selectConnectionLock,
   selectConnectionLockForDeck,
 } from "@/store/selectors/shared";
+import type { Id } from "@/store/slices/data.types";
 import { cx } from "@/utils/cx";
-import {
-  capitalize,
-  capitalizeSnakeCase,
-  formatTabooSet,
-} from "@/utils/formatting";
+import { capitalize, formatTabooSet } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { useHotkey } from "@/utils/use-hotkey";
 import {
@@ -36,6 +33,7 @@ import {
   Trash2Icon,
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import { Link, useLocation, useSearch } from "wouter";
 import { useCardModalContextChecked } from "../card-modal/card-modal-context";
 import { DeckInvestigatorModal } from "../deck-investigator/deck-investigator-modal";
@@ -120,34 +118,37 @@ export function Sidebar(props: Props) {
 
 function SidebarDetails(props: { deck: ResolvedDeck }) {
   const { deck } = props;
+  const { t } = useTranslation();
+
+  console.log("@@@", deck.selections);
 
   return (
     <ul className={css["details"]}>
       <li className={css["detail"]} data-testid="view-deck-size">
         <div className={css["detail-label"]}>
-          <i className="icon-card-outline-bold" /> Deck size
+          <i className="icon-card-outline-bold" /> {t("deck.stats.deck_size")}
         </div>
         <p className={css["detail-value"]}>
-          {deck.stats.deckSize} ({deck.stats.deckSizeTotal} total)
+          {deck.stats.deckSize} ({deck.stats.deckSizeTotal} {t("common.total")})
         </p>
       </li>
 
       <li className={css["detail"]} data-testid="view-deck-xp">
         <div className={css["detail-label"]}>
-          <i className="icon-xp-bold" /> XP required
+          <i className="icon-xp-bold" /> {t("deck.stats.xp_required")}
         </div>
         <p className={css["detail-value"]}>{deck.stats.xpRequired}</p>
       </li>
 
       <li className={css["detail"]} data-testid="view-deck-taboo">
         <div className={css["detail-label"]}>
-          <i className="icon-taboo" /> Taboo
+          <i className="icon-taboo" /> {t("common.taboo")}
         </div>
         <p className={css["detail-value"]}>
           {deck.tabooSet ? (
             <span>{formatTabooSet(deck.tabooSet)}</span>
           ) : (
-            "None"
+            t("common.taboo_none")
           )}
         </p>
       </li>
@@ -163,7 +164,7 @@ function SidebarDetails(props: { deck: ResolvedDeck }) {
               className={css["detail-label"]}
               data-testid={`selection-${key}-label`}
             >
-              {capitalizeSnakeCase(key)}
+              {t(`common.deck_options.${selection.name}`)}
             </div>
             {selection.type === "deckSize" && (
               <p
@@ -179,12 +180,12 @@ function SidebarDetails(props: { deck: ResolvedDeck }) {
                 data-testid={`selection-${key}-value`}
               >
                 {selection.value ? (
-                  <>
+                  <span>
                     <FactionIcon code={selection.value} />
-                    {capitalize(selection.value)}
-                  </>
+                    {t(`common.factions.${selection.value}`)}
+                  </span>
                 ) : (
-                  "None"
+                  t("common.none")
                 )}
               </p>
             )}
@@ -193,7 +194,7 @@ function SidebarDetails(props: { deck: ResolvedDeck }) {
                 className={css["detail-value"]}
                 data-testid={`selection-${key}-value`}
               >
-                {selection.value?.name ?? "None"}
+                {t(`common.deck_options.${selection.value?.name}`)}
               </p>
             )}
           </li>
@@ -204,6 +205,7 @@ function SidebarDetails(props: { deck: ResolvedDeck }) {
 
 function SidebarUpgrade(props: { deck: ResolvedDeck }) {
   const { deck } = props;
+  const { t } = useTranslation();
 
   if (!deck.previous_deck) return null;
 
@@ -213,7 +215,7 @@ function SidebarUpgrade(props: { deck: ResolvedDeck }) {
         <header>
           <h3 className={css["detail-label"]}>
             <i className="icon-upgrade" />
-            Latest upgrade
+            {t("deck.latest_upgrade.title")}
           </h3>
         </header>
         <div className={css["detail-value"]}>
@@ -231,6 +233,7 @@ function SidebarActions(props: {
 }) {
   const { origin, deck, onArkhamDBUpload } = props;
 
+  const { t } = useTranslation();
   const [, navigate] = useLocation();
   const search = useSearch();
   const toast = useToast();
@@ -309,7 +312,7 @@ function SidebarActions(props: {
       const id = importSharedDeck(deck);
 
       toast.show({
-        children: "Deck import successful.",
+        children: t("deck_view.import_success"),
         variant: "success",
         duration: 3000,
       });
@@ -317,11 +320,13 @@ function SidebarActions(props: {
       navigate(`/deck/view/${id}`);
     } catch (err) {
       toast.show({
-        children: `Failed to import deck: ${(err as Error).message}`,
+        children: t("deck_view.import_error", {
+          error: (err as Error).message,
+        }),
         variant: "error",
       });
     }
-  }, [deck, importSharedDeck, toast.show, navigate]);
+  }, [deck, importSharedDeck, toast.show, navigate, t]);
 
   const isReadOnly = !!deck.next_deck;
 
@@ -334,44 +339,55 @@ function SidebarActions(props: {
   useHotkey("cmd+shift+j", onExportJson);
   useHotkey("cmd+shift+t", onExportText);
 
+  const nextDeck = isReadOnly
+    ? `${origin !== "share" ? "/deck/view/" : "/share/"}${deck.next_deck}`
+    : undefined;
+
   return (
     <>
-      {isReadOnly && (
+      {nextDeck && (
         <Notice variant="info">
-          There is a{" "}
-          <Link
-            href={`${origin !== "share" ? "/deck/view/" : "/share/"}${deck.next_deck}`}
+          <Trans
+            t={t}
+            i18nKey="deck_view.newer_version"
+            components={{ a: <Link href={nextDeck} /> }}
           >
-            newer version
-          </Link>{" "}
-          of this deck. {origin === "local" && "This deck is read-only."}
+            There is a <Link href="">newer version</Link> of this deck. This
+            deck is read-only.
+          </Trans>
         </Notice>
       )}
       <div className={css["actions"]}>
         {origin === "local" ? (
           <>
-            <HotkeyTooltip keybind="e" description="Edit deck">
-              <Button
-                data-testid="view-edit"
-                disabled={isReadOnly}
-                onClick={onEdit}
-                size="full"
-              >
-                <PencilIcon /> Edit
-              </Button>
+            <HotkeyTooltip keybind="e" description={t("deck.actions.edit")}>
+              <Link to={`/deck/edit/${deck.id}`} asChild>
+                <Button
+                  data-testid="view-edit"
+                  disabled={isReadOnly}
+                  as="a"
+                  size="full"
+                >
+                  <PencilIcon /> {t("deck.actions.edit_short")}
+                </Button>
+              </Link>
             </HotkeyTooltip>
             <Dialog
               onOpenChange={onUpgradeModalOpenChange}
               open={upgradeModalOpen}
             >
-              <HotkeyTooltip keybind="u" description="Upgrade deck">
+              <HotkeyTooltip
+                keybind="u"
+                description={t("deck.actions.upgrade")}
+              >
                 <DialogTrigger asChild>
                   <Button
                     data-testid="view-upgrade"
                     disabled={isReadOnly}
                     size="full"
                   >
-                    <i className="icon-xp-bold" /> Upgrade
+                    <i className="icon-xp-bold" />{" "}
+                    {t("deck.actions.upgrade_short")}
                   </Button>
                 </DialogTrigger>
               </HotkeyTooltip>
@@ -381,9 +397,12 @@ function SidebarActions(props: {
             </Dialog>
           </>
         ) : (
-          <HotkeyTooltip keybind="cmd+i" description="Import deck">
+          <HotkeyTooltip
+            keybind="cmd+i"
+            description={t("deck_view.actions.import")}
+          >
             <Button size="full" onClick={onImport}>
-              <ImportIcon /> Import deck to collection
+              <ImportIcon /> {t("deck_view.actions.import")}
             </Button>
           </HotkeyTooltip>
         )}
@@ -396,7 +415,7 @@ function SidebarActions(props: {
             <Button
               variant="bare"
               data-testid="view-more-actions"
-              tooltip="More actions"
+              tooltip={t("common.more_actions")}
             >
               <EllipsisIcon />
             </Button>
@@ -411,7 +430,7 @@ function SidebarActions(props: {
                     onClick={onDuplicate}
                   >
                     <CopyIcon />
-                    Duplicate
+                    {t("deck.actions.duplicate_short")}
                   </DropdownButton>
                   <hr />
                 </>
@@ -426,7 +445,10 @@ function SidebarActions(props: {
                     variant="bare"
                     onClick={onArkhamDBUpload}
                   >
-                    <i className="icon-elder_sign" /> Upload to ArkhamDB
+                    <i className="icon-elder_sign" />{" "}
+                    {t("deck_view.actions.upload", {
+                      provider: "ArkhamDB",
+                    })}
                   </Button>
                   <hr />
                 </>
@@ -436,14 +458,14 @@ function SidebarActions(props: {
                 hotkey="cmd+shift+j"
                 onClick={onExportJson}
               >
-                <DownloadIcon /> Export JSON
+                <DownloadIcon /> {t("deck.actions.export_json")}
               </DropdownButton>
               <DropdownButton
                 data-testid="view-export-text"
                 hotkey="cmd+shift+t"
                 onClick={onExportText}
               >
-                <DownloadIcon /> Export text
+                <DownloadIcon /> {t("deck.actions.export_text")}
               </DropdownButton>
               {origin === "local" && (
                 <>
@@ -456,7 +478,8 @@ function SidebarActions(props: {
                       onClick={onDeleteUpgrade}
                       tooltip={deckConnectionLock}
                     >
-                      <i className="icon-xp-bold" /> Delete upgrade
+                      <i className="icon-xp-bold" />{" "}
+                      {t("deck.actions.delete_upgrade")}
                     </DropdownButton>
                   )}
                   <DropdownButton
@@ -466,7 +489,7 @@ function SidebarActions(props: {
                     onClick={onDelete}
                     tooltip={deckConnectionLock}
                   >
-                    <Trash2Icon /> Delete
+                    <Trash2Icon /> {t("deck.actions.delete")}
                   </DropdownButton>
                 </>
               )}
@@ -481,6 +504,7 @@ function SidebarActions(props: {
 function Sharing(props: { onArkhamDBUpload?: () => void; deck: ResolvedDeck }) {
   const { deck, onArkhamDBUpload } = props;
   const toast = useToast();
+  const { t } = useTranslation();
 
   const deckData = useStore((state) => state.data.decks[props.deck.id]);
   const share = useStore((state) => state.sharing.decks[props.deck.id]);
@@ -534,56 +558,31 @@ function Sharing(props: { onArkhamDBUpload?: () => void; deck: ResolvedDeck }) {
         <header>
           <h3 className={css["detail-label"]}>
             <ShareIcon />
-            Public share
+            {t("deck_view.sharing.title")}
           </h3>
         </header>
         <div className={css["detail-value"]}>
           {share ? (
             <div className={css["share"]}>
-              <p>
-                This deck has a public share, it can be viewed using this{" "}
-                <a
-                  data-testid="share-link"
-                  href={`/share/${deck.id}`}
-                  target="_blank"
-                  rel="noreferrer "
-                >
-                  link
-                </a>
-                .
-                <CopyToClipboard
-                  className={css["share-copy"]}
-                  text={`${window.location.origin}/share/${deck.id}`}
-                  variant="bare"
-                />
-              </p>
-              <p>
-                Deck ID: <code>{deck.id}</code>
-                <CopyToClipboard
-                  className={css["share-copy"]}
-                  text={`${deck.id}`}
-                  variant="bare"
-                />
-              </p>
+              <ShareInfo id={deck.id} path={`/share/${deck.id}`} />
               <nav className={css["share-actions"]}>
                 {deck.date_update !== share && (
                   <Button
                     disabled={isReadOnly}
                     onClick={onUpdateShare}
                     size="sm"
-                    tooltip="Share is outdated."
                   >
-                    Update share
+                    {t("deck_view.sharing.update")}
                   </Button>
                 )}
                 <Button size="sm" onClick={onDeleteShare}>
-                  Delete share
+                  {t("deck_view.sharing.delete")}
                 </Button>
               </nav>
             </div>
           ) : (
             <div className={css["share-empty"]}>
-              <p>Deck is stored locally.</p>
+              <p>{t("deck_view.sharing.description")}</p>
               <div className={css["share-actions"]}>
                 <Button
                   data-testid="share-create"
@@ -591,7 +590,11 @@ function Sharing(props: { onArkhamDBUpload?: () => void; deck: ResolvedDeck }) {
                   onClick={onCreateShare}
                   size="sm"
                   tooltip={
-                    <>
+                    <Trans
+                      t={t}
+                      i18nKey="sharing.create_tooltip"
+                      components={{ br: <br />, strong: <strong /> }}
+                    >
                       Sharing creates a publicly accessible, read-only link to
                       the deck. Anyone with the link can view the deck, but not
                       edit it.
@@ -599,13 +602,11 @@ function Sharing(props: { onArkhamDBUpload?: () => void; deck: ResolvedDeck }) {
                       Shares can be removed at any time. Removing a share does
                       not affect the deck itself.
                       <br />
-                      <strong>Note:</strong> For security reasons, deck notes
-                      are not part of the share.
-                    </>
+                    </Trans>
                   }
                 >
                   <ShareIcon />
-                  Create public share
+                  {t("deck_view.sharing.create")}
                 </Button>
                 {onArkhamDBUpload && (
                   <Button
@@ -615,7 +616,8 @@ function Sharing(props: { onArkhamDBUpload?: () => void; deck: ResolvedDeck }) {
                     tooltip={connectionLock}
                     size="sm"
                   >
-                    <i className="icon-elder_sign" /> Upload to ArkhamDB
+                    <i className="icon-elder_sign" />{" "}
+                    {t("deck_view.actions.upload", { provider: "ArkhamDB" })}
                   </Button>
                 )}
               </div>
@@ -627,8 +629,53 @@ function Sharing(props: { onArkhamDBUpload?: () => void; deck: ResolvedDeck }) {
   );
 }
 
+function ShareInfo(props: { id: Id; path: string }) {
+  const { id, path } = props;
+  const { t } = useTranslation();
+
+  return (
+    <>
+      <p>
+        <Trans
+          t={t}
+          i18nKey="deck_view.sharing.description_present"
+          components={{
+            a: (
+              // biome-ignore lint/a11y/useAnchorContent: interpolation.
+              <a
+                data-testid="share-link"
+                href={path}
+                target="_blank"
+                rel="noreferrer"
+              />
+            ),
+          }}
+        >
+          This deck has a public share, it can be viewed using{" "}
+          {/* biome-ignore lint/a11y/useValidAnchor: interpolation. */}
+          <a>this link</a>.
+        </Trans>
+        <CopyToClipboard
+          className={css["share-copy"]}
+          text={`${window.location.origin}${path}`}
+          variant="bare"
+        />
+      </p>
+      <p>
+        {t("deck.id")}: <code>{id}</code>
+        <CopyToClipboard
+          className={css["share-copy"]}
+          text={`${id}`}
+          variant="bare"
+        />
+      </p>
+    </>
+  );
+}
 function ArkhamDbDetails(props: { deck: ResolvedDeck }) {
   const { deck } = props;
+  const { t } = useTranslation();
+
   return (
     <>
       <section className={css["details"]} data-testid="share">
@@ -640,14 +687,8 @@ function ArkhamDbDetails(props: { deck: ResolvedDeck }) {
             </h3>
           </header>
           <div className={css["detail-value"]}>
-            <p>This deck is set up to sync with ArkhamDB.</p>
             <p>
-              Deck ID: <code>{deck.id}</code>
-              <CopyToClipboard
-                className={css["share-copy"]}
-                text={`${deck.id}`}
-                variant="bare"
-              />
+              {t("deck_view.connections.description", { provider: "ArkhamDB" })}
             </p>
             <Button
               as="a"
@@ -656,7 +697,7 @@ function ArkhamDbDetails(props: { deck: ResolvedDeck }) {
               rel="noreferrer"
               target="_blank"
             >
-              View on ArkhamDB
+              {t("deck_view.connections.view", { provider: "ArkhamDB" })}
             </Button>
           </div>
         </div>
@@ -666,26 +707,10 @@ function ArkhamDbDetails(props: { deck: ResolvedDeck }) {
           <header>
             <h3 className={css["detail-label"]}>
               <ShareIcon />
-              Public share
+              {t("deck_view.sharing.title")}
             </h3>
           </header>
-          <p>
-            This deck has a public share, it can be viewed using this{" "}
-            <a
-              data-testid="share-link"
-              href={`/deck/view/${deck.id}`}
-              target="_blank"
-              rel="noreferrer "
-            >
-              link
-            </a>
-            .
-            <CopyToClipboard
-              className={css["share-copy"]}
-              text={`${window.location.origin}/deck/view/${deck.id}`}
-              variant="bare"
-            />
-          </p>
+          <ShareInfo id={deck.id} path={`/deck/view/${deck.id}`} />
         </div>
       </section>
     </>

@@ -12,6 +12,7 @@ import { createCustomEqualSelector } from "@/utils/custom-equal-selector";
 import { capitalize, formatTabooSet } from "@/utils/formatting";
 import type { Filter } from "@/utils/fp";
 import { and, not, or } from "@/utils/fp";
+import i18n from "@/utils/i18n";
 import { isEmpty } from "@/utils/is-empty";
 import { time, timeEnd } from "@/utils/time";
 import { createSelector } from "reselect";
@@ -738,13 +739,18 @@ export const selectActionOptions = createSelector(
   ({ actions }) => {
     return Array.from(actions)
       .sort()
-      .map((code) => ({ code }));
+      .map((code) => ({ code, name: i18n.t(`common.actions.${code}`) }));
   },
 );
 
+export const selectActionChanges = (value: MultiselectFilter) => {
+  if (!value.length) return "";
+  return value.map((code) => i18n.t(`common.actions.${code}`)).join(", ");
+};
+
 export const selectMultiselectChanges = (value: MultiselectFilter) => {
   if (!value) return "";
-  return value.map(capitalize).join(" or ");
+  return value.map(capitalize).join(` ${i18n.t("filters.or")} `);
 };
 
 function formatHealthChanges(value: [number, number] | undefined, key: string) {
@@ -763,7 +769,7 @@ export const selectAssetOptions = createSelector(
   selectListFilterProperties,
   (lookupTables, filterProps) => {
     const uses = Object.keys(lookupTables.uses)
-      .map((code) => ({ code }))
+      .map((code) => ({ code, name: i18n.t(`common.uses.${code}`) }))
       .sort((a, b) => sortAlphabetical(a.code, b.code));
 
     const skillBoosts = SKILL_KEYS.filter((x) => x !== "wild");
@@ -775,8 +781,11 @@ export const selectAssetOptions = createSelector(
       sanity: filterProps.sanity,
       uses,
       slots: [
-        { code: NO_SLOT_STRING },
-        ...ASSET_SLOT_ORDER.map((code) => ({ code })),
+        { code: NO_SLOT_STRING, name: i18n.t("common.slot.none") },
+        ...ASSET_SLOT_ORDER.map((code) => ({
+          code,
+          name: i18n.t(`common.slot.${code.toLowerCase()}`),
+        })),
       ],
       skillBoosts,
     };
@@ -784,22 +793,39 @@ export const selectAssetOptions = createSelector(
 );
 
 export const selectAssetChanges = (value: AssetFilter) => {
+  const t = i18n.t;
+
   const slot = value.slots.reduce((acc, key) => {
-    return !acc ? `Slot: ${capitalize(key)}` : `${acc} or ${key}`;
+    return !acc
+      ? `${t("filters.slot.title")}: ${key}`
+      : `${acc} ${t("filters.or")} ${key}`;
   }, "");
 
   const uses = value.uses.reduce((acc, key) => {
-    return !acc ? `Uses: ${capitalize(key)}` : `${acc} or ${key}`;
+    const displayStr = t(`common.uses.${key}`);
+
+    return !acc
+      ? `${t("filters.uses.title")}: ${displayStr}`
+      : `${acc} ${t("filters.or")} ${displayStr}`;
   }, "");
 
   const skillBoosts = value.skillBoosts.reduce((acc, key) => {
+    const displayStr = t(`common.skill.${key}`);
+
     return !acc
-      ? `Skill boost: ${capitalize(key)}`
-      : `${acc} or ${capitalize(key)}`;
+      ? `${t("filters.skill_boost.title")}: ${displayStr}`
+      : `${acc} ${t("filters.or")} ${displayStr}`;
   }, "");
 
-  const healthFilter = formatHealthChanges(value.health, "Health");
-  const sanityFilter = formatHealthChanges(value.sanity, "Sanity");
+  const healthFilter = formatHealthChanges(
+    value.health,
+    t("filters.health.title"),
+  );
+
+  const sanityFilter = formatHealthChanges(
+    value.sanity,
+    t("filters.sanity.title"),
+  );
 
   return [slot, uses, skillBoosts, sanityFilter, healthFilter]
     .filter((x) => x)
@@ -840,7 +866,9 @@ export const selectEncounterSetChanges = createSelector(
   (_: StoreState, value: MultiselectFilter) => value,
   (state: StoreState) => state.metadata,
   (value, metadata) => {
-    return value.map((id) => metadata.encounterSets[id].name).join(" or ");
+    return value
+      .map((id) => metadata.encounterSets[id].name)
+      .join(` ${i18n.t("filters.or")} `);
   },
 );
 
@@ -884,7 +912,7 @@ export const selectHealthMinMax = createSelector(
 );
 
 export const selectHealthChanges = (value: [number, number] | undefined) => {
-  return formatHealthChanges(value, "Health");
+  return formatHealthChanges(value, i18n.t("filters.health.title"));
 };
 
 /**
@@ -926,7 +954,7 @@ export const selectInvestigatorChanges = createSelector(
     if (!value) return "";
     const card = metadata.cards[value];
     return card
-      ? `${card.real_name}${card.parallel ? " (Parallel)" : ""}`
+      ? `${card.parallel ? "|| " : ""}${card.real_name}`
       : value.toString();
   },
 );
@@ -958,8 +986,9 @@ export const selectCardOptions = createSelector(
 export const selectInvestigatorCardAccessChanges = (
   value: MultiselectFilter,
 ) => {
-  if (!value.length) return "";
-  return `${value.length} cards`;
+  const count = value.length;
+  if (!count) return "";
+  return `${count} ${i18n.t("common.card", { count })}`;
 };
 
 /**
@@ -979,8 +1008,10 @@ export const selectInvestigatorSkillIconsChanges = (
   return Object.entries(value).reduce((acc, [key, val]) => {
     if (!val) return acc;
 
-    const s = `${val[0]}-${val[1]} ${capitalize(key)}`;
-    return acc ? `${acc} and ${s}` : s;
+    const skillStr = i18n.t(`common.skill.${key}`);
+    const s = `${val[0]}-${val[1]} ${skillStr}`;
+
+    return acc ? `${acc} ${i18n.t("filters.and")} ${s}` : s;
   }, "");
 };
 
@@ -1003,8 +1034,8 @@ export const selectLevelChanges = (value: LevelFilter) => {
     const max = levelToString(value.range[1]);
     str = `${str}-${max}`;
   }
-  if (value.exceptional) str = `${str}, exceptional`;
-  if (value.nonexceptional) str = `${str}, nonexceptional`;
+  if (value.exceptional) str = `${str}, ${i18n.t("common.exceptional")}`;
+  if (value.nonexceptional) str = `${str}, ${i18n.t("common.nonexceptional")}`;
   return str;
 };
 
@@ -1090,7 +1121,9 @@ export const selectPackChanges = createSelector(
   (state: StoreState) => state.metadata,
   (value, metadata) => {
     if (!value) return "";
-    return value.map((id) => metadata.packs[id].real_name).join(" or ");
+    return value
+      .map((id) => metadata.packs[id].real_name)
+      .join(` ${i18n.t("filters.or")} `);
   },
 );
 
@@ -1098,10 +1131,45 @@ export const selectPackChanges = createSelector(
  * Properties
  */
 
+export function selectPropertyOptions() {
+  const t = i18n.t;
+
+  return [
+    { key: "bonded", label: t("common.decks.bondedSlots_short") },
+    { key: "customizable", label: t("common.customizable") },
+    { key: "exile", label: t("common.exile") },
+    { key: "fast", label: t("common.fast") },
+    {
+      key: "healsDamage",
+      label: t("filters.properties.heals_damage"),
+    },
+    {
+      key: "healsHorror",
+      label: t("filters.properties.heals_horror"),
+    },
+    {
+      key: "multiClass",
+      label: t("common.factions.multiclass"),
+    },
+    { key: "permanent", label: t("common.permanent") },
+    { key: "seal", label: t("common.seal") },
+    { key: "specialist", label: t("common.specialist") },
+    { key: "succeedBy", label: t("filters.properties.succeed_by") },
+    {
+      key: "unique",
+      label: t("common.unique"),
+    },
+    { key: "victory", label: t("common.victory") },
+  ];
+}
+
 export const selectPropertiesChanges = (value: PropertiesFilter) => {
+  const propertyOptions = selectPropertyOptions();
+
   return Object.entries(value).reduce((acc, [key, filterValue]) => {
     if (!filterValue) return acc;
-    return !acc ? capitalize(key) : `${acc} and ${capitalize(key)}`;
+    const displayStr = propertyOptions.find((x) => x.key === key)?.label ?? key;
+    return !acc ? displayStr : `${acc} ${i18n.t("filters.and")} ${displayStr}`;
   }, "");
 };
 
@@ -1150,8 +1218,15 @@ export const selectResolvedCardById = createSelector(
 export const selectSkillIconsChanges = (value: SkillIconsFilter) => {
   return Object.entries(value).reduce((acc, [key, val]) => {
     if (!val) return acc;
-    const s = `${val}+ ${capitalize(key)}`;
-    return acc ? `${acc} and ${s}` : s;
+
+    const displayStr =
+      key === "any"
+        ? i18n.t("filters.skill_icons.any")
+        : i18n.t(`common.skill.${key}`);
+
+    const s = `${val}+ ${displayStr}`;
+
+    return acc ? `${acc} ${i18n.t("filters.and")} ${s}` : s;
   }, "");
 };
 
@@ -1160,16 +1235,16 @@ export const selectSkillIconsChanges = (value: SkillIconsFilter) => {
  */
 
 const subtypeLabels: Record<string, string> = {
-  none: "None",
-  weakness: "Weakness",
-  basicweakness: "Basic weakness",
+  none: i18n.t("common.none"),
+  weakness: i18n.t("common.subtype.weakness"),
+  basicweakness: i18n.t("common.subtype.basicweakness"),
 };
 
 export function selectSubtypeOptions() {
   return [
-    { code: "none", name: "None" },
-    { code: "weakness", name: "Weakness" },
-    { code: "basicweakness", name: "Basic weakness" },
+    { code: "none", name: subtypeLabels["none"] },
+    { code: "weakness", name: subtypeLabels["weakness"] },
+    { code: "basicweakness", name: subtypeLabels["basicweakness"] },
   ];
 }
 
@@ -1179,10 +1254,12 @@ export const selectSubtypeChanges = createSelector(
     const options = Object.entries(value);
     const enabled = options.filter(([, value]) => !!value);
 
-    if (enabled.length === 0) return "None";
+    if (enabled.length === 0) return subtypeLabels["none"];
     if (enabled.length === options.length) return "";
 
-    return enabled.map(([key]) => subtypeLabels[key]).join(" or ");
+    return enabled
+      .map(([key]) => subtypeLabels[key])
+      .join(` ${i18n.t("filters.or")} `);
   },
 );
 
@@ -1222,17 +1299,31 @@ export const selectTabooSetChanges = createSelector(
  * Trait
  */
 
+export function selectTraitChanges(value: MultiselectFilter) {
+  if (!value.length) return "";
+  return value
+    .map((code) => i18n.t(`common.traits.${code}`))
+    .join(` ${i18n.t("filters.or")} `);
+}
+
 export const selectTraitOptions = createSelector(
   selectListFilterProperties,
   ({ traits }) =>
     Array.from(traits)
       .sort()
-      .map((code) => ({ code })),
+      .map((code) => ({ code, name: i18n.t(`common.traits.${code}`) })),
 );
 
 /**
  * Type
  */
+
+export function selectTypeChanges(value: MultiselectFilter) {
+  if (!value.length) return "";
+  return value
+    .map((code) => i18n.t(`common.type.${code}`))
+    .join(` ${i18n.t("filters.or")} `);
+}
 
 export const selectTypeOptions = createSelector(
   selectListFilterProperties,
@@ -1240,5 +1331,8 @@ export const selectTypeOptions = createSelector(
   ({ types }, typeTable) =>
     Array.from(types)
       .sort()
-      .map((code) => typeTable[code]),
+      .map((code) => ({
+        ...typeTable[code],
+        name: i18n.t(`common.type.${code}`),
+      })),
 );

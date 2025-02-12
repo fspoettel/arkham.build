@@ -1,18 +1,19 @@
 import { useStore } from "@/store";
 import {
+  selectActionChanges,
   selectActiveListFilter,
-  selectMultiselectChanges,
 } from "@/store/selectors/lists";
 import { selectActionOptions } from "@/store/selectors/lists";
 import type { Coded } from "@/store/services/queries.types";
 import { isActionFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
-import { capitalize } from "@/utils/formatting";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import type { FilterProps } from "./filters.types";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 
 export function ActionFilter({ id, resolvedDeck }: FilterProps) {
+  const { t } = useTranslation();
   const filter = useStore((state) => selectActiveListFilter(state, id));
 
   assert(
@@ -20,10 +21,13 @@ export function ActionFilter({ id, resolvedDeck }: FilterProps) {
     `ActionFilter instantiated with '${filter?.type}'`,
   );
 
-  const changes = selectMultiselectChanges(filter.value);
+  const changes = selectActionChanges(filter.value);
   const options = useStore((state) => selectActionOptions(state, resolvedDeck));
 
-  const nameRenderer = useCallback((item: Coded) => capitalize(item.code), []);
+  const nameRenderer = useCallback(
+    (item: Coded & { name: string }) => item.name,
+    [],
+  );
 
   return (
     <MultiselectFilter
@@ -32,8 +36,8 @@ export function ActionFilter({ id, resolvedDeck }: FilterProps) {
       nameRenderer={nameRenderer}
       open={filter.open}
       options={options}
-      placeholder="Select actions..."
-      title="Actions"
+      placeholder={t("filters.action.placeholder")}
+      title={t("filters.action.title")}
       value={filter.value}
     />
   );
