@@ -150,15 +150,10 @@ export async function importDeck(clientId: string, input: string) {
   return data;
 }
 
-type ShareRead = {
-  data: Deck;
-  history: History;
-};
-
 export async function getShare(id: string) {
   const res = await request(`/public/share/${id}`);
-  const data: ShareRead = await res.json();
-  return data;
+  const data = await res.json();
+  return data as Deck;
 }
 
 export async function createShare(
