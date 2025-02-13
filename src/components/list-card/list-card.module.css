@@ -4,6 +4,7 @@
   --card-image-height: 2em;
 
   padding-block: var(--card-spacing-y);
+  padding-inline: 1px;
   min-height: calc(var(--card-image-height) + 2 * var(--card-spacing-y));
 
   width: 100%;

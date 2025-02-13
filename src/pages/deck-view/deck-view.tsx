@@ -9,7 +9,7 @@ import { resolveDeck } from "@/store/lib/resolve-deck";
 import type { ResolvedDeck } from "@/store/lib/types";
 import {
   getDeckHistory,
-  selectDeckHistory,
+  selectDeckHistoryCached,
   selectDeckValid,
   selectResolvedDeckById,
 } from "@/store/selectors/decks";
@@ -84,7 +84,7 @@ function ArkhamDbDeckView({ id, type }: { id: string; type: string }) {
 }
 
 function LocalDeckView({ deck }: { deck: ResolvedDeck }) {
-  const history = useStore((state) => selectDeckHistory(state, deck.id));
+  const history = useStore((state) => selectDeckHistoryCached(state, deck.id));
   return <DeckViewInner origin="local" deck={deck} history={history} />;
 }
 

@@ -37,7 +37,7 @@ export const createSharingSlice: StateCreator<
     await createShare(
       selectClientId(state),
       formatDeckShare(deck, previousDeckShared ? previousDeckId : null),
-      selectDeckHistory(state, id),
+      selectDeckHistory(state, deck),
     );
 
     set({
@@ -59,7 +59,7 @@ export const createSharingSlice: StateCreator<
       selectClientId(state),
       deck.id.toString(),
       formatDeckShare(deck),
-      selectDeckHistory(state, deck.id),
+      selectDeckHistory(state, deck),
     );
 
     set({

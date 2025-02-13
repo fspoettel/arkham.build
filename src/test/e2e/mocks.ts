@@ -52,7 +52,7 @@ export async function mockApiCalls(page: Page) {
       await route.fulfill({ body: undefined });
     }),
     page.route(/\/public\/share\/.*/, async (route) => {
-      await route.fulfill({ json: deckResponse.data });
+      await route.fulfill({ json: { data: deckResponse.data, history: [] } });
     }),
   ]);
 }

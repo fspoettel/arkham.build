@@ -12,7 +12,7 @@ import { sortAlphabetical, sortByName } from "../lib/sorting";
 import type { Customization, Customizations, ResolvedDeck } from "../lib/types";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
-import type { Id } from "../slices/data.types";
+import type { Deck, Id } from "../slices/data.types";
 import { selectSettings } from "./settings";
 
 export const selectResolvedDeckById = createSelector(
@@ -226,7 +226,7 @@ export function getDeckHistory(
   return changes.map((change) => getHistoryEntry(change, metadata));
 }
 
-export const selectDeckHistory = createSelector(
+export const selectDeckHistoryCached = createSelector(
   (_: StoreState, id: Id) => id,
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
@@ -235,26 +235,40 @@ export const selectDeckHistory = createSelector(
   (id, metadata, lookupTables, data, sharing) => {
     const deck = data.decks[id];
 
-    const history = data.history[id] ? [...data.history[id]] : [];
-
-    if (!deck || !history.length) return [];
-
-    time("deck_history");
-
-    history.unshift(id);
-    history.reverse();
-
-    const resolvedDecks = history.map((deckId) =>
-      resolveDeck(metadata, lookupTables, sharing, data.decks[deckId]),
-    );
-
-    const deckHistory = getDeckHistory(resolvedDecks, metadata);
-
-    timeEnd("deck_history");
-
-    return deckHistory;
+    return selectDeckHistory({ metadata, lookupTables, data, sharing }, deck);
   },
 );
+
+export function selectDeckHistory(
+  state: Pick<StoreState, "metadata" | "lookupTables" | "data" | "sharing">,
+  deck: Deck,
+) {
+  const history = state.data.history[deck.id]
+    ? [...state.data.history[deck.id]]
+    : [];
+
+  if (!deck || !history.length) return [];
+
+  time("deck_history");
+
+  history.unshift(deck.id);
+  history.reverse();
+
+  const resolvedDecks = history.map((deckId) =>
+    resolveDeck(
+      state.metadata,
+      state.lookupTables,
+      state.sharing,
+      deckId === deck.id ? deck : state.data.decks[deckId],
+    ),
+  );
+
+  const deckHistory = getDeckHistory(resolvedDecks, state.metadata);
+
+  timeEnd("deck_history");
+
+  return deckHistory;
+}
 
 function sortDiff(a: SlotUpgrade, b: SlotUpgrade) {
   const aPos = a.diff > 0;
