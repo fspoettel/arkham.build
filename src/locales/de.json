@@ -700,8 +700,8 @@
       "title": "Decks"
     },
     "deck_create": {
-      "help_advanced": "TODOSignature cards with \"Advanced\" are stronger versions of an investigator's signature cards that are listed under \"Deck Requirements\".<br>At any point during a campaign (including at deck creation) you may optionally choose to include these advanced signature cards <strong>instead of</strong> the original signature cards.",
-      "help_replacements": "TODOSignature cards with \"Replacement\" can replace the signature cards that are listed under \"Deckbuilding Requirements\". Doing so still satisfies the requirement and the deck is valid to play.<br>If doing so, <strong>both</strong> signature cards must be replaced and if doing so for a campaign, you cannot later change to using the original signature cards.<br>Alternatively, the \"Replacement\" cards can be included in addition to the signature cards.",
+      "help_advanced": "Weiterentwickelte Signaturkarten sind stärkere Versionen der Signaturkarten eines Ermittlers, die unter „Deckanforderungen“ aufgeführt sind.<br>Während einer Kampagne (einschließlich des Deckbaus) können weiterentwickelte Signaturkarten jederzeit - <strong>anstelle der ursprünglichen Signaturkarten</strong> - verwendet werden.",
+      "help_replacements": "Ersatz-Signaturkarten können die Signaturkarten eines Ermittlers ersetzen, die unter \"Deckbauanforderungen\" aufgeführt sind. Dies erfüllt weiterhin alle Deckbauanforderungen und das Deck bleibt gültig.<br>Wenn dies getan wird, müssen <strong>beide</strong> Signaturkarten ersetzt werden und, wenn dies für eine Kampagne getan wird, kann nicht mehr zu den originalen Signaturkarten gewechselt werden.<br>Alternativ können Ersatz-Signaturkarten zusätzlich zu den Signaturkarten in das Deck aufgenommen werden.",
       "error": "Erstellen des Decks fehlgeschlagen: {{error}}",
       "loading": "Deck wird erstellt...",
       "success": "Deck wurde erfolgreich erstellt."
@@ -733,12 +733,12 @@
           "campaign": "Kampagne",
           "choose_campaign": "Kampagne auswählen",
           "choose_campaign_placeholder": "Kampagne auswählen...",
-          "cpa_help": "TODOThe Campaign Play-Along is an ongoing event hosted on the Mythos Busters discord server. It is designed to play Arkham campaigns together, share stories and generally create a sense of community.",
+          "cpa_help": "\"Campaign Play-Along\" ist ein regelmäßiges Event, das auf dem Mythos Busters Discord-Server stattfindet. Während des jeweiligen Events wird eine Kampagne zusammen, mit einem eingeschränkten Kartenpool, gespielt.",
           "help": "Investigators, signature cards and story assets are not affected by this selection.",
           "placeholder": "Packs auswählen...",
           "section_title": "Kartenpooleinstellungen",
           "title": "Eingeschränkter Kartenpool",
-          "use_preset": "#campaign-playalong Voreinstellung"
+          "use_preset": "\"Campaign Play-Along\" Voreinstellung"
         },
         "name": "Name",
         "sealed": {
@@ -847,7 +847,7 @@
         "title": "Öffentliche Freigabe",
         "description": "Dieses Deck ist nicht freigeben.",
         "description_present": "Dieses Deck ist öffentlich freigegeben und kann über den <a>folgenden Link</a> angesehen werden.",
-        "create_tooltip": "TODOSharing creates a publicly accessible, read-only link to the deck. Anyone with the link can view the deck, but not edit it.<br />Shares can be removed at any time. Removing a share does not affect the deck itself.",
+        "create_tooltip": "Eine Freigabe ist ein öffentlich verfügbarer, schreibgeschützter Link zu diesem Deck. Jeder, der über diesen Link verfügt, kann das Deck ansehen, es aber nicht bearbeiten.<br />Die Freigabe kann jederzeit aufgehoben werden, ohne das lokale Deck zu löschen.",
         "create": "Freigeben",
         "update": "Freigabe aktualisieren",
         "delete": "Freigabe aufheben"
@@ -927,7 +927,7 @@
         "succeed_by": "Übererfolg",
         "title": "Eigenschaften"
       },
-      "reset_filter": "Filter zurücksetsen",
+      "reset_filter": "Filter zurücksetzen",
       "slot": {
         "placeholder": "Slots auswählen...",
         "title": "Slot"
@@ -964,7 +964,7 @@
       "about": "Über diese Seite",
       "collection_stats": "Sammlungsstatistik",
       "shortcuts": {
-        "title": "Tastaenkürzel",
+        "title": "Tastenkürzel",
         "group_general": "Allgemein",
         "group_deck_collection": "Decksammlung",
         "group_deck_editor": "Deckeditor",
