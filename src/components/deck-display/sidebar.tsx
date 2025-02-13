@@ -120,8 +120,6 @@ function SidebarDetails(props: { deck: ResolvedDeck }) {
   const { deck } = props;
   const { t } = useTranslation();
 
-  console.log("@@@", deck.selections);
-
   return (
     <ul className={css["details"]}>
       <li className={css["detail"]} data-testid="view-deck-size">
