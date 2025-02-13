@@ -184,7 +184,7 @@ export function CollectionSettings(props: Props) {
                   <article className={css["cycle-counts"]}>
                     <header>
                       <h4 className={css["cycle-counts-title"]}>
-                        {t("collection.card_count")}
+                        {t("settings.collection.card_count")}
                       </h4>
                     </header>
                     <CollectionCount

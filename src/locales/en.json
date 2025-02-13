@@ -33,7 +33,7 @@
         "open_on_arkhamdb": "Open on ArkhamDB",
         "reviews": "View reviews",
         "who_can_take": "Who can take this card?",
-        "usable_by": "Cards usable by {{prefix}}{{name}}"
+        "usable_by": "{{prefix}}{{name}} card pool"
       },
       "faq": {
         "empty": "No FAQ entries available.",
@@ -107,8 +107,8 @@
       },
       "fast": "Fast",
       "nonexceptional": "Non-exceptional",
-      "icon_one": "icon",
-      "icon_other": "icons",
+      "icon_one": "skill icon",
+      "icon_other": "skill icons",
       "level": {
         "none": "No level",
         "value": "Level {{level}}",
@@ -121,7 +121,7 @@
       "ok": "OK",
       "pack_one": "pack",
       "pack_other": "packs",
-      "parallel": "parallel",
+      "parallel": "Parallel",
       "permanent": "Permanent",
       "player_cards": "Player cards",
       "player_cards_short": "Player",
@@ -164,6 +164,7 @@
       },
       "specialist": "Specialist",
       "subtype": {
+        "none": "No subtype",
         "basicweakness": "Basic Weakness",
         "weakness": "Weakness"
       },
@@ -703,8 +704,7 @@
       "help_replacements": "Signature cards with \"Replacement\" can replace the signature cards that are listed under \"Deckbuilding Requirements\". Doing so still satisfies the requirement and the deck is valid to play.<br>If doing so, <strong>both</strong> signature cards must be replaced and if doing so for a campaign, you cannot later change to using the original signature cards.<br>Alternatively, the \"Replacement\" cards can be included in addition to the signature cards.",
       "error": "Failed to create deck: {{error}}",
       "loading": "Creating deck...",
-      "success": "Deck created successfully.",
-      "storage_provider": "Storage provider"
+      "success": "Deck created successfully."
     },
     "deck_edit": {
       "actions": {
@@ -869,6 +869,7 @@
       "500": "The app drew an Auto-fail.",
       "500_help": "Check the browser console for further details.",
       "500_help_2": "Please don't try to fix this issue by clearing cookies or other local browser data (unless you are fine with losing your local decks).",
+      "preview_publish": "Deck contains preview cards: {{names}}. Please remove them before uploading to {{provider}}.",
       "report": "Report issue",
       "home": "Return home"
     },

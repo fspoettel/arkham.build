@@ -1,8 +1,8 @@
 import { decodeExileSlots } from "@/utils/card-utils";
 import {
   ALT_ART_INVESTIGATOR_MAP,
-  ATTACHABLE_CARDS,
   type AttachableDefinition,
+  getAttachableCards,
 } from "@/utils/constants";
 import { isEmpty } from "@/utils/is-empty";
 import type { Deck } from "../slices/data.types";
@@ -101,7 +101,7 @@ export function resolveDeck(
       customizations,
     );
 
-  const availableAttachments = Object.entries(ATTACHABLE_CARDS).reduce<
+  const availableAttachments = Object.entries(getAttachableCards()).reduce<
     AttachableDefinition[]
   >((acc, [code, value]) => {
     if (investigatorBack.card.code === code || !!deck.slots[code]) {

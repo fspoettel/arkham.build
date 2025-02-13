@@ -19,6 +19,7 @@ import {
   queryMetadata,
 } from "./store/services/queries";
 import { useAgathaEasterEggHint } from "./utils/easter-egg-agatha";
+import { changeLanguage } from "./utils/i18n";
 import { useColorTheme } from "./utils/use-color-theme";
 import { useVisibilityChange } from "./utils/use-document-visibility";
 
@@ -95,6 +96,7 @@ function AppInner() {
 
   useEffect(() => {
     if (storeHydrated) {
+      changeLanguage("de");
       document.documentElement.style.fontSize = `${settings.fontSize}%`;
     }
   }, [storeHydrated, settings.fontSize]);

@@ -14,4 +14,24 @@ i18n.use(initReactI18next).init({
   },
 });
 
+export async function changeLanguage(lng: "en" | "de") {
+  if (i18n.language === lng) return;
+
+  if (!i18n.hasResourceBundle(lng, "translation")) {
+    try {
+      const translations = await import(`@/locales/${lng}.json`);
+      i18n.addResourceBundle(
+        lng,
+        "translation",
+        translations.default.translation,
+      );
+    } catch (error) {
+      console.error("Failed to load translations:", error);
+      return;
+    }
+  }
+
+  i18n.changeLanguage(lng);
+}
+
 export default i18n;

@@ -741,8 +741,8 @@ export const selectActionOptions = createSelector(
   selectListFilterProperties,
   ({ actions }) => {
     return Array.from(actions)
-      .sort()
-      .map((code) => ({ code, name: i18n.t(`common.actions.${code}`) }));
+      .map((code) => ({ code, name: i18n.t(`common.actions.${code}`) }))
+      .sort((a, b) => sortAlphabetical(a.name, b.name));
   },
 );
 
@@ -1238,7 +1238,7 @@ export const selectSkillIconsChanges = (value: SkillIconsFilter) => {
  */
 
 const subtypeLabels: Record<string, string> = {
-  none: i18n.t("common.none"),
+  none: i18n.t("common.subtype.none"),
   weakness: i18n.t("common.subtype.weakness"),
   basicweakness: i18n.t("common.subtype.basicweakness"),
 };

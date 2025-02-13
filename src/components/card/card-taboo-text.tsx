@@ -35,8 +35,8 @@ export function CardTabooText(props: Props) {
           }
         >
           <p>
-            <i className="icon-tablet color-taboo icon-text" /> Taboo List{" "}
-            <br />
+            <i className="icon-tablet color-taboo icon-text" />{" "}
+            {t("common.taboo")} <br />
             {t("common.taboo_mutated")}.
           </p>
         </DefaultTooltip>

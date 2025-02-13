@@ -1,4 +1,4 @@
-import { ATTACHABLE_CARDS } from "@/utils/constants";
+import { getAttachableCards } from "@/utils/constants";
 import { isEmpty } from "@/utils/is-empty";
 import { omit } from "@/utils/omit";
 import type { Deck, Slots } from "../slices/data.types";
@@ -184,7 +184,7 @@ function mergeAttachmentEdits(
   const attachments = decodeAttachments(deckMeta) ?? {};
 
   for (const [targetCode, entries] of Object.entries(edits.attachments ?? {})) {
-    const definition = ATTACHABLE_CARDS[targetCode];
+    const definition = getAttachableCards()[targetCode];
     const attachment = {
       ...attachments[targetCode],
       ...definition.requiredCards,

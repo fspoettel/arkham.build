@@ -1,3 +1,4 @@
+import i18n from "@/utils/i18n";
 import type { ResolvedCard } from "./types";
 
 export class PreviewPublishError extends Error {
@@ -10,7 +11,10 @@ export class PreviewPublishError extends Error {
       .join(", ");
 
     super(
-      `Deck contains preview cards: ${names}. Please remove them before uploading to ArkhamDB`,
+      i18n.t("errors.preview_publish", {
+        names,
+        provider: "ArkhamDB",
+      }),
     );
   }
 }

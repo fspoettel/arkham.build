@@ -133,7 +133,7 @@ export function LimitedCardPoolField(props: {
           id="card-pool-combobox"
           items={items}
           itemToString={packToString}
-          label="Limited pool"
+          label={t("deck_edit.config.card_pool.title")}
           onValueChange={onValueChange}
           placeholder={t("deck_edit.config.card_pool.placeholder")}
           renderItem={packRenderer}
