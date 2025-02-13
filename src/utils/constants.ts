@@ -266,7 +266,7 @@ export const ATTACHABLE_CARDS: { [code: string]: AttachableDefinition } = {
   [SPECIAL_CARD_CODES.ELDRITCH_BRAND]: {
     code: SPECIAL_CARD_CODES.ELDRITCH_BRAND,
     traits: ["Spell."],
-    filters: [(c: Card) => c.xp != null],
+    filters: [(c: Card) => c.xp != null && c.type_code === "asset"],
     name: i18n.t("deck.attachments.eldritch_brand"),
     icon: "stamp",
     limit: 1,
