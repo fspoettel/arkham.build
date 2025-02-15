@@ -1163,7 +1163,7 @@
     "preview": true,
     "quantity": 2,
     "skill_agility": 1,
-    "text": "[reaction] When you attempt to evade an enemy, exhaust String Along: For this evasion attempt, you get + 1 skill value and that enemy gains alert. If you succeed, draw 1 card and do not disengage from that enemy.",
+    "text": "[reaction] When you attempt to evade an enemy, exhaust String Along: For this evasion attempt, you get +1 skill value and that enemy gains alert. If you succeed, draw 1 card and do not disengage from that enemy.",
     "traits": "Talent.",
     "type_code": "asset",
     "xp": 0
@@ -1331,7 +1331,7 @@
   },
   {
     "code": "11062",
-    "cost": 4,
+    "cost": 3,
     "deck_limit": 2,
     "faction_code": "rogue",
     "health": 2,

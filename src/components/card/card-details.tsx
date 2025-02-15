@@ -1,4 +1,5 @@
 import type { Card } from "@/store/services/queries.types";
+import { formatSlots } from "@/utils/formatting";
 import { useTranslation } from "react-i18next";
 import { CardSlots } from "../card-slots";
 import css from "./card.module.css";
@@ -23,9 +24,7 @@ export function CardDetails(props: Props) {
             {card.subtype_code && (
               <span>{t(`common.subtype.${card.subtype_code}`)}</span>
             )}
-            {card.real_slot && (
-              <span>{t(`common.slot.${card.real_slot.toLowerCase()}`)}</span>
-            )}
+            {card.real_slot && <span>{formatSlots(card.real_slot)}</span>}
           </p>
         )}
         {card.real_traits && (
