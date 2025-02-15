@@ -253,6 +253,9 @@ export function Combobox<T extends Coded>(props: Props<T>) {
                     setInputValue(evt.target.value);
                   }
                 },
+                onPaste() {
+                  setOpen(true);
+                },
               })}
             />
             {isOpen ? (
