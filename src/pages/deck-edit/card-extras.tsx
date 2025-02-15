@@ -66,7 +66,7 @@ export function CardExtras(props: Props) {
     <div className={css["extra-row"]}>
       {hasAttachable && <Attachments card={card} resolvedDeck={deck} />}
       {hasUpgrades && (
-        <Button iconOnly tooltip="Upgrade card" round>
+        <Button iconOnly tooltip="Upgrade card">
           <i className="icon icon-upgrade" />
         </Button>
       )}

@@ -106,12 +106,12 @@
   display: flex;
   align-items: center;
   gap: 0.25em;
+  min-width: 0;
 }
 
 .name {
   display: flex;
   flex-flow: row wrap;
-  min-width: 0;
 }
 
 .name * {

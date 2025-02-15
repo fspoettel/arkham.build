@@ -2,7 +2,7 @@
   list-style: none;
   color: var(--palette-4);
   display: inline-flex;
-  gap: 0.25rem;
+  gap: 0.125rem;
 }
 
 .attachment {
@@ -16,7 +16,7 @@
 
 .attachment-content {
   display: inline-flex;
-  gap: 0.125rem;
-  min-height: 1rem;
+  gap: 0.0625rem;
+  min-height: 1.125rem;
   font-size: var(--text-xs);
 }
