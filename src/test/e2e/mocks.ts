@@ -19,7 +19,21 @@ export async function mockApiCalls(page: Page) {
 
   await Promise.all([
     page.route(`${baseUrl}/cache/cards`, async (route) => {
-      const json = allCardsResponse;
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      const json: any = structuredClone(allCardsResponse);
+      json.data.all_card.push({
+        code: "99999",
+        real_name: "Preview Test Card",
+        pack_code: "core",
+        faction_code: "neutral",
+        official: true,
+        type_code: "asset",
+        id: "99999",
+        position: 999,
+        preview: true,
+        quantity: 1,
+        pack_position: 999,
+      });
       await route.fulfill({ json });
     }),
     page.route(`${baseUrl}/cache/metadata`, async (route) => {
@@ -39,6 +53,9 @@ export async function mockApiCalls(page: Page) {
     }),
     page.route(/\/public\/share\/.*/, async (route) => {
       await route.fulfill({ json: deckResponse.data });
+    }),
+    page.route(/\/public\/share_history\/.*/, async (route) => {
+      await route.fulfill({ json: { data: deckResponse.data, history: [] } });
     }),
   ]);
 }

@@ -7,6 +7,7 @@
 
 .cpa-actions {
   display: flex;
+  flex-flow: row wrap;
   gap: 0.25rem;
   align-items: center;
 }

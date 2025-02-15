@@ -26,6 +26,7 @@ import {
   PlusCircleIcon,
 } from "lucide-react";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import css from "./latest-upgrade.module.css";
 
 type Props = {
@@ -37,6 +38,7 @@ type Props = {
 
 export function LatestUpgrade(props: Props) {
   const { currentTab, overflowScroll, readonly, deck } = props;
+  const { t } = useTranslation();
 
   const accentColor = useAccentColor(deck.investigatorBack.card.faction_code);
 
@@ -78,7 +80,7 @@ export function LatestUpgrade(props: Props) {
 
   const canAddExile = useCallback(
     (card: Card) => {
-      if (currentTab && currentTab !== "meta") {
+      if (currentTab && currentTab !== "config") {
         const slot = deck[mapTabToSlot(currentTab)];
         if (slot) {
           const result = (slot[card.code] ?? 0) < cardLimit(card);
@@ -106,25 +108,30 @@ export function LatestUpgrade(props: Props) {
     <div className={css["content-row"]}>
       {hasChanges ? (
         <>
-          <SlotDiff title="Deck" differences={differences.slots} size="sm" />
           <SlotDiff
-            title="Extra deck"
+            title={t("common.decks.slots")}
+            differences={differences.slots}
+            size="sm"
+          />
+          <SlotDiff
+            title={t("common.decks.extraSlots")}
             differences={differences.extraSlots}
             size="sm"
           />
           <SlotDiff
-            title="Exiled cards"
+            title={t("common.exiled_cards")}
             differences={differences.exileSlots}
+            omitHeadings
             size="sm"
           />
           <CustomizableDiff
-            title="Customizations"
+            title={t("common.customizations")}
             differences={differences.customizations}
             size="sm"
           />
         </>
       ) : (
-        "No changes."
+        t("deck.latest_upgrade.no_changes")
       )}
     </div>
   );
@@ -152,9 +159,8 @@ export function LatestUpgrade(props: Props) {
               <strong>{xpSpent}</strong> of{" "}
               <span className={css["quantity"]}>
                 <strong>{xp + xpAdjustment}</strong>
-                XP
-              </span>{" "}
-              spent
+                {t("deck.latest_upgrade.xp_spent")}
+              </span>
               {!readonly && (
                 <>
                   <Button
@@ -191,13 +197,13 @@ export function LatestUpgrade(props: Props) {
                     }}
                     variant="bare"
                   >
-                    <FlameIcon /> Exile
+                    <FlameIcon /> {t("common.exile")}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent onClick={(evt) => evt.stopPropagation()}>
                   <article className={css["exile"]}>
                     <header>
-                      <h3>Exiled cards</h3>
+                      <h4>{t("common.exiled_cards")}</h4>
                     </header>
                     <ol>
                       {Object.entries(deck.exileSlots).map(
@@ -221,7 +227,9 @@ export function LatestUpgrade(props: Props) {
                                         evt.stopPropagation();
                                         onAddExile(card, quantity);
                                       }}
-                                      tooltip="Add to current list"
+                                      tooltip={t(
+                                        "deck.latest_upgrade.add_to_deck",
+                                      )}
                                     >
                                       <ArrowLeftToLineIcon />
                                     </Button>

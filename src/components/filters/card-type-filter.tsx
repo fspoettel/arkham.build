@@ -2,6 +2,7 @@ import { useStore } from "@/store";
 import { selectActiveList } from "@/store/selectors/lists";
 import { useHotkey } from "@/utils/use-hotkey";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { HotkeyTooltip } from "../ui/hotkey";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
@@ -12,6 +13,7 @@ type Props = {
 export function CardTypeFilter(props: Props) {
   const activeList = useStore(selectActiveList);
   const changeList = useStore((state) => state.changeList);
+  const { t } = useTranslation();
 
   const onToggle = useCallback(
     (value: string) => {
@@ -35,14 +37,15 @@ export function CardTypeFilter(props: Props) {
       type="single"
       value={activeList.cardType}
     >
-      <HotkeyTooltip keybind="alt+p" description="Player cards">
+      <HotkeyTooltip keybind="alt+p" description={t("common.player_cards")}>
         <ToggleGroupItem data-testid="card-type-player" value="player">
-          <i className="icon-per_investigator" /> Player
+          <i className="icon-per_investigator" />{" "}
+          {t("common.player_cards_short")}
         </ToggleGroupItem>
       </HotkeyTooltip>
-      <HotkeyTooltip keybind="alt+c" description="Campaign cards">
+      <HotkeyTooltip keybind="alt+c" description={t("common.encounter_cards")}>
         <ToggleGroupItem value="encounter" data-testid="card-type-encounter">
-          <i className="icon-auto_fail" /> Campaign
+          <i className="icon-auto_fail" /> {t("common.encounter_cards_short")}
         </ToggleGroupItem>
       </HotkeyTooltip>
     </ToggleGroup>

@@ -1,4 +1,5 @@
 import type { ResolvedDeck } from "@/store/lib/types";
+import { useTranslation } from "react-i18next";
 import css from "./deck-stats.module.css";
 import { DefaultTooltip } from "./ui/tooltip";
 
@@ -8,24 +9,25 @@ type Props = {
 
 export function DeckStats(props: Props) {
   const { deck } = props;
+  const { t } = useTranslation();
 
   return (
     <div className={css["stats"]}>
-      <DefaultTooltip tooltip="Amount of XP required to build this deck from scratch.">
+      <DefaultTooltip tooltip={t("deck.stats.xp_required_help")}>
         <strong data-testid="deck-summary-xp">
           <i className="icon-xp-bold" />
-          {deck.stats.xpRequired} XP
+          {deck.stats.xpRequired} {t("common.xp")}
         </strong>
       </DefaultTooltip>
       {!!deck.xp && (
-        <DefaultTooltip tooltip="XP available to spend after latest upgrade.">
+        <DefaultTooltip tooltip={t("deck.stats.xp_available_help")}>
           <strong data-testid="deck-xp-earned">
             <i className="icon-upgrade" />
-            {deck.xp + (deck.xp_adjustment ?? 0)} XP
+            {deck.xp + (deck.xp_adjustment ?? 0)} {t("common.xp")}
           </strong>
         </DefaultTooltip>
       )}
-      <DefaultTooltip tooltip="Deck size">
+      <DefaultTooltip tooltip={t("deck.stats.deck_size")}>
         <strong data-testid="deck-summary-size">
           <i className="icon-card-outline-bold" />× {deck.stats.deckSize} (
           {deck.stats.deckSizeTotal})

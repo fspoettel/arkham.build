@@ -7,14 +7,14 @@ test.describe("preview banner", () => {
     await mockApiCalls(page);
     await page.goto("/");
 
-    await fillSearch(page, "nose to the grind stone");
-    await expect(page.getByTestId("listcard-11111")).not.toBeVisible();
+    await fillSearch(page, "preview test card");
+    await expect(page.getByTestId("listcard-99999")).not.toBeVisible();
 
     await expect(page.getByTestId("preview-banner")).toBeVisible();
     await page.getByTestId("preview-banner-enable").click();
 
-    await fillSearch(page, "nose to the grind stone");
-    await expect(page.getByTestId("listcard-11111")).toBeVisible();
+    await fillSearch(page, "preview test card");
+    await expect(page.getByTestId("listcard-99999")).toBeVisible();
 
     await page.reload();
     await expect(page.getByTestId("search-input")).toBeVisible();
@@ -28,8 +28,8 @@ test.describe("preview banner", () => {
     await page.getByTestId("preview-banner-dismiss").click();
     await expect(page.getByTestId("preview-banner")).not.toBeVisible();
 
-    await fillSearch(page, "nose to the grind stone");
-    await expect(page.getByTestId("listcard-11111")).not.toBeVisible();
+    await fillSearch(page, "preview test card");
+    await expect(page.getByTestId("listcard-99999")).not.toBeVisible();
 
     await page.reload();
     await expect(page.getByTestId("search-input")).toBeVisible();

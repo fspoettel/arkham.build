@@ -15,7 +15,6 @@ import {
   selectDeckValid,
   selectResolvedDeckById,
 } from "@/store/selectors/decks";
-import { selectActiveList } from "@/store/selectors/lists";
 import type { Card } from "@/store/services/queries.types";
 import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
 import { isStaticInvestigator } from "@/utils/card-utils";
@@ -34,6 +33,7 @@ import {
   WandSparklesIcon,
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "wouter";
 import { Error404 } from "../errors/404";
 import { CardExtras } from "./card-extras";
@@ -45,6 +45,7 @@ import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 function DeckEdit() {
   const { id } = useParams<{ id: string }>();
 
+  const { t } = useTranslation();
   const toast = useToast();
   const activeListId = useStore((state) => state.activeList);
   const resetFilters = useStore((state) => state.resetFilters);
@@ -62,10 +63,10 @@ function DeckEdit() {
         children({ onClose }) {
           return (
             <>
-              Unsaved changes were restored.
+              {t("deck_edit.changes_restored")}
               <div className={css["restore"]}>
                 <Button onClick={onClose} size="sm">
-                  OK
+                  {t("common.ok")}
                 </Button>
                 <Button
                   onClick={() => {
@@ -75,7 +76,7 @@ function DeckEdit() {
                   size="sm"
                 >
                   <UndoIcon />
-                  Undo
+                  {t("common.undo")}
                 </Button>
               </div>
             </>
@@ -120,8 +121,9 @@ function DeckEdit() {
 
 function DeckEditInner() {
   const { canEdit, resolvedDeck: deck } = useResolvedDeckChecked();
+  const { t } = useTranslation();
 
-  useDocumentTitle(deck ? `Edit: ${deck.name}` : "");
+  useDocumentTitle(t("deck_edit.title", { name: deck.name }));
 
   const [currentTab, setCurrentTab] = useState<Tab>("slots");
   const [currentTool, setCurrentTool] = useState<string>("card-list");
@@ -129,43 +131,42 @@ function DeckEditInner() {
   const tabs = useMemo(() => {
     const tabs = [
       {
-        label: "Deck",
+        label: t("common.decks.slots"),
         value: "slots",
         type: "deck",
         hotkey: "d",
-        hotkeyLabel: "Cycle decks",
+        hotkeyLabel: t("deck_edit.actions.cycle_decks"),
       },
       {
-        label: "Side",
+        label: t("common.decks.sideSlots_short"),
         value: "sideSlots",
         type: "deck",
         hotkey: "d",
-        hotkeyLabel: "Cycle decks",
+        hotkeyLabel: t("deck_edit.actions.cycle_decks"),
       },
     ];
 
     if (deck.hasExtraDeck) {
       tabs.push({
-        label: "Spirits",
+        label: t("common.decks.extraSlots_short"),
         value: "extraSlots",
         type: "deck",
         hotkey: "d",
-        hotkeyLabel: "Cycle decks",
+        hotkeyLabel: t("deck_edit.actions.cycle_decks"),
       });
     }
 
     tabs.push({
-      label: "Meta",
-      value: "meta",
+      label: t("deck_edit.tab_config"),
+      value: "config",
       type: "app",
-      hotkey: "m",
-      hotkeyLabel: "Deck meta",
+      hotkey: "c",
+      hotkeyLabel: t("deck_edit.tab_config"),
     });
 
     return tabs;
-  }, [deck.hasExtraDeck]);
+  }, [deck.hasExtraDeck, t]);
 
-  const activeList = useStore(selectActiveList);
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
   const validation = useStore((state) => selectDeckValid(state, deck));
 
@@ -191,11 +192,11 @@ function DeckEditInner() {
   }, [currentTab, tabs]);
 
   const onSetMeta = useCallback(() => {
-    setCurrentTab("meta");
+    setCurrentTab("config");
   }, []);
 
   useHotkey("d", onCycleDeck);
-  useHotkey("m", onSetMeta);
+  useHotkey("c", onSetMeta);
 
   const renderCoreCardCheckbox = useCallback(
     (card: Card, quantity?: number) => {
@@ -259,7 +260,6 @@ function DeckEditInner() {
             onTabChange={setCurrentTab}
             tabs={tabs}
             validation={validation}
-            viewMode={activeList?.display.viewMode}
           />
         }
         sidebarWidthMax="var(--sidebar-width-two-col)"
@@ -272,41 +272,41 @@ function DeckEditInner() {
           >
             <TabsList className={css["tabs-list"]} style={accentColor}>
               <TabsTrigger
-                hotkey="c"
+                hotkey="l"
                 onTabChange={setCurrentTool}
-                tooltip="Card list"
+                tooltip={t("deck_edit.tab_card_list")}
                 value="card-list"
               >
                 <LayoutListIcon />
-                <span>Card list</span>
+                <span>{t("deck_edit.tab_card_list")}</span>
               </TabsTrigger>
               <TabsTrigger
                 hotkey="r"
                 onTabChange={setCurrentTool}
-                tooltip="Recommendations"
+                tooltip={t("deck_edit.tab_recommendations")}
                 value="recommendations"
               >
                 <WandSparklesIcon />
-                <span>Recommendations</span>
+                <span>{t("deck_edit.tab_recommendations")}</span>
               </TabsTrigger>
               <TabsTrigger
                 hotkey="n"
                 onTabChange={setCurrentTool}
-                tooltip="Notes"
+                tooltip={t("deck_edit.tab_notes")}
                 data-testid="editor-notes"
                 value="notes"
               >
                 <BookOpenTextIcon />
-                <span>Notes</span>
+                <span>{t("deck_edit.tab_notes")}</span>
               </TabsTrigger>
               <TabsTrigger
                 hotkey="t"
                 onTabChange={setCurrentTool}
-                tooltip="Deck tools"
+                tooltip={t("deck_edit.tab_tools")}
                 value="deck-tools"
               >
                 <ChartAreaIcon />
-                <span>Tools</span>
+                <span>{t("deck_edit.tab_tools")}</span>
               </TabsTrigger>
             </TabsList>
             <TabsContent value="card-list" asChild>

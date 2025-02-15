@@ -1,5 +1,7 @@
-import { capitalizeWords, formatProviderName } from "@/utils/formatting";
+import { capitalize, formatProviderName } from "@/utils/formatting";
+import type { TFunction } from "i18next";
 import { LockKeyholeIcon, ShareIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import css from "./deck-tags.module.css";
 import { Tag } from "./ui/tag";
 
@@ -7,7 +9,7 @@ type Props = {
   tags: string[];
 };
 
-const tagRenderer = (tag: string) => {
+export const tagRenderer = (tag: string, t: TFunction) => {
   let icon = null;
 
   if (tag === "arkhamdb") {
@@ -24,7 +26,13 @@ const tagRenderer = (tag: string) => {
     <>
       {icon}
       <span>
-        {tag === "arkhamdb" ? formatProviderName(str) : capitalizeWords(str)}
+        {str === "arkhamdb"
+          ? formatProviderName(str)
+          : str === "private"
+            ? t("deck.tags.private")
+            : str === "shared"
+              ? t("deck.tags.shared")
+              : capitalize(str)}
       </span>
     </>
   );
@@ -33,6 +41,8 @@ const tagRenderer = (tag: string) => {
 export function DeckTags(props: Props) {
   const { tags } = props;
 
+  const { t } = useTranslation();
+
   if (!tags.length) return null;
 
   return (
@@ -40,7 +50,7 @@ export function DeckTags(props: Props) {
       {tags.map((s, i) => (
         // biome-ignore lint/suspicious/noArrayIndexKey: order is stable.
         <Tag as="li" key={i} size="xs">
-          {tagRenderer(s)}
+          {tagRenderer(s, t)}
         </Tag>
       ))}
     </ul>

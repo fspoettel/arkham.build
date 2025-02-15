@@ -1,6 +1,7 @@
 import type { CollapsibleProps } from "@radix-ui/react-collapsible";
 import { Undo2Icon } from "lucide-react";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "../../ui/button";
 import { Collapsible, CollapsibleContent } from "../../ui/collapsible";
 
@@ -30,6 +31,8 @@ export function FilterContainer(props: Props) {
     ...rest
   } = props;
 
+  const { t } = useTranslation();
+
   const onFilterReset = useCallback(
     (evt: React.MouseEvent) => {
       evt.preventDefault();
@@ -46,7 +49,7 @@ export function FilterContainer(props: Props) {
           <Button
             onClick={onFilterReset}
             iconOnly
-            tooltip="Reset filter"
+            tooltip={t("filters.reset_filter")}
             variant="bare"
           >
             <Undo2Icon />
@@ -56,9 +59,15 @@ export function FilterContainer(props: Props) {
       className={className}
       onOpenChange={onOpenChange}
       open={open}
-      sub={alwaysShowFilterString || !open ? filterString || "All" : undefined}
+      sub={
+        alwaysShowFilterString || !open
+          ? filterString || t("filters.all")
+          : undefined
+      }
       title={title}
-      variant={filterString && filterString !== "All" ? "active" : undefined}
+      variant={
+        filterString && filterString !== t("filters.all") ? "active" : undefined
+      }
     >
       {nonCollapsibleContent}
       <CollapsibleContent>{children}</CollapsibleContent>

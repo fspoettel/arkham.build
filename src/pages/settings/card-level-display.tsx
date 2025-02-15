@@ -4,6 +4,7 @@ import { Select } from "@/components/ui/select";
 import { useStore } from "@/store";
 import type { SettingsState } from "@/store/slices/settings.types";
 import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import css from "./card-level-display.module.css";
 import type { SettingProps } from "./types";
 
@@ -13,6 +14,7 @@ type Option = SettingsState["cardLevelDisplay"];
 
 export function CardLevelDisplaySetting(props: SettingProps) {
   const { settings, updateSettings } = props;
+  const { t } = useTranslation();
 
   const metadata = useStore((state) => state.metadata);
 
@@ -22,11 +24,11 @@ export function CardLevelDisplaySetting(props: SettingProps) {
 
   const options = useMemo(
     () => [
-      { value: "icon-only", label: "In card icon only" },
-      { value: "dots", label: "In card icon and as dots" },
-      { value: "text", label: "In card icon and as text" },
+      { value: "icon-only", label: t("settings.display.card_level_icon_only") },
+      { value: "dots", label: t("settings.display.card_level_as_dots") },
+      { value: "text", label: t("settings.display.card_level_as_text") },
     ],
-    [],
+    [t],
   );
 
   const onChangeValue = useCallback(
@@ -45,7 +47,7 @@ export function CardLevelDisplaySetting(props: SettingProps) {
     <Field className={css["field"]} bordered>
       <FieldLabel htmlFor="display-card-level">
         <i className="icon-xp-bold" />
-        Card level display
+        {t("settings.display.card_level")}
       </FieldLabel>
       <div>
         <Select
@@ -58,7 +60,7 @@ export function CardLevelDisplaySetting(props: SettingProps) {
         />
       </div>
       <div className={css["preview"]}>
-        <h4>Preview</h4>
+        <h4>{t("settings.preview")}</h4>
         <ol>
           {PREVIEW_CARDS.map((id) => (
             <ListCardInner

@@ -6,12 +6,15 @@ import { useSync } from "@/store/hooks/use-sync";
 import type { Provider } from "@/store/slices/connections.types";
 import { formatProviderName } from "@/utils/formatting";
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation, useSearch } from "wouter";
 
 export function Connect() {
   const [, navigate] = useLocation();
   const search = useSearch();
   const toast = useToast();
+  const { t } = useTranslation();
+
   const params = new URLSearchParams(search);
 
   const createConnection = useStore((state) => state.createConnection);
@@ -33,9 +36,8 @@ export function Connect() {
           lock.current = true;
           await sync();
         } else {
-          const errorMessage = error || "Unknown error";
           toast.show({
-            children: `Error occured during connection: ${errorMessage}`,
+            children: t("connect.error", { error: error || "Unknown error" }),
             variant: "error",
           });
         }
@@ -54,14 +56,17 @@ export function Connect() {
     provider,
     search,
     sync,
+    t,
   ]);
 
+  const providerName = formatProviderName(provider);
+
   const message = lock
-    ? `Syncing ${formatProviderName(provider)}...`
-    : `Connecting ${provider}...`;
+    ? t("connect.syncing", { provider: providerName })
+    : t("connect.title", { provider: providerName });
 
   return (
-    <AppLayout title={`Connecting ${provider}...`}>
+    <AppLayout title={t("connect.title", { provider: providerName })}>
       <Loader show message={message} />
     </AppLayout>
   );

@@ -1,4 +1,6 @@
 import type { ResolvedDeck } from "@/store/lib/types";
+import { ExternalLinkIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import { Modal } from "../ui/modal";
 import { DeckInvestigator } from "./deck-investigator";
@@ -11,6 +13,7 @@ type Props = {
 
 export function DeckInvestigatorModal(props: Props) {
   const { deck, onCloseModal, readonly } = props;
+  const { t } = useTranslation();
 
   return (
     <Modal
@@ -21,7 +24,8 @@ export function DeckInvestigatorModal(props: Props) {
           tabIndex={0}
           target="_blank"
         >
-          Open card page
+          <ExternalLinkIcon />
+          {t("card_modal.actions.open_card_page")}
         </Button>
       }
       data-testid="investigator-modal"

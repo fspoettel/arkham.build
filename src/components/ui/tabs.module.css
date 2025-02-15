@@ -25,7 +25,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
   min-width: 0;
+}
 
+.trigger svg + span {
   @container (max-width: 17ch) {
     display: inline-block;
     display: none;

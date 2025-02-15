@@ -5,6 +5,7 @@ import { cx } from "@/utils/cx";
 import { debounce } from "@/utils/debounce";
 import { useHotkey } from "@/utils/use-hotkey";
 import { useCallback, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { createSelector } from "reselect";
 import { AnnotationContainer } from "../annotations/annotation";
 import { AutoSizingTextarea } from "../ui/auto-sizing-textarea";
@@ -24,6 +25,7 @@ const selectUpdateAnnotation = createSelector(
 
 export function AnnotationEdit(props: Props) {
   const { cardCode, deckId, text } = props;
+  const { t } = useTranslation();
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -66,7 +68,7 @@ export function AnnotationEdit(props: Props) {
           variant="bare"
           style={{ visibility: liveValue ? "visible" : "hidden" }}
         >
-          Clear
+          {t("commonc.clear")}
         </Button>
       }
     >

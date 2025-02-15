@@ -11,6 +11,7 @@ import { cx } from "@/utils/cx";
 import { useMutate, useQuery } from "@/utils/use-query";
 import { CheckIcon, FileDownIcon } from "lucide-react";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import css from "./card-data-sync.module.css";
 
 type Props = {
@@ -21,7 +22,9 @@ type Props = {
 export function CardDataSync(props: Props) {
   const { onSyncComplete, showDetails } = props;
 
+  const { t } = useTranslation();
   const toast = useToast();
+
   const init = useStore((state) => state.init);
 
   const dataVersion = useStore((state) => state.metadata.dataVersion);
@@ -39,13 +42,13 @@ export function CardDataSync(props: Props) {
     await mutate().catch(console.error);
 
     toast.show({
-      children: "Card data sync successful.",
+      children: t("settings.card_data.sync_success"),
       duration: 3000,
       variant: "success",
     });
 
     onSyncComplete?.();
-  }, [mutate, onSyncComplete, toast.show]);
+  }, [mutate, onSyncComplete, toast.show, t]);
 
   const upToDate =
     data &&
@@ -61,19 +64,19 @@ export function CardDataSync(props: Props) {
         className={cx(css["sync"], upToDate && css["uptodate"])}
       >
         <div className={css["status"]}>
-          {loading && <p>Loading latest card data...</p>}
-          {(!!error || !!syncError) && <p>Could not sync card data.</p>}
+          {loading && <p>{t("settings.card_data.loading")}</p>}
+          {(!!error || !!syncError) && <p>{t("settings.card_data.error")}</p>}
           {!loading &&
             data &&
             (upToDate ? (
               <p>
-                <CheckIcon className={css["status-icon"]} /> Card data is up to
-                date.
+                <CheckIcon className={css["status-icon"]} />{" "}
+                {t("settings.card_data.up_to_date")}
               </p>
             ) : (
               <p>
-                <FileDownIcon className={css["status-icon"]} /> New card data is
-                available.
+                <FileDownIcon className={css["status-icon"]} />{" "}
+                {t("settings.card_data.update_available")}
               </p>
             ))}
         </div>
@@ -83,16 +86,16 @@ export function CardDataSync(props: Props) {
           type="button"
           size="sm"
         >
-          Sync card data
+          {t("settings.card_data.sync")}
         </Button>
         {showDetails && dataVersion && (
           <dl className={css["info"]}>
-            <dt>Data version:</dt>
+            <dt>{t("settings.card_data.data_version")}:</dt>
             <dd>{dataVersion.cards_updated_at}</dd>
-            <dt>Locale:</dt>
-            <dd>{dataVersion.locale}</dd>
-            <dt>Card count:</dt>
+            <dt>{t("settings.card_data.card_count")}:</dt>
             <dd>{dataVersion.card_count}</dd>
+            <dt>{t("settings.card_data.locale")}:</dt>
+            <dd>{dataVersion.locale}</dd>
           </dl>
         )}
       </Field>

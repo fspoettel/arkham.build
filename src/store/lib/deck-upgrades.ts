@@ -289,7 +289,7 @@ function calculateXpSpent(
         // (unless it's an exiled card that is re-added)
       } else if (modifierFlags.downTheRabbitHole && !upgradedFrom) {
         const exiled = next.exileSlots[card.code] ?? 0;
-        const added = (next.slots[card.code] ?? 0) - exiled;
+        const added = quantity - exiled;
 
         if (added > 0) {
           cost += card.myriad ? 1 : added;

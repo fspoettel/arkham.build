@@ -264,7 +264,7 @@ test.describe("upgrades: views", () => {
     await page.getByTestId("tab-history").click();
     await expect(
       page.getByTestId("history").getByRole("paragraph"),
-    ).toContainText("XP available: 3 XP (spent: 0)");
+    ).toContainText("XP available: 3 (spent: 0)");
 
     await page.getByTestId("view-upgrade").click();
     await page.getByTestId("upgrade-xp").fill("0");

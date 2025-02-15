@@ -4,6 +4,7 @@ import type { Card } from "@/store/services/queries.types";
 import type { CustomizationOption as CustomizationOptionType } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
 import { time, timeEnd } from "@/utils/time";
+import { useTranslation } from "react-i18next";
 import { createSelector } from "reselect";
 import { CardsCombobox } from "../cards-combobox";
 
@@ -83,6 +84,7 @@ type Props = {
 
 export function CustomizationChooseCards(props: Props) {
   const { selections, config, disabled, id, limit, onChange, readonly } = props;
+  const { t } = useTranslation();
 
   const cards = useStore((state) =>
     selectPlayerCardsForCustomizationOptions(state, config),
@@ -93,7 +95,7 @@ export function CustomizationChooseCards(props: Props) {
       disabled={disabled}
       id={`${id}-choose-cards`}
       items={cards}
-      label="Cards"
+      label={t("common.card", { count: limit })}
       limit={limit}
       onValueChange={onChange}
       readonly={readonly}

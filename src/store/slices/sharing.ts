@@ -2,6 +2,7 @@ import { assert } from "@/utils/assert";
 import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
 import { formatDeckImport, formatDeckShare } from "../lib/deck-io";
+import { selectDeckHistory } from "../selectors/decks";
 import { selectClientId } from "../selectors/shared";
 import { createShare, deleteShare, updateShare } from "../services/queries";
 import { type Deck, isDeck } from "./data.types";
@@ -36,6 +37,7 @@ export const createSharingSlice: StateCreator<
     await createShare(
       selectClientId(state),
       formatDeckShare(deck, previousDeckShared ? previousDeckId : null),
+      selectDeckHistory(state, deck),
     );
 
     set({
@@ -57,6 +59,7 @@ export const createSharingSlice: StateCreator<
       selectClientId(state),
       deck.id.toString(),
       formatDeckShare(deck),
+      selectDeckHistory(state, deck),
     );
 
     set({

@@ -9,12 +9,14 @@ import { isPackFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { PackName } from "../pack-name";
 import type { FilterProps } from "./filters.types";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 
 export function PackFilter({ id }: FilterProps) {
   const ctx = useResolvedDeck();
+  const { t } = useTranslation();
 
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
@@ -54,8 +56,8 @@ export function PackFilter({ id }: FilterProps) {
       nameRenderer={nameRenderer}
       open={filter.open}
       options={options}
-      placeholder="Select pack..."
-      title="Pack"
+      placeholder={t("filters.pack.placeholder")}
+      title={t("filters.pack.title")}
       value={filter.value}
     />
   );

@@ -26,7 +26,7 @@ import { decodeExtraSlots, encodeExtraSlots } from "../lib/slots";
 import { disconnectProviderIfUnauthorized, syncAdapters } from "../lib/sync";
 import type { DeckMeta } from "../lib/types";
 import { selectDeckCreateCardSets } from "../selectors/deck-create";
-import { selectDeckValid } from "../selectors/decks";
+import { selectDeckHistory, selectDeckValid } from "../selectors/decks";
 import { selectLatestUpgrade } from "../selectors/decks";
 import {
   createShare,
@@ -553,7 +553,11 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         state.setRemoting("arkhamdb", false);
       }
     } else if (isShared) {
-      await createShare(state.app.clientId, newDeck);
+      await createShare(
+        state.app.clientId,
+        newDeck,
+        selectDeckHistory(state, deck),
+      );
     }
 
     const history = { ...state.data.history };

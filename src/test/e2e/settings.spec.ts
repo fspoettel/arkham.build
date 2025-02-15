@@ -174,7 +174,7 @@ test.describe("settings", () => {
   test("update 'show previews' setting", async ({ page }) => {
     await mockApiCalls(page);
     await page.goto("/");
-    await fillSearch(page, "nose to the grind stone");
+    await fillSearch(page, "preview test card");
     await expect(page.getByTestId("cardlist-count").first()).toContainText(
       "0 cards",
     );
@@ -183,9 +183,26 @@ test.describe("settings", () => {
     await page.getByTestId("settings-show-previews").click();
     await page.getByTestId("settings-save").click();
     await page.getByTestId("settings-back").click();
-    await fillSearch(page, "nose to the grind stone");
-    await expect(page.getByTestId("listcard-11111")).toBeVisible();
+    await fillSearch(page, "preview test card");
+    await expect(page.getByTestId("listcard-99999")).toBeVisible();
 
     await expect(page.getByTestId("preview-banner")).not.toBeVisible();
+  });
+
+  test("deselect all grouping and sorting options", async ({ page }) => {
+    await mockApiCalls(page);
+    await page.goto("/settings");
+    await page.getByTestId("player-group-subtype").click();
+    await page
+      .getByTestId("list-settings-player-group")
+      .getByTestId("sortable-item-type")
+      .click();
+    await page.getByTestId("player-group-slot").click();
+    await page.getByTestId("player-sort-name").click();
+    await page.getByTestId("player-sort-level").click();
+    await page.getByTestId("player-sort-position").click();
+    await page.getByTestId("settings-save").click();
+    await page.getByTestId("masthead-logo").click();
+    await expect(page.getByTestId("card-list-scroller")).toBeVisible();
   });
 });

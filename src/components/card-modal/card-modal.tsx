@@ -11,6 +11,7 @@ import { useMedia } from "@/utils/use-media";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { ExternalLinkIcon, MessagesSquareIcon } from "lucide-react";
 import { useCallback, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "wouter";
 import { Annotation } from "../annotations/annotation";
 import { Card } from "../card/card";
@@ -31,6 +32,7 @@ type Props = {
 };
 
 export function CardModal(props: Props) {
+  const { t } = useTranslation();
   const ctx = useResolvedDeck();
   const canEdit = ctx.canEdit;
 
@@ -159,7 +161,7 @@ export function CardModal(props: Props) {
                 onClick={onCloseModal}
               >
                 <Button as="a" data-testid="card-modal-create-deck">
-                  <i className="icon-deck" /> Create deck
+                  <i className="icon-deck" /> {t("deck.actions.create")}
                 </Button>
               </Link>
             )}
@@ -169,7 +171,7 @@ export function CardModal(props: Props) {
             target="_blank"
           >
             <ExternalLinkIcon />
-            Card page
+            {t("card_modal.actions.open_card_page")}
           </Button>
           <Button
             as="a"
@@ -178,7 +180,7 @@ export function CardModal(props: Props) {
             target="_blank"
           >
             <MessagesSquareIcon />
-            Reviews
+            {t("card_modal.actions.reviews")}
           </Button>
         </>
       }

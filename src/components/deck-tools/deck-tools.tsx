@@ -1,6 +1,7 @@
 import type { ResolvedDeck } from "@/store/lib/types";
 import { cx } from "@/utils/cx";
 import { Suspense, forwardRef, lazy } from "react";
+import { useTranslation } from "react-i18next";
 import { Loader } from "../ui/loader";
 import { Scroller } from "../ui/scroller";
 import { AllAttachables } from "./all-attachables";
@@ -22,16 +23,13 @@ export const DeckTools = forwardRef(function DeckTools(
   props: Props,
   ref: React.ForwardedRef<HTMLDivElement>,
 ) {
-  const { deck, readonly, scrollable, showTitle } = props;
+  const { deck, readonly, scrollable } = props;
+
+  const { t } = useTranslation();
 
   const node = (
     <article className={cx(css["deck-tools"])} ref={ref}>
-      {showTitle && (
-        <header className={css["tools-header"]}>
-          {showTitle && <h3 className={css["tools-title"]}>Deck Tools</h3>}
-        </header>
-      )}
-      <Suspense fallback={<Loader show message="Loading tools..." />}>
+      <Suspense fallback={<Loader show message={t("deck.tools.loading")} />}>
         <LazyChartContainer deck={deck} />
         <LimitedSlots deck={deck} />
         <AllAttachables deck={deck} readonly={readonly} />

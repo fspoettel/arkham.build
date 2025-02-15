@@ -2,12 +2,16 @@
   list-style: none;
 }
 
+.diffs {
+  margin-top: 0.25rem;
+}
+
 .diffs > * + * {
   margin-top: 0.25rem;
 }
 
 .diffs-container > * + * {
-  margin-top: 0.75rem;
+  margin-top: 0.5rem;
 }
 
 .diff {
@@ -76,4 +80,8 @@
 
 .diffs-container.sm .diff-quantity.negative {
   color: currentColor;
+}
+
+.diffs-subtitle {
+  font-weight: 400;
 }

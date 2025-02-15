@@ -774,7 +774,7 @@ export function makeOptionFilter(
     optionFilter.push(filterType(option.type));
   }
 
-  // parallel wendy
+  // parallel wendy + marion
   if (option.option_select) {
     const selectFilters: Filter[] = [];
 
@@ -798,6 +798,10 @@ export function makeOptionFilter(
 
       if (select.trait) {
         optionSelectFilters.push(filterTraits(select.trait.map(capitalize)));
+      }
+
+      if (select.type) {
+        optionSelectFilters.push(filterType(select.type));
       }
 
       selectFilters.push(and(optionSelectFilters));

@@ -50,7 +50,7 @@ test.describe("limited card pool", () => {
     await fillSearch(page, "runic axe");
     await expect(page.getByTestId("listcard-09022")).not.toBeVisible();
 
-    await page.getByTestId("editor-tab-meta").click();
+    await page.getByTestId("editor-tab-config").click();
 
     await page.getByTestId("combobox-input").click();
     await page.getByTestId("combobox-input").fill("scarlet");
@@ -64,7 +64,7 @@ test.describe("limited card pool", () => {
     await fillSearch(page, "runic axe");
     await expect(page.getByTestId("listcard-09022")).not.toBeVisible();
 
-    await page.getByTestId("editor-tab-meta").click();
+    await page.getByTestId("editor-tab-config").click();
     await page
       .getByTestId("combobox-result-tfap")
       .getByTestId("combobox-result-remove")
@@ -90,7 +90,7 @@ test.describe("limited card pool", () => {
     await expect(page.getByTestId("cardlist-count").first()).toContainText(
       "0 cards",
     );
-    await page.getByTestId("editor-tab-meta").click();
+    await page.getByTestId("editor-tab-config").click();
     await page.getByTestId("combobox-input").click();
     await page.getByTestId("combobox-input").fill("drown");
     await page.getByTestId("combobox-menu-item-tdcp").click();
@@ -124,7 +124,7 @@ test.describe("sealed deck", () => {
     await page.goto("/deck/create/01001");
     await uploadSealedDeck(page);
     await page.getByTestId("create-save").click();
-    await page.getByTestId("editor-tab-meta").click();
+    await page.getByTestId("editor-tab-config").click();
     await page.getByTestId("sealed-deck-remove").click();
     await fillSearch(page, "art student");
     await expect(page.getByTestId("listcard-02149")).toBeVisible();

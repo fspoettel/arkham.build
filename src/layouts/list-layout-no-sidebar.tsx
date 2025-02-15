@@ -9,6 +9,7 @@ import { useGoBack } from "@/utils/use-go-back";
 import { useMedia } from "@/utils/use-media";
 import { ChevronLeftIcon, FilterIcon } from "lucide-react";
 import { useCallback, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useListLayoutContext } from "./list-layout-context";
 import css from "./list-layout-no-sidebar.module.css";
 
@@ -23,6 +24,7 @@ interface Props extends React.ComponentProps<typeof CardListContainer> {
  */
 export function ListLayoutNoSidebar(props: Props) {
   const { title, titleString, ...rest } = props;
+  const { t } = useTranslation();
 
   const { filtersOpen, setFiltersOpen } = useListLayoutContext();
 
@@ -69,7 +71,7 @@ export function ListLayoutNoSidebar(props: Props) {
       >
         <Masthead className={css["masthead"]}>
           <Button onClick={goBack} variant="bare" size="sm">
-            <ChevronLeftIcon /> Back
+            <ChevronLeftIcon /> {t("common.back")}
           </Button>
         </Masthead>
         <main

@@ -8,8 +8,8 @@ import { isInvestigatorSkillsFilterObject } from "@/store/slices/lists.type-guar
 import type { InvestigatorSkillsFilter as InvestigatorSkillsFilterType } from "@/store/slices/lists.types";
 import { assert } from "@/utils/assert";
 import { SKILL_KEYS, type SkillKey } from "@/utils/constants";
-import { capitalize } from "@/utils/formatting";
 import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { SkillIconFancy } from "../icons/skill-icon-fancy";
 import { RangeSelect } from "../ui/range-select";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
@@ -24,6 +24,7 @@ const INVESTIGATOR_SKILL_KEYS: SkillKey[] = SKILL_KEYS.filter(
 
 export function InvestigatorSkillsFilter(props: FilterProps) {
   const { id, resolvedDeck } = props;
+  const { t } = useTranslation();
 
   const { onReset, onChange, onOpenChange } =
     useFilterCallbacks<InvestigatorSkillsFilterType>(id);
@@ -79,7 +80,7 @@ export function InvestigatorSkillsFilter(props: FilterProps) {
       onReset={onReset}
       onOpenChange={onOpenChange}
       open={filter.open}
-      title="Stats"
+      title={t("filters.investigator_skills.title")}
       nonCollapsibleContent={
         !filter.open && (
           <ToggleGroup
@@ -112,7 +113,7 @@ export function InvestigatorSkillsFilter(props: FilterProps) {
           label={
             <>
               <SkillIconFancy className={css["icon"]} skill={key} />
-              {capitalize(key)}
+              {t(`common.skill.${key}`)}
             </>
           }
           min={skillsMinMax[key].min}

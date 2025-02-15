@@ -1,4 +1,6 @@
 import type { TabooSet } from "@/store/services/queries.types";
+import i18n from "@/utils/i18n";
+import i18next from "i18next";
 import { createSelector } from "reselect";
 
 export function capitalize(s: string | number) {
@@ -6,11 +8,6 @@ export function capitalize(s: string | number) {
   if (!str.length) return str;
 
   return `${str[0].toUpperCase()}${str.slice(1)}`;
-}
-
-export function capitalizeWords(s: string) {
-  if (!s.length) return s;
-  return s.split(" ").map(capitalize).join(" ");
 }
 
 export function capitalizeSnakeCase(s: string) {
@@ -36,46 +33,35 @@ export const formatTabooSet = createSelector(
 );
 
 export function formatRelationTitle(id: string) {
-  if (id === "base") return "Base investigator";
-  if (id === "parallel") return "Parallel investigator";
-  if (id === "parallelCards") return "Parallel cards";
-  if (id === "requiredCards") return "Signatures";
-  if (id === "advanced") return "Advanced signatures";
-  if (id === "replacement") return "Replacements";
-  if (id === "bound") return "Bound";
-  if (id === "bonded") return "Bonded";
-  if (id === "restrictedTo") return "Restricted";
-  if (id === "level") return "Other levels";
-  if (id === "otherSignatures") return "Related signatures";
-  if (id === "otherVersions") return "Other versions";
-  return id;
+  return i18next.t(`common.relations.${id}`);
 }
 
-export function formatXpAvailable(
+export function formatUpgradeXP(
   xp: number | null,
   adjustment: number | null,
   spent: number | null,
 ) {
-  return (
-    <span>
-      {xp}
-      {!!adjustment &&
-        `(${adjustment >= 0 ? "+" : "-"}${Math.abs(adjustment)})`}{" "}
-      XP <em>(spent: {spent ?? 0})</em>
-    </span>
-  );
+  const text = i18next.t("deck_view.history.upgrade_xp", {
+    xp: xp ?? 0,
+    spent: spent ?? 0,
+    adjustment: adjustment
+      ? `(${adjustment >= 0 ? "+" : "-"}${Math.abs(adjustment)})`
+      : "",
+  });
+
+  return <span>{text}</span>;
 }
 
 export function formatGroupingType(type: string) {
-  switch (type) {
-    case "base_upgrades": {
-      return "Lvl. 0 <> Upgrades";
-    }
+  return i18n.t(`lists.categories.${type}`);
+}
 
-    default: {
-      return capitalizeSnakeCase(type);
-    }
-  }
+export function formatSlots(slots: string) {
+  const formatted = slots
+    .split(".")
+    .map((slot) => i18n.t(`common.slot.${slot.trim().toLowerCase()}`))
+    .join(". ");
+  return `${formatted}.`;
 }
 
 export function formatProviderName(name: string) {

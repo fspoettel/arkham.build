@@ -8,6 +8,7 @@ import { formatRelationTitle } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { CardBack } from "../card/card-back";
 import { CardContainer } from "../card/card-container";
 import { CardFace } from "../card/card-face";
@@ -39,6 +40,7 @@ export function DeckInvestigator(props: Props) {
   } = props;
 
   const [backToggled, toggleBack] = useState(false);
+  const { t } = useTranslation();
 
   const related = getRelatedCards(deck.cards.investigator).filter(
     ([key]) => key !== "parallel",
@@ -63,7 +65,7 @@ export function DeckInvestigator(props: Props) {
         >
           <Button onClick={() => toggleBack((p) => !p)}>
             {backToggled ? <ChevronUpIcon /> : <ChevronDownIcon />}
-            Backside{" "}
+            {t("card_view.actions.view_backside")}{" "}
             {deck.investigatorBack.card.parallel && (
               <>
                 (<span className="icon-parallel" />)

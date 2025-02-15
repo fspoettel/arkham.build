@@ -10,6 +10,7 @@ import { isStaticInvestigator } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { useDocumentTitle } from "@/utils/use-document-title";
 import { GlobeIcon, MessagesSquareIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Link, useParams } from "wouter";
 import { Error404 } from "../errors/404";
 import css from "./card-view.module.css";
@@ -19,6 +20,7 @@ import { UsableBy } from "./usable-by";
 function CardView() {
   const { code } = useParams();
 
+  const { t } = useTranslation();
   const cardWithRelations = useStore((state) =>
     selectCardWithRelations(state, code, true, undefined),
   );
@@ -53,7 +55,7 @@ function CardView() {
         </main>
         <nav className={css["sidebar"]}>
           <div className={css["sidebar-inner"]}>
-            <SidebarSection title="Actions">
+            <SidebarSection title={t("card_view.section_actions")}>
               <Button
                 as="a"
                 href={`https://arkhamdb.com/card/${cardWithRelations.card.code}`}
@@ -61,7 +63,7 @@ function CardView() {
                 target="_blank"
                 size="full"
               >
-                <GlobeIcon /> Open on ArkhamDB
+                <GlobeIcon /> {t("card_view.actions.open_on_arkhamdb")}
               </Button>
               <Button
                 as="a"
@@ -70,7 +72,7 @@ function CardView() {
                 target="_blank"
                 size="full"
               >
-                <MessagesSquareIcon /> View Reviews
+                <MessagesSquareIcon /> {t("card_view.actions.reviews")}
               </Button>
               {isBuildableInvestigator && (
                 <Link
@@ -82,26 +84,29 @@ function CardView() {
                     data-testid="card-modal-create-deck"
                     size="full"
                   >
-                    <i className="icon-deck" /> Create deck
+                    <i className="icon-deck" /> {t("deck.actions.create")}
                   </Button>
                 </Link>
               )}
             </SidebarSection>
-            <SidebarSection title="FAQ">
+            <SidebarSection title={t("card_view.section_faq")}>
               <Faq card={cardWithRelations.card} />
             </SidebarSection>
 
             {(deckbuildable || isInvestigator) && (
-              <SidebarSection title="Deckbuilding">
+              <SidebarSection title={t("card_view.section_deckbuilding")}>
                 {isBuildableInvestigator && (
                   <>
                     <Link
                       asChild
                       href={`/card/${cardWithRelations.card.code}/usable_cards`}
                     >
-                      <Button size="full" data-testid="usable-cards">
-                        <i className="icon-cards" /> Cards usable by{" "}
-                        {cardWithRelations.card.real_name}
+                      <Button size="full" data-testid="usable-cards" as="a">
+                        <i className="icon-cards" />
+                        {t("card_view.actions.usable_by", {
+                          prefix: "",
+                          name: cardWithRelations.card.real_name,
+                        })}
                       </Button>
                     </Link>
                     {parallel && (
@@ -109,9 +114,16 @@ function CardView() {
                         asChild
                         href={`/card/${parallel.code}/usable_cards`}
                       >
-                        <Button size="full" data-testid="usable-cards-parallel">
-                          <i className="icon-cards" /> Cards usable by{" "}
-                          <i className="icon-parallel" /> {parallel.real_name}
+                        <Button
+                          size="full"
+                          data-testid="usable-cards-parallel"
+                          as="a"
+                        >
+                          <i className="icon-cards" />
+                          {t("card_view.actions.usable_by", {
+                            prefix: `${t("common.parallel")} `,
+                            name: cardWithRelations.card.real_name,
+                          })}
                         </Button>
                       </Link>
                     )}

@@ -8,6 +8,7 @@ import { isEmpty } from "@/utils/is-empty";
 import { useQuery } from "@/utils/use-query";
 import DOMPurify from "dompurify";
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   card: ResolvedCard["card"];
@@ -17,6 +18,7 @@ export function Faq(props: Props) {
   const [open, setOpen] = useState(false);
   const { card } = props;
 
+  const { t } = useTranslation();
   const clientId = useStore(selectClientId);
 
   const query = useMemo(
@@ -30,17 +32,17 @@ export function Faq(props: Props) {
     <Details
       iconClosed={<span>?</span>}
       onOpenChange={setOpen}
-      title="View FAQs"
+      title={t("card_view.actions.faq")}
       scrollHeight="20rem"
     >
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: not relevant. */}
       <div onClick={redirectArkhamDBLinks}>
         {(response.state === "initial" || response.state === "loading") &&
-          "Loading..."}
+          t("card_view.faq.loading")}
 
-        {!!response.error && "Error loading FAQ entries."}
+        {!!response.error && t("card_view.faq.error")}
 
-        {response.data?.length === 0 && "No FAQ entries."}
+        {response.data?.length === 0 && t("card_view.faq.empty")}
 
         {!isEmpty(response.data) &&
           response.data.map((faq, i) => (

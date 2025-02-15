@@ -1,5 +1,6 @@
 import type { Card } from "@/store/services/queries.types";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { ListCard } from "./list-card/list-card";
 import { Combobox, type Props as ComboboxProps } from "./ui/combobox/combobox";
 
@@ -13,6 +14,8 @@ type Props = Omit<
 >;
 
 export function CardsCombobox(props: Props) {
+  const { t } = useTranslation();
+
   const cardRenderer = useCallback(
     (item: Card) => <ListCard disableModalOpen card={item} size="sm" />,
     [],
@@ -34,7 +37,9 @@ export function CardsCombobox(props: Props) {
       itemToString={itemToString}
       renderItem={cardRenderer}
       renderResult={resultRenderer}
-      placeholder="Select cards..."
+      placeholder={t("ui.cards_combobox.placeholder", {
+        count: props.limit ?? 2,
+      })}
     />
   );
 }

@@ -3,6 +3,7 @@ import { selectActiveListFilter } from "@/store/selectors/lists";
 import { isOwnershipFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
 import { FileCheckIcon, FileIcon, FileWarningIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import {
   RadioButtonGroup,
   RadioButtonGroupItem,
@@ -12,6 +13,7 @@ import { FilterContainer } from "./primitives/filter-container";
 import { useFilterCallbacks } from "./primitives/filter-hooks";
 
 export function OwnershipFilter({ id }: FilterProps) {
+  const { t } = useTranslation();
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(isOwnershipFilterObject(filter), "filter must be an ownership filter");
 
@@ -19,10 +21,10 @@ export function OwnershipFilter({ id }: FilterProps) {
 
   const changes =
     filter.value === "all"
-      ? "All"
+      ? t("filters.all")
       : filter.value === "owned"
-        ? "Owned"
-        : "Unavailable";
+        ? t("filters.ownership.owned")
+        : t("filters.ownership.unowned");
 
   return (
     <FilterContainer
@@ -30,20 +32,26 @@ export function OwnershipFilter({ id }: FilterProps) {
       filterString={changes}
       onOpenChange={onOpenChange}
       open={filter.open}
-      title="Ownership"
+      title={t("filters.ownership.title")}
     >
       <RadioButtonGroup
         icons
         onValueChange={onChange}
         value={filter.value ?? ""}
       >
-        <RadioButtonGroupItem tooltip="All" value="all">
+        <RadioButtonGroupItem tooltip={t("filters.all")} value="all">
           <FileIcon />
         </RadioButtonGroupItem>
-        <RadioButtonGroupItem tooltip="Owned" value="owned">
+        <RadioButtonGroupItem
+          tooltip={t("filters.ownership.owned")}
+          value="owned"
+        >
           <FileCheckIcon />
         </RadioButtonGroupItem>
-        <RadioButtonGroupItem tooltip="Unavailable" value="unowned">
+        <RadioButtonGroupItem
+          tooltip={t("filters.ownership.unowned")}
+          value="unowned"
+        >
           <FileWarningIcon />
         </RadioButtonGroupItem>
       </RadioButtonGroup>

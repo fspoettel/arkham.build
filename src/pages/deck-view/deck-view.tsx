@@ -9,7 +9,7 @@ import { resolveDeck } from "@/store/lib/resolve-deck";
 import type { ResolvedDeck } from "@/store/lib/types";
 import {
   getDeckHistory,
-  selectDeckHistory,
+  selectDeckHistoryCached,
   selectDeckValid,
   selectResolvedDeckById,
 } from "@/store/selectors/decks";
@@ -19,6 +19,7 @@ import { isNumeric } from "@/utils/is-numeric";
 import { useQuery } from "@/utils/use-query";
 import { ResolvedDeckProvider } from "@/utils/use-resolved-deck";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "wouter";
 import { Error404 } from "../errors/404";
 import { ShareInner } from "../share/share";
@@ -41,6 +42,7 @@ function DeckView() {
 
 function ArkhamDbDeckView({ id, type }: { id: string; type: string }) {
   const clientId = useStore(selectClientId);
+  const { t } = useTranslation();
 
   const idInt = Number.parseInt(id, 10);
 
@@ -61,7 +63,7 @@ function ArkhamDbDeckView({ id, type }: { id: string; type: string }) {
   }
 
   if (state === "loading" || state === "initial") {
-    return <Loader show message="Fetching deck..." />;
+    return <Loader show message={t("deck_view.loading")} />;
   }
 
   if (state === "error") {
@@ -82,7 +84,7 @@ function ArkhamDbDeckView({ id, type }: { id: string; type: string }) {
 }
 
 function LocalDeckView({ deck }: { deck: ResolvedDeck }) {
-  const history = useStore((state) => selectDeckHistory(state, deck.id));
+  const history = useStore((state) => selectDeckHistoryCached(state, deck.id));
   return <DeckViewInner origin="local" deck={deck} history={history} />;
 }
 

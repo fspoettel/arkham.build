@@ -36,10 +36,13 @@ export function ShareInner(props: { id: string }) {
 
   const { data, state, error } = useQuery(query);
 
-  const resolvedDeck = useStore((state) => selectResolvedShare(state, data));
+  const resolvedDeck = useStore((state) =>
+    selectResolvedShare(state, data?.data),
+  );
   const validation = useStore((state) => selectDeckValid(state, resolvedDeck));
 
-  if (state === "initial" || state === "loading") return <Loader />;
+  if (state === "initial" || state === "loading")
+    return <Loader show message="Loading shared deck..." />;
   if (error) return <Error404 />;
 
   if (!resolvedDeck) return null;
@@ -51,6 +54,7 @@ export function ShareInner(props: { id: string }) {
           origin="share"
           deck={resolvedDeck}
           validation={validation}
+          history={data?.history}
         />
       </CardModalProvider>
     </ResolvedDeckProvider>

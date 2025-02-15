@@ -1,6 +1,7 @@
 import { useStore } from "@/store";
 import { selectSettings } from "@/store/selectors/settings";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import css from "./preview-banner.module.css";
 import { Button } from "./ui/button";
 
@@ -8,6 +9,7 @@ const BANNER_ID = "preview-tdc";
 
 export function PreviewBanner() {
   const settings = useStore(selectSettings);
+  const { t } = useTranslation();
 
   const dismissed = useStore((state) =>
     state.app?.bannersDismissed?.includes(BANNER_ID),
@@ -35,14 +37,10 @@ export function PreviewBanner() {
         <header className={css["header"]}>
           <h3 className={css["title"]}>
             <i className="encounters-tdcp" />
-            Preview season is here!
+            {t("preview_banner.title")}
           </h3>
         </header>
-        <p>
-          Enabling previews will show cards from upcoming sets in the card
-          browser. You can change this setting at any time in the collection
-          settings.
-        </p>
+        <p>{t("preview_banner.description")}</p>
         <div className={css["actions"]}>
           <Button
             size="sm"
@@ -50,14 +48,14 @@ export function PreviewBanner() {
             onClick={onEnablePreviews}
             data-testid="preview-banner-enable"
           >
-            Enable previews
+            {t("preview_banner.actions.enable")}
           </Button>
           <Button
             size="sm"
             onClick={onDismiss}
             data-testid="preview-banner-dismiss"
           >
-            Dismiss
+            {t("preview_banner.actions.dismiss")}
           </Button>
         </div>
       </div>

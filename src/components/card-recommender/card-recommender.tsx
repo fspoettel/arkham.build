@@ -14,6 +14,7 @@ import { useColorTheme } from "@/utils/use-color-theme";
 import { useQuery } from "@/utils/use-query";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { type MutableRefObject, forwardRef, useCallback, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { CardList } from "../card-list/card-list";
 import { CardSearch } from "../card-list/card-search";
 import type { CardListProps } from "../card-list/types";
@@ -31,6 +32,7 @@ export const CardRecommender = forwardRef(function CardRecommender(
 ) {
   const { slotLeft, slotRight, ...rest } = props;
 
+  const { t } = useTranslation();
   const { resolvedDeck } = useResolvedDeck();
 
   const listState = useStore((state) =>
@@ -131,12 +133,12 @@ export const CardRecommender = forwardRef(function CardRecommender(
         </div>
         {(state === "loading" || state === "initial") && (
           <div className={css["loader-container"]}>
-            <Loader show message="Computing recommendations..." />
+            <Loader show message={t("deck_edit.recommendations.loading")} />
           </div>
         )}
         {state === "error" && (
           <ErrorDisplay
-            message="Could not retrieve recommendations."
+            message={t("deck_edit.recommendations.error")}
             status={500}
           />
         )}
@@ -156,13 +158,14 @@ export const CardRecommender = forwardRef(function CardRecommender(
 
 function DeckCount(props: { decks_analyzed?: number }) {
   const { decks_analyzed } = props;
+  const { t } = useTranslation();
 
   if (!decks_analyzed == null) return null;
 
   return (
     <span className={css["toggle-decks-count"]}>
       <i className="icon-deck" />
-      {decks_analyzed} decks
+      {t("deck_collection.count", { count: decks_analyzed })}
     </span>
   );
 }
@@ -176,6 +179,7 @@ function CardRecommenderInner(
 ) {
   const { data, quantities, resolvedDeck, listState, getListCardProps } = props;
 
+  const { t } = useTranslation();
   const [theme] = useColorTheme();
 
   const metadata = useStore((state) => state.metadata);
@@ -229,12 +233,12 @@ function CardRecommenderInner(
   if (sortedCards.length === 0) {
     return (
       <ErrorDisplay
-        message="No recommendations for this configuration."
+        message={t("deck_edit.recommendations.no_results")}
         pre={
           <img
             className={css["no-result-image"]}
             src={theme === "dark" ? "/404-dark.png" : "/404-light.png"}
-            alt="No recommendations for this configuration."
+            alt={t("deck_edit.recommendations.no_results")}
           />
         }
         status={404}

@@ -6,7 +6,8 @@ import type { Card } from "@/store/services/queries.types";
 import { isEmpty } from "@/utils/is-empty";
 import { useHotkey } from "@/utils/use-hotkey";
 import { LayoutGridIcon, LayoutListIcon } from "lucide-react";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { AnnotationIndicator } from "../annotation-indicator";
 import {
   Attachments,
@@ -21,13 +22,6 @@ import { DecklistSection } from "./decklist-section";
 import css from "./decklist.module.css";
 import type { ViewMode } from "./decklist.types";
 
-const LABELS: Record<string, string> = {
-  slots: "Cards",
-  sideSlots: "Side deck",
-  bondedSlots: "Bonded cards",
-  extraSlots: "Extra deck",
-};
-
 type Props = {
   deck: ResolvedDeck;
   setViewMode: (mode: ViewMode) => void;
@@ -36,6 +30,7 @@ type Props = {
 
 export function Decklist(props: Props) {
   const { deck, setViewMode, viewMode } = props;
+  const { t } = useTranslation();
 
   const groups = useStore((state) => selectDeckGroups(state, deck, viewMode));
 
@@ -75,6 +70,16 @@ export function Decklist(props: Props) {
     [setViewMode],
   );
 
+  const labels = useMemo(
+    () => ({
+      slots: t("common.decks.slots"),
+      sideSlots: t("common.decks.sideSlots"),
+      bondedSlots: t("common.decks.bondedSlots"),
+      extraSlots: t("common.decks.extraSlots"),
+    }),
+    [t],
+  );
+
   useHotkey("alt+s", () => onSetViewMode("scans"));
   useHotkey("alt+l", () => onSetViewMode("list"));
 
@@ -86,14 +91,20 @@ export function Decklist(props: Props) {
           value={viewMode}
           onValueChange={onSetViewMode}
         >
-          <HotkeyTooltip keybind="alt+l" description="Display as list">
+          <HotkeyTooltip
+            keybind="alt+l"
+            description={t("deck_view.actions.display_as_list")}
+          >
             <ToggleGroupItem value="list">
-              <LayoutListIcon /> List
+              <LayoutListIcon /> {t("deck_view.list")}
             </ToggleGroupItem>
           </HotkeyTooltip>
-          <HotkeyTooltip keybind="alt+s" description="Display as scans">
+          <HotkeyTooltip
+            keybind="alt+s"
+            description={t("deck_view.actions.display_as_scans")}
+          >
             <ToggleGroupItem value="scans">
-              <LayoutGridIcon /> Scans
+              <LayoutGridIcon /> {t("deck_view.scans")}
             </ToggleGroupItem>
           </HotkeyTooltip>
         </ToggleGroup>
@@ -102,7 +113,7 @@ export function Decklist(props: Props) {
       <div className={css["decklist"]} data-testid="view-decklist">
         {groups.slots && (
           <DecklistSection
-            title={LABELS["main"]}
+            title={labels["slots"]}
             columns={getColumnMode(viewMode, groups.slots)}
           >
             <DecklistGroup
@@ -120,7 +131,7 @@ export function Decklist(props: Props) {
               <DecklistSection
                 columns={getColumnMode(viewMode, groups.sideSlots)}
                 showTitle
-                title={LABELS["sideSlots"]}
+                title={labels["sideSlots"]}
               >
                 <DecklistGroup
                   deck={deck}
@@ -133,7 +144,7 @@ export function Decklist(props: Props) {
             {groups.bondedSlots && (
               <DecklistSection
                 columns={getColumnMode(viewMode, groups.bondedSlots)}
-                title={LABELS["bondedSlots"]}
+                title={labels["bondedSlots"]}
                 showTitle
               >
                 <DecklistGroup
@@ -148,7 +159,7 @@ export function Decklist(props: Props) {
             {groups.extraSlots && (
               <DecklistSection
                 columns={getColumnMode(viewMode, groups.extraSlots)}
-                title={LABELS["extraSlots"]}
+                title={labels["extraSlots"]}
                 showTitle
               >
                 <DecklistGroup

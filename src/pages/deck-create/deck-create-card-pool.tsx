@@ -5,8 +5,11 @@ import {
 import { Field, FieldLabel } from "@/components/ui/field";
 import { useStore } from "@/store";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 export function DeckCreateCardPool() {
+  const { t } = useTranslation();
+
   const setCardPool = useStore((state) => state.deckCreateSetCardPool);
   const setSealedDeck = useStore((state) => state.deckCreateSetSealed);
 
@@ -27,7 +30,7 @@ export function DeckCreateCardPool() {
 
   return (
     <Field full padded bordered>
-      <FieldLabel>Card pool settings</FieldLabel>
+      <FieldLabel>{t("deck_edit.config.card_pool.section_title")}</FieldLabel>
       <LimitedCardPoolField
         onValueChange={setCardPool}
         selectedItems={selectedItems}

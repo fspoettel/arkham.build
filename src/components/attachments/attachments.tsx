@@ -1,8 +1,15 @@
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import type { AttachableDefinition } from "@/utils/constants";
-import { LightbulbIcon, PackageIcon, StoreIcon, WandIcon } from "lucide-react";
+import {
+  LightbulbIcon,
+  PackageIcon,
+  StampIcon,
+  StoreIcon,
+  WandIcon,
+} from "lucide-react";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import css from "./attachments.module.css";
 import { canAttach, canUpdateAttachment, getAttachedQuantity } from "./utils";
@@ -53,6 +60,7 @@ function Attachment(
   },
 ) {
   const { buttonVariant, card, definition, resolvedDeck } = props;
+  const { t } = useTranslation();
 
   const onChangeAttachmentQuantity = useAttachmentsChangeHandler();
 
@@ -84,6 +92,8 @@ function Attachment(
     onChangeQuantity(-1);
   };
 
+  const name = definition.name;
+
   return (
     <li className={css["attachment"]} key={definition.code}>
       <Button
@@ -95,8 +105,10 @@ function Attachment(
         variant={buttonVariant ?? (!canEdit && !attached ? "bare" : undefined)}
         tooltip={
           canEdit
-            ? `Add to ${definition.name}`
-            : `${attached > 0 ? "Attached to" : "Eligible for"} ${definition.name}`
+            ? t("attachments.attach", { name })
+            : attached > 0
+              ? t("attachments.attached", { name })
+              : t("attachments.eligible", { name })
         }
       >
         {contentNode}
@@ -122,6 +134,10 @@ export function AttachmentIcon(props: { name: string }) {
 
   if (name === "package") {
     return <PackageIcon />;
+  }
+
+  if (name === "stamp") {
+    return <StampIcon />;
   }
 
   return null;

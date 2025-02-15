@@ -8,11 +8,14 @@ import { useStore } from "@/store";
 import { selectIsInitialized } from "@/store/selectors/shared";
 import { useDocumentTitle } from "@/utils/use-document-title";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 function Browse() {
+  const { t } = useTranslation();
+
   const activeListId = useStore((state) => state.activeList);
   const isInitalized = useStore(selectIsInitialized);
-  useDocumentTitle("Browse");
+  useDocumentTitle(t("browse.title"));
 
   const setActiveList = useStore((state) => state.setActiveList);
 

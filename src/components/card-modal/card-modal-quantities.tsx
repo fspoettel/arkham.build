@@ -7,6 +7,7 @@ import { cardLimit } from "@/utils/card-utils";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { inputFocused } from "@/utils/keyboard";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { QuantityInput } from "../ui/quantity-input";
 import css from "./card-modal.module.css";
 
@@ -20,6 +21,7 @@ type Props = {
 
 export function CardModalQuantities(props: Props) {
   const { card, canEdit, deck, showExtraQuantities } = props;
+  const { t } = useTranslation();
 
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
 
@@ -71,7 +73,7 @@ export function CardModalQuantities(props: Props) {
     <>
       {!isBonded && (
         <article className={css["quantity"]}>
-          <h3 className={css["quantity-title"]}>Deck</h3>
+          <h3 className={css["quantity-title"]}>{t("common.decks.slots")}</h3>
           <QuantityInput
             data-testid="card-modal-quantities-main"
             disabled={!canEdit}
@@ -83,7 +85,9 @@ export function CardModalQuantities(props: Props) {
       )}
       {!isBonded && (
         <article className={css["quantity"]}>
-          <h3 className={css["quantity-title"]}>Side deck</h3>
+          <h3 className={css["quantity-title"]}>
+            {t("common.decks.sideSlots")}
+          </h3>
           <QuantityInput
             data-testid="card-modal-quantities-side"
             disabled={isBonded || !canEdit}
@@ -97,7 +101,9 @@ export function CardModalQuantities(props: Props) {
       )}
       {isBonded && (
         <article className={css["quantity"]}>
-          <h3 className={css["quantity-title"]}>Bonded</h3>
+          <h3 className={css["quantity-title"]}>
+            {t("common.decks.bondedSlots_short")}
+          </h3>
           <QuantityInput
             disabled
             data-testid="card-modal-quantities-bonded"
@@ -108,7 +114,9 @@ export function CardModalQuantities(props: Props) {
       )}
       {showExtraQuantities && (
         <article className={css["quantity"]}>
-          <h3 className={css["quantity-title"]}>Spirits</h3>
+          <h3 className={css["quantity-title"]}>
+            {t("common.decks.extraSlots")}
+          </h3>
           <QuantityInput
             data-testid="card-modal-quantities-extra"
             disabled={!canEdit}
@@ -122,7 +130,9 @@ export function CardModalQuantities(props: Props) {
       )}
       {!isBonded && showIgnoreDeckLimitSlots(deck, card) && (
         <article className={css["quantity"]}>
-          <h3 className={css["quantity-title"]}>Ignore deck limit</h3>
+          <h3 className={css["quantity-title"]}>
+            {t("common.decks.ignoreDeckLimitSlots")}
+          </h3>
           <QuantityInput
             data-testid="card-modal-quantities-ignored"
             disabled={!canEdit}

@@ -7,12 +7,14 @@ import {
 import type { Card } from "@/store/services/queries.types";
 import { isInvestigatorFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
-import { capitalize } from "@/utils/formatting";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import type { FilterProps } from "./filters.types";
 import { SelectFilter } from "./primitives/select-filter";
 
 export function InvestigatorFilter({ id }: FilterProps) {
+  const { t } = useTranslation();
+
   const filter = useStore((state) => selectActiveListFilter(state, id));
   assert(
     isInvestigatorFilterObject(filter),
@@ -32,11 +34,12 @@ export function InvestigatorFilter({ id }: FilterProps) {
     (card: Card) => (
       <option key={card.code} value={card.code}>
         {card.real_name}
-        {card.parallel && " (Parallel)"}
-        {otherVersionsTable[card.code] && ` (${capitalize(card.faction_code)})`}
+        {card.parallel && ` (${t("common.parallel")})`}
+        {otherVersionsTable[card.code] &&
+          ` (${t(`common.factions.${card.faction_code}`)})`}
       </option>
     ),
-    [otherVersionsTable],
+    [otherVersionsTable, t],
   );
 
   return (
@@ -46,7 +49,7 @@ export function InvestigatorFilter({ id }: FilterProps) {
       open={filter.open}
       options={options}
       renderOption={renderOption}
-      title="Investigator"
+      title={t("filters.investigator.title")}
       value={filter.value}
     />
   );

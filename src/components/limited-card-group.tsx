@@ -1,6 +1,7 @@
 import type { Card } from "@/store/services/queries.types";
 import { cx } from "@/utils/cx";
 import { isEmpty } from "@/utils/is-empty";
+import { useTranslation } from "react-i18next";
 import css from "./limited-card-group.module.css";
 
 type Entry = {
@@ -22,6 +23,7 @@ type Props = {
 
 export function LimitedCardGroup(props: Props) {
   const { className, count, entries, renderCard, title } = props;
+  const { t } = useTranslation();
 
   return (
     <article className={css["container"]} data-testid="limited-card-group">
@@ -32,7 +34,7 @@ export function LimitedCardGroup(props: Props) {
         </div>
       </header>
       {isEmpty(entries) ? (
-        <p className={css["empty"]}>No entries</p>
+        <p className={css["empty"]}>{t("common.no_entries")}</p>
       ) : (
         <ul className={css["content"]}>{entries.map(renderCard)}</ul>
       )}

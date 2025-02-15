@@ -7,6 +7,7 @@ import {
 import { isInvestigatorCardAccessFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
 import { useMemo } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import { CardsCombobox } from "../cards-combobox";
 import type { FilterProps } from "./filters.types";
 import { FilterContainer } from "./primitives/filter-container";
@@ -14,6 +15,7 @@ import { useFilterCallbacks } from "./primitives/filter-hooks";
 
 export function InvestigatorCardAccessFilter(props: FilterProps) {
   const { id } = props;
+  const { t } = useTranslation();
 
   const { onReset, onChange, onOpenChange } = useFilterCallbacks(id);
 
@@ -36,25 +38,34 @@ export function InvestigatorCardAccessFilter(props: FilterProps) {
       onReset={onReset}
       onOpenChange={onOpenChange}
       open={filter.open}
-      title="Card access"
+      title={t("filters.investigator_card_access.title")}
     >
       <CardsCombobox
         id={`${id}-choose-cards`}
         items={cards}
         onValueChange={onChange}
         selectedItems={value}
-        label="Cards"
+        label={t("common.card", { count: 2 })}
       />
       <p className="small">
-        If you need more, use arkham-starter's{" "}
-        <a
-          href="https://arkham-starter.com/tool/who"
-          target="_blank"
-          rel="noreferrer"
+        <Trans
+          t={t}
+          i18nKey="filters.investigator_card_access.help"
+          components={{
+            a: (
+              // biome-ignore lint/a11y/useAnchorContent: interpolation.
+              <a
+                href="https://arkham-starter.com/tool/who"
+                target="_blank"
+                rel="noreferrer"
+              />
+            ),
+          }}
         >
-          /who tool
-        </a>
-        .
+          If you need more, use arkham-starter's{" "}
+          {/* biome-ignore lint/a11y/useValidAnchor: interpolation. */}
+          <a>/who tool</a>.
+        </Trans>
       </p>
     </FilterContainer>
   );

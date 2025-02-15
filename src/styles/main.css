@@ -78,7 +78,7 @@
   --rounded-xl: 1.5rem;
 
   --layout-padding: 0.75rem;
-  --layout-max-width: 115rem;
+  --layout-max-width: 118rem;
 }
 
 .theme-dark {
@@ -180,18 +180,25 @@
 
 html {
   font-size: 100%;
+}
+
+/*
+  Chrome has an interesting behavior where setting color-scheme to `only` on the :root locks the favicon to that color.
+  Set the color-scheme on our application roots to work around.
+ */
+:where(#root, #floating) {
   color-scheme: only dark;
 }
 
-html.theme-system {
+html.theme-system :where(#root, #floating) {
   color-scheme: dark light;
 }
 
-html.theme-dark {
+html.theme-dark :where(#root, #floating) {
   color-scheme: only dark;
 }
 
-html.theme-light {
+html.theme-light :where(#root, #floating) {
   color-scheme: only light;
 }
 

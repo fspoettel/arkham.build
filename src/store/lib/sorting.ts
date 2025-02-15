@@ -33,7 +33,7 @@ export function sortByName(a: Card, b: Card) {
   return sortAlphabetical(a.real_name, b.real_name);
 }
 
-export function sortByLevel(a: Card, b: Card) {
+function sortByLevel(a: Card, b: Card) {
   if (a.xp === b.xp) {
     return +(a.parallel ?? false) - +(b.parallel ?? false);
   }

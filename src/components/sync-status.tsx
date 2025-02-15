@@ -10,11 +10,13 @@ import { RefreshCcwIcon } from "lucide-react";
 import { Button } from "./ui/button";
 
 import { useSync } from "@/store/hooks/use-sync";
+import { useTranslation } from "react-i18next";
 import css from "./sync-status.module.css";
 
 export function SyncStatus() {
   const connections = useStore(selectConnections);
   const healthy = useStore(selectSyncHealthy);
+  const { t } = useTranslation();
 
   const sync = useSync();
   const syncing = useStore((state) => state.remoting.sync);
@@ -34,16 +36,17 @@ export function SyncStatus() {
         !syncing ? (
           <p>
             {healthy
-              ? `Sync ${collectionLabels} decks`
-              : "There is a problem with one of your connections. Please refresh it in the settings."}
+              ? t("settings.connections.sync_all", { collectionLabels })
+              : t("settings.connections.disconnected_all")}
           </p>
         ) : (
-          "Sync in progress..."
+          t("settings.connections.syncing")
         )
       }
       size="sm"
     >
-      <RefreshCcwIcon className={cx(syncing && "spin")} /> Sync
+      <RefreshCcwIcon className={cx(syncing && "spin")} />{" "}
+      {t("settings.connections.sync")}
     </Button>
   );
 }

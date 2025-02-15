@@ -5,6 +5,7 @@ import { isDeck } from "../slices/data.types";
 import reprintPacks from "./data/reprint_packs.json";
 
 import type { ResolvedDeck } from "../lib/types";
+import type { History } from "../selectors/decks";
 import type {
   Card,
   Cycle,
@@ -149,31 +150,48 @@ export async function importDeck(clientId: string, input: string) {
   return data;
 }
 
-export async function getShare(id: string) {
-  const res = await request(`/public/share/${id}`);
-  const data: Deck = await res.json();
+type ShareRead = {
+  data: Deck;
+  history: History;
+};
+
+export async function getShare(id: string): Promise<ShareRead> {
+  const res = await request(`/public/share_history/${id}`);
+  const data = await res.json();
   return data;
 }
 
-export async function createShare(clientId: string, deck: Deck) {
+export async function createShare(
+  clientId: string,
+  deck: Deck,
+  history: History,
+) {
   await request("/public/share", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       "X-Client-Id": clientId,
     },
-    body: JSON.stringify(deck),
+    body: JSON.stringify({ ...deck, history }),
   });
 }
 
-export async function updateShare(clientId: string, id: string, deck: Deck) {
+export async function updateShare(
+  clientId: string,
+  id: string,
+  deck: Deck,
+  history: History,
+) {
   await request(`/public/share/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
       "X-Client-Id": clientId,
     },
-    body: JSON.stringify(deck),
+    body: JSON.stringify({
+      ...deck,
+      history,
+    }),
   });
 }
 

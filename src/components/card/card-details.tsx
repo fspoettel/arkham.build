@@ -1,5 +1,6 @@
 import type { Card } from "@/store/services/queries.types";
-import { capitalize } from "@/utils/formatting";
+import { formatSlots } from "@/utils/formatting";
+import { useTranslation } from "react-i18next";
 import { CardSlots } from "../card-slots";
 import css from "./card.module.css";
 
@@ -10,6 +11,7 @@ type Props = {
 
 export function CardDetails(props: Props) {
   const { card, omitSlotIcon } = props;
+  const { t } = useTranslation();
 
   const showType = card.type_code !== "investigator";
 
@@ -18,20 +20,26 @@ export function CardDetails(props: Props) {
       <div className={css["details-text"]}>
         {(showType || !!card.subtype_code || card.real_slot) && (
           <p className={css["details-type"]}>
-            {showType && <span>{capitalize(card.type_code)}</span>}
-            {card.subtype_code && <span>{capitalize(card.subtype_code)}</span>}
-            {card.real_slot && <span>{card.real_slot}</span>}
+            {showType && <span>{t(`common.type.${card.type_code}`)}</span>}
+            {card.subtype_code && (
+              <span>{t(`common.subtype.${card.subtype_code}`)}</span>
+            )}
+            {card.real_slot && <span>{formatSlots(card.real_slot)}</span>}
           </p>
         )}
         {card.real_traits && (
           <p className={css["details-traits"]}>{card.real_traits}</p>
         )}
-        {!!card.doom && <p>Doom: {card.doom}</p>}
+        {!!card.doom && (
+          <p>
+            {t("common.doom")}: {card.doom}
+          </p>
+        )}
         {(card.clues || card.clues_fixed || card.shroud) && (
           <p>
-            Shroud:{" "}
+            {t("common.shroud")}:{" "}
             {card.shroud != null ? card.shroud : <i className="icon-numNull" />}
-            , Clues: {card.clues}
+            , {t("common.clue", { count: 2 })}: {card.clues}
             {!!card.clues && !card.clues_fixed && (
               <>
                 {" "}

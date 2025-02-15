@@ -4,6 +4,7 @@ import { selectCostChanges, selectCostMinMax } from "@/store/selectors/lists";
 import { isCostFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
 import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Checkbox } from "../ui/checkbox";
 import { CheckboxGroup } from "../ui/checkboxgroup";
 import { RangeSelect } from "../ui/range-select";
@@ -21,6 +22,7 @@ export function CostFilter({ id, resolvedDeck }: FilterProps) {
   const { min, max } = useStore((state) =>
     selectCostMinMax(state, resolvedDeck),
   );
+  const { t } = useTranslation();
   const changes = selectCostChanges(filter.value);
 
   const { onReset, onChange, onOpenChange } = useFilterCallbacks(id);
@@ -94,12 +96,12 @@ export function CostFilter({ id, resolvedDeck }: FilterProps) {
       onOpenChange={onToggleOpen}
       onReset={onReset}
       open={filter.open}
-      title="Cost"
+      title={t("filters.cost.title")}
     >
       <RangeSelect
         data-testid="filters-cost-range"
         id="cost-select"
-        label="Cost"
+        label={t("filters.cost.title")}
         max={max}
         min={min}
         onValueCommit={onValueCommit}
@@ -110,7 +112,7 @@ export function CostFilter({ id, resolvedDeck }: FilterProps) {
           data-testid="filters-cost-even"
           checked={filter.value.even}
           id="cost-even"
-          label="Even"
+          label={t("filters.cost.even")}
           onCheckedChange={onSetEven}
         />
         <Checkbox
@@ -124,14 +126,14 @@ export function CostFilter({ id, resolvedDeck }: FilterProps) {
           data-testid="filters-cost-odd"
           checked={filter.value.odd}
           id="cost-odd"
-          label="Odd"
+          label={t("filters.cost.odd")}
           onCheckedChange={onSetOdd}
         />
         <Checkbox
           data-testid="filters-cost-nocost"
           checked={filter.value.nocost}
           id="cost-nocost"
-          label="No cost"
+          label={t("filters.cost.nocost")}
           onCheckedChange={onSetNoCost}
         />
       </CheckboxGroup>

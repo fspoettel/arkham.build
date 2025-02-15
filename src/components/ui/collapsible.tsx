@@ -5,6 +5,7 @@ import type {
 } from "@radix-ui/react-collapsible";
 import { Content, Root, Trigger } from "@radix-ui/react-collapsible";
 import { UnfoldVerticalIcon, XIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "./button";
 import css from "./collapsible.module.css";
 
@@ -39,6 +40,8 @@ export function Collapsible(props: Props) {
     ...rest
   } = props;
 
+  const { t } = useTranslation();
+
   return (
     <Root
       {...rest}
@@ -70,10 +73,10 @@ export function Collapsible(props: Props) {
               variant="bare"
               tooltip={
                 open == null
-                  ? "Toggle section"
+                  ? t("ui.collapsible.toggle")
                   : open
-                    ? "Close section"
-                    : "Expand section"
+                    ? t("ui.collapsible.collapse")
+                    : t("ui.collapsible.expand")
               }
             >
               {open ? <XIcon /> : <UnfoldVerticalIcon />}

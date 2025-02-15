@@ -23,6 +23,7 @@ import { isEmpty } from "@/utils/is-empty";
 import { useHotkey } from "@/utils/use-hotkey";
 import { EllipsisIcon, PlusIcon, Trash2Icon, UploadIcon } from "lucide-react";
 import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
 import { Link, useLocation } from "wouter";
 import { FileInput } from "../ui/file-input";
@@ -32,6 +33,7 @@ import { DeckCollectionImport } from "./deck-collection-import";
 import css from "./deck-collection.module.css";
 
 export function DeckCollection() {
+  const { t } = useTranslation();
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   const [scrollParent, setScrollParent] = useState<HTMLElement | undefined>();
@@ -57,33 +59,34 @@ export function DeckCollection() {
   );
 
   const onDeleteAll = useCallback(async () => {
-    const confirmed = confirm(
-      "Are you sure you want to delete all local decks in your collection?",
-    );
+    const confirmed = confirm(t("deck_collection.delete_all_confirm"));
 
     if (confirmed) {
       setPopoverOpen(false);
 
       const toastId = toast.show({
-        children: "Deleting all decks...",
+        children: t("deck_collection.delete_all_loading"),
+        variant: "loading",
       });
       try {
         await deleteAllDecks();
         toast.dismiss(toastId);
         toast.show({
-          children: "Decks delete successful.",
+          children: t("deck_collection.delete_all_success"),
           duration: 3000,
           variant: "success",
         });
       } catch (err) {
         toast.dismiss(toastId);
         toast.show({
-          children: `Decks could not be deleted: ${(err as Error)?.message}.`,
+          children: t("deck_collection.delete_all_error", {
+            error: (err as Error)?.message,
+          }),
           variant: "error",
         });
       }
     }
-  }, [deleteAllDecks, toast]);
+  }, [deleteAllDecks, toast, t]);
 
   const deleteDeck = useDeleteDeck();
   const duplicateDeck = useDuplicateDeck();
@@ -97,7 +100,7 @@ export function DeckCollection() {
   return (
     <div className={css["container"]}>
       <header className={css["header"]}>
-        <h2 className={css["title"]}>Decks</h2>
+        <h2 className={css["title"]}>{t("deck_collection.title")}</h2>
         <div className={css["actions"]}>
           {!hasConnections && (
             <Popover>
@@ -105,7 +108,7 @@ export function DeckCollection() {
             </Popover>
           )}
           <Link asChild to="/deck/create">
-            <HotkeyTooltip keybind="n" description="Create new deck">
+            <HotkeyTooltip keybind="n" description={t("deck.actions.create")}>
               <Button as="a" data-testid="collection-create-deck">
                 <PlusIcon />
               </Button>
@@ -116,7 +119,7 @@ export function DeckCollection() {
               <Button
                 variant="bare"
                 data-testid="collection-more-actions"
-                tooltip="More actions"
+                tooltip={t("common.more_actions")}
               >
                 <EllipsisIcon />
               </Button>
@@ -132,7 +135,7 @@ export function DeckCollection() {
                     size="full"
                     variant="bare"
                   >
-                    <UploadIcon /> Import from JSON files
+                    <UploadIcon /> {t("deck_collection.import_json")}
                   </FileInput>
                 </DropdownItem>
                 <DropdownButton
@@ -141,7 +144,7 @@ export function DeckCollection() {
                   size="full"
                   variant="bare"
                 >
-                  <Trash2Icon /> Delete all local decks
+                  <Trash2Icon /> {t("deck_collection.delete_all")}
                 </DropdownButton>
               </DropdownMenu>
             </PopoverContent>
@@ -190,19 +193,18 @@ export function DeckCollection() {
           <figure className={css["placeholder"]}>
             <i className="icon-deck" />
             <figcaption className={css["placeholder-caption"]}>
-              Collection empty
+              {t("deck_collection.collection_empty")}
               <nav className={css["placeholder-actions"]}>
                 <Link href="/deck/create" asChild>
                   <Button variant="bare">
                     <PlusIcon />
-                    Create deck
+                    {t("deck.actions.create")}
                   </Button>
                 </Link>
-
                 <Link href="/settings" asChild>
                   <Button variant="bare">
                     <i className="icon-elder_sign" />
-                    Connect ArkhamDB
+                    {t("deck_collection.connect_arkhamdb")}
                   </Button>
                 </Link>
               </nav>

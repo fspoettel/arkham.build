@@ -3,6 +3,7 @@ import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import { cx } from "@/utils/cx";
 import { useCallback, useId } from "react";
+import { useTranslation } from "react-i18next";
 import { Checkbox } from "../ui/checkbox";
 import css from "./card-recommender.module.css";
 
@@ -13,6 +14,7 @@ type CoreCardCheckboxProps = {
 
 export function CoreCardCheckbox(props: CoreCardCheckboxProps) {
   const { card, deck } = props;
+  const { t } = useTranslation();
 
   const id = useId();
 
@@ -36,7 +38,7 @@ export function CoreCardCheckbox(props: CoreCardCheckboxProps) {
 
   return (
     <Checkbox
-      label="Core"
+      label={t("deck_edit.recommendations.core")}
       checked={checked}
       onCheckedChange={onCheck}
       className={cx(css["core-card-checkbox"])}
