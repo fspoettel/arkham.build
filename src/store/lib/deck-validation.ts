@@ -61,6 +61,7 @@ type TooFewCardsError = {
 type DeckOptionsError = {
   type: "INVALID_DECK_OPTION";
   details: {
+    count: string;
     error: string;
   };
 };
@@ -800,6 +801,7 @@ class DeckOptionsValidator implements SlotValidator {
         errors.push({
           type: "INVALID_DECK_OPTION",
           details: {
+            count: `(${matches.length} / ${target})`,
             error: option.error ?? "Atleast constraint violated.",
           },
         });
@@ -878,6 +880,7 @@ class DeckOptionsValidator implements SlotValidator {
         errors.push({
           type: "INVALID_DECK_OPTION",
           details: {
+            count: `(${matchCount} / ${option.limit})`,
             error: option.error as string, // SAFE! all virtual limit options have error.
           },
         });
@@ -902,12 +905,11 @@ class DeckOptionsValidator implements SlotValidator {
 
       const option = options[lastLimitOptionIndex];
 
-      const baseError = option.error ?? "Too many off-class cards.";
-
       errors.push({
         type: "INVALID_DECK_OPTION",
         details: {
-          error: `${baseError} (${(option.limit ?? 0) + unmatchedCardCount} / ${option.limit})`,
+          error: option.error ?? "Too many off-class cards.",
+          count: `(${(option.limit ?? 0) + unmatchedCardCount} / ${option.limit})`,
         },
       });
     }
