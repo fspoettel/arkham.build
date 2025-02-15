@@ -66,8 +66,12 @@ export function DecklistValidation(props: Props) {
                 )}
                 {isInvalidInvestigatorError(error) &&
                   t("deck.validation.invalid_investigator")}
-                {isDeckOptionsError(error) &&
-                  t(`common.deck_options.${error.details.error}`)}
+                {isDeckOptionsError(error) && (
+                  <>
+                    {t(`common.deck_options.${error.details.error}`)}{" "}
+                    {error.details.count}
+                  </>
+                )}
                 {isInvalidCardCountError(error) && (
                   <>
                     {t("deck.validation.invalid_card_count")}
