@@ -704,6 +704,7 @@
       "help_replacements": "Signature cards with \"Replacement\" can replace the signature cards that are listed under \"Deckbuilding Requirements\". Doing so still satisfies the requirement and the deck is valid to play.<br>If doing so, <strong>both</strong> signature cards must be replaced and if doing so for a campaign, you cannot later change to using the original signature cards.<br>Alternatively, the \"Replacement\" cards can be included in addition to the signature cards.",
       "error": "Failed to create deck: {{error}}",
       "loading": "Creating deck...",
+      "random_basic_weakness": "Zufällige Grundschwäche",
       "success": "Deck created successfully."
     },
     "deck_edit": {

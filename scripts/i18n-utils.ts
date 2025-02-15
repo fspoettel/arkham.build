@@ -1,33 +1,105 @@
+import { execSync } from "node:child_process";
 import { promises as fs } from "node:fs";
+import { tmpdir } from "node:os";
 import path from "node:path";
 import { applyLocalData } from "../src/store/lib/local-data";
 import type { Card } from "../src/store/services/queries.types";
 import { cardUses } from "../src/utils/card-utils";
 import { capitalize } from "../src/utils/formatting";
 
-const [cards, locale] = await Promise.all([queryCards(), readLocale("en")]);
+const [cards, en] = await Promise.all([queryCards(), readLocale("en")]);
 
 const uses = listUses(cards);
 const traits = listTraits(cards);
 
 const deckOptions = listDeckOptions(cards);
 
-locale.translation.common.uses = uses.reduce((acc, curr) => {
+en.translation.common.uses = uses.reduce((acc, curr) => {
   acc[curr] = capitalize(curr);
   return acc;
 }, {});
 
-locale.translation.common.traits = traits.reduce((acc, curr) => {
+en.translation.common.traits = traits.reduce((acc, curr) => {
   acc[curr] = curr;
   return acc;
 }, {});
 
-locale.translation.common.deck_options = deckOptions.reduce((acc, curr) => {
+en.translation.common.deck_options = deckOptions.reduce((acc, curr) => {
   acc[curr] = curr;
   return acc;
 }, {});
 
-await writeLocale("en", locale);
+await writeLocale("en", en);
+
+const repoPath = await cloneRepo();
+
+const translations = ["de"];
+
+for (const lng of translations) {
+  const arkhamCardsLocale = JSON.parse(
+    await fs.readFile(
+      path.join(repoPath, "assets/i18n", `${lng}.po.json`),
+      "utf-8",
+    ),
+  );
+
+  const locale = await readLocale(lng);
+
+  for (const key of Object.keys(en.translation.common.uses)) {
+    const arkhamCardsTranslation =
+      arkhamCardsLocale.translations[""][capitalize(key)]?.msgstr[0];
+
+    if (arkhamCardsTranslation) {
+      locale.translation.common.uses[key] = arkhamCardsTranslation;
+    } else {
+      console.log(`Missing translation for ${key}`);
+    }
+  }
+
+  for (const key of Object.keys(en.translation.common.traits)) {
+    const arkhamCardsTranslation =
+      arkhamCardsLocale.translations["trait"][key]?.msgstr[0];
+
+    if (arkhamCardsTranslation) {
+      locale.translation.common.traits[key] = arkhamCardsTranslation;
+    } else {
+      console.log(`Missing translation for ${key}`);
+    }
+  }
+
+  for (const key of Object.keys(en.translation.common.deck_options)) {
+    const arkhamCardsTranslation =
+      arkhamCardsLocale.translations[""][key]?.msgstr[0];
+
+    if (arkhamCardsTranslation) {
+      locale.translation.common.deck_options[key] = arkhamCardsTranslation;
+    } else {
+      console.log(`Missing translation for ${key}`);
+    }
+  }
+
+  await writeLocale(lng, locale);
+}
+
+async function cloneRepo() {
+  const repo = "git@github.com:zzorba/ArkhamCards.git";
+  const localPath = path.join(tmpdir(), "arkham-cards");
+
+  try {
+    if ((await fs.stat(localPath)).isDirectory()) {
+      return localPath;
+    }
+  } catch {}
+
+  await fs.mkdir(localPath);
+
+  execSync(
+    `git clone --filter=blob:none ${repo} ${localPath} && cd ${localPath} && git sparse-checkout init --cone && git sparse-checkout set assets/i18n && git checkout master`,
+    { stdio: "inherit" },
+  );
+
+  return localPath;
+}
 
 async function queryCards() {
   const apiCards = await fetch("https://api.arkham.build/v1/cache/cards")
@@ -41,6 +113,7 @@ async function queryCards() {
     } as any).cards,
   );
 }
+
 function listTraits(cards: Card[]) {
   return Array.from(
     cards.reduce<Set<string>>((acc, card) => {
