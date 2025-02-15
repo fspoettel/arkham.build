@@ -2,7 +2,6 @@ import {
   Attachments,
   getMatchingAttachables,
 } from "@/components/attachments/attachments";
-import { Button } from "@/components/ui/button";
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { selectAvailableUpgrades } from "@/store/selectors/lists";
@@ -13,6 +12,7 @@ import { isEmpty } from "@/utils/is-empty";
 import css from "./deck-edit.module.css";
 import { DrawBasicWeakness } from "./editor/draw-basic-weakness";
 import { MoveToMainDeck } from "./editor/move-to-main-deck";
+import { QuickUpgrade } from "./editor/quick-upgrade";
 
 type Props = {
   canEdit?: boolean;
@@ -33,7 +33,7 @@ export function CardExtras(props: Props) {
     ),
   );
 
-  if (currentTab === "meta" || currentTab === "ignoreDeckLimitSlots") {
+  if (currentTab === "config" || currentTab === "ignoreDeckLimitSlots") {
     return null;
   }
 
@@ -66,9 +66,11 @@ export function CardExtras(props: Props) {
     <div className={css["extra-row"]}>
       {hasAttachable && <Attachments card={card} resolvedDeck={deck} />}
       {hasUpgrades && (
-        <Button iconOnly tooltip="Upgrade card">
-          <i className="icon icon-upgrade" />
-        </Button>
+        <QuickUpgrade
+          availableUpgrades={availableUpgrades}
+          card={card}
+          deck={deck}
+        />
       )}
     </div>
   );

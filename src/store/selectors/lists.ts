@@ -1344,7 +1344,7 @@ export const selectTypeOptions = createSelector(
  * Upgrades
  */
 
-type AvailableUpgrades = Record<string, Card[]>;
+export type AvailableUpgrades = Record<string, Card[]>;
 
 export const selectAvailableUpgrades = createSelector(
   selectDeckInvestigatorFilter,

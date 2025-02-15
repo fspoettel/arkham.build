@@ -344,4 +344,25 @@ export const createDeckEditsSlice: StateCreator<
       },
     });
   },
+
+  upgradeCard(deckId, code, upgradeCode) {
+    const state = get();
+
+    const deck = selectResolvedDeckById(state, deckId, true);
+    assert(deck, `Tried to edit deck that does not exist: ${deckId}`);
+
+    state.updateCardQuantity(
+      deckId,
+      code,
+      -1,
+      cardLimit(state.metadata.cards[code]),
+    );
+
+    state.updateCardQuantity(
+      deckId,
+      upgradeCode,
+      1,
+      cardLimit(state.metadata.cards[upgradeCode]),
+    );
+  },
 });
