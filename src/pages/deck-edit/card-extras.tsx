@@ -58,7 +58,7 @@ export function CardExtras(props: Props) {
 
   const hasUpgrades = canEdit && !isEmpty(availableUpgrades[card.code]);
 
-  if (!hasAttachable && !hasUpgrades) {
+  if ((!hasAttachable && !hasUpgrades) || !quantity) {
     return null;
   }
 
@@ -68,6 +68,7 @@ export function CardExtras(props: Props) {
       {hasUpgrades && (
         <QuickUpgrade
           availableUpgrades={availableUpgrades}
+          currentTab={currentTab}
           card={card}
           deck={deck}
         />

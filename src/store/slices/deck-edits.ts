@@ -345,7 +345,7 @@ export const createDeckEditsSlice: StateCreator<
     });
   },
 
-  upgradeCard(deckId, code, upgradeCode) {
+  upgradeCard(deckId, code, upgradeCode, slot) {
     const state = get();
 
     const deck = selectResolvedDeckById(state, deckId, true);
@@ -353,16 +353,18 @@ export const createDeckEditsSlice: StateCreator<
 
     state.updateCardQuantity(
       deckId,
-      code,
-      -1,
-      cardLimit(state.metadata.cards[code]),
+      upgradeCode,
+      1,
+      cardLimit(state.metadata.cards[upgradeCode]),
+      slot,
     );
 
     state.updateCardQuantity(
       deckId,
-      upgradeCode,
-      1,
-      cardLimit(state.metadata.cards[upgradeCode]),
+      code,
+      -1,
+      cardLimit(state.metadata.cards[code]),
+      slot,
     );
   },
 });

@@ -102,7 +102,7 @@ function Attachment(
         onClick={canEdit ? onClick : undefined}
         onContextMenu={canEdit ? onRightClick : undefined}
         size={buttonVariant ? "none" : "sm"}
-        variant={buttonVariant ?? (!canEdit && !attached ? "bare" : undefined)}
+        variant={buttonVariant ?? (!attached ? "bare" : undefined)}
         tooltip={
           canEdit
             ? t("attachments.attach", { name })
