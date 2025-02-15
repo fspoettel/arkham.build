@@ -56,6 +56,14 @@ export function formatGroupingType(type: string) {
   return i18n.t(`lists.categories.${type}`);
 }
 
+export function formatSlots(slots: string) {
+  const formatted = slots
+    .split(".")
+    .map((slot) => i18n.t(`common.slot.${slot.trim().toLowerCase()}`))
+    .join(". ");
+  return `${formatted}.`;
+}
+
 export function formatProviderName(name: string) {
   switch (name) {
     case "arkhamdb": {
