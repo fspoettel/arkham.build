@@ -177,6 +177,7 @@ function DeckEditInner() {
 
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
   const validation = useStore((state) => selectDeckValid(state, deck));
+  const settings = useStore((state) => state.settings);
 
   const accentColor = useAccentColor(deck.investigatorBack.card.faction_code);
 
@@ -230,19 +231,21 @@ function DeckEditInner() {
 
       return (
         <>
-          {currentTab === "slots" && canShowMoveButton && (
-            <MoveToSideDeck card={card} deck={deck} />
-          )}
-          {currentTab === "sideSlots" && canShowMoveButton && (
-            <MoveToMainDeck card={card} deck={deck} />
-          )}
           {currentTab === "slots" && !isEmpty(attachables) && (
             <Attachments card={card} resolvedDeck={deck} />
+          )}
+          {currentTab === "slots" &&
+            canShowMoveButton &&
+            settings.showMoveToSideDeck && (
+              <MoveToSideDeck card={card} deck={deck} />
+            )}
+          {currentTab === "sideSlots" && canShowMoveButton && (
+            <MoveToMainDeck card={card} deck={deck} />
           )}
         </>
       );
     },
-    [deck, currentTab],
+    [deck, currentTab, settings.showMoveToSideDeck],
   );
 
   const renderCoreCardCheckbox = useCallback(
