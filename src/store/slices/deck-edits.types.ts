@@ -71,6 +71,7 @@ export type DeckEditsSlice = {
   discardEdits(deckId: Id): void;
 
   moveToMainDeck(card: Card, deckId: Id): void;
+  moveToSideDeck(card: Card, deckId: Id): void;
 
   drawRandomBasicWeakness(deckId: Id): void;
 

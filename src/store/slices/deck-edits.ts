@@ -327,6 +327,45 @@ export const createDeckEditsSlice: StateCreator<
       },
     });
   },
+  moveToSideDeck(card, deckId) {
+    const state = get();
+
+    const deck = selectResolvedDeckById(state, deckId, true);
+
+    const quantity = deck?.slots?.[card.code] ?? 0;
+    if (!quantity) return;
+
+    const edits = currentEdits(state, deckId);
+
+    const limitOverride = getDeckLimitOverride(deck, card.code);
+
+    const nextQuantity = Math.min(
+      (deck?.sideSlots?.[card.code] ?? 0) + 1,
+      cardLimit(card, limitOverride),
+    );
+
+    const nextSideQuantity = Math.max((deck?.slots?.[card.code] ?? 0) - 1, 0);
+
+    set({
+      deckEdits: {
+        ...state.deckEdits,
+        [deckId]: {
+          ...edits,
+          quantities: {
+            ...edits.quantities,
+            sideSlots: {
+              ...edits.quantities?.slots,
+              [card.code]: nextQuantity,
+            },
+            slots: {
+              ...currentEdits(state, deckId).quantities?.sideSlots,
+              [card.code]: nextSideQuantity,
+            },
+          },
+        },
+      },
+    });
+  },
   updateAnnotation(deckId, code, value) {
     const state = get();
     const edits = currentEdits(state, deckId);

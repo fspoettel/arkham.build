@@ -46,6 +46,7 @@ import css from "./deck-edit.module.css";
 import { DrawBasicWeakness } from "./editor/draw-basic-weakness";
 import { Editor } from "./editor/editor";
 import { MoveToMainDeck } from "./editor/move-to-main-deck";
+import { MoveToSideDeck } from "./editor/move-to-side-deck";
 import { NotesEditor } from "./editor/notes-editor";
 import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 
@@ -237,6 +238,17 @@ function DeckEditInner() {
     [deck, canEdit],
   );
 
+  const renderMoveToSideDeck = useMemo(
+    () =>
+      canEdit
+        ? (card: Card) =>
+            deck.slots?.[card.code] ? (
+              <MoveToSideDeck card={card} deck={deck} />
+            ) : undefined
+        : undefined,
+    [deck, canEdit],
+  );
+
   const renderCoreCardCheckbox = useCallback(
     (card: Card, quantity?: number) => {
       if (card.xp == null || !quantity) return null;
@@ -259,12 +271,16 @@ function DeckEditInner() {
           : currentTab === "sideSlots"
             ? renderMoveToMainDeck
             : undefined,
+      // TODO: Also only do this if
+      swapToFromSideDeck:
+        currentTab === "sideSlots" ? undefined : renderMoveToSideDeck,
     }),
     [
       canEdit,
       onChangeCardQuantity,
       renderCardExtraSlots,
       renderMoveToMainDeck,
+      renderMoveToSideDeck,
       currentTab,
       currentTool,
       renderCoreCardCheckbox,
