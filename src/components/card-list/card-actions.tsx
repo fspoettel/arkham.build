@@ -35,7 +35,7 @@ export function CardActions(props: Props) {
           <QuantityOutput value={quantity || 0} />
         )}
       </div>
-      {extras && <div className={css["actions-extras"]}>{extras}</div>}
+      {extras}
     </div>
   );
 }

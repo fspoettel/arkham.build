@@ -24,6 +24,7 @@
   height: 1em;
   background: var(--palette-1);
   border: 1px solid var(--palette-3);
+  color: currentColor;
   border-radius: 50%;
   position: relative;
 }

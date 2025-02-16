@@ -6,6 +6,7 @@ import {
   NO_SLOT_STRING,
   PREVIEW_PACKS,
   SKILL_KEYS,
+  SPECIAL_CARD_CODES,
   type SkillKey,
 } from "@/utils/constants";
 import { createCustomEqualSelector } from "@/utils/custom-equal-selector";
@@ -1344,7 +1345,10 @@ export const selectTypeOptions = createSelector(
  * Upgrades
  */
 
-export type AvailableUpgrades = Record<string, Card[]>;
+export type AvailableUpgrades = {
+  upgrades: Record<string, Card[]>;
+  shrewdAnalysisPresent: boolean;
+};
 
 export const selectAvailableUpgrades = createSelector(
   selectDeckInvestigatorFilter,
@@ -1353,14 +1357,22 @@ export const selectAvailableUpgrades = createSelector(
   (_: StoreState, deck: ResolvedDeck) => deck,
   (_: StoreState, __: ResolvedDeck, target: "slots" | "extraSlots") => target,
   (accessFilter, metadata, lookupTables, deck, target) => {
-    const upgrades: AvailableUpgrades = {};
+    const availableUpgrades: AvailableUpgrades = {
+      upgrades: {},
+      shrewdAnalysisPresent: false,
+    };
 
-    if (!deck.previous_deck) return upgrades;
+    if (!deck.previous_deck) return availableUpgrades;
 
     const cards = Object.values(deck.cards[target] ?? {});
-    if (isEmpty(cards)) return upgrades;
+    if (isEmpty(cards)) return availableUpgrades;
 
     for (const { card } of cards) {
+      if (card.code === SPECIAL_CARD_CODES.SHREWD_ANALYSIS) {
+        availableUpgrades.shrewdAnalysisPresent = true;
+        continue;
+      }
+
       const versions = lookupTables.relations.level[card.code];
       if (!versions) continue;
 
@@ -1372,12 +1384,12 @@ export const selectAvailableUpgrades = createSelector(
           version.xp > (card.xp ?? 0) &&
           accessFilter?.(version)
         ) {
-          upgrades[card.code] ??= [];
-          upgrades[card.code].push(version);
+          availableUpgrades.upgrades[card.code] ??= [];
+          availableUpgrades.upgrades[card.code].push(version);
         }
       }
     }
 
-    return upgrades;
+    return availableUpgrades;
   },
 );

@@ -11,7 +11,7 @@
 }
 
 .attachment-quantity {
-  color: var(--palette-4);
+  color: currentColor
 }
 
 .attachment-content {

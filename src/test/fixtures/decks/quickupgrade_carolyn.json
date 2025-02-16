@@ -1,0 +1,29 @@
+{
+  "id": "IHSdfxOxVAw05qr",
+  "date_creation": "2025-02-16T11:55:14.475Z",
+  "date_update": "2025-02-16T11:55:24.863Z",
+  "description_md": "",
+  "meta": "{}",
+  "ignoreDeckLimitSlots": {},
+  "sideSlots": {},
+  "next_deck": null,
+  "previous_deck": null,
+  "tags": "",
+  "version": "0.1",
+  "taboo_id": 8,
+  "xp": 10,
+  "xp_spent": 0,
+  "exile_string": "",
+  "xp_adjustment": 0,
+  "investigator_code": "05001",
+  "investigator_name": "Carolyn Fern",
+  "name": "The Adventures of Carolyn Fern",
+  "slots": {
+    "01000": 1,
+    "05007": 1,
+    "05008": 1,
+    "04022": 2,
+    "04106": 1
+  },
+  "problem": "too_few_cards"
+}

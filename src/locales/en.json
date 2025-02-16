@@ -711,6 +711,7 @@
         "cycle_decks": "Cycle deck lists",
         "decrement_quantity": "Decrement deck quantity",
         "decrement_side_quantity": "Decrement side deck quantity",
+        "draw_random_basic_weakness": "Draw random basic weakness",
         "edit_annotation": "Edit annotation",
         "increment_quantity": "Increment deck quantity",
         "increment_side_quantity": "Increment side deck quantity",

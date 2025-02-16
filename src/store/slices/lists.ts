@@ -712,7 +712,7 @@ function makePlayerCardsList(
       sorting: settings.lists.player.sort,
       viewMode: settings.lists.player.viewMode,
     },
-    duplicateFilter: filterDuplicates,
+    duplicateFilter: (c: Card) => filterDuplicates(c) || !!c.parallel,
     systemFilter: and(systemFilter),
     initialValues: mergeInitialValues(initialValues, settings),
   });

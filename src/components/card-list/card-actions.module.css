@@ -5,21 +5,23 @@
   align-items: stretch;
   gap: 0.125rem;
   width: 100%;
+  text-shadow: none;
 }
 
 .actions > * {
   border-radius: var(--rounded);
-  background: rgba(0, 0, 0, 0.55);
-  color: var(--nord-4);
+  background: var(--palette-0);
+  color: var(--text);
   padding: 0.125rem;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
+  opacity: 0.85;
 }
 
 [data-component="card-group-item"]:hover .actions > * {
-  background: rgba(0, 0, 0, 0.65);
+  opacity: 1;
 }
 
 .actions-extras {

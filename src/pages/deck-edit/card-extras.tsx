@@ -56,7 +56,8 @@ export function CardExtras(props: Props) {
   const hasAttachable =
     currentTab === "slots" && !isEmpty(getMatchingAttachables(card, deck));
 
-  const hasUpgrades = canEdit && !isEmpty(availableUpgrades[card.code]);
+  const hasUpgrades =
+    canEdit && !isEmpty(availableUpgrades.upgrades[card.code]);
 
   if ((!hasAttachable && !hasUpgrades) || !quantity) {
     return null;

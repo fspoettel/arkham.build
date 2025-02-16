@@ -56,6 +56,7 @@ export function Modal(props: Props) {
         modalRef.current?.contains(evt.target) &&
         !innerRef.current?.contains(evt.target)
       ) {
+        console.log("@@@");
         closeModal();
       }
     },
@@ -64,6 +65,7 @@ export function Modal(props: Props) {
 
   const onCloseActions = useCallback(
     (evt: React.MouseEvent) => {
+      console.log("@@@");
       if (evt.target === actionRef.current) closeModal();
     },
     [closeModal],
@@ -107,17 +109,19 @@ export function Modal(props: Props) {
 type ModalContentProps = {
   children: React.ReactNode;
   footer?: React.ReactNode;
-  title: React.ReactNode;
+  title?: React.ReactNode;
 } & Omit<React.HTMLAttributes<HTMLDivElement>, "title">;
 
 export function ModalContent(props: ModalContentProps) {
-  const { children, footer, title, ...rest } = props;
+  const { children, className, footer, title, ...rest } = props;
 
   return (
-    <section className={css["content"]} {...rest}>
-      <header className={css["content-header"]}>
-        <h2 className={css["content-title"]}>{title}</h2>
-      </header>
+    <section className={cx(css["content"], className)} {...rest}>
+      {title && (
+        <header className={css["content-header"]}>
+          <h2 className={css["content-title"]}>{title}</h2>
+        </header>
+      )}
       <div className={css["content-main"]}>{children}</div>
       {footer && <footer className={css["content-footer"]}>{footer}</footer>}
     </section>
