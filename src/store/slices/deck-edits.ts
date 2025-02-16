@@ -285,27 +285,25 @@ export const createDeckEditsSlice: StateCreator<
     }));
   },
 
-  moveToMainDeck(card, deckId) {
+  swapDeck(card, deckId, target) {
     const state = get();
 
+    const source = target === "slots" ? "sideSlots" : "slots";
     const deck = selectResolvedDeckById(state, deckId, true);
 
-    const quantity = deck?.sideSlots?.[card.code] ?? 0;
+    const quantity = deck?.[source]?.[card.code] ?? 0;
     if (!quantity) return;
 
     const edits = currentEdits(state, deckId);
 
     const limitOverride = getDeckLimitOverride(deck, card.code);
 
-    const nextQuantity = Math.min(
-      (deck?.slots?.[card.code] ?? 0) + 1,
+    const targetQuantity = Math.min(
+      (deck?.[target]?.[card.code] ?? 0) + 1,
       cardLimit(card, limitOverride),
     );
 
-    const nextSideQuantity = Math.max(
-      (deck?.sideSlots?.[card.code] ?? 0) - 1,
-      0,
-    );
+    const sourceQuantity = Math.max((deck?.[source]?.[card.code] ?? 0) - 1, 0);
 
     set({
       deckEdits: {
@@ -314,13 +312,13 @@ export const createDeckEditsSlice: StateCreator<
           ...edits,
           quantities: {
             ...edits.quantities,
-            slots: {
-              ...edits.quantities?.slots,
-              [card.code]: nextQuantity,
+            [source]: {
+              ...edits.quantities?.[source],
+              [card.code]: sourceQuantity,
             },
-            sideSlots: {
-              ...currentEdits(state, deckId).quantities?.sideSlots,
-              [card.code]: nextSideQuantity,
+            [target]: {
+              ...currentEdits(state, deckId).quantities?.[target],
+              [card.code]: targetQuantity,
             },
           },
         },

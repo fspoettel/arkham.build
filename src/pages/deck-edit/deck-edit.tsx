@@ -46,6 +46,7 @@ import css from "./deck-edit.module.css";
 import { DrawBasicWeakness } from "./editor/draw-basic-weakness";
 import { Editor } from "./editor/editor";
 import { MoveToMainDeck } from "./editor/move-to-main-deck";
+import { MoveToSideDeck } from "./editor/move-to-side-deck";
 import { NotesEditor } from "./editor/notes-editor";
 import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 
@@ -176,6 +177,7 @@ function DeckEditInner() {
 
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
   const validation = useStore((state) => selectDeckValid(state, deck));
+  const settings = useStore((state) => state.settings);
 
   const accentColor = useAccentColor(deck.investigatorBack.card.faction_code);
 
@@ -217,24 +219,33 @@ function DeckEditInner() {
         );
       }
 
-      if (isEmpty(getMatchingAttachables(card, deck))) {
+      const attachables = getMatchingAttachables(card, deck);
+      const listQuantity = deck[mapTabToSlot(currentTab)]?.[card.code] ?? 0;
+
+      const canShowMoveButton =
+        listQuantity && (currentTab !== "slots" || card.xp != null);
+
+      if (isEmpty(attachables) && !canShowMoveButton) {
         return null;
       }
 
-      return <Attachments card={card} resolvedDeck={deck} />;
+      return (
+        <>
+          {currentTab === "slots" && !isEmpty(attachables) && (
+            <Attachments card={card} resolvedDeck={deck} />
+          )}
+          {currentTab === "slots" &&
+            canShowMoveButton &&
+            settings.showMoveToSideDeck && (
+              <MoveToSideDeck card={card} deck={deck} />
+            )}
+          {currentTab === "sideSlots" && canShowMoveButton && (
+            <MoveToMainDeck card={card} deck={deck} />
+          )}
+        </>
+      );
     },
-    [deck, currentTab],
-  );
-
-  const renderMoveToMainDeck = useMemo(
-    () =>
-      canEdit
-        ? (card: Card) =>
-            deck.sideSlots?.[card.code] ? (
-              <MoveToMainDeck card={card} deck={deck} />
-            ) : undefined
-        : undefined,
-    [deck, canEdit],
+    [deck, currentTab, settings.showMoveToSideDeck],
   );
 
   const renderCoreCardCheckbox = useCallback(
@@ -254,17 +265,14 @@ function DeckEditInner() {
       renderCardBefore:
         currentTool === "recommendations" ? renderCoreCardCheckbox : undefined,
       renderCardExtra:
-        currentTab === "slots"
+        currentTab === "slots" || currentTab === "sideSlots"
           ? renderCardExtraSlots
-          : currentTab === "sideSlots"
-            ? renderMoveToMainDeck
-            : undefined,
+          : undefined,
     }),
     [
       canEdit,
       onChangeCardQuantity,
       renderCardExtraSlots,
-      renderMoveToMainDeck,
       currentTab,
       currentTool,
       renderCoreCardCheckbox,
