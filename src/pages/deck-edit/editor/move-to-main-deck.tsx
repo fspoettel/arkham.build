@@ -13,12 +13,12 @@ type Props = {
 
 export function MoveToMainDeck(props: Props) {
   const { card, deck } = props;
-  const moveToMainDeck = useStore((state) => state.moveToMainDeck);
+  const swapDeck = useStore((state) => state.swapDeck);
   const { t } = useTranslation();
 
   const onButtonClick = useCallback(() => {
-    moveToMainDeck(card, deck.id);
-  }, [card, deck.id, moveToMainDeck]);
+    swapDeck(card, deck.id, "slots");
+  }, [card, deck.id, swapDeck]);
 
   return (
     <Button

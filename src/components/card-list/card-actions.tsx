@@ -18,7 +18,6 @@ export function CardActions(props: Props) {
   if (quantity == null) return null;
 
   const extras = listCardProps?.renderCardExtra?.(card);
-  const swap = listCardProps?.swapToFromSideDeck?.(card);
 
   return (
     <div className={css["actions"]}>
@@ -37,7 +36,6 @@ export function CardActions(props: Props) {
         )}
       </div>
       {extras && <div className={css["actions-extras"]}>{extras}</div>}
-      {swap && <div className={css["actions-extras"]}>{swap}</div>}
     </div>
   );
 }

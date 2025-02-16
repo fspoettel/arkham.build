@@ -15,11 +15,11 @@ export function MoveToSideDeck(props: Props) {
   const { card, deck } = props;
   const { t } = useTranslation();
 
-  const moveToSideDeck = useStore((state) => state.moveToSideDeck);
+  const swapDeck = useStore((state) => state.swapDeck);
 
   const onButtonClick = useCallback(() => {
-    moveToSideDeck(card, deck.id);
-  }, [card, deck.id, moveToSideDeck]);
+    swapDeck(card, deck.id, "sideSlots");
+  }, [card, deck.id, swapDeck]);
 
   return (
     <Button

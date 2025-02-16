@@ -218,35 +218,31 @@ function DeckEditInner() {
         );
       }
 
-      if (isEmpty(getMatchingAttachables(card, deck))) {
+      const attachables = getMatchingAttachables(card, deck);
+      const listQuantity = deck[mapTabToSlot(currentTab)]?.[card.code] ?? 0;
+
+      const canShowMoveButton =
+        listQuantity && (currentTab !== "slots" || card.xp != null);
+
+      if (isEmpty(attachables) && !canShowMoveButton) {
         return null;
       }
 
-      return <Attachments card={card} resolvedDeck={deck} />;
+      return (
+        <>
+          {currentTab === "slots" && canShowMoveButton && (
+            <MoveToSideDeck card={card} deck={deck} />
+          )}
+          {currentTab === "sideSlots" && canShowMoveButton && (
+            <MoveToMainDeck card={card} deck={deck} />
+          )}
+          {currentTab === "slots" && !isEmpty(attachables) && (
+            <Attachments card={card} resolvedDeck={deck} />
+          )}
+        </>
+      );
     },
     [deck, currentTab],
-  );
-
-  const renderMoveToMainDeck = useMemo(
-    () =>
-      canEdit
-        ? (card: Card) =>
-            deck.sideSlots?.[card.code] ? (
-              <MoveToMainDeck card={card} deck={deck} />
-            ) : undefined
-        : undefined,
-    [deck, canEdit],
-  );
-
-  const renderMoveToSideDeck = useMemo(
-    () =>
-      canEdit
-        ? (card: Card) =>
-            deck.slots?.[card.code] ? (
-              <MoveToSideDeck card={card} deck={deck} />
-            ) : undefined
-        : undefined,
-    [deck, canEdit],
   );
 
   const renderCoreCardCheckbox = useCallback(
@@ -266,21 +262,14 @@ function DeckEditInner() {
       renderCardBefore:
         currentTool === "recommendations" ? renderCoreCardCheckbox : undefined,
       renderCardExtra:
-        currentTab === "slots"
+        currentTab === "slots" || currentTab === "sideSlots"
           ? renderCardExtraSlots
-          : currentTab === "sideSlots"
-            ? renderMoveToMainDeck
-            : undefined,
-      // TODO: Also only do this if
-      swapToFromSideDeck:
-        currentTab === "sideSlots" ? undefined : renderMoveToSideDeck,
+          : undefined,
     }),
     [
       canEdit,
       onChangeCardQuantity,
       renderCardExtraSlots,
-      renderMoveToMainDeck,
-      renderMoveToSideDeck,
       currentTab,
       currentTool,
       renderCoreCardCheckbox,

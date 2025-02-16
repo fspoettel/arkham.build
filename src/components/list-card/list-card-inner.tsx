@@ -61,8 +61,6 @@ export type Props = {
   size?: "xs" | "sm" | "investigator";
   showCardText?: boolean;
   showInvestigatorIcons?: boolean;
-  showSwapFromSideDeck: SettingsState["showMoveToSideDeck"];
-  swapToFromSideDeck?: RenderCallback;
 };
 
 export function ListCardInner(props: Props) {
@@ -90,7 +88,6 @@ export function ListCardInner(props: Props) {
     renderCardAfter,
     renderCardBefore,
     renderCardExtra,
-    swapToFromSideDeck,
     renderCardMetaExtra,
     showCardText,
     showInvestigatorIcons,
@@ -294,7 +291,6 @@ export function ListCardInner(props: Props) {
           </figure>
         </div>
         {renderCardExtra?.(card, quantity)}
-        {swapToFromSideDeck?.(card, quantity)}
       </div>
       {!!renderCardAfter && (
         <div className={css["listcard-after"]}>
