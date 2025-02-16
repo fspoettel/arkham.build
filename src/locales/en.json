@@ -714,6 +714,8 @@
         "edit_annotation": "Edit annotation",
         "increment_quantity": "Increment deck quantity",
         "increment_side_quantity": "Increment side deck quantity",
+        "move_to_main_deck": "Move to deck",
+        "move_to_side_deck": "Move to side deck",
         "quick_discard": "Discard changes (and stay on page)",
         "quick_save_deck": "Save deck (and stay on page)",
         "set_quantity": "Set deck quantity",

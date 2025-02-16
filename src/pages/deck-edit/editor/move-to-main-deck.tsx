@@ -4,6 +4,7 @@ import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import { ArrowLeftToLineIcon } from "lucide-react";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   card: Card;
@@ -13,6 +14,7 @@ type Props = {
 export function MoveToMainDeck(props: Props) {
   const { card, deck } = props;
   const moveToMainDeck = useStore((state) => state.moveToMainDeck);
+  const { t } = useTranslation();
 
   const onButtonClick = useCallback(() => {
     moveToMainDeck(card, deck.id);
@@ -23,7 +25,8 @@ export function MoveToMainDeck(props: Props) {
       data-testid="editor-move-to-main"
       iconOnly
       onClick={onButtonClick}
-      tooltip="Move to deck"
+      tooltip={t("deck_edit.actions.move_to_main_deck")}
+      size="sm"
     >
       <ArrowLeftToLineIcon />
     </Button>
