@@ -827,7 +827,7 @@ class DeckOptionsValidator implements SlotValidator {
 
     for (let i = 0; i < options.length; i += 1) {
       const option = options[i];
-      if (option.atleast || option.not) continue;
+      if (option.not || (option.atleast && option.virtual)) continue;
 
       const filter = makeOptionFilter(option as DeckOption, this.config);
 

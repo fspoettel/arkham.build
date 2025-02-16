@@ -11,7 +11,7 @@ Taboo†: 2.1 (Aug 30, 2023)
 ## Deck
 
 **Asset** (13)  
-_Hand_ (2)  
+_Hand._ (2)  
 - Alchemical Distillation (C) x2
   - Mending Distillate.
   - Calming Distillate.
@@ -19,12 +19,12 @@ _Hand_ (2)
   - Empowered.
   - Perfected.
 
-_Hand x2_ (2)  
+_Hand x2._ (2)  
 - Runic Axe† (C) x2
   - Heirloom.
   - Inscription of Glory.
 
-_Arcane_ (4)  
+_Arcane._ (4)  
 - Hunter's Armor (C) x2
   - Enchanted.
   - Durable.
@@ -34,7 +34,7 @@ _Arcane_ (4)
   - Claws that Catch.
   - Dominance. Choice: Ally
 
-_Body_ (2)  
+_Body._ (2)  
 - Living Ink (C) x2
   - Chosen skill: Willpower
   - Shifting Ink.
@@ -84,20 +84,20 @@ Taboo†: 2.0 (Aug 26, 2022)
 ## Deck
 
 **Asset** (18)  
-_Hand_ (2)  
+_Hand._ (2)  
 - Fire Axe x2
 
-_Accessory_ (1)  
+_Accessory._ (1)  
 - Hallowed Mirror
 
-_Ally_ (6)  
+_Ally._ (6)  
 - Bonnie Walsh
 - Laboratory Assistant x2
 - Leo De Luca (1)
 - Michael Leigh (5)
 - Miss Doyle (1)
 
-_Ally. Arcane_ (2)  
+_Ally. Arcane._ (2)  
 - Summoned Hound (1) x2
 
 _No Slot_ (4)  
@@ -127,7 +127,7 @@ _Permanent_ (3)
 ## Side deck
 
 **Asset** (1)  
-_Ally_ (1)  
+_Ally._ (1)  
 - The Black Cat (5)
 "
 `;
@@ -143,27 +143,27 @@ Experience: 0
 ## Deck
 
 **Asset** (21)  
-_Hand_ (7)  
+_Hand._ (7)  
 - Gravedigger's Shovel x2
 - Hallowed Chalice
 - Jim's Trumpet
 - Knife
 - Ritual Candles x2
 
-_Accessory_ (1)  
+_Accessory._ (1)  
 - Grisly Totem
 
-_Ally_ (1)  
+_Ally._ (1)  
 - Sled Dog
 
-_Arcane_ (6)  
+_Arcane._ (6)  
 - Armageddon
 - Clarity of Mind
 - Eye of Chaos
 - Obfuscation x2
 - Scrying
 
-_Hand. Arcane_ (1)  
+_Hand. Arcane._ (1)  
 - Enchanted Blade
 
 _No Slot_ (3)  
@@ -197,7 +197,7 @@ _Permanent_ (2)
 ## Spirits
 
 **Asset** (9)  
-_Ally_ (9)  
+_Ally._ (9)  
 - Arcane Initiate
 - Beat Cop
 - Eldritch Sophist
