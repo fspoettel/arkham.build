@@ -138,7 +138,9 @@
         "parallelCards": "Parallel cards",
         "replacement": "Replacements",
         "requiredCards": "Signatures",
-        "restrictedTo": "Restricted to"
+        "restrictedTo": "Restricted to",
+        "specialist": "Specialist",
+        "specialist_investigators": "Specialist Investigators"
       },
       "reset": "Reset",
       "seal": "Seal",

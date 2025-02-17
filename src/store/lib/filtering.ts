@@ -1,4 +1,9 @@
-import { cardLevel, cardUses, splitMultiValue } from "@/utils/card-utils";
+import {
+  cardLevel,
+  cardUses,
+  isSpecialist,
+  splitMultiValue,
+} from "@/utils/card-utils";
 import type { SkillKey } from "@/utils/constants";
 import {
   NO_SLOT_STRING,
@@ -509,7 +514,7 @@ export function filterProperties(
   }
 
   if (filterState.specialist) {
-    filters.push((c: Card) => Array.isArray(c.restrictions?.trait));
+    filters.push(isSpecialist);
   }
 
   if (filterState.multiClass) {

@@ -93,6 +93,10 @@
   display: flex;
   align-items: center;
   gap: 0.125rem;
+
+  & button:hover {
+    color: var(--palette-5);
+  }
 }
 
 .cycle-actions > * {

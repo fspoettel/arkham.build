@@ -1,5 +1,6 @@
 import type { Card } from "@/store/services/queries.types";
 import { REGEX_USES, SIDEWAYS_TYPE_CODES, SKILL_KEYS } from "./constants";
+import { isEmpty } from "./is-empty";
 
 export function splitMultiValue(s?: string) {
   if (!s) return [];
@@ -132,6 +133,10 @@ export function isRandomBasicWeaknessLike(card: Card) {
  */
 export function isStaticInvestigator(card: Card) {
   return card.type_code === "investigator" && !card.deck_options;
+}
+
+export function isSpecialist(c: Card) {
+  return Array.isArray(c.restrictions?.trait) && !isEmpty(c.restrictions.trait);
 }
 
 export function cardLimit(card: Card, limitOverride?: number) {
