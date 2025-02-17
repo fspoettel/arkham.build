@@ -1,16 +1,15 @@
 .container > * + * {
-  margin-top: 0.75rem;
+  margin-top: 1rem;
 }
 
 .header {
-  padding-bottom: 0.75rem;
+  padding-bottom: 1rem;
   text-align: center;
 }
 
 .title {
   display: inline-block;
-  font-size: var(--text-md);
-  text-transform: uppercase;
+  font-size: var(--text-lg);
 }
 
 .upgrades {

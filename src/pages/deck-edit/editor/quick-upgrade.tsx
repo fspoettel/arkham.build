@@ -19,6 +19,7 @@ import { useAccentColor } from "@/utils/use-accent-color";
 import { FloatingPortal } from "@floating-ui/react";
 import { DicesIcon } from "lucide-react";
 import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useShallow } from "zustand/react/shallow";
 import css from "./quick-upgrade.module.css";
 
@@ -32,6 +33,7 @@ type Props = {
 
 export function QuickUpgrade(props: Props) {
   const { availableUpgrades, card, currentTab, deck, hideButton } = props;
+  const { t } = useTranslation();
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -67,7 +69,9 @@ export function QuickUpgrade(props: Props) {
         <Button
           iconOnly
           data-testid="quick-upgrade"
-          tooltip="Upgrade card"
+          tooltip={t("deck_edit.actions.quick_upgrade", {
+            name: card.real_name,
+          })}
           onClick={onUpgradeCard}
           variant="bare"
           size="sm"
@@ -95,6 +99,7 @@ function QuickUpgradeDialog(
   },
 ) {
   const { availableUpgrades, card, deck, onOpenChange, open, slots } = props;
+  const { t } = useTranslation();
 
   const accentColor = useAccentColor(card.faction_code);
 
@@ -164,29 +169,34 @@ function QuickUpgradeDialog(
               title={
                 <>
                   <i className="icon icon-upgrade" />
-                  <span>Upgrading {resolvedCard.card.real_name}</span>
+                  <span>
+                    {t("deck_edit.quick_upgrade.title", {
+                      name: card.real_name,
+                    })}
+                  </span>
                 </>
               }
             >
               <div className={css["container"]} style={accentColor}>
                 <article>
                   {shrewdAnalysisPossible && (
-                    <Field helpText="The app will add an XP adjustment matching the received discount.">
+                    <Field
+                      helpText={t(
+                        "deck_edit.quick_upgrade.shrewd_analysis_help",
+                      )}
+                    >
                       <Button
                         variant="primary"
                         onClick={onUseShrewdAnalysis}
                         data-testid="quick-upgrade-shrewd-analysis"
                       >
                         <DicesIcon />
-                        Use Shrewd Analysis
+                        {t("deck_edit.quick_upgrade.shrewd_analysis")}
                       </Button>
                     </Field>
                   )}
                 </article>
                 <article>
-                  <header className={css["header"]}>
-                    <h3 className={css["title"]}>Current level</h3>
-                  </header>
                   <Card
                     slotHeaderActions={
                       <QuantityInput
@@ -203,7 +213,9 @@ function QuickUpgradeDialog(
                 </article>
                 <article>
                   <header className={css["header"]}>
-                    <h3 className={css["title"]}>Upgrades</h3>
+                    <h3 className={css["title"]}>
+                      {t("deck_edit.quick_upgrade.available_upgrades")}
+                    </h3>
                   </header>
                   <ol className={css["upgrades"]}>
                     {resolvedUpgrades.map((upgrade) => {
