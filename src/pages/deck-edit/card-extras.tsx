@@ -63,9 +63,9 @@ export function CardExtras(props: Props) {
     canEdit && !isEmpty(availableUpgrades.upgrades[card.code]);
 
   const canShowMoveButton =
-    quantity && (currentTab !== "slots" || card.xp != null);
+    !!quantity && (currentTab !== "slots" || card.xp != null);
 
-  if ((!hasAttachable && !hasUpgrades && !canShowMoveButton) || !quantity) {
+  if (!hasAttachable && !hasUpgrades && !canShowMoveButton) {
     return null;
   }
 
@@ -76,6 +76,7 @@ export function CardExtras(props: Props) {
         <QuickUpgrade
           availableUpgrades={availableUpgrades}
           currentTab={currentTab}
+          hideButton={!quantity}
           card={card}
           deck={deck}
         />

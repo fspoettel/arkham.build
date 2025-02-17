@@ -27,10 +27,11 @@ type Props = {
   card: CardT;
   currentTab: Tab;
   deck: ResolvedDeck;
+  hideButton?: boolean;
 };
 
 export function QuickUpgrade(props: Props) {
-  const { availableUpgrades, card, currentTab, deck } = props;
+  const { availableUpgrades, card, currentTab, deck, hideButton } = props;
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -47,7 +48,14 @@ export function QuickUpgrade(props: Props) {
       !isShrewdAnalysisUpgrade(availableUpgrades, card, deck);
 
     if (canDirectUpgrade) {
-      upgradeCard(deck.id, card.code, upgrades[0].code, slots);
+      upgradeCard({
+        availableUpgrades,
+        deckId: deck.id,
+        code: card.code,
+        upgradeCode: upgrades[0].code,
+        delta: 1,
+        slots,
+      });
     } else {
       setDialogOpen(true);
     }
@@ -55,14 +63,18 @@ export function QuickUpgrade(props: Props) {
 
   return (
     <>
-      <Button
-        iconOnly
-        tooltip="Upgrade card"
-        onClick={onUpgradeCard}
-        variant="bare"
-      >
-        <i className="icon icon-upgrade" />
-      </Button>
+      {!hideButton && (
+        <Button
+          iconOnly
+          data-testid="quick-upgrade"
+          tooltip="Upgrade card"
+          onClick={onUpgradeCard}
+          variant="bare"
+          size="sm"
+        >
+          <i className="icon icon-upgrade" />
+        </Button>
+      )}
       {dialogOpen && (
         <QuickUpgradeDialog
           {...props}
@@ -99,16 +111,42 @@ function QuickUpgradeDialog(
   );
 
   const upgradeCard = useStore((state) => state.upgradeCard);
+  const applyShrewdAnalysis = useStore((state) => state.applyShrewdAnalysis);
 
-  const onChangeUpgradeQuantity = useCallback(() => {}, []);
-
-  const onUseShrewdAnalysis = useCallback(() => {}, []);
-
-  const shrewdAnalysisPossible = isShrewdAnalysisUpgrade(
-    availableUpgrades,
-    card,
-    deck,
+  const onChangeUpgradeQuantity = useCallback(
+    (upgradeCode: string, delta: number) => {
+      upgradeCard({
+        availableUpgrades,
+        deckId: deck.id,
+        code: card.code,
+        upgradeCode,
+        delta,
+        slots,
+      });
+    },
+    [availableUpgrades, deck.id, card.code, slots, upgradeCard],
   );
+
+  const onUseShrewdAnalysis = useCallback(() => {
+    applyShrewdAnalysis({
+      availableUpgrades,
+      deckId: deck.id,
+      code: card.code,
+      slots,
+    });
+
+    onOpenChange(false);
+  }, [
+    applyShrewdAnalysis,
+    availableUpgrades,
+    deck.id,
+    card.code,
+    onOpenChange,
+    slots,
+  ]);
+
+  const shrewdAnalysisPossible =
+    slots === "slots" && isShrewdAnalysisUpgrade(availableUpgrades, card, deck);
 
   if (!resolvedCard) return null;
 
@@ -116,7 +154,12 @@ function QuickUpgradeDialog(
     <FloatingPortal id={FLOATING_PORTAL_ID}>
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent>
-          <Modal size="60rem" onClose={() => onOpenChange(false)} open={open}>
+          <Modal
+            size="60rem"
+            onClose={() => onOpenChange(false)}
+            open={open}
+            data-testid="quick-upgrade-modal"
+          >
             <ModalContent
               title={
                 <>
@@ -129,7 +172,11 @@ function QuickUpgradeDialog(
                 <article>
                   {shrewdAnalysisPossible && (
                     <Field helpText="The app will add an XP adjustment matching the received discount.">
-                      <Button variant="primary">
+                      <Button
+                        variant="primary"
+                        onClick={onUseShrewdAnalysis}
+                        data-testid="quick-upgrade-shrewd-analysis"
+                      >
                         <DicesIcon />
                         Use Shrewd Analysis
                       </Button>
@@ -144,6 +191,7 @@ function QuickUpgradeDialog(
                     slotHeaderActions={
                       <QuantityInput
                         className={css["quantity"]}
+                        date-testid={`quick-upgrade-${card.code}-quantity`}
                         disabled
                         limit={cardLimit(card)}
                         value={deck[slots]?.[card.code] ?? 0}
@@ -168,7 +216,14 @@ function QuickUpgradeDialog(
                             slotHeaderActions={
                               <QuantityInput
                                 className={css["quantity"]}
+                                date-testid={`quick-upgrade-${upgrade.card.code}-quantity`}
                                 limit={cardLimit(upgrade.card)}
+                                onValueChange={(delta) => {
+                                  onChangeUpgradeQuantity(
+                                    upgrade.card.code,
+                                    delta,
+                                  );
+                                }}
                                 value={deck[slots]?.[upgrade.card.code] ?? 0}
                               />
                             }

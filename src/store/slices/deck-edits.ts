@@ -2,6 +2,7 @@ import { assert } from "@/utils/assert";
 import { cardLimit } from "@/utils/card-utils";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
+import { range } from "@/utils/range";
 import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
 import { clampAttachmentQuantity } from "../lib/attachments";
@@ -257,7 +258,7 @@ export const createDeckEditsSlice: StateCreator<
       },
     });
   },
-  updateAttachment(deck, targetCode, code, quantity, limit) {
+  updateAttachment({ deck, targetCode, code, quantity, limit }) {
     const attachments = get().deckEdits[deck.id]?.attachments ?? {};
 
     attachments[targetCode] ??= {};
@@ -343,7 +344,7 @@ export const createDeckEditsSlice: StateCreator<
     });
   },
 
-  upgradeCard(deckId, code, upgradeCode, slot) {
+  upgradeCard({ deckId, availableUpgrades, code, upgradeCode, delta, slots }) {
     const state = get();
 
     const deck = selectResolvedDeckById(state, deckId, true);
@@ -352,17 +353,57 @@ export const createDeckEditsSlice: StateCreator<
     state.updateCardQuantity(
       deckId,
       upgradeCode,
-      1,
+      delta,
       cardLimit(state.metadata.cards[upgradeCode]),
-      slot,
+      slots,
     );
 
-    state.updateCardQuantity(
+    const shouldUpdateSourceQuantity =
+      availableUpgrades.upgrades[code].reduce((acc, curr) => {
+        return acc + (deck[slots]?.[curr.code] ?? 0);
+      }, 0) <= cardLimit(state.metadata.cards[code]);
+
+    if (shouldUpdateSourceQuantity) {
+      state.updateCardQuantity(
+        deckId,
+        code,
+        delta * -1,
+        cardLimit(state.metadata.cards[code]),
+        slots,
+      );
+    }
+  },
+  applyShrewdAnalysis({ availableUpgrades, code, deckId, slots }) {
+    const state = get();
+
+    const upgrades = availableUpgrades.upgrades[code];
+    assert(upgrades.length, "No upgrades available for card");
+
+    const quantity = cardLimit(upgrades[0]);
+
+    const randomUpgrades = range(0, quantity).map(() => {
+      return upgrades[Math.floor(Math.random() * upgrades.length)];
+    });
+
+    // TODO: this updates the store five times, which in turn writes to storage 5 times (and sends to other tabs).
+    //       it would be good to do this in one "transaction".
+
+    for (const upgrade of randomUpgrades) {
+      state.upgradeCard({
+        availableUpgrades,
+        code,
+        deckId,
+        delta: 1,
+        slots,
+        upgradeCode: upgrade.code,
+      });
+    }
+
+    const sourceCard = state.metadata.cards[code];
+
+    state.updateXpAdjustment(
       deckId,
-      code,
-      -1,
-      cardLimit(state.metadata.cards[code]),
-      slot,
+      (upgrades[0].xp ?? 0) - (sourceCard.xp ?? 0),
     );
   },
 });

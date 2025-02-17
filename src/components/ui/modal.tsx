@@ -56,7 +56,6 @@ export function Modal(props: Props) {
         modalRef.current?.contains(evt.target) &&
         !innerRef.current?.contains(evt.target)
       ) {
-        console.log("@@@");
         closeModal();
       }
     },
@@ -65,7 +64,6 @@ export function Modal(props: Props) {
 
   const onCloseActions = useCallback(
     (evt: React.MouseEvent) => {
-      console.log("@@@");
       if (evt.target === actionRef.current) closeModal();
     },
     [closeModal],

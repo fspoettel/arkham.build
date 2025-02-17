@@ -24,9 +24,9 @@
   opacity: 1;
 }
 
-.actions-extras {
-  display: inline-flex;
-  flex-flow: row nowrap;
+.actions-row {
+  display: flex;
+  flex-flow: row wrap;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.0625rem;
 }

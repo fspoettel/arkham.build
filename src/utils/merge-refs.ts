@@ -1,25 +1,16 @@
 import type { Ref } from "react";
 
-export function mergeRefs<T>(...refs: (Ref<T> | undefined)[]): Ref<T> {
+export function mergeRefs<T = VoidFunction>(
+  ...refs: (Ref<T> | undefined)[]
+): React.RefCallback<T> {
   return (value) => {
-    const cleanups = refs.reduce<VoidFunction[]>((accumulator, ref) => {
+    // biome-ignore lint/complexity/noForEach: <explanation>
+    refs.forEach((ref) => {
       if (typeof ref === "function") {
-        const cleanup = ref(value);
-        if (typeof cleanup === "function") {
-          accumulator.push(cleanup);
-        }
-      } else if (ref) {
-        // biome-ignore lint/suspicious/noExplicitAny: safe.
-        (ref as any).current = value;
+        ref(value);
+      } else if (ref != null) {
+        (ref as React.MutableRefObject<T | null>).current = value;
       }
-
-      return accumulator;
-    }, []);
-
-    return () => {
-      for (const cleanup of cleanups) {
-        cleanup();
-      }
-    };
+    });
   };
 }

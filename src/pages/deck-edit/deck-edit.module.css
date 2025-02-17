@@ -30,7 +30,7 @@
 
 .extra-row {
   display: inline-flex;
-  gap: 0.25rem;
+  gap: 0.0625rem;
   align-items: center;
   flex-flow: row nowrap;
   flex: 0 0 auto;

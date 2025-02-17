@@ -28,6 +28,7 @@ export function MoveToSideDeck(props: Props) {
       onClick={onButtonClick}
       tooltip={t("deck_edit.actions.move_to_side_deck")}
       size="sm"
+      variant="bare"
     >
       <ArrowRightToLineIcon />
     </Button>
