@@ -163,6 +163,46 @@ test.describe("deck edit", () => {
     ).toContainText("2");
   });
 
+  test("move card to side deck", async ({ page }) => {
+    await page.goto("/settings");
+
+    await page.getByTestId("show-move-to-side-deck").click();
+    await page.getByTestId("settings-save").click();
+
+    await importDeckFromFile(page, "validation/honed_instinct_valid.json", {
+      navigate: "edit",
+    });
+
+    await page
+      .getByTestId("editor-tabs-slots")
+      .getByTestId("listcard-07025")
+      .getByTestId("editor-move-to-side")
+      .click();
+
+    await page
+      .getByTestId("editor-tabs-slots")
+      .getByTestId("listcard-07025")
+      .getByTestId("editor-move-to-side")
+      .click();
+
+    await expect(
+      page
+        .getByTestId("editor-tabs-slots")
+        .getByTestId("listcard-07025")
+        .getByTestId("quantity-value"),
+    ).toContainText("0");
+
+    await page.getByTestId("editor-tab-sideslots").click();
+
+    await expect(
+      page.getByTestId("editor").getByTestId("listcard-07025"),
+    ).toBeVisible();
+
+    await expect(
+      page.getByTestId("editor").getByTestId("quantity-value"),
+    ).toContainText("2");
+  });
+
   test("draw random basic weakness", async ({ page }) => {
     await page.goto("/deck/create/89001");
     await page.getByTestId("create-save").click();

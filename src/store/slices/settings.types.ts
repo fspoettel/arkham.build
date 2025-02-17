@@ -16,6 +16,7 @@ export type SettingsState = {
   collection: Record<string, number>; // track as "quantity" owned to accomodate the core set.
   fontSize: number;
   hideWeaknessesByDefault: boolean;
+  showMoveToSideDeck: boolean;
   lists: {
     encounter: ListConfig;
     investigator: ListConfig;

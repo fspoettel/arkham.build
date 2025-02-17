@@ -12,6 +12,7 @@ import { isEmpty } from "@/utils/is-empty";
 import css from "./deck-edit.module.css";
 import { DrawBasicWeakness } from "./editor/draw-basic-weakness";
 import { MoveToMainDeck } from "./editor/move-to-main-deck";
+import { MoveToSideDeck } from "./editor/move-to-side-deck";
 import { QuickUpgrade } from "./editor/quick-upgrade";
 
 type Props = {
@@ -24,6 +25,8 @@ type Props = {
 
 export function CardExtras(props: Props) {
   const { canEdit, card, deck, quantity, currentTab } = props;
+
+  const settings = useStore((state) => state.settings);
 
   const availableUpgrades = useStore((state) =>
     selectAvailableUpgrades(
@@ -59,7 +62,10 @@ export function CardExtras(props: Props) {
   const hasUpgrades =
     canEdit && !isEmpty(availableUpgrades.upgrades[card.code]);
 
-  if ((!hasAttachable && !hasUpgrades) || !quantity) {
+  const canShowMoveButton =
+    quantity && (currentTab !== "slots" || card.xp != null);
+
+  if ((!hasAttachable && !hasUpgrades && !canShowMoveButton) || !quantity) {
     return null;
   }
 
@@ -74,6 +80,11 @@ export function CardExtras(props: Props) {
           deck={deck}
         />
       )}
+      {currentTab === "slots" &&
+        canShowMoveButton &&
+        settings.showMoveToSideDeck && (
+          <MoveToSideDeck card={card} deck={deck} />
+        )}
     </div>
   );
 }

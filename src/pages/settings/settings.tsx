@@ -24,6 +24,7 @@ import { ListSettings } from "./list-settings";
 import { Section } from "./section";
 import css from "./settings.module.css";
 import { ShowAllCardsSetting } from "./show-all-cards";
+import { ShowMoveToSideDeckSetting } from "./show-move-to-side-deck";
 import { ShowPreviewsSetting } from "./show-previews";
 import { TabooSetSetting } from "./taboo-set";
 import { ThemeSetting } from "./theme";
@@ -123,6 +124,10 @@ function Settings() {
                   updateSettings={updateSettings}
                 />
                 <HideWeaknessSetting
+                  settings={settings}
+                  updateSettings={updateSettings}
+                />
+                <ShowMoveToSideDeckSetting
                   settings={settings}
                   updateSettings={updateSettings}
                 />

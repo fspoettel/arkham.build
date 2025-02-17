@@ -76,6 +76,7 @@ import underworldSupport from "@/test/fixtures/decks/validation/underworld_suppo
 import underworldSupperInvalidDeckLimit from "@/test/fixtures/decks/validation/underworld_support_invalid_deck_limit.json";
 import underworldSupportInvalidSize from "@/test/fixtures/decks/validation/underworld_support_invalid_size.json";
 import underworldSupportWeaknesses from "@/test/fixtures/decks/validation/underworld_support_weaknesses.json";
+import vinnyBMaxXP from "@/test/fixtures/decks/validation/vinnyb_max_xp.json";
 import ythian from "@/test/fixtures/decks/ythian.json";
 import { getMockStore } from "@/test/get-mock-store";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
@@ -244,6 +245,7 @@ describe("deck validation", () => {
           "errors": [
             {
               "details": {
+                "count": "(2 / 1)",
                 "error": "You cannot have more than one Covenant in your deck.",
               },
               "type": "INVALID_DECK_OPTION",
@@ -514,7 +516,8 @@ describe("deck validation", () => {
         [
           {
             "details": {
-              "error": "You cannot have more than 5 cards that are not Guardian or Neutral (6 / 5)",
+              "count": "(6 / 5)",
+              "error": "You cannot have more than 5 cards that are not Guardian or Neutral",
             },
             "type": "INVALID_DECK_OPTION",
           },
@@ -534,7 +537,8 @@ describe("deck validation", () => {
         [
           {
             "details": {
-              "error": "Too many off-class cards. (11 / 10)",
+              "count": "(11 / 10)",
+              "error": "Too many off-class cards.",
             },
             "type": "INVALID_DECK_OPTION",
           },
@@ -554,7 +558,8 @@ describe("deck validation", () => {
         [
           {
             "details": {
-              "error": "You cannot have more than 15 level 0-1 Seeker and/or Mystic cards (16 / 15)",
+              "count": "(16 / 15)",
+              "error": "You cannot have more than 15 level 0-1 Seeker and/or Mystic cards",
             },
             "type": "INVALID_DECK_OPTION",
           },
@@ -574,7 +579,8 @@ describe("deck validation", () => {
         [
           {
             "details": {
-              "error": "Too many off-class cards for Versatile. (2 / 1)",
+              "count": "(2 / 1)",
+              "error": "Too many off-class cards for Versatile.",
             },
             "type": "INVALID_DECK_OPTION",
           },
@@ -594,7 +600,8 @@ describe("deck validation", () => {
         [
           {
             "details": {
-              "error": "Too many off-class cards. (11 / 10)",
+              "count": "(11 / 10)",
+              "error": "Too many off-class cards.",
             },
             "type": "INVALID_DECK_OPTION",
           },
@@ -635,6 +642,7 @@ describe("deck validation", () => {
         [
           {
             "details": {
+              "count": "(2 / 3)",
               "error": "You must have at least 7 cards from 3 different factions",
             },
             "type": "INVALID_DECK_OPTION",
@@ -658,6 +666,7 @@ describe("deck validation", () => {
           [
             {
               "details": {
+                "count": "(0 / 1)",
                 "error": "Deck must have at least 10 skill cards.",
               },
               "type": "INVALID_DECK_OPTION",
@@ -742,7 +751,8 @@ describe("deck validation", () => {
           [
             {
               "details": {
-                "error": "Too many off-class cards for Versatile. (3 / 2)",
+                "count": "(3 / 2)",
+                "error": "Too many off-class cards for Versatile.",
               },
               "type": "INVALID_DECK_OPTION",
             },
@@ -1036,7 +1046,8 @@ describe("deck validation", () => {
           [
             {
               "details": {
-                "error": "Too many off-class cards. (11 / 10)",
+                "count": "(11 / 10)",
+                "error": "Too many off-class cards.",
               },
               "type": "INVALID_DECK_OPTION",
             },
@@ -1286,6 +1297,7 @@ describe("deck validation", () => {
         [
           {
             "details": {
+              "count": "(4 / 5)",
               "error": "You must have at least 7 cards from each class",
             },
             "type": "INVALID_DECK_OPTION",
@@ -1346,6 +1358,11 @@ describe("deck validation", () => {
           },
         ]
       `);
+    });
+
+    it("handles case: lola with max. possible xp / deck size", () => {
+      const result = validate(store, vinnyBMaxXP);
+      expect(result.valid).toBeTruthy();
     });
   });
 });
