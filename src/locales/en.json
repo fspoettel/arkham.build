@@ -711,6 +711,7 @@
         "cycle_decks": "Cycle deck lists",
         "decrement_quantity": "Decrement deck quantity",
         "decrement_side_quantity": "Decrement side deck quantity",
+        "draw_random_basic_weakness": "Draw random basic weakness",
         "edit_annotation": "Edit annotation",
         "increment_quantity": "Increment deck quantity",
         "increment_side_quantity": "Increment side deck quantity",
@@ -718,6 +719,7 @@
         "move_to_side_deck": "Move to side deck",
         "quick_discard": "Discard changes (and stay on page)",
         "quick_save_deck": "Save deck (and stay on page)",
+        "quick_upgrade": "Upgrade {{name}}",
         "set_quantity": "Set deck quantity",
         "set_side_quantity": "Set side deck quantity"
       },
@@ -777,6 +779,12 @@
         "description": "Notes",
         "intro_help": "A short deck introduction. Will be displayed on the deck view and in social media previews. Supports ArkhamDB-flavoured markdown.",
         "intro": "Introduction"
+      },
+      "quick_upgrade": {
+        "available_upgrades": "Available upgrades",
+        "shrewd_analysis": "Use Shrewd Analysis",
+        "shrewd_analysis_help": "The app will add an XP adjustment matching the received discount.",
+        "title": "Upgrading {{name}}"
       },
       "read_only": "This deck has an upgrade and is read-only.",
       "recommendations": {

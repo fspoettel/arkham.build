@@ -1,0 +1,31 @@
+{
+  "id": "igbmD7FBtWNqqwi",
+  "date_creation": "2025-02-16T10:34:39.282Z",
+  "date_update": "2025-02-16T10:35:47.442Z",
+  "description_md": "",
+  "meta": "{}",
+  "ignoreDeckLimitSlots": {},
+  "sideSlots": {},
+  "next_deck": null,
+  "previous_deck": null,
+  "tags": "",
+  "version": "0.1",
+  "taboo_id": 8,
+  "xp": null,
+  "xp_spent": null,
+  "exile_string": null,
+  "xp_adjustment": null,
+  "investigator_code": "05006",
+  "investigator_name": "Marie Lambeau",
+  "name": "The Marie Lambeau Mysteries",
+  "slots": {
+    "01000": 1,
+    "05019": 1,
+    "05018": 1,
+    "03025": 2,
+    "01060": 2,
+    "04106": 1,
+    "03154": 2
+  },
+  "problem": "too_few_cards"
+}

@@ -177,6 +177,8 @@ export const SPECIAL_CARD_CODES = {
   PARALLEL_WENDY: "90037",
   /** Random basic weakness placeholder. */
   RANDOM_BASIC_WEAKNESS: "01000",
+  /** Separate upgrade path. */
+  SHREWD_ANALYSIS: "04106",
   /** Separate deck. */
   STICK_TO_THE_PLAN: "03264",
   /** Additional XP gain, switches deck investigator with a static investigator on defeat. */

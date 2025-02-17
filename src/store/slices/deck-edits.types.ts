@@ -3,6 +3,7 @@ import type {
   DeckOptionSelectType,
 } from "@/store/services/queries.types";
 import type { Annotations, DeckMeta, ResolvedDeck } from "../lib/types";
+import type { AvailableUpgrades } from "../selectors/lists";
 import type { Id } from "./data.types";
 
 export type Slot =
@@ -109,13 +110,29 @@ export type DeckEditsSlice = {
 
   updateXpAdjustment(deckId: Id, value: number): void;
 
-  updateAttachment(
-    deck: ResolvedDeck,
-    targetCode: string,
-    code: string,
-    quantity: number,
-    limit: number,
-  ): void;
+  updateAttachment(payload: {
+    deck: ResolvedDeck;
+    targetCode: string;
+    code: string;
+    quantity: number;
+    limit: number;
+  }): void;
 
   updateAnnotation(deckId: Id, code: string, value: string | null): void;
+
+  upgradeCard(payload: {
+    availableUpgrades: AvailableUpgrades;
+    code: string;
+    deckId: Id;
+    delta: number;
+    slots: "slots" | "extraSlots";
+    upgradeCode: string;
+  }): void;
+
+  applyShrewdAnalysis(payload: {
+    availableUpgrades: AvailableUpgrades;
+    deckId: Id;
+    code: string;
+    slots: "slots" | "extraSlots";
+  }): void;
 };

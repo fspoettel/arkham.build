@@ -17,11 +17,9 @@ export function CardActions(props: Props) {
 
   if (quantity == null) return null;
 
-  const extras = listCardProps?.renderCardExtra?.(card);
-
   return (
     <div className={css["actions"]}>
-      <div className={css["actions-quantity"]}>
+      <div className={css["actions-row"]}>
         {onChangeCardQuantity ? (
           <QuantityInput
             className={css["actions-quantity"]}
@@ -34,8 +32,8 @@ export function CardActions(props: Props) {
         ) : (
           <QuantityOutput value={quantity || 0} />
         )}
+        {listCardProps?.renderCardExtra?.(card, quantity)}
       </div>
-      {extras && <div className={css["actions-extras"]}>{extras}</div>}
     </div>
   );
 }

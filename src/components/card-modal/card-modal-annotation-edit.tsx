@@ -68,7 +68,7 @@ export function AnnotationEdit(props: Props) {
           variant="bare"
           style={{ visibility: liveValue ? "visible" : "hidden" }}
         >
-          {t("commonc.clear")}
+          {t("common.clear")}
         </Button>
       }
     >

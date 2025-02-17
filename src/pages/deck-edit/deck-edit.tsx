@@ -1,8 +1,4 @@
 import { ListLayout } from "@//layouts/list-layout";
-import {
-  Attachments,
-  getMatchingAttachables,
-} from "@/components/attachments/attachments";
 import { CardListContainer } from "@/components/card-list/card-list-container";
 import { CardModalProvider } from "@/components/card-modal/card-modal-context";
 import { CardRecommender } from "@/components/card-recommender/card-recommender";
@@ -22,8 +18,6 @@ import {
 import type { Card } from "@/store/services/queries.types";
 import { type Tab, mapTabToSlot } from "@/store/slices/deck-edits.types";
 import { isStaticInvestigator } from "@/utils/card-utils";
-import { SPECIAL_CARD_CODES } from "@/utils/constants";
-import { isEmpty } from "@/utils/is-empty";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { useDocumentTitle } from "@/utils/use-document-title";
 import { useHotkey } from "@/utils/use-hotkey";
@@ -42,11 +36,9 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "wouter";
 import { Error404 } from "../errors/404";
+import { CardExtras } from "./card-extras";
 import css from "./deck-edit.module.css";
-import { DrawBasicWeakness } from "./editor/draw-basic-weakness";
 import { Editor } from "./editor/editor";
-import { MoveToMainDeck } from "./editor/move-to-main-deck";
-import { MoveToSideDeck } from "./editor/move-to-side-deck";
 import { NotesEditor } from "./editor/notes-editor";
 import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 
@@ -177,7 +169,6 @@ function DeckEditInner() {
 
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
   const validation = useStore((state) => selectDeckValid(state, deck));
-  const settings = useStore((state) => state.settings);
 
   const accentColor = useAccentColor(deck.investigatorBack.card.faction_code);
 
@@ -207,53 +198,27 @@ function DeckEditInner() {
   useHotkey("d", onCycleDeck);
   useHotkey("c", onSetMeta);
 
-  const renderCardExtraSlots = useCallback(
-    (card: Card, quantity: number | undefined) => {
-      if (card.code === SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS) {
-        return (
-          <DrawBasicWeakness
-            deckId={deck.id}
-            quantity={quantity}
-            targetDeck={mapTabToSlot(currentTab)}
-          />
-        );
-      }
-
-      const attachables = getMatchingAttachables(card, deck);
-      const listQuantity = deck[mapTabToSlot(currentTab)]?.[card.code] ?? 0;
-
-      const canShowMoveButton =
-        listQuantity && (currentTab !== "slots" || card.xp != null);
-
-      if (isEmpty(attachables) && !canShowMoveButton) {
-        return null;
-      }
-
-      return (
-        <>
-          {currentTab === "slots" && !isEmpty(attachables) && (
-            <Attachments card={card} resolvedDeck={deck} />
-          )}
-          {currentTab === "slots" &&
-            canShowMoveButton &&
-            settings.showMoveToSideDeck && (
-              <MoveToSideDeck card={card} deck={deck} />
-            )}
-          {currentTab === "sideSlots" && canShowMoveButton && (
-            <MoveToMainDeck card={card} deck={deck} />
-          )}
-        </>
-      );
-    },
-    [deck, currentTab, settings.showMoveToSideDeck],
-  );
-
   const renderCoreCardCheckbox = useCallback(
     (card: Card, quantity?: number) => {
       if (card.xp == null || !quantity) return null;
       return <CoreCardCheckbox card={card} deck={deck} />;
     },
     [deck],
+  );
+
+  const renderCardExtra = useCallback(
+    (card: Card, quantity?: number) => {
+      return (
+        <CardExtras
+          canEdit={canEdit}
+          card={card}
+          deck={deck}
+          quantity={quantity}
+          currentTab={currentTab}
+        />
+      );
+    },
+    [canEdit, currentTab, deck],
   );
 
   const getListCardProps = useCallback(
@@ -264,17 +229,13 @@ function DeckEditInner() {
           : undefined,
       renderCardBefore:
         currentTool === "recommendations" ? renderCoreCardCheckbox : undefined,
-      renderCardExtra:
-        currentTab === "slots" || currentTab === "sideSlots"
-          ? renderCardExtraSlots
-          : undefined,
+      renderCardExtra,
     }),
     [
       canEdit,
       onChangeCardQuantity,
-      renderCardExtraSlots,
-      currentTab,
       currentTool,
+      renderCardExtra,
       renderCoreCardCheckbox,
     ],
   );

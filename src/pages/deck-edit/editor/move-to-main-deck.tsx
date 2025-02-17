@@ -27,6 +27,7 @@ export function MoveToMainDeck(props: Props) {
       onClick={onButtonClick}
       tooltip={t("deck_edit.actions.move_to_main_deck")}
       size="sm"
+      variant="bare"
     >
       <ArrowLeftToLineIcon />
     </Button>

@@ -1,0 +1,35 @@
+.container > * + * {
+  margin-top: 1rem;
+}
+
+.header {
+  padding-bottom: 1rem;
+  text-align: center;
+}
+
+.title {
+  display: inline-block;
+  font-size: var(--text-lg);
+}
+
+.upgrades {
+  list-style: none;
+}
+
+.upgrades > * + * {
+  margin-top: 1rem;
+}
+
+.quantity {
+  background: var(--palette-0);
+  color: var(--text);
+  padding: 0.25rem;
+  border-radius: var(--rounded-md);
+  text-shadow: none;
+  opacity: 0.85;
+
+  &:hover {
+    opacity: 1;
+    transition: opacity 0.2s;
+  }
+}
