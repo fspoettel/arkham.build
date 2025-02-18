@@ -1,5 +1,8 @@
 import { useStore } from "@/store";
-import { filterInvestigatorAccess } from "@/store/lib/filtering";
+import {
+  filterInvestigatorAccess,
+  filterPreviews,
+} from "@/store/lib/filtering";
 import { makeSortFunction } from "@/store/lib/sorting";
 import type { ResolvedCard } from "@/store/lib/types";
 import { selectUsableByInvestigators } from "@/store/selectors/card-view";
@@ -17,8 +20,9 @@ type Props = {
 
 const selectSpecialistAccess = createSelector(
   (state: StoreState) => state.metadata,
+  (state: StoreState) => state.settings,
   (_: StoreState, card: Card) => card,
-  (metadata, investigatorBack) => {
+  (metadata, settings, investigatorBack) => {
     const investigatorFilter = filterInvestigatorAccess(investigatorBack, {
       customizable: {
         properties: "all",
@@ -27,7 +31,10 @@ const selectSpecialistAccess = createSelector(
     });
 
     return Object.values(metadata.cards)
-      .filter((card) => isSpecialist(card) && investigatorFilter?.(card))
+      .filter((card) => {
+        const allowDisplay = settings.showPreviews || !filterPreviews(card);
+        return isSpecialist(card) && investigatorFilter?.(card) && allowDisplay;
+      })
       .sort(makeSortFunction(["name", "level"], metadata))
       .map((card) => ({ card }) as ResolvedCard);
   },
