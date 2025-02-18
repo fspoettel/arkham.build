@@ -396,7 +396,10 @@ class DeckLimitsValidator implements SlotValidator {
 
   add(card: Card, quantity: number) {
     if (card.xp == null) return;
-    const name = card.real_name;
+    const name = SPECIAL_CARD_CODES.PRECIOUS_MEMENTOS.includes(card.code)
+      ? `${card.real_name} (${card.real_subname})`
+      : card.real_name;
+
     const limit = card.myriad ? 3 : cardLimit(card, this.limitOverride);
 
     // some copies of this card might be ignored, e.g. for parallel Agnes and TCU "Ace of Rods".

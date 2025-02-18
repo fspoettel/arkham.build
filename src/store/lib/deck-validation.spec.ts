@@ -50,6 +50,7 @@ import parallelRolandValid from "@/test/fixtures/decks/validation/parallel_rolan
 import parallelWendy from "@/test/fixtures/decks/validation/parallel_wendy.json";
 import parallelWendyInvalid from "@/test/fixtures/decks/validation/parallel_wendy_invalid.json";
 import parallelWendyValidSignatures from "@/test/fixtures/decks/validation/parallel_wendy_valid_signatures.json";
+import preciousMemento from "@/test/fixtures/decks/validation/precious_memento_valid.json";
 import promoMarie from "@/test/fixtures/decks/validation/promo_marie.json";
 import rbwInvalidMissing from "@/test/fixtures/decks/validation/rbw_invalid_missing.json";
 import rbwValidChoice from "@/test/fixtures/decks/validation/rbw_valid_choice.json";
@@ -1363,6 +1364,46 @@ describe("deck validation", () => {
     it("handles case: lola with max. possible xp / deck size", () => {
       const result = validate(store, vinnyBMaxXP);
       expect(result.valid).toBeTruthy();
+    });
+
+    it("handles case: precious memento, valid", () => {
+      const result = validate(store, preciousMemento);
+      expect(result.valid).toBeTruthy();
+    });
+
+    it("handles case: precious memento, invalid", () => {
+      const deck = structuredClone(preciousMemento);
+      deck.slots["08114"] = 2;
+      deck.slots["08115"] = 2;
+      const result = validate(store, deck);
+      expect(result.valid).toBeFalsy();
+      expect(result.errors).toMatchInlineSnapshot(`
+        [
+          {
+            "details": {
+              "count": 4,
+              "countRequired": 30,
+              "target": "slots",
+            },
+            "type": "TOO_FEW_CARDS",
+          },
+          {
+            "details": [
+              {
+                "code": "08114",
+                "limit": 1,
+                "quantity": 2,
+              },
+              {
+                "code": "08115",
+                "limit": 1,
+                "quantity": 2,
+              },
+            ],
+            "type": "INVALID_CARD_COUNT",
+          },
+        ]
+      `);
     });
   });
 });

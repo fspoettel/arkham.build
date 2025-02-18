@@ -175,6 +175,8 @@ export const SPECIAL_CARD_CODES = {
   PARALLEL_ROLAND: "90024",
   /** Parallel front has deckbuilding impact. */
   PARALLEL_WENDY: "90037",
+  /** Special case for deck limit (considers subname). */
+  PRECIOUS_MEMENTOS: ["08114", "08115"],
   /** Random basic weakness placeholder. */
   RANDOM_BASIC_WEAKNESS: "01000",
   /** Separate upgrade path. */
