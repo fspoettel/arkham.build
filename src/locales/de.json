@@ -4,13 +4,13 @@
       "title": "Über diese Seite"
     },
     "app": {
+      "actions": {
+        "close_modal": "Dialog schließen",
+        "legend": "Tastenkürzel anzeigen"
+      },
       "home": "Home",
       "init": "Lade Kartendaten...",
-      "init_error": "Kartendaten konnten nicht geladen werden: {{error}}",
-      "actions": {
-        "legend": "Tastenkürzel anzeigen",
-        "close_modal": "Dialog schließen"
-      }
+      "init_error": "Kartendaten konnten nicht geladen werden: {{error}}"
     },
     "attachments": {
       "attach": "An {{name}} anhängen",
@@ -28,12 +28,12 @@
     },
     "card_view": {
       "actions": {
-        "view_backside": "Rückseite",
         "faq": "FAQ anzeigen",
         "open_on_arkhamdb": "In ArkhamDB öffnen",
         "reviews": "Meinungen",
-        "who_can_take": "Wer kann {{name}} verwenden?",
-        "usable_by": "{{prefix}}{{name}} Kartenpool"
+        "usable_by": "{{prefix}}{{name}} Kartenpool",
+        "view_backside": "Rückseite",
+        "who_can_take": "Wer kann {{name}} verwenden?"
       },
       "faq": {
         "empty": "Keine FAQ-Einträge vorhanden.",
@@ -41,15 +41,22 @@
         "loading": "FAQ-Einträge werden geladen...",
         "title": "FAQ"
       },
-      "section_deckbuilding": "Deckbau",
-      "section_actions": "Aktionen",
-      "section_faq": "FAQ",
       "scan": "Scan von {{code}}",
+      "section_actions": "Aktionen",
+      "section_deckbuilding": "Deckbau",
+      "section_faq": "FAQ",
       "thumbnail": "Thumbnail für {{code}}"
     },
     "choose_investigator": {
-      "title": "Ermittler auswählen",
-      "create_tooltip": "{{name}} Deck erstellen"
+      "create_tooltip": "{{name}} Deck erstellen",
+      "title": "Ermittler auswählen"
+    },
+    "collection_stats": {
+      "counts": "Du besitzt <strong>{{player_count}}</strong> Spielerkarten und <strong>{{encounter_count}}</strong> Szenariokarten.",
+      "description": "Diese Seite berechnet die Anzahl der Karten in deinem Besitz anhand deiner Sammlungseinstellungen. Die Sammlungseinstellungen können in den <a>Einstellungen</a> angepasst werden.",
+      "title": "Sammlungsstatistik",
+      "tooltip_count_encounter": "Gesamtzahl der Szenariokarten in {{type}}",
+      "tooltip_count_player": "Gesamtzahl der Spielerkarten in {{type}}"
     },
     "common": {
       "actions": {
@@ -66,27 +73,63 @@
       "cancel": "Abbrechen",
       "card_one": "Karte",
       "card_other": "Karten",
+      "clear": "Löschen",
+      "clue_one": "Hinweis",
+      "clue_other": "Hinweise",
       "cost": {
         "none": "Keine Kosten",
         "value": "Kosten {{cost}}",
         "x": "Kosten X"
       },
-      "clear": "Löschen",
-      "clue_one": "Hinweis",
-      "clue_other": "Hinweise",
       "customizable": "Individualisierbar",
       "customizations": "Individualisierungen",
       "cycle_one": "Zyklus",
       "cycle_other": "Zyklen",
+      "deck_options": {
+        "Atleast constraint violated.": "Atleast constraint violated.",
+        "Blessed": "Gesegnet",
+        "Blessed and Cursed": "Gesegnet und verflucht",
+        "Class Choice": "Class Choice",
+        "Cursed": "Verflucht",
+        "Deck Size": "Deckgröße",
+        "Deck must have at least 10 skill cards.": "Deck must have at least 10 skill cards.",
+        "Fortune": "Fortune",
+        "Gambit": "Gambit",
+        "Improvised": "Improvised",
+        "No permanents except story and signature permanents": "Keine dauerhaften Vorteilskarten außer Story- und Signatur-Karten",
+        "Secondary Class": "Sekundärklasse",
+        "Too many off-class cards.": "Too many off-class cards.",
+        "Trait Choice": "Vorteilswahl",
+        "You cannot have more than 15 level 0-1 Guardian and/or Survivor cards": "Du kannst nicht mehr als 15 Level 0-1 Wächter und/oder Überlebende Karten haben",
+        "You cannot have more than 15 level 0-1 Seeker and/or Mystic cards": "Du kannst nicht mehr als 15 Stufe 0-1 Sucher- und/oder Mystikerkarten haben",
+        "You cannot have more than 5 Guardian and/or Mystic cards": "Du kannst nicht mehr als 5 Wächter- und/oder Mystikerkarten haben",
+        "You cannot have more than 5 Mystic cards.": "Du kannst nicht mehr als 5 Mystiker Karten haben.",
+        "You cannot have more than 5 Rogue cards.": "You cannot have more than 5 Rogue cards.",
+        "You cannot have more than 5 Seeker and/or Survivor cards": "Du kannst nicht mehr als 5 Sucher und/oder Überlebender Karten haben.",
+        "You cannot have more than 5 Survivor cards.": "Du kannst nicht mehr als 5 Überlebender Karten haben.",
+        "You cannot have more than 5 cards that are not Guardian or Neutral": "Du kannst nicht mehr als 5 Karten haben die nicht Wächter oder Neutral sind",
+        "You cannot have more than 5 cards that are not Mystic or Neutral": "Du kannst nicht mehr als 5 Karten haben die nicht Mystiker oder Neutral sind",
+        "You cannot have more than 5 cards that are not Rogue or Neutral": "Du kannst nicht mehr als 5 Karten haben die nicht Schurke oder Neutral sind",
+        "You cannot have more than 5 cards that are not Seeker or Neutral": "Du kannst nicht mehr als 5 Karten haben die nicht Sucher oder Neutral sind",
+        "You cannot have more than 5 cards that are not Survivor or Neutral": "Du kannst nicht mehr als 5 Karten haben die nicht Überlebender oder Neutral sind",
+        "You cannot have more than 5 level 0 Guardian cards": "Du darfst nicht mehr als 5 Level 0 Wächter Karten haben",
+        "You cannot have more than 5 level 0 Mystic cards": "Du kannst nicht mehr als 5 Stufe 0 Mystikerkarten haben",
+        "You cannot have more than 5 level 0 Rogue cards": "Du darfst nicht mehr als 5 Level 0 Schurken Karten haben",
+        "You cannot have more than 5 level 0 Seeker cards": "Du darfst nicht mehr als 5 Level 0 Sucher Karten haben",
+        "You cannot have more than 5 level 0 Survivor cards": "Du darfst nicht mehr als 5 Level 0 Überlebender Karten haben",
+        "You cannot have more than one Covenant in your deck.": "You cannot have more than one Covenant in your deck.",
+        "You must have at least 7 cards from 3 different factions": "Du musst mindestens 7 Karten von 3 verschiedenen Klassen haben",
+        "You must have at least 7 cards from each class": "Du musst wenigstens 7 Karten von jeder Klasse haben"
+      },
       "decks": {
         "bondedSlots": "Gebunden-Karten",
         "bondedSlots_short": "Gebunden",
+        "extraSlots": "Extradeck",
+        "extraSlots_short": "Extra",
         "ignoreDeckLimitSlots": "Ignoriert Deckgrößenlimit",
-        "slots": "Deck",
         "sideSlots": "Nebendeck",
         "sideSlots_short": "Nebendeck",
-        "extraSlots": "Extradeck",
-        "extraSlots_short": "Extra"
+        "slots": "Deck"
       },
       "doom": "Verderben",
       "encounter_cards": "Szenariokarten",
@@ -106,18 +149,18 @@
         "survivor": "Überlebender"
       },
       "fast": "Schnell",
-      "nonexceptional": "Nicht-Außergewöhnlich",
       "icon_one": "Fertigkeitssymbol",
       "icon_other": "Fertigkeitssymbole",
       "level": {
-        "none": "Keine Stufe",
-        "value": "Stufe {{level}}",
         "base": "Stufe 0 / Null",
-        "upgrades": "Verbesserungen"
+        "none": "Keine Stufe",
+        "upgrades": "Verbesserungen",
+        "value": "Stufe {{level}}"
       },
       "more_actions": "Weitere Aktionen",
-      "none": "Keine Auswahl",
       "no_entries": "Keine Einträge",
+      "none": "Keine Auswahl",
+      "nonexceptional": "Nicht-Außergewöhnlich",
       "ok": "OK",
       "pack_one": "Pack",
       "pack_other": "Packs",
@@ -138,7 +181,9 @@
         "parallelCards": "Parallel-Karten",
         "replacement": "Ersatz-Signaturkarten",
         "requiredCards": "Signaturkarten",
-        "restrictedTo": "Limitiert auf"
+        "restrictedTo": "Limitiert auf",
+        "specialist": "Specialist",
+        "specialist_investigators": "Specialist Investigators"
       },
       "reset": "Zurücksetzen",
       "seal": "Versiegeln",
@@ -147,9 +192,9 @@
         "agility": "Beweglichkeit",
         "combat": "Kampf",
         "intellect": "Intellekt",
-        "willpower": "Willenskraft",
         "title": "Fertigkeiten",
-        "wild": "Joker"
+        "wild": "Joker",
+        "willpower": "Willenskraft"
       },
       "slot": {
         "accessory": "Zubehörslot",
@@ -157,70 +202,25 @@
         "arcane": "Arkaner Slot",
         "arcane x2": "2x arkane Slots",
         "body": "Körperslot",
-        "hand x2": "2x Handslots",
         "hand": "Handslot",
+        "hand x2": "2x Handslots",
         "none": "Kein Slot",
         "tarot": "Tarot-Slot"
       },
       "specialist": "Spezialist",
       "subtype": {
-        "none": "Kein Untertyp",
         "basicweakness": "Grundschwäche",
+        "none": "Kein Untertyp",
         "weakness": "Schwäche"
       },
-      "type": {
-        "act": "Szene",
-        "agenda": "Agenda",
-        "asset": "Vorteil",
-        "enemy": "Gegner",
-        "enemy_location": "Gegner-Ort",
-        "event": "Ereignis",
-        "investigator": "Ermittler",
-        "investigator_one": "Ermittler",
-        "investigator_other": "Ermittler",
-        "key": "Schlüssel",
-        "location": "Ort",
-        "scenario": "Szenarioübersicht",
-        "skill": "Fertigkeit",
-        "story": "Handlung",
-        "treachery": "Verrat"
-      },
       "taboo": "Tabuliste",
-      "taboo_mutated": "Mutiert",
       "taboo_chained": "Kostet {{xp}} weitere Erfahrungspunkte.",
-      "taboo_unchained": "Kostet {{xp}} Erfahrungspunkte weniger.",
+      "taboo_mutated": "Mutiert",
       "taboo_none": "Keine Tabuliste",
+      "taboo_unchained": "Kostet {{xp}} Erfahrungspunkte weniger.",
       "total": "insgesamt",
       "trait_one": "Merkmal",
       "trait_other": "Merkmale",
-      "undo": "Rückgängig",
-      "unique": "Einzigartig",
-      "victory": "Sieg",
-      "xp": "EP",
-      "uses": {
-        "aether": "Äther",
-        "ammo": "Munition",
-        "bounties": "Kopfgelder",
-        "brilliance": "Brillianz",
-        "charges": "Ladungen",
-        "durability": "Haltbarkeit",
-        "evidence": "Beweis",
-        "inspiration": "Inspiration",
-        "keys": "Schlüssel",
-        "leylines": "Kraftlinien",
-        "offerings": "Angebote",
-        "portents": "Vorzeichen",
-        "resources": "Ressourcen",
-        "secrets": "Geheimnisse",
-        "shell": "Shell",
-        "supplies": "Ausrüstung",
-        "tickets": "Fahrkarten",
-        "time": "Zeit",
-        "tries": "Versuche",
-        "truths": "Wahrheiten",
-        "whistles": "Pfeifen",
-        "wishes": "Wünsche"
-      },
       "traits": {
         "???": "???",
         "Abandoned": "Abandoned",
@@ -530,7 +530,7 @@
         "Unpracticed": "Unpracticed",
         "Unstable": "Unstable",
         "Upgrade": "Upgrade",
-        "Vale": "Tal",
+        "Vale": "Vale",
         "Vehicle": "Fahrzeug",
         "Venice": "Venedig",
         "Veteran": "Veteran",
@@ -549,61 +549,63 @@
         "Yuggoth": "Yuggoth",
         "Zoog": "Zoog"
       },
-      "deck_options": {
-        "Atleast constraint violated.": "Atleast constraint violated.",
-        "Blessed": "Gesegnet",
-        "Blessed and Cursed": "Gesegnet und verflucht",
-        "Class Choice": "Class Choice",
-        "Cursed": "Verflucht",
-        "Deck Size": "Deckgröße",
-        "Deck must have at least 10 skill cards.": "Deck must have at least 10 skill cards.",
-        "Fortune": "Fortune",
-        "Gambit": "Gambit",
-        "Improvised": "Improvised",
-        "No permanents except story and signature permanents": "Keine dauerhaften Vorteilskarten außer Story- und Signatur-Karten",
-        "Secondary Class": "Sekundärklasse",
-        "Too many off-class cards.": "Too many off-class cards.",
-        "Trait Choice": "Vorteilswahl",
-        "You cannot have more than 15 level 0-1 Guardian and/or Survivor cards": "Du kannst nicht mehr als 15 Level 0-1 Wächter und/oder Überlebende Karten haben",
-        "You cannot have more than 15 level 0-1 Seeker and/or Mystic cards": "Du kannst nicht mehr als 15 Stufe 0-1 Sucher- und/oder Mystikerkarten haben",
-        "You cannot have more than 5 Guardian and/or Mystic cards": "Du kannst nicht mehr als 5 Wächter- und/oder Mystikerkarten haben",
-        "You cannot have more than 5 Mystic cards.": "Du kannst nicht mehr als 5 Mystiker Karten haben.",
-        "You cannot have more than 5 Rogue cards.": "You cannot have more than 5 Rogue cards.",
-        "You cannot have more than 5 Seeker and/or Survivor cards": "Du kannst nicht mehr als 5 Sucher und/oder Überlebender Karten haben.",
-        "You cannot have more than 5 Survivor cards.": "Du kannst nicht mehr als 5 Überlebender Karten haben.",
-        "You cannot have more than 5 cards that are not Guardian or Neutral": "Du kannst nicht mehr als 5 Karten haben die nicht Wächter oder Neutral sind",
-        "You cannot have more than 5 cards that are not Mystic or Neutral": "Du kannst nicht mehr als 5 Karten haben die nicht Mystiker oder Neutral sind",
-        "You cannot have more than 5 cards that are not Rogue or Neutral": "Du kannst nicht mehr als 5 Karten haben die nicht Schurke oder Neutral sind",
-        "You cannot have more than 5 cards that are not Seeker or Neutral": "Du kannst nicht mehr als 5 Karten haben die nicht Sucher oder Neutral sind",
-        "You cannot have more than 5 cards that are not Survivor or Neutral": "Du kannst nicht mehr als 5 Karten haben die nicht Überlebender oder Neutral sind",
-        "You cannot have more than 5 level 0 Guardian cards": "Du darfst nicht mehr als 5 Level 0 Wächter Karten haben",
-        "You cannot have more than 5 level 0 Mystic cards": "Du kannst nicht mehr als 5 Stufe 0 Mystikerkarten haben",
-        "You cannot have more than 5 level 0 Rogue cards": "Du darfst nicht mehr als 5 Level 0 Schurken Karten haben",
-        "You cannot have more than 5 level 0 Seeker cards": "Du darfst nicht mehr als 5 Level 0 Sucher Karten haben",
-        "You cannot have more than 5 level 0 Survivor cards": "Du darfst nicht mehr als 5 Level 0 Überlebender Karten haben",
-        "You cannot have more than one Covenant in your deck.": "You cannot have more than one Covenant in your deck.",
-        "You must have at least 7 cards from 3 different factions": "Du musst mindestens 7 Karten von 3 verschiedenen Klassen haben",
-        "You must have at least 7 cards from each class": "Du musst wenigstens 7 Karten von jeder Klasse haben"
-      }
-    },
-    "collection_stats": {
-      "title": "Sammlungsstatistik",
-      "description": "Diese Seite berechnet die Anzahl der Karten in deinem Besitz anhand deiner Sammlungseinstellungen. Die Sammlungseinstellungen können in den <a>Einstellungen</a> angepasst werden.",
-      "counts": "Du besitzt <strong>{{player_count}}</strong> Spielerkarten und <strong>{{encounter_count}}</strong> Szenariokarten.",
-      "tooltip_count_player": "Gesamtzahl der Spielerkarten in {{type}}",
-      "tooltip_count_encounter": "Gesamtzahl der Szenariokarten in {{type}}"
+      "type": {
+        "act": "Szene",
+        "agenda": "Agenda",
+        "asset": "Vorteil",
+        "enemy": "Gegner",
+        "enemy_location": "Gegner-Ort",
+        "event": "Ereignis",
+        "investigator": "Ermittler",
+        "investigator_one": "Ermittler",
+        "investigator_other": "Ermittler",
+        "key": "Schlüssel",
+        "location": "Ort",
+        "scenario": "Szenarioübersicht",
+        "skill": "Fertigkeit",
+        "story": "Handlung",
+        "treachery": "Verrat"
+      },
+      "undo": "Rückgängig",
+      "unique": "Einzigartig",
+      "uses": {
+        "aether": "Äther",
+        "ammo": "Munition",
+        "bounties": "Kopfgelder",
+        "brilliance": "Brillianz",
+        "charges": "Ladungen",
+        "durability": "Haltbarkeit",
+        "evidence": "Beweis",
+        "inspiration": "Inspiration",
+        "keys": "Schlüssel",
+        "leylines": "Kraftlinien",
+        "offerings": "Angebote",
+        "portents": "Vorzeichen",
+        "resources": "Ressourcen",
+        "secrets": "Geheimnisse",
+        "shell": "Shell",
+        "supplies": "Ausrüstung",
+        "tickets": "Fahrkarten",
+        "time": "Zeit",
+        "tries": "Versuche",
+        "truths": "Wahrheiten",
+        "whistles": "Pfeifen",
+        "wishes": "Wünsche"
+      },
+      "victory": "Sieg",
+      "xp": "EP"
     },
     "connect": {
-      "title": "{{provider}} verbindet...",
+      "error": "Verbindung mit {{provider}} fehlgeschlagen: {{error}}",
       "syncing": "{{provider}} synchronisiert...",
-      "error": "Verbindung mit {{provider}} fehlgeschlagen: {{error}}"
+      "title": "{{provider}} verbindet..."
     },
     "deck": {
       "actions": {
         "copy_id": "Deck ID kopieren",
         "create": "Deck erstellen",
-        "delete_upgrade": "Verbesserung löschen",
         "delete": "Deck löschen",
+        "delete_upgrade": "Verbesserung löschen",
         "duplicate": "Deck duplizieren",
         "duplicate_short": "Duplizieren",
         "edit": "Deck bearbeiten",
@@ -625,18 +627,18 @@
       "customization_sheet": "Individualisierungen für {{name}}",
       "id": "Deck ID",
       "latest_upgrade": {
-        "title": "Aktuelle Verbesserung",
+        "add_to_deck": "Zum Deck hinzufügen",
         "no_changes": "Keine Änderungen.",
-        "xp_spent": "EP ausgegeben",
-        "add_to_deck": "Zum Deck hinzufügen"
+        "title": "Aktuelle Verbesserung",
+        "xp_spent": "EP ausgegeben"
       },
       "limited_slots": "Eingeschränkter Kartenzugang",
       "stats": {
         "deck_size": "Deckgröße",
-        "uses_parallel": "Nutzt eine parallele Ermittlerseite",
         "ignored_one": "{{count}} Kopie zählt nicht gegen die Deckgröße.",
         "ignored_other": "{{count}} Kopien zählen nicht gegen die Deckgröße.",
         "unowned": "Unverfügbar: {{count}} von {{total}} Karten",
+        "uses_parallel": "Nutzt eine parallele Ermittlerseite",
         "xp_available_help": "Verfügbare Erfahrungspunkte",
         "xp_required": "Benötigte EP",
         "xp_required_help": "Benötigte Erfahrungspunkte, um dieses Deck von Grund auf zu erstellen."
@@ -649,61 +651,62 @@
       },
       "tools": {
         "cards": "Karten",
-        "title": "Werkzeuge",
         "factions": "Klassen",
         "loading": "Werkzeuge laden...",
-        "resource_costs": "Ressourcenkosten",
         "resource_cost": "Ressourcenkosten",
         "resource_cost_tooltip": "{{count}} {{cards}}, die {{cost}} kosten",
-        "skill_icons": "Fertigkeitssymbole"
+        "resource_costs": "Ressourcenkosten",
+        "skill_icons": "Fertigkeitssymbole",
+        "title": "Werkzeuge"
       },
       "validation": {
+        "forbidden_cards": "Deck enthält verbotene Karten:",
         "invalid": "Ungültiges Deck.",
-        "too_many_cards": "{{deck}} enthält zu viele Karten.",
-        "too_few_cards": "{{deck}} enthält zu wenige Karten.",
+        "invalid_card_count": "Deck enthält eine ungültige Anzahl der folgenden Karten:",
         "invalid_investigator": "Ermittler ist ungültig.",
         "investigator_requirements": "Deck stimmt nicht mit den Deck-Optionen des Ermittlers überein:",
-        "invalid_card_count": "Deck enthält eine ungültige Anzahl der folgenden Karten:",
-        "forbidden_cards": "Deck enthält verbotene Karten:"
+        "too_few_cards": "{{deck}} enthält zu wenige Karten.",
+        "too_many_cards": "{{deck}} enthält zu viele Karten."
       }
     },
     "deck_collection": {
       "close_filters": "Filter schließen",
-      "count": "{{count}} Decks",
-      "count_hidden": " ({{count}} ausgeblendet)",
       "collection_empty": "Keine Decks",
       "connect_arkhamdb": "ArkhamDB verbinden",
+      "count": "{{count}} Decks",
+      "count_hidden": " ({{count}} ausgeblendet)",
       "deck_url_or_id": "Deck URL oder ID",
+      "delete_all": "Lokale Decks löschen",
       "delete_all_confirm": "Bist du sicher, dass du alle lokale Decks löschen möchtest?",
       "delete_all_error": "Löschen der privaten Decks fehlgeschlagen: {{error}}",
       "delete_all_loading": "Lokale Decks werden gelöscht...",
       "delete_all_success": "Die lokalen Decks wurden erfolgreich gelöscht.",
-      "delete_all": "Lokale Decks löschen",
-      "import_arkhamdb_help": "Gib die ID oder URL eines öffentlichen ArkhamDB Decks oder Deck Guides ein, um es zu importieren. Das Deck wird als <strong>separate Kopie</strong> ohne vorherige Versionen importiert.",
-      "import_arkhamdb": "ArkhamDB Deck importieren",
-      "import_json": "JSON Dateien importieren",
       "import": "Importieren",
+      "import_arkhamdb": "ArkhamDB Deck importieren",
+      "import_arkhamdb_help": "Gib die ID oder URL eines öffentlichen ArkhamDB Decks oder Deck Guides ein, um es zu importieren. Das Deck wird als <strong>separate Kopie</strong> ohne vorherige Versionen importiert.",
+      "import_json": "JSON Dateien importieren",
       "more_filters": "Mehr Filter",
       "search_placeholder": "Decks durchsuchen...",
       "sorting": {
-        "date_updated": "Kürzlich aktualisiert",
-        "date_created": "Kürzlich erstellt",
         "alphabetical_asc": "Alphabetisch (A -> Z)",
         "alphabetical_desc": "Alphabetisch (Z -> A)",
+        "date_created": "Kürzlich erstellt",
+        "date_updated": "Kürzlich aktualisiert",
         "xp_asc": "Wenigste Erfahrung",
         "xp_desc": "Meiste Erfahrung"
       },
       "tags_filter": {
-        "title": "Schlagwörter",
-        "placeholder": "Schlagwörter auswählen..."
+        "placeholder": "Schlagwörter auswählen...",
+        "title": "Schlagwörter"
       },
       "title": "Decks"
     },
     "deck_create": {
+      "error": "Erstellen des Decks fehlgeschlagen: {{error}}",
       "help_advanced": "Weiterentwickelte Signaturkarten sind stärkere Versionen der Signaturkarten eines Ermittlers, die unter „Deckanforderungen“ aufgeführt sind.<br>Während einer Kampagne (einschließlich des Deckbaus) können weiterentwickelte Signaturkarten jederzeit - <strong>anstelle der ursprünglichen Signaturkarten</strong> - verwendet werden.",
       "help_replacements": "Ersatz-Signaturkarten können die Signaturkarten eines Ermittlers ersetzen, die unter \"Deckbauanforderungen\" aufgeführt sind. Dies erfüllt weiterhin alle Deckbauanforderungen und das Deck bleibt gültig.<br>Wenn dies getan wird, müssen <strong>beide</strong> Signaturkarten ersetzt werden und, wenn dies für eine Kampagne getan wird, kann nicht mehr zu den originalen Signaturkarten gewechselt werden.<br>Alternativ können Ersatz-Signaturkarten zusätzlich zu den Signaturkarten in das Deck aufgenommen werden.",
-      "error": "Erstellen des Decks fehlgeschlagen: {{error}}",
       "loading": "Deck wird erstellt...",
+      "random_basic_weakness": "Zufällige Grundschwäche",
       "success": "Deck wurde erfolgreich erstellt."
     },
     "deck_edit": {
@@ -711,24 +714,20 @@
         "cycle_decks": "Deckliste wechseln",
         "decrement_quantity": "Anzahl im Deck verringern",
         "decrement_side_quantity": "Anzahl im Nebendeck verringern",
+        "draw_random_basic_weakness": "Draw random basic weakness",
         "edit_annotation": "Anmerkung bearbeiten",
         "increment_quantity": "Anzahl im Deck erhöhen",
         "increment_side_quantity": "Anzahl im Nebendeck erhöhen",
+        "move_to_main_deck": "Move to deck",
+        "move_to_side_deck": "Move to side deck",
         "quick_discard": "Änderungen verwerfen (und auf der Seite bleiben)",
         "quick_save_deck": "Deck speichern (und auf der Seite bleiben)",
+        "quick_upgrade": "Upgrade {{name}}",
         "set_quantity": "Anzahl im Deck festlegen",
         "set_side_quantity": "Anzahl im Nebendeck festlegen"
       },
       "changes_restored": "Ungespeicherte Änderungen wurden wiederhergestellt.",
       "config": {
-        "sides": {
-          "investigator_back": "Vorderseite",
-          "investigator_front": "Rückseite",
-          "original_front": "Originale Vorderseite",
-          "parallel_front": "Parallele Vorderseite",
-          "original_back": "Originale Rückseite",
-          "parallel_back": "Parallele Rückseite"
-        },
         "card_pool": {
           "campaign": "Kampagne",
           "choose_campaign": "Kampagne auswählen",
@@ -742,20 +741,28 @@
         },
         "name": "Name",
         "sealed": {
-          "title": "Versiegelt",
           "add": "Versiegeltes Deck hinzufügen",
-          "help": "Lade ein versiegeltes Deck (.csv) hoch, um es zu verwenden. <a>ArkhamSealed</a> kann verwendet werden, um ein versiegeltes Deck zu erstellen."
+          "help": "Lade ein versiegeltes Deck (.csv) hoch, um es zu verwenden. <a>ArkhamSealed</a> kann verwendet werden, um ein versiegeltes Deck zu erstellen.",
+          "title": "Versiegelt"
+        },
+        "sides": {
+          "investigator_back": "Vorderseite",
+          "investigator_front": "Rückseite",
+          "original_back": "Originale Rückseite",
+          "original_front": "Originale Vorderseite",
+          "parallel_back": "Parallele Rückseite",
+          "parallel_front": "Parallele Vorderseite"
         },
         "storage_provider": {
-          "title": "Speicherort",
-          "local": "Lokal"
+          "local": "Lokal",
+          "title": "Speicherort"
         },
         "taboo": "Tabuliste",
         "tags": "Schlagwörter",
         "tags_help": "Schlagwörter, mit Leerzeichen getrennt",
         "version": {
-          "title": "Andere Versionen",
-          "switch": "Wechseln"
+          "switch": "Wechseln",
+          "title": "Andere Versionen"
         }
       },
       "create_local_copy": "Lokale Kopie erstellen",
@@ -768,37 +775,43 @@
       "discard": "Änderungen verwerfen",
       "discard_confirm": "Bist du sicher, dass du die Änderungen verwerfen möchtest?",
       "notes": {
-        "banner_url_help": "Titelbild für das Deck, das in der Deckansicht und Linkvorschau angezeigt wird. Für beste Ergebnisse das Seitenformat 4:1 und eine Breite von mind. 1440px verwenden.",
         "banner_url": "Titelbild URL",
+        "banner_url_help": "Titelbild für das Deck, das in der Deckansicht und Linkvorschau angezeigt wird. Für beste Ergebnisse das Seitenformat 4:1 und eine Breite von mind. 1440px verwenden.",
         "banner_url_placeholder": "URL eingeben",
-        "description_help": "ArkhamDB-Formatierung wird unterstützt.",
         "description": "Notizen",
-        "intro_help": "Eine kurze Einführung in das Deck, die in der Deckansicht und Linkvorschau angezeigt wird. ArkhamDB-Formatierung wird unterstützt.",
-        "intro": "Einführung"
+        "description_help": "ArkhamDB-Formatierung wird unterstützt.",
+        "intro": "Einführung",
+        "intro_help": "Eine kurze Einführung in das Deck, die in der Deckansicht und Linkvorschau angezeigt wird. ArkhamDB-Formatierung wird unterstützt."
+      },
+      "quick_upgrade": {
+        "available_upgrades": "Available upgrades",
+        "shrewd_analysis": "Use Shrewd Analysis",
+        "shrewd_analysis_help": "The app will add an XP adjustment matching the received discount.",
+        "title": "Upgrading {{name}}"
       },
       "read_only": "Dieses Deck ist schreibgeschützt, da eine Verbesserung existiert.",
       "recommendations": {
-        "absolute_help": "Vergleicht, in wie vielen {{name}} Decks die jeweilige Karte verwendet wird.",
         "absolute": "Absolut",
+        "absolute_help": "Vergleicht, in wie vielen {{name}} Decks die jeweilige Karte verwendet wird.",
         "analyze_side_decks": "Nebendeck analysieren",
         "core": "Core",
         "error": "Empfehlungen konnten nicht abgerufen werden.",
         "loading": "Empfehlungen werden abgerufen...",
         "no_results": "Keine Empfehlungen für diese Konfiguration.",
         "publication_date": "Veröffentlichungsdatum",
-        "relative_help": "Vergleicht, wie oft {{name}} die jeweilige Karte verwendet, verglichen mit anderen Ermittlern, die ebenfalls Zugriff auf diese haben.",
-        "relative": "Relativ"
+        "relative": "Relativ",
+        "relative_help": "Vergleicht, wie oft {{name}} die jeweilige Karte verwendet, verglichen mit anderen Ermittlern, die ebenfalls Zugriff auf diese haben."
       },
       "save": "Deck speichern",
       "save_error": "Speichern des Decks fehlgeschlagen: {{error}}",
       "save_loading": "Deck wird gespeichert...",
-      "save_success": "Deck wurde erfolgreich gespeichert.",
       "save_short": "Speichern",
+      "save_success": "Deck wurde erfolgreich gespeichert.",
       "tab_card_list": "Kartenliste",
       "tab_config": "Konfiguration",
-      "tab_tools": "Werkzeuge",
       "tab_notes": "Notizen",
       "tab_recommendations": "Empfehlungen",
+      "tab_tools": "Werkzeuge",
       "title": "Bearbeiten: {{name}}"
     },
     "deck_view": {
@@ -807,9 +820,9 @@
         "display_as_scans": "Als Scans anzeigen",
         "import": "Deck importieren",
         "save_upgrade": "Verbesserung speichern und bearbeiten",
-        "save_upgrade_short": "Verbessern",
         "save_upgrade_close": "Verbesserung speichern und schließen",
         "save_upgrade_close_short": "Speichern und schließen",
+        "save_upgrade_short": "Verbessern",
         "upload": "Zu {{provider}} hochladen"
       },
       "connections": {
@@ -823,45 +836,45 @@
         "downTheRabbitHole": "Hinunter in den Kaninchenbau"
       },
       "history": {
-        "current_upgrade": "Aktuelle Verbesserung",
         "added": "Hinzugefügt",
-        "removed": "Entfernt",
+        "current_upgrade": "Aktuelle Verbesserung",
         "discounts": "Rabatte",
         "no_changes": "Keine Änderungen.",
+        "removed": "Entfernt",
         "slot_changes": "{{slot}}änderungen",
         "upgrade": "Verbesserung #{{index}}",
         "upgrade_xp": "{{xp}}{{adjustment}} EP verfügbar (ausgegeben: {{spent}})"
       },
-      "import_success": "Deck wurde erfolgreich importiert.",
       "import_failed": "Import fehlgeschlagen: {{error}}",
+      "import_success": "Deck wurde erfolgreich importiert.",
+      "list": "Liste",
       "loading": "Deck wird geladen...",
       "newer_version": "Dieses Deck ist schreibgeschützt, da eine <strong>aktuellere Version</strong> verfügbar ist.",
+      "scans": "Scans",
+      "sharing": {
+        "create": "Freigeben",
+        "create_tooltip": "Eine Freigabe ist ein öffentlich verfügbarer, schreibgeschützter Link zu diesem Deck. Jeder, der über diesen Link verfügt, kann das Deck ansehen, es aber nicht bearbeiten.<br />Die Freigabe kann jederzeit aufgehoben werden, ohne das lokale Deck zu löschen.",
+        "delete": "Freigabe aufheben",
+        "description": "Dieses Deck ist nicht freigeben.",
+        "description_present": "Dieses Deck ist öffentlich freigegeben und kann über den <a>folgenden Link</a> angesehen werden.",
+        "title": "Öffentliche Freigabe",
+        "update": "Freigabe aktualisieren"
+      },
       "tab_deck_list": "Deck",
-      "tab_tools": "Werkzeuge",
       "tab_history": "Verlauf",
       "tab_notes": "Notizen",
       "tab_recommendations": "Empfehlungen",
-      "list": "Liste",
-      "scans": "Scans",
-      "sharing": {
-        "title": "Öffentliche Freigabe",
-        "description": "Dieses Deck ist nicht freigeben.",
-        "description_present": "Dieses Deck ist öffentlich freigegeben und kann über den <a>folgenden Link</a> angesehen werden.",
-        "create_tooltip": "Eine Freigabe ist ein öffentlich verfügbarer, schreibgeschützter Link zu diesem Deck. Jeder, der über diesen Link verfügt, kann das Deck ansehen, es aber nicht bearbeiten.<br />Die Freigabe kann jederzeit aufgehoben werden, ohne das lokale Deck zu löschen.",
-        "create": "Freigeben",
-        "update": "Freigabe aktualisieren",
-        "delete": "Freigabe aufheben"
-      },
+      "tab_tools": "Werkzeuge",
       "upgrade_modal": {
-        "title": "Deck verbessern",
-        "xp_gained": "Erhaltene Ehrfahrungspunkte",
-        "loading": "Verbesserung wird gespeichert...",
-        "success": "Verbesserung wurde erfolgreich gespeichert.",
         "error": "Verbesserung fehlgeschlagen: {{error}}",
         "great_work": "The Great Work",
         "great_work_label": "I was usurped by the homunculus",
         "great_work_status_not_usurped": "+1 XP will be automatically added to this upgrade.",
-        "great_work_status_usurped": "The Great Work will be removed from your deck alongside each of your signature cards. Your investigator will be replaced with the homunculus."
+        "great_work_status_usurped": "The Great Work will be removed from your deck alongside each of your signature cards. Your investigator will be replaced with the homunculus.",
+        "loading": "Verbesserung wird gespeichert...",
+        "success": "Verbesserung wurde erfolgreich gespeichert.",
+        "title": "Deck verbessern",
+        "xp_gained": "Erhaltene Ehrfahrungspunkte"
       }
     },
     "errors": {
@@ -869,9 +882,9 @@
       "500": "Auto-Fail!",
       "500_help": "Details zum Fehler können in der Browserkonsole eingesehen werden.",
       "500_help_2": "Achtung: Bitte versuche nicht, diesen Fehler zu lösen, indem du Cookies oder Browserdaten löschst, da dies auch die von arkham.build genutzte lokale Datenbank löschen kann.",
-      "report": "Fehler melden",
+      "home": "Startseite",
       "preview_publish": "Deck enthält Vorschaukarten: {{names}}. Bitte entferne diese, bevor du das Deck zu {{provider}} hochlädst.",
-      "home": "Startseite"
+      "report": "Fehler melden"
     },
     "filters": {
       "action": {
@@ -884,10 +897,10 @@
         "title": "Vorteil"
       },
       "cost": {
-        "title": "Kosten",
         "even": "Gerade",
+        "nocost": "Keine Kosten",
         "odd": "Ungerade",
-        "nocost": "Keine Kosten"
+        "title": "Kosten"
       },
       "encounter_set": {
         "placeholder": "Begegnungsset auswählen...",
@@ -902,8 +915,8 @@
         "title": "Ermittler"
       },
       "investigator_card_access": {
-        "title": "Verfügbare Karten",
-        "help": "If you need more, use arkham-starter's <a>/who tool</a>."
+        "help": "If you need more, use arkham-starter's <a>/who tool</a>.",
+        "title": "Verfügbare Karten"
       },
       "investigator_skills": {
         "title": "Ermittlerfertigkeiten"
@@ -913,8 +926,8 @@
       },
       "or": "oder",
       "ownership": {
-        "title": "Kartensammlung",
         "owned": "In Besitz",
+        "title": "Kartensammlung",
         "unowned": "Nicht in Besitz"
       },
       "pack": {
@@ -928,10 +941,6 @@
         "title": "Eigenschaften"
       },
       "reset_filter": "Filter zurücksetzen",
-      "slot": {
-        "placeholder": "Slots auswählen...",
-        "title": "Slot"
-      },
       "sanity": {
         "title": "Geistige Gesundheit"
       },
@@ -939,49 +948,53 @@
         "title": "Fertigkeitsbonus"
       },
       "skill_icons": {
-        "title": "Fertigkeitssymbole",
-        "any": "Beliebig"
+        "any": "Beliebig",
+        "title": "Fertigkeitssymbole"
+      },
+      "slot": {
+        "placeholder": "Slots auswählen...",
+        "title": "Slot"
       },
       "subtype": {
         "title": "Untertyp"
       },
       "title": "Filter",
       "trait": {
-        "title": "Merkmal",
-        "placeholder": "Merkmale auswählen..."
+        "placeholder": "Merkmale auswählen...",
+        "title": "Merkmal"
       },
       "type": {
-        "title": "Kartentyp",
-        "placeholder": "Kartentypen wählen..."
+        "placeholder": "Kartentypen wählen...",
+        "title": "Kartentyp"
       },
       "uses": {
-        "title": "Anwendungen",
-        "placeholder": "Anwendungsattribut auswählen..."
+        "placeholder": "Anwendungsattribut auswählen...",
+        "title": "Anwendungen"
       }
     },
     "help": {
-      "title": "Hilfe",
       "about": "Über diese Seite",
       "collection_stats": "Sammlungsstatistik",
       "shortcuts": {
-        "title": "Tastenkürzel",
-        "group_general": "Allgemein",
-        "group_deck_collection": "Decksammlung",
-        "group_deck_editor": "Deckeditor",
         "group_card_list": "Kartenliste",
         "group_card_list_search": "Kartenliste (Fokus auf Suche)",
         "group_card_modal": "Kartendialog",
+        "group_deck_collection": "Decksammlung",
+        "group_deck_editor": "Deckeditor",
         "group_deck_view": "Deckansicht",
-        "group_upgrade_modal": "Verbesserungsdialog"
-      }
+        "group_general": "Allgemein",
+        "group_upgrade_modal": "Verbesserungsdialog",
+        "title": "Tastenkürzel"
+      },
+      "title": "Hilfe"
     },
     "lists": {
       "actions": {
         "blur_search": "Suche beenden",
         "clear_search": "Suche löschen",
         "display_as_detailed": "Als detaillierte Karten anzeigen",
-        "display_as_list_text": "Als Liste mit Kartentext anzeigen",
         "display_as_list": "Als Liste anzeigen",
+        "display_as_list_text": "Als Liste mit Kartentext anzeigen",
         "display_as_scans": "Als Scans anzeigen",
         "focus_search": "Suche fokussieren",
         "move_down": "Vorherige Karte",
@@ -995,6 +1008,7 @@
       },
       "all_cards": "Alle Karten",
       "categories": {
+        "base_upgrades": "Stufe 0 <> Verbesserungen",
         "cost": "Kosten",
         "cycle": "Zyklus",
         "encounter_set": "Begegnungsset",
@@ -1005,20 +1019,21 @@
         "position": "Position",
         "slot": "Slot",
         "subtype": "Untertyp",
-        "type": "Kartentyp",
-        "base_upgrades": "Stufe 0 <> Verbesserungen"
+        "type": "Kartentyp"
       },
+      "group_by": "Gruppierung",
       "nav": {
-        "card_count_hidden": "({{count}} ausgeblendet)",
         "card_count": "{{count}} Karten",
-        "display_as_detailed": "Detailliert",
-        "display_as_list_text": "Liste mit Kartentext",
-        "display_as_list": "Liste",
-        "display_as_scans": "Scans",
+        "card_count_hidden": "({{count}} ausgeblendet)",
         "display": "Anzeige",
+        "display_as_detailed": "Detailliert",
+        "display_as_list": "Liste",
+        "display_as_list_text": "Liste mit Kartentext",
+        "display_as_scans": "Scans",
         "jump_to": "Springe zu...",
         "list_settings": "Listenoptionen"
       },
+      "reset": "Zurücksetzen",
       "search": {
         "include_backs": "Rückseiten",
         "include_flavor": "Flavourtext",
@@ -1026,14 +1041,12 @@
         "include_name": "Name",
         "placeholder": "Karten durchsuchen..."
       },
-      "group_by": "Gruppierung",
-      "sort_by": "Sortierung",
-      "reset": "Zurücksetzen"
+      "sort_by": "Sortierung"
     },
     "preview_banner": {
       "actions": {
-        "enable": "Vorschau aktivieren",
-        "dismiss": "Schließen"
+        "dismiss": "Schließen",
+        "enable": "Vorschau aktivieren"
       },
       "description": "Wenn du die Kartenvorschau aktivierst, kannst du unveröffentlichte Karten in deinen Decks verwenden.",
       "title": "Kartenvorschau"
@@ -1045,56 +1058,56 @@
         "help": "Erstelle eine Sicherung deiner Einstellungen, Decks und Kartensammlung als JSON Datei. Diese Datei kann genutzt werden, um deine Daten auf diesem oder einem anderen Gerät wiederherzustellen.",
         "help_warning": "Das Wiederherstellen einer Sicherung <strong>überschreibt alle vorhandenen Daten</strong>.",
         "no_file_selected": "Keine Datei ausgewählt",
-        "restore_success": "Sicherung wurde erfolgreich wiederhergestellt.",
         "restore": "Sicherung wiederherstellen",
         "restore_error": "Sicherung konnte nicht wiederhergestellt werden: {{error}}",
+        "restore_success": "Sicherung wurde erfolgreich wiederhergestellt.",
         "title": "Sicherung & Wiederherstellung"
       },
       "card_data": {
-        "title": "Kartendaten",
-        "loading": "Kartendaten werden geladen...",
+        "card_count": "Kartenanzahl",
+        "data_version": "Datenversion",
         "error": "Kartendaten konnten nicht geladen werden.",
-        "up_to_date": "Kartendaten sind aktuell.",
-        "update_available": "Neue Kartendaten sind verfügbar.",
+        "loading": "Kartendaten werden geladen...",
+        "locale": "Sprache",
         "sync": "Kartendaten laden",
         "sync_success": "Kartendaten wurden erfolgreich geladen.",
-        "data_version": "Datenversion",
-        "locale": "Sprache",
-        "card_count": "Kartenanzahl"
+        "title": "Kartendaten",
+        "up_to_date": "Kartendaten sind aktuell.",
+        "update_available": "Neue Kartendaten sind verfügbar."
       },
       "collection": {
         "card_collection": "Kartensammlung",
         "card_count": "Kartenanzahl",
         "new_format": "Neues Format",
         "old_format": "Altes Format",
-        "show_all_cards_owned_help": "Wenn dies aktiviert ist, werden alle Karten in der Anwendung, unabhängig vom Besitzstatus, angezeigt.",
         "show_all_cards_owned": "Alle Karten anzeigen",
-        "show_previews_help": "Wenn dies aktiviert ist, werden Vorschauen in der Anwendung angezeigt und können zu Decks hinzugefügt werden.",
+        "show_all_cards_owned_help": "Wenn dies aktiviert ist, werden alle Karten in der Anwendung, unabhängig vom Besitzstatus, angezeigt.",
         "show_previews": "Vorschauen anzeigen",
+        "show_previews_help": "Wenn dies aktiviert ist, werden Vorschauen in der Anwendung angezeigt und können zu Decks hinzugefügt werden.",
         "title": "Kartensammlung"
       },
       "connections": {
-        "connect_help": "Verbinde dein {{provider}}-Konto, um deine Decks zu synchronisieren.",
         "connect": "Verbinden",
+        "connect_help": "Verbinde dein {{provider}}-Konto, um deine Decks zu synchronisieren.",
         "connected": "Verbunden",
         "created_at": "Verbunden seit",
         "details": "Details",
         "disconnect": "Trennen",
-        "disconnected_all": "Es besteht ein Problem mit einer deiner Verbindungen. Bitte in den Einstellungen erneut verbinden.",
         "disconnected": "Es besteht ein Problem mit dieser Verbindung. Bitte erneut verbinden..",
+        "disconnected_all": "Es besteht ein Problem mit einer deiner Verbindungen. Bitte in den Einstellungen erneut verbinden.",
         "items_synced": "Synchronisierte Objekte",
         "last_modified": "Letzte Änderung",
         "last_synced_at": "Letzte Synchronisierung",
         "lock": "Another {{provider}} operation is in progress, please wait...",
         "no_errors": "Keine Fehler",
-        "reconnect": "Erneut verbinden",
-        "sync_all": "{{collectionLabels}} Decks synchronisieren",
-        "sync_errors": "Fehler",
-        "sync_status": "Status",
-        "sync": "Synchronisieren",
         "provider_error": "Synchronisierung mit {{provider}} fehlgeschlagen: {{error}}",
         "provider_success": "{{provider}} erfolgreich synchronisiert.",
         "provider_syncing": "{{provider}} synchronisieren...",
+        "reconnect": "Erneut verbinden",
+        "sync": "Synchronisieren",
+        "sync_all": "{{collectionLabels}} Decks synchronisieren",
+        "sync_errors": "Fehler",
+        "sync_status": "Status",
         "syncing": "Synchronisierung läuft...",
         "title": "Verbundene Konten",
         "user_id": "Nutzer ID",
@@ -1102,29 +1115,31 @@
       },
       "display": {
         "card_level": "Anzeige der Kartenstufe",
-        "card_level_icon_only": "Im Icon",
         "card_level_as_dots": "Im Icon und als Punkte",
         "card_level_as_text": "Im Icon und als Text",
-        "font_size_preview": "Dann plötzlich sah ich es. Mit nur einem leichten Schäumen des Wassers, das seinen Aufsteig an die Oberfläche kennzeichnete, glitt das Ding über dem finstren Gewässer in mein Blickfeld. Gewaltig wie Polyphemos und widerwärtig wie ein riesiges Ungeheuer aus einem Albtraum schoss es den Monolithen hoch, um den es seine gigantischen, schuppenbedeckten Arme schlang, während es sein scheußliches Haupt neigte und rhythmische Laute ausstieß. Ich glaube, in diesem Augenblick wurde ich wahnsinnig.",
+        "card_level_icon_only": "Im Icon",
         "font_size": "Schriftgröße",
+        "font_size_preview": "Dann plötzlich sah ich es. Mit nur einem leichten Schäumen des Wassers, das seinen Aufsteig an die Oberfläche kennzeichnete, glitt das Ding über dem finstren Gewässer in mein Blickfeld. Gewaltig wie Polyphemos und widerwärtig wie ein riesiges Ungeheuer aus einem Albtraum schoss es den Monolithen hoch, um den es seine gigantischen, schuppenbedeckten Arme schlang, während es sein scheußliches Haupt neigte und rhythmische Laute ausstieß. Ich glaube, in diesem Augenblick wurde ich wahnsinnig.",
         "hide_weaknesses": "Schwächen in Spielerkartenlisten standardmäßig ausblenden",
         "hide_weaknesses_help": "When this is checked, weaknesses are hidden in player card lists by default and need to be enabled in the <strong>Subtype</strong> filter to be visible.",
+        "show_move_to_side_deck": "Show \"Move to side deck\" button",
+        "show_move_to_side_deck_help": "This shows a button that allows you to move cards from the deck to the side deck when editing decks. This is helpful if you primarily deck build by overfilling the deck with options and then cutting down (known as the dayorbyte method).",
+        "theme": "Anzeigemodus",
         "theme_dark": "Dunkel",
         "theme_light": "Hell",
         "theme_system": "System",
-        "theme": "Anzeigemodus",
         "title": "Anzeige"
       },
       "general": {
-        "title": "Allgemein",
         "default_taboo": "Voreingestellte Tabuliste",
+        "title": "Allgemein",
         "weakness_limited_card_pool": "Zufällige Basisschwäche aus eingeschränktem Kartenpool ziehen",
         "weakness_limited_card_pool_help": "Wenn dies aktiviert ist, berücksichtigt das Ziehen der zufälligen Basisschwäche den eingeschränkten Kartenpool eines Decks, wenn einer hinterlegt ist."
       },
       "lists": {
-        "title": "Listen",
         "deck_view": "Deckansicht",
-        "deck_view_scans": "Deckansicht (Scans)"
+        "deck_view_scans": "Deckansicht (Scans)",
+        "title": "Listen"
       },
       "preview": "Vorschau",
       "save": "Einstellungen speichern",

@@ -52,7 +52,7 @@ for (const lng of translations) {
     if (arkhamCardsTranslation) {
       locale.translation.common.uses[key] = arkhamCardsTranslation;
     } else {
-      console.log(`Missing translation for ${key}`);
+      console.log(`[${lng}] ArkhamCards missing translation for ${key}`);
     }
   }
 
@@ -63,7 +63,7 @@ for (const lng of translations) {
     if (arkhamCardsTranslation) {
       locale.translation.common.traits[key] = arkhamCardsTranslation;
     } else {
-      console.log(`Missing translation for ${key}`);
+      console.log(`[${lng}] ArkhamCards missing translation for ${key}`);
     }
   }
 
@@ -74,7 +74,7 @@ for (const lng of translations) {
     if (arkhamCardsTranslation) {
       locale.translation.common.deck_options[key] = arkhamCardsTranslation;
     } else {
-      console.log(`Missing translation for ${key}`);
+      console.log(`[${lng}] ArkhamCards missing translation for ${key}`);
     }
   }
 
