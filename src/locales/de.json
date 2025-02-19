@@ -714,15 +714,15 @@
         "cycle_decks": "Deckliste wechseln",
         "decrement_quantity": "Anzahl im Deck verringern",
         "decrement_side_quantity": "Anzahl im Nebendeck verringern",
-        "draw_random_basic_weakness": "Draw random basic weakness",
+        "draw_random_basic_weakness": "Zufällige Grundschwäche ziehen",
         "edit_annotation": "Anmerkung bearbeiten",
         "increment_quantity": "Anzahl im Deck erhöhen",
         "increment_side_quantity": "Anzahl im Nebendeck erhöhen",
-        "move_to_main_deck": "Move to deck",
-        "move_to_side_deck": "Move to side deck",
+        "move_to_main_deck": "In das Deck bewegen",
+        "move_to_side_deck": "In das Nebendeck bewegen",
         "quick_discard": "Änderungen verwerfen (und auf der Seite bleiben)",
         "quick_save_deck": "Deck speichern (und auf der Seite bleiben)",
-        "quick_upgrade": "Upgrade {{name}}",
+        "quick_upgrade": "{{name}} verbesseren",
         "set_quantity": "Anzahl im Deck festlegen",
         "set_side_quantity": "Anzahl im Nebendeck festlegen"
       },
@@ -784,17 +784,17 @@
         "intro_help": "Eine kurze Einführung in das Deck, die in der Deckansicht und Linkvorschau angezeigt wird. ArkhamDB-Formatierung wird unterstützt."
       },
       "quick_upgrade": {
-        "available_upgrades": "Available upgrades",
-        "shrewd_analysis": "Use Shrewd Analysis",
-        "shrewd_analysis_help": "The app will add an XP adjustment matching the received discount.",
-        "title": "Upgrading {{name}}"
+        "available_upgrades": "Verfügbare Verbesserungen",
+        "shrewd_analysis": "Scharfsinnige Analyse verwenden",
+        "shrewd_analysis_help": "Das Deck erhält eine XP Anpassung, die die eingesparten Ehrfahrungspunkte reflektiert.",
+        "title": "{{name}} verbessern"
       },
       "read_only": "Dieses Deck ist schreibgeschützt, da eine Verbesserung existiert.",
       "recommendations": {
         "absolute": "Absolut",
         "absolute_help": "Vergleicht, in wie vielen {{name}} Decks die jeweilige Karte verwendet wird.",
         "analyze_side_decks": "Nebendeck analysieren",
-        "core": "Core",
+        "core": "Pflicht",
         "error": "Empfehlungen konnten nicht abgerufen werden.",
         "loading": "Empfehlungen werden abgerufen...",
         "no_results": "Keine Empfehlungen für diese Konfiguration.",
