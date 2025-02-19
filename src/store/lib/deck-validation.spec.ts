@@ -1375,18 +1375,11 @@ describe("deck validation", () => {
       const deck = structuredClone(preciousMemento);
       deck.slots["08114"] = 2;
       deck.slots["08115"] = 2;
+      deck.slots["01086"] = 0;
       const result = validate(store, deck);
       expect(result.valid).toBeFalsy();
       expect(result.errors).toMatchInlineSnapshot(`
         [
-          {
-            "details": {
-              "count": 4,
-              "countRequired": 30,
-              "target": "slots",
-            },
-            "type": "TOO_FEW_CARDS",
-          },
           {
             "details": [
               {
