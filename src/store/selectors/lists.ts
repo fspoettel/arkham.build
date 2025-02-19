@@ -6,6 +6,7 @@ import {
   NO_SLOT_STRING,
   PREVIEW_PACKS,
   SKILL_KEYS,
+  SPECIAL_CARD_CODES,
   type SkillKey,
 } from "@/utils/constants";
 import { createCustomEqualSelector } from "@/utils/custom-equal-selector";
@@ -1338,4 +1339,57 @@ export const selectTypeOptions = createSelector(
         ...typeTable[code],
         name: i18n.t(`common.type.${code}`),
       })),
+);
+
+/**
+ * Upgrades
+ */
+
+export type AvailableUpgrades = {
+  upgrades: Record<string, Card[]>;
+  shrewdAnalysisPresent: boolean;
+};
+
+export const selectAvailableUpgrades = createSelector(
+  selectDeckInvestigatorFilter,
+  (state: StoreState) => state.metadata,
+  (state: StoreState) => state.lookupTables,
+  (_: StoreState, deck: ResolvedDeck) => deck,
+  (_: StoreState, __: ResolvedDeck, target: "slots" | "extraSlots") => target,
+  (accessFilter, metadata, lookupTables, deck, target) => {
+    const availableUpgrades: AvailableUpgrades = {
+      upgrades: {},
+      shrewdAnalysisPresent: false,
+    };
+
+    if (!deck.previous_deck) return availableUpgrades;
+
+    const cards = Object.values(deck.cards[target] ?? {});
+    if (isEmpty(cards)) return availableUpgrades;
+
+    for (const { card } of cards) {
+      if (card.code === SPECIAL_CARD_CODES.SHREWD_ANALYSIS) {
+        availableUpgrades.shrewdAnalysisPresent = true;
+        continue;
+      }
+
+      const versions = lookupTables.relations.level[card.code];
+      if (!versions) continue;
+
+      for (const code of Object.keys(versions)) {
+        const version = metadata.cards[code];
+
+        if (
+          version?.xp &&
+          version.xp > (card.xp ?? 0) &&
+          accessFilter?.(version)
+        ) {
+          availableUpgrades.upgrades[card.code] ??= [];
+          availableUpgrades.upgrades[card.code].push(version);
+        }
+      }
+    }
+
+    return availableUpgrades;
+  },
 );

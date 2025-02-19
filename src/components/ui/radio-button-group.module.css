@@ -1,7 +1,7 @@
 .radio-button-group {
   display: inline-flex;
-  color: var(--palette-0);
   justify-content: center;
+  color: currentColor;
   gap: 0.5rem;
 }
 

@@ -2,6 +2,7 @@ import { assert } from "@/utils/assert";
 import { cardLimit } from "@/utils/card-utils";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { capitalize } from "@/utils/formatting";
+import { range } from "@/utils/range";
 import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
 import { clampAttachmentQuantity } from "../lib/attachments";
@@ -257,7 +258,7 @@ export const createDeckEditsSlice: StateCreator<
       },
     });
   },
-  updateAttachment(deck, targetCode, code, quantity, limit) {
+  updateAttachment({ deck, targetCode, code, quantity, limit }) {
     const attachments = get().deckEdits[deck.id]?.attachments ?? {};
 
     attachments[targetCode] ??= {};
@@ -285,27 +286,25 @@ export const createDeckEditsSlice: StateCreator<
     }));
   },
 
-  moveToMainDeck(card, deckId) {
+  swapDeck(card, deckId, target) {
     const state = get();
 
+    const source = target === "slots" ? "sideSlots" : "slots";
     const deck = selectResolvedDeckById(state, deckId, true);
 
-    const quantity = deck?.sideSlots?.[card.code] ?? 0;
+    const quantity = deck?.[source]?.[card.code] ?? 0;
     if (!quantity) return;
 
     const edits = currentEdits(state, deckId);
 
     const limitOverride = getDeckLimitOverride(deck, card.code);
 
-    const nextQuantity = Math.min(
-      (deck?.slots?.[card.code] ?? 0) + 1,
+    const targetQuantity = Math.min(
+      (deck?.[target]?.[card.code] ?? 0) + 1,
       cardLimit(card, limitOverride),
     );
 
-    const nextSideQuantity = Math.max(
-      (deck?.sideSlots?.[card.code] ?? 0) - 1,
-      0,
-    );
+    const sourceQuantity = Math.max((deck?.[source]?.[card.code] ?? 0) - 1, 0);
 
     set({
       deckEdits: {
@@ -314,13 +313,13 @@ export const createDeckEditsSlice: StateCreator<
           ...edits,
           quantities: {
             ...edits.quantities,
-            slots: {
-              ...edits.quantities?.slots,
-              [card.code]: nextQuantity,
+            [source]: {
+              ...edits.quantities?.[source],
+              [card.code]: sourceQuantity,
             },
-            sideSlots: {
-              ...currentEdits(state, deckId).quantities?.sideSlots,
-              [card.code]: nextSideQuantity,
+            [target]: {
+              ...currentEdits(state, deckId).quantities?.[target],
+              [card.code]: targetQuantity,
             },
           },
         },
@@ -343,5 +342,68 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+  },
+
+  upgradeCard({ deckId, availableUpgrades, code, upgradeCode, delta, slots }) {
+    const state = get();
+
+    const deck = selectResolvedDeckById(state, deckId, true);
+    assert(deck, `Tried to edit deck that does not exist: ${deckId}`);
+
+    state.updateCardQuantity(
+      deckId,
+      upgradeCode,
+      delta,
+      cardLimit(state.metadata.cards[upgradeCode]),
+      slots,
+    );
+
+    const shouldUpdateSourceQuantity =
+      availableUpgrades.upgrades[code].reduce((acc, curr) => {
+        return acc + (deck[slots]?.[curr.code] ?? 0);
+      }, 0) <= cardLimit(state.metadata.cards[code]);
+
+    if (shouldUpdateSourceQuantity) {
+      state.updateCardQuantity(
+        deckId,
+        code,
+        delta * -1,
+        cardLimit(state.metadata.cards[code]),
+        slots,
+      );
+    }
+  },
+  applyShrewdAnalysis({ availableUpgrades, code, deckId, slots }) {
+    const state = get();
+
+    const upgrades = availableUpgrades.upgrades[code];
+    assert(upgrades.length, "No upgrades available for card");
+
+    const quantity = cardLimit(upgrades[0]);
+
+    const randomUpgrades = range(0, quantity).map(() => {
+      return upgrades[Math.floor(Math.random() * upgrades.length)];
+    });
+
+    // TODO: this updates the store five times, which in turn writes to storage 5 times (and sends to other tabs).
+    //       it would be good to do this in one "transaction".
+
+    for (const upgrade of randomUpgrades) {
+      state.upgradeCard({
+        availableUpgrades,
+        code,
+        deckId,
+        delta: 1,
+        slots,
+        upgradeCode: upgrade.code,
+      });
+    }
+
+    const sourceCard = state.metadata.cards[code];
+
+    state.updateXpAdjustment(
+      deckId,
+      (upgrades[0].xp ?? 0) - (sourceCard.xp ?? 0),
+    );
   },
 });

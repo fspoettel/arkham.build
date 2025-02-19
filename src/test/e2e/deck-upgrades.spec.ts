@@ -5,6 +5,7 @@ import {
   fillSearch,
   importDeck,
   importDeckFromFile,
+  upgradeDeck,
 } from "./actions";
 import { mockApiCalls } from "./mocks";
 
@@ -17,13 +18,6 @@ async function importStandardDeck(page: Page) {
   const deckNode = page.getByTestId("collection-deck");
   await deckNode.click();
   await expect(page).toHaveURL(/\/deck\/view/);
-}
-
-async function upgradeDeck(page: Page) {
-  await page.getByTestId("view-upgrade").click();
-  await page.getByTestId("upgrade-xp").fill("5");
-  await page.getByTestId("upgrade-save-close").click();
-  await expect(page.getByTestId("view-latest-upgrade")).toBeVisible();
 }
 
 async function clearDeckDescription(page: Page) {

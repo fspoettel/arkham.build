@@ -61,6 +61,7 @@ type TooFewCardsError = {
 type DeckOptionsError = {
   type: "INVALID_DECK_OPTION";
   details: {
+    count: string;
     error: string;
   };
 };
@@ -395,7 +396,10 @@ class DeckLimitsValidator implements SlotValidator {
 
   add(card: Card, quantity: number) {
     if (card.xp == null) return;
-    const name = card.real_name;
+    const name = SPECIAL_CARD_CODES.PRECIOUS_MEMENTOS.includes(card.code)
+      ? `${card.real_name} (${card.real_subname})`
+      : card.real_name;
+
     const limit = card.myriad ? 3 : cardLimit(card, this.limitOverride);
 
     // some copies of this card might be ignored, e.g. for parallel Agnes and TCU "Ace of Rods".
@@ -800,6 +804,7 @@ class DeckOptionsValidator implements SlotValidator {
         errors.push({
           type: "INVALID_DECK_OPTION",
           details: {
+            count: `(${matches.length} / ${target})`,
             error: option.error ?? "Atleast constraint violated.",
           },
         });
@@ -825,7 +830,7 @@ class DeckOptionsValidator implements SlotValidator {
 
     for (let i = 0; i < options.length; i += 1) {
       const option = options[i];
-      if (option.atleast || option.not) continue;
+      if (option.not || (option.atleast && option.virtual)) continue;
 
       const filter = makeOptionFilter(option as DeckOption, this.config);
 
@@ -878,6 +883,7 @@ class DeckOptionsValidator implements SlotValidator {
         errors.push({
           type: "INVALID_DECK_OPTION",
           details: {
+            count: `(${matchCount} / ${option.limit})`,
             error: option.error as string, // SAFE! all virtual limit options have error.
           },
         });
@@ -902,12 +908,11 @@ class DeckOptionsValidator implements SlotValidator {
 
       const option = options[lastLimitOptionIndex];
 
-      const baseError = option.error ?? "Too many off-class cards.";
-
       errors.push({
         type: "INVALID_DECK_OPTION",
         details: {
-          error: `${baseError} (${(option.limit ?? 0) + unmatchedCardCount} / ${option.limit})`,
+          error: option.error ?? "Too many off-class cards.",
+          count: `(${(option.limit ?? 0) + unmatchedCardCount} / ${option.limit})`,
         },
       });
     }

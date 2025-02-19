@@ -50,6 +50,7 @@ import parallelRolandValid from "@/test/fixtures/decks/validation/parallel_rolan
 import parallelWendy from "@/test/fixtures/decks/validation/parallel_wendy.json";
 import parallelWendyInvalid from "@/test/fixtures/decks/validation/parallel_wendy_invalid.json";
 import parallelWendyValidSignatures from "@/test/fixtures/decks/validation/parallel_wendy_valid_signatures.json";
+import preciousMemento from "@/test/fixtures/decks/validation/precious_memento_valid.json";
 import promoMarie from "@/test/fixtures/decks/validation/promo_marie.json";
 import rbwInvalidMissing from "@/test/fixtures/decks/validation/rbw_invalid_missing.json";
 import rbwValidChoice from "@/test/fixtures/decks/validation/rbw_valid_choice.json";
@@ -76,6 +77,7 @@ import underworldSupport from "@/test/fixtures/decks/validation/underworld_suppo
 import underworldSupperInvalidDeckLimit from "@/test/fixtures/decks/validation/underworld_support_invalid_deck_limit.json";
 import underworldSupportInvalidSize from "@/test/fixtures/decks/validation/underworld_support_invalid_size.json";
 import underworldSupportWeaknesses from "@/test/fixtures/decks/validation/underworld_support_weaknesses.json";
+import vinnyBMaxXP from "@/test/fixtures/decks/validation/vinnyb_max_xp.json";
 import ythian from "@/test/fixtures/decks/ythian.json";
 import { getMockStore } from "@/test/get-mock-store";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
@@ -244,6 +246,7 @@ describe("deck validation", () => {
           "errors": [
             {
               "details": {
+                "count": "(2 / 1)",
                 "error": "You cannot have more than one Covenant in your deck.",
               },
               "type": "INVALID_DECK_OPTION",
@@ -514,7 +517,8 @@ describe("deck validation", () => {
         [
           {
             "details": {
-              "error": "You cannot have more than 5 cards that are not Guardian or Neutral (6 / 5)",
+              "count": "(6 / 5)",
+              "error": "You cannot have more than 5 cards that are not Guardian or Neutral",
             },
             "type": "INVALID_DECK_OPTION",
           },
@@ -534,7 +538,8 @@ describe("deck validation", () => {
         [
           {
             "details": {
-              "error": "Too many off-class cards. (11 / 10)",
+              "count": "(11 / 10)",
+              "error": "Too many off-class cards.",
             },
             "type": "INVALID_DECK_OPTION",
           },
@@ -554,7 +559,8 @@ describe("deck validation", () => {
         [
           {
             "details": {
-              "error": "You cannot have more than 15 level 0-1 Seeker and/or Mystic cards (16 / 15)",
+              "count": "(16 / 15)",
+              "error": "You cannot have more than 15 level 0-1 Seeker and/or Mystic cards",
             },
             "type": "INVALID_DECK_OPTION",
           },
@@ -574,7 +580,8 @@ describe("deck validation", () => {
         [
           {
             "details": {
-              "error": "Too many off-class cards for Versatile. (2 / 1)",
+              "count": "(2 / 1)",
+              "error": "Too many off-class cards for Versatile.",
             },
             "type": "INVALID_DECK_OPTION",
           },
@@ -594,7 +601,8 @@ describe("deck validation", () => {
         [
           {
             "details": {
-              "error": "Too many off-class cards. (11 / 10)",
+              "count": "(11 / 10)",
+              "error": "Too many off-class cards.",
             },
             "type": "INVALID_DECK_OPTION",
           },
@@ -635,6 +643,7 @@ describe("deck validation", () => {
         [
           {
             "details": {
+              "count": "(2 / 3)",
               "error": "You must have at least 7 cards from 3 different factions",
             },
             "type": "INVALID_DECK_OPTION",
@@ -658,6 +667,7 @@ describe("deck validation", () => {
           [
             {
               "details": {
+                "count": "(0 / 1)",
                 "error": "Deck must have at least 10 skill cards.",
               },
               "type": "INVALID_DECK_OPTION",
@@ -742,7 +752,8 @@ describe("deck validation", () => {
           [
             {
               "details": {
-                "error": "Too many off-class cards for Versatile. (3 / 2)",
+                "count": "(3 / 2)",
+                "error": "Too many off-class cards for Versatile.",
               },
               "type": "INVALID_DECK_OPTION",
             },
@@ -1036,7 +1047,8 @@ describe("deck validation", () => {
           [
             {
               "details": {
-                "error": "Too many off-class cards. (11 / 10)",
+                "count": "(11 / 10)",
+                "error": "Too many off-class cards.",
               },
               "type": "INVALID_DECK_OPTION",
             },
@@ -1286,6 +1298,7 @@ describe("deck validation", () => {
         [
           {
             "details": {
+              "count": "(4 / 5)",
               "error": "You must have at least 7 cards from each class",
             },
             "type": "INVALID_DECK_OPTION",
@@ -1340,6 +1353,51 @@ describe("deck validation", () => {
                 "code": "06243",
                 "limit": 3,
                 "quantity": 4,
+              },
+            ],
+            "type": "INVALID_CARD_COUNT",
+          },
+        ]
+      `);
+    });
+
+    it("handles case: lola with max. possible xp / deck size", () => {
+      const result = validate(store, vinnyBMaxXP);
+      expect(result.valid).toBeTruthy();
+    });
+
+    it("handles case: precious memento, valid", () => {
+      const result = validate(store, preciousMemento);
+      expect(result.valid).toBeTruthy();
+    });
+
+    it("handles case: precious memento, invalid", () => {
+      const deck = structuredClone(preciousMemento);
+      deck.slots["08114"] = 2;
+      deck.slots["08115"] = 2;
+      const result = validate(store, deck);
+      expect(result.valid).toBeFalsy();
+      expect(result.errors).toMatchInlineSnapshot(`
+        [
+          {
+            "details": {
+              "count": 4,
+              "countRequired": 30,
+              "target": "slots",
+            },
+            "type": "TOO_FEW_CARDS",
+          },
+          {
+            "details": [
+              {
+                "code": "08114",
+                "limit": 1,
+                "quantity": 2,
+              },
+              {
+                "code": "08115",
+                "limit": 1,
+                "quantity": 2,
               },
             ],
             "type": "INVALID_CARD_COUNT",

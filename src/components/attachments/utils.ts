@@ -67,13 +67,13 @@ export function useAttachmentsChangeHandler() {
 
       const nextQuantity = attached + delta;
 
-      return updateAttachment(
-        resolvedDeck,
-        definition.code,
-        card.code,
-        nextQuantity > limit ? 0 : nextQuantity,
-        attachmentLimit(card, quantity),
-      );
+      return updateAttachment({
+        deck: resolvedDeck,
+        targetCode: definition.code,
+        code: card.code,
+        quantity: nextQuantity > limit ? 0 : nextQuantity,
+        limit: attachmentLimit(card, quantity),
+      });
     },
     [resolvedDeck, updateAttachment],
   );

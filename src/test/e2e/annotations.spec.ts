@@ -53,7 +53,9 @@ test.describe("annotations", () => {
       .getByTestId("listcard-title")
       .click();
 
-    await expect(page.getByTestId("annotation")).toBeVisible();
+    await expect(
+      page.getByTestId("card-modal").getByTestId("annotation"),
+    ).toBeVisible();
   });
 
   test("display annotation in tooltip", async ({ page }) => {

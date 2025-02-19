@@ -27,7 +27,7 @@ function mapCardsToDeckOptions(deck: ResolvedDeck, deckOptions: DeckOption[]) {
     const option = deckOptions[i];
 
     // skip options that did not affect limit counts.
-    if (option.virtual || option.atleast || option.not) continue;
+    if ((option.atleast && option.virtual) || option.not) continue;
 
     if (option.limit) {
       limitOptionIndex += 1;

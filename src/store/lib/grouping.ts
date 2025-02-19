@@ -1,3 +1,4 @@
+import { formatSlots } from "@/utils/formatting";
 import i18n from "@/utils/i18n";
 import type { Card } from "../services/queries.types";
 import type { GroupingType } from "../slices/lists.types";
@@ -480,11 +481,7 @@ export function getGroupingKeyLabel(
     case "slot": {
       if (segment === NONE) return i18n.t("common.slot.none");
       if (segment === "permanent") return i18n.t("common.permanent");
-
-      return segment
-        .split(". ")
-        .map((s) => i18n.t(`common.slot.${s.toLowerCase()}`))
-        .join(". ");
+      return formatSlots(segment);
     }
 
     case "level": {

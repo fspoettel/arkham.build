@@ -54,6 +54,7 @@ export function getInitialSettings(): SettingsState {
     fontSize: 100,
     hideWeaknessesByDefault: false,
     showAllCards: true,
+    showMoveToSideDeck: false,
     showPreviews: false,
     tabooSetId: undefined,
     useLimitedPoolForWeaknessDraw: true,

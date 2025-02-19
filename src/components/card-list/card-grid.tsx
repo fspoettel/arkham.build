@@ -209,7 +209,7 @@ export function CardGridItem(
           onClick={openModal}
           type="button"
         >
-          <CardScan code={card.code} sideways={sideways(card)} />
+          <CardScan code={card.code} sideways={sideways(card)} lazy />
         </button>
         <div className={css["group-item-actions"]}>
           <CardActions

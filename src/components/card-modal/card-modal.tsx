@@ -4,7 +4,11 @@ import {
   getRelatedCards,
 } from "@/store/lib/resolve-card";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
-import { getCanonicalCardCode, isStaticInvestigator } from "@/utils/card-utils";
+import {
+  getCanonicalCardCode,
+  isSpecialist,
+  isStaticInvestigator,
+} from "@/utils/card-utils";
 import { formatRelationTitle } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { useMedia } from "@/utils/use-media";
@@ -26,6 +30,7 @@ import { AnnotationEdit } from "./card-modal-annotation-edit";
 import { CardModalAttachmentQuantities } from "./card-modal-attachment-quantities";
 import { CardModalQuantities } from "./card-modal-quantities";
 import css from "./card-modal.module.css";
+import { SpecialistAccess, SpecialistInvestigators } from "./specialist";
 
 type Props = {
   code: string;
@@ -119,26 +124,30 @@ export function CardModal(props: Props) {
           )
         ) : undefined}
       </Card>
-      {!isEmpty(related) && (
-        <div className={css["related"]}>
-          {related.map(([key, value]) => {
-            const cards = Array.isArray(value) ? value : [value];
-            return (
-              <CardSet
-                className={css["cardset"]}
-                key={key}
-                set={{
-                  title: formatRelationTitle(key),
-                  cards,
-                  id: key,
-                  selected: false,
-                  quantities: getRelatedCardQuantity(key, cards),
-                }}
-              />
-            );
-          })}
-        </div>
-      )}
+      <div className={css["related"]}>
+        {related.map(([key, value]) => {
+          const cards = Array.isArray(value) ? value : [value];
+          return (
+            <CardSet
+              className={css["cardset"]}
+              key={key}
+              set={{
+                title: formatRelationTitle(key),
+                cards,
+                id: key,
+                selected: false,
+                quantities: getRelatedCardQuantity(key, cards),
+              }}
+            />
+          );
+        })}
+        {isSpecialist(cardWithRelations.card) && (
+          <SpecialistInvestigators card={cardWithRelations.card} />
+        )}
+        {cardWithRelations.card.type_code === "investigator" && (
+          <SpecialistAccess card={cardWithRelations.card} />
+        )}
+      </div>
     </>
   );
 

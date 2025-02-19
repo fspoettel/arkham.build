@@ -112,8 +112,9 @@ export function assertEditorDeckQuantity(
   page: Page,
   code: string,
   quantity: number,
+  deletionsHidden = true,
 ) {
-  if (quantity === 0) {
+  if (quantity === 0 && deletionsHidden) {
     return expect(
       page.getByTestId("editor").getByTestId(`listcard-${code}`),
     ).not.toBeVisible();
@@ -125,4 +126,11 @@ export function assertEditorDeckQuantity(
       .getByTestId(`listcard-${code}`)
       .getByTestId("quantity-value"),
   ).toContainText(`${quantity}`);
+}
+
+export async function upgradeDeck(page: Page, xp = 5) {
+  await page.getByTestId("view-upgrade").click();
+  await page.getByTestId("upgrade-xp").fill(xp.toString());
+  await page.getByTestId("upgrade-save-close").click();
+  await expect(page.getByTestId("view-latest-upgrade")).toBeVisible();
 }

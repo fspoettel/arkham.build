@@ -1,0 +1,30 @@
+{
+  "id": "gLoZyLdqnApJFFM",
+  "date_creation": "2025-02-18T12:04:57.442Z",
+  "date_update": "2025-02-18T12:13:24.076Z",
+  "description_md": "",
+  "meta": "{}",
+  "ignoreDeckLimitSlots": {},
+  "sideSlots": {},
+  "next_deck": null,
+  "previous_deck": null,
+  "tags": "",
+  "version": "0.1",
+  "taboo_id": 8,
+  "xp": null,
+  "xp_spent": null,
+  "exile_string": null,
+  "xp_adjustment": null,
+  "investigator_code": "07005",
+  "investigator_name": "Silas Marsh",
+  "name": "Silas Marsh on the Road",
+  "slots": {
+    "01000": 1,
+    "07014": 1,
+    "07015": 1,
+    "07016": 1,
+    "08114": 1,
+    "08115": 1
+  },
+  "problem": "too_few_cards"
+}

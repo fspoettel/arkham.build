@@ -5,10 +5,10 @@ import {
 import type { ResolvedDeck } from "@/store/lib/types";
 import { cx } from "@/utils/cx";
 import { formatRelationTitle } from "@/utils/formatting";
-import { isEmpty } from "@/utils/is-empty";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { SpecialistAccess } from "../card-modal/specialist";
 import { CardBack } from "../card/card-back";
 import { CardContainer } from "../card/card-container";
 import { CardFace } from "../card/card-face";
@@ -115,7 +115,7 @@ export function DeckInvestigator(props: Props) {
         />
       )}
       {showRelated && <LimitedSlots deck={deck} />}
-      {showRelated && !isEmpty(related) && (
+      {showRelated && (
         <div className={css["deck-investigator-related"]}>
           {related.map(([key, value]) => {
             const cards = Array.isArray(value) ? value : [value];
@@ -132,6 +132,7 @@ export function DeckInvestigator(props: Props) {
               />
             );
           })}
+          <SpecialistAccess card={deck.investigatorBack.card} />
         </div>
       )}
     </div>

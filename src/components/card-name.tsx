@@ -21,7 +21,7 @@ export function CardName(props: Props) {
         }}
       />
       {!!level && cardLevelDisplay === "dots" && <ExperienceDots xp={level} />}
-      {!!level && cardLevelDisplay === "text" && (
+      {level != null && cardLevelDisplay === "text" && (
         <span className={css["xp"]}>({level})</span>
       )}
     </span>
