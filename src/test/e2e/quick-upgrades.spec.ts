@@ -4,6 +4,11 @@ import {
   importDeckFromFile,
   upgradeDeck,
 } from "./actions";
+import { mockApiCalls } from "./mocks";
+
+test.beforeEach(async ({ page }) => {
+  await mockApiCalls(page);
+});
 
 test.describe("quick upgrades", () => {
   test("direct upgrade", async ({ page }) => {
