@@ -164,6 +164,10 @@
       "ok": "OK",
       "pack_one": "Pack",
       "pack_other": "Packs",
+      "packs_new_format": {
+        "encounter": "(Kampagnen-Erweiterung)",
+        "player": "(Ermittler-Erweiterung)"
+      },
       "parallel": "Parallel",
       "permanent": "Permanent",
       "player_cards": "Spielerkarten",
@@ -578,7 +582,7 @@
         "evidence": "Beweis",
         "inspiration": "Inspiration",
         "keys": "Schlüssel",
-        "leylines": "Kraftlinien",
+        "leylines": "Ley-Linien",
         "offerings": "Angebote",
         "portents": "Vorzeichen",
         "resources": "Ressourcen",
@@ -980,7 +984,7 @@
         "group_card_list_search": "Kartenliste (Fokus auf Suche)",
         "group_card_modal": "Kartendialog",
         "group_deck_collection": "Decksammlung",
-        "group_deck_editor": "Deckeditor",
+        "group_deck_editor": "Deck Builder",
         "group_deck_view": "Deckansicht",
         "group_general": "Allgemein",
         "group_upgrade_modal": "Verbesserungsdialog",
@@ -1121,15 +1125,16 @@
         "font_size": "Schriftgröße",
         "font_size_preview": "Dann plötzlich sah ich es. Mit nur einem leichten Schäumen des Wassers, das seinen Aufsteig an die Oberfläche kennzeichnete, glitt das Ding über dem finstren Gewässer in mein Blickfeld. Gewaltig wie Polyphemos und widerwärtig wie ein riesiges Ungeheuer aus einem Albtraum schoss es den Monolithen hoch, um den es seine gigantischen, schuppenbedeckten Arme schlang, während es sein scheußliches Haupt neigte und rhythmische Laute ausstieß. Ich glaube, in diesem Augenblick wurde ich wahnsinnig.",
         "hide_weaknesses": "Schwächen in Spielerkartenlisten standardmäßig ausblenden",
-        "hide_weaknesses_help": "When this is checked, weaknesses are hidden in player card lists by default and need to be enabled in the <strong>Subtype</strong> filter to be visible.",
-        "show_move_to_side_deck": "Show \"Move to side deck\" button",
-        "show_move_to_side_deck_help": "This shows a button that allows you to move cards from the deck to the side deck when editing decks. This is helpful if you primarily deck build by overfilling the deck with options and then cutting down (known as the dayorbyte method).",
+        "hide_weaknesses_help": "Wenn dies aktiviert ist, werden Schwächen in Spielerkartenlisten standardmäßig ausgeblendet und müssen im <strong>Untertyp</strong>-Filter aktiviert werden, um sichtbar zu sein.",
+        "show_move_to_side_deck": "\"Ins Nebendeck bewegen\" Button anzeigen",
+        "show_move_to_side_deck_help": "Wenn dies aktiviert ist, werden im Deck Builder Buttons angezeigt, die es erlauben, Karten aus dem Deck ins Nebendeck zu bewegen. Dies kann hilfreich sein, wenn du Decks baust, indem du viele Optionen hinzufügst und anschließend reduzierst.",
         "theme": "Anzeigemodus",
         "theme_dark": "Dunkel",
         "theme_light": "Hell",
         "theme_system": "System",
         "title": "Anzeige"
       },
+      "error": "Speichern der Einstellungen fehlgeschlagen: {{error}}",
       "general": {
         "default_taboo": "Voreingestellte Tabuliste",
         "title": "Allgemein",
@@ -1143,6 +1148,8 @@
       },
       "preview": "Vorschau",
       "save": "Einstellungen speichern",
+      "saving": "Einstellungen werden gespeichert...",
+      "success": "Einstellungen wurden erfolgreich gespeichert.",
       "title": "Einstellungen"
     },
     "ui": {

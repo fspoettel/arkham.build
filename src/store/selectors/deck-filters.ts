@@ -1,4 +1,5 @@
 import { assert } from "@/utils/assert";
+import { displayAttribute } from "@/utils/card-utils";
 import { FACTION_ORDER, type FactionName } from "@/utils/constants";
 import { and, or } from "@/utils/fp";
 import i18n from "@/utils/i18n";
@@ -38,7 +39,8 @@ const selectSearchableTextInDecks = createSelector(
   selectLocalDecks,
   (decks) => {
     return decks.map(
-      (deck) => `${deck.name}|${deck.cards.investigator.card.real_name}`,
+      (deck) =>
+        `${deck.name}|${displayAttribute(deck.cards.investigator.card, "name")}`,
     );
   },
 );

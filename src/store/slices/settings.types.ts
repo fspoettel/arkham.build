@@ -11,12 +11,14 @@ export type DecklistConfig = {
   sort: SortingType[];
 };
 
+export type Locale = string;
+
 export type SettingsState = {
   cardLevelDisplay: "icon-only" | "dots" | "text";
   collection: Record<string, number>; // track as "quantity" owned to accomodate the core set.
+  flags?: Record<string, boolean>;
   fontSize: number;
   hideWeaknessesByDefault: boolean;
-  showMoveToSideDeck: boolean;
   lists: {
     encounter: ListConfig;
     investigator: ListConfig;
@@ -24,16 +26,17 @@ export type SettingsState = {
     deck: DecklistConfig;
     deckScans: DecklistConfig;
   };
-  showPreviews: boolean;
+  locale: Locale;
   showAllCards: boolean;
-  useLimitedPoolForWeaknessDraw: boolean;
+  showMoveToSideDeck: boolean;
+  showPreviews: boolean;
   tabooSetId: number | undefined;
-  flags?: Record<string, boolean>;
+  useLimitedPoolForWeaknessDraw: boolean;
 };
 
 export type SettingsSlice = {
   settings: SettingsState;
 } & {
   toggleFlag(key: string): void;
-  updateSettings: (payload: SettingsState) => void;
+  updateSettings: (payload: SettingsState) => Promise<void>;
 };

@@ -1,4 +1,4 @@
-import { splitMultiValue } from "@/utils/card-utils";
+import { displayAttribute, splitMultiValue } from "@/utils/card-utils";
 import {
   ASSET_SLOT_ORDER,
   FACTION_ORDER,
@@ -10,7 +10,11 @@ import {
   type SkillKey,
 } from "@/utils/constants";
 import { createCustomEqualSelector } from "@/utils/custom-equal-selector";
-import { capitalize, formatTabooSet } from "@/utils/formatting";
+import {
+  capitalize,
+  displayPackName,
+  formatTabooSet,
+} from "@/utils/formatting";
 import type { Filter } from "@/utils/fp";
 import { and, not, or } from "@/utils/fp";
 import i18n from "@/utils/i18n";
@@ -958,7 +962,7 @@ export const selectInvestigatorChanges = createSelector(
     if (!value) return "";
     const card = metadata.cards[value];
     return card
-      ? `${card.parallel ? "|| " : ""}${card.real_name}`
+      ? `${card.parallel ? "|| " : ""}${displayAttribute(card, "name")}`
       : value.toString();
   },
 );
@@ -1126,7 +1130,7 @@ export const selectPackChanges = createSelector(
   (value, metadata) => {
     if (!value) return "";
     return value
-      .map((id) => metadata.packs[id].real_name)
+      .map((id) => displayPackName(metadata.packs[id]))
       .join(` ${i18n.t("filters.or")} `);
   },
 );

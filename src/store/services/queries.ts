@@ -4,8 +4,11 @@ import type { Deck, Id } from "../slices/data.types";
 import { isDeck } from "../slices/data.types";
 import reprintPacks from "./data/reprint_packs.json";
 
+import { displayPackName } from "@/utils/formatting";
+import i18n from "@/utils/i18n";
 import type { ResolvedDeck } from "../lib/types";
 import type { History } from "../selectors/decks";
+import type { Locale } from "../slices/settings.types";
 import type {
   Card,
   Cycle,
@@ -80,26 +83,39 @@ async function request(
  * Cache API
  */
 
-export async function queryMetadata(): Promise<MetadataResponse> {
-  const res = await request("/cache/metadata");
+export async function queryMetadata(
+  locale: Locale = "en",
+): Promise<MetadataResponse> {
+  const res = await request(`/cache/metadata/${locale}`);
   const { data }: MetadataApiResponse = await res.json();
+
+  const cycles = data.cycle;
 
   return {
     ...data,
     card_encounter_set: [...data.card_encounter_set, ...encounterSets],
     pack: [...data.pack, ...packs],
-    reprint_pack: reprintPacks,
+    reprint_pack: reprintPacks.map((pack) => {
+      const cycle = cycles.find((cycle) => cycle.code === pack.cycle_code);
+      if (!cycle) return pack;
+      return {
+        ...pack,
+        name: `${displayPackName(cycle)} ${i18n.t(`common.packs_new_format.${pack.reprint.type}`)}`,
+      };
+    }),
   };
 }
 
-export async function queryDataVersion() {
-  const res = await request("/cache/version");
+export async function queryDataVersion(
+  locale: Locale = "en",
+): Promise<DataVersion> {
+  const res = await request(`/cache/version/${locale}`);
   const { data }: DataVersionApiResponse = await res.json();
   return data.all_card_updated[0];
 }
 
-export async function queryCards(): Promise<QueryCard[]> {
-  const res = await request("/cache/cards");
+export async function queryCards(locale: Locale = "en"): Promise<QueryCard[]> {
+  const res = await request(`/cache/cards/${locale}`);
   const { data }: AllCardApiResponse = await res.json();
   return data.all_card;
 }

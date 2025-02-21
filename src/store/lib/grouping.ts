@@ -1,4 +1,8 @@
-import { formatSlots } from "@/utils/formatting";
+import {
+  displayPackName,
+  formatSlots,
+  shortenPackName,
+} from "@/utils/formatting";
 import i18n from "@/utils/i18n";
 import type { Card } from "../services/queries.types";
 import type { GroupingType } from "../slices/lists.types";
@@ -471,7 +475,8 @@ export function getGroupingKeyLabel(
     }
 
     case "cycle": {
-      return metadata.cycles[segment]?.real_name ?? "";
+      console.log(metadata.cycles[segment]);
+      return displayPackName(metadata.cycles[segment]) ?? "";
     }
 
     case "encounter_set": {
@@ -506,9 +511,7 @@ export function getGroupingKeyLabel(
     }
 
     case "pack": {
-      return (metadata.packs[segment]?.real_name ?? "")
-        .replace("Campaign Expansion", "")
-        .replace("Investigator Expansion", "");
+      return shortenPackName(metadata.packs[segment]) ?? "";
     }
 
     case "default": {

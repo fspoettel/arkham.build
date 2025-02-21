@@ -2,7 +2,7 @@ import Unique from "@/assets/icons/icon_unique.svg?react";
 import { useStore } from "@/store";
 import { selectCardLevelDisplaySetting } from "@/store/selectors/settings";
 import type { Card } from "@/store/services/queries.types";
-import { parseCardTitle } from "@/utils/card-utils";
+import { displayAttribute, parseCardTitle } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { Link } from "wouter";
 import { useCardModalContextChecked } from "../card-modal/card-modal-context";
@@ -56,7 +56,7 @@ export function CardNames(props: Props) {
           className={css["sub"]}
           // biome-ignore lint/security/noDangerouslySetInnerHtml: safe and necessary.
           dangerouslySetInnerHTML={{
-            __html: parseCardTitle(card.real_subname),
+            __html: parseCardTitle(displayAttribute(card, "subname")),
           }}
         />
       )}

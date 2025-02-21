@@ -1,5 +1,11 @@
+import { changeLanguage } from "@/utils/i18n";
 import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
+import {
+  queryCards,
+  queryDataVersion,
+  queryMetadata,
+} from "../services/queries";
 import { makeLists } from "./lists";
 import type {
   DecklistConfig,
@@ -50,15 +56,16 @@ export function getInitialSettings(): SettingsState {
   return {
     cardLevelDisplay: "icon-only",
     collection: {},
-    lists: getInitialListsSetting(),
+    flags: {},
     fontSize: 100,
     hideWeaknessesByDefault: false,
+    lists: getInitialListsSetting(),
+    locale: "en",
     showAllCards: true,
     showMoveToSideDeck: false,
     showPreviews: false,
     tabooSetId: undefined,
     useLimitedPoolForWeaknessDraw: true,
-    flags: {},
   };
 }
 
@@ -70,13 +77,32 @@ export const createSettingsSlice: StateCreator<
 > = (set, get) => ({
   settings: getInitialSettings(),
   // TODO: extract to `shared` since this touches other state slices.
-  updateSettings(settings) {
+  async updateSettings(settings) {
     const state = get();
 
-    state.refreshLookupTables({
-      settings,
-      lists: makeLists(settings),
-    });
+    if (settings.locale !== state.settings.locale) {
+      set({
+        settings: {
+          ...state.settings,
+          ...settings,
+        },
+      });
+
+      await changeLanguage(settings.locale);
+
+      await state.init(
+        queryMetadata,
+        queryDataVersion,
+        queryCards,
+        true,
+        settings.locale,
+      );
+    } else {
+      state.refreshLookupTables({
+        settings,
+        lists: makeLists(settings),
+      });
+    }
   },
   toggleFlag(key) {
     set((state) => ({

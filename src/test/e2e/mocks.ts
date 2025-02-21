@@ -18,7 +18,7 @@ export async function mockApiCalls(page: Page) {
   const baseUrl = `${apiUrl}/v1`;
 
   await Promise.all([
-    page.route(`${baseUrl}/cache/cards`, async (route) => {
+    page.route(`${baseUrl}/cache/cards/en`, async (route) => {
       // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       const json: any = structuredClone(allCardsResponse);
       json.data.all_card.push({
@@ -36,11 +36,11 @@ export async function mockApiCalls(page: Page) {
       });
       await route.fulfill({ json });
     }),
-    page.route(`${baseUrl}/cache/metadata`, async (route) => {
+    page.route(`${baseUrl}/cache/metadata/en`, async (route) => {
       const json = metadataResponse;
       await route.fulfill({ json });
     }),
-    page.route(`${baseUrl}/cache/version`, async (route) => {
+    page.route(`${baseUrl}/cache/version/en`, async (route) => {
       const json = versionsResponse;
       await route.fulfill({ json });
     }),

@@ -9,7 +9,6 @@
 .header {
   border-radius: calc(var(--rounded-md) - 2px) calc(var(--rounded-md) - 2px) 0 0;
   padding: 0.5rem 1rem;
-  color: var(--palette-6);
 }
 
 .text {

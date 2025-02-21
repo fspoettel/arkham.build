@@ -8,6 +8,7 @@ import {
   selectCardRelationsResolver,
 } from "@/store/selectors/lists";
 import type { Card } from "@/store/services/queries.types";
+import { displayAttribute } from "@/utils/card-utils";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { useDocumentTitle } from "@/utils/use-document-title";
 import { CirclePlusIcon } from "lucide-react";
@@ -39,7 +40,9 @@ function DeckCreateChooseInvestigator() {
       renderCardMetaExtra:
         activeList?.display.viewMode === "compact"
           ? (card: Card) => (
-              <p className={css["traits"]}>&middot; {card.real_traits}</p>
+              <p className={css["traits"]}>
+                &middot; {displayAttribute(card, "traits")}
+              </p>
             )
           : undefined,
       renderCardAfter: (card: Card) => (
@@ -111,7 +114,7 @@ function ChooseInvestigatorLink(props: { card: Card }) {
         size="lg"
         style={cssVariables}
         tooltip={t("choose_investigator.create_tooltip", {
-          name: props.card.real_name,
+          name: displayAttribute(props.card, "name"),
         })}
       >
         <CirclePlusIcon />

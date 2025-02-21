@@ -1,4 +1,5 @@
 import type { Card } from "@/store/services/queries.types";
+import { displayAttribute } from "@/utils/card-utils";
 import { formatSlots } from "@/utils/formatting";
 import { useTranslation } from "react-i18next";
 import { CardSlots } from "../card-slots";
@@ -28,7 +29,9 @@ export function CardDetails(props: Props) {
           </p>
         )}
         {card.real_traits && (
-          <p className={css["details-traits"]}>{card.real_traits}</p>
+          <p className={css["details-traits"]}>
+            {displayAttribute(card, "traits")}
+          </p>
         )}
         {!!card.doom && (
           <p>

@@ -3,6 +3,7 @@ import { isCardWithRelations } from "@/store/lib/types";
 import type { Cycle, Pack } from "@/store/services/queries.types";
 import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
 import { cx } from "@/utils/cx";
+import { displayPackName } from "@/utils/formatting";
 import EncounterIcon from "../icons/encounter-icon";
 import PackIcon from "../icons/pack-icon";
 import css from "./card.module.css";
@@ -62,13 +63,14 @@ function PlayerEntry(props: Props) {
       {size === "full" &&
         duplicates?.map((duplicate) => (
           <p className={css["meta-property"]} key={duplicate.card.code}>
-            {duplicate.pack.real_name} <PackIcon code={duplicate.pack.code} />{" "}
+            {displayPackName(duplicate.pack)}{" "}
+            <PackIcon code={duplicate.pack.code} />{" "}
             {duplicate.card.pack_position}{" "}
             <i className="icon-card-outline-bold" /> ×{duplicate.card.quantity}
           </p>
         ))}
       <p className={css["meta-property"]}>
-        {displayPack.real_name} <PackIcon code={displayPack.code} />{" "}
+        {displayPackName(displayPack)} <PackIcon code={displayPack.code} />{" "}
         {card.pack_position} <i className="icon-card-outline-bold" /> ×
         {card.quantity}
       </p>
@@ -89,7 +91,7 @@ function EncounterEntry(props: Props) {
         {getEncounterPositions(card.encounter_position ?? 1, card.quantity)}
       </p>
       <p className={css["meta-property"]}>
-        {displayPack.real_name} <PackIcon code={displayPack.code} />{" "}
+        {displayPackName(displayPack)} <PackIcon code={displayPack.code} />{" "}
         {card.pack_position}
       </p>
     </>

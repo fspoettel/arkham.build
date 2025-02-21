@@ -1,6 +1,7 @@
 select {
   appearance: none;
   min-width: 10rem;
+  max-width: min(100%, 15rem);
   background-image: var(--background-select);
   background-repeat: no-repeat;
   background-position: 95% 50%;

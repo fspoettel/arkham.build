@@ -3,6 +3,11 @@ import type { Card } from "@/store/services/queries.types";
 import type { Filter } from "./fp";
 import i18n from "./i18n";
 
+export const LOCALES = [
+  { value: "en", label: "English (en)" },
+  { value: "de", label: "Deutsch (de)" },
+];
+
 export const FLOATING_PORTAL_ID = "floating";
 
 export const ISSUE_URL =

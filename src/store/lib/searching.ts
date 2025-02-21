@@ -1,4 +1,5 @@
 import type { Card } from "@/store/services/queries.types";
+import { displayAttribute } from "@/utils/card-utils";
 import { normalizeDiacritics } from "@/utils/normalize-diacritics";
 import uFuzzy from "@leeoniya/ufuzzy";
 import type { Search } from "../slices/lists.types";
@@ -15,20 +16,20 @@ function prepareCardFace(card: Card, search: Search) {
   const needle: string[] = [];
 
   if (search.includeName) {
-    if (card.real_name) needle.push(card.real_name);
-    if (card.real_subname) needle.push(card.real_subname);
+    if (card.real_name) needle.push(displayAttribute(card, "name"));
+    if (card.real_subname) needle.push(displayAttribute(card, "subname"));
   }
 
   if (search.includeGameText) {
-    if (card.real_traits) needle.push(card.real_traits);
-    if (card.real_text) needle.push(card.real_text);
+    if (card.real_traits) needle.push(displayAttribute(card, "traits"));
+    if (card.real_text) needle.push(displayAttribute(card, "text"));
     if (card.real_customization_text) {
-      needle.push(card.real_customization_text);
+      needle.push(displayAttribute(card, "customization_text"));
     }
   }
 
   if (search.includeFlavor) {
-    if (card.real_flavor) needle.push(card.real_flavor);
+    if (card.real_flavor) needle.push(displayAttribute(card, "flavor"));
   }
 
   return needle.join("|");
@@ -38,16 +39,17 @@ function prepareCardBack(card: Card, search: Search) {
   const needle = [];
 
   if (search.includeName) {
-    needle.push(card.real_back_name);
+    needle.push(displayAttribute(card, "back_name"));
   }
 
   if (search.includeGameText) {
-    if (card.real_back_traits) needle.push(card.real_back_traits);
-    if (card.real_back_text) needle.push(card.real_back_text);
+    if (card.real_back_traits)
+      needle.push(displayAttribute(card, "back_traits"));
+    if (card.real_back_text) needle.push(displayAttribute(card, "back_text"));
   }
 
   if (search.includeFlavor && card.real_back_flavor) {
-    needle.push(card.real_back_flavor);
+    needle.push(displayAttribute(card, "back_flavor"));
   }
 
   return needle.join("|");

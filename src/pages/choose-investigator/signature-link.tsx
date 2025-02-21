@@ -2,6 +2,7 @@ import { useCardModalContextChecked } from "@/components/card-modal/card-modal-c
 import { CardTooltip } from "@/components/card-tooltip/card-tooltip";
 import { useRestingTooltip } from "@/components/ui/tooltip.hooks";
 import type { Card } from "@/store/services/queries.types";
+import { displayAttribute } from "@/utils/card-utils";
 import { FLOATING_PORTAL_ID } from "@/utils/constants";
 import { FloatingPortal, shift } from "@floating-ui/react";
 import { useCallback } from "react";
@@ -35,7 +36,7 @@ export function SignatureLink(props: Props) {
   return (
     <li className={css["signature"]} key={card.code}>
       <button {...tooltip.referenceProps} onClick={openModal}>
-        {card.real_name}
+        {displayAttribute(card, "name")}
       </button>
       {tooltip.isMounted && (
         <FloatingPortal id={FLOATING_PORTAL_ID}>

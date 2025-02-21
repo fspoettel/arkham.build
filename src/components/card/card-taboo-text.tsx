@@ -1,5 +1,5 @@
 import type { Card } from "@/store/services/queries.types";
-import { parseCardTextHtml } from "@/utils/card-utils";
+import { displayAttribute, parseCardTextHtml } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { useTranslation } from "react-i18next";
 import { DefaultTooltip } from "../ui/tooltip";
@@ -29,7 +29,9 @@ export function CardTabooText(props: Props) {
             <span
               // biome-ignore lint/security/noDangerouslySetInnerHtml: trusted origin.
               dangerouslySetInnerHTML={{
-                __html: parseCardTextHtml(real_taboo_text_change),
+                __html: parseCardTextHtml(
+                  displayAttribute(props.card, "taboo_text_change"),
+                ),
               }}
             />
           }

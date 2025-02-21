@@ -27,6 +27,7 @@
 }
 
 .nav-stats {
+  flex: 0 0 auto;
   display: inline-flex;
   flex-flow: row wrap;
   align-items: center;

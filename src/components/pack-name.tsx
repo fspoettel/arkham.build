@@ -1,4 +1,5 @@
 import type { Cycle, Pack } from "@/store/services/queries.types";
+import { displayPackName, shortenPackName } from "@/utils/formatting";
 import PackIcon from "./icons/pack-icon";
 
 type Props = {
@@ -6,18 +7,15 @@ type Props = {
   shortenNewFormat?: boolean;
 };
 
-function shorten(name: string) {
-  if (!name) return name;
-  return name.replace("Investigator Expansion", "");
-}
-
 export function PackName(props: Props) {
   const { pack, shortenNewFormat } = props;
+
+  const name = displayPackName(pack);
 
   return (
     <>
       <PackIcon code={pack.code} />
-      {shortenNewFormat ? shorten(pack.real_name) : pack.real_name}
+      {shortenNewFormat ? shortenPackName(pack as Pack) : name}
     </>
   );
 }

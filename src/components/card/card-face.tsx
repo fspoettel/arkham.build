@@ -1,5 +1,5 @@
 import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
-import { sideways } from "@/utils/card-utils";
+import { displayAttribute, sideways } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { CardScan } from "../card-scan";
 import { CardThumbnail } from "../card-thumbnail";
@@ -61,9 +61,9 @@ export function CardFace(props: Props) {
 
       <div className={css["content"]}>
         <CardText
-          flavor={card.real_flavor}
+          flavor={displayAttribute(card, "flavor")}
           size={size}
-          text={card.real_text}
+          text={displayAttribute(card, "text")}
           typeCode={card.type_code}
           victory={card.victory}
         />

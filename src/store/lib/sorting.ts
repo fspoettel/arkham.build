@@ -1,3 +1,4 @@
+import { displayAttribute } from "@/utils/card-utils";
 import type { FactionName, PlayerType } from "@/utils/constants";
 import {
   ASSET_SLOT_ORDER,
@@ -30,7 +31,10 @@ export function sortAlphabetical(a: string, b: string) {
 }
 
 export function sortByName(a: Card, b: Card) {
-  return sortAlphabetical(a.real_name, b.real_name);
+  return sortAlphabetical(
+    displayAttribute(a, "name"),
+    displayAttribute(b, "name"),
+  );
 }
 
 function sortByLevel(a: Card, b: Card) {

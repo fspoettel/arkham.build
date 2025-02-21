@@ -3,6 +3,7 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
 import en from "@/locales/en.json";
+import type { Locale } from "@/store/slices/settings.types";
 
 i18n.use(initReactI18next).init({
   fallbackLng: "en",
@@ -14,7 +15,7 @@ i18n.use(initReactI18next).init({
   },
 });
 
-export async function changeLanguage(lng: "en" | "de") {
+export async function changeLanguage(lng: Locale) {
   if (i18n.language === lng) return;
 
   if (!i18n.hasResourceBundle(lng, "translation")) {

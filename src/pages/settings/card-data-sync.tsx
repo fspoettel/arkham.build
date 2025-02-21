@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
+import { selectSettings } from "@/store/selectors/settings";
 import {
   queryCards,
   queryDataVersion,
@@ -28,12 +29,19 @@ export function CardDataSync(props: Props) {
   const init = useStore((state) => state.init);
 
   const dataVersion = useStore((state) => state.metadata.dataVersion);
+  const settings = useStore(selectSettings);
 
-  const { data, error, state } = useQuery(queryDataVersion);
+  const localizedDataVersionQuery = useCallback(
+    () => queryDataVersion(settings.locale),
+    [settings.locale],
+  );
+
+  const { data, error, state } = useQuery(localizedDataVersionQuery);
 
   const initStore = useCallback(
-    () => init(queryMetadata, queryDataVersion, queryCards, true),
-    [init],
+    () =>
+      init(queryMetadata, queryDataVersion, queryCards, true, settings.locale),
+    [init, settings.locale],
   );
 
   const { error: syncError, state: syncState, mutate } = useMutate(initStore);
@@ -53,7 +61,9 @@ export function CardDataSync(props: Props) {
   const upToDate =
     data &&
     dataVersion &&
-    data.cards_updated_at === dataVersion.cards_updated_at;
+    data.locale === dataVersion.locale &&
+    data.cards_updated_at === dataVersion.cards_updated_at &&
+    data.translation_updated_at === dataVersion.translation_updated_at;
 
   const loading = state === "loading" || syncState === "loading";
 

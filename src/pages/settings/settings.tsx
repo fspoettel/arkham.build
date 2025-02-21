@@ -21,6 +21,7 @@ import { Connections } from "./connections";
 import { FontSizeSetting } from "./font-size";
 import { HideWeaknessSetting } from "./hide-weakness";
 import { ListSettings } from "./list-settings";
+import { LocaleSetting } from "./locale-setting";
 import { Section } from "./section";
 import css from "./settings.module.css";
 import { ShowAllCardsSetting } from "./show-all-cards";
@@ -47,16 +48,31 @@ function Settings() {
   }, [storedSettings]);
 
   const onSubmit = useCallback(
-    (evt: React.FormEvent) => {
+    async (evt: React.FormEvent) => {
       evt.preventDefault();
-      updateStoredSettings(settings);
-      toast.show({
-        children: "Settings save successful.",
-        duration: 3000,
-        variant: "success",
+
+      const toastId = toast.show({
+        children: t("settings.saving"),
+        variant: "loading",
       });
+
+      try {
+        await updateStoredSettings(settings);
+        toast.dismiss(toastId);
+        toast.show({
+          children: t("settings.success"),
+          duration: 3000,
+          variant: "success",
+        });
+      } catch (err) {
+        toast.dismiss(toastId);
+        toast.show({
+          children: t("settings.error", { error: (err as Error).message }),
+          variant: "error",
+        });
+      }
     },
-    [updateStoredSettings, settings, toast.show],
+    [updateStoredSettings, settings, toast, t],
   );
 
   return (
@@ -114,6 +130,10 @@ function Settings() {
                 />
               </Section>
               <Section title={t("settings.display.title")}>
+                <LocaleSetting
+                  settings={settings}
+                  updateSettings={updateSettings}
+                />
                 <ThemeSetting />
                 <FontSizeSetting
                   settings={settings}

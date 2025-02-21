@@ -9,6 +9,7 @@ import {
   isTooFewCardsError,
   isTooManyCardsError,
 } from "@/store/lib/deck-validation";
+import { displayAttribute } from "@/utils/card-utils";
 import { InfoIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Collapsible, CollapsibleContent } from "../ui/collapsible";
@@ -78,8 +79,8 @@ export function DecklistValidation(props: Props) {
                     <ol className={css["decklist-validation-result-cards"]}>
                       {error.details.map((detail) => (
                         <li key={detail.code}>
-                          {cards[detail.code].real_name} ({detail.quantity}/
-                          {detail.limit})
+                          {displayAttribute(cards[detail.code], "name")} (
+                          {detail.quantity}/{detail.limit})
                         </li>
                       ))}
                     </ol>
@@ -91,7 +92,7 @@ export function DecklistValidation(props: Props) {
                     <ol className={css["decklist-validation-result-cards"]}>
                       {error.details.map((detail) => (
                         <li key={detail.code}>
-                          {cards[detail.code].real_name}
+                          {displayAttribute(cards[detail.code], "name")}
                         </li>
                       ))}
                     </ol>
@@ -103,8 +104,8 @@ export function DecklistValidation(props: Props) {
                     <ol className={css["decklist-validation-result-cards"]}>
                       {error.details.map((detail) => (
                         <li key={detail.code}>
-                          {cards[detail.code].real_name} ({detail.quantity}/
-                          {detail.required})
+                          {displayAttribute(cards[detail.code], "name")} (
+                          {detail.quantity}/{detail.required})
                         </li>
                       ))}
                     </ol>
