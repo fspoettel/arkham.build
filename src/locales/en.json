@@ -1147,8 +1147,8 @@
         "title": "Lists"
       },
       "locale": {
-        "title": "Language",
-        "help": "This changes the display language of the app, including card and metadata text."
+        "help": "This changes the display language of the app, including card and metadata text.",
+        "title": "Language"
       },
       "preview": "Preview",
       "save": "Save settings",

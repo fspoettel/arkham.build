@@ -1146,6 +1146,10 @@
         "deck_view_scans": "Deckansicht (Scans)",
         "title": "Listen"
       },
+      "locale": {
+        "help": "Ändert die Anzeigesprache der Nutzeroberfläche sowie der Karten- und Metadaten.",
+        "title": "Sprache"
+      },
       "preview": "Vorschau",
       "save": "Einstellungen speichern",
       "saving": "Einstellungen werden gespeichert...",

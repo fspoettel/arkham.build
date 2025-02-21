@@ -33,7 +33,9 @@ await writeLocale("en", en);
 
 const repoPath = await cloneRepo();
 
-const translations = ["de"];
+const translations = (await fs.readdir("./src/locales"))
+  .filter((file) => file !== "en.json")
+  .map((file) => path.basename(file, ".json"));
 
 for (const lng of translations) {
   const arkhamCardsLocale = JSON.parse(
