@@ -47,6 +47,7 @@ import subTypes from "@/store/services/data/subtypes.json";
 import types from "@/store/services/data/types.json";
 import { assertCanPublishDeck } from "@/utils/arkhamdb";
 import { changeLanguage } from "@/utils/i18n";
+import { applyCardChanges } from "../lib/card-edits";
 import { applyLocalData } from "../lib/local-data";
 import { selectSettings } from "../selectors/settings";
 
@@ -223,19 +224,27 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       meta.alternate_back = investigatorBackCode;
     }
 
-    const back = state.metadata.cards[investigatorBackCode];
+    const back = applyCardChanges(
+      state.metadata.cards[investigatorBackCode],
+      state.metadata,
+      state.deckCreate.tabooSetId,
+      undefined,
+    );
+
+    const deckSizeOption = back.deck_options?.find((o) => !!o.deck_size_select);
 
     for (const [key, value] of Object.entries(state.deckCreate.selections)) {
       // EDGE CASE: mandy's taboo removes the deck size select,
       // omit any selection made from deck meta.
-      if (
-        key === "deck_size_selected" &&
-        !back.deck_options?.some((o) => !!o.deck_size_select)
-      ) {
+      if (key === "deck_size_selected" && !deckSizeOption) {
         continue;
       }
 
       meta[key as keyof DeckMeta] = value;
+    }
+
+    if (deckSizeOption && !meta.deck_size_selected) {
+      meta.deck_size_selected = "30";
     }
 
     const cardSets = selectDeckCreateCardSets(state);

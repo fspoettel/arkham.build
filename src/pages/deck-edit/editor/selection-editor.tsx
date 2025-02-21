@@ -26,7 +26,8 @@ export function SelectionEditor(props: Props) {
             value: v,
             label: v.toString(),
           }))}
-          value={value.value ?? ""}
+          required
+          value={value.value}
         />
       )}
       {value.type === "faction" && (

@@ -475,7 +475,6 @@ export function getGroupingKeyLabel(
     }
 
     case "cycle": {
-      console.log(metadata.cycles[segment]);
       return displayPackName(metadata.cycles[segment]) ?? "";
     }
 
