@@ -153,3 +153,22 @@ export function cardUses(card: Card) {
 
   return undefined;
 }
+
+export function displayAttribute(
+  card: Card,
+  key:
+    | "text"
+    | "name"
+    | "traits"
+    | "flavor"
+    | "subname"
+    | "back_name"
+    | "back_traits"
+    | "back_flavor"
+    | "back_text"
+    | "taboo_text_change"
+    | "customization_text"
+    | "customization_change",
+) {
+  return card[key] ?? card[`real_${key}`] ?? "";
+}

@@ -2,6 +2,7 @@ import type { Card } from "@/store/services/queries.types";
 import type { SettingsState } from "@/store/slices/settings.types";
 import {
   cardLimit,
+  displayAttribute,
   getCardColor,
   hasSkillIcons,
   isEnemyLike,
@@ -261,10 +262,12 @@ export function ListCardInner(props: Props) {
                   {!showInvestigatorIcons && card.real_subname && (
                     <h5
                       className={css["subname"]}
-                      title={card.real_subname}
+                      title={displayAttribute(card, "subname")}
                       // biome-ignore lint/security/noDangerouslySetInnerHtml: safe and necessary.
                       dangerouslySetInnerHTML={{
-                        __html: parseCardTextHtml(card.real_subname),
+                        __html: parseCardTextHtml(
+                          displayAttribute(card, "subname"),
+                        ),
                       }}
                     />
                   )}
@@ -304,13 +307,13 @@ export function ListCardInner(props: Props) {
             <CardIcons card={card} />
           )}
           <CardText
-            text={card.real_text}
+            text={displayAttribute(card, "text")}
             size="tooltip"
             typeCode={card.type_code}
           />
           {card.real_back_text && (
             <CardText
-              text={card.real_back_text}
+              text={displayAttribute(card, "back_text")}
               size="tooltip"
               typeCode={card.type_code}
             />

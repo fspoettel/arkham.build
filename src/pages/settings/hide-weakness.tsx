@@ -18,7 +18,7 @@ export function HideWeaknessSetting(props: SettingProps) {
     <Field
       bordered
       helpText={
-        <Trans i18nKey={"settings.display.hide_weaknesses_help"} t={t}>
+        <Trans i18nKey="settings.display.hide_weaknesses_help" t={t}>
           When this is checked, weaknesses are hidden in player card lists by
           default and need to be enabled in the <strong>Subtype</strong> filter
           to be visible.

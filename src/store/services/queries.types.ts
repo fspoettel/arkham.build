@@ -171,6 +171,23 @@ export type QueryCard = {
   vengeance?: number;
   victory?: number;
   xp?: number;
+  // Localized fields, present only in the locale of the request.
+} & {
+  back_flavor?: string;
+  back_name?: string;
+  back_text?: string;
+  back_traits?: string;
+  customization_change?: string;
+  customization_text?: string;
+  encounter_name?: string;
+  flavor?: string;
+  locale?: string;
+  name?: string;
+  slot?: string;
+  subname?: string;
+  taboo_text_change?: string;
+  text?: string;
+  traits?: string;
 };
 
 export type Card = Omit<QueryCard, "id"> & {
@@ -185,6 +202,7 @@ export type Card = Omit<QueryCard, "id"> & {
 export type Cycle = {
   code: string;
   real_name: string;
+  name?: string;
   position: number;
 };
 
@@ -197,6 +215,7 @@ export type Faction = {
 export type Pack = {
   code: string;
   real_name: string;
+  name?: string;
   position: number;
   release_date?: string;
   size?: number;

@@ -1,6 +1,6 @@
 import type { ResolvedCard } from "@/store/lib/types";
 import type { Card as CardType } from "@/store/services/queries.types";
-import { sideways } from "@/utils/card-utils";
+import { displayAttribute, sideways } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { useMemo } from "react";
 import { CardScan } from "../card-scan";
@@ -22,11 +22,13 @@ export function CardBack(props: Props) {
   const backCard: CardType = useMemo(
     () => ({
       ...card,
-      real_name: card.real_back_name ?? `${card.real_name} - Back`,
+      real_name:
+        displayAttribute(card, "back_name") ||
+        `${displayAttribute(card, "name")} - Back`,
       real_subname: undefined,
-      real_flavor: card.real_back_flavor,
+      real_flavor: displayAttribute(card, "back_flavor"),
       illustrator: card.back_illustrator,
-      real_text: card.real_back_text,
+      real_text: displayAttribute(card, "back_text"),
     }),
     [card],
   );
@@ -61,9 +63,9 @@ export function CardBack(props: Props) {
 
       <div className={css["content"]}>
         <CardText
-          flavor={card.real_back_flavor}
+          flavor={displayAttribute(card, "back_flavor")}
           size={size}
-          text={card.real_back_text}
+          text={displayAttribute(card, "back_text")}
           typeCode={card.type_code}
         />
         {showMeta && <CardMetaBack illustrator={backCard.illustrator} />}

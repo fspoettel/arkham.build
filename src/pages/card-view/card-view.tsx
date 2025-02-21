@@ -6,7 +6,7 @@ import { CardViewCards } from "@/pages/card-view/card-view-cards";
 import { useStore } from "@/store";
 import type { CardWithRelations } from "@/store/lib/types";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
-import { isStaticInvestigator } from "@/utils/card-utils";
+import { displayAttribute, isStaticInvestigator } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { useDocumentTitle } from "@/utils/use-document-title";
 import { GlobeIcon, MessagesSquareIcon } from "lucide-react";
@@ -26,7 +26,9 @@ function CardView() {
   );
 
   useDocumentTitle(
-    cardWithRelations ? `${cardWithRelations.card.real_name}` : undefined,
+    cardWithRelations
+      ? `${displayAttribute(cardWithRelations.card, "name")}`
+      : undefined,
   );
 
   if (!cardWithRelations) {
@@ -105,7 +107,10 @@ function CardView() {
                         <i className="icon-cards" />
                         {t("card_view.actions.usable_by", {
                           prefix: "",
-                          name: cardWithRelations.card.real_name,
+                          name: displayAttribute(
+                            cardWithRelations.card,
+                            "name",
+                          ),
                         })}
                       </Button>
                     </Link>
@@ -122,7 +127,10 @@ function CardView() {
                           <i className="icon-cards" />
                           {t("card_view.actions.usable_by", {
                             prefix: `${t("common.parallel")} `,
-                            name: cardWithRelations.card.real_name,
+                            name: displayAttribute(
+                              cardWithRelations.card,
+                              "name",
+                            ),
                           })}
                         </Button>
                       </Link>

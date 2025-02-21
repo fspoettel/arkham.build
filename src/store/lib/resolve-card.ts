@@ -1,3 +1,4 @@
+import { displayAttribute } from "@/utils/card-utils";
 import { CARD_SET_ORDER } from "@/utils/constants";
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
@@ -148,7 +149,12 @@ export function resolveCardWithRelations<T extends boolean>(
               relatedCard.card.code !== card.code &&
               relatedCard.card.subtype_code === card.subtype_code,
           )
-          .sort((a, b) => sortAlphabetical(a.card.real_name, b.card.real_name));
+          .sort((a, b) =>
+            sortAlphabetical(
+              displayAttribute(a.card, "name"),
+              displayAttribute(b.card, "name"),
+            ),
+          );
 
         if (matches.length) {
           cardWithRelations.relations.otherSignatures = matches;

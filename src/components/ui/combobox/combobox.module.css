@@ -63,7 +63,7 @@
   display: grid;
   grid-template-rows: min-content;
   min-height: min(calc(var(--viewport-item-count) * 3rem), 15rem);
-  max-height: min(50dvh, 15rem);
+  max-height: min(40dvh, 45rem);
   overflow-y: auto;
 }
 

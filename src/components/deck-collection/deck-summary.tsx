@@ -4,7 +4,7 @@ import { extendedDeckTags } from "@/store/lib/resolve-deck";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { selectConnectionLockForDeck } from "@/store/selectors/shared";
 import type { Id } from "@/store/slices/data.types";
-import { getCardColor } from "@/utils/card-utils";
+import { displayAttribute, getCardColor } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import {
   CircleAlertIcon,
@@ -130,7 +130,7 @@ export function DeckSummary(props: Props) {
                     className={css["sub"]}
                     data-testid="deck-summary-investigator"
                   >
-                    {card.real_name}
+                    {displayAttribute(card, "name")}
                   </h4>
                 </div>
                 <DeckStats deck={deck} />

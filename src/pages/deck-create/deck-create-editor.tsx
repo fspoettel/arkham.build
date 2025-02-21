@@ -168,7 +168,7 @@ export function DeckCreateEditor() {
         <FieldLabel htmlFor="taboo">{t("deck_edit.config.taboo")}</FieldLabel>
         <Select
           data-testid="create-taboo"
-          emptyLabel="None"
+          emptyLabel={t("common.none")}
           name="taboo"
           onChange={onTabooSetChange}
           options={tabooSets}

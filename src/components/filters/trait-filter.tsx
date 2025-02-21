@@ -34,7 +34,7 @@ export function TraitFilter({ id, resolvedDeck }: FilterProps) {
       options={options}
       nameRenderer={nameRenderer}
       placeholder={t("filters.trait.placeholder")}
-      title={t("common.trait", { count: 1 })}
+      title={t("filters.trait.title")}
       value={filter.value}
     />
   );

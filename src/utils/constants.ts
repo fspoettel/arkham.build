@@ -3,6 +3,11 @@ import type { Card } from "@/store/services/queries.types";
 import type { Filter } from "./fp";
 import i18n from "./i18n";
 
+export const LOCALES = [
+  { value: "en", label: "English (en)" },
+  { value: "de", label: "Deutsch (de)" },
+];
+
 export const FLOATING_PORTAL_ID = "floating";
 
 export const ISSUE_URL =
@@ -231,52 +236,54 @@ export type AttachableDefinition = {
  * An attachable card is a card that has a separate deck that constructed during the scenario setup.
  * This excludes Parallel Jim's spirit deck, which cannot change between scenarios.
  */
-export const ATTACHABLE_CARDS: { [code: string]: AttachableDefinition } = {
-  [SPECIAL_CARD_CODES.BEWITCHING]: {
-    code: SPECIAL_CARD_CODES.BEWITCHING,
-    limit: 1,
-    name: "Bewitching",
-    traits: ["Trick."],
-    icon: "wand",
-    targetSize: 3,
-  },
-  [SPECIAL_CARD_CODES.JOE_DIAMOND]: {
-    code: SPECIAL_CARD_CODES.JOE_DIAMOND,
-    traits: ["Insight."],
-    filters: [(c: Card) => c.type_code === "event"],
-    name: i18n.t("deck.attachments.hunch_deck"),
-    icon: "lightbulb",
-    targetSize: 11,
-    requiredCards: {
-      [SPECIAL_CARD_CODES.UNSOLVED_CASE]: 1,
+export function getAttachableCards(): { [code: string]: AttachableDefinition } {
+  return {
+    [SPECIAL_CARD_CODES.BEWITCHING]: {
+      code: SPECIAL_CARD_CODES.BEWITCHING,
+      limit: 1,
+      name: "Bewitching",
+      traits: ["Trick."],
+      icon: "wand",
+      targetSize: 3,
     },
-  },
-  [SPECIAL_CARD_CODES.STICK_TO_THE_PLAN]: {
-    code: SPECIAL_CARD_CODES.STICK_TO_THE_PLAN,
-    limit: 1,
-    traits: ["Tactic.", "Supply."],
-    filters: [(c: Card) => c.type_code === "event"],
-    name: i18n.t("deck.attachments.stick_to_the_plan"),
-    icon: "package",
-    targetSize: 3,
-  },
-  [SPECIAL_CARD_CODES.UNDERWORLD_MARKET]: {
-    code: SPECIAL_CARD_CODES.UNDERWORLD_MARKET,
-    traits: ["Illicit."],
-    name: i18n.t("deck.attachments.underworld_market"),
-    icon: "store",
-    targetSize: 10,
-  },
-  [SPECIAL_CARD_CODES.ELDRITCH_BRAND]: {
-    code: SPECIAL_CARD_CODES.ELDRITCH_BRAND,
-    traits: ["Spell."],
-    filters: [(c: Card) => c.xp != null && c.type_code === "asset"],
-    name: i18n.t("deck.attachments.eldritch_brand"),
-    icon: "stamp",
-    limit: 1,
-    targetSize: 1,
-  },
-};
+    [SPECIAL_CARD_CODES.JOE_DIAMOND]: {
+      code: SPECIAL_CARD_CODES.JOE_DIAMOND,
+      traits: ["Insight."],
+      filters: [(c: Card) => c.type_code === "event"],
+      name: i18n.t("deck.attachments.hunch_deck"),
+      icon: "lightbulb",
+      targetSize: 11,
+      requiredCards: {
+        [SPECIAL_CARD_CODES.UNSOLVED_CASE]: 1,
+      },
+    },
+    [SPECIAL_CARD_CODES.STICK_TO_THE_PLAN]: {
+      code: SPECIAL_CARD_CODES.STICK_TO_THE_PLAN,
+      limit: 1,
+      traits: ["Tactic.", "Supply."],
+      filters: [(c: Card) => c.type_code === "event"],
+      name: i18n.t("deck.attachments.stick_to_the_plan"),
+      icon: "package",
+      targetSize: 3,
+    },
+    [SPECIAL_CARD_CODES.UNDERWORLD_MARKET]: {
+      code: SPECIAL_CARD_CODES.UNDERWORLD_MARKET,
+      traits: ["Illicit."],
+      name: i18n.t("deck.attachments.underworld_market"),
+      icon: "store",
+      targetSize: 10,
+    },
+    [SPECIAL_CARD_CODES.ELDRITCH_BRAND]: {
+      code: SPECIAL_CARD_CODES.ELDRITCH_BRAND,
+      traits: ["Spell."],
+      filters: [(c: Card) => c.xp != null && c.type_code === "asset"],
+      name: i18n.t("deck.attachments.eldritch_brand"),
+      icon: "stamp",
+      limit: 1,
+      targetSize: 1,
+    },
+  };
+}
 
 export const DECK_SIZE_ADJUSTMENTS = {
   [SPECIAL_CARD_CODES.ANCESTRAL_KNOWLEDGE]: 5,

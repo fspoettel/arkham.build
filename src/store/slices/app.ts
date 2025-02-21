@@ -46,6 +46,7 @@ import factions from "@/store/services/data/factions.json";
 import subTypes from "@/store/services/data/subtypes.json";
 import types from "@/store/services/data/types.json";
 import { assertCanPublishDeck } from "@/utils/arkhamdb";
+import { changeLanguage } from "@/utils/i18n";
 import { applyLocalData } from "../lib/local-data";
 import { selectSettings } from "../selectors/settings";
 
@@ -61,8 +62,14 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 ) => ({
   app: getInitialAppState(),
 
-  async init(queryMetadata, queryDataVersion, queryCards, refresh = false) {
+  async init(queryMetadata, queryDataVersion, queryCards, refresh, locale) {
     const state = get();
+
+    const settings = selectSettings(state);
+
+    if (settings.locale !== "en") {
+      await changeLanguage(settings.locale).catch(console.error);
+    }
 
     if (!refresh && state.metadata.dataVersion?.cards_updated_at) {
       const metadata = {
@@ -86,9 +93,9 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     time("query_data");
     const [metadataResponse, dataVersionResponse, cards] = await Promise.all([
-      queryMetadata(),
-      queryDataVersion(),
-      queryCards(),
+      queryMetadata(locale),
+      queryDataVersion(locale),
+      queryCards(locale),
     ]);
     timeEnd("query_data");
 

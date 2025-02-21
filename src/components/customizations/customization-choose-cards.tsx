@@ -3,6 +3,7 @@ import { makeSortFunction } from "@/store/lib/sorting";
 import type { Card } from "@/store/services/queries.types";
 import type { CustomizationOption as CustomizationOptionType } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
+import { displayAttribute } from "@/utils/card-utils";
 import { time, timeEnd } from "@/utils/time";
 import { useTranslation } from "react-i18next";
 import { createSelector } from "reselect";
@@ -54,9 +55,9 @@ const selectPlayerCardsForCustomizationOptions = createSelector(
       .sort(sortFn)
       .reduce(
         (acc, card) => {
-          if (!acc.names.has(card.real_name)) {
+          if (!acc.names.has(displayAttribute(card, "name"))) {
             acc.cards.push(card);
-            acc.names.add(card.real_name);
+            acc.names.add(displayAttribute(card, "name"));
           }
           return acc;
         },

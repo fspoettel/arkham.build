@@ -5,6 +5,7 @@ import { selectCycleCardCounts } from "@/store/selectors/collection";
 import { selectCyclesAndPacks } from "@/store/selectors/lists";
 import type { SettingsState } from "@/store/slices/settings.types";
 import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
+import { displayPackName } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -98,7 +99,7 @@ export function CollectionSettings(props: Props) {
               <div className={css["cycle-header"]}>
                 <img
                   loading="lazy"
-                  alt={`Cycle ${cycle.real_name} backdrop`}
+                  alt={`Cycle ${displayPackName(cycle)} backdrop`}
                   className={css["backdrop"]}
                   src={`/assets/cycles/${cycle.code}.avif`}
                 />
@@ -106,7 +107,7 @@ export function CollectionSettings(props: Props) {
                 <div className={css["cycle-header-container"]}>
                   <div className={css["cycle-label"]}>
                     <PackIcon code={cycle.code} />
-                    {cycle.real_name}
+                    {displayPackName(cycle)}
                   </div>
                   {canEdit &&
                     !cycle.reprintPacks.length &&
@@ -184,7 +185,7 @@ export function CollectionSettings(props: Props) {
                   <article className={css["cycle-counts"]}>
                     <header>
                       <h4 className={css["cycle-counts-title"]}>
-                        {t("collection.card_count")}
+                        {t("settings.collection.card_count")}
                       </h4>
                     </header>
                     <CollectionCount

@@ -2,6 +2,7 @@ import { ListLayoutContextProvider } from "@/layouts/list-layout-context-provide
 import { ListLayoutNoSidebar } from "@/layouts/list-layout-no-sidebar";
 import { useStore } from "@/store";
 import type { Card } from "@/store/services/queries.types";
+import { displayAttribute } from "@/utils/card-utils";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "wouter";
@@ -50,7 +51,7 @@ function UsableCardsList(props: { card: Card }) {
 
   const title = t("card_view.actions.usable_by", {
     prefix: card.parallel ? `${t("common.parallel")} ` : "",
-    name: card.real_name,
+    name: displayAttribute(card, "name"),
   });
 
   return (

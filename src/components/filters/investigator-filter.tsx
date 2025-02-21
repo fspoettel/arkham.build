@@ -7,6 +7,7 @@ import {
 import type { Card } from "@/store/services/queries.types";
 import { isInvestigatorFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
+import { displayAttribute } from "@/utils/card-utils";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import type { FilterProps } from "./filters.types";
@@ -33,7 +34,7 @@ export function InvestigatorFilter({ id }: FilterProps) {
   const renderOption = useCallback(
     (card: Card) => (
       <option key={card.code} value={card.code}>
-        {card.real_name}
+        {displayAttribute(card, "name")}
         {card.parallel && ` (${t("common.parallel")})`}
         {otherVersionsTable[card.code] &&
           ` (${t(`common.factions.${card.faction_code}`)})`}

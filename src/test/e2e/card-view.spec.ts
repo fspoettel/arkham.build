@@ -199,7 +199,7 @@ test.describe("card view: interactions", () => {
     await page.goto("/card/01001");
     await page.getByTestId("usable-cards").click();
     await expect(
-      page.getByRole("heading", { name: "Cards usable by" }),
+      page.getByRole("heading", { name: "Card pool" }),
     ).toBeVisible();
 
     await fillSearch(page, "deduction");
@@ -216,7 +216,7 @@ test.describe("card view: interactions", () => {
     await page.getByTestId("usable-cards-parallel").click();
 
     await expect(
-      page.getByRole("heading", { name: "Cards usable by" }),
+      page.getByRole("heading", { name: "Card pool" }),
     ).toBeVisible();
 
     await fillSearch(page, "deduction");

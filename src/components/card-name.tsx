@@ -1,5 +1,9 @@
 import type { Card } from "@/store/services/queries.types";
-import { cardLevel, parseCardTextHtml } from "@/utils/card-utils";
+import {
+  cardLevel,
+  displayAttribute,
+  parseCardTextHtml,
+} from "@/utils/card-utils";
 import css from "./card-name.module.css";
 import { ExperienceDots } from "./experience-dots";
 
@@ -17,7 +21,7 @@ export function CardName(props: Props) {
       <span
         // biome-ignore lint/security/noDangerouslySetInnerHtml: safe.
         dangerouslySetInnerHTML={{
-          __html: parseCardTextHtml(card.real_name),
+          __html: parseCardTextHtml(displayAttribute(card, "name")),
         }}
       />
       {!!level && cardLevelDisplay === "dots" && <ExperienceDots xp={level} />}

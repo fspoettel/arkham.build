@@ -53,7 +53,7 @@ export function SkillIconsChart({ data }: Props) {
               labelComponent={
                 <VictoryTooltip
                   labelPlacement="vertical"
-                  flyoutWidth={120}
+                  flyoutWidth={200}
                   constrainToVisibleArea
                 />
               }

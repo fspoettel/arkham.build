@@ -16,7 +16,7 @@ import {
 import { customizationSheetUrl } from "@/store/services/queries";
 import type { Card } from "@/store/services/queries.types";
 import type { Slots } from "@/store/slices/data.types";
-import { sideways } from "@/utils/card-utils";
+import { displayAttribute, sideways } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { range } from "@/utils/range";
 import { Fragment, useCallback, useMemo } from "react";
@@ -246,7 +246,9 @@ function CustomizationScan(props: {
             onClick={openModal}
             crossOrigin="anonymous"
             url={customizationSheetUrl(card, deck)}
-            alt={t("deck.customization_sheet", { name: card.real_name })}
+            alt={t("deck.customization_sheet", {
+              name: displayAttribute(card, "name"),
+            })}
             style={
               {
                 "--scan-level": 0,

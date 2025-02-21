@@ -13,7 +13,7 @@ import {
 import type { Card as CardT } from "@/store/services/queries.types";
 import type { Tab } from "@/store/slices/deck-edits.types";
 import { assert } from "@/utils/assert";
-import { cardLimit } from "@/utils/card-utils";
+import { cardLimit, displayAttribute } from "@/utils/card-utils";
 import { FLOATING_PORTAL_ID } from "@/utils/constants";
 import { useAccentColor } from "@/utils/use-accent-color";
 import { FloatingPortal } from "@floating-ui/react";
@@ -70,7 +70,7 @@ export function QuickUpgrade(props: Props) {
           iconOnly
           data-testid="quick-upgrade"
           tooltip={t("deck_edit.actions.quick_upgrade", {
-            name: card.real_name,
+            name: displayAttribute(card, "name"),
           })}
           onClick={onUpgradeCard}
           variant="bare"
@@ -171,7 +171,7 @@ function QuickUpgradeDialog(
                   <i className="icon icon-upgrade" />
                   <span>
                     {t("deck_edit.quick_upgrade.title", {
-                      name: card.real_name,
+                      name: displayAttribute(card, "name"),
                     })}
                   </span>
                 </>

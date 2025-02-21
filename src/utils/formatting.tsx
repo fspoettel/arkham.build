@@ -1,4 +1,4 @@
-import type { TabooSet } from "@/store/services/queries.types";
+import type { Cycle, Pack, TabooSet } from "@/store/services/queries.types";
 import i18n from "@/utils/i18n";
 import i18next from "i18next";
 import { createSelector } from "reselect";
@@ -74,4 +74,15 @@ export function formatProviderName(name: string) {
       return capitalize(name);
     }
   }
+}
+
+export function displayPackName(pack: Pack | Cycle) {
+  return pack.name ?? pack.real_name;
+}
+
+export function shortenPackName(pack: Pack) {
+  return displayPackName(pack)
+    .replace(i18n.t("common.packs_new_format.encounter"), "")
+    .replace(i18n.t("common.packs_new_format.player"), "")
+    .trim();
 }

@@ -1,4 +1,5 @@
 import type { Card } from "@/store/services/queries.types";
+import { displayAttribute } from "@/utils/card-utils";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { ListCard } from "./list-card/list-card";
@@ -22,12 +23,12 @@ export function CardsCombobox(props: Props) {
   );
 
   const resultRenderer = useCallback((item: Card) => {
-    const name = item.real_name;
+    const name = displayAttribute(item, "name");
     return item.xp ? `${name} (${item.xp})` : name;
   }, []);
 
   const itemToString = useCallback((item: Card) => {
-    return item.real_name.toLowerCase();
+    return displayAttribute(item, "name").toLowerCase();
   }, []);
 
   return (

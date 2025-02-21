@@ -2,17 +2,19 @@ import i18n from "@/utils/i18n";
 import { useEffect, useState } from "react";
 import { useMedia } from "./use-media";
 
-export const AVAILABLE_THEMES: Record<string, string> = {
-  dark: i18n.t("settings.display.theme_dark"),
-  light: i18n.t("settings.display.theme_light"),
-  system: i18n.t("settings.display.theme_system"),
-};
+export function getAvailableThemes(): Record<string, string> {
+  return {
+    dark: i18n.t("settings.display.theme_dark"),
+    light: i18n.t("settings.display.theme_light"),
+    system: i18n.t("settings.display.theme_system"),
+  };
+}
 
 const DEFAULT_THEME = "dark";
 
 function getPreference() {
   const pref = localStorage.getItem("color-scheme-preference");
-  if (pref && AVAILABLE_THEMES[pref]) return pref;
+  if (pref && getAvailableThemes()[pref]) return pref;
   return DEFAULT_THEME;
 }
 

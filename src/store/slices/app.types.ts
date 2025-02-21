@@ -4,6 +4,7 @@ import type {
   MetadataResponse,
 } from "@/store/services/queries";
 import type { Deck, Id } from "./data.types";
+import type { Locale } from "./settings.types";
 
 export type AppState = {
   clientId: string;
@@ -14,10 +15,11 @@ export type AppSlice = {
   app: AppState;
 
   init(
-    queryMetadata: () => Promise<MetadataResponse>,
-    queryDataVersion: () => Promise<DataVersionResponse>,
-    queryCards: () => Promise<AllCardResponse>,
+    queryMetadata: (locale?: Locale) => Promise<MetadataResponse>,
+    queryDataVersion: (locale?: Locale) => Promise<DataVersionResponse>,
+    queryCards: (locale?: Locale) => Promise<AllCardResponse>,
     refresh?: boolean,
+    locale?: Locale,
   ): Promise<boolean>;
 
   createDeck(): Promise<Id>;

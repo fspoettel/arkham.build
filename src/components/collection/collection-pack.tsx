@@ -4,6 +4,7 @@ import type { CollectionCounts } from "@/store/selectors/collection";
 import type { Cycle, Pack } from "@/store/services/queries.types";
 import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
 import { cx } from "@/utils/cx";
+import { displayPackName } from "@/utils/formatting";
 import { CollectionCount } from "./collection-count";
 import css from "./collection.module.css";
 
@@ -60,7 +61,7 @@ export function CollectionPack(props: Props) {
             className={css["pack-label"]}
             htmlFor={`collection-${cycle.code}-${pack.code}`}
           >
-            {pack.real_name}
+            {displayPackName(pack)}
           </label>
         </div>
       ) : (
@@ -73,7 +74,7 @@ export function CollectionPack(props: Props) {
           label={
             <div className={css["pack-name"]}>
               <PackIcon code={pack.code} />
-              {pack.real_name}
+              {displayPackName(pack)}
             </div>
           }
           name={pack.code}

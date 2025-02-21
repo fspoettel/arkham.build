@@ -174,7 +174,7 @@ export const selectDeckCreateCardSets = createSelector(
 
     groupings.unshift({
       id: "random_basic_weakness",
-      title: "Random basic weakness",
+      title: i18n.t("deck_create.random_basic_weakness"),
       canSelect: false,
       selected: true,
       cards: [

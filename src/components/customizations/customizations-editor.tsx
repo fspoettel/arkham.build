@@ -2,7 +2,7 @@ import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Card } from "@/store/services/queries.types";
 import type { CustomizationEdit } from "@/store/slices/deck-edits.types";
-import { getCardColor } from "@/utils/card-utils";
+import { displayAttribute, getCardColor } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -25,7 +25,7 @@ export function CustomizationsEditor(props: Props) {
   const choices = deck?.customizations?.[card.code];
 
   const options = card.customization_options;
-  const text = card.real_customization_text?.split("\n");
+  const text = displayAttribute(card, "customization_text")?.split("\n");
 
   const onChangeCustomization = useCallback(
     (index: number, edit: CustomizationEdit) => {

@@ -8,6 +8,7 @@ import type { Cycle, Pack } from "@/store/services/queries.types";
 import { assert } from "@/utils/assert";
 import { campaignPlayalongPacks } from "@/utils/campaign-playalong";
 import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
+import { displayPackName } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import { parseCsv } from "@/utils/parse-csv";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
@@ -97,7 +98,7 @@ export function LimitedCardPoolField(props: {
   );
 
   const packToString = useCallback(
-    (pack: Pack) => pack.real_name.toLowerCase(),
+    (pack: Pack) => displayPackName(pack).toLowerCase(),
     [],
   );
 
@@ -133,7 +134,7 @@ export function LimitedCardPoolField(props: {
           id="card-pool-combobox"
           items={items}
           itemToString={packToString}
-          label="Limited pool"
+          label={t("deck_edit.config.card_pool.title")}
           onValueChange={onValueChange}
           placeholder={t("deck_edit.config.card_pool.placeholder")}
           renderItem={packRenderer}
@@ -310,7 +311,7 @@ function ChooseCampaignModal(props: {
   );
 
   const packToString = useCallback(
-    (pack: Cycle) => pack.real_name.toLowerCase(),
+    (pack: Cycle) => displayPackName(pack).toLowerCase(),
     [],
   );
 
