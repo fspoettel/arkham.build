@@ -12,11 +12,13 @@ export const AutoSizingTextarea = forwardRef(function AutoSizingTextarea(
   const ref = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    const target = ref.current;
-    if (target) {
-      target.style.height = "auto";
-      target.style.height = `${target.scrollHeight}px`;
-    }
+    requestAnimationFrame(() => {
+      const target = ref.current;
+      if (target) {
+        target.style.height = "auto";
+        target.style.height = `${target.scrollHeight}px`;
+      }
+    });
   }, []);
 
   const onValueChange = useCallback(
