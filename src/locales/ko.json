@@ -164,6 +164,10 @@
       "ok": "확인",
       "pack_one": "팩",
       "pack_other": "팩",
+      "packs_new_format": {
+        "encounter": "캠페인 확장",
+        "player": "조사자 확장"
+      },
       "parallel": "평행",
       "permanent": "영속",
       "player_cards": "플레이어 카드",
@@ -1065,26 +1069,26 @@
         "title": "백업 & 복구"
       },
       "card_data": {
-        "title": "카드 데이터",
-        "loading": "최신 카드 데이터 불러오는 중...",
+        "card_count": "카드 수량",
+        "data_version": "데이터 버전",
         "error": "최신 카드 데이터를 불러오는데 실패함.",
-        "up_to_date": "카드 데이터가 최신입니다.",
-        "update_available": "새로운 카드 데이터가 사용 가능합니다.",
+        "loading": "최신 카드 데이터 불러오는 중...",
+        "locale": "언어",
         "sync": "카드 데이터 동기화",
         "sync_success": "카드 데이터 동기화 완료.",
-        "data_version": "데이터 버전",
-        "locale": "언어",
-        "card_count": "카드 수량"
+        "title": "카드 데이터",
+        "up_to_date": "카드 데이터가 최신입니다.",
+        "update_available": "새로운 카드 데이터가 사용 가능합니다."
       },
       "collection": {
         "card_collection": "보유 카드",
         "card_count": "카드 수량",
         "new_format": "새로운 형식",
         "old_format": "기존 형식",
-        "show_all_cards_owned_help": "이 옵션을 선택하면 카드 및 덱 목록에서 카드 소유권을 확인할 때 아래의 보유 게임 설정이 무시됩니다.",
         "show_all_cards_owned": "모든 카드를 소유한 것으로 표시",
-        "show_previews_help": "이 옵션을 선택하면 출시되지 않은 카드도 애플리케이션에 표시되며, 덱에도 추가할 수 있습니다.",
+        "show_all_cards_owned_help": "이 옵션을 선택하면 카드 및 덱 목록에서 카드 소유권을 확인할 때 아래의 보유 게임 설정이 무시됩니다.",
         "show_previews": "미리보기 카드 보기",
+        "show_previews_help": "이 옵션을 선택하면 출시되지 않은 카드도 애플리케이션에 표시되며, 덱에도 추가할 수 있습니다.",
         "title": "보유 게임"
       },
       "connections": {
@@ -1142,8 +1146,14 @@
         "deck_view_scans": "덱 보기 (이미지)",
         "title": "목록"
       },
+      "locale": {
+        "help": "이렇게 하면 카드 및 메타데이터 문자를 포함한 앱의 표시 언어가 변경됩니다.",
+        "title": "언어"
+      },
       "preview": "미리보기",
       "save": "설정 저장",
+      "saving": "설정 저장하는 중...",
+      "success": "설정 저장이 완료되었습니다.",
       "title": "설정"
     },
     "ui": {
