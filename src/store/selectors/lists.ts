@@ -1342,11 +1342,11 @@ export const selectTypeOptions = createSelector(
   (state: StoreState) => state.metadata.types,
   ({ types }, typeTable) =>
     Array.from(types)
-      .sort()
       .map((code) => ({
         ...typeTable[code],
         name: i18n.t(`common.type.${code}`),
-      })),
+      }))
+      .sort((a, b) => sortAlphabetical(a.name, b.name)),
 );
 
 /**
