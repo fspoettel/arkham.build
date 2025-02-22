@@ -1242,17 +1242,20 @@ export const selectSkillIconsChanges = (value: SkillIconsFilter) => {
  * Subtype
  */
 
-const subtypeLabels: Record<string, string> = {
-  none: i18n.t("common.subtype.none"),
-  weakness: i18n.t("common.subtype.weakness"),
-  basicweakness: i18n.t("common.subtype.basicweakness"),
-};
+function subtypeLabels() {
+  return {
+    none: i18n.t("common.subtype.none"),
+    weakness: i18n.t("common.subtype.weakness"),
+    basicweakness: i18n.t("common.subtype.basicweakness"),
+  } as Record<string, string>;
+}
 
 export function selectSubtypeOptions() {
+  const labels = subtypeLabels();
   return [
-    { code: "none", name: subtypeLabels["none"] },
-    { code: "weakness", name: subtypeLabels["weakness"] },
-    { code: "basicweakness", name: subtypeLabels["basicweakness"] },
+    { code: "none", name: labels["none"] },
+    { code: "weakness", name: labels["weakness"] },
+    { code: "basicweakness", name: labels["basicweakness"] },
   ];
 }
 
@@ -1261,12 +1264,13 @@ export const selectSubtypeChanges = createSelector(
   (value) => {
     const options = Object.entries(value);
     const enabled = options.filter(([, value]) => !!value);
+    const labels = subtypeLabels();
 
-    if (enabled.length === 0) return subtypeLabels["none"];
+    if (enabled.length === 0) return labels["none"];
     if (enabled.length === options.length) return "";
 
     return enabled
-      .map(([key]) => subtypeLabels[key])
+      .map(([key]) => labels[key])
       .join(` ${i18n.t("filters.or")} `);
   },
 );

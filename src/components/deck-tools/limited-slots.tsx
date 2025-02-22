@@ -7,6 +7,7 @@ import { ListCard } from "../list-card/list-card";
 
 export function LimitedSlots(props: { deck: ResolvedDeck }) {
   const { t } = useTranslation();
+
   const limitedSlots = useStore((state) =>
     selectLimitedSlotOccupation(state, props.deck),
   );
@@ -34,7 +35,11 @@ export function LimitedSlots(props: { deck: ResolvedDeck }) {
               quantity={quantity}
             />
           )}
-          title={entry.option.name ?? t("deck.limited_slots")}
+          title={
+            entry.option.name
+              ? t(`common.deck_options.${entry.option.name}`)
+              : t("deck.limited_slots")
+          }
         />
       ))}
     </>
