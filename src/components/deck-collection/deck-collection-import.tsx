@@ -72,7 +72,7 @@ export function DeckCollectionImport() {
             full
             helpText={
               <Trans
-                i18nextKey="deck_collection.import_arkhamdb_help"
+                i18nKey="deck_collection.import_arkhamdb_help"
                 t={t}
                 components={{ strong: <strong /> }}
               >
