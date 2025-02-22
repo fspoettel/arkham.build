@@ -11,6 +11,7 @@ export const LOCALES = [
   { value: "en", label: "English (en)" },
   { value: "de", label: "Deutsch (de)" },
   { value: "ko", label: "한국어/Korean (ko)", unicode: true },
+  { value: "pl", label: "Polski (pl)", unicode: true },
   { value: "ru", label: "Русский (ru)", unicode: true },
 ];
 
