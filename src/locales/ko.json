@@ -98,8 +98,10 @@
         "Improvised": "즉흥",
         "No permanents except story and signature permanents": "이야기 및 전용 영속 카드를 제외하고 어떠한 영속 카드도 없어야 합니다.",
         "Secondary Class": "보조 역할군",
+        "Too many off-class cards for Versatile.": "Too many off-class cards for Versatile.",
         "Too many off-class cards.": "다른 역할군 카드가 너무 많습니다.",
         "Trait Choice": "특성 선택",
+        "You cannot have assets that take up an ally slot.": "You cannot have assets that take up an ally slot.",
         "You cannot have more than 15 level 0-1 Guardian and/or Survivor cards": "수호자 그리고/또는 생존자인 0-1 레벨 카드를 15장보다 많이 포함할 수 없습니다.",
         "You cannot have more than 15 level 0-1 Seeker and/or Mystic cards": "탐구자 그리고/또는 신비주의자인 0-1 레벨 카드를 15장보다 많이 포함할 수 없습니다.",
         "You cannot have more than 5 Guardian and/or Mystic cards": "수호자 그리고/  또는 신비주의자인 카드를 5장보다 많이 포함할 수 없습니다.",
@@ -998,8 +1000,8 @@
         "blur_search": "탐색 결과 비활성화",
         "clear_search": "탐색 결과 지우기",
         "display_as_detailed": "카드 상세 정보 표시",
-        "display_as_list_text": "카드 문구와 목록으로 표시",
         "display_as_list": "목록으로 표시",
+        "display_as_list_text": "카드 문구와 목록으로 표시",
         "display_as_scans": "이미지로 표시",
         "focus_search": "탐색 결과 활성화",
         "move_down": "아래로 이동",
@@ -1028,12 +1030,12 @@
       },
       "group_by": "분류 방법",
       "nav": {
-        "card_count_hidden": "(필터로 {{count}}장 숨겨짐)",
         "card_count": "{{count}}장",
+        "card_count_hidden": "(필터로 {{count}}장 숨겨짐)",
         "display": "화면",
         "display_as_detailed": "카드 상세 내용 표기",
-        "display_as_list_text": "카드 문구와 함께 목록 표기",
         "display_as_list": "목록",
+        "display_as_list_text": "카드 문구와 함께 목록 표기",
         "display_as_scans": "이미지",
         "jump_to": "빠른 이동",
         "list_settings": "목록 설정"
@@ -1135,6 +1137,7 @@
         "theme_system": "시스템",
         "title": "화면"
       },
+      "error": "Failed to save settings: {{error}}",
       "general": {
         "default_taboo": "기본 금기 목록",
         "title": "일반",

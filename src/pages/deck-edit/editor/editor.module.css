@@ -86,3 +86,13 @@
 .meta > * + * {
   margin-top: 0.25rem;
 }
+
+.actions-invalid {
+  background: none;
+}
+
+.actions-invalid svg {
+  fill: var(--nord-13);
+  stroke: var(--nord-0);
+  font-size: var(--icon-base);
+}

@@ -294,7 +294,9 @@ export function UpgradeModal(props: Props) {
           )}
           {!isEmpty(exilableCards) && (
             <Field bordered>
-              <FieldLabel htmlFor="xp-gained">{t("common.exiled")}</FieldLabel>
+              <FieldLabel htmlFor="xp-gained">
+                {t("common.exiled_cards")}
+              </FieldLabel>
               <Scroller className={css["exile"]}>
                 <ul>
                   {exilableCards.map(({ card, limit }) => (

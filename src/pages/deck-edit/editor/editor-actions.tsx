@@ -1,13 +1,20 @@
+import { DecklistValidation } from "@/components/decklist/decklist-validation";
 import { Button } from "@/components/ui/button";
 import { HotkeyTooltip } from "@/components/ui/hotkey";
 import { useToast } from "@/components/ui/toast.hooks";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useStore } from "@/store";
 import { PreviewPublishError } from "@/store/lib/errors";
 import type { ResolvedDeck } from "@/store/lib/types";
+import { selectDeckValid } from "@/store/selectors/decks";
 import { selectConnectionLockForDeck } from "@/store/selectors/shared";
 import type { Tab } from "@/store/slices/deck-edits.types";
 import { useHotkey } from "@/utils/use-hotkey";
-import { SaveIcon, Undo2Icon } from "lucide-react";
+import { SaveIcon, TriangleAlertIcon, Undo2Icon } from "lucide-react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "wouter";
@@ -34,6 +41,8 @@ export function EditorActions(props: Props) {
   const discardEdits = useStore((state) => state.discardEdits);
   const saveDeck = useStore((state) => state.saveDeck);
   const duplicateDeck = useStore((state) => state.duplicateDeck);
+
+  const validation = useStore((state) => selectDeckValid(state, deck));
 
   const onduplicateWithEdits = useCallback(() => {
     const id = duplicateDeck(deck.id, { applyEdits: true });
@@ -121,6 +130,18 @@ export function EditorActions(props: Props) {
     <>
       <LatestUpgrade currentTab={currentTab} deck={deck} overflowScroll />
       <div className={css["actions"]}>
+        {!validation.valid && (
+          <Tooltip placement="top-start">
+            <TooltipTrigger className={css["actions-invalid"]}>
+              <TriangleAlertIcon />
+            </TooltipTrigger>
+            <TooltipContent>
+              <div className={css["actions-invalid-tooltip"]}>
+                <DecklistValidation defaultOpen validation={validation} />
+              </div>
+            </TooltipContent>
+          </Tooltip>
+        )}
         <HotkeyTooltip keybind="cmd+s" description={t("deck_edit.save")}>
           <Button
             data-testid="editor-save"
