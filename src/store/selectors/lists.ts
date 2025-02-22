@@ -778,7 +778,7 @@ export const selectAssetOptions = createSelector(
   (lookupTables, filterProps) => {
     const uses = Object.keys(lookupTables.uses)
       .map((code) => ({ code, name: i18n.t(`common.uses.${code}`) }))
-      .sort((a, b) => sortAlphabetical(a.code, b.code));
+      .sort((a, b) => sortAlphabetical(a.name, b.name));
 
     const skillBoosts = SKILL_KEYS.filter((x) => x !== "wild");
 
@@ -1322,8 +1322,8 @@ export const selectTraitOptions = createSelector(
   selectListFilterProperties,
   ({ traits }) =>
     Array.from(traits)
-      .sort()
-      .map((code) => ({ code, name: i18n.t(`common.traits.${code}`) })),
+      .map((code) => ({ code, name: i18n.t(`common.traits.${code}`) }))
+      .sort((a, b) => sortAlphabetical(a.name, b.name)),
 );
 
 /**
