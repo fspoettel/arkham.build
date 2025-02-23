@@ -1007,6 +1007,8 @@
         "move_up": "Переместить вверх",
         "open_card_modal": "Открыть выбранную карту",
         "reset_filters": "Сбросить фильтры",
+        "show_limited_access": "Show limited access",
+        "show_unusable_cards": "Show unusable cards",
         "toggle_filter_menu": "Toggle filter menu",
         "toggle_filters": "Toggle filters",
         "toggle_sidebar": "Toggle sidebar"
