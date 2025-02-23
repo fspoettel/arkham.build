@@ -1,5 +1,16 @@
 import { PreviewPublishError } from "@/store/lib/errors";
 import type { ResolvedDeck } from "@/store/lib/types";
+import i18n from "./i18n";
+
+export function localizeArkhamDBBaseUrl() {
+  const lng = i18n.language;
+
+  const baseUrl = new URL(import.meta.env.VITE_ARKHAMDB_BASE_URL);
+  if (lng === "en") return baseUrl.origin;
+
+  baseUrl.hostname = `${lng}.${baseUrl.hostname}`;
+  return baseUrl.origin;
+}
 
 export function redirectArkhamDBLinks(evt: React.MouseEvent) {
   evt.preventDefault();
@@ -15,7 +26,8 @@ export function redirectArkhamDBLinks(evt: React.MouseEvent) {
       if (href.startsWith("/card") && !href.includes("#review-")) {
         url = href;
       } else if (href.startsWith("/")) {
-        url = `https://arkhamdb.com${href}`;
+        const baseUrl = localizeArkhamDBBaseUrl();
+        url = `${baseUrl}${href}`;
       } else {
         url = href;
       }

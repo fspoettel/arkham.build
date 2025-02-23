@@ -34,7 +34,7 @@ test.describe("deck description", () => {
     const nextPage = await nextPagePromise;
 
     const nextPageOrigin = new URL(nextPage.url()).origin;
-    expect(nextPageOrigin).toEqual("https://arkhamdb.com");
+    expect(nextPageOrigin).toEqual(process.env.VITE_ARKHAMDB_BASE_URL);
   });
 
   test("redirect other relative links to arkhamdb", async ({ page }) => {
@@ -48,7 +48,7 @@ test.describe("deck description", () => {
     const nextPage = await nextPagePromise;
 
     const nextPageOrigin = new URL(nextPage.url()).origin;
-    expect(nextPageOrigin).toEqual("https://arkhamdb.com");
+    expect(nextPageOrigin).toEqual(process.env.VITE_ARKHAMDB_BASE_URL);
   });
 
   test("redirect card links with nested content flow content", async ({

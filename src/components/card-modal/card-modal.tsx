@@ -4,6 +4,7 @@ import {
   getRelatedCards,
 } from "@/store/lib/resolve-card";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
+import { localizeArkhamDBBaseUrl } from "@/utils/arkhamdb";
 import {
   getCanonicalCardCode,
   isSpecialist,
@@ -184,7 +185,7 @@ export function CardModal(props: Props) {
           </Button>
           <Button
             as="a"
-            href={`https://arkhamdb.com/card/${cardWithRelations.card.code}#reviews-header`}
+            href={`${localizeArkhamDBBaseUrl()}/card/${cardWithRelations.card.code}#reviews-header`}
             rel="noreferrer"
             target="_blank"
           >

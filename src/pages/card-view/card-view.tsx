@@ -6,6 +6,7 @@ import { CardViewCards } from "@/pages/card-view/card-view-cards";
 import { useStore } from "@/store";
 import type { CardWithRelations } from "@/store/lib/types";
 import { selectCardWithRelations } from "@/store/selectors/card-view";
+import { localizeArkhamDBBaseUrl } from "@/utils/arkhamdb";
 import { displayAttribute, isStaticInvestigator } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { useDocumentTitle } from "@/utils/use-document-title";
@@ -60,7 +61,7 @@ function CardView() {
             <SidebarSection title={t("card_view.section_actions")}>
               <Button
                 as="a"
-                href={`https://arkhamdb.com/card/${cardWithRelations.card.code}`}
+                href={`${localizeArkhamDBBaseUrl()}/card/${cardWithRelations.card.code}`}
                 rel="noreferrer"
                 target="_blank"
                 size="full"
@@ -69,7 +70,7 @@ function CardView() {
               </Button>
               <Button
                 as="a"
-                href={`https://arkhamdb.com/card/${cardWithRelations.card.code}#reviews-header`}
+                href={`${localizeArkhamDBBaseUrl()}/card/${cardWithRelations.card.code}#reviews-header`}
                 rel="noreferrer"
                 target="_blank"
                 size="full"
