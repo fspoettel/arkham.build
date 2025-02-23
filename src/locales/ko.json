@@ -730,9 +730,7 @@
         "quick_save_deck": "덱 저장 (페이지에 머무르기)",
         "quick_upgrade": "{{name}} 향상",
         "set_quantity": "덱 수량 설정",
-        "set_side_quantity": "보조 덱 수량 설정",
-        "show_limited_access": "Hide limited access",
-        "show_unusable": "Show unusable cards"
+        "set_side_quantity": "보조 덱 수량 설정"
       },
       "changes_restored": "저장되지 않은 변경 사항이 복원되었습니다.",
       "config": {
@@ -1009,10 +1007,11 @@
         "move_up": "위로 이동",
         "open_card_modal": "활성화 카드 정보를 새 창에서 열기",
         "reset_filters": "필터 초기화",
+        "show_limited_access": "Show limited access",
+        "show_unusable_cards": "사용불가 카드 전환",
         "toggle_filter_menu": "필터 메뉴 전환",
         "toggle_filters": "필터 전환",
-        "toggle_sidebar": "사이드바 전환",
-        "toggle_unusable_cards": "사용불가 카드 전환"
+        "toggle_sidebar": "사이드바 전환"
       },
       "all_cards": "모든 카드",
       "categories": {

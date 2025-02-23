@@ -730,9 +730,7 @@
         "quick_save_deck": "Deck speichern (und auf der Seite bleiben)",
         "quick_upgrade": "{{name}} verbesseren",
         "set_quantity": "Anzahl im Deck festlegen",
-        "set_side_quantity": "Anzahl im Nebendeck festlegen",
-        "show_limited_access": "Eingeschränkten Zugang anzeigen",
-        "show_unusable": "Unverwendbare Karten anzeigen"
+        "set_side_quantity": "Anzahl im Nebendeck festlegen"
       },
       "changes_restored": "Ungespeicherte Änderungen wurden wiederhergestellt.",
       "config": {
@@ -1009,10 +1007,11 @@
         "move_up": "Nächste Karte",
         "open_card_modal": "Kartendialog für fokussierte Karte öffnen",
         "reset_filters": "Filter zurücksetzen",
+        "show_limited_access": "Eingeschränkten Zugang anzeigen",
+        "show_unusable_cards": "Illegale Karten anzeigen",
         "toggle_filter_menu": "Filtermenü umschalten",
         "toggle_filters": "Filter umschalten",
-        "toggle_sidebar": "Sidebar umschalten",
-        "toggle_unusable_cards": "Illegale Karten anzeigen"
+        "toggle_sidebar": "Sidebar umschalten"
       },
       "all_cards": "Alle Karten",
       "categories": {

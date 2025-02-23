@@ -730,9 +730,7 @@
         "quick_save_deck": "Save deck (and stay on page)",
         "quick_upgrade": "Upgrade {{name}}",
         "set_quantity": "Set deck quantity",
-        "set_side_quantity": "Set side deck quantity",
-        "show_limited_access": "Hide limited access",
-        "show_unusable": "Show unusable cards"
+        "set_side_quantity": "Set side deck quantity"
       },
       "changes_restored": "Unsaved changes were restored.",
       "config": {
@@ -1009,10 +1007,11 @@
         "move_up": "Move up",
         "open_card_modal": "Open card modal for focused card",
         "reset_filters": "Reset filters",
+        "show_limited_access": "Show limited access",
+        "show_unusable_cards": "Show unusable cards",
         "toggle_filter_menu": "Toggle filter menu",
         "toggle_filters": "Toggle filters",
-        "toggle_sidebar": "Toggle sidebar",
-        "toggle_unusable_cards": "Toggle unusable cards"
+        "toggle_sidebar": "Toggle sidebar"
       },
       "all_cards": "All cards",
       "categories": {

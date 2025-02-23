@@ -23,6 +23,8 @@ export function CardAccessToggles(props: Props) {
   const showLimitedAccess = useStore((state) => state.ui.showLimitedAccess);
   const setShowLimitedAccess = useStore((state) => state.setShowLimitedAccess);
 
+  const canShowLimitedAccess = hasLimitedSlots(deck);
+
   const onShowUnusableChange = useCallback(
     (val: boolean) => {
       setShowUnusable(val);
@@ -34,26 +36,39 @@ export function CardAccessToggles(props: Props) {
     setShowUnusable(!showUnusable);
   }, [showUnusable, setShowUnusable]);
 
+  const onLimitedAccessHotkey = useCallback(() => {
+    setShowLimitedAccess(!showLimitedAccess);
+  }, [showLimitedAccess, setShowLimitedAccess]);
+
   useHotkey("alt+u", onUnusableHotkey);
+
+  useHotkey("alt+a", onLimitedAccessHotkey, {
+    disabled: !canShowLimitedAccess,
+  });
 
   return (
     <Field bordered className={css["card-access-toggles"]}>
       {hasLimitedSlots(deck) && (
-        <Checkbox
-          checked={showLimitedAccess}
-          id="show-limited-access"
-          label={t("deck_edit.actions.show_limited_access")}
-          onCheckedChange={setShowLimitedAccess}
-        />
+        <HotkeyTooltip
+          keybind="alt+a"
+          description={t("lists.actions.show_limited_access")}
+        >
+          <Checkbox
+            checked={showLimitedAccess}
+            id="show-limited-access"
+            label={t("lists.actions.show_limited_access")}
+            onCheckedChange={setShowLimitedAccess}
+          />
+        </HotkeyTooltip>
       )}
       <HotkeyTooltip
         keybind="alt+u"
-        description={t("deck_edit.actions.show_unusable")}
+        description={t("lists.actions.show_unusable_cards")}
       >
         <Checkbox
           checked={showUnusable}
           id="show-unusable-cards"
-          label={t("deck_edit.actions.show_unusable")}
+          label={t("lists.actions.show_unusable_cards")}
           onCheckedChange={onShowUnusableChange}
         />
       </HotkeyTooltip>

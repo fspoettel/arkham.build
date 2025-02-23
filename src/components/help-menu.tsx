@@ -85,8 +85,12 @@ export function HelpMenu() {
             { keybind: "alt+p", description: t("common.player_cards") },
             { keybind: "alt+c", description: t("common.encounter_cards") },
             {
+              keybind: "alt+a",
+              description: t("lists.actions.show_limited_access"),
+            },
+            {
               keybind: "alt+u",
-              description: t("lists.actions.toggle_unusable_cards"),
+              description: t("lists.actions.show_unusable_cards"),
             },
             {
               keybind: "alt+l",
