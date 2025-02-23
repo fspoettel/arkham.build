@@ -61,7 +61,7 @@ function About() {
           respective creators. All Arkham Horror: The Card Game™ images and
           graphics are copyrighted by Fantasy Flight Games.
         </p>
-        <h2>Thanks 🌟</h2>
+        <h2>🌟 Hall of Fame 🌟</h2>
         <ul>
           <li>
             <strong>@zzorba:</strong> Access to the ArkhamCards API and icons,
@@ -74,7 +74,7 @@ function About() {
             community.
           </li>
           <li>
-            <strong>@Chr1Z</strong>, <strong>@Butermelse</strong>,{" "}
+            <strong>@Chr1Z</strong>, <strong>@Dangaroo</strong>,{" "}
             <strong>@5argon</strong>: Patient feedback and testing during
             development of the initial version, design concepts.
           </li>
@@ -89,13 +89,25 @@ function About() {
             <strong>@HatfulBob</strong>: Custom card design.
           </li>
         </ul>
+        <p>
+          This app is available in multiple languages thanks to the following
+          contributors:
+        </p>
+        <ul>
+          <li>
+            Korean: <strong>@derornos</strong>
+          </li>
+          <li>
+            Russian: <strong>@Evgeny727</strong>
+          </li>
+        </ul>
         <h2>Image / Icon credits</h2>
         <ul>
           <li>
             <strong>Card icons:</strong> Fantasy Flight Games
           </li>
           <li>
-            <strong>Logo design:</strong> Buteremelse
+            <strong>Logo design:</strong> Dangaroo
           </li>
           <li>
             <strong>Re-used ArkhamCards icons:</strong> Eugene Sarnetsky
