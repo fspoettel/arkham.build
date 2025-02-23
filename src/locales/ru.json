@@ -730,7 +730,9 @@
         "quick_save_deck": "Save deck (and stay on page)",
         "quick_upgrade": "Upgrade {{name}}",
         "set_quantity": "Set deck quantity",
-        "set_side_quantity": "Set side deck quantity"
+        "set_side_quantity": "Set side deck quantity",
+        "show_limited_access": "Hide limited access",
+        "show_unusable": "Show unusable cards"
       },
       "changes_restored": "Unsaved changes were restored.",
       "config": {

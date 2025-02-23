@@ -730,7 +730,9 @@
         "quick_save_deck": "덱 저장 (페이지에 머무르기)",
         "quick_upgrade": "{{name}} 향상",
         "set_quantity": "덱 수량 설정",
-        "set_side_quantity": "보조 덱 수량 설정"
+        "set_side_quantity": "보조 덱 수량 설정",
+        "show_limited_access": "Hide limited access",
+        "show_unusable": "Show unusable cards"
       },
       "changes_restored": "저장되지 않은 변경 사항이 복원되었습니다.",
       "config": {
