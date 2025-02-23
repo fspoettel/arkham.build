@@ -30,6 +30,7 @@ export function TraitFilter({ id, resolvedDeck }: FilterProps) {
     <MultiselectFilter
       changes={changes}
       id={id}
+      itemToString={nameRenderer}
       open={filter.open}
       options={options}
       nameRenderer={nameRenderer}

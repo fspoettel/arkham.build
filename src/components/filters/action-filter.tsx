@@ -36,6 +36,7 @@ export function ActionFilter({ id, resolvedDeck }: FilterProps) {
       nameRenderer={nameRenderer}
       open={filter.open}
       options={options}
+      itemToString={nameRenderer}
       placeholder={t("filters.action.placeholder")}
       title={t("filters.action.title")}
       value={filter.value}
