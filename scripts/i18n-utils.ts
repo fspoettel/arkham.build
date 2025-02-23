@@ -89,7 +89,7 @@ async function cloneRepo() {
 
   try {
     if ((await fs.stat(localPath)).isDirectory()) {
-      return localPath;
+      await fs.rm(localPath, { recursive: true });
     }
   } catch {}
 
