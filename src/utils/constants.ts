@@ -7,6 +7,7 @@ export const LOCALES = [
   { value: "en", label: "English (en)" },
   { value: "de", label: "Deutsch (de)" },
   { value: "ko", label: "한국어/Korean (ko)" },
+  { value: "ru", label: "Русский (ru)"},
 ];
 
 export const FLOATING_PORTAL_ID = "floating";
