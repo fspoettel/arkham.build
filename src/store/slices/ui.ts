@@ -8,6 +8,7 @@ function getInitialUIState(): UIState {
       hydrated: false,
       initialized: false,
       showUnusableCards: false,
+      showLimitedAccess: true,
     },
   };
 }
@@ -22,5 +23,8 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
   },
   setShowUnusableCards(showUnusableCards: boolean) {
     set({ ui: { ...get().ui, showUnusableCards } });
+  },
+  setShowLimitedAccess(showLimitedAccess: boolean) {
+    set({ ui: { ...get().ui, showLimitedAccess } });
   },
 });

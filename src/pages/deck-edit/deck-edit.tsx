@@ -36,11 +36,11 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "wouter";
 import { Error404 } from "../errors/404";
+import { CardAccessToggles } from "./card-access-toggles";
 import { CardExtras } from "./card-extras";
 import css from "./deck-edit.module.css";
 import { Editor } from "./editor/editor";
 import { NotesEditor } from "./editor/notes-editor";
-import { ShowUnusableCardsToggle } from "./show-unusable-cards-toggle";
 
 function DeckEdit() {
   const { id } = useParams<{ id: string }>();
@@ -249,7 +249,7 @@ function DeckEditInner() {
               defaultOpen={validation.errors.length < 3}
               validation={validation}
             />
-            <ShowUnusableCardsToggle />
+            <CardAccessToggles deck={deck} />
           </Filters>
         }
         sidebar={

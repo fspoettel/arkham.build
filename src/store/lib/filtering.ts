@@ -684,6 +684,7 @@ export type InvestigatorAccessConfig = {
   // In order for trait-based access like specialist to work, we need to consider both sides.
   investigatorFront?: Card;
   selections?: Selections;
+  showLimitedAccess?: boolean;
   targetDeck?: "slots" | "extraSlots" | "both";
 };
 
@@ -971,10 +972,15 @@ function makePlayerCardsFilter(
     );
   }
 
+  const showLimitedAccess = config?.showLimitedAccess ?? true;
+
   const filters: Filter[] = [];
 
   for (const option of options) {
-    const filter = makeOptionFilter(option, config);
+    const filter =
+      !option.limit || showLimitedAccess
+        ? makeOptionFilter(option, config)
+        : () => false;
 
     if (!filter) continue;
 
@@ -990,7 +996,11 @@ function makePlayerCardsFilter(
 
   if (config?.targetDeck !== "extraSlots" && config?.additionalDeckOptions) {
     for (const option of config.additionalDeckOptions) {
-      const filter = makeOptionFilter(option, config);
+      const filter =
+        !option.limit || showLimitedAccess
+          ? makeOptionFilter(option, config)
+          : () => false;
+
       if (!filter) continue;
 
       if (option.not) {

@@ -739,7 +739,7 @@
           "choose_campaign": "Kampagne auswählen",
           "choose_campaign_placeholder": "Kampagne auswählen...",
           "cpa_help": "\"Campaign Play-Along\" ist ein regelmäßiges Event, das auf dem Mythos Busters Discord-Server stattfindet. Während des jeweiligen Events wird eine Kampagne zusammen, mit einem eingeschränkten Kartenpool, gespielt.",
-          "help": "Investigators, signature cards and story assets are not affected by this selection.",
+          "help": "Auswahl gilt nicht für Ermittler, Signaturkarten und Schwächen.",
           "placeholder": "Packs auswählen...",
           "section_title": "Kartenpooleinstellungen",
           "title": "Eingeschränkter Kartenpool",
@@ -1007,10 +1007,11 @@
         "move_up": "Nächste Karte",
         "open_card_modal": "Kartendialog für fokussierte Karte öffnen",
         "reset_filters": "Filter zurücksetzen",
+        "show_limited_access": "Eingeschränkten Zugang anzeigen",
+        "show_unusable_cards": "Illegale Karten anzeigen",
         "toggle_filter_menu": "Filtermenü umschalten",
         "toggle_filters": "Filter umschalten",
-        "toggle_sidebar": "Sidebar umschalten",
-        "toggle_unusable_cards": "Illegale Karten anzeigen"
+        "toggle_sidebar": "Sidebar umschalten"
       },
       "all_cards": "Alle Karten",
       "categories": {

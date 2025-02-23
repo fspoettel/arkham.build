@@ -1007,10 +1007,11 @@
         "move_up": "위로 이동",
         "open_card_modal": "활성화 카드 정보를 새 창에서 열기",
         "reset_filters": "필터 초기화",
+        "show_limited_access": "Show limited access",
+        "show_unusable_cards": "사용불가 카드 전환",
         "toggle_filter_menu": "필터 메뉴 전환",
         "toggle_filters": "필터 전환",
-        "toggle_sidebar": "사이드바 전환",
-        "toggle_unusable_cards": "사용불가 카드 전환"
+        "toggle_sidebar": "사이드바 전환"
       },
       "all_cards": "모든 카드",
       "categories": {

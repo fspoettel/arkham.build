@@ -368,22 +368,15 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
     __?: ResolvedDeck,
     targetDeck?: "slots" | "extraSlots" | "both",
   ) => targetDeck ?? "slots",
-  (state: StoreState) => state.ui.showUnusableCards,
+  (state: StoreState) => state.ui,
   (state: StoreState) => selectActiveList(state)?.duplicateFilter,
-  (
-    metadata,
-    lookupTables,
-    resolvedDeck,
-    targetDeck,
-    showUnusableCards,
-    duplicateFilter,
-  ) => {
+  (metadata, lookupTables, resolvedDeck, targetDeck, ui, duplicateFilter) => {
     if (!resolvedDeck) return undefined;
 
     const investigatorBack = resolvedDeck.investigatorBack.card;
     if (!investigatorBack) return undefined;
 
-    if (showUnusableCards) {
+    if (ui.showUnusableCards) {
       return and([
         not(filterType(["investigator", "story", "location"])),
         filterMythosCards,
@@ -406,6 +399,7 @@ const selectDeckInvestigatorFilter = deckAccessEqualSelector(
       investigatorFront: resolvedDeck.investigatorFront.card,
       selections: resolvedDeck.selections,
       targetDeck,
+      showLimitedAccess: ui.showLimitedAccess,
     });
 
     const weaknessFilter = filterInvestigatorWeaknessAccess(investigatorBack, {
