@@ -82,5 +82,5 @@ function hasLimitedSlots(deck: ResolvedDeck) {
     ...getAdditionalDeckOptions(deck),
   ];
 
-  return options ?? false;
+  return options.some((o) => o.limit) ?? false;
 }
