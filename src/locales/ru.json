@@ -150,7 +150,7 @@
         "seeker": "Искатель",
         "survivor": "Выживший"
       },
-      "fast": "Fast",
+      "fast": "Быстрые",
       "icon_one": "символ навыка",
       "icon_other": "символы навыка",
       "level": {
@@ -697,7 +697,7 @@
         "alphabetical_asc": "По алфавиту (А -> Я)",
         "alphabetical_desc": "По алфавиту (Я -> А)",
         "date_created": "Недавно созданы",
-        "date_updated": "Недавно обнолены",
+        "date_updated": "Недавно обновлены",
         "xp_asc": "Опыта потрачено (по возрастанию)",
         "xp_desc": "Опыта потрачено (по убыванию)"
       },
@@ -1121,7 +1121,7 @@
         "username": "Имя пользователя"
       },
       "display": {
-        "card_level": "Card level display",
+        "card_level": "Отображение уровня карт",
         "card_level_as_dots": "В иконке и точками",
         "card_level_as_text": "В иконке и текстом",
         "card_level_icon_only": "Только в иконке",
