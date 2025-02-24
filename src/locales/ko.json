@@ -635,6 +635,7 @@
       "latest_upgrade": {
         "add_to_deck": "현재 덱에 추가",
         "no_changes": "변경점 없음.",
+        "summary": "{{xpSpent}} of {{xp}} XP spent",
         "title": "마지막 향상",
         "xp_spent": "점 소비됨"
       },

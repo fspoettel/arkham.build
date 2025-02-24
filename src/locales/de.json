@@ -635,6 +635,7 @@
       "latest_upgrade": {
         "add_to_deck": "Zum Deck hinzufügen",
         "no_changes": "Keine Änderungen.",
+        "summary": "{{xpSpent}} von {{xp}} EP ausgegeben",
         "title": "Aktuelle Verbesserung",
         "xp_spent": "EP ausgegeben"
       },

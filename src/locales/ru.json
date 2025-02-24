@@ -635,6 +635,7 @@
       "latest_upgrade": {
         "add_to_deck": "Добавить к текущей колоде",
         "no_changes": "Без изменений.",
+        "summary": "{{xpSpent}} of {{xp}} XP spent",
         "title": "Последнее улучшение",
         "xp_spent": "опыта потрачено"
       },

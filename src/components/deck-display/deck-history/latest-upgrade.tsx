@@ -156,11 +156,12 @@ export function LatestUpgrade(props: Props) {
           <div className={css["title"]}>
             <div className={css["row"]} data-testid="latest-upgrade-summary">
               <i className="icon-xp-bold" />
-              <strong>{xpSpent}</strong> of{" "}
-              <span className={css["quantity"]}>
-                <strong>{xp + xpAdjustment}</strong>
-                {t("deck.latest_upgrade.xp_spent")}
-              </span>
+              <strong>
+                {t("deck.latest_upgrade.summary", {
+                  xpSpent,
+                  xp: xp + xpAdjustment,
+                })}
+              </strong>
               {!readonly && (
                 <>
                   <Button
