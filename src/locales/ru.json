@@ -176,18 +176,18 @@
       "player_cards_short": "Карты игрока",
       "relations": {
         "advanced": "Продвинутые персональные карты",
-        "base": "Base Investigator",
+        "base": "Оригинальный сыщик",
         "bonded": "Связанные карты",
         "bound": "Заисимые карты",
         "extra": "Special cards",
         "level": "Другие уровни",
         "otherSignatures": "Другие персональные карты",
-        "otherVersions": "Other versions",
+        "otherVersions": "Другие версии",
         "parallel": "Parallel Investigator",
         "parallelCards": "Parallel cards",
         "replacement": "Замены",
         "requiredCards": "Персональные карты",
-        "restrictedTo": "Restricted to",
+        "restrictedTo": "Привязано к",
         "specialist": "Specialist",
         "specialist_investigators": "Specialist Investigators"
       },
@@ -635,6 +635,7 @@
       "latest_upgrade": {
         "add_to_deck": "Добавить к текущей колоде",
         "no_changes": "Без изменений.",
+        "summary": "{{xpSpent}} из {{xp}} опыта потрачено",
         "title": "Последнее улучшение",
         "xp_spent": "опыта потрачено"
       },
