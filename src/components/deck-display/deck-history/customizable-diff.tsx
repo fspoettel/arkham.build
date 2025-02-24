@@ -2,6 +2,7 @@ import { CustomizationOption } from "@/components/customizations/customization-o
 import { ListCard } from "@/components/list-card/list-card";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { CustomizationUpgrade } from "@/store/selectors/decks";
+import { displayAttribute } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import css from "./diffs.module.css";
 
@@ -52,7 +53,10 @@ export function CustomizableDiff(props: Props) {
                         omitOptionText
                         xpMax={xpMax}
                         option={card.customization_options[customization.index]}
-                        text={card.real_customization_text.split("\n")}
+                        text={displayAttribute(
+                          card,
+                          "customization_text",
+                        ).split("\n")}
                       />
                     </li>
                   ),

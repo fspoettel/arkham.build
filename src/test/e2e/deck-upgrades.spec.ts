@@ -37,7 +37,7 @@ test.describe("upgrades: interactions", () => {
     await importStandardDeck(page);
     await upgradeDeck(page);
     await expect(page.getByTestId("latest-upgrade-summary")).toContainText(
-      "0 of 5XP spent",
+      "0 of 5 XP spent",
     );
 
     await page.getByTestId("view-edit").click();
@@ -49,7 +49,7 @@ test.describe("upgrades: interactions", () => {
     await adjustDeckCardQuantity(page, "07117", "decrement");
 
     await expect(page.getByTestId("latest-upgrade-summary")).toContainText(
-      "4 of 5XP spent",
+      "4 of 5 XP spent",
     );
 
     await page
@@ -68,7 +68,7 @@ test.describe("upgrades: interactions", () => {
     await page.getByTestId("editor-save").click();
 
     await expect(page.getByTestId("latest-upgrade-summary")).toContainText(
-      "4 of 5XP spent",
+      "4 of 5 XP spent",
     );
   });
 
@@ -79,13 +79,13 @@ test.describe("upgrades: interactions", () => {
     await page.getByTestId("latest-upgrade-xp-increment").click();
     await page.getByTestId("editor-save").click();
     await expect(page.getByTestId("latest-upgrade-summary")).toContainText(
-      "0 of 6XP spent (+1)",
+      "0 of 6 XP spent (+1)",
     );
     await page.getByTestId("view-edit").click();
     await page.getByTestId("latest-upgrade-xp-decrement").dblclick();
     await page.getByTestId("editor-save").click();
     await expect(page.getByTestId("latest-upgrade-summary")).toContainText(
-      "0 of 4XP spent (-1)",
+      "0 of 4 XP spent (-1)",
     );
   });
 
