@@ -150,7 +150,7 @@
         "seeker": "Искатель",
         "survivor": "Выживший"
       },
-      "fast": "Fast",
+      "fast": "Быстрые",
       "icon_one": "символ навыка",
       "icon_other": "символы навыка",
       "level": {
@@ -175,19 +175,19 @@
       "player_cards": "Карты игрока",
       "player_cards_short": "Карты игрока",
       "relations": {
-        "advanced": "Advanced Signatures",
-        "base": "Base Investigator",
+        "advanced": "Продвинутые персональные карты",
+        "base": "Оригинальный сыщик",
         "bonded": "Связанные карты",
-        "bound": "Bound cards",
+        "bound": "Заисимые карты",
         "extra": "Special cards",
-        "level": "Other levels",
-        "otherSignatures": "Other Signatures",
-        "otherVersions": "Other versions",
+        "level": "Другие уровни",
+        "otherSignatures": "Другие персональные карты",
+        "otherVersions": "Другие версии",
         "parallel": "Parallel Investigator",
         "parallelCards": "Parallel cards",
-        "replacement": "Replacements",
-        "requiredCards": "Signatures",
-        "restrictedTo": "Restricted to",
+        "replacement": "Замены",
+        "requiredCards": "Персональные карты",
+        "restrictedTo": "Привязано к",
         "specialist": "Specialist",
         "specialist_investigators": "Specialist Investigators"
       },
@@ -635,7 +635,7 @@
       "latest_upgrade": {
         "add_to_deck": "Добавить к текущей колоде",
         "no_changes": "Без изменений.",
-        "summary": "{{xpSpent}} of {{xp}} XP spent",
+        "summary": "{{xpSpent}} из {{xp}} опыта потрачено",
         "title": "Последнее улучшение",
         "xp_spent": "опыта потрачено"
       },
@@ -657,7 +657,7 @@
         "shared": "Shared"
       },
       "tools": {
-        "cards": "Карты",
+        "cards": "Кол-во карт",
         "factions": "Классы",
         "loading": "Загрузка утилит…",
         "resource_cost": "Цены карты",
@@ -698,7 +698,7 @@
         "alphabetical_asc": "По алфавиту (А -> Я)",
         "alphabetical_desc": "По алфавиту (Я -> А)",
         "date_created": "Недавно созданы",
-        "date_updated": "Недавно обнолены",
+        "date_updated": "Недавно обновлены",
         "xp_asc": "Опыта потрачено (по возрастанию)",
         "xp_desc": "Опыта потрачено (по убыванию)"
       },
@@ -761,8 +761,8 @@
           "parallel_front": "Альтернативное лицо"
         },
         "storage_provider": {
-          "local": "Private",
-          "title": "Storage provider"
+          "local": "Локально",
+          "title": "Хранилище"
         },
         "taboo": "Список табу",
         "tags": "Теги",
@@ -922,20 +922,20 @@
         "title": "Сыщик"
       },
       "investigator_card_access": {
-        "help": "If you need more, use arkham-starter's <a>/who tool</a>.",
-        "title": "Card access"
+        "help": "Для большего функционала можете использовать arkham-starter утилиту <a>/who tool</a>.",
+        "title": "Доступ к карте"
       },
       "investigator_skills": {
-        "title": "Stats"
+        "title": "Навыки"
       },
       "level": {
         "title": "Уровень"
       },
       "or": "или",
       "ownership": {
-        "owned": "Owned",
-        "title": "Ownership",
-        "unowned": "Unavailable"
+        "owned": "Имеющиеся",
+        "title": "Владение",
+        "unowned": "Недоступные"
       },
       "pack": {
         "placeholder": "Выбрать дополнения",
@@ -1008,8 +1008,8 @@
         "move_up": "Переместить вверх",
         "open_card_modal": "Открыть выбранную карту",
         "reset_filters": "Сбросить фильтры",
-        "show_limited_access": "Show limited access",
-        "show_unusable_cards": "Show unusable cards",
+        "show_limited_access": "Показывать ограниченный доступ",
+        "show_unusable_cards": "Показывать неиспользованные карты",
         "toggle_filter_menu": "Toggle filter menu",
         "toggle_filters": "Toggle filters",
         "toggle_sidebar": "Toggle sidebar"
@@ -1088,9 +1088,9 @@
         "card_count": "Количество карт",
         "new_format": "Новый формат (1+1)",
         "old_format": "Старый формат (1+6)",
-        "show_all_cards_owned": "Показовать все карты",
+        "show_all_cards_owned": "Показывать все карты",
         "show_all_cards_owned_help": "Это переопределяет настройку коллекции ниже при определении наличия карт  списках и колодах.",
-        "show_previews": "Показовать не выпущенные карты",
+        "show_previews": "Показывать не выпущенные карты",
         "show_previews_help": "Это позволяет видеть и добавлять в колоды ещё не выпущенные карты.",
         "title": "Коллекция"
       },
@@ -1122,7 +1122,7 @@
         "username": "Имя пользователя"
       },
       "display": {
-        "card_level": "Card level display",
+        "card_level": "Отображение уровня карт",
         "card_level_as_dots": "В иконке и точками",
         "card_level_as_text": "В иконке и текстом",
         "card_level_icon_only": "Только в иконке",
