@@ -98,6 +98,9 @@ function About() {
             Korean: <strong>@derornos</strong>
           </li>
           <li>
+            Polish: <strong>@javnik36</strong>
+          </li>
+          <li>
             Russian: <strong>@Evgeny727</strong>
           </li>
         </ul>
