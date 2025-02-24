@@ -921,11 +921,11 @@
         "title": "Сыщик"
       },
       "investigator_card_access": {
-        "help": "If you need more, use arkham-starter's <a>/who tool</a>.",
-        "title": "Card access"
+        "help": "Для большего функционала можете использовать arkham-starter утилиту <a>/who tool</a>.",
+        "title": "Доступ к карте"
       },
       "investigator_skills": {
-        "title": "Stats"
+        "title": "Навыки"
       },
       "level": {
         "title": "Уровень"
@@ -1007,8 +1007,8 @@
         "move_up": "Переместить вверх",
         "open_card_modal": "Открыть выбранную карту",
         "reset_filters": "Сбросить фильтры",
-        "show_limited_access": "Show limited access",
-        "show_unusable_cards": "Show unusable cards",
+        "show_limited_access": "Показывать ограниченный доступ",
+        "show_unusable_cards": "Показывать неиспользованные карты",
         "toggle_filter_menu": "Toggle filter menu",
         "toggle_filters": "Toggle filters",
         "toggle_sidebar": "Toggle sidebar"
@@ -1087,9 +1087,9 @@
         "card_count": "Количество карт",
         "new_format": "Новый формат (1+1)",
         "old_format": "Старый формат (1+6)",
-        "show_all_cards_owned": "Показовать все карты",
+        "show_all_cards_owned": "Показывать все карты",
         "show_all_cards_owned_help": "Это переопределяет настройку коллекции ниже при определении наличия карт  списках и колодах.",
-        "show_previews": "Показовать не выпущенные карты",
+        "show_previews": "Показывать не выпущенные карты",
         "show_previews_help": "Это позволяет видеть и добавлять в колоды ещё не выпущенные карты.",
         "title": "Коллекция"
       },
