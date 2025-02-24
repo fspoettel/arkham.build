@@ -635,6 +635,7 @@
       "latest_upgrade": {
         "add_to_deck": "Add to current deck",
         "no_changes": "No changes.",
+        "summary": "{{xpSpent}} of {{xp}} XP spent",
         "title": "Latest upgrade",
         "xp_spent": "XP spent"
       },

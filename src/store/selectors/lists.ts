@@ -545,6 +545,7 @@ const selectBaseListCards = createSelector(
 export const selectListCards = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
+  selectSettings,
   selectActiveList,
   selectBaseListCards,
   (_: StoreState, resolvedDeck?: ResolvedDeck) => resolvedDeck,
@@ -556,6 +557,7 @@ export const selectListCards = createSelector(
   (
     metadata,
     lookupTables,
+    settings,
     activeList,
     _filteredCards,
     resolvedDeck,
@@ -568,7 +570,12 @@ export const selectListCards = createSelector(
 
     // apply search after initial filtering to cut down on search operations.
     if (activeList.search.value) {
-      filteredCards = applySearch(activeList.search, filteredCards, metadata);
+      filteredCards = applySearch(
+        activeList.search,
+        filteredCards,
+        metadata,
+        settings.locale,
+      );
     }
 
     // this is the count of cards that a search would have matched before user filters are taken into account.
@@ -672,7 +679,8 @@ const selectListFilterProperties = createSelector(
           cost.max = Math.max(cost.max, card.cost);
         }
 
-        if (card.type_code === "asset") {
+        // filter out enemies.
+        if (card.type_code === "asset" || card.type_code === "investigator") {
           health.min = Math.min(health.min, Math.max(card.health ?? 0, 0));
           sanity.min = Math.min(sanity.min, Math.max(card.sanity ?? 0, 0));
         }

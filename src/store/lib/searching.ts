@@ -1,5 +1,6 @@
 import type { Card } from "@/store/services/queries.types";
 import { displayAttribute } from "@/utils/card-utils";
+import { LOCALES } from "@/utils/constants";
 import { normalizeDiacritics } from "@/utils/normalize-diacritics";
 import uFuzzy from "@leeoniya/ufuzzy";
 import type { Search } from "../slices/lists.types";
@@ -59,11 +60,24 @@ export function applySearch(
   search: Search,
   cards: Card[],
   metadata: Metadata,
+  locale: string,
 ): Card[] {
-  const uf = new uFuzzy({
+  const options: uFuzzy.Options = {
     intraMode: 0,
     interIns: MATCHING_MAX_TOKEN_DISTANCE,
-  });
+  };
+
+  // https://github.com/leeoniya/uFuzzy/?tab=readme-ov-file#charsets-alphabets-diacritics
+  if (LOCALES.find((l) => l.value === locale)?.unicode) {
+    options.unicode = true;
+    options.interSplit = "[^\\p{L}\\d']+";
+    options.intraSplit = "\\p{Ll}\\p{Lu}";
+    options.intraBound = "\\p{L}\\d|\\d\\p{L}|\\p{Ll}\\p{Lu}";
+    options.intraChars = "[\\p{L}\\d']";
+    options.intraContr = "'\\p{L}{1,2}\\b";
+  }
+
+  const uf = new uFuzzy(options);
 
   const searchCards = cards.map((card) => {
     let content = prepareCardFace(card, search);

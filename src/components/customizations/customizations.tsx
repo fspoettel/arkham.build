@@ -1,5 +1,9 @@
 import type { ResolvedCard } from "@/store/lib/types";
-import { getCardColor, parseCardTextHtml } from "@/utils/card-utils";
+import {
+  displayAttribute,
+  getCardColor,
+  parseCardTextHtml,
+} from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { useTranslation } from "react-i18next";
 import css from "./customizations.module.css";
@@ -12,7 +16,9 @@ export function Customizations(props: Props) {
   const { t } = useTranslation();
   const backgroundCls = getCardColor(props.card, "background");
 
-  const html = parseCardTextHtml(props.card.real_customization_text as string);
+  const html = parseCardTextHtml(
+    displayAttribute(props.card, "customization_text"),
+  );
 
   return (
     <article className={css["customizations"]}>
