@@ -660,7 +660,7 @@
         "cards": "Кол-во карт",
         "factions": "Классы",
         "loading": "Загрузка утилит…",
-        "resource_cost": "Цены карты",
+        "resource_cost": "Цены карт",
         "resource_cost_tooltip": "{{count}} {{cards}} ценой {{cost}}",
         "resource_costs": "Цены карт",
         "skill_icons": "Символы навыков",
