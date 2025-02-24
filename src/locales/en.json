@@ -1064,7 +1064,7 @@
         "confirm": "Are you sure you want to restore this backup? Any existing data will be overwritten.",
         "create": "Create backup",
         "help": "Create a backup of your settings, decks and card collection as a JSON file. You can use this file to restore your data on this device or another device.",
-        "help_warning": "When a backup is restored,<strong>any existing data will be overwritten.</strong>",
+        "help_warning": "When a backup is restored, <strong>any existing data will be overwritten.</strong>",
         "no_file_selected": "No file selected",
         "restore": "Restore backup",
         "restore_error": "Failed to restore backup: {{error}}",
