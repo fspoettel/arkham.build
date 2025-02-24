@@ -18,6 +18,8 @@ i18n.use(initReactI18next).init({
 export async function changeLanguage(lng: Locale) {
   if (i18n.language === lng) return;
 
+  document.documentElement.lang = lng;
+
   if (!i18n.hasResourceBundle(lng, "translation")) {
     try {
       const translations = await import(`@/locales/${lng}.json`);
