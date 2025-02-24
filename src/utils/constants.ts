@@ -3,11 +3,15 @@ import type { Card } from "@/store/services/queries.types";
 import type { Filter } from "./fp";
 import i18n from "./i18n";
 
+/**
+ * If your language uses a different alphabet, please set the `unicode` flag here to `true`.
+ * Otherwise, the search will not work correctly.
+ */
 export const LOCALES = [
   { value: "en", label: "English (en)" },
   { value: "de", label: "Deutsch (de)" },
-  { value: "ko", label: "한국어/Korean (ko)" },
-  { value: "ru", label: "Русский (ru)" },
+  { value: "ko", label: "한국어/Korean (ko)", unicode: true },
+  { value: "ru", label: "Русский (ru)", unicode: true },
 ];
 
 export const FLOATING_PORTAL_ID = "floating";
