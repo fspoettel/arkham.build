@@ -760,8 +760,8 @@
           "parallel_front": "Альтернативное лицо"
         },
         "storage_provider": {
-          "local": "Private",
-          "title": "Storage provider"
+          "local": "Локально",
+          "title": "Хранилище"
         },
         "taboo": "Список табу",
         "tags": "Теги",
