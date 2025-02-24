@@ -656,7 +656,7 @@
         "shared": "Shared"
       },
       "tools": {
-        "cards": "Карты",
+        "cards": "Кол-во карт",
         "factions": "Классы",
         "loading": "Загрузка утилит…",
         "resource_cost": "Цены карты",
@@ -932,9 +932,9 @@
       },
       "or": "или",
       "ownership": {
-        "owned": "Owned",
-        "title": "Ownership",
-        "unowned": "Unavailable"
+        "owned": "Имеющиеся",
+        "title": "Владение",
+        "unowned": "Недоступные"
       },
       "pack": {
         "placeholder": "Выбрать дополнения",
