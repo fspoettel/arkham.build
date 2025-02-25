@@ -4,6 +4,7 @@ import {
   BookOpenIcon,
   CircleHelpIcon,
   KeyboardIcon,
+  ScrollTextIcon,
 } from "lucide-react";
 import { Fragment, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -245,6 +246,14 @@ export function HelpMenu() {
         </PopoverTrigger>
         <PopoverContent>
           <DropdownMenu>
+            <DropdownButton
+              as="a"
+              href="https://github.com/fspoettel/arkham.build/releases"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <ScrollTextIcon /> {t("help.changelog")}
+            </DropdownButton>
             <Link asChild href="~/about">
               <DropdownButton
                 as="a"

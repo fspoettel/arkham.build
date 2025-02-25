@@ -981,6 +981,7 @@
     },
     "help": {
       "about": "Über diese Seite",
+      "changelog": "Änderungsprotokoll",
       "collection_stats": "Sammlungsstatistik",
       "shortcuts": {
         "group_card_list": "Kartenliste",

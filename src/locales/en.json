@@ -981,6 +981,7 @@
     },
     "help": {
       "about": "About this site",
+      "changelog": "Changelog",
       "collection_stats": "Collection stats",
       "shortcuts": {
         "group_card_list": "Card list",
