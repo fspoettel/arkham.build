@@ -1031,8 +1031,9 @@
       },
       "group_by": "Group by",
       "nav": {
-        "card_count": "{{count}} cards",
         "card_count_hidden": "({{count}} hidden by filters)",
+        "card_count_one": "{{count}} card",
+        "card_count_other": "{{count}} cards",
         "display": "Display",
         "display_as_detailed": "Detailed cards",
         "display_as_list": "List",

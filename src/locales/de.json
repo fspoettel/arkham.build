@@ -1031,8 +1031,9 @@
       },
       "group_by": "Gruppierung",
       "nav": {
-        "card_count": "{{count}} Karten",
         "card_count_hidden": "({{count}} ausgeblendet)",
+        "card_count_one": "{{count}} Karte",
+        "card_count_other": "{{count}} Karten",
         "display": "Anzeige",
         "display_as_detailed": "Detailliert",
         "display_as_list": "Liste",

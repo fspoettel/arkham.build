@@ -1049,7 +1049,6 @@
       },
       "group_by": "Grupuj według",
       "nav": {
-        "card_count": "{{count}} karty",
         "card_count_one": "{{count}} karta",
         "card_count_few": "{{count}} karty",
         "card_count_many": "{{count}} kart",
