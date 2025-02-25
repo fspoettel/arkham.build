@@ -1,39 +1,48 @@
-import i18n from "i18next";
+import i18n, { type LanguageDetectorModule } from "i18next";
 
+import resourcesToBackend from "i18next-resources-to-backend";
 import { initReactI18next } from "react-i18next";
 
 import en from "@/locales/en.json";
 import type { Locale } from "@/store/slices/settings.types";
 
-i18n.use(initReactI18next).init({
-  fallbackLng: "en",
-  resources: {
-    en,
+const localStorageDectector: LanguageDetectorModule = {
+  type: "languageDetector",
+  detect() {
+    const lang = localStorage.getItem("i18nextLng");
+    return lang || "en";
   },
-  interpolation: {
-    escapeValue: false,
+  cacheUserLanguage(lng: string) {
+    localStorage.setItem("i18nextLng", lng);
   },
-});
+};
 
-export async function changeLanguage(lng: Locale) {
+const importBackend = resourcesToBackend(
+  async (lng: string, namespace: string) => {
+    const bundle = await import(`@/locales/${lng}.json`);
+    return bundle.default[namespace];
+  },
+);
+
+i18n
+  .use(localStorageDectector)
+  .use(importBackend)
+  .use(initReactI18next)
+  .init({
+    fallbackLng: "en",
+    load: "languageOnly",
+    partialBundledLanguages: true,
+    resources: {
+      en,
+    },
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
+export function changeLanguage(lng: Locale) {
   if (i18n.language === lng) return;
-
   document.documentElement.lang = lng;
-
-  if (!i18n.hasResourceBundle(lng, "translation")) {
-    try {
-      const translations = await import(`@/locales/${lng}.json`);
-      i18n.addResourceBundle(
-        lng,
-        "translation",
-        translations.default.translation,
-      );
-    } catch (error) {
-      console.error("Failed to load translations:", error);
-      return;
-    }
-  }
-
   i18n.changeLanguage(lng);
 }
 

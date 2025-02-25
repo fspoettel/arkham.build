@@ -88,7 +88,7 @@ export const createSettingsSlice: StateCreator<
         },
       });
 
-      await changeLanguage(settings.locale);
+      changeLanguage(settings.locale);
 
       await state.init(
         queryMetadata,

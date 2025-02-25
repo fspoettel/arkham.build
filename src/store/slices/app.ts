@@ -68,8 +68,9 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     const settings = selectSettings(state);
 
+    // FIXME: 2025-02-25 remove this in a few weeks.
     if (settings.locale !== "en") {
-      await changeLanguage(settings.locale).catch(console.error);
+      changeLanguage(settings.locale);
     }
 
     if (!refresh && state.metadata.dataVersion?.cards_updated_at) {
