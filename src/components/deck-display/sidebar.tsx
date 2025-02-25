@@ -590,7 +590,7 @@ function Sharing(props: { onArkhamDBUpload?: () => void; deck: ResolvedDeck }) {
                   tooltip={
                     <Trans
                       t={t}
-                      i18nKey="sharing.create_tooltip"
+                      i18nKey="deck_view.sharing.create_tooltip"
                       components={{ br: <br />, strong: <strong /> }}
                     >
                       Sharing creates a publicly accessible, read-only link to
