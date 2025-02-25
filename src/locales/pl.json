@@ -729,7 +729,7 @@
       "help_advanced": "Wymagane karty ze słowem kluczowym „Zaawansowana” to mocniejsze wersje kart, które wymagane są przez „Wymogi tworzenia talii”.<br>W dowolnym momencie kampanii (w tym podczas tworzenia talii) możesz opcjonalnie zdecydować się na dołączenie tych zaawansowanych wersji kart <strong>zamiast</strong> ich oryginalnych odpowiedników.",
       "help_replacements": "Wymagane karty ze słowem kluczowym „Replacement” mogą zamienić domyślnie wymagane karty wymienione w „Wymogach tworzenia talii”. Robiąc to nadal spełniasz wymagania - talia jest poprawna i gotowa do gry.<br>Jeśli chcesz to zrobić, <strong>obie</strong> wymagane karty muszą zostać wymienione. Jeśli robisz to na potrzeby kampanii, nie będziesz mógł później wrócić do korzystania z domyślnych kart.<br>Alternatywnie możesz dołączyć do talii wersje ze słowem kluczowym „Replacement”, dodatkowo do ich domyślnych wariantów.",
       "loading": "Tworzenie talii...",
-      "random_basic_weakness": "Dowolne podstawowe osłabienie",
+      "random_basic_weakness": "Losowe podstawowe osłabienie",
       "success": "Talia została utworzona pomyślnie."
     },
     "deck_edit": {
@@ -777,8 +777,8 @@
           "parallel_front": "Równoległy awers"
         },
         "storage_provider": {
-          "local": "Private",
-          "title": "Storage provider"
+          "local": "Lokalnie",
+          "title": "Miejsce przechowywania talii"
         },
         "taboo": "Lista tabu",
         "tags": "Tagi",
@@ -851,7 +851,7 @@
         "upload": "Wyślij na {{provider}}"
       },
       "connections": {
-        "description": "Ta talia jest ustawiona, aby synchronizować się z {{provider}}.",
+        "description": "Ta talia jest zsynchronizowana z {{provider}}.",
         "view": "Zobacz na {{provider}}"
       },
       "discounts": {
@@ -1062,7 +1062,7 @@
         "jump_to": "Przeskocz do...",
         "list_settings": "Ustawienia listy"
       },
-      "reset": "Reset to default",
+      "reset": "Przywróć domyślne",
       "search": {
         "include_backs": "Rewersy",
         "include_flavor": "Smaczki",
