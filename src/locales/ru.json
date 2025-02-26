@@ -71,13 +71,13 @@
       },
       "back": "Назад",
       "cancel": "Отменить",
-      "card_one": "карта",
       "card_few": "карты",
       "card_many": "карт",
+      "card_one": "карта",
       "clear": "Очистить",
-      "clue_one": "Улика",
       "clue_few": "Улики",
       "clue_many": "Улик",
+      "clue_one": "Улика",
       "cost": {
         "none": "Нет цены",
         "value": "Цена {{cost}}",
@@ -85,9 +85,9 @@
       },
       "customizable": "Адаптация",
       "customizations": "Адаптации",
-      "cycle_one": "цикл",
       "cycle_few": "цикла",
       "cycle_many": "циклов",
+      "cycle_one": "цикл",
       "deck_options": {
         "Atleast constraint violated.": "Atleast constraint violated.",
         "Blessed": "Благословенный",
@@ -154,9 +154,9 @@
         "survivor": "Выживший"
       },
       "fast": "Быстрые",
-      "icon_one": "символ навыков",
       "icon_few": "символа навыков",
       "icon_many": "символов навыков",
+      "icon_one": "символ навыков",
       "level": {
         "base": "Level 0 / Null",
         "none": "No level",
@@ -168,9 +168,9 @@
       "none": "Нет",
       "nonexceptional": "Не исключительный",
       "ok": "OK",
-      "pack_one": "дополнение",
       "pack_few": "дополнения",
       "pack_many": "дополнений",
+      "pack_one": "дополнение",
       "packs_new_format": {
         "encounter": "Кампания",
         "player": "Сыщики"
@@ -230,9 +230,9 @@
       "taboo_none": "нет",
       "taboo_unchained": "Дешевле на {{xp}} опыта.",
       "total": "всего",
-      "trait_one": "Черта",
       "trait_few": "Черты",
       "trait_many": "Черт",
+      "trait_one": "Черта",
       "traits": {
         "???": "???",
         "Abandoned": "Покинутая",
@@ -569,9 +569,9 @@
         "enemy_location": "Враг-локация",
         "event": "События",
         "investigator": "Сыщик",
-        "investigator_one": "Сыщик",
         "investigator_few": "Сыщика",
         "investigator_many": "Сыщиков",
+        "investigator_one": "Сыщик",
         "key": "Ключ",
         "location": "Локация",
         "scenario": "Сценарий",
@@ -649,9 +649,9 @@
       "limited_slots": "Ограниченные слоты",
       "stats": {
         "deck_size": "Размер колоды",
-        "ignored_one": "{{count}} копия не учитывается в лимит размера колоды.",
         "ignored_few": "{{count}} копии не учитываются в лимит размера колоды.",
         "ignored_many": "{{count}} копий не учитываются в лимит размера колоды.",
+        "ignored_one": "{{count}} копия не учитывается в лимит размера колоды.",
         "unowned": "Недоступные: {{count}} из {{total}} карт",
         "uses_parallel": "Uses a parallel side",
         "xp_available_help": "опыта доступно после последнего улучшения.",
@@ -784,9 +784,9 @@
       "create_local_copy_help": "Создайте локальную копию этой колоды. Это позволит применить все оставшиеся правки и сохранить их. Обновления и история колоды не будут перенесены.",
       "customizable": {
         "skill_placeholder": "Выбраать навык",
-        "traits_placeholder_one": "Выбрать черту",
         "traits_placeholder_few": "Выбрать черты",
-        "traits_placeholder_many": "Выбрать черт"
+        "traits_placeholder_many": "Выбрать черт",
+        "traits_placeholder_one": "Выбрать черту"
       },
       "discard": "Отменить изменения",
       "discard_confirm": "Вы уверены, что хотите отменить изменения?",
@@ -1041,10 +1041,10 @@
       },
       "group_by": "Группировка",
       "nav": {
-        "card_count_hidden": "({{count}} скрыто фильтрами)",
-        "card_count_one": "{{count}} карта",
         "card_count_few": "{{count}} карты",
+        "card_count_hidden": "({{count}} скрыто фильтрами)",
         "card_count_many": "{{count}} карт",
+        "card_count_one": "{{count}} карта",
         "display": "Отображение",
         "display_as_detailed": "Полные карты",
         "display_as_list": "Список",
@@ -1174,9 +1174,9 @@
     },
     "ui": {
       "cards_combobox": {
-        "placeholder_one": "Выберите карту",
         "placeholder_few": "Выберите карты",
-        "placeholder_many": "Выберите карт"
+        "placeholder_many": "Выберите карт",
+        "placeholder_one": "Выберите карту"
       },
       "collapsible": {
         "collapse": "Закрыть раздел",
