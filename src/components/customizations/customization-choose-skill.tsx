@@ -1,7 +1,6 @@
 import { Combobox } from "@/components/ui/combobox/combobox";
 import type { Coded } from "@/store/services/queries.types";
 import { SKILL_KEYS } from "@/utils/constants";
-import { capitalize } from "@/utils/formatting";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -13,9 +12,9 @@ type Props = {
   selections: string[];
 };
 
-const itemRenderer = (item: Coded) => (
+const itemRenderer = (item: Coded & { name: string }) => (
   <>
-    <i className={`icon-${item.code}`} /> {capitalize(item.code)}
+    <i className={`icon-${item.code}`} /> {item.name}
   </>
 );
 
@@ -27,8 +26,9 @@ export function CustomizationChooseSkill(props: Props) {
     () =>
       SKILL_KEYS.filter((x) => x !== "wild").map((key) => ({
         code: key,
+        name: t(`common.skill.${key}`),
       })),
-    [],
+    [t],
   );
 
   return (

@@ -18,7 +18,7 @@ test.describe("deck create", () => {
     await page.goto("/deck/create");
     await fillSearch(page, "yorick");
     await expect(page.getByTestId("cardlist-count").first()).toContainText(
-      "1 cards",
+      "1 card",
     );
 
     await page.getByTestId("create-choose-investigator").click();
@@ -36,7 +36,7 @@ test.describe("deck create", () => {
 
     await fillSearch(page, "yorick");
     await expect(page.getByTestId("cardlist-count").first()).toContainText(
-      "1 cards",
+      "1 card",
     );
 
     await page.getByTestId("listcard-title").click();
@@ -128,7 +128,7 @@ test.describe("deck create", () => {
     await page.getByTestId("filters-faction-seeker").click();
     await page.getByTestId("filters-faction-survivor").click();
     await expect(page.getByTestId("cardlist-count").first()).toContainText(
-      "1 cards",
+      "1 card",
     );
   });
 

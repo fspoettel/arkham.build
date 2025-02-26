@@ -278,7 +278,7 @@ test.describe("deck edit", () => {
 
     await fillSearch(page, "maimed hand");
     await expect(page.getByTestId("cardlist-count").first()).toContainText(
-      "1 cards",
+      "1 card",
     );
 
     await expect(

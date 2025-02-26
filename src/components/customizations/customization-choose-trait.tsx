@@ -2,6 +2,8 @@ import { Combobox } from "@/components/ui/combobox/combobox";
 import { useStore } from "@/store";
 import { sortAlphabetical } from "@/store/lib/sorting";
 import type { StoreState } from "@/store/slices";
+import i18n from "@/utils/i18n";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { createSelector } from "reselect";
 
@@ -18,7 +20,7 @@ const selectTraitOptions = createSelector(
   (state: StoreState) => state.lookupTables.traits,
   (traits) =>
     Object.keys(traits)
-      .map((code) => ({ code }))
+      .map((code) => ({ code, name: i18n.t(`common.traits.${code}`) }))
       .sort((a, b) => sortAlphabetical(a.code, b.code)),
 );
 
@@ -26,6 +28,11 @@ export function CustomizationChooseTraits(props: Props) {
   const { disabled, id, limit, onChange, readonly, selections } = props;
   const traits = useStore(selectTraitOptions);
   const { t } = useTranslation();
+
+  const nameRenderer = useCallback(
+    (trait: { code: string; name: string }) => trait.name,
+    [],
+  );
 
   return (
     <Combobox
@@ -35,6 +42,8 @@ export function CustomizationChooseTraits(props: Props) {
       label={t("common.trait", { count: limit })}
       limit={limit}
       readonly={readonly}
+      renderItem={nameRenderer}
+      renderResult={nameRenderer}
       onValueChange={onChange}
       placeholder={t("deck_edit.customizable.traits_placeholder", {
         count: limit,

@@ -22,7 +22,7 @@ test.describe("settings", () => {
 
     await fillSearch(page, "zoey samaras");
     await expect(page.getByTestId("cardlist-count").first()).toContainText(
-      "1 cards",
+      "1 card",
     );
 
     await fillSearch(page, "william yorick");
@@ -47,7 +47,7 @@ test.describe("settings", () => {
 
     await fillSearch(page, "william yorick");
     await expect(page.getByTestId("cardlist-count").first()).toContainText(
-      "1 cards",
+      "1 card",
     );
 
     await expect(

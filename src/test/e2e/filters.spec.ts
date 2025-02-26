@@ -30,7 +30,7 @@ test.describe("filters", () => {
     }
 
     await expect(page.getByTestId("cardlist-count").first()).toContainText(
-      "1 cards",
+      "1 card",
     );
     await expect(page.getByTestId("listcard-60216")).toBeVisible();
   });
@@ -41,7 +41,7 @@ test.describe("filters", () => {
     await fillSearch(page, "Practice Makes Perfect");
 
     await expect(page.getByTestId("cardlist-count").first()).toContainText(
-      "1 cards",
+      "1 card",
     );
     await expect(page.getByTestId("listcard-06197")).toBeVisible();
 
@@ -54,7 +54,7 @@ test.describe("filters", () => {
 
     await page.getByTestId("filters-faction-seeker").click();
     await expect(page.getByTestId("cardlist-count").first()).toContainText(
-      "1 cards",
+      "1 card",
     );
   });
 
