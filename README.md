@@ -56,8 +56,8 @@ Translations for cards and metadata are sourced from the [arkhamdb-json-data](ht
 
 ### Updating translations
 
-1. Run `npm run i18n:sync-keys` to sync newly added translation keys to your locale.
-2. Run `npm run i18n:pull-data` to sync translations from ArkhamCards.
+1. Run `npm run i18n:sync` to sync newly added translation keys to your locale.
+2. Run `npm run i18n:pull` to sync translations from ArkhamCards.
 3. Update the translation file and open a PR.
 
 ## Architecture

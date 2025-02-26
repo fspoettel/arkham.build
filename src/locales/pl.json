@@ -71,14 +71,14 @@
       },
       "back": "Wstecz",
       "cancel": "Anuluj",
-      "card_one": "karta",
       "card_few": "karty",
       "card_many": "kart",
+      "card_one": "karta",
       "card_other": "karty",
       "clear": "Wyczyść",
-      "clue_one": "Wskazówka",
       "clue_few": "Wskazówki",
       "clue_many": "Wskazówek",
+      "clue_one": "Wskazówka",
       "clue_other": "Wskazówki",
       "cost": {
         "none": "Brak kosztu",
@@ -87,9 +87,9 @@
       },
       "customizable": "Przystosowalna",
       "customizations": "Usprawnienia",
-      "cycle_one": "cykl",
       "cycle_few": "cykle",
       "cycle_many": "cykli",
+      "cycle_one": "cykl",
       "cycle_other": "cykle",
       "deck_options": {
         "Atleast constraint violated.": "Ograniczenie \"przynajmniej\" naruszone.",
@@ -157,9 +157,9 @@
         "survivor": "Ocalały"
       },
       "fast": "Szybka",
-      "icon_one": "ikona umiejętności",
       "icon_few": "ikony umiejętności",
       "icon_many": "ikon umiejętności",
+      "icon_one": "ikona umiejętności",
       "icon_other": "ikony umiejętności",
       "level": {
         "base": "Poziom 0 / Null",
@@ -172,9 +172,9 @@
       "none": "Brak",
       "nonexceptional": "Nie-wyjątkowa",
       "ok": "OK",
-      "pack_one": "zestaw",
       "pack_few": "zestawy",
       "pack_many": "zestawów",
+      "pack_one": "zestaw",
       "pack_other": "zestawy",
       "packs_new_format": {
         "encounter": "Rozszerzenie kampanijne",
@@ -235,9 +235,9 @@
       "taboo_none": "żadna",
       "taboo_unchained": "Kosztuje {{xp}} doświadczenia mniej.",
       "total": "łącznie",
-      "trait_one": "Cecha",
       "trait_few": "Cechy",
       "trait_many": "Cech",
+      "trait_one": "Cecha",
       "trait_other": "Cechy",
       "traits": {
         "???": "???",
@@ -654,9 +654,9 @@
       "limited_slots": "Limitowane sloty",
       "stats": {
         "deck_size": "Rozmiar talii",
-        "ignored_one": "{{count}} kopia nie wlicza się do rozmiaru talii.",
         "ignored_few": "{{count}} kopie nie wliczają się do rozmiaru talii.",
         "ignored_many": "{{count}} kopii nie wlicza się do rozmiaru talii.",
+        "ignored_one": "{{count}} kopia nie wlicza się do rozmiaru talii.",
         "ignored_other": "{{count}} kopie nie wliczają się do rozmiaru talii.",
         "unowned": "Unavailable: {{count}} of {{total}} cards",
         "uses_parallel": "Uses a parallel side",
@@ -696,8 +696,8 @@
       "connect_arkhamdb": "Połącz z ArkhamDB",
       "count": "{{count}} talie",
       "count_few": "{{count}} talie",
-      "count_many": "{{count}} talii",
       "count_hidden": " ({{count}} ukryte)",
+      "count_many": "{{count}} talii",
       "deck_url_or_id": "URL lub ID talii",
       "delete_all": "Usuń wszystkie talie lokalne",
       "delete_all_confirm": "Czy jesteś pewien, że chcesz usunąć wszystkie talie lokalne ze swojej kolekcji?",
@@ -792,9 +792,9 @@
       "create_local_copy_help": "Utwórz lokalną kopię tej talii. Zastosuje to wszystkie zaległe edycje i umożliwi ich zapisanie. Ulepszenia i historia talii nie zostaną przeniesione.",
       "customizable": {
         "skill_placeholder": "Wybierz umiejętność...",
-        "traits_placeholder_one": "Wybierz cechę...",
         "traits_placeholder_few": "Wybierz cechy...",
         "traits_placeholder_many": "Wybierz cechy...",
+        "traits_placeholder_one": "Wybierz cechę...",
         "traits_placeholder_other": "Wybierz cechy..."
       },
       "discard": "Odrzuć zmiany",
@@ -999,6 +999,7 @@
     },
     "help": {
       "about": "O tej stronie",
+      "changelog": "Changelog",
       "collection_stats": "Statystyki kolekcji",
       "shortcuts": {
         "group_card_list": "Lista kart",
@@ -1049,10 +1050,10 @@
       },
       "group_by": "Grupuj według",
       "nav": {
-        "card_count_one": "{{count}} karta",
         "card_count_few": "{{count}} karty",
-        "card_count_many": "{{count}} kart",
         "card_count_hidden": "({{count}} ukrytych przez filtry)",
+        "card_count_many": "{{count}} kart",
+        "card_count_one": "{{count}} karta",
         "display": "Wyświetlanie listy",
         "display_as_detailed": "Szczegółowy podgląd karty",
         "display_as_list": "Tylko nazwa karty",
@@ -1182,9 +1183,9 @@
     },
     "ui": {
       "cards_combobox": {
-        "placeholder_one": "Wybierz kartę...",
         "placeholder_few": "Wybierz karty...",
         "placeholder_many": "Wybierz karty...",
+        "placeholder_one": "Wybierz kartę...",
         "placeholder_other": "Wybierz karty..."
       },
       "collapsible": {

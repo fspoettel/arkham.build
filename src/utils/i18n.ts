@@ -9,10 +9,12 @@ import type { Locale } from "@/store/slices/settings.types";
 const localStorageDectector: LanguageDetectorModule = {
   type: "languageDetector",
   detect() {
+    if (typeof window === "undefined") return "en";
     const lang = localStorage.getItem("i18nextLng");
     return lang || "en";
   },
   cacheUserLanguage(lng: string) {
+    if (typeof window === "undefined") return;
     localStorage.setItem("i18nextLng", lng);
   },
 };
