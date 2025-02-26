@@ -1,5 +1,6 @@
 import assert from "node:assert";
 import fs from "node:fs";
+import path from "node:path";
 
 type JsonObject = { [key: string]: JsonValue };
 
@@ -8,21 +9,22 @@ type JsonValue = null | boolean | number | string | JsonValue[] | JsonObject;
 syncLocales("en");
 
 function syncLocales(primary: string) {
-  const primaryLocale = JSON.parse(
-    fs.readFileSync(`./src/locales/${primary}.json`, "utf-8"),
-  );
+  const primaryLocale = readLocale(`${primary}.json`);
 
-  for (const localePath of fs.readdirSync("./src/locales")) {
+  const localePaths = fs.readdirSync(path.join(process.cwd(), "./src/locales"));
+
+  for (const localePath of localePaths) {
     if (localePath === `${primary}.json`) continue;
 
-    const locale = JSON.parse(
-      fs.readFileSync(`./src/locales/${localePath}`, "utf-8"),
-    );
+    const locale = readLocale(localePath);
 
     const synced = sync(primaryLocale, locale);
     const formatted = JSON.stringify(sortJSON(synced), null, 2);
 
-    fs.writeFileSync(`./src/locales/${localePath}`, formatted);
+    fs.writeFileSync(
+      path.join(process.cwd(), `./src/locales/${localePath}`),
+      formatted,
+    );
   }
 }
 
@@ -60,6 +62,12 @@ function sync(primary: JsonObject, locale: JsonObject) {
   }
 
   return newLocale;
+}
+
+function readLocale(filename: string) {
+  const filePath = path.join(process.cwd(), `./src/locales/${filename}`);
+  const contents = fs.readFileSync(filePath, "utf-8");
+  return JSON.parse(contents);
 }
 
 function isObject(x: unknown): x is JsonObject {
