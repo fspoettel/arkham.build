@@ -6,8 +6,13 @@
   margin-top: 0.5rem;
 }
 
+
 .details summary::-webkit-details-marker {
-  display: none;
+  visibility: hidden;
+}
+
+.details summary > * {
+  pointer-events: none;
 }
 
 .details-content {
