@@ -3,7 +3,6 @@ import fs from "node:fs";
 import path from "node:path";
 
 type JsonObject = { [key: string]: JsonValue };
-
 type JsonValue = null | boolean | number | string | JsonValue[] | JsonObject;
 
 syncLocales("en");

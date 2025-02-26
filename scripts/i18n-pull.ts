@@ -7,6 +7,9 @@ import type { Card } from "../src/store/services/queries.types";
 import { cardUses } from "../src/utils/card-utils";
 import { capitalize } from "../src/utils/formatting";
 
+type JsonObject = { [key: string]: JsonValue };
+type JsonValue = null | boolean | number | string | JsonValue[] | JsonObject;
+
 const [cards, en] = await Promise.all([queryCards(), readLocale("en")]);
 
 const uses = listUses(cards);
@@ -47,40 +50,43 @@ for (const lng of translations) {
 
   const locale = await readLocale(lng);
 
-  for (const key of Object.keys(en.translation.common.uses)) {
-    const arkhamCardsTranslation =
-      arkhamCardsLocale.translations[""][capitalize(key)]?.msgstr[0];
+  patchLocale(
+    lng,
+    (key) => arkhamCardsLocale.translations[""][capitalize(key)],
+    () => en.translation.common.uses,
+  );
 
-    if (arkhamCardsTranslation) {
-      locale.translation.common.uses[key] = arkhamCardsTranslation;
-    } else {
-      console.log(`[${lng}] ArkhamCards missing translation for ${key}`);
-    }
-  }
+  patchLocale(
+    lng,
+    (key) => arkhamCardsLocale.translations["trait"][key],
+    () => en.translation.common.traits,
+  );
 
-  for (const key of Object.keys(en.translation.common.traits)) {
-    const arkhamCardsTranslation =
-      arkhamCardsLocale.translations["trait"][key]?.msgstr[0];
-
-    if (arkhamCardsTranslation) {
-      locale.translation.common.traits[key] = arkhamCardsTranslation;
-    } else {
-      console.log(`[${lng}] ArkhamCards missing translation for ${key}`);
-    }
-  }
-
-  for (const key of Object.keys(en.translation.common.deck_options)) {
-    const arkhamCardsTranslation =
-      arkhamCardsLocale.translations[""][key]?.msgstr[0];
-
-    if (arkhamCardsTranslation) {
-      locale.translation.common.deck_options[key] = arkhamCardsTranslation;
-    } else {
-      console.log(`[${lng}] ArkhamCards missing translation for ${key}`);
-    }
-  }
+  patchLocale(
+    lng,
+    (key) => arkhamCardsLocale.translations["deck_option"]?.[key],
+    () => en.translation.common.deck_options,
+  );
 
   await writeLocale(lng, locale);
+}
+
+function patchLocale(
+  lng: string,
+  poResolver: (key: string) => { msgid: string; msgstr: string[] } | undefined,
+  i18NextResolver: () => JsonObject,
+) {
+  const obj = i18NextResolver();
+
+  for (const key of Object.keys(obj)) {
+    const translation = poResolver(key)?.msgstr[0];
+
+    if (translation) {
+      obj[key] = translation;
+    } else {
+      console.log(`[${lng}] ArkhamCards missing translation for ${key}`);
+    }
+  }
 }
 
 async function cloneRepo() {
@@ -111,7 +117,7 @@ async function queryCards() {
   return Object.values(
     applyLocalData({
       cards: apiCards,
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      // biome-ignore lint/suspicious/noExplicitAny: safe.
     } as any).cards,
   );
 }
@@ -150,6 +156,8 @@ function listDeckOptions(cards: Card[]) {
     "Deck must have at least 10 skill cards.",
     "Atleast constraint violated.",
     "Too many off-class cards.",
+    "Too many off-class cards for Versatile.",
+    "You cannot have assets that take up an ally slot.",
   ];
 
   return Array.from(
