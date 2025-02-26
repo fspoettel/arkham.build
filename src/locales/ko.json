@@ -981,6 +981,7 @@
     },
     "help": {
       "about": "이 사이트에 대하여",
+      "changelog": "Changelog",
       "collection_stats": "보유 게임 상태",
       "shortcuts": {
         "group_card_list": "카드 목록",

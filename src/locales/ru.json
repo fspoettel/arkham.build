@@ -981,6 +981,7 @@
     },
     "help": {
       "about": "О сайте",
+      "changelog": "Changelog",
       "collection_stats": "Статистика коллекции",
       "shortcuts": {
         "group_card_list": "Список карт",
