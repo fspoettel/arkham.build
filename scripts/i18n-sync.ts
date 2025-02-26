@@ -1,3 +1,4 @@
+import assert from "node:assert";
 import fs from "node:fs";
 
 type JsonObject = { [key: string]: JsonValue };
@@ -25,8 +26,8 @@ function syncLocales(primary: string) {
   }
 }
 
-function sync(primary: JsonObject, _locale: JsonObject) {
-  const locale = structuredClone(_locale);
+function sync(primary: JsonObject, locale: JsonObject) {
+  const newLocale = {};
 
   for (const key in primary) {
     if (Array.isArray(primary[key])) {
@@ -34,18 +35,31 @@ function sync(primary: JsonObject, _locale: JsonObject) {
     }
 
     if (isObject(primary[key])) {
-      locale[key] = sync(
+      newLocale[key] = sync(
         primary[key],
         isObject(locale[key]) ? locale[key] : {},
       );
     } else {
-      if (getPlurals(key).every((k) => !locale[k])) {
-        locale[key] ??= primary[key];
+      let found = 0;
+
+      for (const k of getPlurals(key)) {
+        if (locale[k]) {
+          assert(
+            typeof locale[k] === "string",
+            `Invalid value for ${k}: should be a string.`,
+          );
+          found += 1;
+          newLocale[k] = locale[k];
+        }
+      }
+
+      if (!found) {
+        newLocale[key] = primary[key];
       }
     }
   }
 
-  return locale;
+  return newLocale;
 }
 
 function isObject(x: unknown): x is JsonObject {
@@ -60,7 +74,7 @@ function getPlurals(key: string) {
     : key;
 
   const keys = pluralKeys.map((pluralKey) => `${root}_${pluralKey}`);
-  keys.push(root);
+  keys.unshift(root);
   return keys;
 }
 
