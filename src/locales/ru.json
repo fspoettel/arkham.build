@@ -72,10 +72,12 @@
       "back": "Назад",
       "cancel": "Отменить",
       "card_one": "карта",
-      "card_other": "карты",
+      "card_few": "карты",
+      "card_many": "карт",
       "clear": "Очистить",
       "clue_one": "Улика",
-      "clue_other": "Улики",
+      "clue_few": "Улики",
+      "clue_many": "Улик",
       "cost": {
         "none": "Нет цены",
         "value": "Цена {{cost}}",
@@ -84,7 +86,8 @@
       "customizable": "Адаптация",
       "customizations": "Адаптации",
       "cycle_one": "цикл",
-      "cycle_other": "циклы",
+      "cycle_few": "цикла",
+      "cycle_many": "циклов",
       "deck_options": {
         "Atleast constraint violated.": "Atleast constraint violated.",
         "Blessed": "Благословенный",
@@ -151,8 +154,9 @@
         "survivor": "Выживший"
       },
       "fast": "Быстрые",
-      "icon_one": "символ навыка",
-      "icon_other": "символы навыка",
+      "icon_one": "символ навыков",
+      "icon_few": "символа навыков",
+      "icon_many": "символов навыков",
       "level": {
         "base": "Level 0 / Null",
         "none": "No level",
@@ -165,7 +169,8 @@
       "nonexceptional": "Не исключительный",
       "ok": "OK",
       "pack_one": "дополнение",
-      "pack_other": "дополнения",
+      "pack_few": "дополнения",
+      "pack_many": "дополнений",
       "packs_new_format": {
         "encounter": "Кампания",
         "player": "Сыщики"
@@ -226,7 +231,8 @@
       "taboo_unchained": "Дешевле на {{xp}} опыта.",
       "total": "всего",
       "trait_one": "Черта",
-      "trait_other": "Черты",
+      "trait_few": "Черты",
+      "trait_many": "Черт",
       "traits": {
         "???": "???",
         "Abandoned": "Покинутая",
@@ -564,7 +570,8 @@
         "event": "События",
         "investigator": "Сыщик",
         "investigator_one": "Сыщик",
-        "investigator_other": "Сыщики",
+        "investigator_few": "Сыщика",
+        "investigator_many": "Сыщиков",
         "key": "Ключ",
         "location": "Локация",
         "scenario": "Сценарий",
@@ -642,9 +649,10 @@
       "limited_slots": "Ограниченные слоты",
       "stats": {
         "deck_size": "Размер колоды",
-        "ignored_one": "{{count}} copy does not count towards deck size.",
-        "ignored_other": "{{count}} copies do not count towards deck size.",
-        "unowned": "Unavailable: {{count}} of {{total}} cards",
+        "ignored_one": "{{count}} копия не учитывается в лимит размера колоды.",
+        "ignored_few": "{{count}} копии не учитываются в лимит размера колоды.",
+        "ignored_many": "{{count}} копий не учитываются в лимит размера колоды.",
+        "unowned": "Недоступные: {{count}} из {{total}} карт",
         "uses_parallel": "Uses a parallel side",
         "xp_available_help": "опыта доступно после последнего улучшения.",
         "xp_required": "Опыта необходимо",
@@ -777,7 +785,8 @@
       "customizable": {
         "skill_placeholder": "Выбраать навык",
         "traits_placeholder_one": "Выбрать черту",
-        "traits_placeholder_other": "Выбрать черты"
+        "traits_placeholder_few": "Выбрать черты",
+        "traits_placeholder_many": "Выбрать черт"
       },
       "discard": "Отменить изменения",
       "discard_confirm": "Вы уверены, что хотите отменить изменения?",
@@ -956,7 +965,7 @@
       },
       "skill_icons": {
         "any": "Любые",
-        "title": "Символы наыков"
+        "title": "Символы навыков"
       },
       "slot": {
         "placeholder": "Выбрать слоты",
@@ -981,6 +990,7 @@
     },
     "help": {
       "about": "О сайте",
+      "changelog": "Журнал изменений",
       "collection_stats": "Статистика коллекции",
       "shortcuts": {
         "group_card_list": "Список карт",
@@ -1031,8 +1041,10 @@
       },
       "group_by": "Группировка",
       "nav": {
-        "card_count": "{{count}} карт",
         "card_count_hidden": "({{count}} скрыто фильтрами)",
+        "card_count_one": "{{count}} карта",
+        "card_count_few": "{{count}} карты",
+        "card_count_many": "{{count}} карт",
         "display": "Отображение",
         "display_as_detailed": "Полные карты",
         "display_as_list": "Список",
@@ -1163,7 +1175,8 @@
     "ui": {
       "cards_combobox": {
         "placeholder_one": "Выберите карту",
-        "placeholder_other": "Выберите карты"
+        "placeholder_few": "Выберите карты",
+        "placeholder_many": "Выберите карт"
       },
       "collapsible": {
         "collapse": "Закрыть раздел",
