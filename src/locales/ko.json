@@ -639,6 +639,9 @@
         "title": "마지막 향상",
         "xp_spent": "점 소비됨"
       },
+      "limited_decks": {
+        "Versatile": "다재다능"
+      },
       "limited_slots": "제한된 슬롯",
       "stats": {
         "deck_size": "덱 크기",

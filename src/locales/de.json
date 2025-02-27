@@ -639,6 +639,9 @@
         "title": "Aktuelle Verbesserung",
         "xp_spent": "EP ausgegeben"
       },
+      "limited_decks": {
+        "Versatile": "Vielseitig"
+      },
       "limited_slots": "Eingeschränkter Kartenzugang",
       "stats": {
         "deck_size": "Deckgröße",

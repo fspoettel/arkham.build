@@ -639,6 +639,9 @@
         "title": "Latest upgrade",
         "xp_spent": "XP spent"
       },
+      "limited_decks": {
+        "Versatile": "Versatile"
+      },
       "limited_slots": "Limited slots",
       "stats": {
         "deck_size": "Deck size",

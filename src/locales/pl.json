@@ -651,6 +651,9 @@
         "title": "Ostatnie ulepszenie",
         "xp_spent": "Wydane XP"
       },
+      "limited_decks": {
+        "Versatile": "Wszechstronny"
+      },
       "limited_slots": "Limitowane sloty",
       "stats": {
         "deck_size": "Rozmiar talii",

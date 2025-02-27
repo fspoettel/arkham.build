@@ -37,7 +37,7 @@ export function LimitedSlots(props: { deck: ResolvedDeck }) {
           )}
           title={
             entry.option.name
-              ? t(`common.deck_options.${entry.option.name}`)
+              ? t(`deck.limited_decks.${entry.option.name}`)
               : t("deck.limited_slots")
           }
         />
