@@ -13,6 +13,7 @@
 .details {
   display: flex;
   flex-flow: row wrap;
+  align-items: flex-end;
   gap: 1rem;
   list-style: none;
 }
