@@ -734,8 +734,8 @@
         "survivor": "{{name}} on the Road"
       },
       "error": "Nie udało się utworzyć talii: {{error}}",
-      "help_advanced": "Wymagane karty ze słowem kluczowym „Zaawansowana” to mocniejsze wersje kart, które wymagane są przez „Wymogi tworzenia talii”.<br>W dowolnym momencie kampanii (w tym podczas tworzenia talii) możesz opcjonalnie zdecydować się na dołączenie tych zaawansowanych wersji kart <strong>zamiast</strong> ich oryginalnych odpowiedników.",
-      "help_replacements": "Wymagane karty ze słowem kluczowym „Replacement” mogą zamienić domyślnie wymagane karty wymienione w „Wymogach tworzenia talii”. Robiąc to nadal spełniasz wymagania - talia jest poprawna i gotowa do gry.<br>Jeśli chcesz to zrobić, <strong>obie</strong> wymagane karty muszą zostać wymienione. Jeśli robisz to na potrzeby kampanii, nie będziesz mógł później wrócić do korzystania z domyślnych kart.<br>Alternatywnie możesz dołączyć do talii wersje ze słowem kluczowym „Replacement”, dodatkowo do ich domyślnych wariantów.",
+      "help_advanced": "<p>Wymagane karty ze słowem kluczowym „Zaawansowana” to mocniejsze wersje kart, które wymagane są przez „Wymogi tworzenia talii”.</p><p>W dowolnym momencie kampanii (w tym podczas tworzenia talii) możesz opcjonalnie zdecydować się na dołączenie tych zaawansowanych wersji kart <strong>zamiast</strong> ich oryginalnych odpowiedników.</p>",
+      "help_replacements": "<p>Wymagane karty ze słowem kluczowym „Replacement” mogą zamienić domyślnie wymagane karty wymienione w „Wymogach tworzenia talii”. Robiąc to nadal spełniasz wymagania - talia jest poprawna i gotowa do gry.</p><p>Jeśli chcesz to zrobić, <strong>obie</strong> wymagane karty muszą zostać wymienione. Jeśli robisz to na potrzeby kampanii, nie będziesz mógł później wrócić do korzystania z domyślnych kart.</p><p>Alternatywnie możesz dołączyć do talii wersje ze słowem kluczowym „Replacement”, dodatkowo do ich domyślnych wariantów.</p>",
       "loading": "Tworzenie talii...",
       "random_basic_weakness": "Losowe podstawowe osłabienie",
       "success": "Talia została utworzona pomyślnie."

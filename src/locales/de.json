@@ -718,8 +718,8 @@
         "survivor": "{{name}} unterwegs"
       },
       "error": "Erstellen des Decks fehlgeschlagen: {{error}}",
-      "help_advanced": "Weiterentwickelte Signaturkarten sind stärkere Versionen der Signaturkarten eines Ermittlers, die unter „Deckanforderungen“ aufgeführt sind.<br>Während einer Kampagne (einschließlich des Deckbaus) können weiterentwickelte Signaturkarten jederzeit - <strong>anstelle der ursprünglichen Signaturkarten</strong> - verwendet werden.",
-      "help_replacements": "Ersatz-Signaturkarten können die Signaturkarten eines Ermittlers ersetzen, die unter \"Deckbauanforderungen\" aufgeführt sind. Dies erfüllt weiterhin alle Deckbauanforderungen und das Deck bleibt gültig.<br>Wenn dies getan wird, müssen <strong>beide</strong> Signaturkarten ersetzt werden und, wenn dies für eine Kampagne getan wird, kann nicht mehr zu den originalen Signaturkarten gewechselt werden.<br>Alternativ können Ersatz-Signaturkarten zusätzlich zu den Signaturkarten in das Deck aufgenommen werden.",
+      "help_advanced": "<p>Weiterentwickelte Signaturkarten sind stärkere Versionen der Signaturkarten eines Ermittlers, die unter „Deckanforderungen“ aufgeführt sind.</p><p>Während einer Kampagne (einschließlich des Deckbaus) können weiterentwickelte Signaturkarten jederzeit - <strong>anstelle der ursprünglichen Signaturkarten</strong> - verwendet werden.</p>",
+      "help_replacements": "<p>Ersatz-Signaturkarten können die Signaturkarten eines Ermittlers ersetzen, die unter \"Deckbauanforderungen\" aufgeführt sind. Dies erfüllt weiterhin alle Deckbauanforderungen und das Deck bleibt gültig.</p><p>Wenn dies getan wird, müssen <strong>beide</strong> Signaturkarten ersetzt werden und, wenn dies für eine Kampagne getan wird, kann nicht mehr zu den originalen Signaturkarten gewechselt werden.</p><p>Alternativ können Ersatz-Signaturkarten zusätzlich zu den Signaturkarten in das Deck aufgenommen werden.</p>",
       "loading": "Deck wird erstellt...",
       "random_basic_weakness": "Zufällige Grundschwäche",
       "success": "Deck wurde erfolgreich erstellt."

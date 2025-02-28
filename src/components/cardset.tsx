@@ -46,7 +46,8 @@ export function CardSet(props: Props) {
         {set.help && (
           <DefaultTooltip
             tooltip={
-              <p
+              <div
+                className="longform"
                 // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is produced by us.
                 dangerouslySetInnerHTML={{ __html: set.help }}
               />
