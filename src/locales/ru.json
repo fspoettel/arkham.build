@@ -718,12 +718,12 @@
     },
     "deck_create": {
       "default_name": {
-        "guardian": "The Adventures of {{name}}",
-        "mystic": "The {{name}} Mysteries",
-        "neutral": "{{name}} Does It All",
-        "rogue": "The {{name}} Job",
-        "seeker": "{{name}} Investigates",
-        "survivor": "{{name}} on the Road"
+        "guardian": "{{name}} расследует",
+        "mystic": "{{name}} и мистические тайны",
+        "neutral": "{{name}}: один за всех",
+        "rogue": "{{name}} нападает на след",
+        "seeker": "Следствие ведёт {{name}}",
+        "survivor": "{{name}} отправляется в путь"
       },
       "error": "Ошибка создания колоды: {{error}}",
       "help_advanced": "<p>Signature cards with \"Advanced\" are stronger versions of an investigator's signature cards that are listed under \"Deck Requirements\".</p><p>At any point during a campaign (including at deck creation) you may optionally choose to include these advanced signature cards <strong>instead of</strong> the original signature cards.</p>",
