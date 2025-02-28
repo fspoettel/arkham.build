@@ -246,14 +246,6 @@ export function HelpMenu() {
         </PopoverTrigger>
         <PopoverContent>
           <DropdownMenu>
-            <DropdownButton
-              as="a"
-              href="https://github.com/fspoettel/arkham.build/releases"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <ScrollTextIcon /> {t("help.changelog")}
-            </DropdownButton>
             <Link asChild href="~/about">
               <DropdownButton
                 as="a"
@@ -263,6 +255,14 @@ export function HelpMenu() {
                 <BookOpenIcon /> {t("help.about")}
               </DropdownButton>
             </Link>
+            <DropdownButton
+              as="a"
+              href="https://github.com/fspoettel/arkham.build/releases"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <ScrollTextIcon /> {t("help.changelog")}
+            </DropdownButton>
             <Link asChild href="~/collection-stats">
               <DropdownButton as="a" variant="bare" size="full">
                 <BarChart3Icon /> {t("help.collection_stats")}
