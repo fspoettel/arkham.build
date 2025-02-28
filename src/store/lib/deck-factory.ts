@@ -1,5 +1,6 @@
 import type { Deck } from "@/store/slices/data.types";
 import { randomId } from "@/utils/crypto";
+import i18n from "@/utils/i18n";
 
 type Payload = {
   investigator_code: string;
@@ -33,25 +34,7 @@ export function createDeck(values: Payload): Deck {
 }
 
 export function getDefaultDeckName(name: string, faction: string) {
-  switch (faction) {
-    case "guardian":
-      return `The Adventures of ${name}`;
-
-    case "seeker":
-      return `${name} Investigates`;
-
-    case "rogue":
-      return `The ${name} Job`;
-
-    case "mystic":
-      return `The ${name} Mysteries`;
-
-    case "survivor":
-      return `${name} on the Road`;
-
-    default:
-      return `${name} Does It All`;
-  }
+  return i18n.t(`deck_create.default_name.${faction}`, { name });
 }
 
 export function cloneDeck(deck: Deck): Deck {

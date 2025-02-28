@@ -725,6 +725,14 @@
       "title": "Talie"
     },
     "deck_create": {
+      "default_name": {
+        "guardian": "The Adventures of {{name}}",
+        "mystic": "The {{name}} Mysteries",
+        "neutral": "{{name}} Does It All",
+        "rogue": "The {{name}} Job",
+        "seeker": "{{name}} Investigates",
+        "survivor": "{{name}} on the Road"
+      },
       "error": "Nie udało się utworzyć talii: {{error}}",
       "help_advanced": "Wymagane karty ze słowem kluczowym „Zaawansowana” to mocniejsze wersje kart, które wymagane są przez „Wymogi tworzenia talii”.<br>W dowolnym momencie kampanii (w tym podczas tworzenia talii) możesz opcjonalnie zdecydować się na dołączenie tych zaawansowanych wersji kart <strong>zamiast</strong> ich oryginalnych odpowiedników.",
       "help_replacements": "Wymagane karty ze słowem kluczowym „Replacement” mogą zamienić domyślnie wymagane karty wymienione w „Wymogach tworzenia talii”. Robiąc to nadal spełniasz wymagania - talia jest poprawna i gotowa do gry.<br>Jeśli chcesz to zrobić, <strong>obie</strong> wymagane karty muszą zostać wymienione. Jeśli robisz to na potrzeby kampanii, nie będziesz mógł później wrócić do korzystania z domyślnych kart.<br>Alternatywnie możesz dołączyć do talii wersje ze słowem kluczowym „Replacement”, dodatkowo do ich domyślnych wariantów.",

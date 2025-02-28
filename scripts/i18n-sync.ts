@@ -18,13 +18,10 @@ function syncLocales(primary: string) {
     const locale = readLocale(localePath);
 
     const synced = sync(primaryLocale, locale);
-    const formatted = JSON.stringify(sortJSON(synced), null, 2);
-
-    fs.writeFileSync(
-      path.join(process.cwd(), `./src/locales/${localePath}`),
-      formatted,
-    );
+    writeLocale(localePath.replace(".json", ""), synced);
   }
+
+  writeLocale(primary, primaryLocale);
 }
 
 function sync(primary: JsonObject, locale: JsonObject) {
@@ -67,6 +64,12 @@ function readLocale(filename: string) {
   const filePath = path.join(process.cwd(), `./src/locales/${filename}`);
   const contents = fs.readFileSync(filePath, "utf-8");
   return JSON.parse(contents);
+}
+
+function writeLocale(lng: string, data: JsonObject) {
+  const filePath = path.join(process.cwd(), `./src/locales/${lng}.json`);
+  const contents = JSON.stringify(sortJSON(data), null, 2);
+  fs.writeFileSync(filePath, contents);
 }
 
 function isObject(x: unknown): x is JsonObject {
