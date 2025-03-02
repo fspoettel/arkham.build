@@ -1,5 +1,5 @@
 import { useStore } from "@/store";
-import { selectActiveListFilter } from "@/store/selectors/lists";
+import { costToString, selectActiveListFilter } from "@/store/selectors/lists";
 import { selectCostChanges, selectCostMinMax } from "@/store/selectors/lists";
 import { isCostFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
@@ -63,25 +63,16 @@ export function CostFilter({ id, resolvedDeck }: FilterProps) {
     [onChange],
   );
 
-  const onSetNoCost = useCallback(
-    (val: boolean | string) => {
-      onChange({
-        nocost: !!val,
-      });
-    },
-    [onChange],
-  );
-
   const onToggleOpen = useCallback(
     (val: boolean) => {
       if (val && !filter.value.range) {
         onChange({
-          range: [min, max],
+          range: [-1, max],
         });
       }
       onOpenChange(val);
     },
-    [min, max, filter.value.range, onOpenChange, onChange],
+    [max, filter.value.range, onOpenChange, onChange],
   );
 
   const rangeValue = useMemo(
@@ -103,8 +94,9 @@ export function CostFilter({ id, resolvedDeck }: FilterProps) {
         id="cost-select"
         label={t("filters.cost.title")}
         max={max}
-        min={min}
+        min={-1}
         onValueCommit={onValueCommit}
+        renderLabel={costToString}
         value={rangeValue}
       />
       <CheckboxGroup cols={2}>
@@ -128,13 +120,6 @@ export function CostFilter({ id, resolvedDeck }: FilterProps) {
           id="cost-odd"
           label={t("filters.cost.odd")}
           onCheckedChange={onSetOdd}
-        />
-        <Checkbox
-          data-testid="filters-cost-nocost"
-          checked={filter.value.nocost}
-          id="cost-nocost"
-          label={t("filters.cost.nocost")}
-          onCheckedChange={onSetNoCost}
         />
       </CheckboxGroup>
     </FilterContainer>

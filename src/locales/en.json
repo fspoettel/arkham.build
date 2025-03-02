@@ -941,6 +941,7 @@
         "title": "Stats"
       },
       "level": {
+        "no_level": "Null",
         "title": "Level"
       },
       "or": "or",

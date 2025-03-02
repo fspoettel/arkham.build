@@ -165,13 +165,11 @@ function filterXCost(card: Card) {
   return card.cost === -2;
 }
 
-function filterNoCost(card: Card) {
-  return card.cost == null;
-}
-
 function filterCardCost(value: [number, number]) {
-  return (card: Card) =>
-    card.cost != null && card.cost >= value[0] && card.cost <= value[1];
+  return (card: Card) => {
+    const cost = card.cost == null ? -1 : card.cost;
+    return cost >= value[0] && cost <= value[1];
+  };
 }
 
 export function filterCost(filterState: CostFilter) {
@@ -193,7 +191,6 @@ export function filterCost(filterState: CostFilter) {
   const altCostFilters = [];
 
   if (filterState.x) altCostFilters.push(filterXCost);
-  if (filterState.nocost) altCostFilters.push(filterNoCost);
 
   return or([...altCostFilters, and(filters)]);
 }

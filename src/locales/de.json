@@ -941,6 +941,7 @@
         "title": "Ermittlerfertigkeiten"
       },
       "level": {
+        "no_level": "Keine Stufe",
         "title": "Stufe"
       },
       "or": "oder",

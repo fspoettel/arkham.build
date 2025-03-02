@@ -67,24 +67,12 @@ export function RangeSelect(props: Props) {
         value={liveValue}
       />
       <div className={css["limits"]}>
-        <input
-          max={value[1]}
-          min={min}
-          readOnly
-          tabIndex={-1}
-          type="text"
-          className={outputClassName}
-          value={renderLabel ? renderLabel(liveValue[0]) : liveValue[0]}
-        />
-        <input
-          max={max}
-          min={value[0]}
-          readOnly
-          tabIndex={-1}
-          type="text"
-          className={outputClassName}
-          value={renderLabel ? renderLabel(liveValue[1]) : liveValue[1]}
-        />
+        <output tabIndex={-1} className={outputClassName}>
+          {renderLabel ? renderLabel(liveValue[0]) : liveValue[0]}
+        </output>
+        <output tabIndex={-1} className={outputClassName}>
+          {renderLabel ? renderLabel(liveValue[1]) : liveValue[1]}
+        </output>
       </div>
     </div>
   );

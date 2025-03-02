@@ -675,8 +675,8 @@ const selectListFilterProperties = createSelector(
         types.add(card.type_code);
 
         if (card.cost != null) {
-          cost.min = Math.min(cost.min, card.cost);
-          cost.max = Math.max(cost.max, card.cost);
+          cost.min = Math.min(cost.min, Math.max(card.cost, 0));
+          cost.max = Math.max(cost.max, Math.max(card.cost, 0));
         }
 
         // filter out enemies.
@@ -846,6 +846,11 @@ export const selectAssetChanges = (value: AssetFilter) => {
  * Cost
  */
 
+export function costToString(cost: number) {
+  if (cost === -1) return i18n.t("filters.cost.nocost");
+  return cost.toString();
+}
+
 export const selectCostMinMax = createSelector(
   selectListFilterProperties,
   ({ cost }) => cost,
@@ -854,8 +859,11 @@ export const selectCostMinMax = createSelector(
 export const selectCostChanges = (value: CostFilter) => {
   if (!value.range) return "";
 
-  let s = `${value.range[0]}`;
-  if (value.range[1] !== value.range[0]) s = `${s}-${value.range[1]}`;
+  const min = costToString(value.range[0]);
+
+  let s = min;
+  if (value.range[1] !== value.range[0])
+    s = `${s}-${costToString(value.range[1])}`;
   if (value.even) s = `${s}, even`;
   if (value.odd) s = `${s}, odd`;
   if (value.x) s = `${s}, X`;
@@ -1030,7 +1038,7 @@ export const selectInvestigatorSkillIconsChanges = (
  */
 
 export function levelToString(value: number) {
-  if (value === -1) return "Null";
+  if (value === -1) return i18n.t("filters.level.no_level");
   return value.toString();
 }
 

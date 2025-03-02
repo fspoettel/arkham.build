@@ -47,7 +47,7 @@ export function LevelFilter({ id }: FilterProps) {
   const onToggleOpen = useCallback(
     (val: boolean) => {
       if (val && !filter.value.range) {
-        onChangeRange([0, 5]);
+        onChangeRange([-1, 5]);
       }
       onOpenChange(val);
     },

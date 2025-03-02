@@ -687,7 +687,6 @@ describe("filter: cost", () => {
       x: false,
       even: false,
       odd: false,
-      nocost: false,
     };
 
     expect(applyFilter(state, "07025", config)).toBeTruthy(); // asset (4)
@@ -706,7 +705,6 @@ describe("filter: cost", () => {
       x: false,
       even: false,
       odd: false,
-      nocost: false,
     };
 
     expect(applyFilter(state, "07025", config)).toBeTruthy(); // asset (4)
@@ -725,7 +723,6 @@ describe("filter: cost", () => {
       x: false,
       even: false,
       odd: false,
-      nocost: false,
     };
 
     expect(applyFilter(state, "07025", config)).toBeTruthy(); // asset (4)
@@ -741,7 +738,6 @@ describe("filter: cost", () => {
       x: false,
       even: true,
       odd: false,
-      nocost: false,
     };
 
     expect(applyFilter(state, "07025", config)).toBeTruthy(); // asset (4)
@@ -757,7 +753,6 @@ describe("filter: cost", () => {
       x: false,
       even: false,
       odd: true,
-      nocost: false,
     };
 
     expect(applyFilter(state, "07025", config)).toBeFalsy(); // asset (4)
@@ -773,28 +768,10 @@ describe("filter: cost", () => {
       x: true,
       even: false,
       odd: false,
-      nocost: false,
     };
 
     expect(applyFilter(state, "07268", config)).toBeTruthy(); // X
     expect(applyFilter(state, "07268", { ...config, x: false })).toBeFalsy(); // X
-  });
-
-  it("handles case: nocost", () => {
-    const state = store.getState();
-
-    const config = {
-      range: [0, 10] as [number, number],
-      x: false,
-      even: false,
-      odd: false,
-      nocost: true,
-    };
-
-    expect(applyFilter(state, "09011", config)).toBeTruthy(); // An investigator card
-    expect(
-      applyFilter(state, "09011", { ...config, nocost: false }),
-    ).toBeFalsy();
   });
 });
 

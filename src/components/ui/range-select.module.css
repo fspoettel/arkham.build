@@ -14,13 +14,17 @@
   align-items: center;
   justify-content: space-between;
   padding-bottom: 0.25rem;
+  width: 100%;
 }
 
-.limits input[type="text"] {
+.limits output {
   line-height: 1;
-  max-width: calc(4ch);
   text-align: center;
-  padding: 0.125rem 0;
+  padding: 0.25rem;
+  width: fit-content;
+  border: 1px solid var(--palette-1);
+  background: var(--palette-point-five);
+  border-radius: var(--rounded);
 
   &:first-child {
     margin-left: -0.125rem;
