@@ -128,18 +128,23 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     for (const c of cards) {
       if (c.taboo_set_id) {
         metadata.taboos[c.id] = {
+          back_text: c.back_text,
           code: c.code,
-          real_text: c.real_text,
-          real_back_text: c.real_back_text,
-          real_taboo_text_change: c.real_taboo_text_change,
-          taboo_set_id: c.taboo_set_id,
-          taboo_xp: c.taboo_xp,
-          exceptional: c.exceptional,
-          deck_requirements: c.deck_requirements,
-          deck_options: c.deck_options,
+          customization_change: c.customization_change,
           customization_options: c.customization_options,
-          real_customization_text: c.real_customization_text,
+          customization_text: c.customization_text,
+          deck_options: c.deck_options,
+          deck_requirements: c.deck_requirements,
+          exceptional: c.exceptional,
+          real_back_text: c.real_back_text,
           real_customization_change: c.real_customization_change,
+          real_customization_text: c.real_customization_text,
+          real_taboo_text_change: c.real_taboo_text_change,
+          real_text: c.real_text,
+          taboo_set_id: c.taboo_set_id,
+          taboo_text_change: c.taboo_text_change,
+          taboo_xp: c.taboo_xp,
+          text: c.text,
         };
 
         continue;

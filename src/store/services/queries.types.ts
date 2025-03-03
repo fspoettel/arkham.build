@@ -252,18 +252,23 @@ export type EncounterSet = QueryEncounterSet & {
 };
 
 export type Taboo = {
+  back_text?: string;
   code: string;
-  real_text?: string;
-  real_back_text?: string;
-  real_taboo_text_change?: string;
-  taboo_xp?: number;
-  taboo_set_id: number;
-  exceptional?: boolean; // key of ys.
-  real_customization_text?: string;
-  real_customization_change?: Card["real_customization_change"];
+  customization_change?: string;
   customization_options?: Card["customization_options"];
-  deck_requirements?: Card["deck_requirements"];
+  customization_text?: string;
   deck_options?: Card["deck_options"];
+  deck_requirements?: Card["deck_requirements"];
+  exceptional?: boolean; // key of ys.
+  real_back_text?: string;
+  real_customization_change?: string;
+  real_customization_text?: string;
+  real_taboo_text_change?: string;
+  real_text?: string;
+  taboo_set_id: number;
+  taboo_text_change?: string;
+  taboo_xp?: number;
+  text?: string;
 };
 
 export type TabooSet = {
