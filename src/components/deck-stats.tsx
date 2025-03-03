@@ -11,19 +11,22 @@ export function DeckStats(props: Props) {
   const { deck } = props;
   const { t } = useTranslation();
 
+  const xpRequired = deck.stats.xpRequired;
+  const xpEarned = (deck.xp ?? 0) + (deck.xp_adjustment ?? 0);
+
   return (
     <div className={css["stats"]}>
       <DefaultTooltip tooltip={t("deck.stats.xp_required_help")}>
         <strong data-testid="deck-summary-xp">
           <i className="icon-xp-bold" />
-          {deck.stats.xpRequired} {t("common.xp")}
+          {xpRequired} {t("common.xp", { count: xpRequired })}
         </strong>
       </DefaultTooltip>
       {!!deck.xp && (
         <DefaultTooltip tooltip={t("deck.stats.xp_available_help")}>
           <strong data-testid="deck-xp-earned">
             <i className="icon-upgrade" />
-            {deck.xp + (deck.xp_adjustment ?? 0)} {t("common.xp")}
+            {xpEarned} {t("common.xp", { count: xpEarned })}
           </strong>
         </DefaultTooltip>
       )}
