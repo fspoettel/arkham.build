@@ -813,6 +813,7 @@
         "absolute_help": "Count how many {{name}} decks each card is used in",
         "analyze_side_decks": "Analyze side decks",
         "core": "Core",
+        "core_help": "Marking a card as \"Core\" tells the recommendation engine to only consider decks that contain it.",
         "error": "Could not retrieve recommendations.",
         "loading": "Computing recommendations...",
         "no_results": "No recommendations for this configuration.",

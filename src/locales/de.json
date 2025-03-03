@@ -813,6 +813,7 @@
         "absolute_help": "Vergleicht, in wie vielen {{name}} Decks die jeweilige Karte verwendet wird.",
         "analyze_side_decks": "Nebendeck analysieren",
         "core": "Pflicht",
+        "core_help": "Wenn eine Karte als \"Pflicht\" markiert ist, werden nur Decks, die diese Karte enthalten, in den Empfehlungen berücksichtigt.",
         "error": "Empfehlungen konnten nicht abgerufen werden.",
         "loading": "Empfehlungen werden abgerufen...",
         "no_results": "Keine Empfehlungen für diese Konfiguration.",
