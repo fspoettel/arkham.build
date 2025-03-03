@@ -1,5 +1,5 @@
 import { assert } from "@/utils/assert";
-import { getCanonicalCardCode } from "@/utils/card-utils";
+import { displayAttribute, getCanonicalCardCode } from "@/utils/card-utils";
 import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
 import { getDefaultDeckName } from "../lib/deck-factory";
@@ -53,7 +53,7 @@ export const createDeckCreateSlice: StateCreator<
         sets: ["requiredCards"],
         tabooSetId: selectSettings(state).tabooSetId ?? undefined,
         title: getDefaultDeckName(
-          investigator.real_name,
+          displayAttribute(investigator, "name"),
           investigator.faction_code,
         ),
       },
