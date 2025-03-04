@@ -32,13 +32,14 @@ export const REGEX_SUCCEED_BY =
 export const REGEX_WEAKNESS_FACTION_LOCKED = /^\[(.*?)\] investigator only\./;
 
 const ACTION_TEXT: { [key: string]: string } = {
-  fight: "Fight.",
-  engage: "Engage.",
-  investigate: "Investigate.",
-  draw: "Draw.",
-  move: "Move.",
-  evade: "Evade.",
-  parley: "Parley.",
+  fight: "Fight",
+  engage: "Engage",
+  investigate: "Investigate",
+  draw: "Draw",
+  move: "Move",
+  evade: "Evade",
+  parley: "Parley",
+  resign: "Resign",
 } as const;
 
 export const ACTION_TEXT_ENTRIES = Object.entries(ACTION_TEXT);

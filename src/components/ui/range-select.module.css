@@ -25,6 +25,7 @@
   border: 1px solid var(--palette-1);
   background: var(--palette-point-five);
   border-radius: var(--rounded);
+  font-size: var(--text-sm);
 
   &:first-child {
     margin-left: -0.125rem;

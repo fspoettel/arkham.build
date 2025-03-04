@@ -167,7 +167,7 @@ function indexByTraits(tables: LookupTables, card: Card) {
 function indexByActions(tables: LookupTables, card: Card) {
   // add card to action tables.
   for (const [key, value] of ACTION_TEXT_ENTRIES) {
-    if (card.real_text?.includes(value)) {
+    if (card.real_text?.includes(`<b>${value}`)) {
       setInLookupTable(card.code, tables.actions, key);
     }
   }
