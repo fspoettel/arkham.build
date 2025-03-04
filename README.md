@@ -82,11 +82,7 @@ The recommendation API is a seperate [project](https://github.com/TartanLlama/ar
 
 We leverage a few Cloudflare Pages functions for rewriting the HTML we serve to _some_ clients. Currently, this is used to inject OpenGraph tags for social media bots.
 
-### API
-
-The API is a separate, private git project.
-
-### Icons
+## Icons
 
 Arkham-related SVG icons are sourced from ArkhamCards's [icomoon project](https://github.com/zzorba/ArkhamCards/blob/master/assets/icomoon/project.json) and loaded as webfonts. Additional icons are bundled as SVG via `vite-plugin-svgr` or imported from `lucide-react`.
 
