@@ -48,10 +48,10 @@ Translations for cards and metadata are sourced from the [arkhamdb-json-data](ht
 
 ### Creating translations
 
-1. Create a copy of `en.json` in the `./src/locales` folder and rename it to your locale's ISO 639 code.
+1. Create a copy of `en.json` in the `./src/locales` folder and rename it to your locale's ISO-639 code.
 2. Add your locale to the `LOCALES` array in `./src/utils/constants`.
-3. Run `npm run i18n:pull-data` to pull in some translations (traits, deck options) from ArkhamCards automatically.
-4. (if your local has translated card data) Create an issue to get the card data added to the card data backend.
+3. Run `npm run i18n:pull` to pull in some translations (traits, deck options) from ArkhamCards automatically.
+4. _(if your locale has translated card data)_ Create an issue to get the card data added to the card data backend.
 5. Translate and open a PR.
 
 ### Updating translations
