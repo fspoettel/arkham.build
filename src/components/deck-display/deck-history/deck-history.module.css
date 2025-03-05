@@ -14,6 +14,20 @@
   border: 1px solid var(--palette-1);
 }
 
+.entry-title a {
+  text-decoration: none;
+  color: currentColor;
+  display: inline-flex;
+  flex-flow: row wrap;
+  align-items: center;
+  gap: 0.375rem;
+  line-height: 1;
+}
+
+.entry-title svg {
+  font-size: var(--text-base);
+}
+
 .entry > * + * {
   margin-top: 1rem;
 }

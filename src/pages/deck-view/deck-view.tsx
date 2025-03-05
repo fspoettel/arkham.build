@@ -99,6 +99,7 @@ function DeckViewInner({
     <ResolvedDeckProvider resolvedDeck={deck}>
       <CardModalProvider>
         <DeckDisplay
+          key={deck.id}
           origin={origin}
           deck={deck}
           history={history}

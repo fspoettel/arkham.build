@@ -858,6 +858,7 @@
         "added": "Hinzugefügt",
         "current_upgrade": "Aktuelle Verbesserung",
         "discounts": "Rabatte",
+        "initial_deck": "Initiales Deck",
         "no_changes": "Keine Änderungen.",
         "removed": "Entfernt",
         "slot_changes": "{{slot}}änderungen",

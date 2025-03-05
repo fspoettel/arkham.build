@@ -223,7 +223,31 @@ export function getDeckHistory(
     changes.unshift(getChanges(prev, next));
   }
 
-  return changes.map((change) => getHistoryEntry(change, metadata));
+  const history = changes.map((change) => getHistoryEntry(change, metadata));
+
+  history.push({
+    id: decks[0].id,
+    changes: {
+      exileSlots: {},
+      customizations: {},
+      slots: {},
+      extraSlots: {},
+      tabooSetId: null,
+    },
+    differences: {
+      slots: [],
+      extraSlots: [],
+      exileSlots: [],
+      customizations: [],
+    },
+    xpAvailable: 0,
+    xpAdjustment: 0,
+    xpSpent: 0,
+    xp: 0,
+    modifierStats: {},
+  } as HistoryEntry);
+
+  return history;
 }
 
 export const selectDeckHistoryCached = createSelector(

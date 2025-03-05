@@ -4,8 +4,10 @@ import type { History } from "@/store/selectors/decks";
 import { formatUpgradeXP } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import type { TFunction } from "i18next";
+import { SquareArrowOutUpRightIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Fragment } from "react/jsx-runtime";
+import { Link } from "wouter";
 import { CustomizableDiff } from "./customizable-diff";
 import css from "./deck-history.module.css";
 import { SlotDiff } from "./slot-diff";
@@ -29,19 +31,35 @@ export function DeckHistory(props: Props) {
           !isEmpty(stats.differences.customizations) ||
           !isEmpty(stats.differences.exileSlots);
 
+        const isLast = idx === history.length - 1;
+        const isCurrent = idx === 0;
+
+        const title = isCurrent
+          ? t("deck_view.history.current_upgrade")
+          : isLast
+            ? t("deck_view.history.initial_deck")
+            : t("deck_view.history.upgrade", {
+                index: history.length - idx - 1,
+              });
+
         return (
           // biome-ignore lint/suspicious/noArrayIndexKey: no natural key available.
           <li className={css["entry"]} key={idx}>
             <h3 className={css["entry-title"]}>
-              {idx === 0
-                ? t("deck_view.history.current_upgrade")
-                : t("deck_view.history.upgrade", {
-                    index: history.length - idx,
-                  })}
+              {idx === 0 ? (
+                title
+              ) : (
+                <Link to={`~/deck/view/${stats.id}`}>
+                  {title}
+                  <SquareArrowOutUpRightIcon />
+                </Link>
+              )}
             </h3>
-            <p className={css["entry-stats"]}>
-              {formatUpgradeXP(stats.xp, stats.xpAdjustment, stats.xpSpent)}
-            </p>
+            {!isLast && (
+              <p className={css["entry-stats"]}>
+                {formatUpgradeXP(stats.xp, stats.xpAdjustment, stats.xpSpent)}
+              </p>
+            )}
             <div className={css["entry-container"]}>
               {hasChanges && (
                 <>
