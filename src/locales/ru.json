@@ -869,6 +869,7 @@
         "added": "Добавлено",
         "current_upgrade": "Текущее улучшение",
         "discounts": "Скидки",
+        "initial_deck": "Оригинальная колода",
         "no_changes": "Нет изменений",
         "removed": "Удалено",
         "slot_changes": "{{slot}} изменения",
