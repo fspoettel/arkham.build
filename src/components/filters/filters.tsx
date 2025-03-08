@@ -76,7 +76,7 @@ export function Filters(props: Props) {
         !filtersEnabled && css["disabled"],
       )}
     >
-      <PreviewBanner />
+      {import.meta.env.VITE_SHOW_PREVIEW_BANNER === "true" && <PreviewBanner />}
 
       {props.children && (
         <div className={css["children"]}>{props.children}</div>
