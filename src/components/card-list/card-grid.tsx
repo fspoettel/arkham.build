@@ -4,14 +4,11 @@ import type {
 } from "@/store/selectors/lists";
 import type { Card } from "@/store/services/queries.types";
 import type { Metadata } from "@/store/slices/metadata.types";
-import { sideways } from "@/utils/card-utils";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { type ListRange, Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 import { useCardModalContextChecked } from "../card-modal/card-modal-context";
 import { CardScan } from "../card-scan";
-import { PortaledCardTooltip } from "../card-tooltip/card-tooltip-portaled";
 import { Scroller } from "../ui/scroller";
-import { useRestingTooltip } from "../ui/tooltip.hooks";
 import { CardActions } from "./card-actions";
 import css from "./card-grid.module.css";
 import { Grouphead } from "./grouphead";
@@ -184,9 +181,6 @@ export function CardGridItem(
 ) {
   const { card, getListCardProps, quantities } = props;
 
-  const { refs, referenceProps, isMounted, floatingStyles, transitionStyles } =
-    useRestingTooltip();
-
   const modalContext = useCardModalContextChecked();
 
   const openModal = useCallback(() => {
@@ -196,37 +190,25 @@ export function CardGridItem(
   const quantity = quantities?.[card.code] ?? 0;
 
   return (
-    <>
-      <div
-        {...referenceProps}
-        className={css["group-item"]}
-        key={card.code}
-        data-component="card-group-item"
-        ref={refs.setReference}
+    <div
+      className={css["group-item"]}
+      key={card.code}
+      data-component="card-group-item"
+    >
+      <button
+        className={css["group-item-scan"]}
+        onClick={openModal}
+        type="button"
       >
-        <button
-          className={css["group-item-scan"]}
-          onClick={openModal}
-          type="button"
-        >
-          <CardScan code={card.code} sideways={sideways(card)} lazy />
-        </button>
-        <div className={css["group-item-actions"]}>
-          <CardActions
-            card={card}
-            quantity={quantities ? quantity : undefined}
-            listCardProps={getListCardProps?.(card)}
-          />
-        </div>
-      </div>
-      {isMounted && (
-        <PortaledCardTooltip
+        <CardScan card={card} lazy />
+      </button>
+      <div className={css["group-item-actions"]}>
+        <CardActions
           card={card}
-          ref={refs.setFloating}
-          floatingStyles={floatingStyles}
-          transitionStyles={transitionStyles}
+          quantity={quantities ? quantity : undefined}
+          listCardProps={getListCardProps?.(card)}
         />
-      )}
-    </>
+      </div>
+    </div>
   );
 }
