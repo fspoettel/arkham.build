@@ -1,56 +1,153 @@
-import { imageUrl } from "@/utils/card-utils";
+import { useStore } from "@/store";
+import { selectBackCard } from "@/store/selectors/shared";
+import type { Card } from "@/store/services/queries.types";
+import {
+  cardBackType,
+  cardBackTypeUrl,
+  imageUrl,
+  sideways,
+} from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { useAgathaEasterEggTransform } from "@/utils/easter-egg-agatha";
+import { RotateCcwIcon } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import css from "./card-scan.module.css";
+import { Button } from "./ui/button";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-  code: string;
+  card: Card;
   className?: string;
-  sideways?: boolean;
-  suffix?: string;
   lazy?: boolean;
+  preventFlip?: boolean;
+  onFlip?: (sideways: boolean) => void;
+  suffix?: string;
 }
 
 export function CardScan(props: Props) {
-  const { code, suffix, ...rest } = props;
+  const { preventFlip, onFlip, card, suffix, ...rest } = props;
   const { t } = useTranslation();
+  const scanRef = useRef<HTMLDivElement>(null);
+
+  const backCard = useStore((state) => selectBackCard(state, card.code));
+  const backType = backCard ? "card" : cardBackType(card);
+
+  const [flipped, setFlipped] = useState(false);
+
+  const code = card.code;
+
+  const backCode =
+    backType === "card"
+      ? (backCard?.code ?? (suffix ? code : `${code}b`))
+      : backType;
 
   const imageCode = useAgathaEasterEggTransform(`${code}${suffix ?? ""}`);
+  const reverseImageCode = useAgathaEasterEggTransform(backCode);
+
+  const isSideways = sideways(card);
+  const reverseSideways = backCard ? sideways(backCard) : isSideways;
+
+  const onToggleFlip = useCallback(
+    (evt: React.MouseEvent) => {
+      evt.preventDefault();
+      evt.stopPropagation();
+
+      const next = !flipped;
+      if (onFlip) onFlip(next ? reverseSideways : isSideways);
+      setFlipped(next);
+    },
+    [flipped, isSideways, reverseSideways, onFlip],
+  );
 
   return (
-    <CardScanInner
-      alt={t("card_view.scan", { code: imageCode })}
-      url={imageUrl(imageCode)}
+    <div
       {...rest}
-    />
+      className={cx(
+        css["scan-container"],
+        flipped && css["flipped"],
+        flipped
+          ? reverseSideways && css["sideways"]
+          : isSideways && css["sideways"],
+      )}
+      data-testid="card-scan"
+      data-component="card-scan"
+    >
+      <div className={css["scan-front"]} ref={scanRef}>
+        <CardScanInner
+          alt={t("card_view.scan", { code: imageCode })}
+          sideways={isSideways}
+          url={imageUrl(imageCode)}
+        />
+      </div>
+      {!preventFlip && (
+        <>
+          <div className={css["scan-back"]} ref={scanRef}>
+            {backType === "card" ? (
+              <CardScanInner
+                {...rest}
+                alt={t("card_view.scan", { code: imageCode })}
+                hidden={!flipped}
+                sideways={backCard ? sideways(backCard) : isSideways}
+                url={imageUrl(reverseImageCode)}
+              />
+            ) : (
+              <CardScanInner
+                alt={t("card_view.scan", { code: backType })}
+                hidden={!flipped}
+                sideways={false}
+                url={cardBackTypeUrl(backType)}
+              />
+            )}
+          </div>
+          <Button
+            className={css["scan-flip-trigger"]}
+            onClick={onToggleFlip}
+            iconOnly
+            round
+          >
+            <RotateCcwIcon />
+          </Button>
+        </>
+      )}
+    </div>
   );
 }
 
 export function CardScanInner(
-  props: Omit<Props, "code"> & {
+  props: Omit<Props, "card"> & {
     alt: string;
     url: string;
+    initialHidden?: boolean;
     crossOrigin?: "anonymous";
+    sideways?: boolean;
   },
 ) {
-  const { alt, crossOrigin, sideways, lazy, className, url, ...rest } = props;
+  const { alt, crossOrigin, hidden, sideways, lazy, className, url, ...rest } =
+    props;
+
+  const [shown, setShown] = useState(!hidden);
+
+  useEffect(() => {
+    if (!hidden) setShown(true);
+  }, [hidden]);
 
   return (
     <div
+      {...rest}
       className={cx(css["scan"], sideways && css["sideways"], className)}
       data-testid="card-scan"
       data-component="card-scan"
-      {...rest}
     >
-      <img
-        alt={alt}
-        crossOrigin={crossOrigin}
-        height={sideways ? 300 : 420}
-        loading={lazy ? "lazy" : undefined}
-        src={url}
-        width={sideways ? 420 : 300}
-      />
+      {shown && (
+        <img
+          alt={alt}
+          crossOrigin={crossOrigin}
+          height={sideways ? 300 : 420}
+          loading={lazy ? "lazy" : undefined}
+          src={url}
+          width={sideways ? 420 : 300}
+        />
+      )}
     </div>
   );
 }

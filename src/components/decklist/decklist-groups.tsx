@@ -16,7 +16,7 @@ import {
 import { customizationSheetUrl } from "@/store/services/queries";
 import type { Card } from "@/store/services/queries.types";
 import type { Slots } from "@/store/slices/data.types";
-import { displayAttribute, sideways } from "@/utils/card-utils";
+import { displayAttribute } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { range } from "@/utils/range";
 import { Fragment, useCallback, useMemo } from "react";
@@ -210,8 +210,8 @@ function Scan(props: {
           return (
             <CardScan
               key={i}
-              code={card.code}
-              sideways={sideways(card)}
+              card={card}
+              preventFlip
               style={
                 {
                   "--scan-level": i,

@@ -14,6 +14,8 @@ export type LookupTables = {
     bound: LookupTable<string, 1>;
     // `Soothing Melody` is bonded to `Hallowed Mirror`.
     bonded: LookupTable<string, 1>;
+    // `Predator or Prey?` is the front for `The Masked Hunter`.
+    fronts: LookupTable<string, 1>;
     // `Daisy's Tote Bag` is restrictory to `Daisy Walker`.
     restrictedTo: LookupTable<string, 1>;
     // `Daisy Walker`'s requires `Daisy's Tote Bag`.

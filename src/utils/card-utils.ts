@@ -1,5 +1,10 @@
 import type { Card } from "@/store/services/queries.types";
-import { REGEX_USES, SIDEWAYS_TYPE_CODES, SKILL_KEYS } from "./constants";
+import {
+  PLAYER_CARDS_ENCOUNTER_BACK_IDS,
+  REGEX_USES,
+  SIDEWAYS_TYPE_CODES,
+  SKILL_KEYS,
+} from "./constants";
 import { isEmpty } from "./is-empty";
 
 export function splitMultiValue(s?: string) {
@@ -23,6 +28,29 @@ export function getCardColor(card: Card, prop = "color") {
 
 export function sideways(card: Card) {
   return SIDEWAYS_TYPE_CODES.includes(card.type_code);
+}
+
+export function doubleSided(card: Card) {
+  return card.double_sided || card.back_link_id;
+}
+
+type CardBackType = "player" | "encounter" | "card";
+
+export function cardBackType(card: Card): CardBackType {
+  if (doubleSided(card)) return "card";
+
+  if (
+    card.faction_code === "mythos" ||
+    PLAYER_CARDS_ENCOUNTER_BACK_IDS.includes(card.code)
+  ) {
+    return "encounter";
+  }
+
+  return "player";
+}
+
+export function cardBackTypeUrl(type: CardBackType) {
+  return `${import.meta.env.VITE_CARD_IMAGE_URL}/back_${type}.jpg`;
 }
 
 export function reversed(card: Card) {

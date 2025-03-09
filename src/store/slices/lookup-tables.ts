@@ -25,6 +25,7 @@ function getInitialLookupTables(): LookupTables {
       base: {},
       bound: {},
       bonded: {},
+      fronts: {},
       restrictedTo: {},
       requiredCards: {},
       parallel: {},
@@ -411,6 +412,10 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
         }
       }
     }
+  }
+
+  for (const [back, front] of Object.entries(backs)) {
+    setInLookupTable(front, tables.relations.fronts, back);
   }
 
   for (const [investigator, entry] of Object.entries(

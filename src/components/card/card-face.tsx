@@ -1,6 +1,7 @@
 import type { CardWithRelations, ResolvedCard } from "@/store/lib/types";
 import { displayAttribute, sideways } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
+import { useState } from "react";
 import { CardScan } from "../card-scan";
 import { CardThumbnail } from "../card-thumbnail";
 import { CardDetails } from "./card-details";
@@ -32,7 +33,7 @@ export function CardFace(props: Props) {
   } = props;
 
   const { card } = resolvedCard;
-  const isSideways = sideways(card);
+  const [isSideways, setSideways] = useState(sideways(card));
 
   const showImage = size === "full" || card.type_code !== "story";
 
@@ -75,7 +76,7 @@ export function CardFace(props: Props) {
       {showImage &&
         (size === "full" ? (
           <div className={css["image"]}>
-            <CardScan code={card.code} sideways={isSideways} />
+            <CardScan card={card} onFlip={setSideways} />
           </div>
         ) : (
           <div className={css["image"]}>

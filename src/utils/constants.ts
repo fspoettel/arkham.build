@@ -216,6 +216,8 @@ export const SPECIAL_CARD_CODES = {
   VERSATILE: "06167",
 };
 
+export const PLAYER_CARDS_ENCOUNTER_BACK_IDS = ["06028", "11016"];
+
 export const CARD_SET_ORDER = [
   "base",
   "parallel",

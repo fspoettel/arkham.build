@@ -2,7 +2,7 @@ import type { ResolvedCard } from "@/store/lib/types";
 import type { Card as CardType } from "@/store/services/queries.types";
 import { displayAttribute, sideways } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { CardScan } from "../card-scan";
 import { CardThumbnail } from "../card-thumbnail";
 import { CardHeader } from "./card-header";
@@ -33,7 +33,7 @@ export function CardBack(props: Props) {
     [card],
   );
 
-  const isSideways = sideways(card);
+  const [isSideways, setSideways] = useState(sideways(card));
   const hasHeader = card.parallel || card.type_code !== "investigator";
 
   const showImage =
@@ -74,7 +74,7 @@ export function CardBack(props: Props) {
       {showImage &&
         (size === "full" ? (
           <div className={css["image"]}>
-            <CardScan code={card.code} sideways={isSideways} suffix="b" />
+            <CardScan card={card} suffix="b" onFlip={setSideways} />
           </div>
         ) : (
           <div className={css["image"]}>

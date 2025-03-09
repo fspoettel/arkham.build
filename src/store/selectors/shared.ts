@@ -52,3 +52,27 @@ export const selectConnectionLockForDeck = createSelector(
     return remoting && deck.source === "arkhamdb" ? remoting : undefined;
   },
 );
+
+export const selectBackCard = createSelector(
+  (state: StoreState) => state.metadata,
+  (state: StoreState) => state.lookupTables,
+  (_: StoreState, code: string) => code,
+  (metadata, lookupTables, code) => {
+    const card = metadata.cards[code];
+    if (!card) return undefined;
+
+    if (card.back_link_id) {
+      return metadata.cards[card.back_link_id];
+    }
+
+    if (card.hidden) {
+      const backCode = Object.keys(
+        lookupTables.relations.fronts[code] ?? {},
+      ).at(0);
+
+      return backCode ? metadata.cards[backCode] : undefined;
+    }
+
+    return undefined;
+  },
+);
