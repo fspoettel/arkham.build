@@ -1493,3 +1493,28 @@ export function selectFilterChanges<T extends keyof FilterMapping>(
     }
   }
 }
+
+type FilterChange = {
+  type: keyof FilterMapping;
+  change: string;
+};
+
+export const selectActiveListChanges = createSelector(
+  (state: StoreState) => state,
+  (state) => {
+    const list = selectActiveList(state);
+    if (!list) return [];
+
+    const changes = list.filters.reduce((acc, type, id) => {
+      const filter = list.filterValues[id];
+      if (!filter) return acc;
+
+      const change = selectFilterChanges(state, type, filter.value);
+      if (change) acc.push({ type, change });
+
+      return acc;
+    }, [] as FilterChange[]);
+
+    return changes;
+  },
+);

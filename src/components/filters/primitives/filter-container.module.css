@@ -9,6 +9,6 @@
 .active {
   width: 0.5rem;
   height: 0.5rem;
-  fill: var(--nord-9);
+  fill: var(--nord-8);
   stroke: none;
 }

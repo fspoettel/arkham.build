@@ -1,3 +1,4 @@
+import { cx } from "@/utils/cx";
 import { FloatingPortal, useMergeRefs } from "@floating-ui/react";
 import { cloneElement, forwardRef, isValidElement, memo } from "react";
 import {
@@ -73,13 +74,13 @@ export const TooltipContent = forwardRef<
   return (
     <FloatingPortal>
       <div
-        className={css["content"]}
+        {...context.getFloatingProps(props)}
+        className={cx(css["content"], props.className)}
         ref={ref}
         style={{
           ...context.floatingStyles,
           ...(style as React.CSSProperties),
         }}
-        {...context.getFloatingProps(props)}
       />
     </FloatingPortal>
   );
@@ -88,6 +89,7 @@ export const TooltipContent = forwardRef<
 export type DefaultTooltipProps = {
   // Don't accept arrays of items or nullish values
   children: NonNullable<Exclude<React.ReactNode, Iterable<React.ReactNode>>>;
+  className?: string;
   tooltip?: React.ReactNode;
   options?: TooltipOptions;
   paused?: boolean;
@@ -96,7 +98,7 @@ export type DefaultTooltipProps = {
 export const DefaultTooltip = memo(function DefaultTooltip(
   props: DefaultTooltipProps,
 ) {
-  const { children, options, paused, tooltip } = props;
+  const { children, className, options, paused, tooltip } = props;
 
   if (!tooltip || paused) {
     return children;
@@ -111,7 +113,7 @@ export const DefaultTooltip = memo(function DefaultTooltip(
   return (
     <Tooltip delay={200} {...options}>
       <TooltipTrigger asChild>{children}</TooltipTrigger>
-      <TooltipContent>{tooltip}</TooltipContent>
+      <TooltipContent className={className}>{tooltip}</TooltipContent>
     </Tooltip>
   );
 });
