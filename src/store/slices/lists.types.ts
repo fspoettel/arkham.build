@@ -60,9 +60,9 @@ export type SkillIconsFilter = {
   any: number | undefined;
 };
 
-type HealthFilter = [number, number] | undefined;
+export type HealthFilter = [number, number] | undefined;
 
-type SanityFilter = [number, number] | undefined;
+export type SanityFilter = [number, number] | undefined;
 
 export type InvestigatorSkillsFilter = Record<
   Exclude<SkillKey, "wild">,

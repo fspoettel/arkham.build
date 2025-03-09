@@ -34,7 +34,7 @@ export function MultiselectFilter<T extends Coded>(props: Props<T>) {
 
   return (
     <FilterContainer
-      filterString={changes}
+      changes={changes}
       nonCollapsibleContent={children}
       onOpenChange={onOpenChange}
       onReset={onReset}

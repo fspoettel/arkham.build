@@ -1,7 +1,7 @@
 import { useStore } from "@/store";
 import {
   selectActiveListFilter,
-  selectInvestigatorChanges,
+  selectFilterChanges,
   selectInvestigatorOptions,
 } from "@/store/selectors/lists";
 import type { Card } from "@/store/services/queries.types";
@@ -22,10 +22,11 @@ export function InvestigatorFilter({ id }: FilterProps) {
     `InvestigatorFilter instantiated with '${filter?.type}'`,
   );
 
-  const options = useStore(selectInvestigatorOptions);
   const changes = useStore((state) =>
-    selectInvestigatorChanges(state, filter.value),
+    selectFilterChanges(state, filter.type, filter.value),
   );
+
+  const options = useStore(selectInvestigatorOptions);
 
   const otherVersionsTable = useStore(
     (state) => state.lookupTables.relations.otherVersions,

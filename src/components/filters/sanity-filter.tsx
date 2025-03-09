@@ -1,7 +1,7 @@
 import { useStore } from "@/store";
 import {
   selectActiveListFilter,
-  selectSanityChanges,
+  selectFilterChanges,
   selectSanityMinMax,
 } from "@/store/selectors/lists";
 import { isSanityFilterObject } from "@/store/slices/lists.type-guards";
@@ -21,7 +21,9 @@ export function SanityFilter(props: FilterProps) {
     `SanityFilter instantiated with '${filter?.type}'`,
   );
 
-  const changes = selectSanityChanges(filter?.value);
+  const changes = useStore((state) =>
+    selectFilterChanges(state, filter.type, filter.value),
+  );
 
   const { min, max } = useStore((state) =>
     selectSanityMinMax(state, resolvedDeck),

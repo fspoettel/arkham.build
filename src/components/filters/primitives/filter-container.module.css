@@ -1,0 +1,14 @@
+.title-container {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.25rem;
+  line-height: 1;
+}
+
+.active {
+  width: 0.5rem;
+  height: 0.5rem;
+  fill: var(--nord-9);
+  stroke: none;
+}

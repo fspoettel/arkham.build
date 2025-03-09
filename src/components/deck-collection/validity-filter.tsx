@@ -46,7 +46,7 @@ export function ValidityFilter({ containerClass }: Props) {
   return (
     <FilterContainer
       className={containerClass}
-      filterString={value !== "all" ? capitalize(value) : undefined}
+      changes={value !== "all" ? capitalize(value) : undefined}
       onOpenChange={onOpenChange}
       onReset={onReset}
       open={open}

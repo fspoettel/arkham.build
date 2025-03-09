@@ -1,7 +1,7 @@
 import { useStore } from "@/store";
 import {
   selectActiveListFilter,
-  selectInvestigatorSkillIconsChanges,
+  selectFilterChanges,
   selectSkillIconsMinMax,
 } from "@/store/selectors/lists";
 import { isInvestigatorSkillsFilterObject } from "@/store/slices/lists.type-guards";
@@ -40,7 +40,9 @@ export function InvestigatorSkillsFilter(props: FilterProps) {
     `InvestigatorSkillsFilter instantiated with '${filter?.type}'`,
   );
 
-  const changes = selectInvestigatorSkillIconsChanges(filter?.value);
+  const changes = useStore((state) =>
+    selectFilterChanges(state, filter.type, filter.value),
+  );
 
   const onSetShortcut = useCallback(
     (keys: SkillKey[]) => {
@@ -76,7 +78,7 @@ export function InvestigatorSkillsFilter(props: FilterProps) {
 
   return (
     <FilterContainer
-      filterString={changes}
+      changes={changes}
       onReset={onReset}
       onOpenChange={onOpenChange}
       open={filter.open}

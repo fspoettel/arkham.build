@@ -1,6 +1,10 @@
 import { useStore } from "@/store";
-import { costToString, selectActiveListFilter } from "@/store/selectors/lists";
-import { selectCostChanges, selectCostMinMax } from "@/store/selectors/lists";
+import {
+  costToString,
+  selectActiveListFilter,
+  selectCostMinMax,
+  selectFilterChanges,
+} from "@/store/selectors/lists";
 import { isCostFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
 import { useCallback, useMemo } from "react";
@@ -13,17 +17,21 @@ import { FilterContainer } from "./primitives/filter-container";
 import { useFilterCallbacks } from "./primitives/filter-hooks";
 
 export function CostFilter({ id, resolvedDeck }: FilterProps) {
+  const { t } = useTranslation();
   const filter = useStore((state) => selectActiveListFilter(state, id));
+
   assert(
     isCostFilterObject(filter),
     `CostFilter instantiated with '${filter?.type}'`,
   );
 
+  const changes = useStore((state) =>
+    selectFilterChanges(state, filter.type, filter.value),
+  );
+
   const { min, max } = useStore((state) =>
     selectCostMinMax(state, resolvedDeck),
   );
-  const { t } = useTranslation();
-  const changes = selectCostChanges(filter.value);
 
   const { onReset, onChange, onOpenChange } = useFilterCallbacks(id);
 
@@ -82,8 +90,8 @@ export function CostFilter({ id, resolvedDeck }: FilterProps) {
 
   return (
     <FilterContainer
+      changes={changes}
       data-testid="filters-cost"
-      filterString={changes}
       onOpenChange={onToggleOpen}
       onReset={onReset}
       open={filter.open}

@@ -1,7 +1,7 @@
 import { useStore } from "@/store";
 import {
   selectActiveListFilter,
-  selectTraitChanges,
+  selectFilterChanges,
 } from "@/store/selectors/lists";
 import { selectTraitOptions } from "@/store/selectors/lists";
 import type { Coded } from "@/store/services/queries.types";
@@ -21,7 +21,10 @@ export function TraitFilter({ id, resolvedDeck }: FilterProps) {
     `PackFilter instantiated with '${filter?.type}'`,
   );
 
-  const changes = selectTraitChanges(filter.value);
+  const changes = useStore((state) =>
+    selectFilterChanges(state, filter.type, filter.value),
+  );
+
   const options = useStore((state) => selectTraitOptions(state, resolvedDeck));
 
   const nameRenderer = useCallback((c: Coded & { name: string }) => c.name, []);

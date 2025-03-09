@@ -1,7 +1,7 @@
 import { useStore } from "@/store";
 import {
   selectActiveListFilter,
-  selectSkillIconsChanges,
+  selectFilterChanges,
 } from "@/store/selectors/lists";
 import { isSkillIconsFilterObject } from "@/store/slices/lists.type-guards";
 import type { SkillIconsFilter as SkillIconsFilterType } from "@/store/slices/lists.types";
@@ -20,12 +20,15 @@ export function SkillIconsFilter({ id }: FilterProps) {
   const { t } = useTranslation();
 
   const filter = useStore((state) => selectActiveListFilter(state, id));
+
   assert(
     isSkillIconsFilterObject(filter),
     `SkillIconsFilter instantiated with '${filter?.type}'`,
   );
 
-  const changes = selectSkillIconsChanges(filter.value);
+  const changes = useStore((state) =>
+    selectFilterChanges(state, filter.type, filter.value),
+  );
 
   const { onReset, onOpenChange, onChange } = useFilterCallbacks(id);
 
@@ -40,9 +43,9 @@ export function SkillIconsFilter({ id }: FilterProps) {
 
   return (
     <FilterContainer
-      alwaysShowFilterString
+      alwaysShowChanges
+      changes={changes}
       className={css["skill-filter"]}
-      filterString={changes}
       onOpenChange={onOpenChange}
       onReset={onReset}
       open={filter.open}

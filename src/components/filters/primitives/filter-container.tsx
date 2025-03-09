@@ -1,29 +1,30 @@
 import type { CollapsibleProps } from "@radix-ui/react-collapsible";
-import { Undo2Icon } from "lucide-react";
+import { CircleIcon, Undo2Icon } from "lucide-react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "../../ui/button";
 import { Collapsible, CollapsibleContent } from "../../ui/collapsible";
+import css from "./filter-container.module.css";
 
 type Props = {
+  alwaysShowChanges?: boolean;
+  changes?: string;
   children: React.ReactNode;
   className?: string;
   nonCollapsibleContent?: React.ReactNode;
-  alwaysShowFilterString?: boolean;
-  filterString?: string;
-  open: boolean;
   onOpenChange: (val: boolean) => void;
   onReset?: () => void;
+  open: boolean;
   title: string;
 } & Omit<CollapsibleProps, "title">;
 
 export function FilterContainer(props: Props) {
   const {
+    changes,
     children,
     className,
     nonCollapsibleContent,
-    alwaysShowFilterString,
-    filterString,
+    alwaysShowChanges,
     open,
     onOpenChange,
     onReset,
@@ -41,11 +42,13 @@ export function FilterContainer(props: Props) {
     [onReset],
   );
 
+  const active = !!changes;
+
   return (
     <Collapsible
       {...rest}
       actions={
-        filterString && onReset ? (
+        changes && onReset ? (
           <Button
             onClick={onFilterReset}
             iconOnly
@@ -59,15 +62,14 @@ export function FilterContainer(props: Props) {
       className={className}
       onOpenChange={onOpenChange}
       open={open}
-      sub={
-        alwaysShowFilterString || !open
-          ? filterString || t("filters.all")
-          : undefined
+      sub={alwaysShowChanges || !open ? changes || t("filters.all") : undefined}
+      title={
+        <span className={css["title-container"]}>
+          {active && <CircleIcon className={css["active"]} />}
+          {title}
+        </span>
       }
-      title={title}
-      variant={
-        filterString && filterString !== t("filters.all") ? "active" : undefined
-      }
+      variant={active ? "active" : undefined}
     >
       {nonCollapsibleContent}
       <CollapsibleContent>{children}</CollapsibleContent>

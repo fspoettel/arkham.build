@@ -1,8 +1,8 @@
 import { useStore } from "@/store";
 import {
   selectActiveListFilter,
-  selectEncounterSetChanges,
   selectEncounterSetOptions,
+  selectFilterChanges,
 } from "@/store/selectors/lists";
 import type { EncounterSet } from "@/store/services/queries.types";
 import { isEncounterSetFilterObject } from "@/store/slices/lists.type-guards";
@@ -14,16 +14,19 @@ import type { FilterProps } from "./filters.types";
 import { MultiselectFilter } from "./primitives/multiselect-filter";
 
 export function EncounterSetFilter({ id }: FilterProps) {
+  const { t } = useTranslation();
+
   const filter = useStore((state) => selectActiveListFilter(state, id));
+
   assert(
     isEncounterSetFilterObject(filter),
     `EncounterSetFilter instantiated with '${filter?.type}'`,
   );
 
-  const { t } = useTranslation();
   const changes = useStore((state) =>
-    selectEncounterSetChanges(state, filter.value),
+    selectFilterChanges(state, filter.type, filter.value),
   );
+
   const options = useStore(selectEncounterSetOptions);
 
   const nameRenderer = useCallback(

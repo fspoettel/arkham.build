@@ -2,7 +2,7 @@ import { useStore } from "@/store";
 import {
   selectActiveList,
   selectActiveListFilter,
-  selectTypeChanges,
+  selectFilterChanges,
 } from "@/store/selectors/lists";
 import { selectTypeOptions } from "@/store/selectors/lists";
 import type { Type } from "@/store/services/queries.types";
@@ -29,7 +29,10 @@ export function TypeFilter({ id, resolvedDeck }: FilterProps) {
     `TypeFilter instantiated with '${filter?.type}'`,
   );
 
-  const changes = selectTypeChanges(filter.value);
+  const changes = useStore((state) =>
+    selectFilterChanges(state, filter.type, filter.value),
+  );
+
   const options = useStore((state) => selectTypeOptions(state, resolvedDeck));
 
   const onApplyShortcut = useCallback(

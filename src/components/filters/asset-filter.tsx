@@ -1,9 +1,9 @@
 import { useStore } from "@/store";
-import { selectActiveListFilter } from "@/store/selectors/lists";
 import {
-  selectAssetChanges,
-  selectAssetOptions,
+  selectActiveListFilter,
+  selectFilterChanges,
 } from "@/store/selectors/lists";
+import { selectAssetOptions } from "@/store/selectors/lists";
 import { isAssetFilterObject } from "@/store/slices/lists.type-guards";
 import type { AssetFilter as AssetFilterType } from "@/store/slices/lists.types";
 import { assert } from "@/utils/assert";
@@ -37,14 +37,19 @@ function renderSlot(c: Option) {
 }
 
 export function AssetFilter({ id, resolvedDeck }: FilterProps) {
+  const { t } = useTranslation();
+
   const filter = useStore((state) => selectActiveListFilter(state, id));
+
   assert(
     isAssetFilterObject(filter),
     `AssetFilter instantiated with '${filter?.type}'`,
   );
 
-  const { t } = useTranslation();
-  const changes = selectAssetChanges(filter.value);
+  const changes = useStore((state) =>
+    selectFilterChanges(state, filter.type, filter.value),
+  );
+
   const options = useStore((state) => selectAssetOptions(state, resolvedDeck));
 
   const { onReset, onChange, onOpenChange } =
@@ -103,7 +108,7 @@ export function AssetFilter({ id, resolvedDeck }: FilterProps) {
   return (
     <FilterContainer
       className={css["asset-filter"]}
-      filterString={changes}
+      changes={changes}
       onOpenChange={onOpenChange}
       onReset={onReset}
       open={filter.open}

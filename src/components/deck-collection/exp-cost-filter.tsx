@@ -45,8 +45,8 @@ export function ExpCostFilters({ containerClass }: Props) {
   return (
     min !== max && (
       <FilterContainer
+        changes={changes}
         className={containerClass}
-        filterString={changes}
         onOpenChange={onOpenChange}
         onReset={onReset}
         open={open}

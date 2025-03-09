@@ -2,7 +2,7 @@ import { useStore } from "@/store";
 import {
   levelToString,
   selectActiveListFilter,
-  selectLevelChanges,
+  selectFilterChanges,
 } from "@/store/selectors/lists";
 import { isLevelFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
@@ -25,13 +25,17 @@ function getToggleValue(value: [number, number] | undefined) {
 
 export function LevelFilter({ id }: FilterProps) {
   const { t } = useTranslation();
+
   const filter = useStore((state) => selectActiveListFilter(state, id));
+
   assert(
     isLevelFilterObject(filter),
     `LevelFilter instantiated with '${filter?.type}'`,
   );
 
-  const changes = selectLevelChanges(filter.value);
+  const changes = useStore((state) =>
+    selectFilterChanges(state, filter.type, filter.value),
+  );
 
   const { onReset, onChange, onOpenChange } = useFilterCallbacks(id);
 
@@ -93,8 +97,8 @@ export function LevelFilter({ id }: FilterProps) {
 
   return (
     <FilterContainer
-      alwaysShowFilterString
-      filterString={changes}
+      alwaysShowChanges
+      changes={changes}
       nonCollapsibleContent={
         !filter.open && (
           <ToggleGroup

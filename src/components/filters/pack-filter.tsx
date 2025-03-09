@@ -1,7 +1,7 @@
 import { useStore } from "@/store";
 import {
   selectActiveListFilter,
-  selectPackChanges,
+  selectFilterChanges,
   selectPackOptions,
 } from "@/store/selectors/lists";
 import type { Pack } from "@/store/services/queries.types";
@@ -25,9 +25,11 @@ export function PackFilter({ id }: FilterProps) {
     `PackFilter instantiated with '${filter?.type}'`,
   );
 
-  const changes = useStore((state) => selectPackChanges(state, filter.value));
-  const packOptions = useStore(selectPackOptions);
+  const changes = useStore((state) =>
+    selectFilterChanges(state, filter.type, filter.value),
+  );
 
+  const packOptions = useStore(selectPackOptions);
   const options = useMemo(
     () =>
       packOptions.filter((pack) => {

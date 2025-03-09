@@ -1,7 +1,7 @@
 import { useStore } from "@/store";
 import {
-  selectActionChanges,
   selectActiveListFilter,
+  selectFilterChanges,
 } from "@/store/selectors/lists";
 import { selectActionOptions } from "@/store/selectors/lists";
 import type { Coded } from "@/store/services/queries.types";
@@ -21,7 +21,10 @@ export function ActionFilter({ id, resolvedDeck }: FilterProps) {
     `ActionFilter instantiated with '${filter?.type}'`,
   );
 
-  const changes = selectActionChanges(filter.value);
+  const changes = useStore((state) =>
+    selectFilterChanges(state, filter.type, filter.value),
+  );
+
   const options = useStore((state) => selectActionOptions(state, resolvedDeck));
 
   const nameRenderer = useCallback(

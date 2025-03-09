@@ -36,7 +36,7 @@ export function SelectFilter<T, V extends number | string | undefined>(
 
   return (
     <FilterContainer
-      filterString={changes}
+      changes={changes}
       onOpenChange={onOpenChange}
       onReset={onReset}
       open={open}

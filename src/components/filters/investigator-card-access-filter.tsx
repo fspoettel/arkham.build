@@ -2,7 +2,7 @@ import { useStore } from "@/store";
 import {
   selectActiveListFilter,
   selectCardOptions,
-  selectInvestigatorCardAccessChanges,
+  selectFilterChanges,
 } from "@/store/selectors/lists";
 import { isInvestigatorCardAccessFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
@@ -30,11 +30,13 @@ export function InvestigatorCardAccessFilter(props: FilterProps) {
 
   const value = useMemo(() => filter.value ?? [], [filter.value]);
 
-  const changes = selectInvestigatorCardAccessChanges(value);
+  const changes = useStore((state) =>
+    selectFilterChanges(state, filter.type, filter.value),
+  );
 
   return (
     <FilterContainer
-      filterString={changes}
+      changes={changes}
       onReset={onReset}
       onOpenChange={onOpenChange}
       open={filter.open}

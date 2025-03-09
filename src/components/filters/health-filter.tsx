@@ -1,7 +1,7 @@
 import { useStore } from "@/store";
 import {
   selectActiveListFilter,
-  selectHealthChanges,
+  selectFilterChanges,
   selectHealthMinMax,
 } from "@/store/selectors/lists";
 import { isHealthFilterObject } from "@/store/slices/lists.type-guards";
@@ -21,7 +21,9 @@ export function HealthFilter(props: FilterProps) {
     `SanityFilter instantiated with '${filter?.type}'`,
   );
 
-  const changes = selectHealthChanges(filter?.value);
+  const changes = useStore((state) =>
+    selectFilterChanges(state, filter.type, filter.value),
+  );
 
   const { min, max } = useStore((state) =>
     selectHealthMinMax(state, resolvedDeck),

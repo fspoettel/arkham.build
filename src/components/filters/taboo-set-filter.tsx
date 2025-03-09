@@ -1,7 +1,7 @@
 import { useStore } from "@/store";
 import {
   selectActiveListFilter,
-  selectTabooSetChanges,
+  selectFilterChanges,
   selectTabooSetOptions,
 } from "@/store/selectors/lists";
 import { isTabooSetFilterObject } from "@/store/slices/lists.type-guards";
@@ -21,8 +21,9 @@ export function TabooSetFilter({ id }: FilterProps) {
   );
 
   const changes = useStore((state) =>
-    selectTabooSetChanges(state, filter.value),
+    selectFilterChanges(state, filter.type, filter.value),
   );
+
   const options = useStore(selectTabooSetOptions);
 
   return (

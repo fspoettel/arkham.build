@@ -1,9 +1,9 @@
 import { useStore } from "@/store";
-import { selectActiveListFilter } from "@/store/selectors/lists";
 import {
-  selectSubtypeChanges,
-  selectSubtypeOptions,
+  selectActiveListFilter,
+  selectFilterChanges,
 } from "@/store/selectors/lists";
+import { selectSubtypeOptions } from "@/store/selectors/lists";
 import { isSubtypeFilterObject } from "@/store/slices/lists.type-guards";
 import type { SubtypeFilter as SubtypeFilterType } from "@/store/slices/lists.types";
 import { assert } from "@/utils/assert";
@@ -25,7 +25,7 @@ export function SubtypeFilter({ id }: FilterProps) {
   );
 
   const changes = useStore((state) =>
-    selectSubtypeChanges(state, filter.value),
+    selectFilterChanges(state, filter.type, filter.value),
   );
 
   const options = selectSubtypeOptions();
@@ -43,8 +43,8 @@ export function SubtypeFilter({ id }: FilterProps) {
 
   return (
     <FilterContainer
+      changes={changes}
       data-testid="subtype-filter"
-      filterString={changes}
       onOpenChange={onOpenChange}
       onReset={onReset}
       open={filter.open}

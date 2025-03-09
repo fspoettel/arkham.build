@@ -54,7 +54,7 @@ export function DeckTagsFilter({ containerClass }: Props) {
     !isEmpty(Object.keys(options)) && (
       <FilterContainer
         className={containerClass}
-        filterString={changes}
+        changes={changes}
         onOpenChange={onOpenChange}
         onReset={onReset}
         open={open}

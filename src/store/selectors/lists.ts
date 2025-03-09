@@ -10,11 +10,7 @@ import {
   type SkillKey,
 } from "@/utils/constants";
 import { createCustomEqualSelector } from "@/utils/custom-equal-selector";
-import {
-  capitalize,
-  displayPackName,
-  formatTabooSet,
-} from "@/utils/formatting";
+import { displayPackName, formatTabooSet } from "@/utils/formatting";
 import type { Filter } from "@/utils/fp";
 import { and, not, or } from "@/utils/fp";
 import i18n from "@/utils/i18n";
@@ -63,12 +59,15 @@ import type { StoreState } from "../slices";
 import type {
   AssetFilter,
   CostFilter,
+  FilterMapping,
+  HealthFilter,
   InvestigatorSkillsFilter,
   LevelFilter,
   List,
   MultiselectFilter,
   OwnershipFilter,
   PropertiesFilter,
+  SanityFilter,
   SelectFilter,
   SkillIconsFilter,
   SubtypeFilter,
@@ -753,23 +752,6 @@ export const selectActionOptions = createSelector(
   },
 );
 
-export const selectActionChanges = (value: MultiselectFilter) => {
-  if (!value.length) return "";
-  return value.map((code) => i18n.t(`common.actions.${code}`)).join(", ");
-};
-
-export const selectMultiselectChanges = (value: MultiselectFilter) => {
-  if (!value) return "";
-  return value.map(capitalize).join(` ${i18n.t("filters.or")} `);
-};
-
-function formatHealthChanges(value: [number, number] | undefined, key: string) {
-  if (!value) return "";
-  let s = `${value[0]}`;
-  if (value[1] !== value[0]) s = `${s}-${value[1]}`;
-  return `${key}: ${s}`;
-}
-
 /**
  * Asset
  */
@@ -802,46 +784,6 @@ export const selectAssetOptions = createSelector(
   },
 );
 
-export const selectAssetChanges = (value: AssetFilter) => {
-  const t = i18n.t;
-
-  const slot = value.slots.reduce((acc, key) => {
-    return !acc
-      ? `${t("filters.slot.title")}: ${key}`
-      : `${acc} ${t("filters.or")} ${key}`;
-  }, "");
-
-  const uses = value.uses.reduce((acc, key) => {
-    const displayStr = t(`common.uses.${key}`);
-
-    return !acc
-      ? `${t("filters.uses.title")}: ${displayStr}`
-      : `${acc} ${t("filters.or")} ${displayStr}`;
-  }, "");
-
-  const skillBoosts = value.skillBoosts.reduce((acc, key) => {
-    const displayStr = t(`common.skill.${key}`);
-
-    return !acc
-      ? `${t("filters.skill_boost.title")}: ${displayStr}`
-      : `${acc} ${t("filters.or")} ${displayStr}`;
-  }, "");
-
-  const healthFilter = formatHealthChanges(
-    value.health,
-    t("filters.health.title"),
-  );
-
-  const sanityFilter = formatHealthChanges(
-    value.sanity,
-    t("filters.sanity.title"),
-  );
-
-  return [slot, uses, skillBoosts, sanityFilter, healthFilter]
-    .filter((x) => x)
-    .join(", ");
-};
-
 /**
  * Cost
  */
@@ -856,21 +798,6 @@ export const selectCostMinMax = createSelector(
   ({ cost }) => cost,
 );
 
-export const selectCostChanges = (value: CostFilter) => {
-  if (!value.range) return "";
-
-  const min = costToString(value.range[0]);
-
-  let s = min;
-  if (value.range[1] !== value.range[0])
-    s = `${s}-${costToString(value.range[1])}`;
-  if (value.even) s = `${s}, even`;
-  if (value.odd) s = `${s}, odd`;
-  if (value.x) s = `${s}, X`;
-
-  return s;
-};
-
 /**
  * Encounter Set
  */
@@ -878,16 +805,6 @@ export const selectCostChanges = (value: CostFilter) => {
 export const selectEncounterSetOptions = createSelector(
   (state: StoreState) => state.metadata,
   (metadata) => sortedEncounterSets(metadata),
-);
-
-export const selectEncounterSetChanges = createSelector(
-  (_: StoreState, value: MultiselectFilter) => value,
-  (state: StoreState) => state.metadata,
-  (value, metadata) => {
-    return value
-      .map((id) => metadata.encounterSets[id].name)
-      .join(` ${i18n.t("filters.or")} `);
-  },
 );
 
 /**
@@ -929,10 +846,6 @@ export const selectHealthMinMax = createSelector(
   ({ health }) => health,
 );
 
-export const selectHealthChanges = (value: [number, number] | undefined) => {
-  return formatHealthChanges(value, i18n.t("filters.health.title"));
-};
-
 /**
  * Investigator
  */
@@ -965,18 +878,6 @@ export const selectInvestigatorOptions = createSelector(
   },
 );
 
-export const selectInvestigatorChanges = createSelector(
-  (_: StoreState, value: SelectFilter) => value,
-  (state: StoreState) => state.metadata,
-  (value, metadata) => {
-    if (!value) return "";
-    const card = metadata.cards[value];
-    return card
-      ? `${card.parallel ? "|| " : ""}${displayAttribute(card, "name")}`
-      : value.toString();
-  },
-);
-
 /**
  * Investigator Card Access
  */
@@ -1001,14 +902,6 @@ export const selectCardOptions = createSelector(
   },
 );
 
-export const selectInvestigatorCardAccessChanges = (
-  value: MultiselectFilter,
-) => {
-  const count = value.length;
-  if (!count) return "";
-  return `${count} ${i18n.t("common.card", { count })}`;
-};
-
 /**
  * Investigator Skill Icons
  */
@@ -1018,21 +911,6 @@ export const selectSkillIconsMinMax = createSelector(
   ({ skills }) => skills,
 );
 
-export const selectInvestigatorSkillIconsChanges = (
-  value?: InvestigatorSkillsFilter,
-) => {
-  if (!value) return "";
-
-  return Object.entries(value).reduce((acc, [key, val]) => {
-    if (!val) return acc;
-
-    const skillStr = i18n.t(`common.skill.${key}`);
-    const s = `${val[0]}-${val[1]} ${skillStr}`;
-
-    return acc ? `${acc} ${i18n.t("filters.and")} ${s}` : s;
-  }, "");
-};
-
 /**
  * Level
  */
@@ -1041,21 +919,6 @@ export function levelToString(value: number) {
   if (value === -1) return i18n.t("filters.level.no_level");
   return value.toString();
 }
-
-export const selectLevelChanges = (value: LevelFilter) => {
-  if (!value.range) return undefined;
-
-  const min = levelToString(value.range[0]);
-
-  let str = min;
-  if (value.range[1] !== value.range[0]) {
-    const max = levelToString(value.range[1]);
-    str = `${str}-${max}`;
-  }
-  if (value.exceptional) str = `${str}, ${i18n.t("common.exceptional")}`;
-  if (value.nonexceptional) str = `${str}, ${i18n.t("common.nonexceptional")}`;
-  return str;
-};
 
 /**
  * Packs
@@ -1134,17 +997,6 @@ export const selectPackOptions = createSelector(
   },
 );
 
-export const selectPackChanges = createSelector(
-  (_: StoreState, value: MultiselectFilter) => value,
-  (state: StoreState) => state.metadata,
-  (value, metadata) => {
-    if (!value) return "";
-    return value
-      .map((id) => displayPackName(metadata.packs[id]))
-      .join(` ${i18n.t("filters.or")} `);
-  },
-);
-
 /**
  * Properties
  */
@@ -1181,16 +1033,6 @@ export function selectPropertyOptions() {
   ];
 }
 
-export const selectPropertiesChanges = (value: PropertiesFilter) => {
-  const propertyOptions = selectPropertyOptions();
-
-  return Object.entries(value).reduce((acc, [key, filterValue]) => {
-    if (!filterValue) return acc;
-    const displayStr = propertyOptions.find((x) => x.key === key)?.label ?? key;
-    return !acc ? displayStr : `${acc} ${i18n.t("filters.and")} ${displayStr}`;
-  }, "");
-};
-
 /**
  * Sanity
  */
@@ -1200,9 +1042,6 @@ export const selectSanityMinMax = createSelector(
   ({ sanity }) => sanity,
 );
 
-export const selectSanityChanges = (value: [number, number] | undefined) => {
-  return formatHealthChanges(value, "Sanity");
-};
 /**
  * Search
  */
@@ -1230,25 +1069,6 @@ export const selectResolvedCardById = createSelector(
 );
 
 /**
- * Skill Icons
- */
-
-export const selectSkillIconsChanges = (value: SkillIconsFilter) => {
-  return Object.entries(value).reduce((acc, [key, val]) => {
-    if (!val) return acc;
-
-    const displayStr =
-      key === "any"
-        ? i18n.t("filters.skill_icons.any")
-        : i18n.t(`common.skill.${key}`);
-
-    const s = `${val}+ ${displayStr}`;
-
-    return acc ? `${acc} ${i18n.t("filters.and")} ${s}` : s;
-  }, "");
-};
-
-/**
  * Subtype
  */
 
@@ -1268,22 +1088,6 @@ export function selectSubtypeOptions() {
     { code: "basicweakness", name: labels["basicweakness"] },
   ];
 }
-
-export const selectSubtypeChanges = createSelector(
-  (_: StoreState, value: SubtypeFilter) => value,
-  (value) => {
-    const options = Object.entries(value);
-    const enabled = options.filter(([, value]) => !!value);
-    const labels = subtypeLabels();
-
-    if (enabled.length === 0) return labels["none"];
-    if (enabled.length === options.length) return "";
-
-    return enabled
-      .map(([key]) => labels[key])
-      .join(` ${i18n.t("filters.or")} `);
-  },
-);
 
 /**
  * Taboo Set
@@ -1307,26 +1111,9 @@ export const selectTabooSetSelectOptions = createSelector(
     })),
 );
 
-export const selectTabooSetChanges = createSelector(
-  (_: StoreState, value: SelectFilter) => value,
-  (state: StoreState) => state.metadata,
-  (value, metadata) => {
-    if (!value) return "";
-    const set = metadata.tabooSets[value];
-    return set ? formatTabooSet(set) : value.toString();
-  },
-);
-
 /**
  * Trait
  */
-
-export function selectTraitChanges(value: MultiselectFilter) {
-  if (!value.length) return "";
-  return value
-    .map((code) => i18n.t(`common.traits.${code}`))
-    .join(` ${i18n.t("filters.or")} `);
-}
 
 export const selectTraitOptions = createSelector(
   selectListFilterProperties,
@@ -1339,13 +1126,6 @@ export const selectTraitOptions = createSelector(
 /**
  * Type
  */
-
-export function selectTypeChanges(value: MultiselectFilter) {
-  if (!value.length) return "";
-  return value
-    .map((code) => i18n.t(`common.type.${code}`))
-    .join(` ${i18n.t("filters.or")} `);
-}
 
 export const selectTypeOptions = createSelector(
   selectListFilterProperties,
@@ -1411,3 +1191,309 @@ export const selectAvailableUpgrades = createSelector(
     return availableUpgrades;
   },
 );
+
+/**
+ * Filter changes
+ */
+
+function formatHealthChanges(value: [number, number] | undefined, key: string) {
+  if (!value) return "";
+  let s = `${value[0]}`;
+  if (value[1] !== value[0]) s = `${s}-${value[1]}`;
+  return `${key}: ${s}`;
+}
+
+function selectAssetChanges(value: AssetFilter) {
+  const t = i18n.t;
+
+  const slot = value.slots.reduce((acc, key) => {
+    return !acc
+      ? `${t("filters.slot.title")}: ${key}`
+      : `${acc} ${t("filters.or")} ${key}`;
+  }, "");
+
+  const uses = value.uses.reduce((acc, key) => {
+    const displayStr = t(`common.uses.${key}`);
+
+    return !acc
+      ? `${t("filters.uses.title")}: ${displayStr}`
+      : `${acc} ${t("filters.or")} ${displayStr}`;
+  }, "");
+
+  const skillBoosts = value.skillBoosts.reduce((acc, key) => {
+    const displayStr = t(`common.skill.${key}`);
+
+    return !acc
+      ? `${t("filters.skill_boost.title")}: ${displayStr}`
+      : `${acc} ${t("filters.or")} ${displayStr}`;
+  }, "");
+
+  const healthFilter = formatHealthChanges(
+    value.health,
+    t("filters.health.title"),
+  );
+
+  const sanityFilter = formatHealthChanges(
+    value.sanity,
+    t("filters.sanity.title"),
+  );
+
+  return [slot, uses, skillBoosts, sanityFilter, healthFilter]
+    .filter((x) => x)
+    .join(", ");
+}
+
+const selectActionChanges = (value: MultiselectFilter) => {
+  if (!value.length) return "";
+  return value.map((code) => i18n.t(`common.actions.${code}`)).join(", ");
+};
+
+function selectCostChanges(value: CostFilter) {
+  if (!value.range) return "";
+
+  const min = costToString(value.range[0]);
+
+  let s = min;
+  if (value.range[1] !== value.range[0])
+    s = `${s}-${costToString(value.range[1])}`;
+  if (value.even) s = `${s}, even`;
+  if (value.odd) s = `${s}, odd`;
+  if (value.x) s = `${s}, X`;
+
+  return s;
+}
+
+const selectEncounterSetChanges = createSelector(
+  (_: StoreState, value: MultiselectFilter) => value,
+  (state: StoreState) => state.metadata,
+  (value, metadata) => {
+    return value
+      .map((id) => metadata.encounterSets[id].name)
+      .join(` ${i18n.t("filters.or")} `);
+  },
+);
+
+function selectHealthChanges(value: [number, number] | undefined) {
+  return formatHealthChanges(value, i18n.t("filters.health.title"));
+}
+
+function selectInvestigatorCardAccessChanges(value: MultiselectFilter) {
+  const count = value.length;
+  if (!count) return "";
+  return `${count} ${i18n.t("common.card", { count })}`;
+}
+
+const selectInvestigatorChanges = createSelector(
+  (_: StoreState, value: SelectFilter) => value,
+  (state: StoreState) => state.metadata,
+  (value, metadata) => {
+    if (!value) return "";
+    const card = metadata.cards[value];
+    return card
+      ? `${card.parallel ? "|| " : ""}${displayAttribute(card, "name")}`
+      : value.toString();
+  },
+);
+
+function selectInvestigatorSkillIconsChanges(value?: InvestigatorSkillsFilter) {
+  if (!value) return "";
+
+  return Object.entries(value).reduce((acc, [key, val]) => {
+    if (!val) return acc;
+
+    const skillStr = i18n.t(`common.skill.${key}`);
+    const s = `${val[0]}-${val[1]} ${skillStr}`;
+
+    return acc ? `${acc} ${i18n.t("filters.and")} ${s}` : s;
+  }, "");
+}
+
+function selectLevelChanges(value: LevelFilter) {
+  if (!value.range) return undefined;
+
+  const min = levelToString(value.range[0]);
+
+  let str = min;
+  if (value.range[1] !== value.range[0]) {
+    const max = levelToString(value.range[1]);
+    str = `${str}-${max}`;
+  }
+  if (value.exceptional) str = `${str}, ${i18n.t("common.exceptional")}`;
+  if (value.nonexceptional) str = `${str}, ${i18n.t("common.nonexceptional")}`;
+  return str;
+}
+
+function selectOwnershipChanges(value: OwnershipFilter) {
+  const t = i18n.t;
+  return value === "all"
+    ? ""
+    : value === "owned"
+      ? t("filters.ownership.owned")
+      : t("filters.ownership.unowned");
+}
+
+const selectPackChanges = createSelector(
+  (_: StoreState, value: MultiselectFilter) => value,
+  (state: StoreState) => state.metadata,
+  (value, metadata) => {
+    if (!value) return "";
+    return value
+      .map((id) => displayPackName(metadata.packs[id]))
+      .join(` ${i18n.t("filters.or")} `);
+  },
+);
+
+function selectPropertiesChanges(value: PropertiesFilter) {
+  const propertyOptions = selectPropertyOptions();
+
+  return Object.entries(value).reduce((acc, [key, filterValue]) => {
+    if (!filterValue) return acc;
+    const displayStr = propertyOptions.find((x) => x.key === key)?.label ?? key;
+    return !acc ? displayStr : `${acc} ${i18n.t("filters.and")} ${displayStr}`;
+  }, "");
+}
+
+function selectSanityChanges(value: [number, number] | undefined) {
+  return formatHealthChanges(value, "Sanity");
+}
+
+function selectSkillIconsChanges(value: SkillIconsFilter) {
+  return Object.entries(value).reduce((acc, [key, val]) => {
+    if (!val) return acc;
+
+    const displayStr =
+      key === "any"
+        ? i18n.t("filters.skill_icons.any")
+        : i18n.t(`common.skill.${key}`);
+
+    const s = `${val}+ ${displayStr}`;
+
+    return acc ? `${acc} ${i18n.t("filters.and")} ${s}` : s;
+  }, "");
+}
+
+const selectSubtypeChanges = createSelector(
+  (_: StoreState, value: SubtypeFilter) => value,
+  (value) => {
+    const options = Object.entries(value);
+    const enabled = options.filter(([, value]) => !!value);
+    const labels = subtypeLabels();
+
+    if (enabled.length === 0) return labels["none"];
+    if (enabled.length === options.length) return "";
+
+    return enabled
+      .map(([key]) => labels[key])
+      .join(` ${i18n.t("filters.or")} `);
+  },
+);
+
+const selectTabooSetChanges = createSelector(
+  (_: StoreState, value: SelectFilter) => value,
+  (state: StoreState) => state.metadata,
+  (value, metadata) => {
+    if (!value) return "";
+    const set = metadata.tabooSets[value];
+    return set ? formatTabooSet(set) : value.toString();
+  },
+);
+
+function selectTraitChanges(value: MultiselectFilter) {
+  if (!value.length) return "";
+  return value
+    .map((code) => i18n.t(`common.traits.${code}`))
+    .join(` ${i18n.t("filters.or")} `);
+}
+
+function selectTypeChanges(value: MultiselectFilter) {
+  if (!value.length) return "";
+  return value
+    .map((code) => i18n.t(`common.type.${code}`))
+    .join(` ${i18n.t("filters.or")} `);
+}
+
+export function selectFilterChanges<T extends keyof FilterMapping>(
+  state: StoreState,
+  type: T,
+  value: FilterMapping[T],
+) {
+  switch (type) {
+    case "action": {
+      return selectActionChanges(value as MultiselectFilter);
+    }
+
+    case "asset": {
+      return selectAssetChanges(value as AssetFilter);
+    }
+
+    case "cost": {
+      return selectCostChanges(value as CostFilter);
+    }
+
+    case "encounterSet": {
+      return selectEncounterSetChanges(state, value as MultiselectFilter);
+    }
+
+    case "faction": {
+      return "";
+    }
+
+    case "health": {
+      return selectHealthChanges(value as HealthFilter);
+    }
+
+    case "investigator": {
+      return selectInvestigatorChanges(state, value as SelectFilter);
+    }
+
+    case "investigatorCardAccess": {
+      return selectInvestigatorCardAccessChanges(value as MultiselectFilter);
+    }
+
+    case "investigatorSkills": {
+      return selectInvestigatorSkillIconsChanges(
+        value as InvestigatorSkillsFilter,
+      );
+    }
+
+    case "level": {
+      return selectLevelChanges(value as LevelFilter);
+    }
+
+    case "ownership": {
+      return selectOwnershipChanges(value as OwnershipFilter);
+    }
+
+    case "pack": {
+      return selectPackChanges(state, value as MultiselectFilter);
+    }
+
+    case "properties": {
+      return selectPropertiesChanges(value as PropertiesFilter);
+    }
+
+    case "sanity": {
+      return selectSanityChanges(value as SanityFilter);
+    }
+
+    case "skillIcons": {
+      return selectSkillIconsChanges(value as SkillIconsFilter);
+    }
+
+    case "subtype": {
+      return selectSubtypeChanges(state, value as SubtypeFilter);
+    }
+
+    case "tabooSet": {
+      return selectTabooSetChanges(state, value as SelectFilter);
+    }
+
+    case "trait": {
+      return selectTraitChanges(value as MultiselectFilter);
+    }
+
+    case "type": {
+      return selectTypeChanges(value as MultiselectFilter);
+    }
+  }
+}

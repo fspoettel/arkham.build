@@ -1,7 +1,7 @@
 import { useStore } from "@/store";
 import {
   selectActiveListFilter,
-  selectPropertiesChanges,
+  selectFilterChanges,
   selectPropertyOptions,
 } from "@/store/selectors/lists";
 import { isPropertiesFilterObject } from "@/store/slices/lists.type-guards";
@@ -25,7 +25,9 @@ export function PropertiesFilter({ id }: FilterProps) {
     `PropertiesFilter instantiated with '${filter?.type}'`,
   );
 
-  const changes = selectPropertiesChanges(filter.value);
+  const changes = useStore((state) =>
+    selectFilterChanges(state, filter.type, filter.value),
+  );
 
   const { onReset, onChange, onOpenChange } = useFilterCallbacks(id);
 
@@ -58,7 +60,7 @@ export function PropertiesFilter({ id }: FilterProps) {
 
   return (
     <FilterContainer
-      filterString={changes}
+      changes={changes}
       onOpenChange={onOpenChange}
       onReset={onReset}
       open={filter.open}

@@ -1,5 +1,8 @@
 import { useStore } from "@/store";
-import { selectActiveListFilter } from "@/store/selectors/lists";
+import {
+  selectActiveListFilter,
+  selectFilterChanges,
+} from "@/store/selectors/lists";
 import { isOwnershipFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
 import { FileCheckIcon, FileIcon, FileWarningIcon } from "lucide-react";
@@ -19,17 +22,14 @@ export function OwnershipFilter({ id }: FilterProps) {
 
   const { onChange, onOpenChange } = useFilterCallbacks(id);
 
-  const changes =
-    filter.value === "all"
-      ? t("filters.all")
-      : filter.value === "owned"
-        ? t("filters.ownership.owned")
-        : t("filters.ownership.unowned");
+  const changes = useStore((state) =>
+    selectFilterChanges(state, filter.type, filter.value),
+  );
 
   return (
     <FilterContainer
-      alwaysShowFilterString
-      filterString={changes}
+      alwaysShowChanges
+      changes={changes}
       onOpenChange={onOpenChange}
       open={filter.open}
       title={t("filters.ownership.title")}

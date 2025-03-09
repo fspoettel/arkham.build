@@ -20,7 +20,7 @@ export function RangeFilter(props: Props) {
 
   return (
     <FilterContainer
-      filterString={changes}
+      changes={changes}
       onOpenChange={onOpenChange}
       onReset={onReset}
       open={open}

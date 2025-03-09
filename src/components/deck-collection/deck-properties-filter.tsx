@@ -50,7 +50,7 @@ export function DeckPropertiesFilter({ containerClass }: Props) {
   return (
     <FilterContainer
       className={containerClass}
-      filterString={changes}
+      changes={changes}
       onOpenChange={onOpenChange}
       onReset={onReset}
       open={open}
