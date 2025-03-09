@@ -72,7 +72,7 @@ export function CardScan(props: Props) {
       data-testid="card-scan"
       data-component="card-scan"
     >
-      <div className={css["scan-front"]} ref={scanRef}>
+      <div className={css["scan-front"]} data-testid="card-scan" ref={scanRef}>
         <CardScanInner
           alt={t("card_view.scan", { code: imageCode })}
           sideways={isSideways}
@@ -135,7 +135,6 @@ export function CardScanInner(
     <div
       {...rest}
       className={cx(css["scan"], sideways && css["sideways"], className)}
-      data-testid="card-scan"
       data-component="card-scan"
     >
       {shown && (
