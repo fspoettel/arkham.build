@@ -266,12 +266,19 @@ function makeUserFilter(
         break;
       }
 
+      case "subtype": {
+        const value = filterValue.value as SubtypeFilter;
+        if (value) {
+          filters.push(filterSubtypes(value));
+        }
+        break;
+      }
+
       // These filters are handled in the "system" filter of the list since they should
       // be reflected in the choices available to the user.
       // For instance, it does not make sense to show weakness or non-collection card traits
       // as options in the trait filter.
       // TODO: At some point, we might want to refactor the store data structure to reflect this.
-      case "subtype":
       case "ownership": {
         break;
       }
@@ -517,17 +524,6 @@ const selectBaseListCards = createSelector(
             );
             return value === "owned" ? ownership : !ownership;
           });
-        }
-      }
-
-      const subtypeFilter = Object.values(filterValues).find(
-        (f) => f.type === "subtype",
-      );
-
-      if (subtypeFilter) {
-        const value = subtypeFilter.value as SubtypeFilter;
-        if (value) {
-          filters.push(filterSubtypes(value));
         }
       }
     }
