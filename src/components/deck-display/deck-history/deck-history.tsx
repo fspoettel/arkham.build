@@ -8,6 +8,7 @@ import { SquareArrowOutUpRightIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Fragment } from "react/jsx-runtime";
 import { Link } from "wouter";
+import type { DeckOrigin } from "../types";
 import { CustomizableDiff } from "./customizable-diff";
 import css from "./deck-history.module.css";
 import { SlotDiff } from "./slot-diff";
@@ -15,12 +16,15 @@ import { SlotDiff } from "./slot-diff";
 type Props = {
   deck: ResolvedDeck;
   history: History;
+  origin: DeckOrigin;
 };
 
 export function DeckHistory(props: Props) {
-  const { deck, history } = props;
+  const { deck, history, origin } = props;
 
   const { t } = useTranslation();
+
+  const prefix = origin === "share" ? "~/share" : "~/deck/view";
 
   return (
     <ol className={css["entries"]} data-testid="history">
@@ -49,7 +53,7 @@ export function DeckHistory(props: Props) {
               {idx === 0 ? (
                 title
               ) : (
-                <Link to={`~/deck/view/${stats.id}`}>
+                <Link to={`${prefix}/${stats.id}`}>
                   {title}
                   <SquareArrowOutUpRightIcon />
                 </Link>

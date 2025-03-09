@@ -127,7 +127,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
                 >
                   <FileClockIcon />
                   <span>
-                    {t("deck_view.tab_history")} ({history.length})
+                    {t("deck_view.tab_history")} ({history.length - 1})
                   </span>
                 </TabsTrigger>
               )}
@@ -157,7 +157,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
             )}
             {hasHistory && (
               <TabsContent className={css["tab"]} value="history">
-                <DeckHistory deck={deck} history={history} />
+                <DeckHistory deck={deck} history={history} origin={origin} />
               </TabsContent>
             )}
           </Tabs>
