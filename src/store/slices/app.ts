@@ -556,7 +556,39 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     newDeck.meta = JSON.stringify(meta);
 
+    const history = { ...state.data.history };
+    history[newDeck.id] = [deck.id, ...history[deck.id]];
+    delete history[deck.id];
+
+    const deckEdits = { ...state.deckEdits };
+    delete deckEdits[deck.id];
+
+    const sharedDecks = { ...state.sharing.decks };
+
     const isShared = !!state.sharing.decks[deck.id];
+    if (isShared) {
+      sharedDecks[newDeck.id] = newDeck.date_update;
+    }
+
+    const nextState = {
+      deckEdits,
+      data: {
+        ...state.data,
+        decks: {
+          ...state.data.decks,
+          [deck.id]: {
+            ...deck,
+            next_deck: newDeck.id,
+          },
+          [newDeck.id]: newDeck,
+        },
+        history,
+      },
+      sharing: {
+        ...state.sharing,
+        decks: sharedDecks,
+      },
+    };
 
     if (deck.source === "arkhamdb") {
       state.setRemoting("arkhamdb", true);
@@ -578,41 +610,11 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       await createShare(
         state.app.clientId,
         newDeck,
-        selectDeckHistory(state, deck),
+        selectDeckHistory({ ...state, ...nextState }, newDeck),
       );
     }
 
-    const history = { ...state.data.history };
-    history[newDeck.id] = [deck.id, ...history[deck.id]];
-    delete history[deck.id];
-
-    const deckEdits = { ...state.deckEdits };
-    delete deckEdits[deck.id];
-
-    const sharedDecks = { ...state.sharing.decks };
-    if (isShared) {
-      sharedDecks[newDeck.id] = newDeck.date_update;
-    }
-
-    set({
-      deckEdits,
-      data: {
-        ...state.data,
-        decks: {
-          ...state.data.decks,
-          [deck.id]: {
-            ...deck,
-            next_deck: newDeck.id,
-          },
-          [newDeck.id]: newDeck,
-        },
-        history,
-      },
-      sharing: {
-        ...state.sharing,
-        decks: sharedDecks,
-      },
-    });
+    set(nextState);
 
     tryEnablePersistence();
 
