@@ -640,6 +640,7 @@
         "xp_spent": "XP spent"
       },
       "limited_decks": {
+        "Secondary Class": "Secondary class",
         "Versatile": "Versatile"
       },
       "limited_slots": "Limited slots",
