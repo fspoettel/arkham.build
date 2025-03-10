@@ -12,13 +12,14 @@
   display: inline-flex;
   flex-flow: row nowrap;
   justify-content: flex-end;
-  align-items: ceter;
+  align-items: center;
   gap: 0.5rem;
 }
 
 .nav-jump {
   flex: 1 1 auto;
-  max-width: min(15rem, 33.333%);
+  width: 15rem;
+  max-width: 33.333%;
   margin-right: 1px;
 }
 
