@@ -85,7 +85,7 @@ export function CardScan(props: Props) {
           <div className={css["scan-back"]} ref={scanRef}>
             {backType === "card" ? (
               <CardScanInner
-                alt={t("card_view.scan", { code: imageCode })}
+                alt={t("card_view.scan", { code: reverseImageCode })}
                 hidden={!flipped}
                 lazy={lazy}
                 sideways={backCard ? sideways(backCard) : isSideways}

@@ -196,7 +196,8 @@ export function CardGridItem(
       data-component="card-group-item"
     >
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: no keyboard shortcuts needed here */}
-      <div className={css["group-item-scan"]} onClick={openModal}>
+      {/* biome-ignore lint/a11y/noNoninteractiveTabindex: needs a tabIndex to avoid focus jumping to parent when modal opened. */}
+      <div className={css["group-item-scan"]} onClick={openModal} tabIndex={0}>
         <CardScan card={card} lazy />
       </div>
       <div className={css["group-item-actions"]}>
