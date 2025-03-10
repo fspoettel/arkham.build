@@ -4,6 +4,7 @@ import { HotkeyTooltip } from "@/components/ui/hotkey";
 import { useStore } from "@/store";
 import { getAdditionalDeckOptions } from "@/store/lib/deck-validation";
 import type { ResolvedDeck } from "@/store/lib/types";
+import { displayAttribute } from "@/utils/card-utils";
 import { useHotkey } from "@/utils/use-hotkey";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -51,7 +52,9 @@ export function CardAccessToggles(props: Props) {
       {hasLimitedSlots(deck) && (
         <HotkeyTooltip
           keybind="alt+a"
-          description={t("lists.actions.show_limited_access")}
+          description={t("lists.actions.show_limited_access_help", {
+            name: displayAttribute(deck.investigatorBack.card, "name"),
+          })}
         >
           <Checkbox
             checked={showLimitedAccess}

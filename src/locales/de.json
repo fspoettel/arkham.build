@@ -1025,6 +1025,7 @@
         "open_card_modal": "Kartendialog für fokussierte Karte öffnen",
         "reset_filters": "Filter zurücksetzen",
         "show_limited_access": "Eingeschränkten Zugang anzeigen",
+        "show_limited_access_help": "Ermittler können über Deckbau-Optionen eingeschränkten, optionalen Zugriff auf Karten haben. Karten anzeigen, die auf diesen eingeschränkten Zugang zurückgehen.",
         "show_unusable_cards": "Illegale Karten anzeigen",
         "toggle_filter_menu": "Filtermenü umschalten",
         "toggle_filters": "Filter umschalten",

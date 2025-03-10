@@ -6,6 +6,7 @@
 }
 
 .keybind {
+  flex: 0 0 auto;
   gap: 0.0625rem;
   align-items: center;
   justify-content: flex-start;
