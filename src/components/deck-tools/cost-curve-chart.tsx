@@ -41,7 +41,7 @@ export function CostCurveChart({ data }: Props) {
       (acc, value) => Math.max(value?.y ?? 0, acc),
       0,
     );
-    return getDiscreteArray(maxAmount + 1);
+    return getDiscreteArray(maxAmount + 1, (x) => x % 2 === 0);
   }, [data]);
 
   const ref = useRef(null);
@@ -108,6 +108,7 @@ function formatTooltips(t: TFunction) {
 }
 
 // Creates a [0...n] array of numbers
-function getDiscreteArray(length: number) {
-  return Array.from({ length: length }, (_, i) => i);
+function getDiscreteArray(length: number, filter?: (x: number) => boolean) {
+  const values = Array.from({ length: length }, (_, i) => i);
+  return filter ? values.filter(filter) : values;
 }
