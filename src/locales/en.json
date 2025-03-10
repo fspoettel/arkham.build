@@ -1025,7 +1025,7 @@
         "open_card_modal": "Open card modal for focused card",
         "reset_filters": "Reset filters",
         "show_limited_access": "Show limited access",
-        "show_limited_access_help": "Deckbuilding may allow limited, optional access to cards based on level, faction, trait, type, and/or other criteria. When this is enabled, cards from that limited access will be shown.",
+        "show_limited_access_help": "Investigators may have limited, optional access to cards based on level, class, trait, type, and/or other criteria. When this is enabled, cards from that limited access will be shown.",
         "show_unusable_cards": "Show unusable cards",
         "toggle_filter_menu": "Toggle filter menu",
         "toggle_filters": "Toggle filters",
