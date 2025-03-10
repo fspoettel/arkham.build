@@ -138,6 +138,7 @@ export type List = {
   cardType: "player" | "encounter";
   display: {
     grouping: GroupingType[];
+    properties?: string[];
     sorting: SortingType[];
     viewMode: ViewMode;
   };

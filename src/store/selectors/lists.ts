@@ -997,37 +997,40 @@ export const selectPackOptions = createSelector(
  * Properties
  */
 
-export function selectPropertyOptions() {
-  const t = i18n.t;
-
-  return [
-    { key: "bonded", label: t("common.decks.bondedSlots_short") },
-    { key: "customizable", label: t("common.customizable") },
-    { key: "exile", label: t("common.exile") },
-    { key: "fast", label: t("common.fast") },
-    {
-      key: "healsDamage",
-      label: t("filters.properties.heals_damage"),
-    },
-    {
-      key: "healsHorror",
-      label: t("filters.properties.heals_horror"),
-    },
-    {
-      key: "multiClass",
-      label: t("common.factions.multiclass"),
-    },
-    { key: "permanent", label: t("common.permanent") },
-    { key: "seal", label: t("common.seal") },
-    { key: "specialist", label: t("common.specialist") },
-    { key: "succeedBy", label: t("filters.properties.succeed_by") },
-    {
-      key: "unique",
-      label: t("common.unique"),
-    },
-    { key: "victory", label: t("common.victory") },
-  ];
-}
+export const selectPropertyOptions = createSelector(
+  selectActiveList,
+  (list) => {
+    if (!list) return [];
+    const t = i18n.t;
+    return [
+      { key: "bonded", label: t("common.decks.bondedSlots_short") },
+      { key: "customizable", label: t("common.customizable") },
+      { key: "exile", label: t("common.exile") },
+      { key: "fast", label: t("common.fast") },
+      {
+        key: "healsDamage",
+        label: t("filters.properties.heals_damage"),
+      },
+      {
+        key: "healsHorror",
+        label: t("filters.properties.heals_horror"),
+      },
+      {
+        key: "multiClass",
+        label: t("common.factions.multiclass"),
+      },
+      { key: "permanent", label: t("common.permanent") },
+      { key: "seal", label: t("common.seal") },
+      { key: "specialist", label: t("common.specialist") },
+      { key: "succeedBy", label: t("filters.properties.succeed_by") },
+      {
+        key: "unique",
+        label: t("common.unique"),
+      },
+      { key: "victory", label: t("common.victory") },
+    ].filter((p) => list.display.properties?.includes(p.key));
+  },
+);
 
 /**
  * Sanity
@@ -1339,8 +1342,8 @@ const selectPackChanges = createSelector(
   },
 );
 
-function selectPropertiesChanges(value: PropertiesFilter) {
-  const propertyOptions = selectPropertyOptions();
+function selectPropertiesChanges(state: StoreState, value: PropertiesFilter) {
+  const propertyOptions = selectPropertyOptions(state);
 
   return Object.entries(value).reduce((acc, [key, filterValue]) => {
     if (!filterValue) return acc;
@@ -1465,7 +1468,7 @@ export function selectFilterChanges<T extends keyof FilterMapping>(
     }
 
     case "properties": {
-      return selectPropertiesChanges(value as PropertiesFilter);
+      return selectPropertiesChanges(state, value as PropertiesFilter);
     }
 
     case "sanity": {

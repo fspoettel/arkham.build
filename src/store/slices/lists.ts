@@ -666,6 +666,7 @@ function makePlayerCardsList(
   key: string,
   settings: SettingsState,
   {
+    properties = [] as string[],
     initialValues = {} as Partial<Record<FilterKey, unknown>>,
     showInvestigators = false,
   } = {},
@@ -708,6 +709,7 @@ function makePlayerCardsList(
     filters,
     display: {
       grouping: settings.lists.player.group,
+      properties,
       sorting: settings.lists.player.sort,
       viewMode: settings.lists.player.viewMode,
     },
@@ -756,7 +758,10 @@ function makeInvestigatorCardsList(
 function makeEncounterCardsList(
   key: string,
   settings: SettingsState,
-  { initialValues = {} as Partial<Record<FilterKey, unknown>> } = {},
+  {
+    properties = [] as string[],
+    initialValues = {} as Partial<Record<FilterKey, unknown>>,
+  } = {},
 ): List {
   const filters: FilterKey[] = ["faction", "type"];
 
@@ -785,6 +790,7 @@ function makeEncounterCardsList(
     display: {
       grouping: settings.lists.encounter.group,
       sorting: settings.lists.encounter.sort,
+      properties,
       viewMode: settings.lists.encounter.viewMode,
     },
     duplicateFilter: filterDuplicates,
@@ -792,6 +798,22 @@ function makeEncounterCardsList(
     initialValues: mergeInitialValues(initialValues, settings),
   });
 }
+
+const SHARED_PLAYER_PROPERTIES = [
+  "customizable",
+  "exile",
+  "fast",
+  "healsDamage",
+  "healsHorror",
+  "multiClass",
+  "permanent",
+  "seal",
+  "specialist",
+  "succeedBy",
+  "unique",
+];
+
+const SHARED_ENCOUNTER_PROPERTIES = ["fast", "permanent", "unique"];
 
 export function makeLists(
   settings: SettingsState,
@@ -801,18 +823,22 @@ export function makeLists(
     browse_player: makePlayerCardsList("browse_player", settings, {
       showInvestigators: true,
       initialValues,
+      properties: [...SHARED_PLAYER_PROPERTIES, "bonded"],
     }),
     browse_encounter: makeEncounterCardsList("browse_encounter", settings, {
       initialValues,
+      properties: [...SHARED_ENCOUNTER_PROPERTIES, "victory"],
     }),
     create_deck: makeInvestigatorCardsList("create_deck", settings, {
       initialValues,
     }),
     editor_player: makePlayerCardsList("editor_player", settings, {
       initialValues,
+      properties: SHARED_PLAYER_PROPERTIES,
     }),
     editor_encounter: makeEncounterCardsList("editor_encounter", settings, {
       initialValues,
+      properties: [...SHARED_ENCOUNTER_PROPERTIES, "seal", "succeedBy"],
     }),
   };
 }
