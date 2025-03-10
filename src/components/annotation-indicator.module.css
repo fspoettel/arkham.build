@@ -1,4 +1,5 @@
 .annotation-icon svg {
   color: var(--nord-9);
   fill: var(--nord-9);
+  font-size: var(--text-xs);
 }
