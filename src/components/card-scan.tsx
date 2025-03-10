@@ -25,7 +25,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function CardScan(props: Props) {
-  const { preventFlip, onFlip, card, suffix, ...rest } = props;
+  const { preventFlip, onFlip, card, lazy, suffix, ...rest } = props;
   const { t } = useTranslation();
   const scanRef = useRef<HTMLDivElement>(null);
 
@@ -75,6 +75,7 @@ export function CardScan(props: Props) {
       <div className={css["scan-front"]} data-testid="card-scan" ref={scanRef}>
         <CardScanInner
           alt={t("card_view.scan", { code: imageCode })}
+          lazy={lazy}
           sideways={isSideways}
           url={imageUrl(imageCode)}
         />
@@ -84,9 +85,9 @@ export function CardScan(props: Props) {
           <div className={css["scan-back"]} ref={scanRef}>
             {backType === "card" ? (
               <CardScanInner
-                {...rest}
                 alt={t("card_view.scan", { code: imageCode })}
                 hidden={!flipped}
+                lazy={lazy}
                 sideways={backCard ? sideways(backCard) : isSideways}
                 url={imageUrl(reverseImageCode)}
               />
@@ -94,6 +95,7 @@ export function CardScan(props: Props) {
               <CardScanInner
                 alt={t("card_view.scan", { code: backType })}
                 hidden={!flipped}
+                lazy={lazy}
                 sideways={false}
                 url={cardBackTypeUrl(backType)}
               />

@@ -58,6 +58,7 @@
   display: block;
   width: 100%;
   background: transparent;
+  cursor: pointer;
 }
 
 .group-item-scan img {

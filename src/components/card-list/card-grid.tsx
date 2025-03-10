@@ -195,13 +195,10 @@ export function CardGridItem(
       key={card.code}
       data-component="card-group-item"
     >
-      <button
-        className={css["group-item-scan"]}
-        onClick={openModal}
-        type="button"
-      >
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents: no keyboard shortcuts needed here */}
+      <div className={css["group-item-scan"]} onClick={openModal}>
         <CardScan card={card} lazy />
-      </button>
+      </div>
       <div className={css["group-item-actions"]}>
         <CardActions
           card={card}
