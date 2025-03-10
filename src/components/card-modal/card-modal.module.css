@@ -13,6 +13,9 @@
 .card,
 .cardset {
   flex: 1 1 auto;
+}
+
+.shadow {
   box-shadow: var(--shadow);
 }
 

@@ -23,8 +23,7 @@
   width: var(--modal-width);
   max-width: 100%;
   container-type: inline-size;
-  margin-inline: auto;
-  padding: 1rem;
+  margin: 1rem auto;
 }
 
 .actions {
