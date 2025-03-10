@@ -45,7 +45,11 @@ export function CardScan(props: Props) {
   const reverseImageCode = useAgathaEasterEggTransform(backCode);
 
   const isSideways = sideways(card);
-  const reverseSideways = backCard ? sideways(backCard) : isSideways;
+  const reverseSideways = backCard
+    ? sideways(backCard)
+    : backType === "card"
+      ? isSideways
+      : false;
 
   const onToggleFlip = useCallback(
     (evt: React.MouseEvent) => {

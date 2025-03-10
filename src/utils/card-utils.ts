@@ -1,5 +1,6 @@
 import type { Card } from "@/store/services/queries.types";
 import {
+  ORIENTATION_CHANGED_CARDS,
   PLAYER_CARDS_ENCOUNTER_BACK_IDS,
   REGEX_USES,
   SIDEWAYS_TYPE_CODES,
@@ -27,7 +28,8 @@ export function getCardColor(card: Card, prop = "color") {
 }
 
 export function sideways(card: Card) {
-  return SIDEWAYS_TYPE_CODES.includes(card.type_code);
+  const value = SIDEWAYS_TYPE_CODES.includes(card.type_code);
+  return ORIENTATION_CHANGED_CARDS.includes(card.code) ? !value : value;
 }
 
 export function doubleSided(card: Card) {
