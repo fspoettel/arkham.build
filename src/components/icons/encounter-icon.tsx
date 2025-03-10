@@ -97,6 +97,9 @@ function getEncounterIcon(code?: string) {
     case "blob_epic_multiplayer":
       return "epic_multiplayer";
 
+    case "machinations_through_time_epic_multiplayer":
+      return "epic_multiplayer";
+
     case "blob_single_group":
       return "single_group";
 
