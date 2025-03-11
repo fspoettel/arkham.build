@@ -5,8 +5,8 @@ exports[`formatDeckAsText() > formats customizable 1`] = `
 
 Investigator: Carolyn Fern  
 
-Experience: 47  
-Taboo†: 2.1 (Aug 30, 2023)  
+XP: 47  
+Taboo list†: 2.1 (Aug 30, 2023)  
 
 ## Deck
 
@@ -32,14 +32,14 @@ _Arcane._ (4)
   - Lightweight.
 - Summoned Servitor (C) x2
   - Claws that Catch.
-  - Dominance. Choice: Ally
+  - Dominance. => Ally
 
 _Body._ (2)  
 - Living Ink (C) x2
   - Chosen skill: Willpower
   - Shifting Ink.
-  - Eldritch Ink. Choice: Intellect
-  - Eldritch Ink. Choice: Agility
+  - Eldritch Ink. => Intellect
+  - Eldritch Ink. => Agility
 
 _No Slot_ (3)  
 - Empirical Hypothesis (C) x2
@@ -50,7 +50,7 @@ _No Slot_ (3)
 **Event** (7)  
 - Friends in Low Places (C) x2
   - Chosen Trait: Innate
-  - Versatile. Choice: Illicit
+  - Versatile. => Illicit
   - Prompt.
 - Power Word† (C) x3
   - Cower.
@@ -58,12 +58,12 @@ _No Slot_ (3)
 - The Raven Quill (C) x2
   - Named Tome or Spell asset: Abyssal Tome
   - Spectral Binding.
-  - Endless Inkwell. Choice: Abyssal Tome, Old Book of Lore
+  - Endless Inkwell. => Abyssal Tome, Old Book of Lore
 
 **Skill** (2)  
 - Grizzled (C) x2
   - Traits chosen: Innate, Expert
-  - Specialist. Choice: Practiced
+  - Specialist. => Practiced
 
 **Treachery** (2)  
 - Random Basic Weakness
@@ -75,11 +75,11 @@ exports[`formatDeckAsText() > formats multi-faction decks 1`] = `
 "# Benchmark Charlie (Quick Guide)
 
 Investigator: Charlie Kane  
-Faction 1: Guardian  
-Faction 2: Survivor  
+Class Choice: Guardian  
+Class Choice: Survivor  
 
-Experience: 33  
-Taboo†: 2.0 (Aug 26, 2022)  
+XP: 33  
+Taboo list†: 2.0 (Aug 26, 2022)  
 
 ## Deck
 
@@ -136,9 +136,9 @@ exports[`formatDeckAsText() > formats the spirit deck 1`] = `
 "# The Jim Culver Mysteries
 
 Investigator: Jim Culver  
-Parallel: Original Front, Parallel Back  
+Parallel: Original front, Parallel back  
 
-Experience: 0  
+XP: 0  
 
 ## Deck
 
@@ -194,7 +194,7 @@ _Permanent_ (2)
 **Treachery** (2)  
 - Final Rhapsody
 - Random Basic Weakness
-## Spirits
+## Extra deck
 
 **Asset** (9)  
 _Ally._ (9)  

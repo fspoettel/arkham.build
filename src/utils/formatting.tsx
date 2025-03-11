@@ -10,11 +10,6 @@ export function capitalize(s: string | number) {
   return `${str[0].toUpperCase()}${str.slice(1)}`;
 }
 
-export function capitalizeSnakeCase(s: string) {
-  if (!s.length) return s;
-  return s.split("_").map(capitalize).join(" ");
-}
-
 // `toLocaleDateString()` is slow, memoize it.
 export const formatDate = createSelector(
   (date: string | number) => date,

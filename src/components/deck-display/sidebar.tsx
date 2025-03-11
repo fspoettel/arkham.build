@@ -178,7 +178,7 @@ function SidebarDetails(props: { deck: ResolvedDeck }) {
                 data-testid={`selection-${key}-value`}
               >
                 {selection.value ? (
-                  <span>
+                  <span className={css["detail-faction"]}>
                     <FactionIcon code={selection.value} />
                     {t(`common.factions.${selection.value}`)}
                   </span>

@@ -52,6 +52,12 @@
   gap: 0.25rem;
 }
 
+.detail-faction {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
 .share-empty > * + * {
   margin-top: 0.75rem;
 }

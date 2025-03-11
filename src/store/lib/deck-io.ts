@@ -2,16 +2,17 @@ import {
   type DeckValidationResult,
   validateDeck,
 } from "@/store/lib/deck-validation";
-import type { Card, CustomizationOption } from "@/store/services/queries.types";
+import type {
+  Card,
+  CustomizationOption,
+  OptionSelect,
+} from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
 import type { Deck, DeckProblem, Id } from "@/store/slices/data.types";
-import { splitMultiValue } from "@/utils/card-utils";
+import { displayAttribute, splitMultiValue } from "@/utils/card-utils";
 import { randomId } from "@/utils/crypto";
-import {
-  capitalize,
-  capitalizeSnakeCase,
-  formatTabooSet,
-} from "@/utils/formatting";
+import { formatTabooSet } from "@/utils/formatting";
+import i18n from "@/utils/i18n";
 import { isEmpty } from "@/utils/is-empty";
 import { getInitialSettings } from "../slices/settings";
 import {
@@ -108,40 +109,53 @@ export function mapValidationToProblem(
 export function formatDeckAsText(state: StoreState, deck: ResolvedDeck) {
   let text = "";
 
+  const t = i18n.t;
+
+  const investigatorName = displayAttribute(
+    deck.cards.investigator.card,
+    "name",
+  );
+
   text += `# ${deck.name}\n\n`;
-  text += `Investigator: ${deck.cards.investigator.card.real_name}  \n`;
+  text += `${t("common.type.investigator")}: ${investigatorName}  \n`;
 
   if (deck.hasParallel) {
     const front =
       deck.cards.investigator.card.code === deck.investigatorFront.card.code
-        ? "Original Front"
-        : "Parallel Front";
+        ? t("deck_edit.config.sides.original_front")
+        : t("deck_edit.config.sides.parallel_front");
 
     const back =
       deck.cards.investigator.card.code === deck.investigatorBack.card.code
-        ? "Original Back"
-        : "Parallel Back";
+        ? t("deck_edit.config.sides.original_back")
+        : t("deck_edit.config.sides.parallel_back");
 
-    text += `Parallel: ${front}, ${back}  \n`;
+    text += `${t("common.parallel")}: ${front}, ${back}  \n`;
   }
 
   if (deck.selections) {
-    for (const [key, selection] of Object.entries(deck.selections)) {
-      const value =
-        typeof selection.value !== "object"
-          ? typeof selection.value === "string"
-            ? capitalize(selection.value)
-            : selection.value
-          : (selection.value?.name ?? "None");
+    for (const selection of Object.values(deck.selections)) {
+      const value = selection.value;
 
-      text += `${capitalizeSnakeCase(key)}: ${value}  \n`;
+      let str = t("common.none");
+      if (value) {
+        if (selection.type === "faction") {
+          str = t(`common.factions.${value}`);
+        } else if (selection.type === "option") {
+          str = t(`common.deck_options.${(value as OptionSelect).name}`);
+        } else {
+          str = value as string;
+        }
+      }
+
+      text += `${t(`common.deck_options.${selection.name}`)}: ${str}  \n`;
     }
   }
 
-  text += `\nExperience: ${deck.stats.xpRequired}  \n`;
+  text += `\n${t("common.xp")}: ${deck.stats.xpRequired}  \n`;
 
   if (deck.tabooSet) {
-    text += `Taboo†: ${formatTabooSet(deck.tabooSet)}  \n`;
+    text += `${t("common.taboo")}†: ${formatTabooSet(deck.tabooSet)}  \n`;
   }
 
   const groups = groupDeckCards(
@@ -151,15 +165,15 @@ export function formatDeckAsText(state: StoreState, deck: ResolvedDeck) {
   );
 
   if (groups.slots && !isEmpty(deck.slots)) {
-    text += `\n## Deck\n\n${formatGrouping(state, groups.slots, deck.slots, deck.customizations)}`;
+    text += `\n## ${t("common.decks.slots")}\n\n${formatGrouping(state, groups.slots, deck.slots, deck.customizations)}`;
   }
 
   if (groups.sideSlots && !isEmpty(deck.sideSlots)) {
-    text += `\n## Side deck\n\n${formatGrouping(state, groups.sideSlots, deck.sideSlots, {})}`;
+    text += `\n## ${t("common.decks.sideSlots")}\n\n${formatGrouping(state, groups.sideSlots, deck.sideSlots, {})}`;
   }
 
   if (groups.extraSlots && deck.extraSlots) {
-    text += `## Spirits\n\n${formatGrouping(state, groups.extraSlots, deck.extraSlots, {})}`;
+    text += `## ${t("common.decks.extraSlots")}\n\n${formatGrouping(state, groups.extraSlots, deck.extraSlots, {})}`;
   }
 
   return text;
@@ -224,12 +238,17 @@ function formatCardAsText(
   quantities: { [code: string]: number },
   customizations: Customizations | undefined,
 ) {
+  const name = displayAttribute(card, "name");
+
   const customizable = !!card.customization_options;
   const quantity = quantities[card.code] ?? 0;
-  const cardStr = `- ${card.real_name}${card.taboo_set_id ? "†" : ""}${card.xp ? ` (${card.xp})` : ""}${customizable ? " (C)" : ""}${quantity > 1 ? ` x${quantity}` : ""}`;
 
-  if (customizable && customizations && card.real_customization_text) {
-    const optionNames = card.real_customization_text
+  const cardStr = `- ${name}${card.taboo_set_id ? "†" : ""}${card.xp ? ` (${card.xp})` : ""}${customizable ? " (C)" : ""}${quantity > 1 ? ` x${quantity}` : ""}`;
+
+  const customizationText = displayAttribute(card, "customization_text");
+
+  if (customizable && customizations && customizationText) {
+    const optionNames = customizationText
       .replaceAll("□", "")
       .replaceAll("<b>", "")
       .replaceAll("</b>", "")
@@ -244,7 +263,7 @@ function formatCardAsText(
 
     const options = card.customization_options as CustomizationOption[];
 
-    const customizationText = options
+    const customizationStr = options
       .reduce<string[]>((acc, option, i) => {
         const name = optionNames[i].trim();
         const choice = customizations[card.code]?.[i];
@@ -261,7 +280,7 @@ function formatCardAsText(
 
           if (option.choice) {
             if (text.endsWith(".")) {
-              acc.push(`${text} Choice: ${selection ?? ""}`);
+              acc.push(`${text} => ${selection ?? ""}`);
             } else {
               acc.push(`${text} ${selection ?? ""}`);
             }
@@ -274,8 +293,8 @@ function formatCardAsText(
       }, [])
       .join("\n");
 
-    if (customizationText) {
-      return `${cardStr}\n${customizationText}`;
+    if (customizationStr) {
+      return `${cardStr}\n${customizationStr}`;
     }
   }
 
@@ -294,7 +313,7 @@ function formatCustomizableSelection(
 
   if (option.choice === "choose_card") {
     return selections
-      .map((code) => state.metadata.cards[code]?.real_name ?? "")
+      .map((code) => displayAttribute(state.metadata.cards[code], "name"))
       .join(", ");
   }
 
@@ -302,12 +321,17 @@ function formatCustomizableSelection(
     return selections
       .map((s) => {
         const slot = splitMultiValue(card.original_slot);
-        return slot[Number.parseInt(s, 10)];
+        const slotStr = slot[Number.parseInt(s, 10)];
+        return i18n.t(`common.slot.${slotStr.toLowerCase()}`);
       })
       .join(", ");
   }
 
-  return selections.map(capitalize).join(", ");
+  if (option.choice === "choose_skill") {
+    return selections.map((s) => i18n.t(`common.skill.${s}`)).join(", ");
+  }
+
+  return selections.map((t) => i18n.t(`common.traits.${t}`)).join(", ");
 }
 
 function isApiDeckKey(key: string): key is keyof Deck {
