@@ -9,7 +9,6 @@ import { clampAttachmentQuantity } from "../lib/attachments";
 import { randomBasicWeaknessForDeck } from "../lib/random-basic-weakness";
 import { getDeckLimitOverride } from "../lib/resolve-deck";
 import { selectResolvedDeckById } from "../selectors/decks";
-import { selectSettings } from "../selectors/settings";
 import type { Id } from "./data.types";
 import { type DeckEditsSlice, mapTabToSlot } from "./deck-edits.types";
 
@@ -226,7 +225,7 @@ export const createDeckEditsSlice: StateCreator<
     const weakness = randomBasicWeaknessForDeck(
       state.metadata,
       state.lookupTables,
-      selectSettings(state),
+      state.settings,
       resolvedDeck,
     );
 

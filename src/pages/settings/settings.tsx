@@ -4,7 +4,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast.hooks";
 import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
-import { selectSettings } from "@/store/selectors/settings";
 import { useGoBack } from "@/utils/use-go-back";
 import {
   DatabaseBackupIcon,
@@ -27,6 +26,7 @@ import css from "./settings.module.css";
 import { ShowAllCardsSetting } from "./show-all-cards";
 import { ShowMoveToSideDeckSetting } from "./show-move-to-side-deck";
 import { ShowPreviewsSetting } from "./show-previews";
+import { SortPunctuationSetting } from "./sort-punctuation-setting";
 import { TabooSetSetting } from "./taboo-set";
 import { ThemeSetting } from "./theme";
 import { WeaknessPoolSetting } from "./weakness-pool";
@@ -40,7 +40,7 @@ function Settings() {
 
   const updateStoredSettings = useStore((state) => state.updateSettings);
 
-  const storedSettings = useStore(selectSettings);
+  const storedSettings = useStore((state) => state.settings);
   const [settings, updateSettings] = useState(structuredClone(storedSettings));
 
   useEffect(() => {
@@ -144,6 +144,10 @@ function Settings() {
                   updateSettings={updateSettings}
                 />
                 <HideWeaknessSetting
+                  settings={settings}
+                  updateSettings={updateSettings}
+                />
+                <SortPunctuationSetting
                   settings={settings}
                   updateSettings={updateSettings}
                 />

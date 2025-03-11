@@ -2,7 +2,6 @@ import { CollectionSettings } from "@/components/collection/collection";
 import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
 import { selectTotalOwned } from "@/store/selectors/collection";
-import { selectSettings } from "@/store/selectors/settings";
 import { cx } from "@/utils/cx";
 import { Trans, useTranslation } from "react-i18next";
 import { Link } from "wouter";
@@ -10,7 +9,7 @@ import css from "./collection-stats.module.css";
 
 function CollectionStats() {
   const { t } = useTranslation();
-  const settings = useStore(selectSettings);
+  const settings = useStore((state) => state.settings);
 
   const ownedCount = useStore(selectTotalOwned);
 

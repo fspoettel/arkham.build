@@ -13,7 +13,10 @@ import {
   selectDeckValid,
   selectResolvedDeckById,
 } from "@/store/selectors/decks";
-import { selectClientId } from "@/store/selectors/shared";
+import {
+  selectClientId,
+  selectLocaleSortingCollator,
+} from "@/store/selectors/shared";
 import { queryDeck } from "@/store/services/queries";
 import { isNumeric } from "@/utils/is-numeric";
 import { useQuery } from "@/utils/use-query";
@@ -57,6 +60,7 @@ function ArkhamDbDeckView({ id, type }: { id: string; type: string }) {
   const metadata = useStore((state) => state.metadata);
   const lookupTables = useStore((state) => state.lookupTables);
   const sharing = useStore((state) => state.sharing);
+  const collator = useStore(selectLocaleSortingCollator);
 
   if (Number.isNaN(idInt)) {
     return <Error404 />;
@@ -71,7 +75,15 @@ function ArkhamDbDeckView({ id, type }: { id: string; type: string }) {
   }
 
   const decks = data.map((deck) =>
-    resolveDeck(metadata, lookupTables, sharing, deck),
+    resolveDeck(
+      {
+        metadata,
+        lookupTables,
+        sharing,
+      },
+      collator,
+      deck,
+    ),
   );
 
   return (
@@ -79,7 +91,9 @@ function ArkhamDbDeckView({ id, type }: { id: string; type: string }) {
       origin="arkhamdb"
       deck={decks[0]}
       history={
-        decks.length > 1 ? getDeckHistory(decks.toReversed(), metadata) : []
+        decks.length > 1
+          ? getDeckHistory(decks.toReversed(), metadata, collator)
+          : []
       }
     />
   );

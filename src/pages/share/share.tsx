@@ -4,6 +4,7 @@ import { Loader } from "@/components/ui/loader";
 import { useStore } from "@/store";
 import { resolveDeck } from "@/store/lib/resolve-deck";
 import { selectDeckValid } from "@/store/selectors/decks";
+import { selectLocaleSortingCollator } from "@/store/selectors/shared";
 import { getShare } from "@/store/services/queries";
 import type { StoreState } from "@/store/slices";
 import type { Deck } from "@/store/slices/data.types";
@@ -18,10 +19,19 @@ const selectResolvedShare = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.sharing,
+  selectLocaleSortingCollator,
   (_: StoreState, data: Deck | undefined) => data,
-  (metadata, lookupTables, sharing, data) => {
+  (metadata, lookupTables, sharing, collator, data) => {
     if (!data) return undefined;
-    return resolveDeck(metadata, lookupTables, sharing, data);
+    return resolveDeck(
+      {
+        metadata,
+        lookupTables,
+        sharing,
+      },
+      collator,
+      data,
+    );
   },
 );
 

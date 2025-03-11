@@ -1,5 +1,4 @@
 import { useStore } from "@/store";
-import { selectSettings } from "@/store/selectors/settings";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import css from "./preview-banner.module.css";
@@ -8,7 +7,7 @@ import { Button } from "./ui/button";
 const BANNER_ID = "preview-tdc";
 
 export function PreviewBanner() {
-  const settings = useStore(selectSettings);
+  const settings = useStore((state) => state.settings);
   const { t } = useTranslation();
 
   const dismissed = useStore((state) =>

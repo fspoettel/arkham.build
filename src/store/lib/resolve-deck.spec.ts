@@ -14,6 +14,7 @@ import deckXpRequired from "@/test/fixtures/decks/xp_required.json";
 import { getMockStore } from "@/test/get-mock-store";
 import { beforeAll, describe, expect, it } from "vitest";
 import type { StoreApi } from "zustand";
+import { selectLocaleSortingCollator } from "../selectors/shared";
 import type { StoreState } from "../slices";
 import { resolveDeck } from "./resolve-deck";
 
@@ -27,9 +28,13 @@ describe("resolveDeck", () => {
 
   describe("alternate investigators", () => {
     it("resolves originals", () => {
-      const { metadata, lookupTables, sharing } = store.getState();
+      const state = store.getState();
       const deck = deckInvestigatorOriginal;
-      const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+      const resolved = resolveDeck(
+        state,
+        selectLocaleSortingCollator(state),
+        deck,
+      );
       expect(resolved.investigatorFront.card.code).toEqual(
         deck.investigator_code,
       );
@@ -39,9 +44,13 @@ describe("resolveDeck", () => {
     });
 
     it("resolves parallel front", () => {
-      const { metadata, lookupTables, sharing } = store.getState();
+      const state = store.getState();
       const deck = deckInvestigatorParallelFront;
-      const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+      const resolved = resolveDeck(
+        state,
+        selectLocaleSortingCollator(state),
+        deck,
+      );
       expect(resolved.investigatorFront.card.code).toEqual(
         resolved.metaParsed.alternate_front,
       );
@@ -51,9 +60,13 @@ describe("resolveDeck", () => {
     });
 
     it("resolves parallel back", () => {
-      const { metadata, lookupTables, sharing } = store.getState();
+      const state = store.getState();
       const deck = deckInvestigatorParallelBack;
-      const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+      const resolved = resolveDeck(
+        state,
+        selectLocaleSortingCollator(state),
+        deck,
+      );
       expect(resolved.investigatorFront.card.code).toEqual(
         deck.investigator_code,
       );
@@ -63,9 +76,13 @@ describe("resolveDeck", () => {
     });
 
     it("resolves parallel front and back", () => {
-      const { metadata, lookupTables, sharing } = store.getState();
+      const state = store.getState();
       const deck = deckInvestigatorParallelBoth;
-      const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+      const resolved = resolveDeck(
+        state,
+        selectLocaleSortingCollator(state),
+        deck,
+      );
 
       expect(resolved.investigatorFront.card.code).toEqual(
         resolved.metaParsed.alternate_front,
@@ -77,9 +94,13 @@ describe("resolveDeck", () => {
     });
 
     it("normalizes meta.alternate_* to the base card", () => {
-      const { metadata, lookupTables, sharing } = store.getState();
+      const state = store.getState();
       const deck = deckInvestigatorReplacements;
-      const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+      const resolved = resolveDeck(
+        state,
+        selectLocaleSortingCollator(state),
+        deck,
+      );
 
       expect(resolved.investigatorFront.card.code).toEqual(
         resolved.investigator_code,
@@ -91,9 +112,13 @@ describe("resolveDeck", () => {
     });
 
     it("normalizes alt art investigator_code to the base card", () => {
-      const { metadata, lookupTables, sharing } = store.getState();
+      const state = store.getState();
       const deck = deckCustomizable;
-      const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+      const resolved = resolveDeck(
+        state,
+        selectLocaleSortingCollator(state),
+        deck,
+      );
       expect(deck.investigator_code).toEqual("98010");
       expect(resolved.investigatorFront.card.code).toEqual("05001");
     });
@@ -101,9 +126,13 @@ describe("resolveDeck", () => {
 
   describe("deck building", () => {
     it("parses selected faction if defined", () => {
-      const { metadata, lookupTables, sharing } = store.getState();
+      const state = store.getState();
       const deck = deckFactionSelected;
-      const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+      const resolved = resolveDeck(
+        state,
+        selectLocaleSortingCollator(state),
+        deck,
+      );
       expect(resolved.selections).toMatchInlineSnapshot(`
         {
           "faction_selected": {
@@ -122,9 +151,13 @@ describe("resolveDeck", () => {
     });
 
     it("parses multi faction selects if defined", () => {
-      const { metadata, lookupTables, sharing } = store.getState();
+      const state = store.getState();
       const deck = deckMultiFactionSelected;
-      const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+      const resolved = resolveDeck(
+        state,
+        selectLocaleSortingCollator(state),
+        deck,
+      );
       expect(resolved.selections).toMatchInlineSnapshot(`
         {
           "faction_1": {
@@ -158,11 +191,15 @@ describe("resolveDeck", () => {
     });
 
     it("considers parallel back for deckbuilding", () => {
-      const { metadata, lookupTables, sharing } = store.getState();
+      const state = store.getState();
 
       // parallel wendy deck with "both" selected.
       const deck = deckInvestigatorParallelBack;
-      const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+      const resolved = resolveDeck(
+        state,
+        selectLocaleSortingCollator(state),
+        deck,
+      );
 
       expect(resolved.selections).toMatchInlineSnapshot(`
         {
@@ -228,16 +265,24 @@ describe("resolveDeck", () => {
 
   describe("deck size", () => {
     it("sums up total card count, excluding side deck", () => {
-      const { metadata, lookupTables, sharing } = store.getState();
+      const state = store.getState();
       const deck = deckSizeAllSpecials;
-      const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+      const resolved = resolveDeck(
+        state,
+        selectLocaleSortingCollator(state),
+        deck,
+      );
       expect(resolved.stats.deckSizeTotal).toEqual(15);
     });
 
     it("calculates player card count correctly when replacement specials are used", () => {
-      const { metadata, lookupTables, sharing } = store.getState();
+      const state = store.getState();
       const deck = deckSizeAllSpecials;
-      const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+      const resolved = resolveDeck(
+        state,
+        selectLocaleSortingCollator(state),
+        deck,
+      );
       expect(resolved.stats).toMatchObject({
         deckSize: 1,
         deckSizeTotal: 15,
@@ -245,9 +290,13 @@ describe("resolveDeck", () => {
     });
 
     it("calculates player card count correctly for parallel agnes", () => {
-      const { metadata, lookupTables, sharing } = store.getState();
+      const state = store.getState();
       const deck = deckSizeParallelAgnes;
-      const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+      const resolved = resolveDeck(
+        state,
+        selectLocaleSortingCollator(state),
+        deck,
+      );
       expect(resolved.stats).toMatchObject({
         deckSize: 2,
         deckSizeTotal: 9,
@@ -255,10 +304,14 @@ describe("resolveDeck", () => {
     });
 
     it("calculates player card count correctly for parallel agnes when over deck_limit", () => {
-      const { metadata, lookupTables, sharing } = store.getState();
+      const state = store.getState();
       const deck = structuredClone(deckSizeParallelAgnes);
       deck.slots["02154"] = 4;
-      const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+      const resolved = resolveDeck(
+        state,
+        selectLocaleSortingCollator(state),
+        deck,
+      );
       expect(resolved.stats).toMatchObject({
         deckSize: 4,
         deckSizeTotal: 11,
@@ -268,9 +321,13 @@ describe("resolveDeck", () => {
 
   describe("extra deck", () => {
     it("parses the extra deck block", () => {
-      const { metadata, lookupTables, sharing } = store.getState();
+      const state = store.getState();
       const deck = deckExtraSlots;
-      const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+      const resolved = resolveDeck(
+        state,
+        selectLocaleSortingCollator(state),
+        deck,
+      );
       expect(resolved.extraSlots).toMatchInlineSnapshot(`
         {
           "01018": 1,
@@ -288,18 +345,26 @@ describe("resolveDeck", () => {
     });
 
     it("adds the extra cards to the total deck size", () => {
-      const { metadata, lookupTables, sharing } = store.getState();
+      const state = store.getState();
       const deck = deckExtraSlots;
-      const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+      const resolved = resolveDeck(
+        state,
+        selectLocaleSortingCollator(state),
+        deck,
+      );
       expect(resolved.stats.deckSizeTotal).toEqual(45);
     });
   });
 
   describe("customizable", () => {
     it("parses card customizations if present", () => {
-      const { metadata, lookupTables, sharing } = store.getState();
+      const state = store.getState();
       const deck = deckCustomizable;
-      const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+      const resolved = resolveDeck(
+        state,
+        selectLocaleSortingCollator(state),
+        deck,
+      );
       expect(resolved.customizations).toMatchInlineSnapshot(`
         {
           "09021": {
@@ -510,27 +575,39 @@ describe("resolveDeck", () => {
 
     describe("experience", () => {
       it("calculates experience correctly (exceptional, taboos)", () => {
-        const { metadata, lookupTables, sharing } = store.getState();
+        const state = store.getState();
         const deck = deckXpRequired;
-        const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+        const resolved = resolveDeck(
+          state,
+          selectLocaleSortingCollator(state),
+          deck,
+        );
         expect(resolved.stats).toMatchObject({
           xpRequired: 25,
         });
       });
 
       it("counts customizable experience", () => {
-        const { metadata, lookupTables, sharing } = store.getState();
+        const state = store.getState();
         const deck = deckCustomizable;
-        const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+        const resolved = resolveDeck(
+          state,
+          selectLocaleSortingCollator(state),
+          deck,
+        );
         expect(resolved.stats).toMatchObject({
           xpRequired: 47,
         });
       });
 
       it("counts myriad with different names correctly", () => {
-        const { metadata, lookupTables, sharing } = store.getState();
+        const state = store.getState();
         const deck = deckMyriadDifferentNames;
-        const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+        const resolved = resolveDeck(
+          state,
+          selectLocaleSortingCollator(state),
+          deck,
+        );
         expect(resolved.stats).toMatchObject({
           xpRequired: 2,
         });

@@ -1150,6 +1150,8 @@
         "hide_weaknesses_help": "When this is checked, weaknesses are hidden in player card lists by default and need to be enabled in the <strong>Subtype</strong> filter to be visible.",
         "show_move_to_side_deck": "Show \"Move to side deck\" button",
         "show_move_to_side_deck_help": "This shows a button that allows you to move cards from the deck to the side deck when editing decks. This is helpful if you primarily deck build by overfilling the deck with options and then cutting down (known as the dayorbyte method).",
+        "sort_ignore_punctuation": "Sort ignores punctuation",
+        "sort_ignore_punctuation_help": "When this is checked, the card list will ignore quotes and other punctuation when sorting.",
         "theme": "Theme",
         "theme_dark": "Dark",
         "theme_light": "Light",

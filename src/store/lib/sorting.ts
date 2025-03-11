@@ -26,15 +26,13 @@ export const SORTING_TYPES: SortingType[] = [
 
 export type SortFunction = (a: Card, b: Card) => number;
 
-export function sortAlphabetical(a: string, b: string) {
+export function sortAlphabeticalLatin(a: string, b: string) {
   return a < b ? -1 : a > b ? 1 : 0;
 }
 
-export function sortByName(a: Card, b: Card) {
-  return sortAlphabetical(
-    displayAttribute(a, "name"),
-    displayAttribute(b, "name"),
-  );
+export function sortByName(collator: Intl.Collator) {
+  return (a: Card, b: Card) =>
+    collator.compare(displayAttribute(a, "name"), displayAttribute(b, "name"));
 }
 
 function sortByLevel(a: Card, b: Card) {
@@ -92,11 +90,12 @@ function sortByType(a: Card, b: Card) {
 export function makeSortFunction(
   sortings: SortingType[],
   metadata: Metadata,
+  collator: Intl.Collator,
 ): SortFunction {
   const sorts = sortings.map((sorting) => {
     switch (sorting) {
       case "name": {
-        return sortByName;
+        return sortByName(collator);
       }
 
       case "level": {
@@ -124,7 +123,7 @@ export function makeSortFunction(
       }
 
       case "slot": {
-        return sortBySlot;
+        return sortBySlot(collator);
       }
     }
   });
@@ -143,7 +142,10 @@ export function makeSortFunction(
  * Encounter Sets
  */
 
-export function sortByEncounterSet(metadata: Metadata) {
+export function sortByEncounterSet(
+  metadata: Metadata,
+  collator: Intl.Collator,
+) {
   return (a: string, b: string) => {
     const setA = metadata.encounterSets[a];
     const setB = metadata.encounterSets[b];
@@ -160,42 +162,38 @@ export function sortByEncounterSet(metadata: Metadata) {
     return (
       cycleA.position - cycleB.position ||
       packA.position - packB.position ||
-      sortAlphabetical(setA.name, setB.name)
+      collator.compare(setA.name, setB.name)
     );
   };
-}
-
-export function sortedEncounterSets(metadata: Metadata) {
-  const encounterSets = Object.values(metadata.encounterSets);
-
-  const byEncounterSet = sortByEncounterSet(metadata);
-  encounterSets.sort((a, b) => byEncounterSet(a.pack_code, b.pack_code));
-
-  return encounterSets;
 }
 
 /**
  * Slots
  */
 
-export function sortBySlots(a: string, b: string) {
-  const slotA = ASSET_SLOT_ORDER.indexOf(a);
-  const slotB = ASSET_SLOT_ORDER.indexOf(b);
+export function sortBySlots(collator: Intl.Collator) {
+  return (a: string, b: string) => {
+    const slotA = ASSET_SLOT_ORDER.indexOf(a);
+    const slotB = ASSET_SLOT_ORDER.indexOf(b);
 
-  if (slotA === -1 && slotB === -1) {
-    return sortAlphabetical(a, b);
-  }
+    if (slotA === -1 && slotB === -1) {
+      return collator.compare(a, b);
+    }
 
-  if (slotA === -1) return 1;
-  if (slotB === -1) return -1;
+    if (slotA === -1) return 1;
+    if (slotB === -1) return -1;
 
-  return slotA - slotB;
+    return slotA - slotB;
+  };
 }
 
-function sortBySlot(a: Card, b: Card) {
-  const aSlot = a.permanent ? "permanent" : (a.real_slot ?? "");
-  const bSlot = b.permanent ? "permanent" : (b.real_slot ?? "");
-  return sortBySlots(aSlot, bSlot);
+function sortBySlot(collator: Intl.Collator) {
+  const sortBySlotsFn = sortBySlots(collator);
+  return (a: Card, b: Card) => {
+    const aSlot = a.permanent ? "permanent" : (a.real_slot ?? "");
+    const bSlot = b.permanent ? "permanent" : (b.real_slot ?? "");
+    return sortBySlotsFn(aSlot, bSlot);
+  };
 }
 
 /**

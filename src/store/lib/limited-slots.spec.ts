@@ -6,6 +6,7 @@ import limitCarolynVersatile from "@/test/fixtures/decks/validation/limit_caroly
 import limitCarolynVersatileInvalid from "@/test/fixtures/decks/validation/limit_carolyn_versatile_invalid.json";
 import { getMockStore } from "@/test/get-mock-store";
 import { StoreApi } from "zustand";
+import { selectLocaleSortingCollator } from "../selectors/shared";
 import { StoreState } from "../slices";
 import { LimitedSlotOccupation, limitedSlotOccupation } from "./limited-slots";
 import { resolveDeck } from "./resolve-deck";
@@ -29,12 +30,7 @@ describe("limitedSlotOccupation()", () => {
 
     expect(
       limitedSlotOccupation(
-        resolveDeck(
-          state.metadata,
-          state.lookupTables,
-          state.sharing,
-          limitCarolyn,
-        ),
+        resolveDeck(state, selectLocaleSortingCollator(state), limitCarolyn),
       )?.map(toSnapShot),
     ).toMatchInlineSnapshot(`
       [
@@ -48,9 +44,8 @@ describe("limitedSlotOccupation()", () => {
     expect(
       limitedSlotOccupation(
         resolveDeck(
-          state.metadata,
-          state.lookupTables,
-          state.sharing,
+          state,
+          selectLocaleSortingCollator(state),
           limitCarolynInvalid,
         ),
       )?.map(toSnapShot),
@@ -70,9 +65,8 @@ describe("limitedSlotOccupation()", () => {
     expect(
       limitedSlotOccupation(
         resolveDeck(
-          state.metadata,
-          state.lookupTables,
-          state.sharing,
+          state,
+          selectLocaleSortingCollator(state),
           limitCarolynVersatile,
         ),
       )?.map(toSnapShot),
@@ -92,9 +86,8 @@ describe("limitedSlotOccupation()", () => {
     expect(
       limitedSlotOccupation(
         resolveDeck(
-          state.metadata,
-          state.lookupTables,
-          state.sharing,
+          state,
+          selectLocaleSortingCollator(state),
           limitCarolynVersatileInvalid,
         ),
       )?.map(toSnapShot),

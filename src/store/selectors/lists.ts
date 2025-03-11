@@ -49,9 +49,8 @@ import { resolveCardWithRelations } from "../lib/resolve-card";
 import { applySearch } from "../lib/searching";
 import {
   makeSortFunction,
-  sortAlphabetical,
+  sortByEncounterSet,
   sortByName,
-  sortedEncounterSets,
 } from "../lib/sorting";
 import { type ResolvedDeck, isResolvedDeck } from "../lib/types";
 import type { Card, Cycle, Pack } from "../services/queries.types";
@@ -74,7 +73,7 @@ import type {
 } from "../slices/lists.types";
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
-import { selectSettings } from "./settings";
+import { selectLocaleSortingCollator } from "./shared";
 
 export type CardGroup = {
   type: string;
@@ -321,7 +320,7 @@ export const selectCanonicalTabooSetId = (
 
   if (typeof filterValue?.value === "number") return filterValue.value;
 
-  return selectSettings(state).tabooSetId;
+  return state.settings.tabooSetId;
 };
 
 // This selector uses a custom equality check that avoid re-creation on every deck change.
@@ -449,7 +448,7 @@ const selectResolvedDeckCustomizations = customizationsEqualSelector(
 const selectBaseListCards = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
-  selectSettings,
+  (state: StoreState) => state.settings,
   (state: StoreState) => selectActiveList(state)?.systemFilter,
   (state: StoreState) => selectActiveList(state)?.duplicateFilter,
   (state: StoreState) => selectActiveList(state)?.filterValues,
@@ -540,9 +539,10 @@ const selectBaseListCards = createSelector(
 export const selectListCards = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
-  selectSettings,
+  (state: StoreState) => state.settings,
   selectActiveList,
   selectBaseListCards,
+  selectLocaleSortingCollator,
   (_: StoreState, resolvedDeck?: ResolvedDeck) => resolvedDeck,
   (
     _: StoreState,
@@ -555,6 +555,7 @@ export const selectListCards = createSelector(
     settings,
     activeList,
     _filteredCards,
+    sortingCollator,
     resolvedDeck,
     targetDeck,
   ) => {
@@ -594,8 +595,9 @@ export const selectListCards = createSelector(
     const groupedCards = getGroupedCards(
       activeList.display.grouping,
       filteredCards,
-      makeSortFunction(activeList.display.sorting, metadata),
+      makeSortFunction(activeList.display.sorting, metadata, sortingCollator),
       metadata,
+      sortingCollator,
     );
 
     for (const group of groupedCards.data) {
@@ -624,12 +626,13 @@ export const selectListCards = createSelector(
 export const selectCardRelationsResolver = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
-  (metadata, lookupTables) => {
+  selectLocaleSortingCollator,
+  (metadata, lookupTables, collator) => {
     return (code: string) => {
       // for the current use case (investigator signatures), customizations and taboo are irrelevant.
       return resolveCardWithRelations(
-        metadata,
-        lookupTables,
+        { metadata, lookupTables },
+        collator,
         code,
         undefined,
         undefined,
@@ -741,10 +744,11 @@ const selectListFilterProperties = createSelector(
 
 export const selectActionOptions = createSelector(
   selectListFilterProperties,
-  ({ actions }) => {
+  selectLocaleSortingCollator,
+  ({ actions }, collator) => {
     return Array.from(actions)
       .map((code) => ({ code, name: i18n.t(`common.actions.${code}`) }))
-      .sort((a, b) => sortAlphabetical(a.name, b.name));
+      .sort((a, b) => collator.compare(a.name, b.name));
   },
 );
 
@@ -754,11 +758,12 @@ export const selectActionOptions = createSelector(
 
 export const selectAssetOptions = createSelector(
   (state: StoreState) => state.lookupTables,
+  selectLocaleSortingCollator,
   selectListFilterProperties,
-  (lookupTables, filterProps) => {
+  (lookupTables, collator, filterProps) => {
     const uses = Object.keys(lookupTables.uses)
       .map((code) => ({ code, name: i18n.t(`common.uses.${code}`) }))
-      .sort((a, b) => sortAlphabetical(a.name, b.name));
+      .sort((a, b) => collator.compare(a.name, b.name));
 
     const skillBoosts = SKILL_KEYS.filter((x) => x !== "wild");
 
@@ -798,9 +803,19 @@ export const selectCostMinMax = createSelector(
  * Encounter Set
  */
 
+function sortedEncounterSets(metadata: Metadata, collator: Intl.Collator) {
+  const encounterSets = Object.values(metadata.encounterSets);
+
+  const byEncounterSet = sortByEncounterSet(metadata, collator);
+  encounterSets.sort((a, b) => byEncounterSet(a.pack_code, b.pack_code));
+
+  return encounterSets;
+}
+
 export const selectEncounterSetOptions = createSelector(
   (state: StoreState) => state.metadata,
-  (metadata) => sortedEncounterSets(metadata),
+  selectLocaleSortingCollator,
+  (metadata, collator) => sortedEncounterSets(metadata, collator),
 );
 
 /**
@@ -849,7 +864,8 @@ export const selectHealthMinMax = createSelector(
 export const selectInvestigatorOptions = createSelector(
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.metadata,
-  (lookupTables, metadata) => {
+  selectLocaleSortingCollator,
+  (lookupTables, metadata, collator) => {
     const investigatorTable = lookupTables.typeCode["investigator"];
 
     const investigators = Object.keys(investigatorTable).reduce<Card[]>(
@@ -869,7 +885,7 @@ export const selectInvestigatorOptions = createSelector(
       [],
     );
 
-    investigators.sort(sortByName);
+    investigators.sort(sortByName(collator));
     return investigators;
   },
 );
@@ -880,8 +896,9 @@ export const selectInvestigatorOptions = createSelector(
 
 export const selectCardOptions = createSelector(
   (state: StoreState) => state.metadata,
-  (metadata) => {
-    const sortFn = makeSortFunction(["name", "level"], metadata);
+  selectLocaleSortingCollator,
+  (metadata, collator) => {
+    const sortFn = makeSortFunction(["name", "level"], metadata, collator);
 
     return Object.values(metadata.cards)
       .filter((card) => {
@@ -928,7 +945,7 @@ type CycleWithPacks = (Cycle & {
 export const selectCyclesAndPacks = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
-  selectSettings,
+  (state: StoreState) => state.settings,
   (metadata, lookupTables, settings) => {
     const cycles = Object.entries(lookupTables.packsByCycle).reduce(
       (acc, [cycleCode, packTable]) => {
@@ -1053,12 +1070,13 @@ export const selectActiveListSearch = createSelector(
 export const selectResolvedCardById = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
+  selectLocaleSortingCollator,
   (_: StoreState, code: string) => code,
   (_: StoreState, __: string, resolvedDeck?: ResolvedDeck) => resolvedDeck,
-  (metadata, lookupTables, code, resolvedDeck) => {
+  (metadata, lookupTables, collator, code, resolvedDeck) => {
     return resolveCardWithRelations(
-      metadata,
-      lookupTables,
+      { metadata, lookupTables },
+      collator,
       code,
       resolvedDeck?.taboo_id,
       resolvedDeck?.customizations,
@@ -1094,9 +1112,10 @@ export function selectSubtypeOptions() {
 
 export const selectTabooSetOptions = createSelector(
   (state: StoreState) => state.metadata.tabooSets,
-  (tabooSets) => {
+  selectLocaleSortingCollator,
+  (tabooSets, collator) => {
     const sets = Object.values(tabooSets);
-    sets.sort((a, b) => sortAlphabetical(b.date, a.date));
+    sets.sort((a, b) => collator.compare(b.date, a.date));
     return sets;
   },
 );
@@ -1116,10 +1135,12 @@ export const selectTabooSetSelectOptions = createSelector(
 
 export const selectTraitOptions = createSelector(
   selectListFilterProperties,
-  ({ traits }) =>
-    Array.from(traits)
+  selectLocaleSortingCollator,
+  ({ traits }, collator) => {
+    return Array.from(traits)
       .map((code) => ({ code, name: i18n.t(`common.traits.${code}`) }))
-      .sort((a, b) => sortAlphabetical(a.name, b.name)),
+      .sort((a, b) => collator.compare(a.name, b.name));
+  },
 );
 
 /**
@@ -1128,14 +1149,16 @@ export const selectTraitOptions = createSelector(
 
 export const selectTypeOptions = createSelector(
   selectListFilterProperties,
+  selectLocaleSortingCollator,
   (state: StoreState) => state.metadata.types,
-  ({ types }, typeTable) =>
-    Array.from(types)
+  ({ types }, collator, typeTable) => {
+    return Array.from(types)
       .map((code) => ({
         ...typeTable[code],
         name: i18n.t(`common.type.${code}`),
       }))
-      .sort((a, b) => sortAlphabetical(a.name, b.name)),
+      .sort((a, b) => collator.compare(a.name, b.name));
+  },
 );
 
 /**
@@ -1371,21 +1394,16 @@ function selectSkillIconsChanges(value: SkillIconsFilter) {
   }, "");
 }
 
-const selectSubtypeChanges = createSelector(
-  (_: StoreState, value: SubtypeFilter) => value,
-  (value) => {
-    const options = Object.entries(value);
-    const enabled = options.filter(([, value]) => !!value);
-    const labels = subtypeLabels();
+function selectSubtypeChanges(value: SubtypeFilter) {
+  const options = Object.entries(value);
+  const enabled = options.filter(([, value]) => !!value);
+  if (enabled.length === options.length) return "";
 
-    if (enabled.length === 0) return labels["none"];
-    if (enabled.length === options.length) return "";
+  const labels = subtypeLabels();
+  if (enabled.length === 0) return labels["none"];
 
-    return enabled
-      .map(([key]) => labels[key])
-      .join(` ${i18n.t("filters.or")} `);
-  },
-);
+  return enabled.map(([key]) => labels[key]).join(` ${i18n.t("filters.or")} `);
+}
 
 const selectTabooSetChanges = createSelector(
   (_: StoreState, value: SelectFilter) => value,
@@ -1480,7 +1498,7 @@ export function selectFilterChanges<T extends keyof FilterMapping>(
     }
 
     case "subtype": {
-      return selectSubtypeChanges(state, value as SubtypeFilter);
+      return selectSubtypeChanges(value as SubtypeFilter);
     }
 
     case "tabooSet": {

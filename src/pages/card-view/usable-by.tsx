@@ -3,6 +3,7 @@ import { Details } from "@/components/ui/details";
 import { useStore } from "@/store";
 import { selectUsableByInvestigators } from "@/store/selectors/card-view";
 import type { Card } from "@/store/services/queries.types";
+import { displayAttribute } from "@/utils/card-utils";
 import { useTranslation } from "react-i18next";
 
 type Props = {
@@ -20,7 +21,9 @@ export function UsableBy(props: Props) {
     <Details
       data-testid="usable-by"
       iconClosed={<i className="icon-per_investigator" />}
-      title={t("card_view.actions.who_can_take")}
+      title={t("card_view.actions.who_can_take", {
+        name: displayAttribute(props.card, "name"),
+      })}
       scrollHeight="24rem"
     >
       <ol>

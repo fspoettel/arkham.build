@@ -8,30 +8,30 @@ import { groupDeckCards } from "../lib/deck-grouping";
 import { type UpgradeStats, getUpgradeStats } from "../lib/deck-upgrades";
 import { type ForbiddenCardError, validateDeck } from "../lib/deck-validation";
 import { limitedSlotOccupation } from "../lib/limited-slots";
-import { sortAlphabetical, sortByName } from "../lib/sorting";
+import { makeSortFunction, sortAlphabeticalLatin } from "../lib/sorting";
 import type { Customization, Customizations, ResolvedDeck } from "../lib/types";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import type { Deck, Id } from "../slices/data.types";
-import { selectSettings } from "./settings";
+import { selectLocaleSortingCollator } from "./shared";
 
 export const selectResolvedDeckById = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.sharing,
+  selectLocaleSortingCollator,
   (state: StoreState, deckId?: Id) =>
     deckId ? state.data.decks[deckId] : undefined,
   (state: StoreState, deckId?: Id, applyEdits?: boolean) =>
     deckId && applyEdits ? state.deckEdits?.[deckId] : undefined,
-  (metadata, lookupTables, sharing, deck, edits) => {
+  (metadata, lookupTables, sharing, collator, deck, edits) => {
     if (!deck) return undefined;
 
     time("select_resolved_deck");
 
     const resolvedDeck = resolveDeck(
-      metadata,
-      lookupTables,
-      sharing,
+      { metadata, lookupTables, sharing },
+      collator,
       edits ? applyDeckEdits(deck, edits, metadata) : deck,
     );
 
@@ -45,7 +45,8 @@ export const selectLocalDecks = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.sharing,
-  (data, metadata, lookupTables, sharing) => {
+  selectLocaleSortingCollator,
+  (data, metadata, lookupTables, sharing, collator) => {
     time("select_local_decks");
 
     const resolvedDecks = Object.keys(data.history).reduce<ResolvedDeck[]>(
@@ -54,7 +55,11 @@ export const selectLocalDecks = createSelector(
 
         try {
           if (deck) {
-            const resolved = resolveDeck(metadata, lookupTables, sharing, deck);
+            const resolved = resolveDeck(
+              { metadata, lookupTables, sharing },
+              collator,
+              deck,
+            );
             acc.push(resolved);
           } else {
             console.warn(`Could not find deck ${id} in local storage.`);
@@ -69,7 +74,7 @@ export const selectLocalDecks = createSelector(
     );
 
     resolvedDecks.sort((a, b) =>
-      sortAlphabetical(b.date_update, a.date_update),
+      sortAlphabeticalLatin(b.date_update, a.date_update),
     );
 
     timeEnd("select_local_decks");
@@ -141,8 +146,12 @@ function getChanges(prev: ResolvedDeck, next: ResolvedDeck): Changes {
 function getHistoryEntry(
   changes: Changes,
   metadata: StoreState["metadata"],
+  collator: Intl.Collator,
 ): HistoryEntry {
   const { customizations, exileSlots, id, stats, tabooSetId } = changes;
+
+  const sortFn = makeSortFunction(["name"], metadata, collator);
+  const sortDiff = diffSortingFn(sortFn);
 
   const differences = {
     slots: Object.entries(stats.changes.slots)
@@ -201,7 +210,7 @@ function getHistoryEntry(
           customizations,
         ),
       }))
-      .sort((a, b) => sortByName(a.card, b.card)),
+      .sort((a, b) => sortFn(a.card, b.card)),
   };
 
   return {
@@ -214,6 +223,7 @@ function getHistoryEntry(
 export function getDeckHistory(
   decks: ResolvedDeck[],
   metadata: StoreState["metadata"],
+  collator: Intl.Collator,
 ) {
   const changes: Changes[] = [];
 
@@ -223,7 +233,9 @@ export function getDeckHistory(
     changes.unshift(getChanges(prev, next));
   }
 
-  const history = changes.map((change) => getHistoryEntry(change, metadata));
+  const history = changes.map((change) =>
+    getHistoryEntry(change, metadata, collator),
+  );
 
   history.push({
     id: decks[0].id,
@@ -256,15 +268,25 @@ export const selectDeckHistoryCached = createSelector(
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.data,
   (state: StoreState) => state.sharing,
-  (id, metadata, lookupTables, data, sharing) => {
+  (state: StoreState) => state.settings,
+  selectLocaleSortingCollator,
+  (id, metadata, lookupTables, data, sharing, settings, collator) => {
     const deck = data.decks[id];
 
-    return selectDeckHistory({ metadata, lookupTables, data, sharing }, deck);
+    return selectDeckHistory(
+      { metadata, lookupTables, data, sharing, settings },
+      collator,
+      deck,
+    );
   },
 );
 
 export function selectDeckHistory(
-  state: Pick<StoreState, "metadata" | "lookupTables" | "data" | "sharing">,
+  state: Pick<
+    StoreState,
+    "metadata" | "lookupTables" | "data" | "sharing" | "settings"
+  >,
+  collator: Intl.Collator,
   deck: Deck,
 ) {
   const history = state.data.history[deck.id]
@@ -280,40 +302,42 @@ export function selectDeckHistory(
 
   const resolvedDecks = history.map((deckId) =>
     resolveDeck(
-      state.metadata,
-      state.lookupTables,
-      state.sharing,
+      state,
+      collator,
       deckId === deck.id ? deck : state.data.decks[deckId],
     ),
   );
 
-  const deckHistory = getDeckHistory(resolvedDecks, state.metadata);
+  const deckHistory = getDeckHistory(resolvedDecks, state.metadata, collator);
 
   timeEnd("deck_history");
 
   return deckHistory;
 }
 
-function sortDiff(a: SlotUpgrade, b: SlotUpgrade) {
-  const aPos = a.diff > 0;
-  const bPos = b.diff > 0;
-  if (aPos && !bPos) return -1;
-  if (!aPos && bPos) return 1;
-  return sortByName(a.card, b.card);
+function diffSortingFn(fallback: (a: Card, b: Card) => number) {
+  return (a: SlotUpgrade, b: SlotUpgrade) => {
+    const aPos = a.diff > 0;
+    const bPos = b.diff > 0;
+    if (aPos && !bPos) return -1;
+    if (!aPos && bPos) return 1;
+    return fallback(a.card, b.card);
+  };
 }
 
 export const selectLatestUpgrade = createSelector(
   (state: StoreState) => state.metadata,
+  selectLocaleSortingCollator,
   (_: StoreState, deck: ResolvedDeck) => deck,
   (state: StoreState, deck: ResolvedDeck) => {
     const prevId = deck?.previous_deck;
     return prevId ? selectResolvedDeckById(state, prevId) : undefined;
   },
-  (metadata, next, prev) => {
+  (metadata, collator, next, prev) => {
     if (!prev || !next) return undefined;
     time("latest_upgrade");
     const changes = getChanges(prev, next);
-    const differences = getHistoryEntry(changes, metadata);
+    const differences = getHistoryEntry(changes, metadata, collator);
 
     timeEnd("latest_upgrade");
     return differences;
@@ -332,12 +356,14 @@ export const selectLimitedSlotOccupation = createSelector(
 
 export const selectDeckGroups = createSelector(
   (state: StoreState) => state.metadata,
-  selectSettings,
+  selectLocaleSortingCollator,
+  (state: StoreState) => state.settings,
   (_: StoreState, deck: ResolvedDeck) => deck,
   (_: StoreState, __: ResolvedDeck, viewMode: "list" | "scans") => viewMode,
-  (metadata, settings, deck, viewMode) =>
+  (metadata, collator, settings, deck, viewMode) =>
     groupDeckCards(
       metadata,
+      collator,
       viewMode === "scans" ? settings.lists.deckScans : settings.lists.deck,
       deck,
     ),

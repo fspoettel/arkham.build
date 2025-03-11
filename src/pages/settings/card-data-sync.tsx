@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
-import { selectSettings } from "@/store/selectors/settings";
 import {
   queryCards,
   queryDataVersion,
@@ -29,7 +28,7 @@ export function CardDataSync(props: Props) {
   const init = useStore((state) => state.init);
 
   const dataVersion = useStore((state) => state.metadata.dataVersion);
-  const settings = useStore(selectSettings);
+  const settings = useStore((state) => state.settings);
 
   const localizedDataVersionQuery = useCallback(
     () => queryDataVersion(settings.locale),

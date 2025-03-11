@@ -12,10 +12,12 @@ import type { ResolvedDeck } from "../lib/types";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import { selectCanonicalTabooSetId } from "./lists";
+import { selectLocaleSortingCollator } from "./shared";
 
 export const selectCardWithRelations = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
+  selectLocaleSortingCollator,
   (_: StoreState, code: string) => code,
   (_: StoreState, __: string, withRelations: boolean) => withRelations,
   (_: StoreState, __: string, ___, resolvedDeck: ResolvedDeck) => resolvedDeck,
@@ -28,14 +30,15 @@ export const selectCardWithRelations = createSelector(
   (
     metadata,
     lookupTables,
+    collator,
     code,
     withRelations,
     resolvedDeck,
     canonicalTabooSetId,
   ) =>
     resolveCardWithRelations(
-      metadata,
-      lookupTables,
+      { metadata, lookupTables },
+      collator,
       code,
       canonicalTabooSetId,
       resolvedDeck?.customizations,
@@ -46,8 +49,9 @@ export const selectCardWithRelations = createSelector(
 export const selectUsableByInvestigators = createSelector(
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.metadata,
+  selectLocaleSortingCollator,
   (_: StoreState, card: Card) => card,
-  (lookupTables, metadata, card) => {
+  (lookupTables, metadata, collator, card) => {
     const investigatorCodes = Object.keys(
       lookupTables.typeCode["investigator"],
     );
@@ -69,7 +73,7 @@ export const selectUsableByInvestigators = createSelector(
         return or([access, weaknessAccess])(card);
       });
 
-    const sorting = makeSortFunction(["name", "cycle"], metadata);
+    const sorting = makeSortFunction(["name", "cycle"], metadata, collator);
 
     return cards.sort(sorting);
   },

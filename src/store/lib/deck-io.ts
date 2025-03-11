@@ -14,6 +14,7 @@ import { randomId } from "@/utils/crypto";
 import { formatTabooSet } from "@/utils/formatting";
 import i18n from "@/utils/i18n";
 import { isEmpty } from "@/utils/is-empty";
+import { selectLocaleSortingCollator } from "../selectors/shared";
 import { getInitialSettings } from "../slices/settings";
 import {
   type DeckGrouping,
@@ -24,7 +25,7 @@ import {
 } from "./deck-grouping";
 import { getGroupingKeyLabel } from "./grouping";
 import { resolveDeck } from "./resolve-deck";
-import { sortByName } from "./sorting";
+import { makeSortFunction } from "./sorting";
 import type { Customizations, ResolvedDeck } from "./types";
 
 export function formatDeckImport(
@@ -35,7 +36,7 @@ export function formatDeckImport(
   const now = new Date().toISOString();
 
   const validation = validateDeck(
-    resolveDeck(state.metadata, state.lookupTables, state.sharing, deck),
+    resolveDeck(state, selectLocaleSortingCollator(state), deck),
     state,
   );
 
@@ -160,6 +161,7 @@ export function formatDeckAsText(state: StoreState, deck: ResolvedDeck) {
 
   const groups = groupDeckCards(
     state.metadata,
+    selectLocaleSortingCollator(state),
     getInitialSettings().lists.deck,
     deck,
   );
@@ -224,8 +226,14 @@ function formatGroupAsText(
 ) {
   if (!data.length) return "";
 
+  const sortFn = makeSortFunction(
+    ["name"],
+    state.metadata,
+    selectLocaleSortingCollator(state),
+  );
+
   const cards = [...data]
-    .sort((a, b) => sortByName(a, b))
+    .sort(sortFn)
     .map((c) => formatCardAsText(state, c, quantities, customizations))
     .join("\n");
 

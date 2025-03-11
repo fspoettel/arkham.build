@@ -1,5 +1,6 @@
 import { useStore } from "@/store";
 import { makeSortFunction } from "@/store/lib/sorting";
+import { selectLocaleSortingCollator } from "@/store/selectors/shared";
 import type { Card } from "@/store/services/queries.types";
 import type { CustomizationOption as CustomizationOptionType } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
@@ -12,9 +13,10 @@ import { CardsCombobox } from "../cards-combobox";
 const selectPlayerCardsForCustomizationOptions = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
+  selectLocaleSortingCollator,
   (_: StoreState, config: CustomizationOptionType["card"] | undefined) =>
     config,
-  (metadata, lookupTables, config) => {
+  (metadata, lookupTables, collator, config) => {
     if (!config) return [];
 
     time("select_player_cards_for_customization_options");
@@ -49,7 +51,11 @@ const selectPlayerCardsForCustomizationOptions = createSelector(
       options.add(card);
     }
 
-    const sortFn = makeSortFunction(["name", "level", "position"], metadata);
+    const sortFn = makeSortFunction(
+      ["name", "level", "position"],
+      metadata,
+      collator,
+    );
 
     const { cards } = Array.from(options)
       .sort(sortFn)

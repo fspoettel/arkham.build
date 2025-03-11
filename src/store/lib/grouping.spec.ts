@@ -1,6 +1,7 @@
 import { getMockStore } from "@/test/get-mock-store";
 import { beforeAll, describe, expect, it } from "vitest";
 import type { StoreApi } from "zustand";
+import { selectLocaleSortingCollator } from "../selectors/shared";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import { getGroupedCards } from "./grouping";
@@ -24,9 +25,16 @@ describe("getGroupedCards", () => {
       { subtype_code: "weakness", code: "5", real_name: "5" },
     ] as Card[];
 
-    const metadata = store.getState().metadata;
+    const state = store.getState();
+    const { metadata } = state;
 
-    const result = getGroupedCards(groupings, cards, sortByName, metadata);
+    const result = getGroupedCards(
+      groupings,
+      cards,
+      sortByName(selectLocaleSortingCollator(state)),
+      metadata,
+      selectLocaleSortingCollator(state),
+    );
 
     expect(result).toMatchInlineSnapshot(`
       {
@@ -97,8 +105,16 @@ describe("getGroupedCards", () => {
       { faction_code: "mystic", code: "4", real_name: "4" },
     ] as Card[];
 
-    const metadata = store.getState().metadata;
-    const result = getGroupedCards(groupings, cards, sortByName, metadata);
+    const state = store.getState();
+    const { metadata, settings } = state;
+
+    const result = getGroupedCards(
+      groupings,
+      cards,
+      sortByName(selectLocaleSortingCollator(state)),
+      metadata,
+      selectLocaleSortingCollator(state),
+    );
     expect(result).toMatchInlineSnapshot(`
       {
         "data": [
@@ -163,8 +179,16 @@ describe("getGroupedCards", () => {
       { pack_code: "tmm", code: "4", real_name: "4" },
     ] as Card[];
 
-    const metadata = store.getState().metadata;
-    const result = getGroupedCards(groupings, cards, sortByName, metadata);
+    const state = store.getState();
+    const { metadata, settings } = state;
+
+    const result = getGroupedCards(
+      groupings,
+      cards,
+      sortByName(selectLocaleSortingCollator(state)),
+      metadata,
+      selectLocaleSortingCollator(state),
+    );
     expect(result).toMatchInlineSnapshot(`
       {
         "data": [
@@ -231,9 +255,16 @@ describe("getGroupedCards", () => {
       { cost: 0, code: "6", real_name: "6" },
     ] as Card[];
 
-    const metadata = store.getState().metadata;
+    const state = store.getState();
+    const { metadata, settings } = state;
 
-    const result = getGroupedCards(groupings, cards, sortByName, metadata);
+    const result = getGroupedCards(
+      groupings,
+      cards,
+      sortByName(selectLocaleSortingCollator(state)),
+      metadata,
+      selectLocaleSortingCollator(state),
+    );
     expect(result).toMatchInlineSnapshot(`
       {
         "data": [
@@ -321,9 +352,16 @@ describe("getGroupedCards", () => {
       { type_code: "skill", code: "5", real_name: "5" },
     ] as Card[];
 
-    const metadata = store.getState().metadata;
+    const state = store.getState();
+    const { metadata, settings } = state;
 
-    const result = getGroupedCards(groupings, cards, sortByName, metadata);
+    const result = getGroupedCards(
+      groupings,
+      cards,
+      sortByName(selectLocaleSortingCollator(state)),
+      metadata,
+      selectLocaleSortingCollator(state),
+    );
     expect(result).toMatchInlineSnapshot(`
       {
         "data": [
@@ -409,9 +447,16 @@ describe("getGroupedCards", () => {
       { xp: null, code: "8", real_name: "8" },
     ] as Card[];
 
-    const metadata = store.getState().metadata;
+    const state = store.getState();
+    const { metadata, settings } = state;
 
-    const result = getGroupedCards(groupings, cards, sortByName, metadata);
+    const result = getGroupedCards(
+      groupings,
+      cards,
+      sortByName(selectLocaleSortingCollator(state)),
+      metadata,
+      selectLocaleSortingCollator(state),
+    );
     expect(result).toMatchInlineSnapshot(`
       {
         "data": [
@@ -524,9 +569,16 @@ describe("getGroupedCards", () => {
       { xp: null, code: "8", real_name: "8" },
     ] as Card[];
 
-    const metadata = store.getState().metadata;
+    const state = store.getState();
+    const { metadata, settings } = state;
 
-    const result = getGroupedCards(groupings, cards, sortByName, metadata);
+    const result = getGroupedCards(
+      groupings,
+      cards,
+      sortByName(selectLocaleSortingCollator(state)),
+      metadata,
+      selectLocaleSortingCollator(state),
+    );
     expect(result).toMatchInlineSnapshot(`
       {
         "data": [
@@ -611,9 +663,16 @@ describe("getGroupedCards", () => {
       { encounter_code: "beast_thralls", code: "4", real_name: "4" },
     ] as Card[];
 
-    const metadata = store.getState().metadata;
+    const state = store.getState();
+    const { metadata, settings } = state;
 
-    const result = getGroupedCards(groupings, cards, sortByName, metadata);
+    const result = getGroupedCards(
+      groupings,
+      cards,
+      sortByName(selectLocaleSortingCollator(state)),
+      metadata,
+      selectLocaleSortingCollator(state),
+    );
     expect(result).toMatchInlineSnapshot(`
       {
         "data": [
@@ -681,9 +740,16 @@ describe("getGroupedCards", () => {
       { real_slot: null, code: "7", real_name: "7" },
     ] as Card[];
 
-    const metadata = store.getState().metadata;
+    const state = store.getState();
+    const { metadata, settings } = state;
 
-    const result = getGroupedCards(groupings, cards, sortByName, metadata);
+    const result = getGroupedCards(
+      groupings,
+      cards,
+      sortByName(selectLocaleSortingCollator(state)),
+      metadata,
+      selectLocaleSortingCollator(state),
+    );
     expect(result).toMatchInlineSnapshot(`
       {
         "data": [
@@ -804,9 +870,16 @@ describe("getGroupedCards", () => {
       { faction_code: "mystic", type_code: "skill", code: "6", real_name: "6" },
     ] as Card[];
 
-    const metadata = store.getState().metadata;
+    const state = store.getState();
+    const { metadata, settings } = state;
 
-    const result = getGroupedCards(groupings, cards, sortByName, metadata);
+    const result = getGroupedCards(
+      groupings,
+      cards,
+      sortByName(selectLocaleSortingCollator(state)),
+      metadata,
+      selectLocaleSortingCollator(state),
+    );
     expect(result).toMatchInlineSnapshot(`
       {
         "data": [

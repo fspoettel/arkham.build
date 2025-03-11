@@ -6,6 +6,7 @@ import { createSelector } from "reselect";
 import { resolveCardWithRelations } from "../lib/resolve-card";
 import type { CardSet, CardWithRelations, ResolvedCard } from "../lib/types";
 import type { StoreState } from "../slices";
+import { selectLocaleSortingCollator } from "./shared";
 
 export function selectDeckCreateChecked(state: StoreState) {
   const { deckCreate } = state;
@@ -17,7 +18,8 @@ export const selectDeckCreateInvestigators = createSelector(
   selectDeckCreateChecked,
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
-  (deckCreate, metadata, lookupTables) => {
+  selectLocaleSortingCollator,
+  (deckCreate, metadata, lookupTables, collator) => {
     return Object.entries({
       investigator: deckCreate.investigatorCode,
       back: deckCreate.investigatorBackCode,
@@ -25,8 +27,8 @@ export const selectDeckCreateInvestigators = createSelector(
     }).reduce(
       (acc, [key, code]) => {
         const card = resolveCardWithRelations(
-          metadata,
-          lookupTables,
+          { metadata, lookupTables },
+          collator,
           code,
           deckCreate.tabooSetId,
           undefined,
@@ -46,9 +48,10 @@ export const selectDeckCreateInvestigators = createSelector(
 export const selectDeckCreateCardSets = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
+  selectLocaleSortingCollator,
   selectDeckCreateChecked,
   selectDeckCreateInvestigators,
-  (metadata, lookupTables, deckCreate, investigators) => {
+  (metadata, lookupTables, collator, deckCreate, investigators) => {
     const groupings: CardSet[] = [];
 
     const { back, investigator } = investigators;
@@ -179,8 +182,8 @@ export const selectDeckCreateCardSets = createSelector(
       selected: true,
       cards: [
         resolveCardWithRelations(
-          metadata,
-          lookupTables,
+          { metadata, lookupTables },
+          collator,
           SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS,
           undefined,
         ) as ResolvedCard,
