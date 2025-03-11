@@ -685,8 +685,8 @@
         "invalid_card_count": "Колода содержит неверное количество следующих карт:",
         "invalid_investigator": "Investigator is invalid. Required configuration is missing or the card is not an investigator.",
         "investigator_requirements": "Колода не удовлетворяет ограничениям сыщика:",
-        "too_few_cards": "{{deck}} слишком мало карт.",
-        "too_many_cards": "{{deck}} слишком много карт."
+        "too_few_cards": "{{deck}} — слишком мало карт.",
+        "too_many_cards": "{{deck}} — слишком много карт."
       }
     },
     "deck_collection": {
@@ -761,7 +761,7 @@
           "choose_campaign": "Выбрать кампанию",
           "choose_campaign_placeholder": "Выбрать кампанию",
           "cpa_help": "The Campaign Play-Along is an ongoing event hosted on the Mythos Busters discord server. It is designed to play Arkham campaigns together, share stories and generally create a sense of community.",
-          "help": "Investigators, signature cards and story assets are not affected by this selection.",
+          "help": "Сыщики, персональные карты и сюжетные активы не подержены данному ограничению.",
           "placeholder": "Выбрать наборы",
           "section_title": "Настройка наборов карт",
           "title": "Ограниченный набор карт",
