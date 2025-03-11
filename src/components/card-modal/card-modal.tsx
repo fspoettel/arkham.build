@@ -144,12 +144,14 @@ export function CardModal(props: Props) {
               />
             );
           })}
-          {isSpecialist(cardWithRelations.card) && (
-            <SpecialistInvestigators card={cardWithRelations.card} />
-          )}
           {cardWithRelations.card.type_code === "investigator" && (
             <SpecialistAccess card={cardWithRelations.card} />
           )}
+        </div>
+      )}
+      {isSpecialist(cardWithRelations.card) && (
+        <div className={css["related"]}>
+          <SpecialistInvestigators card={cardWithRelations.card} />
         </div>
       )}
     </>
