@@ -64,7 +64,7 @@ export function getInitialSettings(): SettingsState {
     showAllCards: true,
     showMoveToSideDeck: false,
     showPreviews: false,
-    sortIgnorePunctuation: true,
+    sortIgnorePunctuation: false,
     tabooSetId: undefined,
     useLimitedPoolForWeaknessDraw: true,
   };
