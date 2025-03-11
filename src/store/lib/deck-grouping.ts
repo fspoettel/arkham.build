@@ -29,10 +29,11 @@ type Groupings = Partial<{
 
 export function groupDeckCards(
   metadata: Metadata,
+  collator: Intl.Collator,
   config: DecklistConfig,
   resolvedDeck: ResolvedDeck,
 ) {
-  const sortFunc = makeSortFunction(config.sort, metadata);
+  const sortFunc = makeSortFunction(config.sort, metadata, collator);
 
   return SLOT_KEYS.reduce<Groupings>((acc, key) => {
     const quantities = resolvedDeck[key];
@@ -48,6 +49,7 @@ export function groupDeckCards(
       cards,
       sortFunc,
       metadata,
+      collator,
     ) as DeckGrouping;
 
     grouped.id = key;

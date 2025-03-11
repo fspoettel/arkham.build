@@ -1,6 +1,5 @@
 import Unique from "@/assets/icons/icon_unique.svg?react";
 import { useStore } from "@/store";
-import { selectCardLevelDisplaySetting } from "@/store/selectors/settings";
 import type { Card } from "@/store/services/queries.types";
 import { displayAttribute, parseCardTitle } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
@@ -20,12 +19,12 @@ export function CardNames(props: Props) {
 
   const cardModalContext = useCardModalContextChecked();
   const dialogContext = useDialogContext();
-  const cardLevelDisplay = useStore(selectCardLevelDisplaySetting);
+  const settings = useStore((state) => state.settings);
 
   const cardName = (
     <>
       {card.parallel && <i className={cx(css["parallel"], "icon-parallel")} />}
-      <CardName card={card} cardLevelDisplay={cardLevelDisplay} />{" "}
+      <CardName card={card} cardLevelDisplay={settings.cardLevelDisplay} />{" "}
       <span className={css["unique"]}>{card.is_unique && <Unique />}</span>
     </>
   );

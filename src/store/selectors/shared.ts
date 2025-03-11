@@ -4,7 +4,6 @@ import { ownedCardCount } from "../lib/card-ownership";
 import type { ResolvedDeck } from "../lib/types";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
-import { selectSettings } from "./settings";
 
 export const selectClientId = (state: StoreState) => {
   return state.app.clientId;
@@ -15,12 +14,12 @@ export const selectIsInitialized = (state: StoreState) => {
 };
 
 export const selectCanCheckOwnership = (state: StoreState) =>
-  !selectSettings(state).showAllCards;
+  !state.settings.showAllCards;
 
 export const selectCardOwnedCount = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.lookupTables,
-  selectSettings,
+  (state: StoreState) => state.settings,
   (metadata, lookupTables, settings) => {
     const { collection, showAllCards } = settings;
 
@@ -74,5 +73,16 @@ export const selectBackCard = createSelector(
     }
 
     return undefined;
+  },
+);
+
+export const selectLocaleSortingCollator = createSelector(
+  (state: StoreState) => state.settings,
+  (settings) => {
+    return new Intl.Collator(settings.locale, {
+      ignorePunctuation: settings.sortIgnorePunctuation,
+      sensitivity: "base",
+      usage: "sort",
+    });
   },
 );

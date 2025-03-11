@@ -113,7 +113,7 @@ function groupByTypeCode(cards: Card[]) {
   return toGroupingResult(result);
 }
 
-function groupBySlots(cards: Card[]) {
+function groupBySlots(cards: Card[], collator: Intl.Collator) {
   const result = cards.reduce<Grouping>(
     (acc, card) => {
       const slot = card.permanent ? "permanent" : (card.real_slot ?? NONE);
@@ -131,7 +131,7 @@ function groupBySlots(cards: Card[]) {
   );
 
   omitEmptyGroupings(result);
-  result.groupings.sort(sortBySlots);
+  result.groupings.sort(sortBySlots(collator));
 
   return toGroupingResult(result);
 }
@@ -208,7 +208,11 @@ function groupByFaction(cards: Card[]) {
   return toGroupingResult(results);
 }
 
-function groupByEncounterSet(cards: Card[], metadata: Metadata) {
+function groupByEncounterSet(
+  cards: Card[],
+  metadata: Metadata,
+  collator: Intl.Collator,
+) {
   const results = cards.reduce<Grouping>(
     (acc, card) => {
       const code = card.encounter_code ?? NONE;
@@ -226,7 +230,7 @@ function groupByEncounterSet(cards: Card[], metadata: Metadata) {
   );
 
   omitEmptyGroupings(results);
-  results.groupings.sort(sortByEncounterSet(metadata));
+  results.groupings.sort(sortByEncounterSet(metadata, collator));
 
   return toGroupingResult(results);
 }
@@ -352,6 +356,7 @@ function applyGrouping(
   cards: Card[],
   grouping: GroupingType,
   metadata: Metadata,
+  collator: Intl.Collator,
 ): GroupingResult[] {
   switch (grouping) {
     case "none": {
@@ -368,7 +373,7 @@ function applyGrouping(
     case "type":
       return groupByTypeCode(cards);
     case "slot":
-      return groupBySlots(cards);
+      return groupBySlots(cards, collator);
     case "level":
       return groupByLevel(cards);
     case "base_upgrades":
@@ -376,7 +381,7 @@ function applyGrouping(
     case "faction":
       return groupByFaction(cards);
     case "encounter_set":
-      return groupByEncounterSet(cards, metadata);
+      return groupByEncounterSet(cards, metadata, collator);
     case "cost":
       return groupByCost(cards);
     case "cycle":
@@ -391,10 +396,11 @@ export function getGroupedCards(
   cards: Card[],
   sortFunction: SortFunction,
   metadata: Metadata,
+  collator: Intl.Collator,
 ): GroupedCards {
   const groupings = _groupings.length ? _groupings : ["none" as const];
 
-  const data = applyGrouping(cards, groupings[0], metadata);
+  const data = applyGrouping(cards, groupings[0], metadata, collator);
 
   const hierarchy: Record<string, GroupTreeEntry> = {};
 
@@ -418,7 +424,12 @@ export function getGroupedCards(
           parent,
         };
 
-        const expanded = applyGrouping(group.cards, grouping, metadata);
+        const expanded = applyGrouping(
+          group.cards,
+          grouping,
+          metadata,
+          collator,
+        );
 
         for (const g of expanded) {
           g.key = `${group.key}|${g.key}`;

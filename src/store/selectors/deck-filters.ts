@@ -7,7 +7,6 @@ import { normalizeDiacritics } from "@/utils/normalize-diacritics";
 import uFuzzy from "@leeoniya/ufuzzy";
 import { createSelector } from "reselect";
 import { extendedDeckTags } from "../lib/resolve-deck";
-import { sortAlphabetical } from "../lib/sorting";
 import type { ResolvedDeck } from "../lib/types";
 import type { StoreState } from "../slices";
 import type {
@@ -19,6 +18,7 @@ import type {
 } from "../slices/deck-collection-filters.types";
 import type { MultiselectFilter } from "../slices/lists.types";
 import { selectLocalDecks } from "./decks";
+import { selectLocaleSortingCollator } from "./shared";
 
 // Arbitrarily chosen for now
 const MATCHING_MAX_TOKEN_DISTANCE_DECKS = 4;
@@ -222,7 +222,8 @@ export const selectFactionsInLocalDecks = createSelector(
 
 export const selectTagsInLocalDecks = createSelector(
   selectLocalDecks,
-  (decks) => {
+  selectLocaleSortingCollator,
+  (decks, collator) => {
     const tags: string[] = [];
 
     for (const deck of decks) {
@@ -236,7 +237,7 @@ export const selectTagsInLocalDecks = createSelector(
     });
 
     return uniqueTags.sort((a, b) =>
-      sortAlphabetical(a.code.toLowerCase(), b.code.toLowerCase()),
+      collator.compare(a.code.toLowerCase(), b.code.toLowerCase()),
     );
   },
 );

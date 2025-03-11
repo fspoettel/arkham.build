@@ -1,6 +1,7 @@
 import { getMockStore } from "@/test/get-mock-store";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { StoreApi } from "zustand";
+import { selectLocaleSortingCollator } from "../selectors/shared";
 import { StoreState } from "../slices";
 import { Deck } from "../slices/data.types";
 import { SettingsState } from "../slices/settings.types";
@@ -41,9 +42,8 @@ describe("randomBasicWeaknessForDeck", () => {
       state.lookupTables,
       state.settings,
       resolveDeck(
-        state.metadata,
-        state.lookupTables,
-        state.sharing,
+        state,
+        selectLocaleSortingCollator(state),
         state.data.decks.foo,
       ),
     );
@@ -83,9 +83,8 @@ describe("randomBasicWeaknessForDeck", () => {
       state.lookupTables,
       state.settings,
       resolveDeck(
-        state.metadata,
-        state.lookupTables,
-        state.sharing,
+        state,
+        selectLocaleSortingCollator(state),
         state.data.decks.foo,
       ),
     );
@@ -124,9 +123,8 @@ describe("randomBasicWeaknessForDeck", () => {
       state.lookupTables,
       state.settings,
       resolveDeck(
-        state.metadata,
-        state.lookupTables,
-        state.sharing,
+        state,
+        selectLocaleSortingCollator(state),
         state.data.decks.foo,
       ),
     );
@@ -158,9 +156,8 @@ describe("randomBasicWeaknessForDeck", () => {
       state.lookupTables,
       state.settings,
       resolveDeck(
-        state.metadata,
-        state.lookupTables,
-        state.sharing,
+        state,
+        selectLocaleSortingCollator(state),
         state.data.decks.foo,
       ),
     );
@@ -186,9 +183,8 @@ describe("randomBasicWeaknessForDeck", () => {
       state.lookupTables,
       state.settings,
       resolveDeck(
-        state.metadata,
-        state.lookupTables,
-        state.sharing,
+        state,
+        selectLocaleSortingCollator(state),
         store.getState().data.decks.foo,
       ),
     );

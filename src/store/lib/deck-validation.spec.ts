@@ -83,6 +83,7 @@ import { getMockStore } from "@/test/get-mock-store";
 import { SPECIAL_CARD_CODES } from "@/utils/constants";
 import { beforeAll, describe, expect, it } from "vitest";
 import type { StoreApi } from "zustand";
+import { selectLocaleSortingCollator } from "../selectors/shared";
 import type { StoreState } from "../slices";
 import type { Deck } from "../slices/data.types";
 import { validateDeck } from "./deck-validation";
@@ -91,7 +92,7 @@ import { resolveDeck } from "./resolve-deck";
 function validate(store: StoreApi<StoreState>, deck: Deck) {
   const state = store.getState();
   return validateDeck(
-    resolveDeck(state.metadata, state.lookupTables, state.sharing, deck),
+    resolveDeck(state, selectLocaleSortingCollator(state), deck),
     state,
   );
 }

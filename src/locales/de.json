@@ -1150,6 +1150,8 @@
         "hide_weaknesses_help": "Wenn dies aktiviert ist, werden Schwächen in Spielerkartenlisten standardmäßig ausgeblendet und müssen im <strong>Untertyp</strong>-Filter aktiviert werden, um sichtbar zu sein.",
         "show_move_to_side_deck": "\"Ins Nebendeck bewegen\" Button anzeigen",
         "show_move_to_side_deck_help": "Wenn dies aktiviert ist, werden im Deck Builder Buttons angezeigt, die es erlauben, Karten aus dem Deck ins Nebendeck zu bewegen. Dies kann hilfreich sein, wenn du Decks baust, indem du viele Optionen hinzufügst und anschließend reduzierst.",
+        "sort_ignore_punctuation": "Sortierung ignoriert Satzzeichen",
+        "sort_ignore_punctuation_help": "Wenn dies aktiviert ist, werden Satzzeichen in Kartennamen bei der Sortierung ignoriert.",
         "theme": "Anzeigemodus",
         "theme_dark": "Dunkel",
         "theme_light": "Hell",

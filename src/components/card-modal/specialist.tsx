@@ -6,6 +6,7 @@ import {
 import { makeSortFunction } from "@/store/lib/sorting";
 import type { ResolvedCard } from "@/store/lib/types";
 import { selectUsableByInvestigators } from "@/store/selectors/card-view";
+import { selectLocaleSortingCollator } from "@/store/selectors/shared";
 import type { Card } from "@/store/services/queries.types";
 import type { StoreState } from "@/store/slices";
 import { isSpecialist } from "@/utils/card-utils";
@@ -21,8 +22,9 @@ type Props = {
 const selectSpecialistAccess = createSelector(
   (state: StoreState) => state.metadata,
   (state: StoreState) => state.settings,
+  selectLocaleSortingCollator,
   (_: StoreState, card: Card) => card,
-  (metadata, settings, investigatorBack) => {
+  (metadata, settings, collator, investigatorBack) => {
     const investigatorFilter = filterInvestigatorAccess(investigatorBack, {
       customizable: {
         properties: "all",
@@ -35,7 +37,7 @@ const selectSpecialistAccess = createSelector(
         const allowDisplay = settings.showPreviews || !filterPreviews(card);
         return isSpecialist(card) && investigatorFilter?.(card) && allowDisplay;
       })
-      .sort(makeSortFunction(["name", "level"], metadata))
+      .sort(makeSortFunction(["name", "level"], metadata, collator))
       .map((card) => ({ card }) as ResolvedCard);
   },
 );

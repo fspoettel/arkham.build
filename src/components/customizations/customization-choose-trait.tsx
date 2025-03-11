@@ -1,6 +1,6 @@
 import { Combobox } from "@/components/ui/combobox/combobox";
 import { useStore } from "@/store";
-import { sortAlphabetical } from "@/store/lib/sorting";
+import { selectLocaleSortingCollator } from "@/store/selectors/shared";
 import type { StoreState } from "@/store/slices";
 import i18n from "@/utils/i18n";
 import { useCallback } from "react";
@@ -18,10 +18,11 @@ type Props = {
 
 const selectTraitOptions = createSelector(
   (state: StoreState) => state.lookupTables.traits,
-  (traits) =>
+  selectLocaleSortingCollator,
+  (traits, collator) =>
     Object.keys(traits)
       .map((code) => ({ code, name: i18n.t(`common.traits.${code}`) }))
-      .sort((a, b) => sortAlphabetical(a.code, b.code)),
+      .sort((a, b) => collator.compare(a.code, b.code)),
 );
 
 export function CustomizationChooseTraits(props: Props) {

@@ -1,4 +1,5 @@
 import type { StoreApi } from "zustand";
+import { selectLocaleSortingCollator } from "../selectors/shared";
 import { ApiError } from "../services/queries";
 import type { StoreState } from "../slices";
 import type { Provider } from "../slices/connections.types";
@@ -19,12 +20,7 @@ class ArkhamDbAdapter implements SyncAdapter {
     const deck = structuredClone(_deck);
 
     const validation = validateDeck(
-      resolveDeck(
-        this.state.metadata,
-        this.state.lookupTables,
-        this.state.sharing,
-        deck,
-      ),
+      resolveDeck(this.state, selectLocaleSortingCollator(this.state), deck),
       this.state,
     );
 

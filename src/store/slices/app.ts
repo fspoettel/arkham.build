@@ -49,7 +49,8 @@ import { assertCanPublishDeck } from "@/utils/arkhamdb";
 import { changeLanguage } from "@/utils/i18n";
 import { applyCardChanges } from "../lib/card-edits";
 import { applyLocalData } from "../lib/local-data";
-import { selectSettings } from "../selectors/settings";
+import { selectLocaleSortingCollator } from "../selectors/shared";
+import { getInitialSettings } from "./settings";
 
 export function getInitialAppState() {
   return {
@@ -66,7 +67,16 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
   async init(queryMetadata, queryDataVersion, queryCards, refresh, locale) {
     const state = get();
 
-    const settings = selectSettings(state);
+    const initialSettings = getInitialSettings();
+
+    const settings = {
+      ...initialSettings,
+      ...state.settings,
+      lists: {
+        ...initialSettings.lists,
+        ...state.settings.lists,
+      },
+    };
 
     // FIXME: 2025-02-25 remove this in a few weeks.
     if (settings.locale !== "en") {
@@ -87,7 +97,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
           clientId: state.app.clientId || randomId(),
         },
         metadata,
-        lists: makeLists(selectSettings(state)),
+        lists: makeLists(settings),
+        settings,
       });
 
       return false;
@@ -180,7 +191,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     }
 
     metadata = applyLocalData(metadata);
-    const lookupTables = createLookupTables(metadata, selectSettings(state));
+    const lookupTables = createLookupTables(metadata, state.settings);
     createRelations(metadata, lookupTables);
 
     for (const code of Object.keys(metadata.encounterSets)) {
@@ -204,7 +215,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         ...state.ui,
         initialized: true,
       },
-      lists: makeLists(selectSettings(state)),
+      lists: makeLists(settings),
+      settings,
     });
 
     timeEnd("create_store_data");
@@ -300,9 +312,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     if (state.deckCreate.provider === "arkhamdb") {
       const resolved = resolveDeck(
-        state.metadata,
-        state.lookupTables,
-        state.sharing,
+        state,
+        selectLocaleSortingCollator(state),
         deck,
       );
 
@@ -431,9 +442,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     nextDeck.date_update = new Date().toISOString();
 
     const resolved = resolveDeck(
-      state.metadata,
-      state.lookupTables,
-      state.sharing,
+      state,
+      selectLocaleSortingCollator(state),
       nextDeck,
     );
 
@@ -589,6 +599,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
               },
             },
           },
+          selectLocaleSortingCollator(state),
           newDeck,
         ),
       );
