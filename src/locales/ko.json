@@ -98,10 +98,10 @@
         "Improvised": "즉흥",
         "No permanents except story and signature permanents": "이야기 및 전용 영속 카드를 제외하고 어떠한 영속 카드도 없어야 합니다.",
         "Secondary Class": "보조 역할군",
-        "Too many off-class cards for Versatile.": "Too many off-class cards for Versatile.",
+        "Too many off-class cards for Versatile.": "‘다재다능’ 카드의 효과를 적용하더라도 다른 역할군 카드가 너무 많습니다.",
         "Too many off-class cards.": "다른 역할군 카드가 너무 많습니다.",
         "Trait Choice": "특성 선택",
-        "You cannot have assets that take up an ally slot.": "You cannot have assets that take up an ally slot.",
+        "You cannot have assets that take up an ally slot.": "조력자 슬롯을 차지하는 자산은 포함할 수 없습니다.",
         "You cannot have more than 15 level 0-1 Guardian and/or Survivor cards": "수호자 그리고/또는 생존자인 0-1 레벨 카드를 15장보다 많이 포함할 수 없습니다.",
         "You cannot have more than 15 level 0-1 Seeker and/or Mystic cards": "탐구자 그리고/또는 신비주의자인 0-1 레벨 카드를 15장보다 많이 포함할 수 없습니다.",
         "You cannot have more than 5 Guardian and/or Mystic cards": "수호자 그리고/  또는 신비주의자인 카드를 5장보다 많이 포함할 수 없습니다.",
@@ -616,8 +616,8 @@
         "duplicate_short": "복제",
         "edit": "덱 편집",
         "edit_short": "편집",
-        "export_json": "JSON 형태로 내보내기",
-        "export_text": "text 형태로 내보내기",
+        "export_json": "JSON 형태로 파일 내보내기",
+        "export_text": "텍스트 형태로 파일 내보내기",
         "upgrade": "덱 향상",
         "upgrade_short": "향상"
       },
@@ -635,11 +635,12 @@
       "latest_upgrade": {
         "add_to_deck": "현재 덱에 추가",
         "no_changes": "변경점 없음.",
-        "summary": "{{xpSpent}} of {{xp}} XP spent",
+        "summary": "소비한 경험치: {{xpSpent}}/{{xp}}",
         "title": "마지막 향상",
         "xp_spent": "점 소비됨"
       },
       "limited_decks": {
+        "Secondary Class": "보조 역할군",
         "Versatile": "다재다능"
       },
       "limited_slots": "제한된 슬롯",
@@ -694,7 +695,7 @@
       "import": "가져오기",
       "import_arkhamdb": "아컴디비 사이트에서 가져오기",
       "import_arkhamdb_help": "아컴디비 사이트에서 공개되어 있는 덱 ID, 덱 URL 또는 덱 가이드 URL을 입력하세요. 덱은 <strong>복사</strong>되며 덱 기록은 가져오지 않습니다.",
-      "import_json": "JSON 파일로부터 가져오기",
+      "import_json": "JSON 형태로 파일 가져오기",
       "more_filters": "더 많은 필터",
       "search_placeholder": "덱 탐색하기...",
       "sorting": {
@@ -713,12 +714,12 @@
     },
     "deck_create": {
       "default_name": {
-        "guardian": "The Adventures of {{name}}",
-        "mystic": "The {{name}} Mysteries",
-        "neutral": "{{name}} Does It All",
-        "rogue": "The {{name}} Job",
-        "seeker": "{{name}} Investigates",
-        "survivor": "{{name}} on the Road"
+        "guardian": "{{name}}의 모험",
+        "mystic": "수수께끼의 {{name}}",
+        "neutral": "{{name}} 씨는 무엇이든 잘해요",
+        "rogue": "{{name}}의 과업",
+        "seeker": "조사하는 {{name}}",
+        "survivor": "방랑하는 {{name}}"
       },
       "error": "덱 생성에 실패함: {{error}}",
       "help_advanced": "<p>“강화된” 전용 카드는 “덱 구성 요구 조건” 아래에 나열된 조사자의 전용 카드 중 더 강력한 버전입니다.</p><p>캠페인 중 언제든지(덱 생성 시 포함) 원래 전용 카드 <strong>대신</strong> 이 강화된 전용 카드를 선택적으로 포함할 수 있습니다.</p>",
@@ -813,6 +814,7 @@
         "absolute_help": "각 카드가 몇 개의 {{name}} 덱에서 사용되는지 계산합니다.",
         "analyze_side_decks": "보조 덱 분석",
         "core": "핵심",
+        "core_help": "카드의 “핵심” 항목에 체크 표시하면, 카드 추천 엔진은 해당 카드가 반드시 포함된 덱을 기준으로 연산하게 됩니다.",
         "error": "추천 내역을 검색할 수 없습니다.",
         "loading": "추천 내역을 계산하는 중...",
         "no_results": "해당 구성에서 추천할 것이 없습니다.",
@@ -857,6 +859,7 @@
         "added": "추가됨",
         "current_upgrade": "현재 향상",
         "discounts": "할인",
+        "initial_deck": "초기 덱",
         "no_changes": "변경점 없음",
         "removed": "제거됨",
         "slot_changes": "{{slot}} 변경",
@@ -933,13 +936,14 @@
         "title": "조사자"
       },
       "investigator_card_access": {
-        "help": "더 많은 정보가 필요하면, arkham-starter의 <a>/who tool</a> 명령어를 사용하세요.",
+        "help": "더 많은 정보가 필요한 경우, arkham-starter의 <a>/who tool</a> 명령어를 사용하세요.",
         "title": "카드 접근"
       },
       "investigator_skills": {
         "title": "능력값"
       },
       "level": {
+        "no_level": "Null",
         "title": "레벨"
       },
       "or": "또는",
@@ -992,7 +996,7 @@
     },
     "help": {
       "about": "이 사이트에 대하여",
-      "changelog": "Changelog",
+      "changelog": "변경 기록",
       "collection_stats": "보유 게임 상태",
       "shortcuts": {
         "group_card_list": "카드 목록",
@@ -1020,7 +1024,8 @@
         "move_up": "위로 이동",
         "open_card_modal": "활성화 카드 정보를 새 창에서 열기",
         "reset_filters": "필터 초기화",
-        "show_limited_access": "Show limited access",
+        "show_limited_access": "제한된 접근 보기",
+        "show_limited_access_help": "조사자는 레벨, 직업, 특성, 유형 등 기준에 따라 카드에 대한 선택적 접근 권한이 제한될 수 있습니다. 이 기능을 활성화하면 해당 제한된 접근 권한의 카드가 표시됩니다.",
         "show_unusable_cards": "사용불가 카드 전환",
         "toggle_filter_menu": "필터 메뉴 전환",
         "toggle_filters": "필터 전환",
@@ -1150,7 +1155,7 @@
         "theme_system": "시스템",
         "title": "화면"
       },
-      "error": "Failed to save settings: {{error}}",
+      "error": "설정 저장에 실패함: {{error}}",
       "general": {
         "default_taboo": "기본 금기 목록",
         "title": "일반",
