@@ -1,5 +1,5 @@
 import type { CollapsibleProps } from "@radix-ui/react-collapsible";
-import { CircleIcon, Undo2Icon } from "lucide-react";
+import { CircleIcon, XIcon } from "lucide-react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "../../ui/button";
@@ -55,7 +55,7 @@ export function FilterContainer(props: Props) {
             tooltip={t("filters.reset_filter")}
             variant="bare"
           >
-            <Undo2Icon />
+            <XIcon />
           </Button>
         ) : undefined
       }

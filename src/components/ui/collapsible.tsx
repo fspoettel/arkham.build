@@ -4,7 +4,7 @@ import type {
   CollapsibleProps,
 } from "@radix-ui/react-collapsible";
 import { Content, Root, Trigger } from "@radix-ui/react-collapsible";
-import { UnfoldVerticalIcon, XIcon } from "lucide-react";
+import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "./button";
 import css from "./collapsible.module.css";
@@ -79,7 +79,7 @@ export function Collapsible(props: Props) {
                     : t("ui.collapsible.expand")
               }
             >
-              {open ? <XIcon /> : <UnfoldVerticalIcon />}
+              {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
             </Button>
           </div>
         </div>
