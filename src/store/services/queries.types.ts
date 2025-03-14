@@ -242,7 +242,7 @@ export type DataVersion = {
   translation_updated_at: string;
 };
 
-type QueryEncounterSet = {
+export type QueryEncounterSet = {
   code: string;
   name: string;
 };

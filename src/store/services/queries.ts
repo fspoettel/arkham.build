@@ -13,9 +13,9 @@ import type {
   Card,
   Cycle,
   DataVersion,
-  EncounterSet,
   Pack,
   QueryCard,
+  QueryEncounterSet,
   Recommendations,
   TabooSet,
 } from "./queries.types";
@@ -28,7 +28,7 @@ export type MetadataResponse = {
   cycle: Cycle[];
   pack: Pack[];
   reprint_pack: Pack[];
-  card_encounter_set: EncounterSet[];
+  card_encounter_set: QueryEncounterSet[];
   taboo_set: TabooSet[];
 };
 
