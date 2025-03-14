@@ -1,0 +1,28 @@
+{
+  "id": "oFD3MstiDFutRdk",
+  "date_creation": "2025-03-14T21:20:04.451Z",
+  "date_update": "2025-03-14T21:20:14.060Z",
+  "description_md": "",
+  "meta": "{\"cus_09040\":\"0|1,1|1,2|1\"}",
+  "ignoreDeckLimitSlots": {},
+  "sideSlots": {},
+  "next_deck": null,
+  "previous_deck": null,
+  "tags": "",
+  "version": "0.1",
+  "taboo_id": 8,
+  "xp": null,
+  "xp_spent": null,
+  "exile_string": null,
+  "xp_adjustment": null,
+  "investigator_code": "01002",
+  "investigator_name": "Daisy Walker",
+  "name": "Daisy Walker Investigates",
+  "slots": {
+    "01000": 1,
+    "01008": 1,
+    "01009": 1,
+    "09040": 2
+  },
+  "problem": "too_few_cards"
+}

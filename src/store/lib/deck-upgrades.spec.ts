@@ -24,6 +24,8 @@ import customizablePurchase from "@/test/fixtures/decks/upgrades/customizable_pu
 import customizablePurchase2 from "@/test/fixtures/decks/upgrades/customizable_purchase_2.json";
 import customizableUpgrade from "@/test/fixtures/decks/upgrades/customizable_upgrade_1.json";
 import customizableUpgrade2 from "@/test/fixtures/decks/upgrades/customizable_upgrade_2.json";
+import customizableXpRemoved from "@/test/fixtures/decks/upgrades/customizable_xp_removed_1.json";
+import customizableXpRemoved2 from "@/test/fixtures/decks/upgrades/customizable_xp_removed_2.json";
 import deckSize from "@/test/fixtures/decks/upgrades/deck_size_1.json";
 import deckSize2 from "@/test/fixtures/decks/upgrades/deck_size_2.json";
 import dtrh from "@/test/fixtures/decks/upgrades/dtrh_base_1.json";
@@ -328,6 +330,14 @@ describe("getUpgradeStats", () => {
 
       delete prev.slots["09081"];
       expect(getUpgradeStats(prev, next).xpSpent).toEqual(6);
+    });
+
+    it("handles case: customizable (checkbox removed)", () => {
+      const state = store.getState();
+      const collator = selectLocaleSortingCollator(state);
+      const prev = resolveDeck(state, collator, customizableXpRemoved);
+      const next = resolveDeck(state, collator, customizableXpRemoved2);
+      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: exile, repurchase", () => {

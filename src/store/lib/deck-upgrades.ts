@@ -102,7 +102,12 @@ function getCustomizableChanges(prev: ResolvedDeck, next: ResolvedDeck) {
     for (const [idx, customization] of Object.entries(customizations)) {
       const prevXp = next.exileSlots[code]
         ? 0
-        : prev.customizations?.[code]?.[idx]?.xp_spent;
+        : (prev.customizations?.[code]?.[idx]?.xp_spent ?? 0);
+
+      // if a customization was removed (which is illegal), ignore it.
+      if (prevXp > customization.xp_spent) {
+        continue;
+      }
 
       if (customization.xp_spent !== prevXp) {
         customizableDifferences[code] ??= [];
