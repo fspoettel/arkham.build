@@ -31,20 +31,21 @@ export const createConnectionsSlice: StateCreator<
   createConnection(provider, user) {
     const state = get();
 
-    set({
-      connections: {
-        ...state.connections,
-        data: {
-          ...state.connections.data,
-          [provider]: {
-            createdAt: new Date().valueOf(),
-            status: "connected",
-            user,
-            provider,
-          },
+    const connections = {
+      lastSyncedAt: undefined,
+      data: {
+        ...state.connections.data,
+        [provider]: {
+          createdAt: new Date().valueOf(),
+          status: "connected" as const,
+          user,
+          provider,
         },
       },
-    });
+    };
+
+    set({ connections });
+    return connections;
   },
   removeConnection(provider) {
     const state = get();

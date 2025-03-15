@@ -13,7 +13,7 @@ import { useToast } from "@/components/ui/toast.hooks";
 import { UpgradeModal } from "@/pages/deck-view/upgrade-modal";
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
-import { selectConnections } from "@/store/selectors/connections";
+import { selectConnectionsData } from "@/store/selectors/connections";
 import {
   selectConnectionLock,
   selectConnectionLockForDeck,
@@ -64,7 +64,7 @@ export function Sidebar(props: Props) {
   const dialogContext = useDialogContextChecked();
   const cardModalContext = useCardModalContextChecked();
 
-  const connections = useStore(selectConnections);
+  const connectionsData = useStore(selectConnectionsData);
 
   const uploadDeck = useUploadDeck();
   const onUpload = useCallback(() => {
@@ -83,7 +83,7 @@ export function Sidebar(props: Props) {
     origin === "local" &&
     !isReadOnly &&
     deck.source !== "arkhamdb" &&
-    !isEmpty(connections);
+    !isEmpty(connectionsData);
 
   const onArkhamDBUpload = canUploadToArkhamDb ? onUpload : undefined;
 

@@ -7,7 +7,7 @@ import { useToast } from "@/components/ui/toast.hooks";
 import { useStore } from "@/store";
 import { decodeSelections } from "@/store/lib/deck-meta";
 import type { CardWithRelations } from "@/store/lib/types";
-import { selectConnections } from "@/store/selectors/connections";
+import { selectConnectionsData } from "@/store/selectors/connections";
 import {
   selectDeckCreateChecked,
   selectDeckCreateInvestigators,
@@ -34,7 +34,7 @@ export function DeckCreateEditor() {
   const deckCreate = useStore(selectDeckCreateChecked);
   const { back, investigator } = useStore(selectDeckCreateInvestigators);
 
-  const connections = useStore(selectConnections);
+  const connections = useStore(selectConnectionsData);
   const connectionLock = useStore(selectConnectionLock);
   const tabooSets = useStore(selectTabooSetSelectOptions);
   const provider = useStore((state) => state.deckCreate?.provider);

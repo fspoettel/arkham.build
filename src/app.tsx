@@ -158,7 +158,7 @@ function RouteReset() {
 
 function AppTasks() {
   const dataVersion = useStore((state) => state.metadata.dataVersion);
-  const lastSyncedAt = useStore((state) => state.connections.lastSyncedAt);
+  const connections = useStore((state) => state.connections);
 
   const sync = useSync();
   const toast = useToast();
@@ -212,6 +212,7 @@ function AppTasks() {
   const autoSyncLock = useRef(false);
 
   useEffect(() => {
+    const lastSyncedAt = connections.lastSyncedAt;
     if (
       location !== "/settings" &&
       location !== "/connect" &&
@@ -219,9 +220,9 @@ function AppTasks() {
       !autoSyncLock.current
     ) {
       autoSyncLock.current = true;
-      sync().catch(console.error);
+      sync(connections).catch(console.error);
     }
-  }, [sync, location, lastSyncedAt]);
+  }, [sync, location, connections]);
 
   return null;
 }

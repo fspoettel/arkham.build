@@ -32,9 +32,9 @@ export function Connect() {
 
       try {
         if (loginState === "success") {
-          createConnection(provider as Provider, {});
+          const connections = createConnection(provider as Provider, {});
           lock.current = true;
-          await sync();
+          await sync(connections);
         } else {
           toast.show({
             children: t("connect.error", { error: error || "Unknown error" }),

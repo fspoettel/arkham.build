@@ -1,27 +1,25 @@
 import { useStore } from "@/store";
-import {
-  selectConnections,
-  selectSyncHealthy,
-} from "@/store/selectors/connections";
+
 import { cx } from "@/utils/cx";
 import { formatProviderName } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
-import { RefreshCcwIcon } from "lucide-react";
+import { CircleAlertIcon, RefreshCcwIcon } from "lucide-react";
 import { Button } from "./ui/button";
 
 import { useSync } from "@/store/hooks/use-sync";
+import { syncHealthy } from "@/store/selectors/connections";
 import { useTranslation } from "react-i18next";
 import css from "./sync-status.module.css";
 
 export function SyncStatus() {
-  const connections = useStore(selectConnections);
-  const healthy = useStore(selectSyncHealthy);
+  const connections = useStore((state) => state.connections);
+  const healthy = syncHealthy(connections);
   const { t } = useTranslation();
 
   const sync = useSync();
   const syncing = useStore((state) => state.remoting.sync);
 
-  const collectionLabels = connections
+  const collectionLabels = Object.values(connections.data)
     .map((p) => formatProviderName(p.provider))
     .join(" & ");
 
@@ -31,7 +29,7 @@ export function SyncStatus() {
     <Button
       className={cx(css["sync"], !syncing && !healthy && css["unhealthy"])}
       disabled={syncing}
-      onClick={() => sync()}
+      onClick={() => sync(connections)}
       tooltip={
         !syncing ? (
           <p>
@@ -47,6 +45,11 @@ export function SyncStatus() {
     >
       <RefreshCcwIcon className={cx(syncing && "spin")} />{" "}
       {t("settings.connections.sync")}
+      {!syncing && !healthy && (
+        <div className={css["unhealthy"]}>
+          <CircleAlertIcon />
+        </div>
+      )}
     </Button>
   );
 }
