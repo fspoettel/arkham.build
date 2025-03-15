@@ -14,7 +14,7 @@ export function useSync() {
 
   const onSync = useCallback(
     async (connections: ConnectionsState) => {
-      if (!syncHealthy(connections) || isEmpty(connections)) return;
+      if (!syncHealthy(connections) || isEmpty(connections.data)) return;
 
       const provider = "ArkhamDB";
 
