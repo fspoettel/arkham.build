@@ -24,6 +24,7 @@
   max-width: 100%;
   container-type: inline-size;
   margin: 1rem auto;
+  padding-left: var(--scrollbar-padding);
 }
 
 .actions {

@@ -3,11 +3,10 @@
   flex-flow: column nowrap;
   height: 100%;
   overflow: hidden;
-  --scrollbar-size: 10px;
 }
 
 .scroller.permanent-scrollbar {
-  padding-right: 14px;
+  padding-right: var(--scrollbar-padding);
 }
 
 .viewport {
