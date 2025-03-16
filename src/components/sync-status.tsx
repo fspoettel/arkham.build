@@ -8,10 +8,13 @@ import { Button } from "./ui/button";
 
 import { useSync } from "@/store/hooks/use-sync";
 import { syncHealthy } from "@/store/selectors/connections";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "wouter";
 import css from "./sync-status.module.css";
 
 export function SyncStatus() {
+  const [, navigate] = useLocation();
   const connections = useStore((state) => state.connections);
   const healthy = syncHealthy(connections);
   const { t } = useTranslation();
@@ -23,13 +26,22 @@ export function SyncStatus() {
     .map((p) => formatProviderName(p.provider))
     .join(" & ");
 
+  const onSyncButtonClick = useCallback(() => {
+    if (syncing) return;
+    if (healthy) {
+      sync(connections);
+    } else {
+      navigate("~/settings");
+    }
+  }, [healthy, sync, syncing, connections, navigate]);
+
   if (isEmpty(connections)) return null;
 
   return (
     <Button
       className={cx(css["sync"], !syncing && !healthy && css["unhealthy"])}
       disabled={syncing}
-      onClick={() => sync(connections)}
+      onClick={onSyncButtonClick}
       tooltip={
         !syncing ? (
           <p>
