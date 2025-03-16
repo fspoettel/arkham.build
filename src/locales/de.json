@@ -734,6 +734,7 @@
         "decrement_quantity": "Anzahl im Deck verringern",
         "decrement_side_quantity": "Anzahl im Nebendeck verringern",
         "draw_random_basic_weakness": "Zufällige Grundschwäche ziehen",
+        "draw_random_basic_weakness_success": "<strong>{{name}}</strong> ist deine zufällige Grundschwäche.",
         "edit_annotation": "Anmerkung bearbeiten",
         "increment_quantity": "Anzahl im Deck erhöhen",
         "increment_side_quantity": "Anzahl im Nebendeck erhöhen",

@@ -73,7 +73,7 @@ export type DeckEditsSlice = {
 
   swapDeck(card: Card, deckId: Id, targetDeck: "slots" | "sideSlots"): void;
 
-  drawRandomBasicWeakness(deckId: Id): void;
+  drawRandomBasicWeakness(deckId: Id): Card;
 
   updateCardQuantity(
     deckId: Id,

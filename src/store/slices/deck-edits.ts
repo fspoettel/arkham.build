@@ -256,6 +256,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    return state.metadata.cards[weakness];
   },
   updateAttachment({ deck, targetCode, code, quantity, limit }) {
     const attachments = get().deckEdits[deck.id]?.attachments ?? {};
