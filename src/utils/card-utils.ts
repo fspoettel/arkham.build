@@ -36,15 +36,23 @@ function doubleSided(card: Card) {
   return card.double_sided || card.back_link_id;
 }
 
-type CardBackType = "player" | "encounter" | "card";
+type CardBackType = "player" | "encounter" | "card" | "longest_night";
 
 export function cardBackType(card: Card): CardBackType {
   if (doubleSided(card)) return "card";
 
-  if (
-    card.faction_code === "mythos" ||
-    PLAYER_CARDS_ENCOUNTER_BACK_IDS.includes(card.code)
-  ) {
+  if (card.faction_code === "mythos") {
+    if (
+      card.encounter_code === "the_longest_night" &&
+      card.type_code === "enemy"
+    ) {
+      return "longest_night";
+    }
+
+    return "encounter";
+  }
+
+  if (PLAYER_CARDS_ENCOUNTER_BACK_IDS.includes(card.code)) {
     return "encounter";
   }
 
