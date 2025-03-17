@@ -1,7 +1,5 @@
-import {
-  Attachments,
-  getMatchingAttachables,
-} from "@/components/attachments/attachments";
+import { Attachments } from "@/components/attachments/attachments";
+import { getMatchingAttachables } from "@/components/attachments/attachments.helpers";
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { selectAvailableUpgrades } from "@/store/selectors/lists";

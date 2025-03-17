@@ -9,10 +9,8 @@ import { LayoutGridIcon, LayoutListIcon } from "lucide-react";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { AnnotationIndicator } from "../annotation-indicator";
-import {
-  Attachments,
-  getMatchingAttachables,
-} from "../attachments/attachments";
+import { Attachments } from "../attachments/attachments";
+import { getMatchingAttachables } from "../attachments/attachments.helpers";
 import { AllAttachables } from "../deck-tools/all-attachables";
 import { LimitedSlots } from "../deck-tools/limited-slots";
 import { HotkeyTooltip } from "../ui/hotkey";

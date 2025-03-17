@@ -11,21 +11,19 @@ import {
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
+import {
+  canUpdateAttachment,
+  getAttachedQuantity,
+  getMatchingAttachables,
+  useAttachmentsChangeHandler,
+} from "./attachments.helpers";
 import css from "./attachments.module.css";
-import { canAttach, canUpdateAttachment, getAttachedQuantity } from "./utils";
-import { useAttachmentsChangeHandler } from "./utils";
 
 type Props = {
   card: Card;
   resolvedDeck: ResolvedDeck;
   buttonVariant?: "bare";
 };
-
-export function getMatchingAttachables(card: Card, resolvedDeck: ResolvedDeck) {
-  return resolvedDeck.availableAttachments.filter((definition) =>
-    canAttach(card, definition),
-  );
-}
 
 export function Attachments(props: Props) {
   const { buttonVariant, card, resolvedDeck } = props;

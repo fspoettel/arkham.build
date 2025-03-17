@@ -11,8 +11,8 @@ import {
   attachmentDefinitionLimit,
   canAttach,
   getAttachedQuantity,
-} from "../attachments/utils";
-import { useAttachmentsChangeHandler } from "../attachments/utils";
+  useAttachmentsChangeHandler,
+} from "../attachments/attachments.helpers";
 import { LimitedCardGroup } from "../limited-card-group";
 import { ListCard } from "../list-card/list-card";
 

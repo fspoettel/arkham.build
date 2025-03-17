@@ -8,8 +8,8 @@ import {
   canAttach,
   canUpdateAttachment,
   getAttachedQuantity,
-} from "../attachments/utils";
-import { useAttachmentsChangeHandler } from "../attachments/utils";
+  useAttachmentsChangeHandler,
+} from "../attachments/attachments.helpers";
 import { QuantityInput } from "../ui/quantity-input";
 import css from "./card-modal.module.css";
 

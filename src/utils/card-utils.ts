@@ -32,7 +32,7 @@ export function sideways(card: Card) {
   return ORIENTATION_CHANGED_CARDS.includes(card.code) ? !value : value;
 }
 
-export function doubleSided(card: Card) {
+function doubleSided(card: Card) {
   return card.double_sided || card.back_link_id;
 }
 

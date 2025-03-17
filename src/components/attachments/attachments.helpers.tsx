@@ -80,3 +80,9 @@ export function useAttachmentsChangeHandler() {
 
   return canEdit ? changeHandler : undefined;
 }
+
+export function getMatchingAttachables(card: Card, resolvedDeck: ResolvedDeck) {
+  return resolvedDeck.availableAttachments.filter((definition) =>
+    canAttach(card, definition),
+  );
+}
