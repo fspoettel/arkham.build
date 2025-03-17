@@ -1,5 +1,6 @@
 import test, { type Page, expect } from "@playwright/test";
 import {
+  defaultScreenshotMask,
   importDeck,
   importDeckFromFile,
   shareDeck,
@@ -65,7 +66,9 @@ test.describe("deck view", () => {
     await waitForImagesLoaded(page);
 
     await prepareScreenshot(page);
-    await expect(page.getByTestId("view-decklist")).toHaveScreenshot();
+    await expect(page.getByTestId("view-decklist")).toHaveScreenshot({
+      mask: defaultScreenshotMask(page),
+    });
   });
 
   test("render deck investigator", async ({ page }) => {
@@ -342,7 +345,9 @@ test.describe("deck view", () => {
     await expect(page.getByTestId("view-decklist")).toBeVisible();
     await waitForImagesLoaded(page);
     await prepareScreenshot(page);
-    await expect(page.getByTestId("view-decklist")).toHaveScreenshot();
+    await expect(page.getByTestId("view-decklist")).toHaveScreenshot({
+      mask: defaultScreenshotMask(page),
+    });
   });
 
   test("prefill upgrade xp from url", async ({ page }) => {
@@ -452,6 +457,10 @@ test.describe("deck view", () => {
 
     await expect(
       page.getByTestId("investigator-modal").getByTestId("limited-card-group"),
-    ).toHaveScreenshot();
+    ).toHaveScreenshot({
+      mask: [
+        page.getByTestId("investigator-modal").getByTestId("card-thumbnail"),
+      ],
+    });
   });
 });

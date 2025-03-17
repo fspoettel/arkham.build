@@ -35,6 +35,7 @@ export const CardThumbnail = memo(
           className,
         )}
         key={card.code}
+        data-testid="card-thumbnail"
         data-component="card-thumbnail"
       >
         <img

@@ -134,3 +134,7 @@ export async function upgradeDeck(page: Page, xp = 5) {
   await page.getByTestId("upgrade-save-close").click();
   await expect(page.getByTestId("view-latest-upgrade")).toBeVisible();
 }
+
+export function defaultScreenshotMask(page: Page) {
+  return [page.getByTestId("card-scan"), page.getByTestId("card-thumbnail")];
+}

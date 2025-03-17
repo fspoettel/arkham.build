@@ -2,6 +2,7 @@ import test, { type Page, expect } from "@playwright/test";
 import {
   adjustDeckCardQuantity,
   adjustListCardQuantity,
+  defaultScreenshotMask,
   fillSearch,
   importDeck,
   importDeckFromFile,
@@ -142,7 +143,9 @@ test.describe("upgrades: interactions", () => {
     await page.getByTestId("tab-history").click();
 
     await page.waitForTimeout(5000);
-    await expect(page.getByTestId("history")).toHaveScreenshot();
+    await expect(page.getByTestId("history")).toHaveScreenshot({
+      mask: defaultScreenshotMask(page),
+    });
   });
 });
 
@@ -163,7 +166,9 @@ test.describe("upgrades: views", () => {
 
     await page.getByTestId("tab-history").click();
 
-    await expect(page.getByTestId("history")).toHaveScreenshot();
+    await expect(page.getByTestId("history")).toHaveScreenshot({
+      mask: defaultScreenshotMask(page),
+    });
   });
 
   test("shows older deck history", async ({ page }) => {
@@ -196,7 +201,9 @@ test.describe("upgrades: views", () => {
     await page.getByTestId("tab-history").click();
 
     await page.waitForTimeout(5000);
-    await expect(page.getByTestId("history")).toHaveScreenshot();
+    await expect(page.getByTestId("history")).toHaveScreenshot({
+      mask: defaultScreenshotMask(page),
+    });
   });
 
   test("show customization in history", async ({ page }) => {
@@ -226,7 +233,9 @@ test.describe("upgrades: views", () => {
     await page.getByTestId("editor-save").click();
     await page.getByTestId("tab-history").click();
     await page.waitForTimeout(5000);
-    await expect(page.getByTestId("history")).toHaveScreenshot();
+    await expect(page.getByTestId("history")).toHaveScreenshot({
+      mask: defaultScreenshotMask(page),
+    });
   });
 
   test("transformed investigator", async ({ page }) => {
@@ -267,6 +276,8 @@ test.describe("upgrades: views", () => {
     await page.getByTestId("tab-history").click();
 
     await page.waitForTimeout(5000);
-    await expect(page.getByTestId("history")).toHaveScreenshot();
+    await expect(page.getByTestId("history")).toHaveScreenshot({
+      mask: defaultScreenshotMask(page),
+    });
   });
 });

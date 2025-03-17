@@ -1,5 +1,5 @@
 import { type Page, expect, test } from "@playwright/test";
-import { fillSearch } from "./actions";
+import { defaultScreenshotMask, fillSearch } from "./actions";
 import { mockApiCalls } from "./mocks";
 
 test.beforeEach(async ({ page }) => {
@@ -40,7 +40,7 @@ test.describe("card view: display", () => {
   test("renders customizable options", async ({ page }) => {
     await page.goto("/card/09042");
     await expect(page.getByTestId("main")).toHaveScreenshot({
-      mask: [page.getByTestId("card-scan")],
+      mask: defaultScreenshotMask(page),
     });
   });
 
@@ -75,14 +75,14 @@ test.describe("card view: display", () => {
   test("renders cards present in multiple packs", async ({ page }) => {
     await page.goto("/card/01039");
     await expect(page.getByTestId("main")).toHaveScreenshot({
-      mask: [page.getByTestId("card-scan")],
+      mask: defaultScreenshotMask(page),
     });
   });
 
   test("renders investigators", async ({ page }) => {
     await page.goto("/card/02005");
     await expect(page.getByTestId("main")).toHaveScreenshot({
-      mask: [page.getByTestId("card-scan")],
+      mask: defaultScreenshotMask(page),
     });
   });
 
@@ -93,94 +93,94 @@ test.describe("card view: display", () => {
 
     await page.goto("/card/03006");
     await expect(page.getByTestId("main")).toHaveScreenshot({
-      mask: [page.getByTestId("card-scan")],
+      mask: defaultScreenshotMask(page),
     });
 
     await page.goto("/card/07197");
     await expect(page.getByTestId("main")).toHaveScreenshot({
-      mask: [page.getByTestId("card-scan")],
+      mask: defaultScreenshotMask(page),
     });
 
     await page.goto("/card/07268");
     await expect(page.getByTestId("main")).toHaveScreenshot({
-      mask: [page.getByTestId("card-scan")],
+      mask: defaultScreenshotMask(page),
     });
   });
 
   test("renders cards from standalone packs", async ({ page }) => {
     await page.goto("/card/60216");
     await expect(page.getByTestId("main")).toHaveScreenshot({
-      mask: [page.getByTestId("card-scan")],
+      mask: defaultScreenshotMask(page),
     });
   });
 
   test("renders parallel investigators", async ({ page }) => {
     await page.goto("/card/02005");
     await expect(page.getByTestId("parallel")).toHaveScreenshot({
-      mask: [page.getByTestId("card-scan")],
+      mask: defaultScreenshotMask(page),
     });
   });
 
   test("renders encounter cards with unique backside", async ({ page }) => {
     await page.goto("/card/01121a");
     await expect(page.getByTestId("main")).toHaveScreenshot({
-      mask: [page.getByTestId("card-scan")],
+      mask: defaultScreenshotMask(page),
     });
   });
 
   test("renders acts", async ({ page }) => {
     await page.goto("/card/08526");
     await expect(page.getByTestId("main")).toHaveScreenshot({
-      mask: [page.getByTestId("card-scan")],
+      mask: defaultScreenshotMask(page),
     });
   });
 
   test("renders agendas", async ({ page }) => {
     await page.goto("/card/01143");
     await expect(page.getByTestId("main")).toHaveScreenshot({
-      mask: [page.getByTestId("card-scan")],
+      mask: defaultScreenshotMask(page),
     });
   });
 
   test("renders enemies", async ({ page }) => {
     await page.goto("/card/01181");
     await expect(page.getByTestId("main")).toHaveScreenshot({
-      mask: [page.getByTestId("card-scan")],
+      mask: defaultScreenshotMask(page),
     });
   });
 
   test("renders stories", async ({ page }) => {
     await page.goto("/card/03065");
     await expect(page.getByTestId("main")).toHaveScreenshot({
-      mask: [page.getByTestId("card-scan")],
+      mask: defaultScreenshotMask(page),
     });
   });
 
   test("renders locations with unique fronts", async ({ page }) => {
     await page.goto("/card/88010");
     await expect(page.getByTestId("main")).toHaveScreenshot({
-      mask: [page.getByTestId("card-scan")],
+      mask: defaultScreenshotMask(page),
     });
   });
 
   test("renders locations with shroud 0", async ({ page }) => {
     await page.goto("/card/08686");
     await expect(page.getByTestId("main")).toHaveScreenshot({
-      mask: [page.getByTestId("card-scan")],
+      mask: defaultScreenshotMask(page),
     });
   });
 
   test("renders locations with shroud null", async ({ page }) => {
     await page.goto("/card/08630");
     await expect(page.getByTestId("main")).toHaveScreenshot({
-      mask: [page.getByTestId("card-scan")],
+      mask: defaultScreenshotMask(page),
     });
   });
 
   test("renders player locations", async ({ page }) => {
     await page.goto("/card/06015a");
     await expect(page.getByTestId("main")).toHaveScreenshot({
-      mask: [page.getByTestId("card-scan")],
+      mask: defaultScreenshotMask(page),
     });
   });
 });
