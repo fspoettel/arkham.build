@@ -1,9 +1,9 @@
 @layer components, application;
 
 :root {
-  --font-family-ui: "Noto Sans", ui-sans-serif, system-ui, sans-serif,
+  --font-family-ui: "Noto Sans Variable", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-family-content: "Noto Serif", ui-serif, Georgia, Cambria,
+  --font-family-content: "Noto Serif Variable", ui-serif, Georgia, Cambria,
     "Times New Roman", Times, serif;
 
   --white: #f6f6fb;
@@ -226,7 +226,7 @@ h4,
 h5,
 h6 {
   line-height: 1.25;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 a {

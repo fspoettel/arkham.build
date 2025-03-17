@@ -231,7 +231,8 @@
 }
 
 .name button,
-.name a {
+.name a,
+.name span {
   font-weight: 700;
   font-family: var(--font-family-content);
   background: none;
