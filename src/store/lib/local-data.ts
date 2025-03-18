@@ -22,6 +22,9 @@ export function applyLocalData(_metadata: Metadata) {
     packs: {
       ..._metadata.packs,
     },
+    encounterSets: {
+      ..._metadata.encounterSets,
+    },
   };
 
   for (const card of localCards) {

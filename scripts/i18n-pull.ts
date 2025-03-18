@@ -53,19 +53,19 @@ for (const lng of translations) {
   patchLocale(
     lng,
     (key) => arkhamCardsLocale.translations[""][capitalize(key)],
-    () => en.translation.common.uses,
+    () => locale.translation.common.uses,
   );
 
   patchLocale(
     lng,
     (key) => arkhamCardsLocale.translations["trait"][key],
-    () => en.translation.common.traits,
+    () => locale.translation.common.traits,
   );
 
   patchLocale(
     lng,
     (key) => arkhamCardsLocale.translations["deck_option"]?.[key],
-    () => en.translation.common.deck_options,
+    () => locale.translation.common.deck_options,
   );
 
   await writeLocale(lng, locale);
