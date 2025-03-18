@@ -232,7 +232,7 @@ function DeckEditInner() {
       renderCardBefore:
         currentTool === "recommendations" ? renderCoreCardCheckbox : undefined,
       renderCardExtra,
-      limitOverride: getDeckLimitOverride(lookupTables, deck, card.code),
+      limitOverride: getDeckLimitOverride(lookupTables, deck, card),
     }),
     [
       canEdit,

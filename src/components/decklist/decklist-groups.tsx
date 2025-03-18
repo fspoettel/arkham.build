@@ -124,7 +124,7 @@ export function DecklistGroup(props: DecklistGroupsProps) {
                     limitOverride={getDeckLimitOverride(
                       lookupTables,
                       deck,
-                      card.code,
+                      card,
                     )}
                     key={card.code}
                     omitBorders

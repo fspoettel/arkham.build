@@ -5,6 +5,7 @@ import {
   getAttachableCards,
 } from "@/utils/constants";
 import { isEmpty } from "@/utils/is-empty";
+import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import type { Deck } from "../slices/data.types";
 import type { LookupTables } from "../slices/lookup-tables.types";
@@ -179,18 +180,25 @@ function getInvestigatorForSide(
 export function getDeckLimitOverride(
   lookupTables: LookupTables,
   deck: ResolvedDeck | undefined,
-  code: string,
+  card: Card,
 ): number | undefined {
+  const code = card.code;
+  const deckLimit = card.deck_limit ?? Number.MAX_SAFE_INTEGER;
+
   const sealed = deck?.sealedDeck?.cards;
   if (!sealed) return undefined;
 
-  if (sealed[code] != null) return sealed[code];
+  if (sealed[code] != null) {
+    return Math.min(sealed[code], deckLimit);
+  }
 
   const duplicates = lookupTables.relations.duplicates[code];
   if (!duplicates) return undefined;
 
   for (const duplicateCode of Object.keys(duplicates)) {
-    if (sealed[duplicateCode] != null) return sealed[duplicateCode];
+    if (sealed[duplicateCode] != null) {
+      return Math.min(sealed[duplicateCode], deckLimit);
+    }
   }
 
   return undefined;

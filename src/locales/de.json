@@ -726,6 +726,11 @@
       "help_replacements": "<p>Ersatz-Signaturkarten können die Signaturkarten eines Ermittlers ersetzen, die unter \"Deckbauanforderungen\" aufgeführt sind. Dies erfüllt weiterhin alle Deckbauanforderungen und das Deck bleibt gültig.</p><p>Wenn dies getan wird, müssen <strong>beide</strong> Signaturkarten ersetzt werden und, wenn dies für eine Kampagne getan wird, kann nicht mehr zu den originalen Signaturkarten gewechselt werden.</p><p>Alternativ können Ersatz-Signaturkarten zusätzlich zu den Signaturkarten in das Deck aufgenommen werden.</p>",
       "loading": "Deck wird erstellt...",
       "random_basic_weakness": "Zufällige Grundschwäche",
+      "sealed_deck": {
+        "error": "Versiegeltes Deck konnte nicht geladen werden: {{error}}",
+        "loading": "Versiegeltes Deck wird geladen...",
+        "success": "Versiegeltes Deck erfolgreich hinzugefügt."
+      },
       "success": "Deck wurde erfolgreich erstellt."
     },
     "deck_edit": {

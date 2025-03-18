@@ -159,7 +159,7 @@ export function CardList(props: CardListImplementationProps) {
         limitOverride: getDeckLimitOverride(
           lookupTables,
           resolvedDeck,
-          data.cards[index].code,
+          data.cards[index],
         ),
         ownedCount: canCheckOwnerhip
           ? cardOwnedCount(data.cards[index])

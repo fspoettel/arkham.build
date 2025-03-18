@@ -66,7 +66,7 @@ export function CardModalQuantities(props: Props) {
   const code = card.code;
 
   const lookupTables = useStore((state) => state.lookupTables);
-  const limitOverride = getDeckLimitOverride(lookupTables, deck, card.code);
+  const limitOverride = getDeckLimitOverride(lookupTables, deck, card);
   const limit = limitOverride ?? cardLimit(card);
 
   const isBonded = !!bondedSlotQuantities?.[code];

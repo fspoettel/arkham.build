@@ -4,9 +4,10 @@ import type { Deck, Id } from "../slices/data.types";
 import { isDeck } from "../slices/data.types";
 import reprintPacks from "./data/reprint_packs.json";
 
+import { assert } from "@/utils/assert";
 import { displayPackName } from "@/utils/formatting";
 import i18n from "@/utils/i18n";
-import type { ResolvedDeck } from "../lib/types";
+import type { ResolvedDeck, SealedDeck } from "../lib/types";
 import type { History } from "../selectors/decks";
 import type { Locale } from "../slices/settings.types";
 import type {
@@ -401,4 +402,19 @@ export async function getRecommendations(
   });
   const { data }: RecommendationApiResponse = await res.json();
   return data.recommendations;
+}
+
+export async function querySealedDeck(id: string): Promise<SealedDeck> {
+  const res = await request(`/public/sealed_deck/${id}`);
+  const data = await res.json();
+
+  const name = id;
+  const cards: Record<string, number> = {};
+
+  for (const { code, quantity } of [...data.level0, ...data.xp]) {
+    assert(Number.isInteger(quantity), "deckLimit is not an integer");
+    cards[code] = quantity;
+  }
+
+  return { name, cards };
 }
