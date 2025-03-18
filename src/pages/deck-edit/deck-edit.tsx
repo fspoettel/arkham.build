@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast.hooks";
 import { ListLayoutContextProvider } from "@/layouts/list-layout-context-provider";
 import { useStore } from "@/store";
+import { getDeckLimitOverride } from "@/store/lib/resolve-deck";
 import {
   selectDeckValid,
   selectResolvedDeckById,
@@ -169,6 +170,7 @@ function DeckEditInner() {
 
   const updateCardQuantity = useStore((state) => state.updateCardQuantity);
   const validation = useStore((state) => selectDeckValid(state, deck));
+  const lookupTables = useStore((state) => state.lookupTables);
 
   const accentColor = useAccentColor(deck.investigatorBack.card.faction_code);
 
@@ -230,9 +232,12 @@ function DeckEditInner() {
       renderCardBefore:
         currentTool === "recommendations" ? renderCoreCardCheckbox : undefined,
       renderCardExtra,
+      limitOverride: getDeckLimitOverride(lookupTables, deck, card.code),
     }),
     [
       canEdit,
+      deck,
+      lookupTables,
       onChangeCardQuantity,
       currentTool,
       renderCardExtra,

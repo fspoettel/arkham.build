@@ -138,6 +138,7 @@ export function ListCardInner(props: Props) {
           (onChangeCardQuantity ? (
             <QuantityInput
               limit={limit}
+              limitOverride={limitOverride}
               onValueChange={onQuantityChange}
               tabIndex={disableKeyboard ? -1 : undefined}
               value={quantity}

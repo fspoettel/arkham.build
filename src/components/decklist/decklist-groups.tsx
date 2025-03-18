@@ -41,6 +41,7 @@ export function DecklistGroup(props: DecklistGroupsProps) {
   const { deck, grouping, getListCardProps, viewMode } = props;
 
   const metadata = useStore((state) => state.metadata);
+  const lookupTables = useStore((state) => state.lookupTables);
   const canCheckOwnership = useStore(selectCanCheckOwnership);
   const forbiddenCards = useStore((state) => selectForbiddenCards(state, deck));
   const cardOwnedCount = useStore(selectCardOwnedCount);
@@ -120,7 +121,11 @@ export function DecklistGroup(props: DecklistGroupsProps) {
                     card={card}
                     isRemoved={grouping.quantities?.[card.code] === 0}
                     isIgnored={deck.ignoreDeckLimitSlots?.[card.code]}
-                    limitOverride={getDeckLimitOverride(deck, card.code)}
+                    limitOverride={getDeckLimitOverride(
+                      lookupTables,
+                      deck,
+                      card.code,
+                    )}
                     key={card.code}
                     omitBorders
                     onChangeCardQuantity={

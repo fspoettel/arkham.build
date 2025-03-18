@@ -6,6 +6,7 @@ import css from "./quantity-input.module.css";
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   disabled?: boolean;
   tabIndex?: number;
+  limitOverride?: number;
   onValueChange?: (value: number, limit: number) => void;
   value: number;
   limit: number;
@@ -16,6 +17,7 @@ export function QuantityInput(props: Props) {
     className,
     disabled,
     limit,
+    limitOverride,
     onValueChange,
     tabIndex,
     value,
@@ -47,6 +49,9 @@ export function QuantityInput(props: Props) {
       </Button>
       <strong className={css["value"]} data-testid="quantity-value">
         {value}
+        {limitOverride != null && (
+          <small className={css["value-override"]}>/{limitOverride}</small>
+        )}
       </strong>
       <Button
         data-testid="quantity-increment"

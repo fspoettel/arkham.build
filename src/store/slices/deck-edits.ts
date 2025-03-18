@@ -298,7 +298,11 @@ export const createDeckEditsSlice: StateCreator<
 
     const edits = currentEdits(state, deckId);
 
-    const limitOverride = getDeckLimitOverride(deck, card.code);
+    const limitOverride = getDeckLimitOverride(
+      state.lookupTables,
+      deck,
+      card.code,
+    );
 
     const targetQuantity = Math.min(
       (deck?.[target]?.[card.code] ?? 0) + 1,

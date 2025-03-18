@@ -7,6 +7,7 @@ import {
 import { isEmpty } from "@/utils/is-empty";
 import type { StoreState } from "../slices";
 import type { Deck } from "../slices/data.types";
+import type { LookupTables } from "../slices/lookup-tables.types";
 import {
   decodeAnnotations,
   decodeAttachments,
@@ -176,10 +177,23 @@ function getInvestigatorForSide(
 }
 
 export function getDeckLimitOverride(
+  lookupTables: LookupTables,
   deck: ResolvedDeck | undefined,
   code: string,
 ): number | undefined {
-  return deck?.sealedDeck?.cards[code];
+  const sealed = deck?.sealedDeck?.cards;
+  if (!sealed) return undefined;
+
+  if (sealed[code] != null) return sealed[code];
+
+  const duplicates = lookupTables.relations.duplicates[code];
+  if (!duplicates) return undefined;
+
+  for (const duplicateCode of Object.keys(duplicates)) {
+    if (sealed[duplicateCode] != null) return sealed[duplicateCode];
+  }
+
+  return undefined;
 }
 
 export function deckTags(deck: ResolvedDeck) {

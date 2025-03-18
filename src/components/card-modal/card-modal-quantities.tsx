@@ -65,7 +65,9 @@ export function CardModalQuantities(props: Props) {
 
   const code = card.code;
 
-  const limit = getDeckLimitOverride(deck, card.code) ?? cardLimit(card);
+  const lookupTables = useStore((state) => state.lookupTables);
+  const limitOverride = getDeckLimitOverride(lookupTables, deck, card.code);
+  const limit = limitOverride ?? cardLimit(card);
 
   const isBonded = !!bondedSlotQuantities?.[code];
 
@@ -78,6 +80,7 @@ export function CardModalQuantities(props: Props) {
             data-testid="card-modal-quantities-main"
             disabled={!canEdit}
             limit={limit + (ignoreDeckLimitQuantities?.[code] ?? 0)}
+            limitOverride={limitOverride}
             onValueChange={(quantity) => onChangeQuantity(quantity, "slots")}
             value={quantities?.[code] ?? 0}
           />

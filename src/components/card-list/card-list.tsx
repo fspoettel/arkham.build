@@ -40,6 +40,7 @@ export function CardList(props: CardListImplementationProps) {
   const activeGroup = useRef<string | undefined>(undefined);
   const canCheckOwnerhip = useStore(selectCanCheckOwnership);
   const cardOwnedCount = useStore(selectCardOwnedCount);
+  const lookupTables = useStore((state) => state.lookupTables);
 
   const onScrollChange = useCallback(() => {
     setCurrentTop(-1);
@@ -156,6 +157,7 @@ export function CardList(props: CardListImplementationProps) {
       listCardProps: {
         ...getListCardProps?.(card),
         limitOverride: getDeckLimitOverride(
+          lookupTables,
           resolvedDeck,
           data.cards[index].code,
         ),

@@ -152,7 +152,7 @@ test.describe("sealed deck", () => {
         .getByTestId("editor-tabs-slots")
         .getByTestId("listcard-01020")
         .getByTestId("quantity-value"),
-    ).toContainText("2");
+    ).toContainText("2/2");
 
     await page
       .getByTestId("virtuoso-item-list")
@@ -165,7 +165,7 @@ test.describe("sealed deck", () => {
         .getByTestId("editor-tabs-slots")
         .getByTestId("listcard-02149")
         .getByTestId("quantity-value"),
-    ).toContainText("1");
+    ).toContainText("1/1");
 
     expect(
       page
@@ -208,7 +208,7 @@ test.describe("sealed deck", () => {
         .getByTestId("editor-tabs-slots")
         .getByTestId("listcard-02149")
         .getByTestId("quantity-value"),
-    ).toContainText("1");
+    ).toContainText("1/1");
   });
 });
 

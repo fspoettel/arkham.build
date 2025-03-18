@@ -102,6 +102,27 @@ export const selectForbiddenCards = createSelector(
   },
 );
 
+export const selectLimitOverride = createSelector(
+  (state: StoreState) => state.lookupTables,
+  (_: StoreState, deck: ResolvedDeck) => deck,
+  (_: StoreState, __: ResolvedDeck, code: string) => code,
+  (lookupTables, deck, code) => {
+    const sealed = deck?.sealedDeck?.cards;
+    if (!sealed) return undefined;
+
+    if (sealed[code] != null) return sealed[code];
+
+    const duplicates = lookupTables.relations.duplicates[code];
+    if (!duplicates) return undefined;
+
+    for (const duplicateCode of Object.keys(duplicates)) {
+      if (sealed[duplicateCode] != null) return sealed[duplicateCode];
+    }
+
+    return undefined;
+  },
+);
+
 export type SlotUpgrade = {
   diff: number;
   card: Card;
