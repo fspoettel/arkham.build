@@ -5,7 +5,6 @@ import autoprefixer from "autoprefixer";
 import postcssExtendRule from "postcss-extend-rule";
 import webpackStats from "rollup-plugin-webpack-stats";
 import { defineConfig } from "vite";
-import svgr from "vite-plugin-svgr";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -23,44 +22,7 @@ export default defineConfig({
       plugins: [autoprefixer(), postcssExtendRule()],
     },
   },
-  plugins: [
-    webpackStats(),
-    react(),
-    svgr({
-      esbuildOptions: { loader: "tsx" },
-      svgrOptions: {
-        plugins: ["@svgr/plugin-svgo", "@svgr/plugin-jsx"],
-        jsxRuntime: "automatic",
-        svgoConfig: {
-          floatPrecision: 2,
-          plugins: [
-            {
-              name: "preset-default",
-              params: {
-                overrides: {
-                  removeViewBox: false,
-                },
-              },
-            },
-            {
-              name: "removeAttrs",
-              params: {
-                attrs: "*:(stroke|fill):((?!^none$).)*",
-              },
-            },
-            {
-              name: "addClassesToSVGElement",
-              params: {
-                classNames: ["icon"],
-              },
-            },
-          ],
-        },
-        dimensions: false,
-        typescript: true,
-      },
-    }),
-  ],
+  plugins: [webpackStats(), react()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

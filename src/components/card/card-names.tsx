@@ -1,4 +1,3 @@
-import Unique from "@/assets/icons/icon_unique.svg?react";
 import { useStore } from "@/store";
 import type { Card } from "@/store/services/queries.types";
 import { displayAttribute, parseCardTitle } from "@/utils/card-utils";
@@ -6,6 +5,7 @@ import { cx } from "@/utils/cx";
 import { Link } from "wouter";
 import { useCardModalContextChecked } from "../card-modal/card-modal-context";
 import { CardName } from "../card-name";
+import { UniqueIcon } from "../icons/unique-icon";
 import { useDialogContext } from "../ui/dialog.hooks";
 import css from "./card.module.css";
 
@@ -25,7 +25,7 @@ export function CardNames(props: Props) {
     <>
       {card.parallel && <i className={cx(css["parallel"], "icon-parallel")} />}
       <CardName card={card} cardLevelDisplay={settings.cardLevelDisplay} />{" "}
-      <span className={css["unique"]}>{card.is_unique && <Unique />}</span>
+      <span className={css["unique"]}>{card.is_unique && <UniqueIcon />}</span>
     </>
   );
 

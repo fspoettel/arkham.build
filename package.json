@@ -70,8 +70,6 @@
     "@biomejs/biome": "1.9.4",
     "@cloudflare/workers-types": "4.20250224.0",
     "@playwright/test": "1.50.1",
-    "@svgr/plugin-jsx": "8.1.0",
-    "@svgr/plugin-svgo": "8.1.0",
     "@types/node": "22.13.5",
     "@types/react": "18.3.12",
     "@types/react-dom": "18.3.1",
@@ -86,7 +84,6 @@
     "rollup-plugin-webpack-stats": "2.0.3",
     "typescript": "5.7.3",
     "vite": "6.2.0",
-    "vite-plugin-svgr": "4.3.0",
     "vitest": "3.0.7",
     "wrangler": "3.111.0"
   }
