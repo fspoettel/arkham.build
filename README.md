@@ -86,6 +86,13 @@ We leverage a few Cloudflare Pages functions for rewriting the HTML we serve to 
 
 Arkham-related SVG icons are sourced from ArkhamCards's [icomoon project](https://github.com/zzorba/ArkhamCards/blob/master/assets/icomoon/project.json) and loaded as webfonts. Additional icons are bundled as SVG via `vite-plugin-svgr` or imported from `lucide-react`.
 
+In order to update icon fonts, the workflow is:
+1. Load the icomoon project you want to update.
+2. Add the icons you want. Select everything and generate a font.
+3. Convert the font to `.woff2`.
+4. Replace the font, icomoon project in the assets directory.
+5. Update the CSS file from the generated icomoon css. If you are updating the `icon` icon set, beware that there are some manual overrides in the file (visible in the git diff).
+
 <details>
   <summary><h2>Template readme</h2></summary>
 

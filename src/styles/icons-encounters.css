@@ -23,6 +23,81 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.encounters-alien_machinery:before {
+  content: "\e902";
+}
+.encounters-cosmic_legacy:before {
+  content: "\e903";
+}
+.encounters-court_of_the_ancients:before {
+  content: "\e904";
+}
+.encounters-deep_ones:before {
+  content: "\e905";
+}
+.encounters-domination:before {
+  content: "\e906";
+}
+.encounters-dreams:before {
+  content: "\e907";
+}
+.encounters-elder_mist:before {
+  content: "\e908";
+}
+.encounters-obsidian_canyons:before {
+  content: "\e909";
+}
+.encounters-one_last_job:before {
+  content: "\e90a";
+}
+.encounters-pilgrims:before {
+  content: "\e90b";
+}
+.encounters-rlyeh:before {
+  content: "\e90c";
+}
+.encounters-sepulchre_of_the_sleeper:before {
+  content: "\e90d";
+}
+.encounters-star_spawn:before {
+  content: "\e90e";
+}
+.encounters-stowaways:before {
+  content: "\e90f";
+}
+.encounters-tasks:before {
+  content: "\e910";
+}
+.encounters-tdc_expedition:before {
+  content: "\e911";
+}
+.encounters-tdc_flood:before {
+  content: "\e912";
+}
+.encounters-tdcc:before {
+  content: "\e913";
+}
+.encounters-the_apiary:before {
+  content: "\e914";
+}
+.encounters-the_doom_of_arkham_part_1:before {
+  content: "\e915";
+}
+.encounters-the_doom_of_arkham_part_2:before {
+  content: "\e916";
+}
+.encounters-the_drowned_quarter:before {
+  content: "\e917";
+}
+.encounters-the_inescapable:before {
+  content: "\e918";
+}
+.encounters-the_western_wall:before {
+  content: "\e919";
+}
+.encounters-undersea_creatures:before {
+  content: "\e91a";
+}
 .encounters-tdcp:before {
   content: "\e91b";
 }
@@ -901,6 +976,15 @@
 }
 .encounters-rop:before {
   content: "\ea2c";
+}
+.encounters-blbe:before {
+  content: "\e91c";
+}
+.encounters-blob_that_ate_everything_else:before {
+  content: "\ea85";
+}
+.encounters-migo_incursion_2:before {
+  content: "\ea86";
 }
 .encounters-curtain_call:before {
   content: "\ea2e";

@@ -1,7 +1,127 @@
 [
   {
-    "code": "the_midwinter_gala",
-    "name": "The Midwinter Gala",
-    "pack_code": "tmg"
+    "code": "alien_machinery",
+    "name": "Alien Machinery",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "the_apiary",
+    "name": "The Apiary",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "cosmic_legacy",
+    "name": "Cosmic Legacy",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "court_of_the_ancients",
+    "name": "Court of the Ancients",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "deep_ones",
+    "name": "Deep Ones",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "domination",
+    "name": "Domination",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "the_doom_of_arkham_pt_one",
+    "name": "The Doom of Arkham Part I",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "the_doom_of_arkham_pt_two",
+    "name": "The Doom of Arkham Part II",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "dreams",
+    "name": "Dreams",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "the_drowned_quarter",
+    "name": "The Drowned Quarter",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "elder_mist",
+    "name": "Elder Mist",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "tdc_expedition",
+    "name": "Expedition",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "tdc_flood",
+    "name": "Flood",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "the_grand_vault",
+    "name": "The Grand Vault",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "the_inescapable",
+    "name": "The Inescapable",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "obsidian_canyons",
+    "name": "Obsidian Canyons",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "one_last_job",
+    "name": "One Last Job",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "pilgrims",
+    "name": "Pilgrims",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "rlyeh",
+    "name": "R'lyeh",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "sepulchre_of_the_sleeper",
+    "name": "Sepulchre of the Sleeper",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "star_spawn",
+    "name": "Star Spawn",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "stowaways",
+    "name": "Stowaways",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "tasks",
+    "name": "Tasks",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "undersea_creatures",
+    "name": "Undersea Creatures",
+    "pack_code": "tdcc"
+  },
+  {
+    "code": "the_western_wall",
+    "name": "The Western Wall",
+    "pack_code": "tdcc"
   }
 ]

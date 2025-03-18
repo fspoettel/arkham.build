@@ -7,6 +7,7 @@ import type { Metadata } from "../slices/metadata.types";
 
 import localCards from "@/store/services/data/cards.json";
 import localCycles from "@/store/services/data/cycles.json";
+import localEncounters from "@/store/services/data/encounter_sets.json";
 import localPacks from "@/store/services/data/packs.json";
 
 export function applyLocalData(_metadata: Metadata) {
@@ -40,6 +41,10 @@ export function applyLocalData(_metadata: Metadata) {
 
   for (const cycle of localCycles) {
     metadata.cycles[cycle.code] = cycle;
+  }
+
+  for (const encounter of localEncounters) {
+    metadata.encounterSets[encounter.code] = encounter;
   }
 
   return metadata;
