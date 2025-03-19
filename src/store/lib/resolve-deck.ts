@@ -2,6 +2,7 @@ import { decodeExileSlots } from "@/utils/card-utils";
 import {
   ALT_ART_INVESTIGATOR_MAP,
   type AttachableDefinition,
+  SPECIAL_CARD_CODES,
   getAttachableCards,
 } from "@/utils/constants";
 import { isEmpty } from "@/utils/is-empty";
@@ -187,6 +188,10 @@ export function getDeckLimitOverride(
 
   const sealed = deck?.sealedDeck?.cards;
   if (!sealed) return undefined;
+
+  if (card.xp == null && code !== SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS) {
+    return deckLimit;
+  }
 
   if (sealed[code] != null) {
     return Math.min(sealed[code], deckLimit);
