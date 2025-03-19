@@ -103,6 +103,8 @@ export const createSettingsSlice: StateCreator<
         settings,
         lists: makeLists(settings),
       });
+
+      state.dehydrate("app");
     }
   },
   toggleFlag(key) {
@@ -115,5 +117,7 @@ export const createSettingsSlice: StateCreator<
         },
       },
     }));
+
+    get().dehydrate("app");
   },
 });

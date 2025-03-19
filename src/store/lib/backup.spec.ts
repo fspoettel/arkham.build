@@ -1,8 +1,8 @@
 import { getMockStore } from "@/test/get-mock-store";
 import { beforeAll, describe, expect, it } from "vitest";
 import { StoreApi } from "zustand";
+import { VERSION } from "../persist/storage";
 import { StoreState } from "../slices";
-import { VERSION } from "../storage";
 import { prepareBackup, restoreBackup } from "./backup";
 
 describe("prepareBackup()", () => {

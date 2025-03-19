@@ -45,6 +45,8 @@ export const createConnectionsSlice: StateCreator<
     };
 
     set({ connections });
+
+    state.dehydrate("app");
     return connections;
   },
   removeConnection(provider) {
@@ -66,6 +68,7 @@ export const createConnectionsSlice: StateCreator<
     }
 
     set(patch);
+    state.dehydrate("app");
   },
   async sync() {
     const state = get();
@@ -93,6 +96,8 @@ export const createConnectionsSlice: StateCreator<
         },
       });
     }
+
+    state.dehydrate("app");
   },
   async syncProvider(provider) {
     const state = get();
@@ -262,6 +267,7 @@ export const createConnectionsSlice: StateCreator<
       throw err;
     } finally {
       state.setRemoting("arkhamdb", false);
+      state.dehydrate("app");
     }
   },
 });

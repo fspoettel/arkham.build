@@ -93,6 +93,8 @@ export const createDeckEditsSlice: StateCreator<
     }
 
     set(nextState);
+
+    state.dehydrate("app");
   },
   updateTabooId(deckId, value) {
     const state = get();
@@ -106,6 +108,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("app");
   },
   updateDescription(deckId, value) {
     const state = get();
@@ -119,6 +123,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("app");
   },
   updateName(deckId, value) {
     const state = get();
@@ -132,6 +138,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("app");
   },
   updateMetaProperty(deckId, key, value) {
     const state = get();
@@ -149,6 +157,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("app");
   },
   updateInvestigatorSide(deckId, side, code) {
     const state = get();
@@ -162,6 +172,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("app");
   },
   updateCustomization(deckId, code, index, patch) {
     const state = get();
@@ -185,6 +197,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("app");
   },
   updateTags(deckId, value) {
     const state = get();
@@ -198,6 +212,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("app");
   },
   updateXpAdjustment(deckId, value) {
     const state = get();
@@ -211,6 +227,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("app");
   },
   drawRandomBasicWeakness(deckId) {
     const state = get();
@@ -257,6 +275,8 @@ export const createDeckEditsSlice: StateCreator<
       },
     });
 
+    state.dehydrate("app");
+
     return state.metadata.cards[weakness];
   },
   updateAttachment({ deck, targetCode, code, quantity, limit }) {
@@ -285,6 +305,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     }));
+
+    get().dehydrate("app");
   },
 
   swapDeck(card, deckId, target) {
@@ -326,6 +348,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("app");
   },
   updateAnnotation(deckId, code, value) {
     const state = get();
@@ -343,6 +367,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("app");
   },
 
   upgradeCard({ deckId, availableUpgrades, code, upgradeCode, delta, slots }) {

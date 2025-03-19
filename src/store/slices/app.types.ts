@@ -41,4 +41,8 @@ export type AppSlice = {
   restore(file: File): Promise<void>;
 
   dismissBanner(bannerId: string): void;
+
+  dehydrate(partial: "all" | "app" | "metadata"): Promise<void>;
+
+  hydrate(): Promise<void>;
 };

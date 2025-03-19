@@ -51,6 +51,8 @@ export const createSharingSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("app");
   },
 
   async updateShare(deck) {
@@ -75,6 +77,8 @@ export const createSharingSlice: StateCreator<
       },
     });
 
+    state.dehydrate("app");
+
     return deck.id;
   },
 
@@ -93,6 +97,8 @@ export const createSharingSlice: StateCreator<
         decks,
       },
     });
+
+    state.dehydrate("app");
   },
 
   async deleteAllShares() {
@@ -110,6 +116,8 @@ export const createSharingSlice: StateCreator<
         decks: {},
       },
     });
+
+    state.dehydrate("app");
   },
   importSharedDeck(importDeck) {
     const state = get();
@@ -136,6 +144,7 @@ export const createSharingSlice: StateCreator<
       },
     });
 
+    state.dehydrate("app");
     return deck.id;
   },
 });

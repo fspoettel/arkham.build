@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import { devtools } from "zustand/middleware";
 import type { StoreState } from "./slices";
 import { createAppSlice } from "./slices/app";
 import { createConnectionsSlice } from "./slices/connections";
@@ -15,7 +15,6 @@ import { createRemotingSlice } from "./slices/remoting";
 import { createSettingsSlice } from "./slices/settings";
 import { createSharingSlice } from "./slices/sharing";
 import { createUISlice } from "./slices/ui";
-import { storageConfig } from "./storage";
 import { shared } from "./storage/sync-store-across-tabs";
 
 // biome-ignore lint/suspicious/noExplicitAny: safe.
@@ -40,7 +39,7 @@ export const useStore = create<StoreState>()(
   import.meta.env.MODE === "test"
     ? stateCreator
     : devtools(
-        shared(persist(stateCreator, storageConfig), {
+        shared(stateCreator, {
           partialize(state) {
             return {
               connections: state.connections,
@@ -58,3 +57,5 @@ export const useStore = create<StoreState>()(
         }),
       ),
 );
+
+useStore.getState().hydrate().catch(console.error);

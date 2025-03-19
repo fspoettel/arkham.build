@@ -43,6 +43,8 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
         },
       },
     });
+
+    state.dehydrate("app");
   },
 
   async importFromFiles(files) {
@@ -82,6 +84,8 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
         },
       },
     });
+
+    state.dehydrate("app");
   },
 
   duplicateDeck(id, options) {
@@ -109,6 +113,8 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
         },
       },
     });
+
+    state.dehydrate("app");
 
     return newDeck.id;
   },

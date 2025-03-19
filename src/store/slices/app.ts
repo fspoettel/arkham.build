@@ -49,6 +49,7 @@ import { assertCanPublishDeck } from "@/utils/arkhamdb";
 import { changeLanguage } from "@/utils/i18n";
 import { applyCardChanges } from "../lib/card-edits";
 import { applyLocalData } from "../lib/local-data";
+import { dehydrateApp, dehydrateMetadata, hydrate } from "../persist";
 import { selectLocaleSortingCollator } from "../selectors/shared";
 import { getInitialSettings } from "./settings";
 
@@ -101,6 +102,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         settings,
       });
 
+      state.dehydrate("app");
       return false;
     }
 
@@ -200,10 +202,6 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       }
     }
 
-    if (refresh) {
-      localStorage.removeItem("deckbuilder-data-version");
-    }
-
     set({
       app: {
         ...state.app,
@@ -221,6 +219,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     timeEnd("create_store_data");
 
+    state.dehydrate("all");
     return true;
   },
   async createDeck() {
@@ -349,6 +348,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       deckCreate: undefined,
     });
 
+    state.dehydrate("app");
     return deck.id;
   },
   async deleteDeck(id, cb) {
@@ -401,8 +401,9 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       },
       deckEdits,
     });
-  },
 
+    state.dehydrate("app");
+  },
   async deleteAllDecks() {
     const state = get();
 
@@ -425,6 +426,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         history,
       },
     });
+
+    state.dehydrate("app");
 
     if (Object.keys(state.sharing.decks).length) {
       await state.deleteAllShares().catch(console.error);
@@ -490,9 +493,10 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     });
 
     tryEnablePersistence();
+
+    state.dehydrate("app");
     return nextDeck.id;
   },
-
   async upgradeDeck({ id, xp: _xp, exileString, usurped }) {
     const xp = _xp + (usurped === false ? 1 : 0);
 
@@ -639,9 +643,9 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     tryEnablePersistence();
 
+    state.dehydrate("app");
     return newDeck;
   },
-
   async deleteUpgrade(id, cb) {
     const state = get();
 
@@ -695,6 +699,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       },
     });
 
+    state.dehydrate("app");
     return previousId;
   },
   backup() {
@@ -706,8 +711,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
   },
   async restore(buffer) {
     set(await restoreBackup(get(), buffer));
+    get().dehydrate("all");
   },
-
   dismissBanner(bannerId) {
     const state = get();
 
@@ -720,5 +725,47 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         bannersDismissed: Array.from(banners),
       },
     });
+
+    state.dehydrate("app");
+  },
+  async dehydrate(mode) {
+    time("dehydration");
+
+    const state = get();
+
+    try {
+      const promises = [];
+
+      if (mode === "all" || mode === "app") {
+        promises.push(dehydrateApp(state));
+      }
+
+      if (mode === "all" || mode === "metadata") {
+        promises.push(dehydrateMetadata(state));
+      }
+
+      await Promise.all(promises);
+    } catch (err) {
+      console.error(err);
+    }
+
+    timeEnd("dehydration");
+  },
+  async hydrate() {
+    time("hydration");
+    const state = await hydrate(get());
+
+    if (state) {
+      set(state);
+    } else {
+      set((current) => ({
+        ui: {
+          ...current.ui,
+          hydrated: true,
+        },
+      }));
+    }
+
+    timeEnd("hydration");
   },
 });
