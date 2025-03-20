@@ -1,5 +1,6 @@
+import { shared } from "use-broadcast-ts";
 import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import { devtools } from "zustand/middleware";
 import type { StoreState } from "./slices";
 import { createAppSlice } from "./slices/app";
 import { createConnectionsSlice } from "./slices/connections";
@@ -15,8 +16,6 @@ import { createRemotingSlice } from "./slices/remoting";
 import { createSettingsSlice } from "./slices/settings";
 import { createSharingSlice } from "./slices/sharing";
 import { createUISlice } from "./slices/ui";
-import { storageConfig } from "./storage";
-import { shared } from "./storage/sync-store-across-tabs";
 
 // biome-ignore lint/suspicious/noExplicitAny: safe.
 const stateCreator = (...args: [any, any, any]) => ({
@@ -40,7 +39,10 @@ export const useStore = create<StoreState>()(
   import.meta.env.MODE === "test"
     ? stateCreator
     : devtools(
-        shared(persist(stateCreator, storageConfig), {
+        shared(stateCreator, {
+          merge(state, receivedState) {
+            return { ...state, ...receivedState };
+          },
           partialize(state) {
             return {
               connections: state.connections,
@@ -52,9 +54,7 @@ export const useStore = create<StoreState>()(
               remoting: state.remoting,
             };
           },
-          merge(state, receivedState) {
-            return { ...state, ...receivedState };
-          },
+          skipSerialization: true,
         }),
       ),
 );

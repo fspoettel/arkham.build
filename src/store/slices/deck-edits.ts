@@ -29,6 +29,7 @@ export const createDeckEditsSlice: StateCreator<
     const deckEdits = { ...state.deckEdits };
     delete deckEdits[deckId];
     set({ deckEdits });
+    state.dehydrate("edits").catch(console.error);
   },
 
   updateCardQuantity(deckId, code, quantity, limit, tab, mode = "increment") {
@@ -93,6 +94,8 @@ export const createDeckEditsSlice: StateCreator<
     }
 
     set(nextState);
+
+    state.dehydrate("edits").catch(console.error);
   },
   updateTabooId(deckId, value) {
     const state = get();
@@ -106,6 +109,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("edits").catch(console.error);
   },
   updateDescription(deckId, value) {
     const state = get();
@@ -119,6 +124,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("edits").catch(console.error);
   },
   updateName(deckId, value) {
     const state = get();
@@ -132,6 +139,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("edits").catch(console.error);
   },
   updateMetaProperty(deckId, key, value) {
     const state = get();
@@ -149,6 +158,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("edits").catch(console.error);
   },
   updateInvestigatorSide(deckId, side, code) {
     const state = get();
@@ -162,6 +173,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("edits").catch(console.error);
   },
   updateCustomization(deckId, code, index, patch) {
     const state = get();
@@ -185,6 +198,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("edits").catch(console.error);
   },
   updateTags(deckId, value) {
     const state = get();
@@ -198,6 +213,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("edits").catch(console.error);
   },
   updateXpAdjustment(deckId, value) {
     const state = get();
@@ -211,6 +228,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("edits").catch(console.error);
   },
   drawRandomBasicWeakness(deckId) {
     const state = get();
@@ -257,6 +276,8 @@ export const createDeckEditsSlice: StateCreator<
       },
     });
 
+    state.dehydrate("edits").catch(console.error);
+
     return state.metadata.cards[weakness];
   },
   updateAttachment({ deck, targetCode, code, quantity, limit }) {
@@ -285,6 +306,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     }));
+
+    get().dehydrate("edits").catch(console.error);
   },
 
   swapDeck(card, deckId, target) {
@@ -326,6 +349,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("edits").catch(console.error);
   },
   updateAnnotation(deckId, code, value) {
     const state = get();
@@ -343,6 +368,8 @@ export const createDeckEditsSlice: StateCreator<
         },
       },
     });
+
+    state.dehydrate("edits").catch(console.error);
   },
 
   upgradeCard({ deckId, availableUpgrades, code, upgradeCode, delta, slots }) {

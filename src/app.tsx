@@ -56,10 +56,10 @@ function Providers(props: { children: React.ReactNode }) {
 function AppInner() {
   const { t } = useTranslation();
   const toast = useToast();
-  const storeHydrated = useStore((state) => state.ui.hydrated);
   const storeInitialized = useStore(selectIsInitialized);
   const settings = useStore((state) => state.settings);
   const init = useStore((state) => state.init);
+  const initLock = useRef(false);
 
   useColorTheme();
 
@@ -74,36 +74,34 @@ function AppInner() {
 
   useEffect(() => {
     async function initStore() {
-      if (storeHydrated) {
-        try {
-          await init(queryMetadata, queryDataVersion, queryCards, false);
-        } catch (err) {
-          console.error(err);
-          toast.show({
-            children: t("app.init_error", {
-              error: (err as Error)?.message ?? "Unknown error",
-            }),
-            variant: "error",
-          });
-        }
+      try {
+        await init(queryMetadata, queryDataVersion, queryCards, false);
+      } catch (err) {
+        console.error(err);
+        toast.show({
+          children: t("app.init_error", {
+            error: (err as Error)?.message ?? "Unknown error",
+          }),
+          variant: "error",
+        });
       }
     }
 
-    initStore().catch(console.error);
-  }, [storeHydrated, init, toast.show, t]);
+    if (!initLock.current) {
+      initLock.current = true;
+      initStore();
+    }
+  }, [init, toast.show, t]);
 
   useEffect(() => {
-    if (storeHydrated) {
+    if (storeInitialized) {
       document.documentElement.style.fontSize = `${settings.fontSize}%`;
     }
-  }, [storeHydrated, settings.fontSize]);
+  }, [storeInitialized, settings.fontSize]);
 
   return (
     <>
-      <Loader
-        message={t("app.init")}
-        show={storeHydrated && !storeInitialized}
-      />
+      <Loader message={t("app.init")} show={!storeInitialized} delay={200} />
       <Suspense fallback={<Loader delay={200} show />}>
         {storeInitialized && (
           <Router hook={useBrowserLocation}>

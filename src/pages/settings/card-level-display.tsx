@@ -13,7 +13,7 @@ const PREVIEW_CARDS = ["01033", "11076", "10035"];
 type Option = SettingsState["cardLevelDisplay"];
 
 export function CardLevelDisplaySetting(props: SettingProps) {
-  const { settings, updateSettings } = props;
+  const { settings, setSettings } = props;
   const { t } = useTranslation();
 
   const metadata = useStore((state) => state.metadata);
@@ -35,12 +35,12 @@ export function CardLevelDisplaySetting(props: SettingProps) {
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
       const value = evt.target.value as Option;
       setLiveValue(value);
-      updateSettings({
+      setSettings({
         ...settings,
         cardLevelDisplay: value,
       });
     },
-    [updateSettings, settings],
+    [setSettings, settings],
   );
 
   return (

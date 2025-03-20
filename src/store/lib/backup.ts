@@ -1,11 +1,13 @@
 import { assert } from "@/utils/assert";
+import { appStorage } from "../persist";
+import { migrate } from "../persist/migrate";
+import { VERSION } from "../persist/storage";
 import type { StoreState } from "../slices";
-import { VERSION, migrate, partialize } from "../storage";
 
 type Backup = { data: StoreState; version: number };
 
 export function prepareBackup(state: StoreState) {
-  const data: Record<string, unknown> = partialize(state);
+  const data: Record<string, unknown> = appStorage.partialize(state);
   data.metadata = undefined;
 
   const backup = JSON.stringify({

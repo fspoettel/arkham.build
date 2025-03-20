@@ -98,14 +98,16 @@ export const createSettingsSlice: StateCreator<
         true,
         settings.locale,
       );
-    } else {
-      state.refreshLookupTables({
-        settings,
-        lists: makeLists(settings),
-      });
     }
+
+    state.refreshLookupTables({
+      settings,
+      lists: makeLists(settings),
+    });
+
+    await state.dehydrate("app");
   },
-  toggleFlag(key) {
+  async toggleFlag(key) {
     set((state) => ({
       settings: {
         ...state.settings,
@@ -115,5 +117,7 @@ export const createSettingsSlice: StateCreator<
         },
       },
     }));
+
+    await get().dehydrate("app");
   },
 });

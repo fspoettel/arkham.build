@@ -7,18 +7,18 @@ import { useTranslation } from "react-i18next";
 import type { SettingProps } from "./types";
 
 export function LocaleSetting(props: SettingProps) {
-  const { settings, updateSettings } = props;
+  const { settings, setSettings } = props;
 
   const { t } = useTranslation();
 
   const onSelectChange = useCallback(
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
-      updateSettings((settings) => ({
+      setSettings((settings) => ({
         ...settings,
         locale: evt.target.value as Locale,
       }));
     },
-    [updateSettings],
+    [setSettings],
   );
 
   return (

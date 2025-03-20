@@ -32,7 +32,7 @@ export function Connect() {
 
       try {
         if (loginState === "success") {
-          const connections = createConnection(provider as Provider, {});
+          const connections = await createConnection(provider as Provider, {});
           lock.current = true;
           await sync(connections);
         } else {

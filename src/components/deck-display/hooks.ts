@@ -85,9 +85,9 @@ export function useDuplicateDeck() {
   const duplicateDeck = useStore((state) => state.duplicateDeck);
 
   return useCallback(
-    (deckId: Id) => {
+    async (deckId: Id) => {
       try {
-        const id = duplicateDeck(deckId);
+        const id = await duplicateDeck(deckId);
         navigate(`/deck/view/${id}`);
         toast.show({
           duration: 3000,

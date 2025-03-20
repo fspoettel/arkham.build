@@ -28,7 +28,7 @@ export const createConnectionsSlice: StateCreator<
 > = (set, get) => ({
   connections: getInitialConnectionsState(),
 
-  createConnection(provider, user) {
+  async createConnection(provider, user) {
     const state = get();
 
     const connections = {
@@ -45,9 +45,11 @@ export const createConnectionsSlice: StateCreator<
     };
 
     set({ connections });
+
+    await state.dehydrate("app");
     return connections;
   },
-  removeConnection(provider) {
+  async removeConnection(provider) {
     const state = get();
 
     const patch = {
@@ -66,6 +68,8 @@ export const createConnectionsSlice: StateCreator<
     }
 
     set(patch);
+
+    await state.dehydrate("app");
   },
   async sync() {
     const state = get();
@@ -93,6 +97,8 @@ export const createConnectionsSlice: StateCreator<
         },
       });
     }
+
+    state.dehydrate("app");
   },
   async syncProvider(provider) {
     const state = get();
@@ -262,6 +268,7 @@ export const createConnectionsSlice: StateCreator<
       throw err;
     } finally {
       state.setRemoting("arkhamdb", false);
+      state.dehydrate("app");
     }
   },
 });

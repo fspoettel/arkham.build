@@ -10,20 +10,28 @@ export function PreviewBanner() {
   const settings = useStore((state) => state.settings);
   const { t } = useTranslation();
 
+  const dismissBanner = useStore((state) => state.dismissBanner);
+  const updateSettings = useStore((state) => state.updateSettings);
+
   const dismissed = useStore((state) =>
     state.app?.bannersDismissed?.includes(BANNER_ID),
   );
 
-  const updateSettings = useStore((state) => state.updateSettings);
-  const dismissBanner = useStore((state) => state.dismissBanner);
-
-  const onDismiss = useCallback(() => {
-    dismissBanner(BANNER_ID);
+  const onDismiss = useCallback(async () => {
+    try {
+      await dismissBanner(BANNER_ID);
+    } catch (err) {
+      console.error(err);
+    }
   }, [dismissBanner]);
 
-  const onEnablePreviews = useCallback(() => {
-    updateSettings({ ...settings, showPreviews: true });
-    dismissBanner(BANNER_ID);
+  const onEnablePreviews = useCallback(async () => {
+    try {
+      await updateSettings({ ...settings, showPreviews: true });
+      await dismissBanner(BANNER_ID);
+    } catch (err) {
+      console.error(err);
+    }
   }, [settings, updateSettings, dismissBanner]);
 
   if (settings.showPreviews || dismissed) {

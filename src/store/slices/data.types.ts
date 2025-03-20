@@ -55,8 +55,7 @@ export type DataState = {
 
 export type DataSlice = {
   data: DataState;
+  duplicateDeck(id: Id, options?: { applyEdits: boolean }): Promise<Id>;
   importDeck(code: string): Promise<void>;
   importFromFiles(files: FileList): Promise<void>;
-
-  duplicateDeck(id: Id, options?: { applyEdits: boolean }): Id;
 };

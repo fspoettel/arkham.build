@@ -33,12 +33,14 @@ export type AppSlice = {
     usurped?: boolean;
   }): Promise<Deck>;
 
-  deleteDeck(id: Id, callback?: () => void): Promise<void>;
   deleteAllDecks(): Promise<void>;
+  deleteDeck(id: Id, callback?: () => void): Promise<void>;
   deleteUpgrade(id: Id, callback?: (id: Id) => void): Promise<Id>;
 
   backup(): void;
   restore(file: File): Promise<void>;
 
-  dismissBanner(bannerId: string): void;
+  dismissBanner(bannerId: string): Promise<void>;
+
+  dehydrate(...args: ("all" | "app" | "edits" | "metadata")[]): Promise<void>;
 };

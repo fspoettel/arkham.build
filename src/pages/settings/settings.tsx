@@ -41,10 +41,10 @@ function Settings() {
   const updateStoredSettings = useStore((state) => state.updateSettings);
 
   const storedSettings = useStore((state) => state.settings);
-  const [settings, updateSettings] = useState(structuredClone(storedSettings));
+  const [settings, setSettings] = useState(structuredClone(storedSettings));
 
   useEffect(() => {
-    updateSettings(storedSettings);
+    setSettings(storedSettings);
   }, [storedSettings]);
 
   const onSubmit = useCallback(
@@ -122,38 +122,35 @@ function Settings() {
               <Section title={t("settings.general.title")}>
                 <TabooSetSetting
                   settings={settings}
-                  updateSettings={updateSettings}
+                  setSettings={setSettings}
                 />
                 <WeaknessPoolSetting
                   settings={settings}
-                  updateSettings={updateSettings}
+                  setSettings={setSettings}
                 />
               </Section>
               <Section title={t("settings.display.title")}>
-                <LocaleSetting
-                  settings={settings}
-                  updateSettings={updateSettings}
-                />
+                <LocaleSetting settings={settings} setSettings={setSettings} />
                 <ThemeSetting />
                 <FontSizeSetting
                   settings={settings}
-                  updateSettings={updateSettings}
+                  setSettings={setSettings}
                 />
                 <CardLevelDisplaySetting
                   settings={settings}
-                  updateSettings={updateSettings}
+                  setSettings={setSettings}
                 />
                 <HideWeaknessSetting
                   settings={settings}
-                  updateSettings={updateSettings}
+                  setSettings={setSettings}
                 />
                 <SortPunctuationSetting
                   settings={settings}
-                  updateSettings={updateSettings}
+                  setSettings={setSettings}
                 />
                 <ShowMoveToSideDeckSetting
                   settings={settings}
-                  updateSettings={updateSettings}
+                  setSettings={setSettings}
                 />
               </Section>
               <Section title={t("settings.lists.title")}>
@@ -162,31 +159,31 @@ function Settings() {
                     listKey="player"
                     title={t("common.player_cards")}
                     settings={settings}
-                    updateSettings={updateSettings}
+                    setSettings={setSettings}
                   />
                   <ListSettings
                     listKey="encounter"
                     title={t("common.encounter_cards")}
                     settings={settings}
-                    updateSettings={updateSettings}
+                    setSettings={setSettings}
                   />
                   <ListSettings
                     listKey="investigator"
                     title={t("common.type.investigator", { count: 2 })}
                     settings={settings}
-                    updateSettings={updateSettings}
+                    setSettings={setSettings}
                   />
                   <ListSettings
                     listKey="deck"
                     title={t("settings.lists.deck_view")}
                     settings={settings}
-                    updateSettings={updateSettings}
+                    setSettings={setSettings}
                   />
                   <ListSettings
                     listKey="deckScans"
                     title={t("settings.lists.deck_view_scans")}
                     settings={settings}
-                    updateSettings={updateSettings}
+                    setSettings={setSettings}
                   />
                 </div>
               </Section>
@@ -195,15 +192,15 @@ function Settings() {
               <Section title={t("settings.collection.title")}>
                 <ShowPreviewsSetting
                   settings={settings}
-                  updateSettings={updateSettings}
+                  setSettings={setSettings}
                 />
                 <ShowAllCardsSetting
                   settings={settings}
-                  updateSettings={updateSettings}
+                  setSettings={setSettings}
                 />
                 <CollectionSettings
                   settings={settings}
-                  updateSettings={updateSettings}
+                  setSettings={setSettings}
                 />
               </Section>
             </TabsContent>

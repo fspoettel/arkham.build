@@ -38,6 +38,6 @@ export type SettingsState = {
 export type SettingsSlice = {
   settings: SettingsState;
 } & {
-  toggleFlag(key: string): void;
+  toggleFlag(key: string): Promise<void>;
   updateSettings: (payload: SettingsState) => Promise<void>;
 };

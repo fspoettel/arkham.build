@@ -46,11 +46,15 @@ import factions from "@/store/services/data/factions.json";
 import subTypes from "@/store/services/data/subtypes.json";
 import types from "@/store/services/data/types.json";
 import { assertCanPublishDeck } from "@/utils/arkhamdb";
-import { changeLanguage } from "@/utils/i18n";
 import { applyCardChanges } from "../lib/card-edits";
 import { applyLocalData } from "../lib/local-data";
+import {
+  dehydrateApp,
+  dehydrateEdits,
+  dehydrateMetadata,
+  hydrate,
+} from "../persist";
 import { selectLocaleSortingCollator } from "../selectors/shared";
-import { getInitialSettings } from "./settings";
 
 export function getInitialAppState() {
   return {
@@ -65,23 +69,25 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
   app: getInitialAppState(),
 
   async init(queryMetadata, queryDataVersion, queryCards, refresh, locale) {
-    const state = get();
+    const initialState = get();
+    const persistedState = await hydrate();
 
-    const initialSettings = getInitialSettings();
-
-    const settings = {
-      ...initialSettings,
-      ...state.settings,
-      lists: {
-        ...initialSettings.lists,
-        ...state.settings.lists,
+    const state: StoreState = {
+      ...initialState,
+      ...persistedState,
+      app: {
+        ...persistedState?.app,
+        clientId: persistedState?.app?.clientId || randomId(),
+      },
+      settings: {
+        ...initialState.settings,
+        ...persistedState?.settings,
+        lists: {
+          ...initialState.settings.lists,
+          ...persistedState?.settings?.lists,
+        },
       },
     };
-
-    // FIXME: 2025-02-25 remove this in a few weeks.
-    if (settings.locale !== "en") {
-      changeLanguage(settings.locale);
-    }
 
     if (!refresh && state.metadata.dataVersion?.cards_updated_at) {
       const metadata = {
@@ -92,13 +98,10 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       };
 
       state.refreshLookupTables({
-        app: {
-          ...state.app,
-          clientId: state.app.clientId || randomId(),
-        },
+        ...state,
+        lists: makeLists(state.settings),
         metadata,
-        lists: makeLists(settings),
-        settings,
+        settings: state.settings,
       });
 
       return false;
@@ -200,27 +203,20 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       }
     }
 
-    if (refresh) {
-      localStorage.removeItem("deckbuilder-data-version");
-    }
-
     set({
-      app: {
-        ...state.app,
-        clientId: state.app.clientId || randomId(),
-      },
+      ...state,
       metadata,
       lookupTables,
       ui: {
         ...state.ui,
         initialized: true,
       },
-      lists: makeLists(settings),
-      settings,
+      lists: makeLists(state.settings),
     });
 
     timeEnd("create_store_data");
 
+    await state.dehydrate("all");
     return true;
   },
   async createDeck() {
@@ -349,6 +345,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       deckCreate: undefined,
     });
 
+    await state.dehydrate("app");
     return deck.id;
   },
   async deleteDeck(id, cb) {
@@ -401,8 +398,9 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       },
       deckEdits,
     });
-  },
 
+    await state.dehydrate("app", "edits");
+  },
   async deleteAllDecks() {
     const state = get();
 
@@ -425,6 +423,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         history,
       },
     });
+
+    await state.dehydrate("app", "edits");
 
     if (Object.keys(state.sharing.decks).length) {
       await state.deleteAllShares().catch(console.error);
@@ -490,9 +490,10 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     });
 
     tryEnablePersistence();
+
+    await state.dehydrate("app", "edits");
     return nextDeck.id;
   },
-
   async upgradeDeck({ id, xp: _xp, exileString, usurped }) {
     const xp = _xp + (usurped === false ? 1 : 0);
 
@@ -639,9 +640,9 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     tryEnablePersistence();
 
+    await state.dehydrate("app", "edits");
     return newDeck;
   },
-
   async deleteUpgrade(id, cb) {
     const state = get();
 
@@ -695,6 +696,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       },
     });
 
+    await state.dehydrate("app", "edits");
     return previousId;
   },
   backup() {
@@ -706,9 +708,9 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
   },
   async restore(buffer) {
     set(await restoreBackup(get(), buffer));
+    await get().dehydrate("all");
   },
-
-  dismissBanner(bannerId) {
+  async dismissBanner(bannerId) {
     const state = get();
 
     const banners = new Set(state.app.bannersDismissed);
@@ -720,5 +722,34 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         bannersDismissed: Array.from(banners),
       },
     });
+
+    await state.dehydrate("app");
+  },
+  async dehydrate(...partials) {
+    time("dehydration");
+
+    const state = get();
+
+    try {
+      const promises = [];
+
+      for (const partial of partials) {
+        if (partial === "all" || partial === "app") {
+          promises.push(dehydrateApp(state));
+        }
+
+        if (partial === "all" || partial === "metadata") {
+          promises.push(dehydrateMetadata(state));
+        }
+
+        if (partial === "all" || partial === "edits") {
+          promises.push(dehydrateEdits(state));
+        }
+      }
+
+      await Promise.all(promises);
+    } finally {
+      timeEnd("dehydration");
+    }
   },
 });
