@@ -1,6 +1,6 @@
+import { shared } from "use-broadcast-ts";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { shared } from "./persist/sync-store-across-tabs";
 import type { StoreState } from "./slices";
 import { createAppSlice } from "./slices/app";
 import { createConnectionsSlice } from "./slices/connections";
@@ -40,6 +40,9 @@ export const useStore = create<StoreState>()(
     ? stateCreator
     : devtools(
         shared(stateCreator, {
+          merge(state, receivedState) {
+            return { ...state, ...receivedState };
+          },
           partialize(state) {
             return {
               connections: state.connections,
@@ -51,9 +54,7 @@ export const useStore = create<StoreState>()(
               remoting: state.remoting,
             };
           },
-          merge(state, receivedState) {
-            return { ...state, ...receivedState };
-          },
+          skipSerialization: true,
         }),
       ),
 );
