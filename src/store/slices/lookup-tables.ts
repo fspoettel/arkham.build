@@ -298,6 +298,11 @@ export function createRelations(metadata: Metadata, tables: LookupTables) {
       for (const key of Object.keys(card.restrictions.investigator)) {
         const investigator = metadata.cards[key];
 
+        if (!investigator) {
+          console.warn(`Missing investigator for ${key}`);
+          continue;
+        }
+
         if (investigator.duplicate_of_code) {
           setInLookupTable(
             investigator.duplicate_of_code,
