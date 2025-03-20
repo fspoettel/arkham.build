@@ -660,6 +660,22 @@
         "sealed": "Versiegelt",
         "shared": "Freigegeben"
       },
+      "toasts": {
+        "delete_confirm": "Bist du sicher, dass du das Deck löschen möchtest?",
+        "delete_error": "Löschen des Decks fehlgeschlagen: {{error}}",
+        "delete_loading": "Deck wird gelöscht...",
+        "delete_success": "Deck wurde erfolgreich gelöscht.",
+        "delete_upgrade_confirm": "Bist du sicher, dass du die Verbesserung löschen möchtest?",
+        "delete_upgrade_error": "Löschen der Verbesserung fehlgeschlagen: {{error}}",
+        "delete_upgrade_loading": "Verbesserung wird gelöscht...",
+        "delete_upgrade_success": "Verbesserung wurde erfolgreich gelöscht.",
+        "duplicate_error": "Duplizieren des Decks fehlgeschlagen: {{error}}",
+        "duplicate_success": "Deck wurde erfolgreich dupliziert.",
+        "export_error": "Export fehlgeschlagen: {{error}}",
+        "upload_error": "Hochladen des Decks zu {{provider}} fehlgeschlagen: {{error}}",
+        "upload_loading": "Deck wird zu {{provider}} hochgeladen...",
+        "upload_success": "Deck wurde erfolgreich hochgeladen."
+      },
       "tools": {
         "cards": "Karten",
         "factions": "Klassen",
@@ -1147,9 +1163,9 @@
       },
       "display": {
         "card_level": "Anzeige der Kartenstufe",
-        "card_level_as_dots": "Im Icon und als Punkte",
-        "card_level_as_text": "Im Icon und als Text",
-        "card_level_icon_only": "Im Icon",
+        "card_level_as_dots": "In Icon und als Punkte",
+        "card_level_as_text": "In Icon und als Text",
+        "card_level_icon_only": "In Icon",
         "font_size": "Schriftgröße",
         "font_size_preview": "Dann plötzlich sah ich es. Mit nur einem leichten Schäumen des Wassers, das seinen Aufsteig an die Oberfläche kennzeichnete, glitt das Ding über dem finstren Gewässer in mein Blickfeld. Gewaltig wie Polyphemos und widerwärtig wie ein riesiges Ungeheuer aus einem Albtraum schoss es den Monolithen hoch, um den es seine gigantischen, schuppenbedeckten Arme schlang, während es sein scheußliches Haupt neigte und rhythmische Laute ausstieß. Ich glaube, in diesem Augenblick wurde ich wahnsinnig.",
         "hide_weaknesses": "Schwächen in Spielerkartenlisten standardmäßig ausblenden",

@@ -660,6 +660,22 @@
         "sealed": "Sealed",
         "shared": "Shared"
       },
+      "toasts": {
+        "delete_confirm": "Are you sure you want to delete this deck?",
+        "delete_error": "Failed to delete deck: {{error}}",
+        "delete_loading": "Deleting deck...",
+        "delete_success": "Deck deleted successfully.",
+        "delete_upgrade_confirm": "Are you sure you want to delete this upgrade?",
+        "delete_upgrade_error": "Failed to delete upgrade: {{error}}",
+        "delete_upgrade_loading": "Deleting upgrade...",
+        "delete_upgrade_success": "Upgrade deleted successfully.",
+        "duplicate_error": "Failed to duplicate deck: {{error}}",
+        "duplicate_success": "Deck duplicated successfully.",
+        "export_error": "Failed to export deck: {{error}}",
+        "upload_error": "Failed to upload deck to {{provider}}: {{error}}",
+        "upload_loading": "Uploading deck to {{provider}}...",
+        "upload_success": "Deck uploaded successfully."
+      },
       "tools": {
         "cards": "Cards",
         "factions": "Factions",

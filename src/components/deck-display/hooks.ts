@@ -4,56 +4,60 @@ import { formatDeckAsText, formatDeckShare } from "@/store/lib/deck-io";
 import type { ResolvedDeck } from "@/store/lib/types";
 import type { Deck, Id } from "@/store/slices/data.types";
 import { download } from "@/utils/download";
+import { formatProviderName } from "@/utils/formatting";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation } from "wouter";
 
 export function useDeleteDeck() {
   const toast = useToast();
+  const { t } = useTranslation();
   const [, navigate] = useLocation();
   const deleteDeck = useStore((state) => state.deleteDeck);
 
   return useCallback(
     async (deckId: Id) => {
-      const confirmed = confirm("Are you sure you want to delete this deck?");
+      const confirmed = confirm(t("deck.toasts.delete_confirm"));
       if (confirmed) {
         const toastId = toast.show({
-          children: "Deleting deck...",
+          children: t("deck.toasts.delete_loading"),
         });
 
         try {
           await deleteDeck(deckId, () => navigate("~/"));
           toast.dismiss(toastId);
           toast.show({
-            children: "Deck delete successful.",
+            children: t("deck.toasts.delete_success"),
             duration: 3000,
             variant: "success",
           });
         } catch (err) {
           toast.dismiss(toastId);
           toast.show({
-            children: `Deck could not be deleted: ${(err as Error)?.message}.`,
+            children: t("deck.toasts.delete_error", {
+              error: (err as Error)?.message,
+            }),
             variant: "error",
           });
         }
       }
     },
-    [navigate, toast, deleteDeck],
+    [navigate, toast, deleteDeck, t],
   );
 }
 
 export function useDeleteUpgrade() {
   const toast = useToast();
+  const { t } = useTranslation();
   const [, navigate] = useLocation();
   const deleteUpgrade = useStore((state) => state.deleteUpgrade);
 
   return useCallback(
     async (deckId: Id) => {
-      const confirmed = confirm(
-        "Are you sure you want to delete this upgrade?",
-      );
+      const confirmed = confirm(t("deck.toasts.delete_upgrade_confirm"));
       if (confirmed) {
         const toastId = toast.show({
-          children: "Deleting upgrade...",
+          children: t("deck.toasts.delete_upgrade_loading"),
         });
 
         try {
@@ -61,26 +65,28 @@ export function useDeleteUpgrade() {
           toast.dismiss(toastId);
           toast.show({
             duration: 3000,
-            children: "Upgrade delete successful.",
+            children: t("deck.toasts.delete_upgrade_success"),
             variant: "success",
           });
         } catch (err) {
           toast.dismiss(toastId);
           toast.show({
-            children: `Upgrade could not be deleted: ${
-              (err as Error)?.message
-            }.`,
+            children: t("deck.toasts.delete_upgrade_error", {
+              error: (err as Error)?.message,
+            }),
             variant: "error",
           });
         }
       }
     },
-    [deleteUpgrade, navigate, toast],
+    [deleteUpgrade, navigate, toast, t],
   );
 }
 
 export function useDuplicateDeck() {
   const toast = useToast();
+  const { t } = useTranslation();
+
   const [, navigate] = useLocation();
   const duplicateDeck = useStore((state) => state.duplicateDeck);
 
@@ -91,22 +97,25 @@ export function useDuplicateDeck() {
         navigate(`/deck/view/${id}`);
         toast.show({
           duration: 3000,
-          children: "Deck duplicate successful.",
+          children: t("deck.toasts.duplicate_success"),
           variant: "success",
         });
       } catch (err) {
         toast.show({
-          children: `Failed to duplicate deck: ${(err as Error)?.message}`,
+          children: t("deck.toasts.duplicate_error", {
+            error: (err as Error)?.message,
+          }),
           variant: "error",
         });
       }
     },
-    [duplicateDeck, navigate, toast.show],
+    [duplicateDeck, navigate, toast.show, t],
   );
 }
 
 export function useExportJson() {
   const toast = useToast();
+  const { t } = useTranslation();
 
   return useCallback(
     (deck: Deck) => {
@@ -120,16 +129,19 @@ export function useExportJson() {
         console.error(err);
         toast.show({
           duration: 3000,
-          children: "Failed to export json.",
+          children: t("deck.toasts.export_error", {
+            error: (err as Error)?.message,
+          }),
           variant: "error",
         });
       }
     },
-    [toast.show],
+    [toast.show, t],
   );
 }
 
 export function useExportText() {
+  const { t } = useTranslation();
   const toast = useToast();
   const state = useStore.getState();
 
@@ -144,16 +156,19 @@ export function useExportText() {
       } catch (err) {
         console.error(err);
         toast.show({
-          children: "Failed to export markdown.",
+          children: t("deck.toasts.export_error", {
+            error: (err as Error)?.message,
+          }),
           variant: "error",
         });
       }
     },
-    [toast.show, state],
+    [toast.show, state, t],
   );
 }
 
 export function useUploadDeck() {
+  const { t } = useTranslation();
   const toast = useToast();
   const [, navigate] = useLocation();
   const uploadDeck = useStore((state) => state.uploadDeck);
@@ -161,7 +176,9 @@ export function useUploadDeck() {
   return useCallback(
     async (deckId: Id) => {
       const toastId = toast.show({
-        children: "Uploading deck...",
+        children: t("deck.toasts.upload_loading", {
+          provider: formatProviderName("arkhamdb"),
+        }),
         variant: "loading",
       });
 
@@ -169,7 +186,7 @@ export function useUploadDeck() {
         const id = await uploadDeck(deckId, "arkhamdb");
         toast.dismiss(toastId);
         toast.show({
-          children: "Deck upload successful.",
+          children: t("deck.toasts.upload_success"),
           duration: 3000,
           variant: "success",
         });
@@ -177,11 +194,14 @@ export function useUploadDeck() {
       } catch (err) {
         toast.dismiss(toastId);
         toast.show({
-          children: `Deck could not be uploaded: ${(err as Error)?.message}.`,
+          children: t("deck.toasts.upload_error", {
+            error: (err as Error)?.message,
+            provider: formatProviderName("arkhamdb"),
+          }),
           variant: "error",
         });
       }
     },
-    [toast, uploadDeck, navigate],
+    [toast, uploadDeck, navigate, t],
   );
 }
