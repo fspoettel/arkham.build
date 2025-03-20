@@ -35,7 +35,7 @@ export function SyncStatus() {
     }
   }, [healthy, sync, syncing, connections, navigate]);
 
-  if (isEmpty(connections)) return null;
+  if (isEmpty(connections.data)) return null;
 
   return (
     <Button
