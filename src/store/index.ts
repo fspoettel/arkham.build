@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+import { shared } from "./persist/sync-store-across-tabs";
 import type { StoreState } from "./slices";
 import { createAppSlice } from "./slices/app";
 import { createConnectionsSlice } from "./slices/connections";
@@ -15,7 +16,6 @@ import { createRemotingSlice } from "./slices/remoting";
 import { createSettingsSlice } from "./slices/settings";
 import { createSharingSlice } from "./slices/sharing";
 import { createUISlice } from "./slices/ui";
-import { shared } from "./storage/sync-store-across-tabs";
 
 // biome-ignore lint/suspicious/noExplicitAny: safe.
 const stateCreator = (...args: [any, any, any]) => ({

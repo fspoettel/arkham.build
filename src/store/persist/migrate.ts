@@ -5,7 +5,10 @@ import v3Tov4 from "./migrations/0003-add-lists-setting";
 import v4Tov5 from "./migrations/0004-fix-investigator-default";
 import v5toV6 from "./migrations/0005-add-view-mode";
 
-export function migrate(persisted: StoreState, version: number): StoreState {
+export function migrate(
+  persisted: Partial<StoreState>,
+  version: number,
+): Partial<StoreState> {
   const state = structuredClone(persisted);
 
   if (version < 2) {

@@ -4,8 +4,10 @@ import { VERSION, makeStorageAdapter } from "./storage";
 
 type AppState = Pick<
   StoreState,
-  "app" | "connections" | "data" | "deckEdits" | "settings" | "sharing"
+  "app" | "connections" | "data" | "settings" | "sharing"
 >;
+
+type EditsState = Pick<StoreState, "deckEdits">;
 
 type MetadataState = Pick<StoreState, "metadata">;
 
@@ -22,41 +24,59 @@ export const appStorage = makeStorageAdapter<AppState>(
     app: state.app,
     connections: state.connections,
     data: state.data,
-    deckEdits: state.deckEdits,
     settings: state.settings,
     sharing: state.sharing,
   }),
 );
 
+export const editsStorage = makeStorageAdapter<EditsState>(
+  "deckbuilder-edits",
+  (state) => ({
+    deckEdits: state.deckEdits,
+  }),
+);
+
 export async function hydrate(_state: StoreState) {
-  const [metadataState, appState] = await Promise.all([
+  const [metadataState, appState, editsState] = await Promise.all([
     metadataStorage.get(),
     appStorage.get(),
+    editsStorage.get(),
   ]);
 
-  if (!metadataState && !appState) {
+  if (!metadataState && !appState && !editsState) {
     return undefined;
   }
 
   const version = Math.min(
     metadataState?.version ?? VERSION,
     appState?.version ?? VERSION,
+    editsState?.version ?? VERSION,
   );
 
-  let state: StoreState = {
-    ..._state,
+  let persisted: Partial<StoreState> = {
     ...metadataState?.state,
     ...appState?.state,
+    ...editsState?.state,
+  };
+
+  if (version !== VERSION) {
+    persisted = migrate(persisted, version);
+  }
+
+  const state = {
+    ..._state,
+    ...persisted,
     ui: {
       ..._state.ui,
       hydrated: true,
     },
   };
 
-  if (version !== VERSION) {
-    state = migrate(state, version);
-    await Promise.all([metadataStorage.set(state), appStorage.set(state)]);
-  }
+  await Promise.all([
+    metadataStorage.set(state),
+    appStorage.set(state),
+    editsStorage.set(state),
+  ]);
 
   return state;
 }
@@ -67,4 +87,8 @@ export function dehydrateMetadata(state: StoreState) {
 
 export function dehydrateApp(state: StoreState) {
   return appStorage.set(state);
+}
+
+export function dehydrateEdits(state: StoreState) {
+  return editsStorage.set(state);
 }

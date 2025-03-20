@@ -49,7 +49,12 @@ import { assertCanPublishDeck } from "@/utils/arkhamdb";
 import { changeLanguage } from "@/utils/i18n";
 import { applyCardChanges } from "../lib/card-edits";
 import { applyLocalData } from "../lib/local-data";
-import { dehydrateApp, dehydrateMetadata, hydrate } from "../persist";
+import {
+  dehydrateApp,
+  dehydrateEdits,
+  dehydrateMetadata,
+  hydrate,
+} from "../persist";
 import { selectLocaleSortingCollator } from "../selectors/shared";
 import { getInitialSettings } from "./settings";
 
@@ -402,7 +407,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       deckEdits,
     });
 
-    state.dehydrate("app");
+    state.dehydrate("app", "edits");
   },
   async deleteAllDecks() {
     const state = get();
@@ -427,7 +432,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       },
     });
 
-    state.dehydrate("app");
+    state.dehydrate("app", "edits");
 
     if (Object.keys(state.sharing.decks).length) {
       await state.deleteAllShares().catch(console.error);
@@ -494,7 +499,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     tryEnablePersistence();
 
-    state.dehydrate("app");
+    state.dehydrate("app", "edits");
     return nextDeck.id;
   },
   async upgradeDeck({ id, xp: _xp, exileString, usurped }) {
@@ -643,7 +648,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     tryEnablePersistence();
 
-    state.dehydrate("app");
+    state.dehydrate("app", "edits");
     return newDeck;
   },
   async deleteUpgrade(id, cb) {
@@ -699,7 +704,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       },
     });
 
-    state.dehydrate("app");
+    state.dehydrate("app", "edits");
     return previousId;
   },
   backup() {
@@ -728,7 +733,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     state.dehydrate("app");
   },
-  async dehydrate(mode) {
+  async dehydrate(...partials) {
     time("dehydration");
 
     const state = get();
@@ -736,12 +741,18 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     try {
       const promises = [];
 
-      if (mode === "all" || mode === "app") {
-        promises.push(dehydrateApp(state));
-      }
+      for (const partial of partials) {
+        if (partial === "all" || partial === "app") {
+          promises.push(dehydrateApp(state));
+        }
 
-      if (mode === "all" || mode === "metadata") {
-        promises.push(dehydrateMetadata(state));
+        if (partial === "all" || partial === "metadata") {
+          promises.push(dehydrateMetadata(state));
+        }
+
+        if (partial === "all" || partial === "edits") {
+          promises.push(dehydrateEdits(state));
+        }
       }
 
       await Promise.all(promises);

@@ -42,7 +42,7 @@ export type AppSlice = {
 
   dismissBanner(bannerId: string): void;
 
-  dehydrate(partial: "all" | "app" | "metadata"): Promise<void>;
+  dehydrate(...args: ("all" | "app" | "edits" | "metadata")[]): Promise<void>;
 
   hydrate(): Promise<void>;
 };
