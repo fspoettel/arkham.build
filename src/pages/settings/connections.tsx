@@ -6,6 +6,7 @@ import type { Connection, Provider } from "@/store/slices/connections.types";
 import { cx } from "@/utils/cx";
 import { capitalize, formatDate, formatProviderName } from "@/utils/formatting";
 import { CheckIcon, CloudOffIcon } from "lucide-react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import css from "./connections.module.css";
 
@@ -76,6 +77,13 @@ function ConnectionDetails(props: {
 
   const connectionLock = useStore(selectConnectionLock);
 
+  const onRemoveConnection = useCallback(async () => {
+    // TODO: surface this error
+    await removeConnection(connection.provider as Provider).catch(
+      console.error,
+    );
+  }, [removeConnection, connection]);
+
   return (
     <>
       <details className={css["details"]}>
@@ -136,7 +144,7 @@ function ConnectionDetails(props: {
         <Button
           type="button"
           disabled={!!connectionLock}
-          onClick={() => removeConnection(connection.provider as Provider)}
+          onClick={onRemoveConnection}
           size="sm"
         >
           {t("settings.connections.disconnect")}

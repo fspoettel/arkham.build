@@ -4,11 +4,11 @@ import { useTranslation } from "react-i18next";
 import type { SettingProps } from "./types";
 
 export function SortPunctuationSetting(props: SettingProps) {
-  const { settings, updateSettings } = props;
+  const { settings, setSettings } = props;
   const { t } = useTranslation();
 
   const onCheckedChange = (val: boolean | string) => {
-    updateSettings((settings) => ({
+    setSettings((settings) => ({
       ...settings,
       sortIgnorePunctuation: !!val,
     }));

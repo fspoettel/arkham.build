@@ -38,8 +38,11 @@ export type ConnectionsState = {
 export type ConnectionsSlice = {
   connections: ConnectionsState;
 
-  createConnection(provider: Provider, user: ConnectionUser): ConnectionsState;
-  removeConnection(provider: Provider): void;
+  createConnection(
+    provider: Provider,
+    user: ConnectionUser,
+  ): Promise<ConnectionsState>;
+  removeConnection(provider: Provider): Promise<void>;
 
   sync(): Promise<void>;
   syncProvider(provider: Provider): Promise<void>;

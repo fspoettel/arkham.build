@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import type { SettingProps } from "./types";
 
 export function TabooSetSetting(props: SettingProps) {
-  const { settings, updateSettings } = props;
+  const { settings, setSettings } = props;
   const { t } = useTranslation();
 
   const tabooSets = useStore(selectTabooSetOptions);
@@ -15,7 +15,7 @@ export function TabooSetSetting(props: SettingProps) {
   const onChange = (evt: React.ChangeEvent<HTMLSelectElement>) => {
     if (evt.target instanceof HTMLSelectElement) {
       const value = +evt.target.value || undefined;
-      updateSettings((settings) => ({ ...settings, tabooSetId: value }));
+      setSettings((settings) => ({ ...settings, tabooSetId: value }));
     }
   };
 

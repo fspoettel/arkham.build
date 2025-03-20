@@ -17,20 +17,20 @@ import css from "./collection.module.css";
 type Props = {
   canShowCounts?: boolean;
   settings: SettingsState;
-  updateSettings?: (settings: React.SetStateAction<SettingsState>) => void;
+  setSettings?: (settings: React.SetStateAction<SettingsState>) => void;
 };
 
 export function CollectionSettings(props: Props) {
-  const { canShowCounts, settings, updateSettings } = props;
+  const { canShowCounts, settings, setSettings } = props;
 
   const { t } = useTranslation();
   const cyclesWithPacks = useStore(selectCyclesAndPacks);
 
-  const canEdit = !!updateSettings;
+  const canEdit = !!setSettings;
 
   const onCheckPack = useCallback(
     (packCode: string, val: number) => {
-      updateSettings?.((prev) => ({
+      setSettings?.((prev) => ({
         ...prev,
         collection: {
           ...prev.collection,
@@ -38,7 +38,7 @@ export function CollectionSettings(props: Props) {
         },
       }));
     },
-    [updateSettings],
+    [setSettings],
   );
 
   const onToggleCycle = useCallback(
@@ -65,7 +65,7 @@ export function CollectionSettings(props: Props) {
             {},
           );
 
-          updateSettings?.((prev) => ({
+          setSettings?.((prev) => ({
             ...prev,
             collection: {
               ...prev.collection,
@@ -75,7 +75,7 @@ export function CollectionSettings(props: Props) {
         }
       }
     },
-    [cyclesWithPacks, updateSettings],
+    [cyclesWithPacks, setSettings],
   );
 
   const counts = useStore((state) =>

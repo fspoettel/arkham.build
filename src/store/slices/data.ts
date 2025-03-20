@@ -88,7 +88,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
     state.dehydrate("app");
   },
 
-  duplicateDeck(id, options) {
+  async duplicateDeck(id, options) {
     const state = get();
 
     const deck = state.data.decks[id];
@@ -114,7 +114,7 @@ export const createDataSlice: StateCreator<StoreState, [], [], DataSlice> = (
       },
     });
 
-    state.dehydrate("app");
+    await state.dehydrate("app");
 
     return newDeck.id;
   },

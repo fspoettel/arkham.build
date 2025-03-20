@@ -19,7 +19,7 @@ export function useAgathaEasterEggTrigger() {
               "You are about to transform Agatha into her true self. If you ever want to return her to her original form, cast this incantation again.",
             );
 
-        if (confirmed) toggleFlag(FLAG);
+        if (confirmed) toggleFlag(FLAG).catch(console.error);
       }
 
       return match;

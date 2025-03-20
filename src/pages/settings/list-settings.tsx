@@ -73,13 +73,13 @@ function getDefaultsForList(listKey: keyof SettingsState["lists"]) {
 }
 
 export function ListSettings(props: Props) {
-  const { listKey, settings, title, updateSettings } = props;
+  const { listKey, settings, title, setSettings } = props;
 
   const { t } = useTranslation();
   const [version, setVersion] = useState(0);
 
   const resetToDefaults = useCallback(() => {
-    updateSettings((settings) => ({
+    setSettings((settings) => ({
       ...settings,
       lists: {
         ...settings.lists,
@@ -87,7 +87,7 @@ export function ListSettings(props: Props) {
       },
     }));
     setVersion((v) => v + 1);
-  }, [listKey, updateSettings]);
+  }, [listKey, setSettings]);
 
   return (
     <section className={css["list"]}>
@@ -107,7 +107,7 @@ export function ListSettings(props: Props) {
         items={getGroupItemsForList(listKey)}
         listKey={listKey}
         subKey="group"
-        updateSettings={updateSettings}
+        setSettings={setSettings}
         title={t("lists.group_by")}
         version={version}
       />
@@ -116,7 +116,7 @@ export function ListSettings(props: Props) {
         items={getSortItemsForList(listKey)}
         listKey={listKey}
         subKey="sort"
-        updateSettings={updateSettings}
+        setSettings={setSettings}
         title={t("lists.sort_by")}
         version={version}
       />
@@ -140,20 +140,13 @@ function ListSettingsList<T extends string>(props: {
   activeItems: T[];
   items: T[];
   listKey: keyof SettingsState["lists"];
+  setSettings: React.Dispatch<React.SetStateAction<SettingsState>>;
   subKey: "sort" | "group";
-  updateSettings: React.Dispatch<React.SetStateAction<SettingsState>>;
   title: React.ReactNode;
   version: number;
 }) {
-  const {
-    activeItems,
-    items,
-    listKey,
-    subKey,
-    title,
-    updateSettings,
-    version,
-  } = props;
+  const { activeItems, items, listKey, subKey, title, setSettings, version } =
+    props;
 
   const [listItems, setListItems] = useState(sortListItems(items, activeItems));
 
@@ -164,7 +157,7 @@ function ListSettingsList<T extends string>(props: {
 
   const updateOrder = useCallback(
     (active: T[]) => {
-      updateSettings((settings) => ({
+      setSettings((settings) => ({
         ...settings,
         lists: {
           ...settings.lists,
@@ -175,7 +168,7 @@ function ListSettingsList<T extends string>(props: {
         },
       }));
     },
-    [updateSettings, listKey, subKey],
+    [setSettings, listKey, subKey],
   );
 
   const onSort = useCallback(

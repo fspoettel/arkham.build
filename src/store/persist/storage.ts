@@ -12,7 +12,7 @@ interface Storage<T extends Partial<StoreState>> {
   storageKey: string;
   get(): Promise<StoredState<T> | undefined>;
   partialize(state: StoreState): T;
-  set(state: StoreState): Promise<void>;
+  set(state: Partial<StoreState>): Promise<void>;
 }
 
 export function makeStorageAdapter<T extends Partial<StoreState>>(

@@ -57,5 +57,3 @@ export const useStore = create<StoreState>()(
         }),
       ),
 );
-
-useStore.getState().hydrate().catch(console.error);

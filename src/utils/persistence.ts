@@ -4,6 +4,6 @@
  */
 export function tryEnablePersistence() {
   if (navigator.storage?.persist) {
-    navigator.storage.persist().catch(console.warn);
+    return navigator.storage.persist().catch(console.warn);
   }
 }

@@ -28,7 +28,7 @@ export const createConnectionsSlice: StateCreator<
 > = (set, get) => ({
   connections: getInitialConnectionsState(),
 
-  createConnection(provider, user) {
+  async createConnection(provider, user) {
     const state = get();
 
     const connections = {
@@ -46,10 +46,10 @@ export const createConnectionsSlice: StateCreator<
 
     set({ connections });
 
-    state.dehydrate("app");
+    await state.dehydrate("app");
     return connections;
   },
-  removeConnection(provider) {
+  async removeConnection(provider) {
     const state = get();
 
     const patch = {
@@ -68,7 +68,8 @@ export const createConnectionsSlice: StateCreator<
     }
 
     set(patch);
-    state.dehydrate("app");
+
+    await state.dehydrate("app");
   },
   async sync() {
     const state = get();

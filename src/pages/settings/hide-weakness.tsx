@@ -4,11 +4,11 @@ import { Trans, useTranslation } from "react-i18next";
 import type { SettingProps } from "./types";
 
 export function HideWeaknessSetting(props: SettingProps) {
-  const { settings, updateSettings } = props;
+  const { settings, setSettings } = props;
   const { t } = useTranslation();
 
   const onCheckHideWeaknesses = (val: boolean | string) => {
-    updateSettings((settings) => ({
+    setSettings((settings) => ({
       ...settings,
       hideWeaknessesByDefault: !!val,
     }));

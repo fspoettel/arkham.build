@@ -7,7 +7,7 @@ import css from "./font-size.module.css";
 import type { SettingProps } from "./types";
 
 export function FontSizeSetting(props: SettingProps) {
-  const { settings, updateSettings } = props;
+  const { settings, setSettings } = props;
 
   const { t } = useTranslation();
 
@@ -24,12 +24,12 @@ export function FontSizeSetting(props: SettingProps) {
 
   const onValueChange = useCallback(
     (values: number[]) => {
-      updateSettings({
+      setSettings({
         ...settings,
         fontSize: values[0],
       });
     },
-    [updateSettings, settings],
+    [setSettings, settings],
   );
 
   const onLiveValueChange = useCallback((values: number[]) => {

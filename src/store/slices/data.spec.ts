@@ -89,9 +89,9 @@ describe("data slice", () => {
       store = await getMockStore();
     });
 
-    it("duplicates a deck", () => {
+    it("duplicates a deck", async () => {
       store.setState(mockState);
-      const id = store.getState().duplicateDeck("1");
+      const id = await store.getState().duplicateDeck("1");
 
       const state = store.getState();
 

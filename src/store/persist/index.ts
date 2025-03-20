@@ -36,7 +36,7 @@ export const editsStorage = makeStorageAdapter<EditsState>(
   }),
 );
 
-export async function hydrate(_state: StoreState) {
+export async function hydrate() {
   const [metadataState, appState, editsState] = await Promise.all([
     metadataStorage.get(),
     appStorage.get(),
@@ -53,30 +53,20 @@ export async function hydrate(_state: StoreState) {
     editsState?.version ?? VERSION,
   );
 
-  let persisted: Partial<StoreState> = {
+  let state: Partial<StoreState> = {
     ...metadataState?.state,
     ...appState?.state,
     ...editsState?.state,
   };
 
   if (version !== VERSION) {
-    persisted = migrate(persisted, version);
+    state = migrate(state, version);
+    await Promise.all([
+      metadataStorage.set(state),
+      appStorage.set(state),
+      editsStorage.set(state),
+    ]);
   }
-
-  const state = {
-    ..._state,
-    ...persisted,
-    ui: {
-      ..._state.ui,
-      hydrated: true,
-    },
-  };
-
-  await Promise.all([
-    metadataStorage.set(state),
-    appStorage.set(state),
-    editsStorage.set(state),
-  ]);
 
   return state;
 }

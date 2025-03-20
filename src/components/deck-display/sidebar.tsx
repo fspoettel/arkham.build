@@ -305,9 +305,9 @@ function SidebarActions(props: {
 
   const importSharedDeck = useStore((state) => state.importSharedDeck);
 
-  const onImport = useCallback(() => {
+  const onImport = useCallback(async () => {
     try {
-      const id = importSharedDeck(deck);
+      const id = await importSharedDeck(deck);
 
       toast.show({
         children: t("deck_view.import_success"),

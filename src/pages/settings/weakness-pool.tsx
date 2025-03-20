@@ -5,17 +5,17 @@ import { useTranslation } from "react-i18next";
 import type { SettingProps } from "./types";
 
 export function WeaknessPoolSetting(props: SettingProps) {
-  const { settings, updateSettings } = props;
+  const { settings, setSettings } = props;
   const { t } = useTranslation();
 
   const onCheckWeaknessPool = useCallback(
     (val: boolean | string) => {
-      updateSettings((settings) => ({
+      setSettings((settings) => ({
         ...settings,
         useLimitedPoolForWeaknessDraw: !!val,
       }));
     },
-    [updateSettings],
+    [setSettings],
   );
 
   return (

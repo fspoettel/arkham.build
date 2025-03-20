@@ -5,15 +5,15 @@ import { useTranslation } from "react-i18next";
 import type { SettingProps } from "./types";
 
 export function ShowAllCardsSetting(props: SettingProps) {
-  const { settings, updateSettings } = props;
+  const { settings, setSettings } = props;
 
   const { t } = useTranslation();
 
   const onCheckShowAll = useCallback(
     (val: boolean | string) => {
-      updateSettings((settings) => ({ ...settings, showAllCards: !!val }));
+      setSettings((settings) => ({ ...settings, showAllCards: !!val }));
     },
-    [updateSettings],
+    [setSettings],
   );
 
   return (
