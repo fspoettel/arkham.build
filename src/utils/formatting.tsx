@@ -52,11 +52,12 @@ export function formatGroupingType(type: string) {
 }
 
 export function formatSlots(slots: string) {
-  const formatted = slots
-    .split(".")
+  const slotStrs = slots.split(".");
+
+  const formatted = slotStrs
     .map((slot) => i18n.t(`common.slot.${slot.trim().toLowerCase()}`))
     .join(". ");
-  return `${formatted}.`;
+  return `${formatted}${slotStrs.length > 1 ? "." : ""}`;
 }
 
 export function formatProviderName(name: string) {
