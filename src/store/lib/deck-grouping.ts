@@ -40,9 +40,11 @@ export function groupDeckCards(
 
     if (isEmpty(quantities)) return acc;
 
-    const cards = Object.keys(quantities).map(
-      (code) => resolvedDeck.cards[key][code].card,
-    );
+    const cards = Object.keys(quantities).reduce((acc, code) => {
+      const card = resolvedDeck.cards[key][code]?.card;
+      if (card) acc.push(card);
+      return acc;
+    }, [] as Card[]);
 
     const grouped = getGroupedCards(
       config.group,

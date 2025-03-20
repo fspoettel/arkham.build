@@ -318,7 +318,7 @@ function SidebarActions(props: {
       navigate(`/deck/view/${id}`);
     } catch (err) {
       toast.show({
-        children: t("deck_view.import_error", {
+        children: t("deck_view.import_failed", {
           error: (err as Error).message,
         }),
         variant: "error",
