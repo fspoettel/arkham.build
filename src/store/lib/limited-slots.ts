@@ -47,6 +47,7 @@ function mapCardsToDeckOptions(deck: ResolvedDeck, deckOptions: DeckOption[]) {
 
       for (const [code, quantity] of Object.entries(deck.slots)) {
         const card = deck.cards.slots[code];
+        if (!card) continue;
 
         if (quantity > 0 && filter(card.card)) {
           for (let j = 0; j < quantity; j += 1) {

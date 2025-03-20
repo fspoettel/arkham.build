@@ -193,7 +193,7 @@ export function cardUses(card: Card) {
 }
 
 export function displayAttribute(
-  card: Card,
+  card: Card | undefined,
   key:
     | "text"
     | "name"
@@ -208,5 +208,5 @@ export function displayAttribute(
     | "customization_text"
     | "customization_change",
 ) {
-  return card[key] ?? card[`real_${key}`] ?? "";
+  return card?.[key] ?? card?.[`real_${key}`] ?? "";
 }
