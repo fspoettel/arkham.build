@@ -669,6 +669,22 @@
         "sealed": "Sealed",
         "shared": "Shared"
       },
+      "toasts": {
+        "delete_confirm": "Вы уверены, что хотите удалить эту колоду?",
+        "delete_error": "Ошибка удаления колоды: {{error}}",
+        "delete_loading": "Удаление колоды…",
+        "delete_success": "Колода успешно удалена.",
+        "delete_upgrade_confirm": "Вы уверены, что хотите удалить это улучшение?",
+        "delete_upgrade_error": "Ошибка удаления улучшения: {{error}}",
+        "delete_upgrade_loading": "Удаление улучшения…",
+        "delete_upgrade_success": "Улучшение успешно удалено.",
+        "duplicate_error": "Ошибка копирования колоды: {{error}}",
+        "duplicate_success": "Копирование колоды успешно.",
+        "export_error": "Ошибка экспортирования колоды: {{error}}",
+        "upload_error": "Ошибка загрузки колоды на {{provider}}: {{error}}",
+        "upload_loading": "Загрузка колоды на {{provider}}…",
+        "upload_success": "Колода успешно  загружена."
+      },
       "tools": {
         "cards": "Кол-во карт",
         "factions": "Классы",
