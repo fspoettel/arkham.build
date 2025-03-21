@@ -123,5 +123,25 @@
     "code": "the_western_wall",
     "name": "The Western Wall",
     "pack_code": "tdcc"
+  },
+  {
+    "code": "zcpa_basic_24",
+    "name": "Basic Contracts",
+    "pack_code": "zpca"
+  },
+  {
+    "code": "zcpa_dunwich_24",
+    "name": "2024 Dunwich CPA",
+    "pack_code": "zpca"
+  },
+  {
+    "code": "zcpa_carcosa_24",
+    "name": "2024 Carcosa CPA",
+    "pack_code": "zpca"
+  },
+  {
+    "code": "zcpa_hemlock_25",
+    "name": "2025 Hemlock CPA",
+    "pack_code": "zpca"
   }
 ]

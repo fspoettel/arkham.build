@@ -4,5 +4,11 @@
     "official": true,
     "position": 11,
     "real_name": "The Drowned City"
+  },
+  {
+    "code": "custom",
+    "real_name": "Custom",
+    "official": false,
+    "position": 100
   }
 ]

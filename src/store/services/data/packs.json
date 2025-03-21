@@ -14,5 +14,11 @@
     "position": 2,
     "release_date": "2025-04-01",
     "real_name": "The Drowned City Campaign Expansion"
+  },
+  {
+    "code": "zcpa",
+    "cycle_code": "custom",
+    "position": 1,
+    "real_name": "Campaign Play-Along"
   }
 ]
