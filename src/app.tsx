@@ -59,7 +59,6 @@ function AppInner() {
   const storeInitialized = useStore(selectIsInitialized);
   const settings = useStore((state) => state.settings);
   const init = useStore((state) => state.init);
-  const initLock = useRef(false);
 
   useColorTheme();
 
@@ -87,10 +86,7 @@ function AppInner() {
       }
     }
 
-    if (!initLock.current) {
-      initLock.current = true;
-      initStore();
-    }
+    initStore();
   }, [init, toast.show, t]);
 
   useEffect(() => {
