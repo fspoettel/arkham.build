@@ -14,7 +14,7 @@ type Props = {
 export function SkillIconsEnemy(props: Props) {
   const { className, card, iconClassName } = props;
 
-  const entries: [string, number | undefined][] = [
+  const entries: [string, number | null | undefined][] = [
     ["combat", card.enemy_fight],
     ["health", card.health],
     ["agility", card.enemy_evade],

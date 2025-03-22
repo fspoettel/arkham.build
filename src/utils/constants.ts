@@ -309,7 +309,7 @@ export const MQ_FLOATING_SIDEBAR = "(max-width: 52rem)";
 export const MQ_FLOATING_FILTERS = "(max-width: 75rem)";
 
 export const PREVIEW_PACKS = localPacks
-  .filter((p) => p.release_date && new Date() < new Date(p.release_date))
+  .filter((p) => p.date_release && new Date() < new Date(p.date_release))
   .map((pack) => pack.code);
 
 export const NO_SLOT_STRING = "none";

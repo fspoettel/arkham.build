@@ -64,14 +64,13 @@ function PlayerEntry(props: Props) {
         duplicates?.map((duplicate) => (
           <p className={css["meta-property"]} key={duplicate.card.code}>
             {displayPackName(duplicate.pack)}{" "}
-            <PackIcon code={duplicate.pack.code} />{" "}
-            {duplicate.card.pack_position}{" "}
+            <PackIcon code={duplicate.pack.code} /> {duplicate.card.position}{" "}
             <i className="icon-card-outline-bold" /> ×{duplicate.card.quantity}
           </p>
         ))}
       <p className={css["meta-property"]}>
         {displayPackName(displayPack)} <PackIcon code={displayPack.code} />{" "}
-        {card.pack_position} <i className="icon-card-outline-bold" /> ×
+        {card.position} <i className="icon-card-outline-bold" /> ×
         {card.quantity}
       </p>
     </>
@@ -92,7 +91,7 @@ function EncounterEntry(props: Props) {
       </p>
       <p className={css["meta-property"]}>
         {displayPackName(displayPack)} <PackIcon code={displayPack.code} />{" "}
-        {card.pack_position}
+        {card.position}
       </p>
     </>
   );

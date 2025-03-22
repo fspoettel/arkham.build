@@ -91,54 +91,101 @@ export type CustomizationOption = {
   xp: number;
 };
 
-export type DeckRestrictions = {
-  investigator?: Record<string, string>;
-  trait?: string[];
-};
-
-export type QueryCard = {
-  alt_art_investigator?: boolean;
-  alternate_of_code?: string;
+/**
+ * Represents a card as defined in the ArkhamDB JSON data.
+ * This format differs slightly from the API representation that is sourced from ArkhamCards.
+ */
+export type JsonDataCard = {
+  alternate_of?: string;
+  back_flavor?: string;
   back_illustrator?: string;
-  back_link_id?: string;
-  clues?: number;
+  back_link?: string;
+  back_name?: string;
+  back_text?: string;
+  back_traits?: string;
+  bonded_count?: number;
+  bonded_to?: number;
+  clues?: number | null;
   clues_fixed?: boolean;
   code: string;
-  cost?: number;
+  cost?: number | null;
+  customization_change?: string;
   customization_options?: CustomizationOption[];
+  customization_text?: string;
+  deck_requirements?: string | null;
+  deck_options?: DeckOption[] | null;
   deck_limit?: number;
-  deck_options?: DeckOption[];
-  deck_requirements?: DeckRequirements;
-  doom?: number;
+  doom?: number | null;
   double_sided?: boolean;
-  duplicate_of_code?: string;
+  duplicate_of?: string;
   encounter_code?: string;
   encounter_position?: number;
-  enemy_damage?: number;
-  enemy_evade?: number;
-  enemy_fight?: number;
-  enemy_horror?: number;
   errata_date?: string;
+  enemy_damage?: number;
+  enemy_evade?: number | null;
+  enemy_fight?: number | null;
+  enemy_horror?: number;
   exceptional?: boolean;
   exile?: boolean;
   faction_code: string;
   faction2_code?: string;
   faction3_code?: string;
-  health?: number;
+  flavor?: string;
+  health?: number | null;
   health_per_investigator?: boolean;
   hidden?: boolean;
-  id: string; // {code} or {code}-{taboo_set_id}
   illustrator?: string;
   is_unique?: boolean;
-  linked?: boolean;
   myriad?: boolean;
-  official: boolean;
+  name: string;
   pack_code: string;
-  pack_position: number;
   permanent?: boolean;
   position: number;
-  preview?: boolean;
   quantity: number;
+  restrictions?: string;
+  sanity?: number;
+  shroud?: number | null;
+  side_deck_options?: DeckOption[];
+  side_deck_requirements?: string;
+  skill_agility?: number;
+  skill_combat?: number;
+  skill_intellect?: number;
+  skill_willpower?: number;
+  skill_wild?: number;
+  slot?: string;
+  stage?: number;
+  subname?: string;
+  subtype_code?: string;
+  tags?: string;
+  text?: string;
+  traits?: string;
+  type_code: string;
+  vengeance?: number;
+  victory?: number;
+  xp?: number;
+};
+
+export type APICard = Omit<
+  JsonDataCard,
+  | "deck_requirements"
+  | "alternate_of"
+  | "back_link"
+  | "duplicate_of"
+  | "side_deck_requirements"
+  | "tags"
+  | "restrictions"
+> & {
+  alt_art_investigator?: boolean;
+  alternate_of_code?: string;
+  backimageurl?: string;
+  back_link_id?: string;
+  deck_requirements?: DeckRequirements;
+  duplicate_of_code?: string;
+  id: string; // {code} or {code}-{taboo_set_id}
+  imageurl?: string;
+  linked?: boolean;
+  locale?: string;
+  preview?: boolean;
   real_back_flavor?: string;
   real_back_name?: string;
   real_back_text?: string;
@@ -152,58 +199,44 @@ export type QueryCard = {
   real_taboo_text_change?: string;
   real_text?: string;
   real_traits?: string;
-  restrictions?: DeckRestrictions;
-  sanity?: number;
-  shroud?: number;
-  side_deck_options?: DeckOption[];
+  restrictions?: APIRestrictions;
   side_deck_requirements?: DeckRequirements;
-  skill_agility?: number;
-  skill_combat?: number;
-  skill_intellect?: number;
-  skill_willpower?: number;
-  skill_wild?: number;
-  stage?: number;
-  subtype_code?: string;
   taboo_xp?: number;
   taboo_set_id?: number;
-  tags?: string[]; // used for some deckbuilding restrictions like `healsHorror`.
-  type_code: string;
-  vengeance?: number;
-  victory?: number;
-  xp?: number;
-  // Localized fields, present only in the locale of the request.
-} & {
-  back_flavor?: string;
-  back_name?: string;
-  back_text?: string;
-  back_traits?: string;
-  customization_change?: string;
-  customization_text?: string;
-  encounter_name?: string;
-  flavor?: string;
-  locale?: string;
-  name?: string;
-  slot?: string;
-  subname?: string;
   taboo_text_change?: string;
-  text?: string;
-  traits?: string;
+  tags?: string[]; // used for some deckbuilding restrictions like `healsHorror`.
 };
 
-export type Card = Omit<QueryCard, "id"> & {
+export type APIRestrictions = {
+  investigator?: Record<string, string>;
+  trait?: string[];
+};
+
+export type Card = Omit<APICard, "id"> & {
   /* indicates whether a card is part of a parallel investigator pack. */
   parallel?: boolean;
   /* indicates the amount of xp spent on customizations for a card. only relevant in deckbuilder mode. */
   customization_xp?: number;
   /* copy of real slot, can be changed by customizable. */
   original_slot?: string;
+  /* custom content may have images defined in the card data. */
+  backimageurl?: string;
+  imageurl?: string;
+  thumbnailurl?: string;
+  backthumbnailurl?: string;
 };
 
-export type Cycle = {
+export type JsonDataCycle = {
   code: string;
-  real_name: string;
-  name?: string;
+  name: string;
   position: number;
+};
+
+export type Cycle = Omit<JsonDataCycle, "name"> & {
+  name?: string;
+  real_name: string;
+  /** Cycles may have a banner image associated with them. */
+  imageurl?: string;
 };
 
 export type Faction = {
@@ -212,14 +245,20 @@ export type Faction = {
   is_primary: boolean;
 };
 
-export type Pack = {
+export type JsonDataPack = {
   code: string;
-  real_name: string;
-  name?: string;
-  position: number;
-  release_date?: string;
-  size?: number;
   cycle_code: string;
+  date_release?: string;
+  name: string;
+  position: number;
+  size?: number;
+};
+
+export type Pack = Omit<JsonDataPack, "name"> & {
+  /** Custom content may have an encounter icon in card data. */
+  iconurl?: string;
+  name?: string;
+  real_name: string;
   reprint?: {
     type: string; // "player" | "encounter" | "rcore"
   };
@@ -242,13 +281,15 @@ export type DataVersion = {
   translation_updated_at: string;
 };
 
-export type QueryEncounterSet = {
+export type JsonDataEncounterSet = {
   code: string;
   name: string;
 };
 
-export type EncounterSet = QueryEncounterSet & {
+export type EncounterSet = JsonDataEncounterSet & {
   pack_code: string;
+  /** Custom content may have an encounter icon in card data. */
+  iconurl?: string;
 };
 
 export type Taboo = {

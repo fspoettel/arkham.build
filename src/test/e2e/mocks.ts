@@ -26,13 +26,11 @@ export async function mockApiCalls(page: Page) {
         real_name: "Preview Test Card",
         pack_code: "core",
         faction_code: "neutral",
-        official: true,
         type_code: "asset",
         id: "99999",
         position: 999,
         preview: true,
         quantity: 1,
-        pack_position: 999,
       });
       await route.fulfill({ json });
     }),

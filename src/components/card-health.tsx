@@ -4,8 +4,8 @@ import { HealthIcon, SanityIcon } from "./icons/health-icons";
 
 type Props = {
   className?: string;
-  health?: number;
-  sanity?: number;
+  health?: number | null;
+  sanity?: number | null;
 };
 
 export function CardHealth(props: Props) {
