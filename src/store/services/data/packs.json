@@ -2,17 +2,15 @@
   {
     "code": "tdcp",
     "cycle_code": "tdc",
-    "official": true,
     "position": 1,
-    "release_date": "2025-02-07",
-    "real_name": "The Drowned City Investigator Expansion"
+    "date_release": "2025-02-07",
+    "name": "The Drowned City Investigator Expansion"
   },
   {
     "code": "tdcc",
     "cycle_code": "tdc",
-    "official": true,
     "position": 2,
-    "release_date": "2025-04-01",
-    "real_name": "The Drowned City Campaign Expansion"
+    "date_release": "2025-04-01",
+    "name": "The Drowned City Campaign Expansion"
   }
 ]

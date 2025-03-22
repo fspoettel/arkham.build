@@ -966,7 +966,7 @@ export const selectCyclesAndPacks = createSelector(
           settings.showPreviews ||
           packs.some(
             (pack) =>
-              !pack.release_date || new Date(pack.release_date) <= new Date(),
+              !pack.date_release || new Date(pack.date_release) <= new Date(),
           );
 
         if (canShowCycle) {

@@ -11,12 +11,13 @@ import type {
 import allCardStub from "@/test/fixtures/stubs/all_card.json";
 import dataVersionStub from "@/test/fixtures/stubs/data_version.json";
 import metadataStub from "@/test/fixtures/stubs/metadata.json";
+import { packToApiFormat } from "@/utils/arkhamdb-json-format";
 
 function queryStubMetadata() {
   return Promise.resolve({
     ...(metadataStub as MetadataApiResponse).data,
     pack: metadataStub.data.pack,
-    reprint_pack: reprintPacks,
+    reprint_pack: reprintPacks.map(packToApiFormat),
     faction: factions,
     type: types,
     subtype: subTypes,

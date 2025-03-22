@@ -3,7 +3,7 @@
     "code": "dwlp",
     "cycle_code": "dwl",
     "position": -2,
-    "real_name": "The Dunwich Legacy Investigator Expansion",
+    "name": "The Dunwich Legacy Investigator Expansion",
     "reprint": {
       "type": "player"
     }
@@ -12,7 +12,7 @@
     "code": "dwlc",
     "cycle_code": "dwl",
     "position": -1,
-    "real_name": "The Dunwich Legacy Campaign Expansion",
+    "name": "The Dunwich Legacy Campaign Expansion",
     "reprint": {
       "type": "encounter"
     }
@@ -21,7 +21,7 @@
     "code": "ptcp",
     "cycle_code": "ptc",
     "position": -2,
-    "real_name": "The Path to Carcosa Investigator Expansion",
+    "name": "The Path to Carcosa Investigator Expansion",
     "reprint": {
       "type": "player"
     }
@@ -30,7 +30,7 @@
     "code": "ptcc",
     "cycle_code": "ptc",
     "position": -1,
-    "real_name": "The Path to Carcosa Campaign Expansion",
+    "name": "The Path to Carcosa Campaign Expansion",
     "reprint": {
       "type": "encounter"
     }
@@ -39,7 +39,7 @@
     "code": "tfap",
     "cycle_code": "tfa",
     "position": -2,
-    "real_name": "The Forgotten Age Investigator Expansion",
+    "name": "The Forgotten Age Investigator Expansion",
     "reprint": {
       "type": "player"
     }
@@ -48,7 +48,7 @@
     "code": "tfac",
     "cycle_code": "tfa",
     "position": -1,
-    "real_name": "The Forgotten Age Campaign Expansion",
+    "name": "The Forgotten Age Campaign Expansion",
     "reprint": {
       "type": "encounter"
     }
@@ -57,7 +57,7 @@
     "code": "tcup",
     "cycle_code": "tcu",
     "position": -2,
-    "real_name": "The Circle Undone Investigator Expansion",
+    "name": "The Circle Undone Investigator Expansion",
     "reprint": {
       "type": "player"
     }
@@ -66,7 +66,7 @@
     "code": "tcuc",
     "cycle_code": "tcu",
     "position": -1,
-    "real_name": "The Circle Undone Campaign Expansion",
+    "name": "The Circle Undone Campaign Expansion",
     "reprint": {
       "type": "encounter"
     }
@@ -75,7 +75,7 @@
     "code": "tdep",
     "cycle_code": "tde",
     "position": -2,
-    "real_name": "The Dream Eaters Investigator Expansion",
+    "name": "The Dream Eaters Investigator Expansion",
     "reprint": {
       "type": "player"
     }
@@ -84,7 +84,7 @@
     "code": "tdec",
     "cycle_code": "tde",
     "position": -1,
-    "real_name": "The Dream Eaters Campaign Expansion",
+    "name": "The Dream Eaters Campaign Expansion",
     "reprint": {
       "type": "encounter"
     }
@@ -93,7 +93,7 @@
     "code": "ticc",
     "cycle_code": "tic",
     "position": -1,
-    "real_name": "The Innsmouth Conspiracy Campaign Expansion",
+    "name": "The Innsmouth Conspiracy Campaign Expansion",
     "reprint": {
       "type": "encounter"
     }
@@ -102,7 +102,7 @@
     "code": "ticp",
     "cycle_code": "tic",
     "position": -2,
-    "real_name": "The Innsmouth Conspiracy Investigator Expansion",
+    "name": "The Innsmouth Conspiracy Investigator Expansion",
     "reprint": {
       "type": "player"
     }

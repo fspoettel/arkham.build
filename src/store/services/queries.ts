@@ -4,18 +4,19 @@ import type { Deck, Id } from "../slices/data.types";
 import { isDeck } from "../slices/data.types";
 import reprintPacks from "./data/reprint_packs.json";
 
+import { packToApiFormat } from "@/utils/arkhamdb-json-format";
 import { displayPackName } from "@/utils/formatting";
 import i18n from "@/utils/i18n";
 import type { ResolvedDeck, SealedDeck } from "../lib/types";
 import type { History } from "../selectors/decks";
 import type { Locale } from "../slices/settings.types";
 import type {
+  APICard,
   Card,
   Cycle,
   DataVersion,
+  JsonDataEncounterSet,
   Pack,
-  QueryCard,
-  QueryEncounterSet,
   Recommendations,
   TabooSet,
 } from "./queries.types";
@@ -28,7 +29,7 @@ export type MetadataResponse = {
   cycle: Cycle[];
   pack: Pack[];
   reprint_pack: Pack[];
-  card_encounter_set: QueryEncounterSet[];
+  card_encounter_set: JsonDataEncounterSet[];
   taboo_set: TabooSet[];
 };
 
@@ -42,11 +43,11 @@ export type DataVersionResponse = DataVersion;
 
 export type AllCardApiResponse = {
   data: {
-    all_card: QueryCard[];
+    all_card: APICard[];
   };
 };
 
-export type AllCardResponse = QueryCard[];
+export type AllCardResponse = APICard[];
 
 type FaqResponse = {
   code: string;
@@ -94,12 +95,15 @@ export async function queryMetadata(
   return {
     ...data,
     card_encounter_set: [...data.card_encounter_set, ...encounterSets],
-    pack: [...data.pack, ...packs],
+    pack: [...data.pack, ...packs.map(packToApiFormat)],
     reprint_pack: reprintPacks.map((pack) => {
+      const mapped = packToApiFormat(pack);
+
       const cycle = cycles.find((cycle) => cycle.code === pack.cycle_code);
-      if (!cycle) return pack;
+      if (!cycle) return mapped;
+
       return {
-        ...pack,
+        ...mapped,
         name: `${displayPackName(cycle)} ${i18n.t(`common.packs_new_format.${pack.reprint.type}`)}`,
       };
     }),
@@ -114,7 +118,7 @@ export async function queryDataVersion(
   return data.all_card_updated[0];
 }
 
-export async function queryCards(locale: Locale = "en"): Promise<QueryCard[]> {
+export async function queryCards(locale: Locale = "en"): Promise<APICard[]> {
   const res = await request(`/cache/cards/${locale}`);
   const { data }: AllCardApiResponse = await res.json();
   return data.all_card;
