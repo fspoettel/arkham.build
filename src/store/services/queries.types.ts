@@ -177,12 +177,10 @@ export type APICard = Omit<
 > & {
   alt_art_investigator?: boolean;
   alternate_of_code?: string;
-  backimageurl?: string;
   back_link_id?: string;
   deck_requirements?: DeckRequirements;
   duplicate_of_code?: string;
   id: string; // {code} or {code}-{taboo_set_id}
-  imageurl?: string;
   linked?: boolean;
   locale?: string;
   preview?: boolean;
@@ -220,10 +218,10 @@ export type Card = Omit<APICard, "id"> & {
   /* copy of real slot, can be changed by customizable. */
   original_slot?: string;
   /* custom content may have images defined in the card data. */
-  backimageurl?: string;
-  imageurl?: string;
-  thumbnailurl?: string;
-  backthumbnailurl?: string;
+  back_image_url?: string;
+  image_url?: string;
+  thumbnail_url?: string;
+  back_thumbnail_url?: string;
 };
 
 export type JsonDataCycle = {
@@ -236,7 +234,7 @@ export type Cycle = Omit<JsonDataCycle, "name"> & {
   name?: string;
   real_name: string;
   /** Cycles may have a banner image associated with them. */
-  imageurl?: string;
+  image_url?: string;
 };
 
 export type Faction = {
@@ -256,7 +254,7 @@ export type JsonDataPack = {
 
 export type Pack = Omit<JsonDataPack, "name"> & {
   /** Custom content may have an encounter icon in card data. */
-  iconurl?: string;
+  icon_url?: string;
   name?: string;
   real_name: string;
   reprint?: {
@@ -289,7 +287,7 @@ export type JsonDataEncounterSet = {
 export type EncounterSet = JsonDataEncounterSet & {
   pack_code: string;
   /** Custom content may have an encounter icon in card data. */
-  iconurl?: string;
+  icon_url?: string;
 };
 
 export type Taboo = {
