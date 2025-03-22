@@ -1,6 +1,5 @@
 import type { Card } from "@/store/services/queries.types";
 import { getCardColor, thumbnailUrl } from "@/utils/card-utils";
-/* eslint-disable react/display-name */
 import { cx } from "@/utils/cx";
 import { useAgathaEasterEggTransform } from "@/utils/easter-egg-agatha";
 import { memo } from "react";
@@ -21,9 +20,12 @@ export const CardThumbnail = memo(
     const { t } = useTranslation();
 
     const colorCls = getCardColor(card);
+
     const imageCode = useAgathaEasterEggTransform(
       `${card.code}${suffix ?? ""}`,
     );
+
+    const url = suffix === "b" ? card.back_thumbnail_url : card.thumbnail_url;
 
     return (
       <div
@@ -40,7 +42,7 @@ export const CardThumbnail = memo(
       >
         <img
           alt={t("card_view.thumbnail", { code: card.code })}
-          src={thumbnailUrl(imageCode)}
+          src={url ? url : thumbnailUrl(imageCode)}
         />
       </div>
     );

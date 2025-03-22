@@ -45,6 +45,7 @@ export function CardScan(props: Props) {
   const reverseImageCode = useAgathaEasterEggTransform(backCode);
 
   const isSideways = sideways(card);
+
   const reverseSideways = backCard
     ? sideways(backCard)
     : backType === "card"
@@ -81,7 +82,7 @@ export function CardScan(props: Props) {
           alt={t("card_view.scan", { code: imageCode })}
           lazy={lazy}
           sideways={isSideways}
-          url={imageUrl(imageCode)}
+          url={card.image_url ? card.image_url : imageUrl(imageCode)}
         />
       </div>
       {!preventFlip && (
@@ -101,7 +102,11 @@ export function CardScan(props: Props) {
                 hidden={!flipped}
                 lazy={lazy}
                 sideways={false}
-                url={cardBackTypeUrl(backType)}
+                url={
+                  card.back_image_url
+                    ? card.back_image_url
+                    : cardBackTypeUrl(backType)
+                }
               />
             )}
           </div>

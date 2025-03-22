@@ -31,17 +31,17 @@ type CustomContentProjectConfig = {
 export type CustomContentProject = {
   config: CustomContentProjectConfig;
   cards: JsonDataCard & {
-    backimageurl?: string;
-    imageurl?: string;
-    thumbnailurl?: string;
-    backthumbnailurl?: string;
+    back_image_url?: string;
+    image_url?: string;
+    thumbnail_url?: string;
+    back_thumbnail_url?: string;
   };
   encounter_sets: JsonDataEncounterSet &
     {
-      iconurl?: string;
+      icon_url?: string;
     }[];
   packs: Omit<JsonDataPack, "cycle_code"> &
     {
-      iconurl?: string;
+      icon_url?: string;
     }[];
 };
