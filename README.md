@@ -16,6 +16,19 @@ arkham.build extends the _arkhamdb deck schema_ with a few fields for additional
 - `meta.intro_md`: Short deck introduction that uses the same markdown format that `description_md` uses.
 - `meta.annotation_{code}`: Annotation for a specific card that uses the same markdown format that `description_md` uses. Annotations are not limited to cards in deck, but can also target cards in the side deck (upgrades, alternatives) or _any_ card (reasoning for exclusion).
 
+### Additional metadata keys (AMK)
+
+ArkhamDB imposes a strict limit on the amount of data that can be stored in the `meta` field of a deck. In order to work around this, we extract some of our custom metadata from `deck.meta` and store it in our own database before a deck is saved to ArkhamDB. The information is replaced with a token that can be used to retrieve it, the so called `amk`  (**a**dditional **m**etadata **k**ey). When a deck is fetched from ArkhamDB, our API consumes the entry and writes the actual metadata back to the `deck.meta`. The process is transparent to the API consumer.
+
+The following fields are currently handled in this fashion:
+
+- `meta.annotation_{code}`
+- `meta.intro_md`
+- `meta.sealed_deck`
+- `meta.sealed_deck_name`
+
+There is a public endpoint to resolve an `amk` via `GET https://api.arkham.build/v1/public/additional_metadata/:amk`.
+
 ## File formats
 
 ### Sealed decks
