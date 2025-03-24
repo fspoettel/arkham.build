@@ -69,7 +69,6 @@ export function CardExtras(props: Props) {
 
   return (
     <div className={css["extra-row"]}>
-      {hasAttachable && <Attachments card={card} resolvedDeck={deck} />}
       {hasUpgrades && (
         <QuickUpgrade
           availableUpgrades={availableUpgrades}
@@ -84,6 +83,7 @@ export function CardExtras(props: Props) {
         settings.showMoveToSideDeck && (
           <MoveToSideDeck card={card} deck={deck} />
         )}
+      {hasAttachable && <Attachments card={card} resolvedDeck={deck} />}
     </div>
   );
 }
