@@ -1,5 +1,6 @@
 import type { AppSlice } from "./app.types";
 import type { ConnectionsSlice } from "./connections.types";
+import type { CustomDataSlice } from "./custom-data.types";
 import type { DataSlice } from "./data.types";
 import type { DeckFiltersSlice } from "./deck-collection-filters.types";
 import type { DeckCreateSlice } from "./deck-create.types";
@@ -20,6 +21,7 @@ export type StoreState = AppSlice &
   UISlice &
   SettingsSlice &
   DataSlice &
+  CustomDataSlice &
   DeckEditsSlice &
   DeckCreateSlice &
   DeckFiltersSlice &
