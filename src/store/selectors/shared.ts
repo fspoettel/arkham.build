@@ -38,7 +38,7 @@ export const selectMetadata = createSelector(
         meta.cycles[project.meta.code] = cycleToApiFormat({
           code: project.meta.code,
           name: project.meta.name,
-          position: 0,
+          position: 999,
           official: false,
         });
       }
