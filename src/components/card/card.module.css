@@ -289,7 +289,7 @@
   padding-left: calc(var(--card-spacing, 1rem) / 1.5);
   border-left-width: 2px;
   border-left-style: solid;
-  border-color: var(--palette-4);
+  border-color: var(--text);
   font-family: var(--font-family-content);
   font-size: var(--card-text-size, var(--text-sm));
   text-align: left;
@@ -316,7 +316,7 @@
 }
 
 .meta:not(.tooltip) {
-  border-top: 1px solid var(--palette-4);
+  border-top: 1px solid var(--text);
   padding-top: 0.25rem;
 }
 

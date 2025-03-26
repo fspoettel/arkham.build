@@ -22,7 +22,7 @@
 
 .cardset-title {
   font-family: var(--font-family-ui);
-  color: var(--palette-4);
+  color: var(--text);
   font-size: var(--text-sm);
   font-weight: 700;
   line-height: 1;

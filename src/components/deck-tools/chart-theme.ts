@@ -6,7 +6,7 @@ const baseChartProps = {
 
 const baseLabelStyles: VictoryLabelStyleObject = {
   fontFamily: "var(--font-family-ui)",
-  fill: "var(--palette-4)",
+  fill: "var(--text)",
   fontSize: 12,
   lineHeight: 16,
 };
@@ -41,7 +41,7 @@ export const chartsTheme: VictoryThemeDefinition = {
       axisLabel: { ...baseLabelStyles, padding: 30 },
       axis: { stroke: "var(--palette-2)", strokeWidth: 2 },
       grid: {
-        stroke: "var(--palette-2)",
+        stroke: "var(--palette-3)",
         strokeDasharray: "5, 10",
         strokeWidth: 1,
       },
@@ -77,12 +77,12 @@ export const chartsTheme: VictoryThemeDefinition = {
     style: {
       axis: {
         fill: "transparent",
-        stroke: "var(--palette-1)",
+        stroke: "var(--palette-2)",
         strokeWidth: 2,
       },
       grid: {
         fill: "none",
-        stroke: "var(--palette-2)",
+        stroke: "var(--palette-3)",
         strokeDasharray: "5, 10",
       },
       tickLabels: {

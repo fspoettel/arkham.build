@@ -69,7 +69,7 @@
   --mystic-dark: hsl(247, 50%, 55%);
   --survivor-dark: hsl(357, 55%, 50%);
   --neutral-dark: var(--nord-3);
-  --multiclass-dark: hsl(45, 60%, 40%);
+  --multiclass-dark: hsl(45, 90%, 40%);
   --mythos-dark: var(--nord-3);
 
   --rounded: 0.25rem;
@@ -134,7 +134,7 @@
   --palette-5: var(--nord-2);
   --palette-6: var(--nord-1);
 
-  --text: var(--nord-0);
+  --text: var(--nord-1);
   --color-guardian: var(--guardian-dark);
   --color-mystic: var(--mystic-dark);
   --color-rogue: var(--rogue-dark);
@@ -232,6 +232,7 @@ h6 {
 a {
   color: var(--nord-9);
   text-decoration: underline;
+  text-decoration-style: dotted;
 }
 
 small,
@@ -253,14 +254,14 @@ blockquote {
   margin: 0;
   padding: 0.5rem 1rem;
   background-color: var(--palette-point-five);
-  border-left: 0.25rem solid var(--palette-4);
+  border-left: 0.25rem solid var(--text);
 }
 
 hr {
   height: 0;
   margin: 0.5rem 0;
   border-top: 0;
-  border-bottom: 1px solid var(--palette-4);
+  border-bottom: 1px solid var(--text);
 }
 
 pre {
@@ -287,6 +288,10 @@ code {
   background-color: var(--palette-1);
   padding: 0.25em 0.325em;
   border-radius: var(--rounded);
+}
+
+strong {
+  font-weight: 700;
 }
 
 .sr-only {
@@ -608,7 +613,7 @@ kbd {
 }
 
 .fg-neutral {
-  color: var(--palette-4);
+  color: var(--text);
 }
 
 .agility {
@@ -734,7 +739,7 @@ svg {
 }
 
 .longform .icon-neutral {
-  color: var(--palette-4);
+  color: var(--text);
 }
 
 .longform .icon-multiclass {

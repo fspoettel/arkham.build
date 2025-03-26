@@ -65,6 +65,7 @@
   font-family: var(--font-family-ui);
   font-size: var(--text-sm);
   hyphens: auto;
+  color: currentColor;
 }
 
 .sub {
@@ -125,7 +126,7 @@
 
   &:not(:hover) .header {
     background: var(--palette-point-five);
-    color: var(--palette-4);
+    color: var(--text);
     text-shadow: none;
   }
 }

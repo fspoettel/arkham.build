@@ -12,3 +12,7 @@
   fill: var(--nord-8);
   stroke: none;
 }
+
+:root[data-theme="light"] .active {
+  fill: var(--nord-10);
+}

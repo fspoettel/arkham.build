@@ -25,7 +25,7 @@
   text-decoration: none;
   font-weight: 700;
   font-size: var(--text-sm);
-  color: currentColor;
+  color: var(--text);
 }
 
 .logo svg {
@@ -42,7 +42,7 @@
 
 .logo svg {
   font-size: var(--icon-xl);
-  fill: var(--palette-4);
+  fill: currentColor;
 }
 
 .right {

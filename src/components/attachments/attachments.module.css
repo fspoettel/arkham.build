@@ -1,6 +1,5 @@
 .attachments {
   list-style: none;
-  color: var(--palette-4);
   display: inline-flex;
   gap: 0.125rem;
 }

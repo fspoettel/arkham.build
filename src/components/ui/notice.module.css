@@ -4,7 +4,7 @@
   gap: 1rem;
   background: rgba(255, 255, 255, 0.025);
   border-radius: var(--rounded);
-  border: 1px solid var(--palette-4);
+  border: 1px solid var(--text);
   padding: 0.5rem;
 }
 

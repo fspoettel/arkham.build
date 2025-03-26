@@ -64,7 +64,7 @@
 .view-section-title {
   font-family: var(--font-family-ui);
   text-align: center;
-  color: var(--palette-4);
+  color: var(--text);
   font-size: var(--text-xl);
   line-height: 1;
   margin: 1.5rem 0;

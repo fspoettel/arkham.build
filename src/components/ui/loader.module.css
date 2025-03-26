@@ -25,7 +25,7 @@
 
 .loader p {
   font-size: var(--text-lg);
-  color: var(--palette-4);
+  color: var(--text);
 }
 
 .loader-icon {
