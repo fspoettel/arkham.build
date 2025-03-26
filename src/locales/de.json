@@ -892,7 +892,7 @@
       "import_success": "Deck wurde erfolgreich importiert.",
       "list": "Liste",
       "loading": "Deck wird geladen...",
-      "newer_version": "Dieses Deck ist schreibgeschützt, da eine <strong>aktuellere Version</strong> verfügbar ist.",
+      "newer_version": "Dieses Deck ist schreibgeschützt, da eine <a>aktuellere Version</a> verfügbar ist.",
       "scans": "Scans",
       "sharing": {
         "create": "Freigeben",
