@@ -10,6 +10,7 @@ import {
 import { time, timeEnd } from "@/utils/time";
 import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
+import { selectMetadata } from "../selectors/shared";
 import type {
   LookupTable,
   LookupTables,
@@ -66,7 +67,7 @@ export const createLookupTablesSlice: StateCreator<
     const state = get();
 
     const lookupTables = createLookupTables(
-      partial.metadata ?? state.metadata,
+      partial.metadata ?? selectMetadata(state),
       partial.settings ?? state.settings,
     );
 

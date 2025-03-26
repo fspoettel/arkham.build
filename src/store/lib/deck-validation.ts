@@ -7,6 +7,7 @@ import {
 } from "@/utils/card-utils";
 import { DECK_SIZE_ADJUSTMENTS, SPECIAL_CARD_CODES } from "@/utils/constants";
 import { time, timeEnd } from "@/utils/time";
+import { selectMetadata } from "../selectors/shared";
 import type {
   Card,
   DeckOption,
@@ -336,6 +337,8 @@ function validateSlots(
   state: StoreState,
   mode: "slots" | "extraSlots" = "slots",
 ): Error[] {
+  const metadata = selectMetadata(state);
+
   const validators: SlotValidator[] = [
     new DeckLimitsValidator(deck),
     new DeckRequiredCardsValidator(deck, mode),
@@ -366,7 +369,7 @@ function validateSlots(
     // normalize duplicates to base version before checking access.
     // right now, this is mostly still required for promo marie.
     const normalized = card.duplicate_of_code
-      ? state.metadata.cards[card.duplicate_of_code]
+      ? metadata.cards[card.duplicate_of_code]
       : card;
 
     for (const validator of validators) {

@@ -4,7 +4,10 @@ import { Loader } from "@/components/ui/loader";
 import { useStore } from "@/store";
 import { resolveDeck } from "@/store/lib/resolve-deck";
 import { selectDeckValid } from "@/store/selectors/decks";
-import { selectLocaleSortingCollator } from "@/store/selectors/shared";
+import {
+  selectLocaleSortingCollator,
+  selectMetadata,
+} from "@/store/selectors/shared";
 import { getShare } from "@/store/services/queries";
 import type { StoreState } from "@/store/slices";
 import type { Deck } from "@/store/slices/data.types";
@@ -16,7 +19,7 @@ import { useParams } from "wouter";
 import { Error404 } from "../errors/404";
 
 const selectResolvedShare = createSelector(
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.sharing,
   selectLocaleSortingCollator,

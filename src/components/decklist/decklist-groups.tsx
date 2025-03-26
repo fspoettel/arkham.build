@@ -12,6 +12,7 @@ import { selectForbiddenCards } from "@/store/selectors/decks";
 import {
   selectCanCheckOwnership,
   selectCardOwnedCount,
+  selectMetadata,
 } from "@/store/selectors/shared";
 import { customizationSheetUrl } from "@/store/services/queries";
 import type { Card } from "@/store/services/queries.types";
@@ -40,7 +41,7 @@ type DecklistGroupsProps = {
 export function DecklistGroup(props: DecklistGroupsProps) {
   const { deck, grouping, getListCardProps, viewMode } = props;
 
-  const metadata = useStore((state) => state.metadata);
+  const metadata = useStore(selectMetadata);
   const lookupTables = useStore((state) => state.lookupTables);
   const canCheckOwnership = useStore(selectCanCheckOwnership);
   const forbiddenCards = useStore((state) => selectForbiddenCards(state, deck));

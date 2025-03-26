@@ -54,7 +54,10 @@ import {
   dehydrateMetadata,
   hydrate,
 } from "../persist";
-import { selectLocaleSortingCollator } from "../selectors/shared";
+import {
+  selectLocaleSortingCollator,
+  selectMetadata,
+} from "../selectors/shared";
 
 export function getInitialAppState() {
   return {
@@ -96,7 +99,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         subtypes: mappedByCode(subTypes),
         types: mappedByCode(types),
       };
-
+      // FIXME!!!
       state.refreshLookupTables({
         ...state,
         lists: makeLists(state.settings),
@@ -194,6 +197,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     }
 
     metadata = applyLocalData(metadata);
+    // FIXME!!!
     const lookupTables = createLookupTables(metadata, state.settings);
     createRelations(metadata, lookupTables);
 
@@ -221,6 +225,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
   },
   async createDeck() {
     const state = get();
+    const metadata = selectMetadata(state);
+
     assert(state.deckCreate, "DeckCreate state must be initialized.");
 
     const extraSlots: Record<string, number> = {};
@@ -239,8 +245,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     }
 
     const back = applyCardChanges(
-      state.metadata.cards[investigatorBackCode],
-      state.metadata,
+      metadata.cards[investigatorBackCode],
+      metadata,
       state.deckCreate.tabooSetId,
       undefined,
     );
@@ -308,7 +314,11 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     if (state.deckCreate.provider === "arkhamdb") {
       const resolved = resolveDeck(
-        state,
+        {
+          lookupTables: state.lookupTables,
+          metadata,
+          sharing: state.sharing,
+        },
         selectLocaleSortingCollator(state),
         deck,
       );
@@ -432,17 +442,22 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
   },
   async saveDeck(deckId) {
     const state = get();
+    const metadata = selectMetadata(state);
 
     const edits = state.deckEdits[deckId];
 
     const deck = state.data.decks[deckId];
     if (!deck) return deckId;
 
-    let nextDeck = applyDeckEdits(deck, edits, state.metadata, true);
+    let nextDeck = applyDeckEdits(deck, edits, metadata, true);
     nextDeck.date_update = new Date().toISOString();
 
     const resolved = resolveDeck(
-      state,
+      {
+        lookupTables: state.lookupTables,
+        metadata,
+        sharing: state.sharing,
+      },
       selectLocaleSortingCollator(state),
       nextDeck,
     );
@@ -498,6 +513,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     const xp = _xp + (usurped === false ? 1 : 0);
 
     const state = get();
+    const metadata = selectMetadata(state);
 
     const deck = state.data.decks[id];
     assert(deck, `Deck ${id} does not exist.`);
@@ -532,7 +548,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
       meta.transform_into = SPECIAL_CARD_CODES.LOST_HOMUNCULUS;
 
       for (const [code, quantity] of Object.entries(newDeck.slots)) {
-        const card = state.metadata.cards[code];
+        const card = metadata.cards[code];
 
         if (quantity && card.restrictions?.investigator) {
           delete newDeck.slots[code];
@@ -592,6 +608,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         selectDeckHistory(
           {
             ...state,
+            metadata,
             data: {
               ...state.data,
               history: {

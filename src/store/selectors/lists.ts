@@ -73,7 +73,7 @@ import type {
 } from "../slices/lists.types";
 import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
-import { selectLocaleSortingCollator } from "./shared";
+import { selectLocaleSortingCollator, selectMetadata } from "./shared";
 
 export type CardGroup = {
   type: string;
@@ -365,7 +365,7 @@ const customizationsEqualSelector = createCustomEqualSelector((a, b) => {
 });
 
 const selectDeckInvestigatorFilter = deckAccessEqualSelector(
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   (state: StoreState) => state.lookupTables,
   (_: StoreState, resolvedDeck?: ResolvedDeck) => resolvedDeck,
   (
@@ -446,7 +446,7 @@ const selectResolvedDeckCustomizations = customizationsEqualSelector(
 );
 
 const selectBaseListCards = createSelector(
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.settings,
   (state: StoreState) => selectActiveList(state)?.systemFilter,
@@ -537,7 +537,7 @@ const selectBaseListCards = createSelector(
 );
 
 export const selectListCards = createSelector(
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.settings,
   selectActiveList,
@@ -624,7 +624,7 @@ export const selectListCards = createSelector(
 );
 
 export const selectCardRelationsResolver = createSelector(
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   (state: StoreState) => state.lookupTables,
   selectLocaleSortingCollator,
   (metadata, lookupTables, collator) => {
@@ -813,7 +813,7 @@ function sortedEncounterSets(metadata: Metadata, collator: Intl.Collator) {
 }
 
 export const selectEncounterSetOptions = createSelector(
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   selectLocaleSortingCollator,
   (metadata, collator) => sortedEncounterSets(metadata, collator),
 );
@@ -824,10 +824,11 @@ export const selectEncounterSetOptions = createSelector(
 
 export const selectFactionOptions = createSelector(
   selectActiveList,
-  (state: StoreState) => state.metadata.factions,
-  (list, factionMeta) => {
+  selectMetadata,
+  (list, metadata) => {
     if (!list) return [];
 
+    const factionMeta = metadata.factions;
     const cardType = list.cardType;
 
     const factions = Object.values(factionMeta).filter((f) =>
@@ -863,7 +864,7 @@ export const selectHealthMinMax = createSelector(
 
 export const selectInvestigatorOptions = createSelector(
   (state: StoreState) => state.lookupTables,
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   selectLocaleSortingCollator,
   (lookupTables, metadata, collator) => {
     const investigatorTable = lookupTables.typeCode["investigator"];
@@ -895,7 +896,7 @@ export const selectInvestigatorOptions = createSelector(
  */
 
 export const selectCardOptions = createSelector(
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   selectLocaleSortingCollator,
   (metadata, collator) => {
     const sortFn = makeSortFunction(["name", "level"], metadata, collator);
@@ -943,7 +944,7 @@ type CycleWithPacks = (Cycle & {
 })[];
 
 export const selectCyclesAndPacks = createSelector(
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.settings,
   (metadata, lookupTables, settings) => {
@@ -1068,7 +1069,7 @@ export const selectActiveListSearch = createSelector(
 );
 
 export const selectResolvedCardById = createSelector(
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   (state: StoreState) => state.lookupTables,
   selectLocaleSortingCollator,
   (_: StoreState, code: string) => code,
@@ -1111,10 +1112,10 @@ export function selectSubtypeOptions() {
  */
 
 export const selectTabooSetOptions = createSelector(
-  (state: StoreState) => state.metadata.tabooSets,
+  selectMetadata,
   selectLocaleSortingCollator,
-  (tabooSets, collator) => {
-    const sets = Object.values(tabooSets);
+  (metadata, collator) => {
+    const sets = Object.values(metadata.tabooSets);
     sets.sort((a, b) => collator.compare(b.date, a.date));
     return sets;
   },
@@ -1150,11 +1151,11 @@ export const selectTraitOptions = createSelector(
 export const selectTypeOptions = createSelector(
   selectListFilterProperties,
   selectLocaleSortingCollator,
-  (state: StoreState) => state.metadata.types,
-  ({ types }, collator, typeTable) => {
+  selectMetadata,
+  ({ types }, collator, metadata) => {
     return Array.from(types)
       .map((code) => ({
-        ...typeTable[code],
+        ...metadata.types[code],
         name: i18n.t(`common.type.${code}`),
       }))
       .sort((a, b) => collator.compare(a.name, b.name));
@@ -1172,7 +1173,7 @@ export type AvailableUpgrades = {
 
 export const selectAvailableUpgrades = createSelector(
   selectDeckInvestigatorFilter,
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   (state: StoreState) => state.lookupTables,
   (_: StoreState, deck: ResolvedDeck) => deck,
   (_: StoreState, __: ResolvedDeck, target: "slots" | "extraSlots") => target,
@@ -1287,7 +1288,7 @@ function selectCostChanges(value: CostFilter) {
 
 const selectEncounterSetChanges = createSelector(
   (_: StoreState, value: MultiselectFilter) => value,
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   (value, metadata) => {
     return value
       .map((id) => metadata.encounterSets[id].name)
@@ -1307,7 +1308,7 @@ function selectInvestigatorCardAccessChanges(value: MultiselectFilter) {
 
 const selectInvestigatorChanges = createSelector(
   (_: StoreState, value: SelectFilter) => value,
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   (value, metadata) => {
     if (!value) return "";
     const card = metadata.cards[value];
@@ -1356,7 +1357,7 @@ function selectOwnershipChanges(value: OwnershipFilter) {
 
 const selectPackChanges = createSelector(
   (_: StoreState, value: MultiselectFilter) => value,
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   (value, metadata) => {
     if (!value) return "";
     return value
@@ -1407,7 +1408,7 @@ function selectSubtypeChanges(value: SubtypeFilter) {
 
 const selectTabooSetChanges = createSelector(
   (_: StoreState, value: SelectFilter) => value,
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   (value, metadata) => {
     if (!value) return "";
     const set = metadata.tabooSets[value];

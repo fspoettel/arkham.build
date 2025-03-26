@@ -13,10 +13,10 @@ import type { Customization, Customizations, ResolvedDeck } from "../lib/types";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import type { Deck, Id } from "../slices/data.types";
-import { selectLocaleSortingCollator } from "./shared";
+import { selectLocaleSortingCollator, selectMetadata } from "./shared";
 
 export const selectResolvedDeckById = createSelector(
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.sharing,
   selectLocaleSortingCollator,
@@ -42,7 +42,7 @@ export const selectResolvedDeckById = createSelector(
 
 export const selectLocalDecks = createSelector(
   (state: StoreState) => state.data,
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.sharing,
   selectLocaleSortingCollator,
@@ -85,7 +85,7 @@ export const selectLocalDecks = createSelector(
 export const selectDeckValid = createSelector(
   (_: StoreState, deck: ResolvedDeck | undefined) => deck,
   (state: StoreState) => state.lookupTables,
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   (deck, lookupTables, metadata) => {
     return deck
       ? validateDeck(deck, { lookupTables, metadata } as StoreState)
@@ -285,7 +285,7 @@ export function getDeckHistory(
 
 export const selectDeckHistoryCached = createSelector(
   (_: StoreState, id: Id) => id,
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.data,
   (state: StoreState) => state.sharing,
@@ -347,7 +347,7 @@ function diffSortingFn(fallback: (a: Card, b: Card) => number) {
 }
 
 export const selectLatestUpgrade = createSelector(
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   selectLocaleSortingCollator,
   (_: StoreState, deck: ResolvedDeck) => deck,
   (state: StoreState, deck: ResolvedDeck) => {
@@ -376,7 +376,7 @@ export const selectLimitedSlotOccupation = createSelector(
 );
 
 export const selectDeckGroups = createSelector(
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   selectLocaleSortingCollator,
   (state: StoreState) => state.settings,
   (_: StoreState, deck: ResolvedDeck) => deck,

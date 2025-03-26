@@ -13,6 +13,23 @@ export const createCustomDataSlice: StateCreator<
   [],
   [],
   CustomDataSlice
-> = (set, get) => ({
+> = (set, _get) => ({
   customData: getInitialCustomData(),
+
+  addCustomProject(project) {
+    const { code } = project.meta;
+
+    set((state) => ({
+      ...state,
+      customData: {
+        ...state.customData,
+        projects: {
+          ...state.customData.projects,
+          [code]: project,
+        },
+      },
+    }));
+  },
+
+  removeCustomProject() {},
 });

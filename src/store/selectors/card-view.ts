@@ -12,10 +12,10 @@ import type { ResolvedDeck } from "../lib/types";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import { selectCanonicalTabooSetId } from "./lists";
-import { selectLocaleSortingCollator } from "./shared";
+import { selectLocaleSortingCollator, selectMetadata } from "./shared";
 
 export const selectCardWithRelations = createSelector(
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   (state: StoreState) => state.lookupTables,
   selectLocaleSortingCollator,
   (_: StoreState, code: string) => code,
@@ -48,7 +48,7 @@ export const selectCardWithRelations = createSelector(
 
 export const selectUsableByInvestigators = createSelector(
   (state: StoreState) => state.lookupTables,
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   selectLocaleSortingCollator,
   (_: StoreState, card: Card) => card,
   (lookupTables, metadata, collator, card) => {

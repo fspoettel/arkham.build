@@ -9,6 +9,7 @@ import { clampAttachmentQuantity } from "../lib/attachments";
 import { randomBasicWeaknessForDeck } from "../lib/random-basic-weakness";
 import { getDeckLimitOverride } from "../lib/resolve-deck";
 import { selectResolvedDeckById } from "../selectors/decks";
+import { selectMetadata } from "../selectors/shared";
 import type { Id } from "./data.types";
 import { type DeckEditsSlice, mapTabToSlot } from "./deck-edits.types";
 
@@ -233,6 +234,7 @@ export const createDeckEditsSlice: StateCreator<
   },
   drawRandomBasicWeakness(deckId) {
     const state = get();
+    const metadata = selectMetadata(state);
 
     const resolvedDeck = selectResolvedDeckById(state, deckId, true);
 
@@ -242,7 +244,7 @@ export const createDeckEditsSlice: StateCreator<
     );
 
     const weakness = randomBasicWeaknessForDeck(
-      state.metadata,
+      metadata,
       state.lookupTables,
       state.settings,
       resolvedDeck,
@@ -278,7 +280,7 @@ export const createDeckEditsSlice: StateCreator<
 
     state.dehydrate("edits").catch(console.error);
 
-    return state.metadata.cards[weakness];
+    return metadata.cards[weakness];
   },
   updateAttachment({ deck, targetCode, code, quantity, limit }) {
     const attachments = get().deckEdits[deck.id]?.attachments ?? {};
@@ -374,6 +376,7 @@ export const createDeckEditsSlice: StateCreator<
 
   upgradeCard({ deckId, availableUpgrades, code, upgradeCode, delta, slots }) {
     const state = get();
+    const metadata = selectMetadata(state);
 
     const deck = selectResolvedDeckById(state, deckId, true);
     assert(deck, `Tried to edit deck that does not exist: ${deckId}`);
@@ -382,27 +385,28 @@ export const createDeckEditsSlice: StateCreator<
       deckId,
       upgradeCode,
       delta,
-      cardLimit(state.metadata.cards[upgradeCode]),
+      cardLimit(metadata.cards[upgradeCode]),
       slots,
     );
 
     const shouldUpdateSourceQuantity =
       availableUpgrades.upgrades[code].reduce((acc, curr) => {
         return acc + (deck[slots]?.[curr.code] ?? 0);
-      }, 0) <= cardLimit(state.metadata.cards[code]);
+      }, 0) <= cardLimit(metadata.cards[code]);
 
     if (shouldUpdateSourceQuantity) {
       state.updateCardQuantity(
         deckId,
         code,
         delta * -1,
-        cardLimit(state.metadata.cards[code]),
+        cardLimit(metadata.cards[code]),
         slots,
       );
     }
   },
   applyShrewdAnalysis({ availableUpgrades, code, deckId, slots }) {
     const state = get();
+    const metadata = selectMetadata(state);
 
     const upgrades = availableUpgrades.upgrades[code];
     assert(upgrades.length, "No upgrades available for card");
@@ -427,7 +431,7 @@ export const createDeckEditsSlice: StateCreator<
       });
     }
 
-    const sourceCard = state.metadata.cards[code];
+    const sourceCard = metadata.cards[code];
 
     state.updateXpAdjustment(
       deckId,

@@ -1,9 +1,72 @@
+import {
+  cardToApiFormat,
+  cycleToApiFormat,
+  packToApiFormat,
+} from "@/utils/arkhamdb-json-format";
 import i18n from "@/utils/i18n";
+import { isEmpty } from "@/utils/is-empty";
+import { time, timeEnd } from "@/utils/time";
 import { createSelector } from "reselect";
 import { ownedCardCount } from "../lib/card-ownership";
 import type { ResolvedDeck } from "../lib/types";
-import type { Card } from "../services/queries.types";
+import type { Card, EncounterSet } from "../services/queries.types";
 import type { StoreState } from "../slices";
+
+export const selectMetadata = createSelector(
+  (state: StoreState) => state.metadata,
+  (state: StoreState) => state.customData.projects,
+  (metadata, customContentProjects) => {
+    const projects = Object.values(customContentProjects);
+
+    if (isEmpty(projects)) return metadata;
+
+    time("select_custom_data");
+
+    const meta = structuredClone(metadata);
+
+    for (const project of projects) {
+      const encounterSets = project.data.encounter_sets.reduce(
+        (acc, curr) => {
+          acc[curr.code] = curr as EncounterSet;
+          return acc;
+        },
+        {} as Record<string, EncounterSet>,
+      );
+
+      if (!meta.cycles[project.meta.code]) {
+        meta.cycles[project.meta.code] = cycleToApiFormat({
+          code: project.meta.code,
+          name: project.meta.name,
+          position: 0,
+        });
+      }
+
+      for (const pack of project.data.packs) {
+        meta.packs[pack.code] = packToApiFormat({
+          ...pack,
+          cycle_code: project.meta.code,
+        });
+      }
+
+      for (const card of project.data.cards) {
+        meta.cards[card.code] = cardToApiFormat(card);
+        if (card.encounter_code && card.encounter_code in encounterSets) {
+          encounterSets[card.encounter_code].pack_code = card.pack_code;
+        }
+      }
+
+      for (const encounterSet of Object.values(encounterSets)) {
+        if (encounterSet.pack_code) {
+          meta.encounterSets[encounterSet.code] = encounterSet;
+        }
+      }
+    }
+
+    timeEnd("select_custom_data");
+
+    return meta;
+  },
+);
 
 export const selectClientId = (state: StoreState) => {
   return state.app.clientId;
@@ -17,7 +80,7 @@ export const selectCanCheckOwnership = (state: StoreState) =>
   !state.settings.showAllCards;
 
 export const selectCardOwnedCount = createSelector(
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   (state: StoreState) => state.lookupTables,
   (state: StoreState) => state.settings,
   (metadata, lookupTables, settings) => {
@@ -53,7 +116,7 @@ export const selectConnectionLockForDeck = createSelector(
 );
 
 export const selectBackCard = createSelector(
-  (state: StoreState) => state.metadata,
+  selectMetadata,
   (state: StoreState) => state.lookupTables,
   (_: StoreState, code: string) => code,
   (metadata, lookupTables, code) => {
