@@ -1144,7 +1144,11 @@ export const selectTraitOptions = createSelector(
   selectLocaleSortingCollator,
   ({ traits }, collator) => {
     return Array.from(traits)
-      .map((code) => ({ code, name: i18n.t(`common.traits.${code}`) }))
+      .map((code) => {
+        const key = `common.traits.${code}`;
+        const name = i18n.exists(key) ? i18n.t(key) : code;
+        return { code, name };
+      })
       .sort((a, b) => collator.compare(a.name, b.name));
   },
 );
@@ -1424,7 +1428,11 @@ const selectTabooSetChanges = createSelector(
 function selectTraitChanges(value: MultiselectFilter) {
   if (!value.length) return "";
   return value
-    .map((code) => i18n.t(`common.traits.${code}`))
+    .map((code) => {
+      const key = `common.traits.${code}`;
+      const name = i18n.exists(key) ? i18n.t(key) : code;
+      return { code, name };
+    })
     .join(` ${i18n.t("filters.or")} `);
 }
 

@@ -39,6 +39,7 @@ export const selectMetadata = createSelector(
           code: project.meta.code,
           name: project.meta.name,
           position: 0,
+          official: false,
         });
       }
 
@@ -46,11 +47,12 @@ export const selectMetadata = createSelector(
         meta.packs[pack.code] = packToApiFormat({
           ...pack,
           cycle_code: project.meta.code,
+          official: false,
         });
       }
 
       for (const card of project.data.cards) {
-        meta.cards[card.code] = cardToApiFormat(card);
+        meta.cards[card.code] = cardToApiFormat({ ...card, official: false });
         if (card.encounter_code && card.encounter_code in encounterSets) {
           encounterSets[card.encounter_code].pack_code = card.pack_code;
         }

@@ -23,8 +23,12 @@ const selectTraitOptions = createSelector(
   selectLocaleSortingCollator,
   (lookupTables, collator) =>
     Object.keys(lookupTables.traits)
-      .map((code) => ({ code, name: i18n.t(`common.traits.${code}`) }))
-      .sort((a, b) => collator.compare(a.code, b.code)),
+      .map((code) => {
+        const key = `common.traits.${code}`;
+        const name = i18n.exists(key) ? i18n.t(key) : code;
+        return { code, name };
+      })
+      .sort((a, b) => collator.compare(a.name, b.name)),
 );
 
 export function CustomizationChooseTraits(props: Props) {

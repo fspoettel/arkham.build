@@ -6,6 +6,6 @@ export type CustomDataState = {
 
 export type CustomDataSlice = {
   customData: CustomDataState;
-  addCustomProject: (project: CustomContentProject) => void;
-  removeCustomProject: (id: string) => void;
+  addCustomProject: (project: CustomContentProject) => Promise<void>;
+  removeCustomProject: (id: string) => Promise<void>;
 };

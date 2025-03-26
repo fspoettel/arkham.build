@@ -13,10 +13,10 @@ export const createCustomDataSlice: StateCreator<
   [],
   [],
   CustomDataSlice
-> = (set, _get) => ({
+> = (set, get) => ({
   customData: getInitialCustomData(),
 
-  addCustomProject(project) {
+  async addCustomProject(project) {
     const { code } = project.meta;
 
     set((state) => ({
@@ -29,7 +29,23 @@ export const createCustomDataSlice: StateCreator<
         },
       },
     }));
+
+    await get().dehydrate("app");
   },
 
-  removeCustomProject() {},
+  async removeCustomProject(id) {
+    set((state) => {
+      const { [id]: _, ...projects } = state.customData.projects;
+
+      return {
+        ...state,
+        customData: {
+          ...state.customData,
+          projects,
+        },
+      };
+    });
+
+    await get().dehydrate("app");
+  },
 });
