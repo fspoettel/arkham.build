@@ -9,7 +9,7 @@ import { clampAttachmentQuantity } from "../lib/attachments";
 import { randomBasicWeaknessForDeck } from "../lib/random-basic-weakness";
 import { getDeckLimitOverride } from "../lib/resolve-deck";
 import { selectResolvedDeckById } from "../selectors/decks";
-import { selectMetadata } from "../selectors/shared";
+import { selectLookupTables, selectMetadata } from "../selectors/shared";
 import type { Id } from "./data.types";
 import { type DeckEditsSlice, mapTabToSlot } from "./deck-edits.types";
 
@@ -245,7 +245,7 @@ export const createDeckEditsSlice: StateCreator<
 
     const weakness = randomBasicWeaknessForDeck(
       metadata,
-      state.lookupTables,
+      selectLookupTables(state),
       state.settings,
       resolvedDeck,
     );
@@ -323,7 +323,11 @@ export const createDeckEditsSlice: StateCreator<
 
     const edits = currentEdits(state, deckId);
 
-    const limitOverride = getDeckLimitOverride(state.lookupTables, deck, card);
+    const limitOverride = getDeckLimitOverride(
+      selectLookupTables(state),
+      deck,
+      card,
+    );
 
     const targetQuantity = Math.min(
       (deck?.[target]?.[card.code] ?? 0) + 1,

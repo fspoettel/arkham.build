@@ -16,6 +16,7 @@ import i18n from "@/utils/i18n";
 import { isEmpty } from "@/utils/is-empty";
 import {
   selectLocaleSortingCollator,
+  selectLookupTables,
   selectMetadata,
 } from "../selectors/shared";
 import { getInitialSettings } from "../slices/settings";
@@ -41,14 +42,15 @@ export function formatDeckImport(
   const validation = validateDeck(
     resolveDeck(
       {
-        lookupTables: state.lookupTables,
+        lookupTables: selectLookupTables(state),
         metadata: selectMetadata(state),
         sharing: state.sharing,
       },
       selectLocaleSortingCollator(state),
       deck,
     ),
-    state,
+    selectMetadata(state),
+    selectLookupTables(state),
   );
 
   const problem = mapValidationToProblem(validation);

@@ -7,21 +7,20 @@ import {
 } from "@/utils/card-utils";
 import { DECK_SIZE_ADJUSTMENTS, SPECIAL_CARD_CODES } from "@/utils/constants";
 import { time, timeEnd } from "@/utils/time";
-import { selectMetadata } from "../selectors/shared";
 import type {
   Card,
   DeckOption,
   DeckRequirements,
 } from "../services/queries.types";
-import type { StoreState } from "../slices";
 import type { Deck } from "../slices/data.types";
-import type { LookupTables } from "../slices/lookup-tables.types";
+import type { Metadata } from "../slices/metadata.types";
 import type { InvestigatorAccessConfig } from "./filtering";
 import {
   filterInvestigatorAccess,
   filterInvestigatorWeaknessAccess,
   makeOptionFilter,
 } from "./filtering";
+import type { LookupTables } from "./lookup-tables.types";
 import type { ResolvedDeck } from "./types";
 
 export type DeckValidationResult = {
@@ -183,7 +182,8 @@ export function getAdditionalDeckOptions(deck: Deck | ResolvedDeck) {
 
 export function validateDeck(
   deck: ResolvedDeck,
-  state: StoreState,
+  metadata: Metadata,
+  lookupTables: LookupTables,
 ): DeckValidationResult {
   time("validate_deck");
 
@@ -203,12 +203,12 @@ export function validateDeck(
 
   const errors: Error[] = [
     ...validateDeckSize(deck),
-    ...validateSlots(deck, state),
+    ...validateSlots(deck, metadata, lookupTables),
   ];
 
   if (deck.hasExtraDeck) {
     errors.push(...validateExtraDeckSize(deck));
-    errors.push(...validateSlots(deck, state, "extraSlots"));
+    errors.push(...validateSlots(deck, metadata, lookupTables, "extraSlots"));
   }
 
   timeEnd("validate_deck");
@@ -334,15 +334,14 @@ function validateExtraDeckSize(deck: ResolvedDeck): Error[] {
 
 function validateSlots(
   deck: ResolvedDeck,
-  state: StoreState,
+  metadata: Metadata,
+  lookupTables: LookupTables,
   mode: "slots" | "extraSlots" = "slots",
 ): Error[] {
-  const metadata = selectMetadata(state);
-
   const validators: SlotValidator[] = [
     new DeckLimitsValidator(deck),
     new DeckRequiredCardsValidator(deck, mode),
-    new DeckOptionsValidator(deck, state, mode),
+    new DeckOptionsValidator(deck, lookupTables, mode),
   ];
 
   if (mode === "extraSlots") {
@@ -636,11 +635,11 @@ class DeckOptionsValidator implements SlotValidator {
 
   constructor(
     deck: ResolvedDeck,
-    state: StoreState,
+    lookupTables: LookupTables,
     mode: "slots" | "extraSlots" = "slots",
   ) {
     const investigatorBack = deck.investigatorBack.card;
-    this.lookupTables = state.lookupTables;
+    this.lookupTables = lookupTables;
 
     const { config, deckOptions } = this.configure(deck, mode);
 

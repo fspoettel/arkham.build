@@ -6,6 +6,7 @@ import { resolveDeck } from "@/store/lib/resolve-deck";
 import { selectDeckValid } from "@/store/selectors/decks";
 import {
   selectLocaleSortingCollator,
+  selectLookupTables,
   selectMetadata,
 } from "@/store/selectors/shared";
 import { getShare } from "@/store/services/queries";
@@ -20,7 +21,7 @@ import { Error404 } from "../errors/404";
 
 const selectResolvedShare = createSelector(
   selectMetadata,
-  (state: StoreState) => state.lookupTables,
+  selectLookupTables,
   (state: StoreState) => state.sharing,
   selectLocaleSortingCollator,
   (_: StoreState, data: Deck | undefined) => data,

@@ -27,9 +27,9 @@ import type {
   SkillIconsFilter,
   SubtypeFilter,
 } from "../slices/lists.types";
-import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
 import { ownedCardCount } from "./card-ownership";
+import type { LookupTables } from "./lookup-tables.types";
 import type { SealedDeck, Selections } from "./types";
 import { isOptionSelect } from "./types";
 

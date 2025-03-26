@@ -10,7 +10,6 @@ import { createDeckFiltersSlice } from "./slices/deck-collection-filters";
 import { createDeckCreateSlice } from "./slices/deck-create";
 import { createDeckEditsSlice } from "./slices/deck-edits";
 import { createListsSlice } from "./slices/lists";
-import { createLookupTablesSlice } from "./slices/lookup-tables";
 import { createMetadataSlice } from "./slices/metadata";
 import { createRecommenderSlice } from "./slices/recommender";
 import { createRemotingSlice } from "./slices/remoting";
@@ -24,7 +23,6 @@ const stateCreator = (...args: [any, any, any]) => ({
   ...createDataSlice(...args),
   ...createCustomDataSlice(...args),
   ...createMetadataSlice(...args),
-  ...createLookupTablesSlice(...args),
   ...createListsSlice(...args),
   ...createSettingsSlice(...args),
   ...createUISlice(...args),

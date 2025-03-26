@@ -45,6 +45,7 @@ import {
   filterType,
 } from "../lib/filtering";
 import { getGroupedCards } from "../lib/grouping";
+import type { LookupTables } from "../lib/lookup-tables.types";
 import { resolveCardWithRelations } from "../lib/resolve-card";
 import { applySearch } from "../lib/searching";
 import {
@@ -71,9 +72,12 @@ import type {
   SkillIconsFilter,
   SubtypeFilter,
 } from "../slices/lists.types";
-import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
-import { selectLocaleSortingCollator, selectMetadata } from "./shared";
+import {
+  selectLocaleSortingCollator,
+  selectLookupTables,
+  selectMetadata,
+} from "./shared";
 
 export type CardGroup = {
   type: string;
@@ -366,7 +370,7 @@ const customizationsEqualSelector = createCustomEqualSelector((a, b) => {
 
 const selectDeckInvestigatorFilter = deckAccessEqualSelector(
   selectMetadata,
-  (state: StoreState) => state.lookupTables,
+  selectLookupTables,
   (_: StoreState, resolvedDeck?: ResolvedDeck) => resolvedDeck,
   (
     _: StoreState,
@@ -447,7 +451,7 @@ const selectResolvedDeckCustomizations = customizationsEqualSelector(
 
 const selectBaseListCards = createSelector(
   selectMetadata,
-  (state: StoreState) => state.lookupTables,
+  selectLookupTables,
   (state: StoreState) => state.settings,
   (state: StoreState) => selectActiveList(state)?.systemFilter,
   (state: StoreState) => selectActiveList(state)?.duplicateFilter,
@@ -538,7 +542,7 @@ const selectBaseListCards = createSelector(
 
 export const selectListCards = createSelector(
   selectMetadata,
-  (state: StoreState) => state.lookupTables,
+  selectLookupTables,
   (state: StoreState) => state.settings,
   selectActiveList,
   selectBaseListCards,
@@ -625,7 +629,7 @@ export const selectListCards = createSelector(
 
 export const selectCardRelationsResolver = createSelector(
   selectMetadata,
-  (state: StoreState) => state.lookupTables,
+  selectLookupTables,
   selectLocaleSortingCollator,
   (metadata, lookupTables, collator) => {
     return (code: string) => {
@@ -647,10 +651,11 @@ export const selectCardRelationsResolver = createSelector(
  */
 
 const selectListFilterProperties = createSelector(
-  (state: StoreState) => state.lookupTables.actions,
+  selectLookupTables,
   selectBaseListCards,
-  (actionTable, cards) => {
+  (lookupTables, cards) => {
     time("select_card_list_properties");
+    const actionTable = lookupTables.actions;
 
     const cost = { min: Number.MAX_SAFE_INTEGER, max: 0 };
     const health = { min: Number.MAX_SAFE_INTEGER, max: 0 };
@@ -757,7 +762,7 @@ export const selectActionOptions = createSelector(
  */
 
 export const selectAssetOptions = createSelector(
-  (state: StoreState) => state.lookupTables,
+  selectLookupTables,
   selectLocaleSortingCollator,
   selectListFilterProperties,
   (lookupTables, collator, filterProps) => {
@@ -863,7 +868,7 @@ export const selectHealthMinMax = createSelector(
  */
 
 export const selectInvestigatorOptions = createSelector(
-  (state: StoreState) => state.lookupTables,
+  selectLookupTables,
   selectMetadata,
   selectLocaleSortingCollator,
   (lookupTables, metadata, collator) => {
@@ -945,7 +950,7 @@ type CycleWithPacks = (Cycle & {
 
 export const selectCyclesAndPacks = createSelector(
   selectMetadata,
-  (state: StoreState) => state.lookupTables,
+  selectLookupTables,
   (state: StoreState) => state.settings,
   (metadata, lookupTables, settings) => {
     const cycles = Object.entries(lookupTables.packsByCycle).reduce(
@@ -1070,7 +1075,7 @@ export const selectActiveListSearch = createSelector(
 
 export const selectResolvedCardById = createSelector(
   selectMetadata,
-  (state: StoreState) => state.lookupTables,
+  selectLookupTables,
   selectLocaleSortingCollator,
   (_: StoreState, code: string) => code,
   (_: StoreState, __: string, resolvedDeck?: ResolvedDeck) => resolvedDeck,
@@ -1174,7 +1179,7 @@ export type AvailableUpgrades = {
 export const selectAvailableUpgrades = createSelector(
   selectDeckInvestigatorFilter,
   selectMetadata,
-  (state: StoreState) => state.lookupTables,
+  selectLookupTables,
   (_: StoreState, deck: ResolvedDeck) => deck,
   (_: StoreState, __: ResolvedDeck, target: "slots" | "extraSlots") => target,
   (accessFilter, metadata, lookupTables, deck, target) => {

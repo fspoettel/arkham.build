@@ -8,6 +8,7 @@ import { isEmpty } from "@/utils/is-empty";
 import { time, timeEnd } from "@/utils/time";
 import { createSelector } from "reselect";
 import { ownedCardCount } from "../lib/card-ownership";
+import { createLookupTables } from "../lib/lookup-tables";
 import type { ResolvedDeck } from "../lib/types";
 import type { Card, EncounterSet } from "../services/queries.types";
 import type { StoreState } from "../slices";
@@ -68,6 +69,14 @@ export const selectMetadata = createSelector(
   },
 );
 
+export const selectLookupTables = createSelector(
+  selectMetadata,
+  (state: StoreState) => state.settings,
+  (metadata, settings) => {
+    return createLookupTables(metadata, settings);
+  },
+);
+
 export const selectClientId = (state: StoreState) => {
   return state.app.clientId;
 };
@@ -81,7 +90,7 @@ export const selectCanCheckOwnership = (state: StoreState) =>
 
 export const selectCardOwnedCount = createSelector(
   selectMetadata,
-  (state: StoreState) => state.lookupTables,
+  selectLookupTables,
   (state: StoreState) => state.settings,
   (metadata, lookupTables, settings) => {
     const { collection, showAllCards } = settings;
@@ -117,7 +126,7 @@ export const selectConnectionLockForDeck = createSelector(
 
 export const selectBackCard = createSelector(
   selectMetadata,
-  (state: StoreState) => state.lookupTables,
+  selectLookupTables,
   (_: StoreState, code: string) => code,
   (metadata, lookupTables, code) => {
     const card = metadata.cards[code];

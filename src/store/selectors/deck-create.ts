@@ -6,7 +6,11 @@ import { createSelector } from "reselect";
 import { resolveCardWithRelations } from "../lib/resolve-card";
 import type { CardSet, CardWithRelations, ResolvedCard } from "../lib/types";
 import type { StoreState } from "../slices";
-import { selectLocaleSortingCollator, selectMetadata } from "./shared";
+import {
+  selectLocaleSortingCollator,
+  selectLookupTables,
+  selectMetadata,
+} from "./shared";
 
 export function selectDeckCreateChecked(state: StoreState) {
   const { deckCreate } = state;
@@ -17,7 +21,7 @@ export function selectDeckCreateChecked(state: StoreState) {
 export const selectDeckCreateInvestigators = createSelector(
   selectDeckCreateChecked,
   selectMetadata,
-  (state: StoreState) => state.lookupTables,
+  selectLookupTables,
   selectLocaleSortingCollator,
   (deckCreate, metadata, lookupTables, collator) => {
     return Object.entries({
@@ -47,7 +51,7 @@ export const selectDeckCreateInvestigators = createSelector(
 
 export const selectDeckCreateCardSets = createSelector(
   selectMetadata,
-  (state: StoreState) => state.lookupTables,
+  selectLookupTables,
   selectLocaleSortingCollator,
   selectDeckCreateChecked,
   selectDeckCreateInvestigators,

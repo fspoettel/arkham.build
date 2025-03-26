@@ -16,6 +16,7 @@ import {
 import {
   selectClientId,
   selectLocaleSortingCollator,
+  selectLookupTables,
   selectMetadata,
 } from "@/store/selectors/shared";
 import { queryDeck } from "@/store/services/queries";
@@ -59,7 +60,7 @@ function ArkhamDbDeckView({ id, type }: { id: string; type: string }) {
   const { data, state } = useQuery(query);
 
   const metadata = useStore(selectMetadata);
-  const lookupTables = useStore((state) => state.lookupTables);
+  const lookupTables = useStore(selectLookupTables);
   const sharing = useStore((state) => state.sharing);
   const collator = useStore(selectLocaleSortingCollator);
 

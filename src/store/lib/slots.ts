@@ -8,6 +8,7 @@ import { range } from "@/utils/range";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import { addCardToDeckCharts, emptyDeckCharts } from "./deck-charts";
+import type { LookupTables } from "./lookup-tables.types";
 import { resolveCardWithRelations } from "./resolve-card";
 import type {
   CardWithRelations,
@@ -18,7 +19,9 @@ import type {
 } from "./types";
 
 export function decodeSlots(
-  state: Pick<StoreState, "metadata" | "lookupTables">,
+  state: Pick<StoreState, "metadata"> & {
+    lookupTables: LookupTables;
+  },
   collator: Intl.Collator,
   deck: Deck,
   extraSlots: ResolvedDeck["extraSlots"],

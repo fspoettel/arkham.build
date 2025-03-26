@@ -9,7 +9,6 @@ import { isEmpty } from "@/utils/is-empty";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import type { Deck } from "../slices/data.types";
-import type { LookupTables } from "../slices/lookup-tables.types";
 import {
   decodeAnnotations,
   decodeAttachments,
@@ -19,6 +18,7 @@ import {
   decodeSealedDeck,
   decodeSelections,
 } from "./deck-meta";
+import type { LookupTables } from "./lookup-tables.types";
 import { resolveCardWithRelations } from "./resolve-card";
 import { decodeExtraSlots, decodeSlots } from "./slots";
 import type { CardWithRelations, DeckMeta, ResolvedDeck } from "./types";
@@ -27,7 +27,9 @@ import type { CardWithRelations, DeckMeta, ResolvedDeck } from "./types";
  * Given a decoded deck, resolve all cards and metadata for display.
  */
 export function resolveDeck(
-  state: Pick<StoreState, "metadata" | "lookupTables" | "sharing">,
+  state: Pick<StoreState, "metadata" | "sharing"> & {
+    lookupTables: LookupTables;
+  },
   collator: Intl.Collator,
   deck: Deck,
 ): ResolvedDeck {
@@ -148,7 +150,9 @@ export function resolveDeck(
 }
 
 function getInvestigatorForSide(
-  state: Pick<StoreState, "metadata" | "lookupTables">,
+  state: Pick<StoreState, "metadata"> & {
+    lookupTables: LookupTables;
+  },
   collator: Intl.Collator,
   tabooId: number | undefined | null,
   investigator: CardWithRelations,

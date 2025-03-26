@@ -1,7 +1,7 @@
 import { CARD_SET_ORDER } from "@/utils/constants";
 import type { StoreState } from "../slices";
-import type { LookupTables } from "../slices/lookup-tables.types";
 import { applyCardChanges } from "./card-edits";
+import type { LookupTables } from "./lookup-tables.types";
 import { makeSortFunction, sortByName } from "./sorting";
 import type { CardWithRelations, Customizations, ResolvedCard } from "./types";
 
@@ -9,7 +9,7 @@ import type { CardWithRelations, Customizations, ResolvedCard } from "./types";
  * Given a card code, resolve the card and its relations for display.
  */
 export function resolveCardWithRelations<T extends boolean>(
-  state: Pick<StoreState, "metadata" | "lookupTables">,
+  state: Pick<StoreState, "metadata"> & { lookupTables: LookupTables },
   collator: Intl.Collator,
   code: string | undefined,
   tabooSetId: number | null | undefined,
@@ -183,7 +183,7 @@ export function resolveCardWithRelations<T extends boolean>(
 }
 
 function resolveRelation(
-  state: Pick<StoreState, "metadata" | "lookupTables">,
+  state: Pick<StoreState, "metadata"> & { lookupTables: LookupTables },
   collator: Intl.Collator,
   key: keyof LookupTables["relations"],
   code: string,
@@ -202,7 +202,7 @@ function resolveRelation(
 }
 
 function resolveRelationArray(
-  state: Pick<StoreState, "metadata" | "lookupTables">,
+  state: Pick<StoreState, "metadata"> & { lookupTables: LookupTables },
   collator: Intl.Collator,
   key: keyof LookupTables["relations"],
   code: string,

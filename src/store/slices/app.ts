@@ -38,7 +38,6 @@ import {
 import type { AppSlice } from "./app.types";
 import type { Deck } from "./data.types";
 import { makeLists } from "./lists";
-import { createLookupTables, createRelations } from "./lookup-tables";
 import { getInitialMetadata } from "./metadata";
 import type { Metadata } from "./metadata.types";
 
@@ -56,6 +55,7 @@ import {
 } from "../persist";
 import {
   selectLocaleSortingCollator,
+  selectLookupTables,
   selectMetadata,
 } from "../selectors/shared";
 
@@ -99,12 +99,15 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         subtypes: mappedByCode(subTypes),
         types: mappedByCode(types),
       };
-      // FIXME!!!
-      state.refreshLookupTables({
+
+      set({
         ...state,
         lists: makeLists(state.settings),
         metadata,
-        settings: state.settings,
+        ui: {
+          ...state.ui,
+          initialized: true,
+        },
       });
 
       return false;
@@ -197,9 +200,6 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     }
 
     metadata = applyLocalData(metadata);
-    // FIXME!!!
-    const lookupTables = createLookupTables(metadata, state.settings);
-    createRelations(metadata, lookupTables);
 
     for (const code of Object.keys(metadata.encounterSets)) {
       if (!metadata.encounterSets[code].pack_code) {
@@ -210,7 +210,6 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     set({
       ...state,
       metadata,
-      lookupTables,
       ui: {
         ...state.ui,
         initialized: true,
@@ -315,7 +314,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     if (state.deckCreate.provider === "arkhamdb") {
       const resolved = resolveDeck(
         {
-          lookupTables: state.lookupTables,
+          lookupTables: selectLookupTables(state),
           metadata,
           sharing: state.sharing,
         },
@@ -454,7 +453,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     const resolved = resolveDeck(
       {
-        lookupTables: state.lookupTables,
+        lookupTables: selectLookupTables(state),
         metadata,
         sharing: state.sharing,
       },
@@ -617,6 +616,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
               },
             },
           },
+          selectLookupTables(state),
           selectLocaleSortingCollator(state),
           newDeck,
         ),

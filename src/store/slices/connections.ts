@@ -7,6 +7,7 @@ import { resolveDeck } from "../lib/resolve-deck";
 import { disconnectProviderIfUnauthorized, syncAdapters } from "../lib/sync";
 import {
   selectLocaleSortingCollator,
+  selectLookupTables,
   selectMetadata,
 } from "../selectors/shared";
 import { ApiError, getDecks, newDeck, updateDeck } from "../services/queries";
@@ -225,7 +226,7 @@ export const createConnectionsSlice: StateCreator<
 
     const resolved = resolveDeck(
       {
-        lookupTables: state.lookupTables,
+        lookupTables: selectLookupTables(state),
         metadata: selectMetadata(state),
         sharing: state.sharing,
       },

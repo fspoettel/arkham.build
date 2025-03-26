@@ -6,6 +6,7 @@ import { selectDeckHistory } from "../selectors/decks";
 import {
   selectClientId,
   selectLocaleSortingCollator,
+  selectLookupTables,
   selectMetadata,
 } from "../selectors/shared";
 import { createShare, deleteShare, updateShare } from "../services/queries";
@@ -46,6 +47,7 @@ export const createSharingSlice: StateCreator<
           ...state,
           metadata: selectMetadata(state),
         },
+        selectLookupTables(state),
         selectLocaleSortingCollator(state),
         deck,
       ),
@@ -77,6 +79,7 @@ export const createSharingSlice: StateCreator<
           ...state,
           metadata: selectMetadata(state),
         },
+        selectLookupTables(state),
         selectLocaleSortingCollator(state),
         deck,
       ),

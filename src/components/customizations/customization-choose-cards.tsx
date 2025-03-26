@@ -2,6 +2,7 @@ import { useStore } from "@/store";
 import { makeSortFunction } from "@/store/lib/sorting";
 import {
   selectLocaleSortingCollator,
+  selectLookupTables,
   selectMetadata,
 } from "@/store/selectors/shared";
 import type { Card } from "@/store/services/queries.types";
@@ -15,7 +16,7 @@ import { CardsCombobox } from "../cards-combobox";
 
 const selectPlayerCardsForCustomizationOptions = createSelector(
   selectMetadata,
-  (state: StoreState) => state.lookupTables,
+  selectLookupTables,
   selectLocaleSortingCollator,
   (_: StoreState, config: CustomizationOptionType["card"] | undefined) =>
     config,
