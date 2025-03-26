@@ -621,12 +621,14 @@ class DeckRequiredCardsValidator implements SlotValidator {
 
 class DeckOptionsValidator implements SlotValidator {
   cards: Card[] = [];
+  signatures: Card[] = [];
   config: InvestigatorAccessConfig;
   deckOptions: DeckOption[];
   forbidden: Card[] = [];
   lookupTables: LookupTables;
   playerCardFilter?: (card: Card) => boolean;
   quantities: Record<string, number> = {};
+  signatureQuantities: Record<string, number> = {};
   weaknessFilter: (card: Card) => boolean;
 
   constructor(
@@ -678,10 +680,7 @@ class DeckOptionsValidator implements SlotValidator {
       deck.slots[SPECIAL_CARD_CODES.ANCESTRAL_KNOWLEDGE]
     ) {
       deckOptions.push({
-        atleast: {
-          min: 10,
-          types: 1,
-        },
+        atleast: { min: 10, types: 1 },
         type: ["skill"],
         virtual: true,
         error: "Deck must have at least 10 skill cards.",
@@ -721,7 +720,10 @@ class DeckOptionsValidator implements SlotValidator {
     } else if (card.real_text?.startsWith("Mutated. Forbidden.")) {
       this.forbidden.push(card);
       // campaign and investigator cards should not be validated against deck options.
-    } else if (card.xp != null) {
+    } else if (card.xp == null) {
+      this.signatures.push(card);
+      this.signatureQuantities[card.code] = quantity;
+    } else {
       this.cards.push(card);
       this.quantities[card.code] = quantity;
     }
@@ -772,25 +774,28 @@ class DeckOptionsValidator implements SlotValidator {
 
       const clustered: Record<string, number> = {};
 
+      const cards = this.cards.concat(this.signatures);
+      const quantities = { ...this.quantities, ...this.signatureQuantities };
+
       if (factionCount) {
-        for (const card of this.cards) {
+        for (const card of cards) {
           clustered[card.faction_code] ??= 0;
-          clustered[card.faction_code] += this.quantities[card.code];
+          clustered[card.faction_code] += quantities[card.code];
 
           if (card.faction2_code) {
             clustered[card.faction2_code] ??= 0;
-            clustered[card.faction2_code] += this.quantities[card.code];
+            clustered[card.faction2_code] += quantities[card.code];
           }
 
           if (card.faction3_code) {
             clustered[card.faction3_code] ??= 0;
-            clustered[card.faction3_code] += this.quantities[card.code];
+            clustered[card.faction3_code] += quantities[card.code];
           }
         }
       } else if (typeCount) {
-        for (const card of this.cards) {
+        for (const card of cards) {
           clustered[card.type_code] ??= 0;
-          clustered[card.type_code] += this.quantities[card.code];
+          clustered[card.type_code] += quantities[card.code];
         }
       }
 
@@ -801,11 +806,29 @@ class DeckOptionsValidator implements SlotValidator {
 
       const target = factionCount ? factionCount : typeCount;
 
+      let actual = matches.length;
+      let required = target;
+
+      if (required === 1) {
+        const target = factionCount ? option.faction : option.type;
+
+        if (target?.length) {
+          required = option.atleast.min;
+
+          actual = target.reduce((acc, curr) => {
+            const val = clustered[curr] ?? 0;
+            return val >= acc ? val : acc;
+          }, 0);
+
+          actual = clustered[target[0]];
+        }
+      }
+
       if (matches.length < (target ?? 0)) {
         errors.push({
           type: "INVALID_DECK_OPTION",
           details: {
-            count: `(${matches.length} / ${target})`,
+            count: `(${actual} / ${required})`,
             error: option.error ?? "Atleast constraint violated.",
           },
         });

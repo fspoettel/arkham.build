@@ -668,7 +668,7 @@ describe("deck validation", () => {
           [
             {
               "details": {
-                "count": "(0 / 1)",
+                "count": "(8 / 10)",
                 "error": "Deck must have at least 10 skill cards.",
               },
               "type": "INVALID_DECK_OPTION",
