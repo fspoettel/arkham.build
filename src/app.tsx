@@ -173,7 +173,9 @@ function AppTasks() {
       const upToDate =
         data &&
         dataVersion &&
-        data.cards_updated_at === dataVersion.cards_updated_at;
+        data.cards_updated_at === dataVersion.cards_updated_at &&
+        data.translation_updated_at === dataVersion.translation_updated_at &&
+        data.version === dataVersion.version;
 
       if (!upToDate && !toastId.current) {
         toastId.current = toast.show({
