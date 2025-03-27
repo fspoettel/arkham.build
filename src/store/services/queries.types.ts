@@ -277,6 +277,8 @@ export type DataVersion = {
   cards_updated_at: string;
   locale: string;
   translation_updated_at: string;
+  // ArkhamCards increments this version in reaction to breaking changes in the card data.
+  version?: number;
 };
 
 export type JsonDataEncounterSet = {
