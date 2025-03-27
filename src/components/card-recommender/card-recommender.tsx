@@ -62,7 +62,13 @@ export const CardRecommender = forwardRef(function CardRecommender(
         .filter((card) => card.xp != null)
         .map((card) => card.code);
 
-      const canonicalizedInvestigatorCode = `${resolvedDeck?.metaParsed.alternate_back ?? resolvedDeck?.investigator_code}-${resolvedDeck?.metaParsed.alternate_front ?? resolvedDeck?.investigator_code}`;
+      const canonicalFrontCode =
+        resolvedDeck?.metaParsed.alternate_front ??
+        resolvedDeck?.investigator_code;
+      const canonicalBackCode =
+        resolvedDeck?.metaParsed.alternate_back ??
+        resolvedDeck?.investigator_code;
+      const canonicalizedInvestigatorCode = `${canonicalFrontCode}-${canonicalBackCode}`;
 
       return () =>
         getRecommendations(
