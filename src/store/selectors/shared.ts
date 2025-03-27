@@ -48,6 +48,7 @@ export const selectMetadata = createSelector(
           ...pack,
           cycle_code: project.meta.code,
           official: false,
+          position: pack.position ?? 1,
         });
       }
 

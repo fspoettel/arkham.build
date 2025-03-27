@@ -1,4 +1,4 @@
-import type { CustomContentProject } from "../lib/custom-content.types";
+import type { CustomContentProject } from "../lib/custom-content.schemas";
 
 export type CustomDataState = {
   projects: Record<string, CustomContentProject>;
@@ -6,6 +6,6 @@ export type CustomDataState = {
 
 export type CustomDataSlice = {
   customData: CustomDataState;
-  addCustomProject: (project: CustomContentProject) => Promise<void>;
+  addCustomProject: (project: unknown) => Promise<string>;
   removeCustomProject: (id: string) => Promise<void>;
 };

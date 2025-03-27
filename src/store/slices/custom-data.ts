@@ -1,5 +1,9 @@
 import type { StateCreator } from "zustand";
 import type { StoreState } from ".";
+import {
+  parseCustomContentProject,
+  validateCustomContentProject,
+} from "../lib/custom-content";
 import type { CustomDataSlice, CustomDataState } from "./custom-data.types";
 
 function getInitialCustomData(): CustomDataState {
@@ -16,7 +20,10 @@ export const createCustomDataSlice: StateCreator<
 > = (set, get) => ({
   customData: getInitialCustomData(),
 
-  async addCustomProject(project) {
+  async addCustomProject(payload) {
+    const project = parseCustomContentProject(payload);
+    validateCustomContentProject(project);
+
     const { code } = project.meta;
 
     set((state) => ({
@@ -31,6 +38,8 @@ export const createCustomDataSlice: StateCreator<
     }));
 
     await get().dehydrate("app");
+
+    return project.meta.code;
   },
 
   async removeCustomProject(id) {
