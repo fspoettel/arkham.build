@@ -173,6 +173,7 @@ function AppTasks() {
       const upToDate =
         data &&
         dataVersion &&
+        data.locale === dataVersion.locale &&
         data.cards_updated_at === dataVersion.cards_updated_at &&
         data.translation_updated_at === dataVersion.translation_updated_at &&
         data.version === dataVersion.version;
