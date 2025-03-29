@@ -2,7 +2,7 @@ import { Suspense, lazy, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Route, Router, Switch, useLocation } from "wouter";
 import { useBrowserLocation } from "wouter/use-browser-location";
-import zcpa from "../content/zcpa.json";
+import lovecrafter from "../content/lovecrafter.json";
 import { ErrorBoundary } from "./components/error-boundary";
 import { Loader } from "./components/ui/loader";
 import { ToastProvider } from "./components/ui/toast";
@@ -78,8 +78,8 @@ function AppInner() {
     async function initStore() {
       try {
         await init(queryMetadata, queryDataVersion, queryCards, false);
-        await removeCustomProject(zcpa.meta.code);
-        await addCustomProject(zcpa);
+        await removeCustomProject(lovecrafter.meta.code);
+        await addCustomProject(lovecrafter);
       } catch (err) {
         console.error(err);
         toast.show({

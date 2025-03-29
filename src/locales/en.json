@@ -606,6 +606,11 @@
       "syncing": "Syncing {{provider}}...",
       "title": "Connecting {{provider}}..."
     },
+    "custom_content": {
+      "collection": "Collection",
+      "title": "Unofficial content",
+      "view_external": "Learn more"
+    },
     "deck": {
       "actions": {
         "copy_id": "Copy deck ID",

@@ -12,7 +12,7 @@ const ContentTypeSchema = v.picklist([
   "investigators",
 ]);
 
-const StatusSchema = v.picklist(["final", "changes-pending", "abandoned"]);
+const StatusSchema = v.picklist(["final", "changes_pending", "abandoned"]);
 
 const FactionSchema = v.picklist(FACTION_ORDER);
 const CardTypeSchema = v.picklist(PLAYER_TYPE_ORDER);
@@ -21,16 +21,16 @@ const SubtypeSchema = v.picklist(["basicweakness", "weakness"]);
 const ProjectMetaSchema = v.object({
   /** Author of the project. */
   author: v.string(),
-  /** URL to a banner image, aspect ratio 16:9. */
+  /** URL to a banner image, dimensions: 1180x500. */
   banner_url: v.optional(v.string()),
   /** Unique identifier (UUIDv4) for the project. */
   code: v.pipe(v.string(), v.minLength(3)),
   /** Date when this content was last updated, as ISO 8601 datestamp. */
-  date_updated: v.optional(v.pipe(v.string(), v.isoDate())),
+  date_updated: v.optional(v.string()),
   /** Detailed description for the project. Markdown is supported. */
   description: v.optional(v.string()),
   /** External project link. */
-  external_link: v.optional(UrlSchema),
+  external_link: v.optional(v.union([UrlSchema, v.literal("")])),
   /** Language of the project as ISO 639-1 language code. */
   language: v.string(),
   /** Name of the project. */

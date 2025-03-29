@@ -23,7 +23,13 @@ export const selectMetadata = createSelector(
 
     time("select_custom_data");
 
-    const meta = structuredClone(metadata);
+    const meta = {
+      ...metadata,
+      cards: { ...metadata.cards },
+      encounterSets: { ...metadata.encounterSets },
+      packs: { ...metadata.packs },
+      cycles: { ...metadata.cycles },
+    };
 
     for (const project of projects) {
       const encounterSets = project.data.encounter_sets.reduce(
@@ -44,23 +50,28 @@ export const selectMetadata = createSelector(
       }
 
       for (const pack of project.data.packs) {
-        meta.packs[pack.code] = packToApiFormat({
-          ...pack,
-          cycle_code: project.meta.code,
-          official: false,
-          position: pack.position ?? 1,
-        });
+        if (!meta.packs[pack.code]) {
+          meta.packs[pack.code] = packToApiFormat({
+            ...pack,
+            cycle_code: project.meta.code,
+            official: false,
+            position: pack.position ?? 1,
+          });
+        }
       }
 
       for (const card of project.data.cards) {
-        meta.cards[card.code] = cardToApiFormat({ ...card, official: false });
-        if (card.encounter_code && card.encounter_code in encounterSets) {
+        if (card.encounter_code && encounterSets[card.encounter_code]) {
           encounterSets[card.encounter_code].pack_code = card.pack_code;
+        }
+
+        if (!meta.cards[card.code]) {
+          meta.cards[card.code] = cardToApiFormat({ ...card, official: false });
         }
       }
 
       for (const encounterSet of Object.values(encounterSets)) {
-        if (encounterSet.pack_code) {
+        if (encounterSet.pack_code && !meta.encounterSets[encounterSet.code]) {
           meta.encounterSets[encounterSet.code] = encounterSet;
         }
       }
