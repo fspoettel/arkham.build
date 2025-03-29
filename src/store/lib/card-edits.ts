@@ -71,7 +71,11 @@ function applyCustomizations(
       if (option.real_traits) {
         nextCard.real_traits = option.real_traits;
         nextCard.traits = `${splitMultiValue(option.real_traits)
-          .map((trait) => i18n.t(`common.traits.${trait.trim()}`))
+          .map((_trait) => {
+            const trait = _trait.trim();
+            const key = `common.traits.${trait}`;
+            return i18n.exists(key) ? i18n.t(key) : trait;
+          })
           .join(". ")}.`;
       }
       if (option.cost) nextCard.cost = (nextCard.cost ?? 0) + option.cost;
@@ -86,12 +90,14 @@ function applyCustomizations(
 
       switch (option.choice) {
         case "choose_trait": {
-          const traits = selections?.split("^")?.reduce<string>((acc, t) => {
-            if (!t) return acc;
-
-            const trait = `[[${i18n.t(`common.traits.${t}`)}]]`;
-            return acc ? `${acc}, ${trait}` : trait;
-          }, "");
+          const traits = selections
+            ?.split("^")
+            ?.reduce<string>((acc, trait) => {
+              if (!trait) return acc;
+              const key = `common.traits.${trait}`;
+              const formatted = `[[${i18n.exists(key) ? i18n.t(key) : trait}]]`;
+              return acc ? `${acc}, ${formatted}` : formatted;
+            }, "");
 
           edit = traits ? edit.replace("_____", traits) : edit;
           displayEdit = traits

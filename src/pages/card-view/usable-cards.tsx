@@ -1,6 +1,7 @@
 import { ListLayoutContextProvider } from "@/layouts/list-layout-context-provider";
 import { ListLayoutNoSidebar } from "@/layouts/list-layout-no-sidebar";
 import { useStore } from "@/store";
+import { selectMetadata } from "@/store/selectors/shared";
 import type { Card } from "@/store/services/queries.types";
 import { displayAttribute } from "@/utils/card-utils";
 import { useEffect } from "react";
@@ -15,7 +16,7 @@ type Props = {
 function UsableCards() {
   const params = useParams<Props>();
 
-  const card = useStore((state) => state.metadata.cards[params.code]);
+  const card = useStore((state) => selectMetadata(state).cards[params.code]);
 
   if (!card || card.type_code !== "investigator") {
     return <Error404 />;

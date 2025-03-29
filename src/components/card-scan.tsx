@@ -64,6 +64,9 @@ export function CardScan(props: Props) {
     [flipped, isSideways, reverseSideways, onFlip],
   );
 
+  const frontUrl = suffix === "b" ? card.back_image_url : card.image_url;
+  const backUrl = suffix === "b" ? card.image_url : card.back_image_url;
+
   return (
     <div
       {...rest}
@@ -82,7 +85,7 @@ export function CardScan(props: Props) {
           alt={t("card_view.scan", { code: imageCode })}
           lazy={lazy}
           sideways={isSideways}
-          url={card.image_url ? card.image_url : imageUrl(imageCode)}
+          url={frontUrl ? frontUrl : imageUrl(imageCode)}
         />
       </div>
       {!preventFlip && (
@@ -94,7 +97,7 @@ export function CardScan(props: Props) {
                 hidden={!flipped}
                 lazy={lazy}
                 sideways={backCard ? sideways(backCard) : isSideways}
-                url={imageUrl(reverseImageCode)}
+                url={backUrl ? backUrl : imageUrl(reverseImageCode)}
               />
             ) : (
               <CardScanInner
@@ -102,11 +105,7 @@ export function CardScan(props: Props) {
                 hidden={!flipped}
                 lazy={lazy}
                 sideways={false}
-                url={
-                  card.back_image_url
-                    ? card.back_image_url
-                    : cardBackTypeUrl(backType)
-                }
+                url={backUrl || cardBackTypeUrl(backType)}
               />
             )}
           </div>
