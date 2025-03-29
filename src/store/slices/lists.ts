@@ -722,14 +722,14 @@ function makeInvestigatorCardsList(
   const filters: FilterKey[] = [
     "faction",
     "investigatorSkills",
+    "investigatorCardAccess",
     "trait",
     "health",
     "sanity",
-    "investigatorCardAccess",
   ];
 
   if (!settings.showAllCards) {
-    filters.push("ownership");
+    filters.splice(2, 0, "ownership");
   }
 
   return makeList({
