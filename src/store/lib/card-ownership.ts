@@ -24,7 +24,10 @@ export function ownedCardCount(
   // ownership of the format.
   const pack = metadata.packs[card.pack_code];
   const reprintId = `${pack.cycle_code}${card.encounter_code ? "c" : "p"}`;
-  if (collection[reprintId]) quantityOwned += card.quantity;
+
+  if (card.pack_code !== reprintId && collection[reprintId]) {
+    quantityOwned += card.quantity;
+  }
 
   const duplicates = lookupTables.relations.duplicates[card.code];
 
