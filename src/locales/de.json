@@ -650,7 +650,7 @@
         "ignored_other": "{{count}} Kopien zählen nicht gegen die Deckgröße.",
         "unowned": "Unverfügbar: {{count}} von {{total}} Karten",
         "uses_parallel": "Nutzt eine parallele Ermittlerseite",
-        "xp_available_help": "Verfügbare Erfahrungspunkte",
+        "xp_available_help": "Verdiente Erfahrungspunkte",
         "xp_required": "Benötigte EP",
         "xp_required_help": "Benötigte Erfahrungspunkte, um dieses Deck von Grund auf zu erstellen."
       },
