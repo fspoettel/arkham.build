@@ -63,11 +63,7 @@ export function InvestigatorCardAccessFilter(props: FilterProps) {
               />
             ),
           }}
-        >
-          If you need more, use arkham-starter's{" "}
-          {/* biome-ignore lint/a11y/useValidAnchor: interpolation. */}
-          <a>/who tool</a>.
-        </Trans>
+        />
       </p>
     </FilterContainer>
   );
