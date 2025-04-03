@@ -49,7 +49,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
       <main className={css["main"]} style={cssVariables}>
         <header className={css["header"]}>
           <h1 className={css["title"]} data-testid="view-title">
-            {deck.name}
+            {deck.name} <small>{deck.version}</small>
           </h1>
           <div className={css["tags"]}>
             <DeckTags

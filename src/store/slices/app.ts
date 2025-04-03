@@ -45,7 +45,7 @@ import type { Metadata } from "./metadata.types";
 import factions from "@/store/services/data/factions.json";
 import subTypes from "@/store/services/data/subtypes.json";
 import types from "@/store/services/data/types.json";
-import { assertCanPublishDeck } from "@/utils/arkhamdb";
+import { assertCanPublishDeck, incrementVersion } from "@/utils/arkhamdb";
 import { applyCardChanges } from "../lib/card-edits";
 import { applyLocalData } from "../lib/local-data";
 import {
@@ -440,6 +440,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     let nextDeck = applyDeckEdits(deck, edits, state.metadata, true);
     nextDeck.date_update = new Date().toISOString();
+    nextDeck.version = incrementVersion(deck.version);
 
     const resolved = resolveDeck(
       state,
