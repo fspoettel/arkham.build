@@ -920,6 +920,16 @@
         "xp_gained": "Erhaltene Ehrfahrungspunkte"
       }
     },
+    "draw_simulator": {
+      "draw_tooltip": "Ziehe {{count}} {{cards}}.",
+      "redraw": "Auswahl ersetzen",
+      "redraw_tooltip": "Ausgewählte Karten werden unter das Deck gelegt und mit neuen Karten ersetzt.",
+      "reset": "Zurücksetzen",
+      "reset_tooltip": "Handsimulation zurücksetzen.",
+      "reshuffle": "Auswahl ins Deck mischen",
+      "reshuffle_tooltip": "Ausgewählte Karten werden ins Deck gemischt.",
+      "title": "Handsimulation"
+    },
     "errors": {
       "404": "Seite nicht gefunden.",
       "500": "Auto-Fail!",

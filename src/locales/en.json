@@ -920,6 +920,16 @@
         "xp_gained": "XP gained"
       }
     },
+    "draw_simulator": {
+      "draw_tooltip": "Draw {{count}} {{cards}}.",
+      "redraw": "Redraw selection",
+      "redraw_tooltip": "Selected cards will be appended to the end of the deck and then replaced with new cards.",
+      "reset": "Reset",
+      "reset_tooltip": "Reset the simulator to its initial state.",
+      "reshuffle": "Reshuffle selection",
+      "reshuffle_tooltip": "Selected cards will be shuffled back into the deck.",
+      "title": "Draw simulator"
+    },
     "errors": {
       "404": "Page not found.",
       "500": "The app drew an Auto-fail.",
