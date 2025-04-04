@@ -179,8 +179,6 @@ function AppTasks() {
         data.translation_updated_at === dataVersion.translation_updated_at &&
         data.version === dataVersion.version;
 
-      console.log(data, dataVersion);
-
       if (!upToDate && !toastId.current) {
         toastId.current = toast.show({
           children: (
