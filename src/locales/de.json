@@ -963,6 +963,10 @@
         "title": "Ausdauer"
       },
       "health_sanity_x": "Ausdauer / geistige Gesundheit \"X\"",
+      "illustrator": {
+        "placeholder": "Illustratoren auswählen...",
+        "title": "Illustrator"
+      },
       "investigator": {
         "placeholder": "Ermittler auswählen...",
         "title": "Ermittler"

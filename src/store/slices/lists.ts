@@ -823,6 +823,7 @@ export function makeLists(
 ) {
   return {
     browse_player: makePlayerCardsList("browse_player", settings, {
+      showInvestigators: true,
       additionalFilters: ["illustrator"],
       initialValues,
       properties: [...SHARED_PLAYER_PROPERTIES, "bonded"],
