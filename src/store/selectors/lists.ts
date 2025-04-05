@@ -29,6 +29,7 @@ import {
   filterEncounterCode,
   filterFactions,
   filterHealthProp,
+  filterIllustrator,
   filterInvestigatorAccess,
   filterInvestigatorSkills,
   filterInvestigatorWeaknessAccess,
@@ -262,6 +263,15 @@ function makeUserFilter(
 
           filters.push(filter);
         }
+        break;
+      }
+
+      case "illustrator": {
+        const value = filterValue.value as MultiselectFilter;
+        if (value.length) {
+          filters.push(filterIllustrator(value));
+        }
+
         break;
       }
 
@@ -664,13 +674,22 @@ const selectListFilterProperties = createSelector(
       {} as Record<SkillKey, { min: number; max: number }>,
     );
 
-    const actions: Set<string> = new Set();
-    const traits: Set<string> = new Set();
-    const types: Set<string> = new Set();
+    const actions = new Set<string>();
+    const traits = new Set<string>();
+    const types = new Set<string>();
+    const illustrators = new Set<string>();
 
     if (cards) {
       for (const card of cards) {
         types.add(card.type_code);
+
+        if (card.illustrator) {
+          illustrators.add(card.illustrator);
+        }
+
+        if (card.back_illustrator) {
+          illustrators.add(card.back_illustrator);
+        }
 
         if (card.cost != null) {
           cost.min = Math.min(cost.min, Math.max(card.cost, 0));
@@ -730,6 +749,7 @@ const selectListFilterProperties = createSelector(
       actions,
       cost,
       health,
+      illustrators,
       sanity,
       skills,
       traits,
@@ -855,6 +875,20 @@ export const selectFactionOptions = createSelector(
 export const selectHealthMinMax = createSelector(
   selectListFilterProperties,
   ({ health }) => health,
+);
+
+/**
+ * Illustrator
+ */
+
+export const selectIllustratorOptions = createSelector(
+  selectListFilterProperties,
+  selectLocaleSortingCollator,
+  (properties, collator) => {
+    return Array.from(properties.illustrators)
+      .map((code) => ({ code }))
+      .sort((a, b) => collator.compare(a.code, b.code));
+  },
 );
 
 /**
@@ -1297,6 +1331,12 @@ const selectEncounterSetChanges = createSelector(
 
 function selectHealthChanges(value: [number, number] | undefined) {
   return formatHealthChanges(value, i18n.t("filters.health.title"));
+}
+
+export function selectIllustratorChanges(value: MultiselectFilter) {
+  const count = value.length;
+  if (!count) return "";
+  return value.join(` ${i18n.t("filters.or")} `);
 }
 
 function selectInvestigatorCardAccessChanges(value: MultiselectFilter) {

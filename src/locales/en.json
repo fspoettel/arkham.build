@@ -963,6 +963,10 @@
         "title": "Health"
       },
       "health_sanity_x": "Include health / sanity 'X'",
+      "illustrator": {
+        "placeholder": "Select illustrators...",
+        "title": "Illustrator"
+      },
       "investigator": {
         "placeholder": "Select investigators...",
         "title": "Investigator"

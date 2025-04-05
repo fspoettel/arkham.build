@@ -379,6 +379,21 @@ export function filterPackCode(
 }
 
 /**
+ * Illustrator
+ */
+export function filterIllustrator(filterState: MultiselectFilter) {
+  const filters: Filter[] = [];
+
+  for (const key of filterState) {
+    filters.push(
+      (c: Card) => c.illustrator === key || c.back_illustrator === key,
+    );
+  }
+
+  return or(filters);
+}
+
+/**
  * Properties
  */
 

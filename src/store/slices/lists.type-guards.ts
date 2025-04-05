@@ -125,6 +125,12 @@ export function isInvestigatorCardAccessFilterObject(
   return !!filter && filter.type === "investigatorCardAccess";
 }
 
+export function isIllustratorFilterObject(
+  filter?: FilterObject<FilterKey>,
+): filter is FilterObject<"illustrator"> {
+  return !!filter && filter.type === "illustrator";
+}
+
 export function isAssetFilter(value: unknown): value is AssetFilter {
   return (
     typeof value === "object" &&

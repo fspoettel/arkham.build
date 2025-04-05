@@ -43,6 +43,7 @@ export function InvestigatorCardAccessFilter(props: FilterProps) {
       title={t("filters.investigator_card_access.title")}
     >
       <CardsCombobox
+        autoFocus
         id={`${id}-choose-cards`}
         items={cards}
         onValueChange={onChange}

@@ -3,6 +3,7 @@ import { Plane } from "../ui/plane";
 
 import type { ResolvedDeck } from "@/store/lib/types";
 import { cx } from "@/utils/cx";
+import { isEmpty } from "@/utils/is-empty";
 import { range } from "@/utils/range";
 import { shuffle } from "@/utils/shuffle";
 import { ShuffleIcon } from "lucide-react";
@@ -96,22 +97,24 @@ export function DrawSimulator(props: Props) {
           {t("draw_simulator.reshuffle")}
         </Button>
       </nav>
-      <ol className={css["drawn"]}>
-        {state.drawn.map((code, index) => (
-          <li key={`${index}-${code}`} className={css["card"]}>
-            <button
-              className={cx(
-                css["card-toggle"],
-                state.selection.includes(index) && css["selected"],
-              )}
-              onClick={() => dispatch({ type: "select", index })}
-              type="button"
-            >
-              <CardScan card={deck.cards.slots[code].card} preventFlip />
-            </button>
-          </li>
-        ))}
-      </ol>
+      {!isEmpty(state.drawn) && (
+        <ol className={css["drawn"]}>
+          {state.drawn.map((code, index) => (
+            <li key={`${index}-${code}`} className={css["card"]}>
+              <button
+                className={cx(
+                  css["card-toggle"],
+                  state.selection.includes(index) && css["selected"],
+                )}
+                onClick={() => dispatch({ type: "select", index })}
+                type="button"
+              >
+                <CardScan card={deck.cards.slots[code].card} preventFlip />
+              </button>
+            </li>
+          ))}
+        </ol>
+      )}
     </Plane>
   );
 }
