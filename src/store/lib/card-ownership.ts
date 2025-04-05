@@ -1,6 +1,6 @@
 import type { Card } from "../services/queries.types";
-import type { LookupTables } from "../slices/lookup-tables.types";
 import type { Metadata } from "../slices/metadata.types";
+import type { LookupTables } from "./lookup-tables.types";
 
 export function ownedCardCount(
   card: Card,

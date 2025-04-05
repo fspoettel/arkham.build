@@ -1,12 +1,15 @@
 import { CollectionSettings } from "@/components/collection/collection";
+import { CustomContentCollection } from "@/components/custom-content/custom-content-collection";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast.hooks";
 import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
 import { useGoBack } from "@/utils/use-go-back";
+import { featherText } from "@lucide/lab";
 import {
   DatabaseBackupIcon,
+  Icon,
   LibraryIcon,
   SlidersVerticalIcon,
 } from "lucide-react";
@@ -113,6 +116,10 @@ function Settings() {
                 <LibraryIcon />
                 <span>{t("settings.collection.title")}</span>
               </TabsTrigger>
+              <TabsTrigger data-testid="tab-custom" value="custom">
+                <Icon iconNode={featherText} />
+                <span>{t("custom_content.title")}</span>
+              </TabsTrigger>
               <TabsTrigger data-testid="tab-backup" value="backup">
                 <DatabaseBackupIcon />
                 <span>{t("settings.backup.title")}</span>
@@ -202,6 +209,11 @@ function Settings() {
                   settings={settings}
                   setSettings={setSettings}
                 />
+              </Section>
+            </TabsContent>
+            <TabsContent value="custom" forceMount>
+              <Section title={t("custom_content.title")}>
+                <CustomContentCollection />
               </Section>
             </TabsContent>
             <TabsContent value="backup" forceMount>

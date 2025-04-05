@@ -1,0 +1,28 @@
+.header {
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: var(--text-lg);
+}
+
+.projects {
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+
+  @media screen and (min-width: 40rem) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media screen and (min-width: 66rem) {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+  }
+}
+
+.section {
+  margin-block: 0.375rem;
+  padding-block: 0.375rem;
+  border-bottom: 1px solid var(--palette-1);
+}

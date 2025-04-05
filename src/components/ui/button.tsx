@@ -44,6 +44,11 @@ export const Button = forwardRef(function Button<
           round && css["round"],
           rest.className,
         )}
+        type={
+          Element === "button"
+            ? ((rest as React.ComponentProps<"button">).type ?? "button")
+            : undefined
+        }
         ref={ref}
       >
         {children}
