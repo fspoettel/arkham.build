@@ -21,8 +21,15 @@ export function ownedCardCount(
     quantityOwned += packsOwned * card.quantity;
   }
 
-  // ownership of the format.
   const pack = metadata.packs[card.pack_code];
+
+  // custom content in app is always owned.
+  if (!pack.official) {
+    quantityOwned += card.quantity;
+    return quantityOwned;
+  }
+
+  // ownership of the format.
   const reprintId = `${pack.cycle_code}${card.encounter_code ? "c" : "p"}`;
   if (collection[reprintId]) quantityOwned += card.quantity;
 

@@ -2,23 +2,61 @@ import { useStore } from "@/store";
 import { selectOwnedCustomProjects } from "@/store/selectors/custom-content";
 import { cx } from "@/utils/cx";
 import { parseMarkdown } from "@/utils/markdown";
-import { ExternalLinkIcon, EyeIcon, Trash2Icon } from "lucide-react";
+import {
+  ExternalLinkIcon,
+  EyeIcon,
+  Trash2Icon,
+  UploadIcon,
+} from "lucide-react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
+import { FileInput } from "../ui/file-input";
 import { MediaCard } from "../ui/media-card";
+import { useToast } from "../ui/toast.hooks";
 import css from "./custom-content-collection.module.css";
 
 export function CustomContentCollection() {
+  const toast = useToast();
   const customProjects = useStore(selectOwnedCustomProjects);
+
+  const addCustomProject = useStore((state) => state.addCustomProject);
+  const removeCustomProject = useStore((state) => state.removeCustomProject);
 
   const { t } = useTranslation();
 
-  console.log(customProjects);
+  const onAddLocalProject = useCallback(
+    async (evt: React.ChangeEvent<HTMLInputElement>) => {
+      const files = evt.target.files;
+      if (!files?.length) return;
+
+      for (const file of files) {
+        try {
+          const text = await file.text();
+          const parsed = JSON.parse(text);
+          await addCustomProject(parsed);
+        } catch (err) {
+          toast.show({
+            children: (err as Error).message,
+            variant: "error",
+          });
+        }
+      }
+    },
+    [addCustomProject, toast],
+  );
 
   return (
     <section className={css["collection"]}>
       <header className={css["header"]}>
         <h2 className={css["title"]}>{t("custom_content.collection")}</h2>
+        <FileInput
+          accept="application/json"
+          id="collection-import"
+          onChange={onAddLocalProject}
+        >
+          <UploadIcon /> {t("deck_collection.import_json")}
+        </FileInput>
       </header>
       <div className={css["projects"]}>
         {customProjects.map((project) => {
@@ -60,7 +98,11 @@ export function CustomContentCollection() {
                 <Button iconOnly size="sm">
                   <EyeIcon /> View cards
                 </Button>
-                <Button iconOnly size="sm">
+                <Button
+                  iconOnly
+                  size="sm"
+                  onClick={() => removeCustomProject(project.meta.code)}
+                >
                   <Trash2Icon /> Remove
                 </Button>
               </nav>
