@@ -1018,7 +1018,7 @@ export const selectCyclesAndPacks = createSelector(
   },
 );
 
-const filterNewFormat = (packs: Pack[], cardType: string) => {
+const filterNewFormat = (packs: Pack[], cardType?: string) => {
   return packs.filter((pack) =>
     cardType === "encounter"
       ? pack.code.endsWith("c")
@@ -1030,15 +1030,13 @@ export const selectPackOptions = createSelector(
   selectCyclesAndPacks,
   selectActiveList,
   (cycles, list) => {
-    if (!list) return [];
-
     return cycles.flatMap((cycle) => {
       if (cycle.reprintPacks.length && cycle.code !== "core") {
         return filterNewFormat(cycle.reprintPacks, list?.cardType);
       }
 
       return cycle.packs.length === 2
-        ? filterNewFormat(cycle.packs, list.cardType)
+        ? filterNewFormat(cycle.packs, list?.cardType)
         : [...cycle.reprintPacks, ...cycle.packs];
     });
   },
