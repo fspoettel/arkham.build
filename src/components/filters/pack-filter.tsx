@@ -1,5 +1,6 @@
 import { useStore } from "@/store";
 import {
+  selectActiveList,
   selectActiveListFilter,
   selectFilterChanges,
   selectPackOptions,
@@ -20,6 +21,9 @@ export function PackFilter({ id }: FilterProps) {
   const { t } = useTranslation();
 
   const filter = useStore((state) => selectActiveListFilter(state, id));
+
+  const activeList = useStore(selectActiveList);
+
   assert(
     isPackFilterObject(filter),
     `PackFilter instantiated with '${filter?.type}'`,
@@ -34,11 +38,12 @@ export function PackFilter({ id }: FilterProps) {
     () =>
       packOptions.filter((pack) => {
         const cardPool = ctx.resolvedDeck?.metaParsed?.card_pool;
-        return cardPool
+
+        return cardPool && activeList?.cardType === "player"
           ? cardPool.includes(pack.code) || filter.value.includes(pack.code)
           : true;
       }),
-    [filter.value, ctx.resolvedDeck, packOptions],
+    [filter.value, ctx.resolvedDeck, packOptions, activeList],
   );
 
   const nameRenderer = useCallback(
