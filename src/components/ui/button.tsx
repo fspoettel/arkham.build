@@ -9,6 +9,7 @@ export type Props<T extends ButtonType> = React.ComponentProps<T> & {
   as?: T;
   children: React.ReactNode;
   className?: string;
+  disabled?: boolean;
   iconOnly?: boolean;
   variant?: "primary" | "secondary" | "bare" | "link";
   size?: "xs" | "sm" | "lg" | "full" | "none";
@@ -22,6 +23,7 @@ export const Button = forwardRef(function Button<
   const {
     as,
     children,
+    disabled,
     iconOnly,
     variant = "secondary",
     size,
@@ -30,7 +32,7 @@ export const Button = forwardRef(function Button<
     ...rest
   } = props;
   // biome-ignore lint/suspicious/noExplicitAny: safe.
-  const Element: any = as ?? "button";
+  const Element: any = disabled ? "button" : (as ?? "button");
 
   return (
     <DefaultTooltip tooltip={tooltip}>
@@ -44,6 +46,7 @@ export const Button = forwardRef(function Button<
           round && css["round"],
           rest.className,
         )}
+        disabled={disabled}
         ref={ref}
       >
         {children}
