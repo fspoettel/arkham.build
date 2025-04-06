@@ -51,7 +51,10 @@ export function UndoHistory(props: Props) {
                           version: entry.version,
                         })}
                       </span>
-                      <span className={css["timestamp"]}>
+                      <span
+                        className={css["timestamp"]}
+                        data-testid="entry-timestamp"
+                      >
                         {formatDateTime(entry.dateUpdate)}
                       </span>
                     </div>

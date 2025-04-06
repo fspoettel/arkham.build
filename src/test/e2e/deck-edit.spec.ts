@@ -672,8 +672,12 @@ test.describe("deck edit", () => {
     await adjustListCardQuantity(page, "01016", "increment");
     await page.getByTestId("editor-versions").click();
     await expect(page.getByTestId("undo-history")).toHaveScreenshot();
-    await page.keyboard.press("ControlOrMeta+Shift+s");
+    await page.getByTestId("editor-save").click();
+    await page.getByTestId("view-edit").click();
     await adjustDeckCardQuantity(page, "01016", "decrement");
-    await expect(page.getByTestId("undo-history")).toHaveScreenshot();
+    await page.getByTestId("editor-versions").click();
+    await expect(page.getByTestId("undo-history")).toHaveScreenshot({
+      mask: [page.getByTestId("entry-timestamp")],
+    });
   });
 });
