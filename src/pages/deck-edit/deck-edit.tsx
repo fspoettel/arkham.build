@@ -29,6 +29,7 @@ import {
 import {
   BookOpenTextIcon,
   ChartAreaIcon,
+  HistoryIcon,
   LayoutListIcon,
   UndoIcon,
   WandSparklesIcon,
@@ -42,6 +43,7 @@ import { CardExtras } from "./card-extras";
 import css from "./deck-edit.module.css";
 import { Editor } from "./editor/editor";
 import { NotesEditor } from "./editor/notes-editor";
+import { UndoHistory } from "./editor/undo-history";
 
 function DeckEdit() {
   const { id } = useParams<{ id: string }>();
@@ -313,6 +315,16 @@ function DeckEditInner() {
                 <ChartAreaIcon />
                 <span>{t("deck_edit.tab_tools")}</span>
               </TabsTrigger>
+              <TabsTrigger
+                hotkey="v"
+                data-testid="editor-versions"
+                iconOnly
+                onTabChange={setCurrentTool}
+                tooltip={t("deck_edit.versions.title")}
+                value="versions"
+              >
+                <HistoryIcon />
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="card-list" asChild>
               <CardListContainer
@@ -331,6 +343,9 @@ function DeckEditInner() {
             </TabsContent>
             <TabsContent asChild value="deck-tools">
               <DeckTools {...props} deck={deck} scrollable />
+            </TabsContent>
+            <TabsContent asChild value="versions">
+              <UndoHistory deck={deck} />
             </TabsContent>
             <TabsContent asChild value="recommendations">
               <CardRecommender

@@ -19,6 +19,16 @@ export const formatDate = createSelector(
     }),
 );
 
+// `toLocaleString()` is slow, memoize it.
+export const formatDateTime = createSelector(
+  (date: string | number) => date,
+  (date) =>
+    new Date(date).toLocaleString(navigator.language, {
+      dateStyle: "short",
+      timeStyle: "short",
+    }),
+);
+
 export const formatTabooSet = createSelector(
   (tabooSet: TabooSet) => tabooSet,
   (tabooSet) => {

@@ -1,7 +1,8 @@
+import { decodeExileSlots } from "@/utils/card-utils";
 import { getAttachableCards } from "@/utils/constants";
 import { isEmpty } from "@/utils/is-empty";
 import { omit } from "@/utils/omit";
-import type { Deck, Slots } from "../slices/data.types";
+import type { Deck, Id, Slots } from "../slices/data.types";
 import type { EditState, Slot } from "../slices/deck-edits.types";
 import type { Metadata } from "../slices/metadata.types";
 import {
@@ -13,8 +14,14 @@ import {
   encodeAttachments,
   encodeCustomizations,
 } from "./deck-meta";
+import { type ChangeStats, getChangeStats } from "./deck-upgrades";
 import { decodeExtraSlots, encodeExtraSlots } from "./slots";
-import type { Annotations, DeckMeta } from "./types";
+import type {
+  Annotations,
+  Customizations,
+  DeckMeta,
+  ResolvedDeck,
+} from "./types";
 
 /**
  * Given a stored deck, apply deck edits and return a new, serializable deck.
@@ -277,4 +284,28 @@ function mergeCustomizationEdits(
   }
 
   return encodeCustomizations(next);
+}
+
+export type ChangeRecord = {
+  customizations?: Customizations;
+  exileSlots?: Record<string, number>;
+  id: Id;
+  stats: ChangeStats;
+  tabooSetId: number | undefined | null;
+};
+
+export function getChangeRecord(
+  prev: ResolvedDeck,
+  next: ResolvedDeck,
+  omitUpgradeStats = false,
+): ChangeRecord {
+  return {
+    id: next.id,
+    customizations: next.customizations,
+    stats: getChangeStats(prev, next, omitUpgradeStats),
+    tabooSetId: next.taboo_id,
+    exileSlots: omitUpgradeStats
+      ? undefined
+      : decodeExileSlots(next.exile_string),
+  };
 }

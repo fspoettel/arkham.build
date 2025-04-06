@@ -1,3 +1,4 @@
+import type { ChangeRecord } from "../lib/deck-edits";
 import type { Provider } from "./connections.types";
 
 export type Slots = {
@@ -46,11 +47,18 @@ export function isDeck(x: unknown): x is Deck {
   );
 }
 
+type UndoEntry = {
+  changes: ChangeRecord;
+  date_update: string;
+  version: string;
+};
+
 export type DataState = {
   decks: Record<string, Deck>;
   history: {
     [id: Id]: Id[];
   };
+  undoHistory?: Record<Id, UndoEntry[]>;
 };
 
 export type DataSlice = {

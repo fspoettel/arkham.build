@@ -1,6 +1,7 @@
 import type { Modifier } from "@/store/lib/deck-upgrades";
 import type { ResolvedDeck } from "@/store/lib/types";
-import type { History } from "@/store/selectors/decks";
+import type { History, HistoryEntry } from "@/store/selectors/decks";
+import { cx } from "@/utils/cx";
 import { formatUpgradeXP } from "@/utils/formatting";
 import { isEmpty } from "@/utils/is-empty";
 import type { TFunction } from "i18next";
@@ -29,12 +30,6 @@ export function DeckHistory(props: Props) {
   return (
     <ol className={css["entries"]} data-testid="history">
       {history.map((stats, idx) => {
-        const hasChanges =
-          !isEmpty(stats.differences.slots) ||
-          !isEmpty(stats.differences.extraSlots) ||
-          !isEmpty(stats.differences.customizations) ||
-          !isEmpty(stats.differences.exileSlots);
-
         const isLast = idx === history.length - 1;
         const isCurrent = idx === 0;
 
@@ -46,80 +41,26 @@ export function DeckHistory(props: Props) {
                 index: history.length - idx - 1,
               });
 
+        const titleNode =
+          idx === 0 ? (
+            title
+          ) : (
+            <Link to={`${prefix}/${stats.id}`}>
+              {title}
+              <SquareArrowOutUpRightIcon />
+            </Link>
+          );
+
         return (
-          // biome-ignore lint/suspicious/noArrayIndexKey: no natural key available.
-          <li className={css["entry"]} key={idx}>
-            <h3 className={css["entry-title"]}>
-              {idx === 0 ? (
-                title
-              ) : (
-                <Link to={`${prefix}/${stats.id}`}>
-                  {title}
-                  <SquareArrowOutUpRightIcon />
-                </Link>
-              )}
-            </h3>
-            {!isLast && (
-              <p className={css["entry-stats"]}>
-                {formatUpgradeXP(stats.xp, stats.xpAdjustment, stats.xpSpent)}
-              </p>
-            )}
-            <div className={css["entry-container"]}>
-              {hasChanges && (
-                <>
-                  <div className={css["entry-row"]}>
-                    <SlotDiff
-                      deck={deck}
-                      title={t("deck_view.history.slot_changes", {
-                        slot: t("common.decks.slots"),
-                      })}
-                      differences={stats.differences.slots}
-                      omitHeadings
-                    />
-                    <SlotDiff
-                      deck={deck}
-                      title={t("deck_view.history.slot_changes", {
-                        slot: t("common.decks.extraSlots"),
-                      })}
-                      differences={stats.differences.extraSlots}
-                      omitHeadings
-                    />
-                  </div>
-                  <div className={css["entry-row"]}>
-                    <SlotDiff
-                      deck={deck}
-                      title={t("common.exiled_cards")}
-                      differences={stats.differences.exileSlots}
-                      omitHeadings
-                    />
-                    <CustomizableDiff
-                      deck={deck}
-                      title={t("common.customizations")}
-                      differences={stats.differences.customizations}
-                    />
-                  </div>
-                </>
-              )}
-              {!hasChanges && t("deck_view.history.no_changes")}
-            </div>
-            {!isEmpty(stats.modifierStats) && (
-              <div className={css["discount-container"]}>
-                <h4>{t("deck_view.history.discounts")}</h4>
-                <dl className={css["discounts"]}>
-                  {Object.entries(stats.modifierStats).map(
-                    ([modifier, value]) => (
-                      <Fragment key={modifier}>
-                        <dt>{formatModifier(modifier as Modifier, t)}</dt>
-                        <dd>
-                          {value.used} / {value.available}
-                        </dd>
-                      </Fragment>
-                    ),
-                  )}
-                </dl>
-              </div>
-            )}
-          </li>
+          <DeckHistoryEntry
+            data={stats}
+            deck={deck}
+            // biome-ignore lint/suspicious/noArrayIndexKey: no natural key available.
+            key={idx}
+            showDiscounts
+            showUpgradeXp={!isLast}
+            title={titleNode}
+          />
         );
       })}
     </ol>
@@ -128,4 +69,97 @@ export function DeckHistory(props: Props) {
 
 function formatModifier(modifier: Modifier, t: TFunction) {
   return t(`deck_view.discounts.${modifier}`);
+}
+
+export function DeckHistoryEntry(props: {
+  children?: React.ReactNode;
+  data: HistoryEntry;
+  deck: ResolvedDeck;
+  showUpgradeXp?: boolean;
+  showDiscounts?: boolean;
+  size?: "sm";
+  title: React.ReactNode;
+}) {
+  const { t } = useTranslation();
+
+  const { children, data, deck, size, showDiscounts, showUpgradeXp, title } =
+    props;
+
+  const hasChanges =
+    !isEmpty(data.differences.slots) ||
+    !isEmpty(data.differences.extraSlots) ||
+    !isEmpty(data.differences.customizations) ||
+    !isEmpty(data.differences.exileSlots);
+
+  return (
+    <li className={cx(css["entry"], size && css[size])}>
+      <h3 className={css["entry-title"]}>{title}</h3>
+      {showUpgradeXp &&
+        data.xp != null &&
+        data.xpAdjustment != null &&
+        data.xpSpent != null && (
+          <p className={css["entry-stats"]}>
+            {formatUpgradeXP(data.xp, data.xpAdjustment, data.xpSpent)}
+          </p>
+        )}
+      {children}
+      <div className={css["entry-container"]}>
+        {hasChanges && (
+          <>
+            <div className={css["entry-row"]}>
+              <SlotDiff
+                deck={deck}
+                title={t("deck_view.history.slot_changes", {
+                  slot: t("common.decks.slots"),
+                })}
+                differences={data.differences.slots}
+                omitHeadings
+                size={size}
+              />
+              <SlotDiff
+                deck={deck}
+                title={t("deck_view.history.slot_changes", {
+                  slot: t("common.decks.extraSlots"),
+                })}
+                differences={data.differences.extraSlots}
+                omitHeadings
+                size={size}
+              />
+            </div>
+            <div className={css["entry-row"]}>
+              <SlotDiff
+                deck={deck}
+                title={t("common.exiled_cards")}
+                differences={data.differences.exileSlots}
+                omitHeadings
+                size={size}
+              />
+              <CustomizableDiff
+                deck={deck}
+                title={t("common.customizations")}
+                differences={data.differences.customizations}
+                size={size}
+              />
+            </div>
+          </>
+        )}
+        {!hasChanges && t("deck_view.history.no_changes")}
+      </div>
+      {showDiscounts && !isEmpty(data.modifierStats) && (
+        <div className={css["discount-container"]}>
+          <h4>{t("deck_view.history.discounts")}</h4>
+          <dl className={css["discounts"]}>
+            {Object.entries(data.modifierStats).map(([modifier, value]) => (
+              <Fragment key={modifier}>
+                <dt>{formatModifier(modifier as Modifier, t)}</dt>
+                <dd>
+                  {value.used} / {value.available}
+                </dd>
+              </Fragment>
+            ))}
+          </dl>
+        </div>
+      )}
+    </li>
+  );
 }

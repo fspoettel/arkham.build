@@ -14,6 +14,21 @@
   border: 1px solid var(--palette-1);
 }
 
+.entry.sm {
+  padding-block: 0.5rem;
+  padding-inline: 0;
+
+  & .discount-container > * + *,
+  & .entry-row > * + *,
+  & > * + * {
+    margin-top: 0.5rem;
+  }
+
+  & .entry-container {
+    gap: 0.5rem;
+  }
+}
+
 .entry-title a {
   text-decoration: none;
   color: currentColor;
