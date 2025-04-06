@@ -40,6 +40,10 @@ export function CustomContentCollection() {
             children: (err as Error).message,
             variant: "error",
           });
+
+          console.error(err);
+          // biome-ignore lint/suspicious/noExplicitAny: debug.
+          console.log("error details:", (err as any)?.issues);
         }
       }
     },
