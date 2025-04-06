@@ -81,10 +81,10 @@ import { beforeAll, describe, expect, it } from "vitest";
 import { StoreApi } from "zustand";
 import { selectLocaleSortingCollator } from "../selectors/shared";
 import { StoreState } from "../slices";
-import { getUpgradeStats } from "./deck-upgrades";
+import { getChangeStats } from "./deck-upgrades";
 import { resolveDeck } from "./resolve-deck";
 
-describe("getUpgradeStats", () => {
+describe("getChangeStats", () => {
   let store: StoreApi<StoreState>;
 
   beforeAll(async () => {
@@ -97,7 +97,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, add0);
       const next = resolveDeck(state, collator, add02);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: 0 to 1-5", () => {
@@ -105,7 +105,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, from0ToUpgrade);
       const next = resolveDeck(state, collator, from0ToUpgrade2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: 1-5 to 1-5", () => {
@@ -113,7 +113,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, fromToUpgrade);
       const next = resolveDeck(state, collator, fromToUpgrade2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: story assets", () => {
@@ -121,7 +121,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, story);
       const next = resolveDeck(state, collator, story2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: myriad", () => {
@@ -129,7 +129,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, myriad);
       const next = resolveDeck(state, collator, myriad2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: exceptional", () => {
@@ -138,8 +138,8 @@ describe("getUpgradeStats", () => {
       const first = resolveDeck(state, collator, exceptional);
       const second = resolveDeck(state, collator, exceptional2);
       const third = resolveDeck(state, collator, exceptional3);
-      expect(getUpgradeStats(first, second).xpSpent).toEqual(second.xp);
-      expect(getUpgradeStats(second, third).xpSpent).toEqual(third.xp);
+      expect(getChangeStats(first, second).xpSpent).toEqual(second.xp);
+      expect(getChangeStats(second, third).xpSpent).toEqual(third.xp);
     });
 
     it("handles case: arcane research", () => {
@@ -148,10 +148,10 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(state, collator, arcaneResearch);
       const next = resolveDeck(state, collator, arcaneResearch2);
 
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
 
       prev.slots[SPECIAL_CARD_CODES.ARCANE_RESEARCH] = 2;
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual((next.xp ?? 0) - 1);
+      expect(getChangeStats(prev, next).xpSpent).toEqual((next.xp ?? 0) - 1);
     });
 
     // TODO: fix this failing test.
@@ -162,7 +162,7 @@ describe("getUpgradeStats", () => {
 
       const next = resolveDeck(state, collator, arcaneResearchSwap2);
 
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     describe("down the rabbit hole", () => {
@@ -171,7 +171,7 @@ describe("getUpgradeStats", () => {
         const collator = selectLocaleSortingCollator(state);
         const prev = resolveDeck(state, collator, dtrh);
         const next = resolveDeck(state, collator, dtrh2);
-        expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+        expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
       });
 
       it("handles case: interaction with arcane research", () => {
@@ -180,7 +180,7 @@ describe("getUpgradeStats", () => {
         const prev = resolveDeck(state, collator, arcaneResearchDtrh);
         const next = resolveDeck(state, collator, arcaneResearchDtrh2);
 
-        expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+        expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
       });
 
       it("handles case: interaction with myriad", () => {
@@ -189,7 +189,7 @@ describe("getUpgradeStats", () => {
         const prev = resolveDeck(state, collator, dtrhMyriad);
         const next = resolveDeck(state, collator, dtrhMyriad2);
 
-        expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+        expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
       });
 
       it("handles case: handles XP penalty for level 0 cards", () => {
@@ -198,7 +198,7 @@ describe("getUpgradeStats", () => {
         const prev = resolveDeck(state, collator, dtrhPenaltyBase);
         const next = resolveDeck(state, collator, dtrhPenaltyLevel0);
 
-        expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+        expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
       });
 
       it("handles case: handles XP penalty for level 0 customizables", () => {
@@ -212,7 +212,7 @@ describe("getUpgradeStats", () => {
 
         const next = resolveDeck(state, collator, dtrhPenaltyLevel0_2);
 
-        expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+        expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
       });
 
       it("handles case: handles XP penalty for exile cards", () => {
@@ -221,7 +221,7 @@ describe("getUpgradeStats", () => {
         const prev = resolveDeck(state, collator, dtrhPenaltyBase);
         const next = resolveDeck(state, collator, dtrhPenaltyExile);
 
-        expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+        expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
       });
     });
 
@@ -230,7 +230,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, ignoreDeckLimit1);
       const next = resolveDeck(state, collator, ignoreDeckLimit2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: ignore deck limit (story asset)", () => {
@@ -238,7 +238,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, ignoreDeckLimitCampaign1);
       const next = resolveDeck(state, collator, ignoreDeckLimitCampaign2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: down the rabbit hole + xp reduction", () => {
@@ -246,7 +246,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, ignoreDeckLimit21);
       const next = resolveDeck(state, collator, ignoreDeckLimit22);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: adaptable", () => {
@@ -254,7 +254,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, adaptable);
       const next = resolveDeck(state, collator, adaptable2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: adaptable + myriad", () => {
@@ -262,7 +262,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, adaptableMyriad);
       const next = resolveDeck(state, collator, adaptableMyriad2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: adaptable + myriad + down the rabbit hole", () => {
@@ -270,7 +270,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, adaptableMyriadDtrh);
       const next = resolveDeck(state, collator, adaptableMyriadDtrh2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: adaptable + taboo", () => {
@@ -278,7 +278,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, adaptableTaboo);
       const next = resolveDeck(state, collator, adaptableTaboo2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: deck size adjustment", () => {
@@ -286,7 +286,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, deckSize);
       const next = resolveDeck(state, collator, deckSize2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: permanent", () => {
@@ -294,7 +294,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, permanent);
       const next = resolveDeck(state, collator, permanent2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: customizable (corner cases)", () => {
@@ -302,7 +302,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, customizable);
       const next = resolveDeck(state, collator, customizable2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: customizable purchase", () => {
@@ -310,7 +310,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, customizablePurchase);
       const next = resolveDeck(state, collator, customizablePurchase2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: customizable upgrade", () => {
@@ -318,7 +318,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, customizableUpgrade);
       const next = resolveDeck(state, collator, customizableUpgrade2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: customizable + down the rabbit hole", () => {
@@ -326,10 +326,10 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, customizableDtrh);
       const next = resolveDeck(state, collator, customizableDtrh2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
 
       delete prev.slots["09081"];
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(6);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(6);
     });
 
     it("handles case: customizable (checkbox removed)", () => {
@@ -337,7 +337,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, customizableXpRemoved);
       const next = resolveDeck(state, collator, customizableXpRemoved2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: exile, repurchase", () => {
@@ -345,7 +345,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, exileBase1);
       const next = resolveDeck(state, collator, exileRepurchase2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: exile, level 0 swaps", () => {
@@ -353,7 +353,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, exileBase1);
       const next = resolveDeck(state, collator, exileLevel02);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: exile, burn after reading", () => {
@@ -361,7 +361,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, exileBurnAfterReading1);
       const next = resolveDeck(state, collator, exileBurnAfterReading2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: exile, deja vu", () => {
@@ -369,7 +369,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, exileDejavu1);
       const next = resolveDeck(state, collator, exileDejavu2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: exile, deja vu (level difference)", () => {
@@ -377,7 +377,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, exileDejavu1);
       const next = resolveDeck(state, collator, exileDejavu2a);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: exile, customizable", () => {
@@ -385,7 +385,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, exileCustomizable);
       const next = resolveDeck(state, collator, exileCustomizable2);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: exile, customizable (lvl. 0)", () => {
@@ -393,7 +393,7 @@ describe("getUpgradeStats", () => {
       const collator = selectLocaleSortingCollator(state);
       const prev = resolveDeck(state, collator, exileCustomizable);
       const next = resolveDeck(state, collator, exileCustomizable2a);
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: exile singles", () => {
@@ -402,7 +402,7 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(state, collator, exileSingles);
       const next = resolveDeck(state, collator, exileSingles2);
 
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: exile, adaptable", () => {
@@ -412,7 +412,7 @@ describe("getUpgradeStats", () => {
 
       const next = resolveDeck(state, collator, exileAdaptable2);
 
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: extra deck, versatile", () => {
@@ -421,7 +421,7 @@ describe("getUpgradeStats", () => {
       const prev = resolveDeck(state, collator, extraDeckBase);
       const next = resolveDeck(state, collator, extraDeckVersatile2);
 
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: extra deck, upgrades", () => {
@@ -431,7 +431,7 @@ describe("getUpgradeStats", () => {
 
       const next = resolveDeck(state, collator, extraDeckUpgrade2);
 
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(next.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
     });
 
     it("handles case: extra deck, exile", () => {
@@ -441,7 +441,7 @@ describe("getUpgradeStats", () => {
 
       const next = resolveDeck(state, collator, extraDeckExile2);
 
-      expect(getUpgradeStats(prev, next).xpSpent).toEqual(extraDeckExile2.xp);
+      expect(getChangeStats(prev, next).xpSpent).toEqual(extraDeckExile2.xp);
     });
 
     it("handles case: negative quantity", () => {
@@ -451,7 +451,7 @@ describe("getUpgradeStats", () => {
 
       const next = resolveDeck(state, collator, negativeQuantity2);
 
-      expect(getUpgradeStats(prev, next)).toMatchInlineSnapshot(`
+      expect(getChangeStats(prev, next)).toMatchInlineSnapshot(`
         {
           "changes": {
             "customizations": {},

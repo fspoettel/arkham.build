@@ -1,15 +1,18 @@
 import { resolveDeck } from "@/store/lib/resolve-deck";
-import { decodeExileSlots } from "@/utils/card-utils";
 import { time, timeEnd } from "@/utils/time";
 import { createSelector } from "reselect";
 import { applyCardChanges } from "../lib/card-edits";
-import { applyDeckEdits } from "../lib/deck-edits";
+import {
+  type ChangeRecord,
+  applyDeckEdits,
+  getChangeRecord,
+} from "../lib/deck-edits";
 import { groupDeckCards } from "../lib/deck-grouping";
-import { type UpgradeStats, getUpgradeStats } from "../lib/deck-upgrades";
+import type { ChangeStats, UpgradeStats } from "../lib/deck-upgrades";
 import { type ForbiddenCardError, validateDeck } from "../lib/deck-validation";
 import { limitedSlotOccupation } from "../lib/limited-slots";
 import { makeSortFunction, sortAlphabeticalLatin } from "../lib/sorting";
-import type { Customization, Customizations, ResolvedDeck } from "../lib/types";
+import type { Customization, ResolvedDeck } from "../lib/types";
 import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 import type { Deck, Id } from "../slices/data.types";
@@ -134,7 +137,7 @@ export type CustomizationUpgrade = {
   xpMax: number;
 };
 
-type HistoryEntry = UpgradeStats & {
+export type HistoryEntry = ChangeStats & {
   differences: {
     slots: SlotUpgrade[];
     extraSlots: SlotUpgrade[];
@@ -146,26 +149,8 @@ type HistoryEntry = UpgradeStats & {
 
 export type History = HistoryEntry[];
 
-type Changes = {
-  exileSlots: Record<string, number>;
-  customizations?: Customizations;
-  stats: UpgradeStats;
-  tabooSetId: number | undefined | null;
-  id: Id;
-};
-
-function getChanges(prev: ResolvedDeck, next: ResolvedDeck): Changes {
-  return {
-    id: next.id,
-    customizations: next.customizations,
-    stats: getUpgradeStats(prev, next),
-    tabooSetId: next.taboo_id,
-    exileSlots: decodeExileSlots(next.exile_string),
-  };
-}
-
 function getHistoryEntry(
-  changes: Changes,
+  changes: ChangeRecord,
   metadata: StoreState["metadata"],
   collator: Intl.Collator,
 ): HistoryEntry {
@@ -197,7 +182,7 @@ function getHistoryEntry(
         ),
       }))
       .sort(sortDiff),
-    exileSlots: Object.entries(exileSlots)
+    exileSlots: Object.entries(exileSlots ?? {})
       .map(([code, diff]) => ({
         diff: diff * -1,
         card: applyCardChanges(
@@ -246,12 +231,12 @@ export function getDeckHistory(
   metadata: StoreState["metadata"],
   collator: Intl.Collator,
 ) {
-  const changes: Changes[] = [];
+  const changes: ChangeRecord[] = [];
 
   for (let i = 0; i < decks.length - 1; i++) {
     const prev = decks[i];
     const next = decks[i + 1];
-    changes.unshift(getChanges(prev, next));
+    changes.unshift(getChangeRecord(prev, next, false));
   }
 
   const history = changes.map((change) =>
@@ -357,11 +342,10 @@ export const selectLatestUpgrade = createSelector(
   (metadata, collator, next, prev) => {
     if (!prev || !next) return undefined;
     time("latest_upgrade");
-    const changes = getChanges(prev, next);
+    const changes = getChangeRecord(prev, next, false);
     const differences = getHistoryEntry(changes, metadata, collator);
-
     timeEnd("latest_upgrade");
-    return differences;
+    return differences as UpgradeStats & HistoryEntry;
   },
 );
 
@@ -388,4 +372,43 @@ export const selectDeckGroups = createSelector(
       viewMode === "scans" ? settings.lists.deckScans : settings.lists.deck,
       deck,
     ),
+);
+
+export const selectUndoHistory = createSelector(
+  (state: StoreState) => state.metadata,
+  (state: StoreState) => state.lookupTables,
+  (state: StoreState) => state.sharing,
+  (state: StoreState) => state.data,
+  selectLocaleSortingCollator,
+  (_: StoreState, deck: ResolvedDeck) => deck,
+  (metadata, lookupTables, sharing, data, collator, deck) => {
+    const prevDeck = data.decks[deck.id];
+    if (!prevDeck) return [];
+
+    const prev = resolveDeck(
+      { metadata, lookupTables: lookupTables, sharing },
+      collator,
+      prevDeck,
+    );
+
+    const current = {
+      data: getHistoryEntry(
+        getChangeRecord(prev, deck, true),
+        metadata,
+        collator,
+      ),
+      version: "current",
+      dateUpdate: new Date().toISOString(),
+    };
+
+    if (!data.undoHistory?.[deck.id]) return [current];
+
+    const history = data.undoHistory?.[deck.id].map((undoEntry) => ({
+      data: getHistoryEntry(undoEntry.changes, metadata, collator),
+      dateUpdate: undoEntry.date_update,
+      version: undoEntry.version,
+    }));
+
+    return [current, ...history.reverse()];
+  },
 );

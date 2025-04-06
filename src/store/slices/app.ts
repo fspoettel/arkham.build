@@ -1,4 +1,4 @@
-import { applyDeckEdits } from "@/store/lib/deck-edits";
+import { applyDeckEdits, getChangeRecord } from "@/store/lib/deck-edits";
 import { createDeck } from "@/store/lib/deck-factory";
 import type { Card } from "@/store/services/queries.types";
 import { assert } from "@/utils/assert";
@@ -360,12 +360,14 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
 
     delete decks[id];
     const history = { ...state.data.history };
+    const undoHistory = { ...state.data.undoHistory };
 
     const historyEntries = history[id] ?? [];
 
     for (const prevId of historyEntries) {
       delete decks[prevId];
       delete deckEdits[prevId];
+      delete undoHistory[prevId];
     }
 
     if (deck.source === "arkhamdb") {
@@ -387,6 +389,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     }
 
     delete history[id];
+    delete undoHistory[id];
 
     cb?.();
 
@@ -395,6 +398,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         ...state.data,
         decks,
         history,
+        undoHistory,
       },
       deckEdits,
     });
@@ -407,12 +411,14 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     const decks = { ...state.data.decks };
     const history = { ...state.data.history };
     const edits = { ...state.deckEdits };
+    const undoHistory = { ...state.data.undoHistory };
 
     for (const id of Object.keys(decks)) {
       if (decks[id].source !== "arkhamdb") {
         delete decks[id];
         delete history[id];
         delete edits[id];
+        delete undoHistory[id];
       }
     }
 
@@ -454,8 +460,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     const upgrade = selectLatestUpgrade(state, resolved);
 
     if (upgrade) {
-      nextDeck.xp_spent = upgrade.xpSpent;
-      nextDeck.xp_adjustment = upgrade.xpAdjustment;
+      nextDeck.xp_spent = upgrade.xpSpent ?? 0;
+      nextDeck.xp_adjustment = upgrade.xpAdjustment ?? 0;
     }
 
     if (nextDeck.source === "arkhamdb") {
@@ -479,6 +485,18 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     const deckEdits = { ...state.deckEdits };
     delete deckEdits[deckId];
 
+    const undoHistory = { ...state.data.undoHistory };
+
+    const undoEntry = {
+      changes: getChangeRecord(
+        resolveDeck(state, selectLocaleSortingCollator(state), deck),
+        resolveDeck(state, selectLocaleSortingCollator(state), nextDeck),
+        true,
+      ),
+      date_update: nextDeck.date_update,
+      version: nextDeck.version,
+    };
+
     set({
       deckEdits,
       data: {
@@ -486,6 +504,10 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         decks: {
           ...state.data.decks,
           [nextDeck.id]: nextDeck,
+        },
+        undoHistory: {
+          ...undoHistory,
+          [nextDeck.id]: [...(undoHistory[nextDeck.id] ?? []), undoEntry],
         },
       },
     });
@@ -614,6 +636,9 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     const deckEdits = { ...state.deckEdits };
     delete deckEdits[deck.id];
 
+    const undoHistory = { ...state.data.undoHistory };
+    delete undoHistory[deck.id];
+
     const sharedDecks = { ...state.sharing.decks };
     if (isShared) {
       sharedDecks[newDeck.id] = newDeck.date_update;
@@ -632,6 +657,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
           [newDeck.id]: newDeck,
         },
         history,
+        undoHistory,
       },
       sharing: {
         ...state.sharing,
@@ -671,6 +697,9 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
     const deckEdits = { ...state.deckEdits };
     delete deckEdits[deck.id];
 
+    const undoHistory = { ...state.data.undoHistory };
+    delete undoHistory[deck.id];
+
     if (deck.source === "arkhamdb") {
       state.setRemoting("arkhamdb", true);
 
@@ -694,6 +723,7 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
         ...state.data,
         decks,
         history,
+        undoHistory,
       },
     });
 

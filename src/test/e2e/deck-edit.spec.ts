@@ -1,5 +1,6 @@
 import test, { type Page, expect } from "@playwright/test";
 import {
+  adjustDeckCardQuantity,
   adjustListCardQuantity,
   assertEditorDeckQuantity,
   fillSearch,
@@ -661,5 +662,18 @@ test.describe("deck edit", () => {
         .getByTestId("listcard-01016")
         .getByTestId("ownership"),
     ).toBeVisible();
+  });
+
+  test("undo history", async ({ page }) => {
+    await page.goto("/deck/create/01001");
+    await page.getByTestId("create-save").click();
+    await fillSearch(page, ".45 automatic");
+    await adjustListCardQuantity(page, "01016", "increment");
+    await adjustListCardQuantity(page, "01016", "increment");
+    await page.getByTestId("editor-versions").click();
+    await expect(page.getByTestId("undo-history")).toHaveScreenshot();
+    await page.keyboard.press("ControlOrMeta+Shift+s");
+    await adjustDeckCardQuantity(page, "01016", "decrement");
+    await expect(page.getByTestId("undo-history")).toHaveScreenshot();
   });
 });
