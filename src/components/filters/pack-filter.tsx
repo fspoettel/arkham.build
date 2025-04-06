@@ -8,7 +8,7 @@ import {
 import type { Pack } from "@/store/services/queries.types";
 import { isPackFilterObject } from "@/store/slices/lists.type-guards";
 import { assert } from "@/utils/assert";
-import { displayPackName } from "@/utils/formatting";
+import { shortenPackName } from "@/utils/formatting";
 import { useResolvedDeck } from "@/utils/use-resolved-deck";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -52,7 +52,7 @@ export function PackFilter({ id }: FilterProps) {
   );
 
   const itemToString = useCallback(
-    (pack: Pack) => displayPackName(pack).toLowerCase(),
+    (pack: Pack) => shortenPackName(pack).toLowerCase(),
     [],
   );
 
