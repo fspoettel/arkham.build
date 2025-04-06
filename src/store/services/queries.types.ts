@@ -104,7 +104,7 @@ export type JsonDataCard = {
   back_text?: string;
   back_traits?: string;
   bonded_count?: number;
-  bonded_to?: number;
+  bonded_to?: string;
   clues?: number | null;
   clues_fixed?: boolean;
   code: string;

@@ -3,6 +3,7 @@ import {
   cycleToApiFormat,
   packToApiFormat,
 } from "@/utils/arkhamdb-json-format";
+import { PREVIEW_PACKS } from "@/utils/constants";
 import i18n from "@/utils/i18n";
 import { isEmpty } from "@/utils/is-empty";
 import { time, timeEnd } from "@/utils/time";
@@ -102,20 +103,47 @@ export const selectIsInitialized = (state: StoreState) => {
 export const selectCanCheckOwnership = (state: StoreState) =>
   !state.settings.showAllCards;
 
+export const selectCollection = createSelector(
+  selectMetadata,
+  (state: StoreState) => state.settings,
+  (metadata, settings) => {
+    const collection = {
+      ...settings.collection,
+      ...Object.fromEntries(
+        Object.entries(metadata.packs)
+          .filter(([, pack]) => pack.official === false)
+          .map((pack) => [pack[0], 1]),
+      ),
+    };
+
+    return settings.showPreviews
+      ? {
+          ...collection,
+          ...PREVIEW_PACKS.reduce(
+            (acc, code) => {
+              acc[code] = 1;
+              return acc;
+            },
+            {} as Record<string, number>,
+          ),
+        }
+      : collection;
+  },
+);
+
 export const selectCardOwnedCount = createSelector(
   selectMetadata,
   selectLookupTables,
+  selectCollection,
   (state: StoreState) => state.settings,
-  (metadata, lookupTables, settings) => {
-    const { collection, showAllCards } = settings;
-
+  (metadata, lookupTables, collection, settings) => {
     return (card: Card) => {
       return ownedCardCount(
         card,
         metadata,
         lookupTables,
         collection,
-        showAllCards,
+        settings.showAllCards,
       );
     };
   },

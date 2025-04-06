@@ -4,7 +4,6 @@ import {
   FACTION_ORDER,
   type FactionName,
   NO_SLOT_STRING,
-  PREVIEW_PACKS,
   SKILL_KEYS,
   SPECIAL_CARD_CODES,
   type SkillKey,
@@ -74,6 +73,7 @@ import type {
 } from "../slices/lists.types";
 import type { Metadata } from "../slices/metadata.types";
 import {
+  selectCollection,
   selectLocaleSortingCollator,
   selectLookupTables,
   selectMetadata,
@@ -452,23 +452,23 @@ const selectResolvedDeckCustomizations = customizationsEqualSelector(
 const selectBaseListCards = createSelector(
   selectMetadata,
   selectLookupTables,
-  (state: StoreState) => state.settings,
   (state: StoreState) => selectActiveList(state)?.systemFilter,
   (state: StoreState) => selectActiveList(state)?.duplicateFilter,
   (state: StoreState) => selectActiveList(state)?.filterValues,
   selectDeckInvestigatorFilter,
   selectCanonicalTabooSetId,
   selectResolvedDeckCustomizations,
+  selectCollection,
   (
     metadata,
     lookupTables,
-    settings,
     systemFilter,
     duplicateFilter,
     filterValues,
     deckInvestigatorFilter,
     tabooSetId,
     customizations,
+    collection,
   ) => {
     if (isEmpty(metadata.cards)) {
       console.warn("player cards selected before store is initialized.");
@@ -503,21 +503,9 @@ const selectBaseListCards = createSelector(
 
       if (ownershipFilter) {
         const value = ownershipFilter.value as OwnershipFilter;
+
         if (value !== "all") {
           filters.push((card: Card) => {
-            const collection = settings.showPreviews
-              ? {
-                  ...settings.collection,
-                  ...PREVIEW_PACKS.reduce(
-                    (acc, code) => {
-                      acc[code] = 1;
-                      return acc;
-                    },
-                    {} as Record<string, number>,
-                  ),
-                }
-              : settings.collection;
-
             const ownership = filterOwnership(
               card,
               metadata,
@@ -525,6 +513,7 @@ const selectBaseListCards = createSelector(
               collection,
               false,
             );
+
             return value === "owned" ? ownership : !ownership;
           });
         }
