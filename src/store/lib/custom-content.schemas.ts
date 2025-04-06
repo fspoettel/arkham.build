@@ -68,7 +68,7 @@ const CustomContentCardSchema = v.object({
   back_thumbnail_url: v.optional(UrlSchema),
   back_traits: v.optional(v.string()),
   bonded_count: v.optional(v.number()),
-  bonded_to: v.optional(v.number()),
+  bonded_to: v.optional(v.string()),
   clues: v.optional(v.nullable(v.number())),
   clues_fixed: v.optional(v.boolean()),
   code: v.string(),
