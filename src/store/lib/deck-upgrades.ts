@@ -4,7 +4,7 @@ import { range } from "@/utils/range";
 import type { Card } from "../services/queries.types";
 import type { Customization, ResolvedDeck } from "./types";
 
-type Changes = {
+type DeckChanges = {
   slots: Record<string, number>;
   extraSlots: Record<string, number>;
   customizations: Record<string, Customization[]>;
@@ -20,8 +20,17 @@ type Modifiers = Record<Modifier, number>;
 type ModifierFlags = Record<Modifier, boolean>;
 type ModifierStats = Record<Modifier, { used: number; available: number }>;
 
+export type ChangeStats = {
+  changes: DeckChanges;
+  xpAvailable?: number;
+  xpAdjustment?: number;
+  xpSpent?: number;
+  xp?: number;
+  modifierStats?: Partial<ModifierStats>;
+};
+
 export type UpgradeStats = {
-  changes: Changes;
+  changes: DeckChanges;
   xpAvailable: number;
   xpAdjustment: number;
   xpSpent: number;
@@ -29,11 +38,13 @@ export type UpgradeStats = {
   modifierStats: Partial<ModifierStats>;
 };
 
-export function getUpgradeStats(
+export function getChangeStats(
   prev: ResolvedDeck,
   next: ResolvedDeck,
-): UpgradeStats {
+  omitUpgradeStats = false,
+): ChangeStats {
   const changes = deckChanges(prev, next);
+  if (omitUpgradeStats) return { changes };
 
   const xp = next.xp ?? 0;
   const xpAdjustment = next.xp_adjustment ?? 0;
@@ -51,7 +62,7 @@ export function getUpgradeStats(
   };
 }
 
-function deckChanges(prev: ResolvedDeck, next: ResolvedDeck): Changes {
+function deckChanges(prev: ResolvedDeck, next: ResolvedDeck): DeckChanges {
   return {
     customizations: getCustomizableChanges(prev, next),
     extraSlots: getSlotChanges(prev, next, "extraSlots"),
@@ -132,7 +143,7 @@ type Diff = {
 function calculateXpSpent(
   prev: ResolvedDeck,
   next: ResolvedDeck,
-  changes: Changes,
+  changes: DeckChanges,
 ) {
   let xp = 0;
 
@@ -193,7 +204,7 @@ function calculateXpSpent(
     return cost;
   }
 
-  function handleDiff(changes: Changes, slotKey: "slots" | "extraSlots") {
+  function handleDiff(changes: DeckChanges, slotKey: "slots" | "extraSlots") {
     const diff = getSlotDiff(prev, next, changes[slotKey], slotKey);
     let free0Cards = countFreeLevel0Cards(prev, next, modifiers, diff, slotKey);
 

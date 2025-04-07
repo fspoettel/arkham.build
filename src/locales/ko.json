@@ -660,6 +660,22 @@
         "sealed": "봉인됨",
         "shared": "공유됨"
       },
+      "toasts": {
+        "delete_confirm": "덱을 완전히 삭제하려는 게 맞습니까??",
+        "delete_error": "덱을 삭제하는데 실패함: {{error}}",
+        "delete_loading": "덱을 삭제하는 중...",
+        "delete_success": "덱을 삭제하는데 성공하였습니다.",
+        "delete_upgrade_confirm": "이번 향상을 제거하려는 게 맞습니까?",
+        "delete_upgrade_error": "향상을 제거하는데 실패함: {{error}}",
+        "delete_upgrade_loading": "향상을 제거하는 중...",
+        "delete_upgrade_success": "향상을 제거하는데 성공하였습니다.",
+        "duplicate_error": "덱을 복제하는데 실패함: {{error}}",
+        "duplicate_success": "덱을 복제하는데 성공하였습니다.",
+        "export_error": "덱을 내보내는데 실패함: {{error}}",
+        "upload_error": "덱을 {{provider}}에 업로드하는데 실패함: {{error}}",
+        "upload_loading": "덱을 {{provider}}에 업로드하는 중...",
+        "upload_success": "덱을 업로드하는데 성공하였습니다."
+      },
       "tools": {
         "cards": "카드",
         "factions": "역할군",
@@ -726,6 +742,11 @@
       "help_replacements": "<p>“대체물” 키워드가 있는 전용 카드는 “덱 구성 요구 조건”에   나열된 전용 카드를 대체할 수 있습니다. 이렇게 해도 요구 조건을 충족하며, 해당 덱을   플레이할 수 있습니다.</p><p>이 경우, 전용 카드를 <strong>둘 다</strong> 교체해야 하며, 캠페인을 위해 교체한 경우 나중에 원래의 전용 카드를 사용하는 것으로 변경할 수 없습니다.</p><p>또는 전용 카드 외에도 “대체물” 카드를 추가로 포함할 수도 있습니다.</p>",
       "loading": "덱을 생성하는 중...",
       "random_basic_weakness": "무작위 기본 약점",
+      "sealed_deck": {
+        "error": "봉인된 덱을 가져오는데 실패함: {{error}}",
+        "loading": "봉인된 덱을 가져오는 중...",
+        "success": "봉인된 덱이 성공적으로 적용되었습니다."
+      },
       "success": "덱 생성이 완료되었습니다."
     },
     "deck_edit": {
@@ -734,6 +755,7 @@
         "decrement_quantity": "덱 수량 줄이기",
         "decrement_side_quantity": "보조 덱 수량 줄이기",
         "draw_random_basic_weakness": "무작위 기본 약점 뽑기",
+        "draw_random_basic_weakness_success": "선택된 무작위 기본 약점은 ‘<strong>{{name}}</strong>’입니다.",
         "edit_annotation": "주석 편집하기",
         "increment_quantity": "덱 수량 늘리기",
         "increment_side_quantity": "보조 덱 수량 늘리기",
@@ -1149,6 +1171,8 @@
         "hide_weaknesses_help": "이 옵션을 선택하면 기본적으로 플레이어 카드 목록에서 약점이 숨겨지며, 약점을 보려면 <strong>보조 유형</strong> 필터에서 활성화해야 합니다.",
         "show_move_to_side_deck": "“보조 덱으로 옮기기” 버튼 보기",
         "show_move_to_side_deck_help": "덱을 편집할 때 카드를 덱에서 보조 덱으로 이동할 수 있는 버튼이 표시됩니다. 주로 덱을 옵션으로 가득 채운 다음 줄이는 방식으로 덱을 구성하는 경우에 유용합니다.",
+        "sort_ignore_punctuation": "문장 부호 무시하고 정렬하기",
+        "sort_ignore_punctuation_help": "이 항목이 체크되어 있다면, 카드 목록은 따옴표 등 모든 문장 부호들을 무시하고 정렬됩니다.",
         "theme": "테마",
         "theme_dark": "어두움",
         "theme_light": "밝음",

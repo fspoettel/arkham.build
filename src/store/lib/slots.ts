@@ -19,7 +19,7 @@ import type {
 } from "./types";
 
 export function decodeSlots(
-  state: Pick<StoreState, "metadata"> & {
+  deps: Pick<StoreState, "metadata"> & {
     lookupTables: LookupTables;
   },
   collator: Intl.Collator,
@@ -59,7 +59,7 @@ export function decodeSlots(
 
   for (const [code, quantity] of Object.entries(deck.slots)) {
     const card = resolveCardWithRelations(
-      state,
+      deps,
       collator,
       code,
       deck.taboo_id,
@@ -96,8 +96,8 @@ export function decodeSlots(
       // Collect bonded cards, filtering out duplicates.
       // These can occur when e.g. two versions of `Dream Diary` are in a deck.
       const bound = Object.keys(
-        state.lookupTables.relations.bound[code] ?? {},
-      ).map((code) => state.metadata.cards[code]);
+        deps.lookupTables.relations.bound[code] ?? {},
+      ).map((code) => deps.metadata.cards[code]);
 
       if (bound?.length) {
         for (const boundCard of bound) {
@@ -116,7 +116,7 @@ export function decodeSlots(
   if (deck.sideSlots && !Array.isArray(deck.sideSlots)) {
     for (const [code] of Object.entries(deck.sideSlots)) {
       const card = resolveCardWithRelations(
-        state,
+        deps,
         collator,
         code,
         deck.taboo_id,
@@ -134,7 +134,7 @@ export function decodeSlots(
 
   for (const [code] of Object.entries(exileSlots)) {
     const card = resolveCardWithRelations(
-      state,
+      deps,
       collator,
       code,
       deck.taboo_id,
@@ -150,7 +150,7 @@ export function decodeSlots(
   if (extraSlots && !Array.isArray(extraSlots)) {
     for (const [code, quantity] of Object.entries(extraSlots)) {
       const card = resolveCardWithRelations(
-        state,
+        deps,
         collator,
         code,
         deck.taboo_id,
@@ -170,7 +170,7 @@ export function decodeSlots(
 
   for (const card of bonded) {
     const resolved = resolveCardWithRelations(
-      state,
+      deps,
       collator,
       card.code,
       deck.taboo_id,

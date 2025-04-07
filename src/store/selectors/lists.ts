@@ -28,6 +28,7 @@ import {
   filterEncounterCode,
   filterFactions,
   filterHealthProp,
+  filterIllustrator,
   filterInvestigatorAccess,
   filterInvestigatorSkills,
   filterInvestigatorWeaknessAccess,
@@ -266,6 +267,15 @@ function makeUserFilter(
 
           filters.push(filter);
         }
+        break;
+      }
+
+      case "illustrator": {
+        const value = filterValue.value as MultiselectFilter;
+        if (value.length) {
+          filters.push(filterIllustrator(value));
+        }
+
         break;
       }
 
@@ -658,13 +668,22 @@ const selectListFilterProperties = createSelector(
       {} as Record<SkillKey, { min: number; max: number }>,
     );
 
-    const actions: Set<string> = new Set();
-    const traits: Set<string> = new Set();
-    const types: Set<string> = new Set();
+    const actions = new Set<string>();
+    const traits = new Set<string>();
+    const types = new Set<string>();
+    const illustrators = new Set<string>();
 
     if (cards) {
       for (const card of cards) {
         types.add(card.type_code);
+
+        if (card.illustrator) {
+          illustrators.add(card.illustrator);
+        }
+
+        if (card.back_illustrator) {
+          illustrators.add(card.back_illustrator);
+        }
 
         if (card.cost != null) {
           cost.min = Math.min(cost.min, Math.max(card.cost, 0));
@@ -724,6 +743,7 @@ const selectListFilterProperties = createSelector(
       actions,
       cost,
       health,
+      illustrators,
       sanity,
       skills,
       traits,
@@ -853,6 +873,20 @@ export const selectHealthMinMax = createSelector(
 );
 
 /**
+ * Illustrator
+ */
+
+export const selectIllustratorOptions = createSelector(
+  selectListFilterProperties,
+  selectLocaleSortingCollator,
+  (properties, collator) => {
+    return Array.from(properties.illustrators)
+      .map((code) => ({ code }))
+      .sort((a, b) => collator.compare(a.code, b.code));
+  },
+);
+
+/**
  * Investigator
  */
 
@@ -979,7 +1013,7 @@ export const selectCyclesAndPacks = createSelector(
   },
 );
 
-const filterNewFormat = (packs: Pack[], cardType: string) => {
+const filterNewFormat = (packs: Pack[], cardType?: string) => {
   return packs.filter((pack) =>
     cardType === "encounter"
       ? pack.code.endsWith("c")
@@ -991,15 +1025,13 @@ export const selectPackOptions = createSelector(
   selectCyclesAndPacks,
   selectActiveList,
   (cycles, list) => {
-    if (!list) return [];
-
     return cycles.flatMap((cycle) => {
       if (cycle.reprintPacks.length && cycle.code !== "core") {
         return filterNewFormat(cycle.reprintPacks, list?.cardType);
       }
 
       return cycle.packs.length === 2
-        ? filterNewFormat(cycle.packs, list.cardType)
+        ? filterNewFormat(cycle.packs, list?.cardType)
         : [...cycle.reprintPacks, ...cycle.packs];
     });
   },
@@ -1296,6 +1328,12 @@ const selectEncounterSetChanges = createSelector(
 
 function selectHealthChanges(value: [number, number] | undefined) {
   return formatHealthChanges(value, i18n.t("filters.health.title"));
+}
+
+export function selectIllustratorChanges(value: MultiselectFilter) {
+  const count = value.length;
+  if (!count) return "";
+  return value.join(` ${i18n.t("filters.or")} `);
 }
 
 function selectInvestigatorCardAccessChanges(value: MultiselectFilter) {

@@ -10,6 +10,7 @@ import { useStore } from "@/store";
 import { CloudDownloadIcon, LoaderCircleIcon } from "lucide-react";
 import { useCallback, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { Link } from "wouter";
 import css from "./deck-collection.module.css";
 
 export function DeckCollectionImport() {
@@ -74,12 +75,11 @@ export function DeckCollectionImport() {
               <Trans
                 i18nKey="deck_collection.import_arkhamdb_help"
                 t={t}
-                components={{ strong: <strong /> }}
-              >
-                Enter a public ArkhamDB deck id, deck url or deck guide url.
-                Decks will be <strong>copied</strong> over and deck history will
-                not be imported.
-              </Trans>
+                components={{
+                  strong: <strong />,
+                  settings_link: <Link href="/settings" />,
+                }}
+              />
             }
           >
             <label className="sr-only" htmlFor="deck-id">

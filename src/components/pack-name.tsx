@@ -10,12 +10,10 @@ type Props = {
 export function PackName(props: Props) {
   const { pack, shortenNewFormat } = props;
 
-  const name = displayPackName(pack);
-
   return (
     <>
       <PackIcon code={pack.code} />
-      {shortenNewFormat ? shortenPackName(pack as Pack) : name}
+      {shortenNewFormat ? shortenPackName(pack as Pack) : displayPackName(pack)}
     </>
   );
 }

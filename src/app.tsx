@@ -158,6 +158,7 @@ function RouteReset() {
 function AppTasks() {
   const dataVersion = useStore((state) => state.metadata.dataVersion);
   const connections = useStore((state) => state.connections);
+  const locale = useStore((state) => state.settings.locale);
 
   const sync = useSync();
   const toast = useToast();
@@ -173,12 +174,15 @@ function AppTasks() {
       if (cardDataLock.current) return;
       cardDataLock.current = true;
 
-      const data = await queryDataVersion();
+      const data = await queryDataVersion(locale);
 
       const upToDate =
         data &&
         dataVersion &&
-        data.cards_updated_at === dataVersion.cards_updated_at;
+        data.locale === dataVersion.locale &&
+        data.cards_updated_at === dataVersion.cards_updated_at &&
+        data.translation_updated_at === dataVersion.translation_updated_at &&
+        data.version === dataVersion.version;
 
       if (!upToDate && !toastId.current) {
         toastId.current = toast.show({
@@ -206,7 +210,7 @@ function AppTasks() {
     ) {
       updateCardData().catch(console.error);
     }
-  }, [dataVersion, toast.dismiss, toast.show, location]);
+  }, [dataVersion, toast.dismiss, toast.show, location, locale]);
 
   const autoSyncLock = useRef(false);
 

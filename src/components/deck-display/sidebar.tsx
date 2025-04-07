@@ -349,10 +349,7 @@ function SidebarActions(props: {
             t={t}
             i18nKey="deck_view.newer_version"
             components={{ a: <Link href={nextDeck} /> }}
-          >
-            There is a <Link href="">newer version</Link> of this deck. This
-            deck is read-only.
-          </Trans>
+          />
         </Notice>
       )}
       <div className={css["actions"]}>
@@ -592,15 +589,7 @@ function Sharing(props: { onArkhamDBUpload?: () => void; deck: ResolvedDeck }) {
                       t={t}
                       i18nKey="deck_view.sharing.create_tooltip"
                       components={{ br: <br />, strong: <strong /> }}
-                    >
-                      Sharing creates a publicly accessible, read-only link to
-                      the deck. Anyone with the link can view the deck, but not
-                      edit it.
-                      <br />
-                      Shares can be removed at any time. Removing a share does
-                      not affect the deck itself.
-                      <br />
-                    </Trans>
+                    />
                   }
                 >
                   <ShareIcon />
@@ -648,11 +637,7 @@ function ShareInfo(props: { id: Id; path: string }) {
               />
             ),
           }}
-        >
-          This deck has a public share, it can be viewed using{" "}
-          {/* biome-ignore lint/a11y/useValidAnchor: interpolation. */}
-          <a>this link</a>.
-        </Trans>
+        />
         <CopyToClipboard
           className={css["share-copy"]}
           text={`${window.location.origin}${path}`}

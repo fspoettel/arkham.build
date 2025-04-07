@@ -78,6 +78,7 @@ export type FilterMapping = {
   encounterSet: MultiselectFilter;
   faction: MultiselectFilter;
   health: HealthFilter;
+  illustrator: MultiselectFilter;
   investigator: SelectFilter;
   investigatorCardAccess: InvestigatorCardAccessFilter;
   investigatorSkills: InvestigatorSkillsFilter;

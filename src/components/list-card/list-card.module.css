@@ -243,7 +243,6 @@
 
   & .meta {
     flex-flow: row wrap;
-    gap: var(--card-spacing-x);
   }
 }
 

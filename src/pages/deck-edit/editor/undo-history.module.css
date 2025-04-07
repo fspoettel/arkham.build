@@ -1,0 +1,36 @@
+.container > * + * {
+  margin-top: 0.5rem;
+}
+
+.title {
+  font-size: var(--text-lg);
+}
+
+.entries {
+  list-style: none;
+}
+
+.entries > * {
+  border: none;
+  border-color: var(--palette-2);
+}
+
+.entries > * + * {
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--palette-3);
+  border-radius: 0;
+}
+
+.entry-title {
+  display: inline-flex;
+  flex-flow: row wrap;
+  align-items: baseline;
+  gap: 0.375rem;
+  font-size: var(--text-base);
+}
+
+.timestamp {
+  font-weight: 400;
+  font-size: var(--text-xs);
+}

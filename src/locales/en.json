@@ -655,7 +655,7 @@
         "ignored_other": "{{count}} copies do not count towards deck size.",
         "unowned": "Unavailable: {{count}} of {{total}} cards",
         "uses_parallel": "Uses a parallel side",
-        "xp_available_help": "XP available to spend after latest upgrade.",
+        "xp_available_help": "XP earned with latest upgrade.",
         "xp_required": "XP required",
         "xp_required_help": "Amount of XP required to build this deck from scratch."
       },
@@ -715,7 +715,7 @@
       "delete_all_success": "Local decks deleted successfully.",
       "import": "Import",
       "import_arkhamdb": "Import from ArkhamDB",
-      "import_arkhamdb_help": "Enter a public ArkhamDB deck ID, deck url or deck guide url. Decks will be <strong>copied</strong> over and deck history will not be imported.",
+      "import_arkhamdb_help": "Enter a public ArkhamDB deck ID, deck url or deck guide url. Decks will be <strong>copied</strong> over and deck history and upgrade state will not be imported. If you are meaning to sync your ArkhamDB decks with this app, <settings_link>connect your arkhamdb account.</settings_link>",
       "import_json": "Import from JSON files",
       "more_filters": "More filters",
       "search_placeholder": "Search decks...",
@@ -859,7 +859,12 @@
       "tab_notes": "Notes",
       "tab_recommendations": "Recommendations",
       "tab_tools": "Tools",
-      "title": "Edit: {{name}}"
+      "title": "Edit: {{name}}",
+      "versions": {
+        "entry_title": "Version {{version}}",
+        "entry_title_current": "Current version",
+        "title": "Versions"
+      }
     },
     "deck_view": {
       "actions": {
@@ -925,6 +930,16 @@
         "xp_gained": "XP gained"
       }
     },
+    "draw_simulator": {
+      "draw_tooltip": "Draw {{count}} {{cards}}.",
+      "redraw": "Redraw selection",
+      "redraw_tooltip": "Selected cards will be appended to the end of the deck and then replaced with new cards.",
+      "reset": "Reset",
+      "reset_tooltip": "Reset the simulator to its initial state.",
+      "reshuffle": "Reshuffle selection",
+      "reshuffle_tooltip": "Selected cards will be shuffled back into the deck.",
+      "title": "Draw simulator"
+    },
     "errors": {
       "404": "Page not found.",
       "500": "The app drew an Auto-fail.",
@@ -958,6 +973,10 @@
         "title": "Health"
       },
       "health_sanity_x": "Include health / sanity 'X'",
+      "illustrator": {
+        "placeholder": "Select illustrators...",
+        "title": "Illustrator"
+      },
       "investigator": {
         "placeholder": "Select investigators...",
         "title": "Investigator"

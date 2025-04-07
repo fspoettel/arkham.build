@@ -43,6 +43,7 @@ export function InvestigatorCardAccessFilter(props: FilterProps) {
       title={t("filters.investigator_card_access.title")}
     >
       <CardsCombobox
+        autoFocus
         id={`${id}-choose-cards`}
         items={cards}
         onValueChange={onChange}
@@ -63,11 +64,7 @@ export function InvestigatorCardAccessFilter(props: FilterProps) {
               />
             ),
           }}
-        >
-          If you need more, use arkham-starter's{" "}
-          {/* biome-ignore lint/a11y/useValidAnchor: interpolation. */}
-          <a>/who tool</a>.
-        </Trans>
+        />
       </p>
     </FilterContainer>
   );

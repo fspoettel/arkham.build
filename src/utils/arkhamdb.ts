@@ -49,3 +49,24 @@ export function assertCanPublishDeck(deck: ResolvedDeck) {
     throw new PreviewPublishError(previews);
   }
 }
+
+function parseVersion(str: string) {
+  const version = str.split(".").map((v) => Number.parseInt(v, 10));
+  if (version.length !== 2) {
+    throw new Error("Invalid version format");
+  }
+
+  return {
+    major: version[0],
+    minor: version[1],
+  };
+}
+
+export function incrementVersion(str: string) {
+  try {
+    const version = parseVersion(str);
+    return `${version.major}.${version.minor + 1}`;
+  } catch {
+    return "0.1";
+  }
+}

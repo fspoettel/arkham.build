@@ -34,8 +34,10 @@ const AGATHA_CODES = ["11007", "11008", "11007b", "11008b"];
 
 export function useAgathaEasterEggTransform(code: string) {
   const flag = useStore((state) => !!state.settings.flags?.[FLAG]);
-  if (flag && AGATHA_CODES.includes(code)) return `${FLAG}_${code}`;
-  return code;
+
+  if (!AGATHA_CODES.includes(code)) return code;
+
+  return flag || aprilFools() ? `${FLAG}_${code}` : code;
 }
 
 export function useAgathaEasterEggHint() {
@@ -43,7 +45,7 @@ export function useAgathaEasterEggHint() {
   const lock = useRef(false);
 
   useEffect(() => {
-    if (!settings.showPreviews || lock.current) return;
+    if (!settings.showPreviews || lock.current || aprilFools()) return;
 
     lock.current = true;
 
@@ -58,4 +60,9 @@ export function useAgathaEasterEggHint() {
       "color: rebeccapurple; background-color: #eee",
     );
   }, [settings]);
+}
+
+function aprilFools() {
+  const date = new Date();
+  return date.getMonth() === 3 && date.getDate() === 1;
 }

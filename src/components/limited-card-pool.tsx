@@ -16,7 +16,6 @@ import { BookLockIcon, XIcon } from "lucide-react";
 import { useCallback, useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { createSelector } from "reselect";
-import { Link } from "wouter";
 import { useShallow } from "zustand/react/shallow";
 import css from "./limited-card-pool.module.css";
 import { PackName } from "./pack-name";
@@ -215,10 +214,7 @@ export function SealedDeckField(props: {
               />
             ),
           }}
-        >
-          Upload a sealed deck definition (.csv) to use it. Use{" "}
-          <Link href="">ArkhamSealed</Link> to generate a sealed deck.
-        </Trans>
+        />
       }
     >
       <FieldLabel as="div">{t("deck_edit.config.sealed.title")}</FieldLabel>

@@ -54,10 +54,7 @@ export function BackupRestore() {
               i18nKey="settings.backup.help_warning"
               components={{ strong: <strong /> }}
               t={t}
-            >
-              When a backup is restored,{" "}
-              <strong>any existing data will be overwritten.</strong>
-            </Trans>
+            />
           </p>
         </>
       }

@@ -227,6 +227,11 @@ h5,
 h6 {
   line-height: 1.25;
   font-weight: 700;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
 }
 
 a {

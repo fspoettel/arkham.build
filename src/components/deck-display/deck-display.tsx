@@ -16,6 +16,7 @@ import { DecklistValidation } from "../decklist/decklist-validation";
 import type { ViewMode } from "../decklist/decklist.types";
 import { LimitedCardPoolTag, SealedDeckTag } from "../limited-card-pool";
 import { Dialog } from "../ui/dialog";
+import { Plane } from "../ui/plane";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import css from "./deck-display.module.css";
 import { DeckHistory } from "./deck-history/deck-history";
@@ -49,7 +50,7 @@ export function DeckDisplay(props: DeckDisplayProps) {
       <main className={css["main"]} style={cssVariables}>
         <header className={css["header"]}>
           <h1 className={css["title"]} data-testid="view-title">
-            {deck.name}
+            {deck.name} <small>{deck.version}</small>
           </h1>
           <div className={css["tags"]}>
             <DeckTags
@@ -68,9 +69,9 @@ export function DeckDisplay(props: DeckDisplayProps) {
             </div>
           )}
           {deck.metaParsed.intro_md && (
-            <div className={css["description"]}>
+            <Plane>
               <DeckDescription content={deck.metaParsed.intro_md} centered />
-            </div>
+            </Plane>
           )}
         </header>
 
@@ -150,9 +151,9 @@ export function DeckDisplay(props: DeckDisplayProps) {
             </TabsContent>
             {deck.description_md && (
               <TabsContent className={css["tab"]} value="notes">
-                <div className={css["description"]}>
+                <Plane>
                   <DeckDescription content={deck.description_md} centered />
-                </div>
+                </Plane>
               </TabsContent>
             )}
             {hasHistory && (

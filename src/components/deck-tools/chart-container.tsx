@@ -1,4 +1,5 @@
 import type { ResolvedDeck } from "@/store/lib/types";
+import { Plane } from "../ui/plane";
 import { CostCurveChart } from "./cost-curve-chart";
 import css from "./deck-tools.module.css";
 import { FactionsChart } from "./factions-chart";
@@ -10,10 +11,10 @@ export default function ChartContainer(props: {
   const { deck } = props;
 
   return (
-    <div className={css["charts-wrap"]}>
+    <Plane className={css["charts-wrap"]}>
       <CostCurveChart data={deck.stats.charts.costCurve} />
       <SkillIconsChart data={deck.stats.charts.skillIcons} />
       <FactionsChart data={deck.stats.charts.factions} />
-    </div>
+    </Plane>
   );
 }

@@ -47,6 +47,7 @@ type TriggerProps = TabsTriggerProps & {
   children: React.ReactNode;
   hotkey?: string;
   tooltip?: string;
+  iconOnly?: boolean;
   onTabChange?: (value: string) => void;
 };
 
@@ -55,6 +56,7 @@ export const TabsTrigger = forwardRef(function TabsTrigger(
     children,
     className,
     hotkey,
+    iconOnly,
     onTabChange,
     tooltip,
     value,
@@ -65,10 +67,12 @@ export const TabsTrigger = forwardRef(function TabsTrigger(
   const inner = (
     <Trigger {...rest} asChild value={value}>
       <Button
-        className={cx(css["trigger"], className)}
+        className={cx(css["trigger"], iconOnly && css["icon-only"], className)}
         ref={ref}
+        iconOnly={iconOnly}
         tooltip={hotkey ? undefined : tooltip}
         variant="bare"
+        size="none"
       >
         {children}
       </Button>

@@ -6,6 +6,7 @@ import { Loader } from "../ui/loader";
 import { Scroller } from "../ui/scroller";
 import { AllAttachables } from "./all-attachables";
 import css from "./deck-tools.module.css";
+import { DrawSimulator } from "./draw-simulator";
 import { LimitedSlots } from "./limited-slots";
 
 type Props = {
@@ -30,6 +31,7 @@ export const DeckTools = forwardRef(function DeckTools(
   const node = (
     <article className={cx(css["deck-tools"])} ref={ref}>
       <Suspense fallback={<Loader show message={t("deck.tools.loading")} />}>
+        <DrawSimulator deck={deck} />
         <LazyChartContainer deck={deck} />
         <LimitedSlots deck={deck} />
         <AllAttachables deck={deck} readonly={readonly} />

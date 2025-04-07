@@ -1,0 +1,49 @@
+.container {
+  will-change: contents;
+  user-select: none;
+}
+
+.container > * + * {
+  margin-top: 0.5rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+}
+
+.title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: var(--text-lg);
+}
+
+.nav {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-flow: row wrap;
+  gap: 0.25rem;
+}
+
+.drawn {
+  display: grid;
+  list-style: none;
+  grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+  gap: 0.5rem;
+}
+
+.card-toggle {
+  display: block;
+  width: 100%;
+}
+
+.selected img {
+  outline: 2px solid var(--palette-6);
+  outline-offset: 1px;
+  transform: scale(1.01);
+}

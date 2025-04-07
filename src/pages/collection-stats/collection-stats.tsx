@@ -23,11 +23,7 @@ function CollectionStats() {
               i18nKey="collection_stats.description"
               t={t}
               components={{ a: <Link href="/settings" /> }}
-            >
-              This page displays your collection and card counts based on your
-              collection settings. To update your collection settings, visit the{" "}
-              <Link href="">Settings</Link> page.
-            </Trans>
+            />
           </p>
           <blockquote>
             <Trans
@@ -38,10 +34,7 @@ function CollectionStats() {
                 encounter_count: ownedCount.encounter,
               }}
               components={{ strong: <strong /> }}
-            >
-              You own <strong>{ownedCount.player}</strong> player and{" "}
-              <strong>{ownedCount.encounter}</strong> encounter cards.
-            </Trans>
+            />
           </blockquote>
         </div>
         <CollectionSettings canShowCounts settings={settings} />

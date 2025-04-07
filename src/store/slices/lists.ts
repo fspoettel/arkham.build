@@ -167,6 +167,7 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
     assert(filterValues[id], `${state.activeList} has not filter ${id}.`);
 
     switch (filterValues[id].type) {
+      case "illustrator":
       case "action":
       case "encounterSet":
       case "trait":
@@ -414,6 +415,7 @@ export const createListsSlice: StateCreator<StoreState, [], [], ListsSlice> = (
 
     lists[key] = makePlayerCardsList(key, state.settings, {
       showInvestigators: true,
+      additionalFilters: ["illustrator"],
       initialValues: {
         ...initialValues,
         ownership: getInitialOwnershipFilter(state.settings),
@@ -530,6 +532,7 @@ function makeFilterValue(
       );
     }
 
+    case "illustrator":
     case "investigatorCardAccess":
     case "action":
     case "encounterSet":
@@ -664,6 +667,7 @@ function makePlayerCardsList(
     properties = [] as string[],
     initialValues = {} as Partial<Record<FilterKey, unknown>>,
     showInvestigators = false,
+    additionalFilters = [] as FilterKey[],
   } = {},
 ): List {
   const filters: FilterKey[] = ["faction", "type", "level"];
@@ -686,6 +690,7 @@ function makePlayerCardsList(
     "action",
     "pack",
     "tabooSet",
+    ...additionalFilters,
   );
 
   const systemFilter = [
@@ -722,14 +727,14 @@ function makeInvestigatorCardsList(
   const filters: FilterKey[] = [
     "faction",
     "investigatorSkills",
+    "investigatorCardAccess",
     "trait",
     "health",
     "sanity",
-    "investigatorCardAccess",
   ];
 
   if (!settings.showAllCards) {
-    filters.push("ownership");
+    filters.splice(2, 0, "ownership");
   }
 
   return makeList({
@@ -756,6 +761,7 @@ function makeEncounterCardsList(
   {
     properties = [] as string[],
     initialValues = {} as Partial<Record<FilterKey, unknown>>,
+    additionalFilters = [] as FilterKey[],
   } = {},
 ): List {
   const filters: FilterKey[] = ["faction", "type"];
@@ -774,6 +780,7 @@ function makeEncounterCardsList(
     "action",
     "pack",
     "encounterSet",
+    ...additionalFilters,
   );
 
   const systemFilter = [filterEncounterCards, filterBacksides];
@@ -817,10 +824,12 @@ export function makeLists(
   return {
     browse_player: makePlayerCardsList("browse_player", settings, {
       showInvestigators: true,
+      additionalFilters: ["illustrator"],
       initialValues,
       properties: [...SHARED_PLAYER_PROPERTIES, "bonded"],
     }),
     browse_encounter: makeEncounterCardsList("browse_encounter", settings, {
+      additionalFilters: ["illustrator"],
       initialValues,
       properties: [...SHARED_ENCOUNTER_PROPERTIES, "victory"],
     }),

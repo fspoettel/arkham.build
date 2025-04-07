@@ -23,6 +23,7 @@ import { EncounterSetFilter } from "./encounter-set-filter";
 import { FactionFilter } from "./faction-filter";
 import css from "./filters.module.css";
 import { HealthFilter } from "./health-filter";
+import { IllustratorFilter } from "./illustrator-filter";
 import { InvestigatorCardAccessFilter } from "./investigator-card-access-filter";
 import { InvestigatorFilter } from "./investigator-filter";
 import { InvestigatorSkillsFilter } from "./investigator-skills-filter";
@@ -159,6 +160,7 @@ export function Filters(props: Props) {
               {filter === "sanity" && (
                 <SanityFilter id={id} resolvedDeck={resolvedDeck} />
               )}
+              {filter === "illustrator" && <IllustratorFilter id={id} />}
             </Fragment>
           ))}
         </div>
