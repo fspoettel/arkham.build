@@ -82,7 +82,11 @@ export const PopoverContent = forwardRef<
 
   return (
     <FloatingPortal id={FLOATING_PORTAL_ID}>
-      <FloatingFocusManager context={floatingContext} modal={context.modal}>
+      <FloatingFocusManager
+        context={floatingContext}
+        modal={context.modal}
+        initialFocus={-1}
+      >
         <div
           aria-describedby={context.descriptionId}
           aria-labelledby={context.labelId}
