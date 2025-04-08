@@ -195,12 +195,12 @@ function drawReducer(state: State, action: Action): State {
       );
 
       const drawn = [...state.drawn];
-      const bag = shuffle([...state.bag, ...codes]);
+      const bag = [...state.bag, ...codes];
 
       for (const code of codes) {
         const index = drawn.indexOf(code);
         // biome-ignore lint/style/noNonNullAssertion: safe.
-        if (index !== -1) drawn.splice(index, 1, bag.pop()!);
+        if (index !== -1) drawn.splice(index, 1, bag.shift()!);
       }
 
       return { bag, drawn, selection: [] };
