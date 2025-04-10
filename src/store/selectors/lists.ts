@@ -10,7 +10,11 @@ import {
   type SkillKey,
 } from "@/utils/constants";
 import { createCustomEqualSelector } from "@/utils/custom-equal-selector";
-import { displayPackName, formatTabooSet } from "@/utils/formatting";
+import {
+  capitalize,
+  displayPackName,
+  formatTabooSet,
+} from "@/utils/formatting";
 import type { Filter } from "@/utils/fp";
 import { and, not, or } from "@/utils/fp";
 import i18n from "@/utils/i18n";
@@ -782,7 +786,12 @@ export const selectAssetOptions = createSelector(
   selectListFilterProperties,
   (lookupTables, collator, filterProps) => {
     const uses = Object.keys(lookupTables.uses)
-      .map((code) => ({ code, name: i18n.t(`common.uses.${code}`) }))
+      .map((code) => ({
+        code,
+        name: i18n.exists(`common.uses.${code}`)
+          ? i18n.t(`common.uses.${code}`)
+          : capitalize(code),
+      }))
       .sort((a, b) => collator.compare(a.name, b.name));
 
     const skillBoosts = SKILL_KEYS.filter((x) => x !== "wild");
@@ -1170,7 +1179,11 @@ export const selectTraitOptions = createSelector(
   selectLocaleSortingCollator,
   ({ traits }, collator) => {
     return Array.from(traits)
-      .map((code) => ({ code, name: i18n.t(`common.traits.${code}`) }))
+      .map((code) => {
+        const key = `common.traits.${code}`;
+        const name = i18n.exists(key) ? i18n.t(key) : code;
+        return { code, name };
+      })
       .sort((a, b) => collator.compare(a.name, b.name));
   },
 );
@@ -1267,7 +1280,9 @@ function selectAssetChanges(value: AssetFilter) {
   }, "");
 
   const uses = value.uses.reduce((acc, key) => {
-    const displayStr = t(`common.uses.${key}`);
+    const displayStr = i18n.exists(`common.uses.${key}`)
+      ? t(`common.uses.${key}`)
+      : capitalize(key);
 
     return !acc
       ? `${t("filters.uses.title")}: ${displayStr}`
@@ -1456,7 +1471,11 @@ const selectTabooSetChanges = createSelector(
 function selectTraitChanges(value: MultiselectFilter) {
   if (!value.length) return "";
   return value
-    .map((code) => i18n.t(`common.traits.${code}`))
+    .map((code) => {
+      const key = `common.traits.${code}`;
+      const name = i18n.exists(key) ? i18n.t(key) : code;
+      return { code, name };
+    })
     .join(` ${i18n.t("filters.or")} `);
 }
 

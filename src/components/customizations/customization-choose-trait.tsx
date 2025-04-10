@@ -21,7 +21,11 @@ const selectTraitOptions = createSelector(
   selectLocaleSortingCollator,
   (traits, collator) =>
     Object.keys(traits)
-      .map((code) => ({ code, name: i18n.t(`common.traits.${code}`) }))
+      .map((code) => {
+        const key = `common.traits.${code}`;
+        const name = i18n.exists(key) ? i18n.t(key) : code;
+        return { code, name };
+      })
       .sort((a, b) => collator.compare(a.code, b.code)),
 );
 

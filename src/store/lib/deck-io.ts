@@ -339,7 +339,12 @@ function formatCustomizableSelection(
     return selections.map((s) => i18n.t(`common.skill.${s}`)).join(", ");
   }
 
-  return selections.map((t) => i18n.t(`common.traits.${t}`)).join(", ");
+  return selections
+    .map((t) => {
+      const key = `common.traits.${t}`;
+      return i18n.exists(key) ? i18n.t(key) : t;
+    })
+    .join(", ");
 }
 
 function isApiDeckKey(key: string): key is keyof Deck {
