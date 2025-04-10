@@ -13,6 +13,7 @@ export const LOCALES = [
   { value: "ko", label: "한국어/Korean (ko)", unicode: true },
   { value: "pl", label: "Polski (pl)", unicode: true },
   { value: "ru", label: "Русский (ru)", unicode: true },
+  { value: "fr", label: "Français (fr)", unicode: true },
 ];
 
 export const FLOATING_PORTAL_ID = "floating";
