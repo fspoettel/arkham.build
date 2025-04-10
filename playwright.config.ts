@@ -47,6 +47,7 @@ const config: PlaywrightTestConfig = {
       use: {
         ...devices["Desktop Chrome"],
         channel: "chromium",
+        locale: "en-GB",
       },
     },
 
@@ -95,11 +96,17 @@ if (process.env.ALL_BROWSERS) {
   config.projects?.push(
     {
       name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
+      use: {
+        ...devices["Desktop Firefox"],
+        locale: "en-GB",
+      },
     },
     {
       name: "webkit",
-      use: { ...devices["Desktop Safari"] },
+      use: {
+        ...devices["Desktop Safari"],
+        locale: "en-GB",
+      },
     },
   );
 }
