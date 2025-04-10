@@ -854,7 +854,12 @@
       "tab_notes": "Notes",
       "tab_recommendations": "Recommandations",
       "tab_tools": "Outils",
-      "title": "Modifier : {{name}}"
+      "title": "Modifier : {{name}}",
+      "versions": {
+        "entry_title": "Version {{version}}",
+        "entry_title_current": "Version courante",
+        "title": "Versions"
+      }
     },
     "deck_view": {
       "actions": {
