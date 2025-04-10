@@ -5,15 +5,19 @@ import i18n from "./i18n";
 
 /**
  * If your language uses a different alphabet, please set the `unicode` flag here to `true`.
- * Otherwise, the search will not work correctly.
+ * This is only necessary if the alphabet is not based on the latin alphabet at all.
+ * Diacritics are fine and will be normalised with `String.prototype.normalize()` before searching.
+ * Examples of where this is necessary: Korean, Russian.
+ * Example of where this is not necessary: French, Polish.
+ * Some languages add specific additional characters to the latin alphabet. These can be added as `additionalCharacters`.
  */
 export const LOCALES = [
+  { value: "de", label: "Deutsch (de)", additionalCharacters: "ß" },
   { value: "en", label: "English (en)" },
-  { value: "de", label: "Deutsch (de)" },
+  { value: "fr", label: "Français (fr)" },
   { value: "ko", label: "한국어/Korean (ko)", unicode: true },
-  { value: "pl", label: "Polski (pl)", unicode: true },
+  { value: "pl", label: "Polski (pl)" },
   { value: "ru", label: "Русский (ru)", unicode: true },
-  { value: "fr", label: "Français (fr)", unicode: true },
 ];
 
 export const FLOATING_PORTAL_ID = "floating";

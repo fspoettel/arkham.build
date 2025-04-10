@@ -62,19 +62,26 @@ export function applySearch(
   metadata: Metadata,
   locale: string,
 ): Card[] {
+  const localeDefinition = LOCALES.find((l) => l.value === locale);
+
   const options: uFuzzy.Options = {
     intraMode: 0,
     interIns: MATCHING_MAX_TOKEN_DISTANCE,
   };
 
   // https://github.com/leeoniya/uFuzzy/?tab=readme-ov-file#charsets-alphabets-diacritics
-  if (LOCALES.find((l) => l.value === locale)?.unicode) {
+  if (localeDefinition?.unicode) {
     options.unicode = true;
     options.interSplit = "[^\\p{L}\\d']+";
     options.intraSplit = "\\p{Ll}\\p{Lu}";
     options.intraBound = "\\p{L}\\d|\\d\\p{L}|\\p{Ll}\\p{Lu}";
     options.intraChars = "[\\p{L}\\d']";
     options.intraContr = "'\\p{L}{1,2}\\b";
+  } else {
+    const alpha = localeDefinition?.additionalCharacters
+      ? `a-z${localeDefinition.additionalCharacters}`
+      : "a-z";
+    options.alpha = alpha;
   }
 
   const uf = new uFuzzy(options);
