@@ -558,7 +558,7 @@
       "type": {
         "act": "Acte",
         "agenda": "Agenda",
-        "asset": "Atout",
+        "asset": "Soutien",
         "enemy": "Ennemi",
         "enemy_location": "Ennemi-Lieu",
         "event": "Événement",
@@ -575,7 +575,7 @@
       "undo": "Annuler",
       "unique": "Unique",
       "uses": {
-        "aether": "Éther",
+        "aether": "Éthers",
         "ammo": "Munitions",
         "bounties": "Primes",
         "brilliance": "Luminescences",
@@ -774,7 +774,7 @@
           "choose_campaign": "Choisir une campagne",
           "choose_campaign_placeholder": "Sélectionner une campagne...",
           "cpa_help": "Le \"Campaign Play-Along\" est un événement continu hébergé sur le serveur Discord de Mythos Busters, conçu pour jouer aux campagnes d’Arkham et partager ses histoires au sein de la communauté.",
-          "help": "Les investigateurs, les cartes signature et les atouts Histoire ne sont pas affectés par cette sélection.",
+          "help": "Les investigateurs, les cartes signature et les soutiens d'histoire ne sont pas affectés par cette sélection.",
           "placeholder": "Sélectionner des paquets...",
           "section_title": "Paramètres du pool de cartes",
           "title": "Pool de cartes limité",
