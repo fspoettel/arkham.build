@@ -55,5 +55,11 @@
     "code": "90081",
     "tags": "se.",
     "patch": true
+  },
+  {
+    "code": "11583",
+    "subtype_code": "weakness",
+    "faction_code": "neutral",
+    "patch": true
   }
 ]
