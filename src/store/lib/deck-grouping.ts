@@ -1,3 +1,4 @@
+import { countExperience } from "@/utils/card-utils";
 import { isEmpty } from "@/utils/is-empty";
 import type { Card } from "../services/queries.types";
 import type { Slots } from "../slices/data.types";
@@ -77,9 +78,7 @@ function countGroup(cards: Card[], quantities?: Record<string, number>) {
 
 function countXPGroup(cards: Card[], quantities?: Record<string, number>) {
   return cards.reduce(
-    (acc, card) =>
-      acc +
-      (quantities?.[card.code] ?? 0) * ((card.taboo_xp || 0) + (card.xp || 0)),
+    (acc, card) => acc + countExperience(card, quantities?.[card.code] ?? 0),
     0,
   );
 }

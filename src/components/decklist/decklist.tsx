@@ -1,12 +1,9 @@
 import { useStore } from "@/store";
-import {
-  type DeckGrouping,
-  countGroupRows,
-  resolveXP,
-} from "@/store/lib/deck-grouping";
+import { type DeckGrouping, countGroupRows } from "@/store/lib/deck-grouping";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { selectDeckGroups } from "@/store/selectors/decks";
 import type { Card } from "@/store/services/queries.types";
+import { countExperience } from "@/utils/card-utils";
 import { isEmpty } from "@/utils/is-empty";
 import { useHotkey } from "@/utils/use-hotkey";
 import { LayoutGridIcon, LayoutListIcon } from "lucide-react";
@@ -82,8 +79,6 @@ export function Decklist(props: Props) {
     [t],
   );
 
-  const xpSum = computeXPSum(groups.sideSlots);
-
   useHotkey("alt+s", () => onSetViewMode("scans"));
   useHotkey("alt+l", () => onSetViewMode("list"));
 
@@ -136,7 +131,7 @@ export function Decklist(props: Props) {
                 columns={getColumnMode(viewMode, groups.sideSlots)}
                 showTitle
                 title={labels["sideSlots"]}
-                extraInfos={`${xpSum} ${t("common.xp")}`}
+                extraInfos={`${computeXPSum(deck, "sideSlots")} ${t("common.xp")}`}
               >
                 <DecklistGroup
                   deck={deck}
@@ -193,17 +188,12 @@ function getColumnMode(viewMode: ViewMode, group: DeckGrouping) {
   return countGroupRows(group) < 5 ? "single" : "auto";
 }
 
-function computeXPSum(grouping: DeckGrouping | undefined) {
-  if (!grouping) return 0;
+function computeXPSum(deck: ResolvedDeck, slotKey: "sideSlots" | "slots") {
+  if (!deck[slotKey]) return 0;
 
-  const xpGroups = resolveXP(grouping);
+  return Object.entries(deck[slotKey]).reduce((acc, [code, quantity]) => {
+    const card = deck.cards[slotKey][code]?.card;
 
-  return xpGroups.entries().reduce((acc, [code, xp]) => {
-    // This looks hacky is there a better way ?
-    if (!code.includes("|")) {
-      return acc + xp;
-    }
-
-    return acc;
+    return acc + (card ? countExperience(card, quantity) : 0);
   }, 0);
 }
