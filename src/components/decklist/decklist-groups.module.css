@@ -42,7 +42,7 @@
 
 .group-extra-info {
   font-weight: 400;
-  font-size: var(--text-2xs);
+  font-size: 0.625rem;
 }
 
 .grid {
