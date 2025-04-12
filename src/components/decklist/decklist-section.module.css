@@ -7,6 +7,12 @@
   margin-bottom: 0.25rem;
 }
 
+.decklist-section-extra-infos {
+  font-size: var(--text-2xs);
+  font-weight: 400;
+  padding-left: 0.25rem;
+}
+
 .decklist-section + .decklist-section {
   margin-top: 0.5rem;
 }

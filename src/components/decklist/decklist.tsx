@@ -1,5 +1,9 @@
 import { useStore } from "@/store";
-import { type DeckGrouping, countGroupRows } from "@/store/lib/deck-grouping";
+import {
+  type DeckGrouping,
+  countGroupRows,
+  resolveXP,
+} from "@/store/lib/deck-grouping";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { selectDeckGroups } from "@/store/selectors/decks";
 import type { Card } from "@/store/services/queries.types";
@@ -78,6 +82,8 @@ export function Decklist(props: Props) {
     [t],
   );
 
+  const xpSum = computeXPSum(groups.sideSlots);
+
   useHotkey("alt+s", () => onSetViewMode("scans"));
   useHotkey("alt+l", () => onSetViewMode("list"));
 
@@ -130,12 +136,14 @@ export function Decklist(props: Props) {
                 columns={getColumnMode(viewMode, groups.sideSlots)}
                 showTitle
                 title={labels["sideSlots"]}
+                extraInfos={`${xpSum} ${t("common.xp")}`}
               >
                 <DecklistGroup
                   deck={deck}
                   grouping={groups.sideSlots}
                   getListCardProps={getListCardProps}
                   viewMode={viewMode}
+                  showXP
                 />
               </DecklistSection>
             )}
@@ -183,4 +191,19 @@ export function Decklist(props: Props) {
 function getColumnMode(viewMode: ViewMode, group: DeckGrouping) {
   if (viewMode === "scans") return "scans";
   return countGroupRows(group) < 5 ? "single" : "auto";
+}
+
+function computeXPSum(grouping: DeckGrouping | undefined) {
+  if (!grouping) return 0;
+
+  const xpGroups = resolveXP(grouping);
+
+  return xpGroups.entries().reduce((acc, [code, xp]) => {
+    // This looks hacky is there a better way ?
+    if (!code.includes("|")) {
+      return acc + xp;
+    }
+
+    return acc;
+  }, 0);
 }

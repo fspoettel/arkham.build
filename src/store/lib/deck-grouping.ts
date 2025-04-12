@@ -75,6 +75,15 @@ function countGroup(cards: Card[], quantities?: Record<string, number>) {
   return cards.reduce((acc, card) => acc + (quantities?.[card.code] ?? 0), 0);
 }
 
+function countXPGroup(cards: Card[], quantities?: Record<string, number>) {
+  return cards.reduce(
+    (acc, card) =>
+      acc +
+      (quantities?.[card.code] ?? 0) * ((card.taboo_xp || 0) + (card.xp || 0)),
+    0,
+  );
+}
+
 export function resolveParents(grouping: DeckGrouping, group: GroupingResult) {
   const parents = [];
   let parent = grouping.hierarchy[group.key];
@@ -104,6 +113,24 @@ export function resolveQuantities(grouping: DeckGrouping) {
   }
 
   return quantities;
+}
+
+export function resolveXP(grouping: DeckGrouping) {
+  const xp = new Map<string, number>();
+
+  for (const group of grouping.data) {
+    const xpGroup = countXPGroup(group.cards, grouping.quantities);
+    xp.set(group.key, xpGroup);
+
+    const parents = resolveParents(grouping, group);
+
+    for (const parent of parents) {
+      const parentQuantity = xp.get(parent.key) ?? 0;
+      xp.set(parent.key, parentQuantity + xpGroup);
+    }
+  }
+
+  return xp;
 }
 
 export function isGroupCollapsed(group: GroupingResult) {
