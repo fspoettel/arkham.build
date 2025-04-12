@@ -197,10 +197,9 @@ function drawReducer(state: State, action: Action): State {
       const drawn = [...state.drawn];
       const bag = [...state.bag, ...codes];
 
-      for (const code of codes) {
-        const index = drawn.indexOf(code);
-        // biome-ignore lint/style/noNonNullAssertion: safe.
-        if (index !== -1) drawn.splice(index, 1, bag.shift()!);
+      for (const index of state.selection) {
+        // biome-ignore lint/style/noNonNullAssertion: we extend the bag for each draw, so this is safe.
+        drawn.splice(index, 1, bag.shift()!);
       }
 
       return { bag, drawn, selection: [] };
@@ -215,9 +214,8 @@ function drawReducer(state: State, action: Action): State {
 
       const drawn = [...state.drawn];
 
-      for (const code of codes) {
-        const index = drawn.indexOf(code);
-        if (index !== -1) drawn.splice(index, 1);
+      for (const index of state.selection) {
+        drawn.splice(index, 1);
       }
 
       return { bag, drawn, selection: [] };
