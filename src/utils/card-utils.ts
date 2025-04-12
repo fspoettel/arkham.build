@@ -134,12 +134,23 @@ export function thumbnailUrl(code: string) {
   return `${import.meta.env.VITE_CARD_IMAGE_URL}/thumbnails/${code}.avif`;
 }
 
-export function parseCardTextHtml(cardText: string) {
-  const parsed = cardText
-    .replaceAll(/^\s?(-|–)/gm, `<i class="icon-bullet"></i>`)
+export function parseCardTextHtml(
+  cardText: string,
+  opts?: {
+    bullets?: boolean;
+  },
+) {
+  let parsed = cardText;
+
+  if (opts?.bullets) {
+    parsed = parsed.replaceAll(/^\s?(-|–)/gm, `<i class="icon-bullet"></i>`);
+  }
+
+  parsed = parsed
     .replaceAll("\n", "<hr class='break'>")
     .replaceAll(/\[\[(.*?)\]\]/g, "<b><em>$1</em></b>")
     .replaceAll(/\[((?:\w|_)+?)\]/g, `<i class="icon-$1"></i>`);
+
   return parsed;
 }
 

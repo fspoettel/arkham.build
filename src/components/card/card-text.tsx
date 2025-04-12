@@ -42,8 +42,12 @@ export function CardText(props: Props) {
 
   const flavorNode = showFlavor && !!flavor && (
     <div className={css["flavor"]}>
-      {/* biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is from trusted source. */}
-      <p dangerouslySetInnerHTML={{ __html: parseCardTextHtml(flavor) }} />
+      <p
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is from trusted source.
+        dangerouslySetInnerHTML={{
+          __html: parseCardTextHtml(flavor, { bullets: false }),
+        }}
+      />
     </div>
   );
 
