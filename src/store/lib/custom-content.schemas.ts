@@ -1,6 +1,3 @@
-// TODO: validate that each encounter set belongs to only one pack.
-
-import { FACTION_ORDER, PLAYER_TYPE_ORDER } from "@/utils/constants";
 import * as z from "@zod/mini";
 
 const ContentTypeSchema = z.enum([
@@ -13,8 +10,34 @@ const ContentTypeSchema = z.enum([
 
 const StatusSchema = z.enum(["draft", "alpha", "beta", "complete", "final"]);
 
-const FactionSchema = z.enum(FACTION_ORDER as unknown as string[]);
-const CardTypeSchema = z.enum(PLAYER_TYPE_ORDER as unknown as string[]);
+// FIXME: zod v4 currently does not accept const arrays (FACTION_ORDER): https://github.com/colinhacks/zod/issues/4086
+const FactionSchema = z.enum([
+  "guardian",
+  "seeker",
+  "rogue",
+  "mystic",
+  "survivor",
+  "neutral",
+  "mythos",
+]);
+
+// FIXME: zod v4 currently does not accept const arrays (PLAYER_TYPE_ORDER): https://github.com/colinhacks/zod/issues/4086
+const CardTypeSchema = z.enum([
+  "investigator",
+  "asset",
+  "event",
+  "skill",
+  "location",
+  "enemy",
+  "enemy_location",
+  "key",
+  "treachery",
+  "scenario",
+  "act",
+  "agenda",
+  "story",
+]);
+
 const SubtypeSchema = z.enum(["basicweakness", "weakness"]);
 
 const ProjectMetaSchema = z.object({
