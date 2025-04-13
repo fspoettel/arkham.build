@@ -30,6 +30,8 @@ export function applyLocalData(_metadata: Metadata) {
 
   for (const card of localCards) {
     if (card.patch) {
+      if (!metadata.cards[card.code]) continue;
+
       metadata.cards[card.code] = {
         ...metadata.cards[card.code],
         ...cardToApiFormat(card as unknown as JsonDataCard, "patch"),

@@ -315,6 +315,10 @@
   text-align: left;
 }
 
+.flavor :where(i, em) {
+  font-style: normal;
+}
+
 .meta:not(.tooltip) {
   border-top: 1px solid var(--text);
   padding-top: 0.25rem;

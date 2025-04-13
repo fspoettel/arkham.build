@@ -4,6 +4,7 @@ import {
   isGroupCollapsed,
   resolveParents,
   resolveQuantities,
+  resolveXP,
 } from "@/store/lib/deck-grouping";
 import type { GroupingResult } from "@/store/lib/grouping";
 import { getDeckLimitOverride } from "@/store/lib/resolve-deck";
@@ -37,6 +38,7 @@ type DecklistGroupsProps = {
   grouping: DeckGrouping;
   getListCardProps?: FilteredListCardPropsGetter;
   viewMode?: ViewMode;
+  showXP?: boolean;
 };
 
 export function DecklistGroup(props: DecklistGroupsProps) {
@@ -49,6 +51,7 @@ export function DecklistGroup(props: DecklistGroupsProps) {
   const cardOwnedCount = useStore(selectCardOwnedCount);
 
   const quantities = resolveQuantities(grouping);
+  const xp = resolveXP(grouping);
 
   const seenParents = new Set<string>();
 
@@ -79,6 +82,9 @@ export function DecklistGroup(props: DecklistGroupsProps) {
                   metadata={metadata}
                 />
                 <GroupQuantity quantity={quantities.get(parent.key) ?? 0} />
+                {props.showXP && (
+                  <GroupExtraInfo text={`${xp.get(parent.key) ?? 0}`} />
+                )}
               </h2>
             ))}
             {!isGroupCollapsed(group) && (
@@ -232,10 +238,7 @@ function Scan(props: {
   );
 }
 
-function CustomizationScan(props: {
-  card: Card;
-  deck: ResolvedDeck;
-}) {
+function CustomizationScan(props: { card: Card; deck: ResolvedDeck }) {
   const { card, deck } = props;
 
   const { t } = useTranslation();
@@ -270,4 +273,14 @@ function CustomizationScan(props: {
 
 function GroupQuantity(props: { quantity: number }) {
   return <span className={css["group-quantity"]}>{props.quantity}</span>;
+}
+
+function GroupExtraInfo(props: { text: string }) {
+  const { t } = useTranslation();
+
+  return (
+    <span className={css["group-extra-info"]}>
+      ({`${props.text} ${t("common.xp")}`})
+    </span>
+  );
 }

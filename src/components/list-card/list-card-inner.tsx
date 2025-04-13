@@ -268,6 +268,7 @@ export function ListCardInner(props: Props) {
                       dangerouslySetInnerHTML={{
                         __html: parseCardTextHtml(
                           displayAttribute(card, "subname"),
+                          { bullets: false },
                         ),
                       }}
                     />

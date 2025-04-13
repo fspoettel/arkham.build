@@ -3,6 +3,7 @@ import { type DeckGrouping, countGroupRows } from "@/store/lib/deck-grouping";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { selectDeckGroups } from "@/store/selectors/decks";
 import type { Card } from "@/store/services/queries.types";
+import { countExperience } from "@/utils/card-utils";
 import { isEmpty } from "@/utils/is-empty";
 import { useHotkey } from "@/utils/use-hotkey";
 import { LayoutGridIcon, LayoutListIcon } from "lucide-react";
@@ -130,12 +131,14 @@ export function Decklist(props: Props) {
                 columns={getColumnMode(viewMode, groups.sideSlots)}
                 showTitle
                 title={labels["sideSlots"]}
+                extraInfos={`${computeXPSum(deck, "sideSlots")} ${t("common.xp")}`}
               >
                 <DecklistGroup
                   deck={deck}
                   grouping={groups.sideSlots}
                   getListCardProps={getListCardProps}
                   viewMode={viewMode}
+                  showXP
                 />
               </DecklistSection>
             )}
@@ -183,4 +186,14 @@ export function Decklist(props: Props) {
 function getColumnMode(viewMode: ViewMode, group: DeckGrouping) {
   if (viewMode === "scans") return "scans";
   return countGroupRows(group) < 5 ? "single" : "auto";
+}
+
+function computeXPSum(deck: ResolvedDeck, slotKey: "sideSlots" | "slots") {
+  if (!deck[slotKey]) return 0;
+
+  return Object.entries(deck[slotKey]).reduce((acc, [code, quantity]) => {
+    const card = deck.cards[slotKey][code]?.card;
+
+    return acc + (card ? countExperience(card, quantity) : 0);
+  }, 0);
 }

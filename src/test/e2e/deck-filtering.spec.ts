@@ -49,7 +49,6 @@ test.describe("deck filtering", () => {
     await page.getByTestId("deck-search-input").clear();
     await page.getByTestId("filters-faction-guardian").first().click();
 
-    await page.getByTestId("deck-tags-filter").click();
     await page
       .getByTestId("deck-tags-filter")
       .getByTestId("combobox-input")

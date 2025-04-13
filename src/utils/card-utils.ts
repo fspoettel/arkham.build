@@ -36,12 +36,19 @@ function doubleSided(card: Card) {
   return card.double_sided || card.back_link_id;
 }
 
-type CardBackType = "player" | "encounter" | "card" | "longest_night";
+type CardBackType =
+  | "player"
+  | "encounter"
+  | "card"
+  | "longest_night"
+  | "artifact"
+  | "cthulhu";
 
 export function cardBackType(card: Card): CardBackType {
   if (doubleSided(card)) return "card";
 
   if (card.faction_code === "mythos") {
+    // longest night enemy deck
     if (
       card.encounter_code === "the_longest_night" &&
       card.type_code === "enemy"
@@ -49,10 +56,28 @@ export function cardBackType(card: Card): CardBackType {
       return "longest_night";
     }
 
+    // cthulhu deck
+    if (
+      card.encounter_code === "the_doom_of_arkham_part_2" &&
+      card.type_code === "story"
+    ) {
+      return "cthulhu";
+    }
+
     return "encounter";
   }
 
-  if (PLAYER_CARDS_ENCOUNTER_BACK_IDS.includes(card.code)) {
+  // tdc artifacts
+  if (card.pack_code === "tdcc" && card.real_traits?.includes("Artifact")) {
+    return "artifact";
+  }
+
+  if (
+    // Cards from investigator expansions that have an encounter back.
+    PLAYER_CARDS_ENCOUNTER_BACK_IDS.includes(card.code) ||
+    // Campaign assets that don't go in player decks have encounter back.
+    (card.encounter_code && !card.deck_limit)
+  ) {
     return "encounter";
   }
 
@@ -109,12 +134,23 @@ export function thumbnailUrl(code: string) {
   return `${import.meta.env.VITE_CARD_IMAGE_URL}/thumbnails/${code}.avif`;
 }
 
-export function parseCardTextHtml(cardText: string) {
-  const parsed = cardText
-    .replaceAll(/^\s?(-|–)/gm, `<i class="icon-bullet"></i>`)
+export function parseCardTextHtml(
+  cardText: string,
+  opts?: {
+    bullets?: boolean;
+  },
+) {
+  let parsed = cardText;
+
+  if (opts?.bullets) {
+    parsed = parsed.replaceAll(/^\s?(-|–)/gm, `<i class="icon-bullet"></i>`);
+  }
+
+  parsed = parsed
     .replaceAll("\n", "<hr class='break'>")
     .replaceAll(/\[\[(.*?)\]\]/g, "<b><em>$1</em></b>")
     .replaceAll(/\[((?:\w|_)+?)\]/g, `<i class="icon-$1"></i>`);
+
   return parsed;
 }
 

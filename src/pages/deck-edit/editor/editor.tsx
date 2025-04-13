@@ -106,6 +106,7 @@ export function Editor(props: Props) {
               grouping={groups.sideSlots}
               getListCardProps={getListCardProps}
               title={t("common.decks.sideSlots")}
+              showXP
             />
           </TabsContent>
 
@@ -137,6 +138,7 @@ function EditorGroup(props: {
   getListCardProps?: FilteredListCardPropsGetter;
   omitEmpty?: boolean;
   grouping?: DeckGrouping;
+  showXP?: boolean;
 }) {
   const { deck, omitEmpty, grouping, getListCardProps, showTitle, title } =
     props;
@@ -154,6 +156,7 @@ function EditorGroup(props: {
           getListCardProps={getListCardProps}
           grouping={grouping}
           deck={deck}
+          showXP={props.showXP}
         />
       )}
     </DecklistSection>

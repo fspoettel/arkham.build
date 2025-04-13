@@ -31,10 +31,21 @@
 }
 
 .drawn {
+  --cols: 5;
+  --gap: 0.5rem;
+  --card-width: 7rem;
+
   display: grid;
   list-style: none;
-  grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
-  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(var(--card-width), 1fr));
+  justify-content: center;
+  gap: var(--gap);
+  max-width: calc(
+    var(--cols) *
+    var(--card-width) +
+    (var(--cols) - 1) *
+    var(--gap)
+  );
 }
 
 .card-toggle {
