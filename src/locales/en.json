@@ -751,6 +751,7 @@
     },
     "deck_edit": {
       "actions": {
+        "add_to_notes": "Add to notes",
         "cycle_decks": "Cycle deck lists",
         "decrement_quantity": "Decrement deck quantity",
         "decrement_side_quantity": "Decrement side deck quantity",
@@ -822,7 +823,55 @@
         "description": "Notes",
         "description_help": "Supports ArkhamDB-flavoured markdown.",
         "intro": "Introduction",
-        "intro_help": "A short deck introduction. Will be displayed on the deck view and in social media previews. Supports ArkhamDB-flavoured markdown."
+        "intro_help": "A short deck introduction. Will be displayed on the deck view and in social media previews. Supports ArkhamDB-flavoured markdown.",
+        "toolbar": {
+          "insert": {
+            "built_in_format": {
+              "header": "Header",
+              "header_with_set": "Header with set",
+              "paragraph": "Paragraph",
+              "paragraph_colored": "Paragraph colored"
+            },
+            "card": "Card",
+            "format": "Format",
+            "from": "From",
+            "from_list": {
+              "all_player_cards": "All player cards",
+              "campaign_cards": "Campaign cards",
+              "deck": "Deck",
+              "usable": "Usable player cards"
+            },
+            "insert": "Insert",
+            "insert_card_tooltip": "Insert a card while editing notes",
+            "insert_symbol_placeholder": "Select a symbol...",
+            "insert_symbol_tooltip": "Insert a symbol while editing notes",
+            "symbol": "Symbol",
+            "symbol_names": {
+              "action": "Action triggered ability",
+              "agility": "Agility",
+              "auto_fail": "Auto-fail",
+              "bless": "Bless",
+              "combat": "Combat",
+              "cultist": "Cultist",
+              "curse": "Curse",
+              "elder_sign": "Elder Sign",
+              "elder_thing": "Elder Thing",
+              "free": "Free triggered ability",
+              "guardian": "Guardian",
+              "intellect": "Intellect",
+              "mystic": "Mystic",
+              "per_investigator": "Per investigator",
+              "reaction": "Reaction triggered ability",
+              "rogue": "Rogue",
+              "seeker": "Seeker",
+              "skull": "Skull",
+              "survivor": "Survivor",
+              "tablet": "Tablet",
+              "wild": "Wild",
+              "willpower": "Willpower"
+            }
+          }
+        }
       },
       "quick_upgrade": {
         "available_upgrades": "Available upgrades",
