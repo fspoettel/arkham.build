@@ -1,147 +1,162 @@
 // TODO: validate that each encounter set belongs to only one pack.
 
 import { FACTION_ORDER, PLAYER_TYPE_ORDER } from "@/utils/constants";
-import * as v from "valibot";
+import * as z from "@zod/mini";
 
-const UrlSchema = v.pipe(v.string(), v.url());
-
-const ContentTypeSchema = v.picklist([
-  "player_cards",
+const ContentTypeSchema = z.enum([
   "campaign",
-  "scenario",
   "investigators",
+  "player_cards",
+  "rework",
+  "scenario",
 ]);
 
-const StatusSchema = v.picklist(["final", "changes_pending", "abandoned"]);
+const StatusSchema = z.enum(["draft", "alpha", "beta", "complete", "final"]);
 
-const FactionSchema = v.picklist(FACTION_ORDER);
-const CardTypeSchema = v.picklist(PLAYER_TYPE_ORDER);
-const SubtypeSchema = v.picklist(["basicweakness", "weakness"]);
+const FactionSchema = z.enum(FACTION_ORDER as unknown as string[]);
+const CardTypeSchema = z.enum(PLAYER_TYPE_ORDER as unknown as string[]);
+const SubtypeSchema = z.enum(["basicweakness", "weakness"]);
 
-const ProjectMetaSchema = v.object({
-  /** Author of the project. */
-  author: v.string(),
-  /** URL to a banner image, dimensions: 1180x500. */
-  banner_url: v.optional(v.string()),
-  /** Unique identifier (UUIDv4) for the project. */
-  code: v.pipe(v.string(), v.minLength(3)),
-  /** Date when this content was last updated, as ISO 8601 datestamp. */
-  date_updated: v.optional(v.string()),
-  /** Detailed description for the project. Markdown is supported. */
-  description: v.optional(v.string()),
-  /** External project link. */
-  external_link: v.optional(v.union([UrlSchema, v.literal("")])),
-  /** Language of the project as ISO 639-1 language code. */
-  language: v.string(),
-  /** Name of the project. */
-  name: v.string(),
-  /** Project status. If not specified, project is assumed to be "final". */
-  status: v.optional(StatusSchema),
-  /** List of tags for the project. Tags should be english. */
-  tags: v.optional(v.array(v.string())),
-  /** List of content types that the project contains. */
-  types: v.optional(v.array(ContentTypeSchema)),
-  /** URL to where the project (=this file) is hosted. Used to fetch updates. Null for local packs. */
-  url: v.optional(UrlSchema),
-});
-
-const CustomContentEncounterSetSchema = v.object({
-  code: v.string(),
-  name: v.string(),
-  icon_url: v.optional(UrlSchema),
-});
-
-const CustomContentPackSchema = v.object({
-  code: v.string(),
-  icon_url: v.optional(UrlSchema),
-  name: v.string(),
-  position: v.optional(v.number()),
-});
-
-const CustomContentCardSchema = v.object({
-  back_flavor: v.optional(v.string()),
-  back_illustrator: v.optional(v.string()),
-  back_image_url: v.optional(UrlSchema),
-  back_link: v.optional(v.string()),
-  back_name: v.optional(v.string()),
-  back_text: v.optional(v.string()),
-  back_thumbnail_url: v.optional(UrlSchema),
-  back_traits: v.optional(v.string()),
-  bonded_count: v.optional(v.number()),
-  bonded_to: v.optional(v.string()),
-  clues: v.optional(v.nullable(v.number())),
-  clues_fixed: v.optional(v.boolean()),
-  code: v.string(),
-  cost: v.optional(v.nullable(v.number())),
-  // not supported right now. TODO: review if the logic is generic enough.
-  // customization_change: v.optional(v.string()),
-  // customization_options: v.optional(v.array(v.looseObject({}))),
-  // customization_text: v.optional(v.string()),
-  deck_requirements: v.optional(v.nullable(v.string())),
-  deck_options: v.optional(v.nullable(v.array(v.looseObject({})))),
-  deck_limit: v.optional(v.number()),
-  doom: v.optional(v.nullable(v.number())),
-  double_sided: v.optional(v.boolean()),
-  encounter_code: v.optional(v.string()),
-  encounter_position: v.optional(v.number()),
-  enemy_damage: v.optional(v.number()),
-  enemy_evade: v.optional(v.nullable(v.number())),
-  enemy_fight: v.optional(v.nullable(v.number())),
-  enemy_horror: v.optional(v.number()),
-  exceptional: v.optional(v.boolean()),
-  exile: v.optional(v.boolean()),
-  faction_code: FactionSchema,
-  faction2_code: v.optional(FactionSchema),
-  faction3_code: v.optional(FactionSchema),
-  flavor: v.optional(v.string()),
-  health: v.optional(v.nullable(v.number())),
-  health_per_investigator: v.optional(v.boolean()),
-  hidden: v.optional(v.boolean()),
-  illustrator: v.optional(v.string()),
-  image_url: v.optional(UrlSchema),
-  is_unique: v.optional(v.boolean()),
-  myriad: v.optional(v.boolean()),
-  name: v.string(),
-  pack_code: v.string(),
-  permanent: v.optional(v.boolean()),
-  position: v.number(),
-  quantity: v.number(),
-  restrictions: v.optional(v.string()),
-  sanity: v.optional(v.number()),
-  shroud: v.optional(v.nullable(v.number())),
-  // not supported right now. TODO: review if the logic is generic enough.
-  // side_deck_options: v.optional(v.array(v.looseObject({}))),
-  // side_deck_requirements: v.optional(v.string()),
-  skill_agility: v.optional(v.number()),
-  skill_combat: v.optional(v.number()),
-  skill_intellect: v.optional(v.number()),
-  skill_willpower: v.optional(v.number()),
-  skill_wild: v.optional(v.number()),
-  slot: v.optional(v.string()),
-  stage: v.optional(v.number()),
-  subname: v.optional(v.string()),
-  subtype_code: v.optional(SubtypeSchema),
-  tags: v.optional(v.string()),
-  text: v.optional(v.string()),
-  thumbnail_url: v.optional(UrlSchema),
-  traits: v.optional(v.string()),
-  type_code: CardTypeSchema,
-  vengeance: v.optional(v.number()),
-  victory: v.optional(v.number()),
-  xp: v.optional(v.number()),
-});
-
-export const CustomContentProjectSchema = v.object({
-  meta: ProjectMetaSchema,
-  data: v.object({
-    cards: v.array(CustomContentCardSchema),
-    encounter_sets: v.array(CustomContentEncounterSetSchema),
-    packs: v.array(CustomContentPackSchema),
+const ProjectMetaSchema = z.object({
+  author: z.string().register(z.globalRegistry, {
+    description: "Author of the project.",
+  }),
+  banner_url: z.optional(z.string()).register(z.globalRegistry, {
+    description: "URL to a banner image. Ideal dimensions: 1180x500.",
+  }),
+  code: z.string().check(z.minLength(3)).register(z.globalRegistry, {
+    description:
+      " Unique identifier for the project. a UUID when created by Zoop.",
+  }),
+  date_updated: z.optional(z.string()).register(z.globalRegistry, {
+    description:
+      "Date when this content was last updated, as ISO 8601 datestamp.",
+  }),
+  description: z.optional(z.string()).register(z.globalRegistry, {
+    description: "Detailed (Markdown) description for the project.",
+  }),
+  external_link: z
+    .optional(z.union([z.url(), z.literal("")]))
+    .register(z.globalRegistry, {
+      description: "URL to an external project page.",
+    }),
+  language: z.string().register(z.globalRegistry, {
+    description: "Language of the project as ISO 639-1 language code.",
+  }),
+  name: z.string().register(z.globalRegistry, {
+    description: "Name of the project.",
+  }),
+  status: z.optional(StatusSchema).register(z.globalRegistry, {
+    description:
+      'Project status. If not specified, project is assumed to be "final".',
+  }),
+  tags: z.optional(z.array(z.string())).register(z.globalRegistry, {
+    description: "List of tags for the project. (English)",
+  }),
+  types: z.optional(z.array(ContentTypeSchema)).register(z.globalRegistry, {
+    description: "List of content types that the project contains.",
+  }),
+  url: z.optional(z.url()).register(z.globalRegistry, {
+    description:
+      "URL to where the project (=this file) is hosted. Used to fetch updates. Null for local packs.",
   }),
 });
 
-export type CustomContentProject = v.InferInput<
-  typeof CustomContentProjectSchema
->;
+const CustomContentEncounterSetSchema = z.object({
+  code: z.string(),
+  name: z.string(),
+  icon_url: z.optional(z.url()),
+});
 
-export type CustomContentCard = v.InferInput<typeof CustomContentCardSchema>;
+const CustomContentPackSchema = z.object({
+  code: z.string(),
+  icon_url: z.optional(z.url()),
+  name: z.string(),
+  position: z.optional(z.number()),
+});
+
+const CustomContentCardSchema = z.object({
+  back_flavor: z.optional(z.string()),
+  back_illustrator: z.optional(z.string()),
+  back_image_url: z.optional(z.url()),
+  back_link: z.optional(z.string()),
+  back_name: z.optional(z.string()),
+  back_text: z.optional(z.string()),
+  back_thumbnail_url: z.optional(z.url()),
+  back_traits: z.optional(z.string()),
+  bonded_count: z.optional(z.number()),
+  bonded_to: z.optional(z.string()),
+  clues: z.optional(z.nullable(z.number())),
+  clues_fixed: z.optional(z.boolean()),
+  code: z.string(),
+  cost: z.optional(z.nullable(z.number())),
+  // not supported right now. TODO: review if the logic is generic enough.
+  // customization_change: z.optional(z.string()),
+  // customization_options: z.optional(z.array(z.looseObject({}))),
+  // customization_text: z.optional(z.string()),
+  deck_requirements: z.optional(z.nullable(z.string())),
+  deck_options: z.optional(z.nullable(z.array(z.looseObject({})))),
+  deck_limit: z.optional(z.number()),
+  doom: z.optional(z.nullable(z.number())),
+  double_sided: z.optional(z.boolean()),
+  encounter_code: z.optional(z.string()),
+  encounter_position: z.optional(z.number()),
+  enemy_damage: z.optional(z.number()),
+  enemy_evade: z.optional(z.nullable(z.number())),
+  enemy_fight: z.optional(z.nullable(z.number())),
+  enemy_horror: z.optional(z.number()),
+  exceptional: z.optional(z.boolean()),
+  exile: z.optional(z.boolean()),
+  faction_code: FactionSchema,
+  faction2_code: z.optional(FactionSchema),
+  faction3_code: z.optional(FactionSchema),
+  flavor: z.optional(z.string()),
+  health: z.optional(z.nullable(z.number())),
+  health_per_investigator: z.optional(z.boolean()),
+  hidden: z.optional(z.boolean()),
+  illustrator: z.optional(z.string()),
+  image_url: z.optional(z.url()),
+  is_unique: z.optional(z.boolean()),
+  myriad: z.optional(z.boolean()),
+  name: z.string(),
+  pack_code: z.string(),
+  permanent: z.optional(z.boolean()),
+  position: z.number(),
+  quantity: z.number(),
+  restrictions: z.optional(z.string()),
+  sanity: z.optional(z.number()),
+  shroud: z.optional(z.nullable(z.number())),
+  // not supported right now. TODO: review if the logic is generic enough.
+  // side_deck_options: z.optional(z.array(z.looseObject({}))),
+  // side_deck_requirements: z.optional(z.string()),
+  skill_agility: z.optional(z.number()),
+  skill_combat: z.optional(z.number()),
+  skill_intellect: z.optional(z.number()),
+  skill_willpower: z.optional(z.number()),
+  skill_wild: z.optional(z.number()),
+  slot: z.optional(z.string()),
+  stage: z.optional(z.number()),
+  subname: z.optional(z.string()),
+  subtype_code: z.optional(SubtypeSchema),
+  tags: z.optional(z.string()),
+  text: z.optional(z.string()),
+  thumbnail_url: z.optional(z.url()),
+  traits: z.optional(z.string()),
+  type_code: CardTypeSchema,
+  vengeance: z.optional(z.number()),
+  victory: z.optional(z.number()),
+  xp: z.optional(z.number()),
+});
+
+export const CustomContentProjectSchema = z.object({
+  meta: ProjectMetaSchema,
+  data: z.object({
+    cards: z.array(CustomContentCardSchema),
+    encounter_sets: z.array(CustomContentEncounterSetSchema),
+    packs: z.array(CustomContentPackSchema),
+  }),
+});
+
+export type CustomContentProject = z.infer<typeof CustomContentProjectSchema>;
+
+export type CustomContentCard = z.infer<typeof CustomContentCardSchema>;

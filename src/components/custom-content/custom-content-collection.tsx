@@ -2,6 +2,7 @@ import { useStore } from "@/store";
 import { selectOwnedCustomProjects } from "@/store/selectors/custom-content";
 import { cx } from "@/utils/cx";
 import { parseMarkdown } from "@/utils/markdown";
+import * as z from "@zod/mini";
 import {
   ExternalLinkIcon,
   EyeIcon,
@@ -36,8 +37,13 @@ export function CustomContentCollection() {
           const parsed = JSON.parse(text);
           await addCustomProject(parsed);
         } catch (err) {
+          const message =
+            err instanceof z.core.$ZodError
+              ? z.prettifyError(err)
+              : (err as Error).message;
+
           toast.show({
-            children: (err as Error).message,
+            children: message,
             variant: "error",
           });
 

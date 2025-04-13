@@ -10,6 +10,7 @@
     "analyze": "npx vite-bundle-visualizer",
     "build": "vite build",
     "check": "tsc --noEmit",
+    "custom:schema": "npx tsx ./scripts/custom-schema",
     "dev": "vite",
     "dev:functions": "wrangler pages dev",
     "fmt": "biome check --write",
@@ -51,6 +52,7 @@
     "@radix-ui/react-slider": "1.2.2",
     "@radix-ui/react-tabs": "1.1.2",
     "@radix-ui/react-toggle-group": "1.1.1",
+    "@zod/mini": "4.0.0-beta.20250412T085909",
     "dompurify": "3.2.4",
     "i18next": "24.2.2",
     "i18next-resources-to-backend": "1.2.1",
@@ -64,7 +66,6 @@
     "react-virtuoso": "4.12.3",
     "reselect": "5.1.1",
     "use-broadcast-ts": "2.0.1",
-    "valibot": "1.0.0",
     "victory": "37.3.5",
     "wouter": "3.3.5",
     "zustand": "5.0.2"

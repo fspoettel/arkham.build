@@ -1,4 +1,4 @@
-import * as v from "valibot";
+import * as z from "@zod/mini";
 import {
   type CustomContentCard,
   type CustomContentProject,
@@ -6,7 +6,7 @@ import {
 } from "./custom-content.schemas";
 
 export function parseCustomContentProject(data: unknown): CustomContentProject {
-  return v.parse(CustomContentProjectSchema, data);
+  return z.parse(CustomContentProjectSchema, data);
 }
 
 export function validateCustomContentProject(
