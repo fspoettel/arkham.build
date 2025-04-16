@@ -19,9 +19,11 @@ import css from "./custom-content-collection.module.css";
 
 export function CustomContentCollection() {
   const toast = useToast();
+
   const customProjects = useStore(selectOwnedCustomProjects);
 
   const addCustomProject = useStore((state) => state.addCustomProject);
+
   const removeCustomProject = useStore((state) => state.removeCustomProject);
 
   const { t } = useTranslation();

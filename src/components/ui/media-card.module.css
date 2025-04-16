@@ -20,6 +20,7 @@
   gap: 0.25rem;
   position: relative;
   aspect-ratio: 1180 / 500;
+  background-color: var(--palette-2);
 }
 
 .title {
