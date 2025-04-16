@@ -52,7 +52,7 @@
     "@radix-ui/react-slider": "1.2.2",
     "@radix-ui/react-tabs": "1.1.2",
     "@radix-ui/react-toggle-group": "1.1.1",
-    "@zod/mini": "4.0.0-beta.20250412T085909",
+    "@zod/mini": "4.0.0-beta.20250415T232143",
     "dompurify": "3.2.4",
     "i18next": "24.2.2",
     "i18next-resources-to-backend": "1.2.1",
