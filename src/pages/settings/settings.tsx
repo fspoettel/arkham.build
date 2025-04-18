@@ -1,7 +1,13 @@
 import { CollectionSettings } from "@/components/collection/collection";
 import { CustomContentCollection } from "@/components/custom-content/custom-content-collection";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  useTabUrlState,
+} from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast.hooks";
 import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
@@ -36,6 +42,8 @@ import { WeaknessPoolSetting } from "./weakness-pool";
 
 function Settings() {
   const { t } = useTranslation();
+
+  const [tab, onTabChange] = useTabUrlState("general");
 
   const search = useSearch();
   const toast = useToast();
@@ -106,7 +114,7 @@ function Settings() {
               <CardDataSync showDetails />
             </Section>
           </div>
-          <Tabs defaultValue="general">
+          <Tabs value={tab} onValueChange={onTabChange}>
             <TabsList>
               <TabsTrigger data-testid="tab-general" value="general">
                 <SlidersVerticalIcon />
