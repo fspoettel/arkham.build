@@ -476,6 +476,7 @@
         "code": "zcpa_00018",
         "deck_limit": 1,
         "encounter_position": 6,
+        "encounter_code": "zcpa_carcosa_24",
         "faction_code": "neutral",
         "illustrator": "Alexandr Elichev",
         "name": "Straitjacket",

@@ -1,5 +1,18 @@
 import { useStore } from "@/store";
+import {
+  addProjectToMetadata,
+  cloneMetadata,
+} from "@/store/lib/custom-content";
+import type { CustomContentProject } from "@/store/lib/custom-content.schemas";
+import { getGroupedCards } from "@/store/lib/grouping";
+import { makeSortFunction } from "@/store/lib/sorting";
 import { selectOwnedCustomProjects } from "@/store/selectors/custom-content";
+import {
+  selectLocaleSortingCollator,
+  selectMetadata,
+} from "@/store/selectors/shared";
+import type { Card } from "@/store/services/queries.types";
+import type { Metadata } from "@/store/slices/metadata.types";
 import { cx } from "@/utils/cx";
 import { parseMarkdown } from "@/utils/markdown";
 import * as z from "@zod/mini";
@@ -11,9 +24,12 @@ import {
 } from "lucide-react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { CardGrid } from "../card-list/card-grid";
 import { Button } from "../ui/button";
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { FileInput } from "../ui/file-input";
 import { MediaCard } from "../ui/media-card";
+import { Modal, ModalContent } from "../ui/modal";
 import { useToast } from "../ui/toast.hooks";
 import css from "./custom-content-collection.module.css";
 
@@ -21,9 +37,10 @@ export function CustomContentCollection() {
   const toast = useToast();
 
   const customProjects = useStore(selectOwnedCustomProjects);
+  const metadata = useStore(selectMetadata);
+  const sortingCollator = useStore(selectLocaleSortingCollator);
 
   const addCustomProject = useStore((state) => state.addCustomProject);
-
   const removeCustomProject = useStore((state) => state.removeCustomProject);
 
   const { t } = useTranslation();
@@ -74,6 +91,39 @@ export function CustomContentCollection() {
         {customProjects.map((project) => {
           const { meta } = project;
 
+          const projectMetadata = selectMetadataWithPack(metadata, project);
+
+          const projectCards = Object.values(project.data.cards)
+            .map((card) => projectMetadata.cards[card.code])
+            .filter((x) => !x.hidden);
+
+          const groupedCards = getGroupedCards(
+            ["encounter_set", "subtype", "type", "slot"],
+            projectCards,
+            makeSortFunction(
+              ["position", "name", "level"],
+              projectMetadata,
+              sortingCollator,
+            ),
+            projectMetadata,
+            sortingCollator,
+          );
+
+          const groups = [] as { key: string; type: string }[];
+          const groupCounts = [] as number[];
+          const cards = [] as Card[];
+
+          for (const group of groupedCards.data) {
+            cards.push(...group.cards);
+
+            groups.push({
+              key: group.key,
+              type: group.type,
+            });
+
+            groupCounts.push(group.cards.length);
+          }
+
           return (
             <MediaCard
               className={css["project"]}
@@ -107,9 +157,38 @@ export function CustomContentCollection() {
               </div>
 
               <nav className={css["actions"]}>
-                <Button iconOnly size="sm">
-                  <EyeIcon /> View cards
-                </Button>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button iconOnly size="sm">
+                      <EyeIcon /> View cards
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <Modal
+                      size="90%"
+                      actionsClassName={css["modal-actions"]}
+                      innerClassName={css["modal-inner"]}
+                    >
+                      <ModalContent
+                        className={css["modal-content"]}
+                        mainClassName={css["modal-content-main"]}
+                      >
+                        <CardGrid
+                          data={{
+                            cards,
+                            totalCardCount: cards.length,
+                            key: project.meta.code,
+                            groups,
+                            groupCounts,
+                          }}
+                          listMode="grouped"
+                          metadata={metadata}
+                          viewMode="scans"
+                        />
+                      </ModalContent>
+                    </Modal>
+                  </DialogContent>
+                </Dialog>
                 <Button
                   iconOnly
                   size="sm"
@@ -124,4 +203,13 @@ export function CustomContentCollection() {
       </div>
     </section>
   );
+}
+
+function selectMetadataWithPack(
+  metadata: Metadata,
+  project: CustomContentProject,
+) {
+  const meta = cloneMetadata(metadata);
+  addProjectToMetadata(meta, project);
+  return meta;
 }

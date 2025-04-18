@@ -14,7 +14,7 @@ export type Slot =
 
 export type Tab = Slot | "config";
 
-export function mapTabToSlot(tab: Tab): Slot {
+export function mapTabToSlot(tab: string): Slot {
   switch (tab) {
     case "extraSlots":
       return "extraSlots";

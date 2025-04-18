@@ -1,17 +1,13 @@
-import {
-  cardToApiFormat,
-  cycleToApiFormat,
-  packToApiFormat,
-} from "@/utils/arkhamdb-json-format";
 import { PREVIEW_PACKS } from "@/utils/constants";
 import i18n from "@/utils/i18n";
 import { isEmpty } from "@/utils/is-empty";
 import { time, timeEnd } from "@/utils/time";
 import { createSelector } from "reselect";
 import { ownedCardCount } from "../lib/card-ownership";
+import { addProjectToMetadata, cloneMetadata } from "../lib/custom-content";
 import { createLookupTables } from "../lib/lookup-tables";
 import type { ResolvedDeck } from "../lib/types";
-import type { Card, EncounterSet } from "../services/queries.types";
+import type { Card } from "../services/queries.types";
 import type { StoreState } from "../slices";
 
 export const selectMetadata = createSelector(
@@ -24,58 +20,10 @@ export const selectMetadata = createSelector(
 
     time("select_custom_data");
 
-    const meta = {
-      ...metadata,
-      cards: { ...metadata.cards },
-      encounterSets: { ...metadata.encounterSets },
-      packs: { ...metadata.packs },
-      cycles: { ...metadata.cycles },
-    };
+    const meta = cloneMetadata(metadata);
 
     for (const project of projects) {
-      const encounterSets = project.data.encounter_sets.reduce(
-        (acc, curr) => {
-          acc[curr.code] = curr as EncounterSet;
-          return acc;
-        },
-        {} as Record<string, EncounterSet>,
-      );
-
-      if (!meta.cycles[project.meta.code]) {
-        meta.cycles[project.meta.code] = cycleToApiFormat({
-          code: project.meta.code,
-          name: project.meta.name,
-          position: 999,
-          official: false,
-        });
-      }
-
-      for (const pack of project.data.packs) {
-        if (!meta.packs[pack.code]) {
-          meta.packs[pack.code] = packToApiFormat({
-            ...pack,
-            cycle_code: project.meta.code,
-            official: false,
-            position: pack.position ?? 1,
-          });
-        }
-      }
-
-      for (const card of project.data.cards) {
-        if (card.encounter_code && encounterSets[card.encounter_code]) {
-          encounterSets[card.encounter_code].pack_code = card.pack_code;
-        }
-
-        if (!meta.cards[card.code]) {
-          meta.cards[card.code] = cardToApiFormat({ ...card, official: false });
-        }
-      }
-
-      for (const encounterSet of Object.values(encounterSets)) {
-        if (encounterSet.pack_code && !meta.encounterSets[encounterSet.code]) {
-          meta.encounterSets[encounterSet.code] = encounterSet;
-        }
-      }
+      addProjectToMetadata(meta, project);
     }
 
     timeEnd("select_custom_data");
