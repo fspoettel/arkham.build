@@ -31,7 +31,7 @@ type TabDefinition = {
 
 type Props = {
   className?: string;
-  currentTab: Tab;
+  currentTab: string;
   tabs: TabDefinition[];
   currentTool: string;
   onTabChange: (tab: Tab) => void;

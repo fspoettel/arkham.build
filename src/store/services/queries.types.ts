@@ -104,7 +104,7 @@ export type JsonDataCard = {
   back_text?: string;
   back_traits?: string;
   bonded_count?: number;
-  bonded_to?: number;
+  bonded_to?: string;
   clues?: number | null;
   clues_fixed?: boolean;
   code: string;
@@ -222,6 +222,8 @@ export type Card = Omit<APICard, "id"> & {
   image_url?: string;
   thumbnail_url?: string;
   back_thumbnail_url?: string;
+  /** marks custom cards */
+  official?: boolean;
 };
 
 export type JsonDataCycle = {
@@ -235,6 +237,7 @@ export type Cycle = Omit<JsonDataCycle, "name"> & {
   real_name: string;
   /** Cycles may have a banner image associated with them. */
   image_url?: string;
+  official?: boolean;
 };
 
 export type Faction = {
@@ -256,6 +259,7 @@ export type Pack = Omit<JsonDataPack, "name"> & {
   /** Custom content may have an encounter icon in card data. */
   icon_url?: string;
   name?: string;
+  official?: boolean;
   real_name: string;
   reprint?: {
     type: string; // "player" | "encounter" | "rcore"
@@ -284,6 +288,7 @@ export type DataVersion = {
 export type JsonDataEncounterSet = {
   code: string;
   name: string;
+  official?: boolean;
 };
 
 export type EncounterSet = JsonDataEncounterSet & {
