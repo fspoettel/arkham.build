@@ -222,6 +222,8 @@ export type Card = Omit<APICard, "id"> & {
   image_url?: string;
   thumbnail_url?: string;
   back_thumbnail_url?: string;
+  /** marks custom cards */
+  official?: boolean;
 };
 
 export type JsonDataCycle = {

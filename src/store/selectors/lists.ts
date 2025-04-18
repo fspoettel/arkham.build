@@ -323,10 +323,10 @@ export const selectActiveListFilter = createSelector(
   },
 );
 
-export const selectCanonicalTabooSetId = (
+export function selectCanonicalTabooSetId(
   state: StoreState,
   resolvedDeck?: ResolvedDeck,
-) => {
+) {
   if (resolvedDeck) return resolvedDeck.taboo_id;
 
   const filters = selectActiveListFilters(state);
@@ -339,7 +339,7 @@ export const selectCanonicalTabooSetId = (
   if (typeof filterValue?.value === "number") return filterValue.value;
 
   return state.settings.tabooSetId;
-};
+}
 
 // This selector uses a custom equality check that avoid re-creation on every deck change.
 // Deck access is only affected by a few subset of deck changes:
@@ -825,7 +825,6 @@ export const selectCostMinMax = createSelector(
 /**
  * Encounter Set
  */
-
 function sortedEncounterSets(metadata: Metadata, collator: Intl.Collator) {
   const encounterSets = Object.values(metadata.encounterSets);
 

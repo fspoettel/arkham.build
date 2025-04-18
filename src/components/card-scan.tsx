@@ -42,15 +42,22 @@ export function CardScan(props: Props) {
       : backType;
 
   const imageCode = useAgathaEasterEggTransform(`${code}${suffix ?? ""}`);
-  const reverseImageCode = useAgathaEasterEggTransform(backCode);
-
   const isSideways = sideways(card);
 
+  const reverseImageCode = useAgathaEasterEggTransform(backCode);
   const reverseSideways = backCard
     ? sideways(backCard)
     : backType === "card"
       ? isSideways
       : false;
+
+  // Custom content uses card urls for sides, these take precedence.
+  const frontUrl = suffix === "b" ? card.back_image_url : card.image_url;
+  const backUrl = backCard
+    ? backCard.image_url
+    : suffix === "b"
+      ? card.image_url
+      : card.back_image_url;
 
   const onToggleFlip = useCallback(
     (evt: React.MouseEvent) => {
@@ -63,9 +70,6 @@ export function CardScan(props: Props) {
     },
     [flipped, isSideways, reverseSideways, onFlip],
   );
-
-  const frontUrl = suffix === "b" ? card.back_image_url : card.image_url;
-  const backUrl = suffix === "b" ? card.image_url : card.back_image_url;
 
   return (
     <div
