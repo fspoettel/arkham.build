@@ -75,6 +75,8 @@ function hotkeyMatches(
 
   if (!matches) return false;
 
+  const cmd = hotkey.modifiers.includes("cmd");
+
   return MODIFIERS.every((mod) => {
     // If shift is pressed, we only check it if it's part of the hotkey itself.
     // This makes special character hotkeys such as `?` work.
@@ -82,7 +84,12 @@ function hotkeyMatches(
       return true;
     }
 
-    return MODIFIER_MAP[mod](evt) === hotkey.modifiers.includes(mod);
+    const expected = hotkey.modifiers.includes(
+      cmd && mod === "ctrl" ? "cmd" : mod,
+    );
+    const actual = MODIFIER_MAP[mod](evt);
+
+    return actual === expected;
   });
 }
 
