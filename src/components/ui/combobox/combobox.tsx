@@ -67,6 +67,7 @@ export type Props<T extends Coded> = {
   limit?: number;
   omitItemPadding?: boolean;
   onValueChange?: (value: string[]) => void;
+  onEscapeBlur?: () => void;
   placeholder?: string;
   readonly?: boolean;
   renderItem?: (item: T) => React.ReactNode;
@@ -91,6 +92,7 @@ export function Combobox<T extends Coded>(props: Props<T>) {
     placeholder,
     omitItemPadding,
     onValueChange,
+    onEscapeBlur,
     readonly,
     renderItem = defaultRenderer,
     renderResult = defaultRenderer,
@@ -214,6 +216,7 @@ export function Combobox<T extends Coded>(props: Props<T>) {
                     evt.preventDefault();
                     setOpen(false);
                     (evt.target as HTMLInputElement)?.blur();
+                    onEscapeBlur?.();
                   } else if (evt.key === "Enter" && activeIndex != null) {
                     evt.preventDefault();
                     const activeItem = filteredItems[activeIndex];

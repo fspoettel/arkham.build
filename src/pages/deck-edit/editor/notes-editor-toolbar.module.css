@@ -1,0 +1,27 @@
+.insert-toolbar {
+  margin-bottom: 0.25rem;
+}
+
+.insert-field-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.insert-card-field-label-right-side {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.insert-card-field-label-right-side-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.insert-card-field-label-right-side-item > label {
+  margin-bottom: 0;
+}
