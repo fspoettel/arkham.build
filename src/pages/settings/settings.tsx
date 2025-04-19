@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast.hooks";
 import { AppLayout } from "@/layouts/app-layout";
 import { useStore } from "@/store";
+import { applyStoredColorTheme } from "@/utils/use-color-theme";
 import { useGoBack } from "@/utils/use-go-back";
 import {
   DatabaseBackupIcon,
@@ -43,8 +44,12 @@ function Settings() {
   const storedSettings = useStore((state) => state.settings);
   const [settings, setSettings] = useState(structuredClone(storedSettings));
 
+  const [settingTheme, setSettingsTheme] = useState<string | null>(null);
   useEffect(() => {
     setSettings(storedSettings);
+    return () => {
+      applyStoredColorTheme();
+    };
   }, [storedSettings]);
 
   const onSubmit = useCallback(
@@ -57,6 +62,7 @@ function Settings() {
       });
 
       try {
+        localStorage.setItem("color-scheme-preference", settingTheme ?? "dark");
         await updateStoredSettings(settings);
         toast.dismiss(toastId);
         toast.show({
@@ -72,7 +78,7 @@ function Settings() {
         });
       }
     },
-    [updateStoredSettings, settings, toast, t],
+    [updateStoredSettings, settings, toast, t, settingTheme],
   );
 
   return (
@@ -131,7 +137,7 @@ function Settings() {
               </Section>
               <Section title={t("settings.display.title")}>
                 <LocaleSetting settings={settings} setSettings={setSettings} />
-                <ThemeSetting />
+                <ThemeSetting setSettingsTheme={setSettingsTheme} />
                 <FontSizeSetting
                   settings={settings}
                   setSettings={setSettings}

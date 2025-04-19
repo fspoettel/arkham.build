@@ -12,52 +12,68 @@ export function getAvailableThemes(): Record<string, string> {
 
 const DEFAULT_THEME = "dark";
 
-function getPreference() {
+export function getColorThemePreference() {
   const pref = localStorage.getItem("color-scheme-preference");
   if (pref && getAvailableThemes()[pref]) return pref;
   return DEFAULT_THEME;
 }
 
-export function useColorTheme() {
-  const [pref, setPref] = useState(getPreference());
-
-  useEffect(() => {
-    const root = document.documentElement;
-    if (pref === "dark") {
-      root.classList.remove("theme-light", "theme-system");
-      root.classList.add("theme-dark");
-    } else if (pref === "light") {
-      root.classList.remove("theme-dark", "theme-system");
-      root.classList.add("theme-light");
-    } else {
-      root.classList.remove("theme-dark", "theme-light");
-      root.classList.add("theme-system");
-    }
-
-    localStorage.setItem("color-scheme-preference", pref);
-  }, [pref]);
+export function getColorThemePreferenceResolveSystem() {
+  const [currentTheme] = getColorThemePreference();
 
   const isDarkMode = useMedia("(prefers-color-scheme: dark)");
 
-  useEffect(() => {
-    if (pref === "system") {
-      document.documentElement.dataset.theme = isDarkMode ? "dark" : "light";
-    } else {
-      document.documentElement.dataset.theme = pref;
-    }
-  }, [pref, isDarkMode]);
-
-  return [pref, setPref] as const;
-}
-
-export function useResolvedColorTheme() {
-  const [pref] = useColorTheme();
-
-  const isDarkMode = useMedia("(prefers-color-scheme: dark)");
-
-  if (pref === "system") {
+  if (currentTheme === "system") {
     return isDarkMode ? "dark" : "light";
   }
 
-  return pref;
+  return currentTheme;
+}
+
+function applyColorThemeNotPersistent(theme: string, isDarkMode: boolean) {
+  const root = document.documentElement;
+  if (theme === "dark") {
+    root.classList.remove("theme-light", "theme-system");
+    root.classList.add("theme-dark");
+  } else if (theme === "light") {
+    root.classList.remove("theme-dark", "theme-system");
+    root.classList.add("theme-light");
+  } else {
+    root.classList.remove("theme-dark", "theme-light");
+    root.classList.add("theme-system");
+  }
+  if (theme === "system") {
+    document.documentElement.dataset.theme = isDarkMode ? "dark" : "light";
+  } else {
+    document.documentElement.dataset.theme = theme;
+  }
+}
+
+export function applyStoredColorTheme() {
+  const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const theme = getColorThemePreference();
+  applyColorThemeNotPersistent(theme, isDarkMode);
+}
+
+export function useThemeManager() {
+  const [currentTheme, setCurrentTheme] = useState(getColorThemePreference());
+  const systemIsDarkMode = useMedia("(prefers-color-scheme: dark)");
+
+  useEffect(() => {
+    applyColorThemeNotPersistent(currentTheme, systemIsDarkMode);
+  }, [currentTheme, systemIsDarkMode]);
+
+  return [currentTheme, setCurrentTheme] as const;
+}
+
+export function useResolvedColorTheme() {
+  const [currentTheme] = useThemeManager();
+
+  const isDarkMode = useMedia("(prefers-color-scheme: dark)");
+
+  if (currentTheme === "system") {
+    return isDarkMode ? "dark" : "light";
+  }
+
+  return currentTheme;
 }

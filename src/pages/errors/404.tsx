@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { AppLayout } from "@/layouts/app-layout";
-import { useResolvedColorTheme } from "@/utils/use-color-theme";
+import { getColorThemePreferenceResolveSystem } from "@/utils/use-color-theme";
 import { useTranslation } from "react-i18next";
 import { Link } from "wouter";
 import { ErrorDisplay } from "./error-display";
 import css from "./errors.module.css";
 
 export function Error404() {
-  const theme = useResolvedColorTheme();
+  const theme = getColorThemePreferenceResolveSystem();
   const { t } = useTranslation();
 
   return (
