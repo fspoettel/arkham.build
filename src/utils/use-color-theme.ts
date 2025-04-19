@@ -1,5 +1,5 @@
 import i18n from "@/utils/i18n";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useMedia } from "./use-media";
 
 export function getAvailableThemes(): Record<string, string> {
@@ -18,19 +18,11 @@ export function getColorThemePreference() {
   return DEFAULT_THEME;
 }
 
-export function getColorThemePreferenceResolveSystem() {
-  const [currentTheme] = getColorThemePreference();
-
-  const isDarkMode = useMedia("(prefers-color-scheme: dark)");
-
-  if (currentTheme === "system") {
-    return isDarkMode ? "dark" : "light";
-  }
-
-  return currentTheme;
+function persistColorTheme(theme: string | null | undefined) {
+  localStorage.setItem("color-scheme-preference", theme ?? DEFAULT_THEME);
 }
 
-function applyColorThemeNotPersistent(theme: string, isDarkMode: boolean) {
+function applyColorTheme(theme: string, prefersDarkMode: boolean) {
   const root = document.documentElement;
   if (theme === "dark") {
     root.classList.remove("theme-light", "theme-system");
@@ -43,31 +35,38 @@ function applyColorThemeNotPersistent(theme: string, isDarkMode: boolean) {
     root.classList.add("theme-system");
   }
   if (theme === "system") {
-    document.documentElement.dataset.theme = isDarkMode ? "dark" : "light";
+    document.documentElement.dataset.theme = prefersDarkMode ? "dark" : "light";
   } else {
     document.documentElement.dataset.theme = theme;
   }
 }
 
 export function applyStoredColorTheme() {
-  const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)");
   const theme = getColorThemePreference();
-  applyColorThemeNotPersistent(theme, isDarkMode);
+  applyColorTheme(theme, prefersDarkMode.matches);
 }
 
-export function useThemeManager() {
+export function useColorThemeManager() {
   const [currentTheme, setCurrentTheme] = useState(getColorThemePreference());
-  const systemIsDarkMode = useMedia("(prefers-color-scheme: dark)");
 
-  useEffect(() => {
-    applyColorThemeNotPersistent(currentTheme, systemIsDarkMode);
-  }, [currentTheme, systemIsDarkMode]);
+  const prefersDarkMode = useMedia("(prefers-color-scheme: dark)");
 
-  return [currentTheme, setCurrentTheme] as const;
+  const updateColorScheme = useCallback(
+    (value: string) => {
+      const nextTheme = value || DEFAULT_THEME;
+      setCurrentTheme(nextTheme);
+      persistColorTheme(nextTheme);
+      applyColorTheme(nextTheme, prefersDarkMode);
+    },
+    [prefersDarkMode],
+  );
+
+  return [currentTheme, updateColorScheme] as const;
 }
 
 export function useResolvedColorTheme() {
-  const [currentTheme] = useThemeManager();
+  const [currentTheme] = useColorThemeManager();
 
   const isDarkMode = useMedia("(prefers-color-scheme: dark)");
 

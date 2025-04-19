@@ -214,11 +214,13 @@ test.describe("settings", () => {
     await expect(page.locator("html")).toHaveAttribute("class", "theme-dark");
     await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
     await page.getByTestId("settings-select-theme").selectOption("light");
-    // is applied in current page
-    await expect(page.locator("html")).toHaveAttribute("class", "theme-light");
-    await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+
+    // resets after changing pages as save was not clicked
     await page.goto("/");
-    // but not after changing pages as save was not clicked
+    await expect(page.locator("html")).toHaveAttribute("class", "theme-dark");
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+
+    page.reload();
     await expect(page.locator("html")).toHaveAttribute("class", "theme-dark");
     await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
 
@@ -228,8 +230,13 @@ test.describe("settings", () => {
     await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
     await page.getByTestId("settings-select-theme").selectOption("light");
     await page.getByTestId("settings-save").click();
-    await page.goto("/");
+
     // now it should be persistent
+    await page.goto("/");
+    await expect(page.locator("html")).toHaveAttribute("class", "theme-light");
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+
+    page.reload();
     await expect(page.locator("html")).toHaveAttribute("class", "theme-light");
     await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   });
