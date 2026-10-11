@@ -89,6 +89,7 @@ export async function approveOAuthAuthorizationRequest(
     await tx
       .insertInto("oauth_authorization_code")
       .values({
+        code_challenge: request.code_challenge,
         code_hash: hashOAuthCredential(authorizationCode),
         expires_at: expiresAt,
         oauth_grant_id: grantId,
@@ -161,6 +162,7 @@ async function lockOAuthAuthorizationRequest(
     .selectFrom("oauth_authorization_request")
     .select([
       "account_id",
+      "code_challenge",
       "consumed_at",
       "expires_at",
       "id",

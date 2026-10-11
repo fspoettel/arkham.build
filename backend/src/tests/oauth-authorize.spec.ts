@@ -8,9 +8,10 @@ import { test } from "./test-utils.ts";
 
 const WEB_REDIRECT_URI = "https://example.com/oauth/callback";
 const NATIVE_REDIRECT_URI = "com.example.app:/oauth/callback?existing=1";
+const S256_CODE_CHALLENGE = "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM";
 
 describe("GET /v2/oauth/authorize", () => {
-  test("stores a hashed request for 15 minutes and redirects to consent", async ({
+  test("stores a hashed request and PKCE challenge for 15 minutes", async ({
     dependencies,
   }) => {
     const { app, config, db } = dependencies;
@@ -21,6 +22,8 @@ describe("GET /v2/oauth/authorize", () => {
 
     const response = await requestAuthorization(app, {
       clientId,
+      codeChallenge: S256_CODE_CHALLENGE,
+      codeChallengeMethod: "S256",
       redirectUri: WEB_REDIRECT_URI,
       responseType: "code",
       scope: "decks:delete profile:read decks:read decks:delete",
@@ -39,6 +42,7 @@ describe("GET /v2/oauth/authorize", () => {
     const storedRequest = await db
       .selectFrom("oauth_authorization_request")
       .select([
+        "code_challenge",
         "oauth_client_id",
         "request_token_hash",
         "redirect_uri",
@@ -49,6 +53,7 @@ describe("GET /v2/oauth/authorize", () => {
       .executeTakeFirstOrThrow();
 
     expect(storedRequest).toEqual({
+      code_challenge: S256_CODE_CHALLENGE,
       oauth_client_id: clientId,
       request_token_hash: hashAuthorizationRequestToken(requestToken),
       redirect_uri: WEB_REDIRECT_URI,
@@ -210,6 +215,59 @@ describe("GET /v2/oauth/authorize", () => {
     }
   });
 
+  test.for([
+    {
+      name: "missing challenge method",
+      codeChallenge: S256_CODE_CHALLENGE,
+      codeChallengeMethod: undefined,
+    },
+    {
+      name: "missing challenge",
+      codeChallenge: undefined,
+      codeChallengeMethod: "S256",
+    },
+    {
+      name: "plain challenge method",
+      codeChallenge: S256_CODE_CHALLENGE,
+      codeChallengeMethod: "plain",
+    },
+    {
+      name: "short challenge",
+      codeChallenge: "A".repeat(42),
+      codeChallengeMethod: "S256",
+    },
+    {
+      name: "long challenge",
+      codeChallenge: "A".repeat(44),
+      codeChallengeMethod: "S256",
+    },
+    {
+      name: "padded challenge",
+      codeChallenge: `${"A".repeat(42)}=`,
+      codeChallengeMethod: "S256",
+    },
+  ])("rejects PKCE parameters: $name", async (testCase, { dependencies }) => {
+    const { app, db } = dependencies;
+    const clientId = await seedOAuthClient(db, [WEB_REDIRECT_URI]);
+    const response = await requestAuthorization(app, {
+      clientId,
+      codeChallenge: testCase.codeChallenge,
+      codeChallengeMethod: testCase.codeChallengeMethod,
+      redirectUri: WEB_REDIRECT_URI,
+      responseType: "code",
+      scope: "profile:read",
+      state: "pkce-error-state",
+    });
+    const callbackUrl = responseLocation(response);
+
+    expect(response.status).toBe(302);
+    expect(callbackUrl.searchParams.get("error")).toBe("invalid_request");
+    expect(callbackUrl.searchParams.get("state")).toBe("pkce-error-state");
+    expect(
+      await db.selectFrom("oauth_authorization_request").select("id").execute(),
+    ).toEqual([]);
+  });
+
   test("constructs native custom-scheme error callbacks with existing queries", async ({
     dependencies,
   }) => {
@@ -239,6 +297,8 @@ type App = ReturnType<typeof appFactory>;
 
 type AuthorizationParameters = {
   clientId: string;
+  codeChallenge?: string | undefined;
+  codeChallengeMethod?: string | undefined;
   redirectUri: string;
   responseType: string | undefined;
   scope: string | undefined;
@@ -251,6 +311,12 @@ async function requestAuthorization(
 ) {
   const query = new URLSearchParams();
   setQueryParameter(query, "client_id", parameters.clientId);
+  setQueryParameter(query, "code_challenge", parameters.codeChallenge);
+  setQueryParameter(
+    query,
+    "code_challenge_method",
+    parameters.codeChallengeMethod,
+  );
   setQueryParameter(query, "redirect_uri", parameters.redirectUri);
   setQueryParameter(query, "response_type", parameters.responseType);
   setQueryParameter(query, "scope", parameters.scope);

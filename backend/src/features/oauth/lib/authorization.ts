@@ -9,9 +9,12 @@ import { resolveOAuthScopes } from "./scopes.ts";
 export const OAUTH_AUTHORIZATION_REQUEST_LIFETIME_MS = 15 * 60 * 1000;
 
 const MAX_STATE_BYTES = 1024;
+const S256_CODE_CHALLENGE_PATTERN = /^[A-Za-z0-9_-]{43}$/;
 
 type OAuthAuthorizationInput = {
   clientId: string;
+  codeChallenge: string | undefined;
+  codeChallengeMethod: string | undefined;
   redirectUri: string;
   responseType: string | undefined;
   scope: string | undefined;
@@ -74,6 +77,11 @@ export async function createOAuthAuthorizationRequest(
       );
     }
 
+    const codeChallenge = validatePkce(
+      input.codeChallenge,
+      input.codeChallengeMethod,
+      errorRedirect,
+    );
     const scopeResult = resolveOAuthScopes(input.scope);
     if (!scopeResult.success) {
       const description =
@@ -96,6 +104,7 @@ export async function createOAuthAuthorizationRequest(
     await tx
       .insertInto("oauth_authorization_request")
       .values({
+        code_challenge: codeChallenge,
         expires_at: expiresAt,
         oauth_client_id: client.id,
         redirect_uri: registeredRedirectUri.redirect_uri,
@@ -111,6 +120,42 @@ export async function createOAuthAuthorizationRequest(
       requestToken,
     };
   });
+}
+
+function validatePkce(
+  codeChallenge: string | undefined,
+  codeChallengeMethod: string | undefined,
+  errorRedirect: { redirectUri: string; state: string },
+) {
+  if (codeChallenge == null && codeChallengeMethod == null) {
+    return undefined;
+  }
+
+  if (codeChallenge == null || codeChallengeMethod == null) {
+    throw new OAuthAuthorizationError(
+      "invalid_request",
+      "code_challenge and code_challenge_method must be used together",
+      errorRedirect,
+    );
+  }
+
+  if (codeChallengeMethod !== "S256") {
+    throw new OAuthAuthorizationError(
+      "invalid_request",
+      "Only code_challenge_method=S256 is supported",
+      errorRedirect,
+    );
+  }
+
+  if (!S256_CODE_CHALLENGE_PATTERN.test(codeChallenge)) {
+    throw new OAuthAuthorizationError(
+      "invalid_request",
+      "code_challenge is invalid",
+      errorRedirect,
+    );
+  }
+
+  return codeChallenge;
 }
 
 function validateState(state: string | undefined, redirectUri: string) {

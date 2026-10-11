@@ -56,6 +56,8 @@ routes.get(
         c.get("db"),
         {
           clientId: clientId.data,
+          codeChallenge: query.code_challenge,
+          codeChallengeMethod: query.code_challenge_method,
           redirectUri: query.redirect_uri,
           responseType: query.response_type,
           scope: query.scope,
@@ -98,6 +100,7 @@ const OAuthAuthorizationCodeExchangeFormSchema =
     clientId: input.client_id,
     clientSecret: input.client_secret,
     code: input.code,
+    codeVerifier: input.code_verifier,
     redirectUri: input.redirect_uri,
   }));
 

@@ -18,6 +18,8 @@ import {
 import { TEST_ACCOUNT, test } from "./test-utils.ts";
 
 const REDIRECT_URI = "https://example.com/oauth/callback";
+const PKCE_CODE_VERIFIER = "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk";
+const S256_CODE_CHALLENGE = "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM";
 
 describe("POST /v2/oauth/token", () => {
   test("exchanges a code once with exact scopes and hashed fixed-lifetime tokens", async ({
@@ -116,6 +118,123 @@ describe("POST /v2/oauth/token", () => {
     ]) {
       expect(serializedStorage).not.toContain(rawValue);
     }
+  });
+
+  test("exchanges an authorization code bound to an S256 challenge", async ({
+    dependencies,
+  }) => {
+    const { app, db, sessionCookie } = dependencies;
+    const client = await seedOAuthClient(db);
+    const code = await issueAuthorizationCode(
+      app,
+      sessionCookie,
+      client.id,
+      "profile:read",
+      {
+        codeChallenge: S256_CODE_CHALLENGE,
+        codeChallengeMethod: "S256",
+      },
+    );
+
+    const response = await exchangeCode(
+      app,
+      client,
+      code,
+      REDIRECT_URI,
+      PKCE_CODE_VERIFIER,
+    );
+    const storedCode = await db
+      .selectFrom("oauth_authorization_code")
+      .selectAll()
+      .where("code_hash", "=", sha256(code))
+      .executeTakeFirstOrThrow();
+
+    expect(response.status).toBe(200);
+    expect(storedCode.code_challenge).toBe(S256_CODE_CHALLENGE);
+    expect(storedCode.used_at).not.toBeNull();
+    expect(JSON.stringify(storedCode)).not.toContain(PKCE_CODE_VERIFIER);
+  });
+
+  test("requires a valid matching verifier without consuming the code", async ({
+    dependencies,
+  }) => {
+    const { app, db, sessionCookie } = dependencies;
+    const client = await seedOAuthClient(db);
+    const code = await issueAuthorizationCode(
+      app,
+      sessionCookie,
+      client.id,
+      "profile:read",
+      {
+        codeChallenge: S256_CODE_CHALLENGE,
+        codeChallengeMethod: "S256",
+      },
+    );
+
+    for (const verifier of [
+      undefined,
+      "too-short",
+      "A".repeat(129),
+      `${"A".repeat(42)}!`,
+      "A".repeat(43),
+    ]) {
+      const response = await exchangeCode(
+        app,
+        client,
+        code,
+        REDIRECT_URI,
+        verifier,
+      );
+      await expectOAuthError(response, 400, "invalid_grant");
+
+      const storedCode = await db
+        .selectFrom("oauth_authorization_code")
+        .select("used_at")
+        .where("code_hash", "=", sha256(code))
+        .executeTakeFirstOrThrow();
+      expect(storedCode.used_at).toBeNull();
+    }
+
+    const validResponse = await exchangeCode(
+      app,
+      client,
+      code,
+      REDIRECT_URI,
+      PKCE_CODE_VERIFIER,
+    );
+    expect(validResponse.status).toBe(200);
+  });
+
+  test("rejects a verifier for an authorization code without PKCE", async ({
+    dependencies,
+  }) => {
+    const { app, db, sessionCookie } = dependencies;
+    const client = await seedOAuthClient(db);
+    const code = await issueAuthorizationCode(
+      app,
+      sessionCookie,
+      client.id,
+      "profile:read",
+    );
+
+    const verifierResponse = await exchangeCode(
+      app,
+      client,
+      code,
+      REDIRECT_URI,
+      PKCE_CODE_VERIFIER,
+    );
+    await expectOAuthError(verifierResponse, 400, "invalid_grant");
+
+    const storedCode = await db
+      .selectFrom("oauth_authorization_code")
+      .select(["code_challenge", "used_at"])
+      .where("code_hash", "=", sha256(code))
+      .executeTakeFirstOrThrow();
+    expect(storedCode).toEqual({ code_challenge: null, used_at: null });
+
+    const legacyResponse = await exchangeCode(app, client, code, REDIRECT_URI);
+    expect(legacyResponse.status).toBe(200);
   });
 
   test("requires URL-encoded body credentials and returns stable form errors", async ({
@@ -551,6 +670,7 @@ async function issueAuthorizationCode(
   sessionCookie: string,
   clientId: string,
   scope: string,
+  pkce?: { codeChallenge: string; codeChallengeMethod: string },
 ) {
   const query = new URLSearchParams({
     client_id: clientId,
@@ -559,6 +679,10 @@ async function issueAuthorizationCode(
     scope,
     state: randomUUID(),
   });
+  if (pkce !== undefined) {
+    query.set("code_challenge", pkce.codeChallenge);
+    query.set("code_challenge_method", pkce.codeChallengeMethod);
+  }
   const authorizationResponse = await app.request(
     `/v2/oauth/authorize?${query.toString()}`,
   );
@@ -587,14 +711,18 @@ async function exchangeCode(
   client: OAuthClientCredentials,
   code: string,
   redirectUri: string,
+  codeVerifier?: string,
 ) {
-  return await tokenRequest(app, {
+  const fields: Record<string, string> = {
     grant_type: "authorization_code",
     client_id: client.id,
     client_secret: client.secret,
     code,
     redirect_uri: redirectUri,
-  });
+  };
+  if (codeVerifier !== undefined) fields["code_verifier"] = codeVerifier;
+
+  return await tokenRequest(app, fields);
 }
 
 async function refresh(

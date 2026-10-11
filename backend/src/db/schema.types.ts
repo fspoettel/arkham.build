@@ -417,6 +417,7 @@ export interface OauthAccessToken {
 }
 
 export interface OauthAuthorizationCode {
+  code_challenge: string | null;
   code_hash: string;
   created_at: Generated<Timestamp>;
   expires_at: Timestamp;
@@ -432,6 +433,7 @@ export interface OauthAuthorizationCode {
 export interface OauthAuthorizationRequest {
   account_id: string | null;
   claimed_at: Timestamp | null;
+  code_challenge: string | null;
   consumed_at: Timestamp | null;
   created_at: Generated<Timestamp>;
   decision: OauthAuthorizationDecision | null;

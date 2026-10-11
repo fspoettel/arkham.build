@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import type { Database } from "../../../db/db.ts";
 import {
   generateOAuthAccessToken,
@@ -17,11 +18,13 @@ export const OAUTH_REFRESH_TOKEN_LIFETIME_MS = 180 * 24 * 60 * 60 * 1000;
 
 const OAUTH_ACCESS_TOKEN_LIFETIME_MS =
   OAUTH_ACCESS_TOKEN_EXPIRES_IN_SECONDS * 1000;
+const PKCE_CODE_VERIFIER_PATTERN = /^[A-Za-z0-9._~-]{43,128}$/;
 
 type AuthorizationCodeExchangeInput = {
   clientId: string;
   clientSecret: string;
   code: string;
+  codeVerifier: string | undefined;
   redirectUri: string;
 };
 
@@ -72,6 +75,7 @@ export async function exchangeOAuthAuthorizationCode(
     const authorizationCode = await tx
       .selectFrom("oauth_authorization_code")
       .select([
+        "code_challenge",
         "expires_at",
         "id",
         "redirect_uri",
@@ -91,7 +95,8 @@ export async function exchangeOAuthAuthorizationCode(
       authorizationCode.used_at != null ||
       authorizationCode.revoked_at != null ||
       authorizationCode.expires_at <= now ||
-      authorizationCode.redirect_uri !== input.redirectUri
+      authorizationCode.redirect_uri !== input.redirectUri ||
+      !matchesPkceBinding(authorizationCode.code_challenge, input.codeVerifier)
     ) {
       throw invalidAuthorizationCode();
     }
@@ -246,6 +251,21 @@ export async function exchangeOAuthRefreshToken(
 
   if (!token) throw invalidRefreshToken();
   return token;
+}
+
+function matchesPkceBinding(
+  codeChallenge: string | null | undefined,
+  codeVerifier: string | null | undefined,
+) {
+  if (codeChallenge == null) return codeVerifier == null;
+  if (codeVerifier == null || !PKCE_CODE_VERIFIER_PATTERN.test(codeVerifier)) {
+    return false;
+  }
+
+  return (
+    codeChallenge ===
+    createHash("sha256").update(codeVerifier, "ascii").digest("base64url")
+  );
 }
 
 function invalidAuthorizationCode() {

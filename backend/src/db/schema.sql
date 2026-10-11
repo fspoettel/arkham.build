@@ -1118,6 +1118,8 @@ CREATE TABLE public.oauth_authorization_code (
     revoked_at timestamp without time zone,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
+    code_challenge text,
+    CONSTRAINT chk_oauth_authorization_code_code_challenge CHECK (((code_challenge IS NULL) OR ((octet_length(code_challenge) = 43) AND (code_challenge ~ '^[A-Za-z0-9_-]+$'::text)))),
     CONSTRAINT chk_oauth_authorization_code_redirect_uri CHECK (((octet_length(redirect_uri) >= 1) AND (octet_length(redirect_uri) <= 2048)))
 );
 
@@ -1140,7 +1142,9 @@ CREATE TABLE public.oauth_authorization_request (
     decision public.oauth_authorization_decision,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
+    code_challenge text,
     CONSTRAINT chk_oauth_authorization_request_claim CHECK (((account_id IS NULL) = (claimed_at IS NULL))),
+    CONSTRAINT chk_oauth_authorization_request_code_challenge CHECK (((code_challenge IS NULL) OR ((octet_length(code_challenge) = 43) AND (code_challenge ~ '^[A-Za-z0-9_-]+$'::text)))),
     CONSTRAINT chk_oauth_authorization_request_decision_consumed CHECK (((decision IS NULL) OR (consumed_at IS NOT NULL))),
     CONSTRAINT chk_oauth_authorization_request_redirect_uri CHECK (((octet_length(redirect_uri) >= 1) AND (octet_length(redirect_uri) <= 2048))),
     CONSTRAINT chk_oauth_authorization_request_state CHECK (((octet_length(state) >= 1) AND (octet_length(state) <= 1024)))
@@ -3203,4 +3207,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260731070811'),
     ('20260801090000'),
     ('20260815120000'),
-    ('20260818150000');
+    ('20260818150000'),
+    ('20261011090855');

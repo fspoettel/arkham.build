@@ -44,6 +44,24 @@ export const OAuthAuthorizationQuerySchema = z.object({
     .string()
     .optional()
     .meta({ examples: ["opaque-client-state"] }),
+  code_challenge: z
+    .string()
+    .optional()
+    .meta({
+      description: "Optional PKCE S256 code challenge",
+      examples: ["E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM"],
+      minLength: 43,
+      maxLength: 43,
+      pattern: "^[A-Za-z0-9_-]{43}$",
+    }),
+  code_challenge_method: z
+    .string()
+    .optional()
+    .meta({
+      description: "PKCE code challenge method; only S256 is supported",
+      enum: ["S256"],
+      examples: ["S256"],
+    }),
 });
 
 const OAuthClientIdSchema = z.uuid().meta({
@@ -82,6 +100,16 @@ export const OAuthTokenFormSchema = z
       .meta({
         examples: ["https://example.com/oauth/callback"],
       }),
+    code_verifier: z
+      .string()
+      .optional()
+      .meta({
+        description: "PKCE verifier for an authorization code bound to PKCE",
+        examples: ["dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"],
+        minLength: 43,
+        maxLength: 128,
+        pattern: "^[A-Za-z0-9._~-]{43,128}$",
+      }),
     refresh_token: z
       .string()
       .optional()
@@ -106,6 +134,16 @@ export const OAuthAuthorizationCodeTokenRequestSchema = z
         description:
           "Exact redirect URI supplied to the authorization endpoint",
         examples: ["https://example.com/oauth/callback"],
+      }),
+    code_verifier: z
+      .string()
+      .optional()
+      .meta({
+        description: "PKCE verifier for an authorization code bound to PKCE",
+        examples: ["dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"],
+        minLength: 43,
+        maxLength: 128,
+        pattern: "^[A-Za-z0-9._~-]{43,128}$",
       }),
   })
   .strict();

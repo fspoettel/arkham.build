@@ -36,13 +36,14 @@
   "devDependencies": {
     "@playwright/test": "1.60.0",
     "@types/node": "24.10.15",
+    "@typescript/native": "npm:typescript@7.0.2",
     "@vitest/coverage-v8": "5.0.0",
     "lefthook": "2.1.1",
     "oxfmt": "0.67.0",
     "oxlint": "1.82.0",
     "oxlint-tsgolint": "7.0.2001",
     "pdfjs-dist": "6.3.289",
-    "typescript": "7.0.2",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
     "vitest": "5.0.0",
     "wrangler": "4.149.0"
   }

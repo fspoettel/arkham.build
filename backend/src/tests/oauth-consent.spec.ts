@@ -9,6 +9,7 @@ import type { Config } from "../lib/config.ts";
 import { test } from "./test-utils.ts";
 
 const REDIRECT_URI = "https://example.com/oauth/callback?existing=kept";
+const S256_CODE_CHALLENGE = "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM";
 
 describe("OAuth account consent routes", () => {
   test("requires an authenticated session", async ({ dependencies }) => {
@@ -141,119 +142,138 @@ describe("OAuth account consent routes", () => {
     ).toEqual([]);
   });
 
-  test("approves with a hashed five-minute code and accumulates grant scopes", async ({
-    dependencies,
-  }) => {
-    const { app, db, sessionCookie } = dependencies;
-    const firstNow = new Date("2026-07-22T11:00:00.000Z");
-    vi.useFakeTimers();
-    vi.setSystemTime(firstNow);
-    const clientId = await seedOAuthClient(db);
-    const firstToken = await startAuthorization(app, clientId, {
-      scope: "profile:read decks:write",
-      state: "first-approval-state",
-    });
+  test.for([
+    {
+      name: "without PKCE",
+      codeChallenge: undefined,
+      codeChallengeMethod: undefined,
+    },
+    {
+      name: "with S256 PKCE",
+      codeChallenge: S256_CODE_CHALLENGE,
+      codeChallengeMethod: "S256",
+    },
+  ])(
+    "approves with a hashed five-minute code and accumulates grant scopes $name",
+    async ({ codeChallenge, codeChallengeMethod }, { dependencies }) => {
+      const { app, db, sessionCookie } = dependencies;
+      const firstNow = new Date("2026-07-22T11:00:00.000Z");
+      vi.useFakeTimers();
+      vi.setSystemTime(firstNow);
+      const clientId = await seedOAuthClient(db);
+      const firstToken = await startAuthorization(app, clientId, {
+        codeChallenge,
+        codeChallengeMethod,
+        scope: "profile:read decks:write",
+        state: "first-approval-state",
+      });
 
-    await postConsentAction(app, firstToken, "claim", sessionCookie);
-    const firstApproval = await postConsentAction(
-      app,
-      firstToken,
-      "approve",
-      sessionCookie,
-    );
-    const firstCallback = responseLocation(firstApproval);
-    const firstCode = requiredSearchParameter(firstCallback, "code");
+      await postConsentAction(app, firstToken, "claim", sessionCookie);
+      const firstApproval = await postConsentAction(
+        app,
+        firstToken,
+        "approve",
+        sessionCookie,
+      );
+      const firstCallback = responseLocation(firstApproval);
+      const firstCode = requiredSearchParameter(firstCallback, "code");
 
-    expect(firstApproval.status).toBe(302);
-    expect(firstCallback.searchParams.get("existing")).toBe("kept");
-    expect(firstCallback.searchParams.get("state")).toBe(
-      "first-approval-state",
-    );
-    expect(firstCallback.searchParams.get("error")).toBeNull();
-    expect(firstCode).toMatch(/^ab_code_[A-Za-z0-9_-]{43}$/);
+      expect(firstApproval.status).toBe(302);
+      expect(firstCallback.searchParams.get("existing")).toBe("kept");
+      expect(firstCallback.searchParams.get("state")).toBe(
+        "first-approval-state",
+      );
+      expect(firstCallback.searchParams.get("error")).toBeNull();
+      expect(firstCode).toMatch(/^ab_code_[A-Za-z0-9_-]{43}$/);
 
-    const firstStoredRequest = await findAuthorizationRequest(db, firstToken);
-    const firstGrant = await db
-      .selectFrom("oauth_grant")
-      .selectAll()
-      .where("oauth_client_id", "=", clientId)
-      .executeTakeFirstOrThrow();
-    const firstStoredCode = await db
-      .selectFrom("oauth_authorization_code")
-      .selectAll()
-      .where("code_hash", "=", sha256(firstCode))
-      .executeTakeFirstOrThrow();
-
-    expect(firstStoredRequest).toMatchObject({
-      consumed_at: firstNow,
-      decision: "approved",
-    });
-    expect(firstGrant.scopes).toEqual([
-      "profile:read",
-      "decks:read",
-      "decks:write",
-    ]);
-    expect(firstStoredCode).toMatchObject({
-      code_hash: sha256(firstCode),
-      expires_at: new Date(
-        firstNow.getTime() + OAUTH_AUTHORIZATION_CODE_LIFETIME_MS,
-      ),
-      oauth_grant_id: firstGrant.id,
-      redirect_uri: REDIRECT_URI,
-      scopes: ["profile:read", "decks:read", "decks:write"],
-    });
-    expect(JSON.stringify(firstStoredCode)).not.toContain(firstCode);
-
-    const secondNow = new Date(firstNow.getTime() + 60_000);
-    vi.setSystemTime(secondNow);
-    const secondToken = await startAuthorization(app, clientId, {
-      scope: "profile:read",
-      state: "second-approval-state",
-    });
-    await postConsentAction(app, secondToken, "claim", sessionCookie);
-
-    expect(
-      await db
+      const firstStoredRequest = await findAuthorizationRequest(db, firstToken);
+      const firstGrant = await db
+        .selectFrom("oauth_grant")
+        .selectAll()
+        .where("oauth_client_id", "=", clientId)
+        .executeTakeFirstOrThrow();
+      const firstStoredCode = await db
         .selectFrom("oauth_authorization_code")
-        .select("id")
-        .where("oauth_grant_id", "=", firstGrant.id)
-        .execute(),
-    ).toHaveLength(1);
+        .selectAll()
+        .where("code_hash", "=", sha256(firstCode))
+        .executeTakeFirstOrThrow();
 
-    const secondApproval = await postConsentAction(
-      app,
-      secondToken,
-      "approve",
-      sessionCookie,
-    );
-    const secondCode = requiredSearchParameter(
-      responseLocation(secondApproval),
-      "code",
-    );
-    const updatedGrant = await db
-      .selectFrom("oauth_grant")
-      .selectAll()
-      .where("id", "=", firstGrant.id)
-      .executeTakeFirstOrThrow();
-    const secondStoredCode = await db
-      .selectFrom("oauth_authorization_code")
-      .selectAll()
-      .where("code_hash", "=", sha256(secondCode))
-      .executeTakeFirstOrThrow();
+      expect(firstStoredRequest).toMatchObject({
+        code_challenge: codeChallenge ?? null,
+        consumed_at: firstNow,
+        decision: "approved",
+      });
+      expect(firstGrant.scopes).toEqual([
+        "profile:read",
+        "decks:read",
+        "decks:write",
+      ]);
+      expect(firstStoredCode).toMatchObject({
+        code_challenge: codeChallenge ?? null,
+        code_hash: sha256(firstCode),
+        expires_at: new Date(
+          firstNow.getTime() + OAUTH_AUTHORIZATION_CODE_LIFETIME_MS,
+        ),
+        oauth_grant_id: firstGrant.id,
+        redirect_uri: REDIRECT_URI,
+        scopes: ["profile:read", "decks:read", "decks:write"],
+      });
+      expect(JSON.stringify(firstStoredCode)).not.toContain(firstCode);
 
-    expect(secondApproval.status).toBe(302);
-    expect(updatedGrant.scopes).toEqual([
-      "profile:read",
-      "decks:read",
-      "decks:write",
-    ]);
-    expect(updatedGrant.created_at).toEqual(firstGrant.created_at);
-    expect(updatedGrant.updated_at).toEqual(secondNow);
-    expect(secondStoredCode.scopes).toEqual(["profile:read"]);
-    expect(secondStoredCode.expires_at).toEqual(
-      new Date(secondNow.getTime() + OAUTH_AUTHORIZATION_CODE_LIFETIME_MS),
-    );
-  });
+      const secondNow = new Date(firstNow.getTime() + 60_000);
+      vi.setSystemTime(secondNow);
+      const secondToken = await startAuthorization(app, clientId, {
+        codeChallenge,
+        codeChallengeMethod,
+        scope: "profile:read",
+        state: "second-approval-state",
+      });
+      await postConsentAction(app, secondToken, "claim", sessionCookie);
+
+      expect(
+        await db
+          .selectFrom("oauth_authorization_code")
+          .select("id")
+          .where("oauth_grant_id", "=", firstGrant.id)
+          .execute(),
+      ).toHaveLength(1);
+
+      const secondApproval = await postConsentAction(
+        app,
+        secondToken,
+        "approve",
+        sessionCookie,
+      );
+      const secondCode = requiredSearchParameter(
+        responseLocation(secondApproval),
+        "code",
+      );
+      const updatedGrant = await db
+        .selectFrom("oauth_grant")
+        .selectAll()
+        .where("id", "=", firstGrant.id)
+        .executeTakeFirstOrThrow();
+      const secondStoredCode = await db
+        .selectFrom("oauth_authorization_code")
+        .selectAll()
+        .where("code_hash", "=", sha256(secondCode))
+        .executeTakeFirstOrThrow();
+
+      expect(secondApproval.status).toBe(302);
+      expect(updatedGrant.scopes).toEqual([
+        "profile:read",
+        "decks:read",
+        "decks:write",
+      ]);
+      expect(updatedGrant.created_at).toEqual(firstGrant.created_at);
+      expect(updatedGrant.updated_at).toEqual(secondNow);
+      expect(secondStoredCode.code_challenge).toBe(codeChallenge ?? null);
+      expect(secondStoredCode.scopes).toEqual(["profile:read"]);
+      expect(secondStoredCode.expires_at).toEqual(
+        new Date(secondNow.getTime() + OAUTH_AUTHORIZATION_CODE_LIFETIME_MS),
+      );
+    },
+  );
 
   test("denies and redirects with access_denied", async ({ dependencies }) => {
     const { app, db, sessionCookie } = dependencies;
@@ -409,6 +429,8 @@ async function startAuthorization(
   app: App,
   clientId: string,
   options: {
+    codeChallenge?: string | undefined;
+    codeChallengeMethod?: string | undefined;
     redirectUri?: string;
     scope?: string;
     state?: string;
@@ -421,6 +443,12 @@ async function startAuthorization(
     scope: options.scope ?? "profile:read",
     state: options.state ?? `state-${randomUUID()}`,
   });
+  if (options.codeChallenge !== undefined) {
+    query.set("code_challenge", options.codeChallenge);
+  }
+  if (options.codeChallengeMethod !== undefined) {
+    query.set("code_challenge_method", options.codeChallengeMethod);
+  }
   const response = await app.request(`/v2/oauth/authorize?${query.toString()}`);
 
   expect(response.status).toBe(302);

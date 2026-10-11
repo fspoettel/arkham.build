@@ -34,7 +34,7 @@
         "operationId": "authorizeOAuthClient",
         "tags": ["OAuth"],
         "summary": "Start an OAuth authorization request",
-        "description": "Starts an authorization-code flow. Every request is sent through authentication and explicit user consent, including requests for an existing grant. Redirect URI matching is exact.",
+        "description": "Starts an authorization-code flow. Every request is sent through authentication and explicit user consent, including requests for an existing grant. Redirect URI matching is exact. Optional PKCE uses S256 only and does not replace confidential-client authentication.",
         "parameters": [
           {
             "name": "response_type",
@@ -85,6 +85,29 @@
               "minLength": 1,
               "maxLength": 1024
             }
+          },
+          {
+            "name": "code_challenge",
+            "in": "query",
+            "required": false,
+            "description": "Optional unpadded Base64URL SHA-256 digest of the PKCE verifier. Must be supplied with code_challenge_method.",
+            "schema": {
+              "type": "string",
+              "minLength": 43,
+              "maxLength": 43,
+              "pattern": "^[A-Za-z0-9_-]{43}$",
+              "examples": ["E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM"]
+            }
+          },
+          {
+            "name": "code_challenge_method",
+            "in": "query",
+            "required": false,
+            "description": "PKCE transformation method. Required when code_challenge is supplied.",
+            "schema": {
+              "type": "string",
+              "enum": ["S256"]
+            }
           }
         ],
         "responses": {
@@ -122,7 +145,7 @@
         "operationId": "exchangeOAuthToken",
         "tags": ["OAuth"],
         "summary": "Exchange an authorization code or refresh token",
-        "description": "Authenticates a confidential client with client_id and client_secret in the form body. HTTP Basic authentication is not accepted. Refresh exchanges rotate the submitted token and do not permit scope changes.",
+        "description": "Authenticates a confidential client with client_id and client_secret in the form body. HTTP Basic authentication is not accepted. An authorization code bound to PKCE also requires its code_verifier. Refresh exchanges rotate the submitted token and do not permit scope changes.",
         "requestBody": {
           "required": true,
           "content": {
@@ -1188,6 +1211,14 @@
             "examples": ["https://example.com/oauth/callback"],
             "type": "string",
             "minLength": 1
+          },
+          "code_verifier": {
+            "description": "PKCE verifier for an authorization code bound to PKCE",
+            "examples": ["dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"],
+            "minLength": 43,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._~-]{43,128}$",
+            "type": "string"
           }
         },
         "required": [
@@ -1221,6 +1252,20 @@
           },
           "state": {
             "examples": ["opaque-client-state"],
+            "type": "string"
+          },
+          "code_challenge": {
+            "description": "Optional PKCE S256 code challenge",
+            "examples": ["E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM"],
+            "minLength": 43,
+            "maxLength": 43,
+            "pattern": "^[A-Za-z0-9_-]{43}$",
+            "type": "string"
+          },
+          "code_challenge_method": {
+            "description": "PKCE code challenge method; only S256 is supported",
+            "enum": ["S256"],
+            "examples": ["S256"],
             "type": "string"
           }
         },

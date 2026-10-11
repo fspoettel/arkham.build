@@ -1,10 +1,13 @@
 # arkham.build OAuth 2.0 & User API
 
-`https://api.arkham.build` implements a OAuth 2.0 authorization code API for confidential clients.
-An OpenAPI spec is available at [`openapi/oauth-user-api.json`](./openapi/oauth-user-api.json).
+`https://api.arkham.build` implements an OAuth 2.0 authorization code API for
+confidential clients. It supports optional Proof Key for Code Exchange (PKCE).
+An OpenAPI spec is available at
+[`openapi/oauth-user-api.json`](./openapi/oauth-user-api.json).
 
 > [!IMPORTANT]
-> Your client secret must be securely stored on the backend.
+> Your client secret must be securely stored on the backend. PKCE does not make
+> a client secret safe to distribute in a native application.
 
 ## Register a client
 
@@ -28,6 +31,8 @@ export CLIENT_ID="019c1234-5678-7000-8000-000000000000"
 export CLIENT_SECRET="ab_cs_replace-with-the-issued-secret"
 export REDIRECT_URI="https://example.com/oauth/callback"
 export STATE="replace-with-a-unique-unpredictable-value"
+export CODE_VERIFIER="replace-with-a-unique-random-pkce-verifier"
+export CODE_CHALLENGE="replace-with-the-s256-code-challenge"
 ```
 
 The token and user API examples use codes and tokens from the authorization
@@ -62,8 +67,15 @@ parameters:
 - an exact registered `redirect_uri`
 - `scope` with a space-separated list of scopes
 - `state` with a unique and unpredictable value
+- optional `code_challenge` and `code_challenge_method=S256` values
 
 The `state` value must not be empty. Its maximum size is 1024 UTF-8 bytes.
+
+To use PKCE, generate a unique `code_verifier` for each authorization request.
+It must contain 43 to 128 RFC 7636 unreserved characters. Set `code_challenge`
+to the unpadded Base64URL encoding of the SHA-256 digest of the verifier. The
+challenge is always 43 characters. Send both PKCE authorization parameters or
+omit both. The API does not support the `plain` challenge method.
 
 <!-- curl:authorize -->
 ```bash
@@ -72,7 +84,9 @@ curl --get --include "$API_BASE/v2/oauth/authorize" \
   --data-urlencode "client_id=$CLIENT_ID" \
   --data-urlencode "redirect_uri=$REDIRECT_URI" \
   --data-urlencode "scope=profile:read decks:read" \
-  --data-urlencode "state=$STATE"
+  --data-urlencode "state=$STATE" \
+  --data-urlencode "code_challenge=$CODE_CHALLENGE" \
+  --data-urlencode "code_challenge_method=S256"
 ```
 
 The user signs in. The API then shows a consent screen. The user must select
@@ -89,7 +103,8 @@ the browser session.
 
 An authorization request expires after 15 minutes. An authorization code
 expires after five minutes. You can use the code only one time. The code is
-bound to the client and the redirect URI.
+bound to the client and the redirect URI. When you use PKCE, the code is also
+bound to the challenge.
 
 If the client or redirect URI is not trusted, the endpoint returns a `400` JSON
 error. It does not redirect the browser. If both values are trusted, the API
@@ -102,7 +117,9 @@ Call `POST /v2/oauth/token` only from your backend. Send data with the
 in the form body. Do not use HTTP Basic authentication.
 
 The `redirect_uri` must be an exact match for the URI in the authorization
-request.
+request. If the authorization request used PKCE, include the original
+`code_verifier`. The API rejects a missing, malformed, or incorrect verifier
+without consuming the authorization code.
 
 <!-- curl:token-authorization-code -->
 ```bash
@@ -112,7 +129,8 @@ curl --request POST "$API_BASE/v2/oauth/token" \
   --data-urlencode "client_id=$CLIENT_ID" \
   --data-urlencode "client_secret=$CLIENT_SECRET" \
   --data-urlencode "code=$AUTHORIZATION_CODE" \
-  --data-urlencode "redirect_uri=$REDIRECT_URI"
+  --data-urlencode "redirect_uri=$REDIRECT_URI" \
+  --data-urlencode "code_verifier=$CODE_VERIFIER"
 ```
 
 The response contains an access token that is valid for one hour. It also

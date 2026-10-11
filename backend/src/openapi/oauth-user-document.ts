@@ -33,13 +33,11 @@ function createOAuthUserOpenApiDocument() {
   return {
     openapi: "3.1.0",
     info: {
-      title: "Arkham Build OAuth and User API",
+      title: "arkham.build OAuth 2.0 & User API",
       version: "1.0.0",
       description:
         "OAuth 2.0 authorization-code API for confidential server-side clients. " +
-        "Client credentials are accepted only in form bodies. Native apps must " +
-        "forward authorization codes to a confidential backend; direct token " +
-        "exchange from an installed app is unsupported.",
+        "Client credentials are accepted only in form bodies.",
     },
     externalDocs: {
       description: "Confidential-client integration guide",
@@ -70,7 +68,8 @@ function createOAuthUserOpenApiDocument() {
           description:
             "Starts an authorization-code flow. Every request is sent through " +
             "authentication and explicit user consent, including requests for " +
-            "an existing grant. Redirect URI matching is exact.",
+            "an existing grant. Redirect URI matching is exact. Optional PKCE " +
+            "uses S256 only and does not replace confidential-client authentication.",
           parameters: authorizationQueryParameters(),
           responses: {
             302: redirectResponse(),
@@ -89,8 +88,9 @@ function createOAuthUserOpenApiDocument() {
           description:
             "Authenticates a confidential client with client_id and " +
             "client_secret in the form body. HTTP Basic authentication is not " +
-            "accepted. Refresh exchanges rotate the submitted token and do not " +
-            "permit scope changes.",
+            "accepted. An authorization code bound to PKCE also requires its " +
+            "code_verifier. Refresh exchanges rotate the submitted token and " +
+            "do not permit scope changes.",
           requestBody: tokenFormRequestBody(),
           responses: {
             200: jsonResponse(
@@ -419,6 +419,28 @@ function authorizationQueryParameters() {
       description:
         "Non-empty client-generated value of at most 1024 UTF-8 bytes",
       schema: { type: "string", minLength: 1, maxLength: 1024 },
+    },
+    {
+      name: "code_challenge",
+      in: "query",
+      required: false,
+      description:
+        "Optional unpadded Base64URL SHA-256 digest of the PKCE verifier. Must be supplied with code_challenge_method.",
+      schema: {
+        type: "string",
+        minLength: 43,
+        maxLength: 43,
+        pattern: "^[A-Za-z0-9_-]{43}$",
+        examples: ["E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM"],
+      },
+    },
+    {
+      name: "code_challenge_method",
+      in: "query",
+      required: false,
+      description:
+        "PKCE transformation method. Required when code_challenge is supplied.",
+      schema: { type: "string", enum: ["S256"] },
     },
   ] as const;
 }
