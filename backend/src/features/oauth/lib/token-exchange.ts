@@ -1,5 +1,7 @@
 import { createHash } from "node:crypto";
+import type { Transaction } from "kysely";
 import type { Database } from "../../../db/db.ts";
+import type { DB } from "../../../db/schema.types.ts";
 import {
   generateOAuthAccessToken,
   generateOAuthRefreshToken,
@@ -102,14 +104,6 @@ export async function exchangeOAuthAuthorizationCode(
     }
 
     const scopes = canonicalizeOAuthScopes(authorizationCode.scopes);
-    const refreshToken = generateOAuthRefreshToken();
-    const refreshTokenExpiresAt = new Date(
-      now.getTime() + OAUTH_REFRESH_TOKEN_LIFETIME_MS,
-    );
-    const accessToken = generateOAuthAccessToken();
-    const accessTokenExpiresAt = new Date(
-      now.getTime() + OAUTH_ACCESS_TOKEN_LIFETIME_MS,
-    );
 
     await tx
       .updateTable("oauth_authorization_code")
@@ -118,34 +112,7 @@ export async function exchangeOAuthAuthorizationCode(
       .where("used_at", "is", null)
       .executeTakeFirstOrThrow();
 
-    const storedRefreshToken = await tx
-      .insertInto("oauth_refresh_token")
-      .values({
-        expires_at: refreshTokenExpiresAt,
-        oauth_grant_id: grant.id,
-        scopes,
-        token_hash: hashOAuthCredential(refreshToken),
-      })
-      .returning("id")
-      .executeTakeFirstOrThrow();
-
-    await tx
-      .insertInto("oauth_access_token")
-      .values({
-        expires_at: accessTokenExpiresAt,
-        oauth_grant_id: grant.id,
-        oauth_refresh_token_id: storedRefreshToken.id,
-        scopes,
-        token_hash: hashOAuthCredential(accessToken),
-      })
-      .executeTakeFirstOrThrow();
-
-    return {
-      accessToken,
-      expiresIn: OAUTH_ACCESS_TOKEN_EXPIRES_IN_SECONDS,
-      refreshToken,
-      scopes,
-    };
+    return await issueOAuthTokenPair(tx, grant.id, scopes, now);
   });
 }
 
@@ -200,14 +167,6 @@ export async function exchangeOAuthRefreshToken(
     }
 
     const scopes = canonicalizeOAuthScopes(refreshToken.scopes);
-    const replacementRefreshToken = generateOAuthRefreshToken();
-    const replacementRefreshTokenExpiresAt = new Date(
-      now.getTime() + OAUTH_REFRESH_TOKEN_LIFETIME_MS,
-    );
-    const accessToken = generateOAuthAccessToken();
-    const accessTokenExpiresAt = new Date(
-      now.getTime() + OAUTH_ACCESS_TOKEN_LIFETIME_MS,
-    );
 
     await tx
       .updateTable("oauth_refresh_token")
@@ -219,38 +178,56 @@ export async function exchangeOAuthRefreshToken(
       .where("id", "=", refreshToken.id)
       .executeTakeFirstOrThrow();
 
-    const storedReplacementRefreshToken = await tx
-      .insertInto("oauth_refresh_token")
-      .values({
-        expires_at: replacementRefreshTokenExpiresAt,
-        oauth_grant_id: grant.id,
-        scopes,
-        token_hash: hashOAuthCredential(replacementRefreshToken),
-      })
-      .returning("id")
-      .executeTakeFirstOrThrow();
-
-    await tx
-      .insertInto("oauth_access_token")
-      .values({
-        expires_at: accessTokenExpiresAt,
-        oauth_grant_id: grant.id,
-        oauth_refresh_token_id: storedReplacementRefreshToken.id,
-        scopes,
-        token_hash: hashOAuthCredential(accessToken),
-      })
-      .executeTakeFirstOrThrow();
-
-    return {
-      accessToken,
-      expiresIn: OAUTH_ACCESS_TOKEN_EXPIRES_IN_SECONDS,
-      refreshToken: replacementRefreshToken,
-      scopes,
-    };
+    return await issueOAuthTokenPair(tx, grant.id, scopes, now);
   });
 
   if (!token) throw invalidRefreshToken();
   return token;
+}
+
+async function issueOAuthTokenPair(
+  tx: Transaction<DB>,
+  grantId: string,
+  scopes: string[],
+  now: Date,
+): Promise<OAuthTokenResult> {
+  const refreshToken = generateOAuthRefreshToken();
+  const refreshTokenExpiresAt = new Date(
+    now.getTime() + OAUTH_REFRESH_TOKEN_LIFETIME_MS,
+  );
+  const accessToken = generateOAuthAccessToken();
+  const accessTokenExpiresAt = new Date(
+    now.getTime() + OAUTH_ACCESS_TOKEN_LIFETIME_MS,
+  );
+
+  const storedRefreshToken = await tx
+    .insertInto("oauth_refresh_token")
+    .values({
+      expires_at: refreshTokenExpiresAt,
+      oauth_grant_id: grantId,
+      scopes,
+      token_hash: hashOAuthCredential(refreshToken),
+    })
+    .returning("id")
+    .executeTakeFirstOrThrow();
+
+  await tx
+    .insertInto("oauth_access_token")
+    .values({
+      expires_at: accessTokenExpiresAt,
+      oauth_grant_id: grantId,
+      oauth_refresh_token_id: storedRefreshToken.id,
+      scopes,
+      token_hash: hashOAuthCredential(accessToken),
+    })
+    .executeTakeFirstOrThrow();
+
+  return {
+    accessToken,
+    expiresIn: OAUTH_ACCESS_TOKEN_EXPIRES_IN_SECONDS,
+    refreshToken,
+    scopes,
+  };
 }
 
 function matchesPkceBinding(
