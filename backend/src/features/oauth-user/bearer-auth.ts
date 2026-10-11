@@ -77,29 +77,32 @@ async function authenticateBearerToken(
 
   const token = await db
     .selectFrom("oauth_access_token")
-    .select(["expires_at", "oauth_grant_id", "revoked_at", "scopes"])
-    .where("token_hash", "=", hashOAuthCredential(rawToken))
+    .innerJoin(
+      "oauth_grant",
+      "oauth_grant.id",
+      "oauth_access_token.oauth_grant_id",
+    )
+    .innerJoin("oauth_client", "oauth_client.id", "oauth_grant.oauth_client_id")
+    .select([
+      "oauth_access_token.expires_at",
+      "oauth_access_token.revoked_at",
+      "oauth_access_token.scopes",
+      "oauth_grant.account_id",
+      "oauth_client.disabled_at",
+    ])
+    .where("oauth_access_token.token_hash", "=", hashOAuthCredential(rawToken))
     .executeTakeFirst();
 
-  if (!token || token.revoked_at != null || token.expires_at <= now) {
+  if (
+    !token ||
+    token.revoked_at != null ||
+    token.expires_at <= now ||
+    token.disabled_at != null
+  ) {
     throw invalidToken();
   }
 
-  const grant = await db
-    .selectFrom("oauth_grant")
-    .select(["account_id", "oauth_client_id"])
-    .where("id", "=", token.oauth_grant_id)
-    .executeTakeFirst();
-  if (!grant) throw invalidToken();
-
-  const client = await db
-    .selectFrom("oauth_client")
-    .select("disabled_at")
-    .where("id", "=", grant.oauth_client_id)
-    .executeTakeFirst();
-  if (!client || client.disabled_at != null) throw invalidToken();
-
-  const account = await findAccountForAuth(db, grant.account_id);
+  const account = await findAccountForAuth(db, token.account_id);
   if (!account) throw invalidToken();
   if (account.active_account_ban_id != null) {
     throw new OAuthBearerError("account_banned", "Account is banned", 403);
