@@ -36,31 +36,33 @@ export function decodeSlots(
 
   let fanMadeData: ResolvedDeck["fanMadeData"];
 
-  function addToFanMadeData({ card, cycle, pack, encounterSet }: ResolvedCard) {
-    if (!card.official) {
-      fanMadeData ??= {
-        cards: {},
-        cycles: {},
-        encounter_sets: {},
-        packs: {},
-      };
+  function addToFanMadeData(resolved: ResolvedCard) {
+    const { back, card, cycle, pack, encounterSet } = resolved;
+    if (card.official) return;
 
-      if (!fanMadeData.cycles[cycle.code]) {
-        fanMadeData.cycles[cycle.code] = cycle;
-      }
+    fanMadeData ??= {
+      cards: {},
+      cycles: {},
+      encounter_sets: {},
+      packs: {},
+    };
 
-      if (!fanMadeData.packs[pack.code]) {
-        fanMadeData.packs[pack.code] = pack;
-      }
-
-      if (encounterSet && !fanMadeData.encounter_sets[encounterSet.code]) {
-        fanMadeData.encounter_sets[encounterSet.code] = encounterSet;
-      }
-
-      if (!fanMadeData.cards[card.code]) {
-        fanMadeData.cards[card.code] = card;
-      }
+    if (!fanMadeData.cycles[cycle.code]) {
+      fanMadeData.cycles[cycle.code] = cycle;
     }
+
+    if (!fanMadeData.packs[pack.code]) {
+      fanMadeData.packs[pack.code] = pack;
+    }
+
+    if (encounterSet && !fanMadeData.encounter_sets[encounterSet.code]) {
+      fanMadeData.encounter_sets[encounterSet.code] = encounterSet;
+    }
+
+    if (fanMadeData.cards[card.code]) return;
+
+    fanMadeData.cards[card.code] = card;
+    if (back) addToFanMadeData(back);
   }
 
   const charts: DeckCharts = emptyDeckCharts();
