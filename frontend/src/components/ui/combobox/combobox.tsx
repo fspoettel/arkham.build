@@ -212,7 +212,9 @@ export function Combobox<T extends Coded>(props: Props<T>) {
 
     if (ref instanceof HTMLInputElement) {
       setInputValue("");
-      setActiveIndex(0);
+      if (inputValue) {
+        setActiveIndex(0);
+      }
       if (ref && document.activeElement !== ref) {
         ref.focus();
       }
