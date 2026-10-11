@@ -39,6 +39,8 @@ import {
 } from "./deck-snapshots.ts";
 import { mapArkhamDbDeckToDto } from "./mapping.ts";
 
+export { ArkhamDbUpgradeContentSaveError } from "./api-user.ts";
+
 export class ArkhamDbDeckSnapshotUnavailableError extends ApiError {
   constructor() {
     super("ArkhamDB deck snapshot is unavailable; request a new manifest", 409);

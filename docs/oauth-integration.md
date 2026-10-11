@@ -379,8 +379,15 @@ curl --request DELETE "$API_BASE/v2/user/decks/$SOURCE/$DECK_ID?all=true" \
 #### Upgrade a deck
 
 `POST /v2/user/decks/{source}/{id}/upgrade` requires `decks:write` and returns
-`201`. It creates a child deck and links it to the parent. If the parent already
-has a child, the API returns `409`.
+`201`. The request describes the desired mutable content of the child deck. Its
+`xp` value is the child's total XP. It cannot be less than the XP carried over
+from the parent. The child must use the same investigator as the parent. The API
+creates the child, writes the supplied content, and links it to the parent.
+
+For ArkhamDB decks, the upstream service must create the child before it can
+write the supplied content. If that write fails, the API returns `409` with the
+new child ID in the message. The child remains linked in ArkhamDB. If the parent
+already has a child, the API also returns `409`.
 
 <!-- curl:deck-upgrade -->
 ```bash

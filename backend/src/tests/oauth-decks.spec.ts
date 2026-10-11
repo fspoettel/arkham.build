@@ -216,6 +216,136 @@ describe("OAuth user deck routes", () => {
     }
   });
 
+  test("writes the supplied content to an upgraded ArkhamDB deck", async ({
+    dependencies,
+  }) => {
+    const { app, db } = dependencies;
+    const accessToken = await seedBearerToken(db, [
+      "profile:read",
+      "decks:read",
+      "decks:write",
+    ]);
+    await insertArkhamDbConnection(db);
+
+    const desiredDeck = deckPayload({
+      description_md: "Updated description",
+      exile_string: "02115,02115",
+      meta: '{"option_selected":"guardian"}',
+      name: "Upgraded deck",
+      sideSlots: { "01020": 1 },
+      slots: { "01006": 2, "01020": 1 },
+      taboo_id: 3,
+      tags: "campaign",
+      xp: 8,
+      xp_adjustment: 0,
+      xp_spent: 3,
+    });
+    const fetch = vi
+      .fn<typeof globalThis.fetch>()
+      .mockResolvedValueOnce(
+        jsonResponse(
+          arkhamDbDeck({
+            xp: 5,
+            xp_adjustment: 1,
+            xp_spent: 2,
+          }),
+        ),
+      )
+      .mockResolvedValueOnce(jsonResponse({ msg: 124, success: true }))
+      .mockResolvedValueOnce(jsonResponse({ msg: 124, success: true }))
+      .mockResolvedValueOnce(
+        jsonResponse(
+          arkhamDbDeck({
+            ...desiredDeck,
+            id: 124,
+            previous_deck: 123,
+            version: "1.2",
+          }),
+        ),
+      );
+    vi.stubGlobal("fetch", fetch);
+
+    const response = await bearerRequest(
+      app,
+      accessToken,
+      "/v2/user/decks/arkhamdb/123/upgrade",
+      { method: "POST", body: JSON.stringify(desiredDeck) },
+    );
+
+    expect(response.status).toBe(201);
+    expect(OAuthDeckSchema.parse(await response.json())).toMatchObject({
+      id: 124,
+      name: "Upgraded deck",
+      previous_deck: 123,
+      slots: { "01006": 2, "01020": 1 },
+      xp: 8,
+    });
+    expect(requestUrl(fetch.mock.calls[1]?.[0])).toBe(
+      "https://arkhamdb.com/api/oauth2/deck/upgrade/123",
+    );
+    expect(fetch.mock.calls[1]?.[1]?.body).toBe("exiles=02115%2C02115&xp=4");
+    expect(requestUrl(fetch.mock.calls[2]?.[0])).toBe(
+      "https://arkhamdb.com/api/oauth2/deck/save/124",
+    );
+
+    const saveBody = fetch.mock.calls[2]?.[1]?.body;
+    expect(typeof saveBody).toBe("string");
+    if (typeof saveBody !== "string") throw new Error("Missing save body");
+
+    expect(Object.fromEntries(new URLSearchParams(saveBody))).toMatchObject({
+      description_md: "Updated description",
+      meta: '{"option_selected":"guardian"}',
+      name: "Upgraded deck",
+      side: JSON.stringify({ "01020": 1 }),
+      slots: JSON.stringify({ "01006": 2, "01020": 1 }),
+      taboo: "3",
+      tags: "campaign",
+      xp_adjustment: "0",
+      xp_spent: "3",
+    });
+  });
+
+  test("reports when ArkhamDB creates a child but cannot save its content", async ({
+    dependencies,
+  }) => {
+    const { app, db } = dependencies;
+    const accessToken = await seedBearerToken(db, [
+      "profile:read",
+      "decks:read",
+      "decks:write",
+    ]);
+    await insertArkhamDbConnection(db);
+
+    const fetch = vi
+      .fn<typeof globalThis.fetch>()
+      .mockResolvedValueOnce(jsonResponse(arkhamDbDeck()))
+      .mockResolvedValueOnce(jsonResponse({ msg: 124, success: true }))
+      .mockResolvedValueOnce(
+        jsonResponse({ error: "save failed" }, { status: 500 }),
+      );
+    vi.stubGlobal("fetch", fetch);
+
+    const response = await bearerRequest(
+      app,
+      accessToken,
+      "/v2/user/decks/arkhamdb/123/upgrade",
+      { method: "POST", body: JSON.stringify(deckPayload()) },
+    );
+
+    expect(response.status).toBe(409);
+    expect(OAuthUserErrorSchema.parse(await response.json())).toEqual({
+      error: "conflict",
+      message:
+        "ArkhamDB created upgraded deck 124, but could not save the supplied deck content. The child deck remains linked in ArkhamDB.",
+    });
+    expect(fetch).toHaveBeenCalledTimes(3);
+    expect(
+      fetch.mock.calls.some(([input]) =>
+        requestUrl(input).includes("/delete/"),
+      ),
+    ).toBe(false);
+  });
+
   test("enforces scopes, input limits, and whole-batch failure", async ({
     dependencies,
   }) => {
@@ -615,6 +745,19 @@ function deckPayload(
     xp: 0,
     ...overrides,
   };
+}
+
+function requestUrl(input: string | URL | Request | undefined) {
+  if (!input) throw new Error("Missing request URL");
+  if (typeof input === "string") return input;
+  if (input instanceof URL) return input.href;
+  return input.url;
+}
+
+function jsonResponse(body: unknown, init: ResponseInit = {}) {
+  const headers = new Headers(init.headers);
+  headers.set("Content-Type", "application/json");
+  return new Response(JSON.stringify(body), { ...init, headers });
 }
 
 function arkhamDbDeck(overrides: Record<string, unknown> = {}) {

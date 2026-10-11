@@ -15,6 +15,21 @@ import {
 import { ApiError } from "./core/errors.ts";
 import type { ArkhamDbExecutor } from "./core/execute-with-lock.ts";
 
+export class ArkhamDbUpgradeContentSaveError extends ApiError {
+  readonly childDeckId: string | number;
+  override readonly cause: unknown;
+
+  constructor(childDeckId: string | number, cause: unknown) {
+    super(
+      `ArkhamDB created upgraded deck ${String(childDeckId)}, but could not save the supplied deck content. The child deck remains linked in ArkhamDB.`,
+      409,
+    );
+    this.name = "ArkhamDbUpgradeContentSaveError";
+    this.childDeckId = childDeckId;
+    this.cause = cause;
+  }
+}
+
 export function fetchDeck(executor: ArkhamDbExecutor, id: string | number) {
   return loadDeck(executor, id);
 }
@@ -74,32 +89,8 @@ export async function saveDeck(
   id: string | number,
   deck: DeckMutablePayload,
 ) {
-  const storedDeck = await storeAdditionalMetadata(executor.db, id, deck);
-
-  const { data: operation } = await executor.request(
-    `/deck/save/${id}`,
-    ArkhamDbOperationResponseSchema,
-    {
-      method: "PUT",
-      body: encodeParams({
-        description_md: storedDeck.description_md,
-        exile_string: storedDeck.exile_string ?? undefined,
-        ignored: stringifyOptionalSlots(storedDeck.ignoreDeckLimitSlots),
-        meta: storedDeck.meta,
-        name: storedDeck.name,
-        problem: storedDeck.problem,
-        side: stringifyOptionalSlots(storedDeck.sideSlots),
-        slots: JSON.stringify(SlotsSchema.parse(storedDeck.slots)),
-        taboo: storedDeck.taboo_id ?? undefined,
-        tags: storedDeck.tags,
-        xp_adjustment: storedDeck.xp_adjustment ?? undefined,
-        xp_spent: storedDeck.xp_spent ?? undefined,
-      }),
-    },
-  );
-
-  assertSuccessfulOperation(operation);
-  return await loadDeck(executor, operation.msg);
+  const savedDeckId = await writeDeck(executor, id, deck);
+  return await loadDeck(executor, savedDeckId);
 }
 
 export async function createDeck(
@@ -160,11 +151,8 @@ export async function createDeck(
 export async function upgradeDeck(
   executor: ArkhamDbExecutor,
   id: string | number,
-  _deck: DeckMutablePayload,
+  deck: DeckMutablePayload,
 ) {
-  const deck = { ..._deck };
-  extractHiddenSlots(deck);
-
   const { data: operation } = await executor.request(
     `/deck/upgrade/${id}`,
     ArkhamDbOperationResponseSchema,
@@ -172,13 +160,19 @@ export async function upgradeDeck(
       method: "PUT",
       body: encodeParams({
         exiles: deck.exile_string ?? undefined,
-        meta: deck.meta,
         xp: deck.xp ?? 0,
       }),
     },
   );
 
   assertSuccessfulOperation(operation);
+
+  try {
+    await writeDeck(executor, operation.msg, deck);
+  } catch (error) {
+    throw new ArkhamDbUpgradeContentSaveError(operation.msg, error);
+  }
+
   return await loadDeck(executor, operation.msg);
 }
 
@@ -197,6 +191,39 @@ export async function deleteDeck(
   );
 
   assertSuccessfulOperation(operation);
+}
+
+async function writeDeck(
+  executor: ArkhamDbExecutor,
+  id: string | number,
+  deck: DeckMutablePayload,
+) {
+  const storedDeck = await storeAdditionalMetadata(executor.db, id, deck);
+
+  const { data: operation } = await executor.request(
+    `/deck/save/${id}`,
+    ArkhamDbOperationResponseSchema,
+    {
+      method: "PUT",
+      body: encodeParams({
+        description_md: storedDeck.description_md,
+        exile_string: storedDeck.exile_string ?? undefined,
+        ignored: stringifyOptionalSlots(storedDeck.ignoreDeckLimitSlots),
+        meta: storedDeck.meta,
+        name: storedDeck.name,
+        problem: storedDeck.problem,
+        side: stringifyOptionalSlots(storedDeck.sideSlots),
+        slots: JSON.stringify(SlotsSchema.parse(storedDeck.slots)),
+        taboo: storedDeck.taboo_id ?? undefined,
+        tags: storedDeck.tags,
+        xp_adjustment: storedDeck.xp_adjustment ?? undefined,
+        xp_spent: storedDeck.xp_spent ?? undefined,
+      }),
+    },
+  );
+
+  assertSuccessfulOperation(operation);
+  return operation.msg;
 }
 
 async function loadDeck(executor: ArkhamDbExecutor, id: string | number) {

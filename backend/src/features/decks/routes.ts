@@ -34,6 +34,7 @@ import {
 } from "../../lib/arkhamdb/api-client/user-service.ts";
 import { getAccountIdentityByAccountIdAndProvider } from "../../lib/auth/account-identities.ts";
 import { sessionAuth } from "../../lib/auth/session-auth-middleware.ts";
+import { calculateDeckUpgradeXp } from "../../lib/deck-upgrade.ts";
 import {
   ACCOUNT_PROVIDER_TYPE,
   mapDeckRowToDto,
@@ -489,12 +490,7 @@ const arkhamdbCrud = {
 
     assertDeckHasNoUpgrade(current);
 
-    const currentCarryoverXp =
-      (current.xp ?? 0) +
-      (current.xp_adjustment ?? 0) -
-      (current.xp_spent ?? 0);
-
-    const upgradeXp = Math.max((payload.deck.xp ?? 0) - currentCarryoverXp, 0);
+    const upgradeXp = calculateDeckUpgradeXp(current, payload.deck);
 
     return await upgradeArkhamDbDeck(c, c.get("account").id, previousDeckId, {
       ...payload.deck,

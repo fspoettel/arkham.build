@@ -1439,6 +1439,8 @@ describe("Deck routes", () => {
         )
         // PUT /api/oauth2/deck/upgrade/123
         .mockResolvedValueOnce(jsonResponse({ msg: 124, success: true }))
+        // PUT /api/oauth2/deck/save/124
+        .mockResolvedValueOnce(jsonResponse({ msg: 124, success: true }))
         // GET /api/oauth2/deck/load/124
         .mockResolvedValueOnce(
           jsonResponse(
@@ -1450,25 +1452,6 @@ describe("Deck routes", () => {
               xp: 8,
             }),
           ),
-        )
-        // GET /api/oauth2/decks
-        .mockResolvedValueOnce(
-          jsonResponse([
-            buildArkhamDbApiDeck({
-              id: 123,
-              name: "Base remote deck",
-              next_deck: 124,
-              version: "1.1",
-              xp: 5,
-            }),
-            buildArkhamDbApiDeck({
-              id: 124,
-              name: "Upgraded remotely",
-              previous_deck: 123,
-              version: "1.2",
-              xp: 8,
-            }),
-          ]),
         );
       vi.stubGlobal("fetch", fetch);
 
@@ -1488,7 +1471,20 @@ describe("Deck routes", () => {
       });
 
       expect(res.status).toBe(200);
-      expect(fetch.mock.calls[1]?.[1]?.body).toBe("meta=%7B%7D&xp=3");
+      expect(fetch.mock.calls[1]?.[1]?.body).toBe("xp=3");
+      expect(fetch.mock.calls[2]?.[0].toString()).toBe(
+        "https://arkhamdb.com/api/oauth2/deck/save/124",
+      );
+      const saveBody = fetch.mock.calls[2]?.[1]?.body;
+      expect(typeof saveBody).toBe("string");
+      if (typeof saveBody !== "string") throw new Error("Missing save body");
+
+      expect(Object.fromEntries(new URLSearchParams(saveBody))).toMatchObject({
+        meta: "{}",
+        name: "Upgraded remotely",
+        slots: JSON.stringify({ "01006": 1, "01007": 1 }),
+        xp_spent: "2",
+      });
 
       const body = DeckSchema.parse(await res.json());
       expect(body).toMatchObject({

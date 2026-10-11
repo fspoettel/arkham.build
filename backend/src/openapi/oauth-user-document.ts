@@ -302,8 +302,12 @@ function createOAuthUserOpenApiDocument() {
           tags: ["User decks"],
           summary: "Upgrade a deck",
           description:
-            "Requires decks:write. Creates a child deck and links it to the " +
-            "selected parent using provider-specific history semantics.",
+            "Requires decks:write. The request describes the desired mutable " +
+            "content of the child deck, including its total XP. The XP cannot " +
+            "be less than the parent's carry-over XP, and the investigator " +
+            "cannot change. Creates the child, writes the supplied content, " +
+            "and links it to the selected parent using provider-specific " +
+            "history semantics.",
           security: oauthSecurity("decks:write"),
           parameters: deckTargetParameters(),
           requestBody: jsonRequestBody("OAuthDeckWrite"),
@@ -313,7 +317,10 @@ function createOAuthUserOpenApiDocument() {
             401: bearerErrorResponse("Bearer token is unusable"),
             403: bearerForbiddenResponse("Token lacks decks:write"),
             404: jsonResponse("OAuthUserError", "Deck was not found"),
-            409: jsonResponse("OAuthUserError", "Deck already has an upgrade"),
+            409: jsonResponse(
+              "OAuthUserError",
+              "Deck history conflicts or ArkhamDB could not save a created child",
+            ),
             503: jsonResponse("OAuthUserError", "ArkhamDB is unavailable"),
           },
         },

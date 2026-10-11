@@ -8,6 +8,7 @@ import { ZodError } from "zod";
 import type { DB } from "../../db/schema.types.ts";
 import {
   ArkhamDbDeckSnapshotUnavailableError,
+  ArkhamDbUpgradeContentSaveError,
   createArkhamDbDeck,
   deleteArkhamDbDeck,
   fetchArkhamDbDeck,
@@ -18,6 +19,7 @@ import {
 } from "../../lib/arkhamdb/api-client/user-service.ts";
 import { ApiError } from "../../lib/arkhamdb/api-client/core/errors.ts";
 import { getAccountIdentityByAccountIdAndProvider } from "../../lib/auth/account-identities.ts";
+import { calculateDeckUpgradeXp } from "../../lib/deck-upgrade.ts";
 import {
   ACCOUNT_PROVIDER_TYPE,
   mapDeckRowToDto,
@@ -270,6 +272,8 @@ export async function upgradeOAuthDeck(
         });
       }
 
+      calculateDeckUpgradeXp(mapDeckRowToDto(current), payload);
+
       const now = new Date();
       const childId = randomUUID();
       const child = await tx
@@ -357,9 +361,7 @@ async function upgradeOAuthArkhamDbDeck(
     throw new HTTPException(409, { message: "Deck already has an upgrade" });
   }
 
-  const carryoverXp =
-    (current.xp ?? 0) + (current.xp_adjustment ?? 0) - (current.xp_spent ?? 0);
-  const upgradeXp = Math.max((payload.xp ?? 0) - carryoverXp, 0);
+  const upgradeXp = calculateDeckUpgradeXp(current, payload);
 
   return await requireArkhamDb(() =>
     upgradeArkhamDbDeck(c, accountId, id, {
@@ -408,6 +410,9 @@ async function requireArkhamDb<T>(operation: () => Promise<T>) {
   try {
     return await operation();
   } catch (error) {
+    if (error instanceof ArkhamDbUpgradeContentSaveError) {
+      throw new HTTPException(409, { message: error.message });
+    }
     if (error instanceof ArkhamDbDeckSnapshotUnavailableError) {
       throw new HTTPException(409, { message: error.message });
     }

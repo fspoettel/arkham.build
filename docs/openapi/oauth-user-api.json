@@ -1047,7 +1047,7 @@
         "operationId": "upgradeOAuthDeck",
         "tags": ["User decks"],
         "summary": "Upgrade a deck",
-        "description": "Requires decks:write. Creates a child deck and links it to the selected parent using provider-specific history semantics.",
+        "description": "Requires decks:write. The request describes the desired mutable content of the child deck, including its total XP. The XP cannot be less than the parent's carry-over XP, and the investigator cannot change. Creates the child, writes the supplied content, and links it to the selected parent using provider-specific history semantics.",
         "security": [
           {
             "OAuthBearer": ["decks:write"]
@@ -1155,7 +1155,7 @@
             }
           },
           "409": {
-            "description": "Deck already has an upgrade",
+            "description": "Deck history conflicts or ArkhamDB could not save a created child",
             "content": {
               "application/json": {
                 "schema": {
