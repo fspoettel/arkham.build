@@ -314,10 +314,12 @@ export async function deleteOAuthDeck(
   all: boolean,
 ) {
   const accountId = c.get("account").id;
+
   if (source === "arkhamdb") {
     await requireArkhamDb(() => deleteArkhamDbDeck(c, accountId, id, all));
     return;
   }
+
   await c
     .get("db")
     .transaction()
@@ -328,12 +330,40 @@ export async function deleteOAuthDeck(
       const ids = all
         ? await collectAccountDeckHistoryIds(tx, accountId, current)
         : [current.id];
+
+      const affectedDecks = await tx
+        .selectFrom("deck")
+        .select(["id", "version"])
+        .where("account_id", "=", accountId)
+        .where("provider_type", "=", ACCOUNT_PROVIDER_TYPE)
+        .where("id", "not in", ids)
+        .where((eb) =>
+          eb.or([eb("prev_deck", "in", ids), eb("next_deck", "in", ids)]),
+        )
+        .forUpdate()
+        .execute();
+
       await tx
         .deleteFrom("deck")
         .where("account_id", "=", accountId)
         .where("provider_type", "=", ACCOUNT_PROVIDER_TYPE)
         .where("id", "in", ids)
         .execute();
+
+      const now = new Date();
+
+      for (const deck of affectedDecks) {
+        await tx
+          .updateTable("deck")
+          .set({
+            updated_at: now,
+            version: incrementDeckVersion(deck.version),
+          })
+          .where("account_id", "=", accountId)
+          .where("provider_type", "=", ACCOUNT_PROVIDER_TYPE)
+          .where("id", "=", deck.id)
+          .executeTakeFirstOrThrow();
+      }
     });
 }
 

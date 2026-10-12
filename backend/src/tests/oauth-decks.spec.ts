@@ -216,6 +216,62 @@ describe("OAuth user deck routes", () => {
     }
   });
 
+  test("updates a surviving deck revision when deletion clears its history link", async ({
+    dependencies,
+  }) => {
+    const { app, db } = dependencies;
+    const accessToken = await seedBearerToken(db, [
+      "profile:read",
+      "decks:read",
+      "decks:delete",
+    ]);
+    await insertAccountDeck(db, { id: "history-parent", version: "0.1" });
+    await insertAccountDeck(db, { id: "history-child", version: "0.1" });
+
+    const staleTimestamp = new Date("2000-01-01T00:00:00.000Z");
+    await db
+      .updateTable("deck")
+      .set({ next_deck: "history-child", updated_at: staleTimestamp })
+      .where("id", "=", "history-parent")
+      .executeTakeFirstOrThrow();
+    await db
+      .updateTable("deck")
+      .set({ prev_deck: "history-parent" })
+      .where("id", "=", "history-child")
+      .executeTakeFirstOrThrow();
+
+    const deleteResponse = await bearerRequest(
+      app,
+      accessToken,
+      "/v2/user/decks/account/history-child",
+      { method: "DELETE" },
+    );
+    expect(deleteResponse.status).toBe(204);
+
+    const parent = await db
+      .selectFrom("deck")
+      .select(["next_deck", "updated_at", "version"])
+      .where("id", "=", "history-parent")
+      .executeTakeFirstOrThrow();
+    expect(parent.next_deck).toBeNull();
+    expect(parent.version).toBe("0.2");
+    expect(parent.updated_at.getTime()).toBeGreaterThan(
+      staleTimestamp.getTime(),
+    );
+
+    const manifestResponse = await bearerRequest(
+      app,
+      accessToken,
+      "/v2/user/decks/manifest?source=account",
+    );
+    const manifest = OAuthDeckManifestResponseSchema.parse(
+      await manifestResponse.json(),
+    );
+    expect(manifest.decks).toMatchObject([
+      { id: "history-parent", source: "account", version: "0.2" },
+    ]);
+  });
+
   test("writes the supplied content to an upgraded ArkhamDB deck", async ({
     dependencies,
   }) => {
