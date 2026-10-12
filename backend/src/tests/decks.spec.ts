@@ -1301,6 +1301,37 @@ describe("Deck routes", () => {
       });
     });
 
+    test("returns the created deck ID when saving its content fails", async ({
+      dependencies,
+    }) => {
+      const { app, db, sessionCookie } = dependencies;
+      await insertArkhamDbConnection(db);
+
+      const fetch = vi
+        .fn()
+        .mockResolvedValueOnce(jsonResponse({ msg: 123, success: true }))
+        .mockResolvedValueOnce(
+          jsonResponse({ msg: "A deck must contain cards.", success: false }),
+        );
+      vi.stubGlobal("fetch", fetch);
+
+      const res = await createDeck(
+        app,
+        sessionCookie,
+        baseDeckPayload({
+          id: "client-deck",
+          slots: {},
+          source: "arkhamdb",
+        }),
+      );
+
+      expect(res.status).toBe(409);
+      expect(await res.text()).toContain(
+        "ArkhamDB created deck 123, but could not save the supplied deck content.",
+      );
+      expect(fetch).toHaveBeenCalledTimes(2);
+    });
+
     test("updates an ArkhamDB deck remotely and mirrors it locally", async ({
       dependencies,
     }) => {

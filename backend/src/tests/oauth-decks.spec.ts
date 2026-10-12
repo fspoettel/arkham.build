@@ -392,7 +392,7 @@ describe("OAuth user deck routes", () => {
     expect(OAuthUserErrorSchema.parse(await response.json())).toEqual({
       error: "conflict",
       message:
-        "ArkhamDB created upgraded deck 124, but could not save the supplied deck content. The child deck remains linked in ArkhamDB.",
+        "ArkhamDB created deck 124, but could not save the supplied deck content. The deck remains in ArkhamDB.",
     });
     expect(fetch).toHaveBeenCalledTimes(3);
     expect(

@@ -15,17 +15,17 @@ import {
 import { ApiError, ArkhamDbOperationError } from "./core/errors.ts";
 import type { ArkhamDbExecutor } from "./core/execute-with-lock.ts";
 
-export class ArkhamDbUpgradeContentSaveError extends ApiError {
-  readonly childDeckId: string | number;
+export class ArkhamDbContentSaveError extends ApiError {
+  readonly deckId: string | number;
   override readonly cause: unknown;
 
-  constructor(childDeckId: string | number, cause: unknown) {
+  constructor(deckId: string | number, cause: unknown) {
     super(
-      `ArkhamDB created upgraded deck ${String(childDeckId)}, but could not save the supplied deck content. The child deck remains linked in ArkhamDB.`,
+      `ArkhamDB created deck ${String(deckId)}, but could not save the supplied deck content. The deck remains in ArkhamDB.`,
       409,
     );
-    this.name = "ArkhamDbUpgradeContentSaveError";
-    this.childDeckId = childDeckId;
+    this.name = "ArkhamDbContentSaveError";
+    this.deckId = deckId;
     this.cause = cause;
   }
 }
@@ -115,37 +115,45 @@ export async function createDeck(
 
   assertSuccessfulOperation(operation);
 
-  const storedDeck = await storeAdditionalMetadata(
-    executor.db,
-    operation.msg,
-    deck,
-    { extractHiddenSlots: false },
-  );
+  let savedDeckId: string | number;
 
-  const { data: saveOperation } = await executor.request(
-    `/deck/save/${operation.msg}`,
-    ArkhamDbOperationResponseSchema,
-    {
-      method: "PUT",
-      body: encodeParams({
-        description_md: storedDeck.description_md,
-        exile_string: storedDeck.exile_string ?? undefined,
-        ignored: stringifyOptionalSlots(storedDeck.ignoreDeckLimitSlots),
-        meta: storedDeck.meta,
-        name: storedDeck.name,
-        problem: storedDeck.problem,
-        side: stringifyOptionalSlots(storedDeck.sideSlots),
-        slots: JSON.stringify(SlotsSchema.parse(storedDeck.slots)),
-        taboo: storedDeck.taboo_id ?? undefined,
-        tags: storedDeck.tags,
-        xp_adjustment: storedDeck.xp_adjustment ?? undefined,
-        xp_spent: storedDeck.xp_spent ?? undefined,
-      }),
-    },
-  );
+  try {
+    const storedDeck = await storeAdditionalMetadata(
+      executor.db,
+      operation.msg,
+      deck,
+      { extractHiddenSlots: false },
+    );
 
-  assertSuccessfulOperation(saveOperation);
-  return await loadDeck(executor, saveOperation.msg);
+    const { data: saveOperation } = await executor.request(
+      `/deck/save/${operation.msg}`,
+      ArkhamDbOperationResponseSchema,
+      {
+        method: "PUT",
+        body: encodeParams({
+          description_md: storedDeck.description_md,
+          exile_string: storedDeck.exile_string ?? undefined,
+          ignored: stringifyOptionalSlots(storedDeck.ignoreDeckLimitSlots),
+          meta: storedDeck.meta,
+          name: storedDeck.name,
+          problem: storedDeck.problem,
+          side: stringifyOptionalSlots(storedDeck.sideSlots),
+          slots: JSON.stringify(SlotsSchema.parse(storedDeck.slots)),
+          taboo: storedDeck.taboo_id ?? undefined,
+          tags: storedDeck.tags,
+          xp_adjustment: storedDeck.xp_adjustment ?? undefined,
+          xp_spent: storedDeck.xp_spent ?? undefined,
+        }),
+      },
+    );
+
+    assertSuccessfulOperation(saveOperation);
+    savedDeckId = saveOperation.msg;
+  } catch (error) {
+    throw new ArkhamDbContentSaveError(operation.msg, error);
+  }
+
+  return await loadDeck(executor, savedDeckId);
 }
 
 export async function upgradeDeck(
@@ -170,7 +178,7 @@ export async function upgradeDeck(
   try {
     await writeDeck(executor, operation.msg, deck);
   } catch (error) {
-    throw new ArkhamDbUpgradeContentSaveError(operation.msg, error);
+    throw new ArkhamDbContentSaveError(operation.msg, error);
   }
 
   return await loadDeck(executor, operation.msg);

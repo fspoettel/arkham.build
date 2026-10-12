@@ -7,9 +7,9 @@ import type { Transaction } from "kysely";
 import { ZodError } from "zod";
 import type { DB } from "../../db/schema.types.ts";
 import {
+  ArkhamDbContentSaveError,
   ArkhamDbDeckSnapshotUnavailableError,
   ArkhamDbOperationError,
-  ArkhamDbUpgradeContentSaveError,
   createArkhamDbDeck,
   deleteArkhamDbDeck,
   fetchArkhamDbDeck,
@@ -441,7 +441,7 @@ async function requireArkhamDb<T>(operation: () => Promise<T>) {
   try {
     return await operation();
   } catch (error) {
-    if (error instanceof ArkhamDbUpgradeContentSaveError) {
+    if (error instanceof ArkhamDbContentSaveError) {
       throw new HTTPException(409, { message: error.message });
     }
     if (error instanceof ArkhamDbDeckSnapshotUnavailableError) {

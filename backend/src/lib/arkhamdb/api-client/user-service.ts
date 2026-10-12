@@ -39,7 +39,7 @@ import {
 } from "./deck-snapshots.ts";
 import { mapArkhamDbDeckToDto } from "./mapping.ts";
 
-export { ArkhamDbUpgradeContentSaveError } from "./api-user.ts";
+export { ArkhamDbContentSaveError } from "./api-user.ts";
 export { ArkhamDbOperationError } from "./core/errors.ts";
 
 export class ArkhamDbDeckSnapshotUnavailableError extends ApiError {
