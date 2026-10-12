@@ -46,6 +46,11 @@ export const ArkhamDbOperationResponseSchema = z.object({
   success: z.boolean(),
 });
 
+export const ArkhamDbOperationFailureSchema = z.object({
+  msg: z.union([z.string(), z.number()]).nullish(),
+  success: z.literal(false),
+});
+
 export const ArkhamDbSuccessResponseSchema = z.object({
   msg: z.union([z.string(), z.number()]).nullish(),
   success: z.boolean(),

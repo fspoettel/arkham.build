@@ -292,6 +292,10 @@ function createOAuthUserOpenApiDocument() {
             401: bearerErrorResponse("Bearer token is unusable"),
             403: bearerForbiddenResponse("Token lacks decks:delete"),
             404: jsonResponse("OAuthUserError", "Deck was not found"),
+            409: jsonResponse(
+              "OAuthUserError",
+              "Only the latest deck in a history can be deleted",
+            ),
             503: jsonResponse("OAuthUserError", "ArkhamDB is unavailable"),
           },
         },

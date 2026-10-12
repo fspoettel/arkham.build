@@ -12,7 +12,7 @@ import {
   ArkhamDbRemoteDecksSchema,
   ArkhamDbSuccessResponseSchema,
 } from "./core/dtos.ts";
-import { ApiError } from "./core/errors.ts";
+import { ApiError, ArkhamDbOperationError } from "./core/errors.ts";
 import type { ArkhamDbExecutor } from "./core/execute-with-lock.ts";
 
 export class ArkhamDbUpgradeContentSaveError extends ApiError {
@@ -283,6 +283,8 @@ function assertSuccessfulOperation(res: {
   msg?: string | number | null | undefined;
 }) {
   if (!res.success) {
-    throw new ApiError(res.msg?.toString() ?? "Unknown operation error.", 500);
+    throw new ArkhamDbOperationError(
+      res.msg?.toString() ?? "Unknown operation error.",
+    );
   }
 }

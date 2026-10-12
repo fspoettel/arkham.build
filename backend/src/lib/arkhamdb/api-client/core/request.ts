@@ -4,8 +4,10 @@ import {
   fetchWithTimeout,
 } from "../../../fetch-with-timeout.ts";
 import type { HonoEnv } from "../../../hono-env.ts";
+import { ArkhamDbOperationFailureSchema } from "./dtos.ts";
 import {
   ApiError,
+  ArkhamDbOperationError,
   isArkhamDBApiError,
   isOAuthErrorResponse,
 } from "./errors.ts";
@@ -44,8 +46,15 @@ export async function request<T, E extends HonoEnv = HonoEnv>(
       async (res) => {
         await assertSuccessful(res);
 
-        // SAFETY: API clients validate the payload with their response schema.
-        const data = (await res.json()) as T;
+        let data: T;
+        try {
+          // SAFETY: API clients validate the payload with their response schema.
+          data = (await res.json()) as T;
+        } catch (cause) {
+          throw new ApiError("ArkhamDB returned malformed JSON", 500, {
+            cause,
+          });
+        }
 
         return {
           data,
@@ -133,6 +142,15 @@ async function assertSuccessful(res: Response) {
 
     if (isArkhamDBApiError(body)) {
       throw new ApiError(body.message, res.status);
+    }
+
+    // Operation errors are a 200 response with a `success: false` body
+    const operationFailure = ArkhamDbOperationFailureSchema.safeParse(body);
+    if (operationFailure.success) {
+      throw new ArkhamDbOperationError(
+        operationFailure.data.msg?.toString() ?? "Unknown operation error.",
+        res.status,
+      );
     }
 
     if (res.status === 304) {

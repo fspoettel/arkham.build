@@ -8,6 +8,7 @@ import { ZodError } from "zod";
 import type { DB } from "../../db/schema.types.ts";
 import {
   ArkhamDbDeckSnapshotUnavailableError,
+  ArkhamDbOperationError,
   ArkhamDbUpgradeContentSaveError,
   createArkhamDbDeck,
   deleteArkhamDbDeck,
@@ -415,6 +416,12 @@ async function requireArkhamDb<T>(operation: () => Promise<T>) {
     }
     if (error instanceof ArkhamDbDeckSnapshotUnavailableError) {
       throw new HTTPException(409, { message: error.message });
+    }
+    if (
+      error instanceof ArkhamDbOperationError &&
+      (error.status === 400 || error.status === 409)
+    ) {
+      throw new HTTPException(error.status, { message: error.message });
     }
     if (error instanceof ApiError && error.status === 404) {
       throw deckNotFound();
