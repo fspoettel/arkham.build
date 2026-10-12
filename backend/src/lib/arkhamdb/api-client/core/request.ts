@@ -27,19 +27,33 @@ export async function request<T, E extends HonoEnv = HonoEnv>(
   const config = c.get("config");
   const method = options.method ?? "GET";
   const startedAt = Date.now();
-  let res: Response;
 
   try {
     const signal = options.signal
       ? AbortSignal.any([c.req.raw.signal, options.signal])
       : c.req.raw.signal;
 
-    res = await fetchWithTimeout(`${config.ARKHAMDB_BASE_URL}${path}`, {
-      ...options,
-      headers: mergeHeaders(baseHeaders(method), options.headers),
-      signal,
-      timeoutMs: ARKHAMDB_REQUEST_TIMEOUT_MS,
-    });
+    return await fetchWithTimeout(
+      `${config.ARKHAMDB_BASE_URL}${path}`,
+      {
+        ...options,
+        headers: mergeHeaders(baseHeaders(method), options.headers),
+        signal,
+        timeoutMs: ARKHAMDB_REQUEST_TIMEOUT_MS,
+      },
+      async (res) => {
+        await assertSuccessful(res);
+
+        // SAFETY: API clients validate the payload with their response schema.
+        const data = (await res.json()) as T;
+
+        return {
+          data,
+          headers: Object.fromEntries(res.headers),
+          status: res.status,
+        };
+      },
+    );
   } catch (err) {
     if (err instanceof FetchTimeoutError) {
       logRequestFailure(c, method, path, startedAt, err);
@@ -55,16 +69,6 @@ export async function request<T, E extends HonoEnv = HonoEnv>(
 
     throw err;
   }
-
-  await assertSuccessful(res);
-
-  const data = (await res.json()) as T;
-
-  return {
-    data,
-    headers: Object.fromEntries(res.headers),
-    status: res.status,
-  };
 }
 
 function logRequestFailure<E extends HonoEnv>(

@@ -134,7 +134,7 @@ curl --request POST "$API_BASE/v2/oauth/token" \
 ```
 
 The response contains an access token that is valid for one hour. It also
-contains a refresh token that is valid for 90 days:
+contains a refresh token that is valid for 180 days:
 
 ```json
 {
