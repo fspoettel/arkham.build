@@ -11,7 +11,7 @@ import { useGrimoireQuery } from "@/queries/grimoire";
 import { useStore } from "@/store";
 import { selectMetadata } from "@/store/selectors/shared";
 import { parseCardTextHtml } from "@/utils/card-utils";
-import { getGrimoireMarkdownHtml } from "./grimoire-markdown";
+import { getGrimoireMarkdownHtml } from "@/utils/grimoire-markdown";
 import type {
   FilteredGrimoire,
   GrimoireMaps,

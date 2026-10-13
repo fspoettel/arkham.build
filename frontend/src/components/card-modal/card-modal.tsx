@@ -31,6 +31,7 @@ import { useMedia } from "@/utils/use-media";
 import { Annotation } from "../annotations/annotation";
 import { PopularDecks } from "../arkhamdb-decklists/popular-decks";
 import { Card } from "../card/card";
+import { CardFaq } from "../card-faq/card-faq";
 import { CardScenarios } from "../card-scenarios/card-scenarios";
 import { CardFavorite } from "../card-tags/card-favorite";
 import { CardTagManager, CardTags } from "../card-tags/card-tags";
@@ -253,6 +254,7 @@ export function CardModal(props: Props) {
           <SpecialistInvestigators card={cardWithRelations.card} />
         </div>
       )}
+      <CardFaq className={css["related"]} code={cardWithRelations.card.code} />
       {!cardWithRelations.card.preview &&
         !ctx.resolvedDeck &&
         settings.showCardModalPopularDecks &&

@@ -3,18 +3,19 @@ import { useTranslation } from "react-i18next";
 import { useCardLinkTooltip } from "@/components/card-tooltip/use-card-link-tooltip";
 import { PlaneContainer } from "@/components/ui/plane-container";
 import { Tag } from "@/components/ui/tag";
-import { resolveGrimoireHtmlReferences } from "@/pages/rules-reference/grimoire-markdown";
 import { useCardFaqQuery } from "@/queries/grimoire";
+import { resolveGrimoireHtmlReferences } from "@/utils/grimoire-markdown";
 import { parseCardTextHtml } from "@/utils/card-utils";
 import { parseMarkdown } from "@/utils/markdown";
 import css from "./card-faq.module.css";
 
 type Props = {
+  className?: string;
   code: string;
 };
 
 export function CardFaq(props: Props) {
-  const { code } = props;
+  const { className, code } = props;
   const { t } = useTranslation();
   const faq = useCardFaqQuery(code);
   const { cardLinkTooltip, referenceProps } = useCardLinkTooltip();
@@ -28,8 +29,14 @@ export function CardFaq(props: Props) {
     },
   }));
 
+  if (faq.data?.length === 0) return null;
+
   return (
-    <PlaneContainer as="section" title={t("card_view.faq.title")}>
+    <PlaneContainer
+      as="section"
+      className={className}
+      title={t("card_view.faq.title")}
+    >
       {faq.isPending && (
         <output className={css["status"]}>
           <LoaderCircleIcon className="spin" />
@@ -38,10 +45,6 @@ export function CardFaq(props: Props) {
 
       {faq.error && (
         <output className={css["status"]}>{t("card_view.faq.error")}</output>
-      )}
-
-      {faq.data?.length === 0 && (
-        <output className={css["status"]}>{t("card_view.faq.empty")}</output>
       )}
 
       {!!faqMarkup?.length && (

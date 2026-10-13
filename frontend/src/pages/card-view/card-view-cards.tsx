@@ -3,6 +3,7 @@ import { ChevronsLeftIcon, ChevronsRightIcon } from "lucide-react";
 import { Link, useSearchParams } from "wouter";
 import { PopularDecks } from "@/components/arkhamdb-decklists/popular-decks";
 import { Card } from "@/components/card/card";
+import { CardFaq } from "@/components/card-faq/card-faq";
 import {
   SpecialistAccess,
   SpecialistInvestigators,
@@ -35,7 +36,6 @@ import { cx } from "@/utils/cx";
 import { displayPackName, formatRelationTitle } from "@/utils/formatting";
 import { and } from "@/utils/fp";
 import { isEmpty } from "@/utils/is-empty";
-import { CardFaq } from "./card-faq";
 import css from "./card-view.module.css";
 
 type Props = {
