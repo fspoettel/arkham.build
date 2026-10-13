@@ -53,7 +53,7 @@ export function LevelFilter({ id, resolvedDeck, targetDeck }: FilterProps) {
 
   const onToggleOpen = (val: boolean) => {
     if (val && !filter.value.range) {
-      onChangeRange([-1, 5]);
+      onChangeRange([0, 5]);
     }
     onOpenChange(val);
   };
