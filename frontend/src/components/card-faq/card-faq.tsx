@@ -12,10 +12,11 @@ import css from "./card-faq.module.css";
 type Props = {
   className?: string;
   code: string;
+  hideWhileLoading?: boolean;
 };
 
 export function CardFaq(props: Props) {
-  const { className, code } = props;
+  const { className, code, hideWhileLoading } = props;
   const { t } = useTranslation();
   const faq = useCardFaqQuery(code);
   const { cardLinkTooltip, referenceProps } = useCardLinkTooltip();
@@ -29,7 +30,9 @@ export function CardFaq(props: Props) {
     },
   }));
 
-  if (faq.data?.length === 0) return null;
+  if (faq.data?.length === 0 || (hideWhileLoading && faq.isPending)) {
+    return null;
+  }
 
   return (
     <PlaneContainer

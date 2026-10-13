@@ -254,7 +254,11 @@ export function CardModal(props: Props) {
           <SpecialistInvestigators card={cardWithRelations.card} />
         </div>
       )}
-      <CardFaq className={css["related"]} code={cardWithRelations.card.code} />
+      <CardFaq
+        className={css["related"]}
+        code={cardWithRelations.card.code}
+        hideWhileLoading
+      />
       {!cardWithRelations.card.preview &&
         !ctx.resolvedDeck &&
         settings.showCardModalPopularDecks &&
