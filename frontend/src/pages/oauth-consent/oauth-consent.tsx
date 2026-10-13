@@ -13,9 +13,12 @@ import { useStore } from "@/store";
 import { selectSession } from "@/store/selectors/auth";
 import { useHttpClient } from "@/store/services/http-client.context";
 import { ApiError } from "@/store/services/requests/shared";
+import {
+  createAuthRedirectPath,
+  getCurrentLocalPath,
+} from "@/utils/navigation-returns";
 import { OAUTH_SCOPE_TRANSLATION_KEYS } from "@/utils/oauth-scopes";
 import { AuthLayout } from "../auth/auth-layout";
-import { createAuthRedirectPath, getCurrentLocalPath } from "../auth/return-to";
 import css from "./oauth-consent.module.css";
 import { claimOAuthAuthorizationRequest } from "./requests";
 

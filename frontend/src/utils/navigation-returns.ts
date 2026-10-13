@@ -1,3 +1,12 @@
+export function createAuthRedirectPath(path: string, returnTo: string) {
+  const query = new URLSearchParams({ redirect: returnTo });
+  return `${path}?${query.toString()}`;
+}
+
+export function getCurrentLocalPath() {
+  return `${window.location.pathname}${window.location.search}${window.location.hash}`;
+}
+
 export function getLocalReturnPath(
   value: string | null | undefined,
   fallback = "/",
@@ -15,13 +24,4 @@ export function getLocalReturnPath(
   } catch {
     return fallback;
   }
-}
-
-export function createAuthRedirectPath(path: string, returnTo: string) {
-  const query = new URLSearchParams({ redirect: returnTo });
-  return `${path}?${query.toString()}`;
-}
-
-export function getCurrentLocalPath() {
-  return `${window.location.pathname}${window.location.search}${window.location.hash}`;
 }

@@ -15,11 +15,6 @@ import { KeyboardShortcutsModal } from "./components/keyboard-shortcuts/keyboard
 import { Loader } from "./components/ui/loader";
 import { Toaster } from "./components/ui/toast";
 import { useToast } from "./components/ui/toast.hooks";
-import {
-  createAuthRedirectPath,
-  getCurrentLocalPath,
-  getLocalReturnPath,
-} from "./pages/auth/return-to";
 import { ErrorStatus } from "./pages/errors/404";
 import {
   useDataVersionQuery,
@@ -31,6 +26,11 @@ import { selectIsInitialized } from "./store/selectors/shared";
 import type { HttpClient } from "./store/services/http-client";
 import { HttpClientProvider } from "./store/services/http-client.provider";
 import { useAgathaEasterEggHint } from "./utils/easter-egg-agatha";
+import {
+  createAuthRedirectPath,
+  getCurrentLocalPath,
+  getLocalReturnPath,
+} from "./utils/navigation-returns";
 import { useColorThemeListener } from "./utils/use-color-theme";
 
 const browserLocationHook = useBrowserLocation;

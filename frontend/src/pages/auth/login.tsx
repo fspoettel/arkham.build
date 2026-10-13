@@ -8,12 +8,12 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { useLoginMutation } from "@/queries/mutations/auth";
 import { ApiError } from "@/store/services/requests/shared";
 import { ARKHAMDB_WARNING_VISIBLE } from "@/utils/constants";
+import { getLocalReturnPath } from "@/utils/navigation-returns";
 import { AuthForm } from "./auth-form";
 import { AuthLayout } from "./auth-layout";
 import { ErrorBox } from "./error-box";
 import { errorMapper } from "./helpers";
 import css from "./login.module.css";
-import { getLocalReturnPath } from "./return-to";
 import { OAuthSeparator } from "./oauth-separator";
 
 function Login() {

@@ -20,6 +20,10 @@ import { selectSession } from "@/store/selectors/auth";
 import { selectAccountSyncStatus } from "@/store/selectors/sync";
 import type { SyncStatus } from "@/store/slices/sync.types";
 import { cx } from "@/utils/cx";
+import {
+  createAuthRedirectPath,
+  getCurrentLocalPath,
+} from "@/utils/navigation-returns";
 import { useMedia } from "@/utils/use-media";
 import { Logo } from "./icons/logo";
 import { LocaleQuickSwitch } from "./locale-quick-switch";
@@ -79,8 +83,14 @@ export function Masthead(props: Props) {
         {!isAuthPage && (
           <>
             {!session && (
-              <Link asChild href="~/auth/login">
-                <Button as="a" variant="primary">
+              <Link
+                asChild
+                href={createAuthRedirectPath(
+                  "~/auth/login",
+                  getCurrentLocalPath(),
+                )}
+              >
+                <Button as="a" variant="primary" size="sm">
                   {t("auth.login.action")}
                 </Button>
               </Link>

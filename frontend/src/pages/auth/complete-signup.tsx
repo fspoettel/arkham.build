@@ -12,17 +12,17 @@ import { useAuthSessionQuery } from "@/queries/auth";
 import { useCompleteProfileOnboardingMutation } from "@/queries/mutations/auth";
 import { useStore } from "@/store";
 import { isSyncedStorageProvider } from "@/store/lib/sync";
+import {
+  createAuthRedirectPath,
+  getCurrentLocalPath,
+  getLocalReturnPath,
+} from "@/utils/navigation-returns";
 import { OAuthConnectionCard } from "../settings/connections";
 import { AuthForm } from "./auth-form";
 import { AuthLayout } from "./auth-layout";
 import css from "./complete-signup.module.css";
 import { ErrorBox } from "./error-box";
 import { errorMapper } from "./helpers";
-import {
-  createAuthRedirectPath,
-  getCurrentLocalPath,
-  getLocalReturnPath,
-} from "./return-to";
 
 function SignupArkhamDB() {
   const { t } = useTranslation();
