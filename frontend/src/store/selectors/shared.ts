@@ -266,9 +266,11 @@ export const selectPrintingsForCard = createSelector(
 
         if (!card) return acc;
 
+        const isSelectedCard = code === cardCode;
         const canShow =
-          (showFanMadeRelations || official(card)) &&
-          (showPreviews || !card.preview);
+          isSelectedCard ||
+          ((showFanMadeRelations || official(card)) &&
+            (showPreviews || !card.preview));
 
         if (!canShow) return acc;
 
