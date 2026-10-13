@@ -57,14 +57,16 @@ function calculateOptimalXpSpent(
     return defaultResult;
   }
 
-  const altResult = calculateXpSpent(
-    prev,
-    next,
-    changes,
-    /* dtrhFirst */ false,
-  );
+  const strategies: CalculationStrategy[] = [
+    { customizationsFirst: false, dtrhFirst: false },
+    { customizationsFirst: true, dtrhFirst: true },
+    { customizationsFirst: true, dtrhFirst: false },
+  ];
 
-  return altResult.xp < defaultResult.xp ? altResult : defaultResult;
+  return strategies.reduce((optimal, strategy) => {
+    const result = calculateXpSpent(prev, next, changes, strategy);
+    return result.xp < optimal.xp ? result : optimal;
+  }, defaultResult);
 }
 
 export function getChangeStats(
@@ -179,11 +181,21 @@ type Diff = {
   unchanged: SlotDiff[];
 };
 
+type CalculationStrategy = {
+  customizationsFirst: boolean;
+  dtrhFirst: boolean;
+};
+
+const DEFAULT_CALCULATION_STRATEGY: CalculationStrategy = {
+  customizationsFirst: false,
+  dtrhFirst: true,
+};
+
 function calculateXpSpent(
   prev: ResolvedDeck,
   next: ResolvedDeck,
   changes: DeckChanges,
-  dtrhFirst = true,
+  strategy = DEFAULT_CALCULATION_STRATEGY,
 ) {
   let xp = 0;
 
@@ -396,7 +408,7 @@ function calculateXpSpent(
         // Upgrades can be discounted via DtRH and Arcane Research (spells).
         let discounted = spent;
 
-        if (dtrhFirst) {
+        if (strategy.dtrhFirst) {
           discounted = applyDownTheRabbitHole(discounted);
           if (isSpell) discounted = applyArcaneResearch(discounted);
         } else {
@@ -448,30 +460,35 @@ function calculateXpSpent(
     modifiers.adaptable = Math.min(modifiers.adaptable, free0Cards);
   }
 
+  function handleCustomizations() {
+    // Checking boxes on a customizable card counts as an upgrade.
+    // Customizable purchases remain in the add logic above.
+    for (const [code, entries] of Object.entries(changes.customizations)) {
+      if (prev.slots[code] && !next.exileSlots[code]) {
+        const card = prev.cards.slots[code].card;
+        const isSpell = splitMultiValue(card.real_traits).includes("Spell");
+
+        let cost = entries.reduce((acc, curr) => acc + curr.xp_spent, 0);
+
+        if (strategy.dtrhFirst) {
+          cost = applyDownTheRabbitHole(cost);
+          if (isSpell) cost = applyArcaneResearch(cost);
+        } else {
+          if (isSpell) cost = applyArcaneResearch(cost);
+          cost = applyDownTheRabbitHole(cost);
+        }
+
+        xp += cost;
+      }
+    }
+  }
+
+  if (strategy.customizationsFirst) handleCustomizations();
+
   handleDiff(changes, "slots");
   handleDiff(changes, "extraSlots");
 
-  // Checking boxes on a customizable cards counts as upgrades.
-  // We only take this code path for customizable already in deck to allow the add logic
-  // to handle new customizable purchases.
-  for (const [code, entries] of Object.entries(changes.customizations)) {
-    if (prev.slots[code] && !next.exileSlots[code]) {
-      const card = prev.cards.slots[code].card;
-      const isSpell = splitMultiValue(card.real_traits).includes("Spell");
-
-      let cost = entries.reduce((acc, curr) => acc + curr.xp_spent, 0);
-
-      if (dtrhFirst) {
-        cost = applyDownTheRabbitHole(cost);
-        if (isSpell) cost = applyArcaneResearch(cost);
-      } else {
-        if (isSpell) cost = applyArcaneResearch(cost);
-        cost = applyDownTheRabbitHole(cost);
-      }
-
-      xp += cost;
-    }
-  }
+  if (!strategy.customizationsFirst) handleCustomizations();
 
   const modifierStats = Object.entries(originalModifiers).reduce<
     Partial<ModifierStats>
@@ -567,8 +584,9 @@ function getSlotDiff(
     }
   }
 
-  // Sort additions first by whether they are spells, then by XP cost diff.
-  // This makes it so the combination of DtRH and Arcane Research is calculated optimally.
+  // Process upgrades before purchases. For upgrades, process non-Spells first
+  // and then larger XP differences. This preserves the most useful discount
+  // order when Arcane Research and Down the Rabbit Hole are both present.
   diffs.adds.sort((a, b) => {
     const aCard = a[0];
     const bCard = b[0];
@@ -585,8 +603,12 @@ function getSlotDiff(
       findUpgraded(diff, bCard),
     );
 
+    const aIsUpgrade = !!aUpgradedFrom;
+    const bIsUpgrade = !!bUpgradedFrom;
+    if (aIsUpgrade !== bIsUpgrade) return aIsUpgrade ? -1 : 1;
+
     if (!aUpgradedFrom || !bUpgradedFrom) {
-      return bLevel - aLevel;
+      return bLevel - aLevel || aCard.code.localeCompare(bCard.code);
     }
 
     const aSpell = aCard.real_traits?.includes("Spell.") ? 1 : 0;
@@ -598,7 +620,7 @@ function getSlotDiff(
 
     const aDiff = aLevel - aCardBaseLevel;
     const bDiff = bLevel - bCardBaseLevel;
-    return bDiff - aDiff;
+    return bDiff - aDiff || aCard.code.localeCompare(bCard.code);
   });
 
   return diffs;

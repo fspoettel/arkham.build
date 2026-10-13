@@ -154,6 +154,28 @@ describe("getChangeStats", () => {
     expect(getChangeStats(prev, next).xpSpent).toEqual(next.xp);
   });
 
+  it("[Deck Upgrades] Arcane Research and Down the Rabbit Hole: Optimize across customizable and card upgrades", async () => {
+    const [prev, next] = await Promise.all([
+      resolveFixture("arcane_research_dtrh_customizable_1"),
+      resolveFixture("arcane_research_dtrh_customizable_2"),
+    ]);
+
+    expect(getChangeStats(prev, next)).toMatchObject({
+      modifierStats: {
+        arcaneResearch: {
+          available: 2,
+          used: 2,
+        },
+        downTheRabbitHole: {
+          available: 2,
+          used: 2,
+        },
+      },
+      xpAvailable: 0,
+      xpSpent: 8,
+    });
+  });
+
   it("[Deck Upgrades] Arcane Research: Upgrade and re-add a level 1 spell", async () => {
     const [prev, next] = await Promise.all([
       resolveFixture("arcane_research_readd_1"),
