@@ -12,11 +12,11 @@ import css from "./card-faq.module.css";
 type Props = {
   className?: string;
   code: string;
-  hideWhileLoading?: boolean;
+  hideEmpty?: boolean;
 };
 
 export function CardFaq(props: Props) {
-  const { className, code, hideWhileLoading } = props;
+  const { className, code, hideEmpty } = props;
   const { t } = useTranslation();
   const faq = useCardFaqQuery(code);
   const { cardLinkTooltip, referenceProps } = useCardLinkTooltip();
@@ -30,7 +30,7 @@ export function CardFaq(props: Props) {
     },
   }));
 
-  if (faq.data?.length === 0 || (hideWhileLoading && faq.isPending)) {
+  if (hideEmpty && (faq.isPending || faq.data?.length === 0)) {
     return null;
   }
 
@@ -48,6 +48,10 @@ export function CardFaq(props: Props) {
 
       {faq.error && (
         <output className={css["status"]}>{t("card_view.faq.error")}</output>
+      )}
+
+      {faq.data?.length === 0 && (
+        <output className={css["status"]}>{t("card_view.faq.empty")}</output>
       )}
 
       {!!faqMarkup?.length && (

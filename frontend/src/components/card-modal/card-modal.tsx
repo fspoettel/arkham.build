@@ -257,7 +257,7 @@ export function CardModal(props: Props) {
       <CardFaq
         className={css["related"]}
         code={cardWithRelations.card.code}
-        hideWhileLoading
+        hideEmpty
       />
       {!cardWithRelations.card.preview &&
         !ctx.resolvedDeck &&
