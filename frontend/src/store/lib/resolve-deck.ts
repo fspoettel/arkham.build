@@ -278,7 +278,7 @@ function getInvestigatorForSide(
 
 export function getDeckLimitOverride(
   lookupTables: LookupTables,
-  deck: ResolvedDeck | undefined,
+  deck: Pick<ResolvedDeck, "sealedDeck"> | undefined,
   card: Card,
 ): number | undefined {
   const code = card.code;

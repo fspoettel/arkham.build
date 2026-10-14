@@ -3,6 +3,7 @@ import { Attachments } from "@/components/attachments/attachments";
 import { DraftBasicWeakness } from "@/components/deck-tools/draft-basic-weakness";
 import { useAddBasicWeakness } from "@/components/deck-tools/use-add-basic-weakness";
 import { getMatchingAttachables } from "@/components/attachments/attachments.helpers";
+import { useResolvedDeckChecked } from "@/components/resolved-deck-context";
 import { useStore } from "@/store";
 import type { ResolvedDeck } from "@/store/lib/types";
 import { selectAvailableUpgrades } from "@/store/selectors/lists";
@@ -16,8 +17,6 @@ import { MoveToSideDeck } from "./editor/move-to-side-deck";
 import { QuickUpgrade } from "./editor/quick-upgrade";
 
 type Props = {
-  canEdit?: boolean;
-  deck: ResolvedDeck;
   card: Card;
   quantity: number | undefined;
   currentTool: string;
@@ -25,7 +24,8 @@ type Props = {
 };
 
 export function CardExtras(props: Props) {
-  const { canEdit, card, deck, quantity, currentTab, currentTool } = props;
+  const { card, quantity, currentTab, currentTool } = props;
+  const { canEdit, resolvedDeck: deck } = useResolvedDeckChecked();
 
   const settings = useStore((state) => state.settings);
 

@@ -181,9 +181,7 @@ function DeckEditInner() {
   const renderCardExtra = (card: Card, quantity?: number) => {
     return (
       <CardExtras
-        canEdit={canEdit}
         card={card}
-        deck={deck}
         quantity={quantity}
         currentTab={currentTab}
         currentTool={currentTool}
@@ -191,16 +189,19 @@ function DeckEditInner() {
     );
   };
 
+  const deckLimits = { sealedDeck: deck.sealedDeck };
+  const renderCardBefore =
+    currentTool === "recommendations" ? renderCoreCardCheckbox : undefined;
+
   const getListCardProps = (card: Card) => ({
     onChangeCardQuantity:
       // always allow removing weaknesses and campaign cards
       canEdit || card.encounter_code || card.subtype_code
         ? onChangeCardQuantity
         : undefined,
-    renderCardBefore:
-      currentTool === "recommendations" ? renderCoreCardCheckbox : undefined,
+    renderCardBefore,
     renderCardExtra,
-    limitOverride: getDeckLimitOverride(lookupTables, deck, card),
+    limitOverride: getDeckLimitOverride(lookupTables, deckLimits, card),
   });
 
   const tabHasFilters =
