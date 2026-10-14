@@ -10,7 +10,8 @@
     width: 100%;
 
     gap: var(--card-spacing-y) var(--card-spacing-x);
-    display: grid;
+    display: var(--listcard-wrapper-display, grid);
+    vertical-align: top;
     align-items: center;
     grid-template-columns: max-content 1fr;
     grid-template-rows: auto;

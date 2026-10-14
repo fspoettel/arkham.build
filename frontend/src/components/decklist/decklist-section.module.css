@@ -18,6 +18,8 @@
 }
 
 .decklist-section.auto .decklist-section-content {
+  --listcard-wrapper-display: inline-grid;
+
   column-count: var(--max-columns);
   column-width: 21.5rem;
   column-gap: 1.5rem;
