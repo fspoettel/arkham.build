@@ -15,7 +15,7 @@ import {
   type SkillKey,
   SPECIAL_CARD_CODES,
 } from "@arkham-build/shared";
-import { createSelector } from "reselect";
+import { createSelector, lruMemoize } from "reselect";
 import {
   displayAttribute,
   official,
@@ -86,7 +86,7 @@ import {
 import { getGroupedCards } from "../lib/grouping";
 import type { LookupTables } from "../lib/lookup-tables.types";
 import { resolveCardWithRelations } from "../lib/resolve-card";
-import { applySearch } from "../lib/searching";
+import { applySearch, prepareSearchContent } from "../lib/searching";
 import {
   makeSortFunction,
   sortByEncounterSet,
@@ -121,7 +121,6 @@ import {
   selectLocaleSortingCollator,
   selectLookupTables,
   selectMetadata,
-  selectSearchTextCache,
   selectSettingsTabooId,
   selectShowFanMadeRelations,
   selectTraitMapper,
@@ -828,6 +827,51 @@ const selectBaseListCards = createSelector(
   },
 );
 
+// Rebuild only cards, search options, language, or translated labels change.
+export const selectListSearchContent = createSelector(
+  selectBaseListCards,
+  selectMetadata,
+  (state: StoreState) => selectActiveList(state)?.search.includeName,
+  (state: StoreState) => selectActiveList(state)?.search.includeGameText,
+  (state: StoreState) => selectActiveList(state)?.search.includeFlavor,
+  (state: StoreState) => selectActiveList(state)?.search.includeBacks,
+  (state: StoreState) => state.settings.locale,
+  () => i18n.t("common.victory"),
+  () => i18n.t("common.vengeance"),
+  (state: StoreState) => {
+    const search = selectActiveList(state)?.search;
+    return !!search?.value && search.mode !== "buildql";
+  },
+  (
+    base,
+    metadata,
+    includeName,
+    includeGameText,
+    includeFlavor,
+    includeBacks,
+    language,
+    victory,
+    vengeance,
+    enabled,
+  ) => {
+    if (!base || !enabled) return undefined;
+    return prepareSearchContent(
+      base.filteredCards,
+      metadata,
+      {
+        includeName: !!includeName,
+        includeGameText: !!includeGameText,
+        includeFlavor: !!includeFlavor,
+        includeBacks: !!includeBacks,
+      },
+      language,
+      { victory, vengeance },
+    );
+  },
+  // Retain only the current prepared corpus rather than every option/locale.
+  { memoize: lruMemoize, memoizeOptions: { maxSize: 1 } },
+);
+
 export const selectListCards = createSelector(
   selectMetadata,
   selectLookupTables,
@@ -835,7 +879,7 @@ export const selectListCards = createSelector(
   selectBaseListCards,
   selectLocaleSortingCollator,
   selectBuildQlInterpreter,
-  selectSearchTextCache,
+  selectListSearchContent,
   selectActiveCardTagState,
   (_: StoreState, resolvedDeck: ResolvedDeck | undefined) => resolvedDeck,
   (
@@ -858,7 +902,7 @@ export const selectListCards = createSelector(
     baseFilterResult,
     sortingCollator,
     buildQlInterpreter,
-    searchTextCache,
+    searchContent,
     cardTags,
     deck,
     targetDeck,
@@ -908,12 +952,12 @@ export const selectListCards = createSelector(
             filteredCards = filteredCards.filter(buildQlSearch);
           } catch {}
         }
-      } else {
+      } else if (searchContent) {
         filteredCards = applySearch(
           activeList.search,
           filteredCards,
           metadata,
-          searchTextCache,
+          searchContent,
         );
       }
     }
