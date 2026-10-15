@@ -111,6 +111,12 @@ export async function searchDecklists(
       );
     }
 
+    if (search.taboo_id !== undefined) {
+      conditions.push(
+        eb(eb.ref("arkhamdb_decklist.taboo_id"), "=", search.taboo_id),
+      );
+    }
+
     if (search.investigator_factions) {
       conditions.push(
         eb(

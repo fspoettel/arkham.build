@@ -5,7 +5,7 @@ select {
   max-width: 100%;
   background-image: var(--background-select);
   background-repeat: no-repeat;
-  background-position: 95% 50%;
+  background-position: calc(100% - 0.5rem) 50%;
   background-color: var(--palette-1);
 
   &.compressed {

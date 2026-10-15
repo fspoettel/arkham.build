@@ -37,6 +37,7 @@ export const DecklistSearchRequestSchema = z.object({
     .enum(["user_reputation", "date", "likes", "popularity"])
     .default("popularity"),
   sort_dir: z.enum(["asc", "desc"]).optional().default("desc"),
+  taboo_id: z.coerce.number().int().positive().optional(),
   xp: z
     .tuple([z.coerce.number().int().min(0), z.coerce.number().int().min(0)])
     .optional(),

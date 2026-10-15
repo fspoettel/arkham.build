@@ -14,6 +14,7 @@ import { ExcludedCards } from "./excluded-cards";
 import { InvestigatorFactions } from "./investigator-factions";
 import { PublishDate } from "./publish-date";
 import { RequiredCards } from "./required-cards";
+import { TabooList } from "./taboo-list";
 import { XpRange } from "./xp-range";
 
 type Props = {
@@ -87,6 +88,7 @@ export function DecklistsFilters({
             <div className={css["filters-col"]}>
               <PublishDate formState={formState} setFormState={setFormState} />
               <XpRange formState={formState} setFormState={setFormState} />
+              <TabooList formState={formState} setFormState={setFormState} />
               <Author formState={formState} setFormState={setFormState} />
               <DeckName formState={formState} setFormState={setFormState} />
               <DescriptionLength
