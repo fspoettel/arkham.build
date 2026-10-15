@@ -137,7 +137,6 @@ export function DecklistGroup(props: DecklistGroupsProps) {
               />
             ) : (
               group.cards.map((card: Card) => {
-                const listCardProps = getListCardProps?.(card);
                 const cardKey = getChecklistCardKey(grouping, card);
                 const checklist = checkedCardQuantities
                   ? {
@@ -175,12 +174,8 @@ export function DecklistGroup(props: DecklistGroupsProps) {
                       deck,
                       card,
                     )}
-                    listCardProps={listCardProps}
-                    onChangeCardQuantity={
-                      grouping.static
-                        ? undefined
-                        : listCardProps?.onChangeCardQuantity
-                    }
+                    getListCardProps={getListCardProps}
+                    isStatic={grouping.static}
                     ownedCount={
                       canCheckOwnership ? cardOwnedCount(card) : undefined
                     }
@@ -206,8 +201,8 @@ function DecklistCard({
   isIgnored,
   isRemoved,
   limitOverride,
-  listCardProps,
-  onChangeCardQuantity,
+  getListCardProps,
+  isStatic,
   ownedCount,
   quantity,
   showCardTags,
@@ -220,12 +215,13 @@ function DecklistCard({
   isIgnored?: number;
   isRemoved: boolean;
   limitOverride?: number;
-  listCardProps?: ReturnType<FilteredListCardPropsGetter>;
-  onChangeCardQuantity?: ReturnType<FilteredListCardPropsGetter>["onChangeCardQuantity"];
+  getListCardProps?: FilteredListCardPropsGetter;
+  isStatic: boolean;
   ownedCount?: number;
   quantity: number;
   showCardTags: boolean;
 }) {
+  const listCardProps = getListCardProps?.(card);
   const {
     renderCardExtra: renderCardExtraProp,
     renderCardTags: renderCardTagsProp,
@@ -248,7 +244,9 @@ function DecklistCard({
       isRemoved={isRemoved}
       limitOverride={limitOverride}
       omitBorders
-      onChangeCardQuantity={onChangeCardQuantity}
+      onChangeCardQuantity={
+        isStatic ? undefined : listCardProps?.onChangeCardQuantity
+      }
       ownedCount={ownedCount}
       quantity={quantity}
       renderCardExtra={

@@ -55,35 +55,33 @@ export const selectResolvedDeckById = createSelector(
 );
 
 export const selectLocalDeckSummaries = createSelector(
-  (state: StoreState) => state.data,
+  (state: StoreState) => state.data.decks,
+  (state: StoreState) => state.data.history,
   selectMetadata,
   selectLookupTables,
   selectLocaleSortingCollator,
-  (data, metadata, lookupTables, collator) => {
+  (decks, history, metadata, lookupTables, collator) => {
     time("select_local_deck_summaries");
 
-    const summaries = Object.keys(data.history).reduce<DeckSummary[]>(
-      (acc, id) => {
-        const deck = data.decks[id];
+    const summaries = Object.keys(history).reduce<DeckSummary[]>((acc, id) => {
+      const deck = decks[id];
 
-        try {
-          if (deck) {
-            acc.push(
-              resolveDeckSummary({ metadata, lookupTables }, collator, deck),
-            );
-          } else {
-            console.warn(`Could not find deck ${id} in local storage.`);
-          }
-        } catch (err) {
-          console.error(
-            `Error resolving deck summary ${id}: ${(err as Error).toString()}`,
+      try {
+        if (deck) {
+          acc.push(
+            resolveDeckSummary({ metadata, lookupTables }, collator, deck),
           );
+        } else {
+          console.warn(`Could not find deck ${id} in local storage.`);
         }
+      } catch (err) {
+        console.error(
+          `Error resolving deck summary ${id}: ${(err as Error).toString()}`,
+        );
+      }
 
-        return acc;
-      },
-      [],
-    );
+      return acc;
+    }, []);
 
     summaries.sort((a, b) =>
       sortAlphabeticalLatin(b.date_update, a.date_update),

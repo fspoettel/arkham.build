@@ -314,7 +314,7 @@ const fieldDefinitions: FieldDefinition[] = [
   {
     lookup: () => (card, ctx) => {
       if (!ctx.deck) return null;
-      return ctx.deck.slots[card.code] ?? null;
+      return ctx.deck.slots[card.code] ?? 0;
     },
     name: "in_deck",
     type: "number",
@@ -322,7 +322,7 @@ const fieldDefinitions: FieldDefinition[] = [
   {
     lookup: () => (card, ctx) => {
       if (!ctx.deck) return null;
-      return ctx.deck.sideSlots?.[card.code] ?? null;
+      return ctx.deck.sideSlots?.[card.code] ?? 0;
     },
     name: "in_side_deck",
     type: "number",
