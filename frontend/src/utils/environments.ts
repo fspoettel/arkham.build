@@ -8,6 +8,8 @@ const NON_DECKBUILDING_POOL_CYCLE_CODES = new Set([
   "parallel",
   "promotional",
   "side_stories",
+  "small_campaign_expansion",
+  "scenario_packs_ch2",
 ]);
 
 export function isDeckbuildingPoolPack(pack: Pick<Pack, "cycle_code">) {
@@ -141,7 +143,7 @@ export const environments = {
 
       for (const pack of cycle.packs) {
         if (
-          seen.has(pack.code) ||
+          (seen.has(pack.code) && pack.code !== "core") ||
           inferChapterNumber(pack) !== chapter ||
           !isDeckbuildingPoolPack(pack)
         ) {
