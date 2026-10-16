@@ -38,7 +38,7 @@ export function usePopularDecklistsQuery(
   const search = deckSearchQuery(params, 10);
 
   return useQuery({
-    queryKey: decklistKeys.popular(scopeCode),
+    queryKey: decklistKeys.popular(scopeCode, search.toString()),
     queryFn: () => searchDecklists(client, search),
     enabled,
   });

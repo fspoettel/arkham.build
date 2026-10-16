@@ -443,10 +443,10 @@ async function startAuthorization(
     scope: options.scope ?? "profile:read",
     state: options.state ?? `state-${randomUUID()}`,
   });
-  if (options.codeChallenge !== undefined) {
+  if (options.codeChallenge) {
     query.set("code_challenge", options.codeChallenge);
   }
-  if (options.codeChallengeMethod !== undefined) {
+  if (options.codeChallengeMethod) {
     query.set("code_challenge_method", options.codeChallengeMethod);
   }
   const response = await app.request(`/v2/oauth/authorize?${query.toString()}`);

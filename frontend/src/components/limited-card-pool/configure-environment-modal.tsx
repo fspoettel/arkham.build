@@ -36,7 +36,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import css from "./limited-card-pool.module.css";
 
 type Props = {
-  investigator: Card;
+  investigator?: Card;
   onValueChange: (items: string[]) => void;
 };
 

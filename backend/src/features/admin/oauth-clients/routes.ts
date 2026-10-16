@@ -101,7 +101,7 @@ const UpdateClientRequestSchema = z
   })
   .strict()
   .refine(
-    (value) => value.name !== undefined || value.redirectUris !== undefined,
+    (value) => value.name != null || value.redirectUris != null,
     "At least one client field must be provided",
   );
 

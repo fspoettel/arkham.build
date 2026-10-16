@@ -52,6 +52,43 @@ export function excludedSlotsCond({
   return eb.and(and);
 }
 
+export function packCompatibilityCond({
+  analyzeSideDecks,
+  decklistId,
+  selectedPackCodes,
+}: {
+  analyzeSideDecks: boolean;
+  decklistId: Expression<number>;
+  selectedPackCodes: string;
+}) {
+  const eb = expressionBuilder<DB>();
+  const conditions = [
+    sql<boolean>`
+      NOT EXISTS (
+        SELECT 1
+        FROM slots_pack_mask
+        WHERE slots_pack_mask.decklist_id = ${decklistId}
+          AND NOT slots_pack_mask.is_side_deck
+          AND (slots_pack_mask.pack_mask & ${selectedPackCodes}::bit(512)) = B'0'::bit(512)
+      )
+    `,
+  ];
+
+  if (analyzeSideDecks) {
+    conditions.push(sql<boolean>`
+      NOT EXISTS (
+        SELECT 1
+        FROM slots_pack_mask
+        WHERE slots_pack_mask.decklist_id = ${decklistId}
+          AND slots_pack_mask.is_side_deck
+          AND (slots_pack_mask.pack_mask & ${selectedPackCodes}::bit(512)) = B'0'::bit(512)
+      )
+    `);
+  }
+
+  return eb.and(conditions);
+}
+
 export function inDateRangeConds(
   dateCreation: Expression<Date>,
   dateRange: DateRange,

@@ -334,7 +334,7 @@ function setQueryParameter(
   name: string,
   value: string | undefined,
 ) {
-  if (value !== undefined) query.set(name, value);
+  if (value != null) query.set(name, value);
 }
 
 function responseLocation(response: Response) {

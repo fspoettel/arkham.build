@@ -48,7 +48,7 @@ export function publicCache(
   return async (c, next) => {
     await next();
 
-    if (c.res.status < 300) {
+    if (c.res.status < 300 && !c.res.headers.has("Cache-Control")) {
       c.header("Cache-Control", publicCacheControlHeader(maxAge, immutable));
     }
   };

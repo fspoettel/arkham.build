@@ -14,8 +14,10 @@ import {
   excludedSlotsCond,
   inDateRangeConds,
   inXpRangeConds,
+  packCompatibilityCond,
   requiredSlotsCond,
 } from "../../lib/decklist-query-helpers.ts";
+import { decodePackCodes } from "./pack-codes.ts";
 
 export async function findDecklistMetaById(
   db: Database,
@@ -46,6 +48,9 @@ export async function searchDecklists(
   db: Database,
   search: DecklistSearchRequest,
 ) {
+  const decodedPackCodes =
+    search.packCodes != null ? decodePackCodes(search.packCodes) : undefined;
+
   const conditions = (
     eb: ExpressionBuilder<
       DB & {
@@ -99,6 +104,16 @@ export async function searchDecklists(
       );
     }
 
+    if (decodedPackCodes) {
+      conditions.push(
+        packCompatibilityCond({
+          analyzeSideDecks: search.analyze_side_decks,
+          decklistId: eb.ref("arkhamdb_decklist.id"),
+          selectedPackCodes: decodedPackCodes,
+        }),
+      );
+    }
+
     if (search.author_name) {
       conditions.push(
         eb(eb.ref("arkhamdb_user.name"), "ilike", `%${search.author_name}%`),
@@ -111,7 +126,7 @@ export async function searchDecklists(
       );
     }
 
-    if (search.taboo_id !== undefined) {
+    if (search.taboo_id != null) {
       conditions.push(
         eb(eb.ref("arkhamdb_decklist.taboo_id"), "=", search.taboo_id),
       );

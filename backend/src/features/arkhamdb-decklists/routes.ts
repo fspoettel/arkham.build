@@ -20,6 +20,10 @@ routes.get("/search", async (c) => {
     c.req.queries(),
   );
 
+  if (searchRequest.packCodes !== undefined) {
+    c.header("Cache-Control", "private, no-store");
+  }
+
   const response = await searchDecklists(c.get("db"), searchRequest);
   return c.json(response);
 });

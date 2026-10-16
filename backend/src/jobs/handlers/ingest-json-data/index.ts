@@ -1,5 +1,6 @@
 import { readdir, rm } from "node:fs/promises";
 import path from "node:path";
+import { sql } from "kysely";
 import {
   GrimoireEntrySchema,
   GrimoireSectionSchema,
@@ -14,6 +15,7 @@ import {
   type JsonDataFaction,
   JsonDataFaqSchema,
   type JsonDataPack,
+  JsonDataPackSchema,
   JsonDataRulesVersionSchema,
   type JsonDataScenario,
   JsonDataScenarioSchema,
@@ -26,7 +28,9 @@ import { serializeRecords } from "../../../db/db.helpers.ts";
 import { connectionString, getDatabase } from "../../../db/db.ts";
 import { chunkArray } from "../../../lib/chunk-array.ts";
 import { configFromEnv } from "../../../lib/config.ts";
+import { refreshDecklistCardPackMasks } from "../lib/refresh-decklist-card-pack-masks.ts";
 import { resolveCampaignRecords } from "./lib/campaign.ts";
+import { createCanonicalCardPackCodes } from "./lib/card-pack-codes.ts";
 import { mergeTranslations, resolveCards } from "./lib/cards.ts";
 import { resolveCycles } from "./lib/cycles.ts";
 import { syncDataVersions } from "./lib/data-version.ts";
@@ -51,6 +55,7 @@ import {
 } from "./lib/json-data.ts";
 import { getLocalDataHash } from "./lib/local-data-hash.ts";
 import { applyLocalData } from "./lib/local-data.ts";
+import { validatePackCodeOrder } from "./lib/pack-code-order.ts";
 import { resolvePacks } from "./lib/packs.ts";
 import { resolveRulesVersions } from "./lib/rules-versions.ts";
 import { resolveScenarioRecords } from "./lib/scenario.ts";
@@ -148,6 +153,7 @@ export async function runIngestJsonData() {
       getMetadataWithTranslations<JsonDataPack>(dir, {
         locales: config.METADATA_LOCALES,
         file: "packs.json",
+        schema: JsonDataPackSchema.array(),
       }),
       getTabooDataWithTranslations(tabooDir, {
         locales: config.METADATA_LOCALES,
@@ -327,6 +333,27 @@ export async function runIngestJsonData() {
       throw new Error("No grimoire entries found in metadata repository");
     }
 
+    const existingPacks = await db
+      .selectFrom("pack")
+      .select([
+        "code",
+        sql<string | null>`date_release::date::text`.as("date_release"),
+      ])
+      .execute();
+
+    validatePackCodeOrder(existingPacks, packs);
+
+    const cardResolutionMap = new Map<string, string>();
+    for (const { id, resolves_to } of cardResolutions) {
+      cardResolutionMap.set(id, resolves_to);
+    }
+
+    const canonicalCardPackCodes = createCanonicalCardPackCodes(
+      packs,
+      cards,
+      cardResolutionMap,
+    );
+
     await db.transaction().execute(async (tx) => {
       await tx.deleteFrom("faq_card").execute();
       await tx.deleteFrom("faq_cycle").execute();
@@ -345,6 +372,7 @@ export async function runIngestJsonData() {
       await tx.deleteFrom("campaign_scenario").execute();
       await tx.deleteFrom("scenario").execute();
       await tx.deleteFrom("campaign").execute();
+      await tx.deleteFrom("canonical_card_pack_codes").execute();
       await tx.deleteFrom("card_resolution").execute();
       await tx.deleteFrom("card").execute();
       await tx.deleteFrom("encounter_set").execute();
@@ -392,6 +420,15 @@ export async function runIngestJsonData() {
           .values(serializeRecords(chunk))
           .execute();
       }
+
+      for (const chunk of chunkArray(canonicalCardPackCodes, 500)) {
+        await tx
+          .insertInto("canonical_card_pack_codes")
+          .values(chunk)
+          .execute();
+      }
+
+      await refreshDecklistCardPackMasks(tx);
 
       if (campaignRecords.campaigns.length) {
         await tx

@@ -679,7 +679,7 @@ async function issueAuthorizationCode(
     scope,
     state: randomUUID(),
   });
-  if (pkce !== undefined) {
+  if (pkce) {
     query.set("code_challenge", pkce.codeChallenge);
     query.set("code_challenge_method", pkce.codeChallengeMethod);
   }
@@ -720,7 +720,7 @@ async function exchangeCode(
     code,
     redirect_uri: redirectUri,
   };
-  if (codeVerifier !== undefined) fields["code_verifier"] = codeVerifier;
+  if (codeVerifier) fields["code_verifier"] = codeVerifier;
 
   return await tokenRequest(app, fields);
 }

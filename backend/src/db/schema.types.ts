@@ -170,6 +170,11 @@ export interface CampaignScenario {
   scenario_code: string;
 }
 
+export interface CanonicalCardPackCodes {
+  canonical_card_id: string;
+  pack_codes: string;
+}
+
 export interface Card {
   abbreviation: string | null;
   alternate_of: string | null;
@@ -658,6 +663,12 @@ export interface Session {
   token_hash: string;
 }
 
+export interface SlotsPackMask {
+  decklist_id: number;
+  is_side_deck: boolean;
+  pack_mask: string;
+}
+
 export interface Subtype {
   code: string;
   name: string;
@@ -702,6 +713,7 @@ export interface DB {
   arkhamdb_user: ArkhamdbUser;
   campaign: Campaign;
   campaign_scenario: CampaignScenario;
+  canonical_card_pack_codes: CanonicalCardPackCodes;
   card: Card;
   card_resolution: CardResolution;
   cycle: Cycle;
@@ -744,6 +756,7 @@ export interface DB {
   scenario_encounter_set_card: ScenarioEncounterSetCard;
   schema_migrations: SchemaMigrations;
   session: Session;
+  slots_pack_mask: SlotsPackMask;
   subtype: Subtype;
   taboo_set: TabooSet;
   type: Type;

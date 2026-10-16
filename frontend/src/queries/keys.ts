@@ -27,8 +27,8 @@ export const decklistKeys = {
   all: ["decklists"] as const,
   search: (search: string) => [...decklistKeys.all, search] as const,
   meta: (id: number) => [...decklistKeys.all, "meta", id] as const,
-  popular: (scopeCode: string) =>
-    [...decklistKeys.all, "popular", scopeCode] as const,
+  popular: (scopeCode: string, search: string) =>
+    [...decklistKeys.all, "popular", scopeCode, search] as const,
 };
 
 export const recommendationKeys = {

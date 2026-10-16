@@ -4,7 +4,7 @@ export const JsonDataPackSchema = z.object({
   chapter: z.number().nullish(),
   code: z.string(),
   cycle_code: z.string(),
-  date_release: z.string().nullish(),
+  date_release: z.iso.date().nullish(),
   name: z.string(),
   position: z.number(),
   size: z.number().nullish(),

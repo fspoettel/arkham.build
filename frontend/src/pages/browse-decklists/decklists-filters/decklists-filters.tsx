@@ -2,9 +2,15 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
+import { Dialog } from "@/components/ui/dialog";
 import { Plane } from "@/components/ui/plane";
 import type { DecklistsFiltersState } from "@/store/services/requests/decklists-search";
 import css from "../browser-decklists.module.css";
+import {
+  AllowedPacks,
+  AllowedPacksDialogContent,
+  ConfigureEnvironmentButton,
+} from "./allowed-packs";
 import { AnalyzeSideDecks } from "./analyze-side-decks";
 import { Author } from "./author";
 import { CanonicalInvestigator } from "./canonical-investigator";
@@ -47,66 +53,80 @@ export function DecklistsFilters({
   };
 
   return (
-    <Plane>
-      <Collapsible
-        open={open}
-        onOpenChange={setOpen}
-        omitPadding
-        title={
-          <span className={css["filters-title"]}>
-            {t("decklists.filters.title")}
-          </span>
-        }
-      >
-        <CollapsibleContent>
-          <form className={css["filters"]} onSubmit={handleSubmit}>
-            <div className={css["filters-col"]}>
-              <CanonicalInvestigator
-                disabled={!!formState.investigator_factions?.length}
-                formState={formState}
-                setFormState={setFormState}
-              />
-              <InvestigatorFactions
-                disabled={!!formState.canonical_investigator_code}
-                formState={formState}
-                setFormState={setFormState}
-              />
-              <hr />
-              <RequiredCards
-                formState={formState}
-                setFormState={setFormState}
-              />
-              <ExcludedCards
-                formState={formState}
-                setFormState={setFormState}
-              />
-              <AnalyzeSideDecks
-                formState={formState}
-                setFormState={setFormState}
-              />
-            </div>
-            <div className={css["filters-col"]}>
-              <PublishDate formState={formState} setFormState={setFormState} />
-              <XpRange formState={formState} setFormState={setFormState} />
-              <TabooList formState={formState} setFormState={setFormState} />
-              <Author formState={formState} setFormState={setFormState} />
-              <DeckName formState={formState} setFormState={setFormState} />
-              <DescriptionLength
-                formState={formState}
-                setFormState={setFormState}
-              />
-            </div>
-            <footer className={css["filters-footer"]}>
-              <Button type="submit" variant="primary">
-                {t("decklists.filters.submit")}
-              </Button>
-              <Button variant="bare" onClick={handleReset}>
-                {t("common.reset")}
-              </Button>
-            </footer>
-          </form>
-        </CollapsibleContent>
-      </Collapsible>
-    </Plane>
+    <Dialog>
+      <Plane>
+        <Collapsible
+          actions={!open && <ConfigureEnvironmentButton stopPropagation />}
+          open={open}
+          onOpenChange={setOpen}
+          omitPadding
+          title={
+            <span className={css["filters-title"]}>
+              {t("decklists.filters.title")}
+            </span>
+          }
+        >
+          <CollapsibleContent>
+            <form className={css["filters"]} onSubmit={handleSubmit}>
+              <div className={css["filters-col"]}>
+                <CanonicalInvestigator
+                  disabled={!!formState.investigator_factions?.length}
+                  formState={formState}
+                  setFormState={setFormState}
+                />
+                <InvestigatorFactions
+                  disabled={!!formState.canonical_investigator_code}
+                  formState={formState}
+                  setFormState={setFormState}
+                />
+                <hr />
+                <RequiredCards
+                  formState={formState}
+                  setFormState={setFormState}
+                />
+                <ExcludedCards
+                  formState={formState}
+                  setFormState={setFormState}
+                />
+                <AnalyzeSideDecks
+                  formState={formState}
+                  setFormState={setFormState}
+                />
+                <hr />
+                <AllowedPacks
+                  formState={formState}
+                  setFormState={setFormState}
+                />
+              </div>
+              <div className={css["filters-col"]}>
+                <TabooList formState={formState} setFormState={setFormState} />
+                <hr />
+                <XpRange formState={formState} setFormState={setFormState} />
+                <hr />
+                <PublishDate
+                  formState={formState}
+                  setFormState={setFormState}
+                />
+                <Author formState={formState} setFormState={setFormState} />
+                <DeckName formState={formState} setFormState={setFormState} />
+                <DescriptionLength
+                  formState={formState}
+                  setFormState={setFormState}
+                />
+              </div>
+              <footer className={css["filters-footer"]}>
+                <Button type="submit" variant="primary">
+                  {t("decklists.filters.submit")}
+                </Button>
+                <Button variant="bare" onClick={handleReset}>
+                  {t("common.reset")}
+                </Button>
+              </footer>
+            </form>
+          </CollapsibleContent>
+        </Collapsible>
+      </Plane>
+      <AllowedPacksDialogContent setFormState={setFormState} />
+    </Dialog>
   );
 }

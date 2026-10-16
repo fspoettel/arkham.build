@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { PackCodesSchema } from "../lib/pack-codes.ts";
 import {
   coerceStringArray,
   coerceStringBoolean,
@@ -27,6 +28,7 @@ export const DecklistSearchRequestSchema = z.object({
   limit: z.coerce.number().int().min(1).max(100).optional().default(10),
   name: z.string().max(255).optional(),
   offset: z.coerce.number().int().min(0).optional().default(0),
+  packCodes: PackCodesSchema.optional(),
   required: z
     .preprocess(
       coerceStringArray,

@@ -14,6 +14,7 @@ import type { ArkhamdbDecklist, DB } from "../../db/schema.types.ts";
 import { type Config, configFromEnv } from "../../lib/config.ts";
 import { fetchWithTimeout } from "../../lib/fetch-with-timeout.ts";
 import { log } from "../../lib/logger.ts";
+import { refreshDecklistCardPackMasks } from "./lib/refresh-decklist-card-pack-masks.ts";
 
 export async function runIngestArkhamDbDecklists() {
   const config = configFromEnv();
@@ -210,6 +211,8 @@ async function ingest(config: Config, db: Database) {
         "arkhamdb_decklist",
         2500,
       );
+
+      await refreshDecklistCardPackMasks(tx);
 
       const duplicates = Array.from(decklistsByHash.values()).reduce(
         (acc, curr) => {

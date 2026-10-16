@@ -162,6 +162,16 @@ export {
   countExperience,
   realCardLevel,
 } from "./lib/card-utils.ts";
+export {
+  comparePacksByReleaseDate,
+  createPackCodeBitPositions,
+  decodePackCodeMask,
+  encodePackCodes,
+  PACK_CODES_BIT_COUNT,
+  PACK_CODES_HEX_LENGTH,
+  PackCodesSchema,
+  sortPacksByReleaseDate,
+} from "./lib/pack-codes.ts";
 
 export {
   ASSET_SLOT_ORDER,

@@ -24,7 +24,7 @@ type DeckContextTypeChecked = {
 function isDeckContextTypeChecked(
   context: DeckContextType,
 ): context is DeckContextTypeChecked {
-  return context.resolvedDeck !== undefined;
+  return !!context.resolvedDeck;
 }
 
 export function useResolvedDeck() {

@@ -1301,6 +1301,7 @@
         "title": "Deck guides"
       },
       "filters": {
+        "allowed_packs": "Selected packs",
         "author": "Author",
         "author_placeholder": "Enter author name (e.g. Valentin1331)...",
         "description_length": "Minimum deck guide length",

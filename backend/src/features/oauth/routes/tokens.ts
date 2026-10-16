@@ -190,7 +190,7 @@ function parseOAuthTokenForm(input: z.infer<typeof OAuthTokenFormSchema>) {
     );
   }
 
-  if (input.scope !== undefined) {
+  if (input.scope != null) {
     throw new OAuthTokenError(
       "invalid_scope",
       "Scope changes are not permitted",
@@ -250,7 +250,7 @@ function oauthFormRequestMiddleware(
       return c.json(encodeOAuthError(error), error.status);
     }
 
-    if (c.req.header("Authorization") !== undefined) {
+    if (c.req.header("Authorization") != null) {
       const error = new OAuthTokenError(
         "invalid_client",
         "Client credentials must be sent in the request body",

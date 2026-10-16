@@ -719,6 +719,16 @@ CREATE TABLE public.campaign_scenario (
 
 
 --
+-- Name: canonical_card_pack_codes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.canonical_card_pack_codes (
+    canonical_card_id character varying(255) NOT NULL,
+    pack_codes bit(512) NOT NULL
+);
+
+
+--
 -- Name: card; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1325,6 +1335,17 @@ CREATE TABLE public.session (
 
 
 --
+-- Name: slots_pack_mask; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.slots_pack_mask (
+    decklist_id integer NOT NULL,
+    is_side_deck boolean NOT NULL,
+    pack_mask bit(512) NOT NULL
+);
+
+
+--
 -- Name: subtype; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1586,6 +1607,14 @@ ALTER TABLE ONLY public.campaign
 
 ALTER TABLE ONLY public.campaign_scenario
     ADD CONSTRAINT campaign_scenario_pkey PRIMARY KEY (campaign_code, scenario_code);
+
+
+--
+-- Name: canonical_card_pack_codes canonical_card_pack_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canonical_card_pack_codes
+    ADD CONSTRAINT canonical_card_pack_codes_pkey PRIMARY KEY (canonical_card_id);
 
 
 --
@@ -1941,6 +1970,14 @@ ALTER TABLE ONLY public.session
 
 
 --
+-- Name: slots_pack_mask slots_pack_mask_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.slots_pack_mask
+    ADD CONSTRAINT slots_pack_mask_pkey PRIMARY KEY (decklist_id, is_side_deck, pack_mask);
+
+
+--
 -- Name: subtype subtype_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2160,6 +2197,13 @@ CREATE INDEX idx_arkhamdb_decklist_side_slots ON public.arkhamdb_decklist USING 
 --
 
 CREATE INDEX idx_arkhamdb_decklist_slots ON public.arkhamdb_decklist USING gin (slots);
+
+
+--
+-- Name: idx_arkhamdb_decklist_taboo_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_arkhamdb_decklist_taboo_id ON public.arkhamdb_decklist USING btree (taboo_id) WHERE (taboo_id IS NOT NULL);
 
 
 --
@@ -2729,6 +2773,14 @@ ALTER TABLE ONLY public.campaign
 
 
 --
+-- Name: canonical_card_pack_codes canonical_card_pack_codes_canonical_card_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canonical_card_pack_codes
+    ADD CONSTRAINT canonical_card_pack_codes_canonical_card_id_fkey FOREIGN KEY (canonical_card_id) REFERENCES public.card(id);
+
+
+--
 -- Name: card card_alternate_of_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3169,6 +3221,14 @@ ALTER TABLE ONLY public.session
 
 
 --
+-- Name: slots_pack_mask slots_pack_mask_decklist_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.slots_pack_mask
+    ADD CONSTRAINT slots_pack_mask_decklist_id_fkey FOREIGN KEY (decklist_id) REFERENCES public.arkhamdb_decklist(id) ON DELETE CASCADE;
+
+
+--
 -- Name: verification_token verification_token_account_identity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3208,4 +3268,7 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260801090000'),
     ('20260815120000'),
     ('20260818150000'),
-    ('20261011090855');
+    ('20261011090855'),
+    ('20261015070000'),
+    ('20261015082229'),
+    ('20261015190000');
