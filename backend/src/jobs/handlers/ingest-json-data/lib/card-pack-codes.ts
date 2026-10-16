@@ -3,6 +3,7 @@ import {
   encodePackCodes,
   type JsonDataCard,
   type JsonDataPack,
+  SPECIAL_CARD_CODES,
 } from "@arkham-build/shared";
 import type { CanonicalCardPackCodes } from "../../../../db/schema.types.ts";
 
@@ -31,6 +32,7 @@ export function createCanonicalCardPackCodes(
 
   for (const card of cards) {
     if (card.taboo_set_id != null) continue;
+    if (card.code === SPECIAL_CARD_CODES.RANDOM_BASIC_WEAKNESS) continue;
     if (card.encounter_code != null && (card.deck_limit ?? 0) <= 0) continue;
 
     const directPack = packsByCode.get(card.pack_code);
