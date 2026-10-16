@@ -10,6 +10,7 @@ import { Link } from "wouter";
 import { useStore } from "@/store";
 import {
   cardLimit,
+  cardShowsClassIcons,
   displayAttribute,
   getCardColor,
   hasSkillIcons,
@@ -285,10 +286,7 @@ export function ListCardInner(props: Props) {
 
               {!omitDetails && size !== "xs" && (
                 <div className={css["meta"]}>
-                  {!card.subtype_code &&
-                    (card.type_code !== "investigator" ||
-                      !!card.faction2_code) && <MulticlassIcons card={card} />}
-
+                  {cardShowsClassIcons(card) && <MulticlassIcons card={card} />}
                   {card.parallel &&
                   card.type_code === "investigator" &&
                   size === "investigator" ? (

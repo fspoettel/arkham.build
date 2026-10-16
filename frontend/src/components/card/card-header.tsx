@@ -1,5 +1,5 @@
 import type { Card } from "@arkham-build/shared";
-import { getCardColor } from "@/utils/card-utils";
+import { cardShowsClassIcons, getCardColor } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { CardIcon } from "../card-icon";
 import { MulticlassIcons } from "../icons/multiclass-icons";
@@ -17,8 +17,7 @@ export function CardHeader(props: Props) {
   const { card, className, slotHeaderActions, titleLinks } = props;
   const colorCls = getCardColor(card, "background");
 
-  const showClassIcons =
-    card.type_code !== "investigator" && !card.subtype_code;
+  const showClassIcons = cardShowsClassIcons(card);
 
   return (
     <header className={cx(css["header"], colorCls, className)}>

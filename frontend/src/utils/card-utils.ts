@@ -313,3 +313,10 @@ export function deckCreateLink(card: Card) {
     ? `/deck/create/${card.alternate_of_code}?initial_investigator=${card.code}`
     : `/deck/create/${card.code}`;
 }
+
+export function cardShowsClassIcons(card: Card) {
+  return (
+    (card.type_code !== "investigator" || !!card.faction2_code) &&
+    !card.subtype_code
+  );
+}
