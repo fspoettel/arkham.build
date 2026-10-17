@@ -1,8 +1,9 @@
-import type { SealedDeckResponse, Slots } from "@arkham-build/shared";
+import type { Card, SealedDeckResponse, Slots } from "@arkham-build/shared";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "wouter";
 import { CardModalProvider } from "@/components/card-modal/card-modal-provider";
+import { ChooseInvestigatorLink } from "@/components/choose-investigator-link";
 import { Loader } from "@/components/ui/loader";
 import { Notice } from "@/components/ui/notice";
 import { ListLayoutContextProvider } from "@/layouts/list-layout-context-provider";
@@ -12,6 +13,7 @@ import { useStore } from "@/store";
 import { filterSealedPool, getSealedCardQuantity } from "@/store/lib/filtering";
 import { selectLookupTables, selectMetadata } from "@/store/selectors/shared";
 import { ApiError } from "@/store/services/requests/shared";
+import { isStaticInvestigator } from "@/utils/card-utils";
 import { ErrorStatus } from "../errors/404";
 
 function SealedDeck() {
@@ -123,9 +125,17 @@ function SealedDeckBrowser(props: {
   const title = t("sealed_deck.title", { name: sealedDeck.name });
 
   return (
-    <CardModalProvider>
+    <CardModalProvider sealedDeckId={id}>
       <ListLayoutContextProvider>
         <ListLayoutNoSidebar
+          getListCardProps={(card) => ({
+            renderCardExtra:
+              card.type_code === "investigator" && !isStaticInvestigator(card)
+                ? (card: Card) => (
+                    <ChooseInvestigatorLink card={card} sealedDeckId={id} />
+                  )
+                : undefined,
+          })}
           headerTop={
             !Object.keys(quantities).length ? (
               <Notice variant="info">{t("sealed_deck.empty")}</Notice>

@@ -303,15 +303,23 @@ export function doubleSidedBackCard(
   };
 }
 
-export function deckCreateLink(card: Card) {
+export function deckCreateLink(card: Card, sealedDeckId?: string) {
   assert(
     card.type_code === "investigator",
     "only investigators can create decks",
   );
 
-  return card.parallel
-    ? `/deck/create/${card.alternate_of_code}?initial_investigator=${card.code}`
-    : `/deck/create/${card.code}`;
+  const params = new URLSearchParams();
+  if (card.parallel) {
+    params.set("initial_investigator", card.code);
+  }
+  if (sealedDeckId) {
+    params.set("sealed_deck_id", sealedDeckId);
+  }
+
+  const code = card.parallel ? card.alternate_of_code : card.code;
+  const search = params.toString();
+  return `/deck/create/${code}${search ? `?${search}` : ""}`;
 }
 
 export function cardShowsClassIcons(card: Card) {

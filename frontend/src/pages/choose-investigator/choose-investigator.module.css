@@ -17,7 +17,3 @@
 .signatures :is(a, button) > * {
   font-weight: 600;
 }
-
-.choose-investigator-button {
-  margin-right: 0.375rem;
-}

@@ -57,6 +57,7 @@ import { SpecialistAccess, SpecialistInvestigators } from "./specialist";
 type Props = {
   code: string;
   config: CardModalConfig | undefined;
+  sealedDeckId?: string;
 };
 
 export function CardModal(props: Props) {
@@ -325,7 +326,10 @@ export function CardModal(props: Props) {
                 <div className={css["sidebar-actions"]}>
                   <Link
                     asChild
-                    href={deckCreateLink(cardWithRelations.card)}
+                    href={deckCreateLink(
+                      cardWithRelations.card,
+                      props.sealedDeckId,
+                    )}
                     onClick={onCloseModal}
                   >
                     <Button as="a" data-testid="card-modal-create-deck">

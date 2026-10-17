@@ -1,10 +1,8 @@
 import type { Card } from "@arkham-build/shared";
-import { PlusIcon } from "lucide-react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "wouter";
 import { CardModalProvider } from "@/components/card-modal/card-modal-provider";
-import { Button } from "@/components/ui/button";
+import { ChooseInvestigatorLink } from "@/components/choose-investigator-link";
 import { ListLayoutContextProvider } from "@/layouts/list-layout-context-provider";
 import { ListLayoutNoSidebar } from "@/layouts/list-layout-no-sidebar";
 import { useStore } from "@/store";
@@ -12,7 +10,6 @@ import type { CardWithRelations } from "@/store/lib/types";
 import { selectCardRelationsResolver } from "@/store/selectors/lists";
 import { selectActiveList } from "@/store/selectors/shared";
 import { displayAttribute } from "@/utils/card-utils";
-import { useAccentColor } from "@/utils/use-accent-color";
 import css from "./choose-investigator.module.css";
 import { SignatureLink } from "./signature-link";
 
@@ -78,37 +75,6 @@ function ListcardExtra({
         <SignatureLink card={card} key={card.code} />
       ))}
     </ul>
-  );
-}
-
-function ChooseInvestigatorLink(props: { card: Card }) {
-  const { t } = useTranslation();
-  const cssVariables = useAccentColor(props.card);
-
-  return (
-    <Link
-      asChild
-      to={
-        props.card.parallel
-          ? `/deck/create/${props.card.alternate_of_code}?initial_investigator=${props.card.code}`
-          : `/deck/create/${props.card.code}`
-      }
-    >
-      <Button
-        as="a"
-        className={css["choose-investigator-button"]}
-        data-testid="create-choose-investigator"
-        iconOnly
-        size="lg"
-        style={cssVariables}
-        tooltip={t("choose_investigator.create_tooltip", {
-          name: displayAttribute(props.card, "name"),
-        })}
-        variant="primary"
-      >
-        <PlusIcon />
-      </Button>
-    </Link>
   );
 }
 

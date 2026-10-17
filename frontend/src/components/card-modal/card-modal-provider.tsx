@@ -5,6 +5,7 @@ import { CardModal } from "./card-modal";
 
 type Props = {
   children: React.ReactNode;
+  sealedDeckId?: string;
 };
 
 export function CardModalProvider(props: Props) {
@@ -26,6 +27,7 @@ export function CardModalProvider(props: Props) {
             <CardModal
               code={visibleCardModal.code}
               config={visibleCardModal.config}
+              sealedDeckId={props.sealedDeckId}
             />
           )}
         </DialogContent>
