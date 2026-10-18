@@ -451,6 +451,7 @@ type FilterCardLevelOptions = {
 function filterCardLevel(
   value: [number, number] | undefined,
   buildQlInterpreter: Interpreter | undefined,
+  lookupTables: LookupTables,
   options?: FilterCardLevelOptions,
 ) {
   return (card: Card) => {
@@ -480,6 +481,7 @@ function filterCardLevel(
     const filter = filterInvestigatorAccess(
       options.investigator,
       buildQlInterpreter,
+      lookupTables,
       {
         customizable: {
           level: "actual",
@@ -501,9 +503,10 @@ type FilterLevelOpts = {
 export function filterLevel(
   filterState: LevelFilter,
   buildQlInterpreter: Interpreter | undefined,
+  lookupTables: LookupTables,
   opts?: FilterLevelOpts,
 ) {
-  return filterCardLevel(filterState.range, buildQlInterpreter, {
+  return filterCardLevel(filterState.range, buildQlInterpreter, lookupTables, {
     investigator: opts?.investigator,
     checkEffectiveLevel: opts?.checkEffectiveLevel,
     customizable: {
@@ -941,17 +944,33 @@ export function filterType(enabledTypeCodes: MultiselectFilter) {
  * Investigator access
  */
 
-function filterRequired(investigator: Card) {
+function filterRequired(
+  investigator: Card,
+  lookupTables: LookupTables,
+  investigatorFront?: Card,
+) {
+  const canonicalCode = investigatorFront?.code ?? investigator.code;
+
+  const canAccessParallels =
+    canonicalCode === SPECIAL_CARD_CODES.PARALLEL_ROLAND ||
+    canonicalCode === SPECIAL_CARD_CODES.PARALLEL_WENDY;
+
   return (card: Card) => {
     if (!card.restrictions?.investigator) return false;
 
-    return (
+    const isSignature =
       !!card.restrictions.investigator[investigator.code] ||
       (!!investigator.duplicate_of_code &&
         !!card.restrictions.investigator[investigator.duplicate_of_code]) ||
       (!!investigator.alternate_of_code &&
-        !!card.restrictions.investigator[investigator.alternate_of_code])
-    );
+        !!card.restrictions.investigator[investigator.alternate_of_code]);
+
+    const isParallel =
+      lookupTables.relations.parallelCards[investigator.code]?.[card.code];
+
+    if (isSignature && isParallel) return canAccessParallels;
+
+    return isSignature;
   };
 }
 
@@ -979,6 +998,7 @@ export type InvestigatorAccessConfig = {
 export function makeOptionFilter(
   option: DeckOption,
   buildQlInterpeter: Interpreter | undefined,
+  lookupTables: LookupTables,
   config?: InvestigatorAccessConfig,
 ) {
   // unknown rules or duplicate rules.
@@ -1023,7 +1043,7 @@ export function makeOptionFilter(
       const {
         optionFilter: optionSelectFilters,
         filterCount: optionSelectFilterCount,
-      } = parseOption(buildQlInterpeter, select, config);
+      } = parseOption(buildQlInterpeter, lookupTables, select, config);
 
       if (optionSelectFilterCount <= 1) {
         console.debug("unknown option select", select);
@@ -1036,7 +1056,7 @@ export function makeOptionFilter(
     optionFilter.push(or(selectFilters));
   }
 
-  const parsed = parseOption(buildQlInterpeter, option, config);
+  const parsed = parseOption(buildQlInterpeter, lookupTables, option, config);
   optionFilter.push(...parsed.optionFilter);
   filterCount += parsed.filterCount;
 
@@ -1049,6 +1069,7 @@ export function makeOptionFilter(
 
 function parseOption(
   buildQlInterpeter: Interpreter | undefined,
+  lookupTables: LookupTables,
   option: DeckOption,
   config?: InvestigatorAccessConfig,
 ) {
@@ -1069,9 +1090,14 @@ function parseOption(
     if (level) {
       filterCount += 1;
       optionFilter.push(
-        filterCardLevel([level.min, level.max], buildQlInterpeter, {
-          customizable: config?.customizable,
-        }),
+        filterCardLevel(
+          [level.min, level.max],
+          buildQlInterpeter,
+          lookupTables,
+          {
+            customizable: config?.customizable,
+          },
+        ),
       );
     }
   }
@@ -1172,11 +1198,13 @@ function parseOption(
 export function filterInvestigatorAccess(
   investigatorBack: Card,
   buildQlInterpeter: Interpreter | undefined,
+  lookupTables: LookupTables,
   config?: InvestigatorAccessConfig,
 ): Filter | undefined {
   const mode = config?.targetDeck ?? "slots";
 
   let investigator = investigatorBack;
+
   if (config?.investigatorFront) {
     investigator = {
       ...investigatorBack,
@@ -1189,6 +1217,7 @@ export function filterInvestigatorAccess(
     mode !== "extraSlots"
       ? makePlayerCardsFilter(
           investigator,
+          lookupTables,
           "deck_options",
           "deck_requirements",
           buildQlInterpeter,
@@ -1200,6 +1229,7 @@ export function filterInvestigatorAccess(
     mode !== "slots"
       ? makePlayerCardsFilter(
           investigator,
+          lookupTables,
           "side_deck_options",
           "side_deck_requirements",
           buildQlInterpeter,
@@ -1225,6 +1255,7 @@ export function filterInvestigatorAccess(
 
 function makePlayerCardsFilter(
   investigator: Card,
+  lookupTables: LookupTables,
   optionsAccessor: "deck_options" | "side_deck_options",
   requiredAccessor: "deck_requirements" | "side_deck_requirements",
   buildQlInterpeter: Interpreter | undefined,
@@ -1260,7 +1291,7 @@ function makePlayerCardsFilter(
     ors.push((card: Card) => card.code in requirements);
   } else {
     ors.push(
-      filterRequired(investigator),
+      filterRequired(investigator, lookupTables, config?.investigatorFront),
       (card: Card) =>
         card.subtype_code === "basicweakness" &&
         filterRestrictions(card, investigator),
@@ -1284,7 +1315,7 @@ function makePlayerCardsFilter(
   for (const option of options) {
     const filter =
       !option.limit || showLimitedAccess
-        ? makeOptionFilter(option, buildQlInterpeter, config)
+        ? makeOptionFilter(option, buildQlInterpeter, lookupTables, config)
         : () => false;
 
     if (!filter) continue;
@@ -1303,7 +1334,7 @@ function makePlayerCardsFilter(
     for (const option of config.additionalDeckOptions) {
       const filter =
         !option.limit || showLimitedAccess
-          ? makeOptionFilter(option, buildQlInterpeter, config)
+          ? makeOptionFilter(option, buildQlInterpeter, lookupTables, config)
           : () => false;
 
       if (!filter) continue;
@@ -1321,12 +1352,13 @@ function makePlayerCardsFilter(
 
 export function filterInvestigatorWeaknessAccess(
   investigator: Card,
-  config?: Pick<InvestigatorAccessConfig, "targetDeck">,
+  lookupTables: LookupTables,
+  config?: InvestigatorAccessConfig,
 ) {
   const ors: Filter[] =
     config?.targetDeck !== "extraSlots"
       ? [
-          filterRequired(investigator),
+          filterRequired(investigator, lookupTables, config?.investigatorFront),
           (c) =>
             filterSubtypes({
               basicweakness: true,

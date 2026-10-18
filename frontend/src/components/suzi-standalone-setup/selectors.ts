@@ -56,13 +56,17 @@ export const selectAvailableUpgrades = createSelector(
   ) => {
     const suzi = metadata.cards[SPECIAL_CARD_CODES.SUZI];
 
-    const cardAccessFilter = filterInvestigatorAccess(suzi, buildQlInterpreter);
+    const cardAccessFilter = filterInvestigatorAccess(
+      suzi,
+      buildQlInterpreter,
+      lookupTables,
+    );
     assert(cardAccessFilter, "expected card access filter to be defined");
 
     const filters = [
       filterDuplicates,
       (c: Card) => c.deck_limit !== 0,
-      filterLevel({ range: [1, 5] }, buildQlInterpreter, {
+      filterLevel({ range: [1, 5] }, buildQlInterpreter, lookupTables, {
         checkEffectiveLevel: false,
         investigator: suzi,
       }),

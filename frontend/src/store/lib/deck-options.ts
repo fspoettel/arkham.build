@@ -3,6 +3,7 @@ import { range } from "@/utils/range";
 import type { Interpreter } from "./buildql/interpreter";
 import { type InvestigatorAccessConfig, makeOptionFilter } from "./filtering";
 import type { ResolvedDeck } from "./types";
+import { LookupTables } from "./lookup-tables.types";
 
 const UNTARGETED_KEYS = new Set(["name", "error", "id", "level", "limit"]);
 
@@ -53,6 +54,7 @@ export function mapCardsToDeckOptions(
   quantities: CardQuantities,
   deckOptions: DeckOption[],
   buildQlInterpreter: Interpreter,
+  lookupTables: LookupTables,
   config: InvestigatorAccessConfig,
 ): DeckOptionAllocation {
   const cardsByOption: OptionCardQuantities = new Map();
@@ -61,7 +63,7 @@ export function mapCardsToDeckOptions(
   const optionFilters = deckOptions.map((option) =>
     option.virtual
       ? undefined
-      : makeOptionFilter(option, buildQlInterpreter, config),
+      : makeOptionFilter(option, buildQlInterpreter, lookupTables, config),
   );
 
   // Once a card matches a `not` option, later options cannot match it.

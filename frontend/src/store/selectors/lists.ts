@@ -257,6 +257,7 @@ function makeUserFilter(
           const accessFilter = filterInvestigatorAccess(
             metadata.cards[value],
             buildQlInterpreter,
+            lookupTables,
             {
               customizable: {
                 properties: "all",
@@ -267,6 +268,7 @@ function makeUserFilter(
           );
           const weaknessFilter = filterInvestigatorWeaknessAccess(
             metadata.cards[value],
+            lookupTables,
             { targetDeck },
           );
 
@@ -285,7 +287,7 @@ function makeUserFilter(
         if (value.range) {
           if (resolvedDeck) {
             filters.push(
-              filterLevel(value, buildQlInterpreter, {
+              filterLevel(value, buildQlInterpreter, lookupTables, {
                 checkEffectiveLevel: true,
                 investigator: resolvedDeck?.investigatorBack?.card,
               }),
@@ -299,7 +301,7 @@ function makeUserFilter(
               ? metadata.cards[filterValue as string]
               : undefined;
             filters.push(
-              filterLevel(value, buildQlInterpreter, {
+              filterLevel(value, buildQlInterpreter, lookupTables, {
                 checkEffectiveLevel: true,
                 investigator,
               }),
@@ -370,13 +372,18 @@ function makeUserFilter(
           const filter = (card: Card) => {
             if (card.type_code !== "investigator") return false;
 
-            const filter = filterInvestigatorAccess(card, buildQlInterpreter, {
-              customizable: {
-                properties: "all",
-                level: "all",
+            const filter = filterInvestigatorAccess(
+              card,
+              buildQlInterpreter,
+              lookupTables,
+              {
+                customizable: {
+                  properties: "all",
+                  level: "all",
+                },
+                targetDeck: "both",
               },
-              targetDeck: "both",
-            });
+            );
 
             if (!filter) return false;
             return value.every((code) => filter(metadata.cards[code]));
@@ -564,6 +571,7 @@ const selectDeckInvestigatorFilter = createSelector(
     const investigatorFilter = filterInvestigatorAccess(
       investigatorBack,
       buildQlInterpreter,
+      lookupTables,
       {
         additionalDeckOptions: getAdditionalDeckOptions(resolvedDeck),
         customizable: {
@@ -577,9 +585,13 @@ const selectDeckInvestigatorFilter = createSelector(
       },
     );
 
-    const weaknessFilter = filterInvestigatorWeaknessAccess(investigatorBack, {
-      targetDeck,
-    });
+    const weaknessFilter = filterInvestigatorWeaknessAccess(
+      investigatorBack,
+      lookupTables,
+      {
+        targetDeck,
+      },
+    );
 
     if (investigatorFilter) ors.push(investigatorFilter);
     if (weaknessFilter) ors.push(weaknessFilter);

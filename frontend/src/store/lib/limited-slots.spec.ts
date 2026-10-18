@@ -40,6 +40,7 @@ function snapshotResult(state: StoreState, deck: Deck) {
       deck,
     ),
     buildQlInterpreter,
+    lookupTables,
   )?.map(toSnapShot);
 }
 

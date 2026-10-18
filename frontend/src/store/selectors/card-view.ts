@@ -85,10 +85,14 @@ export const selectUsableByInvestigators = createSelector(
         const access = filterInvestigatorAccess(
           investigator,
           buildQlInterpreter,
+          lookupTables,
         );
         if (!access) return false;
 
-        const weaknessAccess = filterInvestigatorWeaknessAccess(investigator);
+        const weaknessAccess = filterInvestigatorWeaknessAccess(
+          investigator,
+          lookupTables,
+        );
 
         return or([access, weaknessAccess])(card);
       }) as CardWithRelations[];

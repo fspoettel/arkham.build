@@ -208,11 +208,16 @@ const fieldDefinitions: FieldDefinition[] = [
       if (!otherLevels) return false;
 
       const accessFilter = deck
-        ? filterInvestigatorAccess(deck.investigatorBack.card, undefined, {
-            customizable: { properties: "all", level: "all" },
-            investigatorFront: deck.investigatorFront.card,
-            selections: deck.selections,
-          })
+        ? filterInvestigatorAccess(
+            deck.investigatorBack.card,
+            undefined,
+            lookupTables,
+            {
+              customizable: { properties: "all", level: "all" },
+              investigatorFront: deck.investigatorFront.card,
+              selections: deck.selections,
+            },
+          )
         : undefined;
       const cardPoolFilter = filterCardPool(
         deck?.cardPool,
@@ -291,16 +296,24 @@ const fieldDefinitions: FieldDefinition[] = [
       if (investigator?.type_code !== "investigator") return false;
       if (card.code === investigator.code) return fieldValue;
 
-      const accessFilter = filterInvestigatorAccess(investigator, undefined, {
-        customizable: {
-          properties: "all",
-          level: "all",
+      const accessFilter = filterInvestigatorAccess(
+        investigator,
+        undefined,
+        ctx.lookupTables,
+        {
+          customizable: {
+            properties: "all",
+            level: "all",
+          },
         },
-      });
+      );
 
       if (!accessFilter) return false;
 
-      const weaknessFilter = filterInvestigatorWeaknessAccess(investigator);
+      const weaknessFilter = filterInvestigatorWeaknessAccess(
+        investigator,
+        ctx.lookupTables,
+      );
 
       if (accessFilter(card) || weaknessFilter(card)) {
         return fieldValue;
@@ -350,11 +363,16 @@ const fieldDefinitions: FieldDefinition[] = [
       if (!otherLevels) return false;
 
       const accessFilter = deck
-        ? filterInvestigatorAccess(deck.investigatorBack.card, undefined, {
-            customizable: { properties: "all", level: "all" },
-            investigatorFront: deck.investigatorFront.card,
-            selections: deck.selections,
-          })
+        ? filterInvestigatorAccess(
+            deck.investigatorBack.card,
+            undefined,
+            lookupTables,
+            {
+              customizable: { properties: "all", level: "all" },
+              investigatorFront: deck.investigatorFront.card,
+              selections: deck.selections,
+            },
+          )
         : undefined;
 
       return Object.keys(otherLevels).some((otherCode) => {

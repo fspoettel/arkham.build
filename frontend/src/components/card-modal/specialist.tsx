@@ -10,6 +10,7 @@ import type { ResolvedCard } from "@/store/lib/types";
 import { selectUsableByInvestigators } from "@/store/selectors/card-view";
 import {
   selectLocaleSortingCollator,
+  selectLookupTables,
   selectMetadata,
   selectShowFanMadeRelations,
   selectStaticBuildQlInterpreter,
@@ -27,6 +28,7 @@ type Props = {
 
 const selectSpecialistAccess = createSelector(
   selectMetadata,
+  selectLookupTables,
   (state: StoreState) => state.settings,
   selectLocaleSortingCollator,
   selectShowFanMadeRelations,
@@ -35,6 +37,7 @@ const selectSpecialistAccess = createSelector(
   (_: StoreState, _card: Card, investigatorFront?: Card) => investigatorFront,
   (
     metadata,
+    lookupTables,
     settings,
     collator,
     showFanMadeRelations,
@@ -45,6 +48,7 @@ const selectSpecialistAccess = createSelector(
     const investigatorFilter = filterInvestigatorAccess(
       investigatorBack,
       buildQlInterpreter,
+      lookupTables,
       {
         customizable: {
           properties: "all",

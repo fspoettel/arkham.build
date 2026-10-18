@@ -384,9 +384,10 @@ export const selectLatestUpgrade = createSelector(
 export const selectLimitedSlotOccupation = createSelector(
   (_: StoreState, deck: ResolvedDeck) => deck,
   selectBuildQlInterpreter,
-  (deck, buildQlInterpreter) => {
+  selectLookupTables,
+  (deck, buildQlInterpreter, lookupTables) => {
     time("limited_slot_occupation");
-    const value = limitedSlotOccupation(deck, buildQlInterpreter);
+    const value = limitedSlotOccupation(deck, buildQlInterpreter, lookupTables);
     timeEnd("limited_slot_occupation");
     return value;
   },

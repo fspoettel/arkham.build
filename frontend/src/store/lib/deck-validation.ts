@@ -802,9 +802,13 @@ class DeckOptionsValidator implements SlotValidator {
     this.playerCardFilter = filterInvestigatorAccess(
       investigatorBack,
       buildQlInterpreter,
+      lookupTables,
       config,
     );
-    this.weaknessFilter = filterInvestigatorWeaknessAccess(investigatorBack);
+    this.weaknessFilter = filterInvestigatorWeaknessAccess(
+      investigatorBack,
+      lookupTables,
+    );
   }
 
   configure(
@@ -1004,6 +1008,7 @@ class DeckOptionsValidator implements SlotValidator {
       const filter = makeOptionFilter(
         option as DeckOption,
         this.buildQlInterpreter,
+        this.lookupTables,
         this.config,
       );
       if (!filter) continue;
@@ -1037,6 +1042,7 @@ class DeckOptionsValidator implements SlotValidator {
       this.quantities,
       options,
       this.buildQlInterpreter,
+      this.lookupTables,
       this.config,
     );
 

@@ -6,6 +6,7 @@ import {
   mapCardsToDeckOptions,
 } from "./deck-options";
 import type { ResolvedDeck } from "./types";
+import { LookupTables } from "./lookup-tables.types";
 
 export type LimitedSlotOccupation = {
   entries: {
@@ -19,6 +20,7 @@ export type LimitedSlotOccupation = {
 export function limitedSlotOccupation(
   deck: ResolvedDeck,
   buildQlInterpreter: Interpreter,
+  lookupTables: LookupTables,
 ): undefined | LimitedSlotOccupation[] {
   const additionalDeckOptions = getAdditionalDeckOptions(deck);
   const deckOptions = insertAdditionalDeckOptions(
@@ -41,6 +43,7 @@ export function limitedSlotOccupation(
     deck.slots,
     deckOptions,
     buildQlInterpreter,
+    lookupTables,
     {
       customizable: {
         properties: "actual",

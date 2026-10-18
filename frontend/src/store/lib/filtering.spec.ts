@@ -48,10 +48,12 @@ describe("filter: investigator access", () => {
     config?: InvestigatorAccessConfig,
   ) {
     const buildQlInterpreter = selectStaticBuildQlInterpreter(state);
+    const lookupTables = selectLookupTables(state);
 
     return filterInvestigatorAccess(
       state.metadata.cards[code],
       buildQlInterpreter,
+      lookupTables,
       config,
     )?.(state.metadata.cards[target]);
   }
@@ -61,12 +63,12 @@ describe("filter: investigator access", () => {
   });
 
   describe("general", () => {
-    it("returns true for the investigator's signature cards", () => {
+    it("checks access to the investigator's signature cards", () => {
       const state = store.getState();
       expect(applyFilter(state, "01001", "01006")).toBeTruthy(); // signature.
       expect(applyFilter(state, "01001", "98005")).toBeTruthy(); // replacement.
       expect(applyFilter(state, "01001", "90030")).toBeTruthy(); // advanced.
-      expect(applyFilter(state, "01001", "90025")).toBeTruthy(); // parallel.
+      expect(applyFilter(state, "01001", "90025")).toBeFalsy(); // parallel.
       expect(applyFilter(state, "01001", "01506")).toBeTruthy(); // revised core.
     });
 
@@ -81,6 +83,46 @@ describe("filter: investigator access", () => {
       expect(applyFilter(state, "01001", "03315")).toBeTruthy();
     });
   });
+
+  describe.each([
+    {
+      investigator: "Roland Banks",
+      baseCode: "01001",
+      parallelCode: "90024",
+      cardCode: "90025",
+    },
+    {
+      investigator: "Wendy Adams",
+      baseCode: "01005",
+      parallelCode: "90037",
+      cardCode: "90038",
+    },
+  ])(
+    "parallel signature access: $investigator",
+    ({ baseCode, parallelCode, cardCode }) => {
+      it.each([
+        ["base", "base", false],
+        ["base", "parallel", true],
+        ["parallel", "base", false],
+        ["parallel", "parallel", true],
+        ["base", undefined, false],
+        ["parallel", undefined, true],
+      ] as const)(
+        "checks access with a %s back and %s front",
+        (back, front, expected) => {
+          const state = store.getState();
+          const codes = { base: baseCode, parallel: parallelCode };
+          const config = front
+            ? { investigatorFront: state.metadata.cards[codes[front]] }
+            : undefined;
+
+          expect(applyFilter(state, codes[back], cardCode, config)).toBe(
+            expected,
+          );
+        },
+      );
+    },
+  );
 
   describe("card restrictions", () => {
     it("handles case: trait restrictions", () => {
@@ -548,6 +590,7 @@ describe("filter: investigator access", () => {
     it("uses parallel front traits for checking trait-based access", () => {
       const state = store.getState();
       const buildQlInterpreter = selectStaticBuildQlInterpreter(state);
+      const lookupTables = selectLookupTables(state);
 
       const wendyAdams = state.metadata.cards["01005"];
       const parallelWendyAdams = state.metadata.cards["90037"];
@@ -557,12 +600,18 @@ describe("filter: investigator access", () => {
         filterInvestigatorAccess(
           wendyAdams,
           buildQlInterpreter,
+          lookupTables,
         )?.(forbiddenSutra),
       ).toEqual(false);
 
-      const filter = filterInvestigatorAccess(wendyAdams, buildQlInterpreter, {
-        investigatorFront: parallelWendyAdams,
-      });
+      const filter = filterInvestigatorAccess(
+        wendyAdams,
+        buildQlInterpreter,
+        lookupTables,
+        {
+          investigatorFront: parallelWendyAdams,
+        },
+      );
 
       expect(filter?.(forbiddenSutra)).toBeTruthy();
       expect(filter?.(state.metadata.cards["10034"])).toEqual(false);
@@ -584,7 +633,9 @@ describe("filter: level", () => {
     investigator?: Card,
   ) {
     const buildQlInterpreter = selectStaticBuildQlInterpreter(state);
-    return filterLevel(config, buildQlInterpreter, {
+    const lookupTables = selectLookupTables(state);
+
+    return filterLevel(config, buildQlInterpreter, lookupTables, {
       investigator,
     })(state.metadata.cards[code]);
   }
@@ -648,6 +699,8 @@ describe("filter: level", () => {
   it("handles case: effective taboo level", () => {
     const state = store.getState();
     const buildQlInterpreter = selectStaticBuildQlInterpreter(state);
+    const lookupTables = selectLookupTables(state);
+
     const signumCrucis = applyTaboo(
       state.metadata.cards["07197"],
       state.metadata,
@@ -655,9 +708,11 @@ describe("filter: level", () => {
     );
     const config: LevelFilter = { range: [0, 0] };
 
-    expect(filterLevel(config, buildQlInterpreter)(signumCrucis)).toBeFalsy();
     expect(
-      filterLevel(config, buildQlInterpreter, {
+      filterLevel(config, buildQlInterpreter, lookupTables)(signumCrucis),
+    ).toBeFalsy();
+    expect(
+      filterLevel(config, buildQlInterpreter, lookupTables, {
         checkEffectiveLevel: true,
       })(signumCrucis),
     ).toBeTruthy();
@@ -691,11 +746,13 @@ describe("filter: level", () => {
   it("handles case: customizable exceeds level", () => {
     const state = store.getState();
     const buildQlInterpreter = selectStaticBuildQlInterpreter(state);
+    const lookupTables = selectLookupTables(state);
 
     expect(
       filterLevel(
         { range: [0, 5] } as any,
         buildQlInterpreter,
+        lookupTables,
       )({
         ...state.metadata.cards["09022"],
         xp: 0,
@@ -1166,9 +1223,11 @@ describe("filter: investigator weakness access", () => {
   });
 
   function applyFilter(state: StoreState, code: string, target: string) {
-    return filterInvestigatorWeaknessAccess(state.metadata.cards[code])?.(
-      state.metadata.cards[target],
-    );
+    const lookupTables = selectLookupTables(state);
+    return filterInvestigatorWeaknessAccess(
+      state.metadata.cards[code],
+      lookupTables,
+    )?.(state.metadata.cards[target]);
   }
 
   it("handles case: weakness is required by investigator", () => {
@@ -1222,7 +1281,8 @@ describe("filter: custom content options", () => {
 
     const state = store.getState();
     const buildQlInterpreter = selectStaticBuildQlInterpreter(state);
-    const filter = makeOptionFilter(option, buildQlInterpreter);
+    const lookupTables = selectLookupTables(state);
+    const filter = makeOptionFilter(option, buildQlInterpreter, lookupTables);
     expect(filter?.(state.metadata.cards["05187"])).toBeTruthy();
     expect(filter?.(state.metadata.cards["60127"])).toBeFalsy();
   });
@@ -1238,8 +1298,9 @@ describe("filter: custom content options", () => {
 
     const state = store.getState();
     const buildQlInterpreter = selectStaticBuildQlInterpreter(state);
+    const lookupTables = selectLookupTables(state);
 
-    const filter = makeOptionFilter(option, buildQlInterpreter);
+    const filter = makeOptionFilter(option, buildQlInterpreter, lookupTables);
     expect(filter?.(state.metadata.cards["05187"])).toBeTruthy();
     expect(filter?.(state.metadata.cards["60127"])).toBeFalsy();
   });
