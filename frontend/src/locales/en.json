@@ -955,6 +955,7 @@
       "tools": {
         "average_cost": "Average cost: {{cost}}",
         "cards": "Cards",
+        "costed": "Costed: {{count}} / {{total}}",
         "count": "Count",
         "factions": "Classes",
         "factions_tooltip": "{{count}} {{faction}} {{cards}}",

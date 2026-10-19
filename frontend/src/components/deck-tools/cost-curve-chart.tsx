@@ -18,9 +18,10 @@ import css from "./deck-tools.module.css";
 type Props = {
   costs: number[];
   data: ChartableData;
+  total: number;
 };
 
-export function CostCurveChart({ costs, data }: Props) {
+export function CostCurveChart({ costs, data, total }: Props) {
   const { i18n, t } = useTranslation();
 
   const max = Math.max(...data.filter((x) => x).map((tick) => tick?.x ?? 0));
@@ -36,11 +37,14 @@ export function CostCurveChart({ costs, data }: Props) {
       <h4 className={css["chart-title"]}>{t("deck.tools.resource_costs")}</h4>
       {costStats ? (
         <div className={css["cost-summary"]}>
+          <span>{t("deck.tools.costed", { count: costs.length, total })}</span>
+          <span aria-hidden="true">·</span>
           <span>
             {t("deck.tools.average_cost", {
               cost: formatCost(i18n.language, costStats.average),
             })}
           </span>
+          <span aria-hidden="true">·</span>
           <span>
             {t("deck.tools.median_cost", {
               cost: formatMedianCost(i18n.language, costStats.median),
