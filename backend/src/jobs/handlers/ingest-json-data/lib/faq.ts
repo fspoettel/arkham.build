@@ -7,7 +7,8 @@ export function resolveFaqRecords(faq: JsonDataFaq[]): FaqRecord[] {
     type: item.type,
     question: item.question,
     ruling: item.ruling,
-    citation: item.citation,
+    citation: item.type === "rules-form" ? "rules-form" : item.citation,
+    date: item.type === "rules-form" ? item.date : null,
   }));
 }
 
@@ -55,6 +56,7 @@ export function resolveFaqReferenceRecords(
 
 type FaqRecord = {
   citation: string;
+  date: string | null;
   position: number;
   question: string;
   ruling: string;

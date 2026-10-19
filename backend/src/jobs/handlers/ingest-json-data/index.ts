@@ -207,6 +207,11 @@ export async function runIngestJsonData() {
           "faqs/general_faq.json",
           JsonDataFaqSchema.array(),
         ),
+        getJsonData(
+          metadataDir,
+          "faqs/rules_form_faq.json",
+          JsonDataFaqSchema.array(),
+        ),
       ]).then((data) => data.flat()),
       Promise.all(
         grimoireSectionFiles.map((file) =>

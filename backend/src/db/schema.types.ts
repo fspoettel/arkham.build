@@ -360,6 +360,7 @@ export interface FanMadeProjectInfo {
 
 export interface Faq {
   citation: string;
+  date: Timestamp | null;
   id: Generated<number>;
   position: number;
   question: string;

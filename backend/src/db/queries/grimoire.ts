@@ -1,3 +1,4 @@
+import { sql } from "kysely";
 import type { Database } from "../db.ts";
 
 export function getFaqForCard(db: Database, cardCode: string) {
@@ -6,6 +7,7 @@ export function getFaqForCard(db: Database, cardCode: string) {
     .innerJoin("faq_card", "faq.id", "faq_card.faq_id")
     .select([
       "faq.citation",
+      sql<string | null>`faq.date::text`.as("date"),
       "faq.id",
       "faq.position",
       "faq.question",
@@ -69,7 +71,12 @@ export function getAllGrimoireSections(db: Database) {
 
 export async function getAllFaq(db: Database) {
   const [faq, faqCards, faqCycles, faqScenarios] = await Promise.all([
-    db.selectFrom("faq").selectAll().orderBy("position").execute(),
+    db
+      .selectFrom("faq")
+      .selectAll()
+      .select(sql<string | null>`faq.date::text`.as("date"))
+      .orderBy("position")
+      .execute(),
     db
       .selectFrom("faq_card")
       .selectAll()

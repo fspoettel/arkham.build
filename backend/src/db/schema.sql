@@ -1006,7 +1006,8 @@ CREATE TABLE public.faq (
     question text NOT NULL,
     ruling text NOT NULL,
     citation character varying(255) NOT NULL,
-    CONSTRAINT faq_type_check CHECK (((type)::text = 'faq'::text))
+    date date,
+    CONSTRAINT faq_type_check CHECK (((type)::text = ANY ((ARRAY['faq'::character varying, 'rules-form'::character varying])::text[])))
 );
 
 
@@ -2989,14 +2990,6 @@ ALTER TABLE ONLY public.faq_card
 
 
 --
--- Name: faq faq_citation_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.faq
-    ADD CONSTRAINT faq_citation_fkey FOREIGN KEY (citation) REFERENCES public.rules_version(citation) NOT VALID;
-
-
---
 -- Name: faq_cycle faq_cycle_cycle_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3271,4 +3264,6 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20261011090855'),
     ('20261015070000'),
     ('20261015082229'),
-    ('20261015190000');
+    ('20261015190000'),
+    ('20261016120000'),
+    ('20261017140000');
