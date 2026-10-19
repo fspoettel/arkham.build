@@ -1,5 +1,7 @@
+import type { SkillIcon } from "@arkham-build/shared";
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
+import type { MouseHandlerDataParam } from "recharts";
 import {
   PolarAngleAxis,
   PolarGrid,
@@ -10,15 +12,17 @@ import {
 } from "recharts";
 import type { ChartableData } from "@/store/lib/deck-charts";
 import { SkillIconFancy } from "../icons/skill-icon-fancy";
+import type { ChartSelection } from "./chart-cards";
 import { chartTheme } from "./chart-theme";
 import { ChartTooltip } from "./chart-tooltip";
 import css from "./deck-tools.module.css";
 
 type Props = {
-  data: ChartableData<string>;
+  data: ChartableData<SkillIcon>;
+  onSelect?: (selection: ChartSelection) => void;
 };
 
-export function SkillIconsChart({ data }: Props) {
+export function SkillIconsChart({ data, onSelect }: Props) {
   const { t } = useTranslation();
 
   return (
@@ -26,6 +30,21 @@ export function SkillIconsChart({ data }: Props) {
       <h4 className={css["chart-title"]}>{t("deck.tools.skill_icons")}</h4>
       <RadarChart
         data={data}
+        className={css["interactive-chart"]}
+        onClick={({
+          activeTooltipIndex,
+          isTooltipActive,
+        }: MouseHandlerDataParam) => {
+          if (!isTooltipActive || activeTooltipIndex == null) return;
+          const point = data[Number(activeTooltipIndex)];
+          if (point) {
+            onSelect?.({
+              type: "skill",
+              value: point.x,
+              title: formatTooltip(t, point),
+            });
+          }
+        }}
         width="100%"
         height={chartTheme.height}
         cx="50%"

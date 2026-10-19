@@ -1,31 +1,16 @@
-import type { Card } from "@arkham-build/shared";
-import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Content, Root, Trigger } from "@/components/ui/collapsible";
-import { useStore } from "@/store";
 import type { ChartableData } from "@/store/lib/deck-charts";
-import { makeSortFunction } from "@/store/lib/sorting";
-import type { ResolvedDeck } from "@/store/lib/types";
-import {
-  selectLocaleSortingCollator,
-  selectMetadata,
-} from "@/store/selectors/shared";
-import { splitMultiValue } from "@/utils/card-utils";
-import { ListCard } from "../list-card/list-card";
 import { Scroller } from "../ui/scroller";
-import { DefaultTooltip } from "../ui/tooltip";
+import type { ChartSelection } from "./chart-cards";
 import css from "./deck-tools.module.css";
 
 type Props = {
   data: ChartableData<string>;
-  deck: ResolvedDeck;
+  onSelect: (selection: ChartSelection) => void;
 };
 
-export function TraitsChart(props: Props) {
-  const { data, deck } = props;
-
-  const { t } = useTranslation();
+export function TraitsChart({ data, onSelect }: Props) {
+  const { i18n, t } = useTranslation();
 
   return (
     <div className={css["chart-container"]}>
@@ -43,94 +28,35 @@ export function TraitsChart(props: Props) {
             </tr>
           </thead>
           <tbody>
-            {data.map((trait) => (
-              <TraitsChartRow key={trait.x} deck={deck} trait={trait} />
-            ))}
+            {data.map((trait) => {
+              const name = i18n.exists(`common.traits.${trait.x}`)
+                ? t(`common.traits.${trait.x}`)
+                : trait.x;
+              const title = t("deck.tools.trait_modal_title", {
+                trait: name,
+                count: trait.y,
+              });
+
+              return (
+                <tr key={trait.x}>
+                  <td className={css["trait-chart-column-trait"]}>
+                    <button
+                      className={css["trait-chart-title"]}
+                      type="button"
+                      onClick={() =>
+                        onSelect({ type: "trait", value: trait.x, title })
+                      }
+                    >
+                      <span className={css["trait"]}>{name}</span>
+                    </button>
+                  </td>
+                  <td className={css["trait-chart-column-count"]}>{trait.y}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </Scroller>
     </div>
-  );
-}
-
-function TraitsChartRow({
-  deck,
-  trait,
-}: {
-  deck: ResolvedDeck;
-  trait: ChartableData<string>[0];
-}) {
-  const metadata = useStore(selectMetadata);
-  const collator = useStore(selectLocaleSortingCollator);
-
-  const { i18n, t } = useTranslation();
-  const [open, setOpen] = useState(false);
-
-  const cards = Object.values(deck.cards.slots)
-    .reduce((acc, { card }) => {
-      if (splitMultiValue(card.real_traits).includes(trait.x)) acc.push(card);
-      return acc;
-    }, [] as Card[])
-    .sort(makeSortFunction(["name", "level", "position"], metadata, collator));
-
-  return (
-    <tr className={open ? css["open"] : undefined}>
-      <td className={css["trait-chart-column-trait"]}>
-        <Root open={open} onOpenChange={setOpen}>
-          <DefaultTooltip
-            tooltip={<TraitsChartTooltip deck={deck} cards={cards} />}
-            paused={open}
-          >
-            <Trigger asChild>
-              <button className={css["trait-chart-title"]} type="button">
-                {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
-                <span className={css["trait"]}>
-                  {i18n.exists(`common.traits.${trait.x}`)
-                    ? t(`common.traits.${trait.x}`)
-                    : trait.x}
-                </span>
-              </button>
-            </Trigger>
-          </DefaultTooltip>
-          <Content>
-            <ol className={css["trait-chart-item-details-list"]}>
-              {cards.map((card) => (
-                <ListCard
-                  card={card}
-                  key={card.code}
-                  quantity={deck.slots[card.code]}
-                  size="sm"
-                  omitBorders
-                />
-              ))}
-            </ol>
-          </Content>
-        </Root>
-      </td>
-      <td className={css["trait-chart-column-count"]}>{trait.y}</td>
-    </tr>
-  );
-}
-
-function TraitsChartTooltip({
-  deck,
-  cards,
-}: {
-  deck: ResolvedDeck;
-  cards: Card[];
-}) {
-  return (
-    <ol className={css["trait-tooltip"]}>
-      {cards.map((card) => (
-        <ListCard
-          card={card}
-          cardLevelDisplay="icon-only"
-          key={card.code}
-          omitThumbnail
-          quantity={deck.slots[card.code]}
-          size="xs"
-        />
-      ))}
-    </ol>
   );
 }

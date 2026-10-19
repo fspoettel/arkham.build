@@ -972,10 +972,13 @@
           "trait_placeholder": "Choose trait"
         },
         "resource_cost": "Resource cost",
-        "resource_cost_tooltip": "{{count}} {{cards}} of cost {{cost}}",
+        "resource_cost_tooltip_one": "{{count}} {{cards}} that costs {{cost}}",
+        "resource_cost_tooltip_other": "{{count}} {{cards}} that cost {{cost}}",
         "resource_costs": "Resource costs",
         "skill_icons": "Skill icons",
-        "skill_icons_tooltip": "{{count}} {{skill}} {{icons}}"
+        "skill_icons_tooltip": "{{count}} {{skill}} {{icons}}",
+        "trait_modal_title_one": "{{trait}}: {{count}} card",
+        "trait_modal_title_other": "{{trait}}: {{count}} cards"
       },
       "validation": {
         "card_not_in_limited_pool": "The following cards are not part of this deck's card pool:",

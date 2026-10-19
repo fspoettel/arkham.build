@@ -1,5 +1,6 @@
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
+import type { MouseHandlerDataParam } from "recharts";
 import {
   Bar,
   BarChart,
@@ -11,6 +12,7 @@ import {
 } from "recharts";
 import type { ChartableData } from "@/store/lib/deck-charts";
 import { range } from "@/utils/range";
+import type { ChartSelection } from "./chart-cards";
 import { axisLabelStyle, axisTickStyle, chartTheme } from "./chart-theme";
 import { ChartTooltip } from "./chart-tooltip";
 import css from "./deck-tools.module.css";
@@ -19,9 +21,10 @@ type Props = {
   costs: number[];
   data: ChartableData;
   total: number;
+  onSelect?: (selection: ChartSelection) => void;
 };
 
-export function CostCurveChart({ costs, data, total }: Props) {
+export function CostCurveChart({ costs, data, total, onSelect }: Props) {
   const { i18n, t } = useTranslation();
 
   const max = Math.max(...data.filter((x) => x).map((tick) => tick?.x ?? 0));
@@ -55,6 +58,21 @@ export function CostCurveChart({ costs, data, total }: Props) {
       <ResponsiveContainer width="100%" height={chartTheme.height}>
         <BarChart
           data={normalizedData}
+          className={css["interactive-chart"]}
+          onClick={({
+            activeTooltipIndex,
+            isTooltipActive,
+          }: MouseHandlerDataParam) => {
+            if (!isTooltipActive || activeTooltipIndex == null) return;
+            const point = normalizedData[Number(activeTooltipIndex)];
+            if (point) {
+              onSelect?.({
+                type: "cost",
+                value: point.x,
+                title: formatTooltip(t, point),
+              });
+            }
+          }}
           margin={{ left: 5, bottom: 20, right: 5, top: 5 }}
         >
           <CartesianGrid

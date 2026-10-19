@@ -27,6 +27,10 @@
   }
 }
 
+.interactive-chart {
+  cursor: pointer;
+}
+
 .skill-icon-label {
   font-size: 1.5rem;
 }
@@ -89,7 +93,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .table :where(tr:not(.open):hover) {
+  .table :where(tr:hover) {
     background-color: var(--palette-1);
   }
 }
@@ -133,18 +137,6 @@ td.trait-chart-column-trait {
   &::after {
     content: ".";
   }
-}
-
-.trait-chart-item-details-list {
-  margin: 0.375rem;
-}
-
-.trait-tooltip {
-  padding: 0.125rem;
-}
-
-.trait-tooltip > * + * {
-  margin-top: 0.125rem;
 }
 
 @media screen and (max-width: 75rem) {

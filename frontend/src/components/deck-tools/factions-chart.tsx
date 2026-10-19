@@ -4,15 +4,17 @@ import { useTranslation } from "react-i18next";
 import type { PieSectorShapeProps } from "recharts";
 import { Pie, PieChart, Sector, Tooltip } from "recharts";
 import type { ChartableData } from "@/store/lib/deck-charts";
+import type { ChartSelection } from "./chart-cards";
 import { chartTheme } from "./chart-theme";
 import { ChartTooltip } from "./chart-tooltip";
 import css from "./deck-tools.module.css";
 
 type Props = {
   data: ChartableData<FactionName>;
+  onSelect?: (selection: ChartSelection) => void;
 };
 
-export function FactionsChart({ data }: Props) {
+export function FactionsChart({ data, onSelect }: Props) {
   const { t } = useTranslation();
 
   const normalizedData = data.filter((tick) => tick.y !== 0);
@@ -23,6 +25,17 @@ export function FactionsChart({ data }: Props) {
       <PieChart width="100%" height={chartTheme.height} responsive>
         <Pie
           data={normalizedData}
+          className={css["interactive-chart"]}
+          onClick={(_, index) => {
+            const point = normalizedData[index];
+            if (point) {
+              onSelect?.({
+                type: "faction",
+                value: point.x,
+                title: formatTooltip(t, point),
+              });
+            }
+          }}
           dataKey="y"
           nameKey="x"
           cx="50%"
@@ -49,7 +62,13 @@ function renderFactionSector(props: PieSectorShapeProps) {
   const fill = faction
     ? `var(--${faction === "neutral" ? "text" : "color"}-${faction})`
     : "var(--text)";
-  return <Sector {...props} fill={fill} />;
+  return (
+    <Sector
+      {...props}
+      fill={props.isActive ? `color-mix(in srgb, ${fill}, white 10%)` : fill}
+      outerRadius={(props.outerRadius ?? 0) + (props.isActive ? 4 : 0)}
+    />
+  );
 }
 
 function renderFactionLabel(props: {
