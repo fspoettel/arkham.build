@@ -33,9 +33,9 @@
 }
 
 .card-access-toggles {
-  padding: 0.625rem 0.5rem;
-  margin-inline: 0.125rem;
-  border: 1px solid var(--palette-1);
+  padding: 0.625rem 0.25rem;
+  margin-inline: 0.25rem;
+  border: 1px solid var(--palette-point-five);
 }
 
 .card-access-toggles > * + * {

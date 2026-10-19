@@ -40,7 +40,7 @@
 }
 
 .children + .header {
-  margin-top: var(--filters-spacing-y);
+  margin-top: 0;
 }
 
 .title {
