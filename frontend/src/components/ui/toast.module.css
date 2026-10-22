@@ -4,17 +4,19 @@
 
 .toast {
   display: flex;
-  gap: 0.75rem;
+  align-items: flex-start;
+  gap: 0.5rem;
   box-sizing: border-box;
   width: 100%;
   max-height: 70dvh;
-  padding: 0.75rem;
+  padding: 0.75rem 0.5rem;
   color: var(--palette-5);
   text-align: left;
   background: var(--palette-point-five);
   border: 1px solid var(--palette-2);
   border-radius: var(--rounded);
   box-shadow: var(--shadow-lg);
+  font-family: var(--font-family-ui);
 }
 
 .content {
@@ -25,11 +27,12 @@
 }
 
 .icon {
-  display: flex;
+  display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
-  width: var(--icon-base);
-  height: var(--icon-base);
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  margin-top: calc((1lh - var(--icon-sm)) / 2);
   position: relative;
 }
 
