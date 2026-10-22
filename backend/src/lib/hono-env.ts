@@ -12,7 +12,7 @@ type HonoVariables = {
   logger: Logger;
   session?: Selectable<Session>;
   account?: Selectable<Account>;
-  skipSessionCookieRefresh?: boolean;
+  sessionCookieTouched?: boolean;
 };
 
 export type HonoEnv = {

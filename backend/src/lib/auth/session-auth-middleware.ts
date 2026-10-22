@@ -55,7 +55,7 @@ export function sessionAuth(
 
     await next();
 
-    if (!c.get("skipSessionCookieRefresh")) {
+    if (!c.get("sessionCookieTouched")) {
       setSessionCookie(c, sessionToken);
     }
   };

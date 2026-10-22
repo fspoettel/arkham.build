@@ -1,6 +1,10 @@
 /* oxlint-disable typescript/no-explicit-any -- test code */
 import assert from "node:assert";
-import { CompleteProfileResponseSchema, type Deck } from "@arkham-build/shared";
+import {
+  CompleteProfileResponseSchema,
+  type Deck,
+  SessionResponseSchema,
+} from "@arkham-build/shared";
 import type { Hono } from "hono";
 import { describe, expect, vi } from "vitest";
 import { appFactory } from "../app.ts";
@@ -2177,6 +2181,9 @@ describe("Auth routes", () => {
       dependencies,
     }) => {
       const { app, db, mailer, sessionCookie } = dependencies;
+      const otherSessionCookie = getSessionCookie(
+        await login(app, TEST_ACCOUNT.email, TEST_ACCOUNT.password),
+      );
 
       mailer.failOnce();
 
@@ -2188,6 +2195,14 @@ describe("Auth routes", () => {
 
       expect(res.status).toBe(500);
       expect(mailer.sentEmails).toHaveLength(0);
+      expect(getSessionCookie(res)).toBe(sessionCookie);
+
+      for (const cookie of [sessionCookie, otherSessionCookie]) {
+        const meRes = await app.request("/v2/account/auth/me", {
+          headers: { Cookie: cookie },
+        });
+        expect(meRes.status).toBe(200);
+      }
 
       const identity = await db
         .selectFrom("account_identity")
@@ -2219,6 +2234,91 @@ describe("Auth routes", () => {
           "email_verification",
         ),
       ).toBe(0);
+    });
+
+    test.for([{ newEmail: undefined }, { newEmail: "updated@example.com" }])(
+      "revokes old sessions and rotates the current session with newEmail=$newEmail",
+      async ({ newEmail }, { dependencies }) => {
+        const { app, config, db, sessionCookie } = dependencies;
+        const otherSessionCookie = getSessionCookie(
+          await login(app, TEST_ACCOUNT.email, TEST_ACCOUNT.password),
+        );
+        const otherAccount = await db
+          .insertInto("account")
+          .values({ name: "other-session-owner" })
+          .returning("id")
+          .executeTakeFirstOrThrow();
+        const unrelatedSession = await createSession(db, otherAccount.id, 1);
+
+        const res = await updateCredentials(app, sessionCookie, {
+          currentPassword: TEST_ACCOUNT.password,
+          ...(newEmail ? { newEmail } : {}),
+          newPassword: "NewPassword123!",
+        });
+
+        expect(res.status).toBe(200);
+        expect(res.headers.getSetCookie()).toHaveLength(1);
+        const rotatedCookie = getSessionCookie(res);
+        expect(rotatedCookie).not.toBe(sessionCookie);
+        expect(rotatedCookie).not.toBe(otherSessionCookie);
+        expect(res.headers.get("set-cookie")).toContain("HttpOnly");
+        expect(res.headers.get("set-cookie")).toContain("SameSite=Strict");
+        expect(res.headers.get("set-cookie")).toContain(
+          `Max-Age=${config.SESSION_EXPIRY_HOURS * 60 * 60}`,
+        );
+
+        for (const cookie of [sessionCookie, otherSessionCookie]) {
+          const meRes = await app.request("/v2/account/auth/me", {
+            headers: { Cookie: cookie },
+          });
+          expect(meRes.status).toBe(401);
+        }
+
+        const meRes = await app.request("/v2/account/auth/me", {
+          headers: { Cookie: rotatedCookie },
+        });
+        expect(meRes.status).toBe(200);
+        const { account } = SessionResponseSchema.parse(await meRes.json());
+        expect(account.name).toBe(TEST_ACCOUNT.name);
+        expect(
+          await db
+            .selectFrom("session")
+            .select("id")
+            .where("account_id", "=", account.id)
+            .execute(),
+        ).toHaveLength(1);
+        expect(
+          await db
+            .selectFrom("session")
+            .select("id")
+            .where("id", "=", unrelatedSession.id)
+            .executeTakeFirst(),
+        ).toBeDefined();
+      },
+    );
+
+    test("keeps existing sessions for an email-only change", async ({
+      dependencies,
+    }) => {
+      const { app, sessionCookie } = dependencies;
+      const otherSessionCookie = getSessionCookie(
+        await login(app, TEST_ACCOUNT.email, TEST_ACCOUNT.password),
+      );
+
+      const res = await updateCredentials(app, sessionCookie, {
+        currentPassword: TEST_ACCOUNT.password,
+        newEmail: "updated@example.com",
+      });
+
+      expect(res.status).toBe(200);
+      expect(getSessionCookie(res)).toBe(sessionCookie);
+
+      for (const cookie of [sessionCookie, otherSessionCookie]) {
+        const meRes = await app.request("/v2/account/auth/me", {
+          headers: { Cookie: cookie },
+        });
+        expect(meRes.status).toBe(200);
+      }
     });
 
     test("changes the password", async ({ dependencies }) => {
@@ -2284,10 +2384,17 @@ describe("Auth routes", () => {
       const res = await updateCredentials(app, sessionCookie, {
         currentPassword: "WrongPassword123!",
         newEmail: "updated@example.com",
+        newPassword: "NewPassword123!",
       });
 
       expect(res.status).toBe(400);
       expect(await res.text()).toContain("Current password is incorrect");
+      expect(getSessionCookie(res)).toBe(sessionCookie);
+
+      const meRes = await app.request("/v2/account/auth/me", {
+        headers: { Cookie: sessionCookie },
+      });
+      expect(meRes.status).toBe(200);
     });
   });
 

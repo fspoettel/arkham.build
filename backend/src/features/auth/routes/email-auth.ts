@@ -117,7 +117,7 @@ routes.post(
     const db = c.get("db");
     const config = c.get("config");
 
-    c.set("skipSessionCookieRefresh", true);
+    c.set("sessionCookieTouched", true);
 
     const sessionToken = getCookie(c, config.SESSION_COOKIE_NAME);
     if (sessionToken) {

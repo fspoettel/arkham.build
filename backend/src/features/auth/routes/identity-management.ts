@@ -11,6 +11,11 @@ import {
 } from "../../../lib/auth/account-identities.ts";
 import { deleteAccountById } from "../../../lib/auth/accounts.ts";
 import { sessionAuth } from "../../../lib/auth/session-auth-middleware.ts";
+import { setSessionCookie } from "../../../lib/auth/session-cookie.ts";
+import {
+  createSession,
+  deleteSessionsByAccountId,
+} from "../../../lib/auth/sessions.ts";
 import { isUniqueViolation } from "../../../lib/db-errors.ts";
 import type { HonoEnv } from "../../../lib/hono-env.ts";
 import { zodValidator } from "../../../lib/validation.ts";
@@ -41,7 +46,7 @@ routes.delete(
     const config = c.get("config");
     const account = c.get("account");
 
-    c.set("skipSessionCookieRefresh", true);
+    c.set("sessionCookieTouched", true);
 
     await deleteAccountById(db, account.id);
     deleteCookie(c, config.SESSION_COOKIE_NAME, { path: "/" });
@@ -178,7 +183,7 @@ routes.patch(
     const previousPendingEmail = emailIdentity.pending_email;
 
     try {
-      await db.transaction().execute(async (tx) => {
+      const session = await db.transaction().execute(async (tx) => {
         if (passwordHash) {
           await updateAccountIdentityPasswordHash(
             tx,
@@ -187,32 +192,40 @@ routes.patch(
           );
         }
 
-        if (!nextEmail) {
-          return;
-        }
+        if (nextEmail) {
+          if (previousPendingEmail && previousPendingEmail !== nextEmail) {
+            await deleteVerificationTokensByAccountIdentityIdAndEmail(
+              tx,
+              emailIdentity.id,
+              previousPendingEmail,
+              "email_verification",
+            );
+          }
 
-        if (previousPendingEmail && previousPendingEmail !== nextEmail) {
-          await deleteVerificationTokensByAccountIdentityIdAndEmail(
+          await updateAccountIdentityPendingEmail(
             tx,
             emailIdentity.id,
-            previousPendingEmail,
-            "email_verification",
+            nextEmail,
           );
+          await sendVerificationEmail(tx, {
+            accountIdentityId: emailIdentity.id,
+            config,
+            dispatcher,
+            email: nextEmail,
+            options: { tx },
+          });
         }
 
-        await updateAccountIdentityPendingEmail(
-          tx,
-          emailIdentity.id,
-          nextEmail,
-        );
-        await sendVerificationEmail(tx, {
-          accountIdentityId: emailIdentity.id,
-          config,
-          dispatcher,
-          email: nextEmail,
-          options: { tx },
-        });
+        if (!passwordHash) return;
+
+        await deleteSessionsByAccountId(tx, account.id);
+        return await createSession(tx, account.id, config.SESSION_EXPIRY_HOURS);
       });
+
+      if (session) {
+        c.set("sessionCookieTouched", true);
+        setSessionCookie(c, session.token);
+      }
     } catch (error) {
       if (isUniqueViolation(error)) {
         throw new HTTPException(400, {
