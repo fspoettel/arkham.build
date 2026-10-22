@@ -1331,7 +1331,9 @@ CREATE TABLE public.session (
     expires_at timestamp without time zone NOT NULL,
     id uuid DEFAULT uuidv7() NOT NULL,
     last_activity_at timestamp without time zone DEFAULT now() NOT NULL,
-    token_hash text NOT NULL
+    token_hash text NOT NULL,
+    oauth_connect_state_hash text,
+    oauth_connect_expires_at timestamp without time zone
 );
 
 
@@ -3266,4 +3268,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20261015082229'),
     ('20261015190000'),
     ('20261016120000'),
-    ('20261017140000');
+    ('20261017140000'),
+    ('20261022181500');

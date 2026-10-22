@@ -661,6 +661,8 @@ export interface Session {
   expires_at: Timestamp;
   id: Generated<string>;
   last_activity_at: Generated<Timestamp>;
+  oauth_connect_expires_at: Timestamp | null;
+  oauth_connect_state_hash: string | null;
   token_hash: string;
 }
 

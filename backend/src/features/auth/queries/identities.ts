@@ -8,9 +8,10 @@ import {
   updateAccountIdentityState,
 } from "../../../lib/auth/account-identities.ts";
 import { upsertOAuthToken } from "../../../lib/auth/oauth-tokens.ts";
-import type {
-  OAuthAccessToken,
-  OAuthProviderIdentity,
+import {
+  OAuthFlowError,
+  type OAuthAccessToken,
+  type OAuthProviderIdentity,
 } from "../../../lib/oauth.ts";
 
 export async function createEmailIdentity(
@@ -35,6 +36,8 @@ export async function createEmailIdentity(
 
 export interface ConnectOAuthIdentityToAccountParams {
   accountId: string;
+  sessionId: string;
+  stateHash: string;
   provider: string;
   providerUserId: string;
   accessToken: OAuthAccessToken;
@@ -48,6 +51,20 @@ export async function connectOAuthIdentityToAccount(
   assertOAuthProvider(params.provider);
 
   return await db.transaction().execute(async (tx) => {
+    const now = new Date();
+    const session = await tx
+      .updateTable("session")
+      .set({ oauth_connect_state_hash: null, oauth_connect_expires_at: null })
+      .where("id", "=", params.sessionId)
+      .where("account_id", "=", params.accountId)
+      .where("expires_at", ">", now)
+      .where("oauth_connect_state_hash", "=", params.stateHash)
+      .where("oauth_connect_expires_at", ">", now)
+      .returning("id")
+      .executeTakeFirst();
+
+    if (!session) throw new OAuthFlowError("invalid_state");
+
     const existingIdentity = await getAccountIdentityByAccountIdAndProvider(
       tx,
       params.accountId,

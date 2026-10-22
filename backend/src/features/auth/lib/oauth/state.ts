@@ -1,12 +1,15 @@
 import type { Context } from "hono";
 import { deleteCookie, getSignedCookie, setSignedCookie } from "hono/cookie";
 import { z } from "zod";
+import type { HonoEnv } from "../../../../lib/hono-env.ts";
 import { OAuthFlowError, type OAuthProvider } from "../../../../lib/oauth.ts";
+import { hashToken } from "../crypto.ts";
 
 const OAuthIntentSchema = z.enum(["login", "signup", "connect"]);
 
 const OAuthContextSchema = z.object({
   accountId: z.string().optional(),
+  sessionId: z.uuid().optional(),
   intent: OAuthIntentSchema,
   returnTo: z.string(),
   successReturnTo: z.string().optional(),
@@ -22,12 +25,35 @@ type OAuthStateCookie = z.infer<typeof OAuthStateCookieSchema>;
 const OAUTH_STATE_COOKIE_NAME = "arkham-build-oauth-state";
 const OAUTH_STATE_MAX_AGE_SECONDS = 10 * 60;
 
-export async function setOAuthStateCookie(
-  c: Context,
+export async function setOAuthStateCookie<E extends HonoEnv>(
+  c: Context<E>,
   provider: OAuthProvider,
   oauthContext: OAuthContext,
   state: string,
 ) {
+  if (oauthContext.intent === "connect") {
+    if (!oauthContext.accountId || !oauthContext.sessionId) {
+      throw new OAuthFlowError("invalid_state");
+    }
+
+    const session = await c
+      .get("db")
+      .updateTable("session")
+      .set({
+        oauth_connect_state_hash: hashToken(state),
+        oauth_connect_expires_at: new Date(
+          Date.now() + OAUTH_STATE_MAX_AGE_SECONDS * 1000,
+        ),
+      })
+      .where("id", "=", oauthContext.sessionId)
+      .where("account_id", "=", oauthContext.accountId)
+      .where("expires_at", ">", new Date())
+      .returning("id")
+      .executeTakeFirst();
+
+    if (!session) throw new OAuthFlowError("invalid_state");
+  }
+
   await setSignedCookie(
     c,
     OAUTH_STATE_COOKIE_NAME,
@@ -63,10 +89,10 @@ export async function getOAuthContext(
 }
 
 export async function validateOAuthState(
-  c: Context,
+  c: Context<HonoEnv>,
   provider: OAuthProvider,
   state: string | undefined,
-): Promise<OAuthContext> {
+): Promise<OAuthStateCookie> {
   const oauthState = await getOAuthStateCookie(c);
   deleteCookie(c, OAUTH_STATE_COOKIE_NAME, {
     path: provider.getCallbackPath(c),
@@ -80,7 +106,27 @@ export async function validateOAuthState(
     throw new OAuthFlowError("invalid_state");
   }
 
-  return OAuthContextSchema.parse(oauthState);
+  if (oauthState.intent === "connect") {
+    if (!oauthState.accountId || !oauthState.sessionId) {
+      throw new OAuthFlowError("invalid_state");
+    }
+
+    const now = new Date();
+    const session = await c
+      .get("db")
+      .selectFrom("session")
+      .select("id")
+      .where("id", "=", oauthState.sessionId)
+      .where("account_id", "=", oauthState.accountId)
+      .where("expires_at", ">", now)
+      .where("oauth_connect_state_hash", "=", hashToken(state))
+      .where("oauth_connect_expires_at", ">", now)
+      .executeTakeFirst();
+
+    if (!session) throw new OAuthFlowError("invalid_state");
+  }
+
+  return oauthState;
 }
 
 async function getOAuthStateCookie(

@@ -443,7 +443,48 @@ describe("Auth routes", () => {
         provider: "arkhamdb",
         provider_user_id: "12345",
       });
+
+      const replay = await app.request(
+        `/auth/arkhamdb/callback?code=another-code&state=${oauth.state}`,
+        { headers: { Cookie: oauth.cookie } },
+      );
+      expect(replay.headers.get("location")).toBe(
+        `${config.FRONTEND_URL}/settings?tab=account&oauth_error=invalid_state`,
+      );
     });
+
+    test.for(["password reset", "state expiry"])(
+      "rejects saved connect state after %s",
+      async (reason, { dependencies }) => {
+        const { app, config, mailer, sessionCookie } = dependencies;
+        const oauth = await startOAuthFlow(
+          app,
+          "/auth/arkhamdb/connect",
+          sessionCookie,
+        );
+
+        if (reason === "password reset") {
+          await forgotPassword(app, TEST_ACCOUNT.email);
+          const token = extractToken(mailer.sentEmails[0]?.body);
+          assert(token, "Missing password reset token");
+          expect(
+            (await resetPassword(app, token, "NewPassword123!")).status,
+          ).toBe(200);
+        } else {
+          vi.useFakeTimers({ toFake: ["Date"] });
+          vi.advanceTimersByTime(10 * 60 * 1000 + 1);
+        }
+
+        mockArkhamDbOAuth(12345);
+        const res = await app.request(
+          `/auth/arkhamdb/callback?code=test-code&state=${oauth.state}`,
+          { headers: { Cookie: oauth.cookie } },
+        );
+        expect(res.headers.get("location")).toBe(
+          `${config.FRONTEND_URL}/settings?tab=account&oauth_error=invalid_state`,
+        );
+      },
+    );
 
     test("connects an OAuth identity for an incomplete profile", async ({
       dependencies,

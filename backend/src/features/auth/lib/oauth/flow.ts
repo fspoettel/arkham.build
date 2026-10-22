@@ -1,12 +1,13 @@
 import { randomBytes } from "node:crypto";
 import { OAUTH_FLOW_ERROR_CODES } from "@arkham-build/shared";
 import type { Context } from "hono";
+import type { HonoEnv } from "../../../../lib/hono-env.ts";
 import { OAuthFlowError, type OAuthProvider } from "../../../../lib/oauth.ts";
 import type { OAuthContext } from "./state.ts";
 import { setOAuthStateCookie } from "./state.ts";
 
-export async function beginOAuthAuthorization(
-  c: Context,
+export async function beginOAuthAuthorization<E extends HonoEnv>(
+  c: Context<E>,
   provider: OAuthProvider,
   oauthContext: OAuthContext,
 ) {

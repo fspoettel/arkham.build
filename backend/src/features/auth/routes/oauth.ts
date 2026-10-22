@@ -23,6 +23,7 @@ import type { HonoEnv } from "../../../lib/hono-env.ts";
 import { OAuthFlowError } from "../../../lib/oauth.ts";
 import { upsertRevisionedAccountState } from "../../../lib/revisioned-account-state.ts";
 import { zodValidator } from "../../../lib/validation.ts";
+import { hashToken } from "../lib/crypto.ts";
 import {
   beginOAuthAuthorization,
   redirectToOAuthError,
@@ -107,6 +108,7 @@ arkhamdbOAuthRoutes.get(
   (c) =>
     beginOAuthAuthorization(c, arkhamdbOAuthProvider, {
       accountId: c.get("account").id,
+      sessionId: c.get("session").id,
       intent: "connect",
       returnTo: getFrontendReturnTo(
         c.req.query("returnTo"),
@@ -148,8 +150,8 @@ async function handleArkhamDbOAuthCallback(c: Context<HonoEnv>) {
 
     if (validatedOAuthContext.intent === "connect") {
       assert(
-        validatedOAuthContext.accountId,
-        "Missing account ID for OAuth connect.",
+        validatedOAuthContext.accountId && validatedOAuthContext.sessionId,
+        "Missing session for OAuth connect.",
       );
 
       const existingIdentity = await getAccountIdentityByProviderUserId(
@@ -167,6 +169,8 @@ async function handleArkhamDbOAuthCallback(c: Context<HonoEnv>) {
 
       await connectOAuthIdentityToAccount(db, {
         accountId: validatedOAuthContext.accountId,
+        sessionId: validatedOAuthContext.sessionId,
+        stateHash: hashToken(validatedOAuthContext.state),
         accessToken,
         initialArkhamDbDeckSnapshot: identity.initialArkhamDbDeckSnapshot,
         provider: arkhamdbOAuthProvider.name,
