@@ -203,8 +203,6 @@ export function CardGridItem(
     }
   };
 
-  const leftActionSlot = () => <CardFavoriteAction card={card} />;
-
   const quantity = quantities?.[card.code] ?? packQuantity ?? 0;
 
   return (
@@ -223,12 +221,7 @@ export function CardGridItem(
         onKeyUp={onPressEnter}
         tabIndex={0}
       >
-        <CardScan
-          card={card}
-          defaultFlipped={defaultFlipped}
-          lazy
-          leftActionSlot={omitFavorite ? undefined : leftActionSlot}
-        />
+        <CardScan card={card} defaultFlipped={defaultFlipped} lazy />
       </Link>
       <div className={css["group-item-actions"]}>
         <CardActions
@@ -238,6 +231,7 @@ export function CardGridItem(
           }
           listCardProps={getListCardProps?.(card)}
         />
+        {!omitFavorite && <CardFavoriteAction card={card} />}
       </div>
     </div>
   );

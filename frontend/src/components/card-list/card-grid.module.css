@@ -102,7 +102,34 @@
 
 .group-item-actions {
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 0.25rem;
+  left: 0.25rem;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.group-item-actions > * {
+  flex: 0 0 auto;
+  width: auto;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .group-item-actions > button {
+    opacity: 0;
+    transition: opacity 125ms var(--motion-ease-out);
+    visibility: hidden;
+  }
+
+  .group-item:hover .group-item-actions > button {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group-item-actions > button {
+    transition: none;
+  }
 }
