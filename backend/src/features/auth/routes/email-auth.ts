@@ -10,7 +10,6 @@ import { Hono } from "hono";
 import { deleteCookie, getCookie } from "hono/cookie";
 import { HTTPException } from "hono/http-exception";
 import {
-  getAccountIdentity,
   getAccountIdentityByEmail,
   getAccountIdentityByEmailOrPendingEmail,
 } from "../../../lib/auth/account-identities.ts";
@@ -32,9 +31,14 @@ import { sendVerificationEmail } from "../lib/verification-email.ts";
 import { createAccount } from "../queries/accounts.ts";
 import {
   activatePendingAccountIdentityEmail,
+  lockEmailAccountIdentity,
   updateAccountIdentityVerified,
 } from "../queries/identities.ts";
-import { consumeVerificationToken } from "../queries/verification-tokens.ts";
+import {
+  consumeVerificationToken,
+  deleteVerificationTokensByAccountIdentityId,
+  getVerificationTokenByHash,
+} from "../queries/verification-tokens.ts";
 
 const routes = new Hono<HonoEnv>();
 
@@ -135,26 +139,32 @@ routes.post(
   async (c) => {
     const db = c.get("db");
     const { token } = c.req.valid("json");
+    const tokenHash = hashToken(token);
 
     await db.transaction().execute(async (tx) => {
-      const verificationToken = await consumeVerificationToken(
+      const existingToken = await getVerificationTokenByHash(
         tx,
-        hashToken(token),
+        tokenHash,
         "email_verification",
       );
 
-      if (!verificationToken?.account_identity_id) {
+      if (!existingToken?.account_identity_id) {
         throw new HTTPException(400, {
           message: "Invalid or expired verification token",
         });
       }
 
-      const accountIdentity = await getAccountIdentity(
+      const accountIdentity = await lockEmailAccountIdentity(
         tx,
-        verificationToken.account_identity_id,
+        existingToken.account_identity_id,
+      );
+      const verificationToken = await consumeVerificationToken(
+        tx,
+        tokenHash,
+        "email_verification",
       );
 
-      if (!accountIdentity) {
+      if (!accountIdentity || !verificationToken) {
         throw new HTTPException(400, {
           message: "Invalid or expired verification token",
         });
@@ -172,6 +182,11 @@ routes.post(
             tx,
             accountIdentity.id,
             verificationToken.email,
+          );
+          await deleteVerificationTokensByAccountIdentityId(
+            tx,
+            accountIdentity.id,
+            "password_reset",
           );
         } catch (error) {
           if (isUniqueViolation(error)) {
@@ -192,10 +207,7 @@ routes.post(
         });
       }
 
-      await updateAccountIdentityVerified(
-        tx,
-        verificationToken.account_identity_id,
-      );
+      await updateAccountIdentityVerified(tx, accountIdentity.id);
     });
 
     return new Response(null, { status: 200 });
@@ -216,17 +228,18 @@ routes.post(
       email,
     );
 
-    const shouldResend =
-      !!accountIdentity &&
-      ((accountIdentity.email === email && !accountIdentity.verified_at) ||
-        accountIdentity.pending_email === email);
-
-    if (shouldResend) {
-      await assertVerificationTokenCooldown(db, email, "email_verification");
-
+    if (accountIdentity) {
       await db.transaction().execute(async (tx) => {
+        const identity = await lockEmailAccountIdentity(tx, accountIdentity.id);
+        const shouldResend =
+          !!identity &&
+          ((identity.email === email && !identity.verified_at) ||
+            identity.pending_email === email);
+        if (!shouldResend) return;
+
+        await assertVerificationTokenCooldown(tx, email, "email_verification");
         await sendVerificationEmail(tx, {
-          accountIdentityId: accountIdentity.id,
+          accountIdentityId: identity.id,
           config,
           dispatcher,
           email,

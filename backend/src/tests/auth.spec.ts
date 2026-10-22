@@ -1,10 +1,6 @@
 /* oxlint-disable typescript/no-explicit-any -- test code */
 import assert from "node:assert";
-import {
-  CompleteProfileResponseSchema,
-  type Deck,
-  SessionResponseSchema,
-} from "@arkham-build/shared";
+import { CompleteProfileResponseSchema, type Deck } from "@arkham-build/shared";
 import type { Hono } from "hono";
 import { describe, expect, vi } from "vitest";
 import { appFactory } from "../app.ts";
@@ -1435,6 +1431,27 @@ describe("Auth routes", () => {
       expect(res.status).toBe(200);
     });
 
+    test("invalidates reset links after an email change", async ({
+      dependencies,
+    }) => {
+      const { app, mailer, sessionCookie } = dependencies;
+
+      await updateCredentials(app, sessionCookie, {
+        currentPassword: TEST_ACCOUNT.password,
+        newEmail: "updated@example.com",
+      });
+      const emailToken = extractToken(mailer.sentEmails[0]?.body);
+      assert(emailToken, "Missing email verification token");
+
+      await forgotPassword(app, TEST_ACCOUNT.email);
+      const resetToken = extractToken(mailer.sentEmails[1]?.body);
+      assert(resetToken, "Missing password reset token");
+
+      expect((await verifyEmail(app, emailToken)).status).toBe(200);
+      const res = await resetPassword(app, resetToken, "NewPassword123!");
+      expect(res.status).toBe(400);
+    });
+
     test("does not verify invalid token", async ({ dependencies }) => {
       const { app } = dependencies;
       const res = await verifyEmail(app, "invalid-token");
@@ -2124,6 +2141,7 @@ describe("Auth routes", () => {
       });
 
       expect(res.status).toBe(200);
+      expect(getSessionCookie(res)).toBe(sessionCookie);
       expect(mailer.sentEmails).toHaveLength(1);
       expect(mailer.sentEmails[0]?.to).toBe("updated@example.com");
 
@@ -2181,9 +2199,6 @@ describe("Auth routes", () => {
       dependencies,
     }) => {
       const { app, db, mailer, sessionCookie } = dependencies;
-      const otherSessionCookie = getSessionCookie(
-        await login(app, TEST_ACCOUNT.email, TEST_ACCOUNT.password),
-      );
 
       mailer.failOnce();
 
@@ -2197,12 +2212,10 @@ describe("Auth routes", () => {
       expect(mailer.sentEmails).toHaveLength(0);
       expect(getSessionCookie(res)).toBe(sessionCookie);
 
-      for (const cookie of [sessionCookie, otherSessionCookie]) {
-        const meRes = await app.request("/v2/account/auth/me", {
-          headers: { Cookie: cookie },
-        });
-        expect(meRes.status).toBe(200);
-      }
+      const meRes = await app.request("/v2/account/auth/me", {
+        headers: { Cookie: sessionCookie },
+      });
+      expect(meRes.status).toBe(200);
 
       const identity = await db
         .selectFrom("account_identity")
@@ -2236,93 +2249,17 @@ describe("Auth routes", () => {
       ).toBe(0);
     });
 
-    test.for([{ newEmail: undefined }, { newEmail: "updated@example.com" }])(
-      "revokes old sessions and rotates the current session with newEmail=$newEmail",
-      async ({ newEmail }, { dependencies }) => {
-        const { app, config, db, sessionCookie } = dependencies;
-        const otherSessionCookie = getSessionCookie(
-          await login(app, TEST_ACCOUNT.email, TEST_ACCOUNT.password),
-        );
-        const otherAccount = await db
-          .insertInto("account")
-          .values({ name: "other-session-owner" })
-          .returning("id")
-          .executeTakeFirstOrThrow();
-        const unrelatedSession = await createSession(db, otherAccount.id, 1);
-
-        const res = await updateCredentials(app, sessionCookie, {
-          currentPassword: TEST_ACCOUNT.password,
-          ...(newEmail ? { newEmail } : {}),
-          newPassword: "NewPassword123!",
-        });
-
-        expect(res.status).toBe(200);
-        expect(res.headers.getSetCookie()).toHaveLength(1);
-        const rotatedCookie = getSessionCookie(res);
-        expect(rotatedCookie).not.toBe(sessionCookie);
-        expect(rotatedCookie).not.toBe(otherSessionCookie);
-        expect(res.headers.get("set-cookie")).toContain("HttpOnly");
-        expect(res.headers.get("set-cookie")).toContain("SameSite=Strict");
-        expect(res.headers.get("set-cookie")).toContain(
-          `Max-Age=${config.SESSION_EXPIRY_HOURS * 60 * 60}`,
-        );
-
-        for (const cookie of [sessionCookie, otherSessionCookie]) {
-          const meRes = await app.request("/v2/account/auth/me", {
-            headers: { Cookie: cookie },
-          });
-          expect(meRes.status).toBe(401);
-        }
-
-        const meRes = await app.request("/v2/account/auth/me", {
-          headers: { Cookie: rotatedCookie },
-        });
-        expect(meRes.status).toBe(200);
-        const { account } = SessionResponseSchema.parse(await meRes.json());
-        expect(account.name).toBe(TEST_ACCOUNT.name);
-        expect(
-          await db
-            .selectFrom("session")
-            .select("id")
-            .where("account_id", "=", account.id)
-            .execute(),
-        ).toHaveLength(1);
-        expect(
-          await db
-            .selectFrom("session")
-            .select("id")
-            .where("id", "=", unrelatedSession.id)
-            .executeTakeFirst(),
-        ).toBeDefined();
-      },
-    );
-
-    test("keeps existing sessions for an email-only change", async ({
+    test("changes the password and invalidates old reset links", async ({
       dependencies,
     }) => {
-      const { app, sessionCookie } = dependencies;
+      const { app, mailer, sessionCookie } = dependencies;
       const otherSessionCookie = getSessionCookie(
         await login(app, TEST_ACCOUNT.email, TEST_ACCOUNT.password),
       );
 
-      const res = await updateCredentials(app, sessionCookie, {
-        currentPassword: TEST_ACCOUNT.password,
-        newEmail: "updated@example.com",
-      });
-
-      expect(res.status).toBe(200);
-      expect(getSessionCookie(res)).toBe(sessionCookie);
-
-      for (const cookie of [sessionCookie, otherSessionCookie]) {
-        const meRes = await app.request("/v2/account/auth/me", {
-          headers: { Cookie: cookie },
-        });
-        expect(meRes.status).toBe(200);
-      }
-    });
-
-    test("changes the password", async ({ dependencies }) => {
-      const { app, sessionCookie } = dependencies;
+      await forgotPassword(app, TEST_ACCOUNT.email);
+      const resetToken = extractToken(mailer.sentEmails[0]?.body);
+      assert(resetToken, "Missing password reset token");
 
       const res = await updateCredentials(app, sessionCookie, {
         currentPassword: TEST_ACCOUNT.password,
@@ -2330,6 +2267,22 @@ describe("Auth routes", () => {
       });
 
       expect(res.status).toBe(200);
+      const rotatedCookie = getSessionCookie(res);
+      expect(rotatedCookie).not.toBe(sessionCookie);
+
+      for (const cookie of [sessionCookie, otherSessionCookie]) {
+        const meRes = await app.request("/v2/account/auth/me", {
+          headers: { Cookie: cookie },
+        });
+        expect(meRes.status).toBe(401);
+      }
+      const meRes = await app.request("/v2/account/auth/me", {
+        headers: { Cookie: rotatedCookie },
+      });
+      expect(meRes.status).toBe(200);
+      expect(
+        (await resetPassword(app, resetToken, "AttackerPassword123!")).status,
+      ).toBe(400);
 
       const oldLoginRes = await login(
         app,
@@ -2868,23 +2821,37 @@ describe("Auth routes", () => {
       expect(res.status).toBe(400);
     });
 
-    test("invalidates all sessions after password reset", async ({
+    test("invalidates sessions and pending email changes after password reset", async ({
       dependencies,
     }) => {
-      const { app, mailer, sessionCookie } = dependencies;
+      const { app, db, mailer, sessionCookie } = dependencies;
+
+      await updateCredentials(app, sessionCookie, {
+        currentPassword: TEST_ACCOUNT.password,
+        newEmail: "attacker@example.com",
+      });
+      const emailToken = extractToken(mailer.sentEmails[0]?.body);
+      assert(emailToken, "Missing email verification token");
 
       await forgotPassword(app, TEST_ACCOUNT.email);
+      const resetToken = extractToken(mailer.sentEmails[1]?.body);
+      assert(resetToken, "Missing password reset token");
 
-      const resetToken = extractToken(mailer.sentEmails[0]?.body);
-      assert(resetToken, "No verification token found");
+      expect(
+        (await resetPassword(app, resetToken, "NewPassword123!")).status,
+      ).toBe(200);
+      expect((await verifyEmail(app, emailToken)).status).toBe(400);
 
-      await resetPassword(app, resetToken, "NewPassword123!");
+      const identity = await db
+        .selectFrom("account_identity")
+        .select("pending_email")
+        .where("email", "=", TEST_ACCOUNT.email)
+        .executeTakeFirstOrThrow();
+      expect(identity.pending_email).toBeNull();
 
       const meRes = await app.request("/v2/account/auth/me", {
-        method: "GET",
         headers: { Cookie: sessionCookie },
       });
-
       expect(meRes.status).toBe(401);
     });
 

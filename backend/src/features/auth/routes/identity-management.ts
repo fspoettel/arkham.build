@@ -31,10 +31,14 @@ import {
   createEmailIdentity,
   deleteEmailIdentity,
   disconnectOAuthIdentity,
+  lockEmailAccountIdentity,
   updateAccountIdentityPasswordHash,
   updateAccountIdentityPendingEmail,
 } from "../queries/identities.ts";
-import { deleteVerificationTokensByAccountIdentityIdAndEmail } from "../queries/verification-tokens.ts";
+import {
+  deleteVerificationTokensByAccountIdentityId,
+  deleteVerificationTokensByAccountIdentityIdAndEmail,
+} from "../queries/verification-tokens.ts";
 
 const routes = new Hono<HonoEnv>();
 
@@ -180,10 +184,22 @@ routes.patch(
     }
 
     const passwordHash = newPassword ? await hashPassword(newPassword) : null;
-    const previousPendingEmail = emailIdentity.pending_email;
 
     try {
       const session = await db.transaction().execute(async (tx) => {
+        const identity = await lockEmailAccountIdentity(tx, emailIdentity.id);
+        if (
+          !identity ||
+          identity.password_hash !== emailIdentity.password_hash ||
+          identity.email !== emailIdentity.email
+        ) {
+          throw new HTTPException(400, {
+            message: "Credentials have changed; please try again",
+          });
+        }
+
+        const previousPendingEmail = identity.pending_email;
+
         if (passwordHash) {
           await updateAccountIdentityPasswordHash(
             tx,
@@ -218,6 +234,11 @@ routes.patch(
 
         if (!passwordHash) return;
 
+        await deleteVerificationTokensByAccountIdentityId(
+          tx,
+          emailIdentity.id,
+          "password_reset",
+        );
         await deleteSessionsByAccountId(tx, account.id);
         return await createSession(tx, account.id, config.SESSION_EXPIRY_HOURS);
       });
@@ -256,15 +277,16 @@ routes.delete("/credentials/pending-email", sessionAuth(), async (c) => {
     });
   }
 
-  const pendingEmail = emailIdentity.pending_email;
-
-  if (!pendingEmail) {
-    throw new HTTPException(400, {
-      message: "No pending email found",
-    });
-  }
-
   await db.transaction().execute(async (tx) => {
+    const identity = await lockEmailAccountIdentity(tx, emailIdentity.id);
+    const pendingEmail = identity?.pending_email;
+
+    if (!pendingEmail) {
+      throw new HTTPException(400, {
+        message: "No pending email found",
+      });
+    }
+
     await deleteVerificationTokensByAccountIdentityIdAndEmail(
       tx,
       emailIdentity.id,
@@ -272,7 +294,7 @@ routes.delete("/credentials/pending-email", sessionAuth(), async (c) => {
       "email_verification",
     );
 
-    if (emailIdentity.email) {
+    if (identity.email) {
       await updateAccountIdentityPendingEmail(tx, emailIdentity.id, null);
       return;
     }

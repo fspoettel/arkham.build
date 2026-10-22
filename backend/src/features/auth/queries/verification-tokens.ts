@@ -51,6 +51,22 @@ async function deleteVerificationTokensByEmail(
     .executeTakeFirst();
 }
 
+export async function deleteVerificationTokensByAccountIdentityId(
+  db: Database,
+  accountIdentityId: string,
+  tokenType?: CreateVerificationTokenParams["tokenType"],
+) {
+  let query = db
+    .deleteFrom("verification_token")
+    .where("account_identity_id", "=", accountIdentityId);
+
+  if (tokenType) {
+    query = query.where("token_type", "=", tokenType);
+  }
+
+  return await query.executeTakeFirst();
+}
+
 export async function deleteVerificationTokensByAccountIdentityIdAndEmail(
   db: Database,
   accountIdentityId: string,

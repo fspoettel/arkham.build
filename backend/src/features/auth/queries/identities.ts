@@ -1,5 +1,7 @@
 import assert from "node:assert";
+import type { Transaction } from "kysely";
 import type { Database } from "../../../db/db.ts";
+import type { DB } from "../../../db/schema.types.ts";
 import { createArkhamDbDeckSnapshot } from "../../../lib/arkhamdb/api-client/deck-snapshots.ts";
 import {
   getAccountIdentityByAccountIdAndProvider,
@@ -128,6 +130,16 @@ export async function countUsableLoginIdentities(
     .executeTakeFirstOrThrow();
 
   return Number(result.count);
+}
+
+export function lockEmailAccountIdentity(tx: Transaction<DB>, id: string) {
+  return tx
+    .selectFrom("account_identity")
+    .selectAll()
+    .where("id", "=", id)
+    .where("provider", "=", "email")
+    .forUpdate()
+    .executeTakeFirst();
 }
 
 export async function updateAccountIdentityPendingEmail(

@@ -4,7 +4,6 @@ import {
 } from "@arkham-build/shared";
 import { Hono } from "hono";
 import {
-  getAccountIdentity,
   getAccountIdentityByEmail,
   getAccountIdentityByUsername,
 } from "../../../lib/auth/account-identities.ts";
@@ -18,9 +17,14 @@ import {
 } from "../lib/assertions.ts";
 import { generateRandomToken, hashPassword, hashToken } from "../lib/crypto.ts";
 import { passwordResetEmailTemplate } from "../lib/email-templates.ts";
-import { updateAccountIdentityPasswordHash } from "../queries/identities.ts";
+import {
+  lockEmailAccountIdentity,
+  updateAccountIdentityPasswordHash,
+  updateAccountIdentityPendingEmail,
+} from "../queries/identities.ts";
 import {
   consumeVerificationToken,
+  deleteVerificationTokensByAccountIdentityId,
   getVerificationTokenByHash,
   replaceVerificationToken,
 } from "../queries/verification-tokens.ts";
@@ -43,11 +47,19 @@ routes.post(
     const email = accountIdentity?.email;
 
     if (accountIdentity?.verified_at && email) {
-      await assertVerificationTokenCooldown(db, email, "password_reset");
-
       const token = generateRandomToken();
 
       await db.transaction().execute(async (tx) => {
+        const identity = await lockEmailAccountIdentity(tx, accountIdentity.id);
+        if (
+          !identity?.verified_at ||
+          identity.email !== email ||
+          identity.password_hash !== accountIdentity.password_hash
+        ) {
+          return;
+        }
+
+        await assertVerificationTokenCooldown(tx, email, "password_reset");
         await replaceVerificationToken(tx, {
           accountIdentityId: accountIdentity.id,
           email,
@@ -92,34 +104,35 @@ routes.post(
       throwInvalidResetTokenError();
     }
 
+    const accountIdentityId = existingToken.account_identity_id;
     const passwordHash = await hashPassword(password);
 
     await db.transaction().execute(async (tx) => {
+      const accountIdentity = await lockEmailAccountIdentity(
+        tx,
+        accountIdentityId,
+      );
       const verificationToken = await consumeVerificationToken(
         tx,
         tokenHash,
         "password_reset",
       );
 
-      if (!verificationToken?.account_identity_id) {
-        throwInvalidResetTokenError();
-      }
-
-      const accountIdentity = await getAccountIdentity(
-        tx,
-        verificationToken.account_identity_id,
-      );
-
-      if (!accountIdentity) {
+      if (
+        !verificationToken ||
+        !accountIdentity?.verified_at ||
+        accountIdentity.email !== verificationToken.email
+      ) {
         throwInvalidResetTokenError();
       }
 
       await updateAccountIdentityPasswordHash(
         tx,
-        verificationToken.account_identity_id,
+        accountIdentity.id,
         passwordHash,
       );
-
+      await updateAccountIdentityPendingEmail(tx, accountIdentity.id, null);
+      await deleteVerificationTokensByAccountIdentityId(tx, accountIdentity.id);
       await deleteSessionsByAccountId(tx, accountIdentity.account_id);
     });
 
