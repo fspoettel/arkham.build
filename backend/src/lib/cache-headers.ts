@@ -41,6 +41,13 @@ export function requestHasMatchingEtag(c: Context<HonoEnv>, etag: string) {
     );
 }
 
+export function noStore(): MiddlewareHandler<HonoEnv> {
+  return async (c, next) => {
+    await next();
+    c.header("Cache-Control", "no-store");
+  };
+}
+
 export function publicCache(
   maxAge = 86400,
   immutable = false,

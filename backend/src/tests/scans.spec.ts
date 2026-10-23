@@ -68,7 +68,7 @@ describe("GET /v2/account/scans/:scanId/download", () => {
     });
 
     expect(response.status).toBe(302);
-    expect(response.headers.get("Cache-Control")).toBe("private, no-store");
+    expect(response.headers.get("Cache-Control")).toBe("no-store");
     expect(send).toHaveBeenCalledTimes(1);
 
     const location = response.headers.get("Location");

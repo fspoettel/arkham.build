@@ -40,6 +40,35 @@ type TabooSetsWithCardsResponse = {
   };
 };
 
+describe("Authenticated response caching", () => {
+  test("does not store session-authenticated responses", async ({
+    dependencies,
+  }) => {
+    const { app, sessionCookie } = dependencies;
+    const response = await app.request("/v2/account/settings", {
+      headers: { Cookie: sessionCookie },
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("Cache-Control")).toBe("no-store");
+  });
+
+  test.for([
+    "/v2/account/settings",
+    "/v2/user/me",
+    "/admin/account_moderation_actions",
+    "/auth/arkhamdb/connect",
+  ])(
+    "does not store authentication errors for %s",
+    async (path, { dependencies }) => {
+      const response = await dependencies.app.request(path);
+
+      expect(response.status).toBe(401);
+      expect(response.headers.get("Cache-Control")).toBe("no-store");
+    },
+  );
+});
+
 describe("GET /v1/cache", () => {
   test("returns 304 for matching etags", async ({ dependencies }) => {
     const initialRes = await dependencies.app.request("/v1/cache/metadata");

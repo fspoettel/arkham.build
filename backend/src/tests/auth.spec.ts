@@ -26,6 +26,7 @@ describe("Auth routes", () => {
         });
 
         expect(res.status).toBe(302);
+        expect(res.headers.get("Cache-Control")).toBe("no-store");
 
         const location = res.headers.get("location");
         assert(location, "Missing location header");

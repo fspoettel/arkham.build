@@ -34,6 +34,7 @@ describe("OAuth user deck routes", () => {
       "/v2/user/decks/manifest?source=account",
     );
     expect(firstManifestResponse.status).toBe(200);
+    expect(firstManifestResponse.headers.get("Cache-Control")).toBe("no-store");
     const firstManifest = OAuthDeckManifestResponseSchema.parse(
       await firstManifestResponse.json(),
     );
@@ -413,6 +414,7 @@ describe("OAuth user deck routes", () => {
       "/v2/user/decks/manifest",
     );
     expect(forbidden.status).toBe(403);
+    expect(forbidden.headers.get("Cache-Control")).toBe("no-store");
     expect(OAuthUserErrorSchema.parse(await forbidden.json()).error).toBe(
       "insufficient_scope",
     );

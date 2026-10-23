@@ -39,7 +39,6 @@ export function createScansRoutes(scansStorage: ScansStorage) {
 
     const downloadUrl = await scansStorage.createDownloadUrl(scanId.data);
 
-    c.header("Cache-Control", "private, no-store");
     return c.redirect(downloadUrl);
   });
 

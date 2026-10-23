@@ -36,6 +36,7 @@ import settingsRouter from "./features/settings/routes.ts";
 import v1PublicRouter from "./features/v1-public/routes.ts";
 import type { JobDispatcher } from "./jobs/dispatcher.ts";
 import { bodyLimitMiddleware } from "./lib/body-limit.ts";
+import { noStore } from "./lib/cache-headers.ts";
 import type { Config } from "./lib/config.ts";
 import {
   authenticatedCorsMiddleware,
@@ -70,6 +71,16 @@ export function appFactory(
     c.set("dispatcher", dispatcher);
     return next();
   });
+
+  for (const path of [
+    "/v2/account/*",
+    "/v2/user/*",
+    "/v2/oauth/*",
+    "/auth/*",
+    "/admin/*",
+  ]) {
+    app.use(path, noStore());
+  }
 
   const publicCors = publicCorsMiddleware(config);
   const authenticatedCors = authenticatedCorsMiddleware(config);
