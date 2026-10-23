@@ -9,6 +9,8 @@ import { chartTheme } from "./chart-theme";
 import { ChartTooltip } from "./chart-tooltip";
 import css from "./deck-tools.module.css";
 
+type FactionPoint = ChartableData<FactionName>[number];
+
 type Props = {
   data: ChartableData<FactionName>;
   onSelect?: (selection: ChartSelection) => void;
@@ -22,8 +24,12 @@ export function FactionsChart({ data, onSelect }: Props) {
   return (
     <div className={css["chart-container"]}>
       <h4 className={css["chart-title"]}>{t("deck.tools.factions")}</h4>
-      <PieChart width="100%" height={chartTheme.height} responsive>
-        <Pie
+      <PieChart<FactionPoint>
+        width="100%"
+        height={chartTheme.height}
+        responsive
+      >
+        <Pie<FactionPoint, FactionName | number>
           data={normalizedData}
           className={css["interactive-chart"]}
           onClick={(_, index) => {
@@ -49,7 +55,11 @@ export function FactionsChart({ data, onSelect }: Props) {
           shape={renderFactionSector}
         />
         <Tooltip
-          content={<ChartTooltip formatter={(d) => formatTooltip(t, d)} />}
+          content={
+            <ChartTooltip<FactionPoint>
+              formatter={(d) => formatTooltip(t, d)}
+            />
+          }
           isAnimationActive={false}
         />
       </PieChart>
@@ -97,10 +107,7 @@ function renderFactionLabel(props: {
   );
 }
 
-function formatTooltip(t: TFunction, data: Record<string, unknown>) {
-  const faction = data.x as string;
-  const count = data.y as number;
-
+function formatTooltip(t: TFunction, { x: faction, y: count }: FactionPoint) {
   return t("deck.tools.factions_tooltip", {
     count,
     faction: t(`common.factions.${faction}`),

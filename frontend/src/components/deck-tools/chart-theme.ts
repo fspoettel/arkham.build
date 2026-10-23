@@ -33,11 +33,11 @@ export const chartTheme = {
   },
 } as const;
 
-export const axisTickStyle: React.SVGProps<SVGTextElement> = {
+export const axisTickStyle = {
   fontFamily: chartTheme.font.family,
   fontSize: chartTheme.font.size,
   fill: chartTheme.colors.text,
-};
+} satisfies React.SVGProps<SVGTextElement>;
 
 export const axisLabelStyle = {
   fontFamily: chartTheme.font.family,

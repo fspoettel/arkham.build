@@ -17,6 +17,8 @@ import { axisLabelStyle, axisTickStyle, chartTheme } from "./chart-theme";
 import { ChartTooltip } from "./chart-tooltip";
 import css from "./deck-tools.module.css";
 
+type CostPoint = ChartableData[number];
+
 type Props = {
   costs: number[];
   data: ChartableData;
@@ -56,7 +58,7 @@ export function CostCurveChart({ costs, data, total, onSelect }: Props) {
         </div>
       ) : null}
       <ResponsiveContainer width="100%" height={chartTheme.height}>
-        <BarChart
+        <BarChart<CostPoint>
           data={normalizedData}
           className={css["interactive-chart"]}
           onClick={({
@@ -73,7 +75,7 @@ export function CostCurveChart({ costs, data, total, onSelect }: Props) {
               });
             }
           }}
-          margin={{ left: 5, bottom: 20, right: 5, top: 5 }}
+          margin={{ left: 5, bottom: 5, right: 5, top: 5 }}
         >
           <CartesianGrid
             stroke={chartTheme.colors.grid}
@@ -81,19 +83,20 @@ export function CostCurveChart({ costs, data, total, onSelect }: Props) {
             strokeWidth={chartTheme.strokeWidth.grid}
             vertical={false}
           />
-          <XAxis
+          <XAxis<CostPoint, number>
             dataKey="x"
+            height="auto"
             tickFormatter={formatDomainTickLabels}
             stroke={chartTheme.colors.axis}
             strokeWidth={chartTheme.strokeWidth.axis}
             tick={axisTickStyle}
             label={{
               value: t("deck.tools.resource_cost"),
-              position: "bottom",
+              position: "insideBottom",
               style: axisLabelStyle,
             }}
           />
-          <YAxis
+          <YAxis<CostPoint, number>
             allowDecimals={false}
             stroke={chartTheme.colors.axis}
             strokeWidth={chartTheme.strokeWidth.axis}
@@ -106,14 +109,16 @@ export function CostCurveChart({ costs, data, total, onSelect }: Props) {
             }}
           />
           <Tooltip
-            content={<ChartTooltip formatter={(d) => formatTooltip(t, d)} />}
+            content={
+              <ChartTooltip<CostPoint> formatter={(d) => formatTooltip(t, d)} />
+            }
             isAnimationActive={false}
             cursor={{
               fill: chartTheme.colors.cursorFill,
               opacity: chartTheme.cursorOpacity,
             }}
           />
-          <Bar
+          <Bar<CostPoint, number>
             dataKey="y"
             fill={chartTheme.colors.primary}
             activeBar={{ fill: chartTheme.colors.primaryHover }}
@@ -168,10 +173,7 @@ function formatDomainTickLabels(value: number) {
   return value === 7 ? "7+" : value.toString();
 }
 
-function formatTooltip(t: TFunction, data: Record<string, unknown>) {
-  const x = data.x as number;
-  const y = data.y as number;
-
+function formatTooltip(t: TFunction, { x, y }: CostPoint) {
   return t("deck.tools.resource_cost_tooltip", {
     count: y,
     cost: `${x}${x === 7 ? "+" : ""}`,

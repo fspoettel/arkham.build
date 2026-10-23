@@ -24,26 +24,26 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "3.1090.0",
-    "@aws-sdk/s3-request-presigner": "3.1090.0",
-    "@fast-csv/parse": "5.0.5",
-    "@hono/node-server": "2.1.1",
+    "@aws-sdk/client-s3": "3.1156.0",
+    "@aws-sdk/s3-request-presigner": "3.1156.0",
+    "@fast-csv/parse": "5.0.8",
+    "@hono/node-server": "2.1.5",
     "async-mutex": "0.5.0",
-    "dbmate": "2.31.0",
-    "hono": "4.13.7",
-    "kysely": "0.28.17",
-    "nodemailer": "10.0.9",
-    "pg": "8.19.0",
-    "pg-boss": "12.18.2",
+    "dbmate": "2.37.0",
+    "hono": "4.13.13",
+    "kysely": "0.29.7",
+    "nodemailer": "10.2.1",
+    "pg": "8.23.1",
+    "pg-boss": "12.38.0",
     "tar": "7.5.22"
   },
   "devDependencies": {
-    "@testcontainers/postgresql": "12.0.4",
+    "@testcontainers/postgresql": "12.2.1",
     "@tsconfig/node-ts": "23.6.4",
-    "@tsconfig/node24": "24.0.4",
+    "@tsconfig/node24": "24.0.5",
     "@tsconfig/strictest": "2.0.8",
-    "@types/nodemailer": "7.0.5",
-    "@types/pg": "8.16.0",
+    "@types/nodemailer": "8.0.2",
+    "@types/pg": "8.23.1",
     "kysely-codegen": "0.20.0"
   }
 }

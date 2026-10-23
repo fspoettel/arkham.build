@@ -82,7 +82,9 @@ function upsertAccountCardTagState(db: Database, params: AccountCardTagParams) {
     state: params.state,
   };
 
-  if (params.expectedRevision == null) {
+  const expectedRevision = params.expectedRevision;
+
+  if (expectedRevision == null) {
     return db
       .insertInto("account_card_tag")
       .values(values)
@@ -101,7 +103,7 @@ function upsertAccountCardTagState(db: Database, params: AccountCardTagParams) {
           revision: params.revision,
           state: params.state,
         })
-        .where("account_card_tag.revision", "=", params.expectedRevision),
+        .where("account_card_tag.revision", "=", expectedRevision),
     )
     .returning(["state", "revision"])
     .executeTakeFirst();
@@ -114,7 +116,9 @@ function upsertAccountFolderState(db: Database, params: AccountFolderParams) {
     state: params.state,
   };
 
-  if (params.expectedRevision == null) {
+  const expectedRevision = params.expectedRevision;
+
+  if (expectedRevision == null) {
     return db
       .insertInto("account_folder")
       .values(values)
@@ -133,7 +137,7 @@ function upsertAccountFolderState(db: Database, params: AccountFolderParams) {
           revision: params.revision,
           state: params.state,
         })
-        .where("account_folder.revision", "=", params.expectedRevision),
+        .where("account_folder.revision", "=", expectedRevision),
     )
     .returning(["state", "revision"])
     .executeTakeFirst();
@@ -150,7 +154,9 @@ function upsertAccountSettingsState(
     settings: params.settings,
   };
 
-  if (params.expectedRevision == null) {
+  const expectedRevision = params.expectedRevision;
+
+  if (expectedRevision == null) {
     return db
       .insertInto("account_settings")
       .values(values)
@@ -170,7 +176,7 @@ function upsertAccountSettingsState(
           revision: params.revision,
           settings: params.settings,
         })
-        .where("account_settings.revision", "=", params.expectedRevision),
+        .where("account_settings.revision", "=", expectedRevision),
     )
     .returning(["settings", "collection", "revision"])
     .executeTakeFirst();

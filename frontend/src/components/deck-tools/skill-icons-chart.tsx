@@ -17,6 +17,8 @@ import { chartTheme } from "./chart-theme";
 import { ChartTooltip } from "./chart-tooltip";
 import css from "./deck-tools.module.css";
 
+type SkillPoint = ChartableData<SkillIcon>[number];
+
 type Props = {
   data: ChartableData<SkillIcon>;
   onSelect?: (selection: ChartSelection) => void;
@@ -28,7 +30,7 @@ export function SkillIconsChart({ data, onSelect }: Props) {
   return (
     <div className={css["chart-container"]}>
       <h4 className={css["chart-title"]}>{t("deck.tools.skill_icons")}</h4>
-      <RadarChart
+      <RadarChart<SkillPoint>
         data={data}
         className={css["interactive-chart"]}
         onClick={({
@@ -56,14 +58,18 @@ export function SkillIconsChart({ data, onSelect }: Props) {
           stroke={chartTheme.colors.grid}
           strokeDasharray={chartTheme.gridDasharray}
         />
-        <PolarAngleAxis
+        <PolarAngleAxis<SkillPoint, SkillIcon>
           dataKey="x"
           tick={<SkillIconTick />}
           stroke={chartTheme.colors.axis}
           strokeWidth={chartTheme.strokeWidth.axis}
         />
-        <PolarRadiusAxis tick={false} axisLine={false} domain={[0, "auto"]} />
-        <Radar
+        <PolarRadiusAxis<SkillPoint, number>
+          tick={false}
+          axisLine={false}
+          domain={[0, "auto"]}
+        />
+        <Radar<SkillPoint, number>
           dataKey="y"
           stroke={chartTheme.colors.primary}
           strokeWidth={chartTheme.strokeWidth.line}
@@ -77,7 +83,9 @@ export function SkillIconsChart({ data, onSelect }: Props) {
         />
         <Tooltip
           isAnimationActive={false}
-          content={<ChartTooltip formatter={(d) => formatTooltip(t, d)} />}
+          content={
+            <ChartTooltip<SkillPoint> formatter={(d) => formatTooltip(t, d)} />
+          }
         />
       </RadarChart>
     </div>
@@ -105,9 +113,8 @@ function SkillIconTick(props: {
   );
 }
 
-function formatTooltip(t: TFunction, data: Record<string, unknown>) {
-  const skill = (data.x as string).replace("skill_", "");
-  const count = (data.y as number) ?? 0;
+function formatTooltip(t: TFunction, { x, y: count }: SkillPoint) {
+  const skill = x.replace("skill_", "");
 
   return t("deck.tools.skill_icons_tooltip", {
     count,
