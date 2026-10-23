@@ -7,11 +7,11 @@ import { cx } from "@/utils/cx";
 import { useGoBack } from "@/utils/use-go-back";
 import css from "./about.module.css";
 
+const year = new Date().getUTCFullYear();
+
 function About() {
   const goBack = useGoBack();
   const { t } = useTranslation();
-
-  const date = new Date().getUTCFullYear();
 
   return (
     <AppLayout title={t("about.title")}>
@@ -24,7 +24,7 @@ function About() {
         <Trans
           i18nKey="about.description"
           t={t}
-          values={{ date }}
+          values={{ date: year }}
           components={{
             ffg: (
               // oxlint-disable-next-line jsx-a11y/anchor-has-content -- not relevant here.
