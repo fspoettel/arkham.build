@@ -93,7 +93,7 @@ function setImageReferrerPolicy(template: HTMLTemplateElement) {
   }
 }
 
-function getEmbedSrc(src: string | null) {
+export function getEmbedSrc(src: string | null) {
   if (!src) return null;
 
   try {

@@ -5,7 +5,7 @@ import { useCardLinkTooltip } from "@/components/card-tooltip/use-card-link-tool
 import { useStore } from "@/store";
 import { redirectArkhamDBLinks } from "@/utils/arkhamdb";
 import { cx } from "@/utils/cx";
-import { parseMarkdown } from "@/utils/markdown";
+import { getEmbedSrc, parseMarkdown } from "@/utils/markdown";
 import css from "./deck-description.module.css";
 
 type Props = {
@@ -92,12 +92,11 @@ function loadExternalEmbed(trigger: Element) {
   const { embedAllow, embedAllowfullscreen, embedSrc, embedTitle } =
     placeholder.dataset;
 
-  if (!embedSrc) {
-    return;
-  }
+  const validatedEmbedSrc = getEmbedSrc(embedSrc ?? null);
+  if (!validatedEmbedSrc) return;
 
   const iframe = document.createElement("iframe");
-  iframe.src = embedSrc;
+  iframe.src = validatedEmbedSrc;
   iframe.title = embedTitle ?? "";
   iframe.loading = "lazy";
   iframe.referrerPolicy = "strict-origin-when-cross-origin";
