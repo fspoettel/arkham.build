@@ -31,7 +31,7 @@ resource "cloudflare_ruleset" "rate_limiting" {
     },
     {
       action      = "block"
-      expression  = "(http.host eq \"api.arkham.build\" and ((http.request.method eq \"POST\" and starts_with(http.request.uri.path, \"/v2/account/auth/\")) or (http.request.method in {\"GET\" \"HEAD\"} and http.request.uri.path eq \"/v2/oauth/authorize\")))"
+      expression  = "(http.host eq \"api.arkham.build\" and ((http.request.method in {\"POST\" \"PATCH\"} and starts_with(http.request.uri.path, \"/v2/account/auth/\")) or (http.request.method in {\"GET\" \"HEAD\"} and http.request.uri.path eq \"/v2/oauth/authorize\")))"
       description = "Rate limit authentication and OAuth"
       enabled     = true
       ref         = "97036468535242ba95d423826fa4e508"
