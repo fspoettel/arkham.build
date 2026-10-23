@@ -31,7 +31,10 @@ export function CardActions(props: Props) {
             }
           />
         ) : (
-          <QuantityOutput value={quantity || 0} />
+          <QuantityOutput
+            className={css["actions-output"]}
+            value={quantity || 0}
+          />
         )}
         <TabooIndicator card={card} />
         {listCardProps?.renderCardExtra?.(card, quantity)}
