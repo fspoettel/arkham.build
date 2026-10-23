@@ -2,7 +2,7 @@ import type { Card } from "@arkham-build/shared";
 import { Link } from "wouter";
 import { useStore } from "@/store";
 import { selectLookupTables } from "@/store/selectors/shared";
-import { displayAttribute, parseCardTitle } from "@/utils/card-utils";
+import { displayAttribute, parseCardTextHtml } from "@/utils/card-utils";
 import { cx } from "@/utils/cx";
 import { preventLeftClick } from "@/utils/prevent-links";
 import { CardName } from "../card-name";
@@ -78,9 +78,11 @@ export function CardNames(props: Props) {
       {card.real_subname && (
         <h2
           className={css["sub"]}
-          // oxlint-disable-next-line react/no-danger -- safe and necessary.
+          // oxlint-disable-next-line react/no-danger -- HTML is sanitized.
           dangerouslySetInnerHTML={{
-            __html: parseCardTitle(displayAttribute(card, "subname")),
+            __html: parseCardTextHtml(displayAttribute(card, "subname"), {
+              newLines: "skip",
+            }),
           }}
         />
       )}

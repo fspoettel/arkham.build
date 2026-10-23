@@ -128,10 +128,6 @@ export function parseCustomizationTextHtml(customizationText: string) {
   return parseCardTextHtml(customizationText).replaceAll(/□/g, "");
 }
 
-export function parseCardTitle(title: string) {
-  return title.replaceAll(/\[((?:\w|_)+?)\]/g, `<i class="icon-$1"></i>`);
-}
-
 export function decodeExileSlots(s: string | null | undefined) {
   const ids = s?.split(",").filter((x) => x);
   if (!ids?.length) return {};

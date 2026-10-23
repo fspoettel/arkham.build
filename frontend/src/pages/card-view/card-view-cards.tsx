@@ -29,7 +29,7 @@ import {
   isSpecialist,
   official,
   oldFormatCardUrl,
-  parseCardTitle,
+  parseCardTextHtml,
 } from "@/utils/card-utils";
 import { CYCLES_WITH_STANDALONE_PACKS } from "@/utils/constants";
 import { cx } from "@/utils/cx";
@@ -171,9 +171,11 @@ function CardSetLink(props: {
       >
         {shift < 0 && <ChevronsLeftIcon />}
         <span
-          // oxlint-disable-next-line react/no-danger -- trusted origin.
+          // oxlint-disable-next-line react/no-danger -- HTML is sanitized.
           dangerouslySetInnerHTML={{
-            __html: parseCardTitle(displayAttribute(targetCard, "name")),
+            __html: parseCardTextHtml(displayAttribute(targetCard, "name"), {
+              newLines: "skip",
+            }),
           }}
         />
         {shift > 0 && <ChevronsRightIcon />}
